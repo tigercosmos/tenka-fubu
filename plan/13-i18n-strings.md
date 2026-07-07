@@ -937,6 +937,7 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `report.economy.granaryOverflow` | — | castle, food | {castle}米藏已滿，{food}石散失。 |
 | `report.economy.castleStarving` | `economy.foodShortage` | castle | {castle}兵糧見底，士卒逃散！ |
 | `report.economy.upkeepUnpaid` | `economy.upkeepUnpaid` | — | 金錢不足，本月俸祿未能全額發放，家臣心生不滿。 |
+| `report.save.autosaveFailed` | `save.autosaveFailed` | — | 自動存檔失敗，本場遊戲已暫停自動存檔。請盡快手動存檔或匯出備份。 |
 | `report.build.done` | `development.completed` | castle, facility | {castle}的{facility}已落成。 |
 | `report.transport.arrived` | — | castle | 輸送隊已抵達{castle}。 |
 | `report.transport.looted` | — | place, clan | 輸送隊於{place}遭{clan}劫掠！ |
@@ -1213,6 +1214,9 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `cmd.reject.taimeiLocked` | 威信不足，尚未解鎖此大命 |
 | `cmd.reject.taimeiBusy` | 已有大命生效中 |
 | `cmd.reject.taimeiCooldown` | 大命冷卻中（餘{days}日） |
+| `cmd.reject.gameOver` | 大局已定，無法再下達指令 |
+| `cmd.reject.debugOnly` | 此指令僅限除錯模式使用 |
+| `cmd.reject.delegatedToCorps` | 此城已委由軍團管理，無法直接下令 |
 | `cmd.reject.prestigeShort` | 威信不足（需要{cost}點） |
 
 ---

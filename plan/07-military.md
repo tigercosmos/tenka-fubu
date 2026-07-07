@@ -150,7 +150,7 @@ moraleFactor = BAL.moraleFactorBase + morale / BAL.moraleFactorDivisor   // 0.5 
 ### 3.4 潰走與追擊
 
 **潰走條件**（野戰每日與合戰每 tick 檢查）：
-`morale ≤ BAL.routThreshold`（建議 30）**或** `troops < initialTroops × BAL.routTroopRatio`（建議 0.2）。
+`morale ≤ BAL.moraleBreakThreshold`（建議 30）**或** `troops < initialTroops × BAL.routTroopRatio`（建議 0.2）。
 
 **潰走行為**：
 - `status = 'routed'`；路徑改為「至最近我方城的最短路」（以跳數計，同距取 id 字典序小者）。
@@ -281,7 +281,7 @@ damage(對目標) = attackPower × BAL.battleTickDamageRate
 | 7 | `tac.fire-arrow` | 火矢 | 5 | 增益 | `tacticAtkMult` ×1.3，且攻擊目標所在陣旗力每 tick 額外 −`BAL.tacFireFlagDamage`(30) | 3 | `trait.hizeme`（火攻） |
 | 8 | `tac.cavalry` | 騎突 | 6 | 增益 | `tacticAtkMult` ×1.6；效果中每 tick 可先移動一步再攻擊（移動不佔整 tick） | 2 | `trait.kiba`（騎馬） |
 | 9 | `tac.triple-volley` | 鐵砲三段 | 8 | 即時 | 對目標連續 3 次齊射（各次 `attackPower × BAL.battleTickDamageRate`），不受反擊；冷卻 10 tick | 即時 | `trait.teppo`（鐵砲） |
-| 10 | `tac.last-stand` | 背水 | 6 | 增益 | `tacticAtkMult` ×1.8；承受傷害 ×1.3；效果中士氣不低於 `BAL.routThreshold`＋1（不潰走） | 5 | `trait.kesshi`（決死） |
+| 10 | `tac.last-stand` | 背水 | 6 | 增益 | `tacticAtkMult` ×1.8；承受傷害 ×1.3；效果中士氣不低於 `BAL.moraleBreakThreshold`＋1（不潰走） | 5 | `trait.kesshi`（決死） |
 | 11 | `tac.pin` | 牽制 | 3 | 減益 | 目標無法移動（仍可攻擊） | 3 | `trait.roukou`（老巧） |
 | 12 | `tac.heal` | 治療 | 5 | 即時 | 兵數回復 `min(合戰開始兵數 − 現有兵, 合戰開始兵數 × BAL.tacHealRatio(0.05))` | 即時 | `trait.iryou`（醫療） |
 
@@ -769,7 +769,7 @@ supplyDailyTick(state, army):
 | `BAL.pincerMult` | 1.3 | 挾擊乘數 |
 | `BAL.traitCombatMultCap` | 1.5 | 特性乘數聚合上限 |
 | `BAL.fieldMoraleDailyWin` / `BAL.fieldMoraleDailyLose` | 2 / 4 | 點/日；野戰士氣 |
-| `BAL.routThreshold` | 30 | 士氣潰走閾值 |
+| `BAL.moraleBreakThreshold` | 30 | 士氣潰走閾值 |
 | `BAL.routTroopRatio` | 0.2 | 兵數潰走閾值（占 initialTroops） |
 | `BAL.routDailyLossRate` | 0.08 | 潰走每日折損率 |
 | `BAL.pursuitDamageRate` / `BAL.pursuitMoraleMin` | 0.10 / 50 | 追擊 |
