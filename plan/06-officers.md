@@ -17,7 +17,7 @@
 ### 1.2 範圍內
 
 - 四維能力在各系統的作用總表與微成長規則。
-- 特性（Trait）30 個之完整定義（id、繁中名、掛鉤點、公式、稀有度）。
+- 特性（Trait）37 個之完整定義（id、繁中名、掛鉤點、公式、稀有度；含 7 個戰法解鎖特性，勘誤 E-06）。
 - 身分六階：升格門檻、特權（役職資格、知行上限、帶兵加成、俸祿）；當主特殊身分。
 - 功績來源與 `BAL.*` 常數。
 - 忠誠模型（月結重算、事件增減、出奔/被引拔判定）。
@@ -102,7 +102,7 @@ effectiveStat = min(120, baseStat + statGrowth)    // statGrowth 見 §3.2
   否則一律**僅主將生效**。
 - 機率類 `add` 效果套用後仍受該機制原本的上下限（如成功率封頂 0.95）約束。
 
-#### 特性完整表（30 個；傳說 4／稀有 11／普通 15）
+#### 特性完整表（37 個；傳說 4／稀有 11／普通 22。#31~#37 為戰法解鎖特性，勘誤 E-06）
 
 | # | id | 繁中名 | 稀有度 | 掛鉤點（文件） | 效果公式（`BAL.*`＝建議初值） |
 |---|---|---|---|---|---|
@@ -136,6 +136,13 @@ effectiveStat = min(120, baseStat + statGrowth)    // statGrowth 見 §3.2
 | 28 | `trait.chotei` | 朝廷通 | 普通 | 朝廷工作（08） | 朝廷獻金與官位申請費用 ×(1−`BAL.traitChotei`=0.25) |
 | 29 | `trait.hayamimi` | 早耳 | 普通 | 反調略（08） | 敵方對該武將所在城執行調略時，敵成功率 −`BAL.traitHayamimi`=0.20（add） |
 | 30 | `trait.seiatsu` | 攻略上手 | 普通 | 制壓（04） | 部隊主將時制壓敵郡所需時間 ×(1−`BAL.traitSeiatsu`=0.25) |
+| 31 | `trait.benzetsu` | 辯舌 | 普通 | 戰法解鎖（07） | 解鎖戰法「挑撥」（`tac.taunt`）；無被動數值效果（`effects: []`） |
+| 32 | `trait.gunryaku` | 軍略 | 普通 | 戰法解鎖（07） | 解鎖戰法「攪亂」（`tac.disrupt`）；無被動數值效果（`effects: []`） |
+| 33 | `trait.fudou` | 不動 | 普通 | 戰法解鎖（07） | 解鎖戰法「堅守」（`tac.hold`）；無被動數值效果（`effects: []`） |
+| 34 | `trait.hizeme` | 火攻 | 普通 | 戰法解鎖（07） | 解鎖戰法「火矢」（`tac.fire-arrow`）；無被動數值效果（`effects: []`） |
+| 35 | `trait.kesshi` | 決死 | 普通 | 戰法解鎖（07） | 解鎖戰法「背水」（`tac.last-stand`）；無被動數值效果（`effects: []`） |
+| 36 | `trait.roukou` | 老巧 | 普通 | 戰法解鎖（07） | 解鎖戰法「牽制」（`tac.pin`）；無被動數值效果（`effects: []`） |
+| 37 | `trait.iryou` | 醫療 | 普通 | 戰法解鎖（07） | 解鎖戰法「治療」（`tac.heal`）；無被動數值效果（`effects: []`） |
 
 稀有度僅用於：(a) 劇本資料配布密度指引（傳說全劇本 ≤ 12 人持有、稀有每大勢力 ≤ 5 人、普通不限；
 細則見 14）；(b) UI 顯示徽章顏色（見 §6）。稀有度不進任何公式。
@@ -149,9 +156,9 @@ effectiveStat = min(120, baseStat + statGrowth)    // statGrowth 見 §3.2
 
 | 階 | rankIndex | `Rank` 值 | 繁中名 | 升至此階所需功績 `BAL.rankMeritThresholds[i]` |
 |---|---|---|---|---|
-| 1 | 0 | `ashigaruKumigashira` | 足輕組頭 | 0（起始階） |
-| 2 | 1 | `ashigaruTaisho` | 足輕大將 | 300 |
-| 3 | 2 | `samuraiTaisho` | 侍大將 | 800 |
+| 1 | 0 | `kumigashira` | 足輕組頭 | 0（起始階） |
+| 2 | 1 | `ashigaru-taisho` | 足輕大將 | 300 |
+| 3 | 2 | `samurai-taisho` | 侍大將 | 800 |
 | 4 | 3 | `busho` | 部將 | 1600 |
 | 5 | 4 | `karo` | 家老 | 3000 |
 | 6 | 5 | `shukuro` | 宿老 | 5000 |
@@ -173,7 +180,7 @@ effectiveStat = min(120, baseStat + statGrowth)    // statGrowth 見 §3.2
 - 帶兵上限＝`BAL.rankTroopCap[rankIndex]`（07 §3.1 定義之絕對值上限，六階 500/1000/2000/3000/5000/8000）；
   原乘數制 `rankTroopBonus` 已廢除（帶兵成長已內含於絕對值表，勘誤 E-37）。
 - **俸祿**：每月 1 日經濟月結（參見 05）時，勢力對每名**無知行**的在籍武將支付
-  `BAL.rankSalary[rankIndex]` 貫；**持有知行（`fiefDistrictIds.length > 0`）者不支俸祿**
+  `BAL.rankSalary[rankIndex]` 貫；**持有知行者（以 `District.stewardId` 反查受封郡數 > 0）不支俸祿**
   （知行收益即其待遇，收益歸屬見 05；取捨見 §8 D-5）。
 - 金錢不足以支付全額俸祿時：支付至金錢歸零，該月**全體支薪對象**忠誠即時
   −`BAL.unpaidSalaryLoyaltyPenalty`=2（欠俸）。
@@ -182,7 +189,7 @@ effectiveStat = min(120, baseStat + statGrowth)    // statGrowth 見 §3.2
 #### 3.4.3 當主（特殊身分）
 
 - 當主由 `Clan.leaderId` 指定，不佔六階（`rank` 欄位保留其原值但不生效）。
-- 特權：視同宿老（可任軍團長、帶兵加成 +50%、知行郡數上限 4）；不支俸祿。
+- 特權：視同宿老（可任軍團長、帶兵上限 8,000＝`BAL.rankTroopCap` 宿老值、知行郡數上限 4）；不支俸祿。
 - 忠誠恆為 100，不參與忠誠月結；不可成為出奔、引拔、流言之對象。
 - 當主之政務與勢力威信進入全家臣忠誠公式（§3.6，「當主魅力代理」）。
 
@@ -192,7 +199,7 @@ effectiveStat = min(120, baseStat + statGrowth)    // statGrowth 見 §3.2
 
 | 來源 | 常數（建議初值） | 給予對象 | 能力經驗維度 |
 |---|---|---|---|
-| 具申被採納 | `BAL.meritProposalAdopted` = 30 | 提案人 | 依具申種類：development/facility/policy/recruit→`pol`；march→`ldr`；diplomacy→`pol`；plot→`int` |
+| 具申被採納 | `BAL.meritProposalAdopted` = 30 | 提案人 | 依具申種類：develop/facility/policy/recruit→`pol`；march→`ldr`；diplomacy→`pol`；plot→`int` |
 | 開發實績（開發指令完成一階段） | `BAL.meritDevelopment` = 10 | 開發負責人 | `pol` |
 | 領主自動治理月結 | `BAL.meritStewardMonthly` = 5 | 該郡領主 | `pol` |
 | 野戰勝利 | `BAL.meritFieldWin` = 20（敗方參戰 `BAL.meritFieldLose` = 5） | 參戰各武將 | `ldr`、`val` |
@@ -216,7 +223,7 @@ effectiveStat = min(120, baseStat + statGrowth)    // statGrowth 見 §3.2
 loyaltyTarget(o) = clamp(
     BAL.loyaltyBase                                   // 50
   + treatment(o)                                      // 身分待遇 vs 能力，見下
-  + (o.fiefDistrictIds.length > 0 ? BAL.loyaltyFiefBonus : 0)   // 10
+  + (hasFief(o) ? BAL.loyaltyFiefBonus : 0)   // 10；hasFief＝以 District.stewardId 反查受封郡數 > 0（E-57）
   + kinshipBonus(o)                                   // 一門 kin=BAL.loyaltyKinBonus(30)、
                                                       // 譜代 fudai=BAL.loyaltyFudaiBonus(10)、外樣 tozama=0
   + floor(leader.pol / BAL.loyaltyLeaderPolDivisor)   // 20 → 當主政務代理，最高 +6
@@ -268,7 +275,7 @@ loyalty += clamp(loyaltyTarget − loyalty, −BAL.loyaltyDriftPerMonth, +BAL.lo
 
 每月 1 日，漂移結算後，對每名符合條件的武將擲骰（`rng.misc`）：
 
-- 條件：`status === 'active'`、非當主、`kinship !== 'kin'`、無 `trait.chushin`、
+- 條件：`status === 'serving'`、非當主、`kinship !== 'kin'`、無 `trait.chushin`、
   `loyalty < BAL.defectionThreshold`（建議 **30**）。
 - 機率：`p = (BAL.defectionThreshold − loyalty) × BAL.defectionChancePerPoint`（建議 **0.01**）
   → 忠誠 0 時每月 30%。
@@ -281,8 +288,9 @@ loyalty += clamp(loyaltyTarget − loyalty, −BAL.loyaltyDriftPerMonth, +BAL.lo
 
 他家對我方武將發動引拔（發動端流程、費用、執行者修正見 08）。本文件定義受理端：
 
-- 可被列為引拔目標的條件：`loyalty < BAL.poachEligibleLoyalty`（建議 **40**）、非當主、
-  非一門（`kinship !== 'kin'`）、無 `trait.chushin`。
+- 受理端硬性條件（本文件）：非當主、非一門（`kinship !== 'kin'`）、無 `trait.chushin`。
+  發動端「可下達」門檻（`loyalty < BAL.plotPoachLoyaltyThreshold`＝**75**）由 08 定義；本文件的
+  `BAL.poachEligibleLoyalty`（**40**）僅作為受理成功率 `acceptanceFactor` 的分母（見下；發動與受理兩端併存，勘誤 E-33）。
 - 最終成功率 = 08 計算之 `plotBaseSuccess` × `acceptanceFactor`，其中：
 
 ```
@@ -312,7 +320,7 @@ successRate = clamp(
 , 0.05, 0.95)
 ```
 
-- 成功：目標加入我方，`status='active'`；初始身分 = `min(expectedRankIndex(target), 3)` 對應階
+- 成功：目標加入我方，`status='serving'`；初始身分 = `min(expectedRankIndex(target), 3)` 對應階
   （最高部將；對象忠誠傾向即 `expectedRankIndex` 與待遇之關係，透過 §3.6 目標值自然呈現）；
   支付支度金 `abilityScore × BAL.recruitSigningBonusPerAbility`（建議 **2**）貫；
   初始忠誠 = 依 §3.6.1 計算之目標值。
@@ -403,17 +411,17 @@ o.scheduledDeath = { year, month }
 
 #### 3.9.2 死亡結算（每月 1 日檢查）
 
-`status ∈ {active, ronin, captive}` 且 `scheduledDeath` 等於當前年月者，自然死亡：
+`status ∈ {serving, ronin, captive}`（且 `hasComeOfAge`）且 `scheduledDeath` 等於當前年月者，自然死亡：
 
 1. `status = 'dead'`；發報告 `report.officer.death`。
-2. 解除役職：城主缺由該城所屬勢力中同城最高身分（同分取 abilityScore 高者）自動遞補，
-   無人則懸缺（委任城由 09 補派）；知行郡歸還直轄；軍團長缺之處理參見 07。
+2. 解除役職：城主缺由該城所屬勢力中**身分 ≥ 侍大將（`samurai-taisho`）**且身分最高者（同分取 abilityScore 高者）自動遞補，
+   無合格者則懸缺（委任城由 09 補派；遞補下限依 02 INV-04，勘誤 E-54）；知行郡歸還直轄；軍團長缺之處理參見 07。
 3. 若為當主 → 家督繼承（§3.9.3）。
 
 #### 3.9.3 家督繼承
 
 ```
-heir = 該勢力 status='active' 且 kinship='kin' 的武將中，
+heir = 該勢力 status='serving' 且 kinship='kin' 的武將中，
        依 (rankIndex desc, abilityScore desc, 年齡 desc) 排序取第一人
 if heir 存在:
     clan.leaderId = heir.id；發報告 report.clan.succession
@@ -428,9 +436,9 @@ else:
 ### 3.10 元服
 
 - 武將資料含 `birthYear` 與 `debutYear`（未指定時 = `birthYear + BAL.comingOfAgeAge`，建議 **15**）。
-- 每年 1 月 1 日（officers 步驟之年 hook）：`status === 'unborn'` 且 `debutYear ≤ 當前年` 者登場：
-  - `status = 'active'`；加入 `debutClanId` 指定勢力（該勢力已滅亡則於 `debutCastleId` 就地成浪人，
-    該城由 14 資料指定）；初始身分足輕組頭、`merit = 0`、忠誠依 §3.6.1 計算。
+- 每年 1 月 1 日（officers 步驟之年 hook）：`hasComeOfAge === false` 且 `debutYear ≤ 當前年` 者登場：
+  - `hasComeOfAge = true`、`status = 'serving'`；加入 `debutClanId` 指定勢力（該勢力已滅亡則於 `debutCastleId`
+    就地成浪人，該城由 14 資料指定）；初始身分足輕組頭、`merit = 0`、忠誠依 §3.6.1 計算。
   - 發報告 `report.officer.comingOfAge`（僅我方與鄰接勢力顯示，過濾規則見 03 報告系統）。
 
 ### 3.11 具申機制
@@ -445,21 +453,21 @@ else:
 3. **裁決**：玩家於期限前下達 `AdoptProposalCommand` 或 `RejectProposalCommand`。
 4. **結算**（本文件權責）：
    - **採納**：以提案內含之 `command` 重新驗證（該 Command 的驗證器，見 03/各系統）。
-     驗證通過 → 將 `command` 推入佇列立即執行、提案人 `merit + BAL.meritProposalAdopted`
-     （含 §3.5 之能力經驗）、忠誠 +2、`status='adopted'`。
+     驗證通過 → 將 `command` 推入佇列立即執行、提案人 `merit + proposal.meritReward`
+     （含 §3.5 之能力經驗）、忠誠 +2、`status='accepted'`。
      驗證失敗（局勢已變，如標的城已易主）→ `status='expired'`，發報告
      `report.proposal.invalid`，**無**忠誠懲罰。執行成本＝該 Command 本身的成本
      （`estimatedCostGold` 僅供顯示；金錢不足即驗證失敗）。
    - **駁回**：`status='rejected'`、提案人忠誠 −2。
-   - **逾期**（`expiresOn` 為生成當月月末 30 日；月末仍 `pending` 者）：`status='expired'`、
-     提案人忠誠 −1。
+   - **逾期**（`expiresDay = createdDay + BAL.proposalExpireDays`＝60 日；逾期日仍 `pending` 者）：
+     `status='expired'`、提案人忠誠 −1。
 5. 已終結（非 pending）之提案保留至次月月初後從 `GameState.proposals` 清除（報告留存）。
 
 #### 3.11.2 具申種類與對應 Command
 
 | `ProposalKind` | 繁中名 | 內含 Command（定義文件） |
 |---|---|---|
-| `development` | 開發 | 郡開發指令（05） |
+| `develop` | 開發 | 郡開發指令（05） |
 | `facility` | 建設 | 城下施設建設指令（05） |
 | `march` | 出陣 | 編成出陣指令（07） |
 | `diplomacy` | 外交 | 外交工作指令（08） |
@@ -467,11 +475,14 @@ else:
 | `recruit` | 登用 | `RecruitRoninCommand`（本文件） |
 | `policy` | 政策 | 政策施行指令（05） |
 
+> `ProposalKind` 全集依 02 §3.3（11 值：`develop`／`facility`／`conscript`／`transport`／`march`／
+> `recall`／`diplomacy`／`plot`／`policy`／`recruit`／`reward`）；上表為本系統具申生成常用之子集（勘誤 E-48）。
+
 ---
 
 ## 4. 資料結構
 
-以下型別為本系統之權威定義（由 02 收錄；`ClanId`/`CastleId`/`DistrictId`/`CorpsId`/
+以下型別為本系統之權威定義（由 02 收錄；`ClanId`/`CastleId`/`DistrictId`/`ProposalId`/
 `GameDate`/`Command` 等基礎型別見 02/03）：
 
 ```ts
@@ -482,20 +493,19 @@ type TraitId = string;
 
 /** 身分六階（rankIndex 0..5 依此順序） */
 type Rank =
-  | 'ashigaruKumigashira' // 足輕組頭
-  | 'ashigaruTaisho'      // 足輕大將
-  | 'samuraiTaisho'       // 侍大將
-  | 'busho'               // 部將
-  | 'karo'                // 家老
-  | 'shukuro';            // 宿老
+  | 'kumigashira'     // 足輕組頭
+  | 'ashigaru-taisho' // 足輕大將
+  | 'samurai-taisho'  // 侍大將
+  | 'busho'           // 部將
+  | 'karo'            // 家老
+  | 'shukuro';        // 宿老
 
 /** 家臣出身標記：一門／譜代／外樣（劇本資料指定；登用浪人一律 tozama，捕虜登用沿用原標記但視為 tozama） */
 type Kinship = 'kin' | 'fudai' | 'tozama';
 
-/** 武將生存狀態 */
+/** 武將生存狀態（依 02 §3.3；未元服以 hasComeOfAge=false 表示，不設獨立狀態，見 02 DDR-5／勘誤 E-02） */
 type OfficerStatus =
-  | 'unborn'   // 未登場（等待元服）
-  | 'active'   // 在籍
+  | 'serving'  // 在籍（仕官中）
   | 'ronin'    // 浪人（clanId = null）
   | 'captive'  // 捕虜
   | 'dead';    // 死亡（保留於陣列供查詢，不再參與任何系統）
@@ -512,7 +522,8 @@ interface Officer {
   id: OfficerId;
   name: string;                       // 繁中顯示名，如「木下藤吉郎」（專有名詞不進 i18n）
   clanId: ClanId | null;              // 所屬勢力；浪人/死亡為 null
-  status: OfficerStatus;
+  status: OfficerStatus;              // serving/ronin/captive/dead（無 unborn，見 §3.10 與 02 DDR-5）
+  hasComeOfAge: boolean;              // 已元服；false＝未登場（取代舊 'unborn' 狀態，依 02 DDR-5／E-02）
   birthYear: number;                  // 西曆生年
   debutYear: number;                  // 元服登場年（資料未給則 birthYear + BAL.comingOfAgeAge）
   debutClanId: ClanId | null;         // 元服時加入的勢力（null＝直接為浪人）
@@ -528,16 +539,16 @@ interface Officer {
   merit: number;                      // 功績累積值（點，≥0）
   loyalty: number;                    // 忠誠 0..100（當主恆 100）
   kinship: Kinship;                   // 一門/譜代/外樣
-  fiefDistrictIds: DistrictId[];      // 知行郡（與 District.stewardId 互為反向索引，05）
   locationCastleId: CastleId;         // 所在城（出陣中以 Army 為準；捕虜＝關押城）
-  corpsId: CorpsId | null;            // 所屬軍團（07）
-  capturedByClanId: ClanId | null;        // 捕虜時的捕獲方
+  capturedByClanId: ClanId | null;    // 捕虜時的捕獲方
   captiveRetryOn: GameDate | null;    // 捕虜登用失敗後，下次可嘗試日
   recruitRetryOn: GameDate | null;    // 浪人登用失敗後，本勢力下次可嘗試日（單一勢力冷卻即可：
                                       //   浪人只存在於一座城，僅該城所屬勢力能嘗試）
   rewardGiftsThisYear: number;        // 年內已受金錢賞賜次數（每年 1/1 歸零）
   stalledPromotionMonths: number;     // 功績達下一階門檻但未升格的連續月數
 }
+// 知行（受封郡）以 District.stewardId 反查、軍團歸屬以其所在城 castle.corpsId 反查，不存於 Officer
+//（避免雙重真相，依 02 §4.4／勘誤 E-57）。
 
 /** 特性掛鉤點（實作為 traitModifier(officer, hook) 查表） */
 type TraitHook =
@@ -587,26 +598,31 @@ interface TraitDef {
   rarity: 'common' | 'rare' | 'legendary';   // 普通/稀有/傳說
   effects: TraitEffect[];
 }
-// 全部 30 個 TraitDef 以常數表 TRAITS: Record<TraitId, TraitDef> 實作於
-// src/core/state/traits.ts；數值一律引用 BAL.trait*。
+// 全部 37 個 TraitDef（含 7 個戰法解鎖特性，勘誤 E-06）以常數表 TRAITS: Record<TraitId, TraitDef>
+// 實作於 src/core/state/traits.ts；數值一律引用 BAL.trait*。戰法解鎖特性 effects 為空陣列，
+// 其作用為 07 §3.8 合戰之戰法可用性閘門（非 traitModifier 數值 hook）。
 
-/** 具申種類 */
+/** 具申種類（全集依 02 §3.3，11 值；本系統生成常用者見 §3.11.2） */
 type ProposalKind =
-  | 'development' | 'facility' | 'march' | 'diplomacy' | 'plot' | 'recruit' | 'policy';
+  | 'develop' | 'facility' | 'conscript' | 'transport'
+  | 'march' | 'recall'
+  | 'diplomacy' | 'plot'
+  | 'policy' | 'recruit' | 'reward';
 
-type ProposalStatus = 'pending' | 'adopted' | 'rejected' | 'expired';
+type ProposalStatus = 'pending' | 'accepted' | 'rejected' | 'expired';   // 依 02（勘誤 E-48）
 
 interface Proposal {
-  id: string;                    // 'prop.<流水號>'（勢力內遞增）
+  id: ProposalId;                // 'prop.<流水號>'（勢力內遞增，02 §3.2）
   clanId: ClanId;                // 收件勢力（v1.0 僅玩家勢力會有 Proposal 物件）
+  officerId: OfficerId;          // 具申武將（提案人；欄位名依 02，勘誤 E-48）
   kind: ProposalKind;
-  proposerId: OfficerId;         // 提案人
-  createdOn: GameDate;           // 生成日（每月 1 日）
-  expiresOn: GameDate;           // 期限＝生成當月 30 日
   command: Command;              // 採納即入佇列的完整 Command（參數已由 09 填妥）
-  estimatedCostGold: number;     // 預估執行成本（貫；僅 UI 顯示，實際扣款由 Command 執行）
+  createdDay: number;            // 生成絕對日（每月 1 日）
+  expiresDay: number;            // 逾期絕對日 = createdDay + BAL.proposalExpireDays（60）
+  meritReward: number;           // 採納時提案人獲得之功績（生成時算定 = BAL.meritProposalAdopted；02/09）
   status: ProposalStatus;
-  summaryKey: string;            // 具申內容一句話的 i18n key（09 生成時指定）
+  estimatedCostGold: number;     // 預估執行成本（貫；僅 UI 顯示，實際扣款由 Command 執行；02 待補收）
+  summaryKey: string;            // 具申內容一句話的 i18n key（09 生成時指定；02 待補收）
   summaryParams: Record<string, string | number>; // 插值參數（人名/地名等）
 }
 
@@ -654,7 +670,7 @@ interface RejectProposalCommand {
 ```
 
 `GameState` 掛載點（02 收錄）：`officers: Record<OfficerId, Officer>`、
-`proposals: Proposal[]`。
+`proposals: Record<ProposalId, Proposal>`（容器依 02，勘誤 E-48）。
 
 ---
 
@@ -680,7 +696,7 @@ officersSystem(state):
 ```
 paySalaries(state):
   for clan in 全勢力:
-    payees = clan 在籍武將 where status='active' && 非當主 && fiefDistrictIds.length === 0
+    payees = clan 在籍武將 where status='serving' && 非當主 && 無受封知行（District.stewardId 反查郡數 === 0）
     total  = Σ BAL.rankSalary[rankIndex(o)]
     if clan.gold >= total: clan.gold -= total
     else:
@@ -695,7 +711,7 @@ paySalaries(state):
 
 ```
 recomputeLoyalty(state):
-  for o in 全武將 where status='active' && 非當主:
+  for o in 全武將 where status='serving' && 非當主:
     target = loyaltyTarget(o)                       // §3.6.1
     delta  = clamp(target − o.loyalty, −BAL.loyaltyDriftPerMonth, +BAL.loyaltyDriftPerMonth)
     o.loyalty = clamp(o.loyalty + delta, 0, 100)
@@ -718,13 +734,13 @@ checkDefections(state):
 
 ```
 checkDeaths(state):
-  for o in 全武將 where status in {active, ronin, captive}（依 OfficerId 字典序）:
+  for o in 全武將 where hasComeOfAge && status in {serving, ronin, captive}（依 OfficerId 字典序）:
     if o.scheduledDeath.year === time.year && o.scheduledDeath.month === time.month:
       die(o, cause='natural')
 
 die(o, cause):
   o.status = 'dead'
-  釋出役職與知行（§3.9.2；城主遞補：同城同勢力 rankIndex desc → abilityScore desc 取首）
+  釋出役職與知行（§3.9.2；城主遞補：同城同勢力中 rank ≥ 'samurai-taisho' 者，rankIndex desc → abilityScore desc 取首；無合格者懸缺）
   if o 是某勢力當主: succession(clan)    // §3.9.3
   發報告 report.officer.death / report.officer.killedInAction（cause='battle' 時，由 07 呼叫 die）
 ```
@@ -733,11 +749,13 @@ die(o, cause):
 
 ```
 comingOfAge(state):
-  for o in 全武將 where status='unborn' && o.debutYear <= time.year（依 OfficerId 字典序）:
-    o.status = 'active'
+  for o in 全武將 where o.hasComeOfAge === false && o.debutYear <= time.year（依 OfficerId 字典序）:
+    o.hasComeOfAge = true
+    if o.scheduledDeath 早於 o.debutYear（史實早夭）: o.status='dead'; continue（不發報告，§5.11）
+    o.status = 'serving'
     if o.debutClanId 存在且該勢力存活: 加入之；o.locationCastleId = o.debutCastleId
     else: o.status='ronin'; o.clanId=null; o.locationCastleId = o.debutCastleId
-    o.rank='ashigaruKumigashira'; o.merit=0; o.loyalty = loyaltyTarget(o)
+    o.rank='kumigashira'; o.merit=0; o.loyalty = loyaltyTarget(o)
     發報告 report.officer.comingOfAge
 ```
 
@@ -763,9 +781,9 @@ applyAdoptProposal(cmd):
   p = 找到 proposalId 且 status='pending'（否則指令無效，靜默丟棄並發 UI 錯誤字串）
   if validateCommand(p.command) 通過:
     executeCommand(p.command)
-    gainMerit(提案人, BAL.meritProposalAdopted, expStatsByKind(p.kind))   // §3.5 表
+    gainMerit(提案人, p.meritReward, expStatsByKind(p.kind))   // §3.5 表；meritReward 生成時算定
     提案人.loyalty = min(100, +BAL.proposalAdoptLoyalty)
-    p.status = 'adopted'
+    p.status = 'accepted'
   else:
     p.status = 'expired'; 發報告 report.proposal.invalid
 
@@ -774,8 +792,8 @@ applyRejectProposal(cmd):
 
 proposalsSystem(state):    // tick 步驟 10
   if day === 1:
-    對逾期 pending 提案：status='expired'、提案人忠誠 −BAL.proposalExpireLoyalty
-    清除上上月之已終結提案
+    對 expiresDay ≤ time.day 之 pending 提案：status='expired'、提案人忠誠 −BAL.proposalExpireLoyalty
+    清除已終結（非 pending）且逾一個月之提案
     呼叫 09 生成本月新提案（上限 BAL.proposalMaxPerMonth；每人 BAL.proposalMaxPerOfficerPerMonth）
 ```
 
@@ -837,7 +855,7 @@ traitModifier(o, hook) -> { mult: number, add: number }:
 - 出陣中武將：不判定出奔（§3.6.4）；可正常死亡（自然死亡時其部隊主將缺位處理見 07）。
 - 捕虜不領俸祿、不計入知行、不參與忠誠月結（其 `loyalty` 凍結於被俘當下，供登用公式使用）。
 - 同一 tick 多筆褒賞指令對同一武將：依提交順序逐筆結算（遞減計數即時遞增）。
-- `unborn` 武將不出現在任何 UI 名單、不參與死亡以外的任何判定
+- 未元服（`hasComeOfAge=false`）武將不出現在任何 UI 名單、不參與死亡以外的任何判定
   （若 `scheduledDeath` 早於 `debutYear`，登場檢查時直接跳過並轉為 `dead`，不發報告——史實早夭者）。
 
 ---
@@ -876,9 +894,9 @@ traitModifier(o, hook) -> { mult: number, add: number }:
 | `ui.officer.kinship.kin` | 一門 |
 | `ui.officer.kinship.fudai` | 譜代 |
 | `ui.officer.kinship.tozama` | 外樣 |
-| `term.rank.ashigaruKumigashira` | 足輕組頭 |
-| `term.rank.ashigaruTaisho` | 足輕大將 |
-| `term.rank.samuraiTaisho` | 侍大將 |
+| `term.rank.kumigashira` | 足輕組頭 |
+| `term.rank.ashigaru-taisho` | 足輕大將 |
+| `term.rank.samurai-taisho` | 侍大將 |
 | `term.rank.busho` | 部將 |
 | `term.rank.karo` | 家老 |
 | `term.rank.shukuro` | 宿老 |
@@ -926,8 +944,8 @@ traitModifier(o, hook) -> { mult: number, add: number }:
 
 ## 7. 實作任務清單
 
-- [ ] **T1　型別與常數**：實作 §4 全部型別、`TRAITS` 表（30 筆）、§5.10 常數併入 `balance.ts`。
-  驗收：`tsc --noEmit` 通過；`TRAITS` 單元測試檢查 30 筆、id 前綴 `trait.`、稀有度分布 4/11/15。
+- [ ] **T1　型別與常數**：實作 §4 全部型別、`TRAITS` 表（37 筆）、§5.10 常數併入 `balance.ts`。
+  驗收：`tsc --noEmit` 通過；`TRAITS` 單元測試檢查 37 筆、id 前綴 `trait.`、稀有度分布 4/11/22。
 - [ ] **T2　traitModifier**：實作 §5.9 查詢函式與全部 `TraitHook`。
   驗收：單測覆蓋 mult 疊乘、add 疊加、無特性回傳 {1,0}。
 - [ ] **T3　能力成長與功績**：實作 `gainMerit`（§5.7）與有效能力值 selector。
@@ -959,7 +977,7 @@ traitModifier(o, hook) -> { mult: number, add: number }:
   褒賞等事件提供即時但會緩慢回歸的偏移（每月 ±2），兼顧可預測與可經營。
 - **D-2　能力微成長不做教育指令**：成長綁定功績事件即可讓「用誰誰變強」自然發生，
   新增育成指令會增加 UI 與 AI 分支，違反知行自主的減微管理支柱，故排除於 v1.0。
-- **D-3　特性固定 3 個上限、無後天習得**：特性是資料層身分標籤而非成長系統；
+- **D-3　特性固定 4 個上限、無後天習得**：特性是資料層身分標籤而非成長系統；
   習得機制需要額外的觸發與平衡面，收益低於成本。浪人生成池的特性抽取由 14 規範。
 - **D-4　升格需玩家推舉而非自動**：升格伴隨俸祿與知行上限變化，屬資源決策；
   自動升格會剝奪褒賞的策略性。以「達標未推舉 3 個月後忠誠目標 −5」保留壓力而非強制。
@@ -978,6 +996,37 @@ traitModifier(o, hook) -> { mult: number, add: number }:
   故 `recruitRetryOn` 不需按勢力建 map；浪人被制壓/易主轉移所在城時冷卻沿用。
 - **D-11　對 07 的戰法類別介面需求**（valor/intrigue/charge/ranged）記載於 §2 表：
   特性 5/9/10 依賴此標籤；若 07 實作時調整類別集合，僅需同步 §3.3 表之掛鉤描述，公式結構不變。
+
+### 勘誤消化記錄（依 `19-glossary.md` §3.13；00 §0 規則 5）
+
+- **E-01（2026-07-07）**：`Rank` enum 值由 camelCase 改為 02 kebab-case
+  （`kumigashira`／`ashigaru-taisho`／`samurai-taisho`／`busho`／`karo`／`shukuro`）；
+  §3.4.1 表、§4 型別、§5.6 元服賦值、§6.2 `term.rank.*` key 同步。依 E-01（代碼識別符依 02 §3.3）。
+- **E-02（2026-07-07）**：`OfficerStatus` 移除 `'unborn'`／`'active'`，改採 02 之 `serving/ronin/captive/dead`，
+  並新增 `hasComeOfAge: boolean`（未元服＝`hasComeOfAge=false`）；§3.6.4／§3.7.1／§3.9／§3.10／
+  §5.2／§5.3／§5.5／§5.6／§5.11 全數改判。依 E-02（02 DDR-5）。
+- **E-03（2026-07-07）**：知行郡數上限常數 `rankFiefCap` 改名 `fiefMaxByRank`（值 `[0,1,1,2,3,4]`）；
+  §3.4.2 表、§3.8.2、§5.10 同步。依 E-03（名依 02、值依 15 §5.2）。
+- **E-05（2026-07-07）**：`maxTraitsPerOfficer` 由 3 改為 4（容納 E-06 追加特性）；§3.3、§5.10、§8 D-3 同步。
+  依 E-05（值依 15 §5.2）。
+- **E-06（2026-07-07）**：特性表由 30 擴充至 37，新增 7 個戰法解鎖特性
+  （`trait.benzetsu`／`gunryaku`／`fudou`／`hizeme`／`kesshi`／`roukou`／`iryou`，名依 19 §3.5 附表），
+  稀有度均普通、`effects` 空、作用為 07 §3.8 戰法閘門；§1.2、§3.3、§4 註解、§7 T1 同步。依 E-06。
+- **E-33（2026-07-07）**：引拔發動端「可下達」門檻改由 08 定義（`plotPoachLoyaltyThreshold`＝75），
+  06 保留 `poachEligibleLoyalty`＝40 僅作 `acceptanceFactor` 分母；初始忠誠 `poachedInitialLoyalty`＝45；
+  §3.6.5 同步。依 E-33（發動與受理兩端併存，值依 15 §5.2）。
+- **E-37（2026-07-07）**：帶兵上限改採 07 絕對值表 `rankTroopCap`（500..8000），廢除乘數制 `rankTroopBonus`；
+  §3.4.2 表、§3.4.3 當主特權、§5.10 同步。依 E-37（依 07 絕對值表）。
+- **E-48（2026-07-07）**：`Proposal` 欄位／status／容器對齊 02——`proposerId→officerId`、
+  `createdOn/expiresOn→createdDay/expiresDay`（number）、新增 `meritReward`、
+  `ProposalStatus 'adopted'→'accepted'`、`ProposalKind 'development'→'develop'`（全集 11 值依 02）、
+  逾期改 `BAL.proposalExpireDays`＝60 日、容器改 `Record<ProposalId, Proposal>`；
+  `estimatedCostGold/summaryKey`（02 待補收）保留；§3.5／§3.11／§4／§5.8 同步。依 E-48。
+- **E-54（2026-07-07）**：城主死亡遞補限身分 ≥ 侍大將（`samurai-taisho`），無合格者懸缺；
+  §3.9.2、§5.5 同步。依 E-54（合 02 INV-04）。
+- **E-57（2026-07-07）**：`Officer` 刪除 `fiefDistrictIds`／`corpsId` 兩欄，受封郡改以 `District.stewardId` 反查、
+  軍團歸屬改以其所在城 `castle.corpsId` 反查；§3.4.2、§3.6.1、§4、§5.2 同步。依 E-57（避免雙重真相）。
+- **E-58（2026-07-07）**：捕獲方欄位 `captorClanId` 統一為 02 之 `capturedByClanId`；§3.7.2、§4 已同步。依 E-58。
 
 ---
 

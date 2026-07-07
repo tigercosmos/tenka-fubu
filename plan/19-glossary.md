@@ -733,8 +733,9 @@ export interface ForbiddenCharEntry {
 }
 export const FORBIDDEN_CHARS: readonly ForbiddenCharEntry[]; // §3.12 全 40 組
 export const FORBIDDEN_ALLOWLIST_FILES: readonly string[];
-// = ['plan/19-glossary.md', 'plan/17-testing.md', 'tools/glossary/forbiddenChars.ts']
-// （唯三允許出現誤字形的檔案：本表、17 的掃描黑名單、其轉錄常數）
+// = ['plan/14-scenario-data.md', 'plan/17-testing.md', 'plan/19-glossary.md', 'tools/glossary/forbiddenChars.ts']
+// （唯四允許出現誤字形的檔案：14 的 V10 掃描規則內嵌示例、17 的掃描黑名單、本表(19)、其轉錄常數；
+//  依勘誤 E-73 與 17 §3.6 掃描器豁免清單統一，兩掃描器 allowlist 至少含 14/17/19）
 ```
 
 不變量（併入 17 的靜態測試）：
@@ -794,6 +795,12 @@ for each E-xx in §3.13（依編號序）:
   4. 全部消化後，`tools/glossary-lint.ts --terms` 於 CI 轉為 ERROR 級全開
 ```
 
+**本檔消化進度（§3.13 台帳列為權威，不於其上就地標記，進度記於此）**：
+
+- **E-73（2026-07-07，19 側已消化）**：§4 `FORBIDDEN_ALLOWLIST_FILES` 由三檔擴為四檔，
+  補入 `plan/14-scenario-data.md`，與 17 §3.6 掃描器豁免清單統一（兩掃描器 allowlist 至少含 14/17/19）。
+  17 側（L1~L3 補齊 ⊇ §3.12 全誤字形、§3.6 allowlist 同步）屬 17 之修正，本檔不改。
+
 ---
 
 ## 6. UI/UX
@@ -815,7 +822,7 @@ for each E-xx in §3.13（依編號序）:
 - [ ] **T2　FORBIDDEN_CHARS 常數表**：轉錄 §3.12 全 40 組＋補充規則。
       驗收：與 17 的 L1~L3 黑名單做集合相等測試（§4 不變量 2）；「砲」不在黑名單。
 - [ ] **T3　禁用字元掃描器**（§5.1）：`npm run lint:glossary`。
-      驗收：對植入「戦」「归」「斎」的暫存檔各偵測 1 筆並非零退出；allowlist 三檔不誤報；
+      驗收：對植入「戦」「归」「斎」的暫存檔各偵測 1 筆並非零退出；allowlist 四檔不誤報；
       對現行 repo 全綠（前提：E-52 三處已修）。
 - [ ] **T4　術語一致性檢查器**（§5.2）。
       驗收：對 `zh-TW.ts` 植入「合戦」偵測為 ERROR；GLOSSARY 中不存在的識別符產出 WARNING。
@@ -862,6 +869,12 @@ for each E-xx in §3.13（依編號序）:
 - **D9｜條目粒度**：主表收「機制名詞」與「跨文件溝通詞」，不收單一文件內部的臨時變數名
   （如 `edgeProgressDays`）——後者以 02 型別註解為準即可；收錄標準是
   「會出現在 UI、資料、或兩份以上文件」。
+- **D10｜掃描器豁免清單統一（2026-07-07，依 §3.13 E-73）**：§4 `FORBIDDEN_ALLOWLIST_FILES`
+  由三檔（19／17／轉錄常數）擴為四檔，新增 `plan/14-scenario-data.md`，使本文件 §5.1 掃描器
+  與 17 §3.6 掃描器的豁免清單統一（兩掃描器 allowlist 至少含 14/17/19）。理由：14 的 V10
+  掃描規則內嵌新字體示例（E-72），若不列入豁免會被 §5.1 掃描器自傷誤報；§7 T3 驗收之
+  「allowlist 檔數」同步由三檔改四檔。E-73 另一半「補齊 17 L1~L3 ⊇ §3.12 全誤字形」屬 17
+  之修正，本檔不動（依鐵律亦不改 §3.13 台帳列，消化進度記於 §5.3 尾註）。
 
 ---
 

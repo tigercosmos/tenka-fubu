@@ -955,7 +955,7 @@ export const zRoadsFile = z.object({ version: z.literal(1), edges: z.array(zRoad
 | V7 | ERROR | 全國總石高 ∈ [`BAL.dataTotalKokudakaMin`, `BAL.dataTotalKokudakaMax`]；城／郡／武將／勢力總數 ∈ 對應區間（§3.2 表） |
 | V8 | ERROR | `deathYear > birthYear`；`birthYear ≤ 1570`；當主 `birthYear ≤ 1545`（開局已元服）且 `deathYear ≥ 1561` |
 | V9 | ERROR | 武將 `locationCastleId`：serving 者必為本家城；浪人任意城；同名武將（`name` 重複）必以生年後綴消歧（00 §8） |
-| V10 | ERROR | 簡體字與日文新字體掃描：全部 JSON 的 `name`／`text`／`label` 值逐字比對黑名單（簡體黑名單見 17；新字體補充清單：沢浜竜斉塩円広辺桜関鉄験栄売徳検弾灯来；「砲」為正字不列入，見 19 §3.13 E-52） |
+| V10 | ERROR | 簡體字與日文新字體掃描：全部 JSON 的 `name`／`text`／`label` 值逐字比對黑名單（黑名單字元集＝17 §5.4 L1~L3，須涵蓋 19 §3.12 全部誤字形；本規則不內嵌任何誤字形示例以免掃描器自傷，見 19 §3.13 E-72；「砲」為正字不列入黑名單，見 19 §3.13 E-52） |
 | V11 | ERROR | 戰法解鎖：officer.tactics 中 `unlockTraitId ≠ null` 者，其 `traits` 必含該特性（07 §3.8） |
 | V12 | ERROR | 勢力色：相鄰勢力（雙方領有節點間存在 RoadEdge）之 `colorIndex` 環距 ≥ `BAL.dataClanColorMinRing`（4）；釘選勢力 index 與 §3.3 表一致 |
 | V13 | ERROR | 錨點：§3.4 表 20 城 pos 與表值偏差 ≤ `BAL.dataAnchorTolerance`（16 wu）；全部節點座標唯一（間距 ≥ 8 wu） |
@@ -1131,6 +1131,11 @@ buildInitialState(s1560, seed):
 - **D12｜四維與特性由本文件直接定案東海樣板**：能力值屬內容資料而非機制數值，
   不設 BAL 常數；以 §3.5.5 樣板＋§3.6 的傳說特性限額（≤12 人、`trait.gunshin` 限 4 人）
   控制全國通膨，V15/stats 的平均四維欄位供 15 平衡調校時複查。
+- **D13（2026-07-07）｜V10 移除行內新字體示例（依 19 §3.13 E-72）**：原 V10 規則文字內嵌
+  一串新字體補充清單字元，而本檔不在掃描器 allowlist（19 §4：僅 19／17／forbiddenChars.ts），
+  `tools/glossary-lint.ts --chars` 會就地把這些示例字元判為違規而自傷。改為文字引用
+  「黑名單字元集＝17 §5.4 L1~L3，須涵蓋 19 §3.12 全部誤字形」，規則本體不再出現任何誤字形。
+  「砲」為正字仍明列不入黑名單（E-52c，本檔原已符合，未改動）。
 
 
 

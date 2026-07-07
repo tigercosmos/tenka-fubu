@@ -113,8 +113,8 @@ SaveFile {
 
 14 個槽位全滿 < 8 MB，遠低於瀏覽器 IndexedDB 配額（通常 ≥ 數百 MB）。上限常數：
 
-- `BAL.saveCompressedWarnBytes = 3_000_000`：單檔壓縮後超過此值 → `console.warn` 並照常寫入（開發期偵測 state 膨脹）。
-- `BAL.saveCompressedMaxBytes = 15_000_000`：超過此值 → 拒絕寫入，顯示 `error.save.tooLarge`（此情況代表嚴重 bug，如 reports 未修剪）。
+- `SAVECFG.saveCompressedWarnBytes = 3_000_000`：單檔壓縮後超過此值 → `console.warn` 並照常寫入（開發期偵測 state 膨脹）。
+- `SAVECFG.saveCompressedMaxBytes = 15_000_000`：超過此值 → 拒絕寫入，顯示 `error.save.tooLarge`（此情況代表嚴重 bug，如 reports 未修剪）。
 
 寫入前**不**主動查詢 `navigator.storage.estimate()`（估算不準且非同步）；以捕捉 `QuotaExceededError` 為準（§3.10）。
 
@@ -124,9 +124,9 @@ SaveFile {
 
 | 類別 | 數量常數 | slotId | 寫入時機 | 可被玩家覆蓋／刪除 |
 |---|---|---|---|---|
-| 手動 | `BAL.manualSaveSlots = 10` | `manual:1` … `manual:10` | 玩家於存檔畫面點選 | 是（覆蓋需確認） |
-| 自動 | `BAL.autoSaveSlots = 3` | `auto:1` … `auto:3` | 每季首日輪替（§3.4） | 可刪除；不可手動寫入 |
-| 快速 | `BAL.quickSaveSlots = 1` | `quick:1` | Ctrl+S（§3.4） | 快速存檔直接覆蓋，不確認 |
+| 手動 | `SAVECFG.manualSaveSlots = 10` | `manual:1` … `manual:10` | 玩家於存檔畫面點選 | 是（覆蓋需確認） |
+| 自動 | `SAVECFG.autoSaveSlots = 3` | `auto:1` … `auto:3` | 每季首日輪替（§3.4） | 可刪除；不可手動寫入 |
+| 快速 | `SAVECFG.quickSaveSlots = 1` | `quick:1` | Ctrl+S（§3.4） | 快速存檔直接覆蓋，不確認 |
 
 規則：
 
@@ -147,8 +147,8 @@ SaveFile {
 **自動存檔（每季輪替）**：
 
 - 觸發：`advanceDay` 完成後，UI 層檢查本 tick 的 `GameEvent` 是否含季節開始事件
-  （3/1、6/1、9/1、12/1，事件定義見 03）。即 `BAL.autoSaveIntervalMonths = 3` 個月一次。
-- 輪替：目標槽 = `auto:{(autosaveCursor % BAL.autoSaveSlots) + 1}`；寫入成功後 `autosaveCursor += 1` 並持久化。
+  （3/1、6/1、9/1、12/1，事件定義見 03）。即 `SAVECFG.autoSaveIntervalMonths = 3` 個月一次。
+- 輪替：目標槽 = `auto:{(autosaveCursor % SAVECFG.autoSaveSlots) + 1}`；寫入成功後 `autosaveCursor += 1` 並持久化。
   三槽因此永遠保有最近三季的快照。
 - 執行方式：在季首 tick 結束的同一個 frame 內同步序列化＋壓縮＋非同步寫入。
   最壞情況約 100–200 ms 的單次停頓，每遊戲年僅 4 次，可接受（見 §8 決策 D5）。
@@ -176,7 +176,7 @@ SaveFile {
 - 入口：讀檔畫面的「匯入存檔」區（`ui.save.importHint`），支援 (a) 拖放檔案至讀檔畫面任意處（dragover 顯示遮罩）、
   (b) 點擊開啟 `<input type="file" accept=".json,.tenkafubu.json">`。
 - 驗證管線（任一步失敗即中止並顯示對應錯誤，**不**寫入任何槽位）：
-  1. 檔案大小 ≤ `BAL.importFileMaxBytes = 50_000_000`，否則 `error.load.fileTooLarge`。
+  1. 檔案大小 ≤ `SAVECFG.importFileMaxBytes = 50_000_000`，否則 `error.load.fileTooLarge`。
   2. `JSON.parse` 成功，否則 `error.load.invalidFile`。
   3. 信封淺驗證 `SaveFileEnvelopeSchema`（§5.5）通過，否則 `error.load.invalidFile`。
   4. 版本檢查與遷移鏈（§3.6）；`version > SAVE_FORMAT_VERSION` → `error.load.newerVersion`。
@@ -309,7 +309,7 @@ export const MIGRATIONS: SaveMigration[] = []
 **自動存檔失敗的降級行為**（依序執行）：
 
 1. 捕捉寫入例外。若為 `QuotaExceededError`：刪除「最舊的自動槽」（meta.timestamp 最小者）後重試一次
-   （重試次數上限 `BAL.autoSaveRetryMax = 1`）。
+   （重試次數上限 `SAVECFG.autoSaveRetryMax = 1`）。
 2. 重試仍失敗（或非配額錯誤）：
    - 發出一則重大等級 Report（字串 `report.save.autosaveFailed`；Report 機制見 03）。
    - 設定 session 旗標 `autosaveSuspended = true`：本次遊戲不再嘗試自動存檔（避免每季卡頓＋重複報錯），
@@ -385,9 +385,9 @@ export interface SaveMeta {
 ```ts
 /** 槽位識別字：類別 + 1 起算序號 */
 export type SaveSlotId =
-  | `manual:${number}`   // manual:1 .. manual:10（BAL.manualSaveSlots）
-  | `auto:${number}`     // auto:1 .. auto:3（BAL.autoSaveSlots）
-  | 'quick:1'            // 快速存檔（BAL.quickSaveSlots = 1）
+  | `manual:${number}`   // manual:1 .. manual:10（SAVECFG.manualSaveSlots）
+  | `auto:${number}`     // auto:1 .. auto:3（SAVECFG.autoSaveSlots）
+  | 'quick:1'            // 快速存檔（SAVECFG.quickSaveSlots = 1）
 
 /** 槽位狀態 */
 export type SaveSlotStatus = 'empty' | 'ok' | 'corrupt'
@@ -417,11 +417,11 @@ export interface SaveStorageAdapter {
 /** 存讀檔錯誤碼（→ 對應 i18n 字串，見 §6.5） */
 export type SaveErrorCode =
   | 'quota-exceeded'   // 寫入空間不足 → error.save.quotaExceeded
-  | 'too-large'        // 壓縮後超過 BAL.saveCompressedMaxBytes → error.save.tooLarge
+  | 'too-large'        // 壓縮後超過 SAVECFG.saveCompressedMaxBytes → error.save.tooLarge
   | 'write-failed'     // 其他寫入例外 → error.save.writeFailed
   | 'corrupt'          // 解壓/parse/淺驗證失敗 → error.load.corrupt
   | 'invalid-file'     // 匯入檔非本作存檔 → error.load.invalidFile
-  | 'file-too-large'   // 匯入檔超過 BAL.importFileMaxBytes → error.load.fileTooLarge
+  | 'file-too-large'   // 匯入檔超過 SAVECFG.importFileMaxBytes → error.load.fileTooLarge
   | 'newer-version'    // 存檔版本高於程式（不可降級）→ error.load.newerVersion
   | 'migration-gap'    // 遷移鏈缺格 → error.load.migrationGap
   | 'empty-slot'       // 讀取空槽 → error.load.emptySlot
@@ -494,21 +494,27 @@ export const DEFAULT_SETTINGS: GameSettings = {
 
 ## 5. 演算法與公式
 
-本節數值常數彙整（`15-balance.md` 主表收錄，衝突時以 15 定案值為準）：
+本節存檔專屬常數為**非模擬層常數**（改之不影響 golden hash）。依 19 §3.13 **E-56** 定案，
+此類常數**不進 `BAL`／`balance.ts`**，改置於本文件（16）自有常數表 `SAVECFG.*`（`src/app/persistence/` 內定義）；
+15 §5.2 表 D 已將其登記為非模擬常數，值以 15 §5.2 表 D 為參照：
 
 | 常數 | 建議初值 | 說明 |
 |---|---|---|
-| `BAL.manualSaveSlots` | `10` | 手動槽數 |
-| `BAL.autoSaveSlots` | `3` | 自動槽數 |
-| `BAL.quickSaveSlots` | `1` | 快速槽數 |
-| `BAL.autoSaveIntervalMonths` | `3` | 自動存檔間隔（月）＝每季首日 |
-| `BAL.autoSaveRetryMax` | `1` | 自動存檔配額錯誤時的重試次數 |
-| `BAL.saveCompressedWarnBytes` | `3_000_000` | 單檔壓縮後警告門檻（bytes） |
-| `BAL.saveCompressedMaxBytes` | `15_000_000` | 單檔壓縮後拒存門檻（bytes） |
-| `BAL.importFileMaxBytes` | `50_000_000` | 匯入檔大小上限（bytes） |
-| `BAL.uiScaleMin` | `0.8` | UI 縮放下限 |
-| `BAL.uiScaleMax` | `1.5` | UI 縮放上限 |
-| `BAL.uiScaleStep` | `0.05` | UI 縮放步進 |
+| `SAVECFG.manualSaveSlots` | `10` | 手動槽數 |
+| `SAVECFG.autoSaveSlots` | `3` | 自動槽數 |
+| `SAVECFG.quickSaveSlots` | `1` | 快速槽數 |
+| `SAVECFG.autoSaveIntervalMonths` | `3` | 自動存檔間隔（月）＝每季首日 |
+| `SAVECFG.autoSaveRetryMax` | `1` | 自動存檔配額錯誤時的重試次數 |
+| `SAVECFG.saveCompressedWarnBytes` | `3_000_000` | 單檔壓縮後警告門檻（bytes） |
+| `SAVECFG.saveCompressedMaxBytes` | `15_000_000` | 單檔壓縮後拒存門檻（bytes） |
+| `SAVECFG.importFileMaxBytes` | `50_000_000` | 匯入檔大小上限（bytes） |
+| `BAL.uiScaleMin` | `0.8` | UI 縮放下限（UI 層常數，見下註） |
+| `BAL.uiScaleMax` | `1.5` | UI 縮放上限（UI 層常數，見下註） |
+| `BAL.uiScaleStep` | `0.05` | UI 縮放步進（UI 層常數，見下註） |
+
+> 註（`uiScale*`）：15 §5.2 表 D／§4.3 將 `uiScaleMin/Max/Step` 歸「UI 互動／顯示」類（→ `src/ui/` 與設定，
+> 12／16 共有），與存檔設定的 `SAVECFG.*` 分屬不同類別，且未指定 spec 命名空間名稱。此三常數同屬非模擬層、
+> 亦應移出 `BAL`，但其正式命名空間宜與 UI 元件擁有文件（12）協同定案，暫維持原引用待統一（見 §8 D12）。
 
 ### 5.1 建立存檔（core 純函式）
 
@@ -531,8 +537,8 @@ saveToSlot(slotId: SaveSlotId, saveFile: SaveFile): Promise<{ ok: true } | { ok:
   1. json ← JSON.stringify(saveFile)
   2. blob ← lzString.compressToUTF16(json)
   3. bytes ← blob.length × 2                                 // UTF-16 每字元 2 bytes
-     if bytes > BAL.saveCompressedMaxBytes → return { ok:false, error:'too-large' }
-     if bytes > BAL.saveCompressedWarnBytes → console.warn(...)
+     if bytes > SAVECFG.saveCompressedMaxBytes → return { ok:false, error:'too-large' }
+     if bytes > SAVECFG.saveCompressedWarnBytes → console.warn(...)
   4. try:
        await adapter.set(`tf.save.${slotId}.blob`, blob)
        await adapter.set(`tf.save.${slotId}.meta`, saveFile.meta)
@@ -551,11 +557,11 @@ onTickCompleted(events: GameEvent[]):
   if !events.some(e => e.type === 'seasonStart') → return        // 事件型別見 03
   if autosaveSuspended → return
   cursor ← (await adapter.get('tf.save.autosaveCursor')) ?? 0
-  slotId ← `auto:${(cursor mod BAL.autoSaveSlots) + 1}`
+  slotId ← `auto:${(cursor mod SAVECFG.autoSaveSlots) + 1}`
   label  ← `自動・{year}年{季節名}`                               // 季節名：春/夏/秋/冬（00 §5.1）
   result ← saveToSlot(slotId, createSaveFile(state, queue, { now: Date.now(), ..., slotLabel: label }))
   if result.ok → await adapter.set('tf.save.autosaveCursor', cursor + 1)
-  else if result.error === 'quota-exceeded' AND retriesUsed < BAL.autoSaveRetryMax:
+  else if result.error === 'quota-exceeded' AND retriesUsed < SAVECFG.autoSaveRetryMax:
      刪除三個自動槽中 meta.timestamp 最小者（blob+meta 兩鍵）；retriesUsed += 1；重跑步驟 4
   else → 降級：發重大 Report(report.save.autosaveFailed)；autosaveSuspended ← true；HUD 顯示警示
 ```
@@ -604,7 +610,7 @@ exportSave(saveFile: SaveFile): void
   3. Blob → objectURL → <a download=name> click → revokeObjectURL
 
 importSave(file: File): Promise<LoadOutcome>
-  1. if file.size > BAL.importFileMaxBytes → { ok:false, error:'file-too-large' }
+  1. if file.size > SAVECFG.importFileMaxBytes → { ok:false, error:'file-too-large' }
   2. json ← await file.text()
   3. return decodeAndMigrate(json)                              // §5.5
   // ok 時 UI 顯示匯入預覽卡（§3.5）：「直接開始」或「存入槽位」（存入時 version 已為當前版）
@@ -798,7 +804,8 @@ findLatestSave(): Promise<SaveSlotView | null>
   列表渲染 O(槽數) 次小型 `get` 即完成；blob 內仍含 meta 作為單一真相，快取遺失可重建。
 - **D2（`SAVE_FORMAT_VERSION` 不入 BAL）**：`00` §11 的 BAL 規範針對「可調平衡數值」；存檔版本是結構性常數，
   調它不是調平衡而是宣告不相容變更，且遷移正確性不得受 15 的數值調整牽動，故定義於 `src/core/save/migrations.ts`。
-  槽數、體積門檻等雖非玩法平衡，但屬「可調門檻」，依 §11 字面規範仍入 BAL（於 balance.ts 內以「系統」分區註解隔開）。
+  槽數、體積門檻等雖屬「可調門檻」，但改之不影響 golden hash（非模擬層），依 19 §3.13 E-56 定案**不入 `BAL`**，
+  改置於本文件自有常數表 `SAVECFG.*`（`src/app/persistence/`），15 §5.2 表 D 登記為非模擬常數（見下 D12）。
 - **D3（`pendingCommands` 進信封）**：玩家慣於「暫停→下一串指令→存檔」；此時指令尚未於 tick 開頭結算，
   若存檔只含 `state` 會無聲遺失這些指令。將佇列一併序列化、讀檔時原樣還原，成本近零且保決定論
   （重放紀錄同樣涵蓋這些指令，見 17）。此為對任務原型 `{version, timestamp, meta, state}` 的擴充。
@@ -820,3 +827,12 @@ findLatestSave(): Promise<SaveSlotView | null>
   保留手動存檔路徑與必定可行的匯出逃生門，把「資料安全」責任交還玩家並給足工具。
 - **D11（種子於 UI 層產生）**：`00` §5.5 禁止 core 用 `Date.now`；新遊戲種子由標題畫面以 `Date.now() % 2^32` 產生後
   作為參數傳入 core 初始化 builder，並全程顯示與記錄於 `SaveMeta.seed`，兼顧決定論與可重現回報。
+- **D12（2026-07-07，依 19 §3.13 E-56：存檔常數改 `SAVECFG.*`、移出 `BAL`）**：原 D2 依 00 §11 字面規範將槽數／體積門檻／
+  間隔／重試等存檔常數放入 `BAL`（`balance.ts`）。E-56 定調「不影響模擬的 UI／存檔常數不進 BAL；BAL 保留純模擬數值」，
+  且 15 §5.2 表 D 已將其登記為非模擬常數。**改了什麼**：本文件 §3.2／§3.3／§3.4／§3.5／§3.10／§4.2／§4.3／§5（常數表）／
+  §5.2／§5.3／§5.6 及 D2 末句，把 `BAL.manualSaveSlots`／`autoSaveSlots`／`quickSaveSlots`／`autoSaveIntervalMonths`／
+  `autoSaveRetryMax`／`saveCompressedWarnBytes`／`saveCompressedMaxBytes`／`importFileMaxBytes` 一律改為 `SAVECFG.*`
+  （定義於 `src/app/persistence/`，非 `balance.ts`）；常數名與定案值不變（值仍以 15 §5.2 表 D 為準）。
+  **依據**：19 §3.13 E-56 建議定案「存檔槽數改入 16 自有常數表（如 `SAVECFG.*`）；BAL 保留純模擬數值」＋15 §4.3／§5.2 表 D。
+  **待統一**：`uiScaleMin/Max/Step` 同屬非模擬層，15 §4.3 將其歸「UI 互動／顯示」類（→ `src/ui/`，12／16 共有）而非 `SAVECFG`，
+  且未給定 spec 命名空間名稱；為免與 15 分類牴觸或擅立新命名空間，暫維持原引用，其命名空間宜與 12 協同定案後統一（見 §5 註）。

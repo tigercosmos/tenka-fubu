@@ -61,14 +61,14 @@
 2. **兵數**：`BAL.minMarchTroops`（建議 100）≤ 兵數 ≤ `min(城駐兵, BAL.rankTroopCap[大將身分])`。
    副將不增加帶兵上限（v1 簡化，見 §8 D3）。身分帶兵上限：
 
-| 身分 | rank key | 帶兵上限（人） |
+| 身分 | rank key（`Rank` 值，依 02 kebab-case，E-01） | 帶兵上限（人） |
 |---|---|---|
-| 足輕組頭 | `ashigaruKumigashira` | `BAL.rankTroopCap.ashigaruKumigashira` = 500 |
-| 足輕大將 | `ashigaruTaisho` | `BAL.rankTroopCap.ashigaruTaisho` = 1000 |
-| 侍大將 | `samuraiTaisho` | `BAL.rankTroopCap.samuraiTaisho` = 2000 |
-| 部將 | `busho` | `BAL.rankTroopCap.busho` = 3000 |
-| 家老 | `karo` | `BAL.rankTroopCap.karo` = 5000 |
-| 宿老 | `shukuro` | `BAL.rankTroopCap.shukuro` = 8000 |
+| 足輕組頭 | `kumigashira` | `BAL.rankTroopCap['kumigashira']` = 500 |
+| 足輕大將 | `ashigaru-taisho` | `BAL.rankTroopCap['ashigaru-taisho']` = 1000 |
+| 侍大將 | `samurai-taisho` | `BAL.rankTroopCap['samurai-taisho']` = 2000 |
+| 部將 | `busho` | `BAL.rankTroopCap['busho']` = 3000 |
+| 家老 | `karo` | `BAL.rankTroopCap['karo']` = 5000 |
+| 宿老 | `shukuro` | `BAL.rankTroopCap['shukuro']` = 8000 |
 
    當主視同宿老（上限 8000）。此表同時被 `plan/06-officers.md` 引用，數值定案於 15。
 3. **攜帶兵糧**：預設 `兵數 × BAL.fieldFoodPerSoldierDaily × BAL.defaultCarryDays`
@@ -77,7 +77,7 @@
    區間內調整，且不得超過城內現存兵糧。出陣時自城兵糧扣除。
 4. **目標與任務**：指定任一地圖節點為 `targetNodeId`。
    - 目標為敵城 → `mission = 'conquer'`（抵達後自動轉入圍城，§3.11）。
-   - 其他 → `mission = 'march'`（抵達後駐留 `resting`；途經或抵達敵郡時依 04 制壓規則翻轉歸屬）。
+   - 其他 → `mission = 'march'`（抵達後駐留 `holding`；途經或抵達敵郡時依 04 制壓規則翻轉歸屬）。
 5. **路徑**：預設為 04 尋路的最短路；玩家可加入途經點（waypoints），路徑為各段最短路串接。
 
 **出陣結算**（於下一 tick 的 applyCommands）：
@@ -118,7 +118,7 @@ moraleFactor = BAL.moraleFactorBase + morale / BAL.moraleFactorDivisor   // 0.5 
 ### 3.3 野戰自動解算
 
 **交戰成立**：04 的遭遇判定成立（雙方敵對部隊位於同節點或於同邊相向而行）時，
-建立 `FieldCombat`，雙方部隊 `status = 'fighting'`、行軍暫停。
+建立 `FieldCombat`，雙方部隊 `status = 'engaged'`、行軍暫停。
 同節點若有三個以上互相敵對的勢力：取當前總兵數最大的兩方交戰，其餘部隊待機（不受損、不移動），
 交戰結束後重新判定（見 §8 D6）。與交戰任一方**同盟**且與另一方敵對的部隊，抵達同節點時併入該方（同側多勢力）。
 
@@ -172,9 +172,10 @@ moraleFactor = BAL.moraleFactorBase + morale / BAL.moraleFactorDivisor   // 0.5 
 2. 雙方合計現有兵數 ≥ `BAL.kassenMinTroops`（建議 3000）。
 3. 該 `FieldCombat` 尚未發動過合戰（`kassenUsed == false`，每場遭遇限一次）。
 
-條件成立的當日產生 `battle.available` 事件並自動暫停（可於設定關閉）。
-玩家可在遭遇持續期間的任一日下 `CmdOpenBattle` 發動；發動後 `kassenUsed = true`，
-策略時間暫停，進入合戰 modal。玩家不發動則持續野戰解算。
+條件成立的當日產生 `battle.kassenAvailable` 事件並自動暫停（可於設定關閉）。
+玩家可在遭遇持續期間的任一日下 `CmdStartKassen` 發動；發動後 `kassenUsed = true`、
+`interrupted = true`（該 FieldCombat 自此暫停野戰逐日解算，見 §5.2，E-64），策略時間暫停，
+進入合戰 modal。玩家不發動則持續野戰解算。
 
 **集結（拉入）**：發動時，以遭遇節點為中心、策略地圖 `BAL.kassenGatherRange`（建議 2）跳數內，
 交戰雙方勢力的**全部在外部隊**（不含潰走中、不含圍城中）自動拉入戰場；
@@ -332,7 +333,8 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 | 中 | `BAL.aweRangeMed` = 2 | `+BAL.awePrestigeMed` = 25 |
 | 大 | `BAL.aweRangeLarge` = 3 | `+BAL.awePrestigeLarge` = 50 |
 
-1. 半徑內**敗方勢力的郡節點**：歸屬直接翻轉為勝方（清除制壓進度；知行解除處理參見 05；
+1. 半徑內**敗方勢力的郡節點**：歸屬直接翻轉為勝方（清除該郡 `District.subjugation` 制壓進度，
+   並掃描 `state.armies` 重置正制壓該郡之部隊的制壓進度〔E-65〕；知行解除處理參見 05；
    第三方勢力的郡不受影響；城節點不翻轉）。
 2. 半徑內**敗方勢力的城**：城士氣 `−BAL.aweCastleMoraleHit`（建議 20）、
    耐久 `−耐久上限 × BAL.aweCastleDurabilityRatio`（建議 0.05）。
@@ -354,7 +356,7 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
   - 每日城士氣 `−BAL.assaultCastleMoraleDaily`（建議 1）。
 - **包圍（encircle）**：切換條件 `Σ攻方兵 ≥ 城駐兵 × BAL.encircleRatio`（建議 3.0），不滿足自動退回強攻。
   - 每日城士氣 `−BAL.encircleCastleMoraleDaily`（建議 2）。
-  - 城內兵糧每日消耗 ×`BAL.encircleFoodMult`（建議 2.0；基準日耗 `BAL.castleFoodPerSoldierDaily` 定義於 05）。
+  - 城內兵糧每日消耗 ×`BAL.encircleFoodMult`（建議 2.0；基準日耗＝`BAL.garrisonFoodPerSoldierMonthly / 30`，定義於 05，E-15）。
   - 每日攻方兵損 `= 城方power × BAL.encircleAttackerLossRate(0.005)`；守兵、耐久不變。
 
 **城方 power**：`城駐兵 × (1 + 城主ldr × BAL.ldrCombatFactor) × (1 + 城防減免)`（城主不在則 ldr = 0）。
@@ -370,19 +372,20 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
   圍城方全潰走或撤退 → Siege 移除。
 
 **落城**：`耐久 ≤ 0` 或 `城士氣 ≤ 0` 或 `守兵 ≤ 0` →
-1. 城歸攻方勢力；**所轄各郡一併翻轉**為攻方（知行解除參見 05）。
+1. 城歸攻方勢力；**所轄各郡一併翻轉**為攻方（知行解除參見 05；翻轉時清除各郡 `District.subjugation`，
+   並掃描 `state.armies` 重置正制壓這些郡之部隊的制壓進度〔E-65〕）。
 2. 城主與城內全部武將逐一做逃脫判定（公式參見 06）；未逃脫者成為攻方**捕虜**（處置參見 06）。
 3. 耐久設為 `max(當前耐久, 耐久上限 × BAL.postSiegeDurabilityRatio(0.3))`；
    城士氣設為 `BAL.postSiegeCastleMorale`（建議 50）；殘存守兵解散（歸農，不併入任何方）；
    城內殘存兵糧 ×`BAL.postSiegeFoodKeepRatio`（建議 0.5）留存、其餘視為戰亂散失。
-4. 攻方部隊 `+BAL.moraleVictoryGain`、駐留城節點轉 `resting`；產生 `report.siege.fallen` 報告；功績參見 06。
+4. 攻方部隊 `+BAL.moraleVictoryGain`、駐留城節點轉 `holding`；產生 `report.siege.fallen` 報告；功績參見 06。
 
 ### 3.12 軍團（Corps）
 
 - **建立**：`CmdCreateCorps` 指定軍團長（身分 ≥ 家老、非出陣中）與至少 1 座我方直轄城。
   城劃入軍團後玩家不可再對其直接下內政／出陣指令（可 `CmdRemoveCastleFromCorps` 收回）。
-- **方針（directive）**：`conquer`（攻略目標城，須指定 `targetCastleId`）／`defend`（防衛領內）／
-  `auto`（自治：由 AI 自行選擇目標）。玩家可隨時變更。
+- **方針（directive）**：`advance`（攻略目標，須指定 `targetNodeId`）／`hold`（防衛領內）／
+  `develop`（自治：由 AI 自行選擇目標與開發）。玩家可隨時變更。（依 02 三值，E-21）
 - **行為**：軍團內的出陣、徵兵、開發全部由軍團 AI 執行（完整邏輯參見 `plan/09-ai.md`）；
   軍團部隊的野戰／攻城仍走本文件同一套解算；軍團部隊參與玩家發動的合戰時可被拉入且受玩家指揮。
 - **收支獨立**：軍團領（軍團城所轄郡）的每月金錢收入不入玩家帳，改入 `Corps.gold`；
@@ -399,7 +402,7 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
   `兵數 × BAL.fieldFoodPerSoldierDaily × BAL.defaultCarryDays` 水位（城存量不足則補到用盡為止）。
 - **糧盡**（`food == 0`）：每日士氣 `−BAL.noFoodMoraleDaily`（建議 8）、
   兵逃散 `troops × BAL.noFoodDesertionRate`（建議 0.05，向上取整）。
-- **歸還**：`CmdReturnArmy` → `mission = 'return'`、目標 = `homeCastleId`（已失守則最近我方城）；
+- **歸還**：`CmdRecallArmy` → `mission = 'return'`、目標 = `homeCastleId`（已失守則最近我方城）；
   抵達後兵力、殘糧併入城，武將回城，`Army` 移除。
 - **自動歸還**（`autoReturn == true`，預設開，玩家可關）：滿足任一即自動轉歸還——
   (a) 任務完成（march 抵達目標並完成制壓／conquer 目標落城）且無新指令；
@@ -417,17 +420,19 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 type MapNodeId = string;
 
 type ArmyMission = 'march' | 'conquer' | 'return';
+// ArmyStatus 依 02 聯集定案（E-10）：fighting→engaged、resting→holding、新增 subjugating（制壓，04 設定）
 type ArmyStatus =
-  | 'marching'   // 行軍中
-  | 'fighting'   // 野戰交戰中
-  | 'sieging'    // 圍城中
-  | 'routed'     // 潰走中
-  | 'returning'  // 歸還行軍中
-  | 'resting';   // 抵達目標後駐留
+  | 'marching'    // 行軍中
+  | 'engaged'     // 野戰交戰中（原 fighting）
+  | 'sieging'     // 圍城中
+  | 'subjugating' // 制壓中（04 設定；本文件不主動設置）
+  | 'returning'   // 歸還行軍中（原 retreating 併入）
+  | 'routed'      // 潰走中
+  | 'holding';    // 駐留（原 resting 併入）
 
 /** 出陣中部隊（策略層） */
 interface Army {
-  id: string;                 // "army.<clan-slug>-<流水號3位>" 例 "army.oda-003"
+  id: string;                 // "army.<6位流水>" 例 "army.000042"（依 02 六位流水，E-12）
   clanId: string;             // 所屬勢力
   homeCastleId: string;       // 出發城（歸還預設目的地）
   generalId: string;          // 大將 Officer id
@@ -454,6 +459,7 @@ interface FieldCombat {
   sideA: FieldCombatSide;     // 先到方
   sideB: FieldCombatSide;
   kassenUsed: boolean;        // 本遭遇是否已發動過合戰
+  interrupted: boolean;       // 合戰進行中時暫停野戰逐日解算（E-64；§5.2 combat step 跳過之）
 }
 interface FieldCombatSide {
   clanIds: string[];          // 同側勢力（含同盟援軍）
@@ -464,7 +470,7 @@ interface FieldCombatSide {
 
 /** 合戰（戰術戰場）——策略時間暫停期間的獨立狀態機 */
 interface BattleState {
-  id: string;                 // "battle.<nodeId去前綴>-<開始日絕對tick>"
+  id: string;                 // "battle.<6位流水>"（依 02 六位流水，E-12）
   fieldCombatId: string;      // 來源遭遇
   nodeId: MapNodeId;
   terrain: string;            // 遭遇節點地形（terrain 枚舉見 04）
@@ -544,7 +550,7 @@ interface TacticDef {
 
 /** 圍城狀態 */
 interface Siege {
-  id: string;                 // "siege.<castleId去前綴>-<開始日絕對tick>"
+  id: string;                 // "siege.<6位流水>"（依 02 六位流水，E-12）
   castleId: string;
   attackerClanId: string;
   armyIds: string[];          // 圍城部隊（同勢力）
@@ -560,8 +566,8 @@ interface Corps {
   clanId: string;
   corpsLeaderId: string;      // 軍團長（身分 ≥ 家老）
   castleIds: string[];        // 劃撥城
-  directive: 'conquer' | 'defend' | 'auto';
-  targetCastleId: string | null; // directive === 'conquer' 時必填
+  directive: 'advance' | 'hold' | 'develop';  // 依 02（E-21）
+  targetNodeId: MapNodeId | null; // directive === 'advance' 時必填（依 02，E-21）
   gold: number;               // 軍團金庫（貫）
 }
 ```
@@ -572,17 +578,17 @@ interface Corps {
 |---|---|---|
 | `CmdMarch` | `castleId, generalId, deputyIds, troops, food, targetNodeId, waypoints` | 出陣（§3.1） |
 | `CmdSetArmyTarget` | `armyId, targetNodeId, waypoints` | 變更在外部隊目標 |
-| `CmdReturnArmy` | `armyId` | 命令歸還 |
+| `CmdRecallArmy` | `armyId` | 命令歸還 |
 | `CmdSetAutoReturn` | `armyId, enabled` | 切換自動歸還 |
-| `CmdOpenBattle` | `fieldCombatId` | 發動合戰（§3.5） |
+| `CmdStartKassen` | `fieldCombatId` | 發動合戰（§3.5） |
 | `CmdBattleMove` | `battleId, unitId, targetJinId` | 合戰：移動 |
 | `CmdBattleAttack` | `battleId, unitId, targetUnitId` | 合戰：指定攻擊目標 |
 | `CmdBattleTactic` | `battleId, unitId, tacticId, targetUnitId?` | 合戰：發動戰法 |
 | `CmdBattleDelegate` | `battleId, unitId or 'all', enabled` | 合戰：委任開關 |
 | `CmdSiegeMode` | `siegeId, mode` | 切換強攻／包圍 |
 | `CmdUseBetrayal` | `siegeId` | 發動內應 |
-| `CmdCreateCorps` | `corpsLeaderId, castleIds, directive, targetCastleId?` | 建立軍團 |
-| `CmdSetCorpsDirective` | `corpsId, directive, targetCastleId?` | 變更軍團方針 |
+| `CmdCreateCorps` | `corpsLeaderId, castleIds, directive, targetNodeId?` | 建立軍團 |
+| `CmdSetCorpsDirective` | `corpsId, directive, targetNodeId?` | 變更軍團方針 |
 | `CmdAssignCastleToCorps` | `corpsId, castleId` | 劃撥城入軍團 |
 | `CmdRemoveCastleFromCorps` | `corpsId, castleId` | 收回城 |
 | `CmdDissolveCorps` | `corpsId` | 解散軍團 |
@@ -712,7 +718,7 @@ applyAwe(level, centerNodeId, winnerClanId, loserClanId):
   range = { small: BAL.aweRangeSmall, medium: BAL.aweRangeMed, large: BAL.aweRangeLarge }[level]
   nodes = bfsWithinHops(centerNodeId, range)           // 策略地圖圖距
   for n in nodes where n 是郡節點 且 n.owner == loserClanId:
-    翻轉歸屬至 winnerClanId；清除制壓進度（04）；知行解除（05）
+    翻轉歸屬至 winnerClanId；清除 District.subjugation 並掃描 state.armies 重置正制壓該郡部隊之進度（E-65）；知行解除（05）
   for n in nodes where n 是城節點 且 n.owner == loserClanId:
     castle.morale −= BAL.aweCastleMoraleHit
     castle.durability −= castle.durabilityMax × BAL.aweCastleDurabilityRatio（下限 1）
@@ -864,11 +870,11 @@ supplyDailyTick(state, army):
 | `report.march.failed.cap` | 出陣失敗：超過{general}的帶兵上限（{cap}人） |
 | `report.march.failed.food` | 出陣失敗：{castle}兵糧不足 |
 | `ui.army.status.marching` | 行軍中 |
-| `ui.army.status.fighting` | 交戰中 |
+| `ui.army.status.engaged` | 交戰中 |
 | `ui.army.status.sieging` | 攻城中 |
 | `ui.army.status.routed` | 潰走中 |
 | `ui.army.status.returning` | 歸還中 |
-| `ui.army.status.resting` | 駐留中 |
+| `ui.army.status.holding` | 駐留中 |
 | `cmd.army.return` | 歸還 |
 | `cmd.army.autoReturn` | 自動歸還 |
 | `report.army.noFood` | {army}兵糧耗盡，士氣潰散中！ |
@@ -899,9 +905,9 @@ supplyDailyTick(state, army):
 | `report.siege.fallen` | {castle}落城！ |
 | `ui.corps.title` | 軍團 |
 | `ui.corps.leader` | 軍團長 |
-| `ui.corps.directive.conquer` | 攻略 |
-| `ui.corps.directive.defend` | 防衛 |
-| `ui.corps.directive.auto` | 自治 |
+| `ui.corps.directive.advance` | 攻略 |
+| `ui.corps.directive.hold` | 防衛 |
+| `ui.corps.directive.develop` | 自治 |
 | `ui.corps.gold` | 軍團金庫 |
 | `cmd.corps.create` | 編成軍團 |
 | `cmd.corps.dissolve` | 解散軍團 |
@@ -990,3 +996,32 @@ supplyDailyTick(state, army):
   合流／拆分的兵糧與士氣併算規則複雜、收益低，留待 v2。
 - **D15 圍城尾聲禁止自動歸還**：城士氣與耐久皆 >20% 才允許糧盡自動撤，
   避免玩家長期圍城在最後幾日因自動歸還前功盡棄。
+- **D16｜依 19 §3.13 E-01 修正**（2026-07-07）：§3.1 帶兵上限表的 `Rank` 值與 `BAL.rankTroopCap`
+  子鍵改為 02 kebab-case（`kumigashira`／`ashigaru-taisho`／`samurai-taisho`／`busho`／`karo`／`shukuro`），
+  使 §5.1 `BAL.rankTroopCap[general.rank]` 之索引一致；帶兵上限值（500..8000）仍依 15。
+  依據：E-01「依 02 kebab-case；改 06／07 與其字串 key」。
+- **D17｜依 19 §3.13 E-10 修正**（2026-07-07）：`ArmyStatus` 改用 02 聯集定案
+  （`marching/engaged/sieging/subjugating/returning/routed/holding`）；本文件 `fighting`→`engaged`、
+  `resting`→`holding`，並納入 `subjugating`（制壓，04 設定）；對應 `ui.army.status.*` 鍵一併更名。
+  依據：E-10「修 02 擴充為聯集定案，04／07 改用」。
+- **D18｜依 19 §3.13 E-12 修正**（2026-07-07）：`Army`／`BattleState`／`Siege` 的 id 註解改為
+  02 六位流水格式；`fc.`／`bu.`／`jin.` 為合戰內部 transient id 保留（於 02 §3.2 登記）。
+  依據：E-12「依 02 六位流水；fc./bu./jin. 可保留」。
+- **D19｜依 19 §3.13 E-15 修正**（2026-07-07）：§3.11 包圍城糧消耗基準由不存在的
+  `BAL.castleFoodPerSoldierDaily` 改引 `BAL.garrisonFoodPerSoldierMonthly / 30`（05 定義）。
+  依據：E-15「07 §3.11 圍城消耗公式改引 garrisonFoodPerSoldierMonthly/30」。
+- **D20｜依 19 §3.13 E-21 修正**（2026-07-07）：`Corps.directive` 由 `conquer/defend/auto` 改為
+  02 三值 `advance/hold/develop`、`targetCastleId` 改為 `targetNodeId`
+  （`CmdCreateCorps`／`CmdSetCorpsDirective`／`ui.corps.directive.*` 一併更名），行為描述改繫於 02 值。
+  依據：E-21「依 02 三值與 targetNodeId」。
+- **D21｜依 19 §3.13 E-29 修正**（2026-07-07）：合戰發動指令 `CmdOpenBattle`→`CmdStartKassen`、
+  歸還指令 `CmdReturnArmy`→`CmdRecallArmy`，對齊 02 §4.18 聯集（type `startKassen`／`recallArmy`）。
+  依據：E-29「一律依 02 §4.18 聯集」。
+- **D22｜依 19 §3.13 E-30 修正**（2026-07-07）：合戰可發動事件 `battle.available`→`battle.kassenAvailable`，
+  對齊 02 §4.19 總表。依據：E-30「07 事件名改為 02 名」。
+- **D23｜依 19 §3.13 E-64 修正**（2026-07-07）：`FieldCombat` 補 `interrupted: boolean` 欄位；
+  發動合戰同 tick 設 `interrupted = true`，§5.2 野戰逐日解算跳過 interrupted 的 FieldCombat。
+  依據：E-64「FieldCombat 補 interrupted；combat step 跳過之」。
+- **D24｜依 19 §3.13 E-65 修正**（2026-07-07）：§3.10 威風翻轉、§3.11 落城翻轉、§5.6 applyAwe 統一補
+  「翻轉任一郡 ownerClanId 時清除該郡 `District.subjugation` 並掃描 `state.armies`
+  重置正制壓該郡部隊之制壓進度」。依據：E-65「翻轉任一郡 ownerClanId 時掃描 state.armies 重置對應 subjugation」。

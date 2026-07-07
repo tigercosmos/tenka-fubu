@@ -84,23 +84,24 @@
 ```
 
 - `BAL.garrisonFoodPerSoldierMonthly = 0.1`（石／人／月）。
-  **必須低於**出陣消耗 `BAL.marchFoodPerSoldierMonthly`（07 定義，建議 0.3），
+  **必須低於**出陣消耗 `BAL.fieldFoodPerSoldierDaily`（07 定義，0.02 石／人／日，月額 0.6；E-14），
   形成「養兵便宜、用兵昂貴」的張力。
 - 小數處理：每城持有累加器 `foodFrac`，日消耗累加後扣除整數部分（見 §5.2），
   保證 `food` 恆為 ≥0 整數（00 §6）。
 - **糧盡**（`food === 0` 且仍有消耗需求）：該城每日 `soldiers = floor(soldiers × (1 − BAL.starveDesertRate))`，
-  `BAL.starveDesertRate = 0.01`；城士氣每日 −2（士氣欄位與下限規則見 07）。發 `report.economy.castleStarving`（每月至多一次）。
+  `BAL.starveDesertRate = 0.01`；城士氣每日 −`BAL.castleStarveMoraleDaily`(=2)（士氣欄位與下限規則見 07）。發 `report.economy.castleStarving`（每月至多一次）。
+  此為**非圍城**之一般糧盡路徑；城處於圍城中時改用 07 的圍城糧盡規則，兩者互斥（15 §5.2 表 C）。
 
 #### 3.1.4 金錢維持費（每月 1 日，收入入帳後依序扣除）
 
-1. **家臣俸祿**：`Σ_武將 BAL.salaryByRank[officer.rank]`，例外：
+1. **家臣俸祿**：`Σ_武將 BAL.rankSalary[officer.rank]`，例外：
    - 當主（`leaderId`）不支俸。
    - **受封中的領主（steward）俸祿全免**（知行收入代俸；此為分封的財政誘因，見 §8 決策 D2）。
-   - 俸祿表 `BAL.salaryByRank`（貫／月）：足輕組頭 2、足輕大將 4、侍大將 7、部將 12、家老 20、宿老 30。
+   - 俸祿表 `BAL.rankSalary`（貫／月；E-04 統一命名、值以 15 定案）：足輕組頭 3、足輕大將 6、侍大將 10、部將 15、家老 22、宿老 30。
 2. **政策維持費**：`Σ_生效政策 upkeepGold`（見 §3.7）。
 
 **不足額規則（邊界條件）**：
-- 俸祿優先於政策維持費。金錢扣到 0 為止；俸祿未足額時，當月**全體**武將忠誠 −`BAL.unpaidSalaryLoyaltyHit`（=3，一次性，經 06 的忠誠管線）。
+- 俸祿優先於政策維持費。金錢扣到 0 為止；俸祿未足額時，當月**全體**武將忠誠 −`BAL.unpaidSalaryLoyaltyPenalty`（=2，一次性，06 擁有、值 15 定案；經 06 的忠誠管線）。
 - 政策維持費付不出時，依「採用時間由新到舊」自動廢止政策，直到可支付，每廢止一項發 `report.policy.autoRevoked`。
 
 #### 3.1.5 收支預覽（selector，不改動狀態）
@@ -112,7 +113,7 @@ goldIncomeMonthly   = §3.1.1 公式（以當前 commerce 快照計算）
 goldUpkeepMonthly   = 俸祿總額 + 生效政策維持費總額
 goldNetMonthly      = goldIncomeMonthly − goldUpkeepMonthly
 foodUpkeepMonthly   = Σ_城 (soldiers × BAL.garrisonFoodPerSoldierMonthly)
-                    + Σ_出陣部隊 (soldiers × BAL.marchFoodPerSoldierMonthly)   # 07 常數
+                    + Σ_出陣部隊 (soldiers × BAL.fieldFoodPerSoldierDaily × 30)   # 07 常數（日額 0.02 × 30 = 0.6/月，E-14）
 harvestForecast     = §3.1.2 公式（以當前 kokudaka 快照計算，全勢力總和）
 foodStock           = Σ_城 food
 foodMonthsLeft      = foodUpkeepMonthly > 0 ? floor(foodStock / foodUpkeepMonthly) : Infinity
@@ -128,15 +129,15 @@ foodMonthsLeft      = foodUpkeepMonthly > 0 ? floor(foodStock / foodUpkeepMonthl
 
 | 屬性 | 欄位 | 上限欄位 | 範圍 | 單位 |
 |---|---|---|---|---|
-| 石高 | `kokudaka` | `kokudakaMax` | 0..上限 | 石 |
-| 商業 | `commerce` | `commerceMax` | 0..2000 | 點 |
-| 人口 | `population` | `populationMax` | 0..上限 | 人 |
+| 石高 | `kokudaka` | `kokudakaCap` | 0..上限 | 石 |
+| 商業 | `commerce` | `commerceCap` | 0..2000 | 點 |
+| 人口 | `population` | `populationCap` | 0..上限 | 人 |
 
 內部以浮點儲存、顯示時 `floor`（見 §8 決策 D5）。
 14 的資料基準：郡 `population` 初值約等於 `kokudaka` 數值（1 萬石郡 ≈ 1 萬人口），
 使 `BAL.soldiersPerPop = 0.025` 與 00 §6「1 萬石 ≈ 250 常備兵」目標相容。
 
-#### 3.2.2 開發方針（DevPolicy）
+#### 3.2.2 開發方針（DevelopFocus）
 
 每郡持有一個開發方針，三選一：
 
@@ -146,7 +147,7 @@ foodMonthsLeft      = foodUpkeepMonthly > 0 ? floor(foodStock / foodUpkeepMonthl
 | 商業 | `'commerce'` | 商業 | — |
 | 兵舍 | `'barracks'` | 人口 | 該郡人口自然成長 ×`BAL.barracksPopGrowthFactor`(=2.0)；該郡對所屬城的徵兵貢獻 ×`BAL.barracksConscriptBonus`(=1.25) |
 
-- **直轄郡**：玩家以 `CmdSetDevPolicy` 指令設定，永續生效直到更改。委任城的直轄郡由城主 AI 設定（09）。
+- **直轄郡**：玩家以 `CmdSetDevelopFocus` 指令設定，永續生效直到更改。委任城的直轄郡由城主 AI 設定（09）。
 - **受封郡**：領主 AI 於每月 1 日重新選擇方針（選擇規則參見 `plan/09-ai.md`），玩家不可直接更改（介面唯讀顯示）。
 
 #### 3.2.3 成長公式（每日小步進）
@@ -178,28 +179,28 @@ diminish(屬性) = 1 − (當前值 / 上限)^BAL.devDiminishExp    # BAL.devDim
 開發成長之外，人口另有自然成長：
 
 ```
-月自然成長 = population × BAL.popGrowthBase × (0.5 + security / 100)
+月自然成長 = population × BAL.popGrowthBase × (0.5 + publicOrder / 100)
              × 徵兵方針人口係數        # 低 1.1／中 1.0／高 0.5（BAL.conscriptPopFactor）
              × 政策係數                # 關所撤廢 ×1.5、城下集住 ×0.9
              × 兵舍方針係數            # 方針為 barracks 時 ×2.0
 ```
 
-- `BAL.popGrowthBase = 0.002`（/月）。上限 `populationMax`，一揆中改為每月 −1%（§3.8.3）。
+- `BAL.popGrowthBase = 0.002`（/月）。上限 `populationCap`，一揆中改為每月 −1%（§3.8.3）。
 
 ### 3.3 知行制
 
 知行＝把郡分封給武將，使其成為**領主**（`stewardId`，00 §14）。
 
-#### 3.3.1 任命規則（`CmdAppointSteward` 驗證條件）
+#### 3.3.1 任命規則（`CmdGrantFief`〔officerId≠null〕驗證條件）
 
 1. 目標郡屬於本勢力，且非一揆中。
 2. 受封武將為本勢力現役武將（非捕虜、非浪人、非當主）。
 3. 受封武將的**所在城**必須是該郡所屬城（領主須就地治理；出陣中武將不可受封）。
-4. 該武將受封郡總數（含本次）≤ `BAL.fiefLimitByRank[rank]`：
+4. 該武將受封郡總數（含本次）≤ `BAL.fiefMaxByRank[rank]`（E-03：名依 02、值採 06 序列）：
 
 | 身分 | 足輕組頭 | 足輕大將 | 侍大將 | 部將 | 家老 | 宿老 |
 |---|---|---|---|---|---|---|
-| 知行上限（郡） | 1 | 1 | 2 | 3 | 4 | 5 |
+| 知行上限（郡） | 0 | 1 | 1 | 2 | 3 | 4 |
 
 5. 一郡至多一名領主；改封（換人）視同「罷免＋任命」，套用罷免懲罰。
 
@@ -211,7 +212,7 @@ diminish(屬性) = 1 − (當前值 / 上限)^BAL.devDiminishExp    # BAL.devDim
 - **功績累積**：領主每月 1 日獲得 `BAL.stewardMeritPerDistrict(=6) × 受封郡數` 功績（功績→升格見 06）。
 - 受封中俸祿全免（§3.1.4）。
 
-#### 3.3.3 罷免規則（`CmdDismissSteward`）
+#### 3.3.3 罷免規則（`CmdGrantFief`〔officerId=null，收回知行轉直轄〕）
 
 - 隨時可罷免；郡即刻轉為直轄，開發方針保留原值。
 - 被罷免武將忠誠一次性 −`BAL.loyaltyReduceFief(=15)`，且失去該郡對應的持續忠誠加成。
@@ -310,9 +311,10 @@ BAL.soldiersPerPop = 0.025
 
 ### 3.6 兵糧與金錢輸送
 
-- 指令 `CmdTransport`：從我方城 A 輸送 `gold`（自勢力金庫扣除，抵達時入庫——金錢雖為勢力資源，
-  輸送金錢的用途是「押運銀被劫」風險敘事＋給 AI 搶劫目標；見 §8 決策 D7）與 `food`（自 A 城庫存扣除）至我方城 B。
-- 下單驗證：A、B 同勢力；`food ≤ castleA.food`；`gold ≤ clan.gold`；路徑存在（A→B 沿街道的最短路，尋路見 04）。
+- 指令 `CmdTransport`：從我方城 A 輸送 `soldiers`（自 A 城 `castle.soldiers` 扣除，用於城間駐兵調度）、
+  `gold`（自勢力金庫扣除，抵達時入庫——金錢雖為勢力資源，輸送金錢的用途是「押運銀被劫」風險敘事＋給 AI
+  搶劫目標；見 §8 決策 D7）與 `food`（自 A 城庫存扣除）至我方城 B。三欄皆 ≥0，且不得同時為 0（E-41：合併 02 的兵力輸送）。
+- 下單驗證：A、B 同勢力；`soldiers ≤ castleA.soldiers`；`food ≤ castleA.food`；`gold ≤ clan.gold`；路徑存在（A→B 沿街道的最短路，尋路見 04）。
 - 出發時生成 `TransportOrder`，物資即刻自來源扣除。輸送隊為**非戰鬥單位**，不需武將帶隊、不佔兵力。
 - 移動：沿 04 的節點圖每日推進，日速 = `BAL.marchBaseSpeed`（04 定義的步兵基準日速）
   × `BAL.transportSpeedFactor(=1.0)` × 政策係數（傳馬制 ×1.5）× 海路係數（行經海路邊且起訖任一端城有湊 ×2，否則海路邊 ×1）。
@@ -320,9 +322,10 @@ BAL.soldiersPerPop = 0.025
 - **被劫判定（每日移動結算後）**：輸送隊所在節點存在敵對 `Army`（外交敵對判定見 08）時：
   - 兵糧：敵部隊獲得 `min(輸送糧, 部隊攜行餘裕)`（攜行上限見 07），其餘散失。
   - 金錢：全額歸敵方勢力金庫。
+  - 兵力：隨輸送隊消滅而潰散，不併入敵方（押運兵非戰鬥編成）。
   - 輸送隊消滅，雙方各發報告（`report.transport.looted` / `report.transport.lootGain`）。
 - 一揆中的郡節點視同存在敵對單位（一揆軍駐於郡節點，§3.8.3）。
-- 抵達：兵糧入 B 城（受容量限制，溢出散失並報告）；金錢回勢力金庫（即：金錢輸送若安全抵達則無淨變化，僅通過風險區時有損失可能）。
+- 抵達：兵糧入 B 城（受容量限制，溢出散失並報告）；兵力併入 B 城（受 B 城 `maxSoldiers` 限制，超額散失並報告）；金錢回勢力金庫（即：金錢輸送若安全抵達則無淨變化，僅通過風險區時有損失可能）。
 - 玩家可隨時撤回未抵達的輸送隊（`CmdRecallTransport`）：就地折返，規則同上。
 
 ### 3.7 政策系統
@@ -333,7 +336,7 @@ BAL.soldiersPerPop = 0.025
 
 - **同時生效數上限** `maxActivePolicies = min(BAL.policySlotMax(=6), 1 + floor(clan.prestige / BAL.policySlotPrestige(=300)))`。
   威信 0 → 1 格；300 → 2 格；…；1500+ → 6 格。
-- 採用（`CmdAdoptPolicy`）：需滿足解鎖條件、有空格、非互斥衝突、當下金錢 ≥ 首月維持費（即刻預扣首月維持費）。
+- 採用（`CmdEnactPolicy`）：需滿足解鎖條件、有空格、非互斥衝突、當下金錢 ≥ 首月維持費（即刻預扣首月維持費）。
 - 之後每月 1 日扣維持費（§3.1.4 順序）。
 - 廢止（`CmdRevokePolicy`）：即時生效；同一政策廢止後 `BAL.policyReadoptCooldownMonths(=6)` 個月內不得再採用。
 - 效果為持續性乘數／加值，於對應公式即時查詢（無快取狀態）。
@@ -362,8 +365,8 @@ BAL.soldiersPerPop = 0.025
 
 #### 3.8.1 治安月結算（每月 1 日，`development` 步驟內）
 
-每郡 `security ∈ 0..100`。月變化為下列修正之總和，套用後 `clamp(0, 100)`；
-`security > 80` 時正向修正合計減半（軟上限）：
+每郡 `publicOrder ∈ 0..100`。月變化為下列修正之總和，套用後 `clamp(0, 100)`；
+`publicOrder > 80` 時正向修正合計減半（軟上限）：
 
 | 因素 | 修正（/月） |
 |---|---|
@@ -380,8 +383,8 @@ BAL.soldiersPerPop = 0.025
 
 ```
 對每個非一揆中、屬於任一勢力的郡：
-  if 郡.security < BAL.uprisingThreshold(=30):
-    p = (BAL.uprisingThreshold − security) × BAL.uprisingChancePerPoint(=0.02)   # security 10 → 40%/月
+  if 郡.publicOrder < BAL.uprisingThreshold(=30):
+    p = (BAL.uprisingThreshold − publicOrder) × BAL.uprisingChancePerPoint(=0.02)   # publicOrder 10 → 40%/月
     if rng.event.next() < p: 爆發一揆
 ```
 
@@ -410,8 +413,8 @@ BAL.soldiersPerPop = 0.025
 ID 型別（`DistrictId` 等）與 slug 規範見 00 §8、02。
 
 ```ts
-/** 開發方針（郡） */
-export type DevPolicy = 'agri' | 'commerce' | 'barracks';
+/** 開發方針（郡）；型別名依 02（E-07），第三值採 05 的 barracks（02/09 同步） */
+export type DevelopFocus = 'agri' | 'commerce' | 'barracks';
 
 /** 徵兵方針（城） */
 export type ConscriptPolicy = 'low' | 'mid' | 'high';
@@ -422,14 +425,14 @@ export interface DistrictDomestic {
   name: string;                    // 顯示名（繁中），如「春日井郡」
   castleId: CastleId;              // 所屬城
   kokudaka: number;                // 石高當前值（石；內部浮點，顯示 floor）
-  kokudakaMax: number;             // 石高潛力上限（石；劇本靜態）
+  kokudakaCap: number;             // 石高潛力上限（石；劇本靜態）
   commerce: number;                // 商業當前值（點 0..2000；內部浮點）
-  commerceMax: number;             // 商業潛力上限（點；劇本靜態）
+  commerceCap: number;             // 商業潛力上限（點；劇本靜態）
   population: number;              // 人口當前值（人；內部浮點）
-  populationMax: number;           // 人口潛力上限（人；劇本靜態）
-  security: number;                // 治安（0..100 整數）
+  populationCap: number;           // 人口潛力上限（人；劇本靜態）
+  publicOrder: number;             // 治安（0..100 整數）
   stewardId: OfficerId | null;     // 領主；null = 直轄
-  devPolicy: DevPolicy;            // 開發方針（受封郡由領主 AI 每月改寫）
+  developFocus: DevelopFocus;      // 開發方針（受封郡由領主 AI 每月改寫）
   uprising: UprisingState | null;  // 一揆狀態；null = 無
 }
 
@@ -497,6 +500,7 @@ export interface TransportOrder {
   clanId: ClanId;                  // 所屬勢力
   fromCastleId: CastleId;          // 出發城
   toCastleId: CastleId;            // 目的城
+  soldiers: number;                // 押運兵力（人；≥0，E-41）
   gold: number;                    // 押運金錢（貫）
   food: number;                    // 押運兵糧（石）
   path: MapNodeId[];               // 全路徑節點序列（04 尋路產出）
@@ -523,17 +527,16 @@ export interface BudgetForecast {
 
 ```ts
 export type DomesticCommand =
-  | { type: 'setDevPolicy';       districtId: DistrictId; policy: DevPolicy }        // 僅直轄郡
-  | { type: 'appointSteward';     districtId: DistrictId; officerId: OfficerId }     // §3.3.1
-  | { type: 'dismissSteward';     districtId: DistrictId }                            // §3.3.3
+  | { type: 'setDevelopFocus';    districtId: DistrictId; focus: DevelopFocus }      // 僅直轄郡（E-29）
+  | { type: 'grantFief';          districtId: DistrictId; officerId: OfficerId | null } // §3.3；officerId=null 收回直轄（E-29 合併任命/罷免）
   | { type: 'buildFacility';      castleId: CastleId; facilityId: FacilityId }        // §3.4.1
   | { type: 'cancelBuild';        castleId: CastleId; queueIndex: number }
   | { type: 'demolishFacility';   castleId: CastleId; facilityId: FacilityId }
   | { type: 'setConscriptPolicy'; castleId: CastleId; policy: ConscriptPolicy }
-  | { type: 'transport';          fromCastleId: CastleId; toCastleId: CastleId; gold: number; food: number }
+  | { type: 'transport';          fromCastleId: CastleId; toCastleId: CastleId; soldiers: number; gold: number; food: number } // 三欄皆 ≥0，不得同時為 0（E-41）
   | { type: 'recallTransport';    transportId: TransportId }
   | { type: 'tradeRice';          castleId: CastleId; mode: 'buy' | 'sell'; amount: number } // 需米問屋
-  | { type: 'adoptPolicy';        policyId: PolicyId }
+  | { type: 'enactPolicy';        policyId: PolicyId }
   | { type: 'revokePolicy';       policyId: PolicyId };
 ```
 
@@ -552,12 +555,12 @@ developmentDaily(state):
     if d.uprising !== null: continue
     for attr of ['kokudaka', 'commerce', 'population']:
       monthly = effectivePol(d) × BAL.devPolFactor
-                × weight(d.devPolicy, attr)         # 主屬性 1.0，其餘 BAL.devOffWeight
+                × weight(d.developFocus, attr)      # 主屬性 1.0，其餘 BAL.devOffWeight
                 × scale(attr)                       # 1.0 / 0.4 / 3.0
-                × (1 − (d[attr] / d[attr+'Max'])^BAL.devDiminishExp)
+                × (1 − (d[attr] / d[attr+'Cap'])^BAL.devDiminishExp)
                 × (d.stewardId ? BAL.fiefDevBonus : BAL.directDevFactor)
                 × policyDevMult(state, d, attr)     # 樂市樂座/檢地/關所撤廢 對應乘數
-      d[attr] = min(d[attr+'Max'], d[attr] + monthly / 30)
+      d[attr] = min(d[attr+'Cap'], d[attr] + monthly / 30)
 
   if 今日為每月 1 日:
     monthlyDevelopment(state)     # 治安結算 §3.8.1 → 一揆判定 §3.8.2 → 人口自然成長 §3.2.4
@@ -585,7 +588,7 @@ economyDaily(state):
     else:                                                              # 糧盡 §3.1.3
       c.food = 0
       c.soldiers = floor(c.soldiers × (1 − BAL.starveDesertRate))
-      城士氣 −2（07 欄位）；發報告（每月至多一次）
+      城士氣 −BAL.castleStarveMoraleDaily（=2，07 欄位）；發報告（每月至多一次）
 
   # (b) 建造佇列推進（每日）
   for 每城 c:
@@ -614,7 +617,7 @@ monthlyIncomeAndUpkeep(state):
     clan.gold += floor(commerceIncome(clan))          # §3.1.1，含施設/政策固定收入
     salary = Σ 現役武將俸祿（當主 0、受封領主 0）
     if clan.gold >= salary: clan.gold −= salary
-    else: clan.gold = 0；全武將忠誠 −BAL.unpaidSalaryLoyaltyHit（經 06）；發報告
+    else: clan.gold = 0；全武將忠誠 −BAL.unpaidSalaryLoyaltyPenalty（經 06）；發報告
     for pol of clan.activePolicies（由舊到新）:
       if clan.gold >= upkeep(pol): clan.gold −= upkeep(pol)
       else: 標記待廢止
@@ -634,7 +637,7 @@ transportDaily(state):
     if node 上存在對 t.clanId 敵對的 Army 或一揆軍:
       被劫結算（§3.6）；移除 t；continue
     if 抵達終點:
-      food 入城（容量截斷）；gold 回勢力金庫；移除 t；發 report.transport.arrived
+      food 入城（容量截斷）；soldiers 併入 B 城（maxSoldiers 截斷）；gold 回勢力金庫；移除 t；發 report.transport.arrived
 ```
 
 ### 5.5 米買賣（`tradeRice`，即時結算）
@@ -653,8 +656,9 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
 | `BAL.harvestRate` | 0.3 | 秋收入庫比例 |
 | `BAL.garrisonFoodPerSoldierMonthly` | 0.1 | 石/人/月（駐城） |
 | `BAL.starveDesertRate` | 0.01 | 糧盡每日逃兵率 |
-| `BAL.salaryByRank` | 2/4/7/12/20/30 | 貫/月（六階） |
-| `BAL.unpaidSalaryLoyaltyHit` | 3 | 欠俸忠誠懲罰 |
+| `BAL.castleStarveMoraleDaily` | 2 | 一般（非圍城）糧盡城士氣日扣（E-14/E-15 表 C 新增） |
+| `BAL.rankSalary` | 3/6/10/15/22/30 | 貫/月（六階；名依 06、值以 15 定案，E-04） |
+| `BAL.unpaidSalaryLoyaltyPenalty` | 2 | 欠俸忠誠懲罰（06 擁有，值 15 定案；原名 unpaidSalaryLoyaltyHit） |
 | `BAL.fiefTaxRate` | 0.7 | 受封郡上繳率 |
 | `BAL.devPolFactor` | 0.6 | 點/政務點/月 |
 | `BAL.devOffWeight` | 0.15 | 非方針屬性權重 |
@@ -665,7 +669,7 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
 | `BAL.popGrowthBase` | 0.002 | 人口月自然成長率 |
 | `BAL.barracksPopGrowthFactor` / `BAL.barracksConscriptBonus` | 2.0 / 1.25 | 兵舍方針 |
 | `BAL.conscriptPopFactor` | 1.1/1.0/0.5 | 低/中/高 |
-| `BAL.fiefLimitByRank` | 1/1/2/3/4/5 | 郡（六階） |
+| `BAL.fiefMaxByRank` | 0/1/1/2/3/4 | 郡（六階；名依 02、值採 06 序列，E-03） |
 | `BAL.fiefLoyaltyBonus` / `BAL.fiefLoyaltyPerDistrict` | 5 / 3 | 受封忠誠加成 |
 | `BAL.stewardMeritPerDistrict` | 6 | 功績/郡/月 |
 | `BAL.loyaltyReduceFief` | 15 | 罷免忠誠懲罰 |
@@ -700,11 +704,11 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
   施設格狀面板（空 slot 點擊開建造選單，不滿足前置的施設以灰階＋原因 tooltip 顯示）、
   徵兵方針三段切換、兵糧庫存與容量條。
 - **知行任命**：自郡列點「任命領主」→ 開啟該城駐將清單（顯示身分/政務/忠誠/現有知行數），
-  不符資格者灰階＋原因；確認即送出 `appointSteward`。罷免需二次確認（顯示忠誠懲罰警告）。
+  不符資格者灰階＋原因；確認即送出 `grantFief`。罷免需二次確認（顯示忠誠懲罰警告）。
 - **收支預覽**：常駐 HUD 顯示金錢與「月淨額（±N貫）」；點擊展開 `BudgetForecast` 明細面板。
   兵糧列顯示「可支撐 N 個月」，N ≤ 2 時數字以警告色顯示。
 - **政策畫面**：12 項卡片；生效中高亮、互斥者標記、未解鎖顯示條件；頂部顯示「生效 N / 上限 M」。
-- **輸送**：自城情報點「輸送」→ 選目的城（地圖高亮可達城）→ 拉桿設定金/糧 → 顯示預估日數與路線，確認送出。
+- **輸送**：自城情報點「輸送」→ 選目的城（地圖高亮可達城）→ 拉桿設定兵/金/糧 → 顯示預估日數與路線，確認送出。
 
 ### 6.2 字串表（併入 `src/i18n/zh-TW.ts`；key 規範見 00 §9）
 
@@ -810,7 +814,7 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
 - [ ] **T5-8 政策**：解鎖三途徑（威信/官位/事件）、slot 上限、互斥、冷卻、維持費。
   **驗收**：威信 299→300 時 slot 1→2；互斥對同時採用被拒；廢止後 6 個月內再採用被拒。
 - [ ] **T5-9 治安與一揆**：月結算全因素、判定（`rng.event`）、一揆軍生成、產出歸零、鎮壓/自然平息。
-  **驗收**：security 10 時以種子固定重放 100 個月，爆發頻率 ≈ 40%（±5%）；一揆中郡收入/秋收/徵兵為 0；golden test 重放一致。
+  **驗收**：publicOrder 10 時以種子固定重放 100 個月，爆發頻率 ≈ 40%（±5%）；一揆中郡收入/秋收/徵兵為 0；golden test 重放一致。
 - [ ] **T5-10 收支預覽 selector 與 UI 字串**：`selectBudgetForecast` 純函式；§6.2 字串入 `zh-TW.ts`。
   **驗收**：預覽值與次月 1 日實際結算相符（狀態未變時）；簡體字掃描（17）通過。
 
@@ -839,8 +843,35 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
   避免快取失效 bug；效能上每 tick 查詢次數 O(郡數)，可忽略。
 - **D10 互斥對僅兩組**（寺社保護↔南蠻貿易、兵農分離↔五人組）：互斥是敘事性取捨（宗教路線／
   兵制路線），過多互斥會讓政策格上限（威信驅動）的取捨感被稀釋。
-- **D11 欠俸懲罰採全員一次性 −3 而非個別欠薪追蹤**：避免每武將應收帳款狀態；懲罰月月重複發生
+- **D11 欠俸懲罰採全員一次性 −2 而非個別欠薪追蹤**：避免每武將應收帳款狀態；懲罰月月重複發生
   即形成足夠的財政壓力訊號。
+
+### 8.1 勘誤消化記錄（2026-07-07，依 19 §3.13 與 15 §5.2）
+
+- **E-03（2026-07-07）**：知行郡數上限常數 `fiefLimitByRank`（1/1/2/3/4/5）改名為 `fiefMaxByRank`（名依 02），
+  值改為 06 序列 **0/1/1/2/3/4**（足輕組頭無知行）。改動 §3.3.1 規則 4 與其上限表、§5.6 彙整。依據：E-03、15 §5.2 表 A/B。
+- **E-04（2026-07-07）**：家臣俸祿常數 `salaryByRank`（2/4/7/12/20/30）改名為 `rankSalary`（名依 06），
+  值改為 **3/6/10/15/22/30**。改動 §3.1.4 俸祿公式與俸祿表、§5.6 彙整。依據：E-04、15 §5.2 表 A/B。
+- **E-07（2026-07-07）**：開發方針型別 `DevPolicy` 改名為 `DevelopFocus`（名依 02，第三值維持 05 的 `barracks`），
+  郡欄位 `devPolicy` 改名為 `developFocus`（對齊 02 `District.developFocus`）。改動 §3.2.2 標題、§4 型別與 `DistrictDomestic`、§5.1 公式。依據：E-07。
+- **E-29（2026-07-07，部分）**：內政 Command 名對齊 02 §4.18 既有聯集——`setDevPolicy`→`setDevelopFocus`（欄位 `policy`→`focus`）、
+  `adoptPolicy`→`enactPolicy`、`appointSteward`＋`dismissSteward` 合併為 `grantFief`（`officerId=null` 收回直轄，與 02／06 一致）。
+  改動 §3.2.2、§3.3.1／§3.3.3 標題、§3.7.1、§4 命令聯集、§6.1 流程。
+  **未套用（needsReview）**：施設命令 `buildFacility`／`demolishFacility` 之參數與型別（`facilityId`/`FacilityId` vs 02 之 `facilityTypeId`/`FacilityTypeId`、`slotIndex`）；
+  因 02 之施設命令正由 E-39 改寫（改為佇列制、去 `slotIndex`），其定案形尚未穩定，留待 E-29／E-39 協同一次處理。依據：E-29、02 §4.18。
+- **E-08（2026-07-07）**：郡治安欄位 `security` 改名為 `publicOrder`（依 02；BAL 常數 `securityOnSubjugated`／`securityAfterSuppress`／`uprisingThreshold`
+  之名稱不變）。改動 §3.2.4、§3.8.1、§3.8.2、§4 `DistrictDomestic`、§7 驗收字句。i18n key（`ui.district.security`）屬 13 範圍未動。依據：E-08。
+- **E-09（2026-07-07）**：郡潛力上限欄位 `kokudakaMax`／`commerceMax`／`populationMax` 改名為 `*Cap`（依 02）。
+  改動 §3.2.1 表、§3.2.4、§4 `DistrictDomestic`、§5.1 公式。依據：E-09。
+- **E-14（2026-07-07）**：出陣糧耗引用由不存在的 `marchFoodPerSoldierMonthly`（建議 0.3）改為 07 的 `fieldFoodPerSoldierDaily`（0.02 石/人/日）；
+  §3.1.5 收支預覽月額改為 `fieldFoodPerSoldierDaily × 30`（=0.6/月）。改動 §3.1.3、§3.1.5。依據：E-14、15 §5.2 表 A/B/C。
+- **E-41（2026-07-07）**：`CmdTransport` 併入兵力輸送，`transport` 指令與 `TransportOrder` 新增 `soldiers` 欄（三欄 soldiers/gold/food 皆 ≥0、不得同時為 0）；
+  §3.6 補押運兵力之扣除／抵達（受 `maxSoldiers` 截斷）／被劫（潰散）規則、§5.4 抵達併入。改動 §3.6、§4、§5.4。依據：E-41。
+- **E-53（2026-07-07）**：罷免領主忠誠懲罰由 `dismissLoyaltyPenalty` 改引 06 之 `loyaltyReduceFief`（=15，收回知行統一走此）。改動 §3.3.3、§5.6。依據：E-53、15 §5.2 表 B/C。
+- **糧盡城士氣常數命名（2026-07-07）**：§3.1.3／§5.2 原「城士氣每日 −2」未命名者，新增常數 `castleStarveMoraleDaily`(=2)，
+  並註明此為非圍城之一般糧盡路徑（圍城改用 07 規則，互斥）。改動 §3.1.3、§5.2、§5.6。依據：15 §5.2 表 C。
+- **欠俸忠誠懲罰別名併入（2026-07-07）**：`unpaidSalaryLoyaltyHit`(=3) 併入 06 擁有之 `unpaidSalaryLoyaltyPenalty`(=2)。
+  改動 §3.1.4、§5.3、§5.6、決策 D11。依據：15 §5.2 表 A/B。
 
 ---
 

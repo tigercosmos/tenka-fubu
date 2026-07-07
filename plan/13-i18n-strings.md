@@ -146,8 +146,9 @@ t(key, params):
   使「實體 ID → i18n key」可機械推導：`${id}.name`、`${id}.desc`。
   例外：施設名 key 為 `term.facility.<slug>`（05 §4 `FacilityDef.nameKey` 已定案，尊重之）。
 - key 字元規則（`tools/validate.ts` 與 17 的測試共同檢查）：
-  `^(ui|cmd|report|term|evt|trait|tac|pol|err)\.[a-z][a-zA-Z0-9]*(\.[a-z0-9][a-zA-Z0-9-]*)*$`
-  ——段內 camelCase；嵌入實體 slug 的段允許連字號（如 `tac.fire-arrow.name`）。
+  `^(ui|cmd|report|term|evt|trait|tac|pol|err)\.[a-z][a-zA-Z0-9-]*(\.[a-z0-9][a-zA-Z0-9-]*)*$`
+  ——段內 camelCase；嵌入實體 slug 的段允許連字號（首段亦同，如 `tac.fire-arrow.name`、
+  `report.save.autosave-failed`）。
 - 新增 key 必須落在上表九區段之一；不得新設頂層前綴。
 
 #### 3.4.2 動態 key 模式（enum 值 → key）
@@ -181,10 +182,10 @@ UI 依 enum 值組 key 的固定模式（全部列舉；實作時以樣板字串
   提示句可用全形驚嘆號「！」（戰報）與頓號「、」。
 - 數量單位緊貼數字（00 §9）：`3,000兵`、`12,500石`、`800貫`、`90日`——模板寫作
   `{soldiers}兵`，不寫 `{soldiers} 兵`。
-- **全案禁止簡體字與日文新字體**。高風險字對照（正→誤）：樂（楽）、戰（戦）、
-  關（関）、檢（検）、將（将）、亂（乱）、榮（栄）、齊（斉）、澤（沢）、邊（辺）、
-  賴（頼）、櫻（桜）、鐵（鉄）、廢（廃）、氣（気）、餘（余＝可，「余」僅作第一人稱）。
-  黑名單掃描見 17。
+- **全案禁止簡體字與日文新字體**。高風險正字（樂、戰、關、檢、將、亂、榮、齊、澤、邊、
+  賴、櫻、鐵、廢、氣、餘等）與其對應誤字形之完整「正→誤」對照，見 `plan/19-glossary.md`
+  §3.12；本文件不內嵌任何誤字形，以免掃描器自傷（19 §3.12 屬掃描 allowlist 檔案，見 17）。
+  「余」僅作第一人稱使用；黑名單掃描見 17。
 
 ### 3.5 來源文件 key 正名對照（衝突裁定，canonical）
 
@@ -1294,3 +1295,13 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 - **D10｜v1.0 不做字串抽換／模組懶載入**：全表約 500 條、UTF-8 約 40KB，直接打包
   進主 bundle 即可；懶載入徒增載入狀態處理。多語系化（含 key 不變、換表）留待未來，
   屆時 `zhTW` 物件換成表選擇器即可，`t()` 簽名不變。
+- **D11｜E-70：key 正規式首段允許連字號**（2026-07-07，依 `plan/19-glossary.md` §3.13
+  E-70）：§3.4.1 key 字元規則正規式第一段由 `[a-z][a-zA-Z0-9]*` 改為 `[a-z][a-zA-Z0-9-]*`，
+  使嵌入實體 slug 的首段（如 `tac.fire-arrow.name`）與後段（如 `report.save.autosave-failed`）
+  皆能通過 `tools/validate.ts` 與 17 的格式驗證；先前僅後段允許連字號，與同節「嵌入 slug
+  的段允許連字號」之敘述及 `tac.fire-arrow.*` 既有 key 相矛盾。
+- **D12｜E-72：移除 §3.4.3 行內誤字形，改引 19 §3.12**（2026-07-07，依
+  `plan/19-glossary.md` §3.13 E-72）：原「高風險字對照（正→誤）」於括號內嵌日文新字體
+  誤字形示例；因本文件不在禁用字掃描 allowlist（19 §4 `FORBIDDEN_ALLOWLIST_FILES`）之列，
+  該行會遭 17 掃描器自傷。改為僅列繁體正字並引用 `plan/19-glossary.md` §3.12 之完整
+  「正→誤」對照表，本文件不再內嵌任何誤字形。

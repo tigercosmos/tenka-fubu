@@ -13,7 +13,7 @@
 不需要再做任何視覺設計決策。內容包含：
 
 1. Design tokens 完整表（CSS custom properties 與 TypeScript 常數雙形式）。
-2. 20 個共用 React 元件的 props 介面、狀態、行為、樣式要點。
+2. 24 個共用 React 元件的 props 介面、狀態、行為、樣式要點。
 3. PixiJS 地圖場景內 8 種視覺元件的繪製參數。
 4. 動畫規範與 `prefers-reduced-motion` 支援。
 5. 無障礙基線。
@@ -99,6 +99,9 @@ Pixi 繪製程式一律以 `TOKENS_NUM.xxx` 引用。
 | `--accent-moss` | `#3f6b35` | 綠：成功、成長、開發（文字安全） |
 | `--accent-moss-bright` | `#5c9450` | 綠亮色：裝飾、進度條填色 |
 | `--neutral-clanless` | `#8c8c84` | 無主郡／浪人的中立灰 |
+| `--trait-legendary` | `#b8862d` | 特性稀有度・傳說徽章色（金；語意見 `plan/06-officers.md` §3.3／§6.2） |
+| `--trait-rare` | `#6a4a86` | 特性稀有度・稀有徽章色（紫） |
+| `--trait-common` | `#5f6f7c` | 特性稀有度・普通徽章色（灰藍） |
 
 和紙質感：`--texture-washi` 為內嵌 data URI 的 SVG `feTurbulence` 雜訊
 （`baseFrequency=0.9`、`numOctaves=2`、灰階、鋪磚 128×128），以
@@ -632,6 +635,92 @@ interface EmptyStateProps {
 - 置中直排：圖示 40px（`--ink-100`）→ 文字（`--ink-500`、`--font-size-sm`）→ 次要按鈕。
 - 用於：空表格、無報告、無俘虜、無可用武將等。
 
+#### 3.2.21 RadioGroup — 單選鈕群組
+
+```ts
+interface RadioOption<T extends string = string> {
+  value: T;
+  label: string;              // 已翻譯
+  disabled?: boolean;
+  disabledReason?: string;    // 已翻譯；hover／聚焦時以 Tooltip 顯示不可用原因
+}
+interface RadioGroupProps<T extends string = string> {
+  name: string;               // 群組名（同組互斥）
+  options: RadioOption<T>[];
+  value: T;
+  onChange: (value: T) => void;
+  label?: string;             // 已翻譯：群組標題（<legend>）
+  orientation?: 'vertical' | 'horizontal'; // 預設 'vertical'
+  disabled?: boolean;         // 整組停用
+}
+```
+
+- 用於單選設定（如徵兵方針 低／中／高、開發重點、難易度、攻城模式 強攻／包圍）。
+- 樣式：每項左側 16px 圓形指示器（選取時內填 8px `--accent-gold`、外框 1.5px `--ink-700`），
+  右側 label（`--font-size-sm`）；項間距 `--space-2`；水平排列時各項以 `--space-4` 分隔。
+- 結構：`<fieldset>` ＋ `<legend>`（label）；容器 `role="radiogroup"`；各項 `role="radio"` ＋ `aria-checked`。
+- 鍵盤：`↑`/`↓`（水平時 `←`/`→`）於選項間移動並即時 onChange、跳過 disabled；`Home`/`End` 到端點；
+  焦點進入群組時落在目前選中項（roving tabindex）。
+
+#### 3.2.22 Checkbox — 核取方塊
+
+```ts
+interface CheckboxProps {
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  label?: string;             // 已翻譯；省略時須給 ariaLabel
+  ariaLabel?: string;         // label 省略時必填
+  disabled?: boolean;
+  indeterminate?: boolean;    // 部分選取態（如表頭全選欄）
+}
+```
+
+- 用於布林選項（如「顯示 ETA 標籤」「僅顯示未讀」）。
+- 樣式：16px 方形（`--radius-sm`）、外框 1.5px `--ink-700`；勾選時底 `--accent-gold` 20% 透明度
+  ＋ `--ink-900` 勾號（inline SVG）；indeterminate 改畫一條 `--ink-900` 橫線。
+- 以原生 `<input type="checkbox">` 實作；label 用 `<label>` 關聯，整塊可點；Space 切換（原生）。
+
+#### 3.2.23 Switch — 開關
+
+```ts
+interface SwitchProps {
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  label?: string;             // 已翻譯
+  ariaLabel?: string;         // label 省略時必填
+  disabled?: boolean;
+}
+```
+
+- 語意上同 Checkbox 的布林值，但用於「切換後立即生效」的偏好（設定畫面）；表單型勾選用 Checkbox，
+  即時開關用 Switch。
+- 樣式：軌 36×20px（`--radius-round`）——關＝底 `--ink-300`、把手靠左；開＝底 `--accent-moss`、把手靠右；
+  把手 16px 圓 `--washi-100`；位移過渡 `--duration-fast`（reduce-motion 時直接跳位）。
+- `role="switch"` ＋ `aria-checked`；Space／Enter 切換。
+
+#### 3.2.24 TextInput — 文字輸入
+
+```ts
+interface TextInputProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;       // 已翻譯
+  label?: string;             // 已翻譯；省略時須給 ariaLabel
+  ariaLabel?: string;         // label 省略時必填
+  maxLength?: number;
+  disabled?: boolean;
+  invalid?: boolean;          // 驗證失敗態（朱紅外框）
+  leadingIcon?: IconName;     // 前置圖示（如 'search'）
+  onEnter?: () => void;       // 按 Enter 提交（如搜尋、存檔命名）
+}
+```
+
+- 用於**文字**輸入（存檔命名、武將／城搜尋框）；**數量輸入一律用 `NumberSlider`**（§6 慣例 3），
+  本元件不承載數值調整。
+- 樣式：高 32px、底 `--washi-300`、內框 1px `--ink-300`、`--radius-sm`、字級 `--font-size-sm`；
+  `invalid` 時外框改 `--accent-vermilion`；有 `leadingIcon` 時左內距加 `--space-6`。
+- 以原生 `<input type="text">` 實作；label 用 `<label>` 關聯或以 ariaLabel 提供；`invalid` 時加 `aria-invalid="true"`。
+
 ### 3.3 PixiJS 場景內元件
 
 以下元件是 `src/ui/map/sceneParts/` 內的 Pixi 繪製模組（每個一檔，工廠函式回傳
@@ -775,6 +864,7 @@ src/ui/
 │   ├── ReportStack/  ContextPanel/  ConfirmDialog/  Badge/  ProgressBar/
 │   ├── IconButton/          # 內含 icons.tsx（SVG sprite）
 │   ├── MenuList/  EmptyState/
+│   ├── RadioGroup/  Checkbox/  Switch/  TextInput/   # 表單控制元件
 │   └── dev/ComponentGallery.tsx   # 展示路由頁
 └── map/sceneParts/
     ├── armyChip.ts  castleNode.ts  districtNode.ts  selectionRing.ts
@@ -1060,6 +1150,17 @@ dismiss(id): 播退場動畫（--duration-normal）後自 stack 移除
   降低設定面與測試矩陣；OS 層級偏好已覆蓋目標使用者情境。
 - **D9｜Dialog 不內建「開啟即暫停」**：暫停屬遊戲時間規則（03 的自動暫停清單），由呼叫端下指令；
   元件庫保持零 core 依賴方向（components → core 只允許型別與 selector）。
+- **D10｜補齊表單控制元件（2026-07-07，依 `plan/19-glossary.md` §3.13 勘誤 E-68）**：
+  11 多畫面（設定、徵兵方針、攻城模式、存檔命名、搜尋）需要單選鈕群組／核取方塊／開關／文字輸入，
+  原 §3.2 二十元件未涵蓋。故於 §3.2 增 §3.2.21 RadioGroup、§3.2.22 Checkbox、§3.2.23 Switch、
+  §3.2.24 TextInput 四規格（共用元件計 20→24），並同步更新 §1.1 元件數與 §3.6 目錄結構。
+  依 E-68 建議定案「12 §3.2 增 RadioGroup／Checkbox／Switch／TextInput 規格」。
+  沿用 §6 慣例 3：數量輸入仍一律走 `NumberSlider`，TextInput 僅承載文字。
+- **D11｜補特性稀有度色彩 token（2026-07-07，依 `plan/19-glossary.md` §3.13 勘誤 E-75）**：
+  06 §6.2 指定稀有度徽章色 `--trait-legendary`（金）／`--trait-rare`（紫）／`--trait-common`（灰藍）
+  並註明「值見 12」，而原 §3.1.2 色彩表缺此三 token。故於 §3.1.2 補三 token 並給定案值
+  `#b8862d`／`#6a4a86`／`#5f6f7c`（色相對應 06 之金／紫／灰藍）。依 E-75 建議定案「12 §3.1.2 補三 token 並給值」。
+  此三色僅作徽章色（非和紙底內文），不列入 §3.5 對比配對表。
 
 ---
 
