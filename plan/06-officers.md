@@ -322,7 +322,7 @@ successRate = clamp(
 #### 3.7.2 捕虜處置
 
 捕虜的產生條件見 07（合戰大勝、攻城落城時機率捕獲敵將）。捕虜 `status='captive'`、
-`captorClanId` 為捕獲方、關押於捕獲方指定城（07 給定）。處置指令 `HandleCaptiveCommand`，
+`capturedByClanId` 為捕獲方、關押於捕獲方指定城（07 給定）。處置指令 `HandleCaptiveCommand`，
 三種 `disposition`：
 
 **(a) 登用**（執行者＝同城我方武將，未指定則以當主能力代入）：
@@ -531,7 +531,7 @@ interface Officer {
   fiefDistrictIds: DistrictId[];      // 知行郡（與 District.stewardId 互為反向索引，05）
   locationCastleId: CastleId;         // 所在城（出陣中以 Army 為準；捕虜＝關押城）
   corpsId: CorpsId | null;            // 所屬軍團（07）
-  captorClanId: ClanId | null;        // 捕虜時的捕獲方
+  capturedByClanId: ClanId | null;        // 捕虜時的捕獲方
   captiveRetryOn: GameDate | null;    // 捕虜登用失敗後，下次可嘗試日
   recruitRetryOn: GameDate | null;    // 浪人登用失敗後，本勢力下次可嘗試日（單一勢力冷卻即可：
                                       //   浪人只存在於一座城，僅該城所屬勢力能嘗試）
@@ -622,7 +622,7 @@ interface RecruitRoninCommand {
 interface HandleCaptiveCommand {
   type: 'handleCaptive';
   clanId: ClanId;
-  targetId: OfficerId;                          // 目標捕虜（captorClanId === clanId）
+  targetId: OfficerId;                          // 目標捕虜（capturedByClanId === clanId）
   disposition: 'recruit' | 'release' | 'execute';
   executorId: OfficerId | null;                 // 登用時的執行者；null＝以當主代入
 }

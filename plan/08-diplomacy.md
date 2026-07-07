@@ -245,7 +245,7 @@ s1560 開局：室町幕府存續，將軍足利義輝（`off.ashikaga-yoshiteru
 | 執行週期 | 每月進度 `+ BAL.plotPoachProgressBase(=25) + 知略/BAL.plotPoachProgressIntDivisor(=4)`（知略 100 → 50/月，約 2 個月） |
 | 費用 | 每月 `BAL.plotMonthlyCost = 30` 貫；一次性投入 `investGold ∈ {0, 200, 500, 1000}`（下達時四選一） |
 | 成功率 | `p = clamp(BAL.plotPoachBase(=0.10) + (100 − 目標忠誠)/BAL.plotPoachLoyaltyDivisor(=200) + (知略 − 50)/BAL.plotPoachIntDivisor(=300) + investGold/BAL.plotPoachGoldDivisor(=2500), BAL.plotPoachPMin(=0.05), BAL.plotPoachPMax(=0.85))` |
-| 成功效果 | 目標即日移籍我方（安置於我方本城、官職與知行剝奪、忠誠設為 `BAL.plotPoachInitialLoyalty = 60`；移籍細節參見 06）；原主對我感情 `-20`（`BAL.plotPoachSuccessSentimentHit`） |
+| 成功效果 | 目標即日移籍我方（安置於我方本城、官職與知行剝奪、忠誠設為 `BAL.poachedInitialLoyalty = 45`（名/值依 15 §5.2、勘誤 E-33）；移籍細節參見 06）；原主對我感情 `-20`（`BAL.plotPoachSuccessSentimentHit`） |
 | 失敗敗露 | 敗露率 `BAL.plotExposeChancePoach = 0.5`；敗露→目標勢力對我感情 `BAL.plotPoachExposeSentimentHit = -15`、目標武將忠誠 `+BAL.plotPoachExposeLoyaltyGain = 10`（警覺） |
 
 #### 3.7.2 流言（rumor）——動搖忠誠或士氣

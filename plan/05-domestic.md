@@ -214,7 +214,7 @@ diminish(屬性) = 1 − (當前值 / 上限)^BAL.devDiminishExp    # BAL.devDim
 #### 3.3.3 罷免規則（`CmdDismissSteward`）
 
 - 隨時可罷免；郡即刻轉為直轄，開發方針保留原值。
-- 被罷免武將忠誠一次性 −`BAL.dismissLoyaltyPenalty(=15)`，且失去該郡對應的持續忠誠加成。
+- 被罷免武將忠誠一次性 −`BAL.loyaltyReduceFief(=15)`，且失去該郡對應的持續忠誠加成。
 - 領主所在城被敵方攻陷、或領主死亡／出奔／被引拔時，其受封郡自動轉直轄（不套罷免懲罰）。
 - 郡被敵方制壓翻轉歸屬時（04），知行自動解除（不套罷免懲罰）。
 
@@ -668,7 +668,7 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
 | `BAL.fiefLimitByRank` | 1/1/2/3/4/5 | 郡（六階） |
 | `BAL.fiefLoyaltyBonus` / `BAL.fiefLoyaltyPerDistrict` | 5 / 3 | 受封忠誠加成 |
 | `BAL.stewardMeritPerDistrict` | 6 | 功績/郡/月 |
-| `BAL.dismissLoyaltyPenalty` | 15 | 罷免忠誠懲罰 |
+| `BAL.loyaltyReduceFief` | 15 | 罷免忠誠懲罰 |
 | `BAL.mainCastleSlots` / `BAL.branchCastleSlots` | 6 / 3 | 施設 slot |
 | `BAL.buildQueueSize` / `BAL.buildRefundRate` | 3 / 0.5 | 佇列/退款 |
 | `BAL.castleFoodCapMain` / `BAL.castleFoodCapBranch` | 60000 / 30000 | 石 |
