@@ -94,7 +94,7 @@ effectiveStat = min(120, baseStat + statGrowth)    // statGrowth 見 §3.2
 
 ### 3.3 特性（Trait）
 
-- 每名武將持有 0..`BAL.maxTraitsPerOfficer`（建議 **3**）個特性，由劇本資料指定
+- 每名武將持有 0..`BAL.maxTraitsPerOfficer`（定案 **4**，值依 15／E-05）個特性，由劇本資料指定
   （浪人程序生成池的特性抽取規則見 `14`）。v1.0 不提供特性後天習得（§8 D-3）。
 - 特性效果為**被動、無條件常駐**，於掛鉤點以乘數（`mult`：最終值 ×(1+value) 或 ×(1−value)）
   或加值（`add`：直接加到機率/點數）介入。同類 hook 多來源時：`mult` 相乘、`add` 相加。
@@ -160,18 +160,18 @@ effectiveStat = min(120, baseStat + statGrowth)    // statGrowth 見 §3.2
 
 #### 3.4.2 身分特權表
 
-| 身分 | 可任城主 | 可任軍團長 | 知行郡數上限 `BAL.rankFiefCap[i]` | 帶兵上限加成 `BAL.rankTroopBonus[i]` | 月俸祿（貫）`BAL.rankSalary[i]` |
+| 身分 | 可任城主 | 可任軍團長 | 知行郡數上限 `BAL.fiefMaxByRank[i]` | 帶兵上限 `BAL.rankTroopCap[i]`（人，絕對值） | 月俸祿（貫）`BAL.rankSalary[i]` |
 |---|---|---|---|---|---|
-| 足輕組頭 | 否 | 否 | 0 | +0% | 3 |
-| 足輕大將 | 否 | 否 | 1 | +10% | 6 |
-| 侍大將 | 可 | 否 | 1 | +20% | 10 |
-| 部將 | 可 | 否 | 2 | +30% | 15 |
-| 家老 | 可 | 可 | 3 | +40% | 22 |
-| 宿老 | 可 | 可 | 4 | +50% | 30 |
+| 足輕組頭 | 否 | 否 | 0 | 500 | 3 |
+| 足輕大將 | 否 | 否 | 1 | 1,000 | 6 |
+| 侍大將 | 可 | 否 | 1 | 2,000 | 10 |
+| 部將 | 可 | 否 | 2 | 3,000 | 15 |
+| 家老 | 可 | 可 | 3 | 5,000 | 22 |
+| 宿老 | 可 | 可 | 4 | 8,000 | 30 |
 
-- `BAL.rankFiefCap = [0, 1, 1, 2, 3, 4]`、`BAL.rankTroopBonus = [0, 0.10, 0.20, 0.30, 0.40, 0.50]`、
-  `BAL.rankSalary = [3, 6, 10, 15, 22, 30]`。
-- 帶兵上限＝07 定義之基礎值 ×(1 + `BAL.rankTroopBonus[rankIndex]`)，四捨五入取整。
+- `BAL.fiefMaxByRank = [0, 1, 1, 2, 3, 4]`、`BAL.rankSalary = [3, 6, 10, 15, 22, 30]`。
+- 帶兵上限＝`BAL.rankTroopCap[rankIndex]`（07 §3.1 定義之絕對值上限，六階 500/1000/2000/3000/5000/8000）；
+  原乘數制 `rankTroopBonus` 已廢除（帶兵成長已內含於絕對值表，勘誤 E-37）。
 - **俸祿**：每月 1 日經濟月結（參見 05）時，勢力對每名**無知行**的在籍武將支付
   `BAL.rankSalary[rankIndex]` 貫；**持有知行（`fiefDistrictIds.length > 0`）者不支俸祿**
   （知行收益即其待遇，收益歸屬見 05；取捨見 §8 D-5）。
@@ -371,7 +371,7 @@ captiveRecruitRate = clamp(
 #### 3.8.2 加封知行
 
 分封指令與流程屬 05（參見 05 知行章節）；本文件定義：新增一郡知行時忠誠
-+`BAL.loyaltyGrantFief`=8；知行郡數不得超過 `BAL.rankFiefCap[rankIndex]`（05 的指令驗證器須引用本表）。
++`BAL.loyaltyGrantFief`=8；知行郡數不得超過 `BAL.fiefMaxByRank[rankIndex]`（05 的指令驗證器須引用本表）。
 
 #### 3.8.3 身分推舉（`PromoteRankCommand`）
 
@@ -793,9 +793,9 @@ traitModifier(o, hook) -> { mult: number, add: number }:
 
 ### 5.10 BAL 常數彙整（本文件新增；定案值以 15 為準）
 
-能力成長：`statExpPerPoint`=100、`statGrowthCap`=5、`maxTraitsPerOfficer`=3。
-身分：`rankMeritThresholds`=[0,300,800,1600,3000,5000]、`rankFiefCap`=[0,1,1,2,3,4]、
-`rankTroopBonus`=[0,0.10,0.20,0.30,0.40,0.50]、`rankSalary`=[3,6,10,15,22,30]、
+能力成長：`statExpPerPoint`=100、`statGrowthCap`=5、`maxTraitsPerOfficer`=4（值依 15，E-05）。
+身分：`rankMeritThresholds`=[0,300,800,1600,3000,5000]、`fiefMaxByRank`=[0,1,1,2,3,4]、
+`rankTroopCap`={500,1000,2000,3000,5000,8000}（絕對值，07；rankTroopBonus 廢除 E-37）、`rankSalary`=[3,6,10,15,22,30]、
 `unpaidSalaryLoyaltyPenalty`=2。
 功績：`meritProposalAdopted`=30、`meritDevelopment`=10、`meritStewardMonthly`=5、
 `meritFieldWin`=20、`meritFieldLose`=5、`meritBattleWin`=40、`meritBattleAweBonus`=20、
