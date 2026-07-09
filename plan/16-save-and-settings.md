@@ -258,7 +258,7 @@ export const MIGRATIONS: SaveMigration[] = []
 | 8 | `notificationFilter` | `NotificationFilterLevel` | `'all'` | `'all' / 'major' / 'critical'` | 即時 | 通知 toast 的過濾等級；對應 Report 嚴重度（分級定義見 03）。報告記錄畫面永遠顯示全部 |
 | 9 | `mapLabelDensity` | `MapLabelDensity` | `'medium'` | `'high' / 'medium' / 'low'` | 即時 | 地圖標籤密度；各檔位實際顯示哪些標籤由 04 的 LOD 規則定義 |
 | 10 | `effectsEnabled` | `boolean` | `true` | — | 即時 | 地圖動態特效（行軍軌跡、威風擴散波紋等，作用對象見 04／12）；關閉以提升低階機效能 |
-| 11 | `uiScale` | `number` | `1.0` | `BAL.uiScaleMin = 0.8` ～ `BAL.uiScaleMax = 1.5`，步進 `BAL.uiScaleStep = 0.05` | 即時 | 介面縮放；實作為根元素 CSS 變數 `--ui-scale`，全 UI 以 rem 基準縮放（不影響 Pixi 地圖視口） |
+| 11 | `uiScale` | `number` | `1.0` | `UI.uiScaleMin = 0.8` ～ `UI.uiScaleMax = 1.5`，步進 `UI.uiScaleStep = 0.05`（12 §3.1.8） | 即時 | 介面縮放；實作為根元素 CSS 變數 `--ui-scale`，全 UI 以 rem 基準縮放（不影響 Pixi 地圖視口） |
 | 12 | `audio.masterVolume` | `number` | `70` | `0..100` 整數 | 即時（v1 無作用） | **v1 預留**：設定畫面中整組隱藏（`FEATURE_AUDIO = false` 編譯旗標），欄位保留於 schema |
 | 13 | `audio.muted` | `boolean` | `false` | — | 同上 | v1 預留，隱藏 |
 | 14 | `language` | `'zh-TW'` | `'zh-TW'` | 僅此一項 | — | 顯示為停用的下拉選單，固定「繁體中文（台灣）」；架構上為未來多語系留欄位 |
@@ -462,7 +462,7 @@ export interface GameSettings {
   mapLabelDensity: MapLabelDensity
   /** 地圖動態特效開關 */
   effectsEnabled: boolean
-  /** 介面縮放倍率（BAL.uiScaleMin..BAL.uiScaleMax，步進 BAL.uiScaleStep） */
+  /** 介面縮放倍率（UI.uiScaleMin..UI.uiScaleMax，步進 UI.uiScaleStep；定義見 12 §3.1.8） */
   uiScale: number
   /** 音量（v1 預留，UI 隱藏） */
   audio: {
@@ -508,13 +508,11 @@ export const DEFAULT_SETTINGS: GameSettings = {
 | `SAVECFG.saveCompressedWarnBytes` | `3_000_000` | 單檔壓縮後警告門檻（bytes） |
 | `SAVECFG.saveCompressedMaxBytes` | `15_000_000` | 單檔壓縮後拒存門檻（bytes） |
 | `SAVECFG.importFileMaxBytes` | `50_000_000` | 匯入檔大小上限（bytes） |
-| `BAL.uiScaleMin` | `0.8` | UI 縮放下限（UI 層常數，見下註） |
-| `BAL.uiScaleMax` | `1.5` | UI 縮放上限（UI 層常數，見下註） |
-| `BAL.uiScaleStep` | `0.05` | UI 縮放步進（UI 層常數，見下註） |
 
-> 註（`uiScale*`）：15 §5.2 表 D／§4.3 將 `uiScaleMin/Max/Step` 歸「UI 互動／顯示」類（→ `src/ui/` 與設定，
-> 12／16 共有），與存檔設定的 `SAVECFG.*` 分屬不同類別，且未指定 spec 命名空間名稱。此三常數同屬非模擬層、
-> 亦應移出 `BAL`，但其正式命名空間宜與 UI 元件擁有文件（12）協同定案，暫維持原引用待統一（見 §8 D12）。
+> 註（`uiScale*`）：介面縮放三常數 `uiScaleMin`＝`0.8`／`uiScaleMax`＝`1.5`／`uiScaleStep`＝`0.05` 依 15 §5.2 表 D／§4.3
+> 歸「UI 互動／顯示」類，與存檔設定的 `SAVECFG.*`（存檔／體積門檻類）分屬不同類別，故不入本表，改定案收於
+> `UI.*`（`src/ui/uiConstants.ts`，見 12 §3.1.8）；本文件 §3.8、§4.4、§5.7 一律改引 `UI.uiScaleMin`／
+> `UI.uiScaleMax`／`UI.uiScaleStep`（定案理由見 §8 D13）。
 
 ### 5.1 建立存檔（core 純函式）
 
@@ -625,7 +623,7 @@ loadSettings(): GameSettings
   2. parsed ← try JSON.parse(raw) catch → return DEFAULT_SETTINGS
   3. return SettingsSchema.parse(parsed)
      // SettingsSchema 每個欄位皆掛 .catch(預設值)：單欄位非法 → 該欄回預設，其餘保留；
-     // uiScale 額外 clamp 至 [BAL.uiScaleMin, BAL.uiScaleMax]
+     // uiScale 額外 clamp 至 [UI.uiScaleMin, UI.uiScaleMax]（12 §3.1.8）
 
 updateSetting(patch: Partial<GameSettings>): void
   1. next ← { ...current, ...patch }（巢狀物件 autoPause/audio 以淺合併處理）
@@ -834,5 +832,14 @@ findLatestSave(): Promise<SaveSlotView | null>
   `autoSaveRetryMax`／`saveCompressedWarnBytes`／`saveCompressedMaxBytes`／`importFileMaxBytes` 一律改為 `SAVECFG.*`
   （定義於 `src/app/persistence/`，非 `balance.ts`）；常數名與定案值不變（值仍以 15 §5.2 表 D 為準）。
   **依據**：19 §3.13 E-56 建議定案「存檔槽數改入 16 自有常數表（如 `SAVECFG.*`）；BAL 保留純模擬數值」＋15 §4.3／§5.2 表 D。
-  **待統一**：`uiScaleMin/Max/Step` 同屬非模擬層，15 §4.3 將其歸「UI 互動／顯示」類（→ `src/ui/`，12／16 共有）而非 `SAVECFG`，
-  且未給定 spec 命名空間名稱；為免與 15 分類牴觸或擅立新命名空間，暫維持原引用，其命名空間宜與 12 協同定案後統一（見 §5 註）。
+  **`uiScaleMin/Max/Step` 命名空間**已定案，見下 D13（原「待統一」註記至此收斂）。
+- **D13（2026-07-10，依 19 §3.13 E-56 殘項：`uiScaleMin/Max/Step` 收於 `UI.*`）**：D12 遺留「待統一」——
+  `uiScaleMin/Max/Step` 同屬非模擬層，但 15 §4.3／§5.2 表 D 將其歸「UI 互動／顯示」類（→ `src/ui/` 與設定，12／16 共有），
+  性質與純存檔類的 `SAVECFG.*` 不同，故未隨 D12 併入 `SAVECFG.*`，命名空間待與 12 協同定案。
+  現查核 12 §3.1.8 已有 `UI.*`（`src/ui/uiConstants.ts`）收納同類「不影響模擬結果的純呈現常數」
+  （如 `UI.minimapSizePx`、`UI.tooltipDelayMs`），`uiScale` 範圍／步進屬同類，故定案改採 (a)：
+  歸入 `UI.*`、不另立 16 自有常數。**改了什麼**：12 §3.1.8 補 `UI.uiScaleMin`＝`0.8`／`UI.uiScaleMax`＝`1.5`／
+  `UI.uiScaleStep`＝`0.05`；本文件 §3.8 設定項表、§4.4 型別註解、§5.7 clamp 註解三處 `BAL.uiScaleMin/Max/Step`
+  改引 `UI.uiScaleMin/Max/Step`，並將 §5 常數表原列的 `BAL.uiScaleMin/Max/Step` 三列移除（改於表後註記說明已收於
+  `UI.*`，不再與 `SAVECFG.*` 同表）；常數名與定案值不變（值仍以 15 §5.2 表 D 為準）。
+  **依據**：19 §3.13 E-56 殘項審計＋12 §3.1.8 既有 `UI.*` 體例＋15 §4.3／§5.2 表 D 的分類。

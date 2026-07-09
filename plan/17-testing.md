@@ -1013,9 +1013,12 @@ perfGate():
       `devDailyBase`／`devCap`／`stewardPolWeight`／`lowSecurityThreshold`／`lowSecurityDevFactor`
       （D1/D2/D3/D7 改依 05 §3.2.3 三屬性開發模型＋02 §5.1 `developmentPct` 衍生；D7 改測「一揆停止開發」）。
     依據：19 §3.13 E-80、15 §5.2 表 A/B/C。
-13. **（2026-07-07）E-73：簡體字掃描器字形集補齊與豁免統一**：§3.6.2 與 §5.4 之 `SIMPLIFIED_L1`
-    補入 §3.12 簡體欄缺漏 14 字（148→167 字）、`SHINJITAI_L3` 由 17 字擴為 40 字（涵蓋 §3.12 新字體欄），
-    使 L1∪L3 ⊇ 19 §3.12 全 71 誤字形；§3.6.2 與 §4.1 `TESTCFG.scanExemptFiles` 統一為
+13. **（2026-07-07；2026-07-10 覆核修正字數敘述）E-73：簡體字掃描器字形集補齊與豁免統一**：§3.6.2 與 §5.4 之
+    `SIMPLIFIED_L1` 補入 §3.12 簡體欄缺漏 14 字（原有本體 153 字→167 字）、`SHINJITAI_L3` 由 17 字擴為 40 字
+    （涵蓋 §3.12 新字體欄全部 40 個相異誤字形），使 L1∪L3 ⊇ 19 §3.12 全 71 個相異誤字形——§3.12 計 40 個新
+    字體誤字形＋36 個簡體誤字形（扣除拔／姬／德／惠 4 列「同繁」註記，該 4 字簡體與正體同形、非誤字形），
+    兩欄再扣除同形重疊 5 字（國/国、燈/灯、來/来、狹/狭、淺/浅）後聯集為 71；§3.6.2 與 §4.1
+    `TESTCFG.scanExemptFiles` 統一為
     `['plan/14-scenario-data.md','plan/17-testing.md','plan/19-glossary.md','tools/simplified-chars.ts','tools/glossary/forbiddenChars.ts']`
     （與 19 §4 掃描器豁免一致、至少含 17／19／14；14 僅豁免規格文件本身，實際劇本 JSON 仍照掃）。
     一併消化 E-72 之 17 側（14 內嵌誤字改以豁免處理）。依據：19 §3.13 E-73／E-72、19 §3.12、19 §4。

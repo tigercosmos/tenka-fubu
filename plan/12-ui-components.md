@@ -223,6 +223,9 @@ export const UI = {
   moralePipLow: 40,
   durabilityRingWarn: 0.6,    // 耐久環轉金色門檻（比例）
   durabilityRingDanger: 0.3,  // 耐久環轉朱紅門檻（比例）
+  uiScaleMin: 0.8,            // 介面縮放（16 設定項 #11 `uiScale`）下限
+  uiScaleMax: 1.5,            // 介面縮放上限
+  uiScaleStep: 0.05,          // 介面縮放滑桿步進
 } as const;
 ```
 
@@ -1161,6 +1164,14 @@ dismiss(id): 播退場動畫（--duration-normal）後自 stack 移除
   並註明「值見 12」，而原 §3.1.2 色彩表缺此三 token。故於 §3.1.2 補三 token 並給定案值
   `#b8862d`／`#6a4a86`／`#5f6f7c`（色相對應 06 之金／紫／灰藍）。依 E-75 建議定案「12 §3.1.2 補三 token 並給值」。
   此三色僅作徽章色（非和紙底內文），不列入 §3.5 對比配對表。
+- **D12｜收納介面縮放三常數 `uiScaleMin/Max/Step` 入 `UI.*`（2026-07-10，依 `plan/19-glossary.md` §3.13 勘誤 E-56 殘項）**：
+  16 §3.8 設定項 #11 `uiScale`（介面縮放）沿用 15 §4.3／§5.2 表 D 的分類「UI 互動／顯示」，屬不影響模擬結果的
+  純呈現常數，與本文件 §3.1.8 既有 `UI.tooltipDelayMs`、`UI.minimapSizePx` 等同類（依 D1 判準），
+  故不歸 16 的存檔專屬常數表 `SAVECFG.*`（該表僅收存檔／體積門檻類，語意不合）。
+  故於 §3.1.8 `UI` 物件補 `uiScaleMin`＝`0.8`、`uiScaleMax`＝`1.5`、`uiScaleStep`＝`0.05`
+  （值不變，仍以 15 §5.2 表 D 為準），命名沿用既有 `uiScale*` 識別字以呼應 16 `GameSettings.uiScale` 欄位與
+  CSS 變數 `--ui-scale`，不再另創無字首的 `scaleMin` 等名稱。16 對應三處 `BAL.uiScale*` 改引 `UI.uiScale*`，
+  16 §8 D12「待統一」註記同步收斂（詳見 16 §8 D13）。
 
 ---
 
