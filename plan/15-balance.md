@@ -356,7 +356,7 @@ export type BalConfig = typeof BAL;
 | `aweRangeMed` | 2 | 跳(節點距) | 威風(中)效果半徑 | 07 §3.10 |  |
 | `aweRangeSmall` | 1 | 跳(節點距) | 威風(小)效果半徑 | 07 §3.10 |  |
 | `battleTickDamageRate` | 0.02 | 比率(每tick) | 合戰每tick傷害率 | 07 §3.7 |  |
-| `betrayalMoraleHit` | 40 | 點 | 發動內應一次性城士氣扣減 | 07 §3.11 |  |
+| `betrayalMoraleHit` | 40 | 點 | 發動內應一次性城士氣扣減 | 07 §3.11 | ⚠ 廢棄：內應效果單一真相改採 08（四輪裁決 B）——城士氣直接降至 `plotBetrayalMoraleFloor`(=5)、城主忠誠歸 0；本一次性−40 模型作廢（02 `CmdUseBetrayal` 註解／08 §3.7.3） |
 | `castleMoraleRecoverMonthly` | 10 | 點/月 | 平時（非圍城）城士氣每月回復至100 | 07 §3.11 |  |
 | `corpsTithe` | 0.2 | 比率 | 軍團收入上繳勢力金庫比例（軍團留成80%） | 07 §3.12 |  |
 | `defaultCarryDays` | 60 | 日 | 預設攜帶兵糧日數 | 07 §3.1 |  |
@@ -529,7 +529,7 @@ export type BalConfig = typeof BAL;
 | `shogunateFavorDecayMonthly` | 1 | 點/月 | 當月無獻金工作時幕府友好度每月衰減 | 08 §3.6.2 |  |
 | `shogunateFavorGainBase` | 2 | 點/月 | 幕府友好度月增益基礎 | 08 §3.6.2 |  |
 | `shogunateFavorGainPolDivisor` | 40 | 除數(無量綱) | 幕府友好度增益的政務除數 | 08 §3.6.2 |  |
-| `shogunateTitleTable` | 御供眾(威150/友30/獻500/威+60,事件選項)/御相伴眾(350/50/1000/+120,工作費用×0.8)/管領代(600/70/2000/+200,從屬勸告+15)/管領(900/85/3500/+300,政策槽+1)/副將軍(1200/90/5000/+400,外交接受度+10) | 表(五階) | 幕府役職五階定義表(威信/友好度門檻/獻金/威信加成/效果) | 08 §3.6.2 |  |
+| `shogunateTitleTable` | 奉公眾(威150/友30/獻500/威+60,事件選項)/御供眾(350/50/1000/+120,工作費用×0.8)/相伴眾(600/70/2000/+200,從屬勸告+15)/管領(900/85/3500/+300,政策槽+1)/副將軍(1200/90/5000/+400,外交接受度+10) | 表(五階) | 幕府役職五階定義表(威信/友好度門檻/獻金/威信加成/效果) | 08 §3.6.2 |  |
 | `shogunateWorkMonthlyCost` | 50 | 貫/月 | 對幕府獻金工作月費 | 08 §3.2 |  |
 | `shogunNominateFavorMin` | 50 | 點(幕府友好度) | 擁立將軍的最低幕府友好度門檻 | 08 §3.6.3 |  |
 | `shogunNominatePrestigeGain` | 300 | 點(威信) | 擁立將軍一次性威信加成 | 08 §3.6.3 |  |
@@ -671,12 +671,12 @@ export type BalConfig = typeof BAL;
 
 | 常數 `BAL.*` | 定案值 | 單位 | 語意 | 出處 | 備註 |
 |---|---|---|---|---|---|
-| `armyDisbandSoldiers` | 100 | 人 | 兵力低於此值時部隊就地解散 | 04 §5.8 |  |
+| `armyDisbandSoldiers` | 100 | 人 | 兵力低於此值時部隊就地解散 | 04 §5.8 | ⚠ 廢除：潰走解散模型定案採 07 §3.4（抵我方城→併入城駐兵；全地圖無我方城→立即解散），非兵力門檻判定（四輪裁決 E-20，07 全勝） |
 | `marchLowMoraleFactor` | 0.8 | 係數(無量綱) | 低士氣時套用的行軍速度乘數 | 04 §5.8 |  |
 | `marchLowMoraleThreshold` | 40 | 士氣點 | 士氣低於此值時行軍減速的門檻 | 04 §5.8 |  |
 | `marchSpeedMax` | 2.0 | 係數(無量綱) | 每日行軍速度係數(speedFactor)的上限夾限 | 04 §5.8 |  |
 | `marchSpeedMin` | 0.5 | 係數(無量綱) | 每日行軍速度係數(speedFactor)的下限夾限 | 04 §5.8 |  |
-| `retreatSpeedFactor` | 1.25 | 係數(無量綱) | 撤退或潰走時的行軍速度乘數 | 04 §5.8 |  |
+| `retreatSpeedFactor` | 1.25 | 係數(無量綱) | 撤退或潰走時的行軍速度乘數 | 04 §5.8 | 保留：撤退／潰走共用之移動速度常數（04 movement 持有），潰走行為模型定案見 07 §3.4（四輪裁決 E-20） |
 | `roadGradeSpeedMult` | 道級1:1.0/2:1.3/3:1.6 | 倍率(無量綱) | 依道路品質(道級)給出的行軍速度倍率表 | 04 §5.8 |  |
 | `seaEmbarkDays` | 1 | 日 | 由陸路轉入海路(登船)時額外消耗的日數 | 04 §5.8 |  |
 | `subjugateDaysBase` | 4 | 日 | 制壓一郡的基礎所需日數 | 04 §5.8 | ⚠ 17.subjugateBaseDays=5 別名須改為 4 |
@@ -973,7 +973,7 @@ export type BalConfig = typeof BAL;
 | 包圍 | 需 `Σatk ≥ 守兵×encircleRatio(3.0)=3,000`（✓）。城士氣 100/`encircleCastleMoraleDaily(2)` = **50 日**歸零（存糧撐約 450 日非瓶頸） | **≈50 日** | 攻方日損 = `守方power×encircleAttackerLossRate(0.005)=10.4/日`×50 → **≈520** |
 
 - **本城**（`durabilityMain=3000`、`siegeMitigationMain=0.5`、守兵 2,600）：單一 5,000 軍強攻攻方日損早期達 312、易先崩 → **本城強攻須多軍疊加**；包圍則城士氣 50 日必落，為穩健路徑。
-- **判讀**：強攻快（16 日）但貴（≈830）；包圍慢（50 日）但省（≈520）——清晰的速度／兵損權衡；配合內應（`betrayalMoraleHit 40`）與合戰威風翻轉鄰郡，支撐「15–25 年統一」。**結論：攻城常數定案。**
+- **判讀**：強攻快（16 日）但貴（≈830）；包圍慢（50 日）但省（≈520）——清晰的速度／兵損權衡；配合內應（08 `plotBetrayalMoraleFloor=5`，城士氣直接降至下限）與合戰威風翻轉鄰郡，支撐「15–25 年統一」。**結論：攻城常數定案。**
 
 ### 5.4 難易度修正主表（09 §3.9；只作用於 AI 勢力）
 
@@ -1001,7 +1001,7 @@ export type BalConfig = typeof BAL;
 | 5 | 4 | `karo` | 家老 | 3,000 |
 | 6 | 5 | `shukuro` | 宿老 | 5,000 |
 
-#### 表 F — 身分特權（06 §3.4.2；升格一次一階，須玩家/AI 下 `PromoteRankCommand`）
+#### 表 F — 身分特權（06 §3.4.2；升格一次一階，須玩家/AI 下 `CmdPromoteRank`）
 
 | 身分 | 可任城主 | 可任軍團長 | 知行上限 `fiefMaxByRank` | 月俸祿 `rankSalary`（貫） | 帶兵上限 `rankTroopCap`（人，絕對值） |
 |---|---|---|---|---|---|
@@ -1128,8 +1128,9 @@ CI 於 M9 跑固定 5 種子 `simulate` 冒煙，斷言準則 4、5 與 `yearOfF
   （06 §3.8.1）三檔命名與數值本即對應 `CmdRewardOfficer{tier:'small'|'medium'|'large'}` 三檔制，無需修正；未發現語意已不成立之一次性獻金專用常數。
 - **D14（2026-07-10，08 外交大改回寫；E-23／E-27 尾）**：不可侵條約（`nonAggression`）依 E-23 降為 v1.1 擴充、v1.0 不實作，
   四項相關常數 `dipBaseNonAggression`／`nonAggressionMonths`／`sentimentPactSignedNonAggression`／`trustCostNonAggression`
-  於 §5.1 主表原列處加註「v1.0 不進 `balance.ts`」，僅標記狀態、數值不動（保留供 v1.1 沿用，不列入 631 名稱之 v1.0 實作計數）；
-  `courtRankTable`（從三位解鎖）與官位表 8-1 第 7 階（`ju2`）之敘述由「同盟不可侵+5」更正為「同盟+5」，`dipCommonEnemyBonus`
+  於 §5.1 主表原列處加註「v1.0 不進 `balance.ts`」，僅標記狀態、數值不動（保留供 v1.1 沿用；536 項模擬層常數中此 4 項標記
+  v1.1、v1.0 實際寫入 `balance.ts` 為 532 項，631 名稱總數不變）；
+  `courtRankTable`（從二位解鎖）與 §5.5 表 G 第 7 階（`ju2`）之敘述由「同盟不可侵+5」更正為「同盟+5」，`dipCommonEnemyBonus`
   說明去「不可侵/」，對齊 08 §1／§3.4.1／§5.6.2 僅同盟提案適用；D13 `CmdStartDiploWork` 引用一併去 `goldPerMonth`
   （改列 `executorId`），對齊 E-27 尾「固定月費查 BAL 常數、不由玩家自訂投入額」裁決。
 - **D15（2026-07-10，E-25 官位階名對齊 02 收尾）**：§5.1 主表 `courtRankTable` 內嵌之官位階名序列
@@ -1138,5 +1139,18 @@ CI 於 M9 跑固定 5 種子 `simulate` 冒煙，斷言準則 4、5 與 `yearOfF
   錯位；依 E-25 定案「依 02（§3.10 表）」，將該序列階名統一為 02 序列（**數值、解鎖效果、階序不動**，逐階值仍依表 G）。
   §5.5 表 G（`courtRankTable: CourtRankDef[]`）之階名先前已隨 E-25 對齊 02（`ju5ge…sho2`），本次無需再改、與主表一致。
   故 15 兩處官位階名現皆為 02 權威序列。
+- **D16（2026-07-11，六員驗證修復）**：①§5.1 主表 `shogunateTitleTable` 內嵌役職名序列為 E-26 修正前舊集合
+  （御供眾／御相伴眾／管領代），與 02 §3.3 `ShogunateTitle` enum 及 §5.5 表 H 現行序列（奉公眾／御供眾／相伴眾／管領／副將軍）
+  錯位；依 E-26 定案改為表 H 序列（**數值、門檻、效果、階序不動**），表 H 先前已對齊、無需再改。②表 F 標題之
+  `PromoteRankCommand` 更正為 `CmdPromoteRank`（06 §3.4.2／02 §4.18 現行名）。③D14 計數用語補限定：536 項模擬層常數中
+  不可侵條約相關 4 項標記 v1.1、v1.0 實際寫入 `balance.ts` 為 532 項（631 名稱總數不變）；D14 「`courtRankTable`
+  （從三位解鎖）與官位表 8-1 第 7 階（`ju2`）」之自相矛盾語更正為「（從二位解鎖）與 §5.5 表 G 第 7 階（`ju2`）」
+  （同盟+5 效果掛於從二位 `ju2` 第 7 階，非從三位 `ju3` 第 5 階；「官位表 8-1」非本文件既有編號，改引現行 §5.5 表 G）。
+  ④`betrayalMoraleHit`（07 §3.11）標 ⚠ 廢棄，內應效果單一真相改採 08 `plotBetrayalMoraleFloor`（四輪裁決 B）。
+  ⑤依四輪裁決 E-20（07 潰走模型全勝）：`armyDisbandSoldiers`（04 §5.8）標 ⚠ 廢除（潰走僅於抵我方城或全地圖無城時解散，
+  非兵力門檻）；`retreatSpeedFactor`（04 §5.8）保留並補註為 returning／routed 共用之移動速度常數。
+  ⑥核實 `noFoodDesertionRate`（07 §3.13，見 §5.1）「向上取整」敘述與 07 §3.13／§5.4 之 `ceil()` 一致，本檔無需修正
+  （04 §5.4 現存 `floor()` 敘述與 07 之 `ceil` 不一致，屬 04 檔待修事項，回報 04，不逕改）。以上僅涉命名/敘述/標記，
+  常數數值、階序、解鎖效果一律不動。
 
 *本文件依 00 §13 撰寫；繁體中文（台灣慣用語）；無 TBD。定案值即實作值，唯一寫入 `src/core/balance.ts`；命名依 19 §3.13。*

@@ -747,7 +747,7 @@ export const zClan = z.object({
   prestige: z.number().int().min(0).max(2000),   // 開局威信
   courtRank: z.enum(COURT_RANK_VALUES).default('none'),
   shogunateTitle: z.enum(SHOGUNATE_VALUES).default('none'),
-  personaId: id(RE.persona),                     // AI 性格（§4.11）
+  personaId: id(RE.persona),                     // AI 性格（§4.11）；builder 寫入 ai.clans[clanId].personaId（02 §4.20 唯一真相；Clan.personaId 已刪，四輪裁決 D-13）
   colorIndex: z.number().int().min(0).max(39),   // 12 §3.1.3 色盤索引；builder 轉 Clan.color hex（§8-D6）
 });
 

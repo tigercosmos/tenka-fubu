@@ -39,7 +39,7 @@
 | `04-map-and-movement.md` | 行軍、尋路（最短路）、制壓、遭遇判定、節點地形（terrain）由 04 定義；本文件在「遭遇成立後」接手。 |
 | `05-domestic.md` | 徵兵補充城兵力、城兵糧收支、政策對士氣的修正值、輸送。 |
 | `06-officers.md` | 身分（Rank）六階、特性（Trait）清單與效果值、功績結算、捕虜與逃脫判定公式。 |
-| `08-diplomacy.md` | 內應（betrayal）成果的取得與存放；同盟關係判定敵對性。 |
+| `08-diplomacy.md` | 內應（betrayal）成果的取得與存放；同盟關係判定敵對性；本文件於野戰／合戰／攻城等敵對行為發生時 materialize 該對 `DiplomacyRow` 並回寫 `lastHostileDay = 今日`（02 §4.11；`atWar` 由此推導，08 §3.1）。 |
 | `09-ai.md` | 大名 AI 的出陣決策、軍團 AI 行為、合戰委任 AI 的完整版；本文件 §3.9 僅定義合戰內建簡易委任邏輯。 |
 | `13-i18n-strings.md` | 本文件 §6.5 字串表併入主字串表。 |
 | `15-balance.md` | 本文件全部 BAL 常數的定案值。 |
@@ -121,6 +121,10 @@ moraleFactor = BAL.moraleFactorBase + morale / BAL.moraleFactorDivisor   // 0.5 
 建立 `FieldCombat`，雙方部隊 `status = 'engaged'`、行軍暫停，並發出 `battle.started` 事件
 （payload 依 02 §4.19：`battleId` 取該 `FieldCombat` id、`nodeId`、`attackerClanId`／`defenderClanId`
 分別取 `sideB`（後至／挑起遭遇方）／`sideA`（先至方）之主勢力 `clanIds[0]`）。
+交戰成立同時對交戰雙方每一對敵勢力 materialize 其 `DiplomacyRow` 並回寫 `lastHostileDay = 今日`（02 §4.11；`atWar` 由此推導，08 §3.1）。
+（事件 id 型別：`battle.started`／`battle.kassenAvailable`／`battle.ended` 之 `battleId` 與 `awe.triggered` 之 `sourceBattleId`
+型別均為 `string` ＝ `FieldCombat.id`〔`fc.*`〕∪ `BattleState.id`〔`battle.*`〕——野戰路徑餵入 `fc.id`、合戰路徑餵入 `BattleState.id`；
+故不以 `BattleId` brand 宣告。02 §4.19 四輪裁決 C-2。）
 同節點若有三個以上互相敵對的勢力：取當前總兵數最大的兩方交戰，其餘部隊待機（不受損、不移動），
 交戰結束後重新判定（見 §8 D6）。與交戰任一方**同盟**且與另一方敵對的部隊，抵達同節點時併入該方（同側多勢力）。
 
@@ -156,6 +160,7 @@ moraleFactor = BAL.moraleFactorBase + morale / BAL.moraleFactorDivisor   // 0.5 
 
 **潰走行為**：
 - `status = 'routed'`；路徑改為「至最近我方城的最短路」（以跳數計，同距取 id 字典序小者）。
+  潰走移動速度依 `BAL.retreatSpeedFactor`（1.25×，`returning`／`routed` 共用；速度乘數之模型由 04 §5.3 movement 持有，E-62）。
 - 每日折損 `soldiers × BAL.routDailyLossRate`（建議 0.08，向上取整）。
 - 不觸發遭遇、不被制壓阻擋、不可下令、士氣鎖定不再變動。
 - 抵達我方城 → 殘兵編入城駐兵、殘糧併入城兵糧、武將回城待命、`Army` 移除。
@@ -347,8 +352,9 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 ### 3.11 攻城戰（siege）
 
 **開始**：`mission = 'conquer'` 的部隊抵達目標敵城節點 → 自動建立 `Siege`、`status = 'sieging'`，
-並發出 `siege.started` 事件（`siegeId`、`castleId`、`attackerClanId`；02 §4.19）。
-其他我方部隊抵達同節點自動加入（`armyIds`）。同一城同時僅能有一個圍城方：
+並發出 `siege.started` 事件（`siegeId`、`castleId`、`attackerClanId`；02 §4.19）；
+同時對攻方與該城所屬勢力 materialize 其 `DiplomacyRow` 並回寫 `lastHostileDay = 今日`（02 §4.11；08 §3.1）。
+其他我方部隊抵達同節點自動加入（`attackerArmyIds`）。同一城同時僅能有一個圍城方：
 若第三方敵對勢力部隊抵達，與圍城方發生野戰（遭遇），不另建 Siege（§8 D10）。
 
 **模式**（`mode`，圍城方玩家可隨時以 `CmdSetSiegeMode` 切換；AI 依 09）：預設 `assault`（強攻）。
@@ -370,8 +376,9 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 - 圍城中城士氣停止自然回復（平時每月 `+BAL.castleMoraleRecoverMonthly`（建議 10）回復至 100）。
 - 城內兵糧歸零 → 城士氣每日額外 `−BAL.starvingCastleMoraleDaily`（建議 5）、
   守兵每日逃散 `× BAL.starvingCastleDesertionRate`（建議 0.03）。
-- **內應**：圍城方對該城持有內應成果（取得參見 `plan/08-diplomacy.md`）時，可下 `CmdUseBetrayal`：
-  城士氣一次性 `−BAL.betrayalMoraleHit`（建議 40），每份成果限用一次，每場圍城限一次。
+- **內應**：圍城方對該城持有內應成果（`Castle.betrayalReadyClanId == 我方`；取得參見 `plan/08-diplomacy.md`）時，可下 `CmdUseBetrayal`：
+  城士氣立即降至 `BAL.plotBetrayalMoraleFloor`（=5，即 `min(現士氣, 5)`）、城主忠誠歸 0，並清除內應標記；
+  每場圍城限一次（`Siege.betrayalUsed`）。此效果與結算之單一真相為 `plan/08-diplomacy.md` §5.5.3，本文件僅援引（原一次性 `−BAL.betrayalMoraleHit` 模型廢棄，四輪裁決 B）。
 - **援軍解圍**：守方（或其同盟）部隊抵達城節點 → `Siege.interrupted = true`，圍城全部每日效果暫停，
   圍城方與援軍依 §3.3 野戰（可發動合戰）。圍城方勝 → 解除 interrupted、圍城續行（進度保留）；
   圍城方全潰走或撤退 → Siege 移除並發出 `siege.ended`（`fallen: false`、`newOwnerClanId: null`；02 §4.19）。
@@ -379,7 +386,8 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 **落城**：`耐久 ≤ 0` 或 `城士氣 ≤ 0` 或 `守兵 ≤ 0` →
 1. 城歸攻方勢力；**所轄各郡一併翻轉**為攻方（知行解除參見 05；翻轉時清除各郡 `District.subjugation`，
    並掃描 `state.armies` 重置正制壓這些郡之部隊的制壓進度〔E-65〕）。
-2. 城主與城內全部武將逐一做逃脫判定（公式參見 06）；未逃脫者成為攻方**捕虜**（處置參見 06）。
+2. 城主與城內全部武將逐一做逃脫判定（公式參見 06）；未逃脫者成為攻方**捕虜**（處置參見 06），
+   每名被俘武將發出 `officer.captured`（`officerId`、`byClanId` 為攻方勢力；02 §4.19）。
 3. 耐久設為 `max(當前耐久, 耐久上限 × BAL.postSiegeDurabilityRatio(0.3))`；
    城士氣設為 `BAL.postSiegeCastleMorale`（建議 50）；殘存守兵解散（歸農，不併入任何方）；
    城內殘存兵糧 ×`BAL.postSiegeFoodKeepRatio`（建議 0.5）留存、其餘視為戰亂散失。
@@ -407,7 +415,8 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 - **補給**：部隊位於我方（含同盟）城節點時，每日自該城兵糧自動補至
   `兵數 × BAL.fieldFoodPerSoldierDaily × BAL.defaultCarryDays` 水位（城存量不足則補到用盡為止）。
 - **糧盡**（`food == 0`）：每日士氣 `−BAL.noFoodMoraleDaily`（建議 8）、
-  兵逃散 `soldiers × BAL.noFoodDesertionRate`（建議 0.05，向上取整）。
+  兵逃散 `soldiers × BAL.noFoodDesertionRate`（建議 0.05，向上取整）；
+  兵糧本日首度歸 0 時發出 `army.starving`（`armyId`、`clanId`；02 §4.19）。
 - **歸還**：`CmdRecallArmy` → `mission = 'return'`、目標 = `originCastleId`（已失守則最近我方城）；
   抵達後兵力、殘糧併入城，武將回城，`Army` 移除。
 - **自動歸還**（`autoReturn == true`，預設開，玩家可關）：滿足任一即自動轉歸還——
@@ -449,9 +458,9 @@ interface Army {
   food: number;               // 攜帶兵糧（石，整數）
   mission: ArmyMission;
   status: ArmyStatus;
-  targetNodeId: MapNodeId;    // 目標節點
+  targetNodeId: MapNodeId | null; // 目標節點；returning 為出陣城所在節點、可為 null（依 02 §4.8）
   path: MapNodeId[];          // 完整路徑（含起訖；由 04 尋路產生）
-  pathCursor: number;         // 已抵達之 path 索引（＝04 MarchState.nodeIndex 語意）（依 02 §4.8，E-11）
+  pathCursor: number;         // 已抵達之 path 索引（依 02 §4.8，E-11）
   posNodeId: MapNodeId;       // 最近抵達節點（= path[pathCursor]）（依 02 §4.8，E-11）
   edgeProgressDays: number;   // 往 path[pathCursor+1] 之當前邊已累積行軍日數（日，浮點 ≥0）；位於節點上／已抵終點為 0（日數累加模型見 04 §5，E-11）
   edgeCostDays: number;       // 當前邊有效日數（日）＝edge.baseDays / BAL.roadGradeSpeedMult[grade]（海路固定＝baseDays）；抵達判定 edgeProgressDays ≥ edgeCostDays（04 §3.4.2／§5，E-11）
@@ -541,7 +550,7 @@ interface BattleResult {
   endTick: number;
   attackerLosses: number;     // 攻方累計損兵
   defenderLosses: number;
-  aweLevel: 'small' | 'medium' | 'large' | null; // 勝方獲得的威風
+  aweLevel: AweLevel;         // 勝方獲得的威風（AweLevel = 'none' | 'small' | 'medium' | 'large'，依 02 §3.3；'none' = 無威風）
 }
 
 /** 戰法靜態定義（12 筆，硬編碼於 core，非劇本資料） */
@@ -563,23 +572,24 @@ interface Siege {
   id: string;                 // "siege.<6位流水>"（依 02 六位流水，E-12）
   castleId: string;
   attackerClanId: string;
-  armyIds: string[];          // 圍城部隊（同勢力）
+  attackerArmyIds: string[];  // 圍城部隊（同勢力，status 皆 'sieging'；依 02 §4.10，四輪裁決 D-7）
   mode: 'assault' | 'encircle';
-  startedDay: number;
+  startDay: number;           // 開圍絕對日（依 02 §4.10）
   interrupted: boolean;       // 援軍交戰中，每日效果暫停
   betrayalUsed: boolean;      // 本場圍城已用過內應
 }
 
 /** 軍團 */
 interface Corps {
-  id: string;                 // "corps.<clan-slug>-<流水號>"
+  id: string;                 // "corps.<6位流水>" 例 "corps.000001"（依 02 §5.3 六位流水，E-12）
   clanId: string;
   corpsLeaderId: string;      // 軍團長（身分 ≥ 家老）
-  castleIds: string[];        // 劃撥城
   directive: 'advance' | 'hold' | 'develop';  // 依 02（E-21）
   targetNodeId: MapNodeId | null; // directive === 'advance' 時必填（依 02，E-21）
   gold: number;               // 軍團金庫（貫）
+  createdDay: number;         // 成立絕對日（依 02 §4.13）
 }
+// 軍團轄下城清單為衍生值（以 castle.corpsId 反查，§5.1；Corps 不存 castleIds，依 02 §4.13）。
 ```
 
 **軍事 Command 一覽**（欄位語義；型別聯集由 02 彙整，驗證與 apply 規範見 03）：
@@ -597,8 +607,8 @@ interface Corps {
 | `CmdBattleDelegate` | `battleId, unitId or 'all', enabled` | 合戰：委任開關 |
 | `CmdSetSiegeMode` | `siegeId, mode` | 切換強攻／包圍 |
 | `CmdUseBetrayal` | `siegeId` | 發動內應 |
-| `CmdCreateCorps` | `corpsLeaderId, castleIds, directive, targetNodeId?` | 建立軍團 |
-| `CmdSetCorpsDirective` | `corpsId, directive, targetNodeId?` | 變更軍團方針 |
+| `CmdCreateCorps` | `corpsLeaderId, castleIds, directive, targetNodeId` | 建立軍團（`targetNodeId: MapNodeId \| null`，`advance` 必填否則 null；依 02 §4.18，四輪裁決 D-9） |
+| `CmdSetCorpsDirective` | `corpsId, directive, targetNodeId` | 變更軍團方針（`targetNodeId: MapNodeId \| null`，`advance` 必填否則 null；依 02 §4.18） |
 | `CmdAssignCastleToCorps` | `corpsId, castleId` | 劃撥城入軍團（`corpsId: null` ＝收回城，取代原 `CmdRemoveCastleFromCorps`，E-32） |
 | `CmdDissolveCorps` | `corpsId` | 解散軍團 |
 
@@ -611,7 +621,7 @@ interface Corps {
 ```
 applyCmdMarch(state, cmd):
   castle = state.castles[cmd.originCastleId]
-  assert castle.clanId == cmd.clanId 且 castle 非軍團城（玩家指令時）
+  assert castle.ownerClanId == cmd.clanId 且 castle 非軍團城（玩家指令時）
   general = state.officers[cmd.leaderId]
   assert general 在 castle、未出陣、非捕虜、非浪人
   assert cmd.deputyIds.length ≤ 2，且每名副將同上條件、與大將互異
@@ -760,12 +770,14 @@ judgeAwe(bs):
 
 ```
 supplyDailyTick(state, army):
+  prevFood = army.food
   army.food = max(0, army.food − ceil(army.soldiers × BAL.fieldFoodPerSoldierDaily))
   node = currentNode(army)
   if node 是我方或同盟城節點:
     target = army.soldiers × BAL.fieldFoodPerSoldierDaily × BAL.defaultCarryDays
     refill = min(target − army.food, castle.food); army.food += refill; castle.food −= refill
   if army.food == 0:
+    if prevFood > 0: emit army.starving(armyId: army.id, clanId: army.clanId)   // 兵糧本日首度歸 0（02 §4.19）
     army.morale −= BAL.noFoodMoraleDaily
     army.soldiers −= ceil(army.soldiers × BAL.noFoodDesertionRate)
   if node.owner 與 army 敵對: army.morale −= BAL.moraleEnemyLandDaily
@@ -831,7 +843,6 @@ supplyDailyTick(state, army):
 | `BAL.encircleAttackerLossRate` | 0.005 | 包圍攻方兵損率 |
 | `BAL.starvingCastleMoraleDaily` / `BAL.starvingCastleDesertionRate` | 5 / 0.03 | 城糧盡 |
 | `BAL.castleMoraleRecoverMonthly` | 10 | 點/月；平時回復 |
-| `BAL.betrayalMoraleHit` | 40 | 點；內應 |
 | `BAL.postSiegeDurabilityRatio` | 0.3 | 落城後耐久回復比 |
 | `BAL.postSiegeCastleMorale` | 50 | 落城後城士氣 |
 | `BAL.postSiegeFoodKeepRatio` | 0.5 | 落城後兵糧留存比 |
@@ -954,7 +965,8 @@ supplyDailyTick(state, army):
 - [ ] **T2 兵站**：每日糧耗、我方城自動補給、糧盡懲罰、歸還與自動歸還（§5.7）。
       驗收：60 日糧的部隊第 61 日起士氣每日 −8 且兵逃散；行至我方城自動補滿。
 - [ ] **T3 野戰解算**：`FieldCombat` 建立與每日互擊、地利／挾擊／特性修正、士氣變動（§5.2）。
-      驗收：等兵力等統率下雙方每日損耗相等；地利側總損耗少 15%；2 對 1 時單側損耗 ×1.3。
+      驗收：等兵力等統率下雙方每日損耗相等；地利側總損耗少 15%；2 對 1 時單側損耗 ×1.3；
+      交戰（及攻城 §3.11）成立當日，交戰雙方對應 `DiplomacyRow` 之 `lastHostileDay` 回寫為今日（02 §4.11）。
 - [ ] **T4 潰走與追擊**：閾值判定、退卻尋路、每日折損、抵城解編、追擊損害。
       驗收：士氣 ≤30 當日轉 routed 並受一次追擊損害；抵城後駐兵與武將數量守恆。
 - [ ] **T5 野戰威風**：殲滅比例統計與威風小套用。
@@ -972,7 +984,7 @@ supplyDailyTick(state, army):
 - [ ] **T11 攻城**：強攻／包圍解算、糧盡、落城處理、耐久回復、捕虜移交（呼叫 06 介面）。
       驗收：支城（耐久 400、守兵 1000）被 5000 兵強攻於 12–20 日內落城；包圍不減耐久。
 - [ ] **T12 援軍解圍與內應**：interrupted 流程、`CmdUseBetrayal` 一次性效果。
-      驗收：援軍抵達當日城士氣停止下降；內應後城士氣 −40 且第二次發動被拒。
+      驗收：援軍抵達當日城士氣停止下降；內應後城士氣降至 5、城主忠誠歸 0，且第二次發動被拒。
 - [ ] **T13 軍團**：建立／方針／劃撥／收回／解散、收支分流與上繳。
       驗收：軍團領月收入 20% 入勢力帳、80% 入軍團金庫；解散後金庫併入且城轉直轄。
 - [ ] **T14 UI**：出陣面板、合戰畫面、攻城面板、軍團畫面、§6.5 全部字串經 `t(key)` 取用。
@@ -1072,3 +1084,15 @@ supplyDailyTick(state, army):
   `battle.ended`（§5.2 野戰結束、§3.9／§5.4 合戰結束）、`siege.started`（§3.11 開始）、解圍時 `siege.ended`（`fallen: false`）之發出點；
   報告文字一律由 UI 依事件推導（02 §4.17），§6.5 `report.*` i18n key 本身不動。
   依據：02 二輪裁決備忘錄 A–E（勘誤 E-11／E-18／E-30／E-32；DDR-8／DDR-12）。
+- **D28｜驗證修復**（2026-07-11，依 02 四輪裁決備忘錄與對抗式驗證 findings）：
+  (1) **內應效果（裁決 B）**：§3.11 內應改為「城士氣降至 `BAL.plotBetrayalMoraleFloor`(=5，即 `min(現士氣,5)`)、城主忠誠歸 0、清除標記」，
+  單一真相＝08 §5.5.3；刪一次性 `−BAL.betrayalMoraleHit`（廢棄），§5.8 常數表移除 `betrayalMoraleHit` 列、T12 驗收同步。
+  (2) **Siege 欄位（裁決 D-7）**：§4 `Siege.armyIds`→`attackerArmyIds`、`startedDay`→`startDay`（對齊 02 §4.10），§3.11 引用同步（`FieldCombat.startedDay` 不動）。
+  (3) **Corps 欄位（E-12／02 §4.13）**：§4 `Corps.id` 註解改 `corps.<6位流水>`、刪 `castleIds`（轄城以 `castle.corpsId` 反查衍生）、補 `createdDay`。
+  (4) **AweLevel（02 §3.3）**：§4 `BattleResult.aweLevel` 型別由 `'small'|'medium'|'large'|null` 改為 `AweLevel`（含 `'none'`），與 §5.2 `aweLevel='none'` 一致。
+  (5) **事件 id 型別（裁決 C-2）**：§3.3 補註 `battle.started`／`battle.kassenAvailable`／`battle.ended` 之 `battleId` 與 `awe.triggered` 之 `sourceBattleId` 均為 `string`（`FieldCombat.id` ∪ `BattleState.id`）。
+  (6) **型別對齊**：§4 `Army.targetNodeId` 補 `| null`（02 §4.8）、`pathCursor` 註解移除已失效之「＝04 MarchState.nodeIndex」歷史對照（04 已改名 `pathCursor`）；§5.1 `castle.clanId`→`castle.ownerClanId`（02 §4.5）；§4 命令表 `CmdCreateCorps`／`CmdSetCorpsDirective` 之 `targetNodeId?`→`targetNodeId`（`MapNodeId|null`，advance 必填否則 null，裁決 D-9）。
+  (7) **事件發出點補強**：§5.7／§3.13 兵糧首度歸 0 時 emit `army.starving`；§3.11 落城被俘處每名武將 emit `officer.captured(officerId, byClanId)`（02 §4.19）。
+  (8) **`lastHostileDay` 回寫（02 §4.11／08 §3.1）**：§2 關係表、§3.3 交戰成立、§3.11 攻城開始補「敵對行為發生時 materialize 該對 `DiplomacyRow` 並寫 `lastHostileDay=今日`」，§7 T3 補驗收。
+  (9) **`retreatSpeedFactor`（E-62／裁決 E-20）**：§3.4 潰走補述「移動速度依 `BAL.retreatSpeedFactor`（1.25×，returning／routed 共用；速度模型由 04 §5.3 持有）」。
+  依據：02 四輪裁決備忘錄 B／C-2／D-7／D-9／E-20 與 06/08 canonical（08 §5.5.3）；04 §5.3／§5.8。

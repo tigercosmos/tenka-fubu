@@ -330,7 +330,9 @@ successRate = clamp(
 #### 3.7.2 捕虜處置
 
 捕虜的產生條件見 07（合戰大勝、攻城落城時機率捕獲敵將）。捕虜 `status='captive'`、
-`capturedByClanId` 為捕獲方、關押於捕獲方指定城（07 給定）。處置指令 `CmdHandleCaptive`，
+`capturedByClanId` 為捕獲方、關押於捕獲方指定城（07 給定）。捕虜期間 `clanId` 維持**原屬勢力不變**
+（供本節 (b) 釋放與關押城陷落歸還之目的地判定，即使原勢力已滅亡；02 INV-08，2026-07-11 驗證修復），
+捕獲方僅記於 `capturedByClanId`。處置指令 `CmdHandleCaptive`，
 `action`（`CaptiveAction`，02 §3.3）三種：
 
 **(a) 登用**（執行者＝同城我方武將，未指定則以當主能力代入）：
@@ -394,14 +396,15 @@ captiveRecruitRate = clamp(
 劇本初始化時，對**每名**武將（含未登場者）以 `rng.event` 排定 `scheduledDeath`：
 
 ```
-if (o.historicalDeathYear != null):
-    year  = o.historicalDeathYear + uniformInt(rng.event, −2, +2)
-    month = o.historicalDeathMonth ?? uniformInt(rng.event, 1, 12)
+if (14 資料含史實卒年 deathYear):
+    o.deathYear = 資料值                          # 卒年基準（02 §4.4 deathYear）
+    year  = o.deathYear + uniformInt(rng.event, −2, +2)
 else:
     deathAge = BAL.defaultDeathAge + uniformInt(rng.event, −BAL.defaultDeathAgeSpread, +BAL.defaultDeathAgeSpread)
                // 60 ± 8
-    year  = o.birthYear + deathAge
-    month = uniformInt(rng.event, 1, 12)
+    o.deathYear = o.birthYear + deathAge          # 生成卒年寫回 deathYear（02 §4.4）
+    year  = o.deathYear
+month = uniformInt(rng.event, 1, 12)             # 卒月一律生成（14 不提供卒月；historicalDeathMonth 已廢除，四輪裁決追記）
 year = max(year, scenarioStartYear + 1)        // 不得排在開局年（避免開場即死）
 o.scheduledDeath = { year, month }
 ```
@@ -482,8 +485,9 @@ else:
 
 ## 4. 資料結構
 
-以下型別為本系統之權威定義（由 02 收錄；`ClanId`/`CastleId`/`DistrictId`/`ProposalId`/
-`GameDate`/`Command`/`CommandBase`/`CaptiveAction`/`RewardTier` 等基礎型別見 02/03）：
+以下型別為本系統之權威定義（由 02 收錄；`ClanId`/`CastleId`/`ArmyId`/`DistrictId`/`ProposalId`/
+`Command`/`CommandBase`/`CaptiveAction`/`RewardTier`/`StatBlock` 等基礎型別見 02/03；
+`captiveRetryOn`/`recruitRetryOn` 為絕對日 `number`、非 `GameDate`，依 02 §4.4 慣例，2026-07-11 驗證修復）：
 
 ```ts
 /** 武將 ID，形如 'off.oda-nobunaga'（00 §8） */
@@ -510,8 +514,8 @@ type OfficerStatus =
   | 'captive'  // 捕虜
   | 'dead';    // 死亡（保留於陣列供查詢，不再參與任何系統）
 
-/** 四維數值組（統率/武勇/知略/政務），單位：點 */
-interface OfficerStats {
+/** 四維數值組（統率/武勇/知略/政務），單位：點（對齊 02 §4.4 `StatBlock`，2026-07-11 驗證修復） */
+interface StatBlock {
   ldr: number; // 統率 1..120
   val: number; // 武勇 1..120
   int: number; // 知略 1..120
@@ -521,34 +525,45 @@ interface OfficerStats {
 interface Officer {
   id: OfficerId;
   name: string;                       // 繁中顯示名，如「木下藤吉郎」（專有名詞不進 i18n）
-  clanId: ClanId | null;              // 所屬勢力；浪人/死亡為 null
+  clanId: ClanId | null;              // 所屬勢力：serving＝現屬（該勢力 alive）；captive＝**原屬勢力**
+                                      //   （供 §3.7.2 釋放/歸還目的地判定，可能已滅亡；捕獲方另存於
+                                      //   `capturedByClanId`）；ronin/dead＝null（對齊 02 INV-08，
+                                      //   2026-07-11 驗證修復）
   status: OfficerStatus;              // serving/ronin/captive/dead（無 unborn，見 §3.10 與 02 DDR-5）
   hasComeOfAge: boolean;              // 已元服；false＝未登場（取代舊 'unborn' 狀態，依 02 DDR-5／E-02）
   birthYear: number;                  // 西曆生年
   debutYear: number;                  // 元服登場年（資料未給則 birthYear + BAL.comingOfAgeAge）
   debutClanId: ClanId | null;         // 元服時加入的勢力（null＝直接為浪人）
   debutCastleId: CastleId;            // 元服/淪為浪人時的所在城
-  historicalDeathYear: number | null; // 史實卒年；無資料為 null
-  historicalDeathMonth: number | null;// 史實卒月（1..12）；無資料為 null
-  scheduledDeath: { year: number; month: number }; // 開局以 rng.event 排定（§3.9.1）
-  baseStats: OfficerStats;            // 固定基礎值
-  statExp: OfficerStats;              // 各維累積經驗（點；每 BAL.statExpPerPoint → 成長 +1）
-  statGrowth: OfficerStats;           // 各維已獲成長（0..BAL.statGrowthCap）
+  deathYear: number;                  // 卒年基準（史實或開局生成，02 §4.4；14 資料缺卒年時由 §3.9.1 生成寫入）
+  scheduledDeath: { year: number; month: number }; // 開局以 rng.event 排定（§3.9.1；卒月一律生成，historicalDeathMonth 已廢除）
+  ldr: number;                         // 統率基礎值，1..120；有效值＝min(120, ldr + statGrowth.ldr)
+  val: number;                         // 武勇基礎值，1..120
+  int: number;                         // 知略基礎值，1..120
+  pol: number;                         // 政務基礎值，1..120
+  statExp: StatBlock;                  // 各維累積經驗（點；每 BAL.statExpPerPoint → 成長 +1）
+  statGrowth: StatBlock;               // 各維已獲成長（0..BAL.statGrowthCap）
   traits: TraitId[];                  // 特性，長度 ≤ BAL.maxTraitsPerOfficer
   rank: Rank;                         // 身分
   merit: number;                      // 功績累積值（點，≥0）
   loyalty: number;                    // 忠誠 0..100（當主恆 100）
   kinship: Kinship;                   // 一門/譜代/外樣
-  locationCastleId: CastleId;         // 所在城（出陣中以 Army 為準；捕虜＝關押城）
-  capturedByClanId: ClanId | null;    // 捕虜時的捕獲方
-  captiveRetryOn: GameDate | null;    // 捕虜登用失敗後，下次可嘗試日
-  recruitRetryOn: GameDate | null;    // 浪人登用失敗後，本勢力下次可嘗試日（單一勢力冷卻即可：
-                                      //   浪人只存在於一座城，僅該城所屬勢力能嘗試）
+  locationCastleId: CastleId | null;  // 所在城：serving 未出陣=駐在城；ronin=寄寓城；captive=關押城；
+                                      //   出陣中/死亡=null（與 armyId 恰有一者非 null，02 INV-07；
+                                      //   死亡時兩者皆 null，2026-07-11 驗證修復）
+  armyId: ArmyId | null;              // 出陣中所屬部隊；未出陣為 null（07 於編成/解散時寫入，02 §4.4；
+                                      //   2026-07-11 驗證修復新增）
+  capturedByClanId: ClanId | null;    // 捕虜時的捕獲方（原屬勢力見 `clanId`）
+  captiveRetryOn: number | null;      // 捕虜登用失敗後，下次可嘗試絕對日（對齊 02 §4.4：絕對日 number，
+                                      //   非 GameDate，2026-07-11 驗證修復）
+  recruitRetryOn: number | null;      // 浪人登用失敗後，本勢力下次可嘗試絕對日（單一勢力冷卻即可：
+                                      //   浪人只存在於一座城，僅該城所屬勢力能嘗試；對齊 02 §4.4：
+                                      //   絕對日 number，非 GameDate，2026-07-11 驗證修復）
   rewardGiftsThisYear: number;        // 年內已受金錢賞賜次數（每年 1/1 歸零）
   stalledPromotionMonths: number;     // 功績達下一階門檻但未升格的連續月數
 }
 // 知行（受封郡）以 District.stewardId 反查、軍團歸屬以其所在城 castle.corpsId 反查，不存於 Officer
-//（避免雙重真相，依 02 §4.4／勘誤 E-57）。
+//（避免雙重真相，依 02 §4.4／勘誤 E-57）。armyId 為出陣部隊之直接前向欄位（非反查），對齊 02 §4.4／INV-07。
 
 /** 特性掛鉤點（實作為 traitModifier(officer, hook) 查表） */
 type TraitHook =
@@ -708,7 +723,8 @@ recomputeLoyalty(state):
     o.loyalty = clamp(o.loyalty + delta, 0, 100)
 ```
 
-同城光環（`officer.loyaltyAuraAdd`）計算：掃描同 `locationCastleId` 的**其他**在籍我方武將，
+同城光環（`officer.loyaltyAuraAdd`）計算：掃描 `locationCastleId` 非 null 且與其相同的**其他**在籍我方
+武將（出陣中武將 `locationCastleId=null`，不參與此比對，避免以 null 誤判同城，2026-07-11 驗證修復），
 將其 `trait.jinbo`(+3)/`trait.hitotarashi`(+5) 效果加總後計入 target；光環可疊加、無上限
 （target 最終仍 clamp 0..100）。
 
@@ -731,6 +747,8 @@ checkDeaths(state):
 
 die(o, cause):
   o.status = 'dead'
+  o.locationCastleId = null；o.armyId = null（02 INV-07：死亡兩者皆 null；出陣中陣亡由 07 同步移除
+                                            其部隊編制，2026-07-11 驗證修復）
   釋出役職與知行（§3.9.2；城主遞補：同城同勢力中 rank ≥ 'samurai-taisho' 者，rankIndex desc → abilityScore desc 取首；無合格者懸缺）
   if o 是某勢力當主: succession(clan)    // §3.9.3
   發報告 report.officer.death / report.officer.killedInAction（cause='battle' 時，由 07 呼叫 die）
@@ -742,7 +760,7 @@ die(o, cause):
 comingOfAge(state):
   for o in 全武將 where o.hasComeOfAge === false && o.debutYear <= time.year（依 OfficerId 字典序）:
     o.hasComeOfAge = true
-    if o.scheduledDeath 早於 o.debutYear（史實早夭）: o.status='dead'; continue（不發報告，§5.11）
+    if o.scheduledDeath 早於 o.debutYear（史實早夭）: o.status='dead'; o.locationCastleId=null; o.armyId=null; continue（不發報告，§5.11；02 INV-07，2026-07-11 驗證修復）
     o.status = 'serving'
     if o.debutClanId 存在且該勢力存活: 加入之；o.locationCastleId = o.debutCastleId
     else: o.status='ronin'; o.clanId=null; o.locationCastleId = o.debutCastleId
@@ -1033,6 +1051,19 @@ traitModifier(o, hook) -> { mult: number, add: number }:
 - **E-57（2026-07-07）**：`Officer` 刪除 `fiefDistrictIds`／`corpsId` 兩欄，受封郡改以 `District.stewardId` 反查、
   軍團歸屬改以其所在城 `castle.corpsId` 反查；§3.4.2、§3.6.1、§4、§5.2 同步。依 E-57（避免雙重真相）。
 - **E-58（2026-07-07）**：捕獲方欄位 `captorClanId` 統一為 02 之 `capturedByClanId`；§3.7.2、§4 已同步。依 E-58。
+- **2026-07-11（驗證修復，依 02 §4.4 四輪裁決 A）**：Officer 型別雙重權威收斂——(a) `baseStats: OfficerStats`
+  攤平為 `ldr`/`val`/`int`/`pol` 四個直接欄位，`statExp`/`statGrowth` 改型別 `StatBlock`（`OfficerStats`
+  介面更名為 `StatBlock`，對齊 02 §4.4）；(b) `locationCastleId` 改 `CastleId | null`、新增
+  `armyId: ArmyId | null`（與 `locationCastleId` 恰有一者非 null，死亡時兩者皆 null，對齊 02 INV-07），
+  §5.5 `die()`、§5.6 `comingOfAge()` 早夭分支、§5.3 同城光環掃描同步改判；(c) `captiveRetryOn`／
+  `recruitRetryOn` 型別由 `GameDate` 改絕對日 `number`（對齊 02 §4.4 慣例）；(d) 明訂捕虜期間 `clanId`
+  維持**原屬勢力**不變（供 §3.7.2 釋放/歸還判定，捕獲方僅記於 `capturedByClanId`），對齊 02 INV-08 新裁決
+  （四輪裁決 A-c）。`scheduledDeath`／`rewardGiftsThisYear`／`stalledPromotionMonths` 三欄位已由 02 §4.4
+  收錄且形狀一致，本次未更動。§4 型別區、§3.7.2 敘述同步；grep 自查已排除殘留 `baseStats`／
+  `OfficerStats`／與 02 相左之位置模型敘述。
+  ——追記（同日收尾，依 02 四輪裁決 A 追記）：`historicalDeathYear` 更名 `deathYear`（02 §4.4 同名；
+  14 資料缺卒年時由 §3.9.1 生成寫回）；`historicalDeathMonth` 廢除（14 不提供卒月、該欄恆 null 屬死規格，
+  `scheduledDeath.month` 一律由 rng.event 生成）；§3.9.1 偽碼與 §4 型別同步。
 
 ---
 

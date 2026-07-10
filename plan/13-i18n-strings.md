@@ -159,8 +159,8 @@ UI 依 enum 值組 key 的固定模式（全部列舉；實作時以樣板字串
 |---|---|---|
 | `Rank`（06） | `term.rank.<rank>` | `term.rank.samuraiTaisho` |
 | `PactKind`（08） | `term.pact.<kind>` | `term.pact.alliance` |
-| `CourtRankId`（08，去 `crank.` 前綴） | `term.crank.<slug>` | `term.crank.ju5ge` |
-| `ShogunateTitleId`（08，去 `stitle.` 前綴） | `term.stitle.<slug>` | `term.stitle.kanrei` |
+| `CourtRank`（02 §3.3，語意見 08；enum 值本身即識別符，無獨立 ID） | `term.crank.<value>` | `term.crank.ju5ge` |
+| `ShogunateTitle`（02 §3.3，語意見 08；enum 值本身即識別符，無獨立 ID） | `term.stitle.<value>` | `term.stitle.kanrei` |
 | `DevPolicy`（05） | `term.devPolicy.<value>` | `term.devPolicy.barracks` |
 | `conscriptPolicy`（05） | `term.conscript.<value>` | `term.conscript.high` |
 | `FacilityId`（05，去 `fac.` 前綴） | `term.facility.<slug>` | `term.facility.ichi` |
@@ -247,7 +247,7 @@ UI 依 enum 值組 key 的固定模式（全部列舉；實作時以樣板字串
 |---|---|---|
 | `awe.triggered` | `payload.level`（small/medium/large） | `report.battle.awe.<level>` |
 | `officer.died` | `payload.cause`（natural/battle） | `report.officer.death`／`report.officer.killedInAction` |
-| `plot.succeeded` | `payload.plot`（poach/rumor/betrayal） | `report.plot.poachSuccess`／`report.plot.rumorSuccess`／`report.plot.betrayalReady` |
+| `plot.succeeded` | `payload.kind`（`PlotKind`：poach/rumor/betrayal） | `report.plot.poachSuccess`／`report.plot.rumorSuccess`／`report.plot.betrayalReady` |
 | `command.rejected` | `payload.reasonKey`（已是 i18n key） | 直接採 `reasonKey`（`cmd.reject.*` 或 `report.march.failed.*`） |
 | `event.fired` | — | `report.event.fired`（`{title}` 帶事件標題資料） |
 | `battle.ended` | `payload.winnerClanId` 與玩家勢力關係分流：＝我方→won；＝敵方→lost；`null`（僅野戰可能，平手撤離）→沿用通用戰報 | `report.battle.won`／`report.battle.lost`／`report.field.resolved`（二輪裁決 C） |
@@ -942,6 +942,7 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `report.army.subjugated` | `district.subjugated` | leader, district | {leader}隊制壓{district}。 |
 | `report.army.districtLost` | `district.subjugated` | district, clan | {district}遭{clan}制壓！ |
 | `report.army.noFood` | — | army | {army}兵糧耗盡，士氣潰散中！ |
+| `report.army.blocked` | `army.blocked` | army, place | {army}行軍受阻，於{place}待命。 |
 | `report.field.begin` | `battle.started` | a, b, place | {a}與{b}於{place}交戰！ |
 | `report.field.resolved` | `battle.ended` | place, winner | {place}的戰鬥分出勝負，{winner}獲勝。 |
 | `report.field.rout` | — | army | {army}潰走！ |
@@ -956,7 +957,7 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `report.siege.relief` | — | castle | 援軍抵達{castle}，展開解圍戰！ |
 | `report.siege.fallen` | `siege.ended` | castle | {castle}落城！ |
 | `report.siege.repelled` | `siege.ended` | castle | {castle}擊退了圍城之敵。 |
-| `report.march.failed.troops` | `command.rejected` | castle | 出陣失敗：{castle}兵力不足 |
+| `report.march.failed.soldiers` | `command.rejected` | castle | 出陣失敗：{castle}兵力不足 |
 | `report.march.failed.cap` | `command.rejected` | general, cap | 出陣失敗：超過{general}的帶兵上限（{cap}人） |
 | `report.march.failed.food` | `command.rejected` | castle | 出陣失敗：{castle}兵糧不足 |
 | `report.economy.income` | `economy.income` | month, gold | {month}月收入{gold}貫。 |
@@ -999,6 +1000,7 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `report.diplomacy.proposalAccepted` | — | clan, proposal | {clan}接受了我方的{proposal}。 |
 | `report.diplomacy.proposalRejected` | — | clan, proposal | {clan}拒絕了我方的{proposal}。 |
 | `report.diplomacy.workStopped` | — | target | 金錢不足，對{target}的外交工作已中止。 |
+| `report.diplomacy.reinforceAgreed` | `diplo.reinforceAgreed` | clan, enemy | {clan}同意派遣援軍，協力對抗{enemy}。 |
 | `report.court.rankGranted` | `court.rankGranted` | clan, rank | 朝廷敘任{clan}當主為{rank}。 |
 | `report.court.mediationSuccess` | — | clan, months | 朝廷斡旋成功，與{clan}停戰{months}月。 |
 | `report.court.mediationFailed` | — | clan | 朝廷斡旋失敗，{clan}官位在我方之上。 |
@@ -1042,18 +1044,19 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `term.crank.none` | 無位無官 |
 | `term.crank.ju5ge` | 從五位下 |
 | `term.crank.ju5jo` | 從五位上 |
-| `term.crank.sho5ge` | 正五位下 |
 | `term.crank.ju4ge` | 從四位下 |
 | `term.crank.ju4jo` | 從四位上 |
-| `term.crank.sho4ge` | 正四位下 |
 | `term.crank.ju3` | 從三位 |
-| `term.crank.sho1` | 正一位 |
+| `term.crank.sho3` | 正三位 |
+| `term.crank.ju2` | 從二位 |
+| `term.crank.sho2` | 正二位 |
 | `term.stitle.none` | 無役職 |
+| `term.stitle.hokoshu` | 奉公眾 |
 | `term.stitle.otomoshu` | 御供眾 |
-| `term.stitle.oshobanshu` | 御相伴眾 |
-| `term.stitle.kanreidai` | 管領代 |
+| `term.stitle.shobanshu` | 相伴眾 |
 | `term.stitle.kanrei` | 管領 |
 | `term.stitle.fukushogun` | 副將軍 |
+| `term.stitle.shogun` | 征夷大將軍 |
 | `term.season.spring` | 春 |
 | `term.season.summer` | 夏 |
 | `term.season.autumn` | 秋 |
@@ -1416,3 +1419,24 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
   執行武將標籤兩頁皆重用 `ui.diplomacy.workOfficer`，不新增重複字串。提案類字串無期限自訂措辭
   （期限依 kind 由 08 BAL 常數決定，三輪裁決 3a，無 `termDays`）；`cmd.diplomacy.demandVassal`／
   `offerVassal` 兩方向字串已在列，無需新增。理由：對齊 08 §3.6／§3.4.1 與 11 §3.8。
+- **（2026-07-11）驗證修復：02 四輪裁決下游對齊（5 項）**：
+  (1) §3.4.2 動態 key 模式表（原 L162-163）——`CourtRankId`／`ShogunateTitleId`（隱含獨立 branded ID、
+  需去 `crank.`／`stitle.` 前綴取 slug）之舊敘述已與 02 §3.2 不符（02 四輪裁決 A 已定案：`pact.`／`crank.`／
+  `stitle.` ID 前綴廢除，官位／幕府役職以 enum 值即識別符）；型別名改為 02 §3.3 現行之 `CourtRank`／
+  `ShogunateTitle`，敘述改「enum 值本身即識別符，無獨立 ID」，樣板佔位由 `<slug>` 改 `<value>`
+  （對齊 `DevPolicy`／`conscriptPolicy` 等純 enum 列之既有寫法）。
+  (2) §6.12 `term.crank.*`／`term.stitle.*` 兩張階梯表為 E-25／E-26 前之舊集合（含已廢除的
+  `sho5ge`／`sho4ge`／`sho1`／`oshobanshu`／`kanreidai`，且缺 `hokoshu`／`shogun`），依 02 §3.3
+  `CourtRank`／`ShogunateTitle` 現行 enum 全集重排：官位九值（`none`＋八階
+  `ju5ge/ju5jo/ju4ge/ju4jo/ju3/sho3/ju2/sho2`）、役職七值（`none/hokoshu/otomoshu/shobanshu/
+  kanrei/fukushogun/shogun`），中文沿用 02 §3.3 各值行內註解。
+  (3) §3.7 變體規則表 `plot.succeeded` 分流依據 `payload.plot`→`payload.kind`（`PlotKind`）：
+  02 §4.19 該事件 payload 命名為 `kind: PlotKind`（02-data-model.md 行 1067），02 自身無 `plot` 欄。
+  (4) §6.11 新增 `report.army.blocked`（事件 `army.blocked`，02 §4.19 四輪裁決 C-6 canonical、
+  04 §5.4 發出、備忘錄明列「13 報告 key 對齊 report.army.blocked」）；同表
+  `report.march.failed.troops`→`report.march.failed.soldiers`，補上 07 §6.6 已完成之更名
+  （07 行 1050：`ui.march.troops`→`ui.march.soldiers`／`report.march.failed.troops`→
+  `report.march.failed.soldiers`）在本表的漏改殘留。
+  (5) §6.11 新增 `report.diplomacy.reinforceAgreed`（事件 `diplo.reinforceAgreed`，
+  02 §4.19 四輪裁決項 21／D-21：`requestReinforce` 獲接受不建立 Pact、故不發 `pact.signed`，
+  改發此專屬事件，備忘錄明列「交 08 發、13 接報告」）。

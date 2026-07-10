@@ -426,7 +426,7 @@ HUD 為 DOM 層覆蓋其上；HUD 未覆蓋處均可與地圖互動。
 │ │   🤝(同盟) 婚(婚姻)       │ │ 信用 █▏░░░ 12/100   │ │
 │ │ ◇齋藤家  感情:不信 信用 8 │ │ 協定：無            │ │
 │ │ …（依感情排序，可捲動）    │ │ ── 行動 ──────────  │ │
-│ │                          │ │ [外交工作(月100貫)]  │ │
+│ │                          │ │ [外交工作(月20貫)]   │ │
 │ │                          │ │ [同盟締結][婚姻同盟] │ │
 │ │                          │ │ [停戰交涉][從屬勸告] │ │
 │ │                          │ │ [斷交]（不足則灰＋因）│ │
@@ -474,13 +474,14 @@ HUD 為 DOM 層覆蓋其上；HUD 未覆蓋處均可與地圖互動。
 │ ── 新調略精靈 ─────────────────────────────────────────  │
 │ ① 種別：(○)引拔  ( )流言  ( )內應                        │
 │ ② 目標：［在地圖／名簿選擇 ▸］（依種別＝武將或城）        │
-│ ③ 執行武將：[明智光秀 ▼]   費用：月120貫・預估成功 62%   │
+│ ③ 執行武將：[明智光秀 ▼]   費用：月30貫・預估成功 62%    │
 │                                  ［取消］［著手調略］    │
 └──────────────────────────────────────────────────────────┘
 ```
 
-- 種別、目標合法性、費用、成功率、進度與敗露規則全依 `plan/08` §3.7；本 panel 只定佈局
-  （左右分區同外交頁；單選鈕群組／下拉見 12）。字串補於 13（勘誤 E-66）。
+- 種別、目標合法性、費用、成功率、進度與敗露規則全依 `plan/08` §3.7；費用依種別＝引拔／流言
+  `BAL.plotMonthlyCost`（30貫/月，08 §3.7.1），內應則 ×`BAL.plotBetrayalCostMult`（=2，即60貫/月，
+  08 §3.7.3）；本 panel 只定佈局（左右分區同外交頁；單選鈕群組／下拉見 12）。字串補於 13（勘誤 E-66）。
 - 進入：外交畫面／目標武將 OfficerDetail／目標城 CastlePanel 之［調略］入口；由後二者
   發起時預填精靈的種別與目標（`params.kind`／`params.targetId`）。中止與發動內應皆發
   Command（08）。
@@ -506,8 +507,8 @@ HUD 為 DOM 層覆蓋其上；HUD 未覆蓋處均可與地圖互動。
 - 提案種別（`DiplomacyActionKind`：同盟／停戰／婚姻／從屬勸告／從屬提案／援軍請求，08 §3.4.1）、
   期限（依 kind 由 08 BAL 常數決定、非玩家輸入）、條件、接受/拒絕之信用感情影響全依 `plan/08`；
   **從屬類提案須明示方向**（`demandVassal`＝對方要求我方稱臣／`offerVassal`＝對方願向我方稱臣）；
-  婚姻提案須顯示成婚雙方武將（`Officer.name`）。接受/拒絕即發 Command（08）；未回應者依 08
-  時限自動失效（勘誤 E-67）。
+  婚姻提案須顯示成婚雙方武將（`Officer.name`）。接受/拒絕即發 `CmdRespondPact{proposalId, accept}`
+  （02 §4.18／08 §3.4）；未回應者依 08 時限自動失效（勘誤 E-67）。
 
 ### 3.9 政策、軍團、大命畫面
 
@@ -857,7 +858,7 @@ export type ModalId =
   | 'battlePrompt'  // 「發動合戰？」確認
   | 'battleResult'  // 合戰結果（含威風）
   | 'captive'       // 捕虜處置（06）
-  | 'envoy'         // 外交來使（他勢力提案；params.clanId、params.pactKind）
+  | 'envoy'         // 外交來使（他勢力提案；params.proposalId，由 diplo.envoyArrived 帶入；提案種別自 DiplomacyProposal.kind: DiplomacyActionKind 讀取）
   | 'systemMenu'    // 系統選單
   | 'confirm';      // 通用確認框（params.messageKey…）
 
@@ -1259,3 +1260,12 @@ onReports(reports):              // 每 tick 步驟 13 的產出
   於盟友面板；(3) §3.8.2 來使 modal 提案種別由 `PactKind` 更為 `DiplomacyActionKind`（六行動）、明示從屬方向；
   提案流程一律無期限輸入（期限依 kind 由 08 BAL 常數決定，三輪裁決 3a，移除 `termDays` 遺留措辭）。
   理由：對齊 08 §3.4.1／§3.6 與 02 §4.12／§4.18（`CmdProposePact.kind: DiplomacyActionKind`、`target` 增 `'shogunate'`）。
+- **D19（2026-07-11・驗證修復）EnvoyModal 參數與調略/外交工作金額對齊**：對抗式驗證發現 §4
+  `ModalId` 之 `'envoy'` 仍殘留 D12 落地時的舊參數 `clanId/pactKind`，與 D18 已改用
+  `DiplomacyActionKind` 之 §3.8.2 body 不一致；02 §4.19 `diplo.envoyArrived` payload 實為
+  `{fromClanId, proposalId}`，提案種別應自送達之 `DiplomacyProposal.kind` 讀取。改 `ModalId`
+  `'envoy'` 參數為 `params.proposalId`（種別由 proposal 帶出，不再單獨傳 `clanId/pactKind`）；
+  §3.8.2 body 明訂接受/拒絕發 `CmdRespondPact{proposalId, accept}`（02 §4.18）。另修正 wireframe
+  金額與 15 定案常數不一致：§3.8 勢力頁「外交工作」月費 100貫→20貫（`BAL.diplomacyWorkMonthlyCost`，
+  08 §3.2）；§3.8.1 調略精靈費用 120貫→30貫（`BAL.plotMonthlyCost`，08 §3.7.1），並註明內應
+  ×`plotBetrayalCostMult`(=2)＝60貫/月（08 §3.7.3）。

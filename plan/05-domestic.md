@@ -28,7 +28,7 @@
 
 | 文件 | 關係 |
 |---|---|
-| `plan/02-data-model.md` | 本文件 §4 的 interface 為內政系統欄位規格，02 收錄為正式型別；欄位名以本文件為準併入 `District` / `Castle` / `Clan` |
+| `plan/02-data-model.md` | 本文件 §4 的 interface 為內政系統欄位規格，02 收錄為正式型別；欄位名以本文件為準併入 `District` / `Castle` / `Clan`；政策狀態 `ClanPolicyState` 併入獨立容器 `GameState.policies`（DDR-1，非併入 `Clan`） |
 | `plan/03-game-loop.md` | 本文件的結算掛在 00 §5.4 的 `development`（第 5 步）與 `economy`（第 6 步）；Command 佇列機制參見 03 |
 | `plan/04-map-and-movement.md` | 輸送隊沿街道移動的距離／速度基準、制壓造成的治安懲罰觸發點 |
 | `plan/06-officers.md` | 身分（Rank）、功績（merit）、忠誠（loyalty）的總表與升格規則；本文件只定義內政來源的加減值 |
@@ -89,7 +89,7 @@
 - 小數處理：每城持有累加器 `foodFrac`，日消耗累加後扣除整數部分（見 §5.2），
   保證 `food` 恆為 ≥0 整數（00 §6）。
 - **糧盡**（`food === 0` 且仍有消耗需求）：該城每日 `soldiers = floor(soldiers × (1 − BAL.starveDesertRate))`，
-  `BAL.starveDesertRate = 0.01`；城士氣每日 −`BAL.castleStarveMoraleDaily`(=2)（士氣欄位與下限規則見 07）。發 `report.economy.castleStarving`（每月至多一次）。
+  `BAL.starveDesertRate = 0.01`；城士氣每日 −`BAL.castleStarveMoraleDaily`(=2)（士氣欄位與下限規則見 07）。發事件 `economy.foodShortage{clanId, castleId}`（warning 級，每城每月至多一次；報告字串見 13 §6.11 `report.economy.castleStarving`；02 §4.19）。
   此為**非圍城**之一般糧盡路徑；城處於圍城中時改用 07 的圍城糧盡規則，兩者互斥（15 §5.2 表 C）。
 
 #### 3.1.4 金錢維持費（每月 1 日，收入入帳後依序扣除）
@@ -101,7 +101,7 @@
 2. **政策維持費**：`Σ_生效政策 upkeepGold`（見 §3.7）。
 
 **不足額規則（邊界條件）**：
-- 俸祿優先於政策維持費。金錢扣到 0 為止；俸祿未足額時，當月**全體**武將忠誠 −`BAL.unpaidSalaryLoyaltyPenalty`（=2，一次性，06 擁有、值 15 定案；經 06 的忠誠管線）。
+- 俸祿優先於政策維持費。金錢扣到 0 為止；俸祿未足額時，當月**全體**武將忠誠 −`BAL.unpaidSalaryLoyaltyPenalty`（=2，一次性，06 擁有、值 15 定案；經 06 的忠誠管線），並發事件 `economy.upkeepUnpaid{clanId}`（warning 級，每勢力每月至多一次；報告字串見 13 §6.11 `report.economy.upkeepUnpaid`；02 §4.19）。
 - 政策維持費付不出時，依「採用時間由新到舊」自動廢止政策，直到可支付，每廢止一項發 `report.policy.autoRevoked`。
 
 #### 3.1.5 收支預覽（selector，不改動狀態）
@@ -318,8 +318,9 @@ BAL.soldiersPerPop = 0.025
 - 出發時生成 `TransportOrder`，物資即刻自來源扣除。輸送隊為**非戰鬥單位**，不需武將帶隊、不佔兵力。
 - 移動：沿 04 的節點圖每日推進，欄位與語意同 04 §4.2 `MarchState`（`path`／`pathCursor`／`edgeProgressDays`／`edgeCostDays`，
   對齊 02 §4.13、E-11／E-36）。邊日數 `edgeCostDays = edge.baseDays / BAL.roadGradeSpeedMult[grade]`
-  （海路固定＝`baseDays`，見 04 §3.4.2）；輸送隊進入該邊時再乘 `BAL.transportSpeedFactor(=1.0)` 與下列係數
-  （速度倍率換算為日數乘數：原速度倍率 r 之等效日數乘數為 1/r）：
+  （海路固定＝`baseDays`，見 04 §3.4.2）；輸送隊進入該邊時再**除以**速度係數 `BAL.transportSpeedFactor(=1.0)`
+  （15 §5.6 定義為「輸送隊相對步兵基準日速的速度係數」，與同式 `baseDays ÷ roadGradeSpeedMult` 同慣例——速度係數 r 之等效日數乘數為 1/r），
+  並乘下列日數係數（原速度倍率 r 之等效日數乘數為 1/r）：
   政策係數（傳馬制生效 ×(2/3)，即原速度 ×1.5 之等效日數乘數）
   × 海路係數（行經海路邊且起訖任一端城有湊 ×(1/2)，即原速度 ×2 之等效日數乘數；否則海路邊 ×1）。
   `edgeProgressDays` 每日 +1，抵達判定 `edgeProgressDays ≥ edgeCostDays`（位於節點上／已抵終點為 0；
@@ -339,11 +340,14 @@ BAL.soldiersPerPop = 0.025
 
 #### 3.7.1 通用規則
 
+- 政策狀態存於獨立容器 `GameState.policies[clanId]`（`ClanPolicyState`，§4；DDR-1）：`active`（生效清單）與 `cooldownUntil`（各政策再採用冷卻）。
 - **同時生效數上限** `maxActivePolicies = min(BAL.policySlotMax(=6), 1 + floor(clan.prestige / BAL.policySlotPrestige(=300)))`。
   威信 0 → 1 格；300 → 2 格；…；1500+ → 6 格。
-- 採用（`CmdEnactPolicy`）：需滿足解鎖條件、有空格、非互斥衝突、當下金錢 ≥ 首月維持費（即刻預扣首月維持費）。
+- 採用（`CmdEnactPolicy`）：需滿足解鎖條件、`active` 有空格、非互斥衝突、當下金錢 ≥ 首月維持費（即刻預扣首月維持費）；
+  採用**即刻生效**（無施行期，四輪裁決 D-11），該政策即刻入 `active`。
 - 之後每月 1 日扣維持費（§3.1.4 順序）。
-- 廢止（`CmdRevokePolicy`）：即時生效；同一政策廢止後 `BAL.policyReadoptCooldownMonths(=6)` 個月內不得再採用。
+- 廢止（`CmdRevokePolicy`）：即刻生效、即刻移出 `active`；同一政策廢止後 `BAL.policyReadoptCooldownMonths(=6)` 個月內不得再採用
+  （廢止時將可再採用之絕對日寫入 `cooldownUntil[policyId]`）。
 - 效果為持續性乘數／加值，於對應公式即時查詢（無快取狀態）。
 - AI 勢力採用政策的策略見 09。
 
@@ -410,6 +414,36 @@ BAL.soldiersPerPop = 0.025
 - **自然平息**：持續滿 `BAL.uprisingAutoEndMonths(=6)` 個月，一揆軍解散，治安設為 40，
   郡人口額外一次性 −5%（流民）。
 
+### 3.9 城主任命與直轄／委任
+
+城主（`Castle.lordId`，02 §4）為城的政務與守備負責人，其在／不在影響開發有效政務（§3.2.3）、城方戰力（07）與治安（§3.8.1）；
+直轄／委任（`Castle.directControl`，02 §4）決定該城內政由玩家親自下令或交城主 AI 代管（09）。
+本節補齊 `CmdAppointLord`／`CmdSetCastleControl` 兩指令之驗證與效果——此二指令於 02 §4.18 收錄、屬內政域，語意此前懸空，依 00 §0.5 於本文件填補。
+
+#### 3.9.1 城主任命／罷免（`CmdAppointLord`〔castleId, officerId | null〕）
+
+驗證條件：
+1. 目標城屬於本勢力，且**非軍團城**（`castle.corpsId === null`）——軍團城之城主由軍團 AI 管理，玩家不可直接任免（07 §3.12）。
+2. `officerId ≠ null`（任命）時，受任武將須滿足 02 INV-04：現役（`serving`）、與該城同勢力（`clanId === castle.ownerClanId`）、身分 ≥ 侍大將（`samurai-taisho`，06 §3.4）。
+3. 任命時受任武將**所在城**須為該目標城（`locationCastleId === castleId`）且**非出陣中**（`armyId === null`）——城主須就地治理。
+4. `officerId = null`（罷免）：將現任城主解職、城 `lordId` 置 `null`（空缺；空缺期間有效政務取 `BAL.noLordDevPol`，§3.2.3）。
+
+效果：
+- 設定 `castle.lordId = officerId`（任命）或 `null`（罷免）；同一武將至多任一城城主（INV-04），改任他城視同「先解除原職、再任新職」。
+- **忠誠效果**（經 06 §3.6.3 忠誠管線）：任何被**解除城主職**之武將忠誠一次性 −`BAL.loyaltyDismiss`(=10)（含罷免、及因改任他城而騰出原職者）；單純新任城主不另計忠誠增減。
+- 城主更替後，該城之開發（§3.2.3）／守備（07）／治安（§3.8.1）即以新城主政務／能力計。
+
+#### 3.9.2 直轄／委任切換（`CmdSetCastleControl`〔castleId, directControl〕）
+
+驗證條件：
+1. 目標城屬於本勢力，且**非軍團城**（`castle.corpsId === null`；軍團城恆由軍團 AI 代管，07 §3.12）。
+2. 切為委任（`directControl = false`）時，該城須有城主（`lordId ≠ null`）——委任即交城主 AI 代管，無城主則不成立。
+
+效果：
+- 設定 `castle.directControl = directControl`；本切換不涉及忠誠增減。
+- `true`（直轄）：該城之開發方針（§3.2.2）、徵兵方針（§3.5）、施設建造（§3.4.1）由玩家指令設定。
+- `false`（委任）：上述決策改由城主 AI 依 09 之優先序自動執行（玩家介面對該城相關指令唯讀顯示）。
+
 ---
 
 ## 4. 資料結構
@@ -458,6 +492,7 @@ export interface CastleDomestic {
   conscriptPolicy: ConscriptPolicy;// 徵兵方針
   facilities: FacilityTypeId[]; // 已建成施設（每種至多一個）
   buildQueue: BuildOrder[];        // 建造佇列（[0] 為施工中；長度 ≤ BAL.buildQueueSize）
+  riceTradedThisMonth: number;     // 本月該城米買賣累計量（石；每月 1 日重置為 0；用於 BAL.riceTradeCapMonthly 上限判定，§5.5）
 }
 
 /** 建造佇列項 */
@@ -495,8 +530,13 @@ export interface PolicyDef {
 export interface ClanDomestic {
   gold: number;                    // 金錢（貫；≥0 整數）
   prestige: number;                // 威信（0..2000）
-  activePolicies: PolicyId[];      // 生效中政策（採用順序；長度 ≤ maxActivePolicies）
-  policyCooldowns: Partial<Record<PolicyId, number>>; // 政策 id → 可再採用的絕對日序
+}
+
+/** 勢力政策狀態（獨立容器 GameState.policies[clanId]，非併入 Clan，DDR-1；政策採即刻生效、無施行期，四輪裁決 D-11／02 §4.14） */
+export interface ClanPolicyState {
+  clanId: ClanId;
+  active: PolicyId[];              // 生效中政策（採用順序；長度 ≤ maxActivePolicies）
+  cooldownUntil: Partial<Record<PolicyId, number>>; // 政策 id → 可再採用的絕對日序（缺鍵＝無冷卻＝0）
 }
 
 /** 輸送隊（GameState.transports: TransportOrder[]） */
@@ -511,8 +551,8 @@ export interface TransportOrder {
   path: MapNodeId[];               // 全路徑節點序列（04 尋路產出，含起訖）
   pathCursor: number;              // 目前所在節點在 path 的索引（＝04 MarchState.nodeIndex 語意；02 §4.13、E-11）
   edgeProgressDays: number;        // 往 path[pathCursor+1] 之當前邊已累積行軍日數（日）；位於節點上／已抵終點為 0（E-11）
-  edgeCostDays: number;            // 當前邊（輸送隊調整後）有效日數（日）＝邊 edgeCostDays × BAL.transportSpeedFactor
-                                    // × 政策/海路係數（§3.6）；抵達判定 edgeProgressDays ≥ edgeCostDays（02 §4.13、E-11／E-36）
+  edgeCostDays: number;            // 當前邊（輸送隊調整後）有效日數（日）＝邊 edgeCostDays ÷ BAL.transportSpeedFactor（速度係數）
+                                    // × 政策/海路日數係數（§3.6）；抵達判定 edgeProgressDays ≥ edgeCostDays（02 §4.13、E-11／E-36）
   returning: boolean;              // 是否已被撤回折返中
 }
 
@@ -542,9 +582,11 @@ export type DomesticCommand =
   | { type: 'setConscriptPolicy'; castleId: CastleId; policy: ConscriptPolicy }
   | { type: 'transport';          fromCastleId: CastleId; toCastleId: CastleId; soldiers: number; gold: number; food: number } // 三欄皆 ≥0，不得同時為 0（E-41）
   | { type: 'recallTransport';    transportId: TransportId }
-  | { type: 'tradeRice';          castleId: CastleId; mode: 'buy' | 'sell'; amount: number } // 需米問屋
+  | { type: 'tradeRice';          castleId: CastleId; mode: 'buy' | 'sell'; amount: number } // §5.5；需米問屋；amount>0；走 Command 佇列次 tick 開頭結算（D-10，非即時）
   | { type: 'enactPolicy';        policyId: PolicyId }
-  | { type: 'revokePolicy';       policyId: PolicyId };
+  | { type: 'revokePolicy';       policyId: PolicyId }
+  | { type: 'appointLord';        castleId: CastleId; officerId: OfficerId | null } // §3.9.1；officerId=null 罷免城主（對齊 02 §4.18）
+  | { type: 'setCastleControl';   castleId: CastleId; directControl: boolean };     // §3.9.2；true=大名直轄、false=委任城主 AI（對齊 02 §4.18）
 ```
 
 ---
@@ -595,7 +637,7 @@ economyDaily(state):
     else:                                                              # 糧盡 §3.1.3
       c.food = 0
       c.soldiers = floor(c.soldiers × (1 − BAL.starveDesertRate))
-      城士氣 −BAL.castleStarveMoraleDaily（=2，07 欄位）；發報告（每月至多一次）
+      城士氣 −BAL.castleStarveMoraleDaily（=2，07 欄位）；發事件 economy.foodShortage{clanId, castleId}（每城每月至多一次，§3.1.3）
 
   # (b) 建造佇列推進（每日）
   for 每城 c:
@@ -609,6 +651,7 @@ economyDaily(state):
 
   # (d) 每月 1 日：
   if isFirstDayOfMonth:
+    for 每城 c: c.riceTradedThisMonth = 0    # 重置米買賣月上限累加器（§5.5）
     monthlyIncomeAndUpkeep(state)   # §5.3
     conscription(state)             # §3.5 公式，逐城結算
   # (e) 每年 9 月 1 日：
@@ -624,8 +667,8 @@ monthlyIncomeAndUpkeep(state):
     clan.gold += floor(commerceIncome(clan))          # §3.1.1，含施設/政策固定收入
     salary = Σ 現役武將俸祿（當主 0、受封領主 0）
     if clan.gold >= salary: clan.gold −= salary
-    else: clan.gold = 0；全武將忠誠 −BAL.unpaidSalaryLoyaltyPenalty（經 06）；發報告
-    for pol of clan.activePolicies（由舊到新）:
+    else: clan.gold = 0；全武將忠誠 −BAL.unpaidSalaryLoyaltyPenalty（經 06）；發事件 economy.upkeepUnpaid{clanId}
+    for pol of state.policies[clan.id].active（由舊到新）:
       if clan.gold >= upkeep(pol): clan.gold −= upkeep(pol)
       else: 標記待廢止
     由新到舊廢止被標記者，直到其餘皆可支付；每廢止一項發 report.policy.autoRevoked
@@ -638,7 +681,7 @@ transportDaily(state):
   for 每 transport t（id 字典序）:
     if t.edgeCostDays === 0:                                  # 剛進入本邊，計算輸送隊調整後邊日數（§3.6）
       base = edgeCostDays(currentEdge(t))                     # = edge.baseDays / BAL.roadGradeSpeedMult[grade]（海路固定＝baseDays）
-      t.edgeCostDays = base × BAL.transportSpeedFactor
+      t.edgeCostDays = base / BAL.transportSpeedFactor        # transportSpeedFactor 為速度係數，以 ÷ 套用（15 §5.6）
                        × (傳馬制生效 ? 2/3 : 1.0)
                        × (當前邊為海路 且 起訖任一端城有湊 ? 1/2 : 1.0)
     t.edgeProgressDays += 1
@@ -651,12 +694,15 @@ transportDaily(state):
         food 入城（容量截斷）；soldiers 併入 B 城（maxSoldiers 截斷）；gold 回勢力金庫；移除 t；發 report.transport.arrived
 ```
 
-### 5.5 米買賣（`tradeRice`，即時結算）
+### 5.5 米買賣（`tradeRice`，Command 佇列次 tick 開頭結算）
+
+`tradeRice` 為一般 Command：下單即入佇列，於**次 tick 開頭**的指令處理階段結算（廢除原「即時結算」，統一 Command 語意，D-10；佇列機制見 03）。
+結算成功後 `castle.riceTradedThisMonth += amount`（該累加器每月 1 日重置為 0，見 §5.2 (d)）。
 
 ```
-驗證：城有米問屋；本月該城累計交易量 + amount ≤ BAL.riceTradeCapMonthly
-sell: 需 castle.food ≥ amount → food −= amount；clan.gold += floor(amount × BAL.riceSellRate)
-buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amount（容量截斷，超出不補償）
+驗證：城有米問屋；amount > 0；castle.riceTradedThisMonth + amount ≤ BAL.riceTradeCapMonthly
+sell: 需 castle.food ≥ amount → food −= amount；clan.gold += floor(amount × BAL.riceSellRate)；castle.riceTradedThisMonth += amount
+buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amount（容量截斷，超出不補償）；castle.riceTradedThisMonth += amount
 ```
 
 ### 5.6 BAL 常數彙整（本文件引入；定案值以 15 為準）
@@ -694,7 +740,7 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
 | `BAL.conscriptSecurityDelta` | +1/0/−2 | 低/中/高（治安/月） |
 | `BAL.castleBaseSoldiersMain` / `BAL.castleBaseSoldiersBranch` | 1000 / 500 | 人 |
 | `BAL.soldiersPerPop` | 0.025 | 兵/人口 |
-| `BAL.transportSpeedFactor` | 1.0 | 輸送隊邊日數乘數（§3.6；作用於 `edgeCostDays`，與傳馬制/海路係數共乘） |
+| `BAL.transportSpeedFactor` | 1.0 | 輸送隊速度係數（§3.6；作用於 `edgeCostDays`，以 ÷ 套用，與傳馬制/海路之 1/r 日數係數同慣例；15 §5.6） |
 | `BAL.policySlotMax` / `BAL.policySlotPrestige` | 6 / 300 | 政策格 |
 | `BAL.policyReadoptCooldownMonths` | 6 | 月 |
 | `BAL.polNanbanGold` | 200 | 貫/月 |
@@ -850,7 +896,7 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
   劫掠玩法與 AI 目標（07 的兵站破壞），安全抵達時無淨效果，實作成本低而策略趣味高。
 - **D8 一揆軍不移動、不攻城**：v1.0 將一揆定位為「內政懲罰＋派兵處理的摩擦」，而非完整敵勢力；
   移動/攻城型一揆需要 AI 與威風互動的額外規格，收益不成比例。
-- **D9 政策效果即時查詢、無快取**：生效政策集合小（≤6），每次公式計算直接查 `activePolicies`，
+- **D9 政策效果即時查詢、無快取**：生效政策集合小（≤6），每次公式計算直接查 `state.policies[clanId].active`，
   避免快取失效 bug；效能上每 tick 查詢次數 O(郡數)，可忽略。
 - **D10 互斥對僅兩組**（寺社保護↔南蠻貿易、兵農分離↔五人組）：互斥是敘事性取捨（宗教路線／
   兵制路線），過多互斥會讓政策格上限（威信驅動）的取捨感被稀釋。
@@ -892,12 +938,35 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
   改動 §4 全部施設相關 interface、§4 命令聯集、§5.2 偽碼。依據：E-29、E-39、02 §4.5／§4.18。
 - **E-36／E-11（2026-07-10）**：§3.6 輸送速度表述移除不存在之 `BAL.marchBaseSpeed`（04 並無此常數），改採 04 的
   日數累加器模型——邊日數 `edgeCostDays = edge.baseDays / BAL.roadGradeSpeedMult[grade]`（海路固定＝`baseDays`），
-  輸送隊進入該邊時再乘 `BAL.transportSpeedFactor`(=1.0) 與政策／海路係數；原「速度倍率」表述換算為「日數乘數」
+  輸送隊進入該邊時再套用 `BAL.transportSpeedFactor`(=1.0)（速度係數；套用方向勘誤見 §8.3）與政策／海路係數；原「速度倍率」表述換算為「日數乘數」
   （傳馬制原 ×1.5 速度 → ×(2/3) 日數；海路＋湊原 ×2 速度 → ×(1/2) 日數，與 §7 T5-7 驗收「傳馬制使日數縮短為 2/3」一致）。
   `TransportOrder` 欄位 `pathIndex`／`edgeProgress` 改名為 `pathCursor`／`edgeProgressDays`，並新增 `edgeCostDays`
   （與 02 §4.13 完全對齊，語意同 04 §4.2 `MarchState`）；§5.4 偽碼同步改寫為逐邊日數推進與抵達判定
   `edgeProgressDays ≥ edgeCostDays`。改動 §3.6、§4 `TransportOrder`、§5.4、§5.6（`transportSpeedFactor` 說明文字）。
   依據：E-36、E-11、02 §4.13、04 §3.4.2／§3.7／§5.3。
+
+### 8.3 勘誤消化記錄（2026-07-11，對抗式驗證修復）
+
+彙整六員對抗式驗證回報之 CONFIRMED findings（已逐項核實兩側原文）：
+
+- **輸送速度係數方向（§3.6／§4 `TransportOrder`／§5.4／§5.6，並更新 §8.2 敘述）**：`BAL.transportSpeedFactor` 於 15 §5.6 定義為
+  「輸送隊相對步兵基準日速的速度係數」（值愈大愈快），原 05 以「乘 `edgeCostDays`」套用，方向與速度係數相反（且與同式
+  `baseDays ÷ roadGradeSpeedMult`、傳馬制／海路之 1/r 慣例不一致）。改為「除以 `BAL.transportSpeedFactor`」，全部公式與偽碼同步
+  （預設值 1.0 下數值不變）。依據：驗證 finding、15 §5.6。
+- **米買賣結算時點（§4 `DomesticCommand`／`CastleDomestic`、§5.2 (d)、§5.5）**：對齊 02 §4.18 `CmdTradeRice`／四輪裁決 D-10，廢除原
+  「即時結算」，改為一般 Command 於佇列次 tick 開頭結算；`CastleDomestic` 新增 `riceTradedThisMonth`（月上限累加器，每月 1 日重置為 0），
+  承載 `BAL.riceTradeCapMonthly` 之「本月該城累計交易量」。依據：D-10、02 §4.18。
+- **政策狀態容器（§2 關係表、§3.7.1、§4、§5.3、決策 D9）**：依 DDR-1／四輪裁決 D-11，政策狀態自 `ClanDomestic` 遷入獨立容器
+  `GameState.policies[clanId]`（新增 `ClanPolicyState`，欄位對齊 02 §4.14 之 `active`／`cooldownUntil`）；`ClanDomestic` 僅留
+  `gold`／`prestige`；明訂政策即刻生效、無施行期。依據：DDR-1、D-11、02 §4.14。
+- **城主任命與直轄／委任（新增 §3.9、§4 `DomesticCommand`）**：填補 `CmdAppointLord`／`CmdSetCastleControl` 懸空語意（00 §0.5）——
+  補齊驗證條件（身分門檻 06 §3.4／02 INV-04、同城非出陣中、軍團城限制 07 §3.12、委任須有城主）與效果
+  （被解除城主職者忠誠 −`BAL.loyaltyDismiss`=10，經 06 §3.6.3）。依據：驗證 finding、02 §4.18、06 §3.4／§3.6.3、07 §3.12。
+- **經濟事件具名化（§3.1.3／§3.1.4／§5.2／§5.3）**：原直接「發 `report.economy.castleStarving`／發報告」改為發具名事件
+  `economy.foodShortage{clanId, castleId}`（糧盡）與 `economy.upkeepUnpaid{clanId}`（欠俸），明訂發出時機、頻率與 payload；
+  報告字串映射見 13 §6.11。依據：四輪裁決 C-5、02 §4.19。
+- **郡屬性／`foodFrac` 浮點（存查）**：確認 05 §3.2.1／§4 已為「內部浮點、顯示 floor」（決策 D5）且 `Castle.foodFrac` 已收錄，
+  與四輪裁決 D-12／02 §4 一致，無需再改。依據：D-12。
 
 ---
 
