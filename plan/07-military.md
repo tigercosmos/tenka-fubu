@@ -56,7 +56,7 @@
 **出陣來源**：任一我方直轄城。軍團所屬城由軍團 AI 自行出陣（§3.12），玩家不可直接對軍團城下出陣指令。
 
 **編成規則**：
-1. 選擇 **1 名大將**（`generalId`）＋**至多 2 名副將**（`deputyIds`）。
+1. 選擇 **1 名大將**（`leaderId`）＋**至多 2 名副將**（`deputyIds`）。
    候選條件：武將位於該城、未出陣中、非捕虜、非浪人。任何身分皆可任大將（帶兵上限不同）。
 2. **兵數**：`BAL.minMarchTroops`（建議 100）≤ 兵數 ≤ `min(城駐兵, BAL.rankTroopCap[大將身分])`。
    副將不增加帶兵上限（v1 簡化，見 §8 D3）。身分帶兵上限：
@@ -97,7 +97,7 @@
 **戰力（power）**——野戰與攻城使用：
 
 ```
-power = troops × (1 + ldr(大將統率) × BAL.ldrCombatFactor) × moraleFactor × troopTypeFactor
+power = soldiers × (1 + ldr(大將統率) × BAL.ldrCombatFactor) × moraleFactor × troopTypeFactor
 moraleFactor = BAL.moraleFactorBase + morale / BAL.moraleFactorDivisor   // 0.5 .. 1.0
 ```
 
@@ -150,11 +150,11 @@ moraleFactor = BAL.moraleFactorBase + morale / BAL.moraleFactorDivisor   // 0.5 
 ### 3.4 潰走與追擊
 
 **潰走條件**（野戰每日與合戰每 tick 檢查）：
-`morale ≤ BAL.moraleBreakThreshold`（建議 30）**或** `troops < initialTroops × BAL.routTroopRatio`（建議 0.2）。
+`morale ≤ BAL.moraleBreakThreshold`（建議 30）**或** `soldiers < initialTroops × BAL.routTroopRatio`（建議 0.2）。
 
 **潰走行為**：
 - `status = 'routed'`；路徑改為「至最近我方城的最短路」（以跳數計，同距取 id 字典序小者）。
-- 每日折損 `troops × BAL.routDailyLossRate`（建議 0.08，向上取整）。
+- 每日折損 `soldiers × BAL.routDailyLossRate`（建議 0.08，向上取整）。
 - 不觸發遭遇、不被制壓阻擋、不可下令、士氣鎖定不再變動。
 - 抵達我方城 → 殘兵編入城駐兵、殘糧併入城兵糧、武將回城待命、`Army` 移除。
 - 全地圖無我方城 → 部隊立即解散，武將成為浪人（處理參見 06）。
@@ -383,7 +383,7 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 ### 3.12 軍團（Corps）
 
 - **建立**：`CmdCreateCorps` 指定軍團長（身分 ≥ 家老、非出陣中）與至少 1 座我方直轄城。
-  城劃入軍團後玩家不可再對其直接下內政／出陣指令（可 `CmdRemoveCastleFromCorps` 收回）。
+  城劃入軍團後玩家不可再對其直接下內政／出陣指令（收回城＝`CmdAssignCastleToCorps(corpsId:null)`，E-32）。
 - **方針（directive）**：`advance`（攻略目標，須指定 `targetNodeId`）／`hold`（防衛領內）／
   `develop`（自治：由 AI 自行選擇目標與開發）。玩家可隨時變更。（依 02 三值，E-21）
 - **行為**：軍團內的出陣、徵兵、開發全部由軍團 AI 執行（完整邏輯參見 `plan/09-ai.md`）；
@@ -397,12 +397,12 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 ### 3.13 兵站與補給
 
 - **每日消耗**（tick step 7 開頭，先於移動與交戰）：每支在外部隊
-  `food −= ceil(troops × BAL.fieldFoodPerSoldierDaily)`（建議 0.02 石/人/日）。
+  `food −= ceil(soldiers × BAL.fieldFoodPerSoldierDaily)`（建議 0.02 石/人/日）。
 - **補給**：部隊位於我方（含同盟）城節點時，每日自該城兵糧自動補至
   `兵數 × BAL.fieldFoodPerSoldierDaily × BAL.defaultCarryDays` 水位（城存量不足則補到用盡為止）。
 - **糧盡**（`food == 0`）：每日士氣 `−BAL.noFoodMoraleDaily`（建議 8）、
-  兵逃散 `troops × BAL.noFoodDesertionRate`（建議 0.05，向上取整）。
-- **歸還**：`CmdRecallArmy` → `mission = 'return'`、目標 = `homeCastleId`（已失守則最近我方城）；
+  兵逃散 `soldiers × BAL.noFoodDesertionRate`（建議 0.05，向上取整）。
+- **歸還**：`CmdRecallArmy` → `mission = 'return'`、目標 = `originCastleId`（已失守則最近我方城）；
   抵達後兵力、殘糧併入城，武將回城，`Army` 移除。
 - **自動歸還**（`autoReturn == true`，預設開，玩家可關）：滿足任一即自動轉歸還——
   (a) 任務完成（march 抵達目標並完成制壓／conquer 目標落城）且無新指令；
@@ -434,10 +434,10 @@ type ArmyStatus =
 interface Army {
   id: string;                 // "army.<6位流水>" 例 "army.000042"（依 02 六位流水，E-12）
   clanId: string;             // 所屬勢力
-  homeCastleId: string;       // 出發城（歸還預設目的地）
-  generalId: string;          // 大將 Officer id
+  originCastleId: string;     // 出陣城（歸還預設目的地）（依 02 §4.8，E-11）
+  leaderId: string;           // 大將 Officer id（依 02 §4.8，E-11）
   deputyIds: string[];        // 副將 Officer id，長度 0..2
-  troops: number;             // 現有兵數（人，整數）
+  soldiers: number;           // 現有兵數（人，整數）（依 02 §4.8，E-11）
   initialTroops: number;      // 出陣時兵數（人；潰走判定基準，途中補兵時同步上調）
   morale: number;             // 士氣 0..100
   food: number;               // 攜帶兵糧（石，整數）
@@ -445,7 +445,10 @@ interface Army {
   status: ArmyStatus;
   targetNodeId: MapNodeId;    // 目標節點
   path: MapNodeId[];          // 完整路徑（含起訖；由 04 尋路產生）
-  pathIndex: number;          // 目前所在 path 索引
+  pathCursor: number;         // 已抵達之 path 索引（＝04 MarchState.nodeIndex 語意）（依 02 §4.8，E-11）
+  posNodeId: MapNodeId;       // 最近抵達節點（= path[pathCursor]）（依 02 §4.8，E-11）
+  edgeProgressDays: number;   // 往 path[pathCursor+1] 之當前邊已累積行軍日數（日，浮點 ≥0）；位於節點上／已抵終點為 0（日數累加模型見 04 §5，E-11）
+  edgeCostDays: number;       // 當前邊有效日數（日）＝edge.baseDays / BAL.roadGradeSpeedMult[grade]（海路固定＝baseDays）；抵達判定 edgeProgressDays ≥ edgeCostDays（04 §3.4.2／§5，E-11）
   autoReturn: boolean;        // 糧將盡／任務完成自動歸還
   corpsId: string | null;     // 所屬軍團 id；null = 直轄
   troopType: 'standard';      // v1 固定值；預留兵種擴充，不得實作分支
@@ -576,7 +579,7 @@ interface Corps {
 
 | Command | 欄位 | 說明 |
 |---|---|---|
-| `CmdMarch` | `castleId, generalId, deputyIds, troops, food, targetNodeId, waypoints` | 出陣（§3.1） |
+| `CmdMarch` | `castleId, leaderId, deputyIds, soldiers, food, targetNodeId, waypoints` | 出陣（§3.1） |
 | `CmdSetArmyTarget` | `armyId, targetNodeId, waypoints` | 變更在外部隊目標 |
 | `CmdRecallArmy` | `armyId` | 命令歸還 |
 | `CmdSetAutoReturn` | `armyId, enabled` | 切換自動歸還 |
@@ -589,8 +592,7 @@ interface Corps {
 | `CmdUseBetrayal` | `siegeId` | 發動內應 |
 | `CmdCreateCorps` | `corpsLeaderId, castleIds, directive, targetNodeId?` | 建立軍團 |
 | `CmdSetCorpsDirective` | `corpsId, directive, targetNodeId?` | 變更軍團方針 |
-| `CmdAssignCastleToCorps` | `corpsId, castleId` | 劃撥城入軍團 |
-| `CmdRemoveCastleFromCorps` | `corpsId, castleId` | 收回城 |
+| `CmdAssignCastleToCorps` | `corpsId, castleId` | 劃撥城入軍團（`corpsId: null` ＝收回城，取代原 `CmdRemoveCastleFromCorps`，E-32） |
 | `CmdDissolveCorps` | `corpsId` | 解散軍團 |
 
 ---
@@ -603,21 +605,21 @@ interface Corps {
 applyCmdMarch(state, cmd):
   castle = state.castles[cmd.castleId]
   assert castle.clanId == cmd.issuerClanId 且 castle 非軍團城（玩家指令時）
-  general = state.officers[cmd.generalId]
+  general = state.officers[cmd.leaderId]
   assert general 在 castle、未出陣、非捕虜、非浪人
   assert cmd.deputyIds.length ≤ 2，且每名副將同上條件、與大將互異
   cap = BAL.rankTroopCap[general.rank]（當主 → 8000）
-  assert BAL.minMarchTroops ≤ cmd.troops ≤ min(castle.garrison, cap)
-  minFood = cmd.troops × BAL.fieldFoodPerSoldierDaily × BAL.minCarryDays
-  maxFood = cmd.troops × BAL.fieldFoodPerSoldierDaily × BAL.maxCarryDays
+  assert BAL.minMarchTroops ≤ cmd.soldiers ≤ min(castle.garrison, cap)
+  minFood = cmd.soldiers × BAL.fieldFoodPerSoldierDaily × BAL.minCarryDays
+  maxFood = cmd.soldiers × BAL.fieldFoodPerSoldierDaily × BAL.maxCarryDays
   assert minFood ≤ cmd.food ≤ min(castle.food, maxFood)
   // 任一 assert 失敗 → 產生失敗 Report，指令作廢
-  castle.garrison -= cmd.troops;  castle.food -= cmd.food
+  castle.garrison -= cmd.soldiers;  castle.food -= cmd.food
   mission = isEnemyCastleNode(cmd.targetNodeId) ? 'conquer' : 'march'
   path = findPathWithWaypoints(castle.nodeId, cmd.waypoints, cmd.targetNodeId)  // 參見 04
   morale0 = clamp(BAL.moraleInitBase + general.ldr × BAL.moraleInitLdrFactor
                   + policyMoraleBonus(clan), 0, 100)   // 政策值參見 05
-  state.armies.push(newArmy(..., initialTroops: cmd.troops, morale: morale0))
+  state.armies.push(newArmy(..., initialTroops: cmd.soldiers, morale: morale0))
   markDeployed(general, deputies)
 ```
 
@@ -636,7 +638,7 @@ fieldCombatDailyTick(state, fc):
   lossB = 同式對稱
   distributeLossByTroops(A, round(lossA)); distributeLossByTroops(B, round(lossB))
   A.cumulativeLosses += lossA; B.cumulativeLosses += lossB
-  rA = lossA / troopsA_start; rB = lossB / troopsB_start
+  rA = lossA / soldiersA_start; rB = lossB / soldiersB_start
   if |rA − rB| < 0.05: 雙方全部隊 morale −1
   else 高者側 morale −BAL.fieldMoraleDailyLose、低者側 +BAL.fieldMoraleDailyWin
   for each army: checkRout(army)                       // §3.4
@@ -743,14 +745,14 @@ judgeAwe(bs):
 
 ```
 supplyDailyTick(state, army):
-  army.food = max(0, army.food − ceil(army.troops × BAL.fieldFoodPerSoldierDaily))
+  army.food = max(0, army.food − ceil(army.soldiers × BAL.fieldFoodPerSoldierDaily))
   node = currentNode(army)
   if node 是我方或同盟城節點:
-    target = army.troops × BAL.fieldFoodPerSoldierDaily × BAL.defaultCarryDays
+    target = army.soldiers × BAL.fieldFoodPerSoldierDaily × BAL.defaultCarryDays
     refill = min(target − army.food, castle.food); army.food += refill; castle.food −= refill
   if army.food == 0:
     army.morale −= BAL.noFoodMoraleDaily
-    army.troops −= ceil(army.troops × BAL.noFoodDesertionRate)
+    army.soldiers −= ceil(army.soldiers × BAL.noFoodDesertionRate)
   if node.owner 與 army 敵對: army.morale −= BAL.moraleEnemyLandDaily
   if army.autoReturn 且 (任務完成 或 剩餘日數 ≤ BAL.autoReturnFoodDays 且 非圍城收尾):
     army.mission = 'return'; army.targetNodeId = 歸還目的地; repath
@@ -860,13 +862,13 @@ supplyDailyTick(state, army):
 | `ui.march.title` | 出陣 |
 | `ui.march.selectGeneral` | 選擇大將 |
 | `ui.march.selectDeputies` | 選擇副將（至多2名） |
-| `ui.march.troops` | 兵數 |
+| `ui.march.soldiers` | 兵數 |
 | `ui.march.carryDays` | 攜糧日數 |
 | `ui.march.foodPreview` | 攜帶兵糧：{food}石（城內餘{rest}石） |
 | `ui.march.target` | 目標 |
 | `ui.march.troopCap` | 帶兵上限：{cap}人 |
 | `cmd.march.confirm` | 出陣 |
-| `report.march.failed.troops` | 出陣失敗：{castle}兵力不足 |
+| `report.march.failed.soldiers` | 出陣失敗：{castle}兵力不足 |
 | `report.march.failed.cap` | 出陣失敗：超過{general}的帶兵上限（{cap}人） |
 | `report.march.failed.food` | 出陣失敗：{castle}兵糧不足 |
 | `ui.army.status.marching` | 行軍中 |
@@ -1025,3 +1027,15 @@ supplyDailyTick(state, army):
 - **D24｜依 19 §3.13 E-65 修正**（2026-07-07）：§3.10 威風翻轉、§3.11 落城翻轉、§5.6 applyAwe 統一補
   「翻轉任一郡 ownerClanId 時清除該郡 `District.subjugation` 並掃描 `state.armies`
   重置正制壓該郡部隊之制壓進度」。依據：E-65「翻轉任一郡 ownerClanId 時掃描 state.armies 重置對應 subjugation」。
+- **D25｜依 19 §3.13 E-11 修正**（2026-07-10）：`Army` 欄位與全檔引用依 02 §4.8 現行定案改名——
+  `generalId`→`leaderId`、`troops`→`soldiers`、`homeCastleId`→`originCastleId`、`pathIndex`→`pathCursor`；
+  行軍改採**日數累加器為唯一權威模型**，`Army` 補入 02 欄位 `posNodeId`／`edgeProgressDays`／`edgeCostDays`
+  （抵達判定 `edgeProgressDays ≥ edgeCostDays`，機制見 04 §5）。連動更名處：§3.1 出陣、§3.2 戰力公式、
+  §3.4 潰走、§3.13 兵站與歸還、§4 `CmdMarch` 參數表、§5.1／§5.2／§5.7 偽碼、§6.5 字串 key
+  （`ui.march.troops`→`ui.march.soldiers`、`report.march.failed.troops`→`report.march.failed.soldiers`）。
+  合戰 transient `BattleUnit`（bu. 體系）之 `generalId`／`troops` 依 02 §4.9 維持原名，不在改名範圍；
+  §3.7 合戰攻擊力／佔領公式與 §4 `BattleUnit` 定義沿用 `troops`。
+  依據：E-11「Army／TransportOrder 行軍模型統一為日數累加器並改名（`edgeProgress` 0..1 廢除）」。
+- **D26｜依 19 §3.13 E-32 修正**（2026-07-10）：§4 指令表刪除 `CmdRemoveCastleFromCorps`，
+  收回城統一以 `CmdAssignCastleToCorps(corpsId:null)` 表達（對齊 02 §4.18 聯集與 §4 合併註記）；
+  §3.12 軍團正文引用一併改寫。依據：E-32「重複語意合併，`RemoveCastleFromCorps`＝`assignCastleToCorps(null)`」。

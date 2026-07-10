@@ -316,9 +316,14 @@ BAL.soldiersPerPop = 0.025
   搶劫目標；見 §8 決策 D7）與 `food`（自 A 城庫存扣除）至我方城 B。三欄皆 ≥0，且不得同時為 0（E-41：合併 02 的兵力輸送）。
 - 下單驗證：A、B 同勢力；`soldiers ≤ castleA.soldiers`；`food ≤ castleA.food`；`gold ≤ clan.gold`；路徑存在（A→B 沿街道的最短路，尋路見 04）。
 - 出發時生成 `TransportOrder`，物資即刻自來源扣除。輸送隊為**非戰鬥單位**，不需武將帶隊、不佔兵力。
-- 移動：沿 04 的節點圖每日推進，日速 = `BAL.marchBaseSpeed`（04 定義的步兵基準日速）
-  × `BAL.transportSpeedFactor(=1.0)` × 政策係數（傳馬制 ×1.5）× 海路係數（行經海路邊且起訖任一端城有湊 ×2，否則海路邊 ×1）。
-  預估日數 = `ceil(路徑總距離 / 日速)`，下單前 UI 顯示。
+- 移動：沿 04 的節點圖每日推進，欄位與語意同 04 §4.2 `MarchState`（`path`／`pathCursor`／`edgeProgressDays`／`edgeCostDays`，
+  對齊 02 §4.13、E-11／E-36）。邊日數 `edgeCostDays = edge.baseDays / BAL.roadGradeSpeedMult[grade]`
+  （海路固定＝`baseDays`，見 04 §3.4.2）；輸送隊進入該邊時再乘 `BAL.transportSpeedFactor(=1.0)` 與下列係數
+  （速度倍率換算為日數乘數：原速度倍率 r 之等效日數乘數為 1/r）：
+  政策係數（傳馬制生效 ×(2/3)，即原速度 ×1.5 之等效日數乘數）
+  × 海路係數（行經海路邊且起訖任一端城有湊 ×(1/2)，即原速度 ×2 之等效日數乘數；否則海路邊 ×1）。
+  `edgeProgressDays` 每日 +1，抵達判定 `edgeProgressDays ≥ edgeCostDays`（位於節點上／已抵終點為 0；
+  跨節點餘量結轉同 04 §3.7）。預估日數 = 路徑各邊上述調整後日數之總和（無條件進位），下單前 UI 顯示。
 - **被劫判定（每日移動結算後）**：輸送隊所在節點存在敵對 `Army`（外交敵對判定見 08）時：
   - 兵糧：敵部隊獲得 `min(輸送糧, 部隊攜行餘裕)`（攜行上限見 07），其餘散失。
   - 金錢：全額歸敵方勢力金庫。
@@ -451,27 +456,27 @@ export interface CastleDomestic {
   foodFrac: number;                // 兵糧日消耗小數累加器（0..1，存檔保留以維持決定論）
   soldiers: number;                // 城駐兵（人；≥0 整數）
   conscriptPolicy: ConscriptPolicy;// 徵兵方針
-  facilities: FacilityId[];        // 已建成施設（每種至多一個）
+  facilities: FacilityTypeId[]; // 已建成施設（每種至多一個）
   buildQueue: BuildOrder[];        // 建造佇列（[0] 為施工中；長度 ≤ BAL.buildQueueSize）
 }
 
 /** 建造佇列項 */
 export interface BuildOrder {
-  facilityId: FacilityId;          // 目標施設
+  facilityTypeId: FacilityTypeId;  // 目標施設種類
   daysLeft: number;                // 剩餘工期（日；下單時 = FacilityDef.buildDays）
 }
 
 /** 施設靜態定義（全 16 筆為 core 內建常數表，非劇本資料） */
 export interface FacilityDef {
-  id: FacilityId;                  // 'fac.ichi' 等，見 §3.4.2
+  id: FacilityTypeId;              // 'fac.ichi' 等，見 §3.4.2
   nameKey: string;                 // i18n key，如 'term.facility.ichi'
   costGold: number;                // 造價（貫）
   buildDays: number;               // 工期（日）
   mainCastleOnly: boolean;         // 僅本城可建
   requiresCoastal: boolean;        // 需臨海
-  requiresFacility: FacilityId | null;  // 前置施設（同城已建成）
+  requiresFacility: FacilityTypeId | null;  // 前置施設（同城已建成）
   requiresPolicy: PolicyId | null;      // 前置政策（本勢力生效中）
-  exclusiveWith: FacilityId | null;     // 同城互斥施設
+  exclusiveWith: FacilityTypeId | null; // 同城互斥施設
 }
 
 /** 政策靜態定義（全 12 筆為 core 內建常數表） */
@@ -481,7 +486,7 @@ export interface PolicyDef {
   unlockPrestige: number;          // 威信門檻（≥）
   unlockCourtRank: CourtRankId | null;  // 替代解鎖：官位門檻（08；null = 無此途徑）
   unlockEvent: EventId | null;     // 替代解鎖：事件達成（10；null = 無此途徑）
-  requiresFacility: FacilityId | null;  // 追加條件：全勢力至少一座該施設
+  requiresFacility: FacilityTypeId | null;  // 追加條件：全勢力至少一座該施設
   upkeepGold: number;              // 每月維持費（貫）
   exclusiveWith: PolicyId | null;  // 互斥政策
 }
@@ -503,9 +508,11 @@ export interface TransportOrder {
   soldiers: number;                // 押運兵力（人；≥0，E-41）
   gold: number;                    // 押運金錢（貫）
   food: number;                    // 押運兵糧（石）
-  path: MapNodeId[];               // 全路徑節點序列（04 尋路產出）
-  pathIndex: number;               // 目前所在節點在 path 的索引
-  edgeProgress: number;            // 當前邊已推進距離（04 距離單位）
+  path: MapNodeId[];               // 全路徑節點序列（04 尋路產出，含起訖）
+  pathCursor: number;              // 目前所在節點在 path 的索引（＝04 MarchState.nodeIndex 語意；02 §4.13、E-11）
+  edgeProgressDays: number;        // 往 path[pathCursor+1] 之當前邊已累積行軍日數（日）；位於節點上／已抵終點為 0（E-11）
+  edgeCostDays: number;            // 當前邊（輸送隊調整後）有效日數（日）＝邊 edgeCostDays × BAL.transportSpeedFactor
+                                    // × 政策/海路係數（§3.6）；抵達判定 edgeProgressDays ≥ edgeCostDays（02 §4.13、E-11／E-36）
   returning: boolean;              // 是否已被撤回折返中
 }
 
@@ -529,9 +536,9 @@ export interface BudgetForecast {
 export type DomesticCommand =
   | { type: 'setDevelopFocus';    districtId: DistrictId; focus: DevelopFocus }      // 僅直轄郡（E-29）
   | { type: 'grantFief';          districtId: DistrictId; officerId: OfficerId | null } // §3.3；officerId=null 收回直轄（E-29 合併任命/罷免）
-  | { type: 'buildFacility';      castleId: CastleId; facilityId: FacilityId }        // §3.4.1
+  | { type: 'buildFacility';      castleId: CastleId; facilityTypeId: FacilityTypeId }  // §3.4.1（對齊 02 §4.18，E-29）
   | { type: 'cancelBuild';        castleId: CastleId; queueIndex: number }
-  | { type: 'demolishFacility';   castleId: CastleId; facilityId: FacilityId }
+  | { type: 'demolishFacility';   castleId: CastleId; facilityTypeId: FacilityTypeId }  // 對齊 02 §4.18（E-29）
   | { type: 'setConscriptPolicy'; castleId: CastleId; policy: ConscriptPolicy }
   | { type: 'transport';          fromCastleId: CastleId; toCastleId: CastleId; soldiers: number; gold: number; food: number } // 三欄皆 ≥0，不得同時為 0（E-41）
   | { type: 'recallTransport';    transportId: TransportId }
@@ -595,7 +602,7 @@ economyDaily(state):
     if c.buildQueue.length > 0:
       c.buildQueue[0].daysLeft −= 1
       if daysLeft === 0:
-        完工：facilities.push(facilityId)；驗證前置（§3.4.1），發 report.build.done
+        完工：facilities.push(facilityTypeId)；驗證前置（§3.4.1），發 report.build.done
         佇列前移；若下一件的 slot/前置已不滿足 → 自動取消並退款 50%，發報告
 
   # (c) 輸送隊推進與被劫（每日）→ §5.4
@@ -629,15 +636,19 @@ monthlyIncomeAndUpkeep(state):
 ```
 transportDaily(state):
   for 每 transport t（id 字典序）:
-    speed = BAL.marchBaseSpeed × BAL.transportSpeedFactor
-            × (傳馬制生效 ? 1.5 : 1.0)
-            × (當前邊為海路 ? (起訖任一端城有湊 ? 2.0 : 1.0) : 1.0)
-    沿 t.path 推進 speed（跨節點時 pathIndex++、edgeProgress 歸零；折返中反向）
-    node = 當前所在節點
+    if t.edgeCostDays === 0:                                  # 剛進入本邊，計算輸送隊調整後邊日數（§3.6）
+      base = edgeCostDays(currentEdge(t))                     # = edge.baseDays / BAL.roadGradeSpeedMult[grade]（海路固定＝baseDays）
+      t.edgeCostDays = base × BAL.transportSpeedFactor
+                       × (傳馬制生效 ? 2/3 : 1.0)
+                       × (當前邊為海路 且 起訖任一端城有湊 ? 1/2 : 1.0)
+    t.edgeProgressDays += 1
+    node = 當前所在節點（未抵達前仍為 path[t.pathCursor]）
     if node 上存在對 t.clanId 敵對的 Army 或一揆軍:
       被劫結算（§3.6）；移除 t；continue
-    if 抵達終點:
-      food 入城（容量截斷）；soldiers 併入 B 城（maxSoldiers 截斷）；gold 回勢力金庫；移除 t；發 report.transport.arrived
+    if t.edgeProgressDays >= t.edgeCostDays:
+      t.pathCursor += (t.returning ? -1 : 1)；t.edgeProgressDays = 0；t.edgeCostDays = 0    # 進入下一邊，重算邊日數（餘量結轉略，同 04 §3.7）
+      if t.pathCursor 抵達終點（或折返抵達起點）:
+        food 入城（容量截斷）；soldiers 併入 B 城（maxSoldiers 截斷）；gold 回勢力金庫；移除 t；發 report.transport.arrived
 ```
 
 ### 5.5 米買賣（`tradeRice`，即時結算）
@@ -683,7 +694,7 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
 | `BAL.conscriptSecurityDelta` | +1/0/−2 | 低/中/高（治安/月） |
 | `BAL.castleBaseSoldiersMain` / `BAL.castleBaseSoldiersBranch` | 1000 / 500 | 人 |
 | `BAL.soldiersPerPop` | 0.025 | 兵/人口 |
-| `BAL.transportSpeedFactor` | 1.0 | ×步兵基準日速 |
+| `BAL.transportSpeedFactor` | 1.0 | 輸送隊邊日數乘數（§3.6；作用於 `edgeCostDays`，與傳馬制/海路係數共乘） |
 | `BAL.policySlotMax` / `BAL.policySlotPrestige` | 6 / 300 | 政策格 |
 | `BAL.policyReadoptCooldownMonths` | 6 | 月 |
 | `BAL.polNanbanGold` | 200 | 貫/月 |
@@ -854,11 +865,9 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
   值改為 **3/6/10/15/22/30**。改動 §3.1.4 俸祿公式與俸祿表、§5.6 彙整。依據：E-04、15 §5.2 表 A/B。
 - **E-07（2026-07-07）**：開發方針型別 `DevPolicy` 改名為 `DevelopFocus`（名依 02，第三值維持 05 的 `barracks`），
   郡欄位 `devPolicy` 改名為 `developFocus`（對齊 02 `District.developFocus`）。改動 §3.2.2 標題、§4 型別與 `DistrictDomestic`、§5.1 公式。依據：E-07。
-- **E-29（2026-07-07，部分）**：內政 Command 名對齊 02 §4.18 既有聯集——`setDevPolicy`→`setDevelopFocus`（欄位 `policy`→`focus`）、
+- **E-29（2026-07-07）**：內政 Command 名對齊 02 §4.18 既有聯集——`setDevPolicy`→`setDevelopFocus`（欄位 `policy`→`focus`）、
   `adoptPolicy`→`enactPolicy`、`appointSteward`＋`dismissSteward` 合併為 `grantFief`（`officerId=null` 收回直轄，與 02／06 一致）。
-  改動 §3.2.2、§3.3.1／§3.3.3 標題、§3.7.1、§4 命令聯集、§6.1 流程。
-  **未套用（needsReview）**：施設命令 `buildFacility`／`demolishFacility` 之參數與型別（`facilityId`/`FacilityId` vs 02 之 `facilityTypeId`/`FacilityTypeId`、`slotIndex`）；
-  因 02 之施設命令正由 E-39 改寫（改為佇列制、去 `slotIndex`），其定案形尚未穩定，留待 E-29／E-39 協同一次處理。依據：E-29、02 §4.18。
+  改動 §3.2.2、§3.3.1／§3.3.3 標題、§3.7.1、§4 命令聯集、§6.1 流程。施設命令參數之對齊見 §8.2（2026-07-10）。依據：E-29、02 §4.18。
 - **E-08（2026-07-07）**：郡治安欄位 `security` 改名為 `publicOrder`（依 02；BAL 常數 `securityOnSubjugated`／`securityAfterSuppress`／`uprisingThreshold`
   之名稱不變）。改動 §3.2.4、§3.8.1、§3.8.2、§4 `DistrictDomestic`、§7 驗收字句。i18n key（`ui.district.security`）屬 13 範圍未動。依據：E-08。
 - **E-09（2026-07-07）**：郡潛力上限欄位 `kokudakaMax`／`commerceMax`／`populationMax` 改名為 `*Cap`（依 02）。
@@ -872,6 +881,23 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
   並註明此為非圍城之一般糧盡路徑（圍城改用 07 規則，互斥）。改動 §3.1.3、§5.2、§5.6。依據：15 §5.2 表 C。
 - **欠俸忠誠懲罰別名併入（2026-07-07）**：`unpaidSalaryLoyaltyHit`(=3) 併入 06 擁有之 `unpaidSalaryLoyaltyPenalty`(=2)。
   改動 §3.1.4、§5.3、§5.6、決策 D11。依據：15 §5.2 表 A/B。
+
+### 8.2 勘誤消化記錄（2026-07-10，依 19 §3.13 與 02 樞紐定案備忘錄）
+
+- **E-29（2026-07-10，補完）**：解除 2026-07-07 記錄之「未套用」待處理標記——施設 Command 之參數對齊 02 §4.18／E-39
+  定案形：`CmdBuildFacility`／`CmdDemolishFacility` 之 `facilityId: FacilityId` 改為 `facilityTypeId: FacilityTypeId`
+  （02 之施設命令已無 `slotIndex`，佇列制以 `CmdCancelBuild(queueIndex)` 取代）。一併將 `CastleDomestic.facilities`、
+  `BuildOrder.facilityId`、`FacilityDef.id`／`requiresFacility`／`exclusiveWith`、`PolicyDef.requiresFacility`
+  之型別與欄位名同步改為 `FacilityTypeId`／`facilityTypeId`，消弭本文件內部之型別落差（02 已無獨立 `FacilityId` 型別）。
+  改動 §4 全部施設相關 interface、§4 命令聯集、§5.2 偽碼。依據：E-29、E-39、02 §4.5／§4.18。
+- **E-36／E-11（2026-07-10）**：§3.6 輸送速度表述移除不存在之 `BAL.marchBaseSpeed`（04 並無此常數），改採 04 的
+  日數累加器模型——邊日數 `edgeCostDays = edge.baseDays / BAL.roadGradeSpeedMult[grade]`（海路固定＝`baseDays`），
+  輸送隊進入該邊時再乘 `BAL.transportSpeedFactor`(=1.0) 與政策／海路係數；原「速度倍率」表述換算為「日數乘數」
+  （傳馬制原 ×1.5 速度 → ×(2/3) 日數；海路＋湊原 ×2 速度 → ×(1/2) 日數，與 §7 T5-7 驗收「傳馬制使日數縮短為 2/3」一致）。
+  `TransportOrder` 欄位 `pathIndex`／`edgeProgress` 改名為 `pathCursor`／`edgeProgressDays`，並新增 `edgeCostDays`
+  （與 02 §4.13 完全對齊，語意同 04 §4.2 `MarchState`）；§5.4 偽碼同步改寫為逐邊日數推進與抵達判定
+  `edgeProgressDays ≥ edgeCostDays`。改動 §3.6、§4 `TransportOrder`、§5.4、§5.6（`transportSpeedFactor` 說明文字）。
+  依據：E-36、E-11、02 §4.13、04 §3.4.2／§3.7／§5.3。
 
 ---
 

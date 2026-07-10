@@ -245,15 +245,15 @@ UI 依 enum 值組 key 的固定模式（全部列舉；實作時以樣板字串
 
 | 事件型別（03） | 分流依據 | messageKey |
 |---|---|---|
-| `battle.aweTriggered` | `payload.level`（small/medium/large） | `report.battle.awe.<level>` |
+| `awe.triggered` | `payload.level`（small/medium/large） | `report.battle.awe.<level>` |
 | `officer.died` | `payload.cause`（natural/battle） | `report.officer.death`／`report.officer.killedInAction` |
 | `plot.succeeded` | `payload.plot`（poach/rumor/betrayal） | `report.plot.poachSuccess`／`report.plot.rumorSuccess`／`report.plot.betrayalReady` |
 | `command.rejected` | `payload.reasonKey`（已是 i18n key） | 直接採 `reasonKey`（`cmd.reject.*` 或 `report.march.failed.*`） |
-| `event.historicalTriggered`／`event.genericTriggered` | — | `report.event.fired`（`{title}` 帶事件標題資料） |
+| `event.fired` | — | `report.event.fired`（`{title}` 帶事件標題資料） |
 
 - **不產生報告的事件**（回傳 null，僅供 UI 當 tick 消費）：`time.monthStart`、
   `time.monthEnd`、`time.seasonStart`、`time.yearStart`、`siege.progress`、
-  `development.districtGrown`、`victory.achieved`、`defeat.playerEliminated`
+  `development.districtGrown`、`game.victory`、`game.defeat`
   （後兩者直接切結局畫面，10 §6.4）。
 - 系統文件另定義的非 03 清單報告 key（輸送、褒賞、朝廷、幕府、大命等）沿用其事件
   擴充（03 §4.3 擴充規則），全部收錄於 §6.11。
@@ -737,10 +737,13 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `ui.court.favor` | 朝廷友好度 |
 | `ui.court.rank` | 官位 |
 | `ui.court.requestRank` | 請求敘任 |
-| `ui.court.donation` | 獻金 |
+| `ui.court.startDonation` | 開始獻金工作 |
+| `ui.court.stopDonation` | 停止獻金工作 |
+| `ui.court.donationAmount` | 每月投入金額 {gold}貫 |
+| `ui.court.donationMonths` | 已投入{months}個月 |
 | `ui.court.mediation` | 停戰斡旋 |
 | `ui.court.mediationTarget` | 斡旋對象 |
-| `ui.court.nextRankNeed` | 下一階：{rank}（友好度{favor}・獻金{gold}貫） |
+| `ui.court.nextRankNeed` | 下一階：{rank}（友好度{favor}・一次性獻金{gold}貫） |
 | `ui.shogunate.title` | 幕府 |
 | `ui.shogunate.favor` | 幕府友好度 |
 | `ui.shogunate.titleLabel` | 役職 |
@@ -749,11 +752,29 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `ui.shogunate.patron` | 擁立者：{clan} |
 | `ui.shogunate.collapsed` | 幕府已滅亡 |
 | `ui.plot.title` | 調略 |
+| `ui.plot.ongoing` | 進行中調略（{n}） |
+| `ui.plot.kind` | 種別 |
+| `ui.plot.target` | 目標 |
 | `ui.plot.investGold` | 投入金錢 |
 | `ui.plot.progress` | 進度 |
+| `ui.plot.remaining` | 剩餘 |
+| `ui.plot.ready` | 就緒 |
 | `ui.plot.successChance` | 預估成功率 {pct}% |
 | `ui.plot.activateBetrayal` | 發動內應 |
 | `ui.plot.executor` | 執行武將 |
+| `ui.plot.newPlot` | 新調略 |
+| `ui.plot.targetPicker` | 在地圖／名簿選擇 |
+| `ui.plot.start` | 著手調略 |
+| `ui.plot.cancel` | 中止 |
+
+朝廷頁獻金工作區塊（11 §3.8，勘誤 E-27）補充說明：進行中／選擇執行武將之標籤重用既有
+`ui.diplomacy.workOfficer`（擔當武將），非本表新增列。
+
+調略 Panel（11 §3.8.1，勘誤 E-66）補充說明：`ui.plot.remaining` 為欄位標題，儲存格內實際
+天數沿用既有 `ui.common.days`（`{days}日`）；新調略精靈步驟③之「執行武將」重用既有
+`ui.plot.executor`、成功率預覽重用既有 `ui.plot.successChance`；精靈頁尾的「取消」（退出
+精靈、不送出）重用既有 `ui.common.cancel`（取消），非本表新增列——僅列表中已在進行的
+調略之「中止」動作為 `ui.plot.cancel`（新增，語意為中止已送出的調略，與精靈的取消不同）。
 
 ### 6.8 政策、大命、事件（`ui.policy.* / ui.taimei.* / ui.event.*`）
 
@@ -911,21 +932,21 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 
 | key | 事件型別（03） | 參數 | 字串 |
 |---|---|---|---|
-| `report.army.departed` | `military.armyDeparted` | leader, castle | {leader}隊自{castle}出陣。 |
-| `report.army.arrived` | `military.armyArrived` | leader, place | {leader}隊抵達{place}。 |
-| `report.army.subjugated` | `military.subjugated` | leader, district | {leader}隊制壓{district}。 |
-| `report.army.districtLost` | `military.districtLost` | district, clan | {district}遭{clan}制壓！ |
+| `report.army.departed` | `army.departed` | leader, castle | {leader}隊自{castle}出陣。 |
+| `report.army.arrived` | `army.arrived` | leader, place | {leader}隊抵達{place}。 |
+| `report.army.subjugated` | `district.subjugated` | leader, district | {leader}隊制壓{district}。 |
+| `report.army.districtLost` | `district.subjugated` | district, clan | {district}遭{clan}制壓！ |
 | `report.army.noFood` | — | army | {army}兵糧耗盡，士氣潰散中！ |
-| `report.field.begin` | `military.encounter` | a, b, place | {a}與{b}於{place}交戰！ |
-| `report.field.resolved` | `combat.fieldResolved` | place, winner | {place}的戰鬥分出勝負，{winner}獲勝。 |
+| `report.field.begin` | `battle.started` | a, b, place | {a}與{b}於{place}交戰！ |
+| `report.field.resolved` | `battle.ended` | place, winner | {place}的戰鬥分出勝負，{winner}獲勝。 |
 | `report.field.rout` | — | army | {army}潰走！ |
-| `report.battle.available` | `combat.battleAvailable` | place | {place}可發動合戰！ |
+| `report.battle.available` | `battle.kassenAvailable` | place | {place}可發動合戰！ |
 | `report.battle.started` | `battle.started` | place | {place}合戰開始！ |
 | `report.battle.won` | `battle.won` | attacker, place, defender | {attacker}於{place}擊破{defender}！ |
 | `report.battle.lost` | `battle.lost` | attacker, place, defender | {attacker}於{place}敗於{defender}。 |
-| `report.battle.awe.small` | `battle.aweTriggered` | — | 威風（小）！鄰近敵郡望風歸順。 |
-| `report.battle.awe.medium` | `battle.aweTriggered` | — | 威風（中）！敵方諸郡動搖歸順。 |
-| `report.battle.awe.large` | `battle.aweTriggered` | clan | 威風（大）！{clan}威名震動天下！ |
+| `report.battle.awe.small` | `awe.triggered` | — | 威風（小）！鄰近敵郡望風歸順。 |
+| `report.battle.awe.medium` | `awe.triggered` | — | 威風（中）！敵方諸郡動搖歸順。 |
+| `report.battle.awe.large` | `awe.triggered` | clan | 威風（大）！{clan}威名震動天下！ |
 | `report.siege.begin` | `siege.started` | castle, clan | {castle}遭{clan}包圍！ |
 | `report.siege.relief` | — | castle | 援軍抵達{castle}，展開解圍戰！ |
 | `report.siege.fallen` | `siege.fallen` | castle | {castle}落城！ |
@@ -944,7 +965,7 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `report.transport.looted` | — | place, clan | 輸送隊於{place}遭{clan}劫掠！ |
 | `report.transport.lootGain` | — | place | 我軍於{place}劫獲敵方輸送隊。 |
 | `report.policy.autoRevoked` | — | name | 金錢不足，政策「{name}」已自動廢止。 |
-| `report.uprising.started` | `uprising.broke` | district | {district}爆發一揆！ |
+| `report.uprising.started` | `uprising.started` | district | {district}爆發一揆！ |
 | `report.uprising.suppressed` | — | district | {district}的一揆已被鎮壓。 |
 | `report.uprising.subsided` | — | district | {district}的一揆自然平息。 |
 | `report.officer.death` | `officer.died`(natural) | name, age | {name}病歿，享年{age}歲。 |
@@ -962,7 +983,7 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `report.captive.released` | — | name | 已釋放{name}，威信提升。 |
 | `report.captive.executed` | — | name | 已處斬{name}。家中隱有不安。 |
 | `report.clan.succession` | — | oldLeader, newLeader | {oldLeader}逝去，{newLeader}繼任家督。 |
-| `report.clan.destroyed` | `clan.eliminated` | clanName | {clanName}滅亡了 |
+| `report.clan.destroyed` | `clan.destroyed` | clanName | {clanName}滅亡了 |
 | `report.proposal.submitted` | `proposal.submitted` | name | 收到{name}的具申。 |
 | `report.proposal.expired` | `proposal.expired` | name | {name}的具申已逾期作罷。 |
 | `report.proposal.invalid` | — | name | {name}的具申因情勢變化而作罷。 |
@@ -987,7 +1008,7 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `report.plot.failed` | `plot.failed` | clan, plot | 對{clan}的{plot}未能奏效。 |
 | `report.plot.exposed` | — | clan, plot | 我方對{clan}的{plot}敗露，兩家關係惡化！ |
 | `report.plot.exposedByEnemy` | — | clan, plot | 發覺{clan}對我方進行{plot}！ |
-| `report.event.fired` | `event.*Triggered` | title | 發生事件：{title} |
+| `report.event.fired` | `event.fired` | title | 發生事件：{title} |
 | `report.taimei.invoked` | — | clanName, name | {clanName}發動大命「{name}」 |
 | `report.taimei.expired` | — | name | 大命「{name}」的效力已盡 |
 | `report.victory.tenkabitoProgress` | — | months | 天下人之路：條件已連續達成{months}／12月 |
@@ -1305,3 +1326,38 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
   誤字形示例；因本文件不在禁用字掃描 allowlist（19 §4 `FORBIDDEN_ALLOWLIST_FILES`）之列，
   該行會遭 17 掃描器自傷。改為僅列繁體正字並引用 `plan/19-glossary.md` §3.12 之完整
   「正→誤」對照表，本文件不再內嵌任何誤字形。
+- **D13｜E-30：報告事件型別欄全面改採 02 §4.19 canonical 名**（2026-07-10，依
+  `plan/19-glossary.md` §3.13 E-30）：02 §4.19 定案後，本文件 §3.7 與 §6.11 殘留多處
+  03/07/08 舊命名（`battle.aweTriggered`、`event.historicalTriggered`／
+  `event.genericTriggered`、`victory.achieved`、`defeat.playerEliminated`、
+  `combat.fieldResolved`、`combat.battleAvailable`、`uprising.broke`、`clan.eliminated`，
+  以及未列舉但同屬殘留的 `military.armyDeparted`／`military.armyArrived`／
+  `military.subjugated`／`military.districtLost`／`military.encounter`），逐一對照 02
+  §4.19 總表改為 `awe.triggered`／`event.fired`／`game.victory`／`game.defeat`／
+  `battle.ended`／`battle.kassenAvailable`／`uprising.started`／`clan.destroyed`／
+  `army.departed`／`army.arrived`／`district.subjugated`（`report.army.subjugated`與
+  `report.army.districtLost`為同一 02 事件之攻守雙方視角報告，故共用同一 canonical 事件名）／
+  `battle.started`。02 §4.19 無 `military.*`／`combat.*`／`dip.*` 族系，改畢後全表 grep
+  三前綴已無殘留。`diplomacy.*` 前綴（`report.diplomacy.*` 系列）不在本次 grep 範圍
+  （非字面 `dip.` 前綴），且屬 E-23 後續 08 外交大改 pass 範圍，本次不動。
+- **D14｜E-27：朝廷獻金字串改為持續工作制措辭**（2026-07-10，依
+  `plan/19-glossary.md` §3.13 E-27）：02 樞紐定案已刪除一次性 `CmdDonateCourt`，朝廷獻金
+  併入 `CmdStartDiploWork`（`target:'court'`）／`CmdStopDiploWork`（`target:'court'`），
+  機制依 08 §3.5。`ui.court.donation`（獻金，對應舊一次性動作）拆為
+  `ui.court.startDonation`（開始獻金工作）／`ui.court.stopDonation`（停止獻金工作）／
+  `ui.court.donationAmount`（每月投入金額 {gold}貫）／`ui.court.donationMonths`
+  （已投入{months}個月），與 11 §3.8（同日依此勘誤改版）朝廷頁獻金工作區塊 wireframe
+  對齊；執行武將標籤重用既有 `ui.diplomacy.workOfficer`，不新增重複字串。
+  `ui.court.nextRankNeed` 之「獻金{gold}貫」改為「一次性獻金{gold}貫」，
+  與新增的持續型「獻金工作」用詞區隔，避免玩家誤讀為同一筆支出（該值本為官位敘任的
+  一次性費用，08 §3.5.2，與獻金工作之月投入無關）。
+- **D15｜E-66：補齊調略 Panel（PlotPanel）字串**（2026-07-10，依
+  `plan/19-glossary.md` §3.13 E-66）：11 §3.8.1 已補調略 Panel wireframe（進行中調略列表＋
+  新調略精靈），對照其欄位與按鈕新增 `ui.plot.ongoing`（進行中調略（{n}））／
+  `ui.plot.kind`（種別）／`ui.plot.target`（目標）／`ui.plot.remaining`（剩餘；儲存格數值
+  沿用既有 `ui.common.days`）／`ui.plot.ready`（就緒）／`ui.plot.newPlot`（新調略）／
+  `ui.plot.targetPicker`（在地圖／名簿選擇）／`ui.plot.start`（著手調略）／
+  `ui.plot.cancel`（中止；中止「已在進行中」之調略，與精靈頁尾重用既有
+  `ui.common.cancel`「取消」退出精靈為不同動作，不可合併）。執行武將／進度／預估成功率／
+  發動內應沿用既有 `ui.plot.executor`／`ui.plot.progress`／`ui.plot.successChance`／
+  `ui.plot.activateBetrayal`，未新增重複字串。

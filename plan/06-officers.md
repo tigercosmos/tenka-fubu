@@ -150,7 +150,7 @@ effectiveStat = min(120, baseStat + statGrowth)    // statGrowth 見 §3.2
 ### 3.4 身分六階與特權
 
 身分（`Rank`）六階＋當主特殊身分。升格需同時滿足：功績達門檻、且由玩家（或 09 之 AI）
-下達 `PromoteRankCommand`（身分推舉是褒賞的一種，不自動升格；理由見 §8 D-4）。
+下達 `CmdPromoteRank`（身分推舉是褒賞的一種，不自動升格；理由見 §8 D-4）。
 
 #### 3.4.1 升格功績門檻（累積值，不因升格歸零）
 
@@ -305,7 +305,7 @@ acceptanceFactor = clamp((BAL.poachEligibleLoyalty − loyalty) / BAL.poachEligi
 
 #### 3.7.1 浪人登用
 
-- 指令：`RecruitRoninCommand`。前提：目標 `status === 'ronin'` 且其 `locationCastleId`
+- 指令：`CmdRecruitRonin`。前提：目標 `status === 'ronin'` 且其 `locationCastleId`
   屬於我方；指定一名在同城且未出陣的我方武將為執行者（登用者）。
 - 每次嘗試支付禮金 `BAL.recruitAttemptCost`（建議 **20** 貫），成敗皆不退。
 - 即時判定（`rng.misc`）：
@@ -330,8 +330,8 @@ successRate = clamp(
 #### 3.7.2 捕虜處置
 
 捕虜的產生條件見 07（合戰大勝、攻城落城時機率捕獲敵將）。捕虜 `status='captive'`、
-`capturedByClanId` 為捕獲方、關押於捕獲方指定城（07 給定）。處置指令 `HandleCaptiveCommand`，
-三種 `disposition`：
+`capturedByClanId` 為捕獲方、關押於捕獲方指定城（07 給定）。處置指令 `CmdHandleCaptive`，
+`action`（`CaptiveAction`，02 §3.3）三種：
 
 **(a) 登用**（執行者＝同城我方武將，未指定則以當主能力代入）：
 
@@ -365,7 +365,7 @@ captiveRecruitRate = clamp(
 
 三種褒賞皆為 Command，任意時刻可下達（月初褒賞介面只是彙整入口，見 §6）：
 
-#### 3.8.1 金錢賞賜（`RewardGoldCommand`）
+#### 3.8.1 金錢賞賜（`CmdRewardOfficer`）
 
 | 檔位 | 費用（貫） | 忠誠基礎增益 |
 |---|---|---|
@@ -381,7 +381,7 @@ captiveRecruitRate = clamp(
 分封指令與流程屬 05（參見 05 知行章節）；本文件定義：新增一郡知行時忠誠
 +`BAL.loyaltyGrantFief`=8；知行郡數不得超過 `BAL.fiefMaxByRank[rankIndex]`（05 的指令驗證器須引用本表）。
 
-#### 3.8.3 身分推舉（`PromoteRankCommand`）
+#### 3.8.3 身分推舉（`CmdPromoteRank`）
 
 - 驗證：目標 `merit ≥ BAL.rankMeritThresholds[rankIndex + 1]` 且未達宿老。
 - 效果：`rankIndex + 1`、忠誠 +8、`stalledPromotionMonths` 歸零、發報告。
@@ -450,7 +450,7 @@ else:
    `BAL.proposalMaxPerOfficerPerMonth`（建議 **1**）件。AI 勢力不生成 Proposal 物件
    （AI 決策直接走 09 內部管線）。
 2. **送達**：進入 `GameState.proposals`（`status='pending'`），觸發自動暫停（00 §5.2）與 UI 具申箱。
-3. **裁決**：玩家於期限前下達 `AdoptProposalCommand` 或 `RejectProposalCommand`。
+3. **裁決**：玩家於期限前下達 `CmdResolveProposal`（`accept: true` 採納／`accept: false` 駁回）。
 4. **結算**（本文件權責）：
    - **採納**：以提案內含之 `command` 重新驗證（該 Command 的驗證器，見 03/各系統）。
      驗證通過 → 將 `command` 推入佇列立即執行、提案人 `merit + proposal.meritReward`
@@ -472,7 +472,7 @@ else:
 | `march` | 出陣 | 編成出陣指令（07） |
 | `diplomacy` | 外交 | 外交工作指令（08） |
 | `plot` | 調略 | 調略指令（08） |
-| `recruit` | 登用 | `RecruitRoninCommand`（本文件） |
+| `recruit` | 登用 | `CmdRecruitRonin`（本文件） |
 | `policy` | 政策 | 政策施行指令（05） |
 
 > `ProposalKind` 全集依 02 §3.3（11 值：`develop`／`facility`／`conscript`／`transport`／`march`／
@@ -483,7 +483,7 @@ else:
 ## 4. 資料結構
 
 以下型別為本系統之權威定義（由 02 收錄；`ClanId`/`CastleId`/`DistrictId`/`ProposalId`/
-`GameDate`/`Command` 等基礎型別見 02/03）：
+`GameDate`/`Command`/`CommandBase`/`CaptiveAction`/`RewardTier` 等基礎型別見 02/03）：
 
 ```ts
 /** 武將 ID，形如 'off.oda-nobunaga'（00 §8） */
@@ -626,46 +626,37 @@ interface Proposal {
   summaryParams: Record<string, string | number>; // 插值參數（人名/地名等）
 }
 
-/* ---------------- Commands（本文件新增；聯集併入 03 之 Command） ---------------- */
+/* ------- Commands（本文件為語意權威；型別聯集併入 02 §4.18 之 Command；名稱/欄位對齊 02，勘誤 E-29/E-32） ------- */
+// 皆 extends CommandBase（02 §4.18）：發令勢力一律由 CommandBase.clanId 承載，故各指令不再自宣告 clanId。
 
-interface RecruitRoninCommand {
+interface CmdRecruitRonin extends CommandBase {
   type: 'recruitRonin';
-  clanId: ClanId;
-  executorId: OfficerId;   // 登用者（須與目標同城、未出陣）
-  targetId: OfficerId;     // 目標浪人
+  officerId: OfficerId;    // 目標浪人（status='ronin'，locationCastleId 屬我方）
+  executorId: OfficerId;   // 登用者（須與目標同城、未出陣）；成功率公式必要輸入（§3.7.1），02 §4.18 CmdRecruitRonin 待補收
 }
 
-interface HandleCaptiveCommand {
+interface CmdHandleCaptive extends CommandBase {
   type: 'handleCaptive';
-  clanId: ClanId;
-  targetId: OfficerId;                          // 目標捕虜（capturedByClanId === clanId）
-  disposition: 'recruit' | 'release' | 'execute';
-  executorId: OfficerId | null;                 // 登用時的執行者；null＝以當主代入
+  officerId: OfficerId;                          // 目標捕虜（capturedByClanId === CommandBase.clanId）
+  action: CaptiveAction;                         // 'recruit' | 'release' | 'execute'（02 §3.3）
+  executorId: OfficerId | null;                  // 登用時的執行者；null＝以當主代入；02 §4.18 CmdHandleCaptive 待補收
 }
 
-interface RewardGoldCommand {
-  type: 'rewardGold';
-  clanId: ClanId;
-  targetId: OfficerId;
-  tier: 'small' | 'medium' | 'large';
+interface CmdRewardOfficer extends CommandBase {
+  type: 'rewardOfficer';
+  officerId: OfficerId;
+  tier: RewardTier;        // 'small' | 'medium' | 'large'（02 §3.3）；費用與忠誠增益見 §3.8.1（年內遞減）
 }
 
-interface PromoteRankCommand {
+interface CmdPromoteRank extends CommandBase {
   type: 'promoteRank';
-  clanId: ClanId;
-  targetId: OfficerId;
+  officerId: OfficerId;
 }
 
-interface AdoptProposalCommand {
-  type: 'adoptProposal';
-  clanId: ClanId;
-  proposalId: string;
-}
-
-interface RejectProposalCommand {
-  type: 'rejectProposal';
-  clanId: ClanId;
-  proposalId: string;
+interface CmdResolveProposal extends CommandBase {   // 採納/駁回具申（02 §4.18 將 adopt/reject 合併為單一指令）
+  type: 'resolveProposal';
+  proposalId: ProposalId;
+  accept: boolean;         // true＝採納、false＝駁回
 }
 ```
 
@@ -777,18 +768,18 @@ gainMerit(o, baseAmount, expStats: ('ldr'|'val'|'int'|'pol')[]):
 ### 5.8 具申結算
 
 ```
-applyAdoptProposal(cmd):
-  p = 找到 proposalId 且 status='pending'（否則指令無效，靜默丟棄並發 UI 錯誤字串）
-  if validateCommand(p.command) 通過:
-    executeCommand(p.command)
-    gainMerit(提案人, p.meritReward, expStatsByKind(p.kind))   // §3.5 表；meritReward 生成時算定
-    提案人.loyalty = min(100, +BAL.proposalAdoptLoyalty)
-    p.status = 'accepted'
-  else:
-    p.status = 'expired'; 發報告 report.proposal.invalid
-
-applyRejectProposal(cmd):
-  p.status = 'rejected'; 提案人.loyalty −= BAL.proposalRejectLoyalty
+applyResolveProposal(cmd):   // CmdResolveProposal；依 cmd.accept 分流採納/駁回
+  p = 找到 cmd.proposalId 且 status='pending'（否則指令無效，靜默丟棄並發 UI 錯誤字串）
+  if cmd.accept:             // 採納
+    if validateCommand(p.command) 通過:
+      executeCommand(p.command)
+      gainMerit(提案人, p.meritReward, expStatsByKind(p.kind))   // §3.5 表；meritReward 生成時算定
+      提案人.loyalty = min(100, 提案人.loyalty + BAL.proposalAdoptLoyalty)
+      p.status = 'accepted'
+    else:
+      p.status = 'expired'; 發報告 report.proposal.invalid
+  else:                      // 駁回
+    p.status = 'rejected'; 提案人.loyalty −= BAL.proposalRejectLoyalty
 
 proposalsSystem(state):    // tick 步驟 10
   if day === 1:
@@ -1012,6 +1003,19 @@ traitModifier(o, hook) -> { mult: number, add: number }:
 - **E-06（2026-07-07）**：特性表由 30 擴充至 37，新增 7 個戰法解鎖特性
   （`trait.benzetsu`／`gunryaku`／`fudou`／`hizeme`／`kesshi`／`roukou`／`iryou`，名依 19 §3.5 附表），
   稀有度均普通、`effects` 空、作用為 07 §3.8 戰法閘門；§1.2、§3.3、§4 註解、§7 T1 同步。依 E-06。
+- **E-29／E-32（2026-07-10）**：§4 指令介面對齊 02 §4.18 canonical——`RewardGoldCommand`→`CmdRewardOfficer`
+  （`type:'rewardGold'`→`'rewardOfficer'`、`targetId`→`officerId`、`tier` 型別改引 02 `RewardTier`；
+  02 已裁決採 06 三檔制，故僅名稱／欄位對齊，機制與費用/忠誠增益仍歸 §3.8.1，E-29）；
+  `PromoteRankCommand`→`CmdPromoteRank`、`RecruitRoninCommand`→`CmdRecruitRonin`、
+  `HandleCaptiveCommand`→`CmdHandleCaptive`（`disposition`→`action: CaptiveAction`，02 §3.3）；
+  各指令改 `extends CommandBase`、移除自宣告之 `clanId`（發令勢力由 `CommandBase.clanId` 承載）、
+  `targetId`→`officerId`；`AdoptProposalCommand`／`RejectProposalCommand` 合併為 02 之
+  `CmdResolveProposal { type:'resolveProposal'; proposalId: ProposalId; accept }`
+  （§5.8 結算函式併為 `applyResolveProposal` 依 `accept` 分流，並修正採納忠誠賦值為
+  `min(100, loyalty + BAL.proposalAdoptLoyalty)` 以合 §3.6.3）；型別聯集歸屬更新為 02 §4.18；
+  §3.4／§3.7／§3.8／§3.11／§4／§5.8 全數同步。理由：02 為樞紐，指令名稱與欄位以 02 為準收斂。
+  另註：`CmdRecruitRonin.executorId` 與 `CmdHandleCaptive.executorId` 屬 06 機制必要欄位
+  （登用者代入 §3.7 成功率公式），02 §4.18 對應型別目前僅 `officerId`，已回報 02 待補收（本次不逕改 02）。依 E-29／E-32。
 - **E-33（2026-07-07）**：引拔發動端「可下達」門檻改由 08 定義（`plotPoachLoyaltyThreshold`＝75），
   06 保留 `poachEligibleLoyalty`＝40 僅作 `acceptanceFactor` 分母；初始忠誠 `poachedInitialLoyalty`＝45；
   §3.6.5 同步。依 E-33（發動與受理兩端併存，值依 15 §5.2）。

@@ -592,7 +592,7 @@ export type BalConfig = typeof BAL;
 | `aiSiegeFoodAbortDays` | 15 | 日 | 圍城時攜行兵糧將於此天數內耗盡且無法補給則撤退 | 09 §3.4.3 |  |
 | `aiSiegeReliefMaxDays` | 8 | 日 | 集結解圍軍之來源城的最大行軍天數 | 09 §3.5 |  |
 | `aiSiegeReliefRatio` | 1.2 | 係數(兵力比) | 解圍軍合計兵力達圍城敵軍×此值才出動 | 09 §3.5 |  |
-| `aiStewardSecurityFloor` | 60 | 治安值(0..100) | 領主自動開發時治安<此值即一律採治安優先方針 | 09 §3.7.1 |  |
+| `aiStewardSecurityFloor` | 60 | 治安值(0..100) | 領主自動開發時治安<此值即排除 barracks 方針（於 agri/commerce 擇 gap 大者） | 09 §3.7.1 | ⚠ E-07（2026-07-10）：敘述對齊 09 §5.7 |
 | `aiThreatAlertRatio` | 1.2 | 威脅分 | 觸發防衛部署處理的威脅分門檻(threat≥此值) | 09 §3.4.2 |  |
 | `aiThreatCacheDays` | 10 | 日 | 威脅評估快取(ThreatCache)有效天數,期滿或失效事件發生時重算 | 09 §3.4.1 |  |
 | `aiValueConnectivityWeight` | 2 | 權重(每街道連接數) | 城價值中節點街道連接度(degree)的權重 | 09 §5.3 |  |
@@ -808,7 +808,7 @@ export type BalConfig = typeof BAL;
 | `deficitMoralePenalty` = 5 | 17 §3.4.1 | `(刪除：赤字僅扣忠誠 unpaidSalaryLoyaltyPenalty，不扣城士氣)` | — | 赤字時全城士氣懲罰 |
 | `devDailyBase` = 0.05 | 17 §3.4.2 | `(刪除：開發以 05 §3.2.3 三屬性模型為準)` | — | 每日基礎開發度成長率 |
 | `devCap` = 100 | 17 §3.4.2 | `(刪除：開發度為 02 §5.1 衍生 developmentPct 0..100)` | — | 郡開發度上限 |
-| `marchBaseSpeed` | 05 §3.6 | `(非常數：04 以 edge.baseDays / roadGradeSpeedMult 計)` | — | 步兵基準行軍日速(04 定義),輸送隊日速以此為基 |
+| `marchBaseSpeed` | 05 §3.6 | `(非常數：04 以 edge.baseDays / roadGradeSpeedMult 計)` | — | 已廢棄；05 §3.6 已改以 04 baseDays 模型＋BAL.transportSpeedFactor 表述（2026-07-10） |
 | `allianceDays` = 1800 | 17 §3.4.6 | `allianceMonths` | 60 | 同盟協定自然存續天數 |
 | `autosaveEveryMonths` = 1 | 03 §3.9.1 | `autoSaveIntervalMonths` | 3 | 自動存檔頻率（每 N 個月） |
 | `aweMoraleHit` = 15 | 17 §3.4.4 | `aweCastleMoraleHit` | 20 | 威風擴散對範圍內敵城的士氣扣減 |
@@ -1117,6 +1117,15 @@ CI 於 M9 跑固定 5 種子 `simulate` 冒煙，斷言準則 4、5 與 `yearOfF
 - **D8（2026-07-07）非模擬常數不進 `balance.ts`（E-56 等）**：UI 節奏/效能/縮放/存檔槽等 35 項歸 app/設定/建置/`SAVECFG.*`；清除 01 與 03 速度節奏毫秒重複。
 - **D9（2026-07-07）四例算全達標、未觸發改值**：例算一~四驗證食糧、開局經濟、野戰、攻城節奏皆符合 00 §6；定案值即各擁有文件建議值（除衝突項）。若 M9 `simulate` 分布顯示偏差，於此續記。
 - **D10（2026-07-07）主表含全部 631 名稱**：536 模擬層（§5.1）＋35 非模擬（表 D）＋60 別名（表 B）＝631，與 plan/ 全文 `grep BAL.` 去重數一致。
+- **D11（2026-07-10，02 樞紐定案回寫；E-36）**：表 B `marchBaseSpeed` 列說明改為「已廢棄；05 §3.6 已改以 04 baseDays 模型＋
+  `BAL.transportSpeedFactor` 表述」——行軍唯一權威模型定案為日數累加器（`path`/`pathCursor`/`posNodeId`/`edgeProgressDays`/`edgeCostDays`，
+  02／04），`marchBaseSpeed` 非常數、`edgeProgress(0..1)` 已廢；本檔僅改該列敘述，`roadGradeSpeedMult`、`transportSpeedFactor` 等既有常數值不動。
+- **D12（2026-07-10，02 樞紐定案回寫；E-07）**：`aiStewardSecurityFloor` 語意欄由「一律採治安優先方針」修正為「排除 `barracks` 方針
+  （於 `agri`/`commerce` 擇 gap 大者）」，對齊 09 §5.7／§3.7.1 之 `pickDevFocus` 實際邏輯（`DevelopFocus` 第三值裁定為 `barracks`）；常數值 60 不動。
+- **D13（2026-07-10，02 樞紐定案回寫；E-27／E-29 掃描）**：全檔 grep `donateCourt`／`CmdDonateCourt`／舊指令名，未發現殘留引用；
+  `courtWorkMonthlyCost`（08 §3.2）、`courtFavorGainBase`/`courtFavorDecayMonthly`（08 §3.5.1）等獻金相關常數之敘述本即採「持續工作制」
+  （對應 `CmdStartDiploWork{target:'court', goldPerMonth}`），無需修正；`rewardGoldSmall/Medium/LargeCost`、`rewardGoldSmall/Medium/LargeLoyalty`
+  （06 §3.8.1）三檔命名與數值本即對應 `CmdRewardOfficer{tier:'small'|'medium'|'large'}` 三檔制，無需修正；未發現語意已不成立之一次性獻金專用常數。
 
 ---
 
