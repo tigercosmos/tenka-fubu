@@ -438,13 +438,24 @@ HUD 為 DOM 層覆蓋其上；HUD 未覆蓋處均可與地圖互動。
   （「信用不足：需 60，現 12」）。協定標示：**同盟**以 `handshake` icon（12 §3.2 `Icon`）；
   **婚姻／停戰／從屬**以文字徽章表示（分別為「婚」「休」「從」，12 §3.2 `Badge`）——12 的
   `IconName` 協定圖示僅 `handshake` 一枚，其餘不新增 icon（勘誤 E-76）。
+- 勢力頁行動鈕對應 `proposePact` 之 `DiplomacyActionKind`（六行動，08 §3.4.1；三輪裁決 3）：
+  ［同盟締結］＝`proposeAlliance`、［婚姻同盟］＝`proposeMarriage`、［停戰交涉］＝`proposeCeasefire`、
+  ［從屬勸告］＝`demandVassal`（強→弱，目標向我方稱臣）、［從屬提案］＝`offerVassal`（弱→強，我方向目標稱臣）
+  ——**兩者為不同方向的獨立鈕、措辭須明示方向**（各依 08 §3.4.1 國力比前置條件決定可否）；［斷交］＝`breakPact`。
+  援軍請求（`requestReinforce`）於**盟友**詳細面板提供（需指定對抗敵勢力 `reinforceAgainstClanId`）。
+  提案不含期限輸入欄位——期限一律依 kind 由 08 BAL 常數（`allianceMonths` 等）決定（三輪裁決 3a）。
 - 朝廷頁：朝廷友好度條、官位一覽表（已授與者顯示武將名）、獻金工作區塊——尚無進行中
   工作時顯示執行武將選擇＋固定月費顯示（`BAL.courtWorkMonthlyCost`，{gold}貫/月，唯讀；
   非玩家自訂投入額，勘誤 E-27 尾）與［開始獻金工作］鈕（發 `startDiploWork`、`target:'court'`，02）；
   進行中則顯示執行武將、固定月費、已投入月數與［停止獻金工作］鈕（發
   `stopDiploWork`、`target:'court'`）。獻金工作之 `courtFavor` 累積／衰減與官位敘任門檻
-  全依 `plan/08` §3.5（勘誤 E-27）。幕府頁：幕府關係、役職請求；機制全見 `plan/08`。
-  佈局同勢力頁之左右分欄。
+  全依 `plan/08` §3.5（勘誤 E-27）。幕府頁：幕府友好度條、役職一覽表、幕府獻金工作區塊
+  ——**比照朝廷頁**（三輪裁決 2）：尚無進行中工作時顯示執行武將選擇＋固定月費顯示
+  （`BAL.shogunateWorkMonthlyCost`，{gold}貫/月，唯讀；非玩家自訂投入額）與［開始獻金工作］鈕
+  （發 `startDiploWork`、`target:'shogunate'`）；進行中則顯示執行武將、固定月費、已投入月數與
+  ［停止獻金工作］鈕（發 `stopDiploWork`、`target:'shogunate'`）；另含［請求役職］（`requestShogunateTitle`）
+  與［擁立將軍］（`nominateShogun`）。獻金工作之 `shogunateFavor` 累積／衰減與役職敘任門檻全依
+  `plan/08` §3.6。佈局同勢力頁之左右分欄。
 - 調略（引拔/流言/內應）於 §3.8.1「調略畫面」統一管理；發起新調略亦可從**目標武將/城**
   的詳細面板（06/08）帶參開啟精靈。外交主畫面（本頁）本身不含調略操作。
 
@@ -483,7 +494,7 @@ HUD 為 DOM 層覆蓋其上；HUD 未覆蓋處均可與地圖互動。
 ┌ 來使 ─ 武田家 使者 ──────────────────────────────┐
 │（武田家 家紋浮水印）                              │
 │ 武田家遣使來訪，提議：                            │
-│   ◆ 締結同盟（期限 24 個月）                      │ ← 提案內容依 PactKind（08）
+│   ◆ 締結同盟（期限 60 個月）                      │ ← 提案內容依 DiplomacyActionKind（六行動，08 §3.4.1）
 │   ◆ 婚姻同盟：以 武田・松姬 許嫁 織田信忠         │ ← 婚姻時顯示成婚雙方武將
 │ 我方對武田：感情 普通　信用 35                    │
 │ ── 條件摘要（08）──────────────────────────────  │
@@ -492,8 +503,10 @@ HUD 為 DOM 層覆蓋其上；HUD 未覆蓋處均可與地圖互動。
 └──────────────────────────────────────────────────┘
 ```
 
-- 提案種別（`PactKind`）、期限、條件、接受/拒絕之信用感情影響全依 `plan/08`；婚姻提案
-  須顯示成婚雙方武將（`Officer.name`）。接受/拒絕即發 Command（08）；未回應者依 08
+- 提案種別（`DiplomacyActionKind`：同盟／停戰／婚姻／從屬勸告／從屬提案／援軍請求，08 §3.4.1）、
+  期限（依 kind 由 08 BAL 常數決定、非玩家輸入）、條件、接受/拒絕之信用感情影響全依 `plan/08`；
+  **從屬類提案須明示方向**（`demandVassal`＝對方要求我方稱臣／`offerVassal`＝對方願向我方稱臣）；
+  婚姻提案須顯示成婚雙方武將（`Officer.name`）。接受/拒絕即發 Command（08）；未回應者依 08
   時限自動失效（勘誤 E-67）。
 
 ### 3.9 政策、軍團、大命畫面
@@ -1238,3 +1251,11 @@ onReports(reports):              // 每 tick 步驟 13 的產出
   `NumberSlider`（`goldPerMonth`）輸入」改為「固定月費顯示（`BAL.courtWorkMonthlyCost`，{gold}貫/月，
   唯讀）」；進行中狀態之「每月投入」改「固定月費」。D16 之其餘描述（開始/停止獻金工作、發出的
   Command）不變。理由：對齊 08 固定月費機制、消除玩家自訂投入額之 UI 誤導。
+- **D18（2026-07-10・外交三輪裁決 2／3 連動）幕府獻金 UI＋提案方向/期限措辭**：(1) §3.8 幕府頁比照
+  朝廷頁 D17，補幕府獻金工作區塊——固定月費顯示（`BAL.shogunateWorkMonthlyCost`，唯讀）＋［開始／停止獻金工作］
+  （發 `startDiploWork`／`stopDiploWork`、`target:'shogunate'`），`shogunateFavor` 累積／衰減與役職敘任門檻依
+  08 §3.6（三輪裁決 2）。(2) §3.8 勢力頁新增行動鈕→`DiplomacyActionKind` 對應說明，明列
+  ［從屬勸告］＝`demandVassal`／［從屬提案］＝`offerVassal` 兩方向獨立鈕（措辭須明示方向）、援軍請求
+  於盟友面板；(3) §3.8.2 來使 modal 提案種別由 `PactKind` 更為 `DiplomacyActionKind`（六行動）、明示從屬方向；
+  提案流程一律無期限輸入（期限依 kind 由 08 BAL 常數決定，三輪裁決 3a，移除 `termDays` 遺留措辭）。
+  理由：對齊 08 §3.4.1／§3.6 與 02 §4.12／§4.18（`CmdProposePact.kind: DiplomacyActionKind`、`target` 增 `'shogunate'`）。

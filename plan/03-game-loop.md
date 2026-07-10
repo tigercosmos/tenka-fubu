@@ -312,6 +312,7 @@ type Validator<C extends Command> = (state: Readonly<GameState>, cmd: C) => Vali
 | `dissolveCorps`（解散軍團） | 07 | 軍團存在 | 拒絕 `invalidTarget` |
 | `startDiploWork`（外交工作，`target`=勢力） | 08 | 金錢、使者武將空閒 | 拒絕 `alreadyActive`（同對象進行中） |
 | `startDiploWork`（朝廷獻金，`target='court'`；每月扣固定 `BAL.courtWorkMonthlyCost`→`courtFavor`，見 08 §3.5，E-27） | 08 | 金錢、使者武將空閒 | 拒絕 `alreadyActive`（獻金工作進行中） |
+| `startDiploWork`（幕府獻金，`target='shogunate'`；每月扣固定 `BAL.shogunateWorkMonthlyCost`→`shogunateFavor`，見 08 §3.6.2，三輪裁決 2） | 08 | 金錢、使者武將空閒 | 拒絕 `alreadyActive`（獻金工作進行中） |
 | `stopDiploWork`（撤回外交／獻金工作） | 08 | 對該對象有進行中工作 | 拒絕 `invalidTarget`（無進行中工作） |
 | `proposePact`（提案協定） | 08 | 信用門檻、無互斥協定 | 拒絕 `alreadyActive` |
 | `respondPact`（回應來使） | 08 | 存在待回應提案 | 拒絕 `invalidTarget`（已回應） |
@@ -1141,3 +1142,7 @@ trimReports(reports):
   §4.3 `GameEventType` 聯集與導言註記同步）——該事件已收錄 02 §4.19 canonical（payload
   `{fromClanId, proposalId}`、發出者 08、`AutoPauseReason='envoyArrived'` 不變），不再列為「非 02 §4.19 之
   08 擴充事件」。理由：02 §4.11／§4.18／§4.19 為 canonical、03 鏡射其現行全集（勘誤 E-32）。
+- **2026-07-10　外交三輪裁決 2 連動（幕府獻金）**：§3.3.4 Command 一覽表補「`startDiploWork`（幕府獻金，
+  `target='shogunate'`；每月扣固定 `BAL.shogunateWorkMonthlyCost`→`shogunateFavor`，08 §3.6.2）」一列（與朝廷獻金列同型：
+  月費固定 `BAL` 常數、重複提交拒絕 `alreadyActive`）；`target` 型別擴為 `ClanId|'court'|'shogunate'`（02 §4.18／08 §4）。
+  §4.2 `CommandType` 聯集無新增（`proposePact` 等判別值同名，`kind` 型別 `DiplomacyActionKind` 之變更為 02 §4.18 內部欄位、不影響本檔判別字串）。理由：02 §4.12／§4.18 為 canonical、08 為機制擁有者。

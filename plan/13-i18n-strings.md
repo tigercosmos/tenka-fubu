@@ -748,6 +748,10 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `ui.shogunate.favor` | 幕府友好度 |
 | `ui.shogunate.titleLabel` | 役職 |
 | `ui.shogunate.requestTitle` | 請求任官 |
+| `ui.shogunate.startDonation` | 開始獻金工作 |
+| `ui.shogunate.stopDonation` | 停止獻金工作 |
+| `ui.shogunate.donationAmount` | 每月獻金 {gold}貫（固定） |
+| `ui.shogunate.donationMonths` | 已投入{months}個月 |
 | `ui.shogunate.nominate` | 擁立將軍 |
 | `ui.shogunate.patron` | 擁立者：{clan} |
 | `ui.shogunate.collapsed` | 幕府已滅亡 |
@@ -767,8 +771,9 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `ui.plot.start` | 著手調略 |
 | `ui.plot.cancel` | 中止 |
 
-朝廷頁獻金工作區塊（11 §3.8，勘誤 E-27）補充說明：進行中／選擇執行武將之標籤重用既有
-`ui.diplomacy.workOfficer`（擔當武將），非本表新增列。
+朝廷／幕府頁獻金工作區塊（11 §3.8，勘誤 E-27／三輪裁決 2）補充說明：進行中／選擇執行武將之標籤
+兩頁皆重用既有 `ui.diplomacy.workOfficer`（擔當武將），非本表新增列；幕府頁獻金字串為本輪新增
+`ui.shogunate.startDonation/stopDonation/donationAmount/donationMonths`（比照朝廷頁 `ui.court.*` 模式）。
 
 調略 Panel（11 §3.8.1，勘誤 E-66）補充說明：`ui.plot.remaining` 為欄位標題，儲存格內實際
 天數沿用既有 `ui.common.days`（`{days}日`）；新調略精靈步驟③之「執行武將」重用既有
@@ -1404,3 +1409,10 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
   `pact.broken`（原 D13 記錄明列「屬 E-23 後續 08 外交大改 pass 範圍，本次不動」，本 pass 即該範圍、
   一併處理）；`report.diplomacy.envoyArrived` 之事件欄 `diplomacy.envoyArrived`→`diplo.envoyArrived`
   （已收錄 02 §4.19 canonical）。報告字串本文與插值參數不變，僅事件對照名對齊。
+- **（2026-07-10）外交三輪裁決 2 連動：幕府獻金字串**：§6.7 幕府頁補獻金工作字串
+  `ui.shogunate.startDonation`（開始獻金工作）／`stopDonation`（停止獻金工作）／`donationAmount`
+  （每月獻金 {gold}貫（固定））／`donationMonths`（已投入{months}個月），比照朝廷頁 `ui.court.*` 模式
+  （11 §3.8 幕府頁同日補幕府獻金工作區塊、發 `startDiploWork`/`stopDiploWork`、`target:'shogunate'`）；
+  執行武將標籤兩頁皆重用 `ui.diplomacy.workOfficer`，不新增重複字串。提案類字串無期限自訂措辭
+  （期限依 kind 由 08 BAL 常數決定，三輪裁決 3a，無 `termDays`）；`cmd.diplomacy.demandVassal`／
+  `offerVassal` 兩方向字串已在列，無需新增。理由：對齊 08 §3.6／§3.4.1 與 11 §3.8。
