@@ -127,7 +127,7 @@ function advanceDay(state: GameState, queue: CommandEnvelope[]): TickResult;
 - 讀：`state.diplomacy`、`state.clans`、`rng.ai`（AI 回應判定屬 Step 11，此處不消費 ai 流；
   外交工作成功判定用 `rng.misc`，08，E-47）。
 - 寫：`state.diplomacy`（信用、感情、協定剩餘月數、進行中工作進度）。
-- 發：`diplomacy.envoyArrived`、`pact.signed`、`pact.expired`、`court.rankGranted`、
+- 發：`diplo.envoyArrived`、`pact.signed`、`pact.expired`、`court.rankGranted`、
   `plot.succeeded`、`plot.failed`。
 - 詳見：`plan/08-diplomacy.md`。
 
@@ -311,7 +311,7 @@ type Validator<C extends Command> = (state: Readonly<GameState>, cmd: C) => Vali
 | `assignCastleToCorps`（城編入/移出軍團，`corpsId=null` 為移出） | 07 | 城屬我方、軍團存在 | 覆蓋 |
 | `dissolveCorps`（解散軍團） | 07 | 軍團存在 | 拒絕 `invalidTarget` |
 | `startDiploWork`（外交工作，`target`=勢力） | 08 | 金錢、使者武將空閒 | 拒絕 `alreadyActive`（同對象進行中） |
-| `startDiploWork`（朝廷獻金，`target='court'`；每月 `goldPerMonth`→`courtFavor`，見 08 §3.5，E-27） | 08 | 金錢、使者武將空閒 | 拒絕 `alreadyActive`（獻金工作進行中） |
+| `startDiploWork`（朝廷獻金，`target='court'`；每月扣固定 `BAL.courtWorkMonthlyCost`→`courtFavor`，見 08 §3.5，E-27） | 08 | 金錢、使者武將空閒 | 拒絕 `alreadyActive`（獻金工作進行中） |
 | `stopDiploWork`（撤回外交／獻金工作） | 08 | 對該對象有進行中工作 | 拒絕 `invalidTarget`（無進行中工作） |
 | `proposePact`（提案協定） | 08 | 信用門檻、無互斥協定 | 拒絕 `alreadyActive` |
 | `respondPact`（回應來使） | 08 | 存在待回應提案 | 拒絕 `invalidTarget`（已回應） |
@@ -365,7 +365,7 @@ canonical 完整事件型別清單見 02 §4.19 總表（E-30）；本文件 §4
 | `siege.started`（我方城被圍） | critical | `siegeOnPlayer` | 00 §5.2 列名 |
 | `battle.kassenAvailable`（玩家可發動） | critical | `battleAvailable` | 00 §5.2 列名 |
 | `proposal.submitted` | info | `proposalArrived` | 具申送達（00 §5.2 列名） |
-| `diplomacy.envoyArrived` | warning | `envoyArrived` | 外交來使（00 §5.2 列名） |
+| `diplo.envoyArrived` | warning | `envoyArrived` | 外交來使（00 §5.2 列名） |
 | `event.fired`（`hasChoice=true`） | critical | `historicalEvent` | 開 modal（00 §5.2 列名） |
 | `battle.ended`（我方參戰） | critical | —（modal 已凍結時間） | 依 payload `winnerClanId` 判勝負 |
 | `siege.ended`（`fallen=true` 我方城陷落） | 我方 critical；他勢力 info | — | |
@@ -773,9 +773,9 @@ type GameEventType =
   | 'officer.promoted' | 'officer.captured'
   // 具申（依 02 §4.19）
   | 'proposal.submitted' | 'proposal.expired'
-  // 外交/朝廷/調略（依 02 §4.19：pact.signed／pact.expired／pact.broken／court.rankGranted／plot.*；
-  //   diplomacy.envoyArrived 為 08 事件、13 §6.11 報告＋§3.4.2 自動暫停消費，02 §4.19 未列）
-  | 'diplomacy.envoyArrived' | 'pact.signed' | 'pact.expired'
+  // 外交/朝廷/調略（依 02 §4.19：pact.signed／pact.expired／pact.broken／diplo.envoyArrived／
+  //   court.rankGranted／plot.*；diplo.envoyArrived 已收錄 02 §4.19，勘誤 E-32）
+  | 'diplo.envoyArrived' | 'pact.signed' | 'pact.expired'
   | 'pact.broken' | 'court.rankGranted' | 'plot.succeeded' | 'plot.failed'
   // 事件/勝敗（依 02 §4.19）
   | 'event.fired' | 'uprising.started'
@@ -784,8 +784,8 @@ type GameEventType =
 // 舊 battle.won/lost 併入 battle.ended（payload `winnerClanId` 判勝負）、
 // 舊 siege.fallen/repelled 併入 siege.ended（payload `fallen` 區分）、army 系不用舊前綴（詳見 §8 E-30）。
 // 非 02 §4.19 成員：command.rejected（03 迴圈機制專有）、economy.upkeepUnpaid／economy.foodShortage／
-// development.completed（05 事件）、diplomacy.envoyArrived（08 事件）——均有 13 §6.11 報告或 §3.4.2 分級／
-// 自動暫停消費，語意以擁有文件為準。
+// development.completed（05 事件）——均有 13 §6.11 報告或 §3.4.2 分級／自動暫停消費，語意以擁有文件為準。
+// （diplo.envoyArrived 原列此、現已收錄 02 §4.19 canonical，勘誤 E-32。）
 // 二輪裁決 C 廢除且不再發出：military.encounter／military.districtLost（改用 battle.started／district.subjugated）、
 // siege.progress、development.districtGrown、time.monthEnd／time.yearStart／time.harvest（改由日期閘控）。
 // 擴充規則：新增事件必須同步登錄 02 §4.19、§3.4.2 分級表與 13 的 i18n 對照。
@@ -1134,3 +1134,10 @@ trimReports(reports):
   `development.completed`／`diplomacy.envoyArrived` 為 05／08 事件）改標為擁有文件發出、13 §6.11 報告或 §3.4.2
   分級／自動暫停消費，語意以擁有文件為準（去除舊「待 02 收錄」註記）；§3.4.1 導言改指 02 §4.19 為完整 canonical
   總表、本文件 §4.3 為子集鏡射。理由：02 §4.19 事件命名／完整性 canonical（E-30 ＋ 二輪裁決 C）。
+- **2026-07-10　外交系統大改連動（08 主記錄；E-27 尾／E-32）**：(1) §3.3.4 `startDiploWork`
+  （`target='court'`）列措辭由「每月 `goldPerMonth`→`courtFavor`」改「每月扣固定 `BAL.courtWorkMonthlyCost`
+  →`courtFavor`」——02 已刪 `goldPerMonth` 欄位、月費為固定 `BAL` 常數（機制歸 08 §3.2／§3.5，E-27 尾）；
+  (2) 事件 `diplomacy.envoyArrived`→`diplo.envoyArrived`（§4.3 Step 4 `發：` 清單、§3.4.2 自動暫停表、
+  §4.3 `GameEventType` 聯集與導言註記同步）——該事件已收錄 02 §4.19 canonical（payload
+  `{fromClanId, proposalId}`、發出者 08、`AutoPauseReason='envoyArrived'` 不變），不再列為「非 02 §4.19 之
+  08 擴充事件」。理由：02 §4.11／§4.18／§4.19 為 canonical、03 鏡射其現行全集（勘誤 E-32）。

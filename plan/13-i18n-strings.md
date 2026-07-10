@@ -725,7 +725,6 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `ui.diplomacy.outlook.mid` | 成功見込：中 |
 | `ui.diplomacy.outlook.low` | 成功見込：低 |
 | `ui.diplomacy.cooldown` | 冷卻中（至{date}） |
-| `cmd.diplomacy.proposeNonAggression` | 締結不可侵條約 |
 | `cmd.diplomacy.proposeAlliance` | 締結同盟 |
 | `cmd.diplomacy.proposeCeasefire` | 請求停戰 |
 | `cmd.diplomacy.proposeMarriage` | 締結婚姻同盟 |
@@ -740,7 +739,7 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `ui.court.requestRank` | 請求敘任 |
 | `ui.court.startDonation` | 開始獻金工作 |
 | `ui.court.stopDonation` | 停止獻金工作 |
-| `ui.court.donationAmount` | 每月投入金額 {gold}貫 |
+| `ui.court.donationAmount` | 每月獻金 {gold}貫（固定） |
 | `ui.court.donationMonths` | 已投入{months}個月 |
 | `ui.court.mediation` | 停戰斡旋 |
 | `ui.court.mediationTarget` | 斡旋對象 |
@@ -988,10 +987,10 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `report.proposal.submitted` | `proposal.submitted` | name | 收到{name}的具申。 |
 | `report.proposal.expired` | `proposal.expired` | name | {name}的具申已逾期作罷。 |
 | `report.proposal.invalid` | — | name | {name}的具申因情勢變化而作罷。 |
-| `report.diplomacy.pactSigned` | `diplomacy.pactSigned` | a, b, pact | {a}與{b}締結{pact}。 |
-| `report.diplomacy.pactExpired` | `diplomacy.pactExpired` | clan, pact | 與{clan}的{pact}已到期。 |
-| `report.diplomacy.pactBroken` | `diplomacy.pactBroken` | clan, pact | {clan}破棄了與我方的{pact}！ |
-| `report.diplomacy.envoyArrived` | `diplomacy.envoyArrived` | clan, proposal | {clan}遣使來訪：{proposal} |
+| `report.diplomacy.pactSigned` | `pact.signed` | a, b, pact | {a}與{b}締結{pact}。 |
+| `report.diplomacy.pactExpired` | `pact.expired` | clan, pact | 與{clan}的{pact}已到期。 |
+| `report.diplomacy.pactBroken` | `pact.broken` | clan, pact | {clan}破棄了與我方的{pact}！ |
+| `report.diplomacy.envoyArrived` | `diplo.envoyArrived` | clan, proposal | {clan}遣使來訪：{proposal} |
 | `report.diplomacy.proposalAccepted` | — | clan, proposal | {clan}接受了我方的{proposal}。 |
 | `report.diplomacy.proposalRejected` | — | clan, proposal | {clan}拒絕了我方的{proposal}。 |
 | `report.diplomacy.workStopped` | — | target | 金錢不足，對{target}的外交工作已中止。 |
@@ -1031,7 +1030,6 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `term.title.none` | 無役 |
 | `term.castle.main` | 本城 |
 | `term.castle.branch` | 支城 |
-| `term.pact.nonAggression` | 不可侵條約 |
 | `term.pact.alliance` | 同盟 |
 | `term.pact.marriage` | 婚姻同盟 |
 | `term.pact.ceasefire` | 停戰 |
@@ -1396,3 +1394,13 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
   `diplomacy.envoyArrived` 等維持現狀：03／16 自身文件明文列為「專有／擴充事件」（03 §4.3
   逐一註記「為 03 專有」／16 §5.3 存檔錯誤事件），屬 §3.7「系統文件另定義的非 03 清單報告
   key……沿用其事件擴充」允許範圍，非 02 §4.19 canonical 名稱漂移，故不視為需修正之不一致。
+- **（2026-07-10）E-23／E-27 尾／E-32：08 外交大改字串與事件名連動**（08 為主記錄）：
+  (1) **E-23**——刪 `cmd.diplomacy.proposeNonAggression`（締結不可侵條約）與 `term.pact.nonAggression`
+  （不可侵條約）；`PactKind` v1.0 為四值，不可侵降 v1.1（`term.pact.marriage`＝婚姻同盟已在列）。
+  (2) **E-27 尾**——`ui.court.donationAmount` 由「每月投入金額 {gold}貫」改「每月獻金 {gold}貫（固定）」：
+  月費為固定 `BAL` 常數、非玩家自訂投入額，02 已刪 `goldPerMonth`（機制歸 08 §3.2／§3.5）。
+  (3) **E-32**——§6.11 報告事件名對齊 02 §4.19 canonical：`report.diplomacy.pactSigned`／`pactExpired`／
+  `pactBroken` 之事件欄 `diplomacy.pactSigned`／`pactExpired`／`pactBroken`→`pact.signed`／`pact.expired`／
+  `pact.broken`（原 D13 記錄明列「屬 E-23 後續 08 外交大改 pass 範圍，本次不動」，本 pass 即該範圍、
+  一併處理）；`report.diplomacy.envoyArrived` 之事件欄 `diplomacy.envoyArrived`→`diplo.envoyArrived`
+  （已收錄 02 §4.19 canonical）。報告字串本文與插值參數不變，僅事件對照名對齊。

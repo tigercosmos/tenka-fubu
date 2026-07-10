@@ -439,9 +439,9 @@ HUD 為 DOM 層覆蓋其上；HUD 未覆蓋處均可與地圖互動。
   **婚姻／停戰／從屬**以文字徽章表示（分別為「婚」「休」「從」，12 §3.2 `Badge`）——12 的
   `IconName` 協定圖示僅 `handshake` 一枚，其餘不新增 icon（勘誤 E-76）。
 - 朝廷頁：朝廷友好度條、官位一覽表（已授與者顯示武將名）、獻金工作區塊——尚無進行中
-  工作時顯示執行武將選擇＋每月投入金額 `NumberSlider`（`goldPerMonth`，貫，刻度與輸入框
-  慣例見 12 §3.2.10）與［開始獻金工作］鈕（發 `startDiploWork`、`target:'court'`，02）；
-  進行中則顯示執行武將、每月投入金額、已投入月數與［停止獻金工作］鈕（發
+  工作時顯示執行武將選擇＋固定月費顯示（`BAL.courtWorkMonthlyCost`，{gold}貫/月，唯讀；
+  非玩家自訂投入額，勘誤 E-27 尾）與［開始獻金工作］鈕（發 `startDiploWork`、`target:'court'`，02）；
+  進行中則顯示執行武將、固定月費、已投入月數與［停止獻金工作］鈕（發
   `stopDiploWork`、`target:'court'`）。獻金工作之 `courtFavor` 累積／衰減與官位敘任門檻
   全依 `plan/08` §3.5（勘誤 E-27）。幕府頁：幕府關係、役職請求；機制全見 `plan/08`。
   佈局同勢力頁之左右分欄。
@@ -1232,3 +1232,9 @@ onReports(reports):              // 每 tick 步驟 13 的產出
   §3.8 朝廷頁描述由「獻金按鈕」改寫為獻金工作區塊：開始／停止獻金工作、每月投入金額
   （`goldPerMonth`）輸入、進行中狀態（執行武將／每月投入／已投入月數）顯示；發出的
   Command 標註為 `startDiploWork`（`target:'court'`）／`stopDiploWork`（`target:'court'`）。
+- **D17（2026-07-10・E-27 尾，08 外交大改連動）朝廷頁月費改固定顯示**：08 為外交工作機制擁有者，
+  裁定獻金／外交工作月費為固定 `BAL` 常數（`courtWorkMonthlyCost` 等）、非玩家自訂投入額，02 已刪
+  `CmdStartDiploWork.goldPerMonth`／`DiploMission.goldPerMonth`。§3.8 朝廷頁「每月投入金額
+  `NumberSlider`（`goldPerMonth`）輸入」改為「固定月費顯示（`BAL.courtWorkMonthlyCost`，{gold}貫/月，
+  唯讀）」；進行中狀態之「每月投入」改「固定月費」。D16 之其餘描述（開始/停止獻金工作、發出的
+  Command）不變。理由：對齊 08 固定月費機制、消除玩家自訂投入額之 UI 誤導。
