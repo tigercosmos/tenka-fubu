@@ -448,16 +448,16 @@ export type BalConfig = typeof BAL;
 | `courtMediationFailPerRank` | 0.2 | 機率/階 | 對方官位每高我方一階增加的斡旋失敗率 | 08 §3.5.3 |  |
 | `courtMediationFavorCost` | 40 | 點(朝廷友好度) | 停戰斡旋朝廷友好度成本(第6階持有者×0.75) | 08 §3.5.3 |  |
 | `courtMediationGoldCost` | 500 | 貫 | 停戰斡旋金錢成本(失敗退還半額250) | 08 §3.5.3 |  |
-| `courtRankTable` | 從五位下(友20/獻300/威+50)/從五位上(30/500/+80,信用×1.1)/正五位下(40/800/+120,解鎖停戰斡旋)/從四位下(50/1200/+170,政策槽+1)/從四位上(60/1800/+230,從屬勸告+10)/正四位下(70/2500/+300,斡旋成本×0.75)/從三位(85/3500/+400,同盟不可侵+5)/正一位(95/5000/+550,政策槽+1) | 表(八階) | 官位八階定義表(友好度需求/獻金/威信加成/解鎖效果) | 08 §3.5.2 |  |
+| `courtRankTable` | 從五位下(友20/獻300/威+50)/從五位上(30/500/+80,信用×1.1)/正五位下(40/800/+120,解鎖停戰斡旋)/從四位下(50/1200/+170,政策槽+1)/從四位上(60/1800/+230,從屬勸告+10)/正四位下(70/2500/+300,斡旋成本×0.75)/從三位(85/3500/+400,同盟+5)/正一位(95/5000/+550,政策槽+1) | 表(八階) | 官位八階定義表(友好度需求/獻金/威信加成/解鎖效果) | 08 §3.5.2 |  |
 | `courtWorkMonthlyCost` | 50 | 貫/月 | 對朝廷獻金工作月費 | 08 §3.2 |  |
 | `dipAcceptThreshold` | 60 | 分(接受度門檻) | AI接受提案的分數門檻(≥60接受) | 08 §5.6.2 |  |
 | `dipBaseAlliance` | 0 | 分(接受度基礎) | 同盟提案基礎分 | 08 §5.6.2 |  |
 | `dipBaseCeasefire` | -10 | 分(接受度基礎) | 停戰提案基礎分 | 08 §5.6.2 |  |
 | `dipBaseMarriage` | -10 | 分(接受度基礎) | 婚姻同盟提案基礎分 | 08 §5.6.2 |  |
-| `dipBaseNonAggression` | 20 | 分(接受度基礎) | 不可侵條約提案基礎分 | 08 §5.6.2 |  |
+| `dipBaseNonAggression` | 20 | 分(接受度基礎) | 不可侵條約提案基礎分 | 08 §5.6.2 | ⚠ E-23：不可侵條約降為 v1.1 擴充，v1.0 不實作（08 §1／§3.4.1）；本常數 v1.0 不進 `balance.ts` |
 | `dipBaseVassalDemand` | -40 | 分(接受度基礎) | 從屬勸告提案基礎分 | 08 §5.6.2 |  |
 | `dipBaseVassalOffer` | 30 | 分(接受度基礎) | 從屬提案基礎分 | 08 §5.6.2 |  |
-| `dipCommonEnemyBonus` | 20 | 分(接受度) | 共同敵人時不可侵/同盟提案接受度加成 | 08 §5.6.2 |  |
+| `dipCommonEnemyBonus` | 20 | 分(接受度) | 共同敵人時同盟提案接受度加成 | 08 §5.6.2 |  |
 | `dipCommonThreatBonus` | 15 | 分(接受度) | 存在接壤雙方且強大的第三勢力威脅時同盟接受度加成 | 08 §5.6.2 |  |
 | `diplomacyWorkMaxConcurrent` | 6 | 件 | 全勢力同時進行的外交工作上限 | 08 §3.2 |  |
 | `diplomacyWorkMonthlyCost` | 20 | 貫/月 | 對勢力外交工作月費 | 08 §3.2 |  |
@@ -474,7 +474,7 @@ export type BalConfig = typeof BAL;
 | `marriageMaxAge` | 45 | 歲 | 適齡一門年齡上限 | 08 §3.4.1 |  |
 | `marriageMinAge` | 13 | 歲 | 適齡一門年齡下限 | 08 §3.4.1 |  |
 | `marriageNoBreakMonths` | 36 | 月 | 婚姻強化後不可破棄的硬鎖期 | 08 §3.4.1 |  |
-| `nonAggressionMonths` | 24 | 月 | 不可侵條約期限 | 08 §3.4.1 |  |
+| `nonAggressionMonths` | 24 | 月 | 不可侵條約期限 | 08 §3.4.1 | ⚠ E-23：不可侵條約降為 v1.1 擴充，v1.0 不實作（08 §1／§3.4.1）；本常數 v1.0 不進 `balance.ts` |
 | `plotBetrayalBase` | 0.20 | 機率 | 內應成功率基礎 | 08 §3.7.3 |  |
 | `plotBetrayalCostMult` | 2 | 倍率(無量綱) | 內應月費相對基礎調略月費的倍率(30×2=60) | 08 §3.7.3 |  |
 | `plotBetrayalExposeLoyaltyGain` | +15 | 點(忠誠) | 內應敗露時目標城主忠誠回升 | 08 §3.7.3 |  |
@@ -525,7 +525,7 @@ export type BalConfig = typeof BAL;
 | `sentimentPactSignedAlliance` | +20 | 點 | 締結同盟一次性感情加成 | 08 §3.3 |  |
 | `sentimentPactSignedCeasefire` | +5 | 點 | 成立停戰一次性感情加成 | 08 §3.3 |  |
 | `sentimentPactSignedMarriage` | +30 | 點 | 締結婚姻同盟一次性感情加成 | 08 §3.3 |  |
-| `sentimentPactSignedNonAggression` | +10 | 點 | 締結不可侵條約一次性感情加成 | 08 §3.3 |  |
+| `sentimentPactSignedNonAggression` | +10 | 點 | 締結不可侵條約一次性感情加成 | 08 §3.3 | ⚠ E-23：不可侵條約降為 v1.1 擴充，v1.0 不實作（08 §1／§3.4.1）；本常數 v1.0 不進 `balance.ts` |
 | `shogunateFavorDecayMonthly` | 1 | 點/月 | 當月無獻金工作時幕府友好度每月衰減 | 08 §3.6.2 |  |
 | `shogunateFavorGainBase` | 2 | 點/月 | 幕府友好度月增益基礎 | 08 §3.6.2 |  |
 | `shogunateFavorGainPolDivisor` | 40 | 除數(無量綱) | 幕府友好度增益的政務除數 | 08 §3.6.2 |  |
@@ -539,7 +539,7 @@ export type BalConfig = typeof BAL;
 | `trustCostAlliance` | 60 | 點(信用) | 同盟信用成本 | 08 §3.4.1 |  |
 | `trustCostCeasefire` | 20 | 點(信用) | 停戰信用成本 | 08 §3.4.1 |  |
 | `trustCostMarriage` | 40 | 點(信用) | 婚姻同盟信用成本 | 08 §3.4.1 |  |
-| `trustCostNonAggression` | 30 | 點(信用) | 不可侵條約信用成本 | 08 §3.4.1 |  |
+| `trustCostNonAggression` | 30 | 點(信用) | 不可侵條約信用成本 | 08 §3.4.1 | ⚠ E-23：不可侵條約降為 v1.1 擴充，v1.0 不實作（08 §1／§3.4.1）；本常數 v1.0 不進 `balance.ts` |
 | `trustCostReinforce` | 20 | 點(信用) | 援軍請求信用成本(盟友接受時扣除) | 08 §3.4.1 |  |
 | `trustGainBase` | 2 | 點/月 | 信用月增益基礎 | 08 §5.2.1 |  |
 | `trustGainPolDivisor` | 25 | 除數(無量綱) | 信用月增益的政務除數 | 08 §5.2.1 |  |
@@ -1024,7 +1024,7 @@ export type BalConfig = typeof BAL;
 | 4 | `ju4jo` | 從四位上 | 50 | 1,200 | +170 | 政策槽 +1 |
 | 5 | `ju3` | 從三位 | 60 | 1,800 | +230 | 從屬勸告接受度 +10 |
 | 6 | `sho3` | 正三位 | 70 | 2,500 | +300 | 斡旋友好度成本 ×0.75 |
-| 7 | `ju2` | 從二位 | 85 | 3,500 | +400 | 同盟/不可侵接受度 +5 |
+| 7 | `ju2` | 從二位 | 85 | 3,500 | +400 | 同盟接受度 +5 |
 | 8 | `sho2` | 正二位 | 95 | 5,000 | +550 | 政策槽再 +1（累計 +2） |
 
 - 官位階集合與前綴以 19 §3.13 E-25 為準（依 02 八階，`crank.` 前綴廢除、enum 值即識別符）；友好度以獻金工作累積（08 §3.5.1）。
@@ -1124,8 +1124,14 @@ CI 於 M9 跑固定 5 種子 `simulate` 冒煙，斷言準則 4、5 與 `yearOfF
   （於 `agri`/`commerce` 擇 gap 大者）」，對齊 09 §5.7／§3.7.1 之 `pickDevFocus` 實際邏輯（`DevelopFocus` 第三值裁定為 `barracks`）；常數值 60 不動。
 - **D13（2026-07-10，02 樞紐定案回寫；E-27／E-29 掃描）**：全檔 grep `donateCourt`／`CmdDonateCourt`／舊指令名，未發現殘留引用；
   `courtWorkMonthlyCost`（08 §3.2）、`courtFavorGainBase`/`courtFavorDecayMonthly`（08 §3.5.1）等獻金相關常數之敘述本即採「持續工作制」
-  （對應 `CmdStartDiploWork{target:'court', goldPerMonth}`），無需修正；`rewardGoldSmall/Medium/LargeCost`、`rewardGoldSmall/Medium/LargeLoyalty`
+  （對應 `CmdStartDiploWork{target:'court', executorId}`，月費固定查 BAL 常數、無 `goldPerMonth` 玩家自訂欄；E-27 尾），無需修正；`rewardGoldSmall/Medium/LargeCost`、`rewardGoldSmall/Medium/LargeLoyalty`
   （06 §3.8.1）三檔命名與數值本即對應 `CmdRewardOfficer{tier:'small'|'medium'|'large'}` 三檔制，無需修正；未發現語意已不成立之一次性獻金專用常數。
+- **D14（2026-07-10，08 外交大改回寫；E-23／E-27 尾）**：不可侵條約（`nonAggression`）依 E-23 降為 v1.1 擴充、v1.0 不實作，
+  四項相關常數 `dipBaseNonAggression`／`nonAggressionMonths`／`sentimentPactSignedNonAggression`／`trustCostNonAggression`
+  於 §5.1 主表原列處加註「v1.0 不進 `balance.ts`」，僅標記狀態、數值不動（保留供 v1.1 沿用，不列入 631 名稱之 v1.0 實作計數）；
+  `courtRankTable`（從三位解鎖）與官位表 8-1 第 7 階（`ju2`）之敘述由「同盟不可侵+5」更正為「同盟+5」，`dipCommonEnemyBonus`
+  說明去「不可侵/」，對齊 08 §1／§3.4.1／§5.6.2 僅同盟提案適用；D13 `CmdStartDiploWork` 引用一併去 `goldPerMonth`
+  （改列 `executorId`），對齊 E-27 尾「固定月費查 BAL 常數、不由玩家自訂投入額」裁決。
 
 ---
 
