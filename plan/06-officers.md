@@ -621,8 +621,8 @@ interface Proposal {
   expiresDay: number;            // 逾期絕對日 = createdDay + BAL.proposalExpireDays（60）
   meritReward: number;           // 採納時提案人獲得之功績（生成時算定 = BAL.meritProposalAdopted；02/09）
   status: ProposalStatus;
-  estimatedCostGold: number;     // 預估執行成本（貫；僅 UI 顯示，實際扣款由 Command 執行；02 待補收）
-  summaryKey: string;            // 具申內容一句話的 i18n key（09 生成時指定；02 待補收）
+  estimatedCostGold: number;     // 預估執行成本（貫；僅 UI 顯示，實際扣款由 Command 執行；02 §4.15 已收，E-48）
+  summaryKey: string;            // 具申內容一句話的 i18n key（09 生成時指定；02 §4.15 已收，E-48）
   summaryParams: Record<string, string | number>; // 插值參數（人名/地名等）
 }
 
@@ -632,14 +632,14 @@ interface Proposal {
 interface CmdRecruitRonin extends CommandBase {
   type: 'recruitRonin';
   officerId: OfficerId;    // 目標浪人（status='ronin'，locationCastleId 屬我方）
-  executorId: OfficerId;   // 登用者（須與目標同城、未出陣）；成功率公式必要輸入（§3.7.1），02 §4.18 CmdRecruitRonin 待補收
+  executorId: OfficerId;   // 登用者（須與目標同城、未出陣）；成功率公式必要輸入（§3.7.1），02 §4.18 已收（2026-07-10 二輪裁決 A）
 }
 
 interface CmdHandleCaptive extends CommandBase {
   type: 'handleCaptive';
   officerId: OfficerId;                          // 目標捕虜（capturedByClanId === CommandBase.clanId）
   action: CaptiveAction;                         // 'recruit' | 'release' | 'execute'（02 §3.3）
-  executorId: OfficerId | null;                  // 登用時的執行者；null＝以當主代入；02 §4.18 CmdHandleCaptive 待補收
+  executorId: OfficerId | null;                  // 登用時的執行者；null＝以當主代入；02 §4.18 已收（2026-07-10 二輪裁決 A）
 }
 
 interface CmdRewardOfficer extends CommandBase {
@@ -1016,6 +1016,8 @@ traitModifier(o, hook) -> { mult: number, add: number }:
   §3.4／§3.7／§3.8／§3.11／§4／§5.8 全數同步。理由：02 為樞紐，指令名稱與欄位以 02 為準收斂。
   另註：`CmdRecruitRonin.executorId` 與 `CmdHandleCaptive.executorId` 屬 06 機制必要欄位
   （登用者代入 §3.7 成功率公式），02 §4.18 對應型別目前僅 `officerId`，已回報 02 待補收（本次不逕改 02）。依 E-29／E-32。
+  ——後記（2026-07-10 同日）：02 已於「二輪裁決 A」收錄 `executorId`（`CmdHandleCaptive` 為 `OfficerId | null`），
+  並統一命名慣例「`officerId`＝被作用武將／`executorId`＝執行武將」；本檔 §4 註記同步收斂為「已收」。
 - **E-33（2026-07-07）**：引拔發動端「可下達」門檻改由 08 定義（`plotPoachLoyaltyThreshold`＝75），
   06 保留 `poachEligibleLoyalty`＝40 僅作 `acceptanceFactor` 分母；初始忠誠 `poachedInitialLoyalty`＝45；
   §3.6.5 同步。依 E-33（發動與受理兩端併存，值依 15 §5.2）。

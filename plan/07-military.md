@@ -78,7 +78,7 @@
 4. **目標與任務**：指定任一地圖節點為 `targetNodeId`。
    - 目標為敵城 → `mission = 'conquer'`（抵達後自動轉入圍城，§3.11）。
    - 其他 → `mission = 'march'`（抵達後駐留 `holding`；途經或抵達敵郡時依 04 制壓規則翻轉歸屬）。
-5. **路徑**：預設為 04 尋路的最短路；玩家可加入途經點（waypoints），路徑為各段最短路串接。
+5. **路徑**：由 04 對 `targetNodeId` 尋出的單目標最短路（v1 不支援途經點；改道以 `CmdSetArmyTarget` 覆寫目標，見二輪裁決 D）。
 
 **出陣結算**（於下一 tick 的 applyCommands）：
 - 再次驗證全部條件；任一不符 → 指令失敗、產生失敗報告（§6.5 字串），不做部分執行。
@@ -103,8 +103,8 @@ moraleFactor = BAL.moraleFactorBase + morale / BAL.moraleFactorDivisor   // 0.5 
 
 - `BAL.ldrCombatFactor` = 0.01（統率 100 → 戰力 ×2.0）。
 - `BAL.moraleFactorBase` = 0.5、`BAL.moraleFactorDivisor` = 200（士氣 100 → 1.0；士氣 0 → 0.5）。
-- `troopTypeFactor`：v1 一律 1.0。`Army.troopType` 欄位固定 `'standard'`，為未來兵種（騎馬／鐵砲／足輕）預留，
-  不得在 v1 實作任何分支邏輯。
+- `troopTypeFactor`：v1 恆為常數 1.0，不掛任何 state 欄位（`Army.troopType` 已依二輪裁決 B 廢除）。
+  兵種（騎馬／鐵砲／足輕）為 post-v1 schema 擴充，屆時才引入對應欄位與分支；v1 不得實作任何兵種分支邏輯。
 
 **士氣（morale，0..100）**：
 - 初始值 = `clamp(BAL.moraleInitBase + 大將ldr × BAL.moraleInitLdrFactor + 政策修正, 0, 100)`；
@@ -118,7 +118,9 @@ moraleFactor = BAL.moraleFactorBase + morale / BAL.moraleFactorDivisor   // 0.5 
 ### 3.3 野戰自動解算
 
 **交戰成立**：04 的遭遇判定成立（雙方敵對部隊位於同節點或於同邊相向而行）時，
-建立 `FieldCombat`，雙方部隊 `status = 'engaged'`、行軍暫停。
+建立 `FieldCombat`，雙方部隊 `status = 'engaged'`、行軍暫停，並發出 `battle.started` 事件
+（payload 依 02 §4.19：`battleId` 取該 `FieldCombat` id、`nodeId`、`attackerClanId`／`defenderClanId`
+分別取 `sideB`（後至／挑起遭遇方）／`sideA`（先至方）之主勢力 `clanIds[0]`）。
 同節點若有三個以上互相敵對的勢力：取當前總兵數最大的兩方交戰，其餘部隊待機（不受損、不移動），
 交戰結束後重新判定（見 §8 D6）。與交戰任一方**同盟**且與另一方敵對的部隊，抵達同節點時併入該方（同側多勢力）。
 
@@ -311,7 +313,9 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 - 敗方：合戰中潰走的部隊 → 策略地圖上 `routed`（§3.4）；未潰走的殘存部隊 →
   士氣 `−BAL.moraleDefeatLoss`、強制向己方最近城後退 1 個節點後恢復可下令。
 - 勝方：全部隊 `+BAL.moraleVictoryGain`，恢復原任務。
-- `FieldCombat` 結束；威風判定（§3.10）；功績結算參見 06。
+- `FieldCombat` 結束；威風判定（§3.10）：如成立則 `applyAwe`（`sourceBattleId` ＝該 `BattleState` id）發出 `awe.triggered`；
+  發出 `battle.ended`（`battleId` 為該 `BattleState` id、`winnerClanId`、`aweLevel`＝`BattleResult.aweLevel`、
+  `attackerLosses`／`defenderLosses`＝`BattleResult` 對應欄位；報告文字由 UI 依事件推導，02 §4.17）；功績結算參見 06。
 
 ### 3.10 威風（awe）
 
@@ -342,11 +346,12 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 
 ### 3.11 攻城戰（siege）
 
-**開始**：`mission = 'conquer'` 的部隊抵達目標敵城節點 → 自動建立 `Siege`、`status = 'sieging'`。
+**開始**：`mission = 'conquer'` 的部隊抵達目標敵城節點 → 自動建立 `Siege`、`status = 'sieging'`，
+並發出 `siege.started` 事件（`siegeId`、`castleId`、`attackerClanId`；02 §4.19）。
 其他我方部隊抵達同節點自動加入（`armyIds`）。同一城同時僅能有一個圍城方：
 若第三方敵對勢力部隊抵達，與圍城方發生野戰（遭遇），不另建 Siege（§8 D10）。
 
-**模式**（`mode`，圍城方玩家可隨時以 `CmdSiegeMode` 切換；AI 依 09）：預設 `assault`（強攻）。
+**模式**（`mode`，圍城方玩家可隨時以 `CmdSetSiegeMode` 切換；AI 依 09）：預設 `assault`（強攻）。
 - **強攻（assault）**：
   - 每日城耐久 `−= Σ攻方power × BAL.assaultDurabilityRate(0.004) × (1 − 城防減免)`。
     城防減免：本城 `BAL.siegeMitigationMain` = 0.5、支城 `BAL.siegeMitigationBranch` = 0.3
@@ -369,7 +374,7 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
   城士氣一次性 `−BAL.betrayalMoraleHit`（建議 40），每份成果限用一次，每場圍城限一次。
 - **援軍解圍**：守方（或其同盟）部隊抵達城節點 → `Siege.interrupted = true`，圍城全部每日效果暫停，
   圍城方與援軍依 §3.3 野戰（可發動合戰）。圍城方勝 → 解除 interrupted、圍城續行（進度保留）；
-  圍城方全潰走或撤退 → Siege 移除。
+  圍城方全潰走或撤退 → Siege 移除並發出 `siege.ended`（`fallen: false`、`newOwnerClanId: null`；02 §4.19）。
 
 **落城**：`耐久 ≤ 0` 或 `城士氣 ≤ 0` 或 `守兵 ≤ 0` →
 1. 城歸攻方勢力；**所轄各郡一併翻轉**為攻方（知行解除參見 05；翻轉時清除各郡 `District.subjugation`，
@@ -378,7 +383,8 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 3. 耐久設為 `max(當前耐久, 耐久上限 × BAL.postSiegeDurabilityRatio(0.3))`；
    城士氣設為 `BAL.postSiegeCastleMorale`（建議 50）；殘存守兵解散（歸農，不併入任何方）；
    城內殘存兵糧 ×`BAL.postSiegeFoodKeepRatio`（建議 0.5）留存、其餘視為戰亂散失。
-4. 攻方部隊 `+BAL.moraleVictoryGain`、駐留城節點轉 `holding`；產生 `report.siege.fallen` 報告；功績參見 06。
+4. 攻方部隊 `+BAL.moraleVictoryGain`、駐留城節點轉 `holding`；發出 `siege.ended` 事件
+   （`siegeId`、`castleId`、`fallen: true`、`newOwnerClanId` 為攻方勢力；報告文字由 UI 依事件推導，02 §4.17）；功績參見 06。
 
 ### 3.12 軍團（Corps）
 
@@ -449,9 +455,10 @@ interface Army {
   posNodeId: MapNodeId;       // 最近抵達節點（= path[pathCursor]）（依 02 §4.8，E-11）
   edgeProgressDays: number;   // 往 path[pathCursor+1] 之當前邊已累積行軍日數（日，浮點 ≥0）；位於節點上／已抵終點為 0（日數累加模型見 04 §5，E-11）
   edgeCostDays: number;       // 當前邊有效日數（日）＝edge.baseDays / BAL.roadGradeSpeedMult[grade]（海路固定＝baseDays）；抵達判定 edgeProgressDays ≥ edgeCostDays（04 §3.4.2／§5，E-11）
+  battleId: string | null;    // 進入合戰（BattleState）時所屬合戰 id；否則 null（依 02 §4.8；野戰 engaged 之歸屬改由 FieldCombat.sideX.armyIds 反查，INV-13／E-18）
+  siegeId: string | null;     // status=='sieging' 時所屬攻城戰 id；否則 null（依 02 §4.8，INV-13）
   autoReturn: boolean;        // 糧將盡／任務完成自動歸還
-  corpsId: string | null;     // 所屬軍團 id；null = 直轄
-  troopType: 'standard';      // v1 固定值；預留兵種擴充，不得實作分支
+  corpsId: string | null;     // 所屬軍團 id；null = 直轄（非衍生：出陣時快照，軍團解散／收回城時顯式改 null，§3.12；不可由 originCastle.corpsId 衍生）
 }
 
 /** 野戰交戰狀態（一節點一場） */
@@ -579,8 +586,8 @@ interface Corps {
 
 | Command | 欄位 | 說明 |
 |---|---|---|
-| `CmdMarch` | `castleId, leaderId, deputyIds, soldiers, food, targetNodeId, waypoints` | 出陣（§3.1） |
-| `CmdSetArmyTarget` | `armyId, targetNodeId, waypoints` | 變更在外部隊目標 |
+| `CmdMarch` | `originCastleId, leaderId, deputyIds, soldiers, food, targetNodeId` | 出陣（§3.1） |
+| `CmdSetArmyTarget` | `armyId, targetNodeId` | 變更在外部隊目標 |
 | `CmdRecallArmy` | `armyId` | 命令歸還 |
 | `CmdSetAutoReturn` | `armyId, enabled` | 切換自動歸還 |
 | `CmdStartKassen` | `fieldCombatId` | 發動合戰（§3.5） |
@@ -588,7 +595,7 @@ interface Corps {
 | `CmdBattleAttack` | `battleId, unitId, targetUnitId` | 合戰：指定攻擊目標 |
 | `CmdBattleTactic` | `battleId, unitId, tacticId, targetUnitId?` | 合戰：發動戰法 |
 | `CmdBattleDelegate` | `battleId, unitId or 'all', enabled` | 合戰：委任開關 |
-| `CmdSiegeMode` | `siegeId, mode` | 切換強攻／包圍 |
+| `CmdSetSiegeMode` | `siegeId, mode` | 切換強攻／包圍 |
 | `CmdUseBetrayal` | `siegeId` | 發動內應 |
 | `CmdCreateCorps` | `corpsLeaderId, castleIds, directive, targetNodeId?` | 建立軍團 |
 | `CmdSetCorpsDirective` | `corpsId, directive, targetNodeId?` | 變更軍團方針 |
@@ -603,20 +610,20 @@ interface Corps {
 
 ```
 applyCmdMarch(state, cmd):
-  castle = state.castles[cmd.castleId]
-  assert castle.clanId == cmd.issuerClanId 且 castle 非軍團城（玩家指令時）
+  castle = state.castles[cmd.originCastleId]
+  assert castle.clanId == cmd.clanId 且 castle 非軍團城（玩家指令時）
   general = state.officers[cmd.leaderId]
   assert general 在 castle、未出陣、非捕虜、非浪人
   assert cmd.deputyIds.length ≤ 2，且每名副將同上條件、與大將互異
   cap = BAL.rankTroopCap[general.rank]（當主 → 8000）
-  assert BAL.minMarchTroops ≤ cmd.soldiers ≤ min(castle.garrison, cap)
+  assert BAL.minMarchTroops ≤ cmd.soldiers ≤ min(castle.soldiers, cap)
   minFood = cmd.soldiers × BAL.fieldFoodPerSoldierDaily × BAL.minCarryDays
   maxFood = cmd.soldiers × BAL.fieldFoodPerSoldierDaily × BAL.maxCarryDays
   assert minFood ≤ cmd.food ≤ min(castle.food, maxFood)
   // 任一 assert 失敗 → 產生失敗 Report，指令作廢
-  castle.garrison -= cmd.soldiers;  castle.food -= cmd.food
+  castle.soldiers -= cmd.soldiers;  castle.food -= cmd.food
   mission = isEnemyCastleNode(cmd.targetNodeId) ? 'conquer' : 'march'
-  path = findPathWithWaypoints(castle.nodeId, cmd.waypoints, cmd.targetNodeId)  // 參見 04
+  path = computePath(castle.nodeId, cmd.targetNodeId)  // 單目標最短路，參見 04 §5.2
   morale0 = clamp(BAL.moraleInitBase + general.ldr × BAL.moraleInitLdrFactor
                   + policyMoraleBonus(clan), 0, 100)   // 政策值參見 05
   state.armies.push(newArmy(..., initialTroops: cmd.soldiers, morale: morale0))
@@ -644,8 +651,11 @@ fieldCombatDailyTick(state, fc):
   for each army: checkRout(army)                       // §3.4
   if 一側全滅或全潰走:
     勝側全部隊 morale += BAL.moraleVictoryGain；套用追擊（§3.4）
+    aweLevel = 'none'
     if 敗側.cumulativeLosses > 敗側.initialTroops × BAL.fieldAweKillRatio:
-      applyAwe('small', fc.nodeId, 勝側主勢力, 敗側主勢力)
+      applyAwe('small', fc.nodeId, 勝側主勢力, 敗側主勢力, fc.id); aweLevel = 'small'   // applyAwe 內發 awe.triggered
+    emit battle.ended(battleId: fc.id, winnerClanId: 勝側主勢力, aweLevel,
+                      attackerLosses: B.cumulativeLosses, defenderLosses: A.cumulativeLosses)  // 報告文字由 UI 推導（02 §4.17）
     removeFieldCombat(fc)；勝側恢復原任務
 ```
 
@@ -683,7 +693,7 @@ advanceBattleTick(bs, orders):
   5 士氣增減（§3.7-5）；checkRoutInBattle(u)；潰走者向己方本陣方向撤離、離場移除
   6 佔領結算（§3.7-6）；本陣旗力 ≤ 0 → bs.honjinFallenTick = tick，直接進 8
   7 兩側采配累積（cap BAL.saihaiMax）；activeTactics 與 cooldown 遞減
-  8 勝敗檢查（§3.9）；成立 → 寫 bs.result 並 resolveBattle(state, bs)
+  8 勝敗檢查（§3.9）；成立 → 寫 bs.result 並 resolveBattle(state, bs)（§3.9 戰後回寫；發出 battle.ended／awe.triggered）
 ```
 
 ### 5.5 攻城每日解算（siege.ts，對每個非 interrupted 的 Siege）
@@ -694,12 +704,12 @@ siegeDailyTick(state, sg):
   atk = Σ computeArmyPower(a) for a in sg.armies
   mitigation = clamp((castle.tier=='main'? BAL.siegeMitigationMain : BAL.siegeMitigationBranch)
                      + facilityMitigation(castle) /* 參見05 */, 0, 0.7)
-  defPower = castle.garrison × (1 + lordLdr × BAL.ldrCombatFactor) × (1 + mitigation)
-  if sg.mode == 'encircle' 且 Σ攻方兵 < castle.garrison × BAL.encircleRatio: sg.mode = 'assault'
+  defPower = castle.soldiers × (1 + lordLdr × BAL.ldrCombatFactor) × (1 + mitigation)
+  if sg.mode == 'encircle' 且 Σ攻方兵 < castle.soldiers × BAL.encircleRatio: sg.mode = 'assault'
   if sg.mode == 'assault':
     castle.durability −= atk × BAL.assaultDurabilityRate × (1 − mitigation)
     attackerLoss = defPower × BAL.assaultAttackerLossRate
-    castle.garrison −= round(atk × BAL.assaultDefenderLossRate)
+    castle.soldiers −= round(atk × BAL.assaultDefenderLossRate)
     castle.morale −= BAL.assaultCastleMoraleDaily
   else: // encircle
     castle.morale −= BAL.encircleCastleMoraleDaily
@@ -708,26 +718,31 @@ siegeDailyTick(state, sg):
   distributeLossByTroops(sg.armies, round(attackerLoss))
   if castle.food == 0:
     castle.morale −= BAL.starvingCastleMoraleDaily
-    castle.garrison −= ceil(castle.garrison × BAL.starvingCastleDesertionRate)
-  if castle.durability ≤ 0 或 castle.morale ≤ 0 或 castle.garrison ≤ 0:
+    castle.soldiers −= ceil(castle.soldiers × BAL.starvingCastleDesertionRate)
+  if castle.durability ≤ 0 或 castle.morale ≤ 0 或 castle.soldiers ≤ 0:
     fallCastle(state, sg)        // §3.11 落城處理 1–4
 ```
 
 ### 5.6 威風套用
 
 ```
-applyAwe(level, centerNodeId, winnerClanId, loserClanId):
+applyAwe(level, centerNodeId, winnerClanId, loserClanId, sourceBattleId):
+  // sourceBattleId：合戰觸發＝bs.id（battle.*）、野戰觸發＝fc.id（fc.*），標識威風來源戰役
   range = { small: BAL.aweRangeSmall, medium: BAL.aweRangeMed, large: BAL.aweRangeLarge }[level]
   nodes = bfsWithinHops(centerNodeId, range)           // 策略地圖圖距
+  flippedDistrictIds = []; affectedCastleIds = []
   for n in nodes where n 是郡節點 且 n.owner == loserClanId:
     翻轉歸屬至 winnerClanId；清除 District.subjugation 並掃描 state.armies 重置正制壓該郡部隊之進度（E-65）；知行解除（05）
+    flippedDistrictIds.push(n.districtId)
   for n in nodes where n 是城節點 且 n.owner == loserClanId:
     castle.morale −= BAL.aweCastleMoraleHit
     castle.durability −= castle.durabilityMax × BAL.aweCastleDurabilityRatio（下限 1）
+    affectedCastleIds.push(n.castleId)
   clans[winnerClanId].prestige += { small: BAL.awePrestigeSmall,
                                     medium: BAL.awePrestigeMed,
                                     large: BAL.awePrestigeLarge }[level]
-  emit report.battle.awe.{level}
+  emit awe.triggered(sourceBattleId, clanId: winnerClanId, level, flippedDistrictIds, affectedCastleIds)
+  // 報告文字（report.battle.awe.*）由 UI 依事件推導（02 §4.17）
 ```
 
 合戰後判級：
@@ -835,7 +850,7 @@ supplyDailyTick(state, army):
 2. 副將清單（同城可用武將）→ 點選 0..2 名。
 3. 兵數滑桿（0..min(城駐兵, 上限)，預設上限值）＋ 攜糧日數滑桿（10..180，預設 60，
    即時顯示換算石數與城內餘糧）。
-4. 點地圖選目標節點 → 顯示預覽路徑（可加途經點）→「出陣」確認。
+4. 點地圖選目標節點 → 顯示預覽路徑（單目標最短路，v1 無途經點）→「出陣」確認。
 
 ### 6.2 合戰畫面（全螢幕 modal；策略時間暫停）
 
@@ -1039,3 +1054,21 @@ supplyDailyTick(state, army):
 - **D26｜依 19 §3.13 E-32 修正**（2026-07-10）：§4 指令表刪除 `CmdRemoveCastleFromCorps`，
   收回城統一以 `CmdAssignCastleToCorps(corpsId:null)` 表達（對齊 02 §4.18 聯集與 §4 合併註記）；
   §3.12 軍團正文引用一併改寫。依據：E-32「重複語意合併，`RemoveCastleFromCorps`＝`assignCastleToCorps(null)`」。
+- **D27｜二輪對齊**（2026-07-10，依 02 二輪裁決備忘錄 A–E）：本輪依 02 §4.5／§4.8／§4.18／§4.19 現行定案落實 07 側跟進——
+  (1) **Army 欄位（裁決 B）**：§4 移除已廢的 `troopType`（v1 恆定 `'standard'`＝可推導值，違 DDR-8；兵種列 post-v1 schema 擴充），
+  §3.2 戰力公式之 `troopTypeFactor` 改述為 v1 常數 1.0、不掛 state 欄位；新增前向指標 `battleId`／`siegeId`（`string | null`）
+  對齊 02 §4.8 canonical 與 INV-13（野戰 engaged 之歸屬仍由 `FieldCombat.sideX.armyIds` 反查、圍城走 `siegeId`）；
+  `initialTroops`／`mission`／`autoReturn`／`corpsId` 07 早具備且語意一致（`corpsId` 補明「非衍生、出陣快照」註解）。
+  (2) **機械改名（裁決 E）**：全檔 `castle.garrison`→`castle.soldiers`（02 §4.5；`BAL.garrisonFoodPerSoldierMonthly` 為常數名不動）；
+  `CmdSiegeMode`→`CmdSetSiegeMode`（§3.11／§4 命令表）；§5.1 `cmd.issuerClanId`→`cmd.clanId`（`CommandBase`）、
+  `cmd.castleId`→`cmd.originCastleId`（§4 命令表 `CmdMarch` 欄位同步）。
+  (3) **waypoints v1 廢除（裁決 D）**：§3.1 路徑改為對 `targetNodeId` 之單目標最短路、§4 `CmdMarch`／`CmdSetArmyTarget`
+  欄位刪 `waypoints`、§5.1 `findPathWithWaypoints(...)`→`computePath(castle.nodeId, cmd.targetNodeId)`、
+  §6.1 出陣面板刪「可加途經點」；改道以 `CmdSetArmyTarget` 覆寫目標即足（04 §4.3／§5.2 為單目標尋路權威）。
+  (4) **事件發出對齊（指派 C，02 §4.19 canonical）**：以 i18n key 代事件之處改發 02 事件——
+  §3.11 落城「產生 `report.siege.fallen`」→ 發出 `siege.ended`（`fallen: true`、`newOwnerClanId`＝攻方）、
+  §5.6「emit `report.battle.awe.{level}`」→ 發出 `awe.triggered`（補 `sourceBattleId`／`flippedDistrictIds`／`affectedCastleIds`，
+  `applyAwe` 加 `sourceBattleId` 參數，合戰＝`bs.id`、野戰＝`fc.id`）；並補明 `battle.started`（§3.3 野戰成立）、
+  `battle.ended`（§5.2 野戰結束、§3.9／§5.4 合戰結束）、`siege.started`（§3.11 開始）、解圍時 `siege.ended`（`fallen: false`）之發出點；
+  報告文字一律由 UI 依事件推導（02 §4.17），§6.5 `report.*` i18n key 本身不動。
+  依據：02 二輪裁決備忘錄 A–E（勘誤 E-11／E-18／E-30／E-32；DDR-8／DDR-12）。

@@ -29,7 +29,7 @@
 |---|---|
 | `plan/00-foundations.md` | 技術選型（idb-keyval、lz-string、zod）、決定論規範（§5.5）、i18n 規範（§9） |
 | `plan/02-data-model.md` | `GameState`、`Command`、`Difficulty`、`SpeedLevel` 等型別定義；本文件的存檔／設定型別回饋收錄於 02 |
-| `plan/03-game-loop.md` | tick 邊界、Command 佇列、`GameEvent`（含 `seasonStart`、月初 hook）、Report 嚴重度分級 |
+| `plan/03-game-loop.md` | tick 邊界、Command 佇列、`GameEvent`（含 `time.seasonStart`、月初 hook；事件名以 02 §4.19 為準）、Report 嚴重度分級 |
 | `plan/04-map-and-movement.md` | 地圖標籤密度設定值對應的 LOD 渲染規則、地圖特效開關的作用對象 |
 | `plan/09-ai.md`／`plan/15-balance.md` | 難易度定義與修正值；本文件僅在新遊戲流程中引用 `Difficulty` |
 | `plan/11-ui-screens.md` | 標題畫面、存讀檔畫面、設定畫面的版面 wireframe |
@@ -552,7 +552,7 @@ saveToSlot(slotId: SaveSlotId, saveFile: SaveFile): Promise<{ ok: true } | { ok:
 
 ```
 onTickCompleted(events: GameEvent[]):
-  if !events.some(e => e.type === 'seasonStart') → return        // 事件型別見 03
+  if !events.some(e => e.type === 'time.seasonStart') → return   // 事件型別見 02 §4.19（2026-07-10 二輪裁決 C 收錄）
   if autosaveSuspended → return
   cursor ← (await adapter.get('tf.save.autosaveCursor')) ?? 0
   slotId ← `auto:${(cursor mod SAVECFG.autoSaveSlots) + 1}`

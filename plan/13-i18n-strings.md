@@ -250,11 +250,12 @@ UI 依 enum 值組 key 的固定模式（全部列舉；實作時以樣板字串
 | `plot.succeeded` | `payload.plot`（poach/rumor/betrayal） | `report.plot.poachSuccess`／`report.plot.rumorSuccess`／`report.plot.betrayalReady` |
 | `command.rejected` | `payload.reasonKey`（已是 i18n key） | 直接採 `reasonKey`（`cmd.reject.*` 或 `report.march.failed.*`） |
 | `event.fired` | — | `report.event.fired`（`{title}` 帶事件標題資料） |
+| `battle.ended` | `payload.winnerClanId` 與玩家勢力關係分流：＝我方→won；＝敵方→lost；`null`（僅野戰可能，平手撤離）→沿用通用戰報 | `report.battle.won`／`report.battle.lost`／`report.field.resolved`（二輪裁決 C） |
+| `siege.ended` | `payload.fallen`（true/false） | `report.siege.fallen`／`report.siege.repelled`（二輪裁決 C） |
 
 - **不產生報告的事件**（回傳 null，僅供 UI 當 tick 消費）：`time.monthStart`、
-  `time.monthEnd`、`time.seasonStart`、`time.yearStart`、`siege.progress`、
-  `development.districtGrown`、`game.victory`、`game.defeat`
-  （後兩者直接切結局畫面，10 §6.4）。
+  `time.seasonStart`（有 app 層消費者但不產生玩家報告，16 §5.3；二輪裁決 C）、
+  `game.victory`、`game.defeat`（後兩者直接切結局畫面，10 §6.4）。
 - 系統文件另定義的非 03 清單報告 key（輸送、褒賞、朝廷、幕府、大命等）沿用其事件
   擴充（03 §4.3 擴充規則），全部收錄於 §6.11。
 
@@ -942,25 +943,25 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `report.field.rout` | — | army | {army}潰走！ |
 | `report.battle.available` | `battle.kassenAvailable` | place | {place}可發動合戰！ |
 | `report.battle.started` | `battle.started` | place | {place}合戰開始！ |
-| `report.battle.won` | `battle.won` | attacker, place, defender | {attacker}於{place}擊破{defender}！ |
-| `report.battle.lost` | `battle.lost` | attacker, place, defender | {attacker}於{place}敗於{defender}。 |
+| `report.battle.won` | `battle.ended` | attacker, place, defender | {attacker}於{place}擊破{defender}！ |
+| `report.battle.lost` | `battle.ended` | attacker, place, defender | {attacker}於{place}敗於{defender}。 |
 | `report.battle.awe.small` | `awe.triggered` | — | 威風（小）！鄰近敵郡望風歸順。 |
 | `report.battle.awe.medium` | `awe.triggered` | — | 威風（中）！敵方諸郡動搖歸順。 |
 | `report.battle.awe.large` | `awe.triggered` | clan | 威風（大）！{clan}威名震動天下！ |
 | `report.siege.begin` | `siege.started` | castle, clan | {castle}遭{clan}包圍！ |
 | `report.siege.relief` | — | castle | 援軍抵達{castle}，展開解圍戰！ |
-| `report.siege.fallen` | `siege.fallen` | castle | {castle}落城！ |
-| `report.siege.repelled` | `siege.repelled` | castle | {castle}擊退了圍城之敵。 |
+| `report.siege.fallen` | `siege.ended` | castle | {castle}落城！ |
+| `report.siege.repelled` | `siege.ended` | castle | {castle}擊退了圍城之敵。 |
 | `report.march.failed.troops` | `command.rejected` | castle | 出陣失敗：{castle}兵力不足 |
 | `report.march.failed.cap` | `command.rejected` | general, cap | 出陣失敗：超過{general}的帶兵上限（{cap}人） |
 | `report.march.failed.food` | `command.rejected` | castle | 出陣失敗：{castle}兵糧不足 |
 | `report.economy.income` | `economy.income` | month, gold | {month}月收入{gold}貫。 |
-| `report.economy.harvest` | `economy.harvested` | food | 秋收！全領兵糧入庫{food}石。 |
+| `report.economy.harvest` | `economy.harvest` | food | 秋收！全領兵糧入庫{food}石。 |
 | `report.economy.granaryOverflow` | — | castle, food | {castle}米藏已滿，{food}石散失。 |
 | `report.economy.castleStarving` | `economy.foodShortage` | castle | {castle}兵糧見底，士卒逃散！ |
 | `report.economy.upkeepUnpaid` | `economy.upkeepUnpaid` | — | 金錢不足，本月俸祿未能全額發放，家臣心生不滿。 |
 | `report.save.autosaveFailed` | `save.autosaveFailed` | — | 自動存檔失敗，本場遊戲已暫停自動存檔。請盡快手動存檔或匯出備份。 |
-| `report.build.done` | `development.completed` | castle, facility | {castle}的{facility}已落成。 |
+| `report.build.done` | `facility.completed` | castle, facility | {castle}的{facility}已落成。 |
 | `report.transport.arrived` | — | castle | 輸送隊已抵達{castle}。 |
 | `report.transport.looted` | — | place, clan | 輸送隊於{place}遭{clan}劫掠！ |
 | `report.transport.lootGain` | — | place | 我軍於{place}劫獲敵方輸送隊。 |
@@ -975,7 +976,7 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `report.officer.comingOfAge` | `officer.comingOfAge` | name, clan | {name}元服，加入{clan}。 |
 | `report.officer.loyaltyLow` | `officer.loyaltyLow` | name | {name}忠誠低落，恐有異心。 |
 | `report.officer.meritReady` | — | name, rank | {name}功績已足，可推舉為{rank}。 |
-| `report.officer.promoted` | `officer.rankPromoted` | name, rank | {name}升格為{rank}。 |
+| `report.officer.promoted` | `officer.promoted` | name, rank | {name}升格為{rank}。 |
 | `report.officer.recruited` | — | name | {name}仕官於我家。 |
 | `report.officer.recruitFailed` | — | name | {name}婉拒了登用。 |
 | `report.officer.captured` | `officer.captured` | name, clan | {name}被{clan}俘虜。 |
@@ -1361,3 +1362,37 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
   `ui.common.cancel`「取消」退出精靈為不同動作，不可合併）。執行武將／進度／預估成功率／
   發動內應沿用既有 `ui.plot.executor`／`ui.plot.progress`／`ui.plot.successChance`／
   `ui.plot.activateBetrayal`，未新增重複字串。
+- **D16｜二輪裁決：事件變體規則與排除清單對齊 02 §4.19（含 D13 殘留清理）**（2026-07-10，
+  依 02 二輪裁決備忘錄 A–E，§4.19 事件完整性裁決 C）：02 樞紐回寫二輪確認
+  `battle.won`／`battle.lost`／`siege.fallen`／`siege.repelled` 四個舊事件型別不新增、一律併入
+  `battle.ended`／`siege.ended`（payload `winnerClanId`／`fallen` 判別），故 §6.11
+  `report.battle.won`／`report.battle.lost`／`report.siege.fallen`／`report.siege.repelled`
+  四列之「事件型別」欄改為 `battle.ended`／`siege.ended`；並於 §3.7 變體規則表新增兩列：
+  `battle.ended` 依 `payload.winnerClanId` 與玩家勢力關係分流 won／lost／平手
+  （`winnerClanId=null` 僅野戰可能，撤離不分勝負，沿用既有通用戰報 `report.field.resolved`，
+  不另立平手專用 key——第三方〔非玩家參戰〕之野戰結算亦沿用同一 `report.field.resolved`，
+  兩種情境用字皆為中性描述、無需區分）；`siege.ended` 依 `payload.fallen`（true/false）分流
+  `report.siege.fallen`／`report.siege.repelled`，無歧義。同步修正 §3.7 排除清單：移除
+  `time.monthEnd`／`time.yearStart`／`siege.progress`／`development.districtGrown`
+  （02 二輪裁決 C 已廢除此四事件型別，02 §4.19 總表不再收錄，不應留存於本文件任何清單）；
+  新增 `time.seasonStart`（02 二輪裁決 C 新收，16 §5.3 季首自動存檔為其唯一消費者、不產生
+  玩家報告，故屬 null-report）；`time.monthStart`／`game.victory`／`game.defeat` 不變。
+  `officer.loyaltyLow`／`proposal.expired`（02 二輪裁決 C 新收）之 §6.11 對應列（分別在
+  `report.officer.loyaltyLow`／`report.proposal.expired`）原已採 02 canonical 事件名，
+  無需改動，僅確認一致。
+  另於本輪 grep 自查（§6.11 全表逐列核對 02 §4.19 總表，非僅本次異動列）中，額外尋得三處
+  D13（2026-07-10 前次「事件型別欄全面改採 02 canonical」宣稱）之殘留舊名，一併修正：
+  `report.economy.harvest` 之 `economy.harvested`→`economy.harvest`（02 §4.19 canonical、05
+  發出；03 §8.1 E-30 亦已列此更名，13 先前漏改）、`report.build.done` 之
+  `development.completed`→`facility.completed`（02 §4.19 canonical 為施設完工事件、05 發出；
+  `development.completed` 為 03 §4.3 專有之另一事件〔單項開發滿級〕，語意與本報告「{castle}的
+  {facility}已落成」不符，屬誤植而非命名歧異）、`report.officer.promoted` 之
+  `officer.rankPromoted`→`officer.promoted`（02 §4.19 canonical、06 發出；03 §8.1 E-30 亦已
+  列此更名）。`report.diplomacy.pactSigned`／`pactExpired`／`pactBroken`（現仍用
+  `diplomacy.*` 舊前綴，02 canonical 為 `pact.signed`／`pact.expired`／`pact.broken`）**維持
+  不動**：D13 已明文此三列「屬 E-23 後續 08 外交大改 pass 範圍，本次不動」，本輪比照沿用該
+  既定裁決，不在本次一併處理，避免與該規劃中的專案改動衝突。`command.rejected`／
+  `economy.foodShortage`／`economy.upkeepUnpaid`／`save.autosaveFailed`／
+  `diplomacy.envoyArrived` 等維持現狀：03／16 自身文件明文列為「專有／擴充事件」（03 §4.3
+  逐一註記「為 03 專有」／16 §5.3 存檔錯誤事件），屬 §3.7「系統文件另定義的非 03 清單報告
+  key……沿用其事件擴充」允許範圍，非 02 §4.19 canonical 名稱漂移，故不視為需修正之不一致。
