@@ -13,9 +13,9 @@
 
 1. **主術語對照表**（§3.2~§3.4）：全部遊戲概念的「繁中定稿用語／日文原詞（新生用語）／英文／
    代碼識別符／首次定義文件」五欄對照，依領域分節。
-2. **具名清單全表**（§3.5~§3.11）：30 特性、12 戰法、12 政策、16 城下施設、8 大命、
+2. **具名清單全表**（§3.5~§3.11）：37 特性、12 戰法、12 政策、16 城下施設、8 大命、
    8 官位、幕府役職、六階身分、全部畫面與元件名稱。
-3. **易錯繁簡字與日文新字體對照警示表**（§3.12）：38 組正誤字形對照，供撰寫與資料製作時查對。
+3. **易錯繁簡字與日文新字體對照警示表**（§3.12）：40 組正誤字形對照，供撰寫與資料製作時查對。
 4. **用語風格決定**（§3.1）：日文漢字術語保留與改寫原則、數字與單位寫法。
 5. **全 plan 文件術語不一致勘誤清單**（§3.13）：跨文件比對發現的全部衝突，附建議定案，
    供修正階段（00 §0 規則 5）使用。
@@ -111,7 +111,7 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 | 街道（邊） | 街道（kaido） | road edge | `RoadEdge`／`RoadEdgeId`＝`road.*` | 00 §4／02 §4.7 |
 | 陸路 | 陸路（rikuro） | land route | `RoadKind`＝`'land'` | 02 §3.3／04 §3.4 |
 | 海路 | 海路（kairo） | sea route | `RoadKind`＝`'sea'` | 02 §3.3／04 §3.4.3 |
-| 港郡 | 湊（minato）之郡 | port district | `District.isPort`（04 引入，02 待收錄） | 04 §3.4.3 |
+| 港郡 | 湊（minato）之郡 | port district | `District.isPort`（04 引入，02 已收錄；E-44 已消化） | 04 §3.4.3 |
 | 地圖節點 | —（設計語） | map node（城∪郡） | `MapNodeId = CastleId \| DistrictId` | 00 §4／02 §3.2 |
 | 地方（九地方） | 地方（chiho） | region | `Region`＝`'tokai'`…`'tohoku'`（9 值） | 02 §3.3／14 §3.2 |
 | 京都所在城 | 京（kyo）・二條御所 | capital castle | `scenario.court.capitalCastleId` | 08 §3.6.3 |
@@ -172,7 +172,7 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 | 城主 | 城主（joshu） | castle lord | `Castle.lordId`；`CmdAppointLord` | 00 §14／02 §4.5 |
 | 直轄 | 直轄（chokkatsu） | direct control | `directControl: true`；`stewardId: null` | 00 §14 |
 | 委任 | 委任（inin） | delegated（AI 代管） | `directControl: false` | 00 §14／09 §3.7 |
-| 開發重點 | 方針（hoshin） | develop focus | `DevelopFocus`＝`'agri'\|'commerce'\|'security'` | 02 §3.3（勘誤 E-07） |
+| 開發重點 | 方針（hoshin） | develop focus | `DevelopFocus`＝`'agri'\|'commerce'\|'barracks'`（第三值已依 E-07 定案） | 02 §3.3（勘誤 E-07 已消化） |
 | 城下施設 | 城下施設（jokashisetsu） | castle town facility | `Facility`／`FacilityTypeId`＝`fac.*` | 00 §14／05 §3.4 |
 | 施設 slot | —（設計語） | facility slot | `FacilitySlot`（本城 6／支城 3） | 02 §4.5 |
 | 徵兵 | 徵兵（chohei） | conscription | `conscription`；`CmdConscript` | 00 §14／05 §3.5 |
@@ -194,11 +194,11 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 | 繁中定稿 | 日文原詞（羅馬字） | 英文 | 代碼識別符 | 首次定義 |
 |---|---|---|---|---|
 | 身分 | 身分（mibun） | rank（六階，§3.9） | `Rank`（02 §3.3 六值） | 00 §4／06 §3.4 |
-| 升格／推舉 | 昇進（shoshin） | promotion | `PromoteRankCommand`（06；02 待收錄，E-32） | 06 §3.8.3 |
+| 升格／推舉 | 昇進（shoshin） | promotion | `CmdPromoteRank`（02 §4.18 CmdPromoteRank；已消化） | 02 §4.18／06 §3.8.3 |
 | 特性 | 特性（tokusei） | trait（被動技） | `Trait`／`TraitId`＝`trait.*` | 00 §14／06 §3.3 |
 | 稀有度 | —（設計語） | rarity | `'common'\|'rare'\|'legendary'`（普通／稀有／傳說） | 06 §3.3 |
 | 能力成長 | —（設計語） | stat growth | `statExp`／`statGrowth`（每維上限 +5） | 06 §3.2 |
-| 仕官中 | 仕官（shikan） | serving | `OfficerStatus`＝`'serving'`（06 用 `'active'`，E-02） | 02 §3.3 |
+| 仕官中 | 仕官（shikan） | serving | `OfficerStatus`＝`'serving'`（06 已改採 `hasComeOfAge`＋`'serving'`；E-02 已消化） | 02 §3.3 |
 | 浪人 | 浪人（ronin） | ronin | `OfficerStatus`＝`'ronin'` | 00 §14 |
 | 捕虜 | 捕虜（horyo） | captive | `OfficerStatus`＝`'captive'`；`CmdHandleCaptive` | 02 §3.3／06 §3.7.2 |
 | 招降／釋放／處斬 | 登用／解放／處刑 | recruit / release / execute | `CaptiveAction`＝`'recruit'\|'release'\|'execute'` | 02 §3.3 |
@@ -207,10 +207,10 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 | 元服 | 元服（genpuku） | coming of age（15 歲登場） | `comingOfAge`；`hasComeOfAge` | 00 §14／06 §3.10 |
 | 壽命 | 壽命（jumyo） | lifespan | `scheduledDeath`（開局排程） | 06 §3.9.1 |
 | 家督繼承 | 家督相續（katoku-sozoku） | succession | `report.clan.succession` | 06 §3.9.3 |
-| 一門／譜代／外樣 | 一門／譜代／外樣 | kin / hereditary / outsider | `Kinship`＝`'kin'\|'fudai'\|'tozama'`（06；02 僅 `isKin`，E-34） | 06 §4 |
+| 一門／譜代／外樣 | 一門／譜代／外樣 | kin / hereditary / outsider | `Kinship`＝`'kin'\|'fudai'\|'tozama'`（02 已收錄；E-34 已消化） | 02 §4.4／06 §4 |
 | 具申 | 具申（gushin） | proposal（家臣提案） | `Proposal`／`ProposalId`＝`prop.*` | 00 §14／06 §3.11 |
 | 採納／駁回 | 採用／却下 | adopt / reject | `CmdResolveProposal`（accept: boolean） | 02 §4.18 |
-| 婚姻武將 | 婚儀（kongi） | spouse | `Officer.spouseId`（08 引入，02 待收錄） | 08 §3.4.1 |
+| 婚姻武將 | 婚儀（kongi） | spouse | `Officer.spouseId`（08 引入，02 已收錄；E-44 已消化） | 02 §4.4／08 §3.4.1 |
 
 #### 3.3.3 軍事與行軍（語意見 04／07）
 
@@ -218,26 +218,26 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 |---|---|---|---|---|
 | 出陣 | 出陣（shutsujin） | march out | `CmdMarch`＝`'march'` | 00 §14／07 §3.1 |
 | 部隊 | 部隊（butai） | army | `Army`／`ArmyId`＝`army.*`（6 位流水） | 00 §14／02 §4.8 |
-| 大將 | 大將（taisho） | commanding general | `Army.leaderId`（07 用 `generalId`，E-11） | 02 §4.8 |
+| 大將 | 大將（taisho） | commanding general | `Army.leaderId`（07 已統一為 `leaderId`；E-11 已消化。合戰 transient `BattleUnit.generalId` 為節點內部欄位，不在改名範圍） | 02 §4.8 |
 | 副將 | 副將（fukusho） | deputy | `Army.deputyIds`（0..2 人） | 02 §4.8 |
 | 帶兵上限 | —（設計語） | troop capacity | `BAL.rankTroopCap.*`（六階表，E-37） | 07 §3.1 |
 | 行軍 | 行軍（kogun） | marching | `ArmyStatus`＝`'marching'` | 02 §3.3／04 §3.7 |
 | 尋路 | —（設計語） | pathfinding（Dijkstra） | `computePath()`（04） | 04 §3.6 |
-| 途經點 | —（設計語） | waypoint | `waypoints`（07 出陣參數） | 07 §3.1 |
+| 途經點 | —（設計語） | waypoint（v1 廢除） | v1.0 不設出陣途經點，`CmdMarch`／`CmdSetArmyTarget` 僅單一 `targetNodeId`（02 二輪裁決 D 已消化；07 §4 `waypoints` 欄與 `findPathWithWaypoints` 一併刪除）。另 `RoadEdgeData.waypoints`（04 §3.4.1）僅為街道畫線中繼點，與本詞彙非同一機制、不受影響 | 02 二輪裁決 D／04 §3.4.1 |
 | 制壓 | 制壓（seiatsu） | subjugation（翻轉敵郡） | `subjugate`；`ArmyStatus`＝`'subjugating'`；`District.subjugation` | 00 §14／04 §3.8 |
 | 遭遇 | 遭遇（sogu） | encounter | 04 §3.9 判定；轉入 `'engaged'` | 04 §3.9 |
 | 野戰 | 野戰（yasen） | field combat（自動解算） | `fieldCombat`；`Battle.mode`＝`'auto'` | 00 §14／07 §3.3 |
 | 合戰 | 合戰（kassen） | tactical battle | `Battle.mode`＝`'tactical'`；`CmdStartKassen` | 00 §14／07 §3.5 |
 | 地利 | 地の利（chi-no-ri） | home ground | `BAL.homeGroundLossMult` | 07 §3.3 |
 | 挾擊 | 挾擊（kyogeki） | pincer | `BAL.pincerMult` | 07 §3.3 |
-| 潰走 | 潰走（kaiso） | rout | `BAL.routThreshold`（名稱勘誤 E-16） | 07 §3.4 |
+| 潰走 | 潰走（kaiso） | rout | `BAL.moraleBreakThreshold`（名依 02、值 30；E-16 已消化，07 之 `routThreshold`與 04 之 `routMoraleThreshold`皆已改名統一） | 02 §5.7／07 §3.4 |
 | 追擊 | 追擊（tsuigeki） | pursuit | `BAL.pursuitDamageRate` | 07 §3.4 |
 | 歸還 | 歸還（kikan） | return home | `ArmyStatus`＝`'returning'`；`CmdRecallArmy` | 02 §3.3／07 §3.13 |
 | 兵站 | 兵站（heitan） | supply / logistics | 每日糧耗＋我方城自動補給 | 07 §3.13 |
 | 糧盡 | 兵糧切れ（hyoro-gire） | out of food | `army.starving`（事件） | 07 §3.13 |
 | 戰法 | 戰法（senpo） | tactic（合戰主動技） | `Tactic`／`TacticId`＝`tac.*` | 00 §14／07 §3.8 |
 | 采配 | 采配（saihai） | command points（側共用池） | `saihai`（0..`BAL.saihaiMax`） | 07 §3.7 |
-| 陣 | 陣（jin） | battlefield node | `Jin`（合戰戰場節點；模型衝突見 E-18） | 07 §3.6 |
+| 陣 | 陣（jin） | battlefield node | `Jin`（合戰戰場節點；02 已依 DDR-12 採 07 陣圖模型，E-18 已消化） | 02 §4.9（DDR-12）／07 §3.6 |
 | 本陣 | 本陣（honjin） | headquarters | `isHonjin`；本陣陷落＝立即敗北 | 07 §3.6 |
 | 旗力 | —（設計語） | flag power（陣佔領值） | `flagPower` | 07 §3.6 |
 | 委任（合戰） | 委任（inin） | delegate | `delegated: boolean` | 07 §3.9 |
@@ -249,7 +249,7 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 | 援軍解圍 | 後詰（gozume） | relief force | `Siege.interrupted` | 07 §3.11 |
 | 軍團 | 軍團（gundan） | corps | `Corps`／`CorpsId`＝`corps.*` | 00 §14／02 §4.13 |
 | 軍團長 | 軍團長（gundancho） | corps leader | `Corps.corpsLeaderId`（家老以上） | 00 §14 |
-| 軍團方針 | 方針（hoshin） | corps directive | `CorpsDirective`＝`'advance'\|'hold'\|'develop'`（07 另一套，E-21） | 02 §3.3 |
+| 軍團方針 | 方針（hoshin） | corps directive | `CorpsDirective`＝`'advance'\|'hold'\|'develop'`（07 已改依 02 定案；E-21 已消化） | 02 §3.3 |
 | 傷兵歸隊 | —（設計語） | wounded recovery | 醫館效果（`fac.ikan`） | 05 §3.4.2 |
 
 ### 3.4 主術語對照表（三）：外交、事件、系統
@@ -259,7 +259,7 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 | 繁中定稿 | 日文原詞（羅馬字） | 英文 | 代碼識別符 | 首次定義 |
 |---|---|---|---|---|
 | 外交工作 | 外交工作（gaiko-kosaku） | diplomacy work | `diplomacyWork`；`DiploMission`；`CmdStartDiploWork` | 00 §14／08 §3.2 |
-| 協定 | 協定（kyotei） | pact | `Pact`；`PactKind`（02 四值，E-23） | 02 §4.11 |
+| 協定 | 協定（kyotei） | pact | `Pact`；`PactKind`＝`'alliance'\|'marriage'\|'ceasefire'\|'vassal'`（08 已同步四值、婚姻升為獨立 kind、不可侵條約降 v1.1；E-23 已消化） | 02 §4.11 |
 | 同盟 | 同盟（domei） | alliance | `PactKind`＝`'alliance'` | 00 §14 |
 | 婚姻 | 婚姻（konin） | marriage alliance | `PactKind`＝`'marriage'` | 00 §14 |
 | 停戰 | 停戰（teisen） | ceasefire（絕對不可破棄） | `PactKind`＝`'ceasefire'` | 00 §14／08 §3.4.3 |
@@ -267,18 +267,18 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 | 宗主 | 宗主（soshu） | overlord | `vassal` 協定的非從屬方 | 08 §3.4.1 |
 | 上繳 | 上納（jono） | tribute | `BAL.vassalTributeRate` | 08 §5.3.6 |
 | 破棄 | 破棄（haki） | pact breaking | `CmdBreakPact`＝`'breakPact'` | 02 §4.18／08 §3.4 |
-| 援軍請求 | 後詰要請（gozume-yosei） | reinforcement request | `requestReinforce`（08；02 待收錄，E-28） | 08 §3.4.1 |
-| 接壤 | 隣接（rinsetsu） | adjacency（勢力間） | `adjacencyCache`（衍生） | 08 §3.1 |
+| 援軍請求 | 後詰要請（gozume-yosei） | reinforcement request | `requestReinforce`（02 已收，`CmdProposePact{kind:'requestReinforce'}`；四輪裁決 3；E-28 已消化） | 02 §4.18／08 §3.4.1 |
+| 接壤 | 鄰接（rinsetsu） | adjacency（勢力間） | `adjacencyCache`（衍生） | 08 §3.1 |
 | 交戰中 | 交戰（kosen） | at war（衍生狀態） | `atWar(A,B)`；`lastHostileDay` | 08 §3.1 |
 | 朝廷 | 朝廷（chotei） | imperial court | `CourtState`（`GameState.court`） | 00 §14／02 §4.12 |
 | 官位 | 官位（kan-i） | court rank | `CourtRank`（02 enum，§3.10；E-25） | 00 §14／02 §3.3 |
-| 獻金 | 獻金（kenkin） | donation | `CmdDonateCourt`＝`'donateCourt'` | 02 §4.18／08 §3.5.1 |
+| 獻金 | 獻金（kenkin） | donation | `CmdStartDiploWork{target:'court'}`（取代舊 `CmdDonateCourt`；獻金＝持續型固定月費工作；E-27 已消化） | 02 §4.18／08 §3.5.1 |
 | 敘任 | 敘任（jonin） | investiture | `CmdRequestCourtRank`；`court.rankGranted` | 02 §4.18／08 §3.5.2 |
 | 停戰斡旋 | 和睦斡旋（waboku-assen） | ceasefire mediation | `CmdRequestMediation`＝`'requestMediation'` | 02 §4.18／08 §3.5.3 |
 | 幕府 | 幕府（bakufu） | shogunate | `shogunateExists`／`shogunClanId` | 00 §14／02 §4.12 |
 | 役職 | 役職（yakushoku） | shogunate title | `ShogunateTitle`（02 enum，§3.11；E-26） | 00 §14／02 §3.3 |
 | 將軍 | 將軍（shogun） | shogun | `ShogunateTitle`＝`'shogun'`（征夷大將軍） | 02 §3.3 |
-| 擁立將軍 | 將軍擁立（yoritsu） | shogun patronage | `nominateShogun`（08；02 待收錄） | 08 §3.6.3 |
+| 擁立將軍 | 將軍擁立（yoritsu） | shogun patronage | `CmdNominateShogun`＝`'nominateShogun'`（02 已收；E-32 已消化） | 02 §4.18／08 §3.6.3 |
 | 上洛 | 上洛（joraku） | march on Kyoto | `evt.joraku`（事件）；控制京都所在城 | 08 §3.6.3／10 事件 6 |
 | 調略 | 調略（choryaku） | plot / covert action | `plot`；`PlotKind`；`CmdStartPlot` | 00 §14／08 §3.7 |
 | 引拔 | 引拔（hikinuki） | poaching officers | `PlotKind`＝`'poach'` | 00 §14／08 §3.7.1 |
@@ -323,7 +323,7 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 | golden test | —（設計語） | golden master test | `stateHash`（FNV-1a 32）重放一致 | 02 §5.4／17 |
 | 簡體字掃描 | —（設計語） | banned glyph scan | L1 簡體／L2 異體／L3 新字體黑名單 | 17（§3.12 對齊） |
 
-### 3.5 特性 30 種對照表（定義：06 §3.3；id 前綴 `trait.`）
+### 3.5 特性 37 種對照表（定義：06 §3.3；id 前綴 `trait.`；30 基礎＋7 戰法解鎖，E-06 已消化）
 
 | # | id | 繁中名 | 稀有度 | 掛鉤領域 |
 |---|---|---|---|---|
@@ -358,9 +358,9 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 | 29 | `trait.hayamimi` | 早耳 | 普通 | 反調略（08） |
 | 30 | `trait.seiatsu` | 攻略上手 | 普通 | 制壓時間（04） |
 
-**附註（勘誤 E-06 對應）**：07 §3.8／D13 另要求 7 個戰法解鎖特性 id 為 canonical，
-但 06 上表未收錄。修正階段需擴充 06 特性表（30→37）或將戰法解鎖改掛於上表既有特性。
-其名稱定稿如下（先行定稿供 13／14 使用）：
+**附註（勘誤 E-06，已消化）**：07 §3.8／D13 要求之 7 個戰法解鎖特性 id，06 特性表已擴充至 37 個
+（本表 #1~30 為基礎特性；下方 7 個戰法解鎖特性為 06 之 #31~37，稀有度均普通、`effects` 空，
+名稱依本文件 D6 先行定稿，06 修正時照抄）：
 
 | id | 繁中名 | 解鎖戰法 |
 |---|---|---|
@@ -439,8 +439,9 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 | 5 | 宿老 | 宿老（shukuro） | `'shukuro'` | 最高階 |
 | — | 當主（特殊） | 當主（toshu） | `Clan.leaderId`（不佔六階） | 視同宿老；忠誠恆 100 |
 
-（06／07 使用 camelCase 值 `ashigaruKumigashira` 等，為勘誤 E-01；升格門檻、知行上限、
-俸祿之數值衝突見 E-03／E-04。）
+（06／07 原用 camelCase 值 `ashigaruKumigashira` 等，已依 E-01 統一為上表 02 kebab-case（E-01 已消化）；
+升格門檻 `rankMeritThresholds`＝`[0,300,800,1600,3000,5000]`、知行上限 `BAL.fiefMaxByRank`＝`[0,1,1,2,3,4]`
+（E-03 已消化）、俸祿 `BAL.rankSalary`＝`[3,6,10,15,22,30]`（E-04 已消化）三者已統一定案，值另見 15 §5.2。）
 
 ### 3.10 朝廷官位八階對照表（enum 以 02 §3.3 為準；機制語意見 08 §3.5）
 
@@ -456,8 +457,9 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 | 7 | 從二位 | 從二位（ju-nii） | `'ju2'` |
 | 8 | 正二位（v1.0 天花板） | 正二位（sho-nii） | `'sho2'` |
 
-（08 §3.5.2 使用另一套八階〔含正五位下／正四位下／正一位，id 前綴 `crank.`〕，為勘誤 E-25；
-以 02 上表為定稿，08 的門檻／獻金／解鎖效果表需重排至此八階。）
+（08 §3.5.2 原使用另一套八階〔含正五位下／正四位下／正一位，id 前綴 `crank.`〕，依勘誤 E-25
+已改採 02 本表八階、`crank.` 前綴廢除（enum 值即識別符），門檻／獻金／解鎖效果表已重排至此八階
+（E-25 已消化）。）
 
 ### 3.11 幕府役職對照表（enum 以 02 §3.3 為準；機制語意見 08 §3.6）
 
@@ -471,8 +473,9 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 | 5 | 副將軍 | 副將軍（fuku-shogun） | `'fukushogun'` |
 | 6 | 征夷大將軍 | 征夷大將軍（seii-taishogun） | `'shogun'` |
 
-（08 §3.6.2 使用五階表〔御供眾／御相伴眾／管領代／管領／副將軍，id 前綴 `stitle.`〕，
-為勘誤 E-26；以 02 上表為定稿，08 的條件表需對映至此七值。）
+（08 §3.6.2 原使用五階表〔御供眾／御相伴眾／管領代／管領／副將軍，id 前綴 `stitle.`〕，依勘誤 E-26
+已對映至 02 本表可敘任五階（`hokoshu`／`otomoshu`／`shobanshu`／`kanrei`／`fukushogun`）、`stitle.`
+前綴廢除（E-26 已消化）。）
 
 ### 3.11.2 大命 8 種對照表（定義：10 §3.7.3；id 前綴 `taimei.`）
 
@@ -602,74 +605,74 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 
 | # | 衝突 | 涉及文件 | 建議定案 |
 |---|---|---|---|
-| E-01 | `Rank` 值：02 kebab-case（`'kumigashira'`、`'ashigaru-taisho'`…）；06／07 camelCase（`'ashigaruKumigashira'`…）；i18n key 兩式並存（02 §6 vs 06 §6.2） | 02, 06, 07 | 依 02 kebab-case；改 06／07 與其字串 key |
-| E-02 | `OfficerStatus`：02＝`serving/ronin/captive/dead`＋`hasComeOfAge` 旗標（DDR-5）；06＝`unborn/active/ronin/captive/dead` | 02, 06 | 依 02；06 的 `'unborn'` 改為 `hasComeOfAge=false`、`'active'` 改 `'serving'` |
-| E-07 | 開發重點：02 `DevelopFocus`＝`agri/commerce/security`；05 `DevPolicy`＝`agri/commerce/barracks`（兵舍） | 02, 05, 09 | 型別名依 02 `DevelopFocus`；第三值需裁決——05 的 `barracks` 有完整機制（人口×2、徵兵×1.25），建議修 02 改為 `barracks` 並同步 09 |
-| E-08 | 治安欄位：02／14＝`publicOrder`；05＝`security` | 02, 05, 14 | 依 02 `publicOrder`；改 05 全文 |
-| E-09 | 郡上限欄位：02／14＝`kokudakaCap/commerceCap/populationCap`；05＝`kokudakaMax/commerceMax/populationMax` | 02, 05, 14 | 依 02 `*Cap`；改 05 |
-| E-10 | `ArmyStatus` 三套：02 五態（`engaged/subjugating`…）；07 六態（`fighting/routed/resting`）；04 七態（`retreating/holding/besieging`） | 02, 04, 07 | 修 02 擴充為聯集定案（建議：`marching/engaged/sieging/subjugating/returning/routed/holding`，`resting`併入`holding`、`retreating`併入`returning`），04／07 改用 |
-| E-11 | Army 欄位：02 `leaderId/soldiers/originCastleId/pathCursor/edgeProgress(0..1)`；07 `generalId/troops/homeCastleId/pathIndex`；04 `march.nodeIndex/edgeProgressDays/edgeCostDays` | 02, 04, 07 | 命名依 02；行軍進度模型需裁決（見 E-36），欄位隨模型定案後回寫 02 |
-| E-34 | 一門標記：02／08＝`isKin: boolean`；06＝`Kinship`＝`kin/fudai/tozama`（忠誠公式依賴譜代／外樣） | 02, 06, 08 | 修 02 採 06 的 `kinship`（資訊量必要），08 的 `isKin` 判定改為 `kinship==='kin'` |
-| E-35 | 勢力色：02 `Clan.color: '#rrggbb'`；12 `Clan.colorIndex: 0..39`（40 色相環） | 02, 12 | 修 02 採 `colorIndex`（12 D5 之公式生成較可維護），渲染層由公式導出 hex |
-| E-44 | `District.isPort`（04 引入）、`Castle.coastal`（05）、`Castle.betrayalReadyClanId/betrayalReadyUntilDay`（08）、`Officer.spouseId`（08）皆未列入 02 實體 | 02, 04, 05, 08 | 修 02 收錄四組欄位 |
-| E-43 | 一揆狀態：05 `District.uprising: UprisingState`；02 District 無此欄位 | 02, 05 | 修 02 收錄 `uprising: UprisingState \| null` |
+| E-01 | `Rank` 值：02 kebab-case（`'kumigashira'`、`'ashigaru-taisho'`…）；06／07 camelCase（`'ashigaruKumigashira'`…）；i18n key 兩式並存（02 §6 vs 06 §6.2） | 02, 06, 07 | 依 02 kebab-case；改 06／07 與其字串 key；已消化（2026-07-10/11） |
+| E-02 | `OfficerStatus`：02＝`serving/ronin/captive/dead`＋`hasComeOfAge` 旗標（DDR-5）；06＝`unborn/active/ronin/captive/dead` | 02, 06 | 依 02；06 的 `'unborn'` 改為 `hasComeOfAge=false`、`'active'` 改 `'serving'`；已消化（2026-07-10/11） |
+| E-07 | 開發重點：02 `DevelopFocus`＝`agri/commerce/security`；05 `DevPolicy`＝`agri/commerce/barracks`（兵舍） | 02, 05, 09 | 型別名依 02 `DevelopFocus`；第三值需裁決——05 的 `barracks` 有完整機制（人口×2、徵兵×1.25），建議修 02 改為 `barracks` 並同步 09；已消化（2026-07-10/11） |
+| E-08 | 治安欄位：02／14＝`publicOrder`；05＝`security` | 02, 05, 14 | 依 02 `publicOrder`；改 05 全文；已消化（2026-07-10/11） |
+| E-09 | 郡上限欄位：02／14＝`kokudakaCap/commerceCap/populationCap`；05＝`kokudakaMax/commerceMax/populationMax` | 02, 05, 14 | 依 02 `*Cap`；改 05；已消化（2026-07-10/11） |
+| E-10 | `ArmyStatus` 三套：02 五態（`engaged/subjugating`…）；07 六態（`fighting/routed/resting`）；04 七態（`retreating/holding/besieging`） | 02, 04, 07 | 修 02 擴充為聯集定案（建議：`marching/engaged/sieging/subjugating/returning/routed/holding`，`resting`併入`holding`、`retreating`併入`returning`），04／07 改用；已消化（2026-07-10/11） |
+| E-11 | Army 欄位：02 `leaderId/soldiers/originCastleId/pathCursor/edgeProgress(0..1)`；07 `generalId/troops/homeCastleId/pathIndex`；04 `march.nodeIndex/edgeProgressDays/edgeCostDays` | 02, 04, 07 | 命名依 02；行軍進度模型需裁決（見 E-36），欄位隨模型定案後回寫 02；已消化（2026-07-10/11） |
+| E-34 | 一門標記：02／08＝`isKin: boolean`；06＝`Kinship`＝`kin/fudai/tozama`（忠誠公式依賴譜代／外樣） | 02, 06, 08 | 修 02 採 06 的 `kinship`（資訊量必要），08 的 `isKin` 判定改為 `kinship==='kin'`；已消化（2026-07-10/11） |
+| E-35 | 勢力色：02 `Clan.color: '#rrggbb'`；12 `Clan.colorIndex: 0..39`（40 色相環） | 02, 12 | 修 02 採 `colorIndex`（12 D5 之公式生成較可維護），渲染層由公式導出 hex；已消化（2026-07-10/11） |
+| E-44 | `District.isPort`（04 引入）、`Castle.coastal`（05）、`Castle.betrayalReadyClanId/betrayalReadyUntilDay`（08）、`Officer.spouseId`（08）皆未列入 02 實體 | 02, 04, 05, 08 | 修 02 收錄四組欄位；已消化（2026-07-10/11） |
+| E-43 | 一揆狀態：05 `District.uprising: UprisingState`；02 District 無此欄位 | 02, 05 | 修 02 收錄 `uprising: UprisingState \| null`；已消化（2026-07-10/11） |
 
 #### B. Command／GameEvent 命名
 
 | # | 衝突 | 涉及文件 | 建議定案 |
 |---|---|---|---|
-| E-29 | Command 命名三套：02＝`'grantFief'/'enactPolicy'/'recallArmy'/'startKassen'/'resolveProposal'`…；03＝`'cmd.developDistrict'/'cmd.assignSteward'/'cmd.adoptPolicy'/'cmd.initiateBattle'/'cmd.respondProposal'`…；05／06／07／08 又各有一套（`appointSteward`、`RecruitRoninCommand(executorId,targetId)`、`CmdReturnArmy`、`'diplomacy/assignWork'` 等） | 02, 03, 05~08 | 一律依 02 §4.18 聯集（無 `cmd.` 前綴、camelCase type）；03 §3.3.4 表與各系統文件的 Command 節逐一改名；08 的斜線命名空間廢除 |
-| E-30 | GameEvent 命名：02＝`battle.kassenAvailable/clan.destroyed/game.victory/uprising.started/pact.expired`；03＝`combat.battleAvailable/clan.eliminated/victory.achieved/uprising.broke/diplomacy.pactExpired`；07＝`battle.available`；08＝`dip.pactExpired` 等 | 02, 03, 07, 08 | 依 02 §4.19 總表；03 §3.4.2 分級表與 07／08 事件名改為 02 名 |
-| E-27 | 朝廷獻金機制：02＝`CmdDonateCourt`（一次性）＋`courtFavor`；08＝「獻金工作」（持續型外交工作）＋`imperialFavor` | 02, 08 | 機制依 08（持續工作制較完整），但欄位名依 02 `courtFavor`；修 02 以 08 機制重寫 `CmdDonateCourt`→併入 `CmdStartDiploWork(target:'court')` |
-| E-31 | 報告保留：02 `BAL.reportMaxKept`=600；03 `BAL.reportMaxEntries`=500＋`reportRetentionDays`=360 | 02, 03 | 依 02 常數名 `reportMaxKept`；日數修剪規則併入，定值由 15 裁定 |
-| E-32 | 06 新增 `PromoteRankCommand`、07 新增 `CmdSetAutoReturn/CmdUseBetrayal/CmdRemoveCastleFromCorps`、08 新增 `respond/requestShogunateTitle/nominateShogun/cancelPlot/activateBetrayal` 等皆不在 02 聯集 | 02, 06, 07, 08 | 修 02 聯集補收；重複語意者合併（`CmdRemoveCastleFromCorps`＝`assignCastleToCorps(corpsId:null)`） |
+| E-29 | Command 命名三套：02＝`'grantFief'/'enactPolicy'/'recallArmy'/'startKassen'/'resolveProposal'`…；03＝`'cmd.developDistrict'/'cmd.assignSteward'/'cmd.adoptPolicy'/'cmd.initiateBattle'/'cmd.respondProposal'`…；05／06／07／08 又各有一套（`appointSteward`、`RecruitRoninCommand(executorId,targetId)`、`CmdReturnArmy`、`'diplomacy/assignWork'` 等） | 02, 03, 05~08 | 一律依 02 §4.18 聯集（無 `cmd.` 前綴、camelCase type）；03 §3.3.4 表與各系統文件的 Command 節逐一改名；08 的斜線命名空間廢除；已消化（2026-07-10/11） |
+| E-30 | GameEvent 命名：02＝`battle.kassenAvailable/clan.destroyed/game.victory/uprising.started/pact.expired`；03＝`combat.battleAvailable/clan.eliminated/victory.achieved/uprising.broke/diplomacy.pactExpired`；07＝`battle.available`；08＝`dip.pactExpired` 等 | 02, 03, 07, 08 | 依 02 §4.19 總表；03 §3.4.2 分級表與 07／08 事件名改為 02 名；已消化（2026-07-10/11） |
+| E-27 | 朝廷獻金機制：02＝`CmdDonateCourt`（一次性）＋`courtFavor`；08＝「獻金工作」（持續型外交工作）＋`imperialFavor` | 02, 08 | 機制依 08（持續工作制較完整），但欄位名依 02 `courtFavor`；修 02 以 08 機制重寫 `CmdDonateCourt`→併入 `CmdStartDiploWork(target:'court')`；已消化（2026-07-10/11） |
+| E-31 | 報告保留：02 `BAL.reportMaxKept`=600；03 `BAL.reportMaxEntries`=500＋`reportRetentionDays`=360 | 02, 03 | 依 02 常數名 `reportMaxKept`；日數修剪規則併入，定值由 15 裁定；已消化（2026-07-10/11） |
+| E-32 | 06 新增 `PromoteRankCommand`、07 新增 `CmdSetAutoReturn/CmdUseBetrayal/CmdRemoveCastleFromCorps`、08 新增 `respond/requestShogunateTitle/nominateShogun/cancelPlot/activateBetrayal` 等皆不在 02 聯集 | 02, 06, 07, 08 | 修 02 聯集補收；重複語意者合併（`CmdRemoveCastleFromCorps`＝`assignCastleToCorps(corpsId:null)`）；已消化（2026-07-10/11） |
 
 #### C. 數值與機制衝突
 
 | # | 衝突 | 涉及文件 | 建議定案 |
 |---|---|---|---|
-| E-03 | 知行郡數上限三套：02 `fiefMaxByRank`＝1/2/3/4/6/8；05 `fiefLimitByRank`＝1/1/2/3/4/5；06 `rankFiefCap`＝0/1/1/2/3/4 | 02, 05, 06 | 常數名依 02 `fiefMaxByRank`；數值由 15 定案（建議採 06 序列 0/1/1/2/3/4——足輕組頭無知行與 06 忠誠模型一致） |
-| E-04 | 俸祿：05 `salaryByRank`＝2/4/7/12/20/30；06 `rankSalary`＝3/6/10/15/22/30 | 05, 06 | 常數名統一 `BAL.rankSalary`；數值 15 定案 |
-| E-05 | 特性數上限：02 `maxTraitsPerOfficer`=4；06＝3 | 02, 06 | 常數名已同；值 15 定案（建議 4，容納 E-06 追加特性） |
-| E-06 | 07 D13 要求 10 個戰法解鎖特性；06 三十表缺 7 個（§3.5 附表） | 06, 07 | 修 06 特性表擴充至 37 或重掛既有特性；02 `Officer.tactics: TacticId[]`（直接持有戰法）與 07 特性解鎖制二擇一——建議依 07（刪 02 的 `tactics` 欄） |
-| E-12 | 執行期 ID 格式：02＝`army.000042` 等 6 位流水；07＝`army.oda-003`、`battle.<node>-<day>`、`fc.*`、`siege.<castle>-<day>`、`bu.*`、`jin.*` | 02, 07 | 依 02 六位流水（DDR-10 決定論理由）；07 的 `fc./bu./jin.` 為合戰內部 transient id，可保留但需在 02 §3.2 登記 |
-| E-13 | 制壓進度存放：02 `District.subjugation{progress 0..100}`（DDR-9：接力制壓）；04 `Army.march.subjugation{daysDone/daysRequired}` | 02, 04 | 依 02（存於郡）；04 的 daysRequired 公式保留、進度換算為 0..100 |
-| E-14 | 部隊行軍糧耗三套：04 `armyFoodPerSoldierPerDay`=0.005；07 `fieldFoodPerSoldierDaily`=0.02；05 引用「`marchFoodPerSoldierMonthly`（07 定義，0.3）」——07 並無此常數；三值換算互斥（0.15 vs 0.6 vs 0.3 石/人/月） | 04, 05, 07 | 常數名統一 `BAL.fieldFoodPerSoldierDaily`（07 為軍事真相來源）；值 15 定案；05 §3.1.3 之引用改名 |
-| E-15 | 城駐兵糧耗：05 `garrisonFoodPerSoldierMonthly`=0.1；07 引用「`castleFoodPerSoldierDaily`（05 定義）」——05 並無此常數 | 05, 07 | 依 05 名；07 §3.11 圍城消耗公式改引 `garrisonFoodPerSoldierMonthly/30` |
-| E-16 | 潰走閾值：02 名 `moraleBreakThreshold`；07 `routThreshold`=30；04 `routMoraleThreshold`=20 | 02, 04, 07 | 常數名依 02 `moraleBreakThreshold`；值 15 定案（07 的 30 為主建議） |
-| E-17 | 糧盡懲罰：04 `starvationMoraleLossPerDay`=8／`starvationDesertRatePerDay`=0.03；07 `noFoodMoraleDaily`=8／`noFoodDesertionRate`=0.05 | 04, 07 | 依 07 命名（軍事真相來源）；04 §3.7 改引用；值 15 定案 |
-| E-18 | 合戰戰場模型互斥：02 `TacticalBattleState`＝24×16 方格＋`BattleUnit(x,y,order,tacticGauge)`＋`CmdBattleOrder`；07＝陣（Jin）節點圖 5×3＋側共用采配＋`CmdBattleMove/Attack/Tactic` | 02, 07 | 依 07 陣節點圖（規格完整、11 的合戰畫面亦按陣圖繪製）；**修 02** §4.9 以 07 §4 型別置換（此為 02>07 優先序的明定例外，需在 02 §8 記錄） |
-| E-19 | 合戰回合上限：02 `kassenMaxRounds`=60；07 `kassenMaxTicks`=120 | 02, 07 | 統一名 `kassenMaxTicks`；值 15 定案 |
-| E-21 | 軍團方針：02 `advance/hold/develop`＋`targetNodeId`；07 `conquer/defend/auto`＋`targetCastleId` | 02, 07, 09 | 依 02 三值與 `targetNodeId`；07／09 行為描述改繫於 02 值 |
-| E-22 | 軍團金庫：07 `Corps.gold`＋上繳 `corpsTithe`=0.2；02 Corps 無 gold（收支不分流） | 02, 07 | 依 07 機制（軍團自治需獨立財源）；修 02 收錄 `Corps.gold` |
-| E-37 | 帶兵上限：06＝07 基礎值 ×(1+`rankTroopBonus`)乘數制；07＝`rankTroopCap` 絕對值表（500..8000） | 06, 07 | 依 07 絕對值表（06 §2 已聲明基礎式屬 07）；刪 06 `rankTroopBonus` 或降為註記 |
-| E-38 | 政策同時生效數：02 `maxActivePolicies`=4 固定；05＝`min(6, 1+floor(威信/300))` 動態政策格 | 02, 05 | 依 05 動態制（威信驅動為政策系統核心張力）；修 02 註解 |
-| E-39 | 施設模型：02 `FacilitySlot[]`（固定長度＋`slotIndex`＋單槽工期）；05 `facilities: FacilityId[]`＋`buildQueue`（每城一條佇列、同時施工 1 件） | 02, 05 | 依 05 佇列制（含取消退款規則）；修 02 §4.5 與 `CmdBuildFacility` 參數（`facilityTypeId`，不用 `slotIndex`） |
-| E-41 | 輸送：02 `CmdTransport(soldiers, food)`；05 `transport(gold, food)`＋`TransportOrder`／`trans.` 前綴（02 無 transports 集合） | 02, 05 | 合併為 `CmdTransport(soldiers, gold, food)` 三欄皆 ≥0；修 02 收錄 `GameState.transports` 與 `trans.` 前綴 |
-| E-42 | 徵兵：02 `CmdConscript(soldiers)` 一次性指令；05＝徵兵方針（low/mid/high）每月自動回復 | 02, 05 | 依 05 方針制（減微管理支柱）；02 的 `CmdConscript` 改為 `CmdSetConscriptPolicy` |
-| E-33 | 引拔受理：06 資格 `loyalty<40`（`poachEligibleLoyalty`）、成功初始忠誠 45；08 目標條件 `loyalty<75`、初始忠誠 60（`plotPoachInitialLoyalty`） | 06, 08 | 發動端門檻依 08（<75 可下達）、受理端加權依 06（acceptanceFactor 以 40 為分母）；初始忠誠統一 `BAL.poachedInitialLoyalty`，值 15 定案 |
-| E-53 | 罷免懲罰語意重疊：05 `dismissLoyaltyPenalty`=15（罷免領主）；06 `loyaltyReduceFief`=15（減封）＋`loyaltyDismiss`=10（罷免城主／軍團長） | 05, 06 | 「收回知行」統一走 06 `loyaltyReduceFief`；05 §3.3.3 改引用；`loyaltyDismiss` 僅限役職解任 |
-| E-46 | 部隊合流：04 §3.9「合流是明確的 Command，定義參見 07」；07 D14「v1 不支援合流與拆分」 | 04, 07 | 依 07（不支援）；刪 04 該句 |
-| E-47 | 亂數流指派：03＝壽命死亡與外交工作成敗走 `event` 流、開發成長走 `dev` 流；06 出奔／登用走 `misc`、僅開局排程走 `event`；05 聲明開發無隨機；08 調略／斡旋走 `misc` | 03, 05, 06, 08 | 依各系統文件實際用流（06／05／08）；修 03 §3.5.2 表為「流→實際消費者」對照 |
-| E-24 | 感情範圍：02＝0..100（50 中立）；08＝−100..100（0 中立，允許小數） | 02, 08 | 依 08（−100..100；漂移與閾值公式皆以 0 為中心）；修 02 §4.11 與 INV-16 |
-| E-23 | `PactKind`：02＝`alliance/marriage/ceasefire/vassal`（承 00 §14）；08＝`nonAggression/alliance/ceasefire/vassal`＋婚姻為同盟旗標 | 00, 02, 08 | 00 §14 四協定為準：`marriage` 保留為獨立 kind、08 的「不可侵條約」降級為 v1.1 擴充（08 §3.4.1 表需移除該列或標註範圍外） |
-| E-25 | 官位階集合：02 八階（至正二位）；08 八階（含正五位下／正四位下，至正一位，`crank.` 前綴） | 02, 08 | 依 02（§3.10 表）；08 §3.5.2 門檻表重排、`crank.` 前綴廢除（enum 值即識別符） |
-| E-26 | 幕府役職集合：02 七值（奉公眾…征夷大將軍）；08 五階（御相伴眾／管領代，`stitle.` 前綴） | 02, 08 | 依 02（§3.11 表）；08 §3.6.2 條件表對映至 02 值、`stitle.` 前綴廢除 |
-| E-28 | 外交資料結構：02 無向 pair 稀疏 rows＋Pact 內嵌；08 有向 byClan rows＋全域 pacts Record＋`PactId`／`pact.`、`plot.` 前綴 | 02, 08 | 依 02 結構（DDR-3）；08 的 Plot／DiplomacyProposal 等新增實體修 02 收錄，`plot.` 前綴登記、`pact.` 廢除 |
-| E-36 | 行軍模型：02＝`RoadEdge.length`（距離）÷部隊日速；04＝`baseDays`＋道級倍率＋進度累加器（權威資料格式）；05 輸送引用「`BAL.marchBaseSpeed`（04 定義）」——04 並無此常數 | 02, 04, 05 | 依 04（baseDays 模型，資料製作與尋路皆以其為基礎）；修 02 §4.7 RoadEdge 欄位（`type/grade/baseDays`）；05 §3.6 輸送速度改以「speedFactor＝`BAL.transportSpeedFactor`」表述 |
+| E-03 | 知行郡數上限三套：02 `fiefMaxByRank`＝1/2/3/4/6/8；05 `fiefLimitByRank`＝1/1/2/3/4/5；06 `rankFiefCap`＝0/1/1/2/3/4 | 02, 05, 06 | 常數名依 02 `fiefMaxByRank`；數值由 15 定案（建議採 06 序列 0/1/1/2/3/4——足輕組頭無知行與 06 忠誠模型一致）；已消化（2026-07-10/11） |
+| E-04 | 俸祿：05 `salaryByRank`＝2/4/7/12/20/30；06 `rankSalary`＝3/6/10/15/22/30 | 05, 06 | 常數名統一 `BAL.rankSalary`；數值 15 定案；已消化（2026-07-10/11） |
+| E-05 | 特性數上限：02 `maxTraitsPerOfficer`=4；06＝3 | 02, 06 | 常數名已同；值 15 定案（建議 4，容納 E-06 追加特性）；已消化（2026-07-10/11） |
+| E-06 | 07 D13 要求 10 個戰法解鎖特性；06 三十表缺 7 個（§3.5 附表） | 06, 07 | 修 06 特性表擴充至 37 或重掛既有特性；02 `Officer.tactics: TacticId[]`（直接持有戰法）與 07 特性解鎖制二擇一——建議依 07（刪 02 的 `tactics` 欄）；已消化（2026-07-10/11） |
+| E-12 | 執行期 ID 格式：02＝`army.000042` 等 6 位流水；07＝`army.oda-003`、`battle.<node>-<day>`、`fc.*`、`siege.<castle>-<day>`、`bu.*`、`jin.*` | 02, 07 | 依 02 六位流水（DDR-10 決定論理由）；07 的 `fc./bu./jin.` 為合戰內部 transient id，可保留但需在 02 §3.2 登記；已消化（2026-07-10/11） |
+| E-13 | 制壓進度存放：02 `District.subjugation{progress 0..100}`（DDR-9：接力制壓）；04 `Army.march.subjugation{daysDone/daysRequired}` | 02, 04 | 依 02（存於郡）；04 的 daysRequired 公式保留、進度換算為 0..100；已消化（2026-07-10/11） |
+| E-14 | 部隊行軍糧耗三套：04 `armyFoodPerSoldierPerDay`=0.005；07 `fieldFoodPerSoldierDaily`=0.02；05 引用「`marchFoodPerSoldierMonthly`（07 定義，0.3）」——07 並無此常數；三值換算互斥（0.15 vs 0.6 vs 0.3 石/人/月） | 04, 05, 07 | 常數名統一 `BAL.fieldFoodPerSoldierDaily`（07 為軍事真相來源）；值 15 定案；05 §3.1.3 之引用改名；已消化（2026-07-10/11） |
+| E-15 | 城駐兵糧耗：05 `garrisonFoodPerSoldierMonthly`=0.1；07 引用「`castleFoodPerSoldierDaily`（05 定義）」——05 並無此常數 | 05, 07 | 依 05 名；07 §3.11 圍城消耗公式改引 `garrisonFoodPerSoldierMonthly/30`；已消化（2026-07-10/11） |
+| E-16 | 潰走閾值：02 名 `moraleBreakThreshold`；07 `routThreshold`=30；04 `routMoraleThreshold`=20 | 02, 04, 07 | 常數名依 02 `moraleBreakThreshold`；值 15 定案（07 的 30 為主建議）；已消化（2026-07-10/11） |
+| E-17 | 糧盡懲罰：04 `starvationMoraleLossPerDay`=8／`starvationDesertRatePerDay`=0.03；07 `noFoodMoraleDaily`=8／`noFoodDesertionRate`=0.05 | 04, 07 | 依 07 命名（軍事真相來源）；04 §3.7 改引用；值 15 定案；已消化（2026-07-10/11） |
+| E-18 | 合戰戰場模型互斥：02 `TacticalBattleState`＝24×16 方格＋`BattleUnit(x,y,order,tacticGauge)`＋`CmdBattleOrder`；07＝陣（Jin）節點圖 5×3＋側共用采配＋`CmdBattleMove/Attack/Tactic` | 02, 07 | 依 07 陣節點圖（規格完整、11 的合戰畫面亦按陣圖繪製）；**修 02** §4.9 以 07 §4 型別置換（此為 02>07 優先序的明定例外，需在 02 §8 記錄）；已消化（2026-07-10/11） |
+| E-19 | 合戰回合上限：02 `kassenMaxRounds`=60；07 `kassenMaxTicks`=120 | 02, 07 | 統一名 `kassenMaxTicks`；值 15 定案；已消化（2026-07-10/11） |
+| E-21 | 軍團方針：02 `advance/hold/develop`＋`targetNodeId`；07 `conquer/defend/auto`＋`targetCastleId` | 02, 07, 09 | 依 02 三值與 `targetNodeId`；07／09 行為描述改繫於 02 值；已消化（2026-07-10/11） |
+| E-22 | 軍團金庫：07 `Corps.gold`＋上繳 `corpsTithe`=0.2；02 Corps 無 gold（收支不分流） | 02, 07 | 依 07 機制（軍團自治需獨立財源）；修 02 收錄 `Corps.gold`；已消化（2026-07-10/11） |
+| E-37 | 帶兵上限：06＝07 基礎值 ×(1+`rankTroopBonus`)乘數制；07＝`rankTroopCap` 絕對值表（500..8000） | 06, 07 | 依 07 絕對值表（06 §2 已聲明基礎式屬 07）；刪 06 `rankTroopBonus` 或降為註記；已消化（2026-07-10/11） |
+| E-38 | 政策同時生效數：02 `maxActivePolicies`=4 固定；05＝`min(6, 1+floor(威信/300))` 動態政策格 | 02, 05 | 依 05 動態制（威信驅動為政策系統核心張力）；修 02 註解；已消化（2026-07-10/11） |
+| E-39 | 施設模型：02 `FacilitySlot[]`（固定長度＋`slotIndex`＋單槽工期）；05 `facilities: FacilityId[]`＋`buildQueue`（每城一條佇列、同時施工 1 件） | 02, 05 | 依 05 佇列制（含取消退款規則）；修 02 §4.5 與 `CmdBuildFacility` 參數（`facilityTypeId`，不用 `slotIndex`）；已消化（2026-07-10/11） |
+| E-41 | 輸送：02 `CmdTransport(soldiers, food)`；05 `transport(gold, food)`＋`TransportOrder`／`trans.` 前綴（02 無 transports 集合） | 02, 05 | 合併為 `CmdTransport(soldiers, gold, food)` 三欄皆 ≥0；修 02 收錄 `GameState.transports` 與 `trans.` 前綴；已消化（2026-07-10/11） |
+| E-42 | 徵兵：02 `CmdConscript(soldiers)` 一次性指令；05＝徵兵方針（low/mid/high）每月自動回復 | 02, 05 | 依 05 方針制（減微管理支柱）；02 的 `CmdConscript` 改為 `CmdSetConscriptPolicy`；已消化（2026-07-10/11） |
+| E-33 | 引拔受理：06 資格 `loyalty<40`（`poachEligibleLoyalty`）、成功初始忠誠 45；08 目標條件 `loyalty<75`、初始忠誠 60（`plotPoachInitialLoyalty`） | 06, 08 | 發動端門檻依 08（<75 可下達）、受理端加權依 06（acceptanceFactor 以 40 為分母）；初始忠誠統一 `BAL.poachedInitialLoyalty`，值 15 定案；已消化（2026-07-10/11） |
+| E-53 | 罷免懲罰語意重疊：05 `dismissLoyaltyPenalty`=15（罷免領主）；06 `loyaltyReduceFief`=15（減封）＋`loyaltyDismiss`=10（罷免城主／軍團長） | 05, 06 | 「收回知行」統一走 06 `loyaltyReduceFief`；05 §3.3.3 改引用；`loyaltyDismiss` 僅限役職解任；已消化（2026-07-10/11） |
+| E-46 | 部隊合流：04 §3.9「合流是明確的 Command，定義參見 07」；07 D14「v1 不支援合流與拆分」 | 04, 07 | 依 07（不支援）；刪 04 該句；已消化（2026-07-10/11） |
+| E-47 | 亂數流指派：03＝壽命死亡與外交工作成敗走 `event` 流、開發成長走 `dev` 流；06 出奔／登用走 `misc`、僅開局排程走 `event`；05 聲明開發無隨機；08 調略／斡旋走 `misc` | 03, 05, 06, 08 | 依各系統文件實際用流（06／05／08）；修 03 §3.5.2 表為「流→實際消費者」對照；已消化（2026-07-10/11） |
+| E-24 | 感情範圍：02＝0..100（50 中立）；08＝−100..100（0 中立，允許小數） | 02, 08 | 依 08（−100..100；漂移與閾值公式皆以 0 為中心）；修 02 §4.11 與 INV-16；已消化（2026-07-10/11） |
+| E-23 | `PactKind`：02＝`alliance/marriage/ceasefire/vassal`（承 00 §14）；08＝`nonAggression/alliance/ceasefire/vassal`＋婚姻為同盟旗標 | 00, 02, 08 | 00 §14 四協定為準：`marriage` 保留為獨立 kind、08 的「不可侵條約」降級為 v1.1 擴充（08 §3.4.1 表需移除該列或標註範圍外）；已消化（2026-07-10/11） |
+| E-25 | 官位階集合：02 八階（至正二位）；08 八階（含正五位下／正四位下，至正一位，`crank.` 前綴） | 02, 08 | 依 02（§3.10 表）；08 §3.5.2 門檻表重排、`crank.` 前綴廢除（enum 值即識別符）；已消化（2026-07-10/11） |
+| E-26 | 幕府役職集合：02 七值（奉公眾…征夷大將軍）；08 五階（御相伴眾／管領代，`stitle.` 前綴） | 02, 08 | 依 02（§3.11 表）；08 §3.6.2 條件表對映至 02 值、`stitle.` 前綴廢除；已消化（2026-07-10/11） |
+| E-28 | 外交資料結構：02 無向 pair 稀疏 rows＋Pact 內嵌；08 有向 byClan rows＋全域 pacts Record＋`PactId`／`pact.`、`plot.` 前綴 | 02, 08 | 依 02 結構（DDR-3）；08 的 Plot／DiplomacyProposal 等新增實體修 02 收錄，`plot.` 前綴登記、`pact.` 廢除；已消化（2026-07-10/11） |
+| E-36 | 行軍模型：02＝`RoadEdge.length`（距離）÷部隊日速；04＝`baseDays`＋道級倍率＋進度累加器（權威資料格式）；05 輸送引用「`BAL.marchBaseSpeed`（04 定義）」——04 並無此常數 | 02, 04, 05 | 依 04（baseDays 模型，資料製作與尋路皆以其為基礎）；修 02 §4.7 RoadEdge 欄位（`type/grade/baseDays`）；05 §3.6 輸送速度改以「speedFactor＝`BAL.transportSpeedFactor`」表述；已消化（2026-07-10/11） |
 
 #### D. 規模・文字・其他
 
 | # | 衝突 | 涉及文件 | 建議定案 |
 |---|---|---|---|
-| E-48 | 具申型別：02 `Proposal{officerId, createdDay, expiresDay, meritReward}`＋`ProposalStatus`＝`accepted`＋`proposalExpireDays`=60＋`Record` 容器；06 `{proposerId, createdOn, expiresOn, estimatedCostGold, summaryKey}`＋`adopted`＋月末逾期＋陣列容器；`ProposalKind` 02＝11 值 vs 06＝7 值（`develop` vs `development`） | 02, 06 | 欄位名／status／容器依 02；逾期規則依 02（60 日）；`ProposalKind` 依 02 十一值（06 的 7 值為子集，`development`→`develop`）；06 的 `estimatedCostGold/summaryKey` 修 02 補收 |
-| E-49 | 勢力數：00 §10＝38~42；09＝40 家 persona 表；14＝41 家（真相來源）；11 劇本選擇畫面示意「勢力數：40」 | 00, 09, 11, 14 | 以 14 的 41 家為準；09 補漏列勢力（套預設 persona）；11 示意文字改 41 |
-| E-50 | 大命 ID：00 §8 例 `taimei.sokuji`；10 型錄 `taimei.sokuji-chohei` | 00, 10 | 依 10 型錄（00 §8 該處為示例性質，不改 00 本文，於 14 資料與程式一律用 10 型錄 id） |
-| E-51 | ID 前綴未登記：`fac./persona.`（02 DDR-11 已補）；`trans.`（05）、`plot.`（08）、`fc./bu./jin.`（07 合戰 transient）未列 00 §8／02 §3.2 | 02, 05, 07, 08 | 修 02 §3.2 前綴表補收 `trans.`、`plot.`、`fc.`、`bu.`、`jin.`；廢除 `pact./crank./stitle.`（見 E-25／E-26／E-28） |
-| E-52 | 文字錯誤（實際錯字）：(a) 10 §3.5 事件 5 內文兩處「斎藤」（L402、L411）應作「齋藤」；(b) 11 §3.9 一處「归屬」（L454）應作「歸屬」；(c) 14 V10 新字體黑名單誤含「砲」——會誤傷正字「鐵砲」，應自黑名單移除 | 10, 11, 14 | 依 §3.12 正字修改三處 |
-| E-54 | 城主遞補與不變量：06 §3.9.2 死亡後「同城最高身分自動遞補城主」可能遞補出低於侍大將者，違反 02 INV-04（城主 rank ≥ `samurai-taisho`） | 02, 06 | 修 06：遞補限身分 ≥ 侍大將，無合格者懸缺 |
-| E-55 | 10 引入 `meta.gameOver`、`events.stats`、`events.tenkabitoStreakMonths`、`events.flags`；02 之 `MetaState`／`EventsState` 未收錄（10 §4.3 自我聲明 canonical） | 02, 10 | 修 02 §4.2／§4.16 依 10 §4.3 收錄 |
-| E-56 | UI／存檔常數進 BAL：16 用 `BAL.manualSaveSlots` 等；12 D1 定調「不影響模擬的 UI 常數不進 BAL」 | 12, 16 | 存檔槽數改入 16 自有常數表（如 `SAVECFG.*`）；BAL 保留純模擬數值 |
+| E-48 | 具申型別：02 `Proposal{officerId, createdDay, expiresDay, meritReward}`＋`ProposalStatus`＝`accepted`＋`proposalExpireDays`=60＋`Record` 容器；06 `{proposerId, createdOn, expiresOn, estimatedCostGold, summaryKey}`＋`adopted`＋月末逾期＋陣列容器；`ProposalKind` 02＝11 值 vs 06＝7 值（`develop` vs `development`） | 02, 06 | 欄位名／status／容器依 02；逾期規則依 02（60 日）；`ProposalKind` 依 02 十一值（06 的 7 值為子集，`development`→`develop`）；06 的 `estimatedCostGold/summaryKey` 修 02 補收；已消化（2026-07-10/11） |
+| E-49 | 勢力數：00 §10＝38~42；09＝40 家 persona 表；14＝41 家（真相來源）；11 劇本選擇畫面示意「勢力數：40」 | 00, 09, 11, 14 | 以 14 的 41 家為準；09 補漏列勢力（套預設 persona）；11 示意文字改 41；已消化（2026-07-10/11） |
+| E-50 | 大命 ID：00 §8 例 `taimei.sokuji`；10 型錄 `taimei.sokuji-chohei` | 00, 10 | 依 10 型錄（00 §8 該處為示例性質，不改 00 本文，於 14 資料與程式一律用 10 型錄 id）；已消化（2026-07-10/11） |
+| E-51 | ID 前綴未登記：`fac./persona.`（02 DDR-11 已補）；`trans.`（05）、`plot.`（08）、`fc./bu./jin.`（07 合戰 transient）未列 00 §8／02 §3.2 | 02, 05, 07, 08 | 修 02 §3.2 前綴表補收 `trans.`、`plot.`、`fc.`、`bu.`、`jin.`；廢除 `pact./crank./stitle.`（見 E-25／E-26／E-28）；已消化（2026-07-10/11） |
+| E-52 | 文字錯誤（實際錯字）：(a) 10 §3.5 事件 5 內文兩處「斎藤」（L402、L411）應作「齋藤」；(b) 11 §3.9 一處「归屬」（L454）應作「歸屬」；(c) 14 V10 新字體黑名單誤含「砲」——會誤傷正字「鐵砲」，應自黑名單移除 | 10, 11, 14 | 依 §3.12 正字修改三處；已消化（2026-07-10/11） |
+| E-54 | 城主遞補與不變量：06 §3.9.2 死亡後「同城最高身分自動遞補城主」可能遞補出低於侍大將者，違反 02 INV-04（城主 rank ≥ `samurai-taisho`） | 02, 06 | 修 06：遞補限身分 ≥ 侍大將，無合格者懸缺；已消化（2026-07-10/11） |
+| E-55 | 10 引入 `meta.gameOver`、`events.stats`、`events.tenkabitoStreakMonths`、`events.flags`；02 之 `MetaState`／`EventsState` 未收錄（10 §4.3 自我聲明 canonical） | 02, 10 | 修 02 §4.2／§4.16 依 10 §4.3 收錄；已消化（2026-07-10/11） |
+| E-56 | UI／存檔常數進 BAL：16 用 `BAL.manualSaveSlots` 等；12 D1 定調「不影響模擬的 UI 常數不進 BAL」 | 12, 16 | 存檔槽數改入 16 自有常數表（如 `SAVECFG.*`）；BAL 保留純模擬數值；已消化（2026-07-10/11） |
 
 #### F. 六視角驗證新增勘誤（E-57…E-80；2026-07-07 補）
 
@@ -677,30 +680,30 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 
 | # | 衝突 | 涉及文件 | 建議定案 |
 |---|---|---|---|
-| E-57 | 06 §4 `Officer` 持有 `fiefDistrictIds`／`corpsId`，違反 02 §3.1／§4.4「役職不存於 Officer、一律反查」（雙重真相） | 02, 06 | 刪 06 兩欄；受封郡查 `District.stewardId`、軍團歸屬查 `castle.corpsId`（selector §5.1） |
-| E-58 | `Officer.captorClanId`（06 §4）vs `capturedByClanId`（02 §4.4、INV-18） | 02, 06 | 統一 `capturedByClanId`（依 02）；刪 06 `captorClanId` |
-| E-59 | 武將能力成長模型：06 §4 `baseStats/statExp/statGrowth: OfficerStats`（成長制）vs 02 §4.4 扁平 `ldr/val/int/pol` 無成長欄位 | 02, 06 | 以 06 成長模型為準（武將機制擁有者）；修 02 §4.4 收錄 `statExp/statGrowth`（`effectiveStat=min(120,base+growth)`），並定義序列化邊界 |
-| E-60 | `GameState.ai: AiState`：09 §4 宣稱 02 收錄，02 §4.1 無 `ai` 分支、未收 AiState/AiClanState/AiPersona | 02, 09 | 修 02 §4.1 增 `ai: AiState` 並收錄型別；`intentLog/AiIntent` 標 transient 不序列化、`AiClanState` 持久化；明訂 `persona ← personas[personaId]` 解析 |
-| E-61 | 城最大兵力雙公式：05 §3.5 `maxSoldiers`（城格基礎+施設+政策，`soldiersPerPop` 0.025）vs 02 §5.1 selector `castleMaxSoldiers` 用 `garrisonPopRatio`(0.08，違反 00 §6) | 02, 05, 15 | 採 05 `maxSoldiers` 唯一公式；刪 `garrisonPopRatio`；02 selector 改引 05（見 15 §5.2 表 C） |
-| E-62 | 潰走部隊行為 04 vs 07 衝突：折損率（04 §3.7 `armyDisband*` vs 07 §3.4）、且 04 §5.4 潰走穿越敵境與 §3.7「不制壓不遭遇」自相矛盾（onArriveNode 會 declareWar/subjugate） | 04, 07, 15 | 07 §3.4 為潰走行為單一擁有者；04 §5.4 `onArriveNode` 對 `status∈{routed,retreating}` 加守衛（不 declareWar/subjugate/遭遇）；15 §5.2 表 C 增列 |
-| E-63 | 多方同節點交戰：04 §3.9 規則1「所有敵對部隊全捲入同一野戰」vs 07 §3.3「取兵數最大兩勢力、餘待機」 | 04, 07 | 依 07 §3.3；改 04 §3.9 規則1 末句 |
-| E-64 | 合戰發動 tick 步序：03 §3.7.2 Step1 建 Battle 凍結時間，但同 tick `military.combat` 仍推進該 FieldCombat；FieldCombat 缺 `interrupted` 旗標 | 02, 03, 07 | 07 §4 FieldCombat 與 02 對應型別補 `interrupted`（或 `hasActiveBattle`）；combat step 跳過之 |
-| E-65 | 制壓進度外部易主未重置：郡因威風翻轉／落城易主時，`Army.march.subjugation` 無重置規格 | 04, 07 | 07 §3.10/§3.11 與威風翻轉統一補：翻轉任一郡 `ownerClanId` 時掃描 `state.armies` 重置對應 `subjugation` |
-| E-66 | 調略 UI 未落地：08 §6.1 宣稱有調略畫面，11 無對應 Panel／wireframe | 08, 11, 13 | 11 補調略 Panel（進行中列表＋新調略精靈）；13 補字串 |
-| E-67 | 外交來使 modal 缺：08 §6.1 宣稱有來使 modal（回應他勢力提案），11 §4 ModalId 無之 | 08, 11 | 11 §4 增外交來使 modal（來使勢力／提案／接受拒絕；婚姻顯示成婚武將） |
-| E-68 | 12 缺表單控制元件：11 多畫面需單選鈕群組／核取方塊／開關／文字輸入，12 §3.2 二十元件無此 | 11, 12 | 12 §3.2 增 RadioGroup／Checkbox／Switch／TextInput 規格 |
-| E-69 | 迷你地圖尺寸衝突：11 §3.3 指定 288×192，12 §3.1.8 `UI.minimapSize` 為正方 | 11, 12 | 世界座標 4096² 正方＋均勻縮放，迷你地圖本質正方；統一二者（建議正方） |
-| E-70 | i18n key 正規式不含連字號：13 §3.4.1 key regex 各段 `[a-z][a-zA-Z0-9]*` 不允許 slug 連字號 | 13 | 修正規式使各段允許 `-`（如 `report.save.autosave-failed`） |
-| E-71 | 13 缺字串落地：03 §6.2 `cmd.reject.gameOver`／`cmd.reject.debugOnly`、16 §6.5 `report.save.autosaveFailed` 未入 13 主表 | 03, 13, 16 | 13 §6.11/§6.17 補入（值採來源文件定稿） |
-| E-72 | 13/14 行內誤字形：13 §3.4.3「高風險字對照」與 14 V10 規則內嵌新字體示例，掃描器會自傷 | 13, 14, 17 | 移除行內誤字形改文字引用 19 §3.12，或列入掃描器 allowlist（見 E-73） |
-| E-73 | 掃描器字形集／豁免不完整：17 §5.4 SHINJITAI_L3（17 字）未涵蓋 19 §3.12 全 71 誤字形；17 §3.6 與 19 §4 兩掃描器 allowlist 互不完備 | 17, 19 | 補齊 17 L1~L3 ⊇ §3.12 全 71 字；統一兩掃描器豁免清單（至少含 17/19/14） |
-| E-74 | 軍團城指令拒絕碼缺：07 §3.12「軍團城玩家不可直接下內政／出陣」無統一拒絕 reasonKey | 03, 07, 13 | 03 §3.3.2 拒絕原因表增 `cmd.reject.delegatedToCorps`；13 補字串 |
-| E-75 | 特性稀有度 token 缺：06 §6.2 指定 `--trait-legendary/rare/common`（值見 12），12 §3.1.2 色彩 token 表無此三 token | 06, 12 | 12 §3.1.2 補三 token 並給值 |
-| E-76 | 協定圖示 icon 不足：11 §3.8 稱協定圖示以 12 icon 實作，12 `IconName` 僅 `handshake` | 11, 12 | 修 11 措辭（同盟 handshake、婚／休／從用文字徽章）或 12 增 icon |
-| E-77 | 捕虜處置 modal 無 wireframe：11 §4 有 ModalId `captive`、§3.14.3 引用，但缺 wireframe | 11 | 11 §3.x 補捕虜處置 modal wireframe（武將資訊＋招降/釋放/處斬） |
-| E-78 | Report/ReportEntry 型別分岔：03 §4.3 `ReportEntry`（改名＋內容模型）vs 02 §4.17 `Report`（存原始 `event`） | 02, 03 | 依 02 §4.17 `Report`；03 改名對齊、內容模型依 02（與 E-31 併同處理） |
-| E-79 | 05 §3.5 徵兵施設係數硬編：「有兵舍?1.25:1.0」硬編，未引 `BAL.facBarracksConscriptBonus`(0.25) | 05 | 05 §3.5 改 `(1+BAL.facBarracksConscriptBonus)` |
-| E-80 | 17 §3.4 專屬常數對應機制不存在（`upkeepGoldPerSoldierMonth`／`deficitMoralePenalty`／`siegeReliefMoraleBonus`／`devDailyBase` 等）；及 17 別名 `allianceDays/ceasefireDays/battleMinSoldiers/diploWorkGoldPerMonth/commerceCap` 重名權威常數 | 05, 07, 17 | 一律刪除／改引權威（詳見 15 §5.2 表 B/C）；17 §3.4 測試改斷言權威公式 |
+| E-57 | 06 §4 `Officer` 持有 `fiefDistrictIds`／`corpsId`，違反 02 §3.1／§4.4「役職不存於 Officer、一律反查」（雙重真相） | 02, 06 | 刪 06 兩欄；受封郡查 `District.stewardId`、軍團歸屬查 `castle.corpsId`（selector §5.1）；已消化（2026-07-10/11） |
+| E-58 | `Officer.captorClanId`（06 §4）vs `capturedByClanId`（02 §4.4、INV-18） | 02, 06 | 統一 `capturedByClanId`（依 02）；刪 06 `captorClanId`；已消化（2026-07-10/11） |
+| E-59 | 武將能力成長模型：06 §4 `baseStats/statExp/statGrowth: OfficerStats`（成長制）vs 02 §4.4 扁平 `ldr/val/int/pol` 無成長欄位 | 02, 06 | 以 06 成長模型為準（武將機制擁有者）；修 02 §4.4 收錄 `statExp/statGrowth`（`effectiveStat=min(120,base+growth)`），並定義序列化邊界；已消化（2026-07-10/11） |
+| E-60 | `GameState.ai: AiState`：09 §4 宣稱 02 收錄，02 §4.1 無 `ai` 分支、未收 AiState/AiClanState/AiPersona | 02, 09 | 修 02 §4.1 增 `ai: AiState` 並收錄型別；`intentLog/AiIntent` 標 transient 不序列化、`AiClanState` 持久化；明訂 `persona ← personas[personaId]` 解析；已消化（2026-07-10/11） |
+| E-61 | 城最大兵力雙公式：05 §3.5 `maxSoldiers`（城格基礎+施設+政策，`soldiersPerPop` 0.025）vs 02 §5.1 selector `castleMaxSoldiers` 用 `garrisonPopRatio`(0.08，違反 00 §6) | 02, 05, 15 | 採 05 `maxSoldiers` 唯一公式；刪 `garrisonPopRatio`；02 selector 改引 05（見 15 §5.2 表 C）；已消化（2026-07-10/11） |
+| E-62 | 潰走部隊行為 04 vs 07 衝突：折損率（04 §3.7 `armyDisband*` vs 07 §3.4）、且 04 §5.4 潰走穿越敵境與 §3.7「不制壓不遭遇」自相矛盾（onArriveNode 會 declareWar/subjugate） | 04, 07, 15 | 07 §3.4 為潰走行為單一擁有者；04 §5.4 `onArriveNode` 對 `status∈{routed,retreating}` 加守衛（不 declareWar/subjugate/遭遇）；15 §5.2 表 C 增列；已消化（2026-07-10/11） |
+| E-63 | 多方同節點交戰：04 §3.9 規則1「所有敵對部隊全捲入同一野戰」vs 07 §3.3「取兵數最大兩勢力、餘待機」 | 04, 07 | 依 07 §3.3；改 04 §3.9 規則1 末句；已消化（2026-07-10/11） |
+| E-64 | 合戰發動 tick 步序：03 §3.7.2 Step1 建 Battle 凍結時間，但同 tick `military.combat` 仍推進該 FieldCombat；FieldCombat 缺 `interrupted` 旗標 | 02, 03, 07 | 07 §4 FieldCombat 與 02 對應型別補 `interrupted`（或 `hasActiveBattle`）；combat step 跳過之；已消化（2026-07-10/11） |
+| E-65 | 制壓進度外部易主未重置：郡因威風翻轉／落城易主時，`Army.march.subjugation` 無重置規格 | 04, 07 | 07 §3.10/§3.11 與威風翻轉統一補：翻轉任一郡 `ownerClanId` 時掃描 `state.armies` 重置對應 `subjugation`；已消化（2026-07-10/11） |
+| E-66 | 調略 UI 未落地：08 §6.1 宣稱有調略畫面，11 無對應 Panel／wireframe | 08, 11, 13 | 11 補調略 Panel（進行中列表＋新調略精靈）；13 補字串；已消化（2026-07-10/11） |
+| E-67 | 外交來使 modal 缺：08 §6.1 宣稱有來使 modal（回應他勢力提案），11 §4 ModalId 無之 | 08, 11 | 11 §4 增外交來使 modal（來使勢力／提案／接受拒絕；婚姻顯示成婚武將）；已消化（2026-07-10/11） |
+| E-68 | 12 缺表單控制元件：11 多畫面需單選鈕群組／核取方塊／開關／文字輸入，12 §3.2 二十元件無此 | 11, 12 | 12 §3.2 增 RadioGroup／Checkbox／Switch／TextInput 規格；已消化（2026-07-10/11） |
+| E-69 | 迷你地圖尺寸衝突：11 §3.3 指定 288×192，12 §3.1.8 `UI.minimapSize` 為正方 | 11, 12 | 世界座標 4096² 正方＋均勻縮放，迷你地圖本質正方；統一二者（建議正方）；已消化（2026-07-10/11） |
+| E-70 | i18n key 正規式不含連字號：13 §3.4.1 key regex 各段 `[a-z][a-zA-Z0-9]*` 不允許 slug 連字號 | 13 | 修正規式使各段允許 `-`（如 `report.save.autosave-failed`）；已消化（2026-07-10/11） |
+| E-71 | 13 缺字串落地：03 §6.2 `cmd.reject.gameOver`／`cmd.reject.debugOnly`、16 §6.5 `report.save.autosaveFailed` 未入 13 主表 | 03, 13, 16 | 13 §6.11/§6.17 補入（值採來源文件定稿）；已消化（2026-07-10/11） |
+| E-72 | 13/14 行內誤字形：13 §3.4.3「高風險字對照」與 14 V10 規則內嵌新字體示例，掃描器會自傷 | 13, 14, 17 | 移除行內誤字形改文字引用 19 §3.12，或列入掃描器 allowlist（見 E-73）；已消化（2026-07-10/11） |
+| E-73 | 掃描器字形集／豁免不完整：17 §5.4 SHINJITAI_L3（17 字）未涵蓋 19 §3.12 全 71 誤字形；17 §3.6 與 19 §4 兩掃描器 allowlist 互不完備 | 17, 19 | 補齊 17 L1~L3 ⊇ §3.12 全 71 字；統一兩掃描器豁免清單（至少含 17/19/14）；已消化（2026-07-10/11） |
+| E-74 | 軍團城指令拒絕碼缺：07 §3.12「軍團城玩家不可直接下內政／出陣」無統一拒絕 reasonKey | 03, 07, 13 | 03 §3.3.2 拒絕原因表增 `cmd.reject.delegatedToCorps`；13 補字串；已消化（2026-07-10/11） |
+| E-75 | 特性稀有度 token 缺：06 §6.2 指定 `--trait-legendary/rare/common`（值見 12），12 §3.1.2 色彩 token 表無此三 token | 06, 12 | 12 §3.1.2 補三 token 並給值；已消化（2026-07-10/11） |
+| E-76 | 協定圖示 icon 不足：11 §3.8 稱協定圖示以 12 icon 實作，12 `IconName` 僅 `handshake` | 11, 12 | 修 11 措辭（同盟 handshake、婚／休／從用文字徽章）或 12 增 icon；已消化（2026-07-10/11） |
+| E-77 | 捕虜處置 modal 無 wireframe：11 §4 有 ModalId `captive`、§3.14.3 引用，但缺 wireframe | 11 | 11 §3.x 補捕虜處置 modal wireframe（武將資訊＋招降/釋放/處斬）；已消化（2026-07-10/11） |
+| E-78 | Report/ReportEntry 型別分岔：03 §4.3 `ReportEntry`（改名＋內容模型）vs 02 §4.17 `Report`（存原始 `event`） | 02, 03 | 依 02 §4.17 `Report`；03 改名對齊、內容模型依 02（與 E-31 併同處理）；已消化（2026-07-10/11） |
+| E-79 | 05 §3.5 徵兵施設係數硬編：「有兵舍?1.25:1.0」硬編，未引 `BAL.facBarracksConscriptBonus`(0.25) | 05 | 05 §3.5 改 `(1+BAL.facBarracksConscriptBonus)`；已消化（2026-07-10/11） |
+| E-80 | 17 §3.4 專屬常數對應機制不存在（`upkeepGoldPerSoldierMonth`／`deficitMoralePenalty`／`siegeReliefMoraleBonus`／`devDailyBase` 等）；及 17 別名 `allianceDays/ceasefireDays/battleMinSoldiers/diploWorkGoldPerMonth/commerceCap` 重名權威常數 | 05, 07, 17 | 一律刪除／改引權威（詳見 15 §5.2 表 B/C）；17 §3.4 測試改斷言權威公式；已消化（2026-07-10/11） |
 
 ---
 
@@ -733,17 +736,21 @@ export interface ForbiddenCharEntry {
 }
 export const FORBIDDEN_CHARS: readonly ForbiddenCharEntry[]; // §3.12 全 40 組
 export const FORBIDDEN_ALLOWLIST_FILES: readonly string[];
-// = ['plan/14-scenario-data.md', 'plan/17-testing.md', 'plan/19-glossary.md', 'tools/glossary/forbiddenChars.ts']
-// （唯四允許出現誤字形的檔案：14 的 V10 掃描規則內嵌示例、17 的掃描黑名單、本表(19)、其轉錄常數；
-//  依勘誤 E-73 與 17 §3.6 掃描器豁免清單統一，兩掃描器 allowlist 至少含 14/17/19）
+// = ['plan/14-scenario-data.md', 'plan/17-testing.md', 'plan/19-glossary.md',
+//    'tools/simplified-chars.ts', 'tools/glossary/forbiddenChars.ts']
+// （唯五允許出現誤字形的檔案：14 的 V10 掃描規則內嵌示例、17 的掃描黑名單、本表(19)、
+//  17 的黑名單常數 tools/simplified-chars.ts、本表轉錄常數 tools/glossary/forbiddenChars.ts；
+//  依勘誤 E-73 與 17 §3.6／TESTCFG.scanExemptFiles 掃描器豁免清單統一對齊，兩掃描器 allowlist 完全一致）
 ```
 
 不變量（併入 17 的靜態測試）：
 
 1. `GLOSSARY` 的 `zh` 欄全表唯一；`code` 非空者必須能在 `src/core/` 型別宣告或
    02 §3.2 前綴表中找到同名字串（防止術語表與程式脫鉤）。
-2. `FORBIDDEN_CHARS` 展開後的全部 `wrong` 字元，與 17 之 L1~L3 黑名單聯集完全相等
-   （雙向：黑名單不得漏收本表、本表不得漏收黑名單）。
+2. 17 之 L1~L3 黑名單（`tools/simplified-chars.ts`）⊇ `FORBIDDEN_CHARS` 展開後的全部 `wrong` 字元
+   （單向涵蓋，非雙向相等：17 為掃描器實際黑名單，其涵蓋範圍可大於本表〔如 L1 收錄更多本表未逐字
+   列舉之無歧義簡體字〕，但本表任一 `wrong` 字元皆不得漏收於 17 黑名單。方向依 E-73 定案，
+   17／19 兩側已消化，2026-07-10/11）。
 3. 「砲」不得出現於任何 `wrong` 欄（E-52c）。
 
 ---
@@ -795,11 +802,14 @@ for each E-xx in §3.13（依編號序）:
   4. 全部消化後，`tools/glossary-lint.ts --terms` 於 CI 轉為 ERROR 級全開
 ```
 
-**本檔消化進度（§3.13 台帳列為權威，不於其上就地標記，進度記於此）**：
+**本檔消化進度**：2026-07-10/11 台帳同步（詳見 §8 2026-07-11 記錄）已依步驟 3 直接於 §3.13
+全部台帳列尾註「已消化（2026-07-10/11）」，本節自此起僅作補充歷史記錄，不再重複追蹤全表進度。
 
-- **E-73（2026-07-07，19 側已消化）**：§4 `FORBIDDEN_ALLOWLIST_FILES` 由三檔擴為四檔，
-  補入 `plan/14-scenario-data.md`，與 17 §3.6 掃描器豁免清單統一（兩掃描器 allowlist 至少含 14/17/19）。
-  17 側（L1~L3 補齊 ⊇ §3.12 全誤字形、§3.6 allowlist 同步）屬 17 之修正，本檔不改。
+- **E-73（19 側：2026-07-07 初次收斂三檔→四檔；2026-07-10/11 再擴為五檔）**：§4
+  `FORBIDDEN_ALLOWLIST_FILES` 先由三檔擴為四檔（補入 `plan/14-scenario-data.md`），本次台帳同步
+  再擴為五檔（補入 `tools/simplified-chars.ts`，對齊 17 §3.6／`TESTCFG.scanExemptFiles` 現行五檔清單）。
+  17 側（L1~L3 補齊 ⊇ §3.12 全誤字形、§3.6／`TESTCFG.scanExemptFiles` allowlist 同步）已由 17
+  完成；兩側掃描器豁免清單現已一致，E-73 全案消化（§3.13 已標記）。
 
 ---
 
@@ -820,9 +830,9 @@ for each E-xx in §3.13（依編號序）:
 - [ ] **T1　GLOSSARY 常數表**：將 §3.2~§3.11 全部表格轉錄為 `tools/glossary/terms.ts`。
       驗收：條目數 ≥ 260；`zh` 唯一性測試通過；每列 `sourceDoc` 非空。
 - [ ] **T2　FORBIDDEN_CHARS 常數表**：轉錄 §3.12 全 40 組＋補充規則。
-      驗收：與 17 的 L1~L3 黑名單做集合相等測試（§4 不變量 2）；「砲」不在黑名單。
+      驗收：與 17 的 L1~L3 黑名單做涵蓋測試（17 ⊇ 本表，§4 不變量 2，單向）；「砲」不在黑名單。
 - [ ] **T3　禁用字元掃描器**（§5.1）：`npm run lint:glossary`。
-      驗收：對植入「戦」「归」「斎」的暫存檔各偵測 1 筆並非零退出；allowlist 四檔不誤報；
+      驗收：對植入「戦」「归」「斎」的暫存檔各偵測 1 筆並非零退出；allowlist 五檔不誤報；
       對現行 repo 全綠（前提：E-52 三處已修）。
 - [ ] **T4　術語一致性檢查器**（§5.2）。
       驗收：對 `zh-TW.ts` 植入「合戦」偵測為 ERROR；GLOSSARY 中不存在的識別符產出 WARNING。
@@ -875,6 +885,30 @@ for each E-xx in §3.13（依編號序）:
   掃描規則內嵌新字體示例（E-72），若不列入豁免會被 §5.1 掃描器自傷誤報；§7 T3 驗收之
   「allowlist 檔數」同步由三檔改四檔。E-73 另一半「補齊 17 L1~L3 ⊇ §3.12 全誤字形」屬 17
   之修正，本檔不動（依鐵律亦不改 §3.13 台帳列，消化進度記於 §5.3 尾註）。
+- **D11｜台帳與註記全面同步（2026-07-11，本次台帳同步彙整）**：19 於 2026-07-08~2026-07-11
+  間（f9c9348..e534cfc，9 個修正 commit）並未隨其他 18 份文件的密集勘誤消化而更新，經逐條
+  對照現況後一次補齊：
+  (1) **§3.13 台帳**：E-01~E-80（實編 77 列，E-20／E-40／E-45 未使用）逐列核對「涉及文件」
+      現況，全數確認已依「建議定案」修正，於各列尾註「已消化（2026-07-10/11）」（本次核對未
+      發現仍未消化之列）；
+  (2) **主術語表過時註記收斂**（§3.2~§3.11）：`DevelopFocus`（E-07，第三值定為 `barracks`）、
+      `CmdPromoteRank`（E-32）、`Army.leaderId`（E-11，07 已統一）、`PactKind`（E-23，四值＋婚姻
+      獨立 kind＋不可侵 v1.1）、`requestReinforce`（E-28，併入 `CmdProposePact`）、`OfficerStatus`
+      （E-02，06 已改 `hasComeOfAge`＋`'serving'`）、`Kinship`／`Officer.spouseId`／
+      `District.isPort`（E-34／E-44，02 已收錄）、`Jin`（E-18，02 已依 DDR-12 採 07 陣圖模型）、
+      `CorpsDirective`（E-21，07 已改依 02）、`CmdNominateShogun`（E-32）、獻金詞條改
+      `CmdStartDiploWork{target:'court'}`（E-27，取代舊 `CmdDonateCourt`）、途經點詞條標
+      「v1 廢除（02 二輪裁決 D）」並區隔 04 `RoadEdgeData.waypoints` 純畫線義、潰走常數識別符
+      修正為現行 `BAL.moraleBreakThreshold`（E-16，原文誤留 `routThreshold`）、特性表附註
+      改標「E-06 已消化（37 種）」、§3.9／§3.10／§3.11 footnote 之 E-01／E-03／E-04／E-25／E-26
+      由「未決衝突」改寫為「已消化」用語；
+  (3) **§4 資料結構**：`FORBIDDEN_ALLOWLIST_FILES` 由四檔擴為五檔，新增
+      `tools/simplified-chars.ts`，對齊 17 `TESTCFG.scanExemptFiles` 現行五檔清單（E-73 全案
+      消化）；「唯四允許」改「唯五允許」；不變量 #2 由「雙向相等」改為「單向 ⊇」（17 L1~L3
+      黑名單 ⊇ 本表 `wrong` 字元，非相等——17 可涵蓋更廣，方向依 E-73 定案）；相應 §7 T2／T3
+      驗收敘述同步；
+  (4) **§1 概述**：「38 組」誤字形計數更正為實際列數「40 組」（§3.12 表格列數核實）。
+  本次僅同步 19 一檔，未修改任何其他 plan 文件；不改變 00~18 之機制定案。
 
 ---
 
