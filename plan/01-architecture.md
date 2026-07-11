@@ -191,7 +191,7 @@ tenka-fubu/
 ├── tools/                          # 以 tsx 執行的開發腳本
 │   ├── validate.ts                 # 劇本資料 zod 驗證＋連通性檢查（▷ plan/14、17）
 │   ├── stats.ts                    # 劇本統計（總石高、勢力規模表；▷ plan/14）
-│   ├── check-simplified.ts         # 簡體字黑名單掃描（▷ plan/17）
+│   ├── scan-simplified.ts          # 簡體字黑名單掃描（▷ plan/17 §3.6.2；命名依 17，D15）
 │   ├── subset-font.ts              # 掃描 zh-TW.ts＋劇本 JSON 用字 → 產生子集 woff2（§3.9.3）
 │   └── assets/NotoSerifTC-Regular.otf  # 字型原始檔（僅供子集化，不進 bundle）
 ├── tests/                          # golden-master 模擬測試、效能基準、fixtures（▷ plan/17）
@@ -611,7 +611,7 @@ export default tseslint.config(
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "npm run build && playwright test",
-    "validate:data": "tsx tools/validate.ts && tsx tools/check-simplified.ts",
+    "validate:data": "tsx tools/validate.ts && tsx tools/scan-simplified.ts && tsx tools/check-font-coverage.ts",
     "font:subset": "tsx tools/subset-font.ts"
   }
 }
@@ -1258,6 +1258,9 @@ onDprChange():
 | D10 | **積欠 tick 上限 4、超過即丟棄**（時間變慢而非補跑） | 補跑會在低階機器造成愈補愈欠的死亡螺旋；即時大戰略對牆鐘時間無精確承諾，時間變慢是玩家無感的退化方式。 |
 | D11 | **Playwright 只跑 chromium** | 00 §2 定 E2E 僅 smoke；多瀏覽器矩陣對單機 WebGL 遊戲的回報價值低於 CI 時間成本。相容性風險由 Pixi 的 WebGL 抽象吸收。 |
 | D12 | **`session.debug.jumping` 快進期間不受自動暫停中斷** | 快進的目的就是跳過事件雜訊直達目標日期；事件仍完整結算並進通知列，不遺失資訊。 |
+| D13 | **`ci.yml` 採 17-T13（17 §3.11.1）的五 job 圖（install→lint/typecheck/unit/e2e），取代本文件 §3.8.1 的二 job（verify/e2e-smoke）範例**（2026-07-11，M0-8 實作） | 兩文件對 CI job 拆分方式不一致：本文件 §3.8.1 把 lint/typecheck/validate/test/build 併入單一 `verify` job；17 §3.11.1 拆成四個平行 job（另加 M9 起的 `perf-gate`），且 17 §3.11.2 的里程碑品質門檻表（golden-s1560／AI 合法性 A2／perf-gate／P4-P5／覆蓋率依 `current` 條件式阻斷，見 18 §4.1）需要以 job 為單位掛 `continue-on-error`，在單一 `verify` job 內無法對個別檢查項獨立設定阻斷模式。17 是測試矩陣與門檻表的單一真相來源（18 §2 關係表），故以 17 的五 job 圖為準；§3.8.1 的 yaml 範例保留供參考建置指令片段（`npm ci`/`npm run lint` 等步驟內容不變），但 job 拆分方式與依賴圖以 17 §3.11.1 為準。實作見 `.github/workflows/ci.yml`；里程碑門檻旗標由 `tools/ci/milestone-gate.ts` 讀 `milestone.json` 計算後以 job outputs 傳遞。 |
+| D14 | **字型子集管線（M0-11／A13）四項實作定案**（2026-07-11，M0-11 實作）：①子集工具採 `subset-font`（npm，harfbuzzjs 綁定）而非 fonttools/Python——本文件 §3.9.3 原文已提及此 devDependency，且其 `variationAxes` 選項原生支援可變字型軸值釘選，維持工具鏈全在 Node/tsx 內、CI 不需另裝 Python。②原始字型檔改以 Google Fonts 官方可變字型 `NotoSerifTC[wght].ttf`（SIL OFL，取自 `github.com/google/fonts` 官方倉，`fonvar` 軸 `wght: 200–900`）存為 `tools/assets/NotoSerifTC-Regular.ttf`——副檔名由規格原文 `.otf` 改為 `.ttf`（實際取得的來源檔為 TrueType 容器，SFNT 家族對 harfbuzz/`subset-font` 無功能差異）；因可變字型預設軸值為 200（ExtraLight）而非 400，子集化時明確傳入 `variationAxes: { wght: 400 }` 才是規格所稱之 Regular。③涵蓋率把關（`tools/check-font-coverage.ts`）採「產生時寫入 manifest（`public/fonts/noto-serif-tc-subset.manifest.json`，記錄當次實際嵌入字元）、下次比對重新掃描結果與 manifest」的方式，不即時解析 woff2 二進位 cmap 表——省去二進位解析成本，代價是若有人手動置換 woff2 而不更新 manifest 則測不出，M0 階段風險可接受（成品僅由 `npm run font:subset` 產生）。④18-roadmap.md M0-11 任務表「產出檔案」欄寫作 `src/ui/styles/fonts/*`，與本文件 §3.3 目錄樹／§3.9.3／§3.2 表格定案的 `public/fonts/noto-serif-tc-subset.woff2` 不一致；依 18 文件頭「任務之技術內容與驗收細節以各系統文件為準」，以本文件 `public/fonts/` 為準，未在 `src/ui/styles/` 下另建字型目錄（`@font-face` 宣告仍如既有規劃留給 `src/ui/styles/global.css`，屬 M1-19 範圍）。⑤原始字型檔（~16MB）與子集成品（M0 現況 117 字元、約 37KB，遠低於 `perfFontKb=2048`）已於 M0-11 一併產生並納入本次變更；`src/i18n/zh-TW.ts`／劇本資料尚未填入前，子集僅含基準數字標點集，屬預期現況（字串或劇本大改後依 §3.9.3 手動重跑 `npm run font:subset`）。原始字型缺席時的降級（`check-font-coverage.ts` 回傳 `missing-font`、CLI 僅警告、exit 0，不阻斷 `validate:data`）保留於程式內作為 M0 期間豁免，供離線環境或原始字型另需替換時使用。 |
+| D15 | **npm scripts 以 `package.json` 為最終真相；掃描器檔名定案 `scan-simplified.ts`**（2026-07-11，M0 checkpoint）：本文件 §3.7.5 原載 `tsx tools/check-simplified.ts`——該檔名為筆誤（17 §3.6.2／18 §8-D6／M0-6 實作均為 `scan-simplified.ts`），已更正；`validate:data` 定案為三段直串（zod 驗證＋簡體字掃描＋字型涵蓋率，與 CLAUDE.md 用途描述一致），不採 18 §8-D6 曾述之 shell 條件式（三工具皆已存在，條件式無必要）。18 §3.3.1 CLAUDE.md 範本指令表與本表為「範本節錄 vs 全表」關係，`package.json` 為超集且為唯一可執行真相；後續里程碑新增 scripts 時回寫本表。 |
 
 ---
 
