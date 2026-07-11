@@ -1700,4 +1700,33 @@ deriveReportMessage(event, state, playerClanId):
   (5｜§5.6 test 5 同步) 母集擴入本輪新收 5 單值事件與 `proposal.expired` reason 分岔；視角分流枚舉加
   `court.mediationResult`（三視角六例，皆非 null）；`transport.looted` 分流依據描述同步改為 payload 直接比對；
   排除清單註記新增 `officer.meritReady`（非 GameEventType、七輪裁決 2，比照六輪裁決 4 `save.autosaveFailed`）。
+- **D17｜i18n 模組定案為單檔 `zh-TW.ts`（廢 D1 三檔規劃／不新增 `t.ts` 內容／不新增 `index.ts`／`format.ts`）**
+  （2026-07-11，M1-18／M1-20／M1-22 交界處實作；本節取代並修正稍早同編號之草稿）：實測
+  `eslint.config.js`「邊界規則 3：i18n 零依賴」（`files: ['src/i18n/**/*.ts']` 配
+  `no-restricted-imports` 之 `patterns: [{ group: ['*'] }]`）會擋下**同目錄的相對匯入**
+  （如 `./zh-TW`），並非僅擋外部套件——故 D1 規劃之三檔（`zh-TW.ts`／`index.ts`／`format.ts`）
+  彼此無法互相 `import`，在目前鐵律下不可行；又 `plan/00-foundations.md` §3 canonical 目錄樹
+  `src/i18n/` 下本就僅列 `zh-TW.ts` 一檔，`plan/01-architecture.md` §3.3 另列的 `t.ts`（同函式
+  `t(key, params)` 的落點）與本文件 D1 的 `index.ts` 為同一內容之兩個不同檔名提案、兩者皆與
+  00 canonical 樹不符。依 00 > 01／13 優先序：**廢止 D1 三檔規劃**，`t()`／`hasKey()`／
+  `getMissingKeys()`／`formatNumber()`／`formatDate()`／`formatYearMonth()`（§3.2／§4／§5.2／
+  §5.3 全部內容契約，逐字沿用本文件定案）與主字串表 `zhTW` 合併為單一檔案
+  `src/i18n/zh-TW.ts`（零 import，符合 13/01 共同的「i18n 零依賴」鐵律），`src/i18n/t.ts`
+  維持 M0 stub（`export {}`）不再使用、亦不刪除（避免與 01 §3.3 目錄樹產生新的檔案存在性落差；
+  01 §3.3 之後若整併請一併回寫）。`formatDate`／`formatYearMonth` 因同一零依賴限制不得
+  `import` `src/core` 之 `dayToCalendar`（02 §5.6／`src/core/systems/time.ts`），故在
+  `zh-TW.ts` 內自帶一份等價的絕對日→曆法換算純函式（與 `src/core/state/serialize.ts` 因
+  「core 不得 import tests/」而獨立重寫 `fnv1a64`／`canonicalStringify` 同一理由：邊界規則
+  造成的刻意小型重複；`EPOCH_YEAR`＝1560、`DAYS_PER_MONTH`＝30、`DAYS_PER_YEAR`＝360 兩處常數
+  如再改動須與 02 §5.6／`time.ts` 同步手動更新）。
+  另（M1-22 除錯面板字串併入）：01 §3.11.2／§6.2 之 `ui.debug.title`／`section.time`／
+  `section.cheat`／`addGold`／`needCastleSelected` 屬「來源草案」尚未併入本文件 §6.10 主表
+  （§6.10 現行內容僅含 03 之 `skipDays`／`skipping` 與 09/17 之 `ai.*`／`exportLog` 等），
+  本輪依 01 原樣併入主表（無衝突、非正名）；時間跳轉之實際按鈕文案改採本文件已定案之
+  `ui.debug.skipDays`（`跳轉{days}日`）／`ui.debug.skipping`，不採 01 §3.11.2 草案另一措辭
+  `ui.debug.jumpDays`（`快進{days}日`，與 `skipDays` 同義重複、03/本文件之版本對應實際
+  Command 名 `debugSkipDays`，依 §3.5 慣例採之）；另新增本文件與 01 皆未收錄之
+  `ui.debug.stateHash`（狀態雜湊：{hash}），供 M1-22／03-T11 除錯面板顯示 `stateHash()`
+  （`src/core/state/serialize.ts`）供人工核對「跳轉 360 日與逐日 hash 一致」用，純新增、
+  非正名衝突。實作見 `src/i18n/zh-TW.ts`。
   02（不改）、19-glossary（不改）；本檔 grep 自查簡體/新字體 clean、無 TBD/needsReview。

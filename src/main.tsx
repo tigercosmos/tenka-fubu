@@ -3,6 +3,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from '@app/App';
+import { injectCssVariables } from '@ui/styles/tokens';
+import '@ui/styles/global.css';
+
+// design tokens 的 CSS 變數注入必須在任何元件掛載前執行一次（12 §3.1.1）。
+injectCssVariables();
 
 const container = document.getElementById('root');
 if (container === null) {

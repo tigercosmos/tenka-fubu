@@ -1,1 +1,62 @@
-/* reset、@font-face、根層 layout（規格：plan/01-architecture.md §3.3）。留待 M1-19 實作。 */
+/* reset、@font-face、根層 layout、reduce-motion 全域覆蓋
+   （規格：plan/01-architecture.md §3.3；plan/12-ui-components.md §3.1.4、§3.4、§3.5）。
+   全部 design tokens 的 CSS custom properties（--ink-900 等）由 src/ui/styles/tokens.ts 的
+   injectCssVariables() 於啟動時注入 :root，本檔不重複宣告任何 token 值（12 §3.1.1 單一真相來源）。 */
+
+/* ── reset（不引入 CSS 框架，00 §2） ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-body);
+  color: var(--ink-900);
+  background: var(--washi-200);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* 數字欄位（資源、兵力、表格）等寬對齊工具類（12 §3.1.4）；由各元件視需要套用，非全域強制。 */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── @font-face（Noto Serif TC 子集，現況僅 400 一檔，見 12 §8-D13） ── */
+@font-face {
+  font-family: 'Noto Serif TC';
+  src: url('/fonts/noto-serif-tc-subset.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── 焦點可見基線（12 §3.5 第 1 點：禁止 outline: none 而無替代） ── */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+/* ── reduce-motion 強制規則（12 §3.4「reduce-motion 規則（強制）」第 1 點） ──
+   全部 CSS transition/animation 時長歸零；進度條補間屬「資訊非裝飾」需保留，
+   由該元件在自己的 tween 元素上加 `.motion-preserve` 類別退出本覆蓋。 */
+@media (prefers-reduced-motion: reduce) {
+  *:not(.motion-preserve),
+  *::before:not(.motion-preserve),
+  *::after:not(.motion-preserve) {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
