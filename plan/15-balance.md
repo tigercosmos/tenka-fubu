@@ -691,12 +691,13 @@ export type BalConfig = typeof BAL;
 | `subjugateLdrBonusThreshold` | 80 | 統率點 | 大將統率達此值時制壓-1日的名將加速門檻 | 04 §5.8 |  |
 | `subjugateSecurityHit` | 15 | 治安點 | 制壓完成時該郡治安下降的點數 | 04 §5.8 |  |
 
-#### 遊戲迴圈・tick・報告（03）（6）
+#### 遊戲迴圈・tick・報告（03）（7）
 
 | 常數 `BAL.*` | 定案值 | 單位 | 語意 | 出處 | 備註 |
 |---|---|---|---|---|---|
 | `aiCouncilsPerTick` | 4 | 家/tick | AI 月度評定每 tick 消化的勢力家數 | 03 §3.8.2 |  |
 | `aiReactiveChecksPerTick` | 8 | 家/tick | AI 反應式決策每 tick 輪詢的勢力家數 | 03 §3.8.2 |  |
+| `debugGrantGoldAmount` | 10000 | 貫 | 除錯面板「金錢作弊」鈕之 `debugGrant` 金額 | 01 §3.11.2／§3.11.3 | 新增列，見 §8 D20 |
 | `debugSkipMaxDays` | 3600 | 日 | debug 時間跳轉單次上限日數 | 03 §3.9.2 |  |
 | `maxCommandsPerTick` | 200 | 個（每 tick） | Step 1 單 tick 套用 Command 數上限 | 03 §3.3.1 |  |
 | `reportRetentionDays` | 360 | 日 | 報告保留期（超過此日數即修剪） | 03 §3.4.3 |  |
@@ -1183,5 +1184,13 @@ CI 於 M9 跑固定 5 種子 `simulate` 冒煙，斷言準則 4、5 與 `yearOfF
   `battleCaptureChanceDefeatGeneral`＝0.2 為準，不得另立異名或異值。07 子表項數 87→88，§5.1 模擬層常數總數 540→541，
   全文件 `BAL.*` 名稱總數（§1.1）635→636；T1（§7）主表寫入項數同步 540→541；v1.0 實際寫入 `balance.ts` 項數同步
   536→537（不可侵條約 v1.1 標記 4 項不變）。既有 540 項定案值一律不動，僅新增登錄。
+- **D20（2026-07-11，M1-22 除錯面板實作補登）**：01 §3.11.2／§3.11.3「除錯面板／`debugGrant` 資源作弊」
+  僅於 Command 型別註解寫「`amount` 建議 10000」，未如 `debugSkipMaxDays` 一般定名為主表常數，
+  屬遺漏（本表 §3.2「數值必須有名有出處，不得魔術數字」原則）。依 00 §11／本文件 §3.2 補上正式
+  常數 `debugGrantGoldAmount`＝10000（貫），供除錯面板「金錢 +10,000貫」鈕組出
+  `debugGrant{gold: BAL.debugGrantGoldAmount, food: null, castleId: null}` 之用；食糧／兵力兩項
+  cheat（`ui.debug.addFood`／`addTroops`）因需先在地圖選取我方城（依賴 M2 地圖／選取機制），
+  M1 範圍不實作、暫不補常數，留待該功能落地時一併登錄。§5.1「遊戲迴圈・tick・報告（03）」
+  子表 6→7 項；v1.0 實際寫入 `balance.ts` 項數同步 +1。實作見 `src/core/balance.ts`。
 
 *本文件依 00 §13 撰寫；繁體中文（台灣慣用語）；無 TBD。定案值即實作值，唯一寫入 `src/core/balance.ts`；命名依 19 §3.13。*

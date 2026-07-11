@@ -14,6 +14,7 @@
     "test:watch": "vitest",
     "test:core": "vitest run --project core --passWithNoTests",
     "test:ui": "vitest run --project ui --passWithNoTests",
+    "test:app": "vitest run --project app --passWithNoTests",
     "test:golden": "vitest run tests/golden",
     "golden:update": "UPDATE_GOLDEN=1 vitest run tests/golden",
     "e2e": "npm run build && playwright test",

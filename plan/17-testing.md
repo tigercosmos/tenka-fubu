@@ -1041,3 +1041,43 @@ perfGate():
     另同批實跑亦於 `07-military.md` 抓到一處真實簡體字誤植（「同步补」應為「同步補」），已直接
     修正該處文字，非規格層面問題。依據：M0-6 實跑 `npm run validate:data` 輸出（本文件 §5.4／
     `tools/simplified-chars.ts` 同步修訂）。
+16. **（2026-07-11；M1-16／M1-17 實作時新增）`vitest.workspace.ts` 增設 `app` project（jsdom），
+    §3.2 canonical 範本之 core／ui 兩個 project 保留不變**：`src/app/**`（`store.ts`／`bridge.ts`／
+    `gameLoop.ts`／`autoPause.ts`）需要 DOM（`requestAnimationFrame`／`document.visibilitychange`）
+    才能測試（01-A7「假時鐘測試」、01-A8「模擬 visibility 事件」），但 §3.2 範本的 `core` project
+    為 `node` 環境（無 DOM）、`ui` project 只收 `src/ui/**/*.spec.tsx`（不含 `src/app/**`），兩者皆
+    無法承接。新增第三個 `app` project（`environment: 'jsdom'`，`include: ['src/app/**/*.spec.ts',
+    'tests/app/**/*.spec.ts']`，共用 `tests/helpers/rtl-setup.ts`）填補此缺口；`core`／`ui` 兩個
+    project 定義完全不變（僅 `core` 之 `include` 另加 `exclude: ['tests/app/**']`，避免與新
+    `app` project 的 glob 交集使同一檔案在 node 環境下被重跑一次而失敗）。另實測發現 jsdom 的
+    `requestAnimationFrame` 在 `vi.useFakeTimers()` 下雖同步觸發 callback，但 `now` 引數不受 fake
+    clock 控制（見 `plan/01-architecture.md` §8 D19 ④），故 `gameLoop.ts` 之累加器精確毫秒邊界
+    測試改以手動 `FrameScheduler`（`tests/helpers/manualFrameScheduler.ts`）驅動，非直接倚賴
+    jsdom 原生 `requestAnimationFrame`；`stepDays` 之 `setTimeout` 鏈則不受此限、仍以
+    `vi.useFakeTimers()` 驅動。`package.json` 新增 `test:app` script 與既有 `test:core`／`test:ui`
+    對稱。實作：`vitest.workspace.ts`、`package.json`、`tests/helpers/manualFrameScheduler.ts`、
+    `tests/helpers/rtl-setup.ts`（另補 `IS_REACT_ACT_ENVIRONMENT` 旗標與 RTL `cleanup()` 註冊，
+    修正 `act()` 警告與跨測試元件殘留掛載問題，兩者皆與 vitest 未開 `test.globals` 有關）。
+17. **（2026-07-11；M1-21 實作時新增）`tests/determinism.spec.ts`（DT1–DT4）三項實作裁決**：
+    ①**DT1/DT2 之 `buildMiniState` 改用 `buildTinyState`**：本節原文字面寫 `buildMiniState({ seed: 42 })`，
+    但 mini fixture（zod 驗證版）是 M2 產物；沿用 18-roadmap.md §8-D4 既有裁決（M1 用 TS 常數 tiny
+    劇本頂替），語意等價（固定劇本＋固定種子＋長程 tick），M2 mini 就緒後亦不需回頭改動本檔（golden
+    另案改用 mini/s1560，§3.5.1 已界定）。②**DT2 之「徵兵／出陣 Command」選用 `setConscriptPolicy`／
+    `march`，兩者於 M1 尚未登錄 handler（分屬 M3／M4）**：依 `command.rejected`（`notImplemented`）
+    既有骨架（§8-D14；`tests/core/commands.spec.ts` 已示範同一手法）完整走過 Step 1 驗證／結算
+    （消費 seq、`lastAppliedCmdSeq` 前進、發出 `command.rejected`→落地 Report），足以驗證「指令投遞
+    時點與內容影響狀態演化路徑」之決定論本質；待 M3/M4 該二 handler 落地後無需改動本檔（相同
+    Command 序列，只是不再被拒絕）。③**DT3 掃描前先去除 `//`／`/* */` 註解**：§3.5.2 原文「出現即
+    失敗」若逐字採「原始碼全文（含註解）字面比對」，會誤判 `src/core/rng.ts`／`systems/index.ts`
+    檔頭以中文註解**說明**「core 禁止 Math.random/Date.now」等既有合法文件字面（M1-4／M1-7 程式碼，
+    非違規）；DT3 立意是攔「實際呼叫」，故本檔掃描前以空白覆蓋註解內容（保留換行、行號不漂移），
+    語意對齊 18 §3.4 M1-21 驗收標準原文「植入 `Math.random()` 時 DT3 紅燈」（即真呼叫，非提及其名）。
+    ④**DT3 三層防線**：主防線＝正規表達式靜態掃描 `src/core/**`（§3.5.2 原文）；補強保險 1＝斷言
+    `eslint.config.js`（01 §3.7.3 canonical 內容）對 `src/core/**/*.ts` 仍登記 `no-restricted-properties`
+    (Math.random／Date.now) 與 `no-restricted-syntax`(new Date) 三項規則（防未來調整設定檔悄悄拿掉
+    此道防線）；補強保險 2＝`vi.spyOn(Math, 'random')` 實跑一段模擬斷言零呼叫（防迂迴寫法規避①之
+    逐行正規表達式）。**`performance.now` 現況不在 01 §3.7.3 的 `no-restricted-globals`／
+    `no-restricted-properties` 清單內**（該清單本就只列 8 個 DOM/BOM 全域＋2 個屬性限制）——此為
+    01 既有定案範圍，非本次任務之缺陷，不擅自回頭修改 `eslint.config.js`（產出物歸 01-A3、M0 已
+    gate 通過）；`performance.now` 之防線僅倚賴①regex 掃描＋②執行期 spy 兩層，非三層。
+    實作：`tests/determinism.spec.ts`。
