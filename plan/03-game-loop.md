@@ -386,6 +386,7 @@ canonical 完整事件型別清單見 02 §4.19 總表（E-30）；本文件 §4
 | `economy.upkeepUnpaid` / `economy.foodShortage` | warning | — | |
 | `economy.granaryOverflow` | warning | — | 米藏溢出兵糧散失（05；六輪裁決 1） |
 | `policy.autoRevoked` | warning | — | 政策維持費不足自動廢止（05；六輪裁決 1） |
+| `transport.looted` | 被劫方視角 warning；劫方視角 info | — | 輸送隊被劫消滅（05；被劫方／劫方雙視角由 13 §3.7 分流；六輪裁決追記） |
 | `uprising.started` | 我方領內 warning；他勢力 info | — | |
 | `uprising.ended` | 我方領內 warning；他勢力 info | — | 一揆結束（`suppressed`／`subsided`；05；比照 `uprising.started`；六輪裁決 1） |
 | `pact.expired` / `pact.broken` | 涉我方 warning；否則 info | — | |
@@ -413,6 +414,11 @@ canonical 完整事件型別清單見 02 §4.19 總表（E-30）；本文件 §4
 > actor（發起／得利方）warning、target（被害方）critical——遭圖謀/城陷落對受害一方衝擊顯著較高。
 > `shogunate.patronLost` 依 02 明文「僅當事勢力可見」單列 warning，非當事勢力之顯示由 13 render 層
 > （非本表）過濾為 null，與本表分級（決定是否入庫）為不同關注點。
+
+> **六輪裁決追記分級說明**：`transport.looted` 依 13 §3.7 既有雙視角報告 key（`report.transport.looted`／
+> `report.transport.lootGain`）比照 `plot.exposed` 之角色分流慣例，不用「涉我方/否則」而按受劫角色分流：
+> 被劫方（財貨損失方）warning、劫方（得利方）info——劫方一側純屬戰果播報，對劫方衝擊性遠低於被劫方之
+> 損失警示，故不比照 `plot.exposed` target 拉高至 critical，直接依角色損益方向給予較低之 info。
 
 同一 tick 多個自動暫停原因會合併去重後放入 `TickResult.autoPauseReasons`（陣列，依上表列序排序）。
 
@@ -814,6 +820,10 @@ type GameEventType =
   | 'economy.income' | 'economy.upkeepUnpaid' | 'economy.foodShortage' | 'economy.harvest' | 'economy.granaryOverflow'
   // 政策（依 02 §4.19：policy.autoRevoked；六輪裁決 1 收錄自 05 直發 report；發出者 05）
   | 'policy.autoRevoked'
+  // 輸送（依 02 §4.19：transport.looted；六輪裁決追記收錄——13 既有雙視角報告 key
+  //   〔report.transport.looted／report.transport.lootGain〕反查無 canonical 事件而補收；發出者 05；
+  //   transport.arrived 未收錄本子集鏡射）
+  | 'transport.looted'
   // 軍事（依 02 §4.19：army.departed／army.arrived／army.blocked／district.subjugated／battle.*／siege.*／awe.triggered）
   | 'army.departed' | 'army.arrived' | 'army.blocked' | 'district.subjugated'
   | 'battle.kassenAvailable' | 'battle.started' | 'battle.ended' | 'awe.triggered'
@@ -849,6 +859,8 @@ type GameEventType =
 // 同步補入本 union）：economy.granaryOverflow／policy.autoRevoked／uprising.ended（05 直發 report 改發事件）、
 // diplo.workStopped（原 dip.workStopped）／court.mediationResult／shogunate.nominated／patronLost／collapsed／
 // plot.exposed／plot.betrayalActivated（08 擴充事件，02 尚未收錄→已收錄 02 §4.19 canonical）。
+// 六輪裁決追記（同日收尾）新收 1 事件：transport.looted（05 §3.6 輸送隊被劫消滅，13 既有雙視角報告 key
+// 反查無 canonical 事件、02 §4.19 補收；同步補入本 union，§3.4.2 分級表列被劫方 warning／劫方 info）。
 // save.autosaveFailed 不收錄本 union（app 層 I/O 失敗、非 core GameEvent，六輪裁決 4，詳見 §3.4.1）。
 // 擴充規則：新增事件必須同步登錄 02 §4.19、§3.4.2 分級表與 13 的 i18n 對照。
 
@@ -1275,3 +1287,15 @@ trimReports(reports):
   grep 自查：六輪裁決 1 新收 10 事件全數存在於本文件 §4.3 union；union 相對 02 §4.19 canonical 無多餘
   成員（僅 03 專有 `command.rejected` 例外，符合既有「本 union 為 03 步驟發出／消費之子集」定位，
   非六輪裁決要求之全量鏡射）。依據：02 §8「2026-07-11 六輪裁決」1／2／4，13 §3.7(5)。
+- **2026-07-11　六輪裁決追記連動（`transport.looted` 補收；依 02 §8「2026-07-11 六輪裁決」末尾追記）**：
+  02 §8 追記（同日收尾）補收 05 §3.6 輸送隊被劫消滅之 canonical 事件 `transport.looted`（13 既有雙視角
+  報告 key `report.transport.looted`／`report.transport.lootGain` 反查、原無對應事件）入 §4.19。本輪同步：
+  (1) **§3.4.2 分級表**：於 `policy.autoRevoked` 與 `uprising.started` 之間補列 `transport.looted`，比照
+  `plot.exposed` 角色分流慣例定為「被劫方視角 warning；劫方視角 info」（不用「涉我方/否則」二分，因兩造
+  皆非中性第三方而是加害/受害對偶角色；劫方純屬戰果播報、衝擊性遠低於被劫方之財貨損失警示，故不比照
+  `plot.exposed` target 拉高至 critical），並於既有分級說明 blockquote 後新增一段折算依據。(2) **§4.3
+  union**：於「政策」與「軍事」段落間新增「輸送」段落，補入 `transport.looted`（`transport.arrived` 循既有
+  子集鏡射定位不收錄）；union 尾註同步補一行追記摘要。grep 自查：`transport.looted` 已存在於本文件 §3.4.2
+  與 §4.3 兩處；union 相對 02 §4.19 canonical 仍無多餘成員（僅 `command.rejected` 例外，`debug*` 為
+  `CommandType` 成員、非本 `GameEventType` union 範疇，故不適用）；六輪裁決 1 之 10 事件與本次追記之
+  `transport.looted` 共 11 事件於 union 中零缺。依據：02 §8「2026-07-11 六輪裁決」追記，13 §3.7。

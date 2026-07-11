@@ -329,7 +329,10 @@ BAL.soldiersPerPop = 0.025
   - 兵糧：敵部隊獲得 `min(輸送糧, 部隊攜行餘裕)`（攜行上限見 07），其餘散失。
   - 金錢：全額歸敵方勢力金庫。
   - 兵力：隨輸送隊消滅而潰散，不併入敵方（押運兵非戰鬥編成）。
-  - 輸送隊消滅，雙方各發報告（`report.transport.looted` / `report.transport.lootGain`）。
+  - 輸送隊消滅，發事件 `transport.looted{fromCastleId, toCastleId, byClanId, nodeId, soldiers, gold, food}`
+    （`fromCastleId`／`toCastleId`＝該輸送隊起訖城，`byClanId`＝敵方 `Army.clanId`，`nodeId`＝所在節點，
+    `soldiers`／`gold`／`food`＝被劫前之押運量；02 §4.19；六輪裁決追記）；被劫方／劫方雙視角報告由 13 §3.7
+    依 `playerClanId` 分流（`report.transport.looted`／`report.transport.lootGain`）。
 - 一揆中的郡節點視同存在敵對單位（一揆軍駐於郡節點，§3.8.3）。
 - 抵達：兵糧入 B 城（受容量限制，溢出部分發事件 `economy.granaryOverflow{clanId, castleId, food}`，`food`＝散失石數；報告字串見 13 §6.11 `report.economy.granaryOverflow`；02 §4.19；六輪裁決 1）；兵力併入 B 城（受 B 城 `maxSoldiers` 限制，超額散失並報告）；金錢回勢力金庫（即：金錢輸送若安全抵達則無淨變化，僅通過風險區時有損失可能）。
 - 玩家可隨時撤回未抵達的輸送隊（`CmdRecallTransport`）：就地折返，規則同上。
@@ -400,7 +403,8 @@ BAL.soldiersPerPop = 0.025
 #### 3.8.3 一揆效果
 
 爆發時：
-- 郡進入 `uprising` 狀態，記錄開始月份；發 `report.uprising.started`（自動暫停事件之一，00 §5.2 的通知管線）。
+- 郡進入 `uprising` 狀態，記錄開始月份；發事件 `uprising.started`（payload `districtId, severity` 見 02 §4.19；
+  自動暫停事件之一，00 §5.2 的通知管線；報告由 13 §3.7 導出，13 §6.11 `report.uprising.started`）。
 - 於郡節點生成**一揆軍**：兵力 = `floor(population × BAL.uprisingArmyRate(=0.05))`，
   無武將、能力採固定值（統率 40／武勇 50，解算參數見 07），對所有勢力敵對、不移動、不攻城。
 
@@ -644,7 +648,7 @@ economyDaily(state):
     if c.buildQueue.length > 0:
       c.buildQueue[0].daysLeft −= 1
       if daysLeft === 0:
-        完工：facilities.push(facilityTypeId)；驗證前置（§3.4.1），發 report.build.done
+        完工：facilities.push(facilityTypeId)；驗證前置（§3.4.1），發事件 facility.completed{castleId, facilityTypeId}（報告由 13 §3.7 導出，13 §6.11 report.build.done）
         佇列前移；若下一件的 slot/前置已不滿足 → 自動取消並退款 50%，發報告
 
   # (c) 輸送隊推進與被劫（每日）→ §5.4
@@ -687,11 +691,12 @@ transportDaily(state):
     t.edgeProgressDays += 1
     node = 當前所在節點（未抵達前仍為 path[t.pathCursor]）
     if node 上存在對 t.clanId 敵對的 Army 或一揆軍:
-      被劫結算（§3.6）；移除 t；continue
+      被劫結算並發事件 transport.looted{fromCastleId, toCastleId, byClanId, nodeId, soldiers, gold, food}（§3.6）；移除 t；continue
     if t.edgeProgressDays >= t.edgeCostDays:
       t.pathCursor += (t.returning ? -1 : 1)；t.edgeProgressDays = 0；t.edgeCostDays = 0    # 進入下一邊，重算邊日數（餘量結轉略，同 04 §3.7）
       if t.pathCursor 抵達終點（或折返抵達起點）:
-        food 入城（容量截斷）；soldiers 併入 B 城（maxSoldiers 截斷）；gold 回勢力金庫；移除 t；發 report.transport.arrived
+        food 入城（容量截斷）；soldiers 併入 B 城（maxSoldiers 截斷）；gold 回勢力金庫；移除 t；
+        發事件 transport.arrived{fromCastleId, toCastleId, soldiers, gold, food}（報告由 13 §3.7 導出，13 §6.11 report.transport.arrived）
 ```
 
 ### 5.5 米買賣（`tradeRice`，Command 佇列次 tick 開頭結算）
@@ -982,11 +987,29 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
   （`clanIds`＝郡所屬勢力；鎮壓＝`resolved:'suppressed'`、自然平息＝`resolved:'subsided'`；我方鎮壓失敗、一揆未結束者不發此事件）；
   報告字串分流 13 §6.11 `report.uprising.suppressed`／`report.uprising.subsided`。改動 §3.8.3。依據：02 §4.19、02 §8 六輪裁決 1（05 下游清單 (c)）。
 
-**範圍界定（存查）**：`report.uprising.started`（§3.8.3）、`report.build.done`（§5.2）、`report.transport.arrived`（§5.4）、
-`report.transport.looted`／`report.transport.lootGain`（§3.6）等「發 report.*」敘述非本輪裁決範圍——前三者對應之 canonical 事件
-（`uprising.started`／`facility.completed`／`transport.arrived`）已先於六輪裁決既存於 02 §4.19，其文字尚未同步純屬既有落差；
-後二者（劫掠雙報告）尚無 02 收錄之 canonical 事件名（13 §6.11 事件欄仍為「—」）。兩類皆非 02 §8 六輪裁決 1 之 05 下游清單所列項目，
-故不在本輪改動之列，留待對應之未來裁決／勘誤輪次處理，以維持本輪變更範圍與 02 裁決記錄一致。
+**範圍界定（存查，已於 §8.5 同步處理，不再是未決範圍）**：`report.uprising.started`（§3.8.3）、`report.build.done`（§5.2）、
+`report.transport.arrived`（§5.4）、`report.transport.looted`／`report.transport.lootGain`（§3.6）等「發 report.*」敘述原非本輪
+（六輪裁決 1）裁決範圍——前三者對應之 canonical 事件（`uprising.started`／`facility.completed`／`transport.arrived`）已先於
+六輪裁決既存於 02 §4.19，其文字尚未同步純屬既有落差；後二者（劫掠雙報告）當時尚無 02 收錄之 canonical 事件名（13 §6.11
+事件欄仍為「—」）。兩類雖皆非 02 §8 六輪裁決 1 之 05 下游清單所列項目，但隨 02 §8 六輪裁決同日追記補收
+`transport.looted`（見下）與本檔覆核，兩類落差已一併收斂，詳見 §8.5。
+
+### 8.5 六輪裁決追記與範圍界定殘留同步（2026-07-11）
+
+依 02 §8「2026-07-11 六輪裁決」末尾「追記（同日收尾）」與 §8.4 範圍界定存查項，補齊以下兩類殘留：
+
+- **輸送隊被劫收錄 canonical 事件（`transport.looted`）**：02 §4.19 追記已補收
+  `transport.looted{fromCastleId, toCastleId, byClanId, nodeId, soldiers, gold, food}`（發出者 05；被劫方／劫方雙視角由 13 §3.7
+  依 `playerClanId` 分流）。本檔同步：(a) §3.6 被劫判定末項「輸送隊消滅，雙方各發報告」改為「發事件 `transport.looted{...}`」
+  （payload 逐欄對應：`fromCastleId`／`toCastleId`＝該輸送隊起訖城、`byClanId`＝敵方 `Army.clanId`、`nodeId`＝所在節點、
+  `soldiers`／`gold`／`food`＝被劫前之押運量）；(b) §5.4 偽碼「被劫結算（§3.6）」處同步標注發此事件。
+  改動 §3.6、§5.4。依據：02 §4.19（六輪裁決追記）。
+- **§8.4 範圍界定「既有落差」三處收斂**：`uprising.started`（§3.8.3）／`facility.completed`（§5.2）／`transport.arrived`（§5.4）
+  三者之 canonical 事件早於六輪裁決既存於 02 §4.19，惟本檔正文原仍寫「發 `report.*`」，與五輪 A 定案（core 不得直接發
+  `report.*` key、報告一律由 13 §3.7 `renderReport` 於渲染時導出）不一致。三處均改為「發事件 X（報告由 13 導出）」表述：
+  §3.8.3 一揆爆發改「發事件 `uprising.started`（payload `districtId, severity` 見 02 §4.19）」；§5.2 建造佇列完工改
+  「發事件 `facility.completed{castleId, facilityTypeId}`」；§5.4 輸送抵達改「發事件 `transport.arrived{fromCastleId,
+  toCastleId, soldiers, gold, food}`」。改動 §3.8.3、§5.2、§5.4。依據：02 §8 六輪裁決（五輪 A 定案延伸適用）、02 §4.19。
 
 ---
 
