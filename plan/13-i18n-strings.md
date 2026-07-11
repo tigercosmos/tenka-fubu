@@ -32,7 +32,7 @@
 | 文件 | 關係 |
 |---|---|
 | `plan/00-foundations.md` | §8 ID 規範、§9 i18n 規範為最高準則；本文件為其細則 |
-| `plan/02-data-model.md` | `ReportEntry.messageKey/params`、`GameEventType`、ID 品牌型別由 02 定義 |
+| `plan/02-data-model.md` | `Report{ id, day, event, read }`（§4.17，只存原始 event）、`GameEvent` payload（§4.19）、ID 品牌型別由 02 定義；顯示 key/params 之導出契約歸本文件 §3.7（五輪裁決 A） |
 | `plan/03-game-loop.md` | `command.rejected` 之 `reasonKey`、報告嚴重度、`cmd.reject.*` 種子表源於 03 |
 | `plan/05-domestic.md`～`plan/10-events-and-victory.md` | 各 §6 字串表為來源草案；機制語意以各文件為準 |
 | `plan/11-ui-screens.md`、`plan/12-ui-components.md` | 畫面與元件字串來源草案；「key 與文案由 13 定案」為兩文件明文 |
@@ -56,8 +56,9 @@ src/i18n/
 
 - 00 §3 的目錄樹僅列 `zh-TW.ts`；`index.ts` 與 `format.ts` 為本文件新增的同資料夾檔案
   （理由見 §8 D1）。
-- `src/i18n/` 屬 UI 層資源：**core 不得 import `src/i18n/`**。core 只產出
-  `messageKey` 與 `params` 字串資料（02 §4.3 `ReportEntry`），翻譯與格式化一律在 UI 層執行。
+- `src/i18n/` 屬 UI 層資源：**core 不得 import `src/i18n/`**。core 只存原始 `event`
+  （02 §4.17 `Report{ id, day, event, read }`）；報告顯示 `messageKey`／`params` 之導出
+  （含 enrichment 與玩家視角分流）、翻譯與格式化一律在 UI 層 `renderReport` 執行（§3.7、五輪裁決 A）。
 - `zh-TW.ts` 採**扁平 key、點號分段**的單一物件字面值，依 §6 的小節順序以註解分段：
 
 ```ts
@@ -97,8 +98,9 @@ export function getMissingKeys(): readonly string[];
 
 插值規則（canonical）：
 
-1. 插值符為 `{name}` 大括號具名參數（00 §9）；參數名 `[a-zA-Z][a-zA-Z0-9]*`，
-   與 GameEvent payload 的 key 一一對應（03 §4.3）。
+1. 插值符為 `{name}` 大括號具名參數（00 §9）；參數名 `[a-zA-Z][a-zA-Z0-9]*`。
+   報告模板（`report.*`）之參數名為 §3.7 enrichment 導出之**顯示參數名**（如 `leader`／
+   `place`／`castle`），**非 payload key 原樣**（五輪裁決 A/B）；其餘 UI 字串之參數名由呼叫端自定。
 2. **number 型參數自動經 `formatNumber()` 千分位化**後插入；string 型參數原樣插入。
    曆法值（年、月、日）**禁止以 number 參數傳入**（會被千分位成 `1,560`）——
    一律先以 `formatDate()` / `formatYearMonth()` 格式化成 string 再傳（§8 D6）。
@@ -134,7 +136,7 @@ t(key, params):
 |---|---|---|---|
 | `ui.` | 畫面與元件的靜態標籤、標題、按鈕、提示、aria 文字 | `ui.<畫面或元件>.<語意>` | `ui.castle.durability` |
 | `cmd.` | Command 動詞、確認文案；`cmd.reject.*` 為驗證失敗訊息（03） | `cmd.<系統>.<動詞>` | `cmd.march.confirm` |
-| `report.` | `ReportEntry.messageKey` 報告模板（§3.7、§6.11） | `report.<領域>.<事件>` | `report.siege.fallen` |
+| `report.` | 報告模板（由 UI 層 `renderReport` 導出，§3.7；主表 §6.11） | `report.<領域>.<事件>` | `report.siege.fallen` |
 | `term.` | 系統性遊戲名詞（身分、官位、協定、季節、單位…），與 19-glossary 逐字一致 | `term.<類別>.<項目>` | `term.rank.karo` |
 | `evt.` | 事件引擎的外框與後備字串（事件內容屬資料，見 §3.6） | `evt.<語意>` | `evt.fallback.title` |
 | `trait.` | 特性說明文（名稱屬 `TRAITS` 靜態表，06；見 §3.6） | `trait.<slug>.desc` | `trait.gunshin.desc` |
@@ -165,7 +167,7 @@ UI 依 enum 值組 key 的固定模式（全部列舉；實作時以樣板字串
 | `conscriptPolicy`（05） | `term.conscript.<value>` | `term.conscript.high` |
 | `FacilityId`（05，去 `fac.` 前綴） | `term.facility.<slug>` | `term.facility.ichi` |
 | 季節（02 `season()`） | `term.season.<value>` | `term.season.spring` |
-| `Army.status`（07） | `ui.army.status.<value>` | `ui.army.status.marching` |
+| `ArmyStatus`（02 §3.3 七值；狀態機語意見 07） | `ui.army.status.<value>` | `ui.army.status.marching` |
 | `ReportSeverity`（03） | `ui.notify.severity.<value>` | `ui.notify.severity.critical` |
 | `TacticDef.id` | `<id>.name` / `<id>.desc` | `tac.volley.desc` |
 | `PolicyDef.id` | `<id>.name` / `<id>.desc` | `pol.kenchi.desc` |
@@ -234,30 +236,86 @@ UI 依 enum 值組 key 的固定模式（全部列舉；實作時以樣板字串
 - 17 的驗證腳本以 19 的對照表對 `zh-TW.ts` 做「同義異字」抽查（例：出現「聲望」即失敗，
   應為「威信」；出現「城堡」即失敗，應為「城」）。
 
-### 3.7 GameEvent → 報告 messageKey 映射
+### 3.7 GameEvent → 報告渲染契約（UI 層 enrichment）
 
-03 §3.4 步驟 13 的 `makeReportEntry` 於 **core** 內執行（純字串組裝，不呼叫 t()），
-其映射表以本節與 §6.11 為準，實作於 `src/core/systems/reports.ts`：
+報告顯示**不於 core 組裝**。core 只存原始 `event`（02 §4.17 `Report{ id, day, event, read }`、
+03 §3.4.3）；顯示用的 `messageKey` 與插值 `params`（含 ID→顯示名 **enrichment** 與玩家攻守
+視角分流）一律由 **UI 層 selector** `renderReport(report, state, playerClanId)` 於**渲染時**導出
+（五輪裁決 A）。實作於 UI 層（`src/ui/report/renderReport.ts`，引用 `src/i18n` 之 `t()`／
+`format*` 與 core selector 反查 state），**非 core**——`src/core` 不得 import `src/i18n`（§3.1）。
 
-- **預設規則**：`messageKey = 'report.' + event.type`；`params = event.payload`
-  （payload key 即插值參數名，03 §4.3）。
-- **變體規則**（依 payload 分流，全部列舉）：
+**(1) messageKey 導出**：
 
-| 事件型別（03） | 分流依據 | messageKey |
+- **權威登錄＝§6.11「事件型別」欄**：每個會產生報告的事件型別對應一個 `report.*` key（含歷史
+  沿用 key，如 `battle.started`→`report.field.begin`、`siege.started`→`report.siege.begin`、
+  `facility.completed`→`report.build.done`、`army.starving`→`report.army.noFood`）；
+  多數為 `report.<領域>.<事件>` 型態，不強制等於 `'report.' + event.type`（§8 D9）。
+- **變體規則**（同一事件依 payload 欄位或 `playerClanId` 分岔多 key／分視角）：見下方 (3) 表。
+
+**(2) params 導出（enrichment，取代舊「params = event.payload」）**：模板參數名**不再等於 payload
+key**，而是由 payload 之**持久實體 ID** 經下表導出為顯示字串（五輪裁決 A/B）；number 型 payload
+（`gold`／`food`／`soldiers`／`age` 等）原樣作為 number 參數傳入（`t()` 自動千分位，§3.2）。
+
+| payload 欄位 | 顯示參數 | enrichment（render 時反查 state） |
 |---|---|---|
-| `awe.triggered` | `payload.level`（small/medium/large） | `report.battle.awe.<level>` |
-| `officer.died` | `payload.cause`（natural/battle） | `report.officer.death`／`report.officer.killedInAction` |
-| `plot.succeeded` | `payload.kind`（`PlotKind`：poach/rumor/betrayal） | `report.plot.poachSuccess`／`report.plot.rumorSuccess`／`report.plot.betrayalReady` |
-| `command.rejected` | `payload.reasonKey`（已是 i18n key） | 直接採 `reasonKey`（`cmd.reject.*` 或 `report.march.failed.*`） |
-| `event.fired` | — | `report.event.fired`（`{title}` 帶事件標題資料） |
-| `battle.ended` | `payload.winnerClanId` 與玩家勢力關係分流：＝我方→won；＝敵方→lost；`null`（僅野戰可能，平手撤離）→沿用通用戰報 | `report.battle.won`／`report.battle.lost`／`report.field.resolved`（二輪裁決 C） |
-| `siege.ended` | `payload.fallen`（true/false） | `report.siege.fallen`／`report.siege.repelled`（二輪裁決 C） |
+| `armyId` | `leader`／`army` | `leader` = 部隊大將 `Officer.name`（`armyId`→`Army.leaderId`→name）；`army` = 「{大將}隊」 |
+| `castleId`／`originCastleId`／`toCastleId`／`targetCastleId` | `castle` | `Castle.name` |
+| `nodeId` | `place` | `MapNode.name`（節點→所在地名） |
+| `districtId` | `district` | `District.name` |
+| 任一 `*ClanId`（`clanId`／`from`・`toClanId`／`a`・`bClanId`／`winner`・`attacker`・`defenderClanId`／`actor`・`targetClanId`／`by`・`against`・`newOwnerClanId` …） | `clan`／`clanName`／`a`／`b`／`attacker`／`defender`／`winner`／`loser`／`enemy` 等具名 | `Clan.name` |
+| `officerId`／`targetOfficerId` | `name`／`officer`／`target`／`oldLeader`／`newLeader` 等具名 | `Officer.name`；`age` = 當年 − `Officer.birthYear`（02 §5.6 曆法） |
+| `proposalId` | `proposal` | `DiplomacyProposal.kind`（`DiplomacyActionKind`）→ `cmd.diplomacy.<kind>` 標籤（§6.7，六值皆備） |
+| `taimeiId` | `name` | `TaimeiDef.name`（劇本/型錄專有名，不進 i18n；§3.6） |
+| `policyId` | `name` | `PolicyDef.nameKey`→`pol.<slug>.name` |
+| `facilityTypeId` | `facility` | `term.facility.<slug>`（§3.4.2） |
+| `title`（`ShogunateTitle`）／`newCourtRank`（`CourtRank`）／`newRank`（`Rank`） | `title`／`rank` | `term.stitle.<value>`／`term.crank.<value>`／`term.rank.<value>`（§3.4.2） |
+| `kind`（`PlotKind`／`DiplomacyActionKind`／`PactKind`） | `plot`／`proposal`／`pact` | `term.plot.<kind>`／`cmd.diplomacy.<kind>` 標籤（§6.7）／`term.pact.<kind>`（§3.4.2） |
 
-- **不產生報告的事件**（回傳 null，僅供 UI 當 tick 消費）：`time.monthStart`、
-  `time.seasonStart`（有 app 層消費者但不產生玩家報告，16 §5.3；二輪裁決 C）、
-  `game.victory`、`game.defeat`（後兩者直接切結局畫面，10 §6.4）。
-- 系統文件另定義的非 03 清單報告 key（輸送、褒賞、朝廷、幕府、大命等）沿用其事件
-  擴充（03 §4.3 擴充規則），全部收錄於 §6.11。
+**(3) 玩家視角與 payload 變體表**（全部列舉）：
+
+| 事件型別 | 分流依據 | messageKey | 顯示參數（enrichment 來源） |
+|---|---|---|---|
+| `awe.triggered` | `payload.level`（small/medium/large） | `report.battle.awe.<level>` | large：`clan`←`clanId` |
+| `officer.died` | `payload.cause`（**age/battle**，五輪裁決 C） | `report.officer.death`／`report.officer.killedInAction` | death：`name`←`officerId`, `age`←`officerId`(birthYear)；killedInAction：`name`←`officerId`, `place`←`nodeId`（僅 `cause='battle'` 非 null） |
+| `officer.recruited` | `payload.source`（ronin/captive/poach） | `report.officer.recruited`／`report.captive.recruited`／**null** | ronin/captive：`name`←`officerId`；**poach→null**（該次登用已由 `plot.succeeded(poach)`→`report.plot.poachSuccess` 報告，避免重複列） |
+| `plot.succeeded` | `payload.kind`＋依 `playerClanId` 分視角 | poach：`actorClanId`=玩家→`report.plot.poachSuccess`／`targetClanId`=玩家→`report.officer.poached`；rumor：`actorClanId`=玩家→`report.plot.rumorSuccess`／否則→**null**（covert 未敗露、不洩漏給被害方）；betrayal：`actorClanId`=玩家→`report.plot.betrayalReady`／否則→**null** | poachSuccess：`officer`←`targetOfficerId`, `clan`←`targetClanId`；poached：`name`←`targetOfficerId`, `clan`←`actorClanId`；rumorSuccess：`target`←`targetOfficerId`(武將模式)∨`targetCastleId`(城模式)；betrayalReady：`castle`←`targetCastleId` |
+| `plot.failed` | `actorClanId`=玩家→`report.plot.failed`／否則→**null**（covert；敗露另由 `plot.exposed*` 承載） | `report.plot.failed` | `clan`←`targetClanId`, `plot`←`kind` |
+| `command.rejected` | `payload.reasonKey`（已是 i18n key） | 直接採 `reasonKey`（`cmd.reject.*` 或 `report.march.failed.*`） | 參數隨 `reasonKey` 之模板（03；此為 non-canonical、03 專有事件） |
+| `event.fired` | — | `report.event.fired` | `title`←事件標題資料（10 專有名，不進 i18n） |
+| `battle.ended` | `payload.winnerClanId` 與 `playerClanId`：`winnerClanId=playerClanId`→**won**；`playerClanId∈{attackerClanId,defenderClanId}` 且非勝方→**lost**；`playerClanId` 非雙方（第三方）或 `winnerClanId=null`（平手撤離）→**resolved** | `report.battle.won`／`report.battle.lost`／`report.field.resolved`（二輪／五輪裁決） | won/lost：`winner`←`winnerClanId`, `loser`←(`winnerClanId=attackerClanId ? defenderClanId : attackerClanId`), `place`←`nodeId`；resolved：`place`←`nodeId`（中性、不列 winner，`null` 平手亦適用） |
+| `district.subjugated` | `fromClanId`/`toClanId` 與 `playerClanId`：`toClanId=playerClanId`（我方制壓）→**subjugated**；`fromClanId=playerClanId`（我方失郡）→**districtLost**；皆非（他勢力間，依 §3.4.3 relevance 一般不入報告匣） | `report.army.subjugated`／`report.army.districtLost` | subjugated：`leader`←`armyId`, `district`←`districtId`；districtLost：`district`←`districtId`, `clan`←`toClanId` |
+| `siege.ended` | `payload.fallen`（true/false） | `report.siege.fallen`／`report.siege.repelled`（二輪裁決 C） | `castle`←`castleId` |
+| `diplo.refused` | — | `report.diplomacy.proposalRejected` | `clan`←`toClanId`, `proposal`←`kind`（`DiplomacyActionKind`→`cmd.diplomacy.<kind>` 標籤，§6.7） |
+
+**(4) enrichment timing（transient 實體）**：
+
+- **持久實體**（`Clan`／`Castle`／`MapNode`／`District`／`Officer`／`Policy`／`Taimei`）於 render
+  時由 state 反查恆可解析（死亡武將 `status='dead'` 仍留於 state、滅亡勢力名亦留存）。
+- **transient 實體**（`armyId`＝部隊、`battleId`／`sourceBattleId`＝已結束之 `FieldCombat`／
+  `BattleState`）於事件當 tick 仍存活、但 render（尤其事後於報告中心重看）時可能已移除。
+  **定案（擇 13 體例，五輪裁決 A/B）**：core 只存原始 event、**不於 03 Step 13 預解析名字入
+  `Report`**；故 `renderReport` 於 render 時反查 state，**該 transient 已不在 state 時以 fallback
+  顯示**——`{leader}`／`{army}` 退為通用語「我軍」（或以事件 `clanId` 之 `Clan.name`＋「軍」），
+  `battle.kassenAvailable` 之 `{place}`（僅 `battleId`）於戰鬥已結束時退為通用「戰場」。**顯示所需
+  之持久 ID 已由 02 §4.19 五輪裁決 B 直接落地於 payload**（`battle.ended`／`officer.died` 之
+  `nodeId`、`district.subjugated` 之 `armyId`、`plot.*` 之 `targetCastleId`、以及各 `*ClanId`），
+  使 place/clan/castle 顯示不依賴 transient 反查、恆可解析。
+
+**(5) 不產生報告的事件**（`renderReport` 回傳 null；僅供 UI 當 tick 動畫／自動暫停消費。
+備忘錄交 03 §3.4.3：本清單事件即使 `isPlayerRelevant` 為真亦不 push 為 `Report`，避免存入無法顯示之死列）：
+
+- `time.monthStart`、`time.seasonStart`（app 層季首自動存檔消費，16 §5.3；二輪裁決 C）、
+  `game.victory`、`game.defeat`（直接切結局畫面，10 §6.4）。
+- `policy.enacted`／`policy.revoked`（**五輪裁決新增排除**）：施行／廢止為玩家主動操作之即時結果，
+  UI 當下已回饋；金錢不足之被動廢止另有 `report.policy.autoRevoked`（他勢力政策非玩家相關）。
+- `proposal.resolved`（**新增排除**）：具申裁決為玩家即時操作、結果即時反映於狀態；待裁決之提示
+  已由 `proposal.submitted`（`report.proposal.submitted`）承載。
+- `conscript.completed`（**新增排除**）：徵兵為玩家設定之持續方針、每月於多城觸發，逐一報告會
+  灌爆報告匣（比照 03 §3.4.3「避免報告匣被灌爆」）；入營兵數於城面板即時可見。
+- `army.returned`（**五輪裁決新增報告**，非排除）：歸還入城解散對玩家價值高（得知部隊凱旋與返還
+  兵力），產生 `report.army.returned`（見 §6.11）。
+- 系統文件另定義的非 03 清單報告 key（輸送、褒賞、朝廷、幕府、大命等）沿用其事件擴充
+  （03 §4.3 擴充規則），全部收錄於 §6.11。
 
 ### 3.8 數字與日期格式（規格總覽；演算法見 §5.3）
 
@@ -309,10 +367,18 @@ export function formatQuantity(n: number, unitKey: StringKey): string; // '3,000
 /** 感情數值（-100..100，08 §3.3）→ 顯示分檔 term key（§5.4；純呈現，不進 BAL） */
 export function sentimentTermKey(sentiment: number): StringKey;
 
-// ── src/core/systems/reports.ts（core 側；依 §3.7 表實作） ─────────
-/** 事件 → 報告訊息。回傳 null 表示該事件不產生 ReportEntry（§3.7 排除清單）。 */
-export function messageKeyForEvent(
-  e: GameEvent  // 02 §4.3
+// ── src/ui/report/renderReport.ts（UI 層 selector；依 §3.7 契約實作，五輪裁決 A） ─────
+/** 報告 → 顯示字串。於渲染時導出 messageKey＋enrichment params 並呼叫 t()；
+ *  回傳 null 表示該事件不產生報告（§3.7(5) 排除清單）。needs GameState（反查 ID→顯示名）
+ *  與 playerClanId（攻守/勝敗視角分流）。core 不得 import 本檔（§3.1）。 */
+export function renderReport(
+  report: Report,          // 02 §4.17（只存原始 event）
+  state: GameState,        // 02（enrichment 反查來源）
+  playerClanId: ClanId     // 玩家視角分流（§3.7(3)）
+): string | null;
+/** 內部：事件 → { messageKey, params }（含變體與 enrichment）；供 §5.6 測試斷言。 */
+export function deriveReportMessage(
+  event: GameEvent, state: GameState, playerClanId: ClanId  // 02 §4.19／§4.17
 ): { messageKey: string; params: Record<string, string | number> } | null;
 ```
 
@@ -379,15 +445,27 @@ sentimentTermKey(s):                 // s ∈ [-100, 100]（08 §3.3）
 閾值（60／20／−20／−60）寫死於 `format.ts`（僅此一處），不進 `BAL`、不進 `UI`
 （12 §3.1.8 的 `UI.*` 為 12 擁有，本文件不擴充其表；§8 D2）。
 
-### 5.5 報告渲染（UI 層）
+### 5.5 報告渲染（UI 層 `renderReport`）
+
+依 §3.7 契約：core 只存原始 `event`（02 §4.17 `Report`），顯示 key/params 於渲染時導出
+（含 enrichment 與玩家視角分流，五輪裁決 A）。
 
 ```
-renderReport(entry: ReportEntry): string
-  return t(entry.messageKey, entry.params)   // number 參數自動千分位（§3.2）
-報告列顯示格式（報告中心、月初摘要共用）：
-  `${formatDate(entry.day)}　${renderReport(entry)}`
-toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內文列＝全文。
+renderReport(report, state, playerClanId):        // report: 02 §4.17；回傳 string | null
+  m = deriveReportMessage(report.event, state, playerClanId)   // §3.7(1)(2)(3)：messageKey＋enrichment params；排除事件回 null
+  if m === null: return null                       // §3.7(5) 不產生報告之事件
+  return t(m.messageKey, m.params)                 // number 參數自動千分位（§3.2）
+
+deriveReportMessage(event, state, playerClanId):
+  key = messageKey(event, playerClanId)            // §3.7(1) 權威＝§6.11 事件型別欄；(3) 變體/視角分流；排除事件回 null
+  if key === null: return null
+  params = enrich(event, state)                    // §3.7(2)：payload 持久 ID → 顯示名（transient 不在 state 時 fallback，§3.7(4)）
+  return { messageKey: key, params }
 ```
+
+- 報告列顯示格式（報告中心、月初摘要共用）：`${formatDate(report.day)}　${renderReport(report, state, playerClanId)}`
+  （回傳 null 之事件不入列表；僅供當 tick 動畫/自動暫停）。
+- toast 顯示：標題列＝渲染結果前 18 字（溢出加「…」）；內文列＝全文。
 
 ### 5.6 key 覆蓋與品質驗證（實作於 17 的測試套件）
 
@@ -396,8 +474,10 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 2. zhTW 全部 key 通過 §3.4.1 正規表達式（格式 fail）
 3. zhTW 全部值通過簡體字黑名單與日文新字體黑名單（17 定義字元集）
 4. §3.4.2 動態 key 模式逐一展開（enum 全值 × 模式）→ 斷言存在（例：六個 Rank 皆有 term.rank.*）
-5. §3.7 映射表：對每個會產生報告的 GameEventType 構造假事件 → messageKeyForEvent
-   → 斷言 key 存在且模板參數 ⊆ payload keys
+5. §3.7 契約：對每個會產生報告的 GameEventType 構造假事件＋最小 state → `deriveReportMessage`
+   → 斷言 messageKey 存在，且**模板參數名 ⊆ §3.7(2) enrichment 導出集**（非 payload keys；
+   五輪裁決 A/B）；玩家視角分流事件（`battle.ended`／`district.subjugated`）以 won/lost/resolved
+   ／subjugated/districtLost 各視角各構造一例；排除清單事件（§3.7(5)）斷言回傳 null
 ```
 
 ---
@@ -656,11 +736,12 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `ui.march.estDays` | 預估{days}日 |
 | `cmd.march.confirm` | 出陣 |
 | `ui.army.status.marching` | 行軍中 |
-| `ui.army.status.fighting` | 交戰中 |
+| `ui.army.status.engaged` | 交戰中 |
 | `ui.army.status.sieging` | 攻城中 |
-| `ui.army.status.routed` | 潰走中 |
+| `ui.army.status.subjugating` | 制壓中 |
 | `ui.army.status.returning` | 歸還中 |
-| `ui.army.status.resting` | 駐留中 |
+| `ui.army.status.routed` | 潰走中 |
+| `ui.army.status.holding` | 駐留中 |
 | `ui.army.changeTarget` | 變更目標 |
 | `ui.army.recall` | 撤返 |
 | `cmd.army.return` | 歸還 |
@@ -695,9 +776,9 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `ui.corps.title` | 軍團 |
 | `ui.corps.leader` | 軍團長 |
 | `ui.corps.castles` | 所轄城 |
-| `ui.corps.directive.conquer` | 攻略 |
-| `ui.corps.directive.defend` | 防衛 |
-| `ui.corps.directive.auto` | 自治 |
+| `ui.corps.directive.advance` | 攻略 |
+| `ui.corps.directive.hold` | 固守 |
+| `ui.corps.directive.develop` | 開發 |
 | `ui.corps.gold` | 軍團金庫 |
 | `ui.corps.remitted` | 上月上繳 {gold}貫 |
 | `cmd.corps.create` | 編成軍團 |
@@ -932,24 +1013,26 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 
 ### 6.11 報告模板主表（`report.*`；含插值參數表）
 
-「參數」欄列出模板必需的 payload key（03 §4.3：payload key＝插值參數名）。
-事件型別欄空白者＝各系統文件之擴充事件（§3.7 末段）。
+「參數」欄列出模板之**顯示參數名**，由 §3.7(2) enrichment 自事件 payload 之持久 ID 導出
+（**非 payload key 原樣**，五輪裁決 A/B）；number 參數（gold/food/soldiers/age…）原樣傳入。
+「事件型別」欄＝該報告 key 之權威來源事件（02 §4.19 canonical）；`(…)` 標記 payload 分岔或
+玩家視角（§3.7(3)）。事件型別欄空白（—）者＝無直接事件、由他報告合併承載或 UI 專有。
 
-| key | 事件型別（03） | 參數 | 字串 |
+| key | 事件型別（02 §4.19） | 參數（§3.7(2) enrichment） | 字串 |
 |---|---|---|---|
 | `report.army.departed` | `army.departed` | leader, castle | {leader}隊自{castle}出陣。 |
 | `report.army.arrived` | `army.arrived` | leader, place | {leader}隊抵達{place}。 |
-| `report.army.subjugated` | `district.subjugated` | leader, district | {leader}隊制壓{district}。 |
-| `report.army.districtLost` | `district.subjugated` | district, clan | {district}遭{clan}制壓！ |
-| `report.army.noFood` | — | army | {army}兵糧耗盡，士氣潰散中！ |
+| `report.army.returned` | `army.returned` | leader, castle | {leader}隊歸還{castle}。 |
+| `report.army.subjugated` | `district.subjugated`(我方制壓) | leader, district | {leader}隊制壓{district}。 |
+| `report.army.districtLost` | `district.subjugated`(我方失郡) | district, clan | {district}遭{clan}制壓！ |
+| `report.army.noFood` | `army.starving` | army | {army}兵糧耗盡，士氣潰散中！ |
 | `report.army.blocked` | `army.blocked` | army, place | {army}行軍受阻，於{place}待命。 |
 | `report.field.begin` | `battle.started` | a, b, place | {a}與{b}於{place}交戰！ |
-| `report.field.resolved` | `battle.ended` | place, winner | {place}的戰鬥分出勝負，{winner}獲勝。 |
+| `report.field.resolved` | `battle.ended`(第三方/平手) | place | {place}的戰鬥告一段落。 |
 | `report.field.rout` | — | army | {army}潰走！ |
 | `report.battle.available` | `battle.kassenAvailable` | place | {place}可發動合戰！ |
-| `report.battle.started` | `battle.started` | place | {place}合戰開始！ |
-| `report.battle.won` | `battle.ended` | attacker, place, defender | {attacker}於{place}擊破{defender}！ |
-| `report.battle.lost` | `battle.ended` | attacker, place, defender | {attacker}於{place}敗於{defender}。 |
+| `report.battle.won` | `battle.ended`(勝方＝我方) | winner, place, loser | {winner}於{place}擊破{loser}！ |
+| `report.battle.lost` | `battle.ended`(敗方＝我方) | loser, place, winner | {loser}於{place}敗於{winner}。 |
 | `report.battle.awe.small` | `awe.triggered` | — | 威風（小）！鄰近敵郡望風歸順。 |
 | `report.battle.awe.medium` | `awe.triggered` | — | 威風（中）！敵方諸郡動搖歸順。 |
 | `report.battle.awe.large` | `awe.triggered` | clan | 威風（大）！{clan}威名震動天下！ |
@@ -967,27 +1050,27 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `report.economy.upkeepUnpaid` | `economy.upkeepUnpaid` | — | 金錢不足，本月俸祿未能全額發放，家臣心生不滿。 |
 | `report.save.autosaveFailed` | `save.autosaveFailed` | — | 自動存檔失敗，本場遊戲已暫停自動存檔。請盡快手動存檔或匯出備份。 |
 | `report.build.done` | `facility.completed` | castle, facility | {castle}的{facility}已落成。 |
-| `report.transport.arrived` | — | castle | 輸送隊已抵達{castle}。 |
+| `report.transport.arrived` | `transport.arrived` | castle | 輸送隊已抵達{castle}。 |
 | `report.transport.looted` | — | place, clan | 輸送隊於{place}遭{clan}劫掠！ |
 | `report.transport.lootGain` | — | place | 我軍於{place}劫獲敵方輸送隊。 |
 | `report.policy.autoRevoked` | — | name | 金錢不足，政策「{name}」已自動廢止。 |
 | `report.uprising.started` | `uprising.started` | district | {district}爆發一揆！ |
 | `report.uprising.suppressed` | — | district | {district}的一揆已被鎮壓。 |
 | `report.uprising.subsided` | — | district | {district}的一揆自然平息。 |
-| `report.officer.death` | `officer.died`(natural) | name, age | {name}病歿，享年{age}歲。 |
+| `report.officer.death` | `officer.died`(age) | name, age | {name}病歿，享年{age}歲。 |
 | `report.officer.killedInAction` | `officer.died`(battle) | name, place | {name}於{place}戰死。 |
 | `report.officer.defect` | `officer.defected` | name | {name}對待遇不滿，出奔而去！ |
-| `report.officer.poached` | — | name, clan | {name}被{clan}引拔，離開了我家！ |
+| `report.officer.poached` | `plot.succeeded`(poach，我方失士) | name, clan | {name}被{clan}引拔，離開了我家！ |
 | `report.officer.comingOfAge` | `officer.comingOfAge` | name, clan | {name}元服，加入{clan}。 |
 | `report.officer.loyaltyLow` | `officer.loyaltyLow` | name | {name}忠誠低落，恐有異心。 |
 | `report.officer.meritReady` | — | name, rank | {name}功績已足，可推舉為{rank}。 |
 | `report.officer.promoted` | `officer.promoted` | name, rank | {name}升格為{rank}。 |
-| `report.officer.recruited` | — | name | {name}仕官於我家。 |
+| `report.officer.recruited` | `officer.recruited`(ronin) | name | {name}仕官於我家。 |
 | `report.officer.recruitFailed` | — | name | {name}婉拒了登用。 |
 | `report.officer.captured` | `officer.captured` | name, clan | {name}被{clan}俘虜。 |
-| `report.captive.recruited` | — | name | {name}降伏，仕官於我家。 |
-| `report.captive.released` | — | name | 已釋放{name}，威信提升。 |
-| `report.captive.executed` | — | name | 已處斬{name}。家中隱有不安。 |
+| `report.captive.recruited` | `officer.recruited`(captive) | name | {name}降伏，仕官於我家。 |
+| `report.captive.released` | `officer.released` | name | 已釋放{name}，威信提升。 |
+| `report.captive.executed` | `officer.executed` | name | 已處斬{name}。家中隱有不安。 |
 | `report.clan.succession` | — | oldLeader, newLeader | {oldLeader}逝去，{newLeader}繼任家督。 |
 | `report.clan.destroyed` | `clan.destroyed` | clanName | {clanName}滅亡了 |
 | `report.proposal.submitted` | `proposal.submitted` | name | 收到{name}的具申。 |
@@ -998,17 +1081,17 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `report.diplomacy.pactBroken` | `pact.broken` | clan, pact | {clan}破棄了與我方的{pact}！ |
 | `report.diplomacy.envoyArrived` | `diplo.envoyArrived` | clan, proposal | {clan}遣使來訪：{proposal} |
 | `report.diplomacy.proposalAccepted` | — | clan, proposal | {clan}接受了我方的{proposal}。 |
-| `report.diplomacy.proposalRejected` | — | clan, proposal | {clan}拒絕了我方的{proposal}。 |
+| `report.diplomacy.proposalRejected` | `diplo.refused` | clan, proposal | {clan}拒絕了我方的{proposal}。 |
 | `report.diplomacy.workStopped` | — | target | 金錢不足，對{target}的外交工作已中止。 |
 | `report.diplomacy.reinforceAgreed` | `diplo.reinforceAgreed` | clan, enemy | {clan}同意派遣援軍，協力對抗{enemy}。 |
 | `report.court.rankGranted` | `court.rankGranted` | clan, rank | 朝廷敘任{clan}當主為{rank}。 |
 | `report.court.mediationSuccess` | — | clan, months | 朝廷斡旋成功，與{clan}停戰{months}月。 |
 | `report.court.mediationFailed` | — | clan | 朝廷斡旋失敗，{clan}官位在我方之上。 |
-| `report.shogunate.titleGranted` | — | clan, title | 幕府任命{clan}為{title}。 |
+| `report.shogunate.titleGranted` | `shogunate.titleGranted` | clan, title | 幕府任命{clan}為{title}。 |
 | `report.shogunate.nominated` | — | clan | {clan}上洛擁立將軍，威名遠播！ |
 | `report.shogunate.patronLost` | — | — | 我方失去京都，將軍庇護不再。 |
 | `report.shogunate.collapsed` | — | — | 室町幕府滅亡，諸役職效果盡失。 |
-| `report.plot.poachSuccess` | `plot.succeeded`(poach) | officer, target | {officer}引拔成功，{target}前來仕官！ |
+| `report.plot.poachSuccess` | `plot.succeeded`(poach) | officer, clan | {officer}自{clan}被引拔，前來仕官！ |
 | `report.plot.rumorSuccess` | `plot.succeeded`(rumor) | target | 流言奏效，{target}軍心動搖。 |
 | `report.plot.betrayalReady` | `plot.succeeded`(betrayal) | castle | 對{castle}的內應工作完成，攻城時可發動。 |
 | `report.plot.betrayalActivated` | — | castle | {castle}內應發動，城內士氣崩潰！ |
@@ -1016,8 +1099,8 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
 | `report.plot.exposed` | — | clan, plot | 我方對{clan}的{plot}敗露，兩家關係惡化！ |
 | `report.plot.exposedByEnemy` | — | clan, plot | 發覺{clan}對我方進行{plot}！ |
 | `report.event.fired` | `event.fired` | title | 發生事件：{title} |
-| `report.taimei.invoked` | — | clanName, name | {clanName}發動大命「{name}」 |
-| `report.taimei.expired` | — | name | 大命「{name}」的效力已盡 |
+| `report.taimei.invoked` | `taimei.invoked` | clanName, name | {clanName}發動大命「{name}」 |
+| `report.taimei.expired` | `taimei.expired` | name | 大命「{name}」的效力已盡 |
 | `report.victory.tenkabitoProgress` | — | months | 天下人之路：條件已連續達成{months}／12月 |
 
 ### 6.12 遊戲名詞（`term.*`）
@@ -1265,10 +1348,12 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
       `formatDate(129)==='1560年5月10日'`（與 02 §5.6 換算一致）；
       `formatQuantity(12500,'term.unit.koku')==='12,500石'`；
       `sentimentTermKey` 五檔邊界值（60／20／−20／−60）各有測試。
-- [ ] **T4　`messageKeyForEvent`（core，`src/core/systems/reports.ts`）**：§3.7 預設規則＋
-      變體表＋排除清單。
-      驗收：§5.6 第 5 項——每個產報告事件型別的假事件均解出存在的 key、參數齊備；
-      `time.monthStart` 等排除事件回傳 null；`command.rejected` 直通 `reasonKey`。
+- [ ] **T4　`renderReport`／`deriveReportMessage`（UI 層，`src/ui/report/renderReport.ts`）**：§3.7
+      契約——key 登錄（§6.11 事件型別欄）＋(2) enrichment 導出＋(3) 玩家視角/payload 變體＋(4) transient
+      fallback＋(5) 排除清單（五輪裁決 A）。**core 不得 import 本檔**（§3.1）。
+      驗收：§5.6 第 5 項——每個產報告事件型別的假事件＋state 均解出存在的 key、參數 ⊆ enrichment 導出集；
+      `battle.ended`／`district.subjugated` 各視角分流正確；`time.monthStart`／`policy.enacted`／
+      `proposal.resolved`／`conscript.completed` 等排除事件回傳 null；`command.rejected` 直通 `reasonKey`。
 - [ ] **T5　動態 key 模式覆蓋測試**：§3.4.2 表逐列展開（enum 全值）斷言 key 存在
       （6 身分＋5 協定＋8 官位＋5 役職＋4 季節＋3 方針＋3 徵兵＋16 施設＋12 戰法×2＋
       30 特性 desc＋12 政策×2＋9 存檔錯誤…）。
@@ -1440,3 +1525,69 @@ toast 顯示：標題列＝renderReport 前 18 字（溢出加「…」）；內
   (5) §6.11 新增 `report.diplomacy.reinforceAgreed`（事件 `diplo.reinforceAgreed`，
   02 §4.19 四輪裁決項 21／D-21：`requestReinforce` 獲接受不建立 Pact、故不發 `pact.signed`，
   改發此專屬事件，備忘錄明列「交 08 發、13 接報告」）。
+- **（2026-07-11）五輪裁決落實：報告渲染契約歸 13＋enrichment＋事件收斂（對抗式驗證 V6，blocker＋7 項）**：
+  (A｜blocker) **§3.7 全面改寫為 UI 層 enrichment 契約**：依 02 §4.17／§4.19 五輪裁決 A，報告顯示不再於
+  core 組裝——core 只存原始 `event`（02 §4.17 `Report{ id, day, event, read }`），`messageKey`＋插值 `params`
+  由 **UI 層 selector `renderReport(report, state, playerClanId)`** 於渲染時導出。據此改判並改寫：§3.7 開頭原
+  「`makeReportEntry` 於 core 執行、實作於 `src/core/systems/reports.ts`」全部改為 UI 層 `src/ui/report/renderReport.ts`；
+  預設規則原「`params = event.payload`／payload key 即參數名」改為「**params 由 §3.7(2) enrichment 自 payload
+  持久 ID 導出顯示參數**」；§3.1（core 只存 event）、§3.2 規則 1（報告參數名＝enrichment 顯示名、非 payload key）、
+  §3.4.1（`report.` 前綴敘述）、§2 關係表（02 改指 `Report{…event…}`＋§4.17／§4.19）、§4 資料結構（刪 core 側
+  `messageKeyForEvent`、改宣告 UI 側 `renderReport`＋`deriveReportMessage`）、§5.5（renderReport 三參數簽名重寫）、
+  §5.6 測試 5（斷言「模板參數 ⊆ enrichment 導出集」、非 payload keys；含視角分流各例、排除清單回 null）、§7 T4
+  （改 UI 層 renderReport／deriveReportMessage）同步。新增 §3.7(2) **enrichment 對照表**（`armyId`→leader/army、
+  `castleId`→castle、`nodeId`→place、`districtId`→district、`*ClanId`→clan、`officerId`/`targetOfficerId`→name、
+  `taimeiId`/`policyId`/`facilityTypeId`/`title`/`kind` → 型錄名或 term key）；(3) **玩家視角與 payload 變體表**；
+  (4) **transient enrichment timing 定案**：擇 13 體例——core 只存 event、不於 03 Step 13 預解析名字入 Report，
+  故 `renderReport` render 時反查 state、transient（`armyId`／`battleId`）已移除時以 fallback 顯示（`{leader}`／
+  `{army}`→「我軍」、`battle.kassenAvailable` 之 `{place}`→「戰場」）；顯示所需持久 ID 已由五輪裁決 B 落地於 payload，
+  place/clan/castle 恆可解析、不依賴 transient 反查。
+  (B｜enrichment payload) §3.7(3)／§6.11 逐列以 02 §4.19 五輪裁決 B 補全之 payload 閉合參數欄：`battle.ended`
+  之 `place`←`nodeId`、`winner`←`winnerClanId`、`loser`←對造 `attacker/defenderClanId`；`district.subjugated` 之
+  `leader`←`armyId`；`officer.died(battle)` 之 `place`←`nodeId`；`plot.*` 之 `castle`←`targetCastleId`。
+  (C｜officer.died) §3.7 變體與 §6.11 兩列分流依據 `payload.cause` 由 `natural/battle` 改 **`age/battle`**
+  （處刑死亡改由 `officer.executed` 承載、`officer.died` 不再發 `execution`）：`report.officer.death` 事件欄
+  `officer.died(natural)`→`officer.died(age)`；`report.officer.killedInAction` `{place}` 改用新收 `nodeId` enrichment。
+  (2｜major ArmyStatus) §3.4.2／§6.6 `ui.army.status.*` 對齊 02 §3.3 `ArmyStatus` 七值：`fighting`→`engaged`、
+  `resting`→`holding`、新增 `subjugating`（制壓中）；七值＝marching/engaged/sieging/subjugating/returning/routed/holding。
+  §3.4.2 資料值欄由「Army.status（07）」改「ArmyStatus（02 §3.3 七值；狀態機語意見 07）」。
+  (3｜major 空事件欄補全) §6.11 事件欄空白但 02 §4.19 已有 canonical 者逐列補：`report.army.noFood`←`army.starving`、
+  `report.transport.arrived`←`transport.arrived`、`report.officer.recruited`←`officer.recruited(ronin)`、
+  `report.captive.recruited`←`officer.recruited(captive)`、`report.captive.released`←`officer.released`、
+  `report.captive.executed`←`officer.executed`、`report.shogunate.titleGranted`←`shogunate.titleGranted`、
+  `report.taimei.invoked`←`taimei.invoked`、`report.taimei.expired`←`taimei.expired`、
+  `report.diplomacy.proposalRejected`←`diplo.refused`。`officer.recruited` 於 §3.7(3) 依 `payload.source`
+  三分流 ronin→`report.officer.recruited`／captive→`report.captive.recruited`／**poach→null**（該次登用已由
+  `plot.succeeded(poach)`→`report.plot.poachSuccess` 報告，避免同一挖角出兩列）。
+  (4｜major battle.started 雙 key) 刪除 §6.11 `report.battle.started`（`{place}合戰開始！`）列——合戰開始由 11
+  合戰 modal 呈現、07 無此 canonical 事件；`battle.started` 唯一報告為 `report.field.begin`（歷史沿用 key，
+  §3.7(1) 已註 `battle.started`→`report.field.begin`）。
+  (6｜major 排除清單裁決) §3.7(5) 逐一裁決先前未列之 02 §4.19 事件：`army.returned`→**補報告列**
+  `report.army.returned`（`{leader}隊歸還{castle}。`；玩家價值高）；`policy.enacted`／`policy.revoked`／
+  `proposal.resolved`／`conscript.completed`→**排除（null）**（前三者為玩家主動操作之即時結果、UI 當下已回饋
+  〔自動廢止另有 `report.policy.autoRevoked`〕；`conscript.completed` 為持續方針每月多城觸發、逐列會灌爆報告匣，
+  比照 03 §3.4.3）。
+  (7｜minor corps directive) §6.6 `ui.corps.directive.*` 對齊 02 `CorpsDirective` enum：`conquer/defend/auto`
+  →`advance/hold/develop`（攻略／固守／開發，值依 02 §3.3 行內註解）。
+  (8｜minor ReportEntry／節號殘留) 全檔 `ReportEntry`／`02 §4.3` 殘留改對齊 02 §4.17 `Report{ id, day, event, read }`
+  （§2 關係表、§3.1、§3.4.1、§4、§5.5）；§5.5 `renderReport` 敘述隨契約改為 `(report, state, playerClanId)` 三參數。
+  (9｜poach {officer}/{target} 釐清) 讀 08 §3.7.1 後定案：`plot.succeeded(poach)` payload（五輪裁決 B 定稿）為
+  `{ kind, actorClanId, targetClanId, targetOfficerId, targetCastleId }`——**無 executor 欄**，且執行武將關聯
+  （`Plot.officerId`）於結算後 Plot 即移除、render 時不可反查（五輪裁決 A：core 只存 event）；故報告不指名執行者。
+  `report.plot.poachSuccess` 由 `{officer}引拔成功，{target}前來仕官！` 改為 **`{officer}自{clan}被引拔，前來仕官！`**，
+  參數 `officer`＝**被引拔者**←`targetOfficerId`（enrichment→`Officer.name`，持久）、`clan`＝原主勢力←`targetClanId`
+  （→`Clan.name`，持久），兩者 render 時恆可解析、與失守方鏡射報告 `report.officer.poached`（`{name}被{clan}引拔…`）
+  對稱。（`officer.recruited(poach)`→null，見(3)，不重複。）另收束 `plot.succeeded` 之玩家視角與
+  covert 洩漏問題（契約閉合所必需、比照 (1d) 視角分流）：poach 依 `playerClanId` 分視角——`actorClanId`=玩家
+  →`report.plot.poachSuccess`、`targetClanId`=玩家→`report.officer.poached`（原事件欄「—」，本輪閉合為
+  `plot.succeeded(poach，我方失士)`，`name`←`targetOfficerId`、`clan`←`actorClanId`），修正被害方原會誤渲染
+  「前來仕官」之錯誤；rumor／betrayal／`plot.failed` 為隱密諜報，僅 `actorClanId`=玩家時產生報告，否則
+  `renderReport` 回 null（未敗露不洩漏給被害方；敗露另由 `plot.exposed*` 承載）。
+  (10｜plot 城名) `report.plot.betrayalReady` 之 `{castle}` 明定 enrichment 自 `plot.succeeded` 之 `targetCastleId`
+  （五輪裁決 B 新落地欄，§3.7(2)(3)）；`report.plot.rumorSuccess` 之 `{target}` 依模式 ←`targetOfficerId`（武將）∨
+  `targetCastleId`（城）。
+  另附帶修正（本輪契約閉合所必需）：`report.field.resolved` 之 `{place}的戰鬥分出勝負，{winner}獲勝。` 因需同時涵蓋
+  第三方結算與 `winnerClanId=null` 平手撤離（二輪裁決 D16「一 key、中性描述」），改為 null-safe 中性句
+  **`{place}的戰鬥告一段落。`**（去 `{winner}`）；`report.battle.won`／`report.battle.lost` 之參數由 `attacker/defender`
+  改 **`winner/loser`**（`winner`←`winnerClanId`、`loser`←對造），修正「勝方＝守方」時原「{attacker}擊破{defender}」
+  敘述與勝負相反之潛在錯誤（玩家為守方而勝／而敗皆正確渲染）。

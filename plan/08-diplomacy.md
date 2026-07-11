@@ -251,6 +251,9 @@ s1560 開局：室町幕府存續，將軍足利義輝（`off.ashikaga-yoshiteru
 - 敗露：成功不敗露；**失敗時**以各種類的敗露率判定，敗露則目標勢力對我感情下降並套用反制效果，
   且我方該次調略作廢；未敗露僅作廢，可重新下達。
 - 可隨時 `cancelPlot` 中止（無退款、不判定敗露）。
+- 調略結算（`resolvePlot`，§5.5.2）發出的 `plot.succeeded`／`plot.failed` payload 含
+  `targetCastleId: CastleId | null`（betrayal／rumor〔城模式〕填、其餘 null，直接取自 `Plot.targetCastleId`
+  本欄；02 §4.19 表後註④／五輪裁決 B），供報告 enrichment 使用。
 
 #### 3.7.1 引拔（poach）——挖角敵方武將
 
@@ -433,12 +436,15 @@ export interface ShogunateTitleDef {
 GameEvent 種類（事件名 canonical 見 02 §4.19；payload 從略，均含當事勢力與日期）。
 02 §4.19 已收錄者：`pact.signed`、`pact.expired`、`pact.broken`、`diplo.refused`（提案被拒）、
 `diplo.envoyArrived`（來使抵達玩家，payload `{ fromClanId, proposalId }`；勘誤 E-32，觸發 11 來使 modal 自動暫停）、
-`court.rankGranted`、`shogunate.titleGranted`、`plot.succeeded`、`plot.failed`、`officer.recruited`（引拔成功、source='poach'）。
+`diplo.reinforceAgreed`（援軍請求獲受方同意，payload `{ fromClanId, toClanId, againstClanId }`；
+requestReinforce 接受分支專用——不建立 Pact，故不發 `pact.signed`；派兵決策移交 09/07，報告見 13；
+**已收錄 02 §4.19 canonical，四輪裁決 D-21，非本系統擴充事件**）、
+`court.rankGranted`、`shogunate.titleGranted`、`plot.succeeded`／`plot.failed`（payload 另含
+`targetCastleId: CastleId | null`：betrayal／rumor〔城模式〕填、其餘 null，五輪裁決 B，emit 敘述見 §5.5.2／§3.7）、
+`officer.recruited`（引拔成功、source='poach'）。
 本系統另發下列**08 擴充事件**（02 §4.19 尚未收錄、於各引用文件明列為 08 擴充）：`dip.workStopped`
 （工作因金錢不足中止）、`court.mediationResult`、`shogunate.nominated`、`shogunate.patronLost`、
-`shogunate.collapsed`、`plot.exposed`（調略敗露）、`plot.betrayalActivated`（內應發動）、
-`diplo.reinforceAgreed`（援軍請求獲受方同意，payload `{ fromClanId, toClanId, againstClanId }`；
-requestReinforce 接受分支專用——不建立 Pact，故不發 `pact.signed`；派兵決策移交 09/07，報告見 13）。
+`shogunate.collapsed`、`plot.exposed`（調略敗露）、`plot.betrayalActivated`（內應發動）。
 
 ## 5. 演算法與公式
 
@@ -679,13 +685,18 @@ plotMonthly(state, plot):
 ```
 resolvePlot(state, plot):
   p = 依種類公式（§3.7.1–3.7.3）
+  # plot.succeeded／plot.failed 皆含 targetCastleId: plot.targetCastleId（betrayal／rumor(城模式) 為值、其餘 null；02 §4.19 表後註④／五輪裁決 B）
   if rng.misc() < p:
-    套用成功效果（移籍/忠誠/士氣/內應標記）；emit plot.succeeded（引拔另 emit officer.recruited、source='poach'）
+    套用成功效果（移籍/忠誠/士氣/內應標記）；
+    emit plot.succeeded{kind:plot.kind, actorClanId:plot.ownerClanId, targetClanId:plot.targetClanId,
+      targetOfficerId:plot.targetOfficerId, targetCastleId:plot.targetCastleId}（引拔另 emit officer.recruited、source='poach'）
   else:
     exposeP = BAL.plotExposeChance{Poach|Rumor|Betrayal}
     if rng.misc() < exposeP:
       套用敗露效果（感情/忠誠/免疫）；emit plot.exposed
-    else: emit plot.failed
+    else:
+      emit plot.failed{kind:plot.kind, actorClanId:plot.ownerClanId, targetClanId:plot.targetClanId,
+        targetOfficerId:plot.targetOfficerId, targetCastleId:plot.targetCastleId}
   自 plots 移除
 ```
 
@@ -1050,6 +1061,28 @@ powerTerm  = clamp((P − 1) × BAL.dipPowerTermScale(=15), −BAL.dipPowerTermC
   以 `evaluateProposal` 決定論即時判定（與 03／09 一致）。
 - **內應（`CmdUseBetrayal`）效果（02 裁決 B，08 版本獲勝）**：核實 §3.7.3／§5.5.3 已為「城士氣降至
   `BAL.plotBetrayalMoraleFloor`=5、城主 loyalty=0」，與 02 §4.18 註解一致，無需改（07 之一次性 −40 廢棄）。
+
+**（2026-07-11）五輪裁決連動＋回歸 finding 修復**：
+
+- **`diplo.reinforceAgreed` 改列 02 canonical（四輪裁決 D-21 連動）**：§4 事件清單原將此事件列於
+  「02 §4.19 尚未收錄」的 08 擴充事件清單中；02 §4.19 四輪裁決 (項21)／D-21 已將其正式收錄為
+  canonical 事件（payload `{fromClanId,toClanId,againstClanId}`）。移出擴充清單、併入「02 §4.19 已收錄者」
+  列舉並加註「已收錄 02 §4.19 canonical，四輪裁決 D-21，非本系統擴充事件」；覆核清單其餘成員
+  （`dip.workStopped`／`court.mediationResult`／`shogunate.nominated`／`shogunate.patronLost`／
+  `shogunate.collapsed`／`plot.exposed`／`plot.betrayalActivated`）現況仍未見於 02 §4.19，維持 08 擴充
+  事件不動；「已收錄者」清單其餘成員（`pact.signed`/`pact.expired`/`pact.broken`/`diplo.refused`/
+  `diplo.envoyArrived`/`court.rankGranted`/`shogunate.titleGranted`/`plot.succeeded`/`plot.failed`/
+  `officer.recruited`）核對 02 §4.19 現況一致，無需異動。
+- **`plot.succeeded`／`plot.failed` payload 補 `targetCastleId`（02 §4.19 表後註④／五輪裁決 B 連動）**：
+  02 §4.19 已為此二事件之 payload 增列 `targetCastleId: CastleId | null`（betrayal／rumor〔城模式〕填、
+  其餘 null；`Plot` 狀態本已持有此欄，08 §3.7／§4 未變動）。08 側同步帶入 emit 敘述：§3.7 共通規則
+  新增一條說明 `resolvePlot`（§5.5.2）發出之該二事件 payload 含 `targetCastleId`；§5.5.2 `resolvePlot`
+  虛擬碼之 `emit plot.succeeded`／`emit plot.failed` 展開為明列欄位（含 `targetCastleId:plot.targetCastleId`），
+  與 `officer.recruited`（引拔另發）分工不變。
+- **`CmdStartPlot.targetCastleId` 覆核（02 §4.18 連動）**：02 §4.18 `CmdStartPlot` 已含
+  `targetCastleId: CastleId | null` 欄位；覆核本檔 §4 指令聯集敘述（`CmdStartPlot { kind; executorId;
+  targetClanId; targetOfficerId; targetCastleId; investGold }`）與 §4 `Plot` 型別描述（`targetCastleId`
+  已列於欄位序列），兩處皆已與 02 §4.18／§4.11 逐欄一致，**無需修改**（本輪僅覆核確認同步）。
 
 ---
 

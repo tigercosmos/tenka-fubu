@@ -355,9 +355,10 @@ captiveRecruitRate = clamp(
 **(b) 釋放**：威信 +`BAL.releasePrestigeGain`（建議 **5**）；武將回原勢力最近之城
 （原勢力滅亡則就地成浪人）；對原勢力之感情改善（數值見 08）。
 
-**(c) 處斬**：`status='dead'`；威信 −`BAL.executePrestigeLoss`（建議 **10**）；
-我方全體非一門家臣忠誠 −`BAL.executeLoyaltyPenalty`=2；對象勢力感情大幅惡化（數值見 08）。
-敵方**當主**被俘時的處置與勢力吸收另見 10。
+**(c) 處斬**：`status='dead'`（直接設定，**不呼叫** §5.5 `die()`）；威信 −`BAL.executePrestigeLoss`（建議 **10**）；
+我方全體非一門家臣忠誠 −`BAL.executeLoyaltyPenalty`=2；對象勢力感情大幅惡化（數值見 08）；
+發事件 `officer.executed(officerId, byClanId)`，**不**另發 `officer.died`（`officer.died.cause` 收斂為
+`'age'|'battle'`、不含處刑，五輪裁決 C／02 §4.19 表後註）。敵方**當主**被俘時的處置與勢力吸收另見 10。
 
 #### 3.7.3 他家引拔的受理
 
@@ -416,7 +417,8 @@ o.scheduledDeath = { year, month }
 
 `status ∈ {serving, ronin, captive}`（且 `hasComeOfAge`）且 `scheduledDeath` 等於當前年月者，自然死亡：
 
-1. `status = 'dead'`；發報告 `report.officer.death`。
+1. `status = 'dead'`；發事件 `officer.died(officerId, clanId, cause='age', nodeId=null)`（對應報告
+   `report.officer.death`；02 §4.19、五輪裁決 C）。
 2. 解除役職：城主缺由該城所屬勢力中**身分 ≥ 侍大將（`samurai-taisho`）**且身分最高者（同分取 abilityScore 高者）自動遞補，
    無合格者則懸缺（委任城由 09 補派；遞補下限依 02 INV-04，勘誤 E-54）；知行郡歸還直轄；軍團長缺之處理參見 07。
 3. 若為當主 → 家督繼承（§3.9.3）。
@@ -438,10 +440,12 @@ else:
 
 ### 3.10 元服
 
-- 武將資料含 `birthYear` 與 `debutYear`（未指定時 = `birthYear + BAL.comingOfAgeAge`，建議 **15**）。
+- 武將資料含 `debutYear`／`debutClanId`／`debutCastleId`（02 §4.4 已收，五輪裁決 E）；14 劇本資料為可選欄位，
+  未給值時 builder 依序推導：`debutYear = birthYear + BAL.comingOfAgeAge`（建議 **15**）、`debutClanId = clanId`、
+  `debutCastleId = locationCastleId`。
 - 每年 1 月 1 日（officers 步驟之年 hook）：`hasComeOfAge === false` 且 `debutYear ≤ 當前年` 者登場：
   - `hasComeOfAge = true`、`status = 'serving'`；加入 `debutClanId` 指定勢力（該勢力已滅亡則於 `debutCastleId`
-    就地成浪人，該城由 14 資料指定）；初始身分足輕組頭、`merit = 0`、忠誠依 §3.6.1 計算。
+    就地成浪人）；初始身分足輕組頭、`merit = 0`、忠誠依 §3.6.1 計算。
   - 發報告 `report.officer.comingOfAge`（僅我方與鄰接勢力顯示，過濾規則見 03 報告系統）。
 
 ### 3.11 具申機制
@@ -532,9 +536,9 @@ interface Officer {
   status: OfficerStatus;              // serving/ronin/captive/dead（無 unborn，見 §3.10 與 02 DDR-5）
   hasComeOfAge: boolean;              // 已元服；false＝未登場（取代舊 'unborn' 狀態，依 02 DDR-5／E-02）
   birthYear: number;                  // 西曆生年
-  debutYear: number;                  // 元服登場年（資料未給則 birthYear + BAL.comingOfAgeAge）
-  debutClanId: ClanId | null;         // 元服時加入的勢力（null＝直接為浪人）
-  debutCastleId: CastleId;            // 元服/淪為浪人時的所在城
+  debutYear: number;                  // 元服登場年（02 §4.4 已收；14 資料缺值時 builder 推導 = birthYear + BAL.comingOfAgeAge，五輪裁決 E）
+  debutClanId: ClanId | null;         // 元服時加入的勢力（null＝直接為浪人；02 §4.4 已收；14 資料缺值時 builder 推導 = clanId，五輪裁決 E）
+  debutCastleId: CastleId;            // 元服/淪為浪人時的所在城（02 §4.4 已收；14 資料缺值時 builder 推導 = locationCastleId，五輪裁決 E）
   deathYear: number;                  // 卒年基準（史實或開局生成，02 §4.4；14 資料缺卒年時由 §3.9.1 生成寫入）
   scheduledDeath: { year: number; month: number }; // 開局以 rng.event 排定（§3.9.1；卒月一律生成，historicalDeathMonth 已廢除）
   ldr: number;                         // 統率基礎值，1..120；有效值＝min(120, ldr + statGrowth.ldr)
@@ -743,15 +747,17 @@ checkDefections(state):
 checkDeaths(state):
   for o in 全武將 where hasComeOfAge && status in {serving, ronin, captive}（依 OfficerId 字典序）:
     if o.scheduledDeath.year === time.year && o.scheduledDeath.month === time.month:
-      die(o, cause='natural')
+      die(o, cause='age', nodeId=null)
 
-die(o, cause):
+die(o, cause, nodeId):   // cause: 'age' | 'battle'；nodeId: MapNodeId | null（僅 cause='battle' 由 07
+                          // 呼叫時帶入戰場節點、其餘 null；簽名對齊 02 §4.19 表後註③，五輪裁決 B/C）
   o.status = 'dead'
   o.locationCastleId = null；o.armyId = null（02 INV-07：死亡兩者皆 null；出陣中陣亡由 07 同步移除
                                             其部隊編制，2026-07-11 驗證修復）
   釋出役職與知行（§3.9.2；城主遞補：同城同勢力中 rank ≥ 'samurai-taisho' 者，rankIndex desc → abilityScore desc 取首；無合格者懸缺）
   if o 是某勢力當主: succession(clan)    // §3.9.3
-  發報告 report.officer.death / report.officer.killedInAction（cause='battle' 時，由 07 呼叫 die）
+  發事件 officer.died(officerId, clanId, cause, nodeId)：cause='age' 對應報告 report.officer.death、
+  cause='battle' 對應報告 report.officer.killedInAction（由 07 呼叫 die，nodeId＝戰場節點；02 §4.19 表後註③）
 ```
 
 ### 5.6 元服
@@ -1064,6 +1070,15 @@ traitModifier(o, hook) -> { mult: number, add: number }:
   ——追記（同日收尾，依 02 四輪裁決 A 追記）：`historicalDeathYear` 更名 `deathYear`（02 §4.4 同名；
   14 資料缺卒年時由 §3.9.1 生成寫回）；`historicalDeathMonth` 廢除（14 不提供卒月、該欄恆 null 屬死規格，
   `scheduledDeath.month` 一律由 rng.event 生成）；§3.9.1 偽碼與 §4 型別同步。
+- **2026-07-11（五輪裁決 C／E，依 02 §4.4／§4.19 表後註）**：(1) debut 三欄位（`debutYear`／`debutClanId`／
+  `debutCastleId`）明訂「02 §4.4 已收；14 資料缺值時 builder 推導」（`debutYear = birthYear +
+  BAL.comingOfAgeAge`、`debutClanId = clanId`、`debutCastleId = locationCastleId`）；§3.10、§4 型別區同步
+  （五輪裁決 E）。(2) `officer.died.cause` 收斂 `'age'|'battle'`（`'natural'`→`'age'`）：§5.5 `checkDeaths()`／
+  `die()` 呼叫改 `cause='age'`，`die()` 簽名新增 `nodeId: MapNodeId | null` 參數（`cause='battle'` 時由 07
+  呼叫並帶入戰場節點，其餘為 `null`），發出事件 `officer.died(officerId, clanId, cause, nodeId)`；§3.9.2
+  自然死亡明訂發 `officer.died(cause='age', nodeId=null)`；§3.7.2(c) 處刑路徑明訂「不呼叫 `die()`、僅發
+  `officer.executed`、不重複發 `officer.died`」（五輪裁決 C／02 §4.19 表後註③）。(3) grep 自查已排除
+  `'natural'`／`cause='execution'` 殘留（`CaptiveAction` 之 `'execute'` 值為不同型別，不受影響）。
 
 ---
 

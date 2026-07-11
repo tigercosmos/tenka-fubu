@@ -369,7 +369,7 @@ publicOrder   = 60（預設）；一向宗根據地 45；大湊 65
 #### 3.5.5 `officers/tokai.json`（織田 15＋今川 12＋松平 6；齋藤 15、北畠 10 依 §3.6 補）
 
 欄位縮寫對應 02 §4.4：`ldr/val/int/pol` = 統率／武勇／知略／政務。
-`status`／`hasComeOfAge`／`loyalty`／`merit` 由 builder 推導（§5.6），資料檔不含。
+`status`／`hasComeOfAge`／`loyalty`／`merit` 由 builder 推導（§5.3），資料檔不含。
 
 ```jsonc
 { "version": 1, "region": "tokai", "officers": [
@@ -748,7 +748,7 @@ export const zClan = z.object({
   courtRank: z.enum(COURT_RANK_VALUES).default('none'),
   shogunateTitle: z.enum(SHOGUNATE_VALUES).default('none'),
   personaId: id(RE.persona),                     // AI 性格（§4.11）；builder 寫入 ai.clans[clanId].personaId（02 §4.20 唯一真相；Clan.personaId 已刪，四輪裁決 D-13）
-  colorIndex: z.number().int().min(0).max(39),   // 12 §3.1.3 色盤索引；builder 轉 Clan.color hex（§8-D6）
+  colorIndex: z.number().int().min(0).max(39),   // 12 §3.1.3 色盤索引；builder 逐值寫入 `Clan.colorIndex`，hex 由渲染層導出（§8-D6）
 });
 
 /** 開局協定（builder 轉 02 §4.11 Pact：startDay=0、endDay=months×30）。 */
@@ -777,7 +777,7 @@ export const zClansFile = z.object({
 ### 4.6 `officers/{region}.json`（9 檔同 schema）
 
 ```ts
-/** 武將（02 §4.4 Officer 靜態子集；status/hasComeOfAge/loyalty/merit 由 builder 推導 §5.6）。 */
+/** 武將（02 §4.4 Officer 靜態子集；status/hasComeOfAge/loyalty/merit 由 builder 推導 §5.3）。 */
 export const zOfficer = z.object({
   id: id(RE.off),
   name: zName,                                   // '織田信長'
@@ -793,6 +793,9 @@ export const zOfficer = z.object({
   isKin: z.boolean().default(false),             // 一門眾
   birthYear: z.number().int().min(1470).max(1570), // 1570 為收錄上限（1585 前元服）
   deathYear: z.number().int().min(1540).max(1660), // 卒年基準；validate.ts 檢 deathYear > birthYear
+  debutYear: z.number().int().optional(),        // 元服登場年；缺→builder = birthYear + BAL.comingOfAgeAge（02 §4.4，五輪裁決 E）
+  debutClanId: id(RE.clan).nullable().optional(), // 元服時加入勢力；缺此欄→builder = clanId，資料明示 null＝直接為浪人（02 §4.4，五輪裁決 E）
+  debutCastleId: id(RE.castle).optional(),        // 元服/淪浪人時所在城；缺→builder = locationCastleId（02 §4.4，五輪裁決 E）
 });
 export const zOfficersFile = z.object({
   version: z.literal(1),
@@ -1005,9 +1008,12 @@ buildInitialState(s1560, seed):
   district.ownerClanId = castles[district.castleId].ownerClanId    // §8-D7
   officer.status = clanId ? 'serving' : 'ronin'
   officer.hasComeOfAge = (1560 − birthYear) ≥ 15
+  officer.debutYear = data.debutYear ?? (birthYear + BAL.comingOfAgeAge)      // 02 §4.4，五輪裁決 E
+  officer.debutClanId = ('debutClanId' in data) ? data.debutClanId : clanId  // 缺欄位→clanId；資料明示 null＝直接為浪人（≠缺值）
+  officer.debutCastleId = data.debutCastleId ?? locationCastleId
   officer.merit = 0
   officer.loyalty = 當主 100；其餘 = 06 忠誠目標值公式之初始化值（06 §5）
-  clan.color = clanColorHex(colorIndex)          // 12 §5.1 公式
+  clan.colorIndex = 資料值（hex 由 12 §5.1 渲染層導出）
   diplomacy：pacts → Pact{startDay:0, endDay: months×30 或 null}；wars → lastHostileDay 0；
              sentiments → materialize 對應 DiplomacyRow（02 §5.5）
   generateRonin(state, rng.misc)                 // §3.8
@@ -1113,7 +1119,8 @@ buildInitialState(s1560, seed):
 - **D6｜colorIndex 定案表與釘選調整**：12 §3.1.3 的釘選為建議值；北條 21→20 因與長尾
   釘選 24 環距僅 3（北條與上杉方上野城相鄰）而調整一格（仍為水色系）。41 家 40 色必有
   一組重複：取足利＝佐竹＝16（山城／常陸無相鄰可能）。clans.json 存 `colorIndex`，
-  builder 以 12 §5.1 公式轉出 02 之 `Clan.color` hex——單一真相在 index，hex 為衍生。
+  builder 逐值寫入 02 之 `Clan.colorIndex`（`Clan.color` 已刪，勘誤 E-35）；hex 由 12 §5.1
+  渲染層公式導出——單一真相在 index，hex 為衍生，非 state 持久欄位。
 - **D7｜郡不存 `ownerClanId`**：開局郡歸屬一律等於所轄城歸屬，由 builder 推導，
   資料層省欄位並排除「開局飛地」這類需要額外驗證的狀態。鳴海・大高等桶狹間前沿
   以事件敘事表現，不做資料級飛地。
@@ -1136,6 +1143,15 @@ buildInitialState(s1560, seed):
   `tools/glossary-lint.ts --chars` 會就地把這些示例字元判為違規而自傷。改為文字引用
   「黑名單字元集＝17 §5.4 L1~L3，須涵蓋 19 §3.12 全部誤字形」，規則本體不再出現任何誤字形。
   「砲」為正字仍明列不入黑名單（E-52c，本檔原已符合，未改動）。
+- **D14（2026-07-11，五輪裁決 E 連動；含勘誤 E-35 呼應與回歸修正）**：(1) `zOfficer`（§4.6）新增三個
+  **可選**欄位 `debutYear`／`debutClanId`／`debutCastleId`，對齊 02 §4.4 Officer 執行期必要欄位；缺值時
+  之 builder 推導規則收錄於 §5.3：`debutYear = birthYear + BAL.comingOfAgeAge`、`debutClanId`＝資料含此
+  欄位者採其值（含明示 `null`＝直接為浪人，與缺欄位不同）否則 `= clanId`、`debutCastleId = locationCastleId`
+  （五輪裁決 E）。(2) §5.3 builder 偽碼與 §8-D6 之「builder 轉出 `Clan.color` hex」敘述為 02 已刪
+  `Clan.color`（勘誤 E-35）後之殘留舊真相——`colorIndex` 為唯一持久真相、hex 僅渲染層（12 §5.1）衍生值；
+  兩處改為「`clan.colorIndex` = 資料值（hex 由 12 §5.1 渲染層導出）」。(3) §3.5.5 樣板欄位對照與
+  §4.6 `zOfficer` 頭註各一處「builder 推導（§5.6）」誤指（本文件並無 §5.6 節，應為 §5.3 builder 推導規則）
+  回改為「§5.3」。(4) grep 自查：全檔 `Clan\.color\b`／`clanColorHex`／`（§5.6）` 均已歸零。
 
 
 

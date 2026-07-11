@@ -347,6 +347,9 @@ export interface Officer {
   birthYear: number;            // 生年（西曆），如 1534
   deathYear: number;            // 卒年基準（西曆）：史實或生成卒年（＝06 historicalDeathYear，備忘錄交 06 對齊命名）；開局據此＋rng.event 抖動決定論排定 scheduledDeath（06 §3.9.1），執行期不再另計抖動
   hasComeOfAge: boolean;        // 已元服（年滿 15）；false 者不可被任何系統引用（INV-06）
+  debutYear: number;            // 元服登場年（06 §3.10；14 資料未給時 builder 以 birthYear + BAL.comingOfAgeAge 生成，五輪裁決收錄）
+  debutClanId: ClanId | null;   // 元服時加入的勢力（null＝直接為浪人，06 §3.10）；14 未給時 builder 預設 = clanId
+  debutCastleId: CastleId;      // 元服/淪為浪人時的所在城（06 §3.10）；14 未給時 builder 預設 = locationCastleId
   locationCastleId: CastleId | null; // 所在城：serving 未出陣=駐在城；ronin=寄寓城；captive=關押城；出陣中/dead=null
   armyId: ArmyId | null;        // 出陣中所屬部隊；未出陣為 null（與 locationCastleId 互斥，INV-07）
   capturedByClanId: ClanId | null;   // status='captive' 時的捕獲勢力（俘方）；否則 null（原屬勢力見 clanId）
@@ -512,7 +515,7 @@ returning／routed ──全地圖無我方城──▶ 就地解散（武將成
 ```ts
 /** 野戰交戰狀態（一節點一場；欄位語意與規則見 07 §3.3／§5.2） */
 export interface FieldCombat {
-  id: string;                  // 'fc.<nodeId去前綴>-<開始日絕對tick>'（transient 前綴，§3.2）
+  id: string;                  // 'fc.<nodeId去前綴>-<開始日絕對tick>'（內部 id：不入 nextSerials、隨所屬狀態序列化，§3.2）
   nodeId: MapNodeId;           // 交戰節點
   startedDay: number;          // 開始絕對日
   sideA: FieldCombatSide;      // 先到方
@@ -549,7 +552,7 @@ export type BattleSide = 'attacker' | 'defender';
 
 /** 陣（合戰戰場節點，07 §3.6） */
 export interface Jin {
-  id: string;                  // 'jin.<col>-<row>'（transient 前綴，§3.2）
+  id: string;                  // 'jin.<col>-<row>'（內部 id：不入 nextSerials、隨所屬狀態序列化，§3.2）
   col: number;                 // 0..4
   row: number;                 // 0..2
   owner: BattleSide | 'neutral';
@@ -567,7 +570,7 @@ export interface JinEdge {
 
 /** 合戰部隊（勘誤 E-18：取代舊 BattleUnit 方格模型） */
 export interface BattleUnit {
-  id: string;                  // 'bu.<armyId去前綴>'（transient 前綴，§3.2）
+  id: string;                  // 'bu.<armyId去前綴>'（內部 id：不入 nextSerials、隨所屬狀態序列化，§3.2）
   armyId: ArmyId;              // 對應出陣部隊
   side: BattleSide;
   generalId: OfficerId;        // 沿用 Army 大將
@@ -736,7 +739,7 @@ export interface TransportOrder {
   path: MapNodeId[];           // 全路徑節點序列（04 尋路產出，含起訖）
   pathCursor: number;          // 目前所在節點在 path 的索引（與 Army 同語意＝04 MarchState.nodeIndex；勘誤 E-11）
   edgeProgressDays: number;    // 往 path[pathCursor+1] 之當前邊已累積行軍日數（日，浮點 ≥0）；位於節點上為 0（勘誤 E-11；04 §5）
-  edgeCostDays: number;        // 當前邊（**輸送隊調整後**）有效日數（日）＝(baseDays / BAL.roadGradeSpeedMult[grade]) × BAL.transportSpeedFactor × 傳馬制/海路等係數（**完整公式歸 05 §3.6／§5.4**，消除與 05 之公式矛盾，四輪裁決 D-15）；抵達判定 edgeProgressDays ≥ edgeCostDays（勘誤 E-11；04 §3.4.2）
+  edgeCostDays: number;        // 當前邊（**輸送隊調整後**）有效日數（日）；**完整公式歸 05 §3.6／§5.4**（roadGradeSpeedMult 與 transportSpeedFactor 皆為速度係數、對日數採**除以**慣例；消除與 05 之公式矛盾，四輪裁決 D-15／五輪裁決殘留修正）；抵達判定 edgeProgressDays ≥ edgeCostDays（勘誤 E-11；04 §3.4.2）
   returning: boolean;          // 是否已被撤回折返中
 }
 // 輸送隊為非戰鬥單位，不需武將帶隊、不佔兵力（05 §3.6）。
@@ -802,7 +805,7 @@ export interface VictoryStats {
 export interface Report {
   id: ReportId;
   day: number;                 // 產生絕對日
-  event: GameEvent;            // 原始事件（單一真相；顯示文字由 UI 以 report.<event.type> key 插值生成，13）
+  event: GameEvent;            // 原始事件（單一真相；core 只存原始 event，不存 key/params，03 §3.4.3）。顯示 key/params 導出契約見 13 §3.7：UI 層 selector renderReport(report, state, playerClanId) 於渲染時導出（含 ID→顯示名 enrichment 與玩家攻守視角分流），非直用 payload key（五輪裁決 A）
   read: boolean;               // 已讀
 }
 // reports 陣列新→舊排列；超過 BAL.reportMaxKept（500，值依 15；勘誤 E-31）時自尾端捨棄已讀舊報告。
@@ -1031,11 +1034,11 @@ export type GameEventType = GameEvent['type'];
 |---|---|---|---|
 | `battle.started` | `battleId: string, nodeId, attackerClanId, defenderClanId` | 野戰開打 | 07 |
 | `battle.kassenAvailable` | `battleId: string` | 兵力達合戰門檻（自動暫停候選） | 07 |
-| `battle.ended` | `battleId: string, winnerClanId: ClanId \| null, aweLevel: AweLevel, attackerLosses: number, defenderLosses: number` | 野戰/合戰結束（null=平手撤離） | 07 |
+| `battle.ended` | `battleId: string, winnerClanId: ClanId \| null, aweLevel: AweLevel, attackerLosses: number, defenderLosses: number, nodeId: MapNodeId, attackerClanId: ClanId, defenderClanId: ClanId` | 野戰/合戰結束（null=平手撤離；nodeId/attacker/defender 供報告 enrichment，見表後註，五輪裁決 B） | 07 |
 | `awe.triggered` | `sourceBattleId: string, clanId, level: AweLevel, flippedDistrictIds: DistrictId[], affectedCastleIds: CastleId[]` | 威風擴散結算 | 07 |
 | `siege.started` | `siegeId, castleId, attackerClanId` | 開圍（自動暫停候選） | 07 |
 | `siege.ended` | `siegeId, castleId, fallen: boolean, newOwnerClanId: ClanId \| null` | 陷落或解圍 | 07 |
-| `district.subjugated` | `districtId, fromClanId, toClanId` | 制壓完成翻轉歸屬 | 04 |
+| `district.subjugated` | `districtId, fromClanId, toClanId, armyId: ArmyId` | 制壓完成翻轉歸屬（armyId＝完成制壓之部隊，供報告 leader enrichment，見表後註，五輪裁決 B） | 04 |
 | `army.departed` | `armyId, clanId, originCastleId, targetNodeId` | 出陣 | 04 |
 | `army.arrived` | `armyId, clanId, nodeId: MapNodeId` | 部隊抵達其目標節點（04 movement；勘誤 E-30） | 04 |
 | `army.returned` | `armyId, clanId, castleId, soldiersReturned: number` | 歸還入城解散 | 04 |
@@ -1050,7 +1053,7 @@ export type GameEventType = GameEvent['type'];
 | `conscript.completed` | `castleId, soldiers: number` | 徵兵入營 | 05 |
 | `transport.arrived` | `fromCastleId, toCastleId, soldiers: number, gold: number, food: number` | 輸送抵達（勘誤 E-41） | 05 |
 | `uprising.started` | `districtId, severity: number` | 一揆爆發（severity 1..3） | 05 |
-| `officer.died` | `officerId, clanId: ClanId \| null, cause: 'age' \| 'battle' \| 'execution'` | 武將死亡 | 06/07 |
+| `officer.died` | `officerId, clanId: ClanId \| null, cause: 'age' \| 'battle', nodeId: MapNodeId \| null` | 武將死亡（`cause='execution'` 移除，處刑改由 `officer.executed` 承載；nodeId 僅 `cause='battle'` 為戰死地、否則 null；見表後註，五輪裁決 B/C） | 06/07 |
 | `officer.comingOfAge` | `officerId, clanId` | 元服登場（1/1） | 06 |
 | `officer.promoted` | `officerId, clanId, newRank: Rank` | 身分升格 | 06 |
 | `officer.loyaltyLow` | `officerId, clanId, loyalty: number` | 月結忠誠重算後跌破 30（warning 級報告，二輪裁決 C） | 06 |
@@ -1065,7 +1068,7 @@ export type GameEventType = GameEvent['type'];
 | `diplo.envoyArrived` | `fromClanId, proposalId: ProposalId` | 外交提案送達玩家勢力（觸發來使 modal 自動暫停；勘誤 E-32） | 08 |
 | `court.rankGranted` | `clanId, newCourtRank: CourtRank` | 官位敘任 | 08 |
 | `shogunate.titleGranted` | `clanId, title: ShogunateTitle` | 幕府役職授與 | 08 |
-| `plot.succeeded` / `plot.failed` | `kind: PlotKind, actorClanId, targetClanId, targetOfficerId: OfficerId \| null` | 調略結算 | 08 |
+| `plot.succeeded` / `plot.failed` | `kind: PlotKind, actorClanId, targetClanId, targetOfficerId: OfficerId \| null, targetCastleId: CastleId \| null` | 調略結算（targetCastleId：betrayal／rumor(城模式) 填、其餘 null；供報告 enrichment，見表後註，五輪裁決 B） | 08 |
 | `proposal.submitted` | `proposalId, officerId, kind: ProposalKind` | 具申送達（自動暫停候選） | 06 |
 | `proposal.resolved` | `proposalId, accepted: boolean` | 玩家裁決 | 06 |
 | `proposal.expired` | `proposalId, officerId` | 具申逾期作廢（createdDay + 60 日仍 pending，二輪裁決 C） | 06 |
@@ -1081,6 +1084,13 @@ export type GameEventType = GameEvent['type'];
 > `fc.*`（07 §5.2 `emit battle.ended(battleId: fc.id …)`、`applyAwe(…, fc.id)`），合戰路徑餵入 `BattleId`；
 > 故不以 `BattleId` brand 宣告（`fc.*` 事件可出現，§3.2 已註）。
 > **`development.completed` 不列入本表（四輪裁決 C-5）**：無任何消費者（13 null-report），裁決廢除，備忘錄交 03 §4.3 停止發出。
+> **報告 enrichment payload 補全（五輪裁決 B）**：五輪裁決 (a) 定案報告改由 UI 層 `renderReport(report, state, playerClanId)` 於**渲染時**導出 key/params（13 §3.7；`Report` 只存原始 event，§4.17／03 §3.4.3），
+> 故顯示所需之**持久實體 ID** 必須隨 event 落地——transient 實體（部隊、已結束之 `FieldCombat`／`BattleState`）於渲染時已不可反查。逐項補全：
+> ① `battle.ended` 增 `nodeId/attackerClanId/defenderClanId`（13 §6.11 `report.field.resolved`／`report.battle.won`／`report.battle.lost` 之 place/attacker/defender；欄位鏡射 `battle.started`，07 §3.3／§3.9 emit 端已持有）。
+> ② `district.subjugated` 增 `armyId`（`report.army.subjugated` 之 `{leader}`；04 §3.8 填為完成制壓之部隊，與 `army.departed/arrived` 之 leader 導出同慣例）。
+> ③ `officer.died` 增 `nodeId: MapNodeId | null`（`report.officer.killedInAction` 之 `{place}`，僅 `cause='battle'` 非 null；06 §5.5 `die()` 簽名補此參、`cause='battle'` 由 07 帶入戰場節點）。
+> ④ `plot.succeeded`／`plot.failed` 增 `targetCastleId: CastleId | null`（`report.plot.betrayalReady` 之 `{castle}`；betrayal／rumor 城模式填、其餘 null；`Plot` 狀態本已持有此欄，08 §3.7）。
+> **`officer.died.cause` 收斂 `'age'|'battle'`（五輪裁決 C）**：移除 `'execution'`——處刑死亡由獨立 `officer.executed` 承載（06 §3.7.2(c) 直接設 `status='dead'`、不經 `die()`，`officer.died` 不重複發），備忘錄交 06（§5.5 `die()` 之 `'natural'` 對齊為 `'age'`）／13（§3.7 分流依據 `natural`→`age`）。
 
 ### 4.20 AiState（AI 狀態分支）
 
@@ -1550,3 +1560,16 @@ calendarToDay(y,m,d) = (y-1560)*360 + (m-1)*30 + (d-1)
   → **唯一結算點＝Step 4 diplomacy 以 `evaluateProposal` 決定論結算**（08 §5.3.1 已如此；備忘錄交 03/08/09 統一，09 §3.4.5「反應層立即判定」與 03 Step11 對齊為 Step 4）。
   (項23) 08 §5.1 感情月結「for clan in clans」對 pair 雙倍套用 → **改 for row in rows 依 key 字典序一次**（備忘錄交 08）。(項24) 08 clan-adjacencyCache
   月中失效 → **lazy 重算（任一 tick 首次需要時重算、tick 內快取）**（備忘錄交 08；與 02 §5.1 節點鄰接表〔靜態、載入時建〕無關）。
+
+**2026-07-11 五輪裁決（對抗式驗證 V6 CONFIRMED findings 修復；02 為裁決主體，連動最小改；沿用勘誤台帳語境，無新增台帳項）**：
+
+- **A｜報告渲染契約歸屬（BLOCKER）**：報告「顯示層 enrichment」規格歸 13（字串擁有者）。簽名裁決＝**UI 層 selector** `renderReport(report, state, playerClanId)`——
+  core 只存原始 event（§4.17 `Report` 不變、03 §3.4.3 一致），key 與 params 於 UI 渲染時導出（含 ID→顯示名 enrichment 與玩家攻守視角分流），**params 由 enrichment 導出而非直用 payload key**。
+  §4.17 `event` 註解補「顯示 key/params 導出契約見 13 §3.7」。細則交 13（§3.7 現存「`makeReportEntry` 於 core 執行、`messageKeyForEvent` 為 core 側」之敘述與本裁決相牴觸，須改判為 UI 側 `renderReport`；預設規則「params = event.payload／payload key 即參數名」須改為「payload ID 經 enrichment 導出顯示 param」）。
+- **B｜報告 enrichment payload 缺口補全**：§4.19 逐項補持久實體 ID（表後註完整）——`battle.ended` +`nodeId/attackerClanId/defenderClanId`；`district.subjugated` +`armyId`；
+  `officer.died` +`nodeId: MapNodeId | null`；`plot.succeeded`／`plot.failed` +`targetCastleId: CastleId | null`。理由：裁決 A 改渲染時導出後，transient 實體（部隊、已結束戰鬥）不可反查，顯示所需持久 ID 須隨 event 落地。
+  §4.19 逐列快查 13 §6.11 之結論：`army.departed/arrived/blocked`（leader 經 `armyId`）、`battle.kassenAvailable`（place 經 `battleId`）等**ID 已在 payload**、屬 13 之 enrichment-timing（transient 實體須於同 tick／存活期間解析），非本輪 payload 缺口；`report.plot.poachSuccess` 之 `{officer}`／`{target}` 語意（executor vs 被引拔者）待 08/13 釐清（見備忘錄）。
+- **C｜`officer.died.cause` 收斂**：`'age'|'battle'|'execution'`→`'age'|'battle'`，移除 `'execution'`（處刑死亡由 `officer.executed` 承載；06 §3.7.2(c) 不經 `die()`、`officer.died` 不重複發）。備忘錄交 06／13。
+- **D｜殘留修正**：(D-a) §4.13 `TransportOrder.edgeCostDays` 註解刪除內嵌算式殘留「× BAL.transportSpeedFactor」（與 05 §3.6「輸送隊進入邊時**除以** transportSpeedFactor」矛盾），僅留「公式歸 05 §3.6／§5.4（速度係數採除以慣例）」。
+  (D-b) §4.9 `FieldCombat.id`／`Jin.id`／`BattleUnit.id` 註解「transient 前綴」→「內部 id：不入 nextSerials、隨所屬狀態序列化，§3.2」（對齊 §3.2／四輪裁決 C-3）。
+- **E｜§4.4 debut 欄位收錄（回歸驗證 major）**：§4.4 收 `debutYear: number`／`debutClanId: ClanId | null`／`debutCastleId: CastleId`（06 §3.10 元服機制必需、06 §4 已有、02 原缺）。備忘錄交 14（`zOfficer` 三欄為**可選**、builder 推導：`debutYear` 缺→`birthYear + BAL.comingOfAgeAge`；`debutClanId` 缺→`clanId`；`debutCastleId` 缺→`locationCastleId`）。
