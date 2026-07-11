@@ -1,0 +1,127 @@
+# CI workflow（規格：plan/17-testing.md §3.11.1／§3.11.2〔job 圖與里程碑門檻〕、
+# plan/18-roadmap.md §4.1〔milestone.json 讀取〕、plan/01-architecture.md §3.8.1〔補充：
+# 本檔採 17-T13 的五 job 圖，非 01 §3.8.1 範例的二 job 版本，衝突裁定見 01 §8-D13）。
+#
+# 觸發：push 到 main、所有 PR。單一 OS（ubuntu-latest）／單一 Node（22.x）／單一瀏覽器（chromium）。
+# Job 圖（17 §3.11.1）：install ─┬─ lint ─┬─ typecheck ─┬─ unit ─┴─ e2e
+#（install 驗證 `npm ci` 成功並計算里程碑門檻旗標；其餘 job 各自 checkout＋setup-node＋npm ci，
+# 依賴 install 僅表示排序與門檻旗標的共用，非跨 job 共享 node_modules）。
+#
+# 里程碑階段性門檻（18 §4.1／17 §3.11.2）：golden-s1560、AI 合法性 A2（全國）兩項門檻
+# 先以「僅報告」產出（M8-28／M7-14），之後才轉為阻斷（M9-6／M8-29）；
+# 阻斷與否由 install job 讀 milestone.json 的 current 計算，透過 job outputs 傳遞給 unit job。
+# M0 現況：兩項門檻對應的測試皆尚未產出，故本檔內對應步驟以「檔案是否存在」自然跳過
+# （比照 package.json 的 `validate:data`／`scan:simplified` 雙工具鏈容錯慣例，見 18 §8-D16）。
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  install:
+    name: install（npm ci＋里程碑門檻計算）
+    runs-on: ubuntu-latest
+    outputs:
+      milestoneCurrent: ${{ steps.gate.outputs.milestoneCurrent }}
+      goldenS1560Blocking: ${{ steps.gate.outputs.goldenS1560Blocking }}
+      aiLegalityA2Blocking: ${{ steps.gate.outputs.aiLegalityA2Blocking }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: 計算里程碑門檻旗標（plan/18-roadmap.md §4.1）
+        id: gate
+        run: npx tsx tools/ci/milestone-gate.ts >> "$GITHUB_OUTPUT"
+
+  lint:
+    name: lint（ESLint＋Prettier）
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run lint
+
+  typecheck:
+    name: typecheck（tsc --noEmit＋core 純度）
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run typecheck
+
+  unit:
+    name: unit（vitest：core＋ui＋data＋scan＋golden＋replay；validate:data）
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+
+      # 簡體字掃描＋劇本資料驗證（17 §3.6；恆為阻斷，自 M0 起——plan/ 已存在）。
+      - name: validate:data（劇本資料驗證＋簡體字/新字體掃描）
+        run: npm run validate:data
+
+      # 基礎 unit（core+ui+data+scan+golden-mini+replay，17 §3.11.1「unit」job 定義）；
+      # 涵蓋率報告一併輸出（覆蓋率門檻本身至 M9 才轉阻斷，見 17 §3.11.2，由
+      # M9-7 於 vitest 設定內加上 thresholds 落實，本檔不需另行條件判斷）。
+      - name: vitest run（含覆蓋率報告）
+        run: npx vitest run --coverage --passWithNoTests
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: coverage-report, path: coverage, retention-days: 7 }
+
+      # ── 階段性門檻擴充點：golden-s1560（M8-28 以「僅報告」產出、M9-6 轉阻斷）──
+      # 慣例（供 M8-28／M9-6 遵循）：獨立於 golden-mini 的檔名須含 `s1560`
+      # （如 tests/golden/s1560.spec.ts），使其不與恆阻斷的 golden-mini 混跑一個 continue-on-error。
+      - name: golden-s1560（依里程碑決定是否阻斷）
+        if: hashFiles('tests/golden/*s1560*.spec.ts') != ''
+        continue-on-error: ${{ needs.install.outputs.goldenS1560Blocking != 'true' }}
+        run: npx vitest run tests/golden --testNamePattern "s1560"
+
+      # ── 階段性門檻擴充點：AI 合法性 A2／全國（M7-14 以「僅報告」產出、M8-29 轉阻斷）──
+      # 慣例（供 M7-14／M8-29 遵循）：A2（全國規模）案例的測試標題須含子字串 "A2"，
+      # 與恆阻斷的 A1 分開以 --testNamePattern 各自執行，避免共用一次 continue-on-error。
+      - name: AI 合法性 A1（恆阻斷，自 M7 起）
+        if: hashFiles('tests/core/ai-legality.spec.ts') != ''
+        run: npx vitest run tests/core/ai-legality.spec.ts --testNamePattern "A1"
+      - name: AI 合法性 A2／全國（依里程碑決定是否阻斷）
+        if: hashFiles('tests/core/ai-legality.spec.ts') != ''
+        continue-on-error: ${{ needs.install.outputs.aiLegalityA2Blocking != 'true' }}
+        run: npx vitest run tests/core/ai-legality.spec.ts --testNamePattern "A2"
+
+  e2e:
+    name: e2e（vite build → Playwright smoke）
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run build
+
+      # M0 佔位：Playwright smoke（P1）於 M1-27 才產出（17 §3.11.2 M0 欄 Playwright P1 為
+      # 「—」非阻斷），且 playwright.config.ts 亦尚未鋪設；本步驟以存在性檢查 build-only
+      # 通過，兩者皆備妥後自動切換為真正執行 e2e，無需再改本檔。
+      - name: Playwright smoke（若設定與測試檔皆已就緒才執行，否則僅完成 build）
+        run: |
+          if [ -f playwright.config.ts ] && ls e2e/*.spec.ts >/dev/null 2>&1; then
+            npx playwright install chromium --with-deps
+            npm run e2e
+          else
+            echo "尚未建立 playwright.config.ts 與/或 e2e/*.spec.ts，本階段僅驗證 build 成功（M1-27 起接上 Playwright smoke）。"
+          fi
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with: { name: playwright-report, path: playwright-report, retention-days: 7 }
