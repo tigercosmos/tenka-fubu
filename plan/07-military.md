@@ -1182,7 +1182,7 @@ supplyDailyTick(state, army):
   `officer.captured(officerId, byClanId)`；補上 06 §3.7.2「捕虜的產生條件見 07——合戰大勝……」長年懸空之
   「合戰」捕獲缺口（時機 3 落城捕獲原已存在）。新補**關押城**規則：勝方本場合戰結束時現有兵數
   （`Army.soldiers`）最大部隊之 `originCastleId`（同兵數取 `armyId` 字典序小者），該城已易主則改採
-  勝方現存直轄城中 `soldiers` 最大者（同兵數取 `castleId` 字典序小者）。連動：§3.9 戰後處理散文同步补
+  勝方現存直轄城中 `soldiers` 最大者（同兵數取 `castleId` 字典序小者）。連動：§3.9 戰後處理散文同步補
   「先擲戰死、未死者再擲捕獲」並援引 06 §3.7.2；「部隊善後」段補被俘大將之離隊處理（`armyId=null`、
   `locationCastleId`＝關押城，比照戰死大將由副將接任或解散部隊）；§5.8 新增
   `BAL.battleCaptureChanceDefeatGeneral` 常數列（值以 15 §5.1 D19＝0.2 為準；本檔初稿 0.15 已依權威序改齊）。
