@@ -1046,13 +1046,16 @@ export type GameEventType = GameEvent['type'];
 | `army.starving` | `armyId, clanId` | 攜帶兵糧歸 0 | 07 |
 | `economy.income` | `clanId, gold: number, foodByCastle: Record<CastleId, number>` | 每月 1 日收入 | 05 |
 | `economy.harvest` | `clanId, totalFood: number` | 9/1 秋收 | 05 |
+| `economy.granaryOverflow` | `clanId, castleId, food: number` | 米藏超過容量、溢出兵糧散失（秋收/收入結算 05 §3.2、輸送抵達 05 §3.6；`food`＝散失石數；六輪裁決 1，收錄自 05 直發 report） | 05 |
 | `economy.upkeepUnpaid` | `clanId` | 金錢不足、當月俸祿未全額發放（家臣忠誠懲罰；warning 級，13 §6.11 report.economy.upkeepUnpaid；四輪裁決 C-5，收錄自 05） | 05 |
 | `economy.foodShortage` | `clanId, castleId` | 城兵糧見底、士卒逃散（**非圍城**一般糧盡；warning 級，13 §6.11 report.economy.castleStarving；四輪裁決 C-5，收錄自 05 §3.1.3） | 05 |
 | `facility.completed` | `castleId, facilityTypeId` | 施設完工（佇列制無 slotIndex，勘誤 E-39） | 05 |
 | `policy.enacted` / `policy.revoked` | `clanId, policyId` | 政策生效/廢止 | 05 |
+| `policy.autoRevoked` | `clanId, policyId: PolicyId` | 政策維持費不足、由新到舊自動廢止（每廢止一項一則；05 §3.6／§5.2；六輪裁決 1，收錄自 05 直發 report） | 05 |
 | `conscript.completed` | `castleId, soldiers: number` | 徵兵入營 | 05 |
 | `transport.arrived` | `fromCastleId, toCastleId, soldiers: number, gold: number, food: number` | 輸送抵達（勘誤 E-41） | 05 |
 | `uprising.started` | `districtId, severity: number` | 一揆爆發（severity 1..3） | 05 |
+| `uprising.ended` | `districtId, resolved: 'suppressed' \| 'subsided'` | 一揆結束（`suppressed`＝我方部隊野戰鎮壓、治安設 45；`subsided`＝滿 `BAL.uprisingAutoEndMonths` 自然平息、治安設 40；`clanIds`＝郡所屬勢力；05 §3.8.3；六輪裁決 1，收錄自 05 直發 report） | 05 |
 | `officer.died` | `officerId, clanId: ClanId \| null, cause: 'age' \| 'battle', nodeId: MapNodeId \| null` | 武將死亡（`cause='execution'` 移除，處刑改由 `officer.executed` 承載；nodeId 僅 `cause='battle'` 為戰死地、否則 null；見表後註，五輪裁決 B/C） | 06/07 |
 | `officer.comingOfAge` | `officerId, clanId` | 元服登場（1/1） | 06 |
 | `officer.promoted` | `officerId, clanId, newRank: Rank` | 身分升格 | 06 |
@@ -1065,10 +1068,17 @@ export type GameEventType = GameEvent['type'];
 | `pact.expired` / `pact.broken` | `aClanId, bClanId, kind: PactKind`（broken 另有 `breakerClanId`） | 到期/毀約 | 08 |
 | `diplo.refused` | `fromClanId, toClanId, kind: DiplomacyActionKind` | 提案被拒（含逾期；kind 由 PactKind 改 DiplomacyActionKind 以涵蓋 demand/offerVassal/requestReinforce，四輪裁決 C-1） | 08 |
 | `diplo.reinforceAgreed` | `fromClanId, toClanId, againstClanId: ClanId` | 援軍請求（requestReinforce）獲接受——不建立 Pact，故不發 pact.signed（四輪裁決 D-21；備忘錄交 08 發、13 接報告） | 08 |
-| `diplo.envoyArrived` | `fromClanId, proposalId: ProposalId` | 外交提案送達玩家勢力（觸發來使 modal 自動暫停；勘誤 E-32） | 08 |
+| `diplo.envoyArrived` | `fromClanId, proposalId: ProposalId, kind: DiplomacyActionKind` | 外交提案送達玩家勢力（觸發來使 modal 自動暫停；勘誤 E-32；`kind` 由 08 emit 端持有〔Proposal.kind〕、供 13 `{proposal}` 於渲染時取提案型別——Proposal 屆時已 transient 不可反查 proposalId，六輪裁決 2） | 08 |
+| `diplo.workStopped` | `clanId, target: ClanId \| 'court' \| 'shogunate'` | 外交/獻金工作因金錢不足當月中止（08 §5.1 步驟 1／§3.6.4 幕府滅亡中止 shogunate 獻金；原 08 名 `dip.workStopped`，命名對齊 `diplo.*` 族系；六輪裁決 1） | 08 |
 | `court.rankGranted` | `clanId, newCourtRank: CourtRank` | 官位敘任 | 08 |
+| `court.mediationResult` | `clanId, targetClanId: ClanId, success: boolean, ceasefireMonths: number` | 朝廷停戰斡旋結算（`clanId`＝斡旋發起方；`success` 分流 `report.court.mediationSuccess`／`mediationFailed`；`ceasefireMonths`＝`BAL.courtMediationCeasefireMonths`〔成功〕／0〔失敗〕；成功另 emit `pact.signed`〔強制停戰〕，08 §5.4.2；`clanIds=[clanId,targetClanId]`；六輪裁決 1） | 08 |
 | `shogunate.titleGranted` | `clanId, title: ShogunateTitle` | 幕府役職授與 | 08 |
+| `shogunate.nominated` | `clanId` | 上洛擁立將軍成立（`clanId`＝擁立者＝patron；世界級廣播報告；08 §5.4.3；六輪裁決 1） | 08 |
+| `shogunate.patronLost` | `clanId` | 擁立者喪失京都、patron 資格解除（`clanId`＝失去者；月初資格檢查，08 §3.6.3；報告為當事勢力視角〔僅發給該勢力〕；六輪裁決 1） | 08 |
+| `shogunate.collapsed` | （無 payload）；`clanIds=[]`（全域廣播） | 室町幕府滅亡（由 10 事件引擎呼叫 08 `collapseShogunate`；08 §3.6.4／§5.4.3；六輪裁決 1） | 08/10 |
 | `plot.succeeded` / `plot.failed` | `kind: PlotKind, actorClanId, targetClanId, targetOfficerId: OfficerId \| null, targetCastleId: CastleId \| null` | 調略結算（targetCastleId：betrayal／rumor(城模式) 填、其餘 null；供報告 enrichment，見表後註，五輪裁決 B） | 08 |
+| `plot.exposed` | `kind: PlotKind, actorClanId, targetClanId, targetOfficerId: OfficerId \| null, targetCastleId: CastleId \| null` | 調略失敗且敗露（payload 鏡射 `plot.failed`；08 §5.5.2；`clanIds=[actorClanId,targetClanId]`；actor 視角→`report.plot.exposed`、target 視角→`report.plot.exposedByEnemy`；六輪裁決 1） | 08 |
+| `plot.betrayalActivated` | `actorClanId, targetClanId, castleId: CastleId` | 內應於圍城發動（08 §5.5.3 `CmdUseBetrayal`；`clanIds=[actorClanId,targetClanId]`；報告 `report.plot.betrayalActivated{castle}`；六輪裁決 1） | 08 |
 | `proposal.submitted` | `proposalId, officerId, kind: ProposalKind` | 具申送達（自動暫停候選） | 06 |
 | `proposal.resolved` | `proposalId, accepted: boolean` | 玩家裁決 | 06 |
 | `proposal.expired` | `proposalId, officerId` | 具申逾期作廢（createdDay + 60 日仍 pending，二輪裁決 C） | 06 |
@@ -1091,6 +1101,7 @@ export type GameEventType = GameEvent['type'];
 > ③ `officer.died` 增 `nodeId: MapNodeId | null`（`report.officer.killedInAction` 之 `{place}`，僅 `cause='battle'` 非 null；06 §5.5 `die()` 簽名補此參、`cause='battle'` 由 07 帶入戰場節點）。
 > ④ `plot.succeeded`／`plot.failed` 增 `targetCastleId: CastleId | null`（`report.plot.betrayalReady` 之 `{castle}`；betrayal／rumor 城模式填、其餘 null；`Plot` 狀態本已持有此欄，08 §3.7）。
 > **`officer.died.cause` 收斂 `'age'|'battle'`（五輪裁決 C）**：移除 `'execution'`——處刑死亡由獨立 `officer.executed` 承載（06 §3.7.2(c) 直接設 `status='dead'`、不經 `die()`，`officer.died` 不重複發），備忘錄交 06（§5.5 `die()` 之 `'natural'` 對齊為 `'age'`）／13（§3.7 分流依據 `natural`→`age`）。
+> **六輪裁決事件收錄（2026-07-11，完整裁決見 §8）**：本輪將 13 §6.11 事件欄為「—」但生產者實際「發事件」或「直發 `report.*`」者收束入表——05 側：`policy.autoRevoked`／`economy.granaryOverflow`／`uprising.ended`；08 側：`diplo.workStopped`（原 `dip.workStopped`）／`court.mediationResult`／`shogunate.nominated`／`shogunate.patronLost`／`shogunate.collapsed`／`plot.exposed`／`plot.betrayalActivated`。新契約下 core **不得直接發 `report.*` key**，一律改發本表事件、由 13 §3.7 `renderReport` 於渲染時導出報告（五輪裁決 A）。`save.autosaveFailed` **不收錄本表**——屬 app 層 I/O 失敗（非決定論、不得進 core state／§5.4 golden hash），改由 16 走 app 層 UI 通知（非 core Report 機制），詳見 §8 六輪裁決 4。`officer.died(cause='battle')` 之生產者規格歸 07（v1 保留戰死，§8 六輪裁決 3 明訂 07 待補框架；02 本表 `officer.died` 不變）。
 
 ### 4.20 AiState（AI 狀態分支）
 
@@ -1573,3 +1584,42 @@ calendarToDay(y,m,d) = (y-1560)*360 + (m-1)*30 + (d-1)
 - **D｜殘留修正**：(D-a) §4.13 `TransportOrder.edgeCostDays` 註解刪除內嵌算式殘留「× BAL.transportSpeedFactor」（與 05 §3.6「輸送隊進入邊時**除以** transportSpeedFactor」矛盾），僅留「公式歸 05 §3.6／§5.4（速度係數採除以慣例）」。
   (D-b) §4.9 `FieldCombat.id`／`Jin.id`／`BattleUnit.id` 註解「transient 前綴」→「內部 id：不入 nextSerials、隨所屬狀態序列化，§3.2」（對齊 §3.2／四輪裁決 C-3）。
 - **E｜§4.4 debut 欄位收錄（回歸驗證 major）**：§4.4 收 `debutYear: number`／`debutClanId: ClanId | null`／`debutCastleId: CastleId`（06 §3.10 元服機制必需、06 §4 已有、02 原缺）。備忘錄交 14（`zOfficer` 三欄為**可選**、builder 推導：`debutYear` 缺→`birthYear + BAL.comingOfAgeAge`；`debutClanId` 缺→`clanId`；`debutCastleId` 缺→`locationCastleId`）。
+
+**2026-07-11 六輪裁決（事件↔報告邊界末輪收束；02 為裁決主體、只編輯本檔，連動改以下游清單交付；沿用勘誤台帳語境，無新增台帳項）**：
+
+背景：五輪 A 定案「報告由 UI 層 `renderReport` 於渲染時導出、core 只存原始 event」（§4.17／03 §3.4.3）後，新契約下 **core 不得直接發 `report.*` key**。末輪驗證發現 13 §6.11 尚有多列事件欄為「—」而其生產者實際「發事件（08 擴充事件，02 未收）」或「05 直發 `report.*`」，仍有邊界缺口。逐一裁決如下。
+
+- **1｜擴充事件收錄裁決（全數收錄 §4.19；無一判 UI-only，因 13 §6.11 皆有 Report 消費列且語意屬 core 模擬事實）**。收錄表（canonical 名／payload 全文／`clanIds`／對應 13 §6.11 報告 key／發出者）：
+
+  | canonical 事件 | payload（envelope 外） | `clanIds` | 13 §6.11 報告 key（視角/分流） | 發出者 |
+  |---|---|---|---|---|
+  | `policy.autoRevoked` | `clanId, policyId: PolicyId` | `[clanId]` | `report.policy.autoRevoked{name}`（name←policyId 經 PolicyDef.nameKey） | 05 §3.6／§5.2 |
+  | `economy.granaryOverflow` | `clanId, castleId, food: number` | `[clanId]` | `report.economy.granaryOverflow{castle,food}`（food＝散失石數，原樣 number） | 05 §3.2／§3.6 |
+  | `uprising.ended` | `districtId, resolved: 'suppressed' \| 'subsided'` | `[郡所屬勢力]` | `resolved='suppressed'`→`report.uprising.suppressed{district}`；`'subsided'`→`report.uprising.subsided{district}` | 05 §3.8.3 |
+  | `diplo.workStopped` | `clanId, target: ClanId \| 'court' \| 'shogunate'` | `[clanId]` | `report.diplomacy.workStopped{target}`（target='court'/'shogunate' 顯示朝廷/幕府） | 08 §5.1／§3.6.4 |
+  | `court.mediationResult` | `clanId, targetClanId: ClanId, success: boolean, ceasefireMonths: number` | `[clanId,targetClanId]` | `success`→`report.court.mediationSuccess{clan=targetClanId,months=ceasefireMonths}`；`!success`→`report.court.mediationFailed{clan=targetClanId}` | 08 §5.4.2 |
+  | `shogunate.nominated` | `clanId` | `[clanId]` | `report.shogunate.nominated{clan}`（世界級廣播，第三人稱字串對全視角通用） | 08 §5.4.3 |
+  | `shogunate.patronLost` | `clanId` | `[clanId]` | `report.shogunate.patronLost`（無參數；**當事勢力視角**，字串為「我方…」，僅該勢力可見） | 08 §3.6.3 |
+  | `shogunate.collapsed` | （無） | `[]`（全域廣播） | `report.shogunate.collapsed`（無參數；全視角） | 08 §3.6.4（10 呼叫） |
+  | `plot.exposed` | `kind: PlotKind, actorClanId, targetClanId, targetOfficerId: OfficerId \| null, targetCastleId: CastleId \| null`（鏡射 `plot.failed`） | `[actorClanId,targetClanId]` | actor 視角→`report.plot.exposed{clan=targetClanId,plot=kind}`；target 視角→`report.plot.exposedByEnemy{clan=actorClanId,plot=kind}` | 08 §5.5.2 |
+  | `plot.betrayalActivated` | `actorClanId, targetClanId, castleId: CastleId` | `[actorClanId,targetClanId]` | `report.plot.betrayalActivated{castle}` | 08 §5.5.3 |
+
+  裁決理由：(a) 上列全為 core 決定論模擬事實（經濟/治安/外交/朝幕/調略），入 `state.reports` 不破壞 §5.4 golden hash；(b) 命名對齊既有族系（`dip.workStopped`→`diplo.workStopped`；`court.*`／`shogunate.*`／`plot.*` 與 `court.rankGranted`／`shogunate.titleGranted`／`plot.succeeded/failed` 同前綴）；(c) payload 只承載持久實體 ID 與判別旗標，顯示名/視角分流一律交 13 §3.7 `renderReport`（五輪 A/B）。`court.mediationResult` 成功時另 emit `pact.signed`（強制停戰），故該 tick 會同時產生 `report.court.mediationSuccess` 與 `report.diplomacy.pactSigned` 兩則——是否於 13 去重由 13 定（見下游清單）。
+
+- **2｜`diplo.envoyArrived` 增 `kind: DiplomacyActionKind`**：payload 由 `{fromClanId, proposalId}` 增為 `{fromClanId, proposalId, kind}`。理由：13 §6.11 `report.diplomacy.envoyArrived{clan,proposal}` 之 `{proposal}` 需顯示提案型別，但 renderReport 於渲染時 Proposal 已 transient（受方裁決後移出 `pendingProposals`）、`proposalId` 不可反查；`kind`（＝`Proposal.kind`）於 08 emit 端已持有，隨 event 落地後 13 可直接取型別 i18n。`proposalId` 保留供來使 modal／11 跳轉。發出者 08 §5.6。
+
+- **3｜戰死生產者裁決（`officer.died(cause='battle')`）＝v1 保留戰死、規格歸 07；02 本表不改**。現況缺口：07 全文無戰死判定（§3.4 潰走追擊僅折兵、§3.11 落城 step 2「逃脫判定（公式參見 06）」只分流「逃脫／被俘」無戰死）；06 §2（L34）「戰死機率：參見 07」、06 §3.9.2／§5.5 `die(o,'battle',nodeId)`「由 07 呼叫、nodeId＝戰場節點」、06 §4「戰死判定由 07 定義」、13 `report.officer.killedInAction` 皆已預設戰死存在——即多文件懸空引用 07 卻無定義。裁決：**保留戰死**（回退代價＝改動 06×4 處＋13＋02 表後註③，較收束為高，且史實桶狹間今川義元戰死等 10 §覆寫亦仰賴此路徑），`officer.died.cause` 維持 `'age'|'battle'`、`nodeId: MapNodeId|null`（五輪 B/C 已定），02 不動。**07 待補最小規格框架**（下游 07 落實）：
+  - 戰死時機三處：(i) 野戰潰走被追擊（§3.4 追擊命中的潰走部隊大將/副將）、(ii) 合戰敗北一方大將（§3.5 敗北側潰走/殲滅部隊之大將）、(iii) 落城守將逃脫失敗（§3.11 step 2 之「逃脫判定」擴為三分：逃脫／被俘／戰死）。
+  - 機率為 BAL 常數，07 給建議初值：`BAL.battleDeathChanceRout`（潰走追擊被殺，建議 0.05）、`BAL.battleDeathChanceDefeatGeneral`（合戰敗將，建議 0.03）、`BAL.siegeDeathChanceEscapeFail`（落城逃脫失敗後轉戰死之比例，建議 0.15，其餘為被俘）；隨機流一律 `rng.misc`（與捕虜/逃脫同流，03 §3.5 一致）。
+  - 呼叫慣例：戰死由 07 呼叫 06 `die(o, 'battle', nodeId)`，`nodeId`＝該野戰/合戰/圍城之戰場節點；06 `die()` 內發 `officer.died(officerId, clanId, 'battle', nodeId)`（06 §5.5，不由 07 直發）。落城 step 2 三分後：被俘者續發 `officer.captured`（既有），戰死者不另發 `officer.captured`。
+
+- **4｜`save.autosaveFailed` 裁決＝不收錄 §4.19、改判 app 層 UI 通知（非 core Report）**。依 16 §5.3（app 層季首 hook：`else → 降級：發重大 Report(report.save.autosaveFailed)`）與 03 §3.4.3（`reportsSystem` 於 Step 13 由 GameEvent 產生 `Report` 並 `state.reports.push`、Report 隨 `GameState` 序列化並入 §5.4 hash）核對：自動存檔失敗係 **app 層 I/O 失敗（IndexedDB 配額/寫入錯誤）**，非決定論、core 不感知；若令其成為 core GameEvent 或進 `state.reports`，非決定論訊號將污染 §5.4 golden hash、破壞重放決定論（03 §3.5.4）。故**不得**收錄 §4.19、**不得**經 core Report 機制。裁決方向採「16 走 app 層 UI 通知」：失敗時由 16 §5.3 hook 直接以 app 層 UI 通知呈現（toast＋HUD 常駐警示圖示 `ui.hud.autosaveSuspendedTip`），`autosaveSuspended` 為 session 旗標（本即 app 層、不入 state）。13 §6.11 `report.save.autosaveFailed` 一列改判 **UI-only**（非 Report 機制），逐列註明消費者＝16 §5.3 autosave hook（app 層 toast），字串宜遷入 `ui.notify.*`／`ui.save.*` 命名空間（app 層通知，非 `report.*`）。
+
+- **下游檔案待改清單（本輪 02 已收束，連動改交下游 agent）**：
+  - **03**：(a) §3.4.2 severity 分級表補列本輪新收 10 事件（`policy.autoRevoked`／`economy.granaryOverflow` warning；`uprising.ended` info/warning；`diplo.workStopped` info/warning；`court.mediationResult`／`shogunate.nominated`／`shogunate.collapsed` major/critical〔世界級〕；`shogunate.patronLost` 當事勢力 warning；`plot.exposed`／`plot.betrayalActivated` warning/major）——`severityOf(e, playerClanId)` 支援視角別嚴重度。(b) 確認 §3.4.3 `isPlayerRelevant` 對 `clanIds=[]`（`shogunate.collapsed`）與世界級 major 事件之推送（`sev!=='info'` 即入庫，與 `time.*` 空 clanIds 同慣例）。
+  - **04**：無本輪連動（戰死時機不涉 04；`district.subjugated.armyId` 為五輪 B 既案）。
+  - **05**：(a) §3.2/§3.6 米藏溢出、§3.6 輸送抵達溢出：`發 report.economy.granaryOverflow` → **`emit economy.granaryOverflow{clanId,castleId,food}`**（`food`＝散失石數）。(b) §3.6/§5.2 政策自動廢止：`每廢止一項發 report.policy.autoRevoked` → **`emit policy.autoRevoked{clanId,policyId}`**（每項一則）。(c) §3.8.3 一揆鎮壓/自然平息：`發 report.uprising.suppressed/subsided` → **`emit uprising.ended{districtId,resolved}`**（`clanIds=[郡所屬勢力]`；鎮壓＝`'suppressed'`、自然平息＝`'subsided'`）。
+  - **07**：落實六輪裁決 3 戰死框架——§3.4/§3.5/§3.11 三處戰死時機、三 BAL 常數（建議初值如上）、`die(o,'battle',nodeId)` 呼叫；§3.11 step 2「逃脫判定」擴為逃脫／被俘／戰死三分；BAL 常數同步登錄 15。
+  - **08**：(a) `dip.workStopped` 更名 **`diplo.workStopped`**（§5.1 步驟 1、§3.6.4/§5.4.3 幕府滅亡中止獻金兩 emit 點），payload `{clanId,target}`。(b) `court.mediationResult` emit（§5.4.2）補 payload `{clanId,targetClanId,success,ceasefireMonths}`。(c) `shogunate.nominated`（§5.4.3）payload `{clanId}`；**新增 `shogunate.patronLost{clanId}` emit**（§3.6.3 月初資格喪失檢查目前僅敘述 `patronClanId=null`、缺 emit，須補）；`shogunate.collapsed`（§5.4.3）payload 空。(d) `plot.exposed`（§5.5.2）補 payload（鏡射 `plot.failed`：`{kind,actorClanId,targetClanId,targetOfficerId,targetCastleId}`）；`plot.betrayalActivated`（§5.5.3）補 payload `{actorClanId,targetClanId,castleId}`。(e) §4.3 事件清單將上列 8 事件由「08 擴充事件（02 尚未收錄）」改註「已收錄 02 §4.19 canonical（六輪裁決 1）」。(f) `diplo.envoyArrived` emit（§5.6）補 `kind`（＝`Proposal.kind`）。
+  - **13**：(a) §6.11 事件欄「—」改填 canonical 事件並標視角/分流：`report.policy.autoRevoked`←`policy.autoRevoked`；`report.economy.granaryOverflow`←`economy.granaryOverflow`；`report.uprising.suppressed`←`uprising.ended(suppressed)`、`report.uprising.subsided`←`uprising.ended(subsided)`；`report.diplomacy.workStopped`←`diplo.workStopped`；`report.court.mediationSuccess`←`court.mediationResult(success)`、`report.court.mediationFailed`←`court.mediationResult(!success)`；`report.shogunate.nominated`←`shogunate.nominated`、`report.shogunate.patronLost`←`shogunate.patronLost`、`report.shogunate.collapsed`←`shogunate.collapsed`；`report.plot.betrayalActivated`←`plot.betrayalActivated`；`report.plot.exposed`←`plot.exposed(actor)`、`report.plot.exposedByEnemy`←`plot.exposed(target)`。(b) §3.7 enrichment：`diplo.envoyArrived.{proposal}` 由 `payload.kind` 取型別 i18n（不反查 proposalId）；`court.mediationResult.{months}`＝`payload.ceasefireMonths`。(c) `report.save.autosaveFailed` 一列改判 **UI-only**（非 Report／renderReport），註明消費者＝16 §5.3 autosave hook；字串宜遷 `ui.notify.*`／`ui.save.*`。(d) `court.mediationResult(success)` 與同 tick `pact.signed` 之雙報告去重：由 13 決（renderReport 對源自斡旋的 `pact.signed` 抑制，或接受兩則並存）。(e) `report.shogunate.patronLost` 視角過濾（僅 `e.clanIds.includes(playerClanId)` 者渲染，餘 return null）。
+  - **16**：§3.5.6／§5.3 自動存檔失敗降級：`發重大 Report(report.save.autosaveFailed)` → **app 層 UI 通知（toast＋HUD 常駐警示）、不經 core Report、不入 `state.reports`**；`autosaveSuspended` 維持 session 旗標。字串命名與 13 對齊（遷 `ui.notify.*`／`ui.save.*`）。

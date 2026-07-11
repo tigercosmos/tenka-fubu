@@ -38,14 +38,14 @@
 | `03-game-loop.md` | 野戰／攻城於每日 tick 的 step 7–8 執行；合戰為 modal 子迴圈，策略時間暫停。 |
 | `04-map-and-movement.md` | 行軍、尋路（最短路）、制壓、遭遇判定、節點地形（terrain）由 04 定義；本文件在「遭遇成立後」接手。 |
 | `05-domestic.md` | 徵兵補充城兵力、城兵糧收支、政策對士氣的修正值、輸送。 |
-| `06-officers.md` | 身分（Rank）六階、特性（Trait）清單與效果值、功績結算、捕虜與逃脫判定公式。 |
+| `06-officers.md` | 身分（Rank）六階、特性（Trait）清單與效果值、功績結算、捕虜**處置**（登用／釋放／處斬）、武將死亡結算 `die()` 與繼承（捕虜產生、落城逃脫／被俘／戰死**判定**歸本文件 §3.14，對齊 06 §2「捕虜產生、戰死判定由 07 定義」）。 |
 | `08-diplomacy.md` | 內應（betrayal）成果的取得與存放；同盟關係判定敵對性；本文件於野戰／合戰／攻城等敵對行為發生時 materialize 該對 `DiplomacyRow` 並回寫 `lastHostileDay = 今日`（02 §4.11；`atWar` 由此推導，08 §3.1）。 |
 | `09-ai.md` | 大名 AI 的出陣決策、軍團 AI 行為、合戰委任 AI 的完整版；本文件 §3.9 僅定義合戰內建簡易委任邏輯。 |
 | `13-i18n-strings.md` | 本文件 §6.5 字串表併入主字串表。 |
 | `15-balance.md` | 本文件全部 BAL 常數的定案值。 |
 
 本文件為以下機制的單一真相來源，其他文件不得複述公式：
-戰力公式、野戰解算、合戰全流程、戰法、威風、攻城解算、軍團收支、兵站。
+戰力公式、野戰解算、合戰全流程、戰法、威風、攻城解算、軍團收支、兵站、落城逃脫／被俘／戰死判定。
 
 ---
 
@@ -171,6 +171,8 @@ moraleFactor = BAL.moraleFactorBase + morale / BAL.moraleFactorDivisor   // 0.5 
   **追擊損害 = 勝側Σpower × BAL.pursuitDamageRate**（建議 0.10），直接扣潰走方兵數。
 - 其後勝方不自動尾隨。若日後勝方部隊行軍至與潰走部隊同節點（潰走部隊不觸發交戰），
   每日至多再造成一次同式追擊損害。
+- **潰走大將戰死**：每次追擊損害命中的潰走部隊，其大將與每名副將各以 `BAL.battleDeathChanceRout`
+  （建議 0.05）機率戰死（`rng.misc`；判定與部隊善後見 §3.14）。
 
 ### 3.5 合戰——發動與集結
 
@@ -317,10 +319,14 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 - 合戰中的兵數／士氣變化回寫至各 `Army`。
 - 敗方：合戰中潰走的部隊 → 策略地圖上 `routed`（§3.4）；未潰走的殘存部隊 →
   士氣 `−BAL.moraleDefeatLoss`、強制向己方最近城後退 1 個節點後恢復可下令。
+  敗方每支潰走或遭殲滅之部隊，其大將另以 `BAL.battleDeathChanceDefeatGeneral`（建議 0.03）機率戰死
+  （`rng.misc`；§3.14）。
 - 勝方：全部隊 `+BAL.moraleVictoryGain`，恢復原任務。
 - `FieldCombat` 結束；威風判定（§3.10）：如成立則 `applyAwe`（`sourceBattleId` ＝該 `BattleState` id）發出 `awe.triggered`；
-  發出 `battle.ended`（`battleId` 為該 `BattleState` id、`winnerClanId`、`aweLevel`＝`BattleResult.aweLevel`、
-  `attackerLosses`／`defenderLosses`＝`BattleResult` 對應欄位；報告文字由 UI 依事件推導，02 §4.17）；功績結算參見 06。
+  發出 `battle.ended`（`battleId` 為該 `BattleState` id、`nodeId`＝`bs.nodeId`、
+  `attackerClanId`／`defenderClanId`＝`bs` 對應欄位、`winnerClanId`、`aweLevel`＝`BattleResult.aweLevel`、
+  `attackerLosses`／`defenderLosses`＝`BattleResult` 對應欄位；`nodeId`／攻守 clanId 供報告 enrichment（五輪裁決 B）；
+  報告文字由 UI 依事件推導，02 §4.17）；功績結算參見 06。
 
 ### 3.10 威風（awe）
 
@@ -378,7 +384,7 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
   守兵每日逃散 `× BAL.starvingCastleDesertionRate`（建議 0.03）。
 - **內應**：圍城方對該城持有內應成果（`Castle.betrayalReadyClanId == 我方`；取得參見 `plan/08-diplomacy.md`）時，可下 `CmdUseBetrayal`：
   城士氣立即降至 `BAL.plotBetrayalMoraleFloor`（=5，即 `min(現士氣, 5)`）、城主忠誠歸 0，並清除內應標記；
-  每場圍城限一次（`Siege.betrayalUsed`）。此效果與結算之單一真相為 `plan/08-diplomacy.md` §5.5.3，本文件僅援引（原一次性 `−BAL.betrayalMoraleHit` 模型廢棄，四輪裁決 B）。
+  每場圍城限一次（`Siege.betrayalUsed`）。此效果與結算之單一真相為 `plan/08-diplomacy.md` §5.5.3（08 於發動時發出 `plot.betrayalActivated{actorClanId, targetClanId, castleId}`，02 §4.19 canonical／六輪裁決 1），本文件僅援引（原一次性 `−BAL.betrayalMoraleHit` 模型廢棄，四輪裁決 B）。
 - **援軍解圍**：守方（或其同盟）部隊抵達城節點 → `Siege.interrupted = true`，圍城全部每日效果暫停，
   圍城方與援軍依 §3.3 野戰（可發動合戰）。圍城方勝 → 解除 interrupted、圍城續行（進度保留）；
   圍城方全潰走或撤退 → Siege 移除並發出 `siege.ended`（`fallen: false`、`newOwnerClanId: null`；02 §4.19）。
@@ -386,8 +392,11 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 **落城**：`耐久 ≤ 0` 或 `城士氣 ≤ 0` 或 `守兵 ≤ 0` →
 1. 城歸攻方勢力；**所轄各郡一併翻轉**為攻方（知行解除參見 05；翻轉時清除各郡 `District.subjugation`，
    並掃描 `state.armies` 重置正制壓這些郡之部隊的制壓進度〔E-65〕）。
-2. 城主與城內全部武將逐一做逃脫判定（公式參見 06）；未逃脫者成為攻方**捕虜**（處置參見 06），
-   每名被俘武將發出 `officer.captured`（`officerId`、`byClanId` 為攻方勢力；02 §4.19）。
+2. 城主與城內全部武將逐一做**逃脫判定**（三分：逃脫／被俘／戰死，公式歸本文件 §3.14）：
+   逃脫成功者回歸原勢力最近之城（無我方城則就地成浪人，參見 06）；逃脫失敗者以
+   `BAL.siegeDeathChanceEscapeFail` 機率戰死（呼叫 06 `die(o, 'battle', castle.nodeId)`）、
+   其餘成為攻方**捕虜**（處置參見 06）。每名被俘武將發出 `officer.captured`
+   （`officerId`、`byClanId` 為攻方勢力；02 §4.19）；戰死者不另發 `officer.captured`（`die()` 內發 `officer.died`，06 §5.5）。
 3. 耐久設為 `max(當前耐久, 耐久上限 × BAL.postSiegeDurabilityRatio(0.3))`；
    城士氣設為 `BAL.postSiegeCastleMorale`（建議 50）；殘存守兵解散（歸農，不併入任何方）；
    城內殘存兵糧 ×`BAL.postSiegeFoodKeepRatio`（建議 0.5）留存、其餘視為戰亂散失。
@@ -423,6 +432,29 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
   (a) 任務完成（march 抵達目標並完成制壓／conquer 目標落城）且無新指令；
   (b) 剩餘兵糧可支撐日數 ≤ `BAL.autoReturnFoodDays`（建議 7）且不在圍城最後階段
   （城士氣與耐久皆 > 20% 時才允許自動撤）。
+
+### 3.14 武將戰死
+
+戰死為武將於戰鬥中身亡的判定，其**發生條件為本文件（07）單一真相**；判定成立時由 07 呼叫
+`plan/06-officers.md` §5.5 `die(o, 'battle', nodeId)`——06 於 `die()` 內設 `status='dead'`、釋出役職與知行、
+當主則觸發繼承，並發出 `officer.died(officerId, clanId, 'battle', nodeId)`（07 不直接發 `officer.died`）。
+全部戰死擲骰一律走 `rng.misc`（與捕虜／逃脫同流，03 §3.5.2；戰死係策略層 `Officer` 狀態變更，
+不得走僅限戰術 modal、禁觸策略層之 `rng.battle`）。`nodeId` 取該戰役所在地圖節點：
+野戰／合戰＝遭遇節點 `fc.nodeId`；落城＝城節點 `castle.nodeId`。
+
+**時機與機率**（六輪裁決 3）：
+1. **野戰潰走被追擊**（§3.4）：每次追擊損害命中的潰走部隊，其大將與每名副將各以
+   `BAL.battleDeathChanceRout`（建議 0.05）機率戰死。
+2. **合戰敗北**（§3.9 戰後處理）：敗方每支潰走或遭殲滅之部隊，其大將以
+   `BAL.battleDeathChanceDefeatGeneral`（建議 0.03）機率戰死（副將不判）。
+3. **落城守將**（§3.11 落城 step 2）：城主與城內每名武將先做**逃脫判定**——逃脫機率
+   `BAL.siegeEscapeChance`（建議 0.35；v1 為定值，統率修正列 post-v1）。逃脫成功者回歸原勢力最近之城
+   （無我方城則就地成浪人，參見 06）；逃脫失敗者再以 `BAL.siegeDeathChanceEscapeFail`（建議 0.15）
+   機率戰死、其餘（1 − 該值）成為攻方捕虜（發 `officer.captured`，處置參見 06）。戰死者不另發 `officer.captured`。
+
+**部隊善後**：戰死者若為仍存續部隊（如潰走殘部）之大將，由存活副將依 `deputyIds` 順序接任大將；
+無副將則該部隊即刻解散（殘兵歸農、殘糧散失，不生成浪人）。落城守將屬城駐軍、非在外 `Army`，
+落城處理（§3.11 step 3）已解散守兵，不另善後。
 
 ---
 
@@ -664,8 +696,11 @@ fieldCombatDailyTick(state, fc):
     aweLevel = 'none'
     if 敗側.cumulativeLosses > 敗側.initialTroops × BAL.fieldAweKillRatio:
       applyAwe('small', fc.nodeId, 勝側主勢力, 敗側主勢力, fc.id); aweLevel = 'small'   // applyAwe 內發 awe.triggered
-    emit battle.ended(battleId: fc.id, winnerClanId: 勝側主勢力, aweLevel,
-                      attackerLosses: B.cumulativeLosses, defenderLosses: A.cumulativeLosses)  // 報告文字由 UI 推導（02 §4.17）
+    emit battle.ended(battleId: fc.id, nodeId: fc.nodeId,
+                      attackerClanId: B.clanIds[0], defenderClanId: A.clanIds[0],   // 攻方＝sideB／守方＝sideA（§3.3）
+                      winnerClanId: 勝側主勢力, aweLevel,
+                      attackerLosses: B.cumulativeLosses, defenderLosses: A.cumulativeLosses)
+                      // nodeId／攻守 clanId 供報告 enrichment（五輪裁決 B）；報告文字由 UI 推導（02 §4.17）
     removeFieldCombat(fc)；勝側恢復原任務
 ```
 
@@ -849,6 +884,10 @@ supplyDailyTick(state, army):
 | `BAL.corpsTithe` | 0.2 | 軍團上繳比例 |
 | `BAL.noFoodMoraleDaily` / `BAL.noFoodDesertionRate` | 8 / 0.05 | 糧盡懲罰 |
 | `BAL.autoReturnFoodDays` | 7 | 日；自動歸還門檻 |
+| `BAL.battleDeathChanceRout` | 0.05 | 潰走部隊被追擊命中→大將／副將戰死機率（§3.14／§3.4） |
+| `BAL.battleDeathChanceDefeatGeneral` | 0.03 | 合戰敗北部隊大將戰死機率（§3.14／§3.9） |
+| `BAL.siegeEscapeChance` | 0.35 | 落城守將逃脫機率（§3.14／§3.11） |
+| `BAL.siegeDeathChanceEscapeFail` | 0.15 | 落城逃脫失敗→轉戰死之比例（其餘被俘）（§3.14／§3.11） |
 
 ---
 
@@ -920,7 +959,7 @@ supplyDailyTick(state, army):
 | `ui.battle.honjinFallen` | 本陣陷落！ |
 | `ui.battle.victory` | 合戰勝利 |
 | `ui.battle.defeat` | 合戰敗北 |
-| `report.battle.won` | {attacker}於{place}擊破{defender}！ |
+| `report.battle.won` | {winner}於{place}擊破{loser}！ |
 | `report.battle.awe.small` | 威風（小）！鄰近敵郡望風歸順。 |
 | `report.battle.awe.medium` | 威風（中）！敵方諸郡動搖歸順。 |
 | `report.battle.awe.large` | 威風（大）！{clan}威名震動天下！ |
@@ -967,7 +1006,7 @@ supplyDailyTick(state, army):
 - [ ] **T3 野戰解算**：`FieldCombat` 建立與每日互擊、地利／挾擊／特性修正、士氣變動（§5.2）。
       驗收：等兵力等統率下雙方每日損耗相等；地利側總損耗少 15%；2 對 1 時單側損耗 ×1.3；
       交戰（及攻城 §3.11）成立當日，交戰雙方對應 `DiplomacyRow` 之 `lastHostileDay` 回寫為今日（02 §4.11）。
-- [ ] **T4 潰走與追擊**：閾值判定、退卻尋路、每日折損、抵城解編、追擊損害。
+- [ ] **T4 潰走與追擊**：閾值判定、退卻尋路、每日折損、抵城解編、追擊損害與追擊戰死（§3.14）。
       驗收：士氣 ≤30 當日轉 routed 並受一次追擊損害；抵城後駐兵與武將數量守恆。
 - [ ] **T5 野戰威風**：殲滅比例統計與威風小套用。
       驗收：構造殲滅 65% 的野戰 → 1 跳內敗方郡全部翻轉。
@@ -977,12 +1016,13 @@ supplyDailyTick(state, army):
       驗收：固定 seed 與指令序列重放，逐 tick 狀態雜湊一致（golden test，參見 17）。
 - [ ] **T8 戰法**：12 種效果、冷卻、覆蓋與並存規則、解鎖特性連動。
       驗收：每種戰法各有單元測試驗證數值效果；未持有特性的部隊戰法列表僅含突擊與齊射。
-- [ ] **T9 合戰委任 AI 與勝敗**：§3.9 決策序、三種結束條件、戰後回寫。
+- [ ] **T9 合戰委任 AI 與勝敗**：§3.9 決策序、三種結束條件、戰後回寫（含敗將戰死判定，§3.14）。
       驗收：全委任對打可在 `BAL.kassenMaxTicks` 內結束；戰後策略層兵數 = 合戰結束兵數。
 - [ ] **T10 合戰威風**：判級與套用、報告與自動暫停。
       驗收：速攻 35 tick 陷本陣 → 威風大、3 跳內敗方郡翻轉、威信 +50。
-- [ ] **T11 攻城**：強攻／包圍解算、糧盡、落城處理、耐久回復、捕虜移交（呼叫 06 介面）。
-      驗收：支城（耐久 400、守兵 1000）被 5000 兵強攻於 12–20 日內落城；包圍不減耐久。
+- [ ] **T11 攻城**：強攻／包圍解算、糧盡、落城處理（含守將逃脫／被俘／戰死三分，§3.14）、耐久回復、捕虜移交（呼叫 06 介面）。
+      驗收：支城（耐久 400、守兵 1000）被 5000 兵強攻於 12–20 日內落城；包圍不減耐久；
+      落城守將經逃脫判定分流為逃脫／被俘／戰死三途，戰死者呼叫 06 `die(·,'battle',城節點)` 且不另發 `officer.captured`。
 - [ ] **T12 援軍解圍與內應**：interrupted 流程、`CmdUseBetrayal` 一次性效果。
       驗收：援軍抵達當日城士氣停止下降；內應後城士氣降至 5、城主忠誠歸 0，且第二次發動被拒。
 - [ ] **T13 軍團**：建立／方針／劃撥／收回／解散、收支分流與上繳。
@@ -1096,3 +1136,24 @@ supplyDailyTick(state, army):
   (8) **`lastHostileDay` 回寫（02 §4.11／08 §3.1）**：§2 關係表、§3.3 交戰成立、§3.11 攻城開始補「敵對行為發生時 materialize 該對 `DiplomacyRow` 並寫 `lastHostileDay=今日`」，§7 T3 補驗收。
   (9) **`retreatSpeedFactor`（E-62／裁決 E-20）**：§3.4 潰走補述「移動速度依 `BAL.retreatSpeedFactor`（1.25×，returning／routed 共用；速度模型由 04 §5.3 持有）」。
   依據：02 四輪裁決備忘錄 B／C-2／D-7／D-9／E-20 與 06/08 canonical（08 §5.5.3）；04 §5.3／§5.8。
+- **D29｜六輪裁決落實（戰死框架＋battle.ended enrichment）**（2026-07-11，依 02 §8 六輪裁決 1／3 與五輪裁決 B）：
+  (1) **戰死規格（六輪裁決 3）**：新設 §3.14「武將戰死」——戰死之發生條件為 07 單一真相，三時機
+  （野戰潰走被追擊／合戰敗北大將／落城守將逃脫失敗），由 07 呼叫 06 §5.5 `die(o,'battle',nodeId)`
+  （`nodeId`＝野戰／合戰遭遇節點 `fc.nodeId`、落城城節點 `castle.nodeId`；06 於 `die()` 內發 `officer.died`、07 不直發）。
+  **擲骰一律 `rng.misc`**（與捕虜／逃脫同流，03 §3.5.2）——**改正指派中「rng.battle 流」之敘述**：
+  戰死係策略層 `Officer` 狀態變更（status/役職/繼承），不得走僅限戰術 modal、禁觸策略層之 `rng.battle`（03 §3.5.2 隔離約束），
+  且 02 §8 六輪裁決 3 明訂「隨機流一律 `rng.misc`」為權威。新增 4 BAL 常數（§5.8）：`battleDeathChanceRout`(0.05)／
+  `battleDeathChanceDefeatGeneral`(0.03)／`siegeEscapeChance`(0.35)／`siegeDeathChanceEscapeFail`(0.15)（後者為逃脫失敗→戰死比例、其餘被俘），同步登錄 15。
+  連動改：§3.4 追擊補「潰走大將戰死」bullet、§3.9 戰後處理補「敗將戰死」、§3.11 落城 step 2 之
+  「逃脫判定（公式參見 06）」懸空引用改正為 §3.14 三分（逃脫／被俘／戰死，公式歸 07 本檔）、
+  §2 關係表 06 行「捕虜與逃脫判定公式」改為「捕虜處置／die()／繼承」＋註明逃脫／被俘／戰死判定歸 07
+  （對齊 06 §2「捕虜產生、戰死判定由 07 定義」，消解雙向懸空引用）、§2 單一真相清單補「落城逃脫／被俘／戰死判定」、
+  §7 T4／T9 描述補 §3.14、T11 補落城三分驗收（一條）。
+  (2) **battle.ended enrichment（五輪裁決 B）**：§5.2 野戰 emit 與 §3.9 合戰散文兩處 `battle.ended`
+  補 `nodeId`／`attackerClanId`／`defenderClanId`（野戰＝`fc.nodeId`／`sideB.clanIds[0]`／`sideA.clanIds[0]`，攻方＝sideB 對齊 §3.3；
+  合戰＝`bs` 對應欄位；值 emit 端既有）——供 13 §6.11 `report.battle.won/lost`／`report.field.resolved` 之 place/winner/loser enrichment。
+  (3) **字串對齊**：§6.5 `report.battle.won` 參數 `{attacker}/{defender}`→`{winner}/{loser}`
+  （對齊 13 §6.11 定稿 `{winner}於{place}擊破{loser}！`；勝方＝守方時原句語意錯誤，已由 13 五輪裁決修正）。
+  (4) **plot.betrayalActivated（六輪裁決 1）**：§3.11 內應援引補註「08 §5.5.3 於發動時發出
+  `plot.betrayalActivated{actorClanId,targetClanId,castleId}`（02 §4.19 canonical）」；07 僅援引、不自行 emit。
+  依據：02 §8 六輪裁決 1／3、五輪裁決 B；03 §3.5.2；06 §2／§5.5 `die()`；13 §6.11。

@@ -73,7 +73,7 @@
 - `BAL.harvestRate = 0.3`（石高為年產額，入庫比例代表軍用徵收部分）。
 - 入庫後城兵糧不得超過兵糧容量（見 §3.4 藏）：
   `foodCap = BAL.castleFoodCapMain(=60000) 或 BAL.castleFoodCapBranch(=30000) + 藏加成`。
-  超出部分散失，並發出 `report.economy.granaryOverflow` 報告。
+  超出部分散失，發事件 `economy.granaryOverflow{clanId, castleId, food}`（`food`＝散失石數；報告字串見 13 §6.11 `report.economy.granaryOverflow`；02 §4.19；六輪裁決 1）。
 
 #### 3.1.3 兵糧維持（每日）
 
@@ -102,7 +102,7 @@
 
 **不足額規則（邊界條件）**：
 - 俸祿優先於政策維持費。金錢扣到 0 為止；俸祿未足額時，當月**全體**武將忠誠 −`BAL.unpaidSalaryLoyaltyPenalty`（=2，一次性，06 擁有、值 15 定案；經 06 的忠誠管線），並發事件 `economy.upkeepUnpaid{clanId}`（warning 級，每勢力每月至多一次；報告字串見 13 §6.11 `report.economy.upkeepUnpaid`；02 §4.19）。
-- 政策維持費付不出時，依「採用時間由新到舊」自動廢止政策，直到可支付，每廢止一項發 `report.policy.autoRevoked`。
+- 政策維持費付不出時，依「採用時間由新到舊」自動廢止政策，直到可支付，每廢止一項發事件 `policy.autoRevoked{clanId, policyId}`（每項一則；報告字串見 13 §6.11 `report.policy.autoRevoked`；02 §4.19；六輪裁決 1）。
 
 #### 3.1.5 收支預覽（selector，不改動狀態）
 
@@ -331,7 +331,7 @@ BAL.soldiersPerPop = 0.025
   - 兵力：隨輸送隊消滅而潰散，不併入敵方（押運兵非戰鬥編成）。
   - 輸送隊消滅，雙方各發報告（`report.transport.looted` / `report.transport.lootGain`）。
 - 一揆中的郡節點視同存在敵對單位（一揆軍駐於郡節點，§3.8.3）。
-- 抵達：兵糧入 B 城（受容量限制，溢出散失並報告）；兵力併入 B 城（受 B 城 `maxSoldiers` 限制，超額散失並報告）；金錢回勢力金庫（即：金錢輸送若安全抵達則無淨變化，僅通過風險區時有損失可能）。
+- 抵達：兵糧入 B 城（受容量限制，溢出部分發事件 `economy.granaryOverflow{clanId, castleId, food}`，`food`＝散失石數；報告字串見 13 §6.11 `report.economy.granaryOverflow`；02 §4.19；六輪裁決 1）；兵力併入 B 城（受 B 城 `maxSoldiers` 限制，超額散失並報告）；金錢回勢力金庫（即：金錢輸送若安全抵達則無淨變化，僅通過風險區時有損失可能）。
 - 玩家可隨時撤回未抵達的輸送隊（`CmdRecallTransport`）：就地折返，規則同上。
 
 ### 3.7 政策系統
@@ -410,9 +410,9 @@ BAL.soldiersPerPop = 0.025
 
 結束條件（先到先算）：
 - **鎮壓**：任一我方部隊行軍至該郡節點，與一揆軍進行野戰自動解算（07）；我方勝→一揆結束，
-  治安設為 45，參戰武將獲功績（值見 06）。我方敗→部隊照 07 敗退規則，一揆軍兵力保留。
+  治安設為 45，參戰武將獲功績（值見 06），發事件 `uprising.ended{districtId, resolved: 'suppressed'}`（`clanIds`＝郡所屬勢力；報告字串見 13 §6.11 `report.uprising.suppressed`；02 §4.19；六輪裁決 1）。我方敗→部隊照 07 敗退規則，一揆軍兵力保留（一揆未結束、不發此事件）。
 - **自然平息**：持續滿 `BAL.uprisingAutoEndMonths(=6)` 個月，一揆軍解散，治安設為 40，
-  郡人口額外一次性 −5%（流民）。
+  郡人口額外一次性 −5%（流民），發事件 `uprising.ended{districtId, resolved: 'subsided'}`（`clanIds`＝郡所屬勢力；報告字串見 13 §6.11 `report.uprising.subsided`；02 §4.19；六輪裁決 1）。
 
 ### 3.9 城主任命與直轄／委任
 
@@ -671,7 +671,7 @@ monthlyIncomeAndUpkeep(state):
     for pol of state.policies[clan.id].active（由舊到新）:
       if clan.gold >= upkeep(pol): clan.gold −= upkeep(pol)
       else: 標記待廢止
-    由新到舊廢止被標記者，直到其餘皆可支付；每廢止一項發 report.policy.autoRevoked
+    由新到舊廢止被標記者，直到其餘皆可支付；每廢止一項發事件 policy.autoRevoked{clanId, policyId}
 ```
 
 ### 5.4 輸送隊每日推進
@@ -967,6 +967,26 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
   報告字串映射見 13 §6.11。依據：四輪裁決 C-5、02 §4.19。
 - **郡屬性／`foodFrac` 浮點（存查）**：確認 05 §3.2.1／§4 已為「內部浮點、顯示 floor」（決策 D5）且 `Castle.foodFrac` 已收錄，
   與四輪裁決 D-12／02 §4 一致，無需再改。依據：D-12。
+
+### 8.4 六輪裁決事件收錄（2026-07-11，依 02 §8「2026-07-11 六輪裁決 1」與下游清單）
+
+依五輪 A 定案（報告改由 UI 層 `renderReport` 於渲染時導出、core 不得直接發 `report.*` key）與 02 §8 六輪裁決 1 之 05 側下游清單，
+將本文件仍「直接發 `report.*`」之三處收斂為發 canonical 事件（型別／payload 以 02 §4.19 為準）：
+
+- **米藏溢出（§3.1.2 秋收、§3.6 輸送抵達）**：原「並發出 `report.economy.granaryOverflow` 報告」／「溢出散失並報告」，
+  兩處均改為發事件 `economy.granaryOverflow{clanId, castleId, food}`（`food`＝散失石數）；報告字串仍映射 13 §6.11 `report.economy.granaryOverflow`。
+  改動 §3.1.2、§3.6。依據：02 §4.19、02 §8 六輪裁決 1（05 下游清單 (a)）。
+- **政策自動廢止（§3.1.4、§5.3）**：原「每廢止一項發 `report.policy.autoRevoked`」改為發事件 `policy.autoRevoked{clanId, policyId}`（每廢止一項一則）；
+  報告字串仍映射 13 §6.11 `report.policy.autoRevoked`。改動 §3.1.4 與 §5.3 偽碼。依據：02 §4.19、02 §8 六輪裁決 1（05 下游清單 (b)）。
+- **一揆結束（§3.8.3）**：原「鎮壓／自然平息」兩種結束途徑未具名收束，改為兩者皆發事件 `uprising.ended{districtId, resolved}`
+  （`clanIds`＝郡所屬勢力；鎮壓＝`resolved:'suppressed'`、自然平息＝`resolved:'subsided'`；我方鎮壓失敗、一揆未結束者不發此事件）；
+  報告字串分流 13 §6.11 `report.uprising.suppressed`／`report.uprising.subsided`。改動 §3.8.3。依據：02 §4.19、02 §8 六輪裁決 1（05 下游清單 (c)）。
+
+**範圍界定（存查）**：`report.uprising.started`（§3.8.3）、`report.build.done`（§5.2）、`report.transport.arrived`（§5.4）、
+`report.transport.looted`／`report.transport.lootGain`（§3.6）等「發 report.*」敘述非本輪裁決範圍——前三者對應之 canonical 事件
+（`uprising.started`／`facility.completed`／`transport.arrived`）已先於六輪裁決既存於 02 §4.19，其文字尚未同步純屬既有落差；
+後二者（劫掠雙報告）尚無 02 收錄之 canonical 事件名（13 §6.11 事件欄仍為「—」）。兩類皆非 02 §8 六輪裁決 1 之 05 下游清單所列項目，
+故不在本輪改動之列，留待對應之未來裁決／勘誤輪次處理，以維持本輪變更範圍與 02 裁決記錄一致。
 
 ---
 

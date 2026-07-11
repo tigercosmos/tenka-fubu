@@ -311,7 +311,10 @@ export const MIGRATIONS: SaveMigration[] = []
 1. 捕捉寫入例外。若為 `QuotaExceededError`：刪除「最舊的自動槽」（meta.timestamp 最小者）後重試一次
    （重試次數上限 `SAVECFG.autoSaveRetryMax = 1`）。
 2. 重試仍失敗（或非配額錯誤）：
-   - 發出一則重大等級 Report（字串 `report.save.autosaveFailed`；Report 機制見 03）。
+   - 發出一則 **app 層 UI 通知**（非 core Report／`GameEvent`）：以 12 §3.2.13 `ReportStack` 的
+     `ToastItem`（`severity:'critical'`、`sticky:true`）呈現字串 `ui.save.autosaveFailed`，由 app 層
+     直接推入 toast 佇列，不經 core Report 機制、不入 `state.reports`、不進 §5.4 golden hash
+     （自動存檔失敗屬 app 層 I/O 失敗、非決定論，core 不感知；依 02 §8「2026-07-11 六輪裁決 4」）。
    - 設定 session 旗標 `autosaveSuspended = true`：本次遊戲不再嘗試自動存檔（避免每季卡頓＋重複報錯），
      HUD 常駐顯示警示圖示（tooltip `ui.hud.autosaveSuspendedTip`）。
    - 手動存檔與快速存檔**不受影響**，仍可嘗試（玩家可能已清出空間）。
@@ -561,7 +564,8 @@ onTickCompleted(events: GameEvent[]):
   if result.ok → await adapter.set('tf.save.autosaveCursor', cursor + 1)
   else if result.error === 'quota-exceeded' AND retriesUsed < SAVECFG.autoSaveRetryMax:
      刪除三個自動槽中 meta.timestamp 最小者（blob+meta 兩鍵）；retriesUsed += 1；重跑步驟 4
-  else → 降級：發重大 Report(report.save.autosaveFailed)；autosaveSuspended ← true；HUD 顯示警示
+  else → 降級：app 層直接推送 critical toast（12 §3.2.13 ReportStack，字串 ui.save.autosaveFailed，sticky，
+     不經 core Report）；autosaveSuspended ← true；HUD 顯示警示（ui.hud.autosaveSuspendedTip）
 ```
 
 ### 5.4 讀取槽位（app 層 → core 解碼）
@@ -759,10 +763,15 @@ findLatestSave(): Promise<SaveSlotView | null>
 | `error.load.newerVersion` | `此存檔由較新版本的遊戲（存檔格式 v{version}）建立，目前版本無法載入。請更新遊戲後再試。` |
 | `error.load.migrationGap` | `找不到存檔升級路徑（v{version}），無法載入。請回報此問題。` |
 | `error.load.emptySlot` | `此槽位沒有存檔。` |
-| `report.save.autosaveFailed` | `自動存檔失敗，本場遊戲已暫停自動存檔。請盡快手動存檔或匯出備份。` |
+| `ui.save.autosaveFailed` | `自動存檔失敗，本場遊戲已暫停自動存檔。請盡快手動存檔或匯出備份。` |
 | `ui.save.exportSuccess` | `已匯出存檔檔案` |
 
 （難易度顯示字串 `term.difficulty.*`＝初級／中級／上級，歸 15／13 定義，此處僅引用。）
+
+> **2026-07-11 裁決**：`ui.save.autosaveFailed`（原 `report.save.autosaveFailed`）自動存檔失敗係 app 層 I/O
+> 通知（§3.10／§5.3 之 toast，經 12 §3.2.13 `ReportStack`），非 core Report／`GameEvent` 產物，故不掛
+> `report.*` 前綴，改與同批存檔動作 toast（`ui.save.saved`／`ui.save.quickSaved`／`ui.save.deleted`）同納
+> `ui.save.*` 命名空間；詳見 `plan/02-data-model.md` §8「2026-07-11 六輪裁決 4」。
 
 ---
 
@@ -779,7 +788,8 @@ findLatestSave(): Promise<SaveSlotView | null>
       `saveToSlot` / `loadFromSlot` / `deleteSlot` / `listSlots` / `findLatestSave`。
       驗收：記憶體 adapter 下 14 槽讀寫刪全流程單元測試通過；meta 鍵刪除後 `listSlots` 能由 blob 重建；blob 亂改後該槽 `corrupt` 且其餘槽正常。
 - [ ] **T16-4　自動存檔與快速存檔**：季首 hook、輪替游標、`Ctrl+S`／`F9` 快捷鍵（含 `preventDefault`）。
-      驗收：模擬推進 4 個季首依序寫入 auto:1→2→3→1；配額錯誤注入時走 §3.10 降級（刪最舊→重試→掛起＋Report）。
+      驗收：模擬推進 4 個季首依序寫入 auto:1→2→3→1；配額錯誤注入時走 §3.10 降級（刪最舊→重試→掛起＋
+      app 層 critical toast，非 core Report）。
 - [ ] **T16-5　匯出／匯入**：`exportImport.ts`、拖放與選檔、匯入預覽卡。
       驗收：匯出檔可 `JSON.parse` 且 `version === SAVE_FORMAT_VERSION`；匯出再匯入後 state deep-equal；
       餵入任意 .txt／截斷 JSON／超大檔各回正確錯誤碼且 UI 不崩潰。
@@ -843,3 +853,17 @@ findLatestSave(): Promise<SaveSlotView | null>
   改引 `UI.uiScaleMin/Max/Step`，並將 §5 常數表原列的 `BAL.uiScaleMin/Max/Step` 三列移除（改於表後註記說明已收於
   `UI.*`，不再與 `SAVECFG.*` 同表）；常數名與定案值不變（值仍以 15 §5.2 表 D 為準）。
   **依據**：19 §3.13 E-56 殘項審計＋12 §3.1.8 既有 `UI.*` 體例＋15 §4.3／§5.2 表 D 的分類。
+- **D14（2026-07-11，依 02 §8「六輪裁決 4」：自動存檔失敗改走 app 層 UI 通知，不經 core Report）**：
+  02 §4.19 事件收錄審計判定 `save.autosaveFailed` **不收錄**進事件表——自動存檔失敗係 app 層 I/O 失敗
+  （IndexedDB 配額／寫入錯誤），非決定論、core 不感知；若令其成為 `GameEvent` 或經 `reportsSystem`
+  寫入 `state.reports`（03 §3.4.3），非決定論訊號將污染 §5.4 golden hash、破壞重放決定論（03 §3.5.4）。
+  故定案：本文件 §3.10、§5.3 之自動存檔失敗降級**不再發 core Report**，改由 app 層直接以
+  12 §3.2.13 `ReportStack` 的 `ToastItem`（`severity:'critical'`、`sticky:true`）呈現一次性 toast，
+  與常駐 HUD 警示（`ui.hud.autosaveSuspendedTip`）並存；`autosaveSuspended` 維持既有 session 旗標
+  （本即 app 層、不入 `state`），行為與 D10 一致，僅通知路徑改變。**改了什麼**：§3.10 步驟 2 首項、
+  §5.3 pseudocode 末行、§6.5 字串表（`report.save.autosaveFailed` → `ui.save.autosaveFailed`，
+  併表後裁決註）、§7 T16-2 驗收描述，共四處移除 `report.*`／core Report 措辭改為 app 層 toast 措辭；
+  常數、流程步驟與 D10 之掛起邏輯本身不變。
+  **依據**：`plan/02-data-model.md` §8「2026-07-11 六輪裁決 4」（`save.autosaveFailed` 不收錄 §4.19、
+  改判 app 層 UI 通知）＋03 §3.4.3／§3.5.4（Report／golden hash 決定論邊界）＋12 §3.2.13（`ReportStack`
+  / `ToastItem` 元件）。

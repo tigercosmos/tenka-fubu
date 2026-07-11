@@ -225,7 +225,8 @@ s1560 開局：室町幕府存續，將軍足利義輝（`off.ashikaga-yoshiteru
   所有勢力對我感情一次性 `+BAL.shogunPatronSentimentGain = 10`；
   此後每月威信 `+BAL.shogunPatronMonthlyPrestige = 5`；幕府役職獻金 ×`BAL.shogunPatronTitleCostMult = 0.5`；
   解鎖副將軍申請資格。
-- 資格喪失：月初檢查，若擁立者不再控制京都所在城，`patronClanId` 歸 `null`；
+- 資格喪失：月初檢查，若擁立者不再控制京都所在城，`patronClanId` 歸 `null`、
+  emit `shogunate.patronLost{clanId: 失去者}`（02 §4.19／六輪裁決 1）；
   一次性威信不收回，每月威信與費用減免即刻停止；副將軍役職若已敘任則保留（其條件僅於敘任時檢查）。
 
 #### 3.6.4 幕府滅亡的處理
@@ -253,7 +254,8 @@ s1560 開局：室町幕府存續，將軍足利義輝（`off.ashikaga-yoshiteru
 - 可隨時 `cancelPlot` 中止（無退款、不判定敗露）。
 - 調略結算（`resolvePlot`，§5.5.2）發出的 `plot.succeeded`／`plot.failed` payload 含
   `targetCastleId: CastleId | null`（betrayal／rumor〔城模式〕填、其餘 null，直接取自 `Plot.targetCastleId`
-  本欄；02 §4.19 表後註④／五輪裁決 B），供報告 enrichment 使用。
+  本欄；02 §4.19 表後註④／五輪裁決 B），供報告 enrichment 使用；`plot.exposed`（敗露，§5.5.2）payload
+  鏡射 `plot.failed`（`kind, actorClanId, targetClanId, targetOfficerId, targetCastleId`），02 §4.19／六輪裁決 1。
 
 #### 3.7.1 引拔（poach）——挖角敵方武將
 
@@ -435,16 +437,20 @@ export interface ShogunateTitleDef {
 
 GameEvent 種類（事件名 canonical 見 02 §4.19；payload 從略，均含當事勢力與日期）。
 02 §4.19 已收錄者：`pact.signed`、`pact.expired`、`pact.broken`、`diplo.refused`（提案被拒）、
-`diplo.envoyArrived`（來使抵達玩家，payload `{ fromClanId, proposalId }`；勘誤 E-32，觸發 11 來使 modal 自動暫停）、
+`diplo.envoyArrived`（來使抵達玩家，payload `{ fromClanId, proposalId, kind: DiplomacyActionKind }`；
+勘誤 E-32，觸發 11 來使 modal 自動暫停；`kind`＝`Proposal.kind`，供 13 `{proposal}` 於渲染時取提案型別
+——Proposal 屆時已 transient、不可反查 proposalId，六輪裁決 2）、
 `diplo.reinforceAgreed`（援軍請求獲受方同意，payload `{ fromClanId, toClanId, againstClanId }`；
 requestReinforce 接受分支專用——不建立 Pact，故不發 `pact.signed`；派兵決策移交 09/07，報告見 13；
 **已收錄 02 §4.19 canonical，四輪裁決 D-21，非本系統擴充事件**）、
 `court.rankGranted`、`shogunate.titleGranted`、`plot.succeeded`／`plot.failed`（payload 另含
 `targetCastleId: CastleId | null`：betrayal／rumor〔城模式〕填、其餘 null，五輪裁決 B，emit 敘述見 §5.5.2／§3.7）、
-`officer.recruited`（引拔成功、source='poach'）。
-本系統另發下列**08 擴充事件**（02 §4.19 尚未收錄、於各引用文件明列為 08 擴充）：`dip.workStopped`
-（工作因金錢不足中止）、`court.mediationResult`、`shogunate.nominated`、`shogunate.patronLost`、
-`shogunate.collapsed`、`plot.exposed`（調略敗露）、`plot.betrayalActivated`（內應發動）。
+`officer.recruited`（引拔成功、source='poach'）、`diplo.workStopped`（工作因金錢不足中止；原本文件名
+`dip.workStopped`，命名對齊 `diplo.*` 族系）、`court.mediationResult`（朝廷停戰斡旋結算）、
+`shogunate.nominated`（上洛擁立將軍成立）、`shogunate.patronLost`（擁立者資格喪失）、
+`shogunate.collapsed`（幕府滅亡）、`plot.exposed`（調略敗露、payload 鏡射 `plot.failed`）、
+`plot.betrayalActivated`（內應發動）——以上 7 項**已收錄 02 §4.19 canonical（六輪裁決 1）**，
+非本系統擴充事件；payload 定義與 emit 敘述見 §5.1／§5.4／§5.5，本節不重複列。
 
 ## 5. 演算法與公式
 
@@ -465,7 +471,7 @@ diplomacyMonthlyTick(state):
   for clan in clans（依 clanId 字典序，確保決定論）:
     1. 工作扣費：每件 mission 依 target 種類查 BAL 月費（對勢力 diplomacyWorkMonthlyCost、
        'court' courtWorkMonthlyCost、幕府 shogunateWorkMonthlyCost；含御供眾 ×0.8）；
-       金錢不足 → 中止該件、emit dip.workStopped
+       金錢不足 → 中止該件、emit diplo.workStopped
     2. 工作結算：對勢力 → trust(clan→target) += trustGainMonthly()（§5.2.1，clamp 0..100）
                 對朝廷/幕府 → favor += favorGainMonthly()（§5.2.2，clamp 0..100）
     3. 調略扣費與進度（§5.5.1）；progress ≥ 100 → resolvePlot()（§5.5.2）
@@ -550,7 +556,9 @@ validatePropose(state, cmd):   # cmd = CmdProposePact{ targetClanId, kind: Diplo
         寫入 `DiplomacyProposal.marriageOfficerIds = [from 方一門, to 方一門]`
   通過 → 建立 DiplomacyProposal 加入 pendingProposals；
         目標為 AI → 本 tick diplomacy 步驟（00 §5.4 第 4 步，唯一結算點）內即時 resolveProposal；
-        目標為玩家 → emit diplo.envoyArrived（payload{fromClanId, proposalId}；觸發自動暫停「外交來使」）
+        目標為玩家 → emit diplo.envoyArrived（payload{fromClanId, proposalId, kind: cmd.kind}；
+          觸發自動暫停「外交來使」；`kind`＝新建 `DiplomacyProposal.kind`，供 13 renderReport 取提案型別
+          （02 §4.19／六輪裁決 2））
 ```
 
 #### 5.3.2 提案結算
@@ -663,7 +671,7 @@ collapseShogunate(state):   # 由 10 的事件引擎呼叫
     refund = Σ 該勢力已敘任各階 prestigeBonus（依 shogunateTitleTable 自 order 1 累計至現階）
     clan.prestige = max(0, clan.prestige − refund)；clan.shogunateTitle = 'none'
   patronClanId = null；shogunateExists = false
-  中止全部 target=shogunate 的獻金工作（emit dip.workStopped）；emit shogunate.collapsed
+  中止全部 target=shogunate 的獻金工作（emit diplo.workStopped）；emit shogunate.collapsed
 ```
 
 ### 5.5 調略演算法
@@ -686,6 +694,7 @@ plotMonthly(state, plot):
 resolvePlot(state, plot):
   p = 依種類公式（§3.7.1–3.7.3）
   # plot.succeeded／plot.failed 皆含 targetCastleId: plot.targetCastleId（betrayal／rumor(城模式) 為值、其餘 null；02 §4.19 表後註④／五輪裁決 B）
+  # plot.exposed payload 鏡射 plot.failed（同五欄；02 §4.19／六輪裁決 1）
   if rng.misc() < p:
     套用成功效果（移籍/忠誠/士氣/內應標記）；
     emit plot.succeeded{kind:plot.kind, actorClanId:plot.ownerClanId, targetClanId:plot.targetClanId,
@@ -693,7 +702,9 @@ resolvePlot(state, plot):
   else:
     exposeP = BAL.plotExposeChance{Poach|Rumor|Betrayal}
     if rng.misc() < exposeP:
-      套用敗露效果（感情/忠誠/免疫）；emit plot.exposed
+      套用敗露效果（感情/忠誠/免疫）；
+      emit plot.exposed{kind:plot.kind, actorClanId:plot.ownerClanId, targetClanId:plot.targetClanId,
+        targetOfficerId:plot.targetOfficerId, targetCastleId:plot.targetCastleId}
     else:
       emit plot.failed{kind:plot.kind, actorClanId:plot.ownerClanId, targetClanId:plot.targetClanId,
         targetOfficerId:plot.targetOfficerId, targetCastleId:plot.targetCastleId}
@@ -866,7 +877,7 @@ powerTerm  = clamp((P − 1) × BAL.dipPowerTermScale(=15), −BAL.dipPowerTermC
 | `report.shogunate.nominated` | `{clan}上洛擁立將軍，威名遠播！` |
 | `report.shogunate.patronLost` | `我方失去京都，將軍庇護不再。` |
 | `report.shogunate.collapsed` | `室町幕府滅亡，諸役職效果盡失。` |
-| `report.plot.poachSuccess` | `{officer}引拔成功，{target}前來仕官！` |
+| `report.plot.poachSuccess` | `{officer}自{clan}被引拔，前來仕官！`（`officer`←`targetOfficerId`、`clan`←`targetClanId`；13 §6.11 定稿同步） |
 | `report.plot.rumorSuccess` | `流言奏效，{target}軍心動搖。` |
 | `report.plot.betrayalReady` | `對{castle}的內應工作完成，攻城時可發動。` |
 | `report.plot.betrayalActivated` | `{castle}內應發動，城內士氣崩潰！` |
@@ -1083,6 +1094,31 @@ powerTerm  = clamp((P − 1) × BAL.dipPowerTermScale(=15), −BAL.dipPowerTermC
   `targetCastleId: CastleId | null` 欄位；覆核本檔 §4 指令聯集敘述（`CmdStartPlot { kind; executorId;
   targetClanId; targetOfficerId; targetCastleId; investGold }`）與 §4 `Plot` 型別描述（`targetCastleId`
   已列於欄位序列），兩處皆已與 02 §4.18／§4.11 逐欄一致，**無需修改**（本輪僅覆核確認同步）。
+
+**（2026-07-11）六輪裁決連動（02 §8「2026-07-11 六輪裁決」裁決 1／2；02 為裁決主體，本檔按下游清單 (e)(f) 收尾）**：
+
+- **08 擴充事件全數收錄 02 §4.19 canonical（裁決 1）**：五輪裁決記錄中原判「仍未見於 02 §4.19、維持
+  08 擴充事件不動」的 7 項，02 六輪裁決末輪逐一核實後**全數收錄**（無一判 UI-only，因 13 §6.11 皆有
+  Report 消費列）。§4 事件清單改註：`dip.workStopped`→更名 **`diplo.workStopped`**（命名對齊 `diplo.*`
+  族系）、`court.mediationResult`、`shogunate.nominated`、`shogunate.patronLost`、`shogunate.collapsed`、
+  `plot.exposed`、`plot.betrayalActivated` 由「08 擴充事件（02 尚未收錄）」段落併入「02 §4.19 已收錄者」
+  列舉，加註「已收錄 02 §4.19 canonical（六輪裁決 1）」。發出處同步：§5.1 步驟 1、§3.6.4／§5.4.3
+  兩處 `emit dip.workStopped`→`emit diplo.workStopped`；§5.5.2 `resolvePlot` 之 `emit plot.exposed`
+  展開為明列欄位（payload 鏡射 `plot.failed`：`{kind, actorClanId, targetClanId, targetOfficerId,
+  targetCastleId}`），§3.7 共通規則新增一句說明。`court.mediationResult`（§5.4.2）、`shogunate.nominated`／
+  `shogunate.collapsed`（§5.4.3）emit 敘述本已含 02 定案 payload、`plot.betrayalActivated`（§5.5.3）emit
+  敘述本已完整，均無需改動。**補 `shogunate.patronLost{clanId}` emit**（02 §8 六輪裁決「下游檔案待改
+  清單」08(c) 指出 §3.6.3「資格喪失」原僅敘述 `patronClanId` 歸 `null`、缺 emit）：§3.6.3 該條補上
+  `emit shogunate.patronLost{clanId: 失去者}`。
+- **`diplo.envoyArrived` 增 `kind`（裁決 2）**：payload 由 `{fromClanId, proposalId}` 增為
+  `{fromClanId, proposalId, kind: DiplomacyActionKind}`（＝新建 `DiplomacyProposal.kind`）。§4 事件清單、
+  §5.3.1 emit 敘述同步補齊；理由——13 `{proposal}` 於渲染時需提案型別，但 `Proposal` 屆時已 transient
+  （受方裁決後移出 `pendingProposals`）、`proposalId` 不可反查，`kind` 於本文件 emit 端已持有，隨 event
+  落地後 13 可直接取型別 i18n；`proposalId` 保留供來使 modal／11 跳轉。
+- **§6.2 `report.plot.poachSuccess` 文案同步 13 定稿**：原草稿 `{officer}引拔成功，{target}前來仕官！`
+  與 13 §6.11 定稿（五輪裁決 B 連動，enrichment 改為「被引拔者／原主」雙欄）不一致，改為
+  `{officer}自{clan}被引拔，前來仕官！`（`officer`←`targetOfficerId`＝被引拔者、`clan`←`targetClanId`＝
+  原主勢力）。
 
 ---
 
