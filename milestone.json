@@ -1,5 +1,5 @@
 {
-  "current": "M1",
-  "completed": ["M0"],
-  "completedAt": { "M0": "2026-07-11" }
+  "current": "M2",
+  "completed": ["M0", "M1"],
+  "completedAt": { "M0": "2026-07-11", "M1": "2026-07-11" }
 }
