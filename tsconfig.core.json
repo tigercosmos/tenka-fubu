@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2022"], // 無 DOM：core 內引用 window/document 直接 typecheck 失敗
+    "types": [] // 亦排除 vite/client 的 DOM 相依型別
+  },
+  "include": ["src/core", "src/data"]
+}

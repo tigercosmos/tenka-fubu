@@ -1,0 +1,3 @@
+// 歷史事件（Event）zod schema。
+// 規格：plan/14-scenario-data.md T1、plan/10-events-and-victory.md T1。留待 M2-1 實作。
+export {};
