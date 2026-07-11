@@ -1,3 +1,305 @@
-// imperative Pixi 渲染器。
-// 規格：plan/01-architecture.md §3.6.1、§4.3。留待 M2-13 實作。
-export {};
+// 命令式（imperative）PixiJS 地圖渲染器——純 view，非 React。
+//
+// 規格：
+// - 生命週期契約（`init`/`focusNode`/`setDebugOverlay`/`showDebugPath`/`destroy`、對外事件）：
+//   plan/01-architecture.md §3.6.1（imperative renderer、Application.init 選項）／§3.6.2（React 掛載
+//   與 destroy 冪等）／§4.3（MapRenderer 契約與 MapRendererEvent）。M2-13（01-A10）。
+// - 圖層與內容：plan/04-map-and-movement.md §3.10.1（8 圖層由下而上層序）／§4.5（MAPVIEW 渲染常數）／
+//   §4.6（core→view plain data）。04-T8（Pixi 初始化、8 圖層、outline 與街道繪製、view diff 更新）。
+//
+// 對外 API 裁定（01 §4.3 vs 04 §3.12.3 之衝突）：本檔以 **01 §4.3** 的生命週期方法為 canonical
+// 骨架（init(host,onEvent) / focusNode / setDebugOverlay / showDebugPath / destroy），另加平行 agent
+// 掛層與資料流所需之擴充方法（setMapData / updateView / resize / getLayers / getApp）。04 §3.12.3 之
+// 較豐富 view API（update / setMode / setFactionMapMode / playAweEffect …）屬後續里程碑（M2-18 勢力圖、
+// M5 特效）逐步補上，其 init(canvas,staticData) 形態與 01 §3.6.2 之 init(host,onEvent) 衝突——本骨架
+// 取 01（掛載契約），staticData 改由 setMapData 傳入。記錄見 04 §8.1 之 M2-13 裁定。
+// M2-17（idle 模式命中測試＋事件協定，04 §3.12）已落地：見下方 `interaction` 欄位／attachEvents；
+// `setMode`／orderMarch 模式（hover 即時尋路預覽、左鍵送出行軍）留待 M4-14「04-T12 剩餘」。
+//
+// Pixi 生命週期防護（本檔最易錯處，01 §3.6.2）：
+// - `init` 於 `await app.init(...)` 後**再次檢查**是否已 destroy（StrictMode 雙掛載：cleanup 可能在
+//   init 尚未 resolve 前先跑）；若已 destroy 則立即銷毀剛建立的 Application 並返回，不掛入 DOM。
+// - `destroy` 冪等：可在 init 前／中／後、重複呼叫皆安全（全程 null-guard）。
+
+import { Application, Container, Graphics } from 'pixi.js';
+import type { FederatedPointerEvent } from 'pixi.js';
+import { BAL } from '@core/balance';
+import { MAPVIEW, WORLD_SIZE } from './mapViewConfig';
+import { drawNodeMarkers, drawRoads, drawSeaBackground, loadOutline } from './mapDraw';
+import { LAYER_ORDER } from './mapViewTypes';
+import { MapInteraction, screenToWorld } from './interaction';
+import type {
+  DebugOverlayFlags,
+  MapEventHandler,
+  MapLayers,
+  MapRendererEvent,
+  MapStaticData,
+  MapViewState,
+} from './mapViewTypes';
+
+/** 空的動態視圖（無主全圖）；setMapData 早於 updateView 到達時的預設，使 nodeMarkers 可先以中性色繪出。 */
+const EMPTY_VIEW: MapViewState = {
+  day: 0,
+  districtOwner: {},
+  castleOwner: {},
+  selection: null,
+};
+
+export class MapRenderer {
+  private app: Application | null = null;
+  private onEvent: MapEventHandler | null = null;
+  private layers: MapLayers | null = null;
+
+  /** 冪等/StrictMode 防護旗標：一旦呼叫 destroy 即為 true，init 的 await 後檢查據此放棄掛載。 */
+  private disposed = false;
+  private initialized = false;
+
+  private staticData: MapStaticData | null = null;
+  private view: MapViewState = EMPTY_VIEW;
+  /** 除錯狀態（01 §4.3 setDebugOverlay/showDebugPath 存放處）；overlay 圖層與路徑繪製屬後續里程碑。 */
+  private debug: { overlay: DebugOverlayFlags; path: string[] | null; costLabel: string | null } = {
+    overlay: { aiIntent: false, pathfinding: false },
+    path: null,
+    costLabel: null,
+  };
+
+  private seaGfx: Graphics | null = null;
+  private roadsGfx: Graphics | null = null;
+  private nodesGfx: Graphics | null = null;
+
+  /** idle 模式命中測試與事件協定（M2-17，04 §3.12）；純邏輯，見 interaction.ts。 */
+  private readonly interaction = new MapInteraction({ emit: (e) => this.emit(e) });
+
+  private readonly onPointerMove = (event?: FederatedPointerEvent): void => {
+    const g = event?.global;
+    const world = this.toWorldPoint(g?.x ?? 0, g?.y ?? 0);
+    this.interaction.handleMove(world.x, world.y, g?.x ?? 0, g?.y ?? 0);
+  };
+
+  private readonly onPointerTap = (event?: FederatedPointerEvent): void => {
+    const g = event?.global;
+    const world = this.toWorldPoint(g?.x ?? 0, g?.y ?? 0);
+    this.interaction.handleTap(world.x, world.y);
+  };
+
+  private readonly onRightClick = (): void => this.interaction.handleRightClick();
+  private readonly onRendererResize = (): void => this.fitWorldToViewport();
+
+  /** stage 全域座標（event.global）→ 世界座標：反套用 `world` 容器目前的平移／縮放（04 §3.12.1）。 */
+  private toWorldPoint(screenX: number, screenY: number): { x: number; y: number } {
+    if (this.layers === null) return { x: screenX, y: screenY };
+    const { position, scale } = this.layers.world;
+    return screenToWorld(screenX, screenY, { x: position.x, y: position.y, scale: scale.x });
+  }
+
+  /**
+   * 建立 Pixi Application、載入 8 圖層容器、繪製靜態層（海陸背景＋若已有資料則街道/標記）、
+   * 開始事件管線；`host` 為滿版容器 div（01 §3.6.2）。可安全並發於 destroy（見檔頭防護）。
+   */
+  async init(host: HTMLElement, onEvent: MapEventHandler): Promise<void> {
+    if (this.disposed || this.initialized || this.app !== null) return;
+    this.onEvent = onEvent;
+
+    const app = new Application();
+    await app.init({
+      resizeTo: host,
+      resolution: Math.min(window.devicePixelRatio || 1, BAL.uiDprMax),
+      autoDensity: true, // CSS 尺寸與實際像素解耦
+      antialias: true,
+      preference: 'webgl',
+      background: MAPVIEW.colors.sea, // tokens 未定義地圖海色，取 MAPVIEW.colors.sea（04 §4.5）
+    });
+
+    // StrictMode 雙掛載防護：init 完成前已卸載 → 直接銷毀剛建立的 Application，不掛入 DOM。
+    if (this.disposed) {
+      app.destroy({ removeView: true }, { children: true, texture: true });
+      return;
+    }
+
+    this.app = app;
+    host.appendChild(app.canvas);
+
+    this.layers = this.buildLayers(app);
+    this.drawStaticBackground();
+    this.redrawDataLayers();
+    this.fitWorldToViewport();
+    this.attachEvents(app);
+    app.renderer.on('resize', this.onRendererResize);
+    this.initialized = true;
+  }
+
+  /** 建立鏡頭根 `world` 與 8 個圖層容器（04 §3.10.1 由下而上層序，以 LAYER_ORDER 保證順序）。 */
+  private buildLayers(app: Application): MapLayers {
+    const world = new Container();
+    world.label = 'world';
+    const containers: Record<string, Container> = {};
+    for (const key of LAYER_ORDER) {
+      const c = new Container();
+      c.label = key;
+      world.addChild(c);
+      containers[key] = c;
+    }
+    app.stage.addChild(world);
+    return {
+      world,
+      seaBackground: containers.seaBackground as Container,
+      territory: containers.territory as Container,
+      roads: containers.roads as Container,
+      nodeMarkers: containers.nodeMarkers as Container,
+      armies: containers.armies as Container,
+      selectionAndPath: containers.selectionAndPath as Container,
+      effects: containers.effects as Container,
+      labels: containers.labels as Container,
+    };
+  }
+
+  /** 圖層 0 seaBackground：海色矩形＋japan-outline 陸地多邊形（靜態一次建立）。 */
+  private drawStaticBackground(): void {
+    if (this.layers === null) return;
+    if (this.seaGfx === null) {
+      this.seaGfx = new Graphics();
+      this.layers.seaBackground.addChild(this.seaGfx);
+    }
+    const outline = this.staticData?.outline ?? loadOutline();
+    drawSeaBackground(this.seaGfx, outline);
+  }
+
+  /** 圖層 2 roads＋圖層 3 nodeMarkers：需 `staticData.graph`；無資料時清空。 */
+  private redrawDataLayers(): void {
+    if (this.layers === null) return;
+    const data = this.staticData;
+    if (this.roadsGfx === null) {
+      this.roadsGfx = new Graphics();
+      this.layers.roads.addChild(this.roadsGfx);
+    }
+    if (this.nodesGfx === null) {
+      this.nodesGfx = new Graphics();
+      this.layers.nodeMarkers.addChild(this.nodesGfx);
+    }
+    if (data === null) {
+      this.roadsGfx.clear();
+      this.nodesGfx.clear();
+      return;
+    }
+    drawRoads(this.roadsGfx, data.graph);
+    drawNodeMarkers(this.nodesGfx, data.graph, this.view, data.clanColorIndex);
+  }
+
+  /**
+   * 事件管線（01 §3.6.1「事件流出」）：單一 canvas 指標事件 + 空間查詢（04 §3.12.1）——stage 收
+   * pointermove/pointertap/rightclick → 轉世界座標 → `MapInteraction` 命中測試 → 轉 MapRendererEvent
+   * → onEvent callback（M2-17）。
+   */
+  private attachEvents(app: Application): void {
+    const stage = app.stage;
+    stage.eventMode = 'static';
+    stage.hitArea = app.screen; // 全螢幕命中；逐節點命中測試為空間查詢，非逐物件監聽（04 §3.12.1）
+    stage.on('pointermove', this.onPointerMove);
+    stage.on('pointertap', this.onPointerTap);
+    stage.on('rightclick', this.onRightClick);
+  }
+
+  private emit(event: MapRendererEvent): void {
+    this.onEvent?.(event);
+  }
+
+  /**
+   * 骨架期鏡頭：把整個 4096 世界置中縮放進視窗（夾限於 MAPVIEW.min/maxScale）。
+   * 正式鏡頭（縮放錨點/夾限/慣性/focusOn）由 camera.ts（M2-15，04-T10）取代本方法。
+   */
+  private fitWorldToViewport(): void {
+    if (this.app === null || this.layers === null) return;
+    const sw = this.app.screen.width;
+    const sh = this.app.screen.height;
+    if (sw <= 0 || sh <= 0) return;
+    const fit = Math.min(sw / WORLD_SIZE, sh / WORLD_SIZE);
+    const scale = Math.max(MAPVIEW.minScale, Math.min(MAPVIEW.maxScale, fit));
+    this.layers.world.scale.set(scale);
+    this.layers.world.position.set((sw - WORLD_SIZE * scale) / 2, (sh - WORLD_SIZE * scale) / 2);
+  }
+
+  // ── 01 §4.3 契約方法 ──────────────────────────────────────────────
+
+  /** 鏡頭平滑移至節點（UI「前往」按鈕用，01 §4.3）。骨架：瞬移置中至 focusScale（無補間，動畫屬 M2-15）。 */
+  focusNode(nodeId: string): void {
+    if (this.app === null || this.layers === null || this.staticData === null) return;
+    const node = this.staticData.graph.nodes.get(nodeId as never);
+    if (node === undefined) return;
+    const s = MAPVIEW.focusScale;
+    const sw = this.app.screen.width;
+    const sh = this.app.screen.height;
+    this.layers.world.scale.set(s);
+    this.layers.world.position.set(sw / 2 - node.pos.x * s, sh / 2 - node.pos.y * s);
+  }
+
+  /** 除錯 overlay 開關（01 §4.3）；debugOverlay 圖層內容屬後續里程碑，本階段僅保存旗標。 */
+  setDebugOverlay(flags: Partial<DebugOverlayFlags>): void {
+    this.debug = { ...this.debug, overlay: { ...this.debug.overlay, ...flags } };
+  }
+
+  /** 尋路除錯結果（01 §4.3；null 清除）。本階段僅保存；路徑（含 orderMarch 預覽）繪製屬 M4-14（selectionAndPath 層）。 */
+  showDebugPath(path: string[] | null, costLabel: string | null): void {
+    this.debug = { ...this.debug, path, costLabel };
+  }
+
+  /** 冪等銷毀（01 §3.6.2）：移除事件與 canvas、銷毀 Pixi Application 與所有 texture；可重複呼叫。 */
+  destroy(): void {
+    this.disposed = true;
+    const app = this.app;
+    if (app !== null) {
+      app.stage.off('pointermove', this.onPointerMove);
+      app.stage.off('pointertap', this.onPointerTap);
+      app.stage.off('rightclick', this.onRightClick);
+      app.renderer.off('resize', this.onRendererResize);
+      app.destroy({ removeView: true }, { children: true, texture: true });
+    }
+    this.app = null;
+    this.layers = null;
+    this.seaGfx = null;
+    this.roadsGfx = null;
+    this.nodesGfx = null;
+    this.initialized = false;
+  }
+
+  // ── 平行 agent 掛層／資料流擴充（見檔頭裁定） ──────────────────────
+
+  /** 傳入靜態地圖資料（整局一次）；重繪 roads/nodeMarkers、同步互動命中測試資料。init 前呼叫亦可，init 完成時會套用。 */
+  setMapData(data: MapStaticData | null): void {
+    this.staticData = data;
+    this.interaction.setStaticData(data);
+    if (this.initialized) {
+      this.drawStaticBackground(); // outline 可能被 data.outline 覆蓋
+      this.redrawDataLayers();
+    }
+  }
+
+  /** 每 tick 動態視圖更新（04 §4.6）；本階段重繪 nodeMarkers 的 owner 勢力色。 */
+  updateView(view: MapViewState): void {
+    this.view = view;
+    if (this.initialized && this.staticData !== null && this.nodesGfx !== null) {
+      drawNodeMarkers(this.nodesGfx, this.staticData.graph, view, this.staticData.clanColorIndex);
+    }
+  }
+
+  /** 手動 resize（04 §3.12.3）；平時由 Application `resizeTo` 自動處理，此為顯式入口。 */
+  resize(width: number, height: number): void {
+    if (this.app === null) return;
+    this.app.renderer.resize(width, height);
+    this.fitWorldToViewport();
+  }
+
+  /** 供平行 agent（M2-14/16/…）取得圖層容器以掛入自己的 display object；init 前為 null。 */
+  getLayers(): MapLayers | null {
+    return this.layers;
+  }
+
+  /** 供測試／橋接層取用底層 Application（init 前或 destroy 後為 null）。 */
+  getApp(): Application | null {
+    return this.app;
+  }
+
+  /** 是否已完成 init 且未 destroy。 */
+  isReady(): boolean {
+    return this.initialized && this.app !== null;
+  }
+}

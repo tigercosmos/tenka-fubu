@@ -15,8 +15,9 @@ import { BAL } from '../balance';
 import { RANK_VALUES, type Rank, type Season } from './enums';
 import type { DerivedCache } from './derivedCache';
 import { getOrCompute } from './derivedCache';
-import type { Castle, District, GameState } from './gameState';
+import type { Army, Castle, District, GameState } from './gameState';
 import type {
+  ArmyId,
   CastleId,
   ClanId,
   CorpsId,
@@ -27,6 +28,8 @@ import type {
   RoadEdgeId,
 } from './ids';
 import { seasonOf } from '../systems/time';
+import outlineJson from '../../data/map/japan-outline.json';
+import { zJapanOutlineFile } from '../../data/schemas/outline';
 
 // ═══════════════════════════════════════════════════════════════════
 // 曆法（02 §5.1 `season(month)`）
@@ -216,4 +219,109 @@ export function getClanCastles(state: GameState, clanId: ClanId): Castle[] {
     if (castle.ownerClanId === clanId) result.push(castle);
   }
   return result;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// selectMiniMapModel（M2-18；12-ui-components.md §3.2.12／§4／§5.5；純函式）
+// ═══════════════════════════════════════════════════════════════════
+//
+// 12 §4：「MiniMap 底圖模型——由 selectMiniMapModel(state) 產生（純函式，位於 core selector）」。
+// 型別 `MiniMapModel` 依 12 §4 之說明本應收錄於 `src/ui/components/types.ts`，但該形狀由 core
+// 產生，core 不得 import UI 層型別（eslint 邊界規則 1）；故型別亦定義於本檔（唯一真相來源），
+// `types.ts` 僅 `export type { MiniMapModel }` 轉出，供 UI 元件從單一位置 import（與該檔既有
+// 「遊戲實體型別一律 import 自 02」慣例同構——此處是「衍生模型一律 import 自本 selector」）。
+
+/** MiniMap 底圖上的一個標記點：世界座標＋owner 勢力色索引（無主／查無勢力為 null）。 */
+export interface MiniMapPoint {
+  x: number;
+  y: number;
+  colorIndex: number | null;
+}
+
+/** MiniMap 底圖模型（12 §4）：日本輪廓＋城/部隊標記＋版本號。 */
+export interface MiniMapModel {
+  /** 日本陸地輪廓多邊形（世界座標，來源 `src/data/map/japan-outline.json`，04 §3.3）。 */
+  outline: readonly (readonly { x: number; y: number }[])[];
+  /** 每城：位置與現任 owner 之 colorIndex。 */
+  castles: readonly MiniMapPoint[];
+  /** 出陣中部隊：位置（沿行軍邊線性內插，04 §3.4.2）與 colorIndex。 */
+  armies: readonly MiniMapPoint[];
+  /** 狀態版本號：MiniMap 以此判斷底圖是否需重繪（以絕對日 `state.time.day` 充當——歸屬變動
+   *  必發生於某日的 tick 處理內，故「日變動」為「歸屬變動」的保守超集，簡單且決定論；
+   *  M1 從簡精神同本檔既有選擇，見檔頭裁決）。 */
+  version: number;
+}
+
+let cachedMiniMapOutline: readonly (readonly { x: number; y: number }[])[] | null = null;
+
+/** 解析並快取 `japan-outline.json`（04 §3.3.1 扁平座標陣列）為點物件陣列，供 MiniMap 底圖繪製。 */
+function miniMapOutline(): readonly (readonly { x: number; y: number }[])[] {
+  if (cachedMiniMapOutline === null) {
+    const file = zJapanOutlineFile.parse(outlineJson);
+    cachedMiniMapOutline = file.polygons.map((poly) => {
+      const points: { x: number; y: number }[] = [];
+      for (let i = 0; i < poly.points.length; i += 2) {
+        const x = poly.points[i];
+        const y = poly.points[i + 1];
+        if (x === undefined || y === undefined) continue; // 不可能發生：zod 已保證偶數長度
+        points.push({ x, y });
+      }
+      return points;
+    });
+  }
+  return cachedMiniMapOutline;
+}
+
+/** owner 勢力色索引（無主／勢力不存在時 null；MiniMap 以中性色呈現）。 */
+function miniMapColorIndex(state: GameState, clanId: ClanId | null | undefined): number | null {
+  if (clanId == null) return null;
+  return state.clans[clanId]?.colorIndex ?? null;
+}
+
+/** 節點世界座標（依 `MapNodeId` 前綴查城或郡；查無則 null，04 §4.1 `MapNodeId = CastleId | DistrictId`）。 */
+function miniMapNodePos(state: GameState, nodeId: MapNodeId): { x: number; y: number } | null {
+  const castle = state.castles[nodeId as CastleId];
+  if (castle !== undefined) return castle.pos;
+  const district = state.districts[nodeId as DistrictId];
+  if (district !== undefined) return district.pos;
+  return null;
+}
+
+/**
+ * 部隊世界座標（04 §3.4.2：「渲染層以 edgeProgressDays/edgeCostDays 線性內插畫部隊位置」）。
+ * 已抵終點（`pathCursor` 為 `path` 末項）或無法解析下一節點時，直接回傳 `posNodeId` 座標。
+ */
+function armyWorldPos(state: GameState, army: Army): { x: number; y: number } {
+  const from = miniMapNodePos(state, army.posNodeId) ?? { x: 0, y: 0 };
+  const nextId = army.path[army.pathCursor + 1];
+  if (nextId === undefined || army.edgeCostDays <= 0) return from;
+  const to = miniMapNodePos(state, nextId);
+  if (to === null) return from;
+  const t = Math.min(1, Math.max(0, army.edgeProgressDays / army.edgeCostDays));
+  return { x: from.x + (to.x - from.x) * t, y: from.y + (to.y - from.y) * t };
+}
+
+/**
+ * MiniMap 底圖模型（12 §3.2.12／§4／§5.5；純函式，不經 `DerivedCache`——計算成本為
+ * O(城數+部隊數)，M2 子集規模下可忽略，且結果本就每次呼叫皆需要新陣列供 UI 淺比較差異）。
+ */
+export function selectMiniMapModel(state: GameState): MiniMapModel {
+  const castleIds = Object.keys(state.castles).sort() as CastleId[];
+  const castles: MiniMapPoint[] = castleIds.map((id) => {
+    const castle = state.castles[id] as Castle;
+    return {
+      x: castle.pos.x,
+      y: castle.pos.y,
+      colorIndex: miniMapColorIndex(state, castle.ownerClanId),
+    };
+  });
+
+  const armyIds = Object.keys(state.armies).sort() as ArmyId[];
+  const armies: MiniMapPoint[] = armyIds.map((id) => {
+    const army = state.armies[id] as Army;
+    const pos = armyWorldPos(state, army);
+    return { x: pos.x, y: pos.y, colorIndex: miniMapColorIndex(state, army.clanId) };
+  });
+
+  return { outline: miniMapOutline(), castles, armies, version: state.time.day };
 }

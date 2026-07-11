@@ -89,6 +89,9 @@ export const zhTW = {
   'ui.hud.soldiers': '兵力',
   'ui.hud.prestige': '威信',
 
+  // ── 13 §6.3／12 §7：MiniMap（M2-18） ──
+  'ui.minimap.ariaLabel': '全國小地圖',
+
   // ── 13 §3.8：數量單位（隨 formatQuantity 樣式手動組字時使用；M1-20 僅用到金錢） ──
   'term.unit.gold': '貫',
 
