@@ -307,7 +307,7 @@ publicOrder   = 60（預設）；一向宗根據地 45；大湊 65
 （`directControl`／`morale`／`maxDurability` 未列 = 取 schema 預設：true／70／依 tier 之
 `BAL.durabilityMain(3000)`／`BAL.durabilityBranch(1000)`。）
 
-#### 3.5.3 `districts.json`（東海 22 郡：尾張 8＋駿河 4＋遠江 4＋三河 6；實名令制郡）
+#### 3.5.3 `districts.json`（東海 23 郡：尾張 8＋駿河 4＋遠江 4＋三河 7；實名令制郡；§8-D16）
 
 ```jsonc
 [
@@ -729,7 +729,7 @@ export const zDistrict = z.object({
   population: int0,                              // 人口（人）
   populationCap: int0,                           // 人口上限（人）
   publicOrder: pct100.default(60),               // 治安
-  developFocus: z.enum(['agri', 'commerce', 'security']).default('agri'),
+  developFocus: z.enum(['agri', 'commerce', 'barracks']).default('agri'), // 第三值＝barracks（E-07；§8-D15）
 });
 export const zDistrictsFile = z.array(zDistrict).min(1);
 ```
@@ -961,8 +961,8 @@ export const zRoadsFile = z.object({ version: z.literal(1), edges: z.array(zRoad
 | V10 | ERROR | 簡體字與日文新字體掃描：全部 JSON 的 `name`／`text`／`label` 值逐字比對黑名單（黑名單字元集＝17 §5.4 L1~L3，須涵蓋 19 §3.12 全部誤字形；本規則不內嵌任何誤字形示例以免掃描器自傷，見 19 §3.13 E-72；「砲」為正字不列入黑名單，見 19 §3.13 E-52） |
 | V11 | ERROR | 戰法解鎖：officer.tactics 中 `unlockTraitId ≠ null` 者，其 `traits` 必含該特性（07 §3.8） |
 | V12 | ERROR | 勢力色：相鄰勢力（雙方領有節點間存在 RoadEdge）之 `colorIndex` 環距 ≥ `BAL.dataClanColorMinRing`（4）；釘選勢力 index 與 §3.3 表一致 |
-| V13 | ERROR | 錨點：§3.4 表 20 城 pos 與表值偏差 ≤ `BAL.dataAnchorTolerance`（16 wu）；全部節點座標唯一（間距 ≥ 8 wu） |
-| V14 | ERROR | 型錄一致：traits/tactics/policies/personas JSON 的 id 集合與 core 常數表（`TRAITS`（06）/`TACTICS`（07）/政策表（05）/persona 引用）**雙向相等**；城 `soldiers ≤ castleMaxSoldiers`、`facilities.length ≤ slot 數` |
+| V13 | ERROR | 錨點：§3.4 表 20 城 pos 與表值偏差 ≤ `BAL.dataAnchorTolerance`（16 wu）；全部節點座標唯一（不得完全重合；原「間距 ≥ 8 wu」字句因與 §3.4 錨點表衝突而失效，見 §8-D18） |
+| V14 | ERROR | 型錄一致：traits/tactics/policies/personas JSON 的 id 集合與 core 常數表（`TRAITS`（06）/`TACTICS`（07）/政策表（05）/persona 引用）**雙向相等**；城 `soldiers ≤ castleMaxSoldiers`、`facilities.length ≤ slot 數`（分階段落地：M2-2 先做 slot 數；雙向相等與 soldiers 上限待 core 型錄常數／maxSoldiers 公式落地，見 §8-D19） |
 | V15 | WARN | 地方配額偏差 >10%（城／郡／石高／武將）；outline 內含檢查（04 §3.3.4，outline 檔存在時執行） |
 
 ```
@@ -1152,7 +1152,64 @@ buildInitialState(s1560, seed):
   兩處改為「`clan.colorIndex` = 資料值（hex 由 12 §5.1 渲染層導出）」。(3) §3.5.5 樣板欄位對照與
   §4.6 `zOfficer` 頭註各一處「builder 推導（§5.6）」誤指（本文件並無 §5.6 節，應為 §5.3 builder 推導規則）
   回改為「§5.3」。(4) grep 自查：全檔 `Clan\.color\b`／`clanColorHex`／`（§5.6）` 均已歸零。
+- **D15（2026-07-12，M2-1 zod schema 實作發現）｜`zDistrict.developFocus` 第三值改回 `barracks`**：
+  §4.4 原文寫 `z.enum(['agri', 'commerce', 'security'])`；02 §3.3／05 §3.2.2 已由 E-07 定案
+  `DevelopFocus = 'agri' | 'commerce' | 'barracks'`（`security`→`barracks`），本檔 §4.4 未同步
+  更新、殘留誤字。依 00>02>15>系統>UI 優先序（02 為 00 之後最高權重、14 為系統文件層級）以 02
+  為準；`src/data/schemas/district.ts` 改為直接 `import { DEVELOP_FOCUS_VALUES } from
+  'core/state/enums'` reuse 單一真相（而非另抄一份字面值），避免此類漂移重演。§4.4 程式碼區塊
+  已同步修正。
+- **D16（2026-07-12，M2-1 zod schema 實作發現）｜§3.5.3 郡數標題／製作說明修正為 23（三河 7）**：
+  標題原寫「東海 22 郡：尾張 8＋駿河 4＋遠江 4＋三河 6」，但緊接的 JSON 本體實列 23 筆（三河
+  7 郡：寶飯／八名／渥美／幡豆／額田／碧海／加茂），為標題敘述與資料本體不一致之計數誤植
+  （非 schema／型別層級矛盾，逐筆 JSON 為準）。標題已改為「東海 23 郡：尾張 8＋駿河 4＋遠江
+  4＋三河 7」；§3.2 全域配額表（東海 44 郡／全國 343 郡，含後續 8 地方之製作額度）不受影響，
+  本節僅為東海批次施工樣板節錄、非最終批次交付總數。
+- **D17（2026-07-12，M2-8 builder 資料側實作發現；五項 §5.3 缺口裁決，依 00>02>15>系統>UI）**：
+  §5.3 builder 推導規則表對照 02 §4 實際必填欄位後，發現五處本文件未列（或已過時）之補值規則，
+  已於 `src/core/state/builder.ts` 逐一裁定並實作，回寫如下（皆屬「02 已要求但 14 未給規則」之
+  補完，非既有規則之矛盾裁決）：
+  (1) **`officer.kinship`（一門/譜代/外樣三態）**：`zOfficer`（§4.6）僅收 `isKin` 布林（E-34 之後 02
+  改用三態 `Kinship`，14 資料層未跟進區分譜代／外樣，屬刻意精簡非疏漏——資料無法辨識譜代訊號）。
+  依 02 為準（欄位必須存在）、14 資料現況為準（無法產生 `'fudai'`）：`officer.kinship = data.isKin
+  ? 'kin' : 'tozama'`；「譜代」一態於現行資料契約下不可達，待資料層日後新增對應欄位時再連動。
+  (2) **`castle.facilities`／`buildQueue`**：§5.3 原文「facilities → FacilitySlot[]（前段 slot／
+  buildRemainingDays 0）」敘述之目標型別 `FacilitySlot[]` 已被 02 E-39 取代為 `facilities:
+  FacilityTypeId[]`＋`buildQueue: BuildOrder[]` 佇列制（此變更早於本檔 §5.3 定稿，屬 02 修正後
+  14 未同步之殘留舊真相，與 D14 處理 `Clan.color`／E-35 殘留敘述同類）。依 02（現行、優先序更高）
+  為準：`castle.facilities = data.facilities`（原樣，資料格式已與 02 型別一致，毋須轉換）、
+  `castle.buildQueue = []`（開局無施工中項目）。
+  (3) **`castle.conscriptPolicy`**：`zCastle`（§4.3）未收錄此欄（05 §3.5／02 §4.5 之執行期欄位），
+  §5.3 亦未列補值規則。依 05 徵兵方針三檔「低/中/高」語意，取開局中性值：`castle.conscriptPolicy
+  = 'mid'`（比照 `morale`＝70、`publicOrder`＝60 等其餘「資料未給、取開局中性值」慣例）。
+  (4) **`officer.scheduledDeath`**：06 §3.9.1 明文「劇本初始化時...對每名武將排定 `scheduledDeath`」
+  （即 builder 職責），但本文件 §5.3 之 builder 推導表未列此項（06 已有完整公式、14 僅需引用執行，
+  非本文件另定義）。依 06 §3.9.1 原樣實作：`year = deathYear + uniformInt(rng.event,−2,+2)`、
+  `month = uniformInt(rng.event,1,12)`、`year = max(year, scenarioStartYear+1)`。該公式之
+  `else` 分支（無史實卒年時以 `BAL.defaultDeathAge±defaultDeathAgeSpread` 生成卒年）在現行
+  資料契約下不可達——`zOfficer.deathYear`（§4.6）為必填欄位、程序生成浪人（§3.8）亦自行生成
+  卒年——故 `src/core/balance.ts` 未收錄 `defaultDeathAge`／`defaultDeathAgeSpread`
+  （避免孤兒常數；待 14 允許省略 `deathYear` 時一併補上）。
+  (5) **程序生成浪人（§3.8）之 `loyalty`**：06 §3.6.1 忠誠目標值公式以「勢力／身分／當主政務／
+  威信」為輸入，對 `clanId=null` 之浪人不適用（無勢力脈絡）。取 `BAL.loyaltyBase`（50，公式基準值）
+  為浪人開局忠誠之中性預設，待 06 §3.7.1 登用時依受理勢力脈絡另行覆寫（06 定義登用後忠誠初始化，
+  非本文件範圍）。
 
+- **D18（2026-07-12，M2-2 `tools/validate.ts` 實作發現；依 00>02>15>系統>UI）｜V13 節點座標檢查採
+  「座標唯一」而非「間距 ≥ 8 wu」**：§5.1 V13 表列「全部節點座標唯一（間距 ≥ 8 wu）」與 §3.4 canonical
+  20 錨點表自相矛盾——錨點 #2 清洲城（1966,2838）與 #3 那古野城（1968,2843）僅相距約 5.4 wu（史實兩城
+  本就緊鄰，且此兩點取自 04 §3.2／00 §8 之 canonical 投影座標）。若採「間距 ≥ 8 wu」硬規則，連 §3.5
+  施工樣板都會被 V13 判違、與 §7-T2 驗收「東海範例通過 V1–V14」直接衝突。錨點表為更高優先序真相
+  （04 §3.2＋00 §8），故 V13 節點檢查裁定為：**任兩節點座標不得完全相同**（重合即 ERROR，載入期會破壞
+  地圖選取／領地網格索引），原「間距 ≥ 8 wu」字句失效。製作準則 §3.4「郡節點與所轄城距離取 40～180、
+  避免與他節點 < 24」仍為資料製作建議（非驗證器硬門檻），不受影響。`tools/validate.ts` `checkAnchors`
+  據此實作；錨點城以「城顯示名」比對（`tools/anchors.ts` 常數，座標源自 projection.ANCHOR_POINTS_20）。
 
+- **D19（2026-07-12，M2-2 `tools/validate.ts` 實作範圍界定）｜V14 分階段落地**：V14「型錄 id 集合與 core
+  常數表（TRAITS/TACTICS/政策/persona）雙向相等」需 core 型錄常數（06/07/05/09；M3-5／M8-25 起），
+  「城 soldiers ≤ castleMaxSoldiers」需 05 `maxSoldiers` selector 與 `BAL.soldiersPerPop`（M3 起、尚未落地，
+  且以現公式計算會與 §3.5 校準樣板衝突：清洲 soldiers 2600 vs 天花板估算 2365）。M2-2 先實作 V14 可確定
+  之子檢查——**城 `facilities.length` ≤ slot 數（本城 `BAL.facilitySlotsMain`=6／支城 `facilitySlotsBranch`=3）**；
+  雙向相等與 soldiers 上限待其依賴（core 型錄常數、maxSoldiers 公式）落地後接上（M8-25／M3）。
 
 
