@@ -187,7 +187,7 @@ enum 顯示字串 key 為 `term.<enumName>.<value>`（enum 名 camelCase、value
 | 收支預覽 | —（設計語） | budget forecast | `BudgetForecast`（selector） | 05 §3.1.5 |
 | 一揆 | 一揆（ikki） | uprising | `uprising`；`uprising.started`（事件） | 00 §14／05 §3.8 |
 | 鎮壓 | 鎮壓（chinatsu） | suppression（野戰解算） | —（流程，無獨立型別） | 05 §3.8.3 |
-| 欠俸 | —（設計語） | unpaid salary | `report.clan.unpaidSalary` | 05 §3.1.4／06 §5.2 |
+| 欠俸 | —（設計語） | unpaid salary | `report.economy.upkeepUnpaid`（事件 `economy.upkeepUnpaid`，05 單一生產者） | 05 §3.1.4／13 §6.11 |
 
 #### 3.3.2 武將系統（語意見 06）
 

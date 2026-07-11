@@ -867,7 +867,7 @@ powerTerm  = clamp((P − 1) × BAL.dipPowerTermScale(=15), −BAL.dipPowerTermC
 | `report.diplomacy.pactExpired` | `與{clan}的{pact}已到期。` |
 | `report.diplomacy.pactBroken` | `{clan}破棄了與我方的{pact}！` |
 | `report.diplomacy.envoyArrived` | `{clan}遣使來訪：{proposal}` |
-| `report.diplomacy.proposalAccepted` | `{clan}接受了我方的{proposal}。` |
+<!-- report.diplomacy.proposalAccepted 已刪鍵（七輪裁決 2，02 §8）：接受分支由 pact.signed／diplo.reinforceAgreed 覆蓋，不實作 -->
 | `report.diplomacy.proposalRejected` | `{clan}拒絕了我方的{proposal}。` |
 | `report.diplomacy.workStopped` | `金錢不足，對{target}的外交工作已中止。` |
 | `report.court.rankGranted` | `朝廷敘任{clan}當主為{rank}。` |
