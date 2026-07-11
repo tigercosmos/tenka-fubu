@@ -517,21 +517,24 @@ fnv1a32(str) -> uint32:
   for byte b of utf8(str): h = Math.imul(h ^ b, 0x01000193) >>> 0
   return h >>> 0
 
-initRng(masterSeed: uint32) -> RngState:
+initRng(masterSeed: uint32) -> RngState:   // 回傳值僅五流、不含 masterSeed（§8 D12）
   for name of ['battle','dev','ai','event','misc']:
     s = (fnv1a32('tenka:' + name) ^ masterSeed) >>> 0
     重複 BAL.rngWarmupDraws = 12 次 next() 空轉（去除低熵種子相關性）
     rng[name] = s'
-  rng.masterSeed = masterSeed
 ```
 
 `masterSeed` 由標題畫面產生（可由玩家輸入指定，見 16）；**產生 masterSeed 是 UI 層唯一
-允許使用 `Math.random` 的地方**。
+允許使用 `Math.random` 的地方**。呼叫端將 `masterSeed` 存入 `state.meta.seed`（02 §4.2）、
+以 `initRng(masterSeed)` 回傳值填入 `state.rng`（§8 D12）。
 
 #### 3.5.3 狀態存放
 
-五流目前狀態（各一個 uint32）＋ `masterSeed` 存於 `GameState.rng`（型別 §4.4），
-隨存檔序列化。讀檔後不重新播種、直接續用，保證跨存讀的決定論。
+五流目前狀態（各一個 uint32）存於 `GameState.rng`（型別 §4.4／02 §4.2 canonical
+`RngState`），隨存檔序列化。讀檔後不重新播種、直接續用，保證跨存讀的決定論。
+`masterSeed` 本身**不**存於 `GameState.rng`——存於 `GameState.meta.seed`（02 §4.2
+`MetaState.seed`；語意＝16 §4.3 `SaveMeta.seed`），僅在新遊戲開局呼叫 `initRng(masterSeed)`
+一次時作為入參（§8 D12）。
 
 #### 3.5.4 決定論規則與禁令（canonical）
 
@@ -610,6 +613,11 @@ AI 對 AI 的野戰／合戰一律在 Step 8 內自動解算，**永不**開 mod
 function advanceBattleTick(state: GameState, battleId: BattleId): BattleTickResult;
 ```
 
+> **勘誤（M1-26 落地時發現，2026-07-11；見 §8-D18）**：上列簽名省略了下一點所述的 `orders`
+> 參數，且 `BattleTickResult`／`BattleCommand` 兩型別未見於既有規格（僅型別名，無欄位）。
+> canonical 簽名、`BattleTickResult` 欄位、`BattleCommand` 最小 shape 依 §8-D18 定案，
+> 不得照抄本簽名（缺參數）。
+
 - `advanceBattleTick` 是 core 函式：只讀寫 `state.battles[battleId]` 內部欄位與
   `state.rng.battle`，**不得**觸碰策略層其他區塊（部隊真身、城、外交……），
   直到 resolved 寫回。合戰內玩家操作（移動、戰法）以 `BattleCommand` 直接作為
@@ -629,6 +637,15 @@ interface BattleResult {
   routedArmyIds: string[];         // 潰走部隊（撤退目的地由 07 規則決定）
 }
 ```
+
+> **勘誤（M1-26 落地時發現，2026-07-11；見 §8-D18）**：上列 `BattleResult` 為早期介面草稿，
+> 與 02 §4.9（逐字轉錄於 `src/core/state/gameState.ts`）之 canonical `BattleResult`
+> （`{ winnerSide, endTick, attackerLosses, defenderLosses, aweLevel }`）不符——02 canonical
+> **沒有**逐 army 的 `casualties`/`moraleDelta`/`capturedOfficerIds`/`routedArmyIds`/
+> `aweAffectedDistrictIds` 欄位，這些細節改由寫回時直接讀 `BattleState.units`（`BattleUnit[]`）
+> 與威風/捕虜結算函式（`applyAwe`／捕虜判定，07 §5.6／§3.14）現算現寫，不落在 `BattleResult`
+> 本體。本節之後文字（寫回內容「套用傷亡與士氣至 state.armies、移除全滅部隊……」）僅取其**寫回
+> 語意**，實作以 02 §4.9 型別與 §8-D18 為準，不得照抄本 `interface`。
 
   寫回內容：套用傷亡與士氣至 `state.armies`、移除全滅部隊、俘虜入列、威風翻轉郡歸屬
   （設 `territoryChangedToday`）、發 `battle.ended`（`winnerClanId` 判勝負）/`awe.triggered`/
@@ -677,6 +694,13 @@ interface AiSchedulerState {
   reactiveCursor: number; // 反應式檢查的輪詢游標（指向排序後 AI 勢力清單的索引）
 }
 ```
+
+> **勘誤（M1-24 落地時發現，2026-07-11；見 §8-D13）**：上列 `AiSchedulerState` 為早期介面草稿，
+> 與 02 §4.20（經 E-60 對齊 09 §4）之 `AiState`／`AiClanState` 定案型別不符——02 §4.20
+> **沒有**獨立的 `councilQueue`／`reactiveCursor` 頂層欄位，排程狀態改存於各勢力
+> `AiClanState.pendingPhases`（待辦階段）／`lastCouncilDay`（完成日）。本節之後文字
+> （councilQueue → 逐 clan `pendingPhases` 非空即待評定；reactiveCursor 待 M7-7 反應層實作時
+> 對應安排）僅取其**排程語意**，實作以 02 §4.20 型別與 §8-D12 為準，不得照抄本 `interface`。
 
 - **入列**：每月 1 日 Step 11，將全部存活 AI 勢力 clanId 排序後放入 `councilQueue`。
 - **消化**：每 tick（含 1 日當日）自佇列頭取至多 `BAL.aiCouncilsPerTick = 4`（建議初值）家
@@ -915,9 +939,12 @@ interface Report {
 ```ts
 type RngStreamName = 'battle' | 'dev' | 'ai' | 'event' | 'misc';
 
-/** 存於 GameState.rng；全部 uint32 */
+/**
+ * 存於 GameState.rng；全部 uint32（02 §4.2 canonical，逐字轉錄於 src/core/state/gameState.ts）。
+ * 不含 masterSeed——masterSeed 存於 GameState.meta.seed（02 §4.2 MetaState.seed），
+ * 只在 initRng(masterSeed) 播種當下作為入參（§8 D12）。
+ */
 interface RngState {
-  masterSeed: number;  // 開局種子（顯示於設定畫面供回報重現）
   battle: number;      // 各流當前狀態
   dev: number;
   ai: number;
@@ -1189,6 +1216,180 @@ trimReports(reports):
   中止而非自動選擇，避免 debug 路徑分岔出不同決定論結果。
 - **D11　`Report.read` 允許 UI 直寫**：已讀狀態純屬介面便利，不影響任何模擬結果，
   為它開 Command 徒增噪音。此為「UI 不得直改 state」鐵律的唯一列名例外。
+- **D12（2026-07-11，M1-4 `src/core/rng.ts` 實作時發現；本文件為裁決客體、02 為裁決依據，
+  沿用勘誤台帳語境、無新增台帳項）　`RngState` 不含 `masterSeed`：masterSeed 存於
+  `GameState.meta.seed`，非 `GameState.rng`**：§3.5.3「五流目前狀態＋`masterSeed` 存於
+  `GameState.rng`」與 §4.4 隨附之 `RngState`（`masterSeed/battle/dev/ai/event/misc` 六欄）
+  與 `02-data-model.md` §4.2 canonical `RngState`（僅 `battle/dev/ai/event/misc` 五個 uint32
+  欄位、無 `masterSeed`；已逐字轉錄於 `src/core/state/gameState.ts`）牴觸——02 §4.2
+  `MetaState` 另有 `seed: number`（初始種子，重放重現用）欄位方擔此責，與 `16-save-and-settings.md`
+  §4.3 `SaveMeta.seed`（開局亂數種子，供玩家回報與重現）同一語意。依規格衝突優先序
+  `00 > 02 > 03`（15 §1 首段、19 §3.13 通例）裁定：**`RngState` 以 02 為準**（五欄、無
+  `masterSeed`）；`initRng(masterSeed): RngState`（§3.5.2）僅以 `masterSeed` 為入參推導五流，
+  回傳值不含 `masterSeed`；呼叫端（M1-14 builder／16 新遊戲初始化流程）將 `masterSeed` 寫入
+  `state.meta.seed`、不重複存於 `state.rng`。§3.5.3「存於 `GameState.rng`」與 §4.4 型別區塊
+  之 `masterSeed` 欄位視為非 canonical、以本條裁決取代；`src/core/rng.ts` 之
+  `initRng`/`RngState` 型別（`import type { RngState } from './state/gameState'`）依此實作。
+  無下游連動（02/16 本即如此定義，不需修改；06 §3.9.1、07 §3.14 等 `rng.event`/`rng.misc`
+  消費者引用皆為流狀態本身，不涉 `masterSeed`，不受影響）。
+- **D13　AI 排程器骨架（M1-24）採「整家評定」攤平，與 09 §3.3／§8-D4 之「階段」攤平為
+  兩階段落地（2026-07-11）**：§3.8.2 的 `AiSchedulerState` 草稿與 02 §4.20（E-60 對齊 09 §4）
+  定案型別不符（無獨立 `councilQueue`／`reactiveCursor` 頂層欄位），且 09 §8-D4 的完整版
+  以 `councilOffset` 錯開全月＋單一勢力拆 4 階段＋`BAL.aiCouncilMaxPerTick`（階段/tick）
+  削峰，其驗收（09 §7-T4：40 家 60 tick、每勢力每月恰完成 4 階段）與本節 T10／18-roadmap
+  M1-24 的驗收（40 家 **10** tick 內各評定恰一次）數值不相容（40 家×4 階段＝160 階段
+  ÷4 階段/tick＝40 tick，非 10 tick）。依 00>02>15>系統文件裁定：M1-24 骨架不引入
+  `councilOffset` 錯開與逐階段拆分（該複雜度延後至 M7-4／09-T4 隨真實評定內容一併導入），
+  改為「整家」層級攤平——`AiClanState.pendingPhases` 於 M1 只在「滿載四階段」與「清空」
+  兩個合法後綴（02 §4.20 不變量）間切換，每 tick 以 `BAL.aiCouncilsPerTick = 4`
+  （15 §5.1；03 §3.8.2 原值，非 09 §3.10 的 `aiCouncilMaxPerTick`）取整家執行（評定本體
+  空殼），40 家於 10 tick 內完成、存讀檔一致（排程狀態全落於可序列化的
+  `AiClanState.pendingPhases`／`lastCouncilDay`，無額外 transient 游標）。`aiCouncilMaxPerTick`／
+  `aiCouncilPhaseCount`／`aiCouncilSpreadTicks` 三常數留待 M7-4 實作真實四階段內容時才納入
+  `balance.ts`（15 §5.1 已先行定案數值，M1 僅依「實際用到」原則暫不搬入）。
+  實作：`src/core/systems/ai/scheduler.ts`（`enrollMonthlyCouncils`／`runCouncilTick`）；
+  測試：`tests/core/ai-scheduler.spec.ts`。
+- **D14　Command 佇列骨架（M1-6）＋advanceDay 13 步骨架（M1-7）落地時之型別/契約裁決
+  （2026-07-11）**：本文件 §3／§4／§5 的迴圈機制型別於 02（MetaState／Command／GameEvent 之
+  canonical 擁有者）尚未收錄之處，依規格衝突優先序 `00 > 02 > 03` 與各文件明文分工（03 為迴圈機制
+  canonical、§3.4.1／§4.2 已明列 03 專有成員）裁定並落實如下，供 M1 後續與各系統里程碑對接：
+  - **(a) MetaState 併入 §4.5 LoopMeta 欄位**：02 §4.2 `MetaState`（`src/core/state/gameState.ts`）
+    原缺 §4.5 之 `stateVersion`／`lastAppliedCmdSeq`／`debugMode`／`territoryChangedToday`／
+    `deferredEvents`（`playerClanId`／`gameOver` 已在）。此五欄為迴圈機制所需（§3.1／§3.2.4／§3.3.3／
+    §5.1／§5.2），§4.5 明文屬 `GameState.meta`；依 03 為迴圈機制 canonical，補入 MetaState（值皆
+    JSON 可序列化：`deferredEvents: GameEvent[]`）。time.ts（M1-5）檔頭原預告之併入於此落地。
+    連動：既有 fixture（`tests/core/serialize.spec.ts`／`invariants.spec.ts`／新增
+    `tests/helpers/loopState.ts`）補齊此五欄初值（`stateVersion=0`／`lastAppliedCmdSeq=0`／
+    `debugMode=false`／`territoryChangedToday=false`／`deferredEvents=[]`）。
+  - **(b) `command.rejected` 事件型別**：§4.3 已列其為 canonical 迴圈事件、02 §4.19 明文不模型化
+    core 迴圈拒絕，故於 `src/core/state/events.ts` 新增 `EvtCommandRejected` 並入 `GameEvent` union
+    （其唯一型別定義處）。payload 採 events.ts 既有 **flat-field** 慣例（`commandType: CommandType`／
+    `reasonKey: string`／`params: Record<string,string|number>`），**非** §5.1／§4.3 佔位寫法之巢狀
+    `payload`（該佔位明文「禁止照抄」）；新增 `commandType` 供 13 §3.7 renderReport 導出「何種指令
+    被拒」。`clanIds=[cmd.clanId]`、`day=state.time.day`（Step 1 舊 absoluteDay，§3.2.3）。
+    連動：`tests/core/types.spec.ts` GameEvent 窮舉表加 `command.rejected`，計數斷言分列
+    「02 §4.19 之 68 ＋ 03 迴圈 1」。
+  - **(c) debug 指令型別**：§4.2 `CommandType` 已列 `debugSkipDays`／`debugGrant`（02 §4.18 未收、
+    03 專有）。於 `src/core/commands/types.ts` 補 `CmdDebugSkipDays`／`CmdDebugGrant` 並入 `Command`
+    union。§3.9.2 原型 `{ days }`／`{ gold?, food?, castleId? }` 之 optional 依 02 §7「無 optional 欄位」
+    與 §4.11 M1 型別裁決落地為必填＋`| null`（`gold`／`food`／`castleId` 缺＝`null`）。連動：
+    `types.spec.ts` Command 窮舉計數分列「02 §4.18 之 46 ＋ 03 debug 2」。
+  - **(d) 拒絕原因鍵擴充**：§3.3.2 明文「各 Command 可另定義專屬原因」。除通用全表 12 鍵外，
+    debug 指令定義 `cmd.reject.debugBadRange`（`debugSkipDays` days 越界）；另 M1-6 骨架期新增
+    `cmd.reject.notImplemented`——佇列型策略指令（05/06/07/08/10）之 validate/apply 尚待各系統里程碑
+    登錄，未登錄者硬驗證即回 notImplemented 拒絕（不改 state、不崩潰），隨真實 handler 登錄自然消失。
+    合戰內指令 `battleMove`/`battleAttack`/`battleTactic`/`battleDelegate` 不走佇列（§3.3.4），
+    恆不登錄、若誤入佇列亦回 notImplemented。實作於 `src/core/commands/reasons.ts`。
+  - **(e) `gameOver` 中央閘門**：`validateCommand` 於 `state.meta.gameOver !== null` 時，除 debug
+    指令外一律回 `cmd.reject.gameOver`（10 §5「gameOver≠null 時一切 Command 被拒」＋§3.3.2；debug
+    指令為 10 §5「僅接受 debug 指令」例外）。此閘門集中於 validateCommand，早於各指令專屬驗證器。
+  - **(f) `deferredEvents` 併入落於 advanceDay Step 2 包裝**：§5.2 虛擬碼將「併入
+    `state.meta.deferredEvents` 後清空」置於 `timeSystem` 開頭；因 `timeSystem`（M1-5）僅司曆法、其
+    單元測試 fixture 不含 `meta`，故實作將該併入置於 `src/core/systems/index.ts` 之 Step 2 包裝
+    `stepTime`（呼叫 timeSystem 前先併入延遲事件再清空），時序等價（延遲事件在月/季事件之前）。
+    骨架期 `deferredEvents` 恆空，M1-26 合戰 stub 起填入。
+  - **(g) 單 tick 上限 requeue**：§3.3.1／§5.1 之「超出 `BAL.maxCommandsPerTick` 留待下一 tick
+    （requeueRemainder）」。因 core 不持有佇列（§3.3.1），requeue 由 app 層佇列類別
+    `CommandQueue.drain(limit)`（`src/core/commands/queue.ts`）達成——`drain` 至多取 `limit` 筆、
+    其餘留於 `pending`；`applyCommands` 另在迴圈內以同一上限做防禦性早退（直接以 >上限 之陣列呼叫
+    advanceDay 時，超出者不推進其 seq、可於重新遞入時套用）。`CommandQueue` 為純 TS 類別（決定論、
+    無副作用），app 層每局持有一實例、讀檔以 `new CommandQueue(lastAppliedCmdSeq + 1)` 續接 seq。
+  - **(h) 13 步驟簽名與順序鎖定**：13 步以 `STEP_ORDER`（常數陣列，`src/core/systems/index.ts`）鎖定
+    順序（00 §5.4，不得增刪重排），每步簽名 `(state, ctx) => GameEvent[]`（`ctx` 攜 `queue`／事件
+    累加器／`autoPauseReasons`）；advanceDay 唯一迭代來源即 STEP_ORDER，`STEP_SEQUENCE` 由其導出供
+    測試斷言步序。Step 1（applyCommands，M1-6）／Step 2（time，M1-5）為實作步驟，Step 3–13 為
+    回傳 `[]` 之空殼（含 Step 13 reports——autoPauseReasons 產生與 Report 修剪為 M1-8）。
+    `TickResult.perf` 恆 0（core 無 `Date.now`，§4.1 明文正式版可全 0）；`autosaveDue='monthly'`
+    於 Step 2 推進後 `dayOfMonth===1`（`BAL.autosaveEveryMonths=1`，§3.9.1）。
+  無下游破壞：以上皆為 02 尚未收錄之迴圈機制型別/契約的實作落地（02 為型別 canonical 擁有者，
+  待其彙整時以本文件 §3/§4/§5 與本條為準收錄），既有 M1-1..M1-5 型別/測試僅新增欄位/成員、無語意變更。
+- **D15　Step 13 reports 系統（M1-8）落地時之行為裁決（2026-07-11）**：
+  - **(a) `reports` 陣列插入順序**：02 §4.17 `Report[]` 欄位 comment 明文「陣列新→舊排列」，
+    與本文件 §3.4.3 虛擬碼 `state.reports.push(makeReport(e))`（尾端追加＝陣列內舊→新）字面
+    相牴觸。依 `00 > 02 > 03` 裁定採 02 之「新→舊」不變量：`src/core/systems/reports.ts`
+    `reportsSystem` 逐筆 `unshift`（非批次）——同 tick 內較晚發出之事件視為較新、插入位置更前端，
+    與跨 tick 新→舊語意一致。§3.4.3 之 `push` 視為虛擬碼簡化寫法，本條裁決取代其字面寫法；
+    §5.4 修剪演算法不受影響（修剪以 `Report.day` 與即時推導之 severity 判定「最舊」，不依賴
+    陣列實體順序）。
+  - **(b) `dedupedAutoPauseReasons(events, state.settings)` 之 `state.settings` 不存在**：
+    02 §4.1 canonical `GameState` 樹（型別唯一真相）未收錄 `settings` 欄位，且「各自動暫停項目
+    可於設定關閉」（00 §5.2）屬使用者介面偏好，非決定論模擬事實，不應進入 core 可序列化狀態。
+    依 `00 > 02 > 03` 裁定：core 之 `reportsSystem` 不讀取／不持有任何設定物件，只回傳「本 tick
+    全部適用之 `AutoPauseReason`」（未經使用者偏好過濾）；是否真的觸發暫停，由 app 層驅動器
+    （M1-16 起）取得該回傳值後再依使用者設定過濾。此為 core／app 關注點分離的直接推論，
+    非新增台帳項。
+  - **(c) `Report.day` 採 `event.day`（事件原始發生日）而非 Step 13 執行當下的 `state.time.day`**：
+    兩者於絕大多數情況下相同（事件於當日各步驟發出、Step 13 位於同日之尾），唯一例外是
+    `state.meta.deferredEvents`（合戰寫回，§3.7.2）——其 `day` 為原始發生日、經 Step 2 併入
+    事件流時可能早於當前 `state.time.day`。採 `event.day` 使 Report／修剪之「日」語意與事件
+    本身一致（02 §4.19 `GameEventBase.day` 為單一真相），且修剪演算法（§5.4：`day < cutoff`
+    即移除）用原始發生日計算保留期在直覺上更正確。
+  - 實作：`src/core/systems/reports.ts`（`severityOf`／`isPlayerRelevant`／`NOT_REPORTED`／
+    `reportsSystem`／`trimReports`）；接線：`src/core/systems/index.ts` Step 13 `stepReports`；
+    測試：`tests/core/reports.spec.ts`（§3.4.2 分級表逐列＋排除集＋修剪＋整合）。
+- **D16　`DerivedCache`（M1-9）採 02 §5.1「tick 內 memo」模型，與本文件 §3.8.1 之跨 tick 持續性
+  快取設計為兩階段落地（2026-07-11）**：§3.8.1 描述 `DerivedCache`
+  （`src/core/state/cache.ts`）為跨 tick 持續存在、由 mutation helper 個別欄位標髒
+  （`cache.dirty.economy.add(clanId)` 等）、debug 模式每 30 tick 全量重算比對之*長效*快取，
+  並具名宣告 `clanEconomy`／`castleMaxSoldiers`／`clanTotals`／`pathGraphVersion` 等 Map 欄位
+  （§4.5）；02 §5.1（資料模型，優先序高於本文件）明文「快取一律放在 state 之外的 transient
+  `DerivedCache`……在每個 tick 開頭整批清空（memoization 僅在單一 tick 內生效）」「任何系統不得
+  讀取跨 tick 的 memo 值」，且其具名衍生值表（`clanKokudaka`／`officerFiefs` 等）逐項標註快取
+  時機為「selector；tick 內 memo」（非跨 tick）。兩者關於快取*生命週期*的描述不同構。依
+  `00 > 02 > 03` 裁定：M1-9 落地 02 §5.1 之「tick 內 memo」模型——`src/core/state/derivedCache.ts`
+  只提供機制本身（`createDerivedCache`／`getOrCompute`／`markDirty`／`clearDerivedCache`），
+  不預先宣告 §4.5 所列具名 Map 欄位（那些衍生值之算式依賴 05/07（經濟/兵力）／04（尋路）等
+  尚未落地之系統，待對應里程碑到位後由 `selectors.ts`（M1-10 起）以
+  `getOrCompute(cache, '<selector名>:<id>', compute)` 掛載，key 命名慣例即取代具名欄位）。
+  §3.8.1 之 mutation-helper／`cache.version` 與 `state.meta.stateVersion` 對齊校驗／debug 30-tick
+  重算比對等*效能優化*機制，留待實際系統落地、效能量測顯示有必要時（見 §8 風險 R3／18-roadmap
+  M4-18 bench）再行導入，不阻塞 M1 骨架。實作：`src/core/state/derivedCache.ts`；接線：
+  `src/core/state/selectors.ts`（M1-10，`clanKokudaka`／`clanSoldiers`／`officerFiefs`／
+  `officerRole`／`corpsCastles` 五個 selector 經此掛載；`provinceCastles`／`adjacency` 標「載入時
+  建立永不失效」者與其餘純函式 selector 不經 cache，見 derivedCache.ts／selectors.ts 檔頭）；
+  測試：`tests/core/derived-cache.spec.ts`（髒標記／跨 tick 不殘留）。
+
+- **D17　`hasBlockingInteraction`（M1-16）以 02 canonical 欄位等價推導，不引入 §3.7.1 字面
+  `playerInvolved`／`status` 欄位（2026-07-11，M1-16 實作）**：§3.7.1 原文「玩家參與的 `Battle`
+  （`state.battles` 中 `playerInvolved === true` 且 `status !== 'resolved'`）」所指之
+  `playerInvolved`／`status` 兩欄位，在 02 canonical（已逐字轉錄於 `src/core/state/gameState.ts`
+  之 `BattleState`）並不存在——該型別僅有 `attackerClanId`／`defenderClanId`（勢力雙方）與
+  `result: BattleResult | null`（進行中為 `null`）。依 `00 > 02 > 03` 裁定：以既有欄位等價推導，
+  不新增 02 未收錄之欄位：`playerInvolved` ≡
+  `battle.attackerClanId === playerClanId || battle.defenderClanId === playerClanId`；
+  `status !== 'resolved'` ≡ `battle.result === null`。第二凍結來源（`state.events.pendingChoiceEventId
+  != null`）02/03 一致、無需裁決。實作：`src/app/gameLoop.ts`（`hasBlockingInteraction`，M1-16 骨架期
+  `state.battles`/`pendingChoiceEventId` 恆空，判定式恆為 false，僅先備妥介面供 M4/M5（合戰）、M8
+  （事件）填入實際資料後即可生效，屆時無需再改本判定式）。
+
+- **D18　`advanceBattleTick` 簽名／回傳型別裁決＋M1-26 假解算器範圍裁定（2026-07-11，M1-26 落地時發現）**：
+  §3.7.2 對 `advanceBattleTick` 有三處互不一致的描述——(a) 簽名範例僅列 `(state, battleId)`；
+  (b) 同段散文明言「合戰內玩家操作（移動、戰法）以 `BattleCommand` 直接作為 `advanceBattleTick`
+  的參數傳入」；(c) 07 §5.4 偽碼為 `advanceBattleTick(bs, orders)`（其步驟 8 內部呼叫
+  `resolveBattle(state, bs)`，隱含需要完整 `state`，非僅 `bs`）。另回傳型別 `BattleTickResult`
+  僅見型別名、02/03/07 均無欄位定義；玩家操作型別 `BattleCommand` 亦僅見「型別見 07」之外部引用、
+  07 未給出具名 interface。依 `00 > 02 > 15 > 03` 裁定：
+  1. **canonical 簽名**＝三參數 `advanceBattleTick(state: GameState, battleId: BattleId,
+     orders: readonly BattleCommand[]): BattleTickResult`（調和 (a)(b)(c)：讀寫邊界仍限
+     `state.battles[battleId]`／`state.rng.battle`，`orders` 為額外輸入而非讀寫範圍擴張）。
+  2. **`BattleTickResult`** 新增 canonical 定義（既有規格未給欄位，語意依「回傳值僅供驅動器判斷
+     本次呼叫是否已 resolved」推導）：`{ battleId: BattleId; tick: number; resolved: boolean }`；
+     完整合戰狀態一律讀 `state.battles[battleId]`，不透過此回傳值鏡射（避免與 `BattleState`/
+     `BattleResult` 重複定義兩份真相）。
+  3. **`BattleCommand`** 於 M1-26 僅定義最小 shape（`{ kind: 'move'|'tactic'|'toggleDelegate';
+     unitId: string }`）供簽名成立，內容不消化；完整型別（移動目標陣、戰法 id、目標單位等）留待
+     M5-3 依 07 §6.2 定案時擴充（非本裁決收斂的欄位，屆時視為型別擴充、非本裁決之變更）。
+  4. **M1-26「假解算器」範圍**（roadmap 原文用字）：本里程碑僅示範 §3.7.2 契約形狀——凍結期
+     （`bs.result===null`）只累加 `bs.tick`、不觸碰 `state.armies`/`state.meta`；`bs.tick` 達
+     `BAL.kassenMaxTicks` 時依 07 §3.9 規則 3（tiebreak，§8-D9：無平手，以雙方 `BattleUnit.troops`
+     加總近似 07 §3.3 power 公式）判定勝方，同一次呼叫內原子寫回 `state.armies`（存活部隊
+     soldiers/morale 依 unit 現值同步）與 `state.meta.deferredEvents`（`battle.ended`）。
+     真實逐 tick 交戰演算法（訂單消化、移動、戰法、佔領、士氣、追擊，07 §5.4 step 1–7）、部隊全滅
+     移除、威風判定與郡歸屬翻轉（`judgeAwe`／`territoryChangedToday`）、俘虜入列，明確留待
+     M5-2／M5-5／M6-10 依對應系統就位後填入——M1-26 stub 不處理，測試以殘存兵力恆 >0 之假想
+     合戰佈局驗證契約（不構造全滅場景）。實作：`src/core/systems/battle.ts`；
+     測試：`tests/core/battle-contract.spec.ts`（凍結、原子寫回、tiebreak 判定、bit-exact 重放）；
+     新增常數：`BAL.kassenMaxTicks`（120）／`BAL.kassenTiebreakMult`（1.05），值依 15 §5.1 主表。
 
 ### 8.1 勘誤消化記錄（依 19 §3.13）
 
