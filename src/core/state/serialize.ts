@@ -13,10 +13,12 @@
 // 演算法相同、輸出位元一致的 fnv1a64／canonical stringify（後者對應 02 命名 canonicalStringify，
 // 17 稱 stableStringify，同一演算法，02 優先取其名）。
 
-import type { GameState } from './gameState';
+import type { DiplomacyRow, GameState } from './gameState';
 import type {
   ArmyId,
   BattleId,
+  ClanId,
+  ClanPairKey,
   CorpsId,
   PlotId,
   ProposalId,
@@ -152,4 +154,36 @@ export function nextId<K extends keyof SerialIdOf>(state: GameState, kind: K): S
   const n = state.meta.nextSerials[kind];
   state.meta.nextSerials[kind] = n + 1;
   return `${ID_PREFIX[kind]}.${String(n).padStart(6, '0')}` as SerialIdOf[K];
+}
+
+/**
+ * 無向勢力對 key：字典序小者在前，'|' 連接（02 §5.5 `pairKey(x,y)`）。
+ * 供 builder（M2-8 外交列 materialize）與未來外交系統（M6）共用同一實作，避免各處各自拼接分岔。
+ */
+export function pairKey(a: ClanId, b: ClanId): ClanPairKey {
+  return (a < b ? `${a}|${b}` : `${b}|${a}`) as ClanPairKey;
+}
+
+/**
+ * 外交列預設值（02 §5.5 `defaultRow(k)`；四個 M1-F3 裁決之 optional→非 optional 欄位取「未設」值：
+ * 三個 scalar → null、`refusalCooldownUntilDay` → `{}`）。呼叫端僅在該對偏離預設值時才需
+ * materialize 進 `diplomacy.rows`（稀疏儲存，02 §4.11）。
+ */
+export function defaultDiplomacyRow(a: ClanId, b: ClanId): DiplomacyRow {
+  const lo = a < b ? a : b;
+  const hi = a < b ? b : a;
+  return {
+    key: pairKey(a, b),
+    a: lo,
+    b: hi,
+    trustAtoB: 0,
+    trustBtoA: 0,
+    sentimentAtoB: 0,
+    sentimentBtoA: 0,
+    pacts: [],
+    lastHostileDay: null,
+    refusalCooldownUntilDay: {},
+    lastReinforceRequestDayAtoB: null,
+    lastReinforceRequestDayBtoA: null,
+  };
 }
