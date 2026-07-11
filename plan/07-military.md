@@ -159,7 +159,9 @@ moraleFactor = BAL.moraleFactorBase + morale / BAL.moraleFactorDivisor   // 0.5 
 `morale ≤ BAL.moraleBreakThreshold`（建議 30）**或** `soldiers < initialTroops × BAL.routTroopRatio`（建議 0.2）。
 
 **潰走行為**：
-- `status = 'routed'`；路徑改為「至最近我方城的最短路」（以跳數計，同距取 id 字典序小者）。
+- `status = 'routed'`；轉入當下發出 `army.routed(armyId, clanId, nodeId: army.posNodeId)`
+  （02 §4.19 canonical，七輪裁決 2；`{army}` 經 armyId 於部隊存活期間解析，報告文字由 UI 依事件推導，02 §4.17）。
+  路徑改為「至最近我方城的最短路」（以跳數計，同距取 id 字典序小者）。
   潰走移動速度依 `BAL.retreatSpeedFactor`（1.25×，`returning`／`routed` 共用；速度乘數之模型由 04 §5.3 movement 持有，E-62）。
 - 每日折損 `soldiers × BAL.routDailyLossRate`（建議 0.08，向上取整）。
 - 不觸發遭遇、不被制壓阻擋、不可下令、士氣鎖定不再變動。
@@ -317,10 +319,14 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 
 **戰後處理**：
 - 合戰中的兵數／士氣變化回寫至各 `Army`。
-- 敗方：合戰中潰走的部隊 → 策略地圖上 `routed`（§3.4）；未潰走的殘存部隊 →
+- 敗方：合戰中潰走的部隊 → 策略地圖上 `status='routed'`（§3.4；轉入當下發出
+  `army.routed(armyId, clanId, nodeId: army.posNodeId)`，02 §4.19 canonical，七輪裁決 2；
+  後續追擊／每日折損／解編行為依 §3.4 規則）；未潰走的殘存部隊 →
   士氣 `−BAL.moraleDefeatLoss`、強制向己方最近城後退 1 個節點後恢復可下令。
-  敗方每支潰走或遭殲滅之部隊，其大將另以 `BAL.battleDeathChanceDefeatGeneral`（建議 0.03）機率戰死
-  （`rng.misc`；§3.14）。
+  敗方每支潰走或遭殲滅之部隊，其大將先以 `BAL.battleDeathChanceDefeatGeneral`（建議 0.03）機率戰死；
+  未死者再以 `BAL.battleCaptureChanceDefeatGeneral`（建議 0.15）機率被俘（合戰大勝捕獲敵將，對齊 06
+  §3.7.2「捕虜的產生條件見 07——合戰大勝、攻城落城時機率捕獲敵將」；`rng.misc`；判定序列、
+  `officer.captured` 發出與關押城規則詳見 §3.14 時機 2）。
 - 勝方：全部隊 `+BAL.moraleVictoryGain`，恢復原任務。
 - `FieldCombat` 結束；威風判定（§3.10）：如成立則 `applyAwe`（`sourceBattleId` ＝該 `BattleState` id）發出 `awe.triggered`；
   發出 `battle.ended`（`battleId` 為該 `BattleState` id、`nodeId`＝`bs.nodeId`、
@@ -446,15 +452,24 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
 1. **野戰潰走被追擊**（§3.4）：每次追擊損害命中的潰走部隊，其大將與每名副將各以
    `BAL.battleDeathChanceRout`（建議 0.05）機率戰死。
 2. **合戰敗北**（§3.9 戰後處理）：敗方每支潰走或遭殲滅之部隊，其大將以
-   `BAL.battleDeathChanceDefeatGeneral`（建議 0.03）機率戰死（副將不判）。
+   `BAL.battleDeathChanceDefeatGeneral`（建議 0.03）機率戰死（副將不判）；未死者再以
+   `BAL.battleCaptureChanceDefeatGeneral`（建議 0.15）機率被俘（`rng.misc`，與戰死同一判定序列——
+   先擲戰死、未中者才擲捕獲，兩者互斥；對齊 06 §3.7.2「捕虜的產生條件見 07——合戰大勝、攻城落城時
+   機率捕獲敵將」，補上「合戰大勝」缺口，七輪裁決 3）。命中則發出 `officer.captured(officerId, byClanId)`
+   （`byClanId` 為合戰勝方勢力；02 §4.19 canonical，既有）；戰死者依上一分句不另發 `officer.captured`。
+   **關押城**：勝方於本場合戰結束時**現有兵數（`Army.soldiers`）最大**之部隊之 `originCastleId`
+   （同兵數取 `armyId` 字典序小者）；若該城此刻已非勝方所有，改採勝方現存直轄城中 `soldiers` 最大者
+   （同兵數取 `castleId` 字典序小者）。
 3. **落城守將**（§3.11 落城 step 2）：城主與城內每名武將先做**逃脫判定**——逃脫機率
    `BAL.siegeEscapeChance`（建議 0.35；v1 為定值，統率修正列 post-v1）。逃脫成功者回歸原勢力最近之城
    （無我方城則就地成浪人，參見 06）；逃脫失敗者再以 `BAL.siegeDeathChanceEscapeFail`（建議 0.15）
    機率戰死、其餘（1 − 該值）成為攻方捕虜（發 `officer.captured`，處置參見 06）。戰死者不另發 `officer.captured`。
 
-**部隊善後**：戰死者若為仍存續部隊（如潰走殘部）之大將，由存活副將依 `deputyIds` 順序接任大將；
-無副將則該部隊即刻解散（殘兵歸農、殘糧散失，不生成浪人）。落城守將屬城駐軍、非在外 `Army`，
-落城處理（§3.11 step 3）已解散守兵，不另善後。
+**部隊善後**：戰死者或被俘者若為仍存續部隊（如潰走殘部或合戰未潰殘存部隊）之大將，由存活副將依
+`deputyIds` 順序接任大將；無副將則該部隊即刻解散（殘兵歸農、殘糧散失，不生成浪人）。被俘之大將離隊，
+`armyId` 歸 null、`locationCastleId` 改為 §3.14 時機 2 所定關押城（依 06 §3.7.2 捕虜欄位語義，02
+INV-07／INV-18；捕虜之後續處置——登用／釋放／處斬——另見 06 §3.7.2，與部隊善後互不影響）。
+落城守將屬城駐軍、非在外 `Army`，落城處理（§3.11 step 3）已解散守兵，不另善後。
 
 ---
 
@@ -886,6 +901,7 @@ supplyDailyTick(state, army):
 | `BAL.autoReturnFoodDays` | 7 | 日；自動歸還門檻 |
 | `BAL.battleDeathChanceRout` | 0.05 | 潰走部隊被追擊命中→大將／副將戰死機率（§3.14／§3.4） |
 | `BAL.battleDeathChanceDefeatGeneral` | 0.03 | 合戰敗北部隊大將戰死機率（§3.14／§3.9） |
+| `BAL.battleCaptureChanceDefeatGeneral` | 0.15 | 合戰敗北大將戰死擲骰未中→被俘機率（§3.14／§3.9；七輪裁決 3，新增、待 15 登錄） |
 | `BAL.siegeEscapeChance` | 0.35 | 落城守將逃脫機率（§3.14／§3.11） |
 | `BAL.siegeDeathChanceEscapeFail` | 0.15 | 落城逃脫失敗→轉戰死之比例（其餘被俘）（§3.14／§3.11） |
 
@@ -1016,8 +1032,9 @@ supplyDailyTick(state, army):
       驗收：固定 seed 與指令序列重放，逐 tick 狀態雜湊一致（golden test，參見 17）。
 - [ ] **T8 戰法**：12 種效果、冷卻、覆蓋與並存規則、解鎖特性連動。
       驗收：每種戰法各有單元測試驗證數值效果；未持有特性的部隊戰法列表僅含突擊與齊射。
-- [ ] **T9 合戰委任 AI 與勝敗**：§3.9 決策序、三種結束條件、戰後回寫（含敗將戰死判定，§3.14）。
-      驗收：全委任對打可在 `BAL.kassenMaxTicks` 內結束；戰後策略層兵數 = 合戰結束兵數。
+- [ ] **T9 合戰委任 AI 與勝敗**：§3.9 決策序、三種結束條件、戰後回寫（含敗將戰死／被俘判定，§3.14）。
+      驗收：全委任對打可在 `BAL.kassenMaxTicks` 內結束；戰後策略層兵數 = 合戰結束兵數；
+      構造敗將戰死擲骰未中之情境 → 被俘擲骰命中者轉 `officer.captured`、關押城為勝方指定城。
 - [ ] **T10 合戰威風**：判級與套用、報告與自動暫停。
       驗收：速攻 35 tick 陷本陣 → 威風大、3 跳內敗方郡翻轉、威信 +50。
 - [ ] **T11 攻城**：強攻／包圍解算、糧盡、落城處理（含守將逃脫／被俘／戰死三分，§3.14）、耐久回復、捕虜移交（呼叫 06 介面）。
@@ -1157,3 +1174,25 @@ supplyDailyTick(state, army):
   (4) **plot.betrayalActivated（六輪裁決 1）**：§3.11 內應援引補註「08 §5.5.3 於發動時發出
   `plot.betrayalActivated{actorClanId,targetClanId,castleId}`（02 §4.19 canonical）」；07 僅援引、不自行 emit。
   依據：02 §8 六輪裁決 1／3、五輪裁決 B；03 §3.5.2；06 §2／§5.5 `die()`；13 §6.11。
+- **D30｜七輪裁決落實（合戰捕獲＋army.routed 事件）**（2026-07-11，依 02 §8 七輪裁決 2／3）：
+  (1) **合戰大勝捕獲敵將（七輪裁決 3）**：§3.14 時機 2 補「未死者再擲捕獲」——大將先以
+  `BAL.battleDeathChanceDefeatGeneral` 擲戰死，未中者再以新常數 `BAL.battleCaptureChanceDefeatGeneral`
+  （建議 0.15）擲捕獲（`rng.misc`，與戰死同一判定序列、兩者互斥），命中則發出既有 canonical
+  `officer.captured(officerId, byClanId)`；補上 06 §3.7.2「捕虜的產生條件見 07——合戰大勝……」長年懸空之
+  「合戰」捕獲缺口（時機 3 落城捕獲原已存在）。新補**關押城**規則：勝方本場合戰結束時現有兵數
+  （`Army.soldiers`）最大部隊之 `originCastleId`（同兵數取 `armyId` 字典序小者），該城已易主則改採
+  勝方現存直轄城中 `soldiers` 最大者（同兵數取 `castleId` 字典序小者）。連動：§3.9 戰後處理散文同步补
+  「先擲戰死、未死者再擲捕獲」並援引 06 §3.7.2；「部隊善後」段補被俘大將之離隊處理（`armyId=null`、
+  `locationCastleId`＝關押城，比照戰死大將由副將接任或解散部隊）；§5.8 新增
+  `BAL.battleCaptureChanceDefeatGeneral`（0.15）常數列，待 15 登錄定案值。
+  (2) **`army.routed` 事件收錄（七輪裁決 2）**：02 §4.19 新收錄 `army.routed(armyId, clanId, nodeId)`
+  （原孤兒報告鍵 `report.field.rout`），明訂「野戰 07 §3.4 每日、合戰 §3.9 戰後皆適用」——本輪於兩處補
+  發出點：§3.4 潰走行為轉 `status='routed'` 當下、§3.9 合戰戰後潰走部隊轉 `status='routed'` 當下，
+  皆以 `nodeId: army.posNodeId`（潰走發生時該部隊實際所在節點；合戰集結拉入之部隊策略地圖位置不變，
+  §3.5，故不可逕用 `bs.nodeId`）。報告 `report.field.rout` 文字仍由 UI 依事件推導（02 §4.17），§6.5
+  字串 key 本身不動。
+  (3) **04 側轉移點提醒（不改 04）**：`plan/04-map-and-movement.md` §3.7 移動每日 tick 之糧盡導致
+  士氣 ≤ `BAL.moraleBreakThreshold` 潰走轉 `status='routed'`，為獨立於本文件 §3.4／§3.9 之另一觸發點
+  （04 §3.7「潰走後之行為……以本文件 §3.4 為單一擁有者」僅援引後續行為、非援引本次新增之事件發出點），
+  該處若要發出 `army.routed` 須由 04 一併補上（本檔不越權改動 04）。
+  依據：02 §8 七輪裁決 2／3；02 §4.19 `army.routed`／`officer.captured` 表列；06 §3.7.2。

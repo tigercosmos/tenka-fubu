@@ -281,7 +281,7 @@ loyalty += clamp(loyaltyTarget − loyalty, −BAL.loyaltyDriftPerMonth, +BAL.lo
   → 忠誠 0 時每月 30%。
 - 出奔結果：解除所有役職（城主/領主/軍團長，職缺處理見 05/07）、知行歸還直轄、
   `status = 'ronin'`、`clanId = null`、留在原 `locationCastleId` 成為浪人（可被任何勢力登用，含原主家）、
-  發出報告 `report.officer.defect`。
+  發事件 `officer.defected{officerId, fromClanId, toClanId: null}`（出奔＝流浪，`toClanId=null`；報告由 13 §3.7 導出，13 §6.11 `report.officer.defect`；02 §4.19）。
 - 出陣中（隸屬於行動中 `Army`）的武將**不判定出奔**，回城後恢復判定。
 
 #### 3.6.5 被引拔受理（受理端規則）
@@ -298,8 +298,8 @@ acceptanceFactor = clamp((BAL.poachEligibleLoyalty − loyalty) / BAL.poachEligi
 ```
 
 - 成功：武將即刻改屬發動勢力（`clanId` 變更、役職與知行同出奔處理）、初始忠誠
-  設為 `BAL.poachedInitialLoyalty`（建議 **45**）、移動至發動勢力最近之城（08 指定）、
-  發出報告 `report.officer.poached`。
+  設為 `BAL.poachedInitialLoyalty`（建議 **45**）、移動至發動勢力最近之城（08 指定）。
+  引拔為 08 調略之效果，成功事件由 08 發出 `plot.succeeded{kind:'poach', …}`（08 §5.5.2；另 emit `officer.recruited{source:'poach'}`）；受理端（本文件）僅定義成功率與移籍效果、不另發事件，被引拔方視角報告由 13 §3.7 依該事件導出（13 §6.11 `report.officer.poached`）。
 
 ### 3.7 登用
 
@@ -324,12 +324,12 @@ successRate = clamp(
   （最高部將；對象忠誠傾向即 `expectedRankIndex` 與待遇之關係，透過 §3.6 目標值自然呈現）；
   支付支度金 `abilityScore × BAL.recruitSigningBonusPerAbility`（建議 **2**）貫；
   初始忠誠 = 依 §3.6.1 計算之目標值。
-- 失敗：該浪人對**本勢力**進入冷卻，`recruitRetryOn = 今日 + BAL.recruitRetryCooldownDays`（建議 **90** 日）。
+- 失敗：該浪人對**本勢力**進入冷卻，`recruitRetryOn = 今日 + BAL.recruitRetryCooldownDays`（建議 **90** 日）；發事件 `officer.recruitFailed{officerId, executorId, clanId}`（`officerId`＝婉拒之浪人、`executorId`＝登用者、`clanId`＝登用勢力；報告由 13 §3.7 導出，13 §6.11 `report.officer.recruitFailed`；02 §4.19；七輪裁決 2）。
 - 浪人不支俸祿、不老化消失（壽命排程照常適用）。
 
 #### 3.7.2 捕虜處置
 
-捕虜的產生條件見 07（合戰大勝、攻城落城時機率捕獲敵將）。捕虜 `status='captive'`、
+捕虜的產生條件與機率公式見 07 §3.14（時機 2 合戰敗北：敗方潰走／遭殲滅部隊之大將先擲戰死、未死者再擲捕獲；時機 3 落城：城內守將逃脫／被俘／戰死三分；勝方由此捕獲敵將，公式歸 07，七輪裁決 3）。捕虜 `status='captive'`、
 `capturedByClanId` 為捕獲方、關押於捕獲方指定城（07 給定）。捕虜期間 `clanId` 維持**原屬勢力不變**
 （供本節 (b) 釋放與關押城陷落歸還之目的地判定，即使原勢力已滅亡；02 INV-08，2026-07-11 驗證修復），
 捕獲方僅記於 `capturedByClanId`。處置指令 `CmdHandleCaptive`，
@@ -387,7 +387,7 @@ captiveRecruitRate = clamp(
 #### 3.8.3 身分推舉（`CmdPromoteRank`）
 
 - 驗證：目標 `merit ≥ BAL.rankMeritThresholds[rankIndex + 1]` 且未達宿老。
-- 效果：`rankIndex + 1`、忠誠 +8、`stalledPromotionMonths` 歸零、發報告。
+- 效果：`rankIndex + 1`、忠誠 +8、`stalledPromotionMonths` 歸零、發事件 `officer.promoted{officerId, clanId, newRank}`（報告由 13 §3.7 導出，13 §6.11 `report.officer.promoted`；02 §4.19）。
 - 無金錢費用（俸祿上升即長期成本）。
 
 ### 3.9 壽命與死亡、家督繼承
@@ -429,7 +429,7 @@ o.scheduledDeath = { year, month }
 heir = 該勢力 status='serving' 且 kinship='kin' 的武將中，
        依 (rankIndex desc, abilityScore desc, 年齡 desc) 排序取第一人
 if heir 存在:
-    clan.leaderId = heir.id；發報告 report.clan.succession
+    deceased = clan.leaderId；clan.leaderId = heir.id；發事件 clan.succession{clanId, deceasedId: deceased（歿去之當主）, heirId: heir.id}（clanIds=[clanId]；報告由 13 §3.7 導出，13 §6.11 report.clan.succession；02 §4.19；七輪裁決 2）
     全家臣即時忠誠：外樣 −10、譜代 −5、一門 0（§3.6.3）
 else:
     勢力滅亡 → 處理流程參見 plan/10-events-and-victory.md
@@ -446,7 +446,7 @@ else:
 - 每年 1 月 1 日（officers 步驟之年 hook）：`hasComeOfAge === false` 且 `debutYear ≤ 當前年` 者登場：
   - `hasComeOfAge = true`、`status = 'serving'`；加入 `debutClanId` 指定勢力（該勢力已滅亡則於 `debutCastleId`
     就地成浪人）；初始身分足輕組頭、`merit = 0`、忠誠依 §3.6.1 計算。
-  - 發報告 `report.officer.comingOfAge`（僅我方與鄰接勢力顯示，過濾規則見 03 報告系統）。
+  - 發事件 `officer.comingOfAge{officerId, clanId}`（僅我方與鄰接勢力顯示，過濾規則見 03 報告系統；報告由 13 §3.7 導出，13 §6.11 `report.officer.comingOfAge`；02 §4.19）。
 
 ### 3.11 具申機制
 
@@ -462,12 +462,12 @@ else:
    - **採納**：以提案內含之 `command` 重新驗證（該 Command 的驗證器，見 03/各系統）。
      驗證通過 → 將 `command` 推入佇列立即執行、提案人 `merit + proposal.meritReward`
      （含 §3.5 之能力經驗）、忠誠 +2、`status='accepted'`。
-     驗證失敗（局勢已變，如標的城已易主）→ `status='expired'`，發報告
-     `report.proposal.invalid`，**無**忠誠懲罰。執行成本＝該 Command 本身的成本
+     驗證失敗（局勢已變，如標的城已易主）→ `status='expired'`，發事件
+     `proposal.expired{proposalId, officerId, reason:'invalidated'}`（報告由 13 §3.7 依 `reason` 分流導出 `report.proposal.invalid`；02 §4.19；七輪裁決 2），**無**忠誠懲罰。執行成本＝該 Command 本身的成本
      （`estimatedCostGold` 僅供顯示；金錢不足即驗證失敗）。
    - **駁回**：`status='rejected'`、提案人忠誠 −2。
    - **逾期**（`expiresDay = createdDay + BAL.proposalExpireDays`＝60 日；逾期日仍 `pending` 者）：
-     `status='expired'`、提案人忠誠 −1。
+     `status='expired'`、提案人忠誠 −1，發事件 `proposal.expired{proposalId, officerId, reason:'timeout'}`（報告由 13 §3.7 依 `reason` 分流導出 `report.proposal.expired`；02 §4.19；七輪裁決 2）。
 5. 已終結（非 pending）之提案保留至次月月初後從 `GameState.proposals` 清除（報告留存）。
 
 #### 3.11.2 具申種類與對應 Command
@@ -712,7 +712,7 @@ paySalaries(state):
     else:
       clan.gold = 0
       for o in payees: o.loyalty = max(0, o.loyalty − BAL.unpaidSalaryLoyaltyPenalty)
-      發報告 report.clan.unpaidSalary（僅玩家勢力）
+      // 欠俸事件 economy.upkeepUnpaid{clanId} 由 05 於 economy 月結時單一發出（05 §3.1.4／§5.2；報告由 13 §3.7 導出，13 §6.11 report.economy.upkeepUnpaid，02 §4.19）；本函式僅定義俸祿金額與欠俸忠誠懲罰、不重複發出
 ```
 
 （扣帳時點併入 economy 月結順序，參見 05；本函式定義金額與欠俸效果。）
@@ -771,7 +771,7 @@ comingOfAge(state):
     if o.debutClanId 存在且該勢力存活: 加入之；o.locationCastleId = o.debutCastleId
     else: o.status='ronin'; o.clanId=null; o.locationCastleId = o.debutCastleId
     o.rank='kumigashira'; o.merit=0; o.loyalty = loyaltyTarget(o)
-    發報告 report.officer.comingOfAge
+    發事件 officer.comingOfAge{officerId: o.id, clanId: o.clanId}（報告由 13 §3.7 導出，13 §6.11 report.officer.comingOfAge；02 §4.19）
 ```
 
 ### 5.7 功績與經驗入帳（供各系統呼叫的共用函式）
@@ -786,7 +786,7 @@ gainMerit(o, baseAmount, expStats: ('ldr'|'val'|'int'|'pol')[]):
       o.statExp[s] -= BAL.statExpPerPoint
       o.statGrowth[s] += 1
     if o.statGrowth[s] >= BAL.statGrowthCap: o.statExp[s] = 0   // 溢出捨棄
-  if o.merit 首次達到下一階門檻: 發報告 report.officer.meritReady（僅玩家勢力）
+  // 功績達下一階門檻不發報告：改由 11 武將一覽／詳細卡 badge 直讀 state（o.merit ≥ rankMeritThresholds[nextRank]）呈現（UI-only、state 可衍生，13 §6.11 註記；七輪裁決 2）
 ```
 
 ### 5.8 具申結算
@@ -801,13 +801,13 @@ applyResolveProposal(cmd):   // CmdResolveProposal；依 cmd.accept 分流採納
       提案人.loyalty = min(100, 提案人.loyalty + BAL.proposalAdoptLoyalty)
       p.status = 'accepted'
     else:
-      p.status = 'expired'; 發報告 report.proposal.invalid
+      p.status = 'expired'; 發事件 proposal.expired{proposalId: p.id, officerId: p.officerId, reason:'invalidated'}（報告由 13 §3.7 依 reason 分流導出 report.proposal.invalid；02 §4.19；七輪裁決 2）
   else:                      // 駁回
     p.status = 'rejected'; 提案人.loyalty −= BAL.proposalRejectLoyalty
 
 proposalsSystem(state):    // tick 步驟 10
   if day === 1:
-    對 expiresDay ≤ time.day 之 pending 提案：status='expired'、提案人忠誠 −BAL.proposalExpireLoyalty
+    對 expiresDay ≤ time.day 之 pending 提案：status='expired'、提案人忠誠 −BAL.proposalExpireLoyalty、發事件 proposal.expired{proposalId, officerId, reason:'timeout'}（報告由 13 §3.7 依 reason 分流導出 report.proposal.expired；02 §4.19；七輪裁決 2）
     清除已終結（非 pending）且逾一個月之提案
     呼叫 09 生成本月新提案（上限 BAL.proposalMaxPerMonth；每人 BAL.proposalMaxPerOfficerPerMonth）
 ```
@@ -1079,6 +1079,18 @@ traitModifier(o, hook) -> { mult: number, add: number }:
   自然死亡明訂發 `officer.died(cause='age', nodeId=null)`；§3.7.2(c) 處刑路徑明訂「不呼叫 `die()`、僅發
   `officer.executed`、不重複發 `officer.died`」（五輪裁決 C／02 §4.19 表後註③）。(3) grep 自查已排除
   `'natural'`／`cause='execution'` 殘留（`CaptiveAction` 之 `'execute'` 值為不同型別，不受影響）。
+- **2026-07-11（七輪裁決 2／3，依 02 §8「2026-07-11 七輪裁決」及其 06 下游清單；新契約：core 不得直發 `report.*` key、報告一律由 13 §3.7 `renderReport` 於渲染時導出，五輪 A）**：本檔「直發 `report.*`／泛稱『發報告』」之活體全數收束為發 02 §4.19 canonical 事件（型別／payload 以 02 為準），比照 05 §8.4／§8.5 同型改法。逐項：
+  (1) **出奔**（§3.6.4）`report.officer.defect` → 發事件 `officer.defected{officerId, fromClanId, toClanId: null}`（出奔＝流浪，`toClanId=null`）。
+  (2) **引拔受理**（§3.6.5）刪直發 `report.officer.poached`——引拔為 08 調略效果，成功事件由 08 §5.5.2 發 `plot.succeeded{kind:'poach'}`（另 emit `officer.recruited{source:'poach'}`），被引拔方視角報告由 13 §3.7 依該事件導出；受理端不另發事件。
+  (3) **登用失敗**（§3.7.1）補發事件 `officer.recruitFailed{officerId, executorId, clanId}`（七輪裁決 2 收錄——core 內部決定論結果、非 state 可衍生，與 `officer.recruited` 成功報告對稱；原僅有 catalog 字串、無 emit 點，屬孤兒事件缺口）。
+  (4) **身分推舉**（§3.8.3）泛稱「發報告」→ 發事件 `officer.promoted{officerId, clanId, newRank}`（02 §4.19 既有、06 為生產者，原無 emit 點；同型收束，逾 02 §8 06 下游清單四項之補全）。
+  (5) **家督繼承**（§3.9.3／§5.5）`report.clan.succession` → 發事件 `clan.succession{clanId, deceasedId, heirId}`（`deceasedId`＝重寫前 `clan.leaderId`＝歿去之當主；`clanIds=[clanId]`；七輪裁決 2 收錄）。
+  (6) **元服**（§3.10／§5.6）`report.officer.comingOfAge` → 發事件 `officer.comingOfAge{officerId, clanId}`（正常登場路徑；§5.6 早夭跳過分支仍不發，§5.11）。
+  (7) **欠俸**（§5.2）刪直發 `report.clan.unpaidSalary`——欠俸事件 `economy.upkeepUnpaid{clanId}` 由 05 於 economy 月結時單一發出（05 §3.1.4／§5.2、單一生產者），本函式僅定義俸祿金額與忠誠懲罰、不重複發出（報告 13 §6.11 `report.economy.upkeepUnpaid`）。
+  (8) **功績達門檻**（§5.7）刪直發 `report.officer.meritReady`——判 **UI-only**（條件 `o.merit ≥ rankMeritThresholds[nextRank]` state 可衍生），改由 11 武將一覽／詳細卡 badge 直讀 state 呈現（七輪裁決 2；13 §6.11 註記）。
+  (9) **具申失效**（§3.11.1／§5.8）`report.proposal.invalid` 併入 `proposal.expired`：採納後 Command 再驗證失敗 → 發 `proposal.expired{proposalId, officerId, reason:'invalidated'}`（無忠誠懲罰）；逾期分支（§3.11.1／§5.8 `proposalsSystem`）補發 `proposal.expired{…, reason:'timeout'}`（原逾期分支無 emit 點，屬 06 為生產者之孤兒事件缺口）；13 §3.7 依 `reason` 分流 `report.proposal.expired`（timeout）／`report.proposal.invalid`（invalidated）。
+  (10) **合戰捕獲**（§3.7.2，七輪裁決 3）：捕虜產生條件敘述對齊 07 §3.14——時機 2 合戰敗北（敗將先擲戰死、未死者再擲捕獲）、時機 3 落城（逃脫／被俘／戰死三分）；機率公式歸 07（僅引用，`officer.captured` 已 canonical、02 不改）。
+  §6 report 字串 catalog 不動（比照 05 §6.2 保留、13 §6.11 為權威）。grep 自查：「發報告 report.」歸零（餘「不發報告」負向敘述與 UI-only 註記各 1）；未動 00／02／19；無待決標記與簡體殘留。
 
 ---
 

@@ -381,8 +381,12 @@ canonical 完整事件型別清單見 02 §4.19 總表（E-30）；本文件 §4
 | `event.fired`（`hasChoice=true`） | critical | `historicalEvent` | 開 modal（00 §5.2 列名） |
 | `battle.ended`（我方參戰） | critical | —（modal 已凍結時間） | 依 payload `winnerClanId` 判勝負 |
 | `siege.ended`（`fallen=true` 我方城陷落） | 我方 critical；他勢力 info | — | |
+| `siege.relief` | 涉我方（圍城方／守城方）warning；否則 info | — | 援軍抵達受圍城節點、圍城中斷展開解圍野戰（07 §3.3；`clanIds=[圍城方,守城方]`；七輪裁決 2） |
+| `army.routed` | 我方 warning；他勢力 info | — | 部隊士氣崩潰／糧盡潰走轉 `status='routed'`（野戰每日／合戰戰後皆適用；07 §3.4／§3.9；七輪裁決 2） |
 | `officer.died` / `officer.defected` | 我方 warning；他勢力 info | — | |
+| `clan.succession` | 我方 critical；他勢力 info | — | 當主歿後家督繼承（與 `officer.died` 同時發出；06 §3.9.3；七輪裁決 2） |
 | `officer.loyaltyLow` | warning | — | 忠誠 < 30（00 §6） |
+| `officer.recruitFailed` | info | — | 浪人登用擲骰失敗（06 §3.7.1；七輪裁決 2） |
 | `economy.upkeepUnpaid` / `economy.foodShortage` | warning | — | |
 | `economy.granaryOverflow` | warning | — | 米藏溢出兵糧散失（05；六輪裁決 1） |
 | `policy.autoRevoked` | warning | — | 政策維持費不足自動廢止（05；六輪裁決 1） |
@@ -396,6 +400,7 @@ canonical 完整事件型別清單見 02 §4.19 總表（E-30）；本文件 §4
 | `shogunate.collapsed` | critical（不分視角） | — | 室町幕府滅亡、全域廣播（`clanIds=[]`；08/10；六輪裁決 1） |
 | `plot.exposed` / `plot.betrayalActivated` | actor 視角 warning；target 視角 critical | — | 調略敗露／內應圍城發動（08；六輪裁決 1） |
 | `clan.destroyed` | info（涉我方另走 `game.defeat`） | — | |
+| `victory.tenkabitoProgress` | info | — | 天下人條件連續達成進度提示（`tenkabitoStreakMonths ≥ 6` 起每月一則；10 §6.4；七輪裁決 2） |
 | `game.victory` / `game.defeat` | critical | —（進結局畫面，見 10/11） | |
 | `command.rejected` | warning | — | 僅玩家指令會產生 |
 | 其餘未列事件 | info | — | 預設情報級 |
@@ -419,6 +424,18 @@ canonical 完整事件型別清單見 02 §4.19 總表（E-30）；本文件 §4
 > `report.transport.lootGain`）比照 `plot.exposed` 之角色分流慣例，不用「涉我方/否則」而按受劫角色分流：
 > 被劫方（財貨損失方）warning、劫方（得利方）info——劫方一側純屬戰果播報，對劫方衝擊性遠低於被劫方之
 > 損失警示，故不比照 `plot.exposed` target 拉高至 critical，直接依角色損益方向給予較低之 info。
+
+> **七輪裁決 2 分級補列說明**：02 §8 七輪裁決收錄 5 事件（`clan.succession`／`officer.recruitFailed`／
+> `siege.relief`／`army.routed`／`victory.tenkabitoProgress`）僅述「重大核心事實」「info 級」等質性描述，
+> 未逐項定量至本表三級，故本表折算依據如下：(a) `clan.succession` 與 `officer.died`/`officer.defected`
+> 同源（皆於當主歿時同 tick 發出）、且涉全體家臣忠誠連動與繼承延續，衝擊較單一武將死亡更高一階，故
+> 我方定為 critical（非 warning）；他勢力側循 `officer.died` 慣例定 info（不廣播，同慣例）。(b)
+> `officer.recruitFailed` 為單一勢力內部之登用擲骰失敗（無「涉我方/否則」對偶關係可分，`clanIds` 僅含
+> 登用勢力本身），且非世界級大事，定為 flat info。(c) `victory.tenkabitoProgress` 依 02 §4.19 明文
+> 「info 級」直接採用，flat info（不比照 `shogunate.nominated` 等世界級廣播拉高至 critical）。(d)
+> `siege.relief`／`army.routed` 皆無 00 §5.2 對應 `AutoPauseReason`（不若 `siege.started`／
+> `battle.kassenAvailable` 需玩家立即處置），僅屬戰局進展提示，故比照既有「涉我方/否則」二分慣例
+> （同 `pact.expired`/`pact.broken`、`uprising.*`）定為 warning/info，不拉高至 critical。
 
 同一 tick 多個自動暫停原因會合併去重後放入 `TickResult.autoPauseReasons`（陣列，依上表列序排序）。
 
@@ -490,7 +507,7 @@ shuffle(arr)       = Fisher–Yates 自尾向頭；消費 arr.length − 1 次
 | `dev` | 保留流；05 §3.2 明定開發與經濟結算無隨機，v1 無消費者 |
 | `ai` | Step 10 具申生成、Step 11 AI 決策（09） |
 | `event` | Step 3 歷史/汎用事件判定（10）、一揆爆發判定（05 §3.8）、開局武將壽命排程（06 §3.9.1，於劇本初始化執行） |
-| `misc` | Step 4 調略成敗／敗露／斡旋失敗（08；外交工作無隨機、`evaluateProposal` 決定論）、Step 7 遭遇（04）、Step 9 出奔／登用／捕虜／月度忠誠擾動（06）、浪人生成 |
+| `misc` | Step 4 調略成敗／敗露／斡旋失敗（08；外交工作無隨機、`evaluateProposal` 決定論）、Step 7 遭遇（04）、Step 8 武將戰死／落城逃脫／合戰捕獲判定（07 §3.14；非 `rng.battle`，因係策略層 Officer 狀態變更；七輪裁決備忘 3）、Step 9 出奔／登用／捕虜／月度忠誠擾動（06）、浪人生成 |
 
 種子推導（新遊戲開始時執行一次）：
 
@@ -824,14 +841,16 @@ type GameEventType =
   //   〔report.transport.looted／report.transport.lootGain〕反查無 canonical 事件而補收；發出者 05；
   //   transport.arrived 未收錄本子集鏡射）
   | 'transport.looted'
-  // 軍事（依 02 §4.19：army.departed／army.arrived／army.blocked／district.subjugated／battle.*／siege.*／awe.triggered）
-  | 'army.departed' | 'army.arrived' | 'army.blocked' | 'district.subjugated'
+  // 軍事（依 02 §4.19：army.departed／army.arrived／army.blocked／district.subjugated／battle.*／siege.*／awe.triggered；
+  //   army.routed／siege.relief 七輪裁決 2 收錄，發出者皆 07）
+  | 'army.departed' | 'army.arrived' | 'army.blocked' | 'army.routed' | 'district.subjugated'
   | 'battle.kassenAvailable' | 'battle.started' | 'battle.ended' | 'awe.triggered'
-  | 'siege.started' | 'siege.ended'
-  // 武將（依 02 §4.19）
+  | 'siege.started' | 'siege.relief' | 'siege.ended'
+  // 武將（依 02 §4.19；officer.recruitFailed 七輪裁決 2 收錄，發出者 06）
   | 'officer.loyaltyLow' | 'officer.defected' | 'officer.died' | 'officer.comingOfAge'
-  | 'officer.promoted' | 'officer.captured'
-  // 具申（依 02 §4.19）
+  | 'officer.promoted' | 'officer.recruitFailed' | 'officer.captured'
+  // 具申（依 02 §4.19；proposal.expired 增 payload `reason: 'timeout'|'invalidated'` 七輪裁決 2 併入
+  //   原 report.proposal.invalid，判別值不變、不增新成員）
   | 'proposal.submitted' | 'proposal.expired'
   // 外交/朝廷/調略（依 02 §4.19：pact.signed／pact.expired／pact.broken／diplo.envoyArrived／diplo.workStopped／
   //   court.rankGranted／court.mediationResult／shogunate.nominated／shogunate.patronLost／shogunate.collapsed／
@@ -843,8 +862,9 @@ type GameEventType =
   | 'pact.broken' | 'court.rankGranted' | 'court.mediationResult'
   | 'shogunate.nominated' | 'shogunate.patronLost' | 'shogunate.collapsed'
   | 'plot.succeeded' | 'plot.failed' | 'plot.exposed' | 'plot.betrayalActivated'
-  // 事件/勝敗（依 02 §4.19）
+  // 事件/勝敗（依 02 §4.19；clan.succession／victory.tenkabitoProgress 七輪裁決 2 收錄，發出者 06／10）
   | 'event.fired' | 'uprising.started' | 'uprising.ended'
+  | 'clan.succession' | 'victory.tenkabitoProgress'
   | 'game.victory' | 'game.defeat' | 'clan.destroyed';
 // canonical 完整聯集以 02 §4.19 總表為準（E-30）；本 union 為 03 步驟發出／消費之子集，命名一律採 02 §4.19：
 // 舊 battle.won/lost 併入 battle.ended（payload `winnerClanId` 判勝負）、
@@ -861,6 +881,12 @@ type GameEventType =
 // plot.exposed／plot.betrayalActivated（08 擴充事件，02 尚未收錄→已收錄 02 §4.19 canonical）。
 // 六輪裁決追記（同日收尾）新收 1 事件：transport.looted（05 §3.6 輸送隊被劫消滅，13 既有雙視角報告 key
 // 反查無 canonical 事件、02 §4.19 補收；同步補入本 union，§3.4.2 分級表列被劫方 warning／劫方 info）。
+// 七輪裁決 2 新收 5 事件（末輪 dry check 續收之孤兒報告鍵對應核心事實，本輪收束入 02 §4.19、同步補入
+// 本 union）：clan.succession（06）／officer.recruitFailed（06）／siege.relief（07）／army.routed（07）／
+// victory.tenkabitoProgress（10）；proposal.expired 增 payload `reason`（併入原 report.proposal.invalid，
+// 判別值不變）；transport.looted 增 payload `ownerClanId`（被劫方視角分流所需，判別值與 §3.4.2 分級皆不變、
+// 已於六輪裁決追記定案）。二鍵不收錄本 union：report.officer.meritReady 判 UI-only（11 badge 直讀 state，
+// 非 core GameEvent）、report.diplomacy.proposalAccepted 刪鍵（由既有 pact.signed／diplo.reinforceAgreed 覆蓋）。
 // save.autosaveFailed 不收錄本 union（app 層 I/O 失敗、非 core GameEvent，六輪裁決 4，詳見 §3.4.1）。
 // 擴充規則：新增事件必須同步登錄 02 §4.19、§3.4.2 分級表與 13 的 i18n 對照。
 
@@ -1299,3 +1325,31 @@ trimReports(reports):
   與 §4.3 兩處；union 相對 02 §4.19 canonical 仍無多餘成員（僅 `command.rejected` 例外，`debug*` 為
   `CommandType` 成員、非本 `GameEventType` union 範疇，故不適用）；六輪裁決 1 之 10 事件與本次追記之
   `transport.looted` 共 11 事件於 union 中零缺。依據：02 §8「2026-07-11 六輪裁決」追記，13 §3.7。
+- **2026-07-11　七輪裁決連動（事件↔報告邊界末輪 dry check 殘項；依 02 §8「2026-07-11 七輪裁決」下游清單之
+  03 項）**：02 §8 七輪裁決收束 8 個孤兒報告鍵中之 5 個 canonical 事件（`clan.succession`／
+  `officer.recruitFailed`／`siege.relief`／`army.routed`／`victory.tenkabitoProgress`）＋`proposal.expired`
+  增 `reason` 欄位＋`transport.looted` 增 `ownerClanId`。本輪逐項落實：
+  (1) **§3.5.2 `rng.misc` 消費者表**：補「Step 8 武將戰死／落城逃脫／合戰捕獲判定（07 §3.14）」一項
+  （置於既有 Step 7／Step 9 之間），並註明非 `rng.battle`（策略層 Officer 狀態變更、07 §3.14 待補框架，
+  七輪裁決備忘 3）。
+  (2) **§3.4.2 分級表**：新增 5 列——`siege.relief`（涉我方 warning／否則 info，緊接 `siege.ended` 後）、
+  `army.routed`（我方 warning／他勢力 info）、`clan.succession`（我方 critical／他勢力 info，緊接
+  `officer.died`/`officer.defected` 後，同 tick 發出）、`officer.recruitFailed`（flat info，緊接
+  `officer.loyaltyLow` 後）、`victory.tenkabitoProgress`（flat info，02 §4.19 明文「info 級」，緊接
+  `clan.destroyed` 前之收尾段落）。02 §8 僅質性描述（「重大核心事實」「info 級」等），未逐項定量至本表
+  三級，故表後新增「七輪裁決 2 分級補列說明」blockquote 逐項載明折算依據（比照既有 `officer.died`／
+  `pact.expired`／`shogunate.nominated` 等慣例）。`transport.looted` 增 `ownerClanId` 純屬 payload 補強、
+  不影響既有「被劫方視角 warning；劫方視角 info」分級（該分級已於六輪裁決追記定案），核實後本表與其
+  blockquote 均無需改動。
+  (3) **§4.3 `GameEventType` union**：軍事段新增 `army.routed`／`siege.relief`；武將段新增
+  `officer.recruitFailed`；事件/勝敗段新增 `clan.succession`／`victory.tenkabitoProgress`；具申段
+  `proposal.expired` 判別值不變（僅 payload 增 `reason`，comment 註記併入原 report.proposal.invalid）；
+  輸送段 `transport.looted` 判別值不變（僅 payload 增 `ownerClanId`）。union 尾註同步補七輪裁決 2 摘要段，
+  並註明 `report.officer.meritReady`（UI-only）／`report.diplomacy.proposalAccepted`（刪鍵）二孤兒鍵不收錄
+  本 union 之理由。
+  grep 自查（逐字比對 02 §4.19 總表 69 個 canonical 事件 type 與本文件 §4.3 union 53 個判別值）：
+  七輪裁決 2 新收之 5 事件 `clan.succession`／`officer.recruitFailed`／`siege.relief`／`army.routed`／
+  `victory.tenkabitoProgress` 全數存在於本文件 union；union 相對 02 §4.19 canonical **零多餘**（僅
+  `command.rejected` 例外，符合既有「本 union 為 03 步驟發出／消費之子集」定位；`debug*` 為 `CommandType`
+  成員、非本 `GameEventType` union 範疇，不適用本次比對）。02 不可改、19 未動、未 git commit；全文繁中、
+  無簡體字殘留、無 TBD/needsReview。依據：02 §8「2026-07-11 七輪裁決」1／2／4，13 §3.7。

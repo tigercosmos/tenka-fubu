@@ -1037,7 +1037,9 @@ export interface VictoryStats {
 - `CmdInvokeTaimei { type:'invokeTaimei'; taimeiId }`（02 §4.18）：驗證與套用見 §3.7.1。
 - GameEvent（02 §4.19）：`event.fired { eventId, hasChoice }`、`taimei.invoked / taimei.expired
   { clanId, taimeiId }`、`clan.destroyed { clanId, byClanId }`、`game.victory / game.defeat
-  { clanId, condition }`（condition＝§3.8.1／§3.8.2 的條件 id 字串）。
+  { clanId, condition }`（condition＝§3.8.1／§3.8.2 的條件 id 字串）、`victory.tenkabitoProgress
+  { clanId, months }`（`tenkabitoStreakMonths ≥ 6` 起每月一則，套用見 §5.6；七輪裁決 2 收錄，
+  13 renderReport 導出 `report.victory.tenkabitoProgress`，非 core 直發 `report.*`）。
 - 03 §3.3.4 表中 `cmd.respondEvent`／`cmd.issueTaimei` 為同物的暫定名，以 02 命名為準（§8 D1）。
 
 ---
@@ -1199,6 +1201,9 @@ victorySystem(state, emit):
       ok = 支配圈石高占比 ≥ BAL.victoryKokudakaSharePct
            and ownsProvince(playerClanId, prov.yamashiro)   // 本家直接持有
       state.events.tenkabitoStreakMonths = ok ? +1 : 0
+      if tenkabitoStreakMonths ≥ 6:
+        emit(victory.tenkabitoProgress { clanId: playerClanId, months: tenkabitoStreakMonths })
+        // info 級進度提示；13 renderReport 導出 report.victory.tenkabitoProgress（七輪裁決 2，§6.4）
       if tenkabitoStreakMonths ≥ BAL.victoryTenkabitoMonths:
         gameOver = { kind:'victory', endingId:'tenkabito' }; emit(game.victory)
 ```
@@ -1320,7 +1325,9 @@ export function buildEventModalVM(state: GameState, eventId: EventId): EventModa
   統計卡資料取 §3.9 `buildEndingVM`。EndingScreen 動作鈕依 `actions` 陣列渲染：
   `continue` → `acknowledgeGameOver(state,'continue')` 後回地圖；`observe` → 同理；
   `title` → 外殼回標題流程（16）。11 §3.12.3 需補列「繼續治世／繼續觀戰」鈕（§8 D8）。
-- `report.victory.tenkabitoProgress`：`tenkabitoStreakMonths ≥ 6` 起每月發 info 報告提示進度。
+- 天下人進度提示：`tenkabitoStreakMonths ≥ 6` 起每月由 §5.6 `victorySystem` emit
+  `victory.tenkabitoProgress{clanId, months}`（core 不直發 `report.*`，五輪裁決 A）；
+  13 renderReport 於渲染時導出 info 級報告 `report.victory.tenkabitoProgress`（§6.3 字串表）。
 
 ---
 
@@ -1406,6 +1413,18 @@ export function buildEventModalVM(state: GameState, eventId: EventId): EventModa
 - **D14｜`clan.destroyed.byClanId` 一律 null**：追認「滅亡者是誰」需要記錄每城最後
   奪取者的新欄位，收益僅一行報告文案；定案不記名（報告寫「{clanName}滅亡了」），
   02 的 payload 型別 `ClanId | null` 仍相容。
+- **D15｜2026-07-11｜天下人進度提示改為 emit canonical 事件（收束 02 §8 七輪裁決 2）**：
+  §6.4 原敘述「`report.victory.tenkabitoProgress`：…起每月發 info 報告」為五輪裁決 A
+  （core 不得直發 `report.*`）定案前的殘留寫法。依 02 §8 七輪裁決 2，`victory.tenkabitoProgress
+  {clanId, months}` 已收錄 02 §4.19 canonical 事件表（發出者 10）。本次改動：(a) §5.6
+  `victorySystem` 偽碼於 `tenkabitoStreakMonths ≥ 6` 分支補 `emit(victory.tenkabitoProgress
+  {clanId: playerClanId, months})`；(b) §6.4 該條改為描述 emit 事件、由 13 renderReport
+  於渲染時導出 `report.victory.tenkabitoProgress`（§6.3 字串表不變）；(c) §4.4 GameEvent
+  清單補列本事件。全檔另依「發 report\.」／「發.*報告」活體語境掃描一遍，僅
+  §3.6 地震效果敘述「全域事件對每個受災勢力各發一則報告」一處尚存「報告」字樣，
+  惟未指名任何 `report.*` key、亦未宣稱 core 繞過 `event.fired`（該事件本身即 02 §4.19
+  canonical、§5.1 `fireEvent` 已 emit）直接產生報告，核實後判定非直發 `report.*` 違例、
+  維持原文不改。
 
 ---
 

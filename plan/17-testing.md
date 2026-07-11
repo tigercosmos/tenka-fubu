@@ -278,7 +278,7 @@ function fixedRng(sequence: number[]): RngStream;
 |---|---|---|---|
 | S1 | 強攻削耐久 | alpha 3,000 兵對 `castle.b2`（耐久 500）強攻 | 每日耐久減量 > 0（公式見 07）；攻方每日傷亡 > 同兵力包圍時傷亡 |
 | S2 | 包圍耗糧 | 同上改包圍 | 守城 `food` 每日消耗 ×`BAL.encircleFoodMult`(2.0)；耐久每日減量遠小於強攻（可為 0，見 07） |
-| S3 | 落城（強攻） | 推進至耐久 ≤ 0 | 城歸屬翻轉；殘兵與武將處置依 07；發 `report.siege.fallen` 報告 |
+| S3 | 落城（強攻） | 推進至耐久 ≤ 0 | 城歸屬翻轉；殘兵與武將處置依 07；發出 `siege.ended` 事件（`fallen: true`、`newOwnerClanId`＝攻方） |
 | S4 | 開城（糧盡） | 包圍下守城 `food` = 0 且士氣 < `BAL.moraleBreakThreshold`(30) | 開城：歸屬翻轉、守軍處置較強攻寬（見 07） |
 | S5 | 解圍 | beta 援軍擊破圍城部隊 | 圍城狀態解除、守城士氣停止衰減（**無加成**；解圍即停止下降，15 §5.2 表 B/C、07 §3.11／T12：`siegeReliefMoraleBonus` 已刪） |
 | S6 | 圍城士氣滲透 | 包圍持續 10 日 | 守城士氣每日 −`BAL.encircleCastleMoraleDaily`(2)（威風效果另計） |
@@ -1022,3 +1022,13 @@ perfGate():
     `['plan/14-scenario-data.md','plan/17-testing.md','plan/19-glossary.md','tools/simplified-chars.ts','tools/glossary/forbiddenChars.ts']`
     （與 19 §4 掃描器豁免一致、至少含 17／19／14；14 僅豁免規格文件本身，實際劇本 JSON 仍照掃）。
     一併消化 E-72 之 17 側（14 內嵌誤字改以豁免處理）。依據：19 §3.13 E-73／E-72、19 §3.12、19 §4。
+14. **（2026-07-11）§3.4.5 S3 測試斷言改依 canonical 事件、非 core 直發 `report.*` key**：
+    02 §8「2026-07-11 七輪裁決」定案新契約——core 不得直發 `report.*` key，一律發 02 §4.19 canonical
+    事件，報告字串由 13 `renderReport` 於**渲染時**導出，非 core 斷言標的。S3（落城強攻）期望原「發
+    `report.siege.fallen` 報告」改為「發出 `siege.ended` 事件（`fallen: true`、`newOwnerClanId`＝攻方，
+    payload 見 02 §4.19）」；`siege.fallen`／`siege.repelled` 兩變體鍵已由 `siege.ended.fallen` 布林判別
+    取代（02 六輪裁決），本文件不應再以已淘汰之 report 變體鍵命名測試期望。
+    全文 grep `report` 確認僅此一處落在「core 斷言引用具名 `report.*` key」語境，已同型修正；其餘出現
+    「發報告」字樣的案例（如 EV1／E7／O3／O8 等）皆為泛稱、未具名特定 `report.*` key，不構成 core 直發
+    report key 的斷言，不在本次修正範圍內、維持原文。依據：`plan/02-data-model.md` §8「2026-07-11 七輪
+    裁決」框架記 3、E-01…E-80 主體「新契約下 core 不得直發 `report.*`」。

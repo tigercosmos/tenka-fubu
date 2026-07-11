@@ -1037,6 +1037,7 @@ export type GameEventType = GameEvent['type'];
 | `battle.ended` | `battleId: string, winnerClanId: ClanId \| null, aweLevel: AweLevel, attackerLosses: number, defenderLosses: number, nodeId: MapNodeId, attackerClanId: ClanId, defenderClanId: ClanId` | 野戰/合戰結束（null=平手撤離；nodeId/attacker/defender 供報告 enrichment，見表後註，五輪裁決 B） | 07 |
 | `awe.triggered` | `sourceBattleId: string, clanId, level: AweLevel, flippedDistrictIds: DistrictId[], affectedCastleIds: CastleId[]` | 威風擴散結算 | 07 |
 | `siege.started` | `siegeId, castleId, attackerClanId` | 開圍（自動暫停候選） | 07 |
+| `siege.relief` | `siegeId, castleId` | 援軍抵達受圍城節點、圍城每日效果暫停（`Siege.interrupted=true`）、展開解圍野戰（07 §3.3 援軍解圍；`clanIds=[圍城方,守城方]`；報告 report.siege.relief；七輪裁決 2 收錄——解圍野戰之**開始**為獨立於 siege.ended〔`fallen:false`＝解圍成功〕之核心模擬時刻、且該變體槽已由 report.siege.repelled 佔用〔時刻與槽位皆衝突，故不併入〕；render 不可反查已結束/已解除中斷之 Siege，故 castleId 隨 event 落地；與同 tick 併發之 battle.started→report.field.begin 之去重由 13 定） | 07 |
 | `siege.ended` | `siegeId, castleId, fallen: boolean, newOwnerClanId: ClanId \| null` | 陷落或解圍 | 07 |
 | `district.subjugated` | `districtId, fromClanId, toClanId, armyId: ArmyId` | 制壓完成翻轉歸屬（armyId＝完成制壓之部隊，供報告 leader enrichment，見表後註，五輪裁決 B） | 04 |
 | `army.departed` | `armyId, clanId, originCastleId, targetNodeId` | 出陣 | 04 |
@@ -1044,6 +1045,7 @@ export type GameEventType = GameEvent['type'];
 | `army.returned` | `armyId, clanId, castleId, soldiersReturned: number` | 歸還入城解散 | 04 |
 | `army.blocked` | `armyId, clanId, nodeId: MapNodeId` | 行軍受阻、於節點轉 holding 待命（validateNextStep 失敗，04 §5.4；四輪裁決 C-6，收錄自 04；備忘錄交 04 發出、13 報告 key 對齊 report.army.blocked） | 04 |
 | `army.starving` | `armyId, clanId` | 攜帶兵糧歸 0 | 07 |
+| `army.routed` | `armyId, clanId, nodeId: MapNodeId` | 部隊士氣崩潰／糧盡潰走轉 `status='routed'`（野戰 07 §3.4 每日、合戰 §3.9 戰後皆適用；`nodeId`＝潰走發生節點；`clanIds=[clanId]`；報告 report.field.rout，`{army}` 經 armyId 於部隊存活期間解析〔13 transient-timing enrichment，同 army.departed/arrived/blocked 慣例〕；七輪裁決 2 收錄，發出者 07〔§3.4 潰走行為單一擁有者，四輪 E20〕） | 07 |
 | `economy.income` | `clanId, gold: number, foodByCastle: Record<CastleId, number>` | 每月 1 日收入 | 05 |
 | `economy.harvest` | `clanId, totalFood: number` | 9/1 秋收 | 05 |
 | `economy.granaryOverflow` | `clanId, castleId, food: number` | 米藏超過容量、溢出兵糧散失（秋收/收入結算 05 §3.2、輸送抵達 05 §3.6；`food`＝散失石數；六輪裁決 1，收錄自 05 直發 report） | 05 |
@@ -1054,7 +1056,7 @@ export type GameEventType = GameEvent['type'];
 | `policy.autoRevoked` | `clanId, policyId: PolicyId` | 政策維持費不足、由新到舊自動廢止（每廢止一項一則；05 §3.6／§5.2；六輪裁決 1，收錄自 05 直發 report） | 05 |
 | `conscript.completed` | `castleId, soldiers: number` | 徵兵入營 | 05 |
 | `transport.arrived` | `fromCastleId, toCastleId, soldiers: number, gold: number, food: number` | 輸送抵達（勘誤 E-41） | 05 |
-| `transport.looted` | `fromCastleId, toCastleId, byClanId: ClanId, nodeId: MapNodeId, soldiers: number, gold: number, food: number` | 輸送隊被劫消滅（05 §3.6；被劫方視角 report.transport.looted、劫方視角 report.transport.lootGain 由 13 §3.7 分流；六輪裁決追記） | 05 |
+| `transport.looted` | `ownerClanId: ClanId, fromCastleId, toCastleId, byClanId: ClanId, nodeId: MapNodeId, soldiers: number, gold: number, food: number` | 輸送隊被劫消滅（05 §3.6；`ownerClanId`＝輸送隊所屬〔＝`TransportOrder.clanId`〕、`byClanId`＝劫方；被劫方視角 report.transport.looted〔playerClanId===ownerClanId〕、劫方視角 report.transport.lootGain〔playerClanId===byClanId〕由 13 §3.7 分流；`clanIds=[ownerClanId,byClanId]`；六輪裁決追記＋七輪裁決 1〔TransportOrder 被劫當下移除、fromCastleId 事後亦可能易主，render 不可反查所屬，故 ownerClanId 隨 event 落地〕） | 05 |
 | `uprising.started` | `districtId, severity: number` | 一揆爆發（severity 1..3） | 05 |
 | `uprising.ended` | `districtId, resolved: 'suppressed' \| 'subsided'` | 一揆結束（`suppressed`＝我方部隊野戰鎮壓、治安設 45；`subsided`＝滿 `BAL.uprisingAutoEndMonths` 自然平息、治安設 40；`clanIds`＝郡所屬勢力；05 §3.8.3；六輪裁決 1，收錄自 05 直發 report） | 05 |
 | `officer.died` | `officerId, clanId: ClanId \| null, cause: 'age' \| 'battle', nodeId: MapNodeId \| null` | 武將死亡（`cause='execution'` 移除，處刑改由 `officer.executed` 承載；nodeId 僅 `cause='battle'` 為戰死地、否則 null；見表後註，五輪裁決 B/C） | 06/07 |
@@ -1063,6 +1065,7 @@ export type GameEventType = GameEvent['type'];
 | `officer.loyaltyLow` | `officerId, clanId, loyalty: number` | 月結忠誠重算後跌破 30（warning 級報告，二輪裁決 C） | 06 |
 | `officer.defected` | `officerId, fromClanId, toClanId: ClanId \| null` | 出奔（null=流浪為浪人） | 06 |
 | `officer.recruited` | `officerId, clanId, source: 'ronin' \| 'captive' \| 'poach'` | 登用成功 | 06/08 |
+| `officer.recruitFailed` | `officerId, executorId: OfficerId, clanId` | 浪人登用擲骰失敗（06 §3.7.1 即時判定 `rng.misc`；`officerId`＝婉拒之浪人、`executorId`＝登用者、`clanId`＝登用勢力；`clanIds=[clanId]`；報告 report.officer.recruitFailed；七輪裁決 2 收錄——核心內部決定論結果、非 state 可衍生〔失敗後僅留 `recruitRetryOn`＋扣金〕，須事件承載且與 officer.recruited 成功報告對稱） | 06 |
 | `officer.captured` | `officerId, byClanId` | 戰敗被俘 | 07 |
 | `officer.released` / `officer.executed` | `officerId, byClanId` | 捕虜處置 | 06 |
 | `pact.signed` | `aClanId, bClanId, kind: PactKind, endDay: number \| null` | 協定成立 | 08 |
@@ -1082,10 +1085,12 @@ export type GameEventType = GameEvent['type'];
 | `plot.betrayalActivated` | `actorClanId, targetClanId, castleId: CastleId` | 內應於圍城發動（08 §5.5.3 `CmdUseBetrayal`；`clanIds=[actorClanId,targetClanId]`；報告 `report.plot.betrayalActivated{castle}`；六輪裁決 1） | 08 |
 | `proposal.submitted` | `proposalId, officerId, kind: ProposalKind` | 具申送達（自動暫停候選） | 06 |
 | `proposal.resolved` | `proposalId, accepted: boolean` | 玩家裁決 | 06 |
-| `proposal.expired` | `proposalId, officerId` | 具申逾期作廢（createdDay + 60 日仍 pending，二輪裁決 C） | 06 |
+| `proposal.expired` | `proposalId, officerId, reason: 'timeout' \| 'invalidated'` | 具申失效——`reason='timeout'`：逾期作廢（createdDay + 60 日仍 pending、忠誠 −1，二輪裁決 C）；`reason='invalidated'`：採納時內含 Command 再驗證失敗（局勢已變、無忠誠懲罰，06 §3.11/§5.8）。13 §3.7 依 reason 分流 report.proposal.expired（timeout）／report.proposal.invalid（invalidated）；七輪裁決 2 併入 | 06 |
 | `event.fired` | `eventId, hasChoice: boolean` | 歷史/汎用事件觸發（自動暫停候選） | 10 |
 | `taimei.invoked` / `taimei.expired` | `clanId, taimeiId` | 大命發動/效果結束 | 10 |
+| `clan.succession` | `clanId, deceasedId: OfficerId, heirId: OfficerId` | 當主歿後家督繼承（06 §3.9.3；`deceasedId`＝亡故當主、`heirId`＝繼任者，皆持久 OfficerId〔亡者紀錄留存 state，渲染時可解析 oldLeader/newLeader〕；`clanIds=[clanId]`；報告 report.clan.succession；七輪裁決 2 收錄〔重大情報〕，發出者 06） | 06 |
 | `clan.destroyed` | `clanId, byClanId: ClanId \| null` | 勢力滅亡 | 10 |
+| `victory.tenkabitoProgress` | `clanId, months: number` | 天下人條件連續達成進度提示（`tenkabitoStreakMonths ≥ 6` 起每月一則；10 §6.4；`months`＝連續月數；`clanIds=[clanId]`；info 級；報告 report.victory.tenkabitoProgress；七輪裁決 2 收錄，發出者 10） | 10 |
 | `game.victory` / `game.defeat` | `clanId, condition: string`（條件 id，10 定義） | 勝敗判定成立 | 10 |
 | `time.monthStart` | `year: number, month: number` | 每月 1 日（UI 月結摘要用） | 03 |
 | `time.seasonStart` | `year: number, season: Season` | 季初（3／6／9／12 月 1 日）；app 層季首自動存檔消費（16 §5.3，二輪裁決 C） | 03 |
@@ -1103,6 +1108,7 @@ export type GameEventType = GameEvent['type'];
 > ④ `plot.succeeded`／`plot.failed` 增 `targetCastleId: CastleId | null`（`report.plot.betrayalReady` 之 `{castle}`；betrayal／rumor 城模式填、其餘 null；`Plot` 狀態本已持有此欄，08 §3.7）。
 > **`officer.died.cause` 收斂 `'age'|'battle'`（五輪裁決 C）**：移除 `'execution'`——處刑死亡由獨立 `officer.executed` 承載（06 §3.7.2(c) 直接設 `status='dead'`、不經 `die()`，`officer.died` 不重複發），備忘錄交 06（§5.5 `die()` 之 `'natural'` 對齊為 `'age'`）／13（§3.7 分流依據 `natural`→`age`）。
 > **六輪裁決事件收錄（2026-07-11，完整裁決見 §8）**：本輪將 13 §6.11 事件欄為「—」但生產者實際「發事件」或「直發 `report.*`」者收束入表——05 側：`policy.autoRevoked`／`economy.granaryOverflow`／`uprising.ended`；08 側：`diplo.workStopped`（原 `dip.workStopped`）／`court.mediationResult`／`shogunate.nominated`／`shogunate.patronLost`／`shogunate.collapsed`／`plot.exposed`／`plot.betrayalActivated`。新契約下 core **不得直接發 `report.*` key**，一律改發本表事件、由 13 §3.7 `renderReport` 於渲染時導出報告（五輪裁決 A）。`save.autosaveFailed` **不收錄本表**——屬 app 層 I/O 失敗（非決定論、不得進 core state／§5.4 golden hash），改由 16 走 app 層 UI 通知（非 core Report 機制），詳見 §8 六輪裁決 4。`officer.died(cause='battle')` 之生產者規格歸 07（v1 保留戰死，§8 六輪裁決 3 明訂 07 待補框架；02 本表 `officer.died` 不變）。
+> **七輪裁決事件收錄（2026-07-11，完整裁決見 §8）**：末輪 dry check 續收 13 §6.11 事件欄仍為「—」之孤兒報告鍵對應核心事實——新增 `clan.succession`（06）／`officer.recruitFailed`（06）／`siege.relief`（07）／`army.routed`（07）／`victory.tenkabitoProgress`（10）五事件；`proposal.expired` 增 `reason: 'timeout'|'invalidated'`（併入原 report.proposal.invalid）；`transport.looted` 增 `ownerClanId`（被劫方視角分流所需）。另二鍵不入本表：`report.officer.meritReady` 判 **UI-only**（條件 state 可衍生、武將一覽/詳細卡 badge 直讀）、`report.diplomacy.proposalAccepted` **刪鍵**（由既有 `pact.signed`／`diplo.reinforceAgreed` 覆蓋）。`officer.captured`／`officer.died` 表項不變（合戰敗將捕獲時機由 07 §3.14 時機 2 補、officer.captured 已 canonical）。`save.autosaveFailed` 續採六輪 4 之 app 層 UI-only。新契約下 core 不得直發 `report.*`（五輪 A）。
 
 ### 4.20 AiState（AI 狀態分支）
 
@@ -1478,7 +1484,7 @@ calendarToDay(y,m,d) = (y-1560)*360 + (m-1)*30 + (d-1)
 - **二輪 C｜§4.19 事件完整性裁決**（依 E-30 事件 canonical 收束原則）：以「有報告／自動暫停／程式消費者→收、
   純冗餘→廢」逐一裁決 03／04／05／06／13／16 引用而 02 未收之事件。**收**三項：`officer.loyaltyLow`
   （13 `report.officer.loyaltyLow`＋03 §3.4.2 warning 級；payload `officerId, clanId, loyalty`；06 發）、
-  `proposal.expired`（13 `report.proposal.expired`＋03 Step10 逾期；payload `proposalId, officerId`；06 發）、
+  `proposal.expired`（13 `report.proposal.expired`＋03 Step10 逾期；payload `proposalId, officerId`〔七輪裁決 2 增 `reason: 'timeout'|'invalidated'`，見 §4.19／下方七輪裁決〕；06 發）、
   `time.seasonStart`（16 §5.3 季首自動存檔實際消費；payload `year, season`；03 發）。**廢**六項：
   `military.encounter`（＝野戰成立，統一用既有 `battle.started`）、`military.districtLost`（守方視角，
   `district.subjugated.fromClanId` 已含守方資訊）、`siege.progress`（11 §3.11.2 攻城 overlay 明訂「與 core
@@ -1625,5 +1631,43 @@ calendarToDay(y,m,d) = (y-1560)*360 + (m-1)*30 + (d-1)
   - **13**：(a) §6.11 事件欄「—」改填 canonical 事件並標視角/分流：`report.policy.autoRevoked`←`policy.autoRevoked`；`report.economy.granaryOverflow`←`economy.granaryOverflow`；`report.uprising.suppressed`←`uprising.ended(suppressed)`、`report.uprising.subsided`←`uprising.ended(subsided)`；`report.diplomacy.workStopped`←`diplo.workStopped`；`report.court.mediationSuccess`←`court.mediationResult(success)`、`report.court.mediationFailed`←`court.mediationResult(!success)`；`report.shogunate.nominated`←`shogunate.nominated`、`report.shogunate.patronLost`←`shogunate.patronLost`、`report.shogunate.collapsed`←`shogunate.collapsed`；`report.plot.betrayalActivated`←`plot.betrayalActivated`；`report.plot.exposed`←`plot.exposed(actor)`、`report.plot.exposedByEnemy`←`plot.exposed(target)`。(b) §3.7 enrichment：`diplo.envoyArrived.{proposal}` 由 `payload.kind` 取型別 i18n（不反查 proposalId）；`court.mediationResult.{months}`＝`payload.ceasefireMonths`。(c) `report.save.autosaveFailed` 一列改判 **UI-only**（非 Report／renderReport），註明消費者＝16 §5.3 autosave hook；字串宜遷 `ui.notify.*`／`ui.save.*`。(d) `court.mediationResult(success)` 與同 tick `pact.signed` 之雙報告去重：由 13 決（renderReport 對源自斡旋的 `pact.signed` 抑制，或接受兩則並存）。(e) `report.shogunate.patronLost` 視角過濾（僅 `e.clanIds.includes(playerClanId)` 者渲染，餘 return null）。
   - **16**：§3.5.6／§5.3 自動存檔失敗降級：`發重大 Report(report.save.autosaveFailed)` → **app 層 UI 通知（toast＋HUD 常駐警示）、不經 core Report、不入 `state.reports`**；`autosaveSuspended` 維持 session 旗標。字串命名與 13 對齊（遷 `ui.notify.*`／`ui.save.*`）。
   ——追記（同日收尾）：六輪下游回寫時發現同型漏網一件——輸送隊被劫（05 §3.6）僅有 13 報告 key（`report.transport.looted`／`report.transport.lootGain` 雙視角）而無 canonical 事件，§4.19 補收
-  **`transport.looted{fromCastleId, toCastleId, byClanId, nodeId, soldiers, gold, food}`**（發出者 05；被劫方／劫方雙視角由 13 §3.7 依 playerClanId 分流）；下游：05 §3.6 被劫結算改 emit 此事件、
+  **`transport.looted{ownerClanId, fromCastleId, toCastleId, byClanId, nodeId, soldiers, gold, food}`**（發出者 05；被劫方／劫方雙視角由 13 §3.7 依 playerClanId 分流；`ownerClanId` 由下方**七輪裁決 1** 補入——被劫方視角分流所需，此追記 payload 同步）；下游：05 §3.6 被劫結算改 emit 此事件、
   13 §6.11 兩列事件欄補填＋§3.7(3) 補分流列、03 §3.4.2/§4.3 補列（warning）。
+
+**2026-07-11 七輪裁決（事件↔報告邊界末輪 dry check 殘項——06/10 未經收束＋8 孤兒報告鍵；02 為裁決主體、只編輯本檔，連動改交下游清單；沿用勘誤台帳語境，無新增台帳項）**：
+
+背景：六輪定案後，末輪 dry check 逐列核對 13 §6.11「事件型別」欄，尋得 8 個仍為「—」之孤兒報告鍵（生產者敘述尚存但無 canonical 事件、於新契約下屬「core 直發 report.*」殘漏），另發現 `transport.looted` 被劫方視角分流缺輸送隊所屬 clanId。先讀各生產者敘述與 13 §6.11 對應列後逐項定案如下。
+
+- **1｜`transport.looted` 增 `ownerClanId: ClanId`**：payload 前置 `ownerClanId`（＝輸送隊所屬 `TransportOrder.clanId`），全文 `{ownerClanId, fromCastleId, toCastleId, byClanId, nodeId, soldiers, gold, food}`。理由：13 §3.7 依 playerClanId 分流「被劫方視角 report.transport.looted」／「劫方視角 report.transport.lootGain」，需同時持有兩造 clanId；`byClanId`（劫方）原已在 payload，`ownerClanId`（被劫方）缺——TransportOrder 於被劫當下即移除、`fromCastleId` 事後亦可能易主，renderReport 於渲染時不可反查所屬，故 owner 必須隨 event 落地。`clanIds=[ownerClanId, byClanId]`（雙方視角）。§4.19 該列與六輪追記已同步更新。下游備忘錄：**05**（§3.6 被劫結算 `emit transport.looted{ ownerClanId: t.clanId, byClanId: 劫方, … }`）／**13**（§3.7 分流判別改依 `payload.ownerClanId===playerClanId`→report.transport.looted、`payload.byClanId===playerClanId`→report.transport.lootGain）／**03**（§3.4.2 `severityOf` 對被劫方視角判 warning、劫方視角判 info）。
+
+- **2｜八個孤兒報告鍵逐一定案**（收錄事件／併入變體／UI-only＋消費者／刪鍵）：
+
+  | 孤兒 report key | 生產者 | 定案 | 理由 |
+  |---|---|---|---|
+  | `report.clan.succession` | 06 §3.9.3 | **收錄** `clan.succession{clanId, deceasedId: OfficerId, heirId: OfficerId}`，`clanIds=[clanId]`，發出者 06 | 重大核心事實；亡者/繼任者皆持久 OfficerId（亡者紀錄留存 state，渲染時可解析 oldLeader/newLeader）。 |
+  | `report.officer.meritReady` | 06 §5.7 | **UI-only**（消費者＝11 武將一覽/詳細卡 badge，直讀 state） | 條件 `o.merit ≥ rankMeritThresholds[nextRank]` 為 **state 可衍生**，badge 直讀即可、無須事件；報告匣價值低。06 §5.7 gainMerit 停發該 report。 |
+  | `report.proposal.invalid` | 06 §3.11/§5.8 | **併入** `proposal.expired`（payload 加 `reason: 'timeout'\|'invalidated'`） | 二者同實體（Proposal）、同終態（`status='expired'`）、同「具申無效果作廢」語意；差異僅觸發（逾期 vs 採納後 Command 再驗證失敗）與忠誠效果（−1 vs 無），恰由 `reason` 判別表達，不另立事件（最小發明）。13 §3.7 依 `reason` 分流 report.proposal.expired（timeout）／report.proposal.invalid（invalidated）。 |
+  | `report.victory.tenkabitoProgress` | 10 §6.4 | **收錄** `victory.tenkabitoProgress{clanId, months: number}`，`clanIds=[clanId]`，info 級，發出者 10 | 核心模擬進度事實（`tenkabitoStreakMonths ≥ 6` 起每月一則）。 |
+  | `report.field.rout` | 07 §3.4 | **收錄** `army.routed{armyId, clanId, nodeId: MapNodeId}`，`clanIds=[clanId]`，發出者 07 | 潰走轉 `status='routed'` 為核心事實；`{army}` 經 armyId 於部隊存活期間解析（13 transient-timing enrichment，同 army.departed/arrived/blocked 慣例）。07 §3.4 為潰走行為單一擁有者（四輪 E20）、合戰 §3.9 戰後轉 routed 亦適用同事件。 |
+  | `report.siege.relief` | 07 §3.3 援軍解圍 | **收錄** `siege.relief{siegeId, castleId}`，`clanIds=[圍城方,守城方]`，發出者 07（**推翻**任務傾向之「併入 siege.ended{fallen:false}」） | 推翻理由：字串「援軍抵達{castle}，展開解圍戰！」係解圍野戰**開始**（`Siege.interrupted=true`）之時刻，非解圍**成功**；siege.ended{fallen:false}（圍城方全潰走/撤退）為解圍成功之時刻、且該變體槽已由 report.siege.repelled 佔用——時刻與槽位皆衝突，不可併入。render 不可反查已結束/已解除中斷之 Siege，故此獨立時刻須以事件（含持久 castleId）承載。與同 tick 併發之 battle.started→report.field.begin 去重由 13 定（比照六輪 1 之 mediation+pact.signed）。 |
+  | `report.officer.recruitFailed` | 06 §3.7.1 | **收錄** `officer.recruitFailed{officerId, executorId: OfficerId, clanId}`，`clanIds=[clanId]`，發出者 06（**推翻**任務傾向之 UI-only） | 06 §3.7.1 雖為「即時判定（rng.misc）」，然此為 **core 內部決定論結果**、非 state 可衍生（失敗後僅留 `recruitRetryOn`＋扣金，無法據以推導「剛失敗」），與 meritReady 之 state 可衍生 badge 本質不同，故不可 UI-only、須事件承載；且與成功之 officer.recruited→report.officer.recruited 對稱、90 日冷卻＋禮金損失屬值得存檔之後果。`officerId`＝婉拒之浪人、`executorId`＝登用者、`clanId`＝登用勢力。 |
+  | `report.diplomacy.proposalAccepted` | 08 §5.3.2 | **刪鍵** | 08 §5.3.2 我方提案獲受：締約類（alliance/ceasefire/marriage/vassal，含 demand/offerVassal）→ emit `pact.signed`；requestReinforce → emit `diplo.reinforceAgreed`——全部接受分支皆已有 canonical 事件覆蓋，report.diplomacy.proposalAccepted 冗餘。13 §6.11 移除該列；13 §3.7 補「我方為提案方時 pact.signed/diplo.reinforceAgreed 之提案方視角措辭」說明（pactSigned 第三人稱字串已通用，proposer-view 為 nice-to-have、不新增 key）。註：report.diplomacy.proposalRejected 保留（其唯一事件源 diplo.refused 無替代、非冗餘），與本項不對稱屬合理。 |
+
+- **3｜合戰大勝捕獲敵將（07 §3.14 時機 2 補捕獲判定；02 不改）**：06 §3.7.2（L332「捕虜的產生條件見 07——合戰大勝、攻城落城時機率捕獲敵將」）與捕虜處置 modal（06 §6.2「合戰/攻城結束產生捕虜時彈出」）預設「合戰」捕獲存在；07 §3.14 現況時機 2（合戰敗北）僅判戰死（`BAL.battleDeathChanceDefeatGeneral`）、時機 3（落城）方有捕獲——合戰捕獲為懸空缺口。裁決：**07 §3.14 時機 2 補合戰敗將捕獲判定**——敗方潰走/遭殲滅部隊之大將先擲戰死；未死者再擲捕獲（機率為新 BAL 常數、建議初值由 07 定，`rng.misc` 同流），命中則 emit `officer.captured{officerId, byClanId}`（既有 canonical），關押城由 07 讀語境定（傾向勝方大將 originCastle）。02 不改（officer.captured 已 canonical；`officer.captured`／`officer.died` 互斥沿 07 §3.14「戰死者不另發 officer.captured」）。BAL 常數同步登錄 15。
+
+- **4｜備忘錄併記（02 不改，下游落實）**：
+  - **03**：§3.5.2 `rng.misc` 消費者表補列「Step 8 戰死／逃脫／捕獲（07 §3.14）」——現表僅列 Step 4/7/9；07 §3.14 之戰死/逃脫/捕獲擲骰明訂走 `rng.misc`（非 `rng.battle`，因係策略層 Officer 狀態變更）、落於 Step 8 military.combat，須登錄為 misc 消費者。
+  - **13**：`court.mediationResult` 視角分流補全——比照 plot.exposed（actor/target 雙 key）為 `clanIds=[clanId(斡旋發起方), targetClanId]` 補「對象方（targetClanId）／第三方視角」措辭（現 report.court.mediationSuccess/Failed 字串為發起方視角）。
+  - **17**：§3.4.5 S3（落城強攻）期望「發 `report.siege.fallen` 報告」改判「發 `siege.ended` 事件（`fallen:true`）」斷言（新契約 core 不發 report.* key，五輪 A；報告由 13 renderReport 渲染時導出）。
+
+- **下游檔案待改清單（本輪 02 已收束，連動改交下游 agent）**：
+  - **02（本檔，已改）**：§4.19 新增 `clan.succession`／`officer.recruitFailed`／`siege.relief`／`army.routed`／`victory.tenkabitoProgress` 五列、`proposal.expired` 增 `reason`、`transport.looted` 增 `ownerClanId`；表後補七輪收錄 blockquote；六輪 transport.looted 追記 payload 同步。
+  - **05**：§3.6 被劫結算 emit `transport.looted` 帶 `ownerClanId: t.clanId`。
+  - **06**：(a) §3.9.3 家督繼承 `發報告 report.clan.succession` → `emit clan.succession{clanId, deceasedId, heirId}`。(b) §5.7 gainMerit `發報告 report.officer.meritReady` 刪除（改 UI badge 直讀 state）。(c) §5.8 applyResolveProposal 採納再驗證失敗 `發報告 report.proposal.invalid` → `emit proposal.expired{proposalId, officerId, reason:'invalidated'}`；proposalsSystem 逾期分支 `emit proposal.expired{…, reason:'timeout'}`。(d) §3.7.1 登用失敗 `發報告 report.officer.recruitFailed` → `emit officer.recruitFailed{officerId, executorId, clanId}`。
+  - **07**：(a) §3.4 潰走轉 routed／§3.9 合戰戰後轉 routed 處 `emit army.routed{armyId, clanId, nodeId}`。(b) §3.3 援軍解圍 `Siege.interrupted=true` 處 `emit siege.relief{siegeId, castleId}`（`clanIds=[圍城方,守城方]`）。(c) §3.14 時機 2 補合戰敗將捕獲判定（戰死未死者再擲捕獲、新 BAL 常數建議初值、emit officer.captured、關押城語境）；BAL 常數登錄 15。字串 report.field.rout／report.siege.relief 仍歸 07 §6.5。
+  - **10**：§6.4 `發 info 報告 report.victory.tenkabitoProgress` → `emit victory.tenkabitoProgress{clanId, months}`（`tenkabitoStreakMonths ≥ 6` 起每月）。
+  - **13**：(a) §6.11 事件欄「—」改填 canonical：report.clan.succession←clan.succession；report.field.rout←army.routed；report.siege.relief←siege.relief；report.victory.tenkabitoProgress←victory.tenkabitoProgress；report.proposal.expired←proposal.expired(timeout)、report.proposal.invalid←proposal.expired(invalidated)；report.officer.recruitFailed←officer.recruitFailed。(b) report.officer.meritReady 一列改判 **UI-only**（消費者＝11 武將一覽/詳細卡 badge，直讀 state、非 renderReport），字串留 report.* 或遷 ui.* 由 13 定。(c) **刪** report.diplomacy.proposalAccepted 一列（由 pact.signed／diplo.reinforceAgreed 覆蓋）；§3.7 補提案方視角措辭說明。(d) §3.7 transport.looted 分流改依 ownerClanId/byClanId（本輪 1）。(e) court.mediationResult 視角分流補 target/第三方（比照 plot.exposed，本輪 4）。(f) §3.7 siege.relief 與同 tick battle.started→report.field.begin 去重由 13 定。
+  - **11**：武將一覽／詳細卡新增「功績達門檻可推舉」badge（直讀 state `o.merit ≥ rankMeritThresholds[nextRank]`，替代 report.officer.meritReady）。
+  - **15**：登錄 07 新增之合戰捕獲機率 BAL 常數（建議初值由 07 定）。
+  - **16**：無本輪連動。
+  - **17**：§3.4.5 S3 期望改 `siege.ended`（fallen:true）事件斷言（本輪 4）。

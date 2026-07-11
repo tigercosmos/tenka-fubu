@@ -329,9 +329,10 @@ BAL.soldiersPerPop = 0.025
   - 兵糧：敵部隊獲得 `min(輸送糧, 部隊攜行餘裕)`（攜行上限見 07），其餘散失。
   - 金錢：全額歸敵方勢力金庫。
   - 兵力：隨輸送隊消滅而潰散，不併入敵方（押運兵非戰鬥編成）。
-  - 輸送隊消滅，發事件 `transport.looted{fromCastleId, toCastleId, byClanId, nodeId, soldiers, gold, food}`
-    （`fromCastleId`／`toCastleId`＝該輸送隊起訖城，`byClanId`＝敵方 `Army.clanId`，`nodeId`＝所在節點，
-    `soldiers`／`gold`／`food`＝被劫前之押運量；02 §4.19；六輪裁決追記）；被劫方／劫方雙視角報告由 13 §3.7
+  - 輸送隊消滅，發事件 `transport.looted{ownerClanId, fromCastleId, toCastleId, byClanId, nodeId, soldiers, gold, food}`
+    （`ownerClanId`＝該輸送隊所屬勢力〔＝`TransportOrder.clanId`，即 `t.clanId`〕，`fromCastleId`／`toCastleId`＝該輸送隊起訖城，
+    `byClanId`＝敵方 `Army.clanId`，`nodeId`＝所在節點，`soldiers`／`gold`／`food`＝被劫前之押運量，
+    `clanIds=[ownerClanId, byClanId]`；02 §4.19；六輪裁決追記＋七輪裁決 1）；被劫方／劫方雙視角報告由 13 §3.7
     依 `playerClanId` 分流（`report.transport.looted`／`report.transport.lootGain`）。
 - 一揆中的郡節點視同存在敵對單位（一揆軍駐於郡節點，§3.8.3）。
 - 抵達：兵糧入 B 城（受容量限制，溢出部分發事件 `economy.granaryOverflow{clanId, castleId, food}`，`food`＝散失石數；報告字串見 13 §6.11 `report.economy.granaryOverflow`；02 §4.19；六輪裁決 1）；兵力併入 B 城（受 B 城 `maxSoldiers` 限制，超額散失並報告）；金錢回勢力金庫（即：金錢輸送若安全抵達則無淨變化，僅通過風險區時有損失可能）。
@@ -691,7 +692,7 @@ transportDaily(state):
     t.edgeProgressDays += 1
     node = 當前所在節點（未抵達前仍為 path[t.pathCursor]）
     if node 上存在對 t.clanId 敵對的 Army 或一揆軍:
-      被劫結算並發事件 transport.looted{fromCastleId, toCastleId, byClanId, nodeId, soldiers, gold, food}（§3.6）；移除 t；continue
+      被劫結算並發事件 transport.looted{ownerClanId: t.clanId, fromCastleId, toCastleId, byClanId, nodeId, soldiers, gold, food}（§3.6）；移除 t；continue
     if t.edgeProgressDays >= t.edgeCostDays:
       t.pathCursor += (t.returning ? -1 : 1)；t.edgeProgressDays = 0；t.edgeCostDays = 0    # 進入下一邊，重算邊日數（餘量結轉略，同 04 §3.7）
       if t.pathCursor 抵達終點（或折返抵達起點）:
@@ -1010,6 +1011,10 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
   §3.8.3 一揆爆發改「發事件 `uprising.started`（payload `districtId, severity` 見 02 §4.19）」；§5.2 建造佇列完工改
   「發事件 `facility.completed{castleId, facilityTypeId}`」；§5.4 輸送抵達改「發事件 `transport.arrived{fromCastleId,
   toCastleId, soldiers, gold, food}`」。改動 §3.8.3、§5.2、§5.4。依據：02 §8 六輪裁決（五輪 A 定案延伸適用）、02 §4.19。
+
+### 8.6 七輪裁決 1 同步——`transport.looted` 增 `ownerClanId`（2026-07-11）
+
+依 02 §8「2026-07-11 七輪裁決 1」：`transport.looted` payload 增 `ownerClanId: ClanId`（＝該輸送隊所屬勢力、即 `TransportOrder.clanId`／`t.clanId`，`clanIds=[ownerClanId, byClanId]`），供 13 §3.7 依 `playerClanId` 分流被劫方（`ownerClanId`）／劫方（`byClanId`）視角。本檔同步：§3.6 被劫判定 emit 敘述、§5.4 偽碼 `transport.looted{...}` 皆補 `ownerClanId`（§5.4 以 `t.clanId` 帶入）。改動 §3.6、§5.4。依據：02 §8 七輪裁決 1、02 §4.19。
 
 ---
 
