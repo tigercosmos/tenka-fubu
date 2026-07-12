@@ -12,6 +12,13 @@
 // cache（無跨 tick 失效疑慮、或計算成本低；見 derivedCache.ts 檔頭）。
 
 import { BAL } from '../balance';
+import {
+  castleHarvest,
+  garrisonFoodMonthly,
+  monthlyGoldIncome,
+  officerSalary,
+  policyUpkeep,
+} from '../domestic';
 import { RANK_VALUES, type CastleTier, type Rank, type Season } from './enums';
 import type { DerivedCache } from './derivedCache';
 import { getOrCompute } from './derivedCache';
@@ -220,6 +227,53 @@ export function getClanCastles(state: GameState, clanId: ClanId): Castle[] {
     if (castle.ownerClanId === clanId) result.push(castle);
   }
   return result;
+}
+
+/** M3 收支預覽（05 §3.1.5）：純函式，不修改狀態。 */
+export interface BudgetForecast {
+  goldIncomeMonthly: number;
+  goldUpkeepMonthly: number;
+  goldNetMonthly: number;
+  salaryMonthly: number;
+  policyUpkeepMonthly: number;
+  foodUpkeepMonthly: number;
+  harvestForecast: number;
+  foodStock: number;
+  foodMonthsLeft: number;
+}
+
+export function selectBudgetForecast(state: Readonly<GameState>, clanId: ClanId): BudgetForecast {
+  let salaryMonthly = 0;
+  for (const officer of Object.values(state.officers)) {
+    if (officer.clanId === clanId) salaryMonthly += officerSalary(state, officer);
+  }
+  const policyUpkeepMonthly = policyUpkeep(state, clanId);
+  const goldIncomeMonthly = monthlyGoldIncome(state, clanId);
+  let foodUpkeepMonthly = 0;
+  let harvestForecast = 0;
+  let foodStock = 0;
+  for (const castle of Object.values(state.castles)) {
+    if (castle.ownerClanId !== clanId) continue;
+    foodUpkeepMonthly += garrisonFoodMonthly(state, castle);
+    harvestForecast += castleHarvest(state, castle.id);
+    foodStock += castle.food;
+  }
+  for (const army of Object.values(state.armies)) {
+    if (army.clanId === clanId)
+      foodUpkeepMonthly += army.soldiers * BAL.fieldFoodPerSoldierDaily * 30;
+  }
+  const goldUpkeepMonthly = salaryMonthly + policyUpkeepMonthly;
+  return {
+    goldIncomeMonthly,
+    goldUpkeepMonthly,
+    goldNetMonthly: goldIncomeMonthly - goldUpkeepMonthly,
+    salaryMonthly,
+    policyUpkeepMonthly,
+    foodUpkeepMonthly,
+    harvestForecast,
+    foodStock,
+    foodMonthsLeft: foodUpkeepMonthly > 0 ? Math.floor(foodStock / foodUpkeepMonthly) : Infinity,
+  };
 }
 
 // ═══════════════════════════════════════════════════════════════════

@@ -15,6 +15,9 @@ import type { EmitFn } from '../commands/registry';
 import { applyCommands } from '../commands/queue';
 import { timeSystem } from './time';
 import { reportsSystem } from './reports';
+import { developmentSystem } from './development';
+import { economySystem } from './economy';
+import { officersSystem } from './officers';
 
 // ═══════════════════════════════════════════════════════════════════
 // 迴圈機制型別（03 §4.1 canonical）
@@ -115,11 +118,11 @@ function stepEvents(): GameEvent[] {
 function stepDiplomacy(): GameEvent[] {
   return []; // 外交工作進度、協定到期、調略（08；M6）
 }
-function stepDevelopment(): GameEvent[] {
-  return []; // 郡開發每日增量（05；M3-7）
+function stepDevelopment(state: GameState): GameEvent[] {
+  return developmentSystem(state);
 }
-function stepEconomy(): GameEvent[] {
-  return []; // 秋收→收入→維持費→兵糧消耗（05/07；M3-6；月結順序見 §3.6）
+function stepEconomy(state: GameState): GameEvent[] {
+  return economySystem(state);
 }
 function stepMilitaryMovement(): GameEvent[] {
   return []; // 行軍、制壓翻轉（04；M4）
@@ -127,8 +130,9 @@ function stepMilitaryMovement(): GameEvent[] {
 function stepMilitaryCombat(): GameEvent[] {
   return []; // 野戰/攻城自動解算 tick（07；M4/M5）
 }
-function stepOfficers(): GameEvent[] {
-  return []; // 忠誠、壽命、元服（06；M3/M6）
+function stepOfficers(state: GameState): GameEvent[] {
+  officersSystem(state);
+  return [];
 }
 function stepProposals(): GameEvent[] {
   return []; // 具申生成與逾期作廢（06/09；M6-13）

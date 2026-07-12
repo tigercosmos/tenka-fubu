@@ -16,6 +16,8 @@ import {
   validateDebugGrant,
   validateDebugSkipDays,
 } from './debugCommands';
+import * as domestic from './domesticCommands';
+import * as officers from './officerCommands';
 
 /** tick 事件匯流排回呼：各步以此追加 GameEvent（03 §3.2.1）。 */
 export type EmitFn = (event: GameEvent) => void;
@@ -62,6 +64,53 @@ export function isDebugCommand(cmd: Command): boolean {
 
 /** CommandType → handler 登錄表（M1-6 僅 debug 指令；擴充見檔頭與 §8-D14）。 */
 const HANDLERS: Partial<Record<CommandType, AnyHandler>> = {
+  grantFief: defineHandler<'grantFief'>(domestic.validateGrantFief, domestic.applyGrantFief),
+  setDevelopFocus: defineHandler<'setDevelopFocus'>(
+    domestic.validateSetDevelopFocus,
+    domestic.applySetDevelopFocus,
+  ),
+  buildFacility: defineHandler<'buildFacility'>(
+    domestic.validateBuildFacility,
+    domestic.applyBuildFacility,
+  ),
+  cancelBuild: defineHandler<'cancelBuild'>(
+    domestic.validateCancelBuild,
+    domestic.applyCancelBuild,
+  ),
+  demolishFacility: defineHandler<'demolishFacility'>(
+    domestic.validateDemolishFacility,
+    domestic.applyDemolishFacility,
+  ),
+  setConscriptPolicy: defineHandler<'setConscriptPolicy'>(
+    domestic.validateSetConscriptPolicy,
+    domestic.applySetConscriptPolicy,
+  ),
+  transport: defineHandler<'transport'>(domestic.validateTransport, domestic.applyTransport),
+  recallTransport: defineHandler<'recallTransport'>(
+    domestic.validateRecallTransport,
+    domestic.applyRecallTransport,
+  ),
+  tradeRice: defineHandler<'tradeRice'>(domestic.validateTradeRice, domestic.applyTradeRice),
+  enactPolicy: defineHandler<'enactPolicy'>(
+    domestic.validateEnactPolicy,
+    domestic.applyEnactPolicy,
+  ),
+  revokePolicy: defineHandler<'revokePolicy'>(
+    domestic.validateRevokePolicy,
+    domestic.applyRevokePolicy,
+  ),
+  appointLord: defineHandler<'appointLord'>(
+    domestic.validateAppointLord,
+    domestic.applyAppointLord,
+  ),
+  setCastleControl: defineHandler<'setCastleControl'>(
+    domestic.validateSetCastleControl,
+    domestic.applySetCastleControl,
+  ),
+  promoteRank: defineHandler<'promoteRank'>(
+    officers.validatePromoteRank,
+    officers.applyPromoteRank,
+  ),
   debugSkipDays: defineHandler<'debugSkipDays'>(validateDebugSkipDays, applyDebugSkipDays),
   debugGrant: defineHandler<'debugGrant'>(validateDebugGrant, applyDebugGrant),
 };

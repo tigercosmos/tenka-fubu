@@ -1,4 +1,4 @@
-// 月結整合測試（stub 系統，M1-25）。
+// 月結整合測試（M1 時序契約＋M3 內政月結）。
 // 規格：plan/03-game-loop.md §3.6（月結流程完整順序；stub 期僅 Step 2 time 有實作，
 //       Step 3–12 空殼佔位恆回傳 []，見 src/core/systems/index.ts 檔頭）／§3.2.4（13 步固定順序）；
 //       plan/18-roadmap.md M1-25（驗收：兩個月事件序列 golden 紀錄比對——time.monthStart/seasonStart 順序）。
@@ -15,8 +15,8 @@ import type { GameEvent } from '../../src/core/state/events';
 import type { AutoPauseReason } from '../../src/core/systems/index';
 import { buildTinyState, TINY_START_DAY } from '../fixtures/tiny';
 
-describe('月結整合（stub 系統下兩個月事件序列，03 §3.6／18-roadmap M1-25）', () => {
-  it('golden：60 tick（兩個月）事件序列恰為 [monthStart(5/1), monthStart(6/1), seasonStart(6/1)]', () => {
+describe('月結整合（M3 內政接線，03 §3.6／18-roadmap M3）', () => {
+  it('golden：時間事件順序不受內政月結影響，且每月產生經濟事件', () => {
     const state = buildTinyState();
     expect(state.time.day).toBe(TINY_START_DAY); // 1560/4/1（月中途起算，非月初）
 
@@ -39,16 +39,15 @@ describe('月結整合（stub 系統下兩個月事件序列，03 §3.6／18-roa
     const jun1 = TINY_START_DAY + DAYS_PER_MONTH * 2; // 1560/6/1
 
     // golden：逐日 Step 2 emit 順序（同日內 monthStart 先於 seasonStart，見 time.ts timeSystem）。
-    expect(events).toEqual([
+    const timeEvents = events.filter((event) => event.type.startsWith('time.'));
+    expect(timeEvents).toEqual([
       { type: 'time.monthStart', day: may1, clanIds: [], year: 1560, month: 5 },
       { type: 'time.monthStart', day: jun1, clanIds: [], year: 1560, month: 6 },
       { type: 'time.seasonStart', day: jun1, clanIds: [], year: 1560, season: 'summer' },
     ]);
 
-    // Step 3–12 全空殼、Step 1 佇列恆空：事件流不含任何非 time.* 型別。
-    expect(events.every((e) => e.type === 'time.monthStart' || e.type === 'time.seasonStart')).toBe(
-      true,
-    );
+    expect(events.filter((event) => event.type === 'economy.income')).toHaveLength(4);
+    expect(events.some((event) => event.type === 'conscript.completed')).toBe(true);
 
     // 月結 hook：僅兩個月初 tick 觸發 autoPauseReasons=['monthStart']，其餘 58 個 tick 恆空。
     const withReasons = autoPauseByDay.filter((d) => d.reasons.length > 0);

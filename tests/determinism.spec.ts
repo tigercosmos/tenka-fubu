@@ -177,14 +177,14 @@ describe('DT2 — 含指令的重跑（17 §3.5.2）', () => {
     expect(stableStringify(runA.state)).toBe(stableStringify(runB.state));
   });
 
-  it('兩指令確實投遞並走過 Step 1 管線（seq 前進、依序各發一次 command.rejected；見檔頭 DT2 裁決）', () => {
+  it('兩指令確實投遞並走過 Step 1 管線（M3 徵兵方針成功、未實作出陣仍拒絕）', () => {
     const run = runDeterminismTicks({
       seed: TINY_SEED,
       days: 41, // 涵蓋第 40 日（含）之 tick
       day10Command: conscriptCommand(),
       day40Command: marchCommand(),
     });
-    expect(run.rejectedCommandTypes).toEqual(['setConscriptPolicy', 'march']);
+    expect(run.rejectedCommandTypes).toEqual(['march']);
     expect(run.state.meta.lastAppliedCmdSeq).toBe(2);
   });
 
