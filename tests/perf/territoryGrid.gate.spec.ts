@@ -24,7 +24,11 @@ import { loadOutline } from '@ui/map/mapDraw';
 import { buildTerritoryGrid } from '@ui/map/territoryGrid';
 
 const DISTRICT_COUNT = 350; // 近似 14 §3.5「~343」全國郡數量級
-const GATE_MS = 450; // 見檔頭門檻取值理由
+// CI 共享 runner 速度不定（M2 push 實測同一程式碼 713~2149ms，本機穩態 115ms）：依 17 §3.11.2
+// 「perf-gate 於 M9 才轉阻斷（M9-4，含 CI 係數）」的門檻設計，CI 上本檔改為寬鬆 sanity 上限
+// （僅攔截演算法級爆炸，數千 ms→數十秒等級），本機維持嚴格門檻守住優化回歸；M9-4 時重新校定 CI 係數。
+const IS_CI = Boolean(process.env.CI);
+const GATE_MS = IS_CI ? 15_000 : 450; // 本機門檻取值理由見檔頭；CI 值＝sanity 上限（非效能斷言）
 const SAMPLES = 3;
 
 function makeGraph(positions: ReadonlyArray<{ x: number; y: number }>): MapGraph {
