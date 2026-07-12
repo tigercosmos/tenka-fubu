@@ -10,17 +10,84 @@
 // data-testid 依 plan/17-testing.md §6.2 契約：`screen-strategy`／`hud-date`／
 // `speed-pause`／`speed-1`／`speed-2`／`speed-5`。
 
-import { useCallback, useMemo, type ReactElement } from 'react';
+import { useCallback, useMemo, useState, type ReactElement } from 'react';
 import { gameLoop } from '@app/gameLoop';
 import { store } from '@app/store';
 import type { GameSpeed } from '@app/store';
 import { selectMapStaticModel, selectMapViewModel } from '@core/state/selectors';
 import type { MapStaticData, MapRendererEvent } from '../map/mapViewTypes';
 import { formatDate, formatNumber, t, type StringKey } from '@i18n/zh-TW';
-import { useGameSelector } from '../hooks/useGameSelector';
+import {
+  makeCachedSelector,
+  useCachedGameSelector,
+  useGameSelector,
+} from '../hooks/useGameSelector';
 import { useSession } from '../hooks/useSession';
 import { useHotkeys } from '../hooks/useHotkeys';
 import { MapCanvasHost } from '../map/MapCanvasHost';
+import { useUIStore } from '../hooks/uiStore';
+import { CastlePanel } from './panels/CastlePanel';
+import { DistrictPanel } from './panels/DistrictPanel';
+import { OfficerList } from './OfficerList';
+import { OfficerDetail } from './OfficerDetail';
+import { PolicyPanel } from './panels/PolicyPanel';
+import type { CastleId, DistrictId, OfficerId } from '@core/state/ids';
+import type { GameEvent } from '@core/state/events';
+import { ReportStack, type ToastItem } from '../components';
+
+function reportTitle(event: GameEvent): string {
+  switch (event.type) {
+    case 'economy.income':
+      return t('report.economy.income', {
+        month: (Math.floor(event.day / 30) % 12) + 1,
+        gold: event.gold,
+      });
+    case 'economy.harvest':
+      return t('report.economy.harvest', { food: event.totalFood });
+    case 'economy.upkeepUnpaid':
+      return t('report.economy.salaryUnpaid');
+    case 'economy.foodShortage':
+      return t('report.economy.castleStarving', { castle: event.castleId });
+    case 'economy.granaryOverflow':
+      return t('report.economy.granaryOverflow', { castle: event.castleId, food: event.food });
+    case 'facility.completed':
+      return t('report.build.done', {
+        castle: event.castleId,
+        facility: t(`term.facility.${event.facilityTypeId.slice(4)}`),
+      });
+    case 'policy.autoRevoked':
+      return t('report.policy.autoRevoked', { name: t(`${event.policyId}.name`) });
+    case 'transport.arrived':
+      return t('report.transport.arrived', { castle: event.toCastleId });
+    case 'uprising.started':
+      return t('report.uprising.started', { district: event.districtId });
+    case 'uprising.ended':
+      return t(
+        event.resolved === 'suppressed' ? 'report.uprising.suppressed' : 'report.uprising.subsided',
+        { district: event.districtId },
+      );
+    default:
+      return event.type;
+  }
+}
+
+const selectReportToasts = makeCachedSelector((game): ToastItem[] =>
+  game.reports.slice(0, 20).map((report) => ({
+    id: report.id,
+    severity:
+      report.event.type === 'uprising.started'
+        ? 'critical'
+        : report.event.type === 'economy.foodShortage' ||
+            report.event.type === 'economy.upkeepUnpaid' ||
+            report.event.type === 'economy.granaryOverflow' ||
+            report.event.type === 'transport.looted'
+          ? 'warning'
+          : 'info',
+    title: reportTitle(report.event),
+    date: report.day,
+    sticky: report.event.type === 'uprising.started',
+  })),
+);
 
 interface SpeedOption {
   speed: GameSpeed;
@@ -53,6 +120,11 @@ export function MainScreen(): ReactElement {
   const gold = useGameSelector((g) => g.clans[g.meta.playerClanId]?.gold ?? 0);
   const homeCastleId = useGameSelector((g) => g.clans[g.meta.playerClanId]?.homeCastleId);
   const speed = useSession((s) => s.speed);
+  const panelStack = useUIStore((s) => s.panelStack);
+  const uiActions = useUIStore((s) => s.actions);
+  const topPanel = panelStack.at(-1);
+  const reportToasts = useCachedGameSelector(selectReportToasts);
+  const [dismissedReports, setDismissedReports] = useState<readonly string[]>([]);
 
   // 空白鍵暫停⇄繼續、1/2/3 變速、反引號開除錯面板（01 §6.3；M1-16 已實作本 hook，此處掛載）。
   useHotkeys(gameLoop, toggleDebugPanel);
@@ -73,13 +145,24 @@ export function MainScreen(): ReactElement {
 
   // 地圖點擊/懸停事件：目前只同步進 session.selection（面板開啟屬 M3 CastlePanel/DistrictPanel
   // 範圍，11-T4/T5，尚未有面板消費此值）。
-  const handleMapEvent = useCallback((event: MapRendererEvent): void => {
-    if (event.type === 'nodeClick') {
-      store.getState().actions.select({ kind: event.nodeKind, id: event.id });
-    } else if (event.type === 'emptyClick' || event.type === 'rightClick') {
-      store.getState().actions.select({ kind: 'none', id: null });
-    }
-  }, []);
+  const handleMapEvent = useCallback(
+    (event: MapRendererEvent): void => {
+      if (event.type === 'nodeClick') {
+        store.getState().actions.select({ kind: event.nodeKind, id: event.id });
+        if (event.nodeKind === 'castle') {
+          uiActions.setSelection({ kind: 'castle', id: event.id });
+          uiActions.openPanel('castle', { castleId: event.id });
+        } else if (event.nodeKind === 'district') {
+          uiActions.setSelection({ kind: 'district', id: event.id });
+          uiActions.openPanel('district', { districtId: event.id });
+        }
+      } else if (event.type === 'emptyClick' || event.type === 'rightClick') {
+        store.getState().actions.select({ kind: 'none', id: null });
+        uiActions.setSelection(null);
+      }
+    },
+    [uiActions],
+  );
 
   return (
     <div
@@ -97,6 +180,39 @@ export function MainScreen(): ReactElement {
         viewState={viewState}
         focusNodeId={homeCastleId}
       />
+      <nav
+        aria-label={t('ui.domestic.title')}
+        style={{
+          position: 'fixed',
+          zIndex: 'var(--z-hud)',
+          left: 'var(--space-2)',
+          top: '4rem',
+          display: 'grid',
+          gap: 'var(--space-2)',
+        }}
+      >
+        <button
+          type="button"
+          data-testid="rail-domestic"
+          onClick={() => uiActions.openPanel('castle', { castleId: homeCastleId ?? '' })}
+        >
+          {t('ui.rail.domestic')}
+        </button>
+        <button
+          type="button"
+          data-testid="rail-officers"
+          onClick={() => uiActions.openPanel('officers')}
+        >
+          {t('ui.rail.officers')}
+        </button>
+        <button
+          type="button"
+          data-testid="rail-policy"
+          onClick={() => uiActions.openPanel('policy')}
+        >
+          {t('ui.rail.policy')}
+        </button>
+      </nav>
       <div
         style={{
           position: 'relative',
@@ -130,6 +246,21 @@ export function MainScreen(): ReactElement {
           ))}
         </div>
       </div>
+      {topPanel?.id === 'castle' && topPanel.params.castleId && (
+        <CastlePanel castleId={topPanel.params.castleId as CastleId} />
+      )}
+      {topPanel?.id === 'district' && topPanel.params.districtId && (
+        <DistrictPanel districtId={topPanel.params.districtId as DistrictId} />
+      )}
+      {topPanel?.id === 'officers' && <OfficerList />}
+      {topPanel?.id === 'policy' && <PolicyPanel />}
+      {topPanel?.id === 'officerDetail' && topPanel.params.officerId && (
+        <OfficerDetail officerId={topPanel.params.officerId as OfficerId} />
+      )}
+      <ReportStack
+        items={reportToasts.filter((item) => !dismissedReports.includes(item.id))}
+        onDismiss={(id) => setDismissedReports((current) => [...current, id])}
+      />
     </div>
   );
 }

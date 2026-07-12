@@ -13,10 +13,12 @@ import { MainScreen } from './MainScreen';
 import { resetGameStoreForTests, store } from '../../app/store';
 import { resetBridgeForTests, runOneDay } from '../../app/bridge';
 import { makeLoopTestState } from '../../../tests/helpers/loopState';
+import { uiStore } from '../hooks/uiStore';
 
 beforeEach(() => {
   resetBridgeForTests();
   resetGameStoreForTests(makeLoopTestState({ day: 0, gold: 1000 }));
+  uiStore.getState().actions.reset();
 });
 
 afterEach(() => {
@@ -68,5 +70,14 @@ describe('MainScreen（11 §3.3 縮減版 HUD）', () => {
     fireEvent.click(screen.getByTestId('speed-pause'));
     expect(store.getState().session.speed).toBe('paused');
     expect(store.getState().session.lastPauseReason).toBe('user');
+  });
+
+  it('M3 左側快捷列可開啟武將與政策面板', () => {
+    render(<MainScreen />);
+    fireEvent.click(screen.getByTestId('rail-officers'));
+    expect(uiStore.getState().panelStack.at(-1)?.id).toBe('officers');
+    fireEvent.click(screen.getByTestId('rail-policy'));
+    expect(uiStore.getState().panelStack.at(-1)?.id).toBe('policy');
+    expect(screen.getByTestId('policy-panel')).toBeTruthy();
   });
 });

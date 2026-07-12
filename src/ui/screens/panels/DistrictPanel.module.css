@@ -1,0 +1,58 @@
+.anchor {
+  position: fixed;
+  z-index: var(--z-panel);
+  left: 84px;
+  top: 60px;
+  width: 480px;
+  height: 560px;
+}
+.anchor > section {
+  height: 100%;
+  overflow: auto;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.content h3 {
+  margin: 0 0 var(--space-2);
+  padding-bottom: var(--space-1);
+  border-bottom: var(--border-thin);
+  font-size: var(--font-size-md);
+}
+.content p {
+  margin: var(--space-1) 0;
+}
+.metric {
+  display: grid;
+  grid-template-columns: 4rem 1fr 9rem;
+  align-items: center;
+  gap: var(--space-2);
+}
+.metric progress {
+  width: 100%;
+  accent-color: var(--accent-gold);
+}
+.metric strong {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.danger progress {
+  accent-color: var(--accent-red);
+}
+.warning,
+.error {
+  color: var(--danger);
+}
+.focus {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.hint {
+  color: var(--ink-500);
+}
+select {
+  max-width: 100%;
+}

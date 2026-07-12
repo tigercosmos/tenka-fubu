@@ -1,0 +1,29 @@
+.anchor {
+  position: fixed;
+  z-index: var(--z-hud);
+  inset: 60px 6rem auto 6rem;
+  max-height: calc(100vh - 7rem);
+  overflow: auto;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--space-3);
+}
+.grid article {
+  padding: var(--space-3);
+  border: var(--border-thin);
+  background: var(--washi-200);
+}
+.grid article.active {
+  border-color: var(--accent-gold);
+  box-shadow: inset 3px 0 var(--accent-gold);
+}
+.grid h3 {
+  margin: 0 0 var(--space-2);
+}
+.grid small {
+  display: block;
+  color: var(--ink-500);
+  margin-bottom: var(--space-2);
+}
