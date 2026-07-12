@@ -23,7 +23,7 @@
 // 程序生成浪人（`Officer` 型別無此欄位可供區分）；14 §3.8 明定程序浪人不計入 §3.2 配額，
 // 呼叫端若持有已跑過 `generateRonin()` 的 GameState，須自行過濾後再傳入本檔以符合配額對照
 // 語意（tiny/mini 等測試 fixture 皆未執行 `generateRonin()`，不受影響）。
-import { existsSync, readdirSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import type { Region } from '../src/core/state/enums';
@@ -528,9 +528,46 @@ const SCENARIOS_ROOT = path.resolve(
   fileURLToPath(new URL('../src/data/scenarios', import.meta.url)),
 );
 
-/** CLI 入口：讀取劇本資料、印 Markdown 報表、決定 exit code。
- * 【現況】劇本資料批次（14 §7-B1/B2 起）與其載入器（M2-8/9）尚未產出，本檔目前僅能偵測
- * 資料是否存在；資料就緒後接上載入器即可產生完整報表（不改動本檔已完成之計算/呈現函式）。 */
+/** 從 `src/data/scenarios/<id>/` 直接讀取劇本原始 JSON，組成 `ScenarioStatsInput`。
+ * 批次增量期（B1..B9）容忍缺檔：任一檔缺席以空陣列代入，使部分批次亦可產出報表
+ * （比照 tools/validate.ts 的 loadRawScenario 寬鬆載入策略）。 */
+function loadScenarioStatsInput(scenarioDir: string): ScenarioStatsInput | null {
+  const readJson = (name: string): unknown => {
+    const file = path.join(scenarioDir, name);
+    if (!existsSync(file)) return undefined;
+    return JSON.parse(readFileSync(file, 'utf-8')) as unknown;
+  };
+  const arr = <T>(v: unknown): T[] => (Array.isArray(v) ? (v as T[]) : []);
+
+  const clans = arr<StatsClan>((readJson('clans.json') as { clans?: unknown } | undefined)?.clans);
+  const castles = arr<StatsCastle>(readJson('castles.json'));
+  const districts = arr<StatsDistrict>(readJson('districts.json'));
+  const provinces = arr<StatsProvince>(
+    (readJson('provinces.json') as { provinces?: unknown } | undefined)?.provinces,
+  );
+  const roads = arr<StatsRoad>((readJson('roads.json') as { edges?: unknown } | undefined)?.edges);
+  const events = arr<{ id: string }>(
+    (readJson('events.json') as { events?: unknown } | undefined)?.events,
+  );
+
+  const officers: StatsOfficer[] = [];
+  const officersDir = path.join(scenarioDir, 'officers');
+  if (existsSync(officersDir)) {
+    for (const entry of readdirSync(officersDir)) {
+      if (!entry.endsWith('.json')) continue;
+      const file = JSON.parse(readFileSync(path.join(officersDir, entry), 'utf-8')) as {
+        officers?: unknown;
+      };
+      officers.push(...arr<StatsOfficer>(file.officers));
+    }
+  }
+
+  if (clans.length === 0 && castles.length === 0 && officers.length === 0) return null;
+  return { clans, officers, castles, districts, provinces, roads, events };
+}
+
+/** CLI 入口：讀取劇本原始 JSON、印 Markdown 報表、決定 exit code（14 §5.2）。
+ * 批次增量期僅部分地方就緒時，未就緒地方於報表 2 顯示為 0（偏差 -100%）——屬預期，非錯誤。 */
 function main(): void {
   const scenarioId = process.argv[2] ?? 's1560';
   const scenarioDir = path.join(SCENARIOS_ROOT, scenarioId);
@@ -539,10 +576,13 @@ function main(): void {
     console.log(`尚無劇本資料（${scenarioId}）`);
     process.exit(0);
   }
-  console.log(
-    `劇本資料載入器尚未接上（M2-8/M2-9 後接上 buildGameState/loadScenario）：` +
-      `無法對 ${scenarioId} 產生報表。`,
-  );
+  const input = loadScenarioStatsInput(scenarioDir);
+  if (input === null) {
+    console.log(`尚無劇本資料（${scenarioId}）`);
+    process.exit(0);
+  }
+  const report = computeScenarioStats(input);
+  console.log(formatStatsMarkdown(report, { title: `劇本 ${scenarioId} 統計報表` }));
   process.exit(0);
 }
 

@@ -1,0 +1,200 @@
+{
+  "version": 1,
+  "clans": [
+    {
+      "id": "clan.oda",
+      "name": "織田家",
+      "leaderId": "off.oda-nobunaga",
+      "homeCastleId": "castle.kiyosu",
+      "gold": 2000,
+      "prestige": 250,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.oda",
+      "colorIndex": 5
+    },
+    {
+      "id": "clan.imagawa",
+      "name": "今川家",
+      "leaderId": "off.imagawa-yoshimoto",
+      "homeCastleId": "castle.sunpu",
+      "gold": 3500,
+      "prestige": 500,
+      "courtRank": "ju5ge",
+      "shogunateTitle": "none",
+      "personaId": "persona.imagawa",
+      "colorIndex": 31
+    },
+    {
+      "id": "clan.matsudaira",
+      "name": "松平家",
+      "leaderId": "off.matsudaira-motoyasu",
+      "homeCastleId": "castle.okazaki",
+      "gold": 400,
+      "prestige": 120,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.matsudaira",
+      "colorIndex": 17
+    },
+    {
+      "id": "clan.saito",
+      "name": "齋藤家",
+      "leaderId": "off.saito-yoshitatsu",
+      "homeCastleId": "castle.inabayama",
+      "gold": 3000,
+      "prestige": 220,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.saito",
+      "colorIndex": 9
+    },
+    {
+      "id": "clan.kitabatake",
+      "name": "北畠家",
+      "leaderId": "off.kitabatake-tomonori",
+      "homeCastleId": "castle.kiriyama",
+      "gold": 2000,
+      "prestige": 400,
+      "courtRank": "ju3",
+      "shogunateTitle": "none",
+      "personaId": "persona.kitabatake",
+      "colorIndex": 13
+    },
+    {
+      "id": "clan.azai",
+      "name": "淺井家",
+      "leaderId": "off.azai-nagamasa",
+      "homeCastleId": "castle.odani",
+      "gold": 2000,
+      "prestige": 150,
+      "courtRank": "ju5ge",
+      "shogunateTitle": "none",
+      "personaId": "persona.azai",
+      "colorIndex": 18
+    },
+    {
+      "id": "clan.rokkaku",
+      "name": "六角家",
+      "leaderId": "off.rokkaku-yoshikata",
+      "homeCastleId": "castle.kannonji",
+      "gold": 2200,
+      "prestige": 300,
+      "courtRank": "ju5ge",
+      "shogunateTitle": "none",
+      "personaId": "persona.rokkaku",
+      "colorIndex": 26
+    },
+    {
+      "id": "clan.miyoshi",
+      "name": "三好家",
+      "leaderId": "off.miyoshi-nagayoshi",
+      "homeCastleId": "castle.akutagawa",
+      "gold": 6500,
+      "prestige": 420,
+      "courtRank": "ju4ge",
+      "shogunateTitle": "shobanshu",
+      "personaId": "persona.miyoshi",
+      "colorIndex": 35
+    },
+    {
+      "id": "clan.tsutsui",
+      "name": "筒井家",
+      "leaderId": "off.tsutsui-junsei",
+      "homeCastleId": "castle.tsutsui",
+      "gold": 1100,
+      "prestige": 100,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.tsutsui",
+      "colorIndex": 1
+    },
+    {
+      "id": "clan.hatano",
+      "name": "波多野家",
+      "leaderId": "off.hatano-harumichi",
+      "homeCastleId": "castle.yakami",
+      "gold": 1200,
+      "prestige": 120,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.hatano",
+      "colorIndex": 7
+    },
+    {
+      "id": "clan.honganji",
+      "name": "本願寺家",
+      "leaderId": "off.honganji-kennyo",
+      "homeCastleId": "castle.ishiyama",
+      "gold": 2500,
+      "prestige": 380,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.honganji",
+      "colorIndex": 30
+    },
+    {
+      "id": "clan.yamana",
+      "name": "山名家",
+      "leaderId": "off.yamana-suketoyo",
+      "homeCastleId": "castle.konosumiyama",
+      "gold": 1000,
+      "prestige": 250,
+      "courtRank": "ju5ge",
+      "shogunateTitle": "none",
+      "personaId": "persona.yamana",
+      "colorIndex": 3
+    },
+    {
+      "id": "clan.ashikaga",
+      "name": "足利將軍家",
+      "leaderId": "off.ashikaga-yoshiteru",
+      "homeCastleId": "castle.nijo",
+      "gold": 1500,
+      "prestige": 700,
+      "courtRank": "ju3",
+      "shogunateTitle": "shogun",
+      "personaId": "persona.ashikaga",
+      "colorIndex": 16
+    }
+  ],
+  "diplomacy": {
+    "pacts": [
+      {
+        "a": "clan.imagawa",
+        "b": "clan.matsudaira",
+        "kind": "vassal",
+        "months": null,
+        "vassalClanId": "clan.matsudaira"
+      }
+    ],
+    "wars": [
+      {
+        "a": "clan.imagawa",
+        "b": "clan.oda"
+      },
+      {
+        "a": "clan.oda",
+        "b": "clan.saito"
+      },
+      {
+        "a": "clan.azai",
+        "b": "clan.rokkaku"
+      }
+    ],
+    "sentiments": [
+      {
+        "a": "clan.oda",
+        "b": "clan.saito",
+        "aToB": 20,
+        "bToA": 20
+      },
+      {
+        "a": "clan.miyoshi",
+        "b": "clan.ashikaga",
+        "aToB": 30,
+        "bToA": 30
+      }
+    ]
+  }
+}

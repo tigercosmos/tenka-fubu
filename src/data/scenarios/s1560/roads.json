@@ -1,0 +1,1074 @@
+{
+  "version": 1,
+  "edges": [
+    {
+      "id": "road.kiyosu-kasugai-01",
+      "a": "castle.kiyosu",
+      "b": "dist.owari-kasugai",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kiyosu-nakashima-01",
+      "a": "castle.kiyosu",
+      "b": "dist.owari-nakashima",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kiyosu-kaito-01",
+      "a": "castle.kiyosu",
+      "b": "dist.owari-kaito",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kaito-kaisai-01",
+      "a": "dist.owari-kaito",
+      "b": "dist.owari-kaisai",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kiyosu-nagoya-01",
+      "a": "castle.kiyosu",
+      "b": "castle.nagoya",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 0.5,
+      "name": "東海道"
+    },
+    {
+      "id": "road.nagoya-aichi-01",
+      "a": "castle.nagoya",
+      "b": "dist.owari-aichi",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 0.5,
+      "name": "東海道"
+    },
+    {
+      "id": "road.aichi-hekikai-01",
+      "a": "dist.owari-aichi",
+      "b": "dist.mikawa-hekikai",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 1,
+      "name": "東海道"
+    },
+    {
+      "id": "road.hekikai-okazaki-01",
+      "a": "dist.mikawa-hekikai",
+      "b": "castle.okazaki",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 0.5,
+      "name": "東海道"
+    },
+    {
+      "id": "road.okazaki-hoi-01",
+      "a": "castle.okazaki",
+      "b": "dist.mikawa-hoi",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 1,
+      "name": "東海道"
+    },
+    {
+      "id": "road.hoi-yoshida-01",
+      "a": "dist.mikawa-hoi",
+      "b": "castle.yoshida",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 0.5,
+      "name": "東海道"
+    },
+    {
+      "id": "road.yoshida-fuchi-01",
+      "a": "castle.yoshida",
+      "b": "dist.totomi-fuchi",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 1.5,
+      "name": "東海道"
+    },
+    {
+      "id": "road.kakegawa-abe-01",
+      "a": "castle.kakegawa",
+      "b": "dist.suruga-abe",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 2,
+      "name": "東海道"
+    },
+    {
+      "id": "road.kasugai-inuyama-01",
+      "a": "dist.owari-kasugai",
+      "b": "castle.inuyama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1
+    },
+    {
+      "id": "road.chita-atsumi-01",
+      "a": "dist.owari-chita",
+      "b": "dist.mikawa-atsumi",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "伊勢灣口航路"
+    },
+    {
+      "id": "road.nagoya-chita-01",
+      "a": "castle.nagoya",
+      "b": "dist.owari-chita",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.inuyama-niwa-01",
+      "a": "castle.inuyama",
+      "b": "dist.owari-niwa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.inuyama-haguri-01",
+      "a": "castle.inuyama",
+      "b": "dist.owari-haguri",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.sunpu-abe-01",
+      "a": "castle.sunpu",
+      "b": "dist.suruga-abe",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.sunpu-udo-01",
+      "a": "castle.sunpu",
+      "b": "dist.suruga-udo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.sunpu-kokokuji-01",
+      "a": "castle.sunpu",
+      "b": "castle.kokokuji",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 1.5,
+      "name": "東海道"
+    },
+    {
+      "id": "road.kokokuji-sunto-01",
+      "a": "castle.kokokuji",
+      "b": "dist.suruga-sunto",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kokokuji-fuji-01",
+      "a": "castle.kokokuji",
+      "b": "dist.suruga-fuji",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.fuchi-hikuma-01",
+      "a": "dist.totomi-fuchi",
+      "b": "castle.hikuma",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.hikuma-toyoda-01",
+      "a": "castle.hikuma",
+      "b": "dist.totomi-toyoda",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.toyoda-sano-01",
+      "a": "dist.totomi-toyoda",
+      "b": "dist.totomi-sano",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kakegawa-sano-01",
+      "a": "castle.kakegawa",
+      "b": "dist.totomi-sano",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kakegawa-suchi-01",
+      "a": "castle.kakegawa",
+      "b": "dist.totomi-suchi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.yoshida-yana-01",
+      "a": "castle.yoshida",
+      "b": "dist.mikawa-yana",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.tahara-atsumi-01",
+      "a": "castle.tahara",
+      "b": "dist.mikawa-atsumi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.tahara-hazu-01",
+      "a": "castle.tahara",
+      "b": "dist.mikawa-hazu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.hazu-hoi-01",
+      "a": "dist.mikawa-hazu",
+      "b": "dist.mikawa-hoi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.okazaki-nukata-01",
+      "a": "castle.okazaki",
+      "b": "dist.mikawa-nukata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.okazaki-kamo-01",
+      "a": "castle.okazaki",
+      "b": "dist.mikawa-kamo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.inuyama-inabayama-01",
+      "a": "castle.inuyama",
+      "b": "castle.inabayama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "中山道"
+    },
+    {
+      "id": "road.inabayama-minoatsumi-01",
+      "a": "castle.inabayama",
+      "b": "dist.mino-atsumi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.inabayama-kagami-01",
+      "a": "castle.inabayama",
+      "b": "dist.mino-kagami",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.inabayama-katagata-01",
+      "a": "castle.inabayama",
+      "b": "dist.mino-katagata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.inabayama-yamagata-01",
+      "a": "castle.inabayama",
+      "b": "dist.mino-yamagata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.inabayama-ogaki-01",
+      "a": "castle.inabayama",
+      "b": "castle.ogaki",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "中山道"
+    },
+    {
+      "id": "road.ogaki-anpachi-01",
+      "a": "castle.ogaki",
+      "b": "dist.mino-anpachi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.ogaki-fuwa-01",
+      "a": "castle.ogaki",
+      "b": "dist.mino-fuwa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.ogaki-ono-01",
+      "a": "castle.ogaki",
+      "b": "dist.mino-ono",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.ogaki-ikeda-01",
+      "a": "castle.ogaki",
+      "b": "dist.mino-ikeda",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.inabayama-iwamura-01",
+      "a": "castle.inabayama",
+      "b": "castle.iwamura",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2.5,
+      "name": "中山道"
+    },
+    {
+      "id": "road.iwamura-ena-01",
+      "a": "castle.iwamura",
+      "b": "dist.mino-ena",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.iwamura-toki-01",
+      "a": "castle.iwamura",
+      "b": "dist.mino-toki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1
+    },
+    {
+      "id": "road.iwamura-kani-01",
+      "a": "castle.iwamura",
+      "b": "dist.mino-kani",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5
+    },
+    {
+      "id": "road.iwamura-kamo-01",
+      "a": "castle.iwamura",
+      "b": "dist.mino-kamo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5
+    },
+    {
+      "id": "road.kiriyama-taki-01",
+      "a": "castle.kiriyama",
+      "b": "dist.ise-taki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kiriyama-iitaka-01",
+      "a": "castle.kiriyama",
+      "b": "dist.ise-iitaka",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kiriyama-ichishi-01",
+      "a": "castle.kiriyama",
+      "b": "dist.ise-ichishi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1
+    },
+    {
+      "id": "road.kiriyama-ano-01",
+      "a": "castle.kiriyama",
+      "b": "dist.ise-ano",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1
+    },
+    {
+      "id": "road.kiriyama-tamaru-01",
+      "a": "castle.kiriyama",
+      "b": "castle.tamaru",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1
+    },
+    {
+      "id": "road.tamaru-watarai-01",
+      "a": "castle.tamaru",
+      "b": "dist.ise-watarai",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.tamaru-iino-01",
+      "a": "castle.tamaru",
+      "b": "dist.ise-iino",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.tamaru-toshi-01",
+      "a": "castle.tamaru",
+      "b": "dist.ise-toshi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.tamaru-ago-01",
+      "a": "castle.tamaru",
+      "b": "dist.ise-ago",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.watarai-chita-01",
+      "a": "dist.ise-watarai",
+      "b": "dist.owari-chita",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "伊勢灣航路"
+    },
+    {
+      "id": "road.odani-omi-azai",
+      "a": "castle.odani",
+      "b": "dist.omi-azai",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.odani-omi-ika",
+      "a": "castle.odani",
+      "b": "dist.omi-ika",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.odani-omi-sakata",
+      "a": "castle.odani",
+      "b": "dist.omi-sakata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.sawayama-omi-inukami",
+      "a": "castle.sawayama",
+      "b": "dist.omi-inukami",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.sawayama-omi-echi",
+      "a": "castle.sawayama",
+      "b": "dist.omi-echi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kannonji-omi-gamo",
+      "a": "castle.kannonji",
+      "b": "dist.omi-gamo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kannonji-omi-kanzaki",
+      "a": "castle.kannonji",
+      "b": "dist.omi-kanzaki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kannonji-omi-yasu",
+      "a": "castle.kannonji",
+      "b": "dist.omi-yasu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kannonji-omi-shiga",
+      "a": "castle.kannonji",
+      "b": "dist.omi-shiga",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1
+    },
+    {
+      "id": "road.hino-omi-koka",
+      "a": "castle.hino",
+      "b": "dist.omi-koka",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.hino-omi-kurita",
+      "a": "castle.hino",
+      "b": "dist.omi-kurita",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.nijo-yamashiro-otagi",
+      "a": "castle.nijo",
+      "b": "dist.yamashiro-otagi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.nijo-yamashiro-kadono",
+      "a": "castle.nijo",
+      "b": "dist.yamashiro-kadono",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.nijo-yamashiro-kii",
+      "a": "castle.nijo",
+      "b": "dist.yamashiro-kii",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.shoryuji-yamashiro-otokuni",
+      "a": "castle.shoryuji",
+      "b": "dist.yamashiro-otokuni",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.shoryuji-yamashiro-uji",
+      "a": "castle.shoryuji",
+      "b": "dist.yamashiro-uji",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.akutagawa-settsu-shimagami",
+      "a": "castle.akutagawa",
+      "b": "dist.settsu-shimagami",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.akutagawa-settsu-shimoshimo",
+      "a": "castle.akutagawa",
+      "b": "dist.settsu-shimoshimo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.akutagawa-settsu-teshima",
+      "a": "castle.akutagawa",
+      "b": "dist.settsu-teshima",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.ishiyama-settsu-higashinari",
+      "a": "castle.ishiyama",
+      "b": "dist.settsu-higashinari",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.ishiyama-settsu-nishinari",
+      "a": "castle.ishiyama",
+      "b": "dist.settsu-nishinari",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.ishiyama-settsu-sumiyoshi",
+      "a": "castle.ishiyama",
+      "b": "dist.settsu-sumiyoshi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.iimoriyama-kawachi-sarara",
+      "a": "castle.iimoriyama",
+      "b": "dist.kawachi-sarara",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.iimoriyama-kawachi-kawachi",
+      "a": "castle.iimoriyama",
+      "b": "dist.kawachi-kawachi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.iimoriyama-kawachi-wakae",
+      "a": "castle.iimoriyama",
+      "b": "dist.kawachi-wakae",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.takaya-kawachi-furuichi",
+      "a": "castle.takaya",
+      "b": "dist.kawachi-furuichi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.takaya-kawachi-ishikawa",
+      "a": "castle.takaya",
+      "b": "dist.kawachi-ishikawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.takaya-kawachi-tannan",
+      "a": "castle.takaya",
+      "b": "dist.kawachi-tannan",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kishiwada-izumi-otori",
+      "a": "castle.kishiwada",
+      "b": "dist.izumi-otori",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kishiwada-izumi-izumi",
+      "a": "castle.kishiwada",
+      "b": "dist.izumi-izumi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kishiwada-izumi-hine",
+      "a": "castle.kishiwada",
+      "b": "dist.izumi-hine",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.shigisan-yamato-heguri",
+      "a": "castle.shigisan",
+      "b": "dist.yamato-heguri",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.shigisan-yamato-hirose",
+      "a": "castle.shigisan",
+      "b": "dist.yamato-hirose",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.tsutsui-yamato-soenoshimo",
+      "a": "castle.tsutsui",
+      "b": "dist.yamato-soenoshimo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.tsutsui-yamato-soenokami",
+      "a": "castle.tsutsui",
+      "b": "dist.yamato-soenokami",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.tsutsui-yamato-yamanobe",
+      "a": "castle.tsutsui",
+      "b": "dist.yamato-yamanobe",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.tsutsui-yamato-takaichi",
+      "a": "castle.tsutsui",
+      "b": "dist.yamato-takaichi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.saika-kii-nagusa",
+      "a": "castle.saika",
+      "b": "dist.kii-nagusa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.saika-kii-ama",
+      "a": "castle.saika",
+      "b": "dist.kii-ama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.saika-kii-naga",
+      "a": "castle.saika",
+      "b": "dist.kii-naga",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.yakami-tamba-taki",
+      "a": "castle.yakami",
+      "b": "dist.tamba-taki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.yakami-tamba-hikami",
+      "a": "castle.yakami",
+      "b": "dist.tamba-hikami",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.yagi-tamba-funai",
+      "a": "castle.yagi",
+      "b": "dist.tamba-funai",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.yagi-tamba-kuwada",
+      "a": "castle.yagi",
+      "b": "dist.tamba-kuwada",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.yagi-tamba-ikaruga",
+      "a": "castle.yagi",
+      "b": "dist.tamba-ikaruga",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.konosumiyama-tajima-izushi",
+      "a": "castle.konosumiyama",
+      "b": "dist.tajima-izushi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.konosumiyama-tajima-kinosaki",
+      "a": "castle.konosumiyama",
+      "b": "dist.tajima-kinosaki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.konosumiyama-tajima-keta",
+      "a": "castle.konosumiyama",
+      "b": "dist.tajima-keta",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.takeda-tajima-asako",
+      "a": "castle.takeda",
+      "b": "dist.tajima-asako",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.takeda-tajima-yabu",
+      "a": "castle.takeda",
+      "b": "dist.tajima-yabu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.nagashima-ise-kuwana",
+      "a": "castle.nagashima",
+      "b": "dist.ise-kuwana",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.nagashima-ise-inabe",
+      "a": "castle.nagashima",
+      "b": "dist.ise-inabe",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.odani-sawayama",
+      "a": "castle.odani",
+      "b": "castle.sawayama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.sawayama-kannonji",
+      "a": "castle.sawayama",
+      "b": "castle.kannonji",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "中山道"
+    },
+    {
+      "id": "road.kannonji-hino",
+      "a": "castle.kannonji",
+      "b": "castle.hino",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.omi-shiga-nijo",
+      "a": "dist.omi-shiga",
+      "b": "castle.nijo",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "中山道"
+    },
+    {
+      "id": "road.nijo-shoryuji",
+      "a": "castle.nijo",
+      "b": "castle.shoryuji",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.shoryuji-akutagawa",
+      "a": "castle.shoryuji",
+      "b": "castle.akutagawa",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.akutagawa-ishiyama",
+      "a": "castle.akutagawa",
+      "b": "castle.ishiyama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.akutagawa-iimoriyama",
+      "a": "castle.akutagawa",
+      "b": "castle.iimoriyama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.ishiyama-iimoriyama",
+      "a": "castle.ishiyama",
+      "b": "castle.iimoriyama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.iimoriyama-takaya",
+      "a": "castle.iimoriyama",
+      "b": "castle.takaya",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.takaya-kishiwada",
+      "a": "castle.takaya",
+      "b": "castle.kishiwada",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.takaya-shigisan",
+      "a": "castle.takaya",
+      "b": "castle.shigisan",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.shigisan-tsutsui",
+      "a": "castle.shigisan",
+      "b": "castle.tsutsui",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.kishiwada-saika",
+      "a": "castle.kishiwada",
+      "b": "castle.saika",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "紀州街道"
+    },
+    {
+      "id": "road.shoryuji-yagi",
+      "a": "castle.shoryuji",
+      "b": "castle.yagi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "老之坂"
+    },
+    {
+      "id": "road.yagi-yakami",
+      "a": "castle.yagi",
+      "b": "castle.yakami",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1
+    },
+    {
+      "id": "road.yakami-takeda",
+      "a": "castle.yakami",
+      "b": "castle.takeda",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "遠阪峠"
+    },
+    {
+      "id": "road.takeda-konosumiyama",
+      "a": "castle.takeda",
+      "b": "castle.konosumiyama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    },
+    {
+      "id": "road.mino-fuwa-omi-sakata",
+      "a": "dist.mino-fuwa",
+      "b": "dist.omi-sakata",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "中山道"
+    },
+    {
+      "id": "road.ise-ano-omi-koka",
+      "a": "dist.ise-ano",
+      "b": "dist.omi-koka",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "鈴鹿"
+    },
+    {
+      "id": "road.ise-kuwana-owari-kaisai",
+      "a": "dist.ise-kuwana",
+      "b": "dist.owari-kaisai",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5
+    }
+  ]
+}

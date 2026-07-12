@@ -1,0 +1,1539 @@
+[
+  {
+    "id": "dist.owari-kasugai",
+    "name": "春日井郡",
+    "castleId": "castle.kiyosu",
+    "pos": {
+      "x": 1982,
+      "y": 2824
+    },
+    "kokudaka": 42000,
+    "kokudakaCap": 58800,
+    "commerce": 260,
+    "commerceCap": 420,
+    "population": 13900,
+    "populationCap": 21000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.owari-kaito",
+    "name": "海東郡",
+    "castleId": "castle.kiyosu",
+    "pos": {
+      "x": 1929,
+      "y": 2846
+    },
+    "isPort": true,
+    "kokudaka": 40000,
+    "kokudakaCap": 56000,
+    "commerce": 560,
+    "commerceCap": 900,
+    "population": 15000,
+    "populationCap": 22500,
+    "publicOrder": 65
+  },
+  {
+    "id": "dist.owari-nakashima",
+    "name": "中島郡",
+    "castleId": "castle.kiyosu",
+    "pos": {
+      "x": 1943,
+      "y": 2811
+    },
+    "kokudaka": 44000,
+    "kokudakaCap": 61600,
+    "commerce": 240,
+    "commerceCap": 380,
+    "population": 14500,
+    "populationCap": 22000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.owari-kaisai",
+    "name": "海西郡",
+    "castleId": "castle.kiyosu",
+    "pos": {
+      "x": 1924,
+      "y": 2859
+    },
+    "kokudaka": 34000,
+    "kokudakaCap": 47600,
+    "commerce": 180,
+    "commerceCap": 290,
+    "population": 11200,
+    "populationCap": 17000,
+    "publicOrder": 58
+  },
+  {
+    "id": "dist.owari-aichi",
+    "name": "愛知郡",
+    "castleId": "castle.nagoya",
+    "pos": {
+      "x": 1968,
+      "y": 2859
+    },
+    "isPort": true,
+    "kokudaka": 46000,
+    "kokudakaCap": 64400,
+    "commerce": 520,
+    "commerceCap": 830,
+    "population": 16800,
+    "populationCap": 25500,
+    "publicOrder": 65
+  },
+  {
+    "id": "dist.owari-chita",
+    "name": "知多郡",
+    "castleId": "castle.nagoya",
+    "pos": {
+      "x": 1973,
+      "y": 2910
+    },
+    "isPort": true,
+    "kokudaka": 38000,
+    "kokudakaCap": 53200,
+    "commerce": 300,
+    "commerceCap": 480,
+    "population": 13300,
+    "populationCap": 20000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.owari-niwa",
+    "name": "丹羽郡",
+    "castleId": "castle.inuyama",
+    "pos": {
+      "x": 1978,
+      "y": 2798
+    },
+    "kokudaka": 36000,
+    "kokudakaCap": 50400,
+    "commerce": 170,
+    "commerceCap": 270,
+    "population": 11900,
+    "populationCap": 18000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.owari-haguri",
+    "name": "葉栗郡",
+    "castleId": "castle.inuyama",
+    "pos": {
+      "x": 1959,
+      "y": 2795
+    },
+    "stewardId": "off.mori-yoshinari",
+    "kokudaka": 30000,
+    "kokudakaCap": 42000,
+    "commerce": 140,
+    "commerceCap": 220,
+    "population": 9900,
+    "populationCap": 15000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.suruga-abe",
+    "name": "安倍郡",
+    "castleId": "castle.sunpu",
+    "pos": {
+      "x": 2312,
+      "y": 2878
+    },
+    "kokudaka": 52000,
+    "kokudakaCap": 72800,
+    "commerce": 420,
+    "commerceCap": 670,
+    "population": 18200,
+    "populationCap": 27500,
+    "publicOrder": 62
+  },
+  {
+    "id": "dist.suruga-udo",
+    "name": "有度郡",
+    "castleId": "castle.sunpu",
+    "pos": {
+      "x": 2338,
+      "y": 2886
+    },
+    "isPort": true,
+    "kokudaka": 48000,
+    "kokudakaCap": 67200,
+    "commerce": 380,
+    "commerceCap": 610,
+    "population": 16800,
+    "populationCap": 25500,
+    "publicOrder": 62
+  },
+  {
+    "id": "dist.suruga-sunto",
+    "name": "駿東郡",
+    "castleId": "castle.kokokuji",
+    "pos": {
+      "x": 2425,
+      "y": 2865
+    },
+    "kokudaka": 55000,
+    "kokudakaCap": 77000,
+    "commerce": 250,
+    "commerceCap": 400,
+    "population": 18200,
+    "populationCap": 27500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.suruga-fuji",
+    "name": "富士郡",
+    "castleId": "castle.kokokuji",
+    "pos": {
+      "x": 2383,
+      "y": 2849
+    },
+    "kokudaka": 60000,
+    "kokudakaCap": 84000,
+    "commerce": 230,
+    "commerceCap": 370,
+    "population": 19800,
+    "populationCap": 30000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.totomi-sano",
+    "name": "佐野郡",
+    "castleId": "castle.kakegawa",
+    "pos": {
+      "x": 2231,
+      "y": 2937
+    },
+    "stewardId": "off.asahina-yasutomo",
+    "kokudaka": 58000,
+    "kokudakaCap": 81200,
+    "commerce": 240,
+    "commerceCap": 380,
+    "population": 19100,
+    "populationCap": 29000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.totomi-suchi",
+    "name": "周智郡",
+    "castleId": "castle.kakegawa",
+    "pos": {
+      "x": 2205,
+      "y": 2926
+    },
+    "kokudaka": 55000,
+    "kokudakaCap": 77000,
+    "commerce": 200,
+    "commerceCap": 320,
+    "population": 18200,
+    "populationCap": 27500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.totomi-fuchi",
+    "name": "敷知郡",
+    "castleId": "castle.hikuma",
+    "pos": {
+      "x": 2132,
+      "y": 2966
+    },
+    "kokudaka": 62000,
+    "kokudakaCap": 86800,
+    "commerce": 320,
+    "commerceCap": 510,
+    "population": 20500,
+    "populationCap": 31000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.totomi-toyoda",
+    "name": "豐田郡",
+    "castleId": "castle.hikuma",
+    "pos": {
+      "x": 2181,
+      "y": 2945
+    },
+    "kokudaka": 57000,
+    "kokudakaCap": 79800,
+    "commerce": 210,
+    "commerceCap": 340,
+    "population": 18800,
+    "populationCap": 28500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mikawa-hoi",
+    "name": "寶飯郡",
+    "castleId": "castle.yoshida",
+    "pos": {
+      "x": 2067,
+      "y": 2937
+    },
+    "kokudaka": 64000,
+    "kokudakaCap": 89600,
+    "commerce": 300,
+    "commerceCap": 480,
+    "population": 21100,
+    "populationCap": 32000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mikawa-yana",
+    "name": "八名郡",
+    "castleId": "castle.yoshida",
+    "pos": {
+      "x": 2100,
+      "y": 2918
+    },
+    "kokudaka": 52000,
+    "kokudakaCap": 72800,
+    "commerce": 160,
+    "commerceCap": 260,
+    "population": 17200,
+    "populationCap": 26000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mikawa-atsumi",
+    "name": "渥美郡",
+    "castleId": "castle.tahara",
+    "pos": {
+      "x": 2055,
+      "y": 2982
+    },
+    "isPort": true,
+    "stewardId": "off.okabe-masatsuna",
+    "kokudaka": 58000,
+    "kokudakaCap": 81200,
+    "commerce": 280,
+    "commerceCap": 450,
+    "population": 20200,
+    "populationCap": 30500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mikawa-hazu",
+    "name": "幡豆郡",
+    "castleId": "castle.tahara",
+    "pos": {
+      "x": 2008,
+      "y": 2937
+    },
+    "kokudaka": 49000,
+    "kokudakaCap": 68600,
+    "commerce": 190,
+    "commerceCap": 300,
+    "population": 16200,
+    "populationCap": 24500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mikawa-nukata",
+    "name": "額田郡",
+    "castleId": "castle.okazaki",
+    "pos": {
+      "x": 2036,
+      "y": 2902
+    },
+    "kokudaka": 55000,
+    "kokudakaCap": 77000,
+    "commerce": 260,
+    "commerceCap": 420,
+    "population": 18200,
+    "populationCap": 27500,
+    "publicOrder": 62
+  },
+  {
+    "id": "dist.mikawa-hekikai",
+    "name": "碧海郡",
+    "castleId": "castle.okazaki",
+    "pos": {
+      "x": 2001,
+      "y": 2897
+    },
+    "kokudaka": 62000,
+    "kokudakaCap": 86800,
+    "commerce": 240,
+    "commerceCap": 380,
+    "population": 20500,
+    "populationCap": 31000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mikawa-kamo",
+    "name": "加茂郡",
+    "castleId": "castle.okazaki",
+    "pos": {
+      "x": 2036,
+      "y": 2865
+    },
+    "kokudaka": 50000,
+    "kokudakaCap": 70000,
+    "commerce": 150,
+    "commerceCap": 240,
+    "population": 16500,
+    "populationCap": 25000,
+    "publicOrder": 58
+  },
+  {
+    "id": "dist.mino-atsumi",
+    "name": "厚見郡",
+    "castleId": "castle.inabayama",
+    "pos": {
+      "x": 1938,
+      "y": 2782
+    },
+    "kokudaka": 70000,
+    "kokudakaCap": 98000,
+    "commerce": 420,
+    "commerceCap": 670,
+    "population": 23100,
+    "populationCap": 34500,
+    "publicOrder": 62
+  },
+  {
+    "id": "dist.mino-kagami",
+    "name": "各務郡",
+    "castleId": "castle.inabayama",
+    "pos": {
+      "x": 1959,
+      "y": 2784
+    },
+    "kokudaka": 56000,
+    "kokudakaCap": 78400,
+    "commerce": 230,
+    "commerceCap": 370,
+    "population": 18500,
+    "populationCap": 28000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mino-katagata",
+    "name": "方縣郡",
+    "castleId": "castle.inabayama",
+    "pos": {
+      "x": 1919,
+      "y": 2768
+    },
+    "kokudaka": 48000,
+    "kokudakaCap": 67200,
+    "commerce": 200,
+    "commerceCap": 320,
+    "population": 15800,
+    "populationCap": 23500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mino-yamagata",
+    "name": "山縣郡",
+    "castleId": "castle.inabayama",
+    "pos": {
+      "x": 1933,
+      "y": 2749
+    },
+    "kokudaka": 44000,
+    "kokudakaCap": 61600,
+    "commerce": 170,
+    "commerceCap": 270,
+    "population": 14500,
+    "populationCap": 22000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mino-anpachi",
+    "name": "安八郡",
+    "castleId": "castle.ogaki",
+    "pos": {
+      "x": 1898,
+      "y": 2808
+    },
+    "kokudaka": 64000,
+    "kokudakaCap": 89600,
+    "commerce": 300,
+    "commerceCap": 480,
+    "population": 21100,
+    "populationCap": 31500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mino-fuwa",
+    "name": "不破郡",
+    "castleId": "castle.ogaki",
+    "pos": {
+      "x": 1865,
+      "y": 2792
+    },
+    "kokudaka": 52000,
+    "kokudakaCap": 72800,
+    "commerce": 260,
+    "commerceCap": 420,
+    "population": 17200,
+    "populationCap": 26000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mino-ono",
+    "name": "大野郡",
+    "castleId": "castle.ogaki",
+    "pos": {
+      "x": 1887,
+      "y": 2765
+    },
+    "kokudaka": 52000,
+    "kokudakaCap": 72800,
+    "commerce": 180,
+    "commerceCap": 290,
+    "population": 17200,
+    "populationCap": 26000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mino-ikeda",
+    "name": "池田郡",
+    "castleId": "castle.ogaki",
+    "pos": {
+      "x": 1877,
+      "y": 2776
+    },
+    "kokudaka": 48000,
+    "kokudakaCap": 67200,
+    "commerce": 190,
+    "commerceCap": 300,
+    "population": 15800,
+    "populationCap": 23500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mino-ena",
+    "name": "惠那郡",
+    "castleId": "castle.iwamura",
+    "pos": {
+      "x": 2085,
+      "y": 2774
+    },
+    "kokudaka": 42000,
+    "kokudakaCap": 58800,
+    "commerce": 150,
+    "commerceCap": 240,
+    "population": 13900,
+    "populationCap": 21000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mino-toki",
+    "name": "土岐郡",
+    "castleId": "castle.iwamura",
+    "pos": {
+      "x": 2034,
+      "y": 2800
+    },
+    "kokudaka": 48000,
+    "kokudakaCap": 67200,
+    "commerce": 210,
+    "commerceCap": 340,
+    "population": 15800,
+    "populationCap": 23500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mino-kani",
+    "name": "可兒郡",
+    "castleId": "castle.iwamura",
+    "pos": {
+      "x": 2001,
+      "y": 2779
+    },
+    "kokudaka": 54000,
+    "kokudakaCap": 75600,
+    "commerce": 220,
+    "commerceCap": 350,
+    "population": 17800,
+    "populationCap": 26500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.mino-kamo",
+    "name": "加茂郡",
+    "castleId": "castle.iwamura",
+    "pos": {
+      "x": 2015,
+      "y": 2760
+    },
+    "kokudaka": 58000,
+    "kokudakaCap": 81200,
+    "commerce": 200,
+    "commerceCap": 320,
+    "population": 19100,
+    "populationCap": 28500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.ise-taki",
+    "name": "多氣郡",
+    "castleId": "castle.kiriyama",
+    "pos": {
+      "x": 1858,
+      "y": 3020
+    },
+    "kokudaka": 58000,
+    "kokudakaCap": 81200,
+    "commerce": 260,
+    "commerceCap": 420,
+    "population": 19100,
+    "populationCap": 28500,
+    "publicOrder": 62
+  },
+  {
+    "id": "dist.ise-iitaka",
+    "name": "飯高郡",
+    "castleId": "castle.kiriyama",
+    "pos": {
+      "x": 1828,
+      "y": 3028
+    },
+    "kokudaka": 54000,
+    "kokudakaCap": 75600,
+    "commerce": 200,
+    "commerceCap": 320,
+    "population": 17800,
+    "populationCap": 26500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.ise-ichishi",
+    "name": "一志郡",
+    "castleId": "castle.kiriyama",
+    "pos": {
+      "x": 1856,
+      "y": 2990
+    },
+    "kokudaka": 64000,
+    "kokudakaCap": 89600,
+    "commerce": 240,
+    "commerceCap": 380,
+    "population": 21100,
+    "populationCap": 31500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.ise-ano",
+    "name": "安濃郡",
+    "castleId": "castle.kiriyama",
+    "pos": {
+      "x": 1870,
+      "y": 2964
+    },
+    "kokudaka": 70000,
+    "kokudakaCap": 98000,
+    "commerce": 300,
+    "commerceCap": 480,
+    "population": 23100,
+    "populationCap": 34500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.ise-watarai",
+    "name": "度會郡",
+    "castleId": "castle.tamaru",
+    "pos": {
+      "x": 1919,
+      "y": 3033
+    },
+    "isPort": true,
+    "kokudaka": 86000,
+    "kokudakaCap": 120400,
+    "commerce": 560,
+    "commerceCap": 900,
+    "population": 31800,
+    "populationCap": 47500,
+    "publicOrder": 65
+  },
+  {
+    "id": "dist.ise-iino",
+    "name": "飯野郡",
+    "castleId": "castle.tamaru",
+    "pos": {
+      "x": 1887,
+      "y": 3006
+    },
+    "kokudaka": 50000,
+    "kokudakaCap": 70000,
+    "commerce": 180,
+    "commerceCap": 290,
+    "population": 16500,
+    "populationCap": 25000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.ise-toshi",
+    "name": "答志郡",
+    "castleId": "castle.tamaru",
+    "pos": {
+      "x": 1952,
+      "y": 3031
+    },
+    "kokudaka": 46000,
+    "kokudakaCap": 64400,
+    "commerce": 220,
+    "commerceCap": 350,
+    "population": 15200,
+    "populationCap": 23000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.ise-ago",
+    "name": "英虞郡",
+    "castleId": "castle.tamaru",
+    "pos": {
+      "x": 1947,
+      "y": 3065
+    },
+    "kokudaka": 38000,
+    "kokudakaCap": 53200,
+    "commerce": 150,
+    "commerceCap": 240,
+    "population": 12500,
+    "populationCap": 19000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.omi-azai",
+    "name": "淺井郡",
+    "castleId": "castle.odani",
+    "pos": {
+      "x": 1835,
+      "y": 2760
+    },
+    "kokudaka": 90000,
+    "kokudakaCap": 126000,
+    "commerce": 220,
+    "commerceCap": 350,
+    "population": 29700,
+    "populationCap": 44500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.omi-ika",
+    "name": "伊香郡",
+    "castleId": "castle.odani",
+    "pos": {
+      "x": 1812,
+      "y": 2734
+    },
+    "kokudaka": 60000,
+    "kokudakaCap": 84000,
+    "commerce": 160,
+    "commerceCap": 260,
+    "population": 19800,
+    "populationCap": 29500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.omi-sakata",
+    "name": "坂田郡",
+    "castleId": "castle.odani",
+    "pos": {
+      "x": 1852,
+      "y": 2792
+    },
+    "stewardId": "off.azai-hisamasa",
+    "kokudaka": 95000,
+    "kokudakaCap": 133000,
+    "commerce": 300,
+    "commerceCap": 480,
+    "population": 31400,
+    "populationCap": 47000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.omi-inukami",
+    "name": "犬上郡",
+    "castleId": "castle.sawayama",
+    "pos": {
+      "x": 1832,
+      "y": 2828
+    },
+    "kokudaka": 80000,
+    "kokudakaCap": 112000,
+    "commerce": 300,
+    "commerceCap": 480,
+    "population": 26400,
+    "populationCap": 39500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.omi-echi",
+    "name": "愛知郡",
+    "castleId": "castle.sawayama",
+    "pos": {
+      "x": 1806,
+      "y": 2846
+    },
+    "kokudaka": 65000,
+    "kokudakaCap": 91000,
+    "commerce": 220,
+    "commerceCap": 350,
+    "population": 21500,
+    "populationCap": 32500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.omi-gamo",
+    "name": "蒲生郡",
+    "castleId": "castle.kannonji",
+    "pos": {
+      "x": 1803,
+      "y": 2866
+    },
+    "stewardId": "off.gamo-katahide",
+    "kokudaka": 80000,
+    "kokudakaCap": 112000,
+    "commerce": 320,
+    "commerceCap": 510,
+    "population": 26400,
+    "populationCap": 39500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.omi-kanzaki",
+    "name": "神埼郡",
+    "castleId": "castle.kannonji",
+    "pos": {
+      "x": 1797,
+      "y": 2840
+    },
+    "kokudaka": 65000,
+    "kokudakaCap": 91000,
+    "commerce": 260,
+    "commerceCap": 420,
+    "population": 21500,
+    "populationCap": 32500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.omi-yasu",
+    "name": "野洲郡",
+    "castleId": "castle.kannonji",
+    "pos": {
+      "x": 1769,
+      "y": 2871
+    },
+    "kokudaka": 70000,
+    "kokudakaCap": 98000,
+    "commerce": 240,
+    "commerceCap": 380,
+    "population": 23100,
+    "populationCap": 34500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.omi-shiga",
+    "name": "滋賀郡",
+    "castleId": "castle.kannonji",
+    "pos": {
+      "x": 1734,
+      "y": 2901
+    },
+    "kokudaka": 60000,
+    "kokudakaCap": 84000,
+    "commerce": 420,
+    "commerceCap": 670,
+    "population": 19800,
+    "populationCap": 29500,
+    "publicOrder": 62
+  },
+  {
+    "id": "dist.omi-koka",
+    "name": "甲賀郡",
+    "castleId": "castle.hino",
+    "pos": {
+      "x": 1799,
+      "y": 2907
+    },
+    "kokudaka": 80000,
+    "kokudakaCap": 112000,
+    "commerce": 200,
+    "commerceCap": 320,
+    "population": 26400,
+    "populationCap": 39500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.omi-kurita",
+    "name": "栗太郡",
+    "castleId": "castle.hino",
+    "pos": {
+      "x": 1752,
+      "y": 2889
+    },
+    "kokudaka": 75000,
+    "kokudakaCap": 105000,
+    "commerce": 320,
+    "commerceCap": 510,
+    "population": 24800,
+    "populationCap": 37000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.yamashiro-otagi",
+    "name": "愛宕郡",
+    "castleId": "castle.nijo",
+    "pos": {
+      "x": 1707,
+      "y": 2872
+    },
+    "kokudaka": 55000,
+    "kokudakaCap": 77000,
+    "commerce": 500,
+    "commerceCap": 800,
+    "population": 18200,
+    "populationCap": 27500,
+    "publicOrder": 62
+  },
+  {
+    "id": "dist.yamashiro-kadono",
+    "name": "葛野郡",
+    "castleId": "castle.nijo",
+    "pos": {
+      "x": 1684,
+      "y": 2886
+    },
+    "kokudaka": 45000,
+    "kokudakaCap": 63000,
+    "commerce": 400,
+    "commerceCap": 640,
+    "population": 14900,
+    "populationCap": 22500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.yamashiro-kii",
+    "name": "紀伊郡",
+    "castleId": "castle.nijo",
+    "pos": {
+      "x": 1706,
+      "y": 2908
+    },
+    "kokudaka": 30000,
+    "kokudakaCap": 42000,
+    "commerce": 360,
+    "commerceCap": 580,
+    "population": 9900,
+    "populationCap": 15000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.yamashiro-otokuni",
+    "name": "乙訓郡",
+    "castleId": "castle.shoryuji",
+    "pos": {
+      "x": 1673,
+      "y": 2903
+    },
+    "kokudaka": 50000,
+    "kokudakaCap": 70000,
+    "commerce": 300,
+    "commerceCap": 480,
+    "population": 16500,
+    "populationCap": 25000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.yamashiro-uji",
+    "name": "宇治郡",
+    "castleId": "castle.shoryuji",
+    "pos": {
+      "x": 1719,
+      "y": 2925
+    },
+    "kokudaka": 55000,
+    "kokudakaCap": 77000,
+    "commerce": 300,
+    "commerceCap": 480,
+    "population": 18200,
+    "populationCap": 27500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.settsu-shimagami",
+    "name": "島上郡",
+    "castleId": "castle.akutagawa",
+    "pos": {
+      "x": 1678,
+      "y": 2921
+    },
+    "kokudaka": 80000,
+    "kokudakaCap": 112000,
+    "commerce": 320,
+    "commerceCap": 510,
+    "population": 26400,
+    "populationCap": 39500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.settsu-shimoshimo",
+    "name": "島下郡",
+    "castleId": "castle.akutagawa",
+    "pos": {
+      "x": 1651,
+      "y": 2938
+    },
+    "kokudaka": 75000,
+    "kokudakaCap": 105000,
+    "commerce": 300,
+    "commerceCap": 480,
+    "population": 24800,
+    "populationCap": 37000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.settsu-teshima",
+    "name": "豐島郡",
+    "castleId": "castle.akutagawa",
+    "pos": {
+      "x": 1640,
+      "y": 2916
+    },
+    "kokudaka": 70000,
+    "kokudakaCap": 98000,
+    "commerce": 280,
+    "commerceCap": 450,
+    "population": 23100,
+    "populationCap": 34500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.settsu-higashinari",
+    "name": "東成郡",
+    "castleId": "castle.ishiyama",
+    "pos": {
+      "x": 1657,
+      "y": 2986
+    },
+    "kokudaka": 70000,
+    "kokudakaCap": 98000,
+    "commerce": 400,
+    "commerceCap": 640,
+    "population": 23100,
+    "populationCap": 34500,
+    "publicOrder": 45
+  },
+  {
+    "id": "dist.settsu-nishinari",
+    "name": "西成郡",
+    "castleId": "castle.ishiyama",
+    "pos": {
+      "x": 1628,
+      "y": 2984
+    },
+    "isPort": true,
+    "kokudaka": 75000,
+    "kokudakaCap": 105000,
+    "commerce": 600,
+    "commerceCap": 960,
+    "population": 27800,
+    "populationCap": 41500,
+    "publicOrder": 65
+  },
+  {
+    "id": "dist.settsu-sumiyoshi",
+    "name": "住吉郡",
+    "castleId": "castle.ishiyama",
+    "pos": {
+      "x": 1633,
+      "y": 3006
+    },
+    "isPort": true,
+    "kokudaka": 55000,
+    "kokudakaCap": 77000,
+    "commerce": 480,
+    "commerceCap": 770,
+    "population": 20400,
+    "populationCap": 30500,
+    "publicOrder": 65
+  },
+  {
+    "id": "dist.kawachi-sarara",
+    "name": "讚良郡",
+    "castleId": "castle.iimoriyama",
+    "pos": {
+      "x": 1683,
+      "y": 2960
+    },
+    "kokudaka": 60000,
+    "kokudakaCap": 84000,
+    "commerce": 260,
+    "commerceCap": 420,
+    "population": 19800,
+    "populationCap": 29500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.kawachi-kawachi",
+    "name": "河內郡",
+    "castleId": "castle.iimoriyama",
+    "pos": {
+      "x": 1687,
+      "y": 2980
+    },
+    "kokudaka": 65000,
+    "kokudakaCap": 91000,
+    "commerce": 300,
+    "commerceCap": 480,
+    "population": 21500,
+    "populationCap": 32500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.kawachi-wakae",
+    "name": "若江郡",
+    "castleId": "castle.iimoriyama",
+    "pos": {
+      "x": 1666,
+      "y": 2988
+    },
+    "kokudaka": 70000,
+    "kokudakaCap": 98000,
+    "commerce": 340,
+    "commerceCap": 540,
+    "population": 23100,
+    "populationCap": 34500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.kawachi-furuichi",
+    "name": "古市郡",
+    "castleId": "castle.takaya",
+    "pos": {
+      "x": 1648,
+      "y": 3006
+    },
+    "kokudaka": 60000,
+    "kokudakaCap": 84000,
+    "commerce": 280,
+    "commerceCap": 450,
+    "population": 19800,
+    "populationCap": 29500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.kawachi-ishikawa",
+    "name": "石川郡",
+    "castleId": "castle.takaya",
+    "pos": {
+      "x": 1676,
+      "y": 3024
+    },
+    "kokudaka": 55000,
+    "kokudakaCap": 77000,
+    "commerce": 220,
+    "commerceCap": 350,
+    "population": 18200,
+    "populationCap": 27500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.kawachi-tannan",
+    "name": "丹南郡",
+    "castleId": "castle.takaya",
+    "pos": {
+      "x": 1644,
+      "y": 3028
+    },
+    "kokudaka": 60000,
+    "kokudakaCap": 84000,
+    "commerce": 260,
+    "commerceCap": 420,
+    "population": 19800,
+    "populationCap": 29500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.izumi-otori",
+    "name": "大鳥郡",
+    "castleId": "castle.kishiwada",
+    "pos": {
+      "x": 1615,
+      "y": 3020
+    },
+    "isPort": true,
+    "kokudaka": 70000,
+    "kokudakaCap": 98000,
+    "commerce": 600,
+    "commerceCap": 960,
+    "population": 25900,
+    "populationCap": 39000,
+    "publicOrder": 65
+  },
+  {
+    "id": "dist.izumi-izumi",
+    "name": "和泉郡",
+    "castleId": "castle.kishiwada",
+    "pos": {
+      "x": 1595,
+      "y": 3033
+    },
+    "kokudaka": 60000,
+    "kokudakaCap": 84000,
+    "commerce": 300,
+    "commerceCap": 480,
+    "population": 19800,
+    "populationCap": 29500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.izumi-hine",
+    "name": "日根郡",
+    "castleId": "castle.kishiwada",
+    "pos": {
+      "x": 1590,
+      "y": 3056
+    },
+    "kokudaka": 55000,
+    "kokudakaCap": 77000,
+    "commerce": 260,
+    "commerceCap": 420,
+    "population": 18200,
+    "populationCap": 27500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.yamato-heguri",
+    "name": "平群郡",
+    "castleId": "castle.shigisan",
+    "pos": {
+      "x": 1690,
+      "y": 3011
+    },
+    "kokudaka": 65000,
+    "kokudakaCap": 91000,
+    "commerce": 260,
+    "commerceCap": 420,
+    "population": 21500,
+    "populationCap": 32500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.yamato-hirose",
+    "name": "廣瀬郡",
+    "castleId": "castle.shigisan",
+    "pos": {
+      "x": 1698,
+      "y": 2978
+    },
+    "kokudaka": 55000,
+    "kokudakaCap": 77000,
+    "commerce": 240,
+    "commerceCap": 380,
+    "population": 18200,
+    "populationCap": 27500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.yamato-soenoshimo",
+    "name": "添下郡",
+    "castleId": "castle.tsutsui",
+    "pos": {
+      "x": 1712,
+      "y": 2974
+    },
+    "kokudaka": 65000,
+    "kokudakaCap": 91000,
+    "commerce": 320,
+    "commerceCap": 510,
+    "population": 21500,
+    "populationCap": 32500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.yamato-soenokami",
+    "name": "添上郡",
+    "castleId": "castle.tsutsui",
+    "pos": {
+      "x": 1727,
+      "y": 2988
+    },
+    "kokudaka": 60000,
+    "kokudakaCap": 84000,
+    "commerce": 440,
+    "commerceCap": 700,
+    "population": 19800,
+    "populationCap": 29500,
+    "publicOrder": 62
+  },
+  {
+    "id": "dist.yamato-yamanobe",
+    "name": "山邊郡",
+    "castleId": "castle.tsutsui",
+    "pos": {
+      "x": 1731,
+      "y": 3006
+    },
+    "kokudaka": 45000,
+    "kokudakaCap": 63000,
+    "commerce": 200,
+    "commerceCap": 320,
+    "population": 14900,
+    "populationCap": 22500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.yamato-takaichi",
+    "name": "高市郡",
+    "castleId": "castle.tsutsui",
+    "pos": {
+      "x": 1714,
+      "y": 3018
+    },
+    "kokudaka": 40000,
+    "kokudakaCap": 56000,
+    "commerce": 220,
+    "commerceCap": 350,
+    "population": 13200,
+    "populationCap": 20000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.kii-nagusa",
+    "name": "名草郡",
+    "castleId": "castle.saika",
+    "pos": {
+      "x": 1572,
+      "y": 3092
+    },
+    "isPort": true,
+    "kokudaka": 65000,
+    "kokudakaCap": 91000,
+    "commerce": 480,
+    "commerceCap": 770,
+    "population": 24100,
+    "populationCap": 36000,
+    "publicOrder": 45
+  },
+  {
+    "id": "dist.kii-ama",
+    "name": "海部郡",
+    "castleId": "castle.saika",
+    "pos": {
+      "x": 1552,
+      "y": 3116
+    },
+    "isPort": true,
+    "kokudaka": 50000,
+    "kokudakaCap": 70000,
+    "commerce": 360,
+    "commerceCap": 580,
+    "population": 18500,
+    "populationCap": 28000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.kii-naga",
+    "name": "那賀郡",
+    "castleId": "castle.saika",
+    "pos": {
+      "x": 1586,
+      "y": 3084
+    },
+    "kokudaka": 40000,
+    "kokudakaCap": 56000,
+    "commerce": 200,
+    "commerceCap": 320,
+    "population": 13200,
+    "populationCap": 20000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.tamba-taki",
+    "name": "多紀郡",
+    "castleId": "castle.yakami",
+    "pos": {
+      "x": 1580,
+      "y": 2856
+    },
+    "kokudaka": 65000,
+    "kokudakaCap": 91000,
+    "commerce": 260,
+    "commerceCap": 420,
+    "population": 21500,
+    "populationCap": 32500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.tamba-hikami",
+    "name": "冰上郡",
+    "castleId": "castle.yakami",
+    "pos": {
+      "x": 1554,
+      "y": 2848
+    },
+    "kokudaka": 55000,
+    "kokudakaCap": 77000,
+    "commerce": 220,
+    "commerceCap": 350,
+    "population": 18200,
+    "populationCap": 27500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.tamba-funai",
+    "name": "船井郡",
+    "castleId": "castle.yagi",
+    "pos": {
+      "x": 1662,
+      "y": 2843
+    },
+    "kokudaka": 45000,
+    "kokudakaCap": 63000,
+    "commerce": 200,
+    "commerceCap": 320,
+    "population": 14900,
+    "populationCap": 22500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.tamba-kuwada",
+    "name": "桑田郡",
+    "castleId": "castle.yagi",
+    "pos": {
+      "x": 1668,
+      "y": 2872
+    },
+    "kokudaka": 40000,
+    "kokudakaCap": 56000,
+    "commerce": 220,
+    "commerceCap": 350,
+    "population": 13200,
+    "populationCap": 20000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.tamba-ikaruga",
+    "name": "何鹿郡",
+    "castleId": "castle.yagi",
+    "pos": {
+      "x": 1637,
+      "y": 2841
+    },
+    "kokudaka": 25000,
+    "kokudakaCap": 35000,
+    "commerce": 160,
+    "commerceCap": 260,
+    "population": 8300,
+    "populationCap": 12500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.tajima-izushi",
+    "name": "出石郡",
+    "castleId": "castle.konosumiyama",
+    "pos": {
+      "x": 1503,
+      "y": 2762
+    },
+    "kokudaka": 55000,
+    "kokudakaCap": 77000,
+    "commerce": 240,
+    "commerceCap": 380,
+    "population": 18200,
+    "populationCap": 27500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.tajima-kinosaki",
+    "name": "城崎郡",
+    "castleId": "castle.konosumiyama",
+    "pos": {
+      "x": 1483,
+      "y": 2748
+    },
+    "kokudaka": 40000,
+    "kokudakaCap": 56000,
+    "commerce": 220,
+    "commerceCap": 350,
+    "population": 13200,
+    "populationCap": 20000,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.tajima-keta",
+    "name": "氣多郡",
+    "castleId": "castle.konosumiyama",
+    "pos": {
+      "x": 1478,
+      "y": 2782
+    },
+    "kokudaka": 35000,
+    "kokudakaCap": 49000,
+    "commerce": 160,
+    "commerceCap": 260,
+    "population": 11600,
+    "populationCap": 17500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.tajima-asako",
+    "name": "朝來郡",
+    "castleId": "castle.takeda",
+    "pos": {
+      "x": 1497,
+      "y": 2822
+    },
+    "kokudaka": 45000,
+    "kokudakaCap": 63000,
+    "commerce": 300,
+    "commerceCap": 480,
+    "population": 14900,
+    "populationCap": 22500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.tajima-yabu",
+    "name": "養父郡",
+    "castleId": "castle.takeda",
+    "pos": {
+      "x": 1470,
+      "y": 2800
+    },
+    "kokudaka": 25000,
+    "kokudakaCap": 35000,
+    "commerce": 160,
+    "commerceCap": 260,
+    "population": 8300,
+    "populationCap": 12500,
+    "publicOrder": 60
+  },
+  {
+    "id": "dist.ise-kuwana",
+    "name": "桑名郡",
+    "castleId": "castle.nagashima",
+    "pos": {
+      "x": 1919,
+      "y": 2874
+    },
+    "isPort": true,
+    "kokudaka": 90000,
+    "kokudakaCap": 126000,
+    "commerce": 480,
+    "commerceCap": 770,
+    "population": 33300,
+    "populationCap": 50000,
+    "publicOrder": 65
+  },
+  {
+    "id": "dist.ise-inabe",
+    "name": "員弁郡",
+    "castleId": "castle.nagashima",
+    "pos": {
+      "x": 1899,
+      "y": 2851
+    },
+    "kokudaka": 55000,
+    "kokudakaCap": 77000,
+    "commerce": 200,
+    "commerceCap": 320,
+    "population": 18200,
+    "populationCap": 27500,
+    "publicOrder": 60
+  }
+]

@@ -1,0 +1,341 @@
+{
+  "version": 1,
+  "personas": [
+    {
+      "id": "persona.default",
+      "aggression": 50,
+      "diplomacy": 50,
+      "development": 50,
+      "loyalty": 50,
+      "ambition": 50
+    },
+    {
+      "id": "persona.oda",
+      "aggression": 90,
+      "diplomacy": 55,
+      "development": 75,
+      "loyalty": 30,
+      "ambition": 100
+    },
+    {
+      "id": "persona.imagawa",
+      "aggression": 60,
+      "diplomacy": 65,
+      "development": 65,
+      "loyalty": 55,
+      "ambition": 70
+    },
+    {
+      "id": "persona.matsudaira",
+      "aggression": 50,
+      "diplomacy": 70,
+      "development": 70,
+      "loyalty": 85,
+      "ambition": 60
+    },
+    {
+      "id": "persona.saito",
+      "aggression": 55,
+      "diplomacy": 45,
+      "development": 55,
+      "loyalty": 35,
+      "ambition": 55
+    },
+    {
+      "id": "persona.kitabatake",
+      "aggression": 40,
+      "diplomacy": 55,
+      "development": 55,
+      "loyalty": 60,
+      "ambition": 40
+    },
+    {
+      "id": "persona.azai",
+      "aggression": 55,
+      "diplomacy": 60,
+      "development": 50,
+      "loyalty": 70,
+      "ambition": 55
+    },
+    {
+      "id": "persona.asakura",
+      "aggression": 35,
+      "diplomacy": 55,
+      "development": 70,
+      "loyalty": 60,
+      "ambition": 40
+    },
+    {
+      "id": "persona.rokkaku",
+      "aggression": 50,
+      "diplomacy": 60,
+      "development": 60,
+      "loyalty": 45,
+      "ambition": 50
+    },
+    {
+      "id": "persona.miyoshi",
+      "aggression": 75,
+      "diplomacy": 50,
+      "development": 55,
+      "loyalty": 35,
+      "ambition": 85
+    },
+    {
+      "id": "persona.tsutsui",
+      "aggression": 45,
+      "diplomacy": 60,
+      "development": 55,
+      "loyalty": 55,
+      "ambition": 45
+    },
+    {
+      "id": "persona.hatano",
+      "aggression": 45,
+      "diplomacy": 45,
+      "development": 45,
+      "loyalty": 50,
+      "ambition": 40
+    },
+    {
+      "id": "persona.honganji",
+      "aggression": 55,
+      "diplomacy": 40,
+      "development": 65,
+      "loyalty": 70,
+      "ambition": 50
+    },
+    {
+      "id": "persona.hatakeyama",
+      "aggression": 30,
+      "diplomacy": 55,
+      "development": 45,
+      "loyalty": 40,
+      "ambition": 30
+    },
+    {
+      "id": "persona.jinbo",
+      "aggression": 40,
+      "diplomacy": 45,
+      "development": 45,
+      "loyalty": 40,
+      "ambition": 40
+    },
+    {
+      "id": "persona.takeda",
+      "aggression": 85,
+      "diplomacy": 55,
+      "development": 70,
+      "loyalty": 25,
+      "ambition": 90
+    },
+    {
+      "id": "persona.nagao",
+      "aggression": 80,
+      "diplomacy": 45,
+      "development": 45,
+      "loyalty": 95,
+      "ambition": 60
+    },
+    {
+      "id": "persona.hojo",
+      "aggression": 55,
+      "diplomacy": 60,
+      "development": 90,
+      "loyalty": 75,
+      "ambition": 65
+    },
+    {
+      "id": "persona.satomi",
+      "aggression": 60,
+      "diplomacy": 45,
+      "development": 45,
+      "loyalty": 55,
+      "ambition": 50
+    },
+    {
+      "id": "persona.satake",
+      "aggression": 60,
+      "diplomacy": 55,
+      "development": 60,
+      "loyalty": 60,
+      "ambition": 60
+    },
+    {
+      "id": "persona.utsunomiya",
+      "aggression": 45,
+      "diplomacy": 50,
+      "development": 45,
+      "loyalty": 50,
+      "ambition": 40
+    },
+    {
+      "id": "persona.yuki",
+      "aggression": 40,
+      "diplomacy": 55,
+      "development": 50,
+      "loyalty": 55,
+      "ambition": 40
+    },
+    {
+      "id": "persona.date",
+      "aggression": 55,
+      "diplomacy": 55,
+      "development": 60,
+      "loyalty": 50,
+      "ambition": 60
+    },
+    {
+      "id": "persona.ashina",
+      "aggression": 60,
+      "diplomacy": 50,
+      "development": 60,
+      "loyalty": 55,
+      "ambition": 60
+    },
+    {
+      "id": "persona.mogami",
+      "aggression": 50,
+      "diplomacy": 55,
+      "development": 55,
+      "loyalty": 45,
+      "ambition": 60
+    },
+    {
+      "id": "persona.nanbu",
+      "aggression": 55,
+      "diplomacy": 45,
+      "development": 50,
+      "loyalty": 50,
+      "ambition": 55
+    },
+    {
+      "id": "persona.ando",
+      "aggression": 45,
+      "diplomacy": 60,
+      "development": 55,
+      "loyalty": 50,
+      "ambition": 45
+    },
+    {
+      "id": "persona.mori",
+      "aggression": 65,
+      "diplomacy": 85,
+      "development": 65,
+      "loyalty": 60,
+      "ambition": 75
+    },
+    {
+      "id": "persona.amago",
+      "aggression": 60,
+      "diplomacy": 40,
+      "development": 50,
+      "loyalty": 50,
+      "ambition": 60
+    },
+    {
+      "id": "persona.yamana",
+      "aggression": 35,
+      "diplomacy": 55,
+      "development": 45,
+      "loyalty": 50,
+      "ambition": 35
+    },
+    {
+      "id": "persona.uragami",
+      "aggression": 50,
+      "diplomacy": 45,
+      "development": 45,
+      "loyalty": 35,
+      "ambition": 50
+    },
+    {
+      "id": "persona.akamatsu",
+      "aggression": 35,
+      "diplomacy": 50,
+      "development": 45,
+      "loyalty": 45,
+      "ambition": 35
+    },
+    {
+      "id": "persona.chosokabe",
+      "aggression": 75,
+      "diplomacy": 50,
+      "development": 60,
+      "loyalty": 45,
+      "ambition": 85
+    },
+    {
+      "id": "persona.kono",
+      "aggression": 35,
+      "diplomacy": 65,
+      "development": 50,
+      "loyalty": 60,
+      "ambition": 35
+    },
+    {
+      "id": "persona.saionji",
+      "aggression": 30,
+      "diplomacy": 55,
+      "development": 45,
+      "loyalty": 55,
+      "ambition": 30
+    },
+    {
+      "id": "persona.ichijo",
+      "aggression": 30,
+      "diplomacy": 60,
+      "development": 55,
+      "loyalty": 65,
+      "ambition": 35
+    },
+    {
+      "id": "persona.shimazu",
+      "aggression": 80,
+      "diplomacy": 45,
+      "development": 70,
+      "loyalty": 70,
+      "ambition": 90
+    },
+    {
+      "id": "persona.otomo",
+      "aggression": 65,
+      "diplomacy": 70,
+      "development": 70,
+      "loyalty": 50,
+      "ambition": 75
+    },
+    {
+      "id": "persona.ryuzoji",
+      "aggression": 75,
+      "diplomacy": 40,
+      "development": 50,
+      "loyalty": 30,
+      "ambition": 80
+    },
+    {
+      "id": "persona.ito",
+      "aggression": 50,
+      "diplomacy": 50,
+      "development": 55,
+      "loyalty": 45,
+      "ambition": 50
+    },
+    {
+      "id": "persona.sagara",
+      "aggression": 40,
+      "diplomacy": 60,
+      "development": 55,
+      "loyalty": 60,
+      "ambition": 40
+    },
+    {
+      "id": "persona.ashikaga",
+      "aggression": 50,
+      "diplomacy": 50,
+      "development": 50,
+      "loyalty": 50,
+      "ambition": 50
+    }
+  ]
+}

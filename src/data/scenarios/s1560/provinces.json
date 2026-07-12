@@ -1,0 +1,140 @@
+{
+  "version": 1,
+  "provinces": [
+    {
+      "id": "prov.owari",
+      "name": "尾張",
+      "region": "tokai",
+      "labelPos": {
+        "x": 1955,
+        "y": 2835
+      }
+    },
+    {
+      "id": "prov.mikawa",
+      "name": "三河",
+      "region": "tokai",
+      "labelPos": {
+        "x": 2040,
+        "y": 2930
+      }
+    },
+    {
+      "id": "prov.totomi",
+      "name": "遠江",
+      "region": "tokai",
+      "labelPos": {
+        "x": 2190,
+        "y": 2950
+      }
+    },
+    {
+      "id": "prov.suruga",
+      "name": "駿河",
+      "region": "tokai",
+      "labelPos": {
+        "x": 2360,
+        "y": 2880
+      }
+    },
+    {
+      "id": "prov.mino",
+      "name": "美濃",
+      "region": "tokai",
+      "labelPos": {
+        "x": 1980,
+        "y": 2780
+      }
+    },
+    {
+      "id": "prov.ise",
+      "name": "伊勢",
+      "region": "tokai",
+      "labelPos": {
+        "x": 1850,
+        "y": 3010
+      }
+    },
+    {
+      "id": "prov.omi",
+      "name": "近江",
+      "region": "kinki",
+      "labelPos": {
+        "x": 1808,
+        "y": 2827
+      }
+    },
+    {
+      "id": "prov.yamashiro",
+      "name": "山城",
+      "region": "kinki",
+      "labelPos": {
+        "x": 1697,
+        "y": 2900
+      }
+    },
+    {
+      "id": "prov.yamato",
+      "name": "大和",
+      "region": "kinki",
+      "labelPos": {
+        "x": 1700,
+        "y": 2996
+      }
+    },
+    {
+      "id": "prov.kawachi",
+      "name": "河內",
+      "region": "kinki",
+      "labelPos": {
+        "x": 1666,
+        "y": 2990
+      }
+    },
+    {
+      "id": "prov.izumi",
+      "name": "和泉",
+      "region": "kinki",
+      "labelPos": {
+        "x": 1602,
+        "y": 3037
+      }
+    },
+    {
+      "id": "prov.settsu",
+      "name": "攝津",
+      "region": "kinki",
+      "labelPos": {
+        "x": 1652,
+        "y": 2955
+      }
+    },
+    {
+      "id": "prov.kii",
+      "name": "紀伊",
+      "region": "kinki",
+      "labelPos": {
+        "x": 1566,
+        "y": 3097
+      }
+    },
+    {
+      "id": "prov.tamba",
+      "name": "丹波",
+      "region": "kinki",
+      "labelPos": {
+        "x": 1612,
+        "y": 2860
+      }
+    },
+    {
+      "id": "prov.tajima",
+      "name": "但馬",
+      "region": "kinki",
+      "labelPos": {
+        "x": 1486,
+        "y": 2790
+      }
+    }
+  ]
+}

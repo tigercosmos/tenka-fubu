@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "tactics": [
+    { "id": "tac.charge", "name": "突擊", "unlockTraitId": null },
+    { "id": "tac.volley", "name": "齊射", "unlockTraitId": null },
+    { "id": "tac.inspire", "name": "鼓舞", "unlockTraitId": "trait.gunshin" },
+    { "id": "tac.taunt", "name": "挑撥", "unlockTraitId": "trait.benzetsu" },
+    { "id": "tac.disrupt", "name": "攪亂", "unlockTraitId": "trait.gunryaku" },
+    { "id": "tac.hold", "name": "堅守", "unlockTraitId": "trait.fudou" },
+    { "id": "tac.fire-arrow", "name": "火矢", "unlockTraitId": "trait.hizeme" },
+    { "id": "tac.cavalry", "name": "騎突", "unlockTraitId": "trait.kiba" },
+    { "id": "tac.triple-volley", "name": "鐵砲三段", "unlockTraitId": "trait.teppo" },
+    { "id": "tac.last-stand", "name": "背水", "unlockTraitId": "trait.kesshi" },
+    { "id": "tac.pin", "name": "牽制", "unlockTraitId": "trait.roukou" },
+    { "id": "tac.heal", "name": "治療", "unlockTraitId": "trait.iryou" }
+  ]
+}

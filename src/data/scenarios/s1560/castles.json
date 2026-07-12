@@ -1,0 +1,546 @@
+[
+  {
+    "id": "castle.kiyosu",
+    "name": "清洲城",
+    "tier": "main",
+    "provinceId": "prov.owari",
+    "pos": {
+      "x": 1966,
+      "y": 2838
+    },
+    "coastal": false,
+    "ownerClanId": "clan.oda",
+    "lordId": "off.oda-nobunaga",
+    "soldiers": 2600,
+    "food": 6500,
+    "facilities": ["fac.ichi"]
+  },
+  {
+    "id": "castle.nagoya",
+    "name": "那古野城",
+    "tier": "branch",
+    "provinceId": "prov.owari",
+    "pos": {
+      "x": 1968,
+      "y": 2843
+    },
+    "coastal": true,
+    "ownerClanId": "clan.oda",
+    "lordId": "off.hayashi-hidesada",
+    "soldiers": 1400,
+    "food": 3500,
+    "facilities": []
+  },
+  {
+    "id": "castle.inuyama",
+    "name": "犬山城",
+    "tier": "branch",
+    "provinceId": "prov.owari",
+    "pos": {
+      "x": 1975,
+      "y": 2787
+    },
+    "coastal": false,
+    "ownerClanId": "clan.oda",
+    "lordId": "off.ikeda-tsuneoki",
+    "soldiers": 900,
+    "food": 2000,
+    "facilities": []
+  },
+  {
+    "id": "castle.sunpu",
+    "name": "駿府館",
+    "tier": "main",
+    "provinceId": "prov.suruga",
+    "pos": {
+      "x": 2312,
+      "y": 2897
+    },
+    "coastal": true,
+    "ownerClanId": "clan.imagawa",
+    "lordId": "off.imagawa-yoshimoto",
+    "soldiers": 2600,
+    "food": 7000,
+    "facilities": ["fac.ichi", "fac.jisha"]
+  },
+  {
+    "id": "castle.kokokuji",
+    "name": "興國寺城",
+    "tier": "branch",
+    "provinceId": "prov.suruga",
+    "pos": {
+      "x": 2427,
+      "y": 2856
+    },
+    "coastal": true,
+    "ownerClanId": "clan.imagawa",
+    "lordId": "off.katsurayama-ujimoto",
+    "soldiers": 1500,
+    "food": 3500,
+    "facilities": []
+  },
+  {
+    "id": "castle.kakegawa",
+    "name": "掛川城",
+    "tier": "branch",
+    "provinceId": "prov.totomi",
+    "pos": {
+      "x": 2226,
+      "y": 2953
+    },
+    "coastal": false,
+    "ownerClanId": "clan.imagawa",
+    "lordId": "off.asahina-yasutomo",
+    "soldiers": 1700,
+    "food": 4000,
+    "facilities": []
+  },
+  {
+    "id": "castle.hikuma",
+    "name": "曳馬城",
+    "tier": "branch",
+    "provinceId": "prov.totomi",
+    "pos": {
+      "x": 2160,
+      "y": 2969
+    },
+    "coastal": true,
+    "ownerClanId": "clan.imagawa",
+    "lordId": "off.ihara-tadatane",
+    "soldiers": 1600,
+    "food": 3800,
+    "facilities": []
+  },
+  {
+    "id": "castle.yoshida",
+    "name": "吉田城",
+    "tier": "branch",
+    "provinceId": "prov.mikawa",
+    "pos": {
+      "x": 2081,
+      "y": 2953
+    },
+    "coastal": true,
+    "ownerClanId": "clan.imagawa",
+    "lordId": "off.ohara-shigezane",
+    "soldiers": 1600,
+    "food": 3800,
+    "facilities": []
+  },
+  {
+    "id": "castle.tahara",
+    "name": "田原城",
+    "tier": "branch",
+    "provinceId": "prov.mikawa",
+    "pos": {
+      "x": 2050,
+      "y": 2980
+    },
+    "coastal": true,
+    "ownerClanId": "clan.imagawa",
+    "lordId": "off.okabe-masatsuna",
+    "soldiers": 900,
+    "food": 2000,
+    "facilities": []
+  },
+  {
+    "id": "castle.okazaki",
+    "name": "岡崎城",
+    "tier": "main",
+    "provinceId": "prov.mikawa",
+    "pos": {
+      "x": 2029,
+      "y": 2905
+    },
+    "coastal": false,
+    "ownerClanId": "clan.matsudaira",
+    "lordId": "off.matsudaira-motoyasu",
+    "soldiers": 1300,
+    "food": 3200,
+    "facilities": []
+  },
+  {
+    "id": "castle.inabayama",
+    "name": "稻葉山城",
+    "tier": "main",
+    "provinceId": "prov.mino",
+    "pos": {
+      "x": 1938,
+      "y": 2774
+    },
+    "coastal": false,
+    "ownerClanId": "clan.saito",
+    "lordId": "off.saito-yoshitatsu",
+    "soldiers": 2400,
+    "food": 6000,
+    "facilities": ["fac.ichi"]
+  },
+  {
+    "id": "castle.ogaki",
+    "name": "大垣城",
+    "tier": "branch",
+    "provinceId": "prov.mino",
+    "pos": {
+      "x": 1901,
+      "y": 2795
+    },
+    "coastal": false,
+    "ownerClanId": "clan.saito",
+    "lordId": "off.inaba-yoshimichi",
+    "soldiers": 1500,
+    "food": 3500,
+    "facilities": []
+  },
+  {
+    "id": "castle.iwamura",
+    "name": "岩村城",
+    "tier": "branch",
+    "provinceId": "prov.mino",
+    "pos": {
+      "x": 2095,
+      "y": 2795
+    },
+    "coastal": false,
+    "ownerClanId": "clan.saito",
+    "lordId": "off.toyama-kageto",
+    "soldiers": 800,
+    "food": 1800,
+    "facilities": []
+  },
+  {
+    "id": "castle.kiriyama",
+    "name": "霧山御所",
+    "tier": "main",
+    "provinceId": "prov.ise",
+    "pos": {
+      "x": 1814,
+      "y": 3012
+    },
+    "coastal": false,
+    "ownerClanId": "clan.kitabatake",
+    "lordId": "off.kitabatake-tomonori",
+    "soldiers": 2000,
+    "food": 5000,
+    "facilities": []
+  },
+  {
+    "id": "castle.tamaru",
+    "name": "田丸城",
+    "tier": "branch",
+    "provinceId": "prov.ise",
+    "pos": {
+      "x": 1896,
+      "y": 3028
+    },
+    "coastal": true,
+    "ownerClanId": "clan.kitabatake",
+    "lordId": "off.tamaru-tomotada",
+    "soldiers": 1200,
+    "food": 3000,
+    "facilities": []
+  },
+  {
+    "id": "castle.odani",
+    "name": "小谷城",
+    "tier": "main",
+    "provinceId": "prov.omi",
+    "pos": {
+      "x": 1820,
+      "y": 2757
+    },
+    "coastal": false,
+    "ownerClanId": "clan.azai",
+    "lordId": "off.azai-nagamasa",
+    "soldiers": 2000,
+    "food": 5000,
+    "facilities": []
+  },
+  {
+    "id": "castle.sawayama",
+    "name": "佐和山城",
+    "tier": "branch",
+    "provinceId": "prov.omi",
+    "pos": {
+      "x": 1815,
+      "y": 2816
+    },
+    "coastal": false,
+    "ownerClanId": "clan.azai",
+    "lordId": "off.isono-kazumasa",
+    "soldiers": 1200,
+    "food": 3000,
+    "facilities": []
+  },
+  {
+    "id": "castle.kannonji",
+    "name": "觀音寺城",
+    "tier": "main",
+    "provinceId": "prov.omi",
+    "pos": {
+      "x": 1786,
+      "y": 2851
+    },
+    "coastal": false,
+    "ownerClanId": "clan.rokkaku",
+    "lordId": "off.rokkaku-yoshikata",
+    "soldiers": 2200,
+    "food": 5500,
+    "facilities": ["fac.ichi"]
+  },
+  {
+    "id": "castle.hino",
+    "name": "日野城",
+    "tier": "branch",
+    "provinceId": "prov.omi",
+    "pos": {
+      "x": 1813,
+      "y": 2886
+    },
+    "coastal": false,
+    "ownerClanId": "clan.rokkaku",
+    "lordId": "off.gamo-sadahide",
+    "soldiers": 1000,
+    "food": 2500,
+    "facilities": []
+  },
+  {
+    "id": "castle.nijo",
+    "name": "二條御所",
+    "tier": "main",
+    "provinceId": "prov.yamashiro",
+    "pos": {
+      "x": 1701,
+      "y": 2889
+    },
+    "coastal": false,
+    "ownerClanId": "clan.ashikaga",
+    "lordId": "off.ashikaga-yoshiteru",
+    "soldiers": 1000,
+    "food": 2500,
+    "facilities": ["fac.jisha"]
+  },
+  {
+    "id": "castle.shoryuji",
+    "name": "勝龍寺城",
+    "tier": "branch",
+    "provinceId": "prov.yamashiro",
+    "pos": {
+      "x": 1685,
+      "y": 2911
+    },
+    "coastal": false,
+    "ownerClanId": "clan.miyoshi",
+    "lordId": "off.iwanari-tomomichi",
+    "soldiers": 1200,
+    "food": 3000,
+    "facilities": []
+  },
+  {
+    "id": "castle.akutagawa",
+    "name": "芥川山城",
+    "tier": "main",
+    "provinceId": "prov.settsu",
+    "pos": {
+      "x": 1664,
+      "y": 2929
+    },
+    "coastal": false,
+    "ownerClanId": "clan.miyoshi",
+    "lordId": "off.miyoshi-nagayoshi",
+    "soldiers": 2600,
+    "food": 6500,
+    "facilities": ["fac.ichi"]
+  },
+  {
+    "id": "castle.ishiyama",
+    "name": "石山御坊",
+    "tier": "main",
+    "provinceId": "prov.settsu",
+    "pos": {
+      "x": 1641,
+      "y": 2977
+    },
+    "coastal": true,
+    "ownerClanId": "clan.honganji",
+    "lordId": "off.honganji-kennyo",
+    "soldiers": 2400,
+    "food": 6000,
+    "facilities": ["fac.jisha"]
+  },
+  {
+    "id": "castle.iimoriyama",
+    "name": "飯盛山城",
+    "tier": "branch",
+    "provinceId": "prov.kawachi",
+    "pos": {
+      "x": 1671,
+      "y": 2967
+    },
+    "coastal": false,
+    "ownerClanId": "clan.miyoshi",
+    "lordId": "off.miyoshi-yoshioki",
+    "soldiers": 1600,
+    "food": 4000,
+    "facilities": []
+  },
+  {
+    "id": "castle.takaya",
+    "name": "高屋城",
+    "tier": "branch",
+    "provinceId": "prov.kawachi",
+    "pos": {
+      "x": 1661,
+      "y": 3013
+    },
+    "coastal": false,
+    "ownerClanId": "clan.miyoshi",
+    "lordId": "off.miyoshi-yasunaga",
+    "soldiers": 1400,
+    "food": 3500,
+    "facilities": []
+  },
+  {
+    "id": "castle.kishiwada",
+    "name": "岸和田城",
+    "tier": "branch",
+    "provinceId": "prov.izumi",
+    "pos": {
+      "x": 1608,
+      "y": 3038
+    },
+    "coastal": true,
+    "ownerClanId": "clan.miyoshi",
+    "lordId": "off.sogo-kazumasa",
+    "soldiers": 1300,
+    "food": 3200,
+    "facilities": []
+  },
+  {
+    "id": "castle.shigisan",
+    "name": "信貴山城",
+    "tier": "branch",
+    "provinceId": "prov.yamato",
+    "pos": {
+      "x": 1678,
+      "y": 2997
+    },
+    "coastal": false,
+    "ownerClanId": "clan.miyoshi",
+    "lordId": "off.matsunaga-hisahide",
+    "soldiers": 1500,
+    "food": 3800,
+    "facilities": []
+  },
+  {
+    "id": "castle.tsutsui",
+    "name": "筒井城",
+    "tier": "main",
+    "provinceId": "prov.yamato",
+    "pos": {
+      "x": 1706,
+      "y": 2989
+    },
+    "coastal": false,
+    "ownerClanId": "clan.tsutsui",
+    "lordId": "off.tsutsui-junsei",
+    "soldiers": 1400,
+    "food": 3500,
+    "facilities": []
+  },
+  {
+    "id": "castle.saika",
+    "name": "雜賀城",
+    "tier": "branch",
+    "provinceId": "prov.kii",
+    "pos": {
+      "x": 1561,
+      "y": 3100
+    },
+    "coastal": true,
+    "ownerClanId": "clan.honganji",
+    "lordId": "off.suzuki-shigeoki",
+    "soldiers": 1500,
+    "food": 3800,
+    "facilities": []
+  },
+  {
+    "id": "castle.yakami",
+    "name": "八上城",
+    "tier": "main",
+    "provinceId": "prov.tamba",
+    "pos": {
+      "x": 1573,
+      "y": 2870
+    },
+    "coastal": false,
+    "ownerClanId": "clan.hatano",
+    "lordId": "off.hatano-harumichi",
+    "soldiers": 1500,
+    "food": 3800,
+    "facilities": []
+  },
+  {
+    "id": "castle.yagi",
+    "name": "八木城",
+    "tier": "branch",
+    "provinceId": "prov.tamba",
+    "pos": {
+      "x": 1652,
+      "y": 2859
+    },
+    "coastal": false,
+    "ownerClanId": "clan.hatano",
+    "lordId": "off.hatano-munenaga",
+    "soldiers": 900,
+    "food": 2000,
+    "facilities": []
+  },
+  {
+    "id": "castle.konosumiyama",
+    "name": "此隅山城",
+    "tier": "main",
+    "provinceId": "prov.tajima",
+    "pos": {
+      "x": 1491,
+      "y": 2768
+    },
+    "coastal": false,
+    "ownerClanId": "clan.yamana",
+    "lordId": "off.yamana-suketoyo",
+    "soldiers": 1400,
+    "food": 3500,
+    "facilities": []
+  },
+  {
+    "id": "castle.takeda",
+    "name": "竹田城",
+    "tier": "branch",
+    "provinceId": "prov.tajima",
+    "pos": {
+      "x": 1482,
+      "y": 2811
+    },
+    "coastal": false,
+    "ownerClanId": "clan.yamana",
+    "lordId": "off.otagaki-terunobu",
+    "soldiers": 900,
+    "food": 2000,
+    "facilities": []
+  },
+  {
+    "id": "castle.nagashima",
+    "name": "長島城",
+    "tier": "branch",
+    "provinceId": "prov.ise",
+    "pos": {
+      "x": 1913,
+      "y": 2867
+    },
+    "coastal": true,
+    "ownerClanId": "clan.honganji",
+    "lordId": "off.gansho-shoe",
+    "soldiers": 1500,
+    "food": 3800,
+    "facilities": []
+  }
+]
