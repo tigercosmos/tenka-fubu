@@ -1,0 +1,54 @@
+[
+  {
+    "id": "castle.a1",
+    "name": "甲本城",
+    "tier": "main",
+    "provinceId": "prov.kai",
+    "pos": { "x": 200, "y": 200 },
+    "coastal": false,
+    "ownerClanId": "clan.alpha",
+    "lordId": "off.alpha-lord",
+    "maxDurability": 1000,
+    "soldiers": 2000,
+    "food": 5000
+  },
+  {
+    "id": "castle.a2",
+    "name": "甲支城",
+    "tier": "branch",
+    "provinceId": "prov.kai",
+    "pos": { "x": 350, "y": 200 },
+    "coastal": false,
+    "ownerClanId": "clan.alpha",
+    "lordId": "off.alpha-taisho-a",
+    "maxDurability": 500,
+    "soldiers": 800,
+    "food": 1500
+  },
+  {
+    "id": "castle.b2",
+    "name": "乙支城",
+    "tier": "branch",
+    "provinceId": "prov.suruga",
+    "pos": { "x": 550, "y": 200 },
+    "coastal": false,
+    "ownerClanId": "clan.beta",
+    "lordId": "off.beta-taisho-a",
+    "maxDurability": 500,
+    "soldiers": 800,
+    "food": 1500
+  },
+  {
+    "id": "castle.b1",
+    "name": "乙本城",
+    "tier": "main",
+    "provinceId": "prov.suruga",
+    "pos": { "x": 750, "y": 200 },
+    "coastal": false,
+    "ownerClanId": "clan.beta",
+    "lordId": "off.beta-lord",
+    "maxDurability": 1000,
+    "soldiers": 2000,
+    "food": 5000
+  }
+]

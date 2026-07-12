@@ -13,6 +13,8 @@ import {
   filterWorldByRegions,
   validateScenario,
   parseArgs,
+  loadRawScenario,
+  formatViolation,
   type ScenarioWorld,
   type Violation,
   type RawScenarioInputs,
@@ -392,6 +394,49 @@ describe('每條檢查各一違規 fixture 被偵測（14-T2）', () => {
     );
   });
 
+  it('V4：INV-05 知行領主非所轄城勢力（stewardId 指向他勢力武將）', () => {
+    const w = base();
+    const bad: ScenarioWorld = {
+      ...w,
+      // dist.owari-a 屬 castle.kiyosu（clan.oda），改令知行領主為 off.imagawa-yoshimoto（clan.imagawa）。
+      districts: w.districts.map((d) =>
+        d.id === 'dist.owari-a' ? { ...d, stewardId: 'off.imagawa-yoshimoto' } : d,
+      ),
+    };
+    expect(
+      checkWorld(bad).some(
+        (v) =>
+          v.check === 'V4' && v.message.includes('INV-05') && v.message.includes('非所轄城勢力'),
+      ),
+    ).toBe(true);
+  });
+
+  it('V4：INV-05 武將受封郡數超過 fiefCapOf(rank) 上限', () => {
+    const w = base();
+    // kumigashira（足輕組頭）之 fiefMaxByRank 上限為 0，受封任何一郡即違規。
+    const vassal = mkOfficer({
+      id: 'off.oda-vassal',
+      name: '組頭某',
+      clanId: 'clan.oda',
+      locationCastleId: 'castle.kiyosu',
+      rank: 'kumigashira',
+    });
+    const bad: ScenarioWorld = {
+      ...w,
+      officerGroups: [
+        { ...w.officerGroups[0]!, officers: [...w.officerGroups[0]!.officers, vassal] },
+      ],
+      districts: w.districts.map((d) =>
+        d.id === 'dist.owari-a' ? { ...d, stewardId: 'off.oda-vassal' } : d,
+      ),
+    };
+    expect(
+      checkWorld(bad).some(
+        (v) => v.check === 'V4' && v.message.includes('INV-05') && v.message.includes('超過上限'),
+      ),
+    ).toBe(true);
+  });
+
   it('V5：街道圖不連通（移除橋接邊）', () => {
     const w = base();
     const bad: ScenarioWorld = {
@@ -754,5 +799,62 @@ describe('parseScenario（V1 zod）與 validateScenario', () => {
       expect(Array.isArray(result.violations)).toBe(true);
       expect(Array.isArray(result.errors)).toBe(true);
     }
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════
+// M2-12（17-T8）：載入實際 s1560 資料的整合案例
+// ═══════════════════════════════════════════════════════════════════
+describe('M2-12：載入實際 s1560 資料跑 validate（18-roadmap M2-12／17 §3.6.1）', () => {
+  it('V1：已落地批次（--regions=tokai,kinki）全綠（0 ERROR、0 WARN）', () => {
+    // B1 東海（M2-9）＋B2 近畿（M2-10）已落地；全量（不帶 --regions）因僅 2/9 地方到位，
+    // V7（全國規模）與 V15（地方配額）必然觸發（其餘 7 地方尚未落地，屬預期未完工狀態，非缺陷）——
+    // 故本案例比照 wip.md 既有驗收方式，以 --regions 白名單模式驗證「已落地部分」乾淨。
+    const result = validateScenario('s1560', { regions: ['tokai', 'kinki'] });
+    expect(result.notice).toBeNull();
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+  });
+
+  it('V3：刪除一名被引用的武將（clan.oda 當主 off.oda-nobunaga，記憶體內修改，不動實檔）→ 報錯含武將 id 與引用實體、可定位所屬 officers 檔', () => {
+    const loaded = loadRawScenario('s1560');
+    expect(loaded).not.toBeNull();
+    const { raw } = loaded!;
+    expect(raw.officers).toBeDefined();
+
+    const TARGET_OFFICER_ID = 'off.oda-nobunaga'; // clan.oda 的 leaderId（見 s1560/clans.json）
+    const targetGroup = raw.officers!.find((f) =>
+      (f.value as { officers?: { id: string }[] }).officers?.some(
+        (o) => o.id === TARGET_OFFICER_ID,
+      ),
+    );
+    expect(targetGroup).toBeDefined(); // 確認武將確實存在於某 officers/<region>.json（本案為 tokai）
+    expect(targetGroup!.region).toBe('tokai');
+
+    // 記憶體內刪除該武將（不寫回任何檔案）。
+    const mutatedOfficers = raw.officers!.map((f) => {
+      if (f !== targetGroup) return f;
+      const val = f.value as { officers: { id: string }[] } & Record<string, unknown>;
+      return {
+        region: f.region,
+        value: { ...val, officers: val.officers.filter((o) => o.id !== TARGET_OFFICER_ID) },
+      };
+    });
+    const mutatedRaw: RawScenarioInputs = { ...raw, officers: mutatedOfficers };
+
+    const { world, violations: v1 } = parseScenario(mutatedRaw);
+    const violations = [...loaded!.violations, ...v1, ...checkWorld(world)];
+
+    // 該武將同時是 clan.oda 的 leaderId 與其本城 castle.kiyosu 的 lordId，刪除後兩處引用皆斷裂。
+    const hits = violations.filter(
+      (v) => v.check === 'V3' && v.severity === 'ERROR' && v.ids.includes(TARGET_OFFICER_ID),
+    );
+    expect(hits.length).toBeGreaterThan(0);
+    const messages = hits.map(formatViolation);
+    // 錯誤可讀性（17 §3.6.1 V3）：每筆訊息皆含被刪武將 id（定位「誰不見了」）＋引用實體/欄位
+    // （定位「路徑」）；所屬檔案（officers/tokai.json）由 targetGroup.region 已於上方斷言。
+    expect(messages.every((m) => m.includes(TARGET_OFFICER_ID))).toBe(true);
+    expect(messages.some((m) => m.includes('leaderId') && m.includes('clan.oda'))).toBe(true);
+    expect(messages.some((m) => m.includes('lordId') && m.includes('castle.kiyosu'))).toBe(true);
   });
 });

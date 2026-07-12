@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "clans": [
+    {
+      "id": "clan.alpha",
+      "name": "甲家",
+      "leaderId": "off.alpha-lord",
+      "homeCastleId": "castle.a1",
+      "gold": 1000,
+      "prestige": 100,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.default",
+      "colorIndex": 0
+    },
+    {
+      "id": "clan.beta",
+      "name": "乙家",
+      "leaderId": "off.beta-lord",
+      "homeCastleId": "castle.b1",
+      "gold": 1000,
+      "prestige": 100,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.default",
+      "colorIndex": 20
+    }
+  ],
+  "diplomacy": {
+    "pacts": [],
+    "wars": [],
+    "sentiments": []
+  }
+}

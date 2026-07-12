@@ -1482,6 +1482,20 @@ export function validateScenario(scenarioId: string, options: CheckOptions = {})
   return summarize(violations);
 }
 
+/**
+ * CLI 未指定 `--regions` 時，偵測劇本資料「實際涵蓋的地方」（依 provinces.json 的 `region` 欄）。
+ * 回傳 `null`＝尚無資料（沿用 validateScenario 的 notice 路徑）；否則回傳 `REGION_VALUES` 次序的
+ * present 子集。用於讓 `npm run validate:data`（CLI／CI）在分批製作期間自動走 §7 批次模式
+ * （＝「已完成清單」），全部 9 地方到位後（B9）自然退回全量。純函式、不印東西、不呼叫 process.exit。
+ */
+export function detectPresentRegions(scenarioId: string): Region[] | null {
+  const loaded = loadRawScenario(scenarioId);
+  if (loaded === null) return null;
+  const { world } = parseScenario(loaded.raw);
+  const present = new Set<Region>(world.provinces.map((p) => p.region));
+  return REGION_VALUES.filter((r) => present.has(r));
+}
+
 /** 把違規清單整理成 ValidationResult（errors 驅動 exit code）。 */
 export function summarize(violations: readonly Violation[]): ValidationResult {
   const errors = violations.filter((v) => v.severity === 'ERROR').map(formatViolation);
@@ -1517,7 +1531,21 @@ export function parseArgs(argv: readonly string[]): { scenarioId: string; region
 }
 
 function main(): void {
-  const { scenarioId, regions } = parseArgs(process.argv.slice(2));
+  const { scenarioId, regions: explicitRegions } = parseArgs(process.argv.slice(2));
+
+  // 未指定 `--regions` 時，自動以「資料實際涵蓋的地方」為批次白名單（§7：`validate --regions=<已完成
+  // 清單>`；分批製作期間全國總量 V7／配額 V15 對「僅 N/9 地方到位」必然誤報，屬預期未完工狀態非缺陷）。
+  // 全部 9 地方到位（B9／M8-26）時 present === REGION_VALUES → 退回全量模式（regions=undefined），
+  // 跑 §7-B9 全國總量與勢力數等只在全量下有意義之檢查。此舉使 `npm run validate:data`（CLI／CI）在
+  // 每個里程碑皆綠、且 && 鏈後的 scan-simplified／check-font-coverage 得以續跑（14 §8-D23）。
+  let regions = explicitRegions;
+  if (regions === undefined) {
+    const present = detectPresentRegions(scenarioId);
+    if (present !== null && present.length > 0 && present.length < REGION_VALUES.length) {
+      regions = present;
+    }
+  }
+
   const options: CheckOptions = regions !== undefined ? { regions } : {};
   const result = validateScenario(scenarioId, options);
 
@@ -1526,7 +1554,12 @@ function main(): void {
     process.exit(0);
   }
 
-  const scope = regions !== undefined ? `（--regions=${regions.join(',')}）` : '（全量）';
+  const scope =
+    explicitRegions !== undefined
+      ? `（--regions=${explicitRegions.join(',')}）`
+      : regions !== undefined
+        ? `（自動批次=${regions.join(',')}）`
+        : '（全量）';
   for (const v of result.violations) console.log(formatViolation(v));
   console.log(
     `劇本 ${scenarioId} 驗證${scope}：${result.errors.length} 個 ERROR、${result.warnings.length} 個 WARN。`,

@@ -1212,4 +1212,56 @@ buildInitialState(s1560, seed):
   之子檢查——**城 `facilities.length` ≤ slot 數（本城 `BAL.facilitySlotsMain`=6／支城 `facilitySlotsBranch`=3）**；
   雙向相等與 soldiers 上限待其依賴（core 型錄常數、maxSoldiers 公式）落地後接上（M8-25／M3）。
 
+- **D20（2026-07-12，M2-9 B1 東海批次實作發現；依 00>02>15>系統>UI）｜今川義元 `deathYear` 由樣板 1560
+  改為 1561**：§3.5.5 施工樣板列 `off.imagawa-yoshimoto` 之 `deathYear: 1560`（史實桶狹間戰死年），但
+  §5.1 V8 對「當主」另有硬約束「`deathYear ≥ 1561`（開局須在世）」——義元為 `clan.imagawa` 當主，1560 < 1561
+  即被 V8 判 ERROR，與 §7-T2「東海範例通過 V1–V14」直接衝突（validate.spec 之 base() 基準亦已用 1570 迴避）。
+  兩處同屬本文件、互相矛盾；V8 為 `tools/validate.ts`（系統）之硬門檻、且語意上「當主開局須在世」正確
+  （曆年顆粒度下 deathYear=開局年 無法區分開局前/後死亡）。裁定：`deathYear` 欄位為「自然卒年基準」，
+  義元史實之桶狹間戰死改由事件 `evt.okehazama`（§3.9 `officerDies` 效果）表現，其 `deathYear` 取 1561
+  （builder `scheduledDeath` 以此 ±2 且 `max(startYear+1)` 推導 → 約 1561–1563 自然卒；史實誤差 1 年 ≤2，
+  §7 抽查容差內）。B1 `officers/tokai.json` 據此落地；§3.5.5 樣板該欄之 1560 為殘留誤植（同 D14／D15 類型）。
+
+- **D21（2026-07-12，M2-9 B1 東海批次範圍界定；依 00>02>15>系統>UI）｜長島（伊勢北・本願寺領）延至 B2
+  近畿批次落地**：§3.5.2 castles 標題與 §7-B1 均列「長島 1 城另補」，使東海城數達配額 16。惟長島
+  歷史歸屬 `clan.honganji`（一向一揆），其本城 `castle.ishiyama`（石山御坊）與當主 `off.honganji-kennyo`
+  皆屬近畿（B2）；於孤立之 `--regions=tokai` 批次中，`filterWorldByRegions` 會因長島而納入 honganji，
+  但其近畿本城／當主未載入 → 必觸 V3（引用完整）與 V4（INV-08／INV-09）ERROR，與「批次全綠」（§7-T2／
+  完成標準）衝突。裁定：長島延至「同時載入近畿」之批次（B2 起，`--regions=tokai,kinki` 累積驗證時
+  honganji 本城已在）方落地；B1 東海城數 15（對配額 16 偏差 −6.3% ≤ ±10%，V7 帶寬 [14,18]／V15 合格），
+  石高／郡／武將配額均在 ±10% 內。此為「本願寺跨地方領地（攝津／紀伊／伊勢／加賀）應由其本城地方之批次
+  統一落地」之一般原則（同 §8-D11 officers 分檔精神）之延伸。
+
+- **D22（2026-07-12，M2-10 B2 近畿批次實作發現；依 00>02>15>系統>UI）｜山名家（但馬）於近畿批次落地，
+  officers 寫入 `officers/kinki.json`（覆寫 §3.3「地方」欄之「中國」標示）**：§3.3 勢力表 `clan.yamana`「地方」
+  欄記「中國」，但 §3.2 明列 **但馬屬近畿 9 國之一**（中國 11 國不含但馬），且 §3.6 近畿大名列舉
+  「山名（此隅山・竹田）」——該列舉 8 家城數合計正好 = 18（近畿配額），即近畿 18 城之配額本就把山名但馬
+  2 城計入。三處對「山名但馬領歸屬哪個批次」不一致。裁定：以 §3.2（國→地方之結構性歸屬，較 §3.3 之
+  informational「地方」欄優先）＋§3.6 近畿大名列舉（施工清單）為準，山名本城地方＝近畿；`castle.konosumiyama`
+  （此隅山・出石郡）／`castle.takeda`（竹田・朝來郡）與山名武將全數於 B2 落地，武將寫入 `officers/kinki.json`
+  （D11「officers 按本城地方分檔」）。山名之因幡領（`鳥取`／因幡＝中國，§3.3 城數欄「但馬 2＋因幡 1」）
+  比照 §8-D21／D11 原則延至 B6 中國批次落地（屆時 `--regions=…,kinki,…,chugoku` 累積驗證時山名本城已在）。
+  連帶：§3.3 中國配額（毛利 35／尼子 18／山名 8／浦上 8／赤松 8＝77）於 B6 扣除山名 8 後為 69，對配額 75 偏差
+  −8% 仍合格（B6 自理）；本批 `officers/kinki.json` 收 94 名（近畿配額 90，+4.4% ≤ ±10%）含山名 6 名。
+  另註：本任務指示文提及「伊賀／若狹」為近畿，然 §3.2 canonical 明訂伊賀併入伊勢（東海）、若狹併入越前
+  （北陸），故 B2 近畿 9 國依 §3.2 為山城／大和／河內／和泉／攝津／近江／紀伊／丹波（含丹後）／但馬，
+  不含伊賀／若狹（依「資料 canonical＝§3.2」鐵律）。
+
+- **D23（2026-07-12，M2 Opus review 發現；依 00>02>15>系統>UI）｜`npm run validate:data`（bare CLI／CI）
+  於分批製作期自動走批次模式（未指定 `--regions` 時以「資料實際涵蓋之地方」為白名單）**：本檔 §5.1／
+  17（指令對照表）將 `validate:data` 定義為 `tsx tools/validate.ts s1560`（bare＝全量）；`.github/workflows/
+  ci.yml` 之 unit job 亦跑 bare `npm run validate:data`（自 M0 起「恆阻斷」）。M0/M1 期無劇本 JSON →
+  `validateScenario` 走 notice「尚無劇本資料」→ exit 0 → CI 綠。惟 B1/B2（M2-9/10）落地後資料存在但僅
+  2/9 地方 → bare 全量模式之 V7（全國總量）必觸 6 ERROR → exit 1，且 `&&` 鏈短路使 `scan-simplified.ts`／
+  `check-font-coverage.ts` 不再執行——CI unit job 紅燈，M2 checkpoint push 受阻。M2-12（`tests/data/
+  validate.spec.ts`）僅以純函式 `validateScenario(..., {regions})` 驗「已落地部分乾淨」，未涵蓋 bare CLI／
+  CI 路徑，故測試綠但 CI 紅。裁定（不改 `validateScenario`／`checkWorld` 純函式語意，維持 §5.1 與 M2-12
+  測試契約不動）：僅在 `tools/validate.ts` 的 CLI `main()` 補一層預設——未給 `--regions` 時，經
+  `detectPresentRegions()`（依 provinces.json 之 `region` 欄偵測）以「已完成清單」為批次白名單（§7「validate
+  --regions=<已完成清單>」精神）；present === 全部 9 地方時（B9／M8-26）退回全量（regions=undefined），
+  跑全國總量與勢力數等只在全量下有意義之檢查。效果：`npm run validate:data` 於每個里程碑皆綠、鏈後掃描器
+  得以續跑，B9 自然回到全量驗證。連帶回寫：17 指令對照表 `validate:data` 一列意義由「恆全量」細化為「未指定
+  `--regions` 時自動批次、全 9 地方到位後全量」（其字面命令 `tsx tools/validate.ts s1560` 不變，行為隨資料
+  涵蓋範圍演進）。
+
 

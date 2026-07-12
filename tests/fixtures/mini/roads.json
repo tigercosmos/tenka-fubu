@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "edges": [
+    {
+      "id": "road.a1-a1x",
+      "a": "castle.a1",
+      "b": "dist.a1x",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1
+    },
+    {
+      "id": "road.a1-a1y",
+      "a": "castle.a1",
+      "b": "dist.a1y",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 3
+    },
+    {
+      "id": "road.a1y-a2",
+      "a": "dist.a1y",
+      "b": "castle.a2",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 3
+    },
+    {
+      "id": "road.a2-a2x",
+      "a": "castle.a2",
+      "b": "dist.a2x",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1
+    },
+    {
+      "id": "road.a2-a2y",
+      "a": "castle.a2",
+      "b": "dist.a2y",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1
+    },
+    {
+      "id": "road.a2-b2x",
+      "a": "castle.a2",
+      "b": "dist.b2x",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 3
+    },
+    {
+      "id": "road.b2x-b2",
+      "a": "dist.b2x",
+      "b": "castle.b2",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 3
+    },
+    {
+      "id": "road.b2-b2y",
+      "a": "castle.b2",
+      "b": "dist.b2y",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1
+    },
+    {
+      "id": "road.b2-b1y",
+      "a": "castle.b2",
+      "b": "dist.b1y",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 3
+    },
+    {
+      "id": "road.b1y-b1",
+      "a": "dist.b1y",
+      "b": "castle.b1",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 3
+    },
+    {
+      "id": "road.b1-b1x",
+      "a": "castle.b1",
+      "b": "dist.b1x",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1
+    }
+  ]
+}

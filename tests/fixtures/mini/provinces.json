@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "provinces": [
+    { "id": "prov.kai", "name": "甲斐", "region": "tokai", "labelPos": { "x": 275, "y": 225 } },
+    { "id": "prov.suruga", "name": "駿河", "region": "tokai", "labelPos": { "x": 650, "y": 225 } }
+  ]
+}
