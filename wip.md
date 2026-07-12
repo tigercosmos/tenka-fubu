@@ -13,14 +13,22 @@
 
 ## 目前進度（里程碑）
 
-| 里程碑        | 狀態                                   | 備註                                                                 |
-| ------------- | -------------------------------------- | -------------------------------------------------------------------- |
-| M0 鷹架       | ✅ 已 checkpoint（tag m0）             | CI 五 job 綠、Pages 200（https://tigercosmos.github.io/tenka-fubu/） |
-| M1 core＋HUD  | ✅ 已 checkpoint（tag m1）             | 431 tests；型別=02 全型別零缺失（46 Cmd/68 Event）                   |
-| M2 資料＋地圖 | 🔨 **進行中（本階段，完成前不開 M3）** | 前半已 commit＋push（08c6ac0，759 tests）；後半見下                  |
-| M3–M9         | ⬜                                     | 依 `plan/18-roadmap.md`                                              |
+| 里程碑        | 狀態                                   | 備註                                                                   |
+| ------------- | -------------------------------------- | ---------------------------------------------------------------------- |
+| M0 鷹架       | ✅ 已 checkpoint（tag m0）             | CI 五 job 綠、Pages 200（https://tigercosmos.github.io/tenka-fubu/）   |
+| M1 core＋HUD  | ✅ 已 checkpoint（tag m1）             | 431 tests；型別=02 全型別零缺失（46 Cmd/68 Event）                     |
+| M2 資料＋地圖 | ✅ 已 checkpoint（tag m2，2026-07-12） | 792 tests＋P1/P2 e2e 綠；DoD 四條全過（review 報告見 wf_dcccc2d1-835） |
+| M3 內政       | ⬜ **未開工——待使用者核准後才開始**    | milestone.json current=M3 僅為 checkpoint 前進，非已動工               |
+| M4–M9         | ⬜                                     | 依 `plan/18-roadmap.md`                                                |
 
-## M2 後半現況（workflow wf_dcccc2d1-835，可 resume）
+## M2 已收尾（2026-07-12）——以下為歷史記錄
+
+M2 後半全部完成並 commit（d418107…f9c04a6）：B1/B2 資料批次過三關（validate 0 ERROR／stats ±10%／抽查表）、
+mini fixture、validate 自動批次模式（14 §8-D23）、新局流程（選織田→1560 年 HUD＋地圖）、P1+P2 e2e 綠。
+Opus review fix-forward 兩項 checkpoint 阻斷（bare validate:data 紅燈、Prettier）。
+**下一步（待使用者核准）**：M3 內政（plan/18 §3.6，開工前必讀 05 全文＋06 §3.1-§3.4/§5.7-§5.10＋09 領主 AI＋11 §3.3-§3.5/§3.7＋12 §3.2）。
+
+<details><summary>M2 後半執行過程記錄（收合）</summary>
 
 **已完成（工作樹未 commit，品質已過 gate）**：
 
@@ -36,6 +44,8 @@
 4. Opus M2 全量 review（fix-forward）→ orchestrator 驗證 → commit（B1/B2 各自成 commit，帶 stats 輸出）→ M2 checkpoint（README/milestone→M3、tag m2、push、驗 CI）。
 
 **Resume 指令**：`Workflow({scriptPath: "<session>/workflows/scripts/implement-m2b-wf_dcccc2d1-835.js", resumeFromRunId: "wf_dcccc2d1-835"})`（已完成 agent 走快取）。
+
+</details>
 
 ## 關鍵事實（給接手者）
 
