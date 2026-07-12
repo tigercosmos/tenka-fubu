@@ -83,6 +83,21 @@ export const zhTW = {
   'ui.title.settings': '設定',
   'ui.title.disclaimer': '本作為非商業致敬同人作品',
 
+  // ── 13 §6.2：新遊戲精靈（劇本／大名選擇，M2-19 縮減版：無難易度/種子挑選 UI，見各畫面檔頭） ──
+  'ui.newGame.back': '返回',
+  'ui.newGame.start': '開始遊戲',
+  'ui.scenario.title': '劇本選擇',
+  'ui.scenario.choose': '選擇此劇本',
+  'ui.scenario.stats': '勢力數：{clans}　城數：{castles}',
+  // 13 §6.2 未列出下列二 key（載入狀態呈現，M2-19 新增，非規格草案疏漏）：
+  'ui.scenario.loading': '載入劇本資料中…',
+  'ui.scenario.loadError': '劇本資料載入失敗',
+  'ui.daimyo.title': '大名選擇',
+  'ui.daimyo.leader': '當主',
+  'ui.daimyo.kokudaka': '石高',
+  'ui.daimyo.castles': '城',
+  'ui.daimyo.officers': '武將',
+
   // ── 13 §6.3：HUD（M1-20 最小 HUD） ──
   'ui.hud.gold': '金錢',
   'ui.hud.food': '兵糧',

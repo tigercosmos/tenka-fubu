@@ -12,10 +12,11 @@
 // cache（無跨 tick 失效疑慮、或計算成本低；見 derivedCache.ts 檔頭）。
 
 import { BAL } from '../balance';
-import { RANK_VALUES, type Rank, type Season } from './enums';
+import { RANK_VALUES, type CastleTier, type Rank, type Season } from './enums';
 import type { DerivedCache } from './derivedCache';
 import { getOrCompute } from './derivedCache';
-import type { Army, Castle, District, GameState } from './gameState';
+import { buildMapGraph, type MapGraph } from './mapGraph';
+import type { Army, Castle, Clan, District, GameState } from './gameState';
 import type {
   ArmyId,
   CastleId,
@@ -324,4 +325,56 @@ export function selectMiniMapModel(state: GameState): MiniMapModel {
   });
 
   return { outline: miniMapOutline(), castles, armies, version: state.time.day };
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 地圖靜態／動態視圖（04 §4.6；M2-19 接線——MainScreen 掛 MapCanvasHost 顯示地圖）
+// ═══════════════════════════════════════════════════════════════════
+//
+// 型別刻意獨立於 `src/ui/map/mapViewTypes.ts`（core 不得 import UI 層，同 `MiniMapModel` 上方
+// 檔頭裁決同一取捨）；兩者欄位形狀一致，呼叫端（`src/app/boot.ts`／`MainScreen.tsx`）以結構相容
+// 直接指派給 `MapStaticData`/`MapViewState`。`outline` 欄位不在此提供——`MapRenderer` 未收到覆蓋值
+// 時自帶 `japan-outline.json`（`mapDraw.loadOutline`），故省略。
+//
+// 開局後城∪郡∪街道拓樸不變（僅 owner 會變動），`selectMapStaticModel` 呼叫端只需計算一次
+// （見 `src/app/boot.ts` 建局處），不比照 `clanKokudaka` 等經 `DerivedCache` 逐 tick memo。
+
+/** 地圖（04 §4.6 `MapStaticData` M2-13 子集）靜態資料：城∪郡節點圖＋勢力色索引＋城格。 */
+export interface MapStaticModel {
+  graph: MapGraph;
+  clanColorIndex: Record<string, number>;
+  castleTier: Record<string, CastleTier>;
+}
+
+export function selectMapStaticModel(state: GameState): MapStaticModel {
+  const graph = buildMapGraph(state.castles, state.districts, state.roads);
+  const clanColorIndex: Record<string, number> = {};
+  for (const clan of Object.values<Clan>(state.clans)) {
+    clanColorIndex[clan.id] = clan.colorIndex;
+  }
+  const castleTier: Record<string, CastleTier> = {};
+  for (const castle of Object.values<Castle>(state.castles)) {
+    castleTier[castle.id] = castle.tier;
+  }
+  return { graph, clanColorIndex, castleTier };
+}
+
+/** 地圖（04 §4.6 `MapViewState` M2-13 子集）每 tick 動態視圖：城／郡現任 owner。 */
+export interface MapViewModel {
+  day: number;
+  districtOwner: Record<string, string>;
+  castleOwner: Record<string, string>;
+  selection: null;
+}
+
+export function selectMapViewModel(state: GameState): MapViewModel {
+  const districtOwner: Record<string, string> = {};
+  for (const district of Object.values<District>(state.districts)) {
+    districtOwner[district.id] = district.ownerClanId;
+  }
+  const castleOwner: Record<string, string> = {};
+  for (const castle of Object.values<Castle>(state.castles)) {
+    castleOwner[castle.id] = castle.ownerClanId;
+  }
+  return { day: state.time.day, districtOwner, castleOwner, selection: null };
 }

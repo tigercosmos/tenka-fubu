@@ -43,10 +43,17 @@ export default defineWorkspace([
     test: {
       // `src/app/**` 需要 DOM（rAF／document.visibilitychange）而非 React 元件，17 §3.2 canonical
       // 範本的兩個 project 皆不覆蓋（core 為 node 環境無 DOM；ui 僅收 `.spec.tsx`）；新增本 project
-      // 補上這道測試環境缺口（17 §8 決策記錄）。
+      // 補上這道測試環境缺口（17 §8 決策記錄）。`.spec.tsx` 一併收錄（M2-19 新增）：`src/app/App.tsx`
+      // 本身是需要 RTL 渲染整合測試的 React 元件（新遊戲精靈全流程：Title→ScenarioSelect→
+      // DaimyoSelect→MainScreen），既有兩個 project 皆非其歸屬（`ui` 只收 `src/ui/**`）。
       name: 'app',
       environment: 'jsdom',
-      include: ['src/app/**/*.spec.ts', 'tests/app/**/*.spec.ts'],
+      include: [
+        'src/app/**/*.spec.ts',
+        'src/app/**/*.spec.tsx',
+        'tests/app/**/*.spec.ts',
+        'tests/app/**/*.spec.tsx',
+      ],
       setupFiles: ['tests/helpers/rtl-setup.ts'],
     },
   },

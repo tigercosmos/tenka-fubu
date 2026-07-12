@@ -6,20 +6,37 @@
 //
 // 掛載一次（`useEffect` 空依賴，01 §3.6.2）：`onMapEvent` 以 ref 保存最新值，避免父層每次 render
 // 傳入新 inline function 造成渲染器反覆重建（同時滿足 react-hooks/exhaustive-deps）。
+//
+// `staticData`／`viewState`／`focusNodeId`（M2-19 新增，18-roadmap「MainScreen 掛 MapCanvasHost
+// 顯示地圖」接線）：以獨立 `useEffect` 觀察其變化，經 `rendererRef` 呼叫既有的 `MapRenderer.
+// setMapData`／`updateView`；`focusNodeId` 只在掛載完成後套用一次（瞬移，`MapRenderer.focusNode`
+// 骨架版——動畫補間版本待 `camera.ts`（M2-15）正式接入 `MapRenderer` 後升級，見該檔檔頭）。
 
 import { useEffect, useRef, type ReactElement } from 'react';
 import { MapRenderer } from './MapRenderer';
-import type { MapEventHandler } from './mapViewTypes';
+import type { MapEventHandler, MapStaticData, MapViewState } from './mapViewTypes';
 
 export interface MapCanvasHostProps {
   /** 渲染器對外事件的接收者（React 收到後轉 Command 丟入佇列，01 §3.6.1／§3.12.2）。 */
   onMapEvent: MapEventHandler;
+  /** 靜態地圖資料（省略／`null`＝尚未載入）；變更時重繪 roads/nodeMarkers（`MapRenderer.setMapData`）。 */
+  staticData?: MapStaticData | null | undefined;
+  /** 每 tick 動態視圖（省略＝渲染器維持內建的無主全圖預設）。 */
+  viewState?: MapViewState | undefined;
+  /** 掛載完成後鏡頭瞬移聚焦的節點 id（僅套用一次；供「開局聚焦玩家居城」用）。 */
+  focusNodeId?: string | undefined;
 }
 
-export function MapCanvasHost({ onMapEvent }: MapCanvasHostProps): ReactElement {
+export function MapCanvasHost({
+  onMapEvent,
+  staticData,
+  viewState,
+  focusNodeId,
+}: MapCanvasHostProps): ReactElement {
   const hostRef = useRef<HTMLDivElement>(null);
   const onMapEventRef = useRef(onMapEvent);
   onMapEventRef.current = onMapEvent;
+  const rendererRef = useRef<MapRenderer | null>(null);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -27,16 +44,32 @@ export function MapCanvasHost({ onMapEvent }: MapCanvasHostProps): ReactElement 
 
     let disposed = false;
     const renderer = new MapRenderer();
+    rendererRef.current = renderer;
     const handler: MapEventHandler = (event) => onMapEventRef.current(event);
     // init 完成前若已卸載（StrictMode／快速切畫面）則立即銷毀，防 WebGL context 洩漏（01 §3.6.2）。
     void renderer.init(host, handler).then(() => {
-      if (disposed) renderer.destroy();
+      if (disposed) {
+        renderer.destroy();
+        return;
+      }
+      if (focusNodeId !== undefined) renderer.focusNode(focusNodeId);
     });
     return () => {
       disposed = true;
       renderer.destroy(); // 冪等
+      rendererRef.current = null;
     };
+    // focusNodeId 僅供掛載當下的初始聚焦（見上方檔頭），刻意不列入依賴陣列。
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    rendererRef.current?.setMapData(staticData ?? null);
+  }, [staticData]);
+
+  useEffect(() => {
+    if (viewState !== undefined) rendererRef.current?.updateView(viewState);
+  }, [viewState]);
 
   return (
     <div

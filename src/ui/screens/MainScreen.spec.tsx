@@ -1,6 +1,14 @@
-// MainScreen 元件測試（M1-20；18-roadmap.md M1-20 驗收：「HUD 日期隨 tick 前進」）。
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+// MainScreen 元件測試（M1-20；18-roadmap.md M1-20 驗收：「HUD 日期隨 tick 前進」；M2-19 起額外
+// 掛載 MapCanvasHost，故整包 mock pixi.js，見 tests/helpers/pixiMock.ts 檔頭）。
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+
+const hoisted = vi.hoisted(() => ({ apps: [] as { destroyed: boolean }[] }));
+vi.mock('pixi.js', async () => {
+  const { createPixiMockClasses } = await import('../../../tests/helpers/pixiMock');
+  return createPixiMockClasses(hoisted.apps);
+});
+
 import { MainScreen } from './MainScreen';
 import { resetGameStoreForTests, store } from '../../app/store';
 import { resetBridgeForTests, runOneDay } from '../../app/bridge';
