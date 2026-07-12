@@ -26,6 +26,8 @@
 M2 後半全部完成並 commit（d418107…f9c04a6）：B1/B2 資料批次過三關（validate 0 ERROR／stats ±10%／抽查表）、
 mini fixture、validate 自動批次模式（14 §8-D23）、新局流程（選織田→1560 年 HUD＋地圖）、P1+P2 e2e 綠。
 Opus review fix-forward 兩項 checkpoint 阻斷（bare validate:data 紅燈、Prettier）。
+Push 後 CI 一度紅燈（territoryGrid perf gate 在共享 runner 713~2149ms）——已修（1f4004b：CI 上改 sanity 上限，
+依 17 §3.11.2 perf-gate M9 才轉阻斷；本機維持 450ms 回歸守門），**re-run 後 CI/Deploy 全綠、Pages 200**。
 **下一步（待使用者核准）**：M3 內政（plan/18 §3.6，開工前必讀 05 全文＋06 §3.1-§3.4/§5.7-§5.10＋09 領主 AI＋11 §3.3-§3.5/§3.7＋12 §3.2）。
 
 <details><summary>M2 後半執行過程記錄（收合）</summary>
