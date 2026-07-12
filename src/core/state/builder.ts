@@ -877,7 +877,7 @@ function applyInitialLoyalty(
     const raw =
       BAL.loyaltyBase +
       treatment +
-      (hasFief ? BAL.loyaltyFiefBonus : 0) +
+      (hasFief ? BAL.fiefLoyaltyBonus + BAL.fiefLoyaltyPerDistrict : 0) +
       kinshipBonusOf(o.kinship) +
       Math.floor(leaderPol / BAL.loyaltyLeaderPolDivisor) +
       Math.floor(clan.prestige / BAL.loyaltyPrestigeDivisor) +
