@@ -15,6 +15,14 @@ import type { Container } from 'pixi.js';
 
 export type { MiniMapModel, MiniMapPoint } from '@core/state/selectors';
 
+/** DataTable 受控排序狀態（12 §4）。 */
+export interface SortState {
+  key: string;
+  dir: 'asc' | 'desc';
+}
+
+export type ReportSeverity = 'info' | 'success' | 'warning' | 'critical';
+
 /** Pixi sceneParts 共用旗標（由 UI 層注入；12 §4）。 */
 export interface SceneFlags {
   reduceMotion: boolean;

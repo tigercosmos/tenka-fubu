@@ -1,0 +1,64 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal-backdrop);
+  display: grid;
+  place-items: center;
+  background: rgba(20, 18, 14, 0.55);
+  animation: fade var(--duration-fast) var(--ease-out);
+}
+.dialog {
+  z-index: var(--z-modal);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  border: var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--washi-100);
+  box-shadow: var(--shadow-2);
+  animation: rise var(--duration-fast) var(--ease-out);
+}
+.sm {
+  width: min(360px, calc(100vw - 32px));
+}
+.md {
+  width: min(560px, calc(100vw - 32px));
+}
+.lg {
+  width: min(800px, calc(100vw - 32px));
+}
+.dialog header {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-3);
+  border-bottom: var(--border-thin);
+}
+.dialog h2 {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: 400;
+}
+.body {
+  overflow: auto;
+  padding: var(--space-4);
+}
+.dialog footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-top: var(--border-thin);
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}

@@ -1,0 +1,37 @@
+.panel {
+  position: relative;
+  border: var(--border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--washi-100);
+  background-image: var(--texture-washi);
+  box-shadow: var(--shadow-1);
+}
+.header {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: calc(-1 * var(--panel-padding)) calc(-1 * var(--panel-padding)) var(--panel-padding);
+  padding: 0 var(--space-3);
+  border-bottom: var(--border-thin);
+  font-size: var(--font-size-lg);
+  background: var(--washi-200);
+}
+.ornate::before {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: 2px;
+  background:
+    linear-gradient(var(--ink-500), var(--ink-500)) left top / 8px 2px no-repeat,
+    linear-gradient(var(--ink-500), var(--ink-500)) left top / 2px 8px no-repeat,
+    linear-gradient(var(--ink-500), var(--ink-500)) right top / 8px 2px no-repeat,
+    linear-gradient(var(--ink-500), var(--ink-500)) right top / 2px 8px no-repeat,
+    linear-gradient(var(--ink-500), var(--ink-500)) left bottom / 8px 2px no-repeat,
+    linear-gradient(var(--ink-500), var(--ink-500)) left bottom / 2px 8px no-repeat,
+    linear-gradient(var(--ink-500), var(--ink-500)) right bottom / 8px 2px no-repeat,
+    linear-gradient(var(--ink-500), var(--ink-500)) right bottom / 2px 8px no-repeat;
+}
+.content {
+  min-width: 0;
+}

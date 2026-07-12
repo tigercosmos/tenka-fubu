@@ -1,0 +1,23 @@
+.root {
+  display: flex;
+  min-height: 120px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  color: var(--ink-500);
+  font-size: var(--font-size-sm);
+}
+.root svg {
+  width: 40px;
+  height: 40px;
+  color: var(--ink-100);
+}
+.root button {
+  font: inherit;
+  color: var(--accent-indigo);
+  background: transparent;
+  border: var(--border-thin);
+  padding: var(--space-1) var(--space-3);
+  cursor: pointer;
+}

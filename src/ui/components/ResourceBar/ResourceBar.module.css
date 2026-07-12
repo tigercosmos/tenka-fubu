@@ -1,0 +1,39 @@
+.root {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: 0 var(--space-4);
+  background: var(--ink-900);
+  color: var(--washi-100);
+  font-variant-numeric: tabular-nums;
+}
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.item svg {
+  width: 18px;
+  height: 18px;
+}
+.item strong {
+  font-weight: 400;
+}
+.delta {
+  display: flex;
+  min-width: 180px;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.delta > span {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.positive {
+  color: var(--accent-moss-bright);
+}
+.negative {
+  color: var(--accent-vermilion-bright);
+}

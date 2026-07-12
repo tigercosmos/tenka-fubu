@@ -1,0 +1,11 @@
+.tip {
+  position: fixed;
+  z-index: var(--z-tooltip);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--ink-900);
+  color: var(--washi-100);
+  box-shadow: var(--shadow-2);
+  font-size: var(--font-size-xs);
+  pointer-events: none;
+}

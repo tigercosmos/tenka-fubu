@@ -1,0 +1,38 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.controls > input {
+  flex: 1;
+  accent-color: var(--accent-gold);
+}
+.value {
+  display: flex;
+  align-items: center;
+}
+.value input {
+  width: 8ch;
+  background: var(--washi-300);
+  border: var(--border-thin);
+  padding: var(--space-1);
+  font: inherit;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.quick {
+  display: flex;
+  gap: var(--space-1);
+}
+.quick button {
+  border: var(--border-thin);
+  background: var(--washi-100);
+  font: inherit;
+  padding: var(--space-1) var(--space-2);
+  cursor: pointer;
+}

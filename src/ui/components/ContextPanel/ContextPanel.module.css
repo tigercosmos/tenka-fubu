@@ -1,0 +1,22 @@
+.root {
+  position: fixed;
+  z-index: var(--z-hud);
+  left: var(--space-4);
+  right: var(--space-4);
+  bottom: 0;
+  transform: translateY(100%);
+  transition: transform var(--duration-fast) var(--ease-out);
+  pointer-events: none;
+}
+.root.open {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.root > section {
+  height: 100%;
+}
+.actions {
+  position: absolute;
+  right: 48px;
+  top: 6px;
+}

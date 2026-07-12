@@ -1,0 +1,16 @@
+button {
+  font: inherit;
+}
+.confirm,
+.danger {
+  border: 0;
+  padding: var(--space-2) var(--space-4);
+  color: var(--washi-100);
+  cursor: pointer;
+}
+.confirm {
+  background: var(--accent-indigo);
+}
+.danger {
+  background: var(--accent-vermilion);
+}

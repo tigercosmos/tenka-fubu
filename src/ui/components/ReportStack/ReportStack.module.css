@@ -1,0 +1,79 @@
+.stack {
+  position: fixed;
+  z-index: var(--z-toast);
+  top: 60px;
+  right: 12px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  pointer-events: none;
+}
+
+.toast {
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-3);
+  border: var(--border-thin);
+  border-left: 4px solid;
+  border-radius: var(--radius-md);
+  background: var(--washi-100);
+  box-shadow: var(--shadow-1);
+  color: var(--ink-900);
+  pointer-events: auto;
+  animation: enter var(--duration-normal) var(--ease-out);
+}
+
+.info {
+  border-left-color: var(--accent-indigo);
+}
+.success {
+  border-left-color: var(--accent-moss);
+}
+.warning {
+  border-left-color: var(--accent-gold);
+}
+.critical {
+  border-left-color: var(--accent-vermilion);
+}
+.critical .heading strong {
+  color: var(--accent-vermilion);
+  font-weight: 700;
+}
+
+.heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.heading strong {
+  font-weight: 400;
+}
+.toast p {
+  margin: var(--space-1) 0;
+  color: var(--ink-500);
+  font-size: var(--font-size-sm);
+}
+.toast time {
+  color: var(--ink-300);
+  font-size: var(--font-size-xs);
+}
+.clickable {
+  cursor: pointer;
+}
+.exiting {
+  animation: exit var(--duration-normal) var(--ease-out) forwards;
+}
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+@keyframes exit {
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}

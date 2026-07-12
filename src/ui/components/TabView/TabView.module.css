@@ -1,0 +1,36 @@
+.tabs {
+  display: flex;
+  border-bottom: var(--border-thin);
+  gap: var(--space-1);
+}
+.tabs button {
+  position: relative;
+  border: 0;
+  background: transparent;
+  padding: var(--space-2) var(--space-4);
+  font: inherit;
+  color: var(--ink-500);
+  cursor: pointer;
+}
+.tabs button[aria-selected='true'] {
+  color: var(--accent-gold-text);
+}
+.line .tabs button[aria-selected='true'] {
+  border-bottom: 2px solid var(--accent-gold);
+}
+.contained .tabs button[aria-selected='true'] {
+  background: var(--washi-100);
+  box-shadow: var(--shadow-1);
+}
+.tabs button:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+.badge {
+  margin-left: var(--space-1);
+  border-radius: var(--radius-round);
+  background: var(--accent-vermilion);
+  color: var(--washi-100);
+  padding: 0 var(--space-1);
+  font-size: var(--font-size-xs);
+}

@@ -1,0 +1,48 @@
+.viewport {
+  overflow: auto;
+  border: var(--border-thin);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-variant-numeric: tabular-nums;
+}
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--washi-200);
+}
+th,
+td {
+  padding: 0 var(--space-2);
+  border-bottom: var(--border-thin);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+th button {
+  width: 100%;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-700);
+  font: inherit;
+  text-align: inherit;
+}
+th button:not(:disabled) {
+  cursor: pointer;
+}
+th button:disabled {
+  color: inherit;
+}
+tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--ink-100) 8%, transparent);
+}
+tbody tr:hover {
+  background: var(--washi-200);
+}
+tbody tr.selected {
+  border-left: 3px solid var(--accent-gold);
+}

@@ -1,0 +1,14 @@
+.root {
+  display: flex;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+}
+.paused {
+  border-color: var(--accent-vermilion);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  50% {
+    opacity: 0.65;
+  }
+}

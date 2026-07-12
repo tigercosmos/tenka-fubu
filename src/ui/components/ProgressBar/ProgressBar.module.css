@@ -1,0 +1,31 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  font-variant-numeric: tabular-nums;
+}
+.track {
+  flex: 1;
+  min-width: 24px;
+  overflow: hidden;
+  border: 1px solid var(--ink-100);
+  background: var(--washi-300);
+}
+.fill {
+  display: block;
+  height: 100%;
+  transition: width var(--duration-normal) linear;
+}
+.gold {
+  background: var(--accent-gold);
+}
+.moss {
+  background: var(--accent-moss-bright);
+}
+.vermilion {
+  background: var(--accent-vermilion-bright);
+}
+.indigo {
+  background: var(--accent-indigo);
+}

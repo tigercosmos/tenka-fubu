@@ -34,11 +34,13 @@ export function makeCachedSelector<Args extends unknown[], R>(
   compute: (game: GameState, ...args: Args) => R,
 ): (game: GameState, tickSeq: number, ...args: Args) => R {
   let cachedSeq = -1;
+  let cachedGame: GameState | null = null;
   let cachedArgs: Args | null = null;
   let cachedValue: R | null = null;
 
   return (game, tickSeq, ...args) => {
     if (
+      cachedGame === game &&
       cachedSeq === tickSeq &&
       cachedArgs !== null &&
       cachedArgs.length === args.length &&
@@ -47,6 +49,7 @@ export function makeCachedSelector<Args extends unknown[], R>(
       return cachedValue as R;
     }
     cachedValue = compute(game, ...args);
+    cachedGame = game;
     cachedSeq = tickSeq;
     cachedArgs = args;
     return cachedValue;
