@@ -233,8 +233,9 @@ loyaltyTarget(o) = clamp(
   - (isPromotionStalled(o) ? BAL.loyaltyStalledPromotion : 0)   // 5，見下
 , 0, 100)
 
-treatment(o) = clamp((rankIndex(o) − expectedRankIndex(o)) × BAL.loyaltyRankGapWeight, −18, +18)
-  // BAL.loyaltyRankGapWeight = 6
+treatment(o) = clamp((rankIndex(o) − expectedRankIndex(o)) × BAL.loyaltyRankGapWeight,
+                      −BAL.loyaltyTreatmentClampAbs, +BAL.loyaltyTreatmentClampAbs)
+  // BAL.loyaltyRankGapWeight = 6、BAL.loyaltyTreatmentClampAbs = 18
 
 expectedRankIndex(o)：abilityScore = max(ldr, val, int, pol)（有效值）
   abilityScore ≥ 100 → 5；≥ 90 → 4；≥ 80 → 3；≥ 70 → 2；≥ 55 → 1；否則 0
@@ -1091,6 +1092,12 @@ traitModifier(o, hook) -> { mult: number, add: number }:
   (9) **具申失效**（§3.11.1／§5.8）`report.proposal.invalid` 併入 `proposal.expired`：採納後 Command 再驗證失敗 → 發 `proposal.expired{proposalId, officerId, reason:'invalidated'}`（無忠誠懲罰）；逾期分支（§3.11.1／§5.8 `proposalsSystem`）補發 `proposal.expired{…, reason:'timeout'}`（原逾期分支無 emit 點，屬 06 為生產者之孤兒事件缺口）；13 §3.7 依 `reason` 分流 `report.proposal.expired`（timeout）／`report.proposal.invalid`（invalidated）。
   (10) **合戰捕獲**（§3.7.2，七輪裁決 3）：捕虜產生條件敘述對齊 07 §3.14——時機 2 合戰敗北（敗將先擲戰死、未死者再擲捕獲）、時機 3 落城（逃脫／被俘／戰死三分）；機率公式歸 07（僅引用，`officer.captured` 已 canonical、02 不改）。
   §6 report 字串 catalog 不動（比照 05 §6.2 保留、13 §6.11 為權威）。grep 自查：「發報告 report.」歸零（餘「不發報告」負向敘述與 UI-only 註記各 1）；未動 00／02／19；無待決標記與簡體殘留。
+- **2026-07-12（M2a review 遺留 F2：treatment() 夾限常數化）**：§3.6.1 `treatment(o)` 之對稱夾限
+  `−18/+18` 原為公式內硬編字面值，未如同段 `loyaltyRankGapWeight` 等其餘係數一般具名；依 00 §11／
+  15 §3.2「數值必須有名有出處，不得魔術數字」原則，提為常數 `BAL.loyaltyTreatmentClampAbs`＝18
+  （15 §5.1 主表新增列，06 子表 106→107 項）。§3.6.1 公式改以常數名表述（`clamp(…, −BAL.loyaltyTreatmentClampAbs,
+  +BAL.loyaltyTreatmentClampAbs)`），數值不動（仍為 18）。實作：`src/core/balance.ts` 新增鍵、
+  `src/core/state/builder.ts` `applyInitialLoyalty()` 改引用（原硬編 `-18, 18` 兩處字面值消除）。
 
 ---
 

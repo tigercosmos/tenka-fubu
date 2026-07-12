@@ -859,8 +859,8 @@ function applyInitialLoyalty(
     const rankIndex = RANK_VALUES.indexOf(o.rank);
     const treatment = clamp(
       (rankIndex - expectedRankIndexOf(abilityScore)) * BAL.loyaltyRankGapWeight,
-      -18,
-      18,
+      -BAL.loyaltyTreatmentClampAbs,
+      BAL.loyaltyTreatmentClampAbs,
     );
 
     let traitAdj = 0;

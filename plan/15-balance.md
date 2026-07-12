@@ -13,7 +13,7 @@
 
 ### 1.1 本文件負責
 
-1. **BAL 常數主表**（§5.1）：涵蓋全部 21 份文件出現過的每一個 `BAL.*` 常數（共 636 個名稱），
+1. **BAL 常數主表**（§5.1）：涵蓋全部 21 份文件出現過的每一個 `BAL.*` 常數（共 637 個名稱），
    逐項給定定案值、單位、語意、出處、備註。
 2. **值分歧定案**（§5.2）：15 項同名異值衝突的定案值、60 項同義／重名別名的併入（名稱依 19 §3.13）、
    機制重疊裁決、27+ 項不進 `balance.ts` 的非模擬常數。
@@ -157,7 +157,7 @@ export type BalConfig = typeof BAL;
 
 ## 5. 演算法與公式
 
-### 5.1 BAL 常數主表（541 項模擬層常數，依擁有文件分子表）
+### 5.1 BAL 常數主表（542 項模擬層常數，依擁有文件分子表）
 
 > 定案值即最終值。備註 `⚠` 者見 §5.2 裁決（標注 19 §3.13 的 E 編號）。物件/表格常數逐階值見 §5.5。
 
@@ -224,7 +224,7 @@ export type BalConfig = typeof BAL;
 | `uprisingChancePerPoint` | 0.02 | 機率/點/月 | 低於門檻每差 1 點治安增加的每月一揆爆發機率 | 05 §3.8.2 |  |
 | `uprisingThreshold` | 30 | 點(治安門檻) | 觸發一揆判定的治安門檻(低於此值才判定) | 05 §3.8.2 | ⚠ 05 治安擁有者；02.uprisingOrderThreshold/11.securityRiotThreshold 別名 |
 
-#### 武將能力・特性・身分功績・忠誠・登用褒賞・壽命・具申（06）（106）
+#### 武將能力・特性・身分功績・忠誠・登用褒賞・壽命・具申（06）（107）
 
 | 常數 `BAL.*` | 定案值 | 單位 | 語意 | 出處 | 備註 |
 |---|---|---|---|---|---|
@@ -254,9 +254,10 @@ export type BalConfig = typeof BAL;
 | `loyaltyLeaderPolDivisor` | 20 | 除數(政務點) | 當主政務代理項除數（floor(leader.pol/此值)，最高+6） | 06 §3.6.1 |  |
 | `loyaltyPrestigeDivisor` | 400 | 除數(威信點) | 勢力威信代理項除數（floor(clan.prestige/此值)，最高+5） | 06 §3.6.1 |  |
 | `loyaltyPromote` | 8 | 忠誠點 | 身分推舉（升格）的忠誠即時增益 | 06 §3.6.3 |  |
-| `loyaltyRankGapWeight` | 6 | 忠誠點/階 | 身分與期待身分階差距每階對待遇項的忠誠權重（clamp ±18） | 06 §3.6.1 |  |
+| `loyaltyRankGapWeight` | 6 | 忠誠點/階 | 身分與期待身分階差距每階對待遇項的忠誠權重（clamp ±`loyaltyTreatmentClampAbs`） | 06 §3.6.1 |  |
 | `loyaltyReduceFief` | 15 | 忠誠點 | 減封（沒收一郡）的忠誠即時懲罰 | 06 §3.6.3 | ⚠ E-53：收回知行統一走此；05.dismissLoyaltyPenalty(15) 改引用 |
 | `loyaltyStalledPromotion` | 5 | 忠誠點 | 升格停滯（達標未推舉）時忠誠目標值扣減 | 06 §3.6.1 |  |
+| `loyaltyTreatmentClampAbs` | 18 | 忠誠點 | `treatment()` 身分待遇項之對稱夾限絕對值（clamp ±此值） | 06 §3.6.1 | M2a review 遺留 F2：原為公式內硬編 ±18，提為具名常數 |
 | `maxTraitsPerOfficer` | 4 | 個 | 每名武將可持有的特性數量上限 | 06 §3.3 | ⚠ E-05：名已同（02/06）；值定 4（容納 E-06 追加特性），06 之 3 改為 4 |
 | `meritBattleAweBonus` | 20 | 功績點 | 合戰大勝（產生威風）額外給予的功績 | 06 §3.5 |  |
 | `meritBattleWin` | 40 | 功績點 | 合戰勝利給參戰各武將的功績 | 06 §3.5 |  |
@@ -1095,7 +1096,7 @@ CI 於 M9 跑固定 5 種子 `simulate` 冒煙，斷言準則 4、5 與 `yearOfF
 
 ## 7. 實作任務清單
 
-- [ ] **T1 建立 `src/core/balance.ts`**：依 §4.1 結構，把 §5.1 主表全部 541 項模擬層常數寫入單一 `readonly` `BAL`（`as const`）。
+- [ ] **T1 建立 `src/core/balance.ts`**：依 §4.1 結構，把 §5.1 主表全部 542 項模擬層常數寫入單一 `readonly` `BAL`（`as const`）。
   - 驗收：§5.1 每列在 `BAL` 有對應鍵、值一致；`tsc` 通過；core 內無魔術數字（grep）。
 - [ ] **T2 落實表 B/C 的併入與改名**：依 19 §3.13 刪除 60 項別名，全 core 引用改為定案名。
   - 驗收：全 repo grep 不到表 B 左欄別名；`rankTroopBonus`/`loyaltyFiefBonus`/`salaryByRank` 等已移除。
@@ -1192,5 +1193,16 @@ CI 於 M9 跑固定 5 種子 `simulate` 冒煙，斷言準則 4、5 與 `yearOfF
   cheat（`ui.debug.addFood`／`addTroops`）因需先在地圖選取我方城（依賴 M2 地圖／選取機制），
   M1 範圍不實作、暫不補常數，留待該功能落地時一併登錄。§5.1「遊戲迴圈・tick・報告（03）」
   子表 6→7 項；v1.0 實際寫入 `balance.ts` 項數同步 +1。實作見 `src/core/balance.ts`。
+- **D21（2026-07-12，M2a review 遺留 F2：忠誠 treatment 夾限常數化）**：`src/core/state/builder.ts`
+  `applyInitialLoyalty()` 的 `treatment` 計算原以 `clamp(…, -18, 18)` 兩處硬編字面值夾限（06 §3.6.1
+  `treatment(o)` 對稱夾限），未如同段 `loyaltyRankGapWeight` 等其餘係數具名，違反 §3.2「數值必須有名
+  有出處，不得魔術數字」原則。依本文件 §3.2 補上正式常數 `loyaltyTreatmentClampAbs`＝18（忠誠點；
+  06 §3.6.1），§5.1「武將能力・特性・身分功績・忠誠・登用褒賞・壽命・具申（06）」子表新增 1 項常數
+  （106→107 項）、§5.1 模擬層常數總數 541→542、全文件 `BAL.*` 名稱總數（§1.1）636→637；T1（§7）主表
+  寫入項數同步 541→542。`loyaltyRankGapWeight` 列備註由「clamp ±18」改引常數名（clamp ±`loyaltyTreatmentClampAbs`）。
+  實作見 `src/core/balance.ts`；`builder.ts` 改引用（原硬編 `-18, 18` 兩處消除）；06 §3.6.1 公式同步改以
+  常數名表述、值不動（仍為 18）。**核對**：本則修正緣起（M2a review 遺留）文字原載「總數鏈 540→541」，
+  惟該區間已於 D19（2026-07-11，`battleCaptureChanceDefeatGeneral` 登錄）消化完畢（現況已為 541），
+  本則實際遞增為 541→542；既有 541 項定案值一律不動，僅新增登錄。
 
 *本文件依 00 §13 撰寫；繁體中文（台灣慣用語）；無 TBD。定案值即實作值，唯一寫入 `src/core/balance.ts`；命名依 19 §3.13。*

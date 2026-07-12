@@ -85,6 +85,7 @@ export const BAL = {
   loyaltyFudaiBonus: 10, // 06 §3.6.1：譜代加成
   loyaltyLeaderPolDivisor: 20, // 06 §3.6.1：當主政務代理除數（floor(leader.pol/此值)）
   loyaltyPrestigeDivisor: 400, // 06 §3.6.1：威信代理除數（floor(clan.prestige/此值)）
+  loyaltyTreatmentClampAbs: 18, // 06 §3.6.1／15 §5.1：treatment() 對待遇項之對稱夾限絕對值（clamp ±此值）
   traitChushin: 20, // 06 §3.3：trait.chushin 忠誠目標值加成
   traitYashinLoyalty: 10, // 06 §3.3：trait.yashin 忠誠目標值扣減
   traitJinbo: 3, // 06 §3.3：trait.jinbo 同城忠誠光環（不含自身）
