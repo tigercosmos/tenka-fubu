@@ -101,6 +101,11 @@ vi.mock('pixi.js', () => {
       off(): void {},
       resize(): void {},
     };
+    ticker = {
+      deltaMS: 16,
+      add(): void {},
+      remove(): void {},
+    };
     initOpts: unknown = null;
     private readonly record: { destroyed: boolean };
     constructor() {

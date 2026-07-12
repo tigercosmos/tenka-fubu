@@ -9,8 +9,8 @@
 //
 // `staticData`／`viewState`／`focusNodeId`（M2-19 新增，18-roadmap「MainScreen 掛 MapCanvasHost
 // 顯示地圖」接線）：以獨立 `useEffect` 觀察其變化，經 `rendererRef` 呼叫既有的 `MapRenderer.
-// setMapData`／`updateView`；`focusNodeId` 只在掛載完成後套用一次（瞬移，`MapRenderer.focusNode`
-// 骨架版——動畫補間版本待 `camera.ts`（M2-15）正式接入 `MapRenderer` 後升級，見該檔檔頭）。
+// setMapData`／`updateView`；`focusNodeId` 只在掛載完成後套用一次（`MapRenderer.focusNode` 經
+// `camera.focusOn` 補間聚焦，鏡頭已於 M2-15 接入 `MapRenderer`）。
 
 import { useEffect, useRef, type ReactElement } from 'react';
 import { MapRenderer } from './MapRenderer';

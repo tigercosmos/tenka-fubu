@@ -28,6 +28,7 @@ import { MAPVIEW, WORLD_SIZE } from './mapViewConfig';
 import { drawNodeMarkers, drawRoads, drawSeaBackground, loadOutline } from './mapDraw';
 import { LAYER_ORDER } from './mapViewTypes';
 import { MapInteraction, screenToWorld } from './interaction';
+import { Camera } from './camera';
 import type {
   DebugOverlayFlags,
   MapEventHandler,
@@ -70,20 +71,87 @@ export class MapRenderer {
   /** idle 模式命中測試與事件協定（M2-17，04 §3.12）；純邏輯，見 interaction.ts。 */
   private readonly interaction = new MapInteraction({ emit: (e) => this.emit(e) });
 
+  /** 正式鏡頭（M2-15，04-T10／§3.11）：縮放錨點／拖曳平移／慣性／focusOn；init 建立、destroy 清除。 */
+  private camera: Camera | null = null;
+  /** 拖曳平移狀態：進行中的指標 id（null＝未拖曳）、上一幀與按下起點螢幕座標、是否已越過拖曳判別門檻。 */
+  private dragPointerId: number | null = null;
+  private lastPointerX = 0;
+  private lastPointerY = 0;
+  private downPointerX = 0;
+  private downPointerY = 0;
+  private pointerDragged = false;
+
+  private readonly onPointerDown = (event?: FederatedPointerEvent): void => {
+    if (event === undefined || this.camera === null) return;
+    if (event.button !== 0 && event.button !== 1) return; // 僅左鍵／中鍵拖曳平移（04 §3.11）
+    const g = event.global;
+    this.dragPointerId = event.pointerId;
+    this.downPointerX = this.lastPointerX = g.x;
+    this.downPointerY = this.lastPointerY = g.y;
+    this.pointerDragged = false;
+    this.camera.startDrag();
+  };
+
   private readonly onPointerMove = (event?: FederatedPointerEvent): void => {
     const g = event?.global;
-    const world = this.toWorldPoint(g?.x ?? 0, g?.y ?? 0);
-    this.interaction.handleMove(world.x, world.y, g?.x ?? 0, g?.y ?? 0);
+    const gx = g?.x ?? 0;
+    const gy = g?.y ?? 0;
+    // 拖曳中：以螢幕位移驅動鏡頭平移，暫停 hover 命中測試（04 §3.11）。
+    if (this.dragPointerId !== null && this.camera !== null) {
+      this.camera.dragMove(gx - this.lastPointerX, gy - this.lastPointerY);
+      this.lastPointerX = gx;
+      this.lastPointerY = gy;
+      if (Math.hypot(gx - this.downPointerX, gy - this.downPointerY) > MAPVIEW.dragTapThresholdPx) {
+        this.pointerDragged = true;
+      }
+      return;
+    }
+    const world = this.toWorldPoint(gx, gy);
+    this.interaction.handleMove(world.x, world.y, gx, gy);
+  };
+
+  private readonly onPointerUp = (): void => {
+    if (this.dragPointerId === null) return;
+    this.dragPointerId = null;
+    this.camera?.endDrag(); // 達門檻速度則起始慣性（由 onTick 推進）
   };
 
   private readonly onPointerTap = (event?: FederatedPointerEvent): void => {
+    // 拖曳結束時 Pixi 仍補一發 pointertap；本次按下若已判定為拖曳則吞掉，避免誤觸點選（04 §3.11／§3.12.2）。
+    if (this.pointerDragged) {
+      this.pointerDragged = false;
+      return;
+    }
     const g = event?.global;
     const world = this.toWorldPoint(g?.x ?? 0, g?.y ?? 0);
     this.interaction.handleTap(world.x, world.y);
   };
 
   private readonly onRightClick = (): void => this.interaction.handleRightClick();
-  private readonly onRendererResize = (): void => this.fitWorldToViewport();
+  private readonly onRendererResize = (): void => this.applyCameraTransform();
+
+  /**
+   * 滑鼠滾輪縮放（原生 DOM `wheel`；游標錨點不漂移，04 §5.7）。以 native 監聽而非 Pixi federated
+   * 事件，方能 `preventDefault` 阻止瀏覽器頁面縮放／捲動；canvas 為滿版 fixed，`offsetX/Y`（CSS px）
+   * 與 `app.screen`（autoDensity）同座標空間。
+   */
+  private readonly onWheel = (event: WheelEvent): void => {
+    if (this.camera === null || this.app === null) return;
+    event.preventDefault();
+    this.camera.onWheel(
+      event.deltaY,
+      { x: event.offsetX, y: event.offsetY },
+      { width: this.app.screen.width, height: this.app.screen.height },
+    );
+    this.applyCameraTransform(); // 立即回饋（不必等下一 tick）
+  };
+
+  /** Pixi ticker 每幀回呼：推進鏡頭（慣性衰減／focusOn 補間）並套用變換至 world 容器。 */
+  private readonly onTick = (): void => {
+    if (this.app === null || this.camera === null) return;
+    this.camera.update(this.app.ticker.deltaMS);
+    this.applyCameraTransform();
+  };
 
   /** stage 全域座標（event.global）→ 世界座標：反套用 `world` 容器目前的平移／縮放（04 §3.12.1）。 */
   private toWorldPoint(screenX: number, screenY: number): { x: number; y: number } {
@@ -122,9 +190,16 @@ export class MapRenderer {
     this.layers = this.buildLayers(app);
     this.drawStaticBackground();
     this.redrawDataLayers();
-    this.fitWorldToViewport();
+    // 鏡頭：初始置中全圖（fit scale），使用者以滾輪／拖曳操作，focusNode 補間聚焦（04 §3.11）。
+    this.camera = new Camera({
+      x: WORLD_SIZE / 2,
+      y: WORLD_SIZE / 2,
+      scale: this.computeFitScale(),
+    });
+    this.applyCameraTransform();
     this.attachEvents(app);
     app.renderer.on('resize', this.onRendererResize);
+    app.ticker.add(this.onTick);
     this.initialized = true;
   }
 
@@ -195,41 +270,47 @@ export class MapRenderer {
     stage.eventMode = 'static';
     stage.hitArea = app.screen; // 全螢幕命中；逐節點命中測試為空間查詢，非逐物件監聽（04 §3.12.1）
     stage.on('pointermove', this.onPointerMove);
+    stage.on('pointerdown', this.onPointerDown);
+    stage.on('pointerup', this.onPointerUp);
+    stage.on('pointerupoutside', this.onPointerUp);
     stage.on('pointertap', this.onPointerTap);
     stage.on('rightclick', this.onRightClick);
+    app.canvas.addEventListener('wheel', this.onWheel, { passive: false });
   }
 
   private emit(event: MapRendererEvent): void {
     this.onEvent?.(event);
   }
 
-  /**
-   * 骨架期鏡頭：把整個 4096 世界置中縮放進視窗（夾限於 MAPVIEW.min/maxScale）。
-   * 正式鏡頭（縮放錨點/夾限/慣性/focusOn）由 camera.ts（M2-15，04-T10）取代本方法。
-   */
-  private fitWorldToViewport(): void {
-    if (this.app === null || this.layers === null) return;
+  /** 初始「置中全圖」縮放：把 4096 世界縮進視窗，夾限於 MAPVIEW.min/maxScale（camera 初始 scale）。 */
+  private computeFitScale(): number {
+    if (this.app === null) return MAPVIEW.minScale;
     const sw = this.app.screen.width;
     const sh = this.app.screen.height;
-    if (sw <= 0 || sh <= 0) return;
+    if (sw <= 0 || sh <= 0) return MAPVIEW.minScale;
     const fit = Math.min(sw / WORLD_SIZE, sh / WORLD_SIZE);
-    const scale = Math.max(MAPVIEW.minScale, Math.min(MAPVIEW.maxScale, fit));
-    this.layers.world.scale.set(scale);
-    this.layers.world.position.set((sw - WORLD_SIZE * scale) / 2, (sh - WORLD_SIZE * scale) / 2);
+    return Math.max(MAPVIEW.minScale, Math.min(MAPVIEW.maxScale, fit));
+  }
+
+  /** 取鏡頭當下變換套用至 world 容器（scale.set／position.set）；每幀（onTick）與 resize 時呼叫。 */
+  private applyCameraTransform(): void {
+    if (this.app === null || this.layers === null || this.camera === null) return;
+    const t = this.camera.getWorldTransform({
+      width: this.app.screen.width,
+      height: this.app.screen.height,
+    });
+    this.layers.world.scale.set(t.scale);
+    this.layers.world.position.set(t.x, t.y);
   }
 
   // ── 01 §4.3 契約方法 ──────────────────────────────────────────────
 
-  /** 鏡頭平滑移至節點（UI「前往」按鈕用，01 §4.3）。骨架：瞬移置中至 focusScale（無補間，動畫屬 M2-15）。 */
+  /** 鏡頭平滑移至節點（UI「前往」按鈕／開局聚焦居城，01 §4.3）：交由 camera.focusOn 補間（04 §3.11，onTick 推進）。 */
   focusNode(nodeId: string): void {
-    if (this.app === null || this.layers === null || this.staticData === null) return;
+    if (this.camera === null || this.staticData === null) return;
     const node = this.staticData.graph.nodes.get(nodeId as never);
     if (node === undefined) return;
-    const s = MAPVIEW.focusScale;
-    const sw = this.app.screen.width;
-    const sh = this.app.screen.height;
-    this.layers.world.scale.set(s);
-    this.layers.world.position.set(sw / 2 - node.pos.x * s, sh / 2 - node.pos.y * s);
+    void this.camera.focusOn(node.pos);
   }
 
   /** 除錯 overlay 開關（01 §4.3）；debugOverlay 圖層內容屬後續里程碑，本階段僅保存旗標。 */
@@ -248,13 +329,20 @@ export class MapRenderer {
     const app = this.app;
     if (app !== null) {
       app.stage.off('pointermove', this.onPointerMove);
+      app.stage.off('pointerdown', this.onPointerDown);
+      app.stage.off('pointerup', this.onPointerUp);
+      app.stage.off('pointerupoutside', this.onPointerUp);
       app.stage.off('pointertap', this.onPointerTap);
       app.stage.off('rightclick', this.onRightClick);
       app.renderer.off('resize', this.onRendererResize);
+      app.ticker.remove(this.onTick);
+      app.canvas.removeEventListener('wheel', this.onWheel);
       app.destroy({ removeView: true }, { children: true, texture: true });
     }
     this.app = null;
     this.layers = null;
+    this.camera = null;
+    this.dragPointerId = null;
     this.seaGfx = null;
     this.roadsGfx = null;
     this.nodesGfx = null;
@@ -285,7 +373,7 @@ export class MapRenderer {
   resize(width: number, height: number): void {
     if (this.app === null) return;
     this.app.renderer.resize(width, height);
-    this.fitWorldToViewport();
+    this.applyCameraTransform();
   }
 
   /** 供平行 agent（M2-14/16/…）取得圖層容器以掛入自己的 display object；init 前為 null。 */

@@ -104,6 +104,11 @@ export function createPixiMockClasses(apps: PixiMockAppRecord[] = []): {
       off(): void {},
       resize(): void {},
     };
+    ticker = {
+      deltaMS: 16,
+      add(): void {},
+      remove(): void {},
+    };
     initOpts: unknown = null;
     private readonly record: PixiMockAppRecord;
     constructor() {

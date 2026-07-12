@@ -24,6 +24,12 @@ export const MAPVIEW = {
    * 世界點漂移，牴觸 04-T10 驗收（縮放前後 `screenToWorld` 誤差 < 0.5）。
    */
   panBoundsPadding: 128,
+  /**
+   * 拖曳／點選判別門檻（螢幕 px）：按下後指標位移超過此值即視為「拖曳平移」，
+   * 結束時吞掉 Pixi 補發的 pointertap，避免誤觸節點點選（§3.11／§3.12.2 之接線細節，
+   * M2-15 鏡頭整合進 MapRenderer 時補入；純輸入互動常數，不影響模擬結果、不進 golden）。
+   */
+  dragTapThresholdPx: 4,
   lodFarScale: 0.5,
   labelScale: 1.0, // LOD 門檻
   cullMargin: 256,

@@ -12,9 +12,9 @@
 //   不依賴 Pixi 型別（`MapRenderer` 呼叫端把 `FederatedPointerEvent.global` 攤平為 x/y 再傳入），
 //   故可在無 pixi.js 執行期的環境單元測試（同 mapDraw.ts 慣例，17 §3.2）。`screenToWorld` 沿用
 //   `camera.ts`（M2-15）之 `WorldTransform`（`{scale,x,y}`，即套用於 Pixi `world` 容器的
-//   `position`/`scale`）以避免與該檔重複定義同語意型別；`MapRenderer` 目前仍以 `fitWorldToViewport`
-//   骨架直接驅動 `world` 容器（`Camera` 尚未接線——鏡頭互動之滑鼠滾輪/拖曳事件整合為後續工作），
-//   故本檔按 `world` 容器「當下」之 position/scale 換算，與是否已接 `Camera` 無關、恆正確。
+//   `position`/`scale`）以避免與該檔重複定義同語意型別；`Camera` 已於 `MapRenderer` 接線（滾輪縮放／
+//   拖曳平移／慣性／focusOn，每幀經 ticker 套用變換至 `world` 容器），本檔按 `world` 容器「當下」之
+//   position/scale 換算命中座標，與鏡頭如何驅動該容器無關、恆正確。
 // - `MapInteraction` 持有「目前 idle 命中測試所需的靜態資料」（`graph`／`castleTier`），由
 //   `MapRenderer.setMapData` 呼叫 `setStaticData` 同步；未載入資料時一律無命中（`emptyClick`／
 //   hover 移出），與 M2-13 既有測試（`init` 後未 `setMapData` 即 tap → `emptyClick`）行為一致。
