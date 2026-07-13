@@ -1,4 +1,4 @@
-# WIP — 實作交接文件（更新 2026-07-13）
+# WIP — 實作交接文件（更新 2026-07-14）
 
 > 給下一個接手的 AI／未來 session：本文件描述《天下布武》**實作階段**的當前進度與剩餘工作。
 > 規格階段已於 2026-07-11 收斂完成（21 份 plan 定稿、E-01…E-80 全數消化、七輪裁決記錄於 `plan/02 §8`）。
@@ -8,6 +8,7 @@
 
 - **GPT-5.6-sol 當 orchestrator 並處理複雜任務；GPT-5.6-terra 處理一般任務。**
 - 以 Workflow 多 agent 編排；每個里程碑：實作 → Opus 全量 review（fix-forward）→ orchestrator 本機驗證 DoD → 依任務 ID 分組 commit → checkpoint（README 進度表＋milestone.json＋tag）→ push（已核准，push 後驗 CI/Pages）。
+- **2026-07-13 最新覆寫：後續 review 不使用 Codexmon；由 orchestrator 自行 code review 即可。**
 - **一次只做一個里程碑階段，完成後停下（使用者 2026-07-12 指示：勿先開下一階段）。**
 - ⚠ 使用者額度（5 小時窗口）常中斷 agent 艦隊：接手時先 `git status` 看未 commit 的部分產出——**通常品質良好，核實後續作，勿 reset**；workflow 可用 `resumeFromRunId` 續跑（已完成 agent 走快取）。
 
@@ -19,9 +20,10 @@
 | M1 core＋HUD  | ✅ 已 checkpoint（tag m1）             | 431 tests；型別=02 全型別零缺失（46 Cmd/68 Event）                                               |
 | M2 資料＋地圖 | ✅ 已 checkpoint（tag m2，2026-07-12） | 792 tests＋P1/P2 e2e 綠；DoD 四條全過（review 報告見 wf_dcccc2d1-835）                           |
 | M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13） | 845 tests＋P1/P2/P3 e2e 綠；24 個月 DoD、全量 review 與 checkpoint 後 review 收尾（73bc28f）完成 |
-| M4 軍事一     | ✅ 已完成（2026-07-13）                | 945 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與 review fix-forward 全綠   |
-| M5 合戰       | 🟡 **已核准，準備開工**                | 僅做 M5-1～M5-9；完成 checkpoint 前不開 M6                                                       |
-| M6–M9         | ⬜                                     | 依 `plan/18-roadmap.md`                                                                          |
+| M4 軍事一     | ✅ 已完成（2026-07-13）                | 945 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與 review fix-forward 全綠  |
+| M5 合戰       | ✅ **已完成（2026-07-14）**            | 1011 tests、P1/P2/P3/P5、golden/transcript、bench、自行 review 與 checkpoint gate 全綠           |
+| M6            | 🔨 checkpoint 已前進，**尚未開工**     | 下一 session 取得使用者核准後，依 `plan/18-roadmap.md` 開始                                      |
+| M7–M9         | ⬜                                     | 依 `plan/18-roadmap.md`                                                                          |
 
 ## M4 已收尾（2026-07-13）
 
@@ -61,6 +63,83 @@ golden-mini 因每月城士氣回復而更新為 day 360 `afe70fe49392a21f`、da
 `523b89fad68e2cb9`，既有政策 replay final hash 仍為 `98990ec2b597787f`。
 
 **現行下一步**：使用者已核准 M5；實作 M5-1～M5-9，完成後停下，不預先開 M6。
+
+## M5 中斷點（2026-07-13 18:49 JST）
+
+使用者要求先停下、稍後再繼續。**M5 目前全部留在未 commit 工作樹；勿 reset／勿從頭重做。**
+乾淨基線為 `ea94d50`（`fix(military): 收斂 M4 review findings [M4-review]`），該 commit 已包含上方
+M4 九項 review fix、945 tests gate 與本文件的 M4 review 記錄。M5 尚無 commit。
+
+### 已落地的 WIP
+
+- **M5-1／M5-2 core（大致完成，待修測試與整合 review）**：`src/core/systems/battle.ts` 已由 M1 stub
+  擴成 startKassen 驗證／登錄、2 跳集結、9–13 陣決定論生成、連通修補、地形、部署、移動、同步傷害、
+  士氣／潰走、旗力／本陣、采配、三種結束條件、策略層原子寫回、敗方一跳撤退、威風與
+  `closeResolvedBattle()`；`balance.ts`、`gameState.ts`、`invariants.ts`、registry 與既有契約測試同步修改。
+- **M5-3 戰法（完成單元範圍）**：新增 `src/core/tactics.ts`＋`tests/core/tactics.spec.ts`，12 種戰法、
+  型錄漂移驗證、特性解鎖、采配／冷卻／目標驗證、buff/debuff/instant 效果與查詢 helper；17/17 focused 綠。
+  `battle.ts` 已接上戰法套用、攻防倍率、移動限制、挑撥、騎突、火矢、背水士氣底線與 timer。
+- **M5-4 委任 AI（有實作、尚缺 focused tests／完整 review）**：新增
+  `src/core/systems/battleAi.ts`，依 07 §3.9 的鼓舞→攻擊戰法→弱敵→弱陣→本陣攻防優先序產生決定論
+  orders，已由 `advanceBattleTick` 呼叫。
+- **M5-5 威風（核心判級已完成）**：`awe.ts` 新增 `judgeBattleAwe()`，小／中／大門檻與快攻 40 tick
+  邊界有 4 tests；battle resolution 已呼叫既有 `applyAwe()` 做郡翻轉、城損害、威信與事件。
+- **M5-6 UI（骨架已接線，尚未通過 compile/lint/RTL）**：新增 `src/app/battleBridge.ts`、
+  `BattleScreen.tsx/.module.css`，並修改 `App.tsx`。目前有獨立 battle order queue/tick、單位選取、移動／
+  攻擊／戰法目標、采配／冷卻灰化、委任、合戰速度、戰況列、結果 modal、`screen-battle` 與
+  `battle-retreat`。App 會偵測 unresolved battle 轉場；仍須把結果確認接到 `closeResolvedBattle()`，並補 RTL。
+- **M5-7 特效（完成單元範圍）**：新增 `particles.ts`、`aweShockwave.ts`、`battleSpark.ts` 與 3 specs；
+  粒子池硬上限 128、威風 normal/large/reduce-motion 時間軸、BattleSpark 注入 RNG；13/13 focused 綠。
+- **M5-8 只完成一小部分**：`src/core/debugBattle.ts` 目前只有 debug-only `abortDebugBattle()`；尚未建立
+  `debug-battle-01` 佈局、`window.__tenka.debug.startBattle()` 相容 API、App 啟動接線與 Playwright P5。
+- **M5-9 未做**：尚無含 battle subloop orders 的 golden／transcript 重放案例。
+
+### 現行紅燈（中斷時的精確輸出）
+
+- `npx tsc --noEmit`：只剩 `tests/core/battle.spec.ts:23` 未使用的 `DIST_A1X` import（TS6133）。
+- focused 49 tests：**47 passed／2 failed**。兩個失敗都不是 engine assertion，而是
+  `tests/core/battle.spec.ts::prepareCombat(2000)` 從只有 800 兵的 `castle.a2` 出陣，造成
+  `INV-16 castle.a2 soldiers -1200`；改用兵力足夠的 alpha 城／武將，或重構 fixture 但仍維持合計
+  ≥ `BAL.kassenMinTroops(3000)`。失敗案例：startKassen/invariant 與 B2 原子寫回/invariant。
+- 尚未跑完整 `npm run lint && npm run typecheck && npm run validate:data && npm test && npm run e2e && npm run bench`。
+  M5 新增字串目前直接寫於 `BattleScreen`，收斂時應搬入 i18n；新增繁中字後依慣例跑 `npm run font:subset`。
+
+### 安全續作順序
+
+1. 先 `git status --short`，保留上述所有變更。修 `battle.spec.ts` fixture＋unused import，跑
+   `npx tsc --noEmit && npx tsc -p tsconfig.core.json --noEmit` 與 M5 focused tests。
+2. orchestrator 自行 review `battle.ts`／`battleAi.ts`／`tactics.ts` 的 tick 順序、決定論、原子寫回與
+   state invariants；補 M5-4 AI tests、1000 次戰場生成、全委任 ≤120 tick、固定 seed 逐 tick hash。
+3. UI 把結果按鈕接 `closeResolvedBattle()` 後再回策略層；補 BattleScreen RTL、將字串移入 i18n，確認
+   采配 canonical 上限是 20（忽略 plan/11 wireframe 的 100）。
+4. 完成 M5-8：seed 42、每側 2 unit 的 `debug-battle-01`；debug API 同時保留既有
+   `window.__TENKA_DEBUG__` 並提供 P5 要求的 `window.__tenka.debug`；P5 點 `battle-retreat` 回 strategy。
+5. 完成 M5-9 battle transcript/golden（策略 day command log 無法表達 battle subloop orders，需專用格式或
+   明確擴充）；再做手動 DoD：35 tick 內陷本陣→威風大→3 跳敵郡翻轉。
+6. 自行 code review/fix-forward（**不再用 Codexmon**）→完整 gate→更新 plan 決策、README、
+   `milestone.json current=M6`、wip→依 M5 任務分組 commit→tag `m5`→push→驗 CI/Pages；完成後停下，勿開 M6。
+
+### M5 完成記錄（2026-07-14）
+
+- **M5-1～M5-5 core**：完成 9–13 陣決定論生成（1000 layouts 皆連通合規）、地形 hook、battle tick、
+  12 戰法、簡易委任 AI、三種結束條件、敗將戰死／被俘、策略層原子回寫，以及小／中／大威風。
+- **M5-6～M5-8 UI／特效／debug**：BattleScreen 支援單位、移動、攻擊、戰法、委任、速度、結果 modal；
+  粒子池上限 128、BattleSpark 與威風波；固定 seed 42、雙方各 2 部隊的 `debug-battle-01` 與 P5 完成。
+- **M5-9 重放**：新增 versioned `.tfbattle.json` 子迴圈 transcript。案例 tick 1 使用突擊、tick 2 開啟委任，
+  tick 30 結束；initial `1c31e73231f90e9e`，tick 1/10/20/30 分別為 `61a3ed6027a1efb6`／
+  `fc8ac7f7c38022f5`／`ffc51b2789ee285f`／`ee228589089dca59`，final 同 tick 30。
+- **自行 code review fix-forward**（依使用者最新覆寫，不使用 Codexmon）：補敗將 3% 戰死→未中再 20%
+  被俘及繼承／役職／軍團清理；委任 toggle 改為同 tick 先套用再決策；2 跳集結排除已在其他 FieldCombat
+  交戰部隊；結果 modal 補雙方損失；debug 撤退僅開發模式顯示且中止時清除來源 FieldCombat。另新增
+  「速攻陷本陣＝威風大」及「威風大涵蓋恰 3 跳、第 4 跳不翻」邊界回歸。
+- **checkpoint gate**：lint、typecheck、validate:data（0 ERROR／0 WARN／簡體 0）、**1011 tests**、
+  Playwright P1/P2/P3/P5 **4/4**、production build、golden、兩份策略 replay、battle transcript 全綠；
+  字型 885 字元、190.4 KB。bench（暖身 60／取樣 360）mean **0.2516 ms**、p99 **5.0861 ms**。
+- golden-mini 因 M5 BAL 常數登錄只更新 BAL hash 為 `b094cd03a3031f3f`；day 360
+  `afe70fe49392a21f`、day 720 `6bd1e548f446d7e1` 皆不變。兩份既有 replay 亦僅同步 BAL hash，final hash
+  維持 `523b89fad68e2cb9`／`98990ec2b597787f`。
+- plan/07 §8 已回寫 M5 地形 fallback、battle transcript、結果確認生命週期三項決策；README 與
+  `milestone.json` checkpoint 前進至 M6。**M6 尚未開始；本里程碑完成後停下。**
 
 ## M3 已收尾（2026-07-13）
 

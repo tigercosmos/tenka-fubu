@@ -1237,3 +1237,14 @@ supplyDailyTick(state, army):
   `war` 時扣除，中立但可征服領地不等於敵境。非圍城中的城每月初回復
   `BAL.castleMoraleRecoverMonthly` 至上限 100；低糧攻城自動撤回的士氣／耐久 20% 門檻分別由
   `autoReturnSiegeMoraleMinRatio`／`autoReturnSiegeDurabilityMinRatio` 持有。
+- **D41｜合戰地形的 M5 保守 fallback（2026-07-14）**：§2／§3.6 原援引 04 的節點 `terrain`，但 04 與
+  02 `GameState` 實際未定義該欄位。M5 不擴張策略地圖 schema：沿海城或港郡映射為 `coast`，其餘節點
+  映射為 `plain`；`generateBattlefield(terrainOverride)` 仍完整支援 `hill`／`river` 生成與測試，待未來地圖
+  資料正式持有 terrain 時直接改由資料映射。此 fallback 避免憑空替全國節點補造地形資料，且不改既有存檔契約。
+- **D42｜合戰子迴圈採專用 transcript（2026-07-14）**：策略層 `.tfulog` 以每日 Command 為單位，無法表達
+  modal 內逐 battle tick 的移動／攻擊／戰法／委任 order。M5 新增 versioned `.tfbattle.json`，記錄 seed、
+  layout id、BAL hash、`tick + seq + order`、逐 tick checkpoint 與 final hash；重建初始狀態後 bit-exact
+  重放。兩種 log 各自維持單一時間尺度，避免把 battle subloop 偽裝成策略日指令。
+- **D43｜已結束 BattleState 留存至玩家確認（2026-07-14）**：合戰結算時先原子回寫策略層並填入
+  `BattleState.result`，但不立即刪除 BattleState；結果 modal 顯示勝敗、雙方損失與威風後，由
+  `closeResolvedBattle()` 在玩家確認時刪除。未結束 battle 才阻擋策略時間，已結束結果畫面不重複結算。
