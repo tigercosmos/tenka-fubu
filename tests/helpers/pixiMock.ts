@@ -20,6 +20,8 @@ export function createPixiMockClasses(apps: PixiMockAppRecord[] = []): {
   Application: unknown;
   Container: unknown;
   Graphics: unknown;
+  BitmapText: unknown;
+  Rectangle: unknown;
 } {
   class Container {
     label = '';
@@ -80,6 +82,12 @@ export function createPixiMockClasses(apps: PixiMockAppRecord[] = []): {
     poly(): this {
       return this;
     }
+    circle(): this {
+      return this;
+    }
+    arc(): this {
+      return this;
+    }
     moveTo(): this {
       return this;
     }
@@ -92,6 +100,21 @@ export function createPixiMockClasses(apps: PixiMockAppRecord[] = []): {
     stroke(): this {
       return this;
     }
+  }
+  class BitmapText extends Container {
+    text: string;
+    constructor(options: { text: string }) {
+      super();
+      this.text = options.text;
+    }
+  }
+  class Rectangle {
+    constructor(
+      public x: number,
+      public y: number,
+      public width: number,
+      public height: number,
+    ) {}
   }
   class Application {
     canvas: HTMLCanvasElement = document.createElement('canvas');
@@ -123,5 +146,5 @@ export function createPixiMockClasses(apps: PixiMockAppRecord[] = []): {
       this.record.destroyed = true;
     }
   }
-  return { Application, Container, Graphics };
+  return { Application, Container, Graphics, BitmapText, Rectangle };
 }

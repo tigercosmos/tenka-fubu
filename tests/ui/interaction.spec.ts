@@ -189,6 +189,28 @@ describe('MapInteraction（idle 模式，04 §3.12.2；M2-17 驗收）', () => {
     expect(emit).toHaveBeenCalledWith({ type: 'rightClick' });
   });
 
+  it('orderMarch 忽略城上部隊，hover/tap 皆選到底層城，且相同 hover 不重算', () => {
+    const { interaction, emit, graph } = setup();
+    interaction.setStaticData({ graph });
+    interaction.setArmies([{ id: 'army.000001', pos: { x: 100, y: 100 } }]);
+    interaction.setMode('orderMarch');
+
+    interaction.handleMove(100, 100, 20, 30);
+    interaction.handleMove(100, 100, 21, 31);
+    expect(emit).toHaveBeenCalledTimes(1);
+    expect(emit).toHaveBeenCalledWith(
+      expect.objectContaining({ type: 'nodeHover', id: 'castle.kiyosu' }),
+    );
+
+    emit.mockClear();
+    interaction.handleTap(100, 100);
+    expect(emit).toHaveBeenCalledWith({
+      type: 'nodeClick',
+      nodeKind: 'castle',
+      id: 'castle.kiyosu',
+    });
+  });
+
   it('setStaticData(null)：回到未載入狀態，重新一律無命中', () => {
     const { interaction, emit, graph } = setup();
     interaction.setStaticData({ graph });

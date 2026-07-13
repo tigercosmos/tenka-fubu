@@ -14,7 +14,13 @@
 
 import { useEffect, useRef, type ReactElement } from 'react';
 import { MapRenderer } from './MapRenderer';
-import type { MapEventHandler, MapStaticData, MapViewState } from './mapViewTypes';
+import type {
+  MapEventHandler,
+  MapInteractionMode,
+  MapPathPreview,
+  MapStaticData,
+  MapViewState,
+} from './mapViewTypes';
 
 export interface MapCanvasHostProps {
   /** 渲染器對外事件的接收者（React 收到後轉 Command 丟入佇列，01 §3.6.1／§3.12.2）。 */
@@ -25,6 +31,9 @@ export interface MapCanvasHostProps {
   viewState?: MapViewState | undefined;
   /** 掛載完成後鏡頭瞬移聚焦的節點 id（僅套用一次；供「開局聚焦玩家居城」用）。 */
   focusNodeId?: string | undefined;
+  /** 行軍目標選取時的 authoritative path result；null 清除 selectionAndPath 層。 */
+  pathPreview?: MapPathPreview | null | undefined;
+  interactionMode?: MapInteractionMode | undefined;
 }
 
 export function MapCanvasHost({
@@ -32,6 +41,8 @@ export function MapCanvasHost({
   staticData,
   viewState,
   focusNodeId,
+  pathPreview,
+  interactionMode = 'idle',
 }: MapCanvasHostProps): ReactElement {
   const hostRef = useRef<HTMLDivElement>(null);
   const onMapEventRef = useRef(onMapEvent);
@@ -70,6 +81,14 @@ export function MapCanvasHost({
   useEffect(() => {
     if (viewState !== undefined) rendererRef.current?.updateView(viewState);
   }, [viewState]);
+
+  useEffect(() => {
+    rendererRef.current?.showPathPreview(pathPreview ?? null);
+  }, [pathPreview]);
+
+  useEffect(() => {
+    rendererRef.current?.setMode(interactionMode);
+  }, [interactionMode]);
 
   return (
     <div

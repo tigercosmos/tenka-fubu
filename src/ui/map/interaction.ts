@@ -29,6 +29,8 @@ import type { CastleTier } from '@core/state/enums';
 import { MAPVIEW } from './mapViewConfig';
 import type { WorldTransform } from './camera';
 import type { MapEventHandler, MapRendererEvent } from './mapViewTypes';
+import type { MapInteractionMode } from './mapViewTypes';
+import { SpatialCullIndex } from './lod';
 
 export type { WorldTransform };
 
@@ -47,6 +49,7 @@ export type HitResult = { kind: 'army'; id: string } | { kind: 'castle' | 'distr
 interface HitTestOptions {
   castleTier?: CastleTierLookup;
   armies?: readonly HitTestArmy[];
+  nodeIds?: readonly string[];
 }
 
 /** 平面上兩點距離（world unit）。 */
@@ -97,7 +100,13 @@ export function hitTestWorldPoint(
   );
   if (army !== null) return { kind: 'army', id: army.id };
 
-  const nodes = [...graph.nodes.values()];
+  const nodes =
+    opts.nodeIds === undefined
+      ? [...graph.nodes.values()]
+      : opts.nodeIds.flatMap((id) => {
+          const node = graph.nodes.get(id as never);
+          return node === undefined ? [] : [node];
+        });
   const castles = nodes.filter((n) => n.kind === 'castle');
   const castle = nearestWithinRadius(
     worldX,
@@ -155,6 +164,11 @@ interface MapInteractionStaticData {
 export class MapInteraction {
   private graph: MapGraph | null = null;
   private castleTier: CastleTierLookup = {};
+  private armyIndex = new SpatialCullIndex<string>();
+  private armyById = new Map<string, HitTestArmy>();
+  private nodeIndex = new SpatialCullIndex<string>();
+  private mode: MapInteractionMode = 'idle';
+  private lastMarchHoverId: string | null | undefined;
 
   constructor(private readonly opts: MapInteractionOptions) {}
 
@@ -162,11 +176,60 @@ export class MapInteraction {
   setStaticData(data: MapInteractionStaticData | null): void {
     this.graph = data?.graph ?? null;
     this.castleTier = data?.castleTier ?? {};
+    this.nodeIndex = new SpatialCullIndex<string>();
+    for (const node of data?.graph.nodes.values() ?? []) {
+      this.nodeIndex.upsert(node.id, node.pos.x, node.pos.y);
+    }
   }
 
-  private hitTest(worldX: number, worldY: number): HitResult | null {
+  /** 同步每 tick 的部隊命中位置；渲染與命中共用同一 plain view model。 */
+  setArmies(armies: readonly HitTestArmy[]): void {
+    this.armyIndex = new SpatialCullIndex<string>();
+    this.armyById = new Map(armies.map((army) => [army.id, army]));
+    for (const army of armies) this.armyIndex.upsert(army.id, army.pos.x, army.pos.y);
+  }
+
+  setMode(mode: MapInteractionMode): void {
+    this.mode = mode;
+    this.lastMarchHoverId = undefined;
+  }
+
+  private hitTest(worldX: number, worldY: number, includeArmies = true): HitResult | null {
     if (this.graph === null) return null;
-    return hitTestWorldPoint(worldX, worldY, this.graph, { castleTier: this.castleTier });
+    const radius = MAPVIEW.hitRadius.castleMain;
+    const nodeIds = [
+      ...this.nodeIndex.query(
+        {
+          left: worldX - radius,
+          top: worldY - radius,
+          right: worldX + radius,
+          bottom: worldY + radius,
+        },
+        0,
+      ),
+    ];
+    const armyRadius = MAPVIEW.hitRadius.army;
+    const armies = includeArmies
+      ? [
+          ...this.armyIndex.query(
+            {
+              left: worldX - armyRadius,
+              top: worldY - armyRadius,
+              right: worldX + armyRadius,
+              bottom: worldY + armyRadius,
+            },
+            0,
+          ),
+        ].flatMap((id) => {
+          const army = this.armyById.get(id);
+          return army === undefined ? [] : [army];
+        })
+      : [];
+    return hitTestWorldPoint(worldX, worldY, this.graph, {
+      castleTier: this.castleTier,
+      armies,
+      nodeIds,
+    });
   }
 
   /**
@@ -175,7 +238,12 @@ export class MapInteraction {
    * 僅定義 `armyClick`，見檔頭 army 分支說明），比照「移出」處理（`nodeKind`/`id` 皆為 `null`）。
    */
   handleMove(worldX: number, worldY: number, screenX: number, screenY: number): void {
-    const hit = this.hitTest(worldX, worldY);
+    const hit = this.hitTest(worldX, worldY, this.mode === 'idle');
+    if (this.mode === 'orderMarch') {
+      const id = hit !== null && hit.kind !== 'army' ? hit.id : null;
+      if (id === this.lastMarchHoverId) return;
+      this.lastMarchHoverId = id;
+    }
     if (hit === null || hit.kind === 'army') {
       this.opts.emit({ type: 'nodeHover', nodeKind: null, id: null, screenX, screenY });
       return;
@@ -185,7 +253,7 @@ export class MapInteraction {
 
   /** 左鍵點擊（世界座標）：命中城/郡 → `nodeClick`；命中部隊 → `armyClick`；否則 `emptyClick`。 */
   handleTap(worldX: number, worldY: number): void {
-    const hit = this.hitTest(worldX, worldY);
+    const hit = this.hitTest(worldX, worldY, this.mode === 'idle');
     if (hit === null) {
       this.opts.emit({ type: 'emptyClick' });
     } else if (hit.kind === 'army') {
@@ -211,6 +279,7 @@ export interface MapEventHandlers {
   onArmyClick?: (e: Extract<MapRendererEvent, { type: 'armyClick' }>) => void;
   onEmptyClick?: () => void;
   onRightClick?: () => void;
+  onCameraChanged?: (e: Extract<MapRendererEvent, { type: 'cameraChanged' }>) => void;
   onPathPick?: (e: Extract<MapRendererEvent, { type: 'pathPick' }>) => void;
 }
 
@@ -242,6 +311,9 @@ export function useMapEvents(handlers: MapEventHandlers): MapEventHandler {
         break;
       case 'rightClick':
         h.onRightClick?.();
+        break;
+      case 'cameraChanged':
+        h.onCameraChanged?.(event);
         break;
       case 'pathPick':
         h.onPathPick?.(event);

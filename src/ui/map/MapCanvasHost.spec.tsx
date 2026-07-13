@@ -77,6 +77,12 @@ vi.mock('pixi.js', () => {
     poly(): this {
       return this;
     }
+    circle(): this {
+      return this;
+    }
+    arc(): this {
+      return this;
+    }
     moveTo(): this {
       return this;
     }
@@ -89,6 +95,21 @@ vi.mock('pixi.js', () => {
     stroke(): this {
       return this;
     }
+  }
+  class BitmapText extends Container {
+    text: string;
+    constructor(options: { text: string }) {
+      super();
+      this.text = options.text;
+    }
+  }
+  class Rectangle {
+    constructor(
+      public x: number,
+      public y: number,
+      public width: number,
+      public height: number,
+    ) {}
   }
   class Application {
     canvas: HTMLCanvasElement = document.createElement('canvas');
@@ -120,7 +141,7 @@ vi.mock('pixi.js', () => {
       this.record.destroyed = true;
     }
   }
-  return { Application, Container, Graphics };
+  return { Application, Container, Graphics, BitmapText, Rectangle };
 });
 
 // mock 生效後才 import 受測模組（vitest 會 hoist vi.mock 到 import 之上，但顯式順序更清楚）。
@@ -248,10 +269,51 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
     const r = new MapRenderer();
     await r.init(host, vi.fn());
     const layers = r.getLayers();
-    r.setMapData({ graph: soloGraph(), clanColorIndex: {} });
+    r.setMapData({
+      graph: soloGraph(),
+      clanColorIndex: {},
+      castleTier: { 'castle.solo': 'main' },
+      nodeLabels: { 'castle.solo': '試城' },
+      provinceLabels: [{ id: 'province.test', text: '試國', pos: { x: 10, y: 20 } }],
+    });
     expect(layers?.roads.children.length).toBe(1);
     expect(layers?.nodeMarkers.children.length).toBe(1);
+    expect(layers?.labels.children.length).toBe(2);
+    expect(layers?.labels.children[0]?.visible).toBe(false);
+    expect(layers?.labels.children[1]?.visible).toBe(true);
+    expect(layers?.nodeMarkers.children[0]?.scale.x).toBe(1.4); // initial fit is far LOD
     r.updateView({ day: 2, districtOwner: {}, castleOwner: {}, selection: null });
+    r.destroy();
+  });
+
+  it('M4 掛載 ArmyChip/SiegeMarker，且同節點 5 隊只顯示 3 隊＋「+2」收合棋', async () => {
+    const host = document.createElement('div');
+    const r = new MapRenderer();
+    await r.init(host, vi.fn());
+    const armies = Array.from({ length: 5 }, (_, index) => ({
+      id: `army.${String(index + 1).padStart(6, '0')}`,
+      stackKey: 'castle.solo',
+      pos: { x: 10, y: 20 },
+      colorIndex: 0,
+      soldiers: 1_000,
+      morale: 80,
+      corps: false,
+    }));
+    r.updateView({
+      day: 1,
+      districtOwner: {},
+      castleOwner: {},
+      selection: null,
+      armies,
+      sieges: [{ id: 'siege.000001', pos: { x: 10, y: 20 }, mode: 'encircle' }],
+    });
+
+    const layers = r.getLayers()!;
+    expect(layers.armies.children).toHaveLength(5);
+    expect(layers.armies.children.filter((child) => child.visible)).toHaveLength(4);
+    const collapseChip = layers.armies.children[3] as unknown as { children: { text?: string }[] };
+    expect(collapseChip.children[1]?.text).toBe('+2');
+    expect(layers.effects.children).toHaveLength(1);
     r.destroy();
   });
 });

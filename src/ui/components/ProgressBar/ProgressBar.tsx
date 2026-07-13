@@ -14,6 +14,7 @@ export function ProgressBar({ value, max, color = 'moss', height = 8, label }: P
         className={styles.track}
         style={{ height }}
         role="progressbar"
+        aria-label={label}
         aria-valuemin={0}
         aria-valuemax={max}
         aria-valuenow={Math.max(0, Math.min(value, max))}

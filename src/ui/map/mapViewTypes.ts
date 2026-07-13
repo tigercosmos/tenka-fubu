@@ -22,6 +22,8 @@ import type { MapNodeId } from '@core/state/ids';
 import type { CastleTier } from '@core/state/enums';
 import type { JapanOutlineFile } from '@data/schemas/outline';
 import type { DebugOverlayFlags } from '@app/store';
+import type { PathResult } from '@core/index';
+import type { CameraState } from './camera';
 
 export type { DebugOverlayFlags };
 
@@ -43,10 +45,24 @@ export type MapRendererEvent =
       screenX: number;
       screenY: number;
     }
+  | { type: 'cameraChanged'; camera: CameraState; width: number; height: number }
   | { type: 'pathPick'; nodeId: string }; // 尋路除錯模式下的節點揀選
 
 /** `MapCanvasHost` 注入、渲染器對外發事件的 callback（01 §3.6.2）。 */
 export type MapEventHandler = (event: MapRendererEvent) => void;
+
+export type MapInteractionMode = 'idle' | 'orderMarch';
+
+/** Authoritative core path result plus UI-only classification for preview rendering. */
+export interface MapPathPreview {
+  result: PathResult;
+  originNodeId: MapNodeId;
+  targetNodeId: MapNodeId;
+  /** When true, result ends at the nearest reachable node and the final segment is a red indicator. */
+  unreachable: boolean;
+  /** Hostile/subjugation nodes only; allied foreign territory is intentionally excluded. */
+  hostileNodeIds: readonly MapNodeId[];
+}
 
 /**
  * 靜態地圖資料（init 後經 `setMapData` 傳入一次；整局不變）。04 §4.6 `MapStaticData` 的 M2-13 子集。
@@ -67,6 +83,10 @@ export interface MapStaticData {
    * （較小半徑，保守）。`Castle.tier`（02 §4.5）直接可用；待 §4.6 selector 補齊後由該處產出。
    */
   castleTier?: Readonly<Record<string, CastleTier>>;
+  /** Optional node display names used by individually culled label objects. */
+  nodeLabels?: Readonly<Record<string, string>>;
+  /** Province names have canonical far-LOD anchor positions. */
+  provinceLabels?: readonly { id: string; text: string; pos: { x: number; y: number } }[];
 }
 
 /**
@@ -76,9 +96,30 @@ export interface MapStaticData {
  */
 export interface MapViewState {
   day: number; // 遊戲日序號（diff 用）
+  playerClanId?: string;
   districtOwner: Readonly<Record<string, string | null>>; // districtId → clanId（null=無主）
   castleOwner: Readonly<Record<string, string>>; // castleId → clanId
   selection: { kind: 'node' | 'army'; id: string } | null;
+  /** M4 dynamic scene objects. Optional keeps the M2 core selector structurally compatible. */
+  armies?: readonly MapArmyView[];
+  sieges?: readonly MapSiegeView[];
+}
+
+export interface MapArmyView {
+  id: string;
+  /** Exact shared-node key; moving armies use their own id so they do not collapse mid-edge. */
+  stackKey: string;
+  pos: { x: number; y: number };
+  colorIndex: number;
+  soldiers: number;
+  morale: number;
+  corps: boolean;
+}
+
+export interface MapSiegeView {
+  id: string;
+  pos: { x: number; y: number };
+  mode: 'encircle' | 'assault';
 }
 
 /**

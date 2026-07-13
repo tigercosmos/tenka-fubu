@@ -1,0 +1,25 @@
+.overlay {
+  position: fixed;
+  z-index: var(--z-map-overlay);
+  left: 50%;
+  top: 5rem;
+  transform: translate(-50%, calc(-100% - 12px));
+  width: 320px;
+  min-height: 132px;
+  padding: var(--space-3);
+  background: var(--washi-100);
+  border: var(--border-strong);
+  box-shadow: var(--shadow-2);
+}
+.overlay h3 {
+  margin: 0 0 var(--space-2);
+}
+.overlay fieldset {
+  display: flex;
+  gap: var(--space-4);
+  border: 0;
+  padding: 0;
+}
+.overlay legend {
+  margin-bottom: var(--space-1);
+}

@@ -1269,3 +1269,7 @@ onReports(reports):              // 每 tick 步驟 13 的產出
   金額與 15 定案常數不一致：§3.8 勢力頁「外交工作」月費 100貫→20貫（`BAL.diplomacyWorkMonthlyCost`，
   08 §3.2）；§3.8.1 調略精靈費用 120貫→30貫（`BAL.plotMonthlyCost`，08 §3.7.1），並註明內應
   ×`plotBetrayalCostMult`(=2)＝60貫/月（08 §3.7.3）。
+- **D20（2026-07-13・M4-14 出陣編成預設值對齊）**：出陣 UI 的合法兵數上限以 07 §3.1
+  `min(城駐兵, BAL.rankTroopCap[大將身分])` 為準，副將不增加上限；預設兵數取該合法上限。
+  攜糧預設改採 07／15 canonical 的 `BAL.defaultCarryDays`＝60 日，調整範圍 10～180 日。
+  友方城／節點是合法行軍目標；UI 僅呈現 core `computePath`／Command 驗證結果，不另設拒絕規則。

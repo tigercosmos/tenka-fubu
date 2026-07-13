@@ -15,7 +15,8 @@ import { gameLoop } from '@app/gameLoop';
 import { store } from '@app/store';
 import type { GameSpeed } from '@app/store';
 import { selectMapStaticModel, selectMapViewModel } from '@core/state/selectors';
-import type { MapStaticData, MapRendererEvent } from '../map/mapViewTypes';
+import { computePath, getStance, severityOf } from '@core/index';
+import type { MapStaticData, MapRendererEvent, MapPathPreview } from '../map/mapViewTypes';
 import { formatDate, formatNumber, t, type StringKey } from '@i18n/zh-TW';
 import {
   makeCachedSelector,
@@ -25,68 +26,33 @@ import {
 import { useSession } from '../hooks/useSession';
 import { useHotkeys } from '../hooks/useHotkeys';
 import { MapCanvasHost } from '../map/MapCanvasHost';
-import { useUIStore } from '../hooks/uiStore';
+import { uiStore, useUIStore } from '../hooks/uiStore';
 import { CastlePanel } from './panels/CastlePanel';
 import { DistrictPanel } from './panels/DistrictPanel';
 import { OfficerList } from './OfficerList';
 import { OfficerDetail } from './OfficerDetail';
 import { PolicyPanel } from './panels/PolicyPanel';
 import type { CastleId, DistrictId, OfficerId } from '@core/state/ids';
-import type { GameEvent } from '@core/state/events';
 import { ReportStack, type ToastItem } from '../components';
-
-function reportTitle(event: GameEvent): string {
-  switch (event.type) {
-    case 'economy.income':
-      return t('report.economy.income', {
-        month: (Math.floor(event.day / 30) % 12) + 1,
-        gold: event.gold,
-      });
-    case 'economy.harvest':
-      return t('report.economy.harvest', { food: event.totalFood });
-    case 'economy.upkeepUnpaid':
-      return t('report.economy.salaryUnpaid');
-    case 'economy.foodShortage':
-      return t('report.economy.castleStarving', { castle: event.castleId });
-    case 'economy.granaryOverflow':
-      return t('report.economy.granaryOverflow', { castle: event.castleId, food: event.food });
-    case 'facility.completed':
-      return t('report.build.done', {
-        castle: event.castleId,
-        facility: t(`term.facility.${event.facilityTypeId.slice(4)}`),
-      });
-    case 'policy.autoRevoked':
-      return t('report.policy.autoRevoked', { name: t(`${event.policyId}.name`) });
-    case 'transport.arrived':
-      return t('report.transport.arrived', { castle: event.toCastleId });
-    case 'uprising.started':
-      return t('report.uprising.started', { district: event.districtId });
-    case 'uprising.ended':
-      return t(
-        event.resolved === 'suppressed' ? 'report.uprising.suppressed' : 'report.uprising.subsided',
-        { district: event.districtId },
-      );
-    default:
-      return event.type;
-  }
-}
+import { MarchModal } from './MarchModal';
+import { SiegeOverlay } from './SiegeOverlay';
+import { renderReport } from '../reports/renderReport';
 
 const selectReportToasts = makeCachedSelector((game): ToastItem[] =>
-  game.reports.slice(0, 20).map((report) => ({
-    id: report.id,
-    severity:
-      report.event.type === 'uprising.started'
-        ? 'critical'
-        : report.event.type === 'economy.foodShortage' ||
-            report.event.type === 'economy.upkeepUnpaid' ||
-            report.event.type === 'economy.granaryOverflow' ||
-            report.event.type === 'transport.looted'
-          ? 'warning'
-          : 'info',
-    title: reportTitle(report.event),
-    date: report.day,
-    sticky: report.event.type === 'uprising.started',
-  })),
+  game.reports.slice(0, 20).flatMap((report) => {
+    const title = renderReport(report.event, game, game.meta.playerClanId);
+    if (title === null) return [];
+    const severity = severityOf(report.event, game.meta.playerClanId);
+    return [
+      {
+        id: report.id,
+        severity,
+        title,
+        date: report.day,
+        sticky: severity === 'critical',
+      },
+    ];
+  }),
 );
 
 interface SpeedOption {
@@ -121,6 +87,9 @@ export function MainScreen(): ReactElement {
   const homeCastleId = useGameSelector((g) => g.clans[g.meta.playerClanId]?.homeCastleId);
   const speed = useSession((s) => s.speed);
   const panelStack = useUIStore((s) => s.panelStack);
+  const modal = useUIStore((s) => s.modal);
+  const marchDraft = useUIStore((s) => s.marchDraft);
+  const selection = useUIStore((s) => s.selection);
   const uiActions = useUIStore((s) => s.actions);
   const topPanel = panelStack.at(-1);
   const reportToasts = useCachedGameSelector(selectReportToasts);
@@ -133,7 +102,23 @@ export function MainScreen(): ReactElement {
   // （見 @core/state/selectors 檔頭裁決）。
   const staticData: MapStaticData | null = useMemo(() => {
     const game = store.getState().game;
-    return game === null ? null : selectMapStaticModel(game);
+    if (game === null) return null;
+    return {
+      ...selectMapStaticModel(game),
+      nodeLabels: {
+        ...Object.fromEntries(
+          Object.values(game.castles).map((castle) => [castle.id, castle.name]),
+        ),
+        ...Object.fromEntries(
+          Object.values(game.districts).map((district) => [district.id, district.name]),
+        ),
+      },
+      provinceLabels: Object.values(game.provinces).map((province) => ({
+        id: province.id,
+        text: province.name,
+        pos: province.labelPos,
+      })),
+    };
   }, []);
   // 動態視圖（owner）：不經 useGameSelector（該 hook 之 select 規則禁止直接回傳整個 GameState，
   // 見其檔頭；且 game 於 advanceDay 內就地變異、參考不變，shallow compare 對此無效）。改比照本檔
@@ -141,12 +126,159 @@ export function MainScreen(): ReactElement {
   // `useGameSelector`）已確保 tick 前進時本元件會重渲染，故每次 render 重算 owner 足夠新鮮
   // （成本 O(城數+郡數)，M2 子集規模可忽略）。
   const currentGame = store.getState().game;
-  const viewState = currentGame === null ? undefined : selectMapViewModel(currentGame);
+  const viewState =
+    currentGame === null
+      ? undefined
+      : {
+          ...selectMapViewModel(currentGame),
+          playerClanId: currentGame.meta.playerClanId,
+          armies: Object.values(currentGame.armies).map((army) => {
+            const from = staticData?.graph.nodes.get(army.posNodeId)?.pos ?? { x: 0, y: 0 };
+            const nextId = army.path[army.pathCursor + 1];
+            const to = nextId === undefined ? undefined : staticData?.graph.nodes.get(nextId)?.pos;
+            const edgeT =
+              army.edgeCostDays <= 0
+                ? 0
+                : Math.max(0, Math.min(1, army.edgeProgressDays / army.edgeCostDays));
+            return {
+              id: army.id,
+              stackKey: edgeT === 0 ? army.posNodeId : army.id,
+              pos:
+                to === undefined
+                  ? from
+                  : { x: from.x + (to.x - from.x) * edgeT, y: from.y + (to.y - from.y) * edgeT },
+              colorIndex: currentGame.clans[army.clanId]?.colorIndex ?? 0,
+              soldiers: army.soldiers,
+              morale: army.morale,
+              corps: army.corpsId !== null,
+            };
+          }),
+          sieges: Object.values(currentGame.sieges).flatMap((siege) => {
+            const pos = staticData?.graph.nodes.get(siege.castleId)?.pos;
+            return pos === undefined ? [] : [{ id: siege.id, pos, mode: siege.mode }];
+          }),
+        };
+
+  const openMarch = useCallback(
+    (originCastleId: CastleId): void => {
+      uiActions.setMarchDraft({
+        originCastleId,
+        leaderOfficerId: null,
+        subOfficerIds: [],
+        soldiers: 0,
+        food: 0,
+        targetNodeId: null,
+        previewPath: null,
+        previewDays: null,
+        phase: 'compose',
+        errorKey: null,
+      });
+      uiActions.enqueueModal({
+        id: 'march',
+        params: { castleId: originCastleId },
+        pausesTime: false,
+      });
+    },
+    [uiActions],
+  );
+
+  const previewMarchTarget = useCallback(
+    (targetId: string, finishPick: boolean): void => {
+      const game = store.getState().game;
+      const draft = uiStore.getState().marchDraft;
+      if (game === null || staticData === null || draft === null) return;
+      const result = computePath(game, staticData.graph, {
+        clanId: game.meta.playerClanId,
+        from: draft.originCastleId as never,
+        to: targetId as never,
+        speedFactor: 1,
+      });
+      const valid = result.found && result.nodes.length > 1;
+      let previewResult = result;
+      if (!valid) {
+        const targetPos = staticData.graph.nodes.get(targetId as never)?.pos;
+        if (targetPos !== undefined) {
+          const candidates = [...staticData.graph.nodes.values()].sort((a, b) => {
+            const da = Math.hypot(a.pos.x - targetPos.x, a.pos.y - targetPos.y);
+            const db = Math.hypot(b.pos.x - targetPos.x, b.pos.y - targetPos.y);
+            return da - db || a.id.localeCompare(b.id);
+          });
+          for (const candidate of candidates) {
+            const partial = computePath(game, staticData.graph, {
+              clanId: game.meta.playerClanId,
+              from: draft.originCastleId as never,
+              to: candidate.id,
+              speedFactor: 1,
+            });
+            if (partial.found) {
+              previewResult = partial;
+              break;
+            }
+          }
+        }
+      }
+      const hostileNodeIds = previewResult.steps
+        .filter((step) => step.needsSubjugate)
+        .map((step) => step.nodeId);
+      const targetOwner =
+        game.castles[targetId as never]?.ownerClanId ??
+        game.districts[targetId as never]?.ownerClanId;
+      if (
+        targetOwner !== undefined &&
+        ['war', 'neutral'].includes(getStance(game, game.meta.playerClanId, targetOwner)) &&
+        !hostileNodeIds.includes(targetId as never)
+      ) {
+        hostileNodeIds.push(targetId as never);
+      }
+      const previewPath: MapPathPreview = {
+        result: previewResult,
+        originNodeId: draft.originCastleId as never,
+        targetNodeId: targetId as never,
+        unreachable: !valid,
+        hostileNodeIds,
+      };
+      uiActions.setMarchDraft({
+        ...draft,
+        targetNodeId: valid ? targetId : null,
+        previewPath,
+        previewDays: valid ? result.totalDays : null,
+        errorKey: valid ? null : 'ui.map.path.unreachable',
+        phase: finishPick && valid ? 'compose' : 'pickTarget',
+      });
+    },
+    [staticData, uiActions],
+  );
 
   // 地圖點擊/懸停事件：目前只同步進 session.selection（面板開啟屬 M3 CastlePanel/DistrictPanel
   // 範圍，11-T4/T5，尚未有面板消費此值）。
   const handleMapEvent = useCallback(
     (event: MapRendererEvent): void => {
+      const activeDraft = uiStore.getState().marchDraft;
+      if (activeDraft?.phase === 'pickTarget') {
+        if (event.type === 'nodeHover' && event.id !== null) {
+          previewMarchTarget(event.id, false);
+          return;
+        }
+        if (event.type === 'nodeClick') {
+          previewMarchTarget(event.id, true);
+          return;
+        }
+        if (event.type === 'rightClick') {
+          uiActions.setMarchDraft({
+            ...activeDraft,
+            targetNodeId: null,
+            previewPath: null,
+            previewDays: null,
+            errorKey: null,
+            phase: 'compose',
+          });
+          return;
+        }
+      }
+      if (event.type === 'cameraChanged') {
+        uiActions.setMapCamera({ camera: event.camera, width: event.width, height: event.height });
+        return;
+      }
       if (event.type === 'nodeClick') {
         store.getState().actions.select({ kind: event.nodeKind, id: event.id });
         if (event.nodeKind === 'castle') {
@@ -156,13 +288,43 @@ export function MainScreen(): ReactElement {
           uiActions.setSelection({ kind: 'district', id: event.id });
           uiActions.openPanel('district', { districtId: event.id });
         }
+      } else if (event.type === 'armyClick') {
+        store.getState().actions.select({ kind: 'army', id: event.id });
+        uiActions.setSelection({ kind: 'army', id: event.id });
       } else if (event.type === 'emptyClick' || event.type === 'rightClick') {
         store.getState().actions.select({ kind: 'none', id: null });
         uiActions.setSelection(null);
       }
     },
-    [uiActions],
+    [previewMarchTarget, uiActions],
   );
+
+  const marchOriginId = (() => {
+    if (currentGame === null) return null;
+    const selectedCastle =
+      selection?.kind === 'castle' ? currentGame.castles[selection.id as CastleId] : undefined;
+    if (
+      selectedCastle?.ownerClanId === currentGame.meta.playerClanId &&
+      selectedCastle.directControl &&
+      selectedCastle.corpsId === null
+    )
+      return selectedCastle.id;
+    const home = homeCastleId === undefined ? undefined : currentGame.castles[homeCastleId];
+    return home?.directControl && home.corpsId === null ? home.id : null;
+  })();
+  const selectedSiegeId = (() => {
+    if (currentGame === null || selection === null) return null;
+    if (selection.kind === 'army') {
+      return currentGame.armies[selection.id as never]?.siegeId ?? null;
+    }
+    if (selection.kind !== 'castle') return null;
+    return (
+      Object.values(currentGame.sieges).find(
+        (siege) =>
+          siege.castleId === selection.id && siege.attackerClanId === currentGame.meta.playerClanId,
+      )?.id ?? null
+    );
+  })();
 
   return (
     <div
@@ -179,6 +341,8 @@ export function MainScreen(): ReactElement {
         staticData={staticData}
         viewState={viewState}
         focusNodeId={homeCastleId}
+        pathPreview={marchDraft?.previewPath}
+        interactionMode={marchDraft?.phase === 'pickTarget' ? 'orderMarch' : 'idle'}
       />
       <nav
         aria-label={t('ui.domestic.title')}
@@ -191,6 +355,14 @@ export function MainScreen(): ReactElement {
           gap: 'var(--space-2)',
         }}
       >
+        <button
+          type="button"
+          data-testid="rail-military"
+          disabled={marchOriginId === null}
+          onClick={() => marchOriginId !== null && openMarch(marchOriginId)}
+        >
+          {t('ui.rail.military')}
+        </button>
         <button
           type="button"
           data-testid="rail-domestic"
@@ -247,7 +419,7 @@ export function MainScreen(): ReactElement {
         </div>
       </div>
       {topPanel?.id === 'castle' && topPanel.params.castleId && (
-        <CastlePanel castleId={topPanel.params.castleId as CastleId} />
+        <CastlePanel castleId={topPanel.params.castleId as CastleId} onOpenMarch={openMarch} />
       )}
       {topPanel?.id === 'district' && topPanel.params.districtId && (
         <DistrictPanel districtId={topPanel.params.districtId as DistrictId} />
@@ -257,6 +429,8 @@ export function MainScreen(): ReactElement {
       {topPanel?.id === 'officerDetail' && topPanel.params.officerId && (
         <OfficerDetail officerId={topPanel.params.officerId as OfficerId} />
       )}
+      {modal?.id === 'march' && <MarchModal />}
+      {selectedSiegeId !== null && <SiegeOverlay siegeId={selectedSiegeId} />}
       <ReportStack
         items={reportToasts.filter((item) => !dismissedReports.includes(item.id))}
         onDismiss={(id) => setDismissedReports((current) => [...current, id])}

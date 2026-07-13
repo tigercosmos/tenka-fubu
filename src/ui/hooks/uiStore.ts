@@ -2,6 +2,8 @@
 // 此狀態只描述畫面、疊層與暫態草稿，不進 GameState／存檔。
 import { create } from 'zustand';
 import { store as gameStore } from '@app/store';
+import type { MapPathPreview } from '@ui/map/mapViewTypes';
+import type { CameraState } from '@ui/map/camera';
 
 export type ScreenId = 'title' | 'scenarioSelect' | 'daimyoSelect' | 'main' | 'battle' | 'ending';
 export type PanelId =
@@ -54,9 +56,10 @@ export interface MarchDraft {
   soldiers: number;
   food: number;
   targetNodeId: string | null;
-  previewPath: string[] | null;
+  previewPath: MapPathPreview | null;
   previewDays: number | null;
   phase: 'compose' | 'pickTarget';
+  errorKey: string | null;
 }
 
 export interface UIState {
@@ -67,6 +70,7 @@ export interface UIState {
   selection: Selection | null;
   toasts: ToastItem[];
   marchDraft: MarchDraft | null;
+  mapCamera: { camera: CameraState; width: number; height: number } | null;
   speedBeforePause: 1 | 2 | 5;
   uiScale: number;
 }
@@ -80,6 +84,7 @@ export interface UIActions {
   closeModal(): void;
   setSelection(selection: Selection | null): void;
   setMarchDraft(draft: MarchDraft | null): void;
+  setMapCamera(value: UIState['mapCamera']): void;
   setUiScale(scale: number): void;
   onEsc(): void;
   reset(): void;
@@ -113,6 +118,7 @@ const initialUIState: UIState = {
   selection: null,
   toasts: [],
   marchDraft: null,
+  mapCamera: null,
   speedBeforePause: 1,
   uiScale: 1,
 };
@@ -181,6 +187,9 @@ export const useUIStore = create<UIStore>()((set, get) => ({
     },
     setMarchDraft(marchDraft) {
       set({ marchDraft });
+    },
+    setMapCamera(mapCamera) {
+      set({ mapCamera });
     },
     setUiScale(uiScale) {
       set({ uiScale });

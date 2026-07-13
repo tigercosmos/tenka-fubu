@@ -151,24 +151,36 @@ export function drawNodeMarkers(
 ): void {
   g.clear();
   const nodeIds = [...graph.nodes.keys()].sort();
-  const up = -Math.PI / 2;
   for (const nodeId of nodeIds) {
     const node = graph.nodes.get(nodeId);
     if (node === undefined) continue;
-    const { x, y } = node.pos;
-    if (node.kind === 'castle') {
-      const owner = view.castleOwner[nodeId];
-      const color = ownerColor(owner, clanColorIndex);
-      const pts = regularPolygon(x, y, NODE_MARKER.castleRadius, 5, up);
-      g.poly(pts).fill({ color });
-      g.poly(pts).stroke({ width: NODE_MARKER.strokeWidth, color: TOKENS_NUM.ink700 });
-    } else {
-      const owner = view.districtOwner[nodeId] ?? null;
-      const color = ownerColor(owner, clanColorIndex);
-      const r = NODE_MARKER.districtRadius;
-      const pts = [x, y - r, x + r, y, x, y + r, x - r, y]; // 菱形（上右下左）
-      g.poly(pts).fill({ color });
-      g.poly(pts).stroke({ width: NODE_MARKER.strokeWidth, color: TOKENS_NUM.ink700 });
-    }
+    drawNodeMarker(g, node, view, clanColorIndex, node.pos);
+  }
+}
+
+/** Draw one node, optionally at a local coordinate for individually cullable scene objects. */
+export function drawNodeMarker(
+  g: Graphics,
+  node: MapGraphNode,
+  view: MapViewState,
+  clanColorIndex: Readonly<Record<string, number>>,
+  at: { x: number; y: number } = { x: 0, y: 0 },
+): void {
+  const { x, y } = at;
+  const nodeId = node.id;
+  const up = -Math.PI / 2;
+  if (node.kind === 'castle') {
+    const owner = view.castleOwner[nodeId];
+    const color = ownerColor(owner, clanColorIndex);
+    const pts = regularPolygon(x, y, NODE_MARKER.castleRadius, 5, up);
+    g.poly(pts).fill({ color });
+    g.poly(pts).stroke({ width: NODE_MARKER.strokeWidth, color: TOKENS_NUM.ink700 });
+  } else {
+    const owner = view.districtOwner[nodeId] ?? null;
+    const color = ownerColor(owner, clanColorIndex);
+    const r = NODE_MARKER.districtRadius;
+    const pts = [x, y - r, x + r, y, x, y + r, x - r, y]; // 菱形（上右下左）
+    g.poly(pts).fill({ color });
+    g.poly(pts).stroke({ width: NODE_MARKER.strokeWidth, color: TOKENS_NUM.ink700 });
   }
 }

@@ -21,18 +21,24 @@
 //   init 尚未 resolve 前先跑）；若已 destroy 則立即銷毀剛建立的 Application 並返回，不掛入 DOM。
 // - `destroy` 冪等：可在 init 前／中／後、重複呼叫皆安全（全程 null-guard）。
 
-import { Application, Container, Graphics } from 'pixi.js';
+import { Application, BitmapText, Container, Graphics } from 'pixi.js';
 import type { FederatedPointerEvent } from 'pixi.js';
 import { BAL } from '@core/balance';
 import { MAPVIEW, WORLD_SIZE } from './mapViewConfig';
-import { drawNodeMarkers, drawRoads, drawSeaBackground, loadOutline } from './mapDraw';
+import { drawNodeMarker, drawRoads, drawSeaBackground, loadOutline } from './mapDraw';
 import { LAYER_ORDER } from './mapViewTypes';
 import { MapInteraction, screenToWorld } from './interaction';
 import { Camera } from './camera';
+import { createPathPreview } from './sceneParts/pathPreview';
+import { createArmyChip, layoutArmyStacks } from './sceneParts/armyChip';
+import { createSiegeMarker } from './sceneParts/siegeMarker';
+import { lodModeForScale, shouldShowDetailLabels, SpatialCullIndex } from './lod';
 import type {
   DebugOverlayFlags,
   MapEventHandler,
+  MapInteractionMode,
   MapLayers,
+  MapPathPreview,
   MapRendererEvent,
   MapStaticData,
   MapViewState,
@@ -66,7 +72,27 @@ export class MapRenderer {
 
   private seaGfx: Graphics | null = null;
   private roadsGfx: Graphics | null = null;
-  private nodesGfx: Graphics | null = null;
+  private pathPreview: ReturnType<typeof createPathPreview> | null = null;
+  private marchPathPreview: MapPathPreview | null = null;
+  private readonly nodeParts = new Map<
+    string,
+    { graphics: Graphics; kind: 'castle' | 'district' }
+  >();
+  private readonly labelParts = new Map<
+    string,
+    { label: BitmapText; kind: 'castle' | 'district' | 'province' }
+  >();
+  private readonly armyParts = new Map<string, ReturnType<typeof createArmyChip>>();
+  private readonly siegeParts = new Map<string, ReturnType<typeof createSiegeMarker>>();
+  private readonly armyCull = new SpatialCullIndex<string>();
+  private readonly siegeCull = new SpatialCullIndex<string>();
+  private readonly nodeCull = new SpatialCullIndex<string>();
+  private readonly labelCull = new SpatialCullIndex<string>();
+  private collapsedArmyIds = new Set<string>();
+  private siegeElapsedMs = 0;
+  private reducedMotion = false;
+  private cameraEventElapsedMs = 100;
+  private lastCameraEvent = '';
 
   /** idle 模式命中測試與事件協定（M2-17，04 §3.12）；純邏輯，見 interaction.ts。 */
   private readonly interaction = new MapInteraction({ emit: (e) => this.emit(e) });
@@ -149,9 +175,41 @@ export class MapRenderer {
   /** Pixi ticker 每幀回呼：推進鏡頭（慣性衰減／focusOn 補間）並套用變換至 world 容器。 */
   private readonly onTick = (): void => {
     if (this.app === null || this.camera === null) return;
-    this.camera.update(this.app.ticker.deltaMS);
+    const deltaMs = this.app.ticker.deltaMS;
+    this.camera.update(deltaMs);
+    this.cameraEventElapsedMs += deltaMs;
+    this.siegeElapsedMs += deltaMs;
+    this.updateSiegeAnimations();
     this.applyCameraTransform();
+    this.applyLodAndCulling();
+    this.emitCameraChanged();
   };
+
+  private emitCameraChanged(): void {
+    if (this.cameraEventElapsedMs < 100 || this.camera === null || this.app === null) return;
+    const camera = this.camera.getState();
+    const key = `${camera.x}:${camera.y}:${camera.scale}:${this.app.screen.width}:${this.app.screen.height}`;
+    if (key === this.lastCameraEvent) return;
+    this.cameraEventElapsedMs = 0;
+    this.lastCameraEvent = key;
+    this.emit({
+      type: 'cameraChanged',
+      camera,
+      width: this.app.screen.width,
+      height: this.app.screen.height,
+    });
+  }
+
+  private updateSiegeAnimations(): void {
+    for (const siege of this.view.sieges ?? []) {
+      this.siegeParts.get(siege.id)?.update({
+        pos: siege.pos,
+        mode: siege.mode,
+        elapsedMs: this.siegeElapsedMs,
+        reducedMotion: this.reducedMotion,
+      });
+    }
+  }
 
   /** stage 全域座標（event.global）→ 世界座標：反套用 `world` 容器目前的平移／縮放（04 §3.12.1）。 */
   private toWorldPoint(screenX: number, screenY: number): { x: number; y: number } {
@@ -185,11 +243,16 @@ export class MapRenderer {
     }
 
     this.app = app;
+    this.reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
     host.appendChild(app.canvas);
 
     this.layers = this.buildLayers(app);
+    this.pathPreview = createPathPreview();
+    this.layers.selectionAndPath.addChild(this.pathPreview.container);
     this.drawStaticBackground();
     this.redrawDataLayers();
+    this.redrawMilitaryObjects();
+    this.redrawPathPreview();
     // 鏡頭：初始置中全圖（fit scale），使用者以滾輪／拖曳操作，focusNode 補間聚焦（04 §3.11）。
     this.camera = new Camera({
       x: WORLD_SIZE / 2,
@@ -197,6 +260,7 @@ export class MapRenderer {
       scale: this.computeFitScale(),
     });
     this.applyCameraTransform();
+    this.applyLodAndCulling();
     this.attachEvents(app);
     app.renderer.on('resize', this.onRendererResize);
     app.ticker.add(this.onTick);
@@ -239,7 +303,7 @@ export class MapRenderer {
     drawSeaBackground(this.seaGfx, outline);
   }
 
-  /** 圖層 2 roads＋圖層 3 nodeMarkers：需 `staticData.graph`；無資料時清空。 */
+  /** Roads remain batched; node markers and labels are individual objects so they can be culled. */
   private redrawDataLayers(): void {
     if (this.layers === null) return;
     const data = this.staticData;
@@ -247,17 +311,82 @@ export class MapRenderer {
       this.roadsGfx = new Graphics();
       this.layers.roads.addChild(this.roadsGfx);
     }
-    if (this.nodesGfx === null) {
-      this.nodesGfx = new Graphics();
-      this.layers.nodeMarkers.addChild(this.nodesGfx);
-    }
     if (data === null) {
       this.roadsGfx.clear();
-      this.nodesGfx.clear();
+      for (const part of this.nodeParts.values()) part.graphics.destroy();
+      for (const part of this.labelParts.values()) part.label.destroy();
+      this.layers.nodeMarkers.removeChildren();
+      this.layers.labels.removeChildren();
+      this.nodeParts.clear();
+      this.labelParts.clear();
       return;
     }
     drawRoads(this.roadsGfx, data.graph);
-    drawNodeMarkers(this.nodesGfx, data.graph, this.view, data.clanColorIndex);
+    const active = new Set<string>();
+    const activeLabels = new Set<string>();
+    for (const node of [...data.graph.nodes.values()].sort((a, b) => a.id.localeCompare(b.id))) {
+      active.add(node.id);
+      let part = this.nodeParts.get(node.id);
+      if (part === undefined) {
+        const graphics = new Graphics();
+        graphics.position.set(node.pos.x, node.pos.y);
+        this.layers.nodeMarkers.addChild(graphics);
+        part = { graphics, kind: node.kind };
+        this.nodeParts.set(node.id, part);
+      }
+      part.graphics.clear();
+      drawNodeMarker(part.graphics, node, this.view, data.clanColorIndex);
+      this.nodeCull.upsert(node.id, node.pos.x, node.pos.y);
+
+      const text = data.nodeLabels?.[node.id];
+      if (text !== undefined) {
+        activeLabels.add(node.id);
+        let labelPart = this.labelParts.get(node.id);
+        if (labelPart === undefined) {
+          const label = new BitmapText({
+            text,
+            style: { fontFamily: 'Noto Serif TC', fontSize: 12 },
+          });
+          label.position.set(node.pos.x, node.pos.y + 18);
+          this.layers.labels.addChild(label);
+          labelPart = { label, kind: node.kind };
+          this.labelParts.set(node.id, labelPart);
+        }
+        labelPart.label.text = text;
+        this.labelCull.upsert(node.id, node.pos.x, node.pos.y);
+      }
+    }
+    for (const province of data.provinceLabels ?? []) {
+      const id = `province:${province.id}`;
+      activeLabels.add(id);
+      let part = this.labelParts.get(id);
+      if (part === undefined) {
+        const label = new BitmapText({
+          text: province.text,
+          style: { fontFamily: 'Noto Serif TC', fontSize: 14 },
+        });
+        label.position.set(province.pos.x, province.pos.y);
+        this.layers.labels.addChild(label);
+        part = { label, kind: 'province' };
+        this.labelParts.set(id, part);
+      }
+      part.label.text = province.text;
+      this.labelCull.upsert(id, province.pos.x, province.pos.y);
+    }
+    for (const [id, part] of this.nodeParts) {
+      if (active.has(id)) continue;
+      this.layers.nodeMarkers.removeChild(part.graphics);
+      part.graphics.destroy();
+      this.nodeParts.delete(id);
+      this.nodeCull.remove(id);
+    }
+    for (const [id, part] of this.labelParts) {
+      if (activeLabels.has(id)) continue;
+      this.layers.labels.removeChild(part.label);
+      part.label.destroy();
+      this.labelParts.delete(id);
+      this.labelCull.remove(id);
+    }
   }
 
   /**
@@ -303,6 +432,111 @@ export class MapRenderer {
     this.layers.world.position.set(t.x, t.y);
   }
 
+  /** Camera-driven LOD switches plus bucket culling for dynamic scene objects. */
+  private applyLodAndCulling(): void {
+    if (this.app === null || this.layers === null || this.camera === null) return;
+    const camera = this.camera.getState();
+    const halfWidth = this.app.screen.width / (2 * camera.scale);
+    const halfHeight = this.app.screen.height / (2 * camera.scale);
+    const rect = {
+      left: camera.x - halfWidth,
+      right: camera.x + halfWidth,
+      top: camera.y - halfHeight,
+      bottom: camera.y + halfHeight,
+    };
+    const visibleArmies = this.armyCull.query(rect);
+    const visibleSieges = this.siegeCull.query(rect);
+    const visibleNodes = this.nodeCull.query(rect);
+    const visibleLabels = this.labelCull.query(rect);
+    for (const [id, part] of this.armyParts) {
+      part.container.visible = visibleArmies.has(id) && !this.collapsedArmyIds.has(id);
+    }
+    for (const [id, part] of this.siegeParts) part.container.visible = visibleSieges.has(id);
+    const near = lodModeForScale(camera.scale) === 'near';
+    for (const [id, part] of this.nodeParts) {
+      const mainCastle = part.kind === 'castle' && this.staticData?.castleTier?.[id] === 'main';
+      part.graphics.visible = visibleNodes.has(id) && (near || part.kind === 'castle');
+      part.graphics.scale.set(!near && mainCastle ? 1.4 : 1);
+    }
+    for (const [id, part] of this.labelParts) {
+      const mainCastle = part.kind === 'castle' && this.staticData?.castleTier?.[id] === 'main';
+      const lodVisible =
+        part.kind === 'province'
+          ? !near
+          : near &&
+            ((part.kind === 'castle' && mainCastle) || shouldShowDetailLabels(camera.scale));
+      part.label.visible = visibleLabels.has(id) && lodVisible;
+    }
+    this.layers.roads.visible = near;
+    this.layers.labels.visible = true;
+  }
+
+  private redrawMilitaryObjects(): void {
+    if (this.layers === null) return;
+    const armies = this.view.armies ?? [];
+    const layout = layoutArmyStacks(armies);
+    const activeArmyIds = new Set(armies.map((army) => army.id));
+    for (const [id, part] of this.armyParts) {
+      if (activeArmyIds.has(id)) continue;
+      this.layers.armies.removeChild(part.container);
+      part.container.destroy({ children: true });
+      this.armyParts.delete(id);
+      this.armyCull.remove(id);
+    }
+    this.collapsedArmyIds = new Set<string>();
+    for (const entry of layout) {
+      const army = entry.army;
+      let part = this.armyParts.get(army.id);
+      if (part === undefined) {
+        part = createArmyChip();
+        this.armyParts.set(army.id, part);
+        this.layers?.armies.addChild(part.container);
+      }
+      if (!entry.visible) this.collapsedArmyIds.add(army.id);
+      const pos = entry.pos;
+      part.update({
+        pos,
+        colorIndex: army.colorIndex,
+        soldiers: army.soldiers,
+        morale: army.morale,
+        corps: army.corps,
+        ...(entry.collapsedCount === undefined ? {} : { collapsedCount: entry.collapsedCount }),
+      });
+      this.armyCull.upsert(army.id, pos.x, pos.y);
+    }
+    this.interaction.setArmies(
+      layout
+        .filter((entry) => entry.visible)
+        .map((entry) => ({ id: entry.army.id, pos: entry.pos })),
+    );
+
+    const sieges = this.view.sieges ?? [];
+    const activeSiegeIds = new Set(sieges.map((siege) => siege.id));
+    for (const [id, part] of this.siegeParts) {
+      if (activeSiegeIds.has(id)) continue;
+      this.layers.effects.removeChild(part.container);
+      part.container.destroy({ children: true });
+      this.siegeParts.delete(id);
+      this.siegeCull.remove(id);
+    }
+    for (const siege of sieges) {
+      let part = this.siegeParts.get(siege.id);
+      if (part === undefined) {
+        part = createSiegeMarker();
+        this.siegeParts.set(siege.id, part);
+        this.layers.effects.addChild(part.container);
+      }
+      part.update({
+        pos: siege.pos,
+        mode: siege.mode,
+        elapsedMs: this.siegeElapsedMs,
+        reducedMotion: this.reducedMotion,
+      });
+      this.siegeCull.upsert(siege.id, siege.pos.x, siege.pos.y);
+    }
+    this.applyLodAndCulling();
+  }
+
   // ── 01 §4.3 契約方法 ──────────────────────────────────────────────
 
   /** 鏡頭平滑移至節點（UI「前往」按鈕／開局聚焦居城，01 §4.3）：交由 camera.focusOn 補間（04 §3.11，onTick 推進）。 */
@@ -318,9 +552,59 @@ export class MapRenderer {
     this.debug = { ...this.debug, overlay: { ...this.debug.overlay, ...flags } };
   }
 
-  /** 尋路除錯結果（01 §4.3；null 清除）。本階段僅保存；路徑（含 orderMarch 預覽）繪製屬 M4-14（selectionAndPath 層）。 */
+  /** 尋路／行軍預覽結果（01 §4.3；null 清除），繪於 selectionAndPath 層。 */
   showDebugPath(path: string[] | null, costLabel: string | null): void {
     this.debug = { ...this.debug, path, costLabel };
+    this.redrawPathPreview();
+  }
+
+  showPathPreview(preview: MapPathPreview | null): void {
+    this.marchPathPreview = preview;
+    this.redrawPathPreview();
+  }
+
+  setMode(mode: MapInteractionMode): void {
+    this.interaction.setMode(mode);
+  }
+
+  private redrawPathPreview(): void {
+    if (this.pathPreview === null || this.staticData === null) return;
+    const debugNodes = (this.debug.path ?? []) as MapPathPreview['result']['nodes'];
+    const preview: MapPathPreview | null =
+      this.marchPathPreview ??
+      (debugNodes.length === 0
+        ? null
+        : {
+            result: {
+              found: true,
+              nodes: debugNodes,
+              edgeIds: [],
+              travelDays: 0,
+              subjugateDays: 0,
+              totalDays: 0,
+              steps: debugNodes.map((nodeId) => ({
+                nodeId,
+                etaDays: 0,
+                needsSubjugate: false,
+              })),
+            },
+            originNodeId: debugNodes[0]!,
+            targetNodeId: debugNodes.at(-1)!,
+            unreachable: false,
+            hostileNodeIds: [],
+          });
+    if (preview === null) {
+      this.pathPreview?.update(null);
+      return;
+    }
+    this.pathPreview.update({
+      graph: this.staticData.graph,
+      result: preview.result,
+      originNodeId: preview.originNodeId,
+      targetNodeId: preview.targetNodeId,
+      unreachable: preview.unreachable,
+      hostileNodeIds: new Set(preview.hostileNodeIds),
+    });
   }
 
   /** 冪等銷毀（01 §3.6.2）：移除事件與 canvas、銷毀 Pixi Application 與所有 texture；可重複呼叫。 */
@@ -345,7 +629,14 @@ export class MapRenderer {
     this.dragPointerId = null;
     this.seaGfx = null;
     this.roadsGfx = null;
-    this.nodesGfx = null;
+    this.pathPreview = null;
+    this.marchPathPreview = null;
+    this.nodeParts.clear();
+    this.labelParts.clear();
+    this.armyParts.clear();
+    this.siegeParts.clear();
+    this.collapsedArmyIds.clear();
+    this.siegeElapsedMs = 0;
     this.initialized = false;
   }
 
@@ -358,15 +649,17 @@ export class MapRenderer {
     if (this.initialized) {
       this.drawStaticBackground(); // outline 可能被 data.outline 覆蓋
       this.redrawDataLayers();
+      this.redrawPathPreview();
+      this.applyLodAndCulling();
     }
   }
 
   /** 每 tick 動態視圖更新（04 §4.6）；本階段重繪 nodeMarkers 的 owner 勢力色。 */
   updateView(view: MapViewState): void {
     this.view = view;
-    if (this.initialized && this.staticData !== null && this.nodesGfx !== null) {
-      drawNodeMarkers(this.nodesGfx, this.staticData.graph, view, this.staticData.clanColorIndex);
-    }
+    if (this.initialized && this.staticData !== null) this.redrawDataLayers();
+    if (this.initialized) this.redrawMilitaryObjects();
+    if (this.initialized) this.redrawPathPreview();
   }
 
   /** 手動 resize（04 §3.12.3）；平時由 Application `resizeTo` 自動處理，此為顯式入口。 */

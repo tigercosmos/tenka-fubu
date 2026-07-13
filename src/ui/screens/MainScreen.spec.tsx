@@ -80,4 +80,27 @@ describe('MainScreen（11 §3.3 縮減版 HUD）', () => {
     expect(uiStore.getState().panelStack.at(-1)?.id).toBe('policy');
     expect(screen.getByTestId('policy-panel')).toBeTruthy();
   });
+
+  it('軍事快捷列以玩家居城建立出陣草稿並開啟編成 modal', () => {
+    const game = store.getState().game!;
+    game.castles[game.clans[game.meta.playerClanId]!.homeCastleId]!.soldiers = 3_000;
+    render(<MainScreen />);
+
+    fireEvent.click(screen.getByTestId('rail-military'));
+
+    expect(uiStore.getState().marchDraft).toMatchObject({
+      originCastleId: game.clans[game.meta.playerClanId]!.homeCastleId,
+      phase: 'compose',
+    });
+    expect(uiStore.getState().modal?.id).toBe('march');
+    expect(screen.getByTestId('march-modal')).toBeTruthy();
+  });
+
+  it('軍團委任城不可由軍事快捷列出陣', () => {
+    const game = store.getState().game!;
+    const home = game.castles[game.clans[game.meta.playerClanId]!.homeCastleId]!;
+    home.directControl = false;
+    render(<MainScreen />);
+    expect(screen.getByTestId('rail-military').hasAttribute('disabled')).toBe(true);
+  });
 });

@@ -178,6 +178,7 @@ export function CastlePanel({
       previewPath: null,
       previewDays: null,
       phase: 'compose',
+      errorKey: null,
     });
     uiStore
       .getState()
