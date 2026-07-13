@@ -18,7 +18,7 @@
 | M0 鷹架       | ✅ 已 checkpoint（tag m0）             | CI 五 job 綠、Pages 200（https://tigercosmos.github.io/tenka-fubu/）   |
 | M1 core＋HUD  | ✅ 已 checkpoint（tag m1）             | 431 tests；型別=02 全型別零缺失（46 Cmd/68 Event）                     |
 | M2 資料＋地圖 | ✅ 已 checkpoint（tag m2，2026-07-12） | 792 tests＋P1/P2 e2e 綠；DoD 四條全過（review 報告見 wf_dcccc2d1-835） |
-| M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13） | 844 tests＋P1/P2/P3 e2e 綠；24 個月 DoD 與全量 review fix-forward 完成 |
+| M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13） | 845 tests＋P1/P2/P3 e2e 綠；24 個月 DoD、全量 review 與 checkpoint 後 review 收尾（73bc28f）完成 |
 | M4 軍事一     | ⬜ **未開工——待使用者核准後才開始**    | milestone.json current=M4 僅為 checkpoint 前進，非已動工               |
 | M5–M9         | ⬜                                     | 依 `plan/18-roadmap.md`                                                |
 
@@ -30,7 +30,23 @@ ReportStack，以及 Playwright P3 三個月推進。
 
 全量 review 已 fix-forward：補齊升格 Command、分級知行忠誠與加封獎勵、內政特性掛鉤、施設前置停用、
 輸送劫掠攜行上限、俸祿單一結算管線、收支糧耗共用公式、無效佇列退款、面板狀態保留與 UI 驗證器接線。
-最終 gate：lint／typecheck／validate:data（0 ERROR／0 WARN）／844 tests／build／P1–P3 e2e 全綠；字型 838 字元、181.5 KB。
+
+### checkpoint 後 review 收尾（2026-07-13，commit 73bc28f）
+
+tag m3 之後追加一輪 Opus code review，修正三項 checkpoint 未攔到的問題（決策記錄 plan/06 §8 2026-07-13）：
+
+- **F1 收支預覽俸祿口徑**：`officerSalary()`（selector 預覽用）原缺 `hasComeOfAge` 過濾，仕官未成年
+  武將（如織田長益，s1560 織田家）被預覽計薪但實際不計 → 違反 05-T5-10「預覽＝次月實際」。已補齊、
+  兩處口徑一致（實測織田家預覽=實際=326）。
+- **F2 欠俸忠誠懲罰時序**：−2 懲罰原於 economy 步驟（Step 6）施加，被同 tick officers 步驟（Step 9）
+  月結漂移即時抹平（違反 06 §3.6.2）。改為：economy 只結算金錢＋發 `economy.upkeepUnpaid`；懲罰移至
+  officers 步驟 `recomputeLoyalty` 漂移「之後」由 `applyUnpaidSalaryPenalty` 套用（unpaid 勢力讀自
+  tick 事件流）。13 步順序不動。⚠ **M4 合戰接線後須改為攜帶 economy 當時實際 payee 清單**（見 §8 註）。
+- **F3 倍率去魔數**：development／domestic／uprising／conscription／transport 內嵌之政策/施設倍率與
+  治安細目提為 `BAL.*` 具名常數（鐵律 #3），值不變、bit-exact 不變。
+
+新增 1 條 F2 回歸測試（欠俸懲罰不被漂移抹平）。gate：lint／typecheck／validate:data（0/0）／**845 tests**／
+P1–P3 e2e 全綠；字型 838 字元、181.5 KB。
 
 **下一步（待使用者核准）**：M4 軍事一（plan/18 §3.7）；一次只做 M4，不預先開 M5。
 
