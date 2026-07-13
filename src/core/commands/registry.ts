@@ -19,6 +19,7 @@ import {
 import * as domestic from './domesticCommands';
 import * as officers from './officerCommands';
 import * as march from './march';
+import { applyStartKassen, validateStartKassen } from '../systems/battle';
 
 /** tick 事件匯流排回呼：各步以此追加 GameEvent（03 §3.2.1）。 */
 export type EmitFn = (event: GameEvent) => void;
@@ -76,6 +77,7 @@ const HANDLERS: Partial<Record<CommandType, AnyHandler>> = {
     march.applySetAutoReturn,
   ),
   setSiegeMode: defineHandler<'setSiegeMode'>(march.validateSetSiegeMode, march.applySetSiegeMode),
+  startKassen: defineHandler<'startKassen'>(validateStartKassen, applyStartKassen),
   grantFief: defineHandler<'grantFief'>(domestic.validateGrantFief, domestic.applyGrantFief),
   setDevelopFocus: defineHandler<'setDevelopFocus'>(
     domestic.validateSetDevelopFocus,

@@ -72,7 +72,7 @@ export interface GameState {
   roads: Record<RoadEdgeId, RoadEdge>; // 邊集合（載入後不變）
   armies: Record<ArmyId, Army>;
   fieldCombats: Record<string, FieldCombat>; // 進行中野戰（每節點一場；key = FieldCombat.id 'fc.*'；勘誤 E-18）
-  battles: Record<BattleId, BattleState>; // 進行中合戰（戰術戰場；同時至多一場，勘誤 E-18）
+  battles: Record<BattleId, BattleState>; // 進行中或待關閉結果的合戰；result=null 同時至多一場
   sieges: Record<SiegeId, Siege>; // 進行中攻城戰
   corps: Record<CorpsId, Corps>; // 軍團
   transports: Record<TransportId, TransportOrder>; // 進行中輸送隊（勘誤 E-41）
@@ -357,7 +357,7 @@ export interface BattleState {
   id: BattleId; // 六位流水（勘誤 E-12：id 格式依 02 §5.3）
   fieldCombatId: string; // 來源野戰遭遇（FieldCombat.id）
   nodeId: MapNodeId;
-  terrain: string; // 遭遇節點地形（terrain 枚舉見 04）
+  terrain: BattleTerrain; // 遭遇節點地形（07 §3.6）
   attackerClanId: ClanId; // 發動側
   defenderClanId: ClanId;
   jins: Jin[]; // 陣（戰場節點，建議 5×3）
@@ -370,6 +370,7 @@ export interface BattleState {
 }
 
 export type BattleSide = 'attacker' | 'defender';
+export type BattleTerrain = 'plain' | 'coast' | 'hill' | 'mountain' | 'river';
 
 /** 陣（合戰戰場節點，07 §3.6；02 §4.9） */
 export interface Jin {
@@ -406,6 +407,8 @@ export interface BattleUnit {
   tacticCooldowns: Record<string, number>; // tacticId → 剩餘冷卻 tick
   delegated: boolean; // 是否委任 AI
   routed: boolean; // 已潰走（撤離中或已離場）
+  exited: boolean; // 已由己方本陣邊緣撤離戰場；保留 unit 供結果與原子寫回
+  strategyStatus: ArmyStatus; // 入場合戰前策略層狀態；結束時恢復（來源野戰 engaged 改 holding）
 }
 
 export interface ActiveTactic {

@@ -167,7 +167,7 @@ describe('M4 軍事 core', () => {
     expect(combinedSiegeMitigation(0.3, -0.5)).toBe(0);
   });
 
-  it('keeps M5 kassen offers disabled until the feature gate is enabled', () => {
+  it('emits M5 kassen offers after the feature gate is enabled', () => {
     const state = buildTinyState();
     const alpha = deploy(state, CLAN_ALPHA, CASTLE_A2, OFF_ALPHA_TAISHO, CASTLE_B1, 2_000);
     const beta = deploy(state, CLAN_BETA, CASTLE_B1, OFF_BETA_TAISHO, CASTLE_A2, 2_000);
@@ -176,8 +176,8 @@ describe('M4 軍事 core', () => {
 
     const events = startFieldCombat(state, CASTLE_A2, [alpha.id], [beta.id]);
 
-    expect(BAL.featureKassenEnabled).toBe(false);
-    expect(events.some((event) => event.type === 'battle.kassenAvailable')).toBe(false);
+    expect(BAL.featureKassenEnabled).toBe(true);
+    expect(events.some((event) => event.type === 'battle.kassenAvailable')).toBe(true);
   });
 
   it('M4-1 validates officer availability and classifies an allied castle as march, not conquer', () => {

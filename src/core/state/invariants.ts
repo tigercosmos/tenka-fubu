@@ -20,7 +20,7 @@ import type {
 } from './gameState';
 import type { ArmyId, CastleId, ClanId, DistrictId, MapNodeId, OfficerId } from './ids';
 import { ID_PATTERN } from './ids';
-import { RANK_VALUES, type Rank } from './enums';
+import { ARMY_STATUS_VALUES, RANK_VALUES, type Rank } from './enums';
 import { BAL } from '../balance';
 
 export interface Violation {
@@ -757,6 +757,120 @@ function checkInv13(state: GameState): Violation[] {
           violation('INV-13', `攻城 ${siege.id} 引用的部隊 ${armyId} 狀態或 siegeId 不一致`, [
             siege.id,
             armyId,
+          ]),
+        );
+      }
+    }
+  }
+  const activeBattles = Object.values(state.battles).filter((battle) => battle.result === null);
+  if (activeBattles.length > 1) {
+    v.push(
+      violation('INV-13', `同時存在 ${String(activeBattles.length)} 場未結束合戰（上限 1）`, [
+        ...activeBattles.map((battle) => battle.id),
+      ]),
+    );
+  }
+  for (const battle of Object.values(state.battles)) {
+    const jinIds = new Set(battle.jins.map((jin) => jin.id));
+    const unitIds = new Set<string>();
+    if (battle.result === null) {
+      const source = state.fieldCombats[battle.fieldCombatId];
+      if (!source || !source.interrupted || !source.kassenUsed) {
+        v.push(
+          violation('INV-13', `進行中合戰 ${battle.id} 的來源野戰不存在或未正確中斷`, [
+            battle.id,
+            battle.fieldCombatId,
+          ]),
+        );
+      }
+    }
+    if (
+      battle.jins.length < BAL.jinCountMin ||
+      battle.jins.length > BAL.jinCountMax ||
+      jinIds.size !== battle.jins.length
+    ) {
+      v.push(violation('INV-13', `合戰 ${battle.id} 的陣數或 id 唯一性不合法`, [battle.id]));
+    }
+    if (battle.jins.filter((jin) => jin.isHonjin).length !== 2) {
+      v.push(violation('INV-13', `合戰 ${battle.id} 必須恰有兩座本陣`, [battle.id]));
+    }
+    for (const jin of battle.jins) {
+      if (
+        !Number.isInteger(jin.col) ||
+        !Number.isInteger(jin.row) ||
+        !inRange(jin.col, 0, 4) ||
+        !inRange(jin.row, 0, 2) ||
+        !inRange(jin.flagPower, 0, jin.flagPowerMax) ||
+        !inRange(jin.defenseBonus, 0, 1)
+      ) {
+        v.push(
+          violation('INV-13', `合戰 ${battle.id} 的陣 ${jin.id} 數值不合法`, [battle.id, jin.id]),
+        );
+      }
+    }
+    for (const edge of battle.edges) {
+      if (
+        !jinIds.has(edge.a) ||
+        !jinIds.has(edge.b) ||
+        edge.a === edge.b ||
+        ![1, 2].includes(edge.moveCost)
+      ) {
+        v.push(
+          violation('INV-13', `合戰 ${battle.id} 的陣邊 ${edge.a}-${edge.b} 不合法`, [battle.id]),
+        );
+      }
+    }
+    if (battle.jins.length > 0) {
+      const visited = new Set<string>([battle.jins[0]!.id]);
+      const queue = [battle.jins[0]!.id];
+      for (let cursor = 0; cursor < queue.length; cursor += 1) {
+        const current = queue[cursor]!;
+        for (const edge of battle.edges) {
+          const other = edge.a === current ? edge.b : edge.b === current ? edge.a : undefined;
+          if (other === undefined || visited.has(other)) continue;
+          visited.add(other);
+          queue.push(other);
+        }
+      }
+      if (visited.size !== battle.jins.length) {
+        v.push(violation('INV-13', `合戰 ${battle.id} 的戰場圖不連通`, [battle.id]));
+      }
+    }
+    if (
+      !inRange(battle.saihai.attacker, 0, BAL.saihaiMax) ||
+      !inRange(battle.saihai.defender, 0, BAL.saihaiMax)
+    ) {
+      v.push(violation('INV-13', `合戰 ${battle.id} 的采配超出範圍`, [battle.id]));
+    }
+    for (const unit of battle.units) {
+      if (unitIds.has(unit.id)) {
+        v.push(
+          violation('INV-13', `合戰 ${battle.id} 的部隊 id ${unit.id} 重複`, [battle.id, unit.id]),
+        );
+      }
+      unitIds.add(unit.id);
+      const army = state.armies[unit.armyId];
+      if (battle.result === null && (!army || army.battleId !== battle.id)) {
+        v.push(
+          violation('INV-13', `合戰 ${battle.id} 與部隊 ${unit.armyId} 的引用不互惠`, [
+            battle.id,
+            unit.armyId,
+          ]),
+        );
+      }
+      if (
+        !jinIds.has(unit.jinId) ||
+        (unit.moveTargetJinId !== null && !jinIds.has(unit.moveTargetJinId)) ||
+        !isNonNegInt(unit.troops) ||
+        !isNonNegInt(unit.battleInitialTroops) ||
+        !inRange(unit.morale, 0, 100) ||
+        !isNonNegInt(unit.moveProgress) ||
+        !ARMY_STATUS_VALUES.includes(unit.strategyStatus)
+      ) {
+        v.push(
+          violation('INV-13', `合戰 ${battle.id} 的 BattleUnit ${unit.id} 數值不合法`, [
+            battle.id,
+            unit.id,
           ]),
         );
       }

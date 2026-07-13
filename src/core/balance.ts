@@ -122,6 +122,30 @@ export const BAL = {
   // ── 合戰子迴圈契約（15 §5.1；07 §3.9／§5.4；03 §3.7.2；M1-26 假解算器所需） ──
   kassenMaxTicks: 120, // 15 §5.1：合戰時限（tick 上限），達此值強制勝敗判定（07 §3.9／§5.4 step 8）
   kassenTiebreakMult: 1.05, // 15 §5.1：時限到期時攻方判勝所需的殘存戰力倍率（攻方 ≥ 守方×此值才判攻方勝，07 §3.9，§8 D9：無平手）
+  jinCountMin: 9,
+  jinCountMax: 13,
+  jinDefHill: 0.3,
+  jinDefHonjin: 0.4,
+  jinDefNeutral: 0.15,
+  jinFlagHonjin: 1000,
+  jinFlagNeutral: 400,
+  jinStackLimit: 2,
+  kassenGatherRange: 2,
+  kassenMaxUnitsPerSide: 6,
+  kassenTickMs: 800,
+  valBattleFactor: 0.008,
+  ldrBattleFactor: 0.004,
+  battleTickDamageRate: 0.02,
+  flagCaptureRate: 0.012,
+  flagResetRatio: 0.5,
+  saihaiBase: 1,
+  saihaiInit: 5,
+  saihaiLdrFactor: 0.02,
+  saihaiMax: 20,
+  tacticCooldownTicks: 8,
+  tacVolleyDamageMult: 1.2,
+  tacFireFlagDamage: 30,
+  tacHealRatio: 0.05,
 
   // ── 尋路 computePath 邊權／通行規則／制壓估算（15 §5.1；04 §3.4.2／§3.4.3／§3.8／§5.2／§5.8；
   //    08 §3.1；M2-7 src/core/systems/pathfinding.ts 所需） ──
@@ -304,11 +328,13 @@ export const BAL = {
   postSiegeCastleMorale: 50,
   postSiegeFoodKeepRatio: 0.5,
   battleDeathChanceRout: 0.05,
+  battleDeathChanceDefeatGeneral: 0.03,
+  battleCaptureChanceDefeatGeneral: 0.2,
   siegeEscapeChance: 0.35,
   siegeDeathChanceEscapeFail: 0.15,
   kassenMinTroops: 3000,
-  /** M5 tactical battle is not implemented yet; M5 enables the producer and auto-pause together. */
-  featureKassenEnabled: false,
+  /** M5 tactical battle producer and auto-pause gate; enabled once the battle core is available. */
+  featureKassenEnabled: true,
 
   // ── UI／渲染效能（15 §5.1；01 §3.6.1；M2-13 MapRenderer Application.init 所需） ──
   uiDprMax: 2, // 15 §5.1：Pixi resolution／devicePixelRatio 取用上限（倍率，無量綱；01 §3.6.1）

@@ -63,6 +63,8 @@ function makeUnit(armyId: ArmyId, side: 'attacker' | 'defender', troops: number)
     tacticCooldowns: {},
     delegated: true,
     routed: false,
+    exited: false,
+    strategyStatus: 'engaged',
   };
 }
 
@@ -159,24 +161,34 @@ describe('advanceBattleTick 原子寫回（03 §3.7.2；07 §3.9 規則 3 tiebre
       endTick: BAL.kassenMaxTicks,
       attackerLosses: 100, // battleInitialTroops(1000) − troops(900)
       defenderLosses: 500, // battleInitialTroops(1000) − troops(500)
-      aweLevel: 'none',
+      aweLevel: 'medium',
     });
 
     // 原子寫回：state.armies 依 BattleUnit 現值同步（soldiers/morale），與 tick 前快照不同。
     expect(state.armies[ATK_ARMY]!.soldiers).toBe(900);
-    expect(state.armies[ATK_ARMY]!.morale).toBe(60);
+    expect(state.armies[ATK_ARMY]!.morale).toBe(60 + BAL.moraleVictoryGain);
     expect(state.armies[DEF_ARMY]!.soldiers).toBe(500);
-    expect(state.armies[DEF_ARMY]!.morale).toBe(60);
+    expect(state.armies[DEF_ARMY]!.morale).toBe(60 - BAL.moraleDefeatLoss);
 
     // battle.ended 併入 state.meta.deferredEvents（下一 tick Step 2 併入事件流，見 03 §3.7.2）。
     expect(state.meta.deferredEvents).toEqual([
+      {
+        type: 'awe.triggered',
+        day: 100,
+        clanIds: [TEST_CLAN, ENEMY_CLAN],
+        sourceBattleId: BATTLE_ID,
+        clanId: TEST_CLAN,
+        level: 'medium',
+        flippedDistrictIds: [],
+        affectedCastleIds: [],
+      },
       {
         type: 'battle.ended',
         day: 100,
         clanIds: [TEST_CLAN, ENEMY_CLAN],
         battleId: BATTLE_ID,
         winnerClanId: TEST_CLAN,
-        aweLevel: 'none',
+        aweLevel: 'medium',
         attackerLosses: 100,
         defenderLosses: 500,
         nodeId: TEST_CASTLE,

@@ -1,9 +1,35 @@
 import { BAL } from '../balance';
 import { buildMapGraph } from '../state/mapGraph';
 import type { AweLevel } from '../state/enums';
-import type { GameState } from '../state/gameState';
+import type { BattleSide, BattleState, GameState } from '../state/gameState';
 import type { ClanId, MapNodeId } from '../state/ids';
 import type { GameEvent } from '../state/events';
+
+/** 07 §3.10：合戰勝利必定至少為威風・小，依敗方殲滅比與本陣陷落速度取最高等級。 */
+export function judgeBattleAwe(
+  battle: Readonly<BattleState>,
+  winnerSide: BattleSide,
+): Exclude<AweLevel, 'none'> {
+  const loserSide: BattleSide = winnerSide === 'attacker' ? 'defender' : 'attacker';
+  const loserUnits = battle.units.filter((unit) => unit.side === loserSide);
+  const loserInitialTroops = loserUnits.reduce((sum, unit) => sum + unit.battleInitialTroops, 0);
+  const loserLosses = loserUnits.reduce(
+    (sum, unit) => sum + Math.max(0, unit.battleInitialTroops - unit.troops),
+    0,
+  );
+  const killRatio = loserInitialTroops > 0 ? loserLosses / loserInitialTroops : 0;
+  const honjinFallenTick = battle.honjinFallenTick;
+  const honjinFell = honjinFallenTick !== null;
+
+  if (
+    killRatio >= BAL.aweLargeKillRatio ||
+    (honjinFallenTick !== null && honjinFallenTick <= BAL.aweLargeFastTicks)
+  ) {
+    return 'large';
+  }
+  if (killRatio >= BAL.aweMedKillRatio || honjinFell) return 'medium';
+  return 'small';
+}
 
 export function applyAwe(
   state: GameState,
