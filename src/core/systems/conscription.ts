@@ -21,7 +21,8 @@ export function conscriptionSystem(state: GameState): GameEvent[] {
     let recruit =
       population * BAL.conscriptRate * BAL.conscriptPolicyFactor[castle.conscriptPolicy];
     if (hasFacility(castle, 'fac.heisha')) recruit *= 1 + BAL.facBarracksConscriptBonus;
-    if (hasPolicy(state, castle.ownerClanId, 'pol.jokashuju')) recruit *= 1.2;
+    if (hasPolicy(state, castle.ownerClanId, 'pol.jokashuju'))
+      recruit *= BAL.polJokashujuConscriptMult;
     const lord = castle.lordId === null ? undefined : state.officers[castle.lordId];
     if (lord) recruit *= traitModifier(lord, 'dev.conscriptionMult').mult;
     const amount = Math.max(

@@ -77,6 +77,35 @@ export const BAL = {
   uprisingAutoEndMonths: 6,
   aiStewardSecurityFloor: 60,
 
+  // ── 政策／施設效果倍率與治安細目（05 §3；M3 review F3：提取自各系統內嵌魔法數字，值不變）──
+  polRakuichiCommerceDevMult: 1.3, // 樂市：直轄郡商業開發倍率
+  polSekishoCommerceDevMult: 1.2, // 關所：商業開發倍率
+  polKenchiDirectDevMult: 1.2, // 檢地：直轄郡（無知行）開發倍率
+  polSekishoPopGrowthMult: 1.5, // 關所：人口成長倍率
+  polJokashujuPopGrowthMult: 0.9, // 城下集住：人口成長倍率
+  polJokashujuSoldierMult: 1.1, // 城下集住：兵員上限倍率
+  polKenchiTaxBonus: 0.05, // 檢地：知行稅率加成
+  polHeinobunriFoodMult: 1.1, // 兵農分離：駐軍兵糧倍率
+  polRakuichiIncomeMult: 1.25, // 樂市：城商業收入倍率
+  polKenchiHarvestMult: 1.1, // 檢地：秋收倍率
+  polJokashujuConscriptMult: 1.2, // 城下集住：徵兵倍率
+  polTenmaseiTransportDaysMult: 2 / 3, // 傳馬制：輸送日數倍率
+  facPortSeaTransportDaysMult: 0.5, // 港灣：海運日數倍率（起訖任一具港）
+  popGrowthOrderFloor: 0.5, // 人口成長治安因子下限（0.5 + publicOrder/100）
+  securityIntDivisor: 40, // 治安月變化：行政官 int 除數
+  polJishahogoSecurityAdd: 1, // 寺社保護：治安加值
+  polMeyasubakoSecurityAdd: 1, // 目安箱：治安加值
+  polGoningumiSecurityAdd: 2, // 五人組：治安加值
+  securityEnemyArmyDelta: 2, // 敵軍駐郡：治安減值
+  securitySiegeDelta: 3, // 遭圍城：治安減值
+  securityHighOrderThreshold: 80, // 高治安阻尼門檻
+  securityHighOrderDampDivisor: 2, // 高治安時正向變化阻尼除數
+  uprisingPopDecayMonthly: 0.99, // 一揆持續中郡人口月衰減倍率
+  uprisingEndPublicOrder: 40, // 一揆自然平息後治安回復值
+  uprisingEndPopMult: 0.95, // 一揆自然平息人口損失倍率
+  polJishahogoUprisingChanceMult: 0.5, // 寺社保護：一揆爆發率倍率
+  polGoningumiUprisingChanceMult: 0.3, // 五人組：一揆爆發率倍率
+
   // ── 02 §5.7／15 §5.1（報告保留上限；M1-11 INV-25 所需） ──
   reportMaxKept: 500, // 15 §5.1：報告（通知）保留數量上限（02 §5.7，勘誤 E-31；INV-25）
 

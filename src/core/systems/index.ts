@@ -10,6 +10,7 @@
 
 import type { GameState } from '../state/gameState';
 import type { GameEvent } from '../state/events';
+import type { ClanId } from '../state/ids';
 import type { CommandEnvelope } from '../commands/types';
 import type { EmitFn } from '../commands/registry';
 import { applyCommands } from '../commands/queue';
@@ -130,8 +131,14 @@ function stepMilitaryMovement(): GameEvent[] {
 function stepMilitaryCombat(): GameEvent[] {
   return []; // 野戰/攻城自動解算 tick（07；M4/M5）
 }
-function stepOfficers(state: GameState): GameEvent[] {
-  officersSystem(state);
+function stepOfficers(state: GameState, ctx: TickContext): GameEvent[] {
+  // 欠俸忠誠懲罰於漂移之後套用（06 §3.6.2；M3 review F2）：unpaid 勢力來自本 tick economy
+  // 步驟（Step 6，早於本步）已併入事件流的 economy.upkeepUnpaid。
+  const unpaidClanIds = new Set<ClanId>();
+  for (const event of ctx.events) {
+    if (event.type === 'economy.upkeepUnpaid') unpaidClanIds.add(event.clanId);
+  }
+  officersSystem(state, unpaidClanIds);
   return [];
 }
 function stepProposals(): GameEvent[] {

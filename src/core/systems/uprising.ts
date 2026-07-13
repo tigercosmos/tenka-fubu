@@ -21,11 +21,12 @@ function monthlySecurityDelta(state: Readonly<GameState>, district: Readonly<Dis
   let delta = BAL.conscriptSecurityDelta[castle.conscriptPolicy];
   if (castle.conscriptPolicy === 'high' && hasPolicy(state, district.ownerClanId, 'pol.heinobunri'))
     delta = 0;
-  delta += Math.floor(administratorInt(state, district) / 40);
+  delta += Math.floor(administratorInt(state, district) / BAL.securityIntDivisor);
   if (hasFacility(castle, 'fac.jisha')) delta += BAL.facTempleSecurity;
-  if (hasPolicy(state, district.ownerClanId, 'pol.jishahogo')) delta += 1;
-  if (hasPolicy(state, district.ownerClanId, 'pol.meyasubako')) delta += 1;
-  if (hasPolicy(state, district.ownerClanId, 'pol.goningumi')) delta += 2;
+  if (hasPolicy(state, district.ownerClanId, 'pol.jishahogo')) delta += BAL.polJishahogoSecurityAdd;
+  if (hasPolicy(state, district.ownerClanId, 'pol.meyasubako'))
+    delta += BAL.polMeyasubakoSecurityAdd;
+  if (hasPolicy(state, district.ownerClanId, 'pol.goningumi')) delta += BAL.polGoningumiSecurityAdd;
   const administratorId = district.stewardId ?? castle.lordId;
   const administrator = administratorId === null ? undefined : state.officers[administratorId];
   if (administrator) delta += traitModifier(administrator, 'dev.securityAdd').add;
@@ -34,9 +35,12 @@ function monthlySecurityDelta(state: Readonly<GameState>, district: Readonly<Dis
       (army) => army.posNodeId === district.id && army.clanId !== district.ownerClanId,
     )
   )
-    delta -= 2;
-  if (Object.values(state.sieges).some((siege) => siege.castleId === district.castleId)) delta -= 3;
-  return district.publicOrder > 80 && delta > 0 ? Math.floor(delta / 2) : delta;
+    delta -= BAL.securityEnemyArmyDelta;
+  if (Object.values(state.sieges).some((siege) => siege.castleId === district.castleId))
+    delta -= BAL.securitySiegeDelta;
+  return district.publicOrder > BAL.securityHighOrderThreshold && delta > 0
+    ? Math.floor(delta / BAL.securityHighOrderDampDivisor)
+    : delta;
 }
 
 export function monthlyUprising(state: GameState): GameEvent[] {
@@ -48,8 +52,8 @@ export function monthlyUprising(state: GameState): GameEvent[] {
     if (district.uprising !== null) {
       if (state.time.day - district.uprising.startedOnDay >= BAL.uprisingAutoEndMonths * 30) {
         district.uprising = null;
-        district.publicOrder = 40;
-        district.population *= 0.95;
+        district.publicOrder = BAL.uprisingEndPublicOrder;
+        district.population *= BAL.uprisingEndPopMult;
         events.push({
           type: 'uprising.ended',
           day: state.time.day,
@@ -67,8 +71,10 @@ export function monthlyUprising(state: GameState): GameEvent[] {
     );
     if (district.publicOrder >= BAL.uprisingThreshold) continue;
     let chance = (BAL.uprisingThreshold - district.publicOrder) * BAL.uprisingChancePerPoint;
-    if (hasPolicy(state, district.ownerClanId, 'pol.jishahogo')) chance *= 0.5;
-    if (hasPolicy(state, district.ownerClanId, 'pol.goningumi')) chance *= 0.3;
+    if (hasPolicy(state, district.ownerClanId, 'pol.jishahogo'))
+      chance *= BAL.polJishahogoUprisingChanceMult;
+    if (hasPolicy(state, district.ownerClanId, 'pol.goningumi'))
+      chance *= BAL.polGoningumiUprisingChanceMult;
     if (!rng.chance(chance)) continue;
     district.uprising = {
       startedOnDay: state.time.day,

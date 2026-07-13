@@ -31,14 +31,16 @@ export function castleMaxSoldiers(state: Readonly<GameState>, castle: Readonly<C
     const district = state.districts[districtId];
     if (district && district.ownerClanId === castle.ownerClanId) population += district.population;
   }
-  const policyMult = hasPolicy(state, castle.ownerClanId, 'pol.jokashuju') ? 1.1 : 1;
+  const policyMult = hasPolicy(state, castle.ownerClanId, 'pol.jokashuju')
+    ? BAL.polJokashujuSoldierMult
+    : 1;
   const base = castle.tier === 'main' ? BAL.castleBaseSoldiersMain : BAL.castleBaseSoldiersBranch;
   const barracks = hasFacility(castle, 'fac.heisha') ? BAL.facBarracksSoldierCap : 0;
   return base + Math.floor(population * BAL.soldiersPerPop * policyMult) + barracks;
 }
 
 export function fiefTaxRate(state: Readonly<GameState>, clanId: ClanId): number {
-  return BAL.fiefTaxRate + (hasPolicy(state, clanId, 'pol.kenchi') ? 0.05 : 0);
+  return BAL.fiefTaxRate + (hasPolicy(state, clanId, 'pol.kenchi') ? BAL.polKenchiTaxBonus : 0);
 }
 
 export function isSteward(state: Readonly<GameState>, officer: Readonly<Officer>): boolean {
@@ -48,7 +50,7 @@ export function isSteward(state: Readonly<GameState>, officer: Readonly<Officer>
 }
 
 export function officerSalary(state: Readonly<GameState>, officer: Readonly<Officer>): number {
-  if (officer.status !== 'serving' || officer.clanId === null) return 0;
+  if (!officer.hasComeOfAge || officer.status !== 'serving' || officer.clanId === null) return 0;
   if (state.clans[officer.clanId]?.leaderId === officer.id || isSteward(state, officer)) return 0;
   const index = RANK_VALUES.indexOf(officer.rank);
   return BAL.rankSalary[index] ?? 0;
@@ -57,7 +59,9 @@ export function officerSalary(state: Readonly<GameState>, officer: Readonly<Offi
 /** 城內駐軍一個月的兵糧需求；超編部分雙倍、兵農分離再加一成。 */
 export function garrisonFoodMonthly(state: Readonly<GameState>, castle: Readonly<Castle>): number {
   const overCap = Math.max(0, castle.soldiers - castleMaxSoldiers(state, castle));
-  const policyRate = hasPolicy(state, castle.ownerClanId, 'pol.heinobunri') ? 1.1 : 1;
+  const policyRate = hasPolicy(state, castle.ownerClanId, 'pol.heinobunri')
+    ? BAL.polHeinobunriFoodMult
+    : 1;
   return (castle.soldiers + overCap) * BAL.garrisonFoodPerSoldierMonthly * policyRate;
 }
 
@@ -74,7 +78,7 @@ export function castleCommerceMultiplier(
   let multiplier = 1;
   if (hasFacility(castle, 'fac.ichi')) multiplier *= 1 + BAL.facMarketIncomeBonus;
   if (hasFacility(castle, 'fac.minato')) multiplier *= 1 + BAL.facPortIncomeBonus;
-  if (hasPolicy(state, castle.ownerClanId, 'pol.rakuichi')) multiplier *= 1.25;
+  if (hasPolicy(state, castle.ownerClanId, 'pol.rakuichi')) multiplier *= BAL.polRakuichiIncomeMult;
   return multiplier;
 }
 
@@ -115,7 +119,7 @@ export function castleHarvest(state: Readonly<GameState>, castleId: CastleId): n
   }
   let multiplier = BAL.harvestRate;
   if (facilityIsActive(state, castle, 'fac.komedoiya')) multiplier *= 1 + BAL.facRiceHarvestBonus;
-  if (hasPolicy(state, castle.ownerClanId, 'pol.kenchi')) multiplier *= 1.1;
+  if (hasPolicy(state, castle.ownerClanId, 'pol.kenchi')) multiplier *= BAL.polKenchiHarvestMult;
   return Math.floor(total * multiplier);
 }
 

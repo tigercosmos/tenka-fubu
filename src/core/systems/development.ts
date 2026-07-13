@@ -35,11 +35,11 @@ function developmentPolicyMultiplier(
 ): number {
   let multiplier = 1;
   if (attr === 'commerce' && hasPolicy(state, district.ownerClanId, 'pol.rakuichi'))
-    multiplier *= 1.3;
+    multiplier *= BAL.polRakuichiCommerceDevMult;
   if (attr === 'commerce' && hasPolicy(state, district.ownerClanId, 'pol.sekisho'))
-    multiplier *= 1.2;
+    multiplier *= BAL.polSekishoCommerceDevMult;
   if (district.stewardId === null && hasPolicy(state, district.ownerClanId, 'pol.kenchi'))
-    multiplier *= 1.2;
+    multiplier *= BAL.polKenchiDirectDevMult;
   return multiplier;
 }
 
@@ -89,20 +89,22 @@ export function developDistrictDaily(state: GameState, district: District): void
 
 function monthlyPopulation(state: GameState, district: District): void {
   if (district.uprising !== null) {
-    district.population = Math.max(0, district.population * 0.99);
+    district.population = Math.max(0, district.population * BAL.uprisingPopDecayMonthly);
     return;
   }
   const castle = state.castles[district.castleId];
   if (!castle) return;
   const conscriptFactor = BAL.conscriptPopFactor[castle.conscriptPolicy];
   let policyFactor = 1;
-  if (hasPolicy(state, district.ownerClanId, 'pol.sekisho')) policyFactor *= 1.5;
-  if (hasPolicy(state, district.ownerClanId, 'pol.jokashuju')) policyFactor *= 0.9;
+  if (hasPolicy(state, district.ownerClanId, 'pol.sekisho'))
+    policyFactor *= BAL.polSekishoPopGrowthMult;
+  if (hasPolicy(state, district.ownerClanId, 'pol.jokashuju'))
+    policyFactor *= BAL.polJokashujuPopGrowthMult;
   const focusFactor = district.developFocus === 'barracks' ? BAL.barracksPopGrowthFactor : 1;
   const growth =
     district.population *
     BAL.popGrowthBase *
-    (0.5 + district.publicOrder / 100) *
+    (BAL.popGrowthOrderFloor + district.publicOrder / 100) *
     conscriptFactor *
     policyFactor *
     focusFactor;

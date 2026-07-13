@@ -23,7 +23,7 @@ import { conscriptionSystem } from '../../src/core/systems/conscription';
 import { developDistrictDaily, developmentSystem } from '../../src/core/systems/development';
 import { economySystem } from '../../src/core/systems/economy';
 import { facilitiesDaily } from '../../src/core/systems/facilities';
-import { loyaltyTarget } from '../../src/core/systems/officers';
+import { applyUnpaidSalaryPenalty, loyaltyTarget } from '../../src/core/systems/officers';
 import { transportDaily } from '../../src/core/systems/transport';
 import { monthlyUprising } from '../../src/core/systems/uprising';
 import { advanceDay } from '../../src/core/systems';
@@ -188,7 +188,7 @@ describe('M3 內政 core', () => {
     expect(state.clans[CLAN_ALPHA]!.gold).toBe(gold + Math.floor(500 * BAL.buildRefundRate));
   });
 
-  it('欠俸只懲罰實際支薪者，受封領主不受影響', () => {
+  it('欠俸事件由 economy 發出、懲罰於 officers 步驟套用，受封領主不受影響', () => {
     const state = buildTinyState();
     for (const district of Object.values(state.districts)) district.commerce = 0;
     const steward = state.officers[OFF_ALPHA_BUSHO]!;
@@ -196,8 +196,12 @@ describe('M3 內政 core', () => {
     state.clans[CLAN_ALPHA]!.gold = 0;
     const loyalty = steward.loyalty;
     state.time.dayOfMonth = 1;
-    economySystem(state);
-    expect(steward.loyalty).toBe(loyalty);
+    const events = economySystem(state);
+    expect(events.some((e) => e.type === 'economy.upkeepUnpaid' && e.clanId === CLAN_ALPHA)).toBe(
+      true,
+    );
+    applyUnpaidSalaryPenalty(state, new Set([CLAN_ALPHA]));
+    expect(steward.loyalty).toBe(loyalty); // 受封領主非支薪對象，欠俸不減其忠誠
   });
 
   it('收支預覽與超編、兵農分離後的實際駐軍糧耗共用公式', () => {

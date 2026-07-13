@@ -1098,6 +1098,24 @@ traitModifier(o, hook) -> { mult: number, add: number }:
   （15 §5.1 主表新增列，06 子表 106→107 項）。§3.6.1 公式改以常數名表述（`clamp(…, −BAL.loyaltyTreatmentClampAbs,
   +BAL.loyaltyTreatmentClampAbs)`），數值不動（仍為 18）。實作：`src/core/balance.ts` 新增鍵、
   `src/core/state/builder.ts` `applyInitialLoyalty()` 改引用（原硬編 `-18, 18` 兩處字面值消除）。
+- **2026-07-13（M3 review 三項收尾）**：
+  (F1) **收支預覽俸祿口徑對齊實際結算**：`officerSalary()`（預覽用，`src/core/domestic.ts`）原缺
+  `hasComeOfAge` 判斷，致仕官未元服武將（`status='serving'` 且 `hasComeOfAge=false`，如 s1560 織田家
+  之織田長益）被預覽計薪，而實際 `paySalaryForClan()` 之支薪對象過濾含 `hasComeOfAge`——違反 05-T5-10
+  「預覽＝次月實際」。修法：`officerSalary` 起首補 `!officer.hasComeOfAge → 0`，兩處口徑一致（實測
+  織田家預覽＝實際＝326）。
+  (F2) **欠俸忠誠懲罰移至月結漂移之後套用**：欠俸 −`BAL.unpaidSalaryLoyaltyPenalty`（§3.6.3）原於
+  economy 步驟（Step 6）由 `paySalaryForClan` 直接施加，而 §3.6.2 之月結漂移於 officers 步驟（Step 9）
+  同 tick 後行，致懲罰被同月 ±2 漂移即時抹平（忠誠處於目標值者淨變化為 0），牴觸 §3.6.2「事件造成的
+  忠誠增減不會立即被抹平」。依 §3.6.3「05 觸發、[06]定值」之權責劃分裁定：economy 步驟僅司金錢結算與
+  發 `economy.upkeepUnpaid{clanId}`（金錢單一擁有者不變）；忠誠懲罰改由 officers 步驟於 `recomputeLoyalty`
+  漂移「之後」以 `applyUnpaidSalaryPenalty(state, unpaidClanIds)` 套用，`unpaidClanIds` 取自本 tick
+  已併入事件流的 `economy.upkeepUnpaid`。支薪對象於 officers 步驟就地重推（Step 6→9 間無變動武將集合之
+  步驟；M4 合戰接線後須改為攜帶 economy 當時之實際 payee 清單，屆時回寫本條）。13 步固定順序不動。
+  (F3) **政策／施設效果倍率去魔術數字**：`development`／`domestic`／`uprising`／`conscription`／`transport`
+  諸系統內嵌之政策／施設倍率與治安細目（如樂市/關所/檢地開發倍率、傳馬制/港灣輸送日數倍率、寺社保護/
+  五人組治安與一揆率係數等）比照上條 F2 同型改法，提為 `BAL.pol*`／`BAL.fac*`／`BAL.security*`／
+  `BAL.uprising*` 具名常數（15 §5.1／05 §5.6 主表新增列），數值不動、行為 bit-exact 不變。
 
 ---
 

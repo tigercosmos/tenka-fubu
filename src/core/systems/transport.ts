@@ -32,14 +32,14 @@ function adjustedEdgeDays(
   let days =
     edge.type === 'sea' ? edge.baseDays : edge.baseDays / BAL.roadGradeSpeedMult[edge.grade];
   days /= BAL.transportSpeedFactor;
-  if (hasPolicy(state, order.clanId, 'pol.tenmasei')) days *= 2 / 3;
+  if (hasPolicy(state, order.clanId, 'pol.tenmasei')) days *= BAL.polTenmaseiTransportDaysMult;
   const from = state.castles[order.fromCastleId];
   const to = state.castles[order.toCastleId];
   if (
     edge.type === 'sea' &&
     ((from && hasFacility(from, 'fac.minato')) || (to && hasFacility(to, 'fac.minato')))
   )
-    days *= 0.5;
+    days *= BAL.facPortSeaTransportDaysMult;
   return Math.max(Number.EPSILON, days);
 }
 

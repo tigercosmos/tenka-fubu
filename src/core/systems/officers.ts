@@ -126,19 +126,15 @@ export interface SalarySettlement {
   paid: boolean;
 }
 
-/**
- * 月俸結算。持有知行者與當主不支薪；不足時金錢歸零且全體支薪對象忠誠 -2。
- * 欠俸事件由 economy 單一發出，本函式不 emit（06 §5.2）。
- */
-export function paySalaryForClan(state: GameState, clanId: ClanId): SalarySettlement {
+/** 該勢力當月支薪對象（06 §5.2）：已元服、仕官、非當主、未持知行；決定論序（依 id）。 */
+export function salaryPayees(state: Readonly<GameState>, clanId: ClanId): Officer[] {
+  const clan = state.clans[clanId];
+  if (!clan?.alive) return [];
   const fiefHolders = new Set<OfficerId>();
   for (const district of Object.values(state.districts)) {
     if (district.stewardId !== null) fiefHolders.add(district.stewardId);
   }
-
-  const clan = state.clans[clanId];
-  if (!clan?.alive) return { clanId, payeeIds: [], total: 0, paid: true };
-  const payees = sortedOfficers(state).filter(
+  return sortedOfficers(state).filter(
     (officer) =>
       officer.hasComeOfAge &&
       officer.status === 'serving' &&
@@ -146,19 +142,44 @@ export function paySalaryForClan(state: GameState, clanId: ClanId): SalarySettle
       officer.id !== clan.leaderId &&
       !fiefHolders.has(officer.id),
   );
+}
+
+/**
+ * 月俸金錢結算（economy 步驟；05 §3.1.4／§5.2）。持有知行者與當主不支薪；不足時金錢歸零。
+ * 欠俸事件由 economy 單一發出；欠俸忠誠懲罰改由 officers 步驟於「月結漂移之後」套用
+ *（見 applyUnpaidSalaryPenalty），本函式不再直接調整忠誠——否則同 tick 的漂移會立即抹平懲罰，
+ * 違反 06 §3.6.2「事件造成的忠誠增減不會立即被抹平」（M3 review F2）。
+ */
+export function paySalaryForClan(state: GameState, clanId: ClanId): SalarySettlement {
+  const clan = state.clans[clanId];
+  if (!clan?.alive) return { clanId, payeeIds: [], total: 0, paid: true };
+  const payees = salaryPayees(state, clan.id);
   const total = payees.reduce((sum, officer) => sum + BAL.rankSalary[rankIndex(officer.rank)]!, 0);
   const paid = clan.gold >= total;
   if (paid) clan.gold -= total;
-  else {
-    clan.gold = 0;
-    for (const officer of payees) adjustLoyalty(officer, -BAL.unpaidSalaryLoyaltyPenalty);
-  }
+  else clan.gold = 0;
   return {
     clanId: clan.id,
     payeeIds: payees.map((officer) => officer.id),
     total,
     paid,
   };
+}
+
+/**
+ * 欠俸忠誠懲罰（06 §3.6.3；於 officers 步驟月結漂移「之後」套用，確保懲罰不被同 tick 的漂移
+ * 立即抹平，符 §3.6.2）。`unpaidClanIds` 來自本 tick economy 步驟發出的 `economy.upkeepUnpaid`
+ *（05 觸發、06 定值）。支薪對象於此重新推導——本 tick economy（Step 6）與 officers（Step 9）
+ * 之間無任何會變動武將集合的步驟（M4 合戰接線後須改為攜帶 economy 當時的實際 payee 清單）。
+ */
+export function applyUnpaidSalaryPenalty(
+  state: GameState,
+  unpaidClanIds: ReadonlySet<ClanId>,
+): void {
+  for (const clanId of [...unpaidClanIds].sort()) {
+    for (const officer of salaryPayees(state, clanId))
+      adjustLoyalty(officer, -BAL.unpaidSalaryLoyaltyPenalty);
+  }
 }
 
 export function paySalaries(state: GameState): SalarySettlement[] {
@@ -278,9 +299,13 @@ export function updatePromotionStalls(state: GameState): void {
   }
 }
 
-/** M3 的 officers tick：薪俸由 economy 月結呼叫 paySalaries，以維持經濟步驟的單一擁有者。 */
-export function officersSystem(state: GameState): void {
+/**
+ * M3 的 officers tick（每月 1 日）：先重算忠誠目標值並漂移（06 §3.6.2），再套用本 tick 欠俸懲罰
+ *（漂移「之後」，見 applyUnpaidSalaryPenalty）。薪俸金錢由 economy 步驟結算，以維持金錢的單一擁有者。
+ */
+export function officersSystem(state: GameState, unpaidClanIds: ReadonlySet<ClanId>): void {
   if (state.time.dayOfMonth !== 1) return;
   recomputeLoyalty(state);
   updatePromotionStalls(state);
+  applyUnpaidSalaryPenalty(state, unpaidClanIds);
 }

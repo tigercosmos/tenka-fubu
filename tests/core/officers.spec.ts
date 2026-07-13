@@ -3,6 +3,7 @@ import { BAL } from '../../src/core/balance';
 import type { TraitId } from '../../src/core/state/ids';
 import {
   adjustLoyalty,
+  applyUnpaidSalaryPenalty,
   effectiveStat,
   gainMerit,
   loyaltyTarget,
@@ -72,7 +73,7 @@ describe('rank and salary', () => {
     expect(troopCapForOfficer(officer)).toBe(BAL.rankTroopCap[1]);
   });
 
-  it('does not pay fief holders and penalizes every payee when the clan cannot cover salary', () => {
+  it('does not pay fief holders and zeroes gold when the clan cannot cover salary', () => {
     const state = buildTinyState();
     const clan = state.clans[CLAN_ALPHA]!;
     const fiefHolder = state.officers[OFF_ALPHA_BUSHO]!;
@@ -90,8 +91,29 @@ describe('rank and salary', () => {
     expect(settlement?.payeeIds).toContain(payee.id);
     expect(settlement?.payeeIds).not.toContain(fiefHolder.id);
     expect(settlement?.payeeIds).not.toContain(OFF_ALPHA_LORD);
-    expect(payee.loyalty).toBe(before - BAL.unpaidSalaryLoyaltyPenalty);
     expect(clan.gold).toBe(0);
+    // 金錢結算本身不再調整忠誠（欠俸懲罰移至 officers 步驟漂移之後，見下一測試）。
+    expect(payee.loyalty).toBe(before);
+  });
+
+  it('欠俸懲罰於忠誠漂移之後套用、不被同月漂移抹平，且不觸及受封領主（F2）', () => {
+    const state = buildTinyState();
+    const fiefHolder = state.officers[OFF_ALPHA_BUSHO]!;
+    const payee = state.officers[OFF_ALPHA_TAISHO]!;
+    const district = Object.values(state.districts).find(
+      (candidate) => candidate.ownerClanId === CLAN_ALPHA,
+    );
+    district!.stewardId = fiefHolder.id;
+    // 支薪者忠誠正好落在目標值：若懲罰先於漂移施加，會被 +2 漂移完全抹平。
+    const target = loyaltyTarget(state, payee);
+    payee.loyalty = target;
+
+    recomputeLoyalty(state); // 漂移：payee 已在目標值，維持不變
+    const fiefLoyaltyAfterDrift = fiefHolder.loyalty; // 領主亦受漂移，但不受欠俸懲罰
+    applyUnpaidSalaryPenalty(state, new Set([CLAN_ALPHA]));
+
+    expect(payee.loyalty).toBe(target - BAL.unpaidSalaryLoyaltyPenalty);
+    expect(fiefHolder.loyalty).toBe(fiefLoyaltyAfterDrift); // 受封領主非支薪對象
   });
 });
 
