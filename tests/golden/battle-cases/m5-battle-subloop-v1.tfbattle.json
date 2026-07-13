@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "scenarioId": "mini",
+  "seed": 42,
+  "balanceHash": "b094cd03a3031f3f",
+  "initial": {
+    "layoutId": "mini-duel-v1",
+    "battleId": "battle.000001",
+    "stateHash": "1c31e73231f90e9e"
+  },
+  "finalTick": 30,
+  "entries": [
+    {
+      "tick": 1,
+      "seq": 0,
+      "order": {
+        "kind": "tactic",
+        "unitId": "bu.000001",
+        "tacticId": "tac.charge",
+        "targetUnitId": null
+      }
+    },
+    {
+      "tick": 2,
+      "seq": 0,
+      "order": {
+        "kind": "toggleDelegate",
+        "unitId": "bu.000001",
+        "enabled": true
+      }
+    }
+  ],
+  "checkpoints": [
+    {
+      "tick": 1,
+      "hash": "61a3ed6027a1efb6"
+    },
+    {
+      "tick": 10,
+      "hash": "fc8ac7f7c38022f5"
+    },
+    {
+      "tick": 20,
+      "hash": "ffc51b2789ee285f"
+    },
+    {
+      "tick": 30,
+      "hash": "ee228589089dca59"
+    }
+  ],
+  "finalHash": "ee228589089dca59"
+}
