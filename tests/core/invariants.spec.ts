@@ -264,6 +264,7 @@ function makeBaseState(): GameState {
       siegeId: null,
       autoReturn: true,
       corpsId: null,
+      pursuitEligibleArmyIds: [],
     },
   };
 
@@ -506,6 +507,12 @@ describe('validateState()（02 §5.2／§7：INV-01..25）', () => {
     });
     const violations = validateState(state);
     expect(violations.some((x) => x.inv === 'INV-06')).toBe(true);
+  });
+
+  it('INV-06：後續追擊資格不得重複或包含部隊自身', () => {
+    const state = makeBaseState();
+    must(state.armies[ARMY_1]).pursuitEligibleArmyIds = [ARMY_1, ARMY_1];
+    expect(validateState(state).some((violation) => violation.inv === 'INV-06')).toBe(true);
   });
 
   it('INV-07：武將 locationCastleId 與 armyId 皆為 null 被偵測', () => {

@@ -19,6 +19,7 @@ function garrisonFoodDaily(state: GameState, castle: Castle, events: GameEvent[]
     return;
   }
   castle.food = 0;
+  if (Object.values(state.sieges).some((siege) => siege.castleId === castle.id)) return;
   castle.soldiers = Math.floor(castle.soldiers * (1 - BAL.starveDesertRate));
   castle.morale = Math.max(0, castle.morale - BAL.castleStarveMoraleDaily);
   if (before > 0 || state.time.dayOfMonth === 1) {
@@ -53,6 +54,7 @@ function monthlyIncomeAndUpkeep(state: GameState, events: GameEvent[]): void {
         day: state.time.day,
         clanIds: [clan.id],
         clanId: clan.id,
+        payeeIds: salary.payeeIds,
       });
     }
     const policyState = state.policies[clan.id];

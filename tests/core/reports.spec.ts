@@ -173,6 +173,7 @@ describe('severityOf（03 §3.4.2 分級表逐列）', () => {
       armyId: 'army.000001' as never,
       clanId: TEST_CLAN,
       nodeId: 'castle.x' as never,
+      leaderId: 'off.a' as never,
     };
     const uprisingStarted: GameEvent = {
       type: 'uprising.started',
@@ -255,6 +256,7 @@ describe('severityOf（03 §3.4.2 分級表逐列）', () => {
       type: 'economy.upkeepUnpaid',
       ...base(1, [TEST_CLAN]),
       clanId: TEST_CLAN,
+      payeeIds: [],
     };
     const shortage: GameEvent = {
       type: 'economy.foodShortage',
@@ -457,6 +459,7 @@ describe('isPlayerRelevant（03 §3.4.3）', () => {
       armyId: 'army.000001' as never,
       clanId: TEST_CLAN,
       nodeId: 'castle.x' as never,
+      leaderId: 'off.a' as never,
     };
     expect(isPlayerRelevant(e, TEST_CLAN)).toBe(true);
   });
@@ -467,6 +470,7 @@ describe('isPlayerRelevant（03 §3.4.3）', () => {
       armyId: 'army.000001' as never,
       clanId: OTHER_A,
       nodeId: 'castle.x' as never,
+      leaderId: 'off.b' as never,
     };
     expect(isPlayerRelevant(e, TEST_CLAN)).toBe(false);
   });

@@ -331,6 +331,17 @@ function checkInv06(state: GameState): Violation[] {
   const v: Violation[] = [];
   const officerArmies = new Map<OfficerId, ArmyId[]>();
   for (const army of Object.values<Army>(state.armies)) {
+    if (
+      !Array.isArray(army.pursuitEligibleArmyIds) ||
+      new Set(army.pursuitEligibleArmyIds).size !== army.pursuitEligibleArmyIds.length ||
+      army.pursuitEligibleArmyIds.includes(army.id)
+    ) {
+      v.push(
+        violation('INV-06', `部隊 ${army.id} 的 pursuitEligibleArmyIds 缺失、重複或包含自身`, [
+          army.id,
+        ]),
+      );
+    }
     if (army.deputyIds.length > BAL.maxDeputies) {
       v.push(
         violation(
@@ -493,6 +504,7 @@ function checkInv08(state: GameState): Violation[] {
 function checkInv09(state: GameState): Violation[] {
   const v: Violation[] = [];
   for (const clan of Object.values<Clan>(state.clans)) {
+    if (!clan.alive) continue;
     const castle = state.castles[clan.homeCastleId];
     if (!castle) {
       v.push(
@@ -737,7 +749,10 @@ function checkInv13(state: GameState): Violation[] {
         v.push(
           violation('INV-13', `攻城 ${siege.id} 引用不存在的部隊 ${armyId}`, [siege.id, armyId]),
         );
-      } else if (army.status !== 'sieging' || army.siegeId !== siege.id) {
+      } else if (
+        (army.status !== 'sieging' && !(siege.interrupted && army.status === 'engaged')) ||
+        army.siegeId !== siege.id
+      ) {
         v.push(
           violation('INV-13', `攻城 ${siege.id} 引用的部隊 ${armyId} 狀態或 siegeId 不一致`, [
             siege.id,
@@ -777,7 +792,14 @@ function checkInv13(state: GameState): Violation[] {
           ]),
         );
       }
-    } else if (army.siegeId !== null) {
+    } else if (
+      army.siegeId !== null &&
+      !(
+        army.status === 'engaged' &&
+        state.sieges[army.siegeId]?.interrupted === true &&
+        state.sieges[army.siegeId]?.attackerArmyIds.includes(army.id)
+      )
+    ) {
       v.push(violation('INV-13', `部隊 ${army.id} 狀態非 sieging 但 siegeId 非 null`, [army.id]));
     }
   }

@@ -101,7 +101,7 @@
 2. **政策維持費**：`Σ_生效政策 upkeepGold`（見 §3.7）。
 
 **不足額規則（邊界條件）**：
-- 俸祿優先於政策維持費。金錢扣到 0 為止；俸祿未足額時，當月**全體**武將忠誠 −`BAL.unpaidSalaryLoyaltyPenalty`（=2，一次性，06 擁有、值 15 定案；經 06 的忠誠管線），並發事件 `economy.upkeepUnpaid{clanId}`（warning 級，每勢力每月至多一次；報告字串見 13 §6.11 `report.economy.upkeepUnpaid`；02 §4.19）。
+- 俸祿優先於政策維持費。金錢扣到 0 為止；俸祿未足額時，當月**實際支薪對象**忠誠 −`BAL.unpaidSalaryLoyaltyPenalty`（=2，一次性，06 擁有、值 15 定案；經 06 的忠誠管線），並發事件 `economy.upkeepUnpaid{clanId, payeeIds}`；`payeeIds` 是 economy 結算當下的實際支薪對象快照（warning 級，每勢力每月至多一次；報告字串見 13 §6.11 `report.economy.upkeepUnpaid`；02 §4.19）。
 - 政策維持費付不出時，依「採用時間由新到舊」自動廢止政策，直到可支付，每廢止一項發事件 `policy.autoRevoked{clanId, policyId}`（每項一則；報告字串見 13 §6.11 `report.policy.autoRevoked`；02 §4.19；六輪裁決 1）。
 
 #### 3.1.5 收支預覽（selector，不改動狀態）
@@ -672,7 +672,7 @@ monthlyIncomeAndUpkeep(state):
     clan.gold += floor(commerceIncome(clan))          # §3.1.1，含施設/政策固定收入
     salary = Σ 現役武將俸祿（當主 0、受封領主 0）
     if clan.gold >= salary: clan.gold −= salary
-    else: clan.gold = 0；全武將忠誠 −BAL.unpaidSalaryLoyaltyPenalty（經 06）；發事件 economy.upkeepUnpaid{clanId}
+    else: clan.gold = 0；實際支薪對象忠誠 −BAL.unpaidSalaryLoyaltyPenalty（經 06）；發事件 economy.upkeepUnpaid{clanId, payeeIds}
     for pol of state.policies[clan.id].active（由舊到新）:
       if clan.gold >= upkeep(pol): clan.gold −= upkeep(pol)
       else: 標記待廢止
@@ -969,7 +969,7 @@ buy : 需 clan.gold ≥ ceil(amount × BAL.riceBuyRate) → 扣款；food += amo
   補齊驗證條件（身分門檻 06 §3.4／02 INV-04、同城非出陣中、軍團城限制 07 §3.12、委任須有城主）與效果
   （被解除城主職者忠誠 −`BAL.loyaltyDismiss`=10，經 06 §3.6.3）。依據：驗證 finding、02 §4.18、06 §3.4／§3.6.3、07 §3.12。
 - **經濟事件具名化（§3.1.3／§3.1.4／§5.2／§5.3）**：原直接「發 `report.economy.castleStarving`／發報告」改為發具名事件
-  `economy.foodShortage{clanId, castleId}`（糧盡）與 `economy.upkeepUnpaid{clanId}`（欠俸），明訂發出時機、頻率與 payload；
+  `economy.foodShortage{clanId, castleId}`（糧盡）與 `economy.upkeepUnpaid{clanId, payeeIds}`（欠俸），明訂發出時機、頻率與 payload；
   報告字串映射見 13 §6.11。依據：四輪裁決 C-5、02 §4.19。
 - **郡屬性／`foodFrac` 浮點（存查）**：確認 05 §3.2.1／§4 已為「內部浮點、顯示 floor」（決策 D5）且 `Castle.foodFrac` 已收錄，
   與四輪裁決 D-12／02 §4 一致，無需再改。依據：D-12。

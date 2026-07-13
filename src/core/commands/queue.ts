@@ -84,10 +84,11 @@ export function applyCommands(
   state: GameState,
   queue: readonly CommandEnvelope[],
   emit: EmitFn,
-): void {
-  let applied = 0;
+): CommandEnvelope[] {
+  let processed = 0;
+  const applied: CommandEnvelope[] = [];
   for (const envelope of queue) {
-    if (applied >= BAL.maxCommandsPerTick) {
+    if (processed >= BAL.maxCommandsPerTick) {
       break;
     }
     if (envelope.seq <= state.meta.lastAppliedCmdSeq) {
@@ -96,10 +97,12 @@ export function applyCommands(
     const result = validateCommand(state, envelope.command);
     if (result.ok) {
       applyCommand(state, envelope.command, emit);
+      applied.push(envelope);
     } else {
       emit(makeRejectedEvent(state, envelope.command, result));
     }
     state.meta.lastAppliedCmdSeq = envelope.seq;
-    applied += 1;
+    processed += 1;
   }
+  return applied;
 }

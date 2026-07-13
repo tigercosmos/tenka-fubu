@@ -439,6 +439,20 @@ else:
 
 玩家勢力當主死亡且有繼承人 → 遊戲繼續（玩家改扮演新當主）；無繼承人 → 敗北結局（10）。
 
+攻城落城時，若勢力仍有領地而當主被俘，俘虜保留 `status='captive'`。同城全部守方武將須先各自完成
+逃脫／戰死／被俘結算，之後才針對結算後仍 `serving` 的名冊執行一次改立當主：
+
+1. 先依上述通常規則，從已元服且仍在籍的一門武將選擇繼承人。
+2. 若無一門，為避免存活勢力指向非 `serving` 當主（INV-08），改由全體已元服且仍在籍武將依同一
+   `(rankIndex desc, abilityScore desc, 年齡 desc, OfficerId asc)` 順序取第一人，作為緊急繼承人。
+3. 新當主忠誠設為 100；其餘在籍家臣立即承受通常相續衝擊（外樣 −10、譜代 −5、一門 0）。不新增 RNG 消耗。
+4. 沿用 canonical `clan.succession{clanId, deceasedId, heirId}`；`deceasedId` 為既有欄名，此情形指被俘前任。
+   報告渲染須檢查該前任目前 `status`，使用「遭俘」而非「逝去」。
+5. 若連已元服在籍武將皆無，勢力立即標記滅亡；玩家勢力另設 `defeat.no-heir`。M4 落城結算須原子地將
+   該勢力所有殘存城與所轄郡轉予攻城方，轉入城一律清除城主／代官／制壓／軍團參照並改為直轄支城
+   （攻城方本城除外），同時清除滅亡勢力所有軍團與部隊；只發一次 `clan.destroyed`。此為 M4 的最小
+   invariant-safe 吸收規則，不提前實作 M8 的外交、俘虜處置或演出。
+
 ### 3.10 元服
 
 - 武將資料含 `debutYear`／`debutClanId`／`debutCastleId`（02 §4.4 已收，五輪裁決 E）；14 劇本資料為可選欄位，
@@ -713,7 +727,7 @@ paySalaries(state):
     else:
       clan.gold = 0
       for o in payees: o.loyalty = max(0, o.loyalty − BAL.unpaidSalaryLoyaltyPenalty)
-      // 欠俸事件 economy.upkeepUnpaid{clanId} 由 05 於 economy 月結時單一發出（05 §3.1.4／§5.2；報告由 13 §3.7 導出，13 §6.11 report.economy.upkeepUnpaid，02 §4.19）；本函式僅定義俸祿金額與欠俸忠誠懲罰、不重複發出
+      // 欠俸事件 economy.upkeepUnpaid{clanId, payeeIds} 由 05 於 economy 月結時單一發出；payeeIds 固定為結算當下的實際支薪對象（05 §3.1.4／§5.2；報告由 13 §3.7 導出，13 §6.11 report.economy.upkeepUnpaid，02 §4.19）；本函式僅定義俸祿金額與欠俸忠誠懲罰、不重複發出
 ```
 
 （扣帳時點併入 economy 月結順序，參見 05；本函式定義金額與欠俸效果。）
@@ -1087,7 +1101,7 @@ traitModifier(o, hook) -> { mult: number, add: number }:
   (4) **身分推舉**（§3.8.3）泛稱「發報告」→ 發事件 `officer.promoted{officerId, clanId, newRank}`（02 §4.19 既有、06 為生產者，原無 emit 點；同型收束，逾 02 §8 06 下游清單四項之補全）。
   (5) **家督繼承**（§3.9.3／§5.5）`report.clan.succession` → 發事件 `clan.succession{clanId, deceasedId, heirId}`（`deceasedId`＝重寫前 `clan.leaderId`＝歿去之當主；`clanIds=[clanId]`；七輪裁決 2 收錄）。
   (6) **元服**（§3.10／§5.6）`report.officer.comingOfAge` → 發事件 `officer.comingOfAge{officerId, clanId}`（正常登場路徑；§5.6 早夭跳過分支仍不發，§5.11）。
-  (7) **欠俸**（§5.2）刪直發 `report.clan.unpaidSalary`——欠俸事件 `economy.upkeepUnpaid{clanId}` 由 05 於 economy 月結時單一發出（05 §3.1.4／§5.2、單一生產者），本函式僅定義俸祿金額與忠誠懲罰、不重複發出（報告 13 §6.11 `report.economy.upkeepUnpaid`）。
+  (7) **欠俸**（§5.2）刪直發 `report.clan.unpaidSalary`——欠俸事件 `economy.upkeepUnpaid{clanId, payeeIds}` 由 05 於 economy 月結時單一發出（05 §3.1.4／§5.2、單一生產者），本函式僅定義俸祿金額與忠誠懲罰、不重複發出（報告 13 §6.11 `report.economy.upkeepUnpaid`）。
   (8) **功績達門檻**（§5.7）刪直發 `report.officer.meritReady`——判 **UI-only**（條件 `o.merit ≥ rankMeritThresholds[nextRank]` state 可衍生），改由 11 武將一覽／詳細卡 badge 直讀 state 呈現（七輪裁決 2；13 §6.11 註記）。
   (9) **具申失效**（§3.11.1／§5.8）`report.proposal.invalid` 併入 `proposal.expired`：採納後 Command 再驗證失敗 → 發 `proposal.expired{proposalId, officerId, reason:'invalidated'}`（無忠誠懲罰）；逾期分支（§3.11.1／§5.8 `proposalsSystem`）補發 `proposal.expired{…, reason:'timeout'}`（原逾期分支無 emit 點，屬 06 為生產者之孤兒事件缺口）；13 §3.7 依 `reason` 分流 `report.proposal.expired`（timeout）／`report.proposal.invalid`（invalidated）。
   (10) **合戰捕獲**（§3.7.2，七輪裁決 3）：捕虜產生條件敘述對齊 07 §3.14——時機 2 合戰敗北（敗將先擲戰死、未死者再擲捕獲）、時機 3 落城（逃脫／被俘／戰死三分）；機率公式歸 07（僅引用，`officer.captured` 已 canonical、02 不改）。
@@ -1108,10 +1122,10 @@ traitModifier(o, hook) -> { mult: number, add: number }:
   economy 步驟（Step 6）由 `paySalaryForClan` 直接施加，而 §3.6.2 之月結漂移於 officers 步驟（Step 9）
   同 tick 後行，致懲罰被同月 ±2 漂移即時抹平（忠誠處於目標值者淨變化為 0），牴觸 §3.6.2「事件造成的
   忠誠增減不會立即被抹平」。依 §3.6.3「05 觸發、[06]定值」之權責劃分裁定：economy 步驟僅司金錢結算與
-  發 `economy.upkeepUnpaid{clanId}`（金錢單一擁有者不變）；忠誠懲罰改由 officers 步驟於 `recomputeLoyalty`
-  漂移「之後」以 `applyUnpaidSalaryPenalty(state, unpaidClanIds)` 套用，`unpaidClanIds` 取自本 tick
-  已併入事件流的 `economy.upkeepUnpaid`。支薪對象於 officers 步驟就地重推（Step 6→9 間無變動武將集合之
-  步驟；M4 合戰接線後須改為攜帶 economy 當時之實際 payee 清單，屆時回寫本條）。13 步固定順序不動。
+  發 `economy.upkeepUnpaid{clanId, payeeIds}`（金錢單一擁有者不變）；忠誠懲罰改由 officers 步驟於
+  `recomputeLoyalty` 漂移「之後」以 `applyUnpaidSalaryPenalty(state, unpaidPayeeIds)` 套用。M4 接線後，
+  `payeeIds` 固定為 economy Step 6 結算當下之實際支薪對象快照，officers Step 9 直接消費事件內清單，
+  不再重推可能已因行軍、戰死或俘虜而變動的武將集合。13 步固定順序不動。
   (F3) **政策／施設效果倍率去魔術數字**：`development`／`domestic`／`uprising`／`conscription`／`transport`
   諸系統內嵌之政策／施設倍率與治安細目（如樂市/關所/檢地開發倍率、傳馬制/港灣輸送日數倍率、寺社保護/
   五人組治安與一揆率係數等）比照上條 F2 同型改法，提為 `BAL.pol*`／`BAL.fac*`／`BAL.security*`／

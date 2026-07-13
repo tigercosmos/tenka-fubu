@@ -33,7 +33,7 @@ function skipDays(days: number): Command {
 }
 /** 未登錄 handler 之佇列指令（僅供拒絕路徑測試；validateCommand 於讀取欄位前即拒，故形狀不需完整）。 */
 function unregisteredCmd(): Command {
-  return { type: 'march', clanId: TEST_CLAN } as unknown as Command;
+  return { type: 'useBetrayal', clanId: TEST_CLAN } as unknown as Command;
 }
 function env(seq: number, command: Command, issuedDay = 0): CommandEnvelope {
   return { seq, issuedDay, command };

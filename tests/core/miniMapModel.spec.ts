@@ -72,6 +72,7 @@ describe('selectMiniMapModel（12 §3.2.12／§4）', () => {
       siegeId: null,
       autoReturn: true,
       corpsId: null,
+      pursuitEligibleArmyIds: [],
       ...overrides,
     };
   }

@@ -200,7 +200,10 @@ describe('M3 內政 core', () => {
     expect(events.some((e) => e.type === 'economy.upkeepUnpaid' && e.clanId === CLAN_ALPHA)).toBe(
       true,
     );
-    applyUnpaidSalaryPenalty(state, new Set([CLAN_ALPHA]));
+    const unpaidPayeeIds = events.flatMap((event) =>
+      event.type === 'economy.upkeepUnpaid' && event.clanId === CLAN_ALPHA ? event.payeeIds : [],
+    );
+    applyUnpaidSalaryPenalty(state, new Set(unpaidPayeeIds));
     expect(steward.loyalty).toBe(loyalty); // 受封領主非支薪對象，欠俸不減其忠誠
   });
 
@@ -255,6 +258,7 @@ describe('M3 內政 core', () => {
       siegeId: null,
       autoReturn: true,
       corpsId: null,
+      pursuitEligibleArmyIds: [],
     };
     applyTransport(state, {
       type: 'transport',

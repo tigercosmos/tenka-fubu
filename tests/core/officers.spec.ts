@@ -110,7 +110,7 @@ describe('rank and salary', () => {
 
     recomputeLoyalty(state); // 漂移：payee 已在目標值，維持不變
     const fiefLoyaltyAfterDrift = fiefHolder.loyalty; // 領主亦受漂移，但不受欠俸懲罰
-    applyUnpaidSalaryPenalty(state, new Set([CLAN_ALPHA]));
+    applyUnpaidSalaryPenalty(state, new Set([payee.id]));
 
     expect(payee.loyalty).toBe(target - BAL.unpaidSalaryLoyaltyPenalty);
     expect(fiefHolder.loyalty).toBe(fiefLoyaltyAfterDrift); // 受封領主非支薪對象

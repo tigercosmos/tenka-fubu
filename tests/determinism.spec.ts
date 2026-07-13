@@ -78,7 +78,7 @@ function conscriptCommand(): Command {
   return { type: 'setConscriptPolicy', clanId: CLAN_ALPHA, castleId: CASTLE_A1, policy: 'high' };
 }
 
-/** 出陣 Command（`march`，02 §4.18；04/07 語意——M1 尚未登錄 handler，見檔頭裁決）。 */
+/** 出陣 Command（`march`，02 §4.18；04/07 語意——M4 起由真實 handler 結算）。 */
 function marchCommand(): Command {
   return {
     type: 'march',
@@ -177,14 +177,15 @@ describe('DT2 — 含指令的重跑（17 §3.5.2）', () => {
     expect(stableStringify(runA.state)).toBe(stableStringify(runB.state));
   });
 
-  it('兩指令確實投遞並走過 Step 1 管線（M3 徵兵方針成功、未實作出陣仍拒絕）', () => {
+  it('兩指令確實投遞並走過 Step 1 管線（M3 徵兵方針與 M4 出陣皆成功）', () => {
     const run = runDeterminismTicks({
       seed: TINY_SEED,
       days: 41, // 涵蓋第 40 日（含）之 tick
       day10Command: conscriptCommand(),
       day40Command: marchCommand(),
     });
-    expect(run.rejectedCommandTypes).toEqual(['march']);
+    expect(run.rejectedCommandTypes).toEqual([]);
+    expect(Object.keys(run.state.armies)).toHaveLength(1);
     expect(run.state.meta.lastAppliedCmdSeq).toBe(2);
   });
 

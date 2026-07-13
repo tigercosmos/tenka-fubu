@@ -3,10 +3,12 @@
 
 import { BAL } from '../balance';
 import { RANK_VALUES, type Rank } from '../state/enums';
-import type { ClanId, OfficerId } from '../state/ids';
+import type { ClanId, MapNodeId, OfficerId } from '../state/ids';
+import type { GameEvent } from '../state/events';
 import type { GameState, Officer } from '../state/gameState';
 import type { OfficerStat } from '../state/officerTypes';
 import { traitModifier } from '../traits';
+import { nearestOwnedCastleByTravelTime } from './castleSelection';
 
 const clamp = (value: number, min: number, max: number): number =>
   Math.max(min, Math.min(max, value));
@@ -29,6 +31,61 @@ export function effectiveStats(officer: Officer): Record<OfficerStat, number> {
     val: effectiveStat(officer, 'val'),
     int: effectiveStat(officer, 'int'),
     pol: effectiveStat(officer, 'pol'),
+  };
+}
+
+function successorOrder(a: Officer, b: Officer): number {
+  const ability = (value: Officer) => Math.max(...Object.values(effectiveStats(value)));
+  return (
+    rankIndex(b.rank) - rankIndex(a.rank) ||
+    ability(b) - ability(a) ||
+    a.birthYear - b.birthYear ||
+    a.id.localeCompare(b.id)
+  );
+}
+
+/**
+ * Appoint a deterministic successor and apply the household loyalty shock.
+ * Captured leaders may opt into an adult non-kin emergency fallback; death succession may not.
+ */
+export function appointClanSuccessor(
+  state: GameState,
+  clanId: ClanId,
+  formerLeaderId: OfficerId,
+  allowEmergencyFallback = false,
+): GameEvent | null {
+  const clan = state.clans[clanId];
+  if (!clan?.alive || clan.leaderId !== formerLeaderId) return null;
+  const eligible = Object.values(state.officers)
+    .filter(
+      (candidate) =>
+        candidate.status === 'serving' && candidate.clanId === clan.id && candidate.hasComeOfAge,
+    )
+    .sort(successorOrder);
+  const heir =
+    eligible.find((candidate) => candidate.kinship === 'kin') ??
+    (allowEmergencyFallback ? eligible[0] : undefined);
+  if (!heir) return null;
+
+  clan.leaderId = heir.id;
+  heir.loyalty = 100;
+  for (const member of Object.values(state.officers)) {
+    if (member.id === heir.id || member.status !== 'serving' || member.clanId !== clan.id) continue;
+    const shock =
+      member.kinship === 'tozama'
+        ? -BAL.successionLoyaltyShockTozama
+        : member.kinship === 'fudai'
+          ? -BAL.successionLoyaltyShockFudai
+          : 0;
+    adjustLoyalty(member, shock);
+  }
+  return {
+    type: 'clan.succession',
+    day: state.time.day,
+    clanIds: [clan.id],
+    clanId: clan.id,
+    deceasedId: formerLeaderId,
+    heirId: heir.id,
   };
 }
 
@@ -168,17 +225,19 @@ export function paySalaryForClan(state: GameState, clanId: ClanId): SalarySettle
 
 /**
  * 欠俸忠誠懲罰（06 §3.6.3；於 officers 步驟月結漂移「之後」套用，確保懲罰不被同 tick 的漂移
- * 立即抹平，符 §3.6.2）。`unpaidClanIds` 來自本 tick economy 步驟發出的 `economy.upkeepUnpaid`
- *（05 觸發、06 定值）。支薪對象於此重新推導——本 tick economy（Step 6）與 officers（Step 9）
- * 之間無任何會變動武將集合的步驟（M4 合戰接線後須改為攜帶 economy 當時的實際 payee 清單）。
+ * 立即抹平，符 §3.6.2）。`unpaidPayeeIds` 來自本 tick economy 步驟發出的
+ * `economy.upkeepUnpaid.payeeIds`（05 觸發、06 定值），固定為 Step 6 結算當下的實際支薪對象；
+ * Step 9 直接消費該快照，不因其間的行軍、戰死或俘虜而改變受懲罰對象。
  */
 export function applyUnpaidSalaryPenalty(
   state: GameState,
-  unpaidClanIds: ReadonlySet<ClanId>,
+  unpaidPayeeIds: ReadonlySet<OfficerId>,
 ): void {
-  for (const clanId of [...unpaidClanIds].sort()) {
-    for (const officer of salaryPayees(state, clanId))
+  for (const officerId of [...unpaidPayeeIds].sort()) {
+    const officer = state.officers[officerId];
+    if (officer && officer.status !== 'dead') {
       adjustLoyalty(officer, -BAL.unpaidSalaryLoyaltyPenalty);
+    }
   }
 }
 
@@ -303,9 +362,114 @@ export function updatePromotionStalls(state: GameState): void {
  * M3 的 officers tick（每月 1 日）：先重算忠誠目標值並漂移（06 §3.6.2），再套用本 tick 欠俸懲罰
  *（漂移「之後」，見 applyUnpaidSalaryPenalty）。薪俸金錢由 economy 步驟結算，以維持金錢的單一擁有者。
  */
-export function officersSystem(state: GameState, unpaidClanIds: ReadonlySet<ClanId>): void {
+export function officersSystem(state: GameState, unpaidPayeeIds: ReadonlySet<OfficerId>): void {
   if (state.time.dayOfMonth !== 1) return;
   recomputeLoyalty(state);
   updatePromotionStalls(state);
-  applyUnpaidSalaryPenalty(state, unpaidClanIds);
+  applyUnpaidSalaryPenalty(state, unpaidPayeeIds);
+}
+
+/** Shared battle-death mutation used by field pursuit and siege resolution. */
+export function dieOfficer(
+  state: GameState,
+  officerId: OfficerId,
+  nodeId: MapNodeId,
+  deferSuccession = false,
+): GameEvent[] {
+  const officer = state.officers[officerId];
+  if (!officer || officer.status === 'dead') return [];
+  const clanId = officer.clanId;
+  const army = officer.armyId === null ? undefined : state.armies[officer.armyId];
+  if (army) {
+    if (army.leaderId === officer.id) {
+      const successor = army.deputyIds.find(
+        (id) => id !== officer.id && state.officers[id]?.status === 'serving',
+      );
+      if (successor) {
+        army.leaderId = successor;
+        army.deputyIds = army.deputyIds.filter((id) => id !== successor && id !== officer.id);
+      } else {
+        const refuge =
+          nearestOwnedCastleByTravelTime(state, army.clanId, army.posNodeId)?.castle ??
+          Object.values(state.castles)
+            .filter((castle) => castle.ownerClanId === army.clanId)
+            .sort((a, b) => a.id.localeCompare(b.id))[0];
+        for (const memberId of army.deputyIds) {
+          const member = state.officers[memberId];
+          if (!member) continue;
+          member.armyId = null;
+          member.locationCastleId = refuge?.id ?? member.debutCastleId;
+        }
+        delete state.armies[army.id];
+      }
+    } else {
+      army.deputyIds = army.deputyIds.filter((id) => id !== officer.id);
+    }
+  }
+  for (const castle of Object.values(state.castles)) {
+    if (castle.lordId === officer.id) castle.lordId = null;
+  }
+  for (const district of Object.values(state.districts)) {
+    if (district.stewardId === officer.id) district.stewardId = null;
+  }
+  for (const corps of Object.values(state.corps)) {
+    if (corps.corpsLeaderId !== officer.id) continue;
+    for (const castle of Object.values(state.castles))
+      if (castle.corpsId === corps.id) castle.corpsId = null;
+    delete state.corps[corps.id];
+  }
+  officer.status = 'dead';
+  officer.clanId = null;
+  officer.locationCastleId = null;
+  officer.armyId = null;
+  officer.capturedByClanId = null;
+  const events: GameEvent[] = [
+    {
+      type: 'officer.died',
+      day: state.time.day,
+      clanIds: clanId === null ? [] : [clanId],
+      officerId: officer.id,
+      clanId,
+      cause: 'battle',
+      nodeId,
+    },
+  ];
+  const clan = clanId === null ? undefined : state.clans[clanId];
+  if (!deferSuccession && clan?.alive && clan.leaderId === officer.id) {
+    const succession = appointClanSuccessor(state, clan.id, officer.id);
+    if (succession) {
+      events.push(succession);
+    } else if (clan.id === state.meta.playerClanId) {
+      // The victory/event system owns the eventual defeat resolution (10 §3.8.2).
+      state.events.flags['defeat.no-heir'] = 1;
+    } else {
+      clan.alive = false;
+      clan.destroyedDay = state.time.day;
+      for (const other of Object.values(state.armies)) {
+        if (other.clanId === clan.id) delete state.armies[other.id];
+      }
+      for (const corps of Object.values(state.corps)) {
+        if (corps.clanId !== clan.id) continue;
+        for (const castle of Object.values(state.castles)) {
+          if (castle.corpsId === corps.id) castle.corpsId = null;
+        }
+        delete state.corps[corps.id];
+      }
+      for (const member of Object.values(state.officers)) {
+        if (member.status !== 'serving' || member.clanId !== clan.id) continue;
+        member.status = 'ronin';
+        member.clanId = null;
+        member.armyId = null;
+        member.locationCastleId ??= member.debutCastleId;
+      }
+      events.push({
+        type: 'clan.destroyed',
+        day: state.time.day,
+        clanIds: [clan.id],
+        clanId: clan.id,
+        byClanId: null,
+      });
+    }
+  }
+  return events;
 }

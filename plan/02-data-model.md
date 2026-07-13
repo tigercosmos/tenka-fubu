@@ -489,6 +489,7 @@ export interface Army {
   siegeId: SiegeId | null;     // status='sieging' 時所屬攻城戰；否則 null（INV-13）
   autoReturn: boolean;         // 自動歸還開關（預設 true）；糧將盡／任務完成時自動轉 returning（CmdSetAutoReturn 切換，勘誤 E-32；07 §3.13）（二輪裁決 B）
   corpsId: CorpsId | null;     // 所屬軍團；null=大名直轄。非衍生：出陣時快照，軍團解散／收回城時顯式改 null（07 §3.12）；不可由 originCastle.corpsId 衍生（直轄城出陣後才入軍團之情形會誤判歸屬）（二輪裁決 B）
+  pursuitEligibleArmyIds: ArmyId[]; // 最近野戰勝利直接擊潰之 routed Army id；後續相遇追擊資格精確到部隊配對（07 §8 D36）
 }
 ```
 
@@ -1039,17 +1040,17 @@ export type GameEventType = GameEvent['type'];
 | `siege.started` | `siegeId, castleId, attackerClanId` | 開圍（自動暫停候選） | 07 |
 | `siege.relief` | `siegeId, castleId` | 援軍抵達受圍城節點、圍城每日效果暫停（`Siege.interrupted=true`）、展開解圍野戰（07 §3.11 援軍解圍；`clanIds=[圍城方,守城方]`；報告 report.siege.relief；七輪裁決 2 收錄——解圍野戰之**開始**為獨立於 siege.ended〔`fallen:false`＝解圍成功〕之核心模擬時刻、且該變體槽已由 report.siege.repelled 佔用〔時刻與槽位皆衝突，故不併入〕；render 不可反查已結束/已解除中斷之 Siege，故 castleId 隨 event 落地；與同 tick 併發之 battle.started→report.field.begin 之去重由 13 定） | 07 |
 | `siege.ended` | `siegeId, castleId, fallen: boolean, newOwnerClanId: ClanId \| null` | 陷落或解圍 | 07 |
-| `district.subjugated` | `districtId, fromClanId, toClanId, armyId: ArmyId` | 制壓完成翻轉歸屬（armyId＝完成制壓之部隊，供報告 leader enrichment，見表後註，五輪裁決 B） | 04 |
-| `army.departed` | `armyId, clanId, originCastleId, targetNodeId` | 出陣 | 04 |
-| `army.arrived` | `armyId, clanId, nodeId: MapNodeId` | 部隊抵達其目標節點（04 movement；勘誤 E-30） | 04 |
-| `army.returned` | `armyId, clanId, castleId, soldiersReturned: number` | 歸還入城解散 | 04 |
-| `army.blocked` | `armyId, clanId, nodeId: MapNodeId` | 行軍受阻、於節點轉 holding 待命（validateNextStep 失敗，04 §5.4；四輪裁決 C-6，收錄自 04；備忘錄交 04 發出、13 報告 key 對齊 report.army.blocked） | 04 |
-| `army.starving` | `armyId, clanId` | 攜帶兵糧歸 0 | 07 |
-| `army.routed` | `armyId, clanId, nodeId: MapNodeId` | 部隊士氣崩潰／糧盡潰走轉 `status='routed'`（野戰 07 §3.4 每日、合戰 §3.9 戰後皆適用；`nodeId`＝潰走發生節點；`clanIds=[clanId]`；報告 report.field.rout，`{army}` 經 armyId 於部隊存活期間解析〔13 transient-timing enrichment，同 army.departed/arrived/blocked 慣例〕；七輪裁決 2 收錄，發出者 07〔§3.4 潰走行為單一擁有者，四輪 E20〕） | 07 |
+| `district.subjugated` | `districtId, fromClanId, toClanId, armyId: ArmyId, leaderId: OfficerId` | 制壓完成翻轉歸屬；`leaderId` 為事件當下大將快照，供持久報告 enrichment（M4 補完五輪裁決 B） | 04 |
+| `army.departed` | `armyId, clanId, originCastleId, targetNodeId, leaderId: OfficerId` | 出陣；`leaderId` 為事件當下快照 | 04 |
+| `army.arrived` | `armyId, clanId, nodeId: MapNodeId, leaderId: OfficerId` | 部隊抵達其目標節點（04 movement；勘誤 E-30） | 04 |
+| `army.returned` | `armyId, clanId, castleId, soldiersReturned: number, leaderId: OfficerId` | 歸還入城解散；必須攜大將快照，因 Army 於同 tick 刪除 | 04 |
+| `army.blocked` | `armyId, clanId, nodeId: MapNodeId, leaderId: OfficerId` | 行軍受阻、於節點轉 holding 待命（validateNextStep 失敗，04 §5.4；四輪裁決 C-6） | 04 |
+| `army.starving` | `armyId, clanId, leaderId: OfficerId` | 攜帶兵糧歸 0；大將快照供報告 | 07 |
+| `army.routed` | `armyId, clanId, nodeId: MapNodeId, leaderId: OfficerId` | 部隊士氣崩潰／糧盡潰走轉 `status='routed'`；`leaderId` 保證追擊同 tick 戰死／解散後仍可渲染報告（七輪裁決 2，M4 補完持久 enrichment） | 07 |
 | `economy.income` | `clanId, gold: number, foodByCastle: Record<CastleId, number>` | 每月 1 日收入 | 05 |
 | `economy.harvest` | `clanId, totalFood: number` | 9/1 秋收 | 05 |
 | `economy.granaryOverflow` | `clanId, castleId, food: number` | 米藏超過容量、溢出兵糧散失（秋收/收入結算 05 §3.2、輸送抵達 05 §3.6；`food`＝散失石數；六輪裁決 1，收錄自 05 直發 report） | 05 |
-| `economy.upkeepUnpaid` | `clanId` | 金錢不足、當月俸祿未全額發放（家臣忠誠懲罰；warning 級，13 §6.11 report.economy.upkeepUnpaid；四輪裁決 C-5，收錄自 05） | 05 |
+| `economy.upkeepUnpaid` | `clanId, payeeIds` | 金錢不足、當月俸祿未全額發放；`payeeIds: OfficerId[]` 為 economy 結算當下的實際支薪對象快照，供同 tick officers 步驟套用忠誠懲罰（warning 級，13 §6.11 report.economy.upkeepUnpaid；四輪裁決 C-5，收錄自 05；M4 補完 06 F2） | 05 |
 | `economy.foodShortage` | `clanId, castleId` | 城兵糧見底、士卒逃散（**非圍城**一般糧盡；warning 級，13 §6.11 report.economy.castleStarving；四輪裁決 C-5，收錄自 05 §3.1.3） | 05 |
 | `facility.completed` | `castleId, facilityTypeId` | 施設完工（佇列制無 slotIndex，勘誤 E-39） | 05 |
 | `policy.enacted` / `policy.revoked` | `clanId, policyId` | 政策生效/廢止 | 05 |
@@ -1103,7 +1104,7 @@ export type GameEventType = GameEvent['type'];
 > **報告 enrichment payload 補全（五輪裁決 B）**：五輪裁決 (a) 定案報告改由 UI 層 `renderReport(report, state, playerClanId)` 於**渲染時**導出 key/params（13 §3.7；`Report` 只存原始 event，§4.17／03 §3.4.3），
 > 故顯示所需之**持久實體 ID** 必須隨 event 落地——transient 實體（部隊、已結束之 `FieldCombat`／`BattleState`）於渲染時已不可反查。逐項補全：
 > ① `battle.ended` 增 `nodeId/attackerClanId/defenderClanId`（13 §6.11 `report.field.resolved`／`report.battle.won`／`report.battle.lost` 之 place/attacker/defender；欄位鏡射 `battle.started`，07 §3.3／§3.9 emit 端已持有）。
-> ② `district.subjugated` 增 `armyId`（`report.army.subjugated` 之 `{leader}`；04 §3.8 填為完成制壓之部隊，與 `army.departed/arrived` 之 leader 導出同慣例）。
+> ② `district.subjugated` 保留 `armyId` 並增 `leaderId`；M4 起所有會顯示部隊／大將名的持久軍事事件都攜事件當下 `leaderId` 快照，不再依賴可能已刪除的 transient `Army`。
 > ③ `officer.died` 增 `nodeId: MapNodeId | null`（`report.officer.killedInAction` 之 `{place}`，僅 `cause='battle'` 非 null；06 §5.5 `die()` 簽名補此參、`cause='battle'` 由 07 帶入戰場節點）。
 > ④ `plot.succeeded`／`plot.failed` 增 `targetCastleId: CastleId | null`（`report.plot.betrayalReady` 之 `{castle}`；betrayal／rumor 城模式填、其餘 null；`Plot` 狀態本已持有此欄，08 §3.7）。
 > **`officer.died.cause` 收斂 `'age'|'battle'`（五輪裁決 C）**：移除 `'execution'`——處刑死亡由獨立 `officer.executed` 承載（06 §3.7.2(c) 直接設 `status='dead'`、不經 `die()`，`officer.died` 不重複發），備忘錄交 06（§5.5 `die()` 之 `'natural'` 對齊為 `'age'`）／13（§3.7 分流依據 `natural`→`age`）。
@@ -1240,7 +1241,7 @@ export interface AiIntent {
 | INV-03 | `district.castleId` 存在；`castle.districtIds` 與 `district.castleId` 互為鏡像（雙向一致、無重複、每郡恰屬一城）。 |
 | INV-04 | `castle.lordId ≠ null` ⇒ 該武將 `status='serving'`、`clanId=castle.ownerClanId`、`rank ≥ 'samurai-taisho'`；同一武將至多任一城城主。 |
 | INV-05 | `district.stewardId ≠ null` ⇒ 該武將 `status='serving'`、`clanId=district.ownerClanId`；每武將受封郡數 ≤ `fiefCapOf(rank)`。 |
-| INV-06 | `army.leaderId` 與 `deputyIds` 的武將皆 `status='serving'`、`clanId=army.clanId`、`hasComeOfAge=true`、`armyId=該army.id`；`deputyIds.length ≤ BAL.maxDeputies`；同一武將不得同時在兩支部隊。 |
+| INV-06 | `army.leaderId` 與 `deputyIds` 的武將皆 `status='serving'`、`clanId=army.clanId`、`hasComeOfAge=true`、`armyId=該army.id`；`deputyIds.length ≤ BAL.maxDeputies`；同一武將不得同時在兩支部隊；`pursuitEligibleArmyIds` 必須存在、不得重複且不得包含自身。 |
 | INV-07 | 每位武將 `locationCastleId` 與 `armyId` 恰有一者非 null（`status='dead'` 時兩者皆 null）。 |
 | INV-08 | 每個 `alive` 勢力的 `leaderId` 是本家 `serving` 武將且 `loyalty=100`；`status='serving'` ⇒ `clanId ≠ null` 且該勢力 `alive`；`status='captive'` ⇒ `clanId ≠ null`（＝**原屬勢力**，供釋放/歸還，可能已滅亡；捕獲方另存於 `capturedByClanId`）；`status∈{'ronin','dead'}` ⇒ `clanId = null`（四輪裁決 A-c，對齊 06 §3.7.2 捕虜機制）。 |
 | INV-09 | `clan.homeCastleId` 存在、屬本家、`tier='main'`。 |

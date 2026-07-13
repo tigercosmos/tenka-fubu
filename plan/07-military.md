@@ -159,7 +159,7 @@ moraleFactor = BAL.moraleFactorBase + morale / BAL.moraleFactorDivisor   // 0.5 
 `morale ≤ BAL.moraleBreakThreshold`（建議 30）**或** `soldiers < initialTroops × BAL.routTroopRatio`（建議 0.2）。
 
 **潰走行為**：
-- `status = 'routed'`；轉入當下發出 `army.routed(armyId, clanId, nodeId: army.posNodeId)`
+- `status = 'routed'`；轉入當下發出 `army.routed(armyId, clanId, nodeId: army.posNodeId, leaderId)`
   （02 §4.19 canonical，七輪裁決 2；`{army}` 經 armyId 於部隊存活期間解析，報告文字由 UI 依事件推導，02 §4.17）。
   路徑改為「至最近我方城的最短路」（以跳數計，同距取 id 字典序小者）。
   潰走移動速度依 `BAL.retreatSpeedFactor`（1.25×，`returning`／`routed` 共用；速度乘數之模型由 04 §5.3 movement 持有，E-62）。
@@ -432,7 +432,7 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
   `兵數 × BAL.fieldFoodPerSoldierDaily × BAL.defaultCarryDays` 水位（城存量不足則補到用盡為止）。
 - **糧盡**（`food == 0`）：每日士氣 `−BAL.noFoodMoraleDaily`（建議 8）、
   兵逃散 `soldiers × BAL.noFoodDesertionRate`（建議 0.05，向上取整）；
-  兵糧本日首度歸 0 時發出 `army.starving`（`armyId`、`clanId`；02 §4.19）。
+  兵糧本日首度歸 0 時發出 `army.starving`（`armyId`、`clanId`、`leaderId`；02 §4.19）。
 - **歸還**：`CmdRecallArmy` → `mission = 'return'`、目標 = `originCastleId`（已失守則最近我方城）；
   抵達後兵力、殘糧併入城，武將回城，`Army` 移除。
 - **自動歸還**（`autoReturn == true`，預設開，玩家可關）：滿足任一即自動轉歸還——
@@ -516,6 +516,7 @@ interface Army {
   siegeId: string | null;     // status=='sieging' 時所屬攻城戰 id；否則 null（依 02 §4.8，INV-13）
   autoReturn: boolean;        // 糧將盡／任務完成自動歸還
   corpsId: string | null;     // 所屬軍團 id；null = 直轄（非衍生：出陣時快照，軍團解散／收回城時顯式改 null，§3.12；不可由 originCastle.corpsId 衍生）
+  pursuitEligibleArmyIds: string[]; // 最近野戰勝利直接擊潰之 routed Army id；後續追擊資格不得擴及同勢力其他部隊（§8 D36）
 }
 
 /** 野戰交戰狀態（一節點一場） */
@@ -1197,3 +1198,29 @@ supplyDailyTick(state, army):
   （04 §3.7「潰走後之行為……以本文件 §3.4 為單一擁有者」僅援引後續行為、非援引本次新增之事件發出點），
   該處若要發出 `army.routed` 須由 04 一併補上（本檔不越權改動 04）。
   依據：02 §8 七輪裁決 2／3；02 §4.19 `army.routed`／`officer.captured` 表列；06 §3.7.2。
+- **D31｜潰走與兵站疊加（2026-07-13，M4 fix-forward）**：`status='routed'` 仍執行每日兵糧扣除，
+  且兵糧首次歸零仍可發出 `army.starving`；但自轉入 routed 起士氣鎖定，不套用 §3.13 糧盡士氣、
+  糧盡 5% 逃散或敵境士氣。潰走部隊的唯一固定每日兵損為
+  `ceil(soldiers × BAL.routDailyLossRate)`；§3.4 追擊損害另計。
+- **D32｜落城與軍團引用清理（2026-07-13，M4 fix-forward）**：落城翻轉所有權時，受陷城先設
+  `corpsId=null`、`directControl=true`，不得保留敗方軍團引用。若原軍團因此失去最後一城，依解散軍團
+  相同規則刪除該 Corps、將其在外部隊 `corpsId` 改為 null；敗方仍存續時軍團金庫歸還該勢力，敗方滅亡
+  時直接清除。勢力滅亡時其全部 Corps 一併移除。
+- **D33｜野戰先到方判定（2026-07-13，M4 fix-forward）**：同節點原已停駐的一方為 `sideA`，抵達並挑起
+  遭遇者為 `sideB`。若雙方皆於同一 movement phase 抵達，以相 1 的 `armyId` 升冪移動順序判定先後。
+  同向追擊以被追上的前方部隊為 sideA、追擊方為 sideB；同邊相向且無可辨先後時，以主部隊 `armyId`
+  較小者為 sideA。主側確立後，再將符合 §3.3 的同盟援軍併入相應側。
+- **D34｜包圍額外城糧的結算點與取整（2026-07-13，M4 fix-forward）**：Step 6 照常結算一倍
+  `garrisonFoodMonthly / 30`。Step 8 僅在 Siege 仍為非 `interrupted` 的 `encircle` 時，把
+  `(garrisonFoodMonthly / 30) × (BAL.encircleFoodMult − 1)` 加入同一 `Castle.foodFrac` 後取整扣糧；
+  不得另以裸 `soldiers` 公式逐日 `ceil`。因此援軍抵達並中斷圍城當日不套用額外包圍耗糧，超編與政策
+  倍率仍完整保留。
+- **D35｜包圍切換與自動退回的分工（2026-07-13，M4 fix-forward）**：
+  `CmdSetSiegeMode(mode='encircle')` 於套用前若攻方總兵不足
+  `castle.soldiers × BAL.encircleRatio`，應驗證失敗且不改 state；已合法進入 encircle 後因傷亡跌破門檻，
+  才由每日 siege tick 自動退回 assault。
+- **D36｜後續追擊資格精確到部隊配對（2026-07-13，M4 fix-forward）**：野戰結束時，勝側每支
+  `Army.pursuitEligibleArmyIds` 記錄該場由勝側直接擊潰並轉為 `routed` 的敗方 Army id。日後只有實際
+  行軍抵達／追上該特定 routed Army 的原勝方部隊可造成 §3.4 後續追擊；同勢力其後因飢餓或其他戰鬥
+  潰走的 Army、同節點其他未列入資格的 routed Army，皆不得因 clanId 相同而連帶受損。追擊結算按
+  `winner Army × eligible loser Army` 關係篩選，混合 bucket 中僅對有精確配對者套用損害。

@@ -41,6 +41,7 @@ function makeArmy(id: ArmyId, clanId: ClanId, soldiers: number, morale: number):
     siegeId: null,
     autoReturn: true,
     corpsId: null,
+    pursuitEligibleArmyIds: [],
   };
 }
 

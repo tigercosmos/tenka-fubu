@@ -325,6 +325,8 @@ export interface Army {
   siegeId: SiegeId | null; // status='sieging' 時所屬攻城戰；否則 null（INV-13）
   autoReturn: boolean; // 自動歸還開關（預設 true）；糧將盡／任務完成時自動轉 returning（CmdSetAutoReturn 切換，勘誤 E-32；07 §3.13）
   corpsId: CorpsId | null; // 所屬軍團；null=大名直轄。非衍生：出陣時快照，軍團解散／收回城時顯式改 null（07 §3.12；二輪裁決 B）
+  /** 最近野戰勝利所直接擊潰的部隊；後續追擊資格精確到 ArmyId，不得擴及同勢力其他部隊。 */
+  pursuitEligibleArmyIds: ArmyId[];
 }
 // 狀態機合法轉移詳細觸發條件見 04/07（§4.8 圖示）。
 

@@ -10,7 +10,7 @@
 
 import type { GameState } from '../state/gameState';
 import type { GameEvent } from '../state/events';
-import type { ClanId } from '../state/ids';
+import type { OfficerId } from '../state/ids';
 import type { CommandEnvelope } from '../commands/types';
 import type { EmitFn } from '../commands/registry';
 import { applyCommands } from '../commands/queue';
@@ -19,6 +19,9 @@ import { reportsSystem } from './reports';
 import { developmentSystem } from './development';
 import { economySystem } from './economy';
 import { officersSystem } from './officers';
+import { militaryMovementSystem } from './military';
+import { fieldCombatSystem } from './fieldCombat';
+import { siegeSystem } from './siege';
 
 // ═══════════════════════════════════════════════════════════════════
 // 迴圈機制型別（03 §4.1 canonical）
@@ -37,6 +40,7 @@ export type AutoPauseReason =
 export interface TickResult {
   state: GameState; // 與傳入同一參考（就地修改，§3.1）
   events: GameEvent[]; // 本 tick 全部事件（依發出順序）；不持久化（§3.4.1）
+  appliedCommands: CommandEnvelope[]; // 本 tick 成功套用者；供 state 外側 command log 記錄（17 §3.10）
   autoPauseReasons: AutoPauseReason[]; // 去重後的自動暫停原因（Step 13 reports 產生；可空）
   autosaveDue: 'monthly' | null; // 驅動器據此呼叫 onAutosave（§3.9.1）
   perf: { totalMs: number; stepMs: number[] }; // 各步耗時取樣（core 無 Date.now，恆 0；正式版可全 0，§4.1）
@@ -50,6 +54,7 @@ export interface TickResult {
  */
 export interface TickContext {
   queue: readonly CommandEnvelope[];
+  appliedCommands: CommandEnvelope[];
   events: GameEvent[];
   autoPauseReasons: AutoPauseReason[];
 }
@@ -88,7 +93,7 @@ function stepApplyCommands(state: GameState, ctx: TickContext): GameEvent[] {
   const emit: EmitFn = (e) => {
     events.push(e);
   };
-  applyCommands(state, ctx.queue, emit);
+  ctx.appliedCommands.push(...applyCommands(state, ctx.queue, emit));
   return events;
 }
 
@@ -125,20 +130,22 @@ function stepDevelopment(state: GameState): GameEvent[] {
 function stepEconomy(state: GameState): GameEvent[] {
   return economySystem(state);
 }
-function stepMilitaryMovement(): GameEvent[] {
-  return []; // 行軍、制壓翻轉（04；M4）
+function stepMilitaryMovement(state: GameState): GameEvent[] {
+  return militaryMovementSystem(state);
 }
-function stepMilitaryCombat(): GameEvent[] {
-  return []; // 野戰/攻城自動解算 tick（07；M4/M5）
+function stepMilitaryCombat(state: GameState): GameEvent[] {
+  return [...fieldCombatSystem(state), ...siegeSystem(state)];
 }
 function stepOfficers(state: GameState, ctx: TickContext): GameEvent[] {
   // 欠俸忠誠懲罰於漂移之後套用（06 §3.6.2；M3 review F2）：unpaid 勢力來自本 tick economy
   // 步驟（Step 6，早於本步）已併入事件流的 economy.upkeepUnpaid。
-  const unpaidClanIds = new Set<ClanId>();
+  const unpaidPayeeIds = new Set<OfficerId>();
   for (const event of ctx.events) {
-    if (event.type === 'economy.upkeepUnpaid') unpaidClanIds.add(event.clanId);
+    if (event.type === 'economy.upkeepUnpaid') {
+      for (const officerId of event.payeeIds) unpaidPayeeIds.add(officerId);
+    }
   }
-  officersSystem(state, unpaidClanIds);
+  officersSystem(state, unpaidPayeeIds);
   return [];
 }
 function stepProposals(): GameEvent[] {
@@ -194,7 +201,7 @@ export const STEP_SEQUENCE: readonly StepName[] = STEP_ORDER.map((s) => s.name);
  */
 export function advanceDay(state: GameState, queue: readonly CommandEnvelope[]): TickResult {
   const events: GameEvent[] = [];
-  const ctx: TickContext = { queue, events, autoPauseReasons: [] };
+  const ctx: TickContext = { queue, appliedCommands: [], events, autoPauseReasons: [] };
 
   for (const step of STEP_ORDER) {
     const stepEvents = step.run(state, ctx);
@@ -211,6 +218,7 @@ export function advanceDay(state: GameState, queue: readonly CommandEnvelope[]):
   return {
     state,
     events,
+    appliedCommands: ctx.appliedCommands,
     autoPauseReasons: ctx.autoPauseReasons,
     autosaveDue,
     perf: { totalMs: 0, stepMs: STEP_ORDER.map(() => 0) },

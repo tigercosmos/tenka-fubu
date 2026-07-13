@@ -18,6 +18,7 @@ import {
 } from './debugCommands';
 import * as domestic from './domesticCommands';
 import * as officers from './officerCommands';
+import * as march from './march';
 
 /** tick 事件匯流排回呼：各步以此追加 GameEvent（03 §3.2.1）。 */
 export type EmitFn = (event: GameEvent) => void;
@@ -64,6 +65,17 @@ export function isDebugCommand(cmd: Command): boolean {
 
 /** CommandType → handler 登錄表（M1-6 僅 debug 指令；擴充見檔頭與 §8-D14）。 */
 const HANDLERS: Partial<Record<CommandType, AnyHandler>> = {
+  march: defineHandler<'march'>(march.validateMarch, march.applyMarch),
+  setArmyTarget: defineHandler<'setArmyTarget'>(
+    march.validateSetArmyTarget,
+    march.applySetArmyTarget,
+  ),
+  recallArmy: defineHandler<'recallArmy'>(march.validateRecallArmy, march.applyRecallArmy),
+  setAutoReturn: defineHandler<'setAutoReturn'>(
+    march.validateSetAutoReturn,
+    march.applySetAutoReturn,
+  ),
+  setSiegeMode: defineHandler<'setSiegeMode'>(march.validateSetSiegeMode, march.applySetSiegeMode),
   grantFief: defineHandler<'grantFief'>(domestic.validateGrantFief, domestic.applyGrantFief),
   setDevelopFocus: defineHandler<'setDevelopFocus'>(
     domestic.validateSetDevelopFocus,

@@ -14,6 +14,7 @@
 // 17 稱 stableStringify，同一演算法，02 優先取其名）。
 
 import type { DiplomacyRow, GameState } from './gameState';
+import { BAL } from '../balance';
 import type {
   ArmyId,
   BattleId,
@@ -119,6 +120,11 @@ export function fnv1a64(text: string): string {
 export function stateHash(state: GameState): string {
   const serialized: GameState = { ...state, ai: { ...state.ai, intentLog: [] } };
   return fnv1a64(canonicalStringify(serialized));
+}
+
+/** 平衡表版本雜湊：golden 與 command-log replay 用來偵測 BAL 漂移（17 §5.2）。 */
+export function balanceHash(): string {
+  return fnv1a64(canonicalStringify(BAL));
 }
 
 /** 執行期 ID 種類 → 前綴（02 §3.2 對照表；`proposal`→`prop`、`report`→`rep` 與 kind 名不同，餘同名）。 */

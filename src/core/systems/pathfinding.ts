@@ -74,7 +74,7 @@ export interface PathResult {
 
 /** 通行規則用之外交立場（04 §3.5 canonical 表；'friendly' 合併同盟/婚姻/從屬——三者對
  * 通行規則效果相同，見該表列）。 */
-type Stance = 'own' | 'friendly' | 'war' | 'ceasefire' | 'neutral';
+export type Stance = 'own' | 'friendly' | 'war' | 'ceasefire' | 'neutral';
 
 /** 無向勢力對 key（08 §5.5 pairKey；02 §4.11）。 */
 function pairKey(a: ClanId, b: ClanId): ClanPairKey {
@@ -96,7 +96,7 @@ function isAtWar(row: DiplomacyRow, today: number): boolean {
  * `mover` 對節點擁有者 `owner` 的外交立場（04 §3.5 canonical 表）。
  * 缺列＝預設列（02 §4.11 DiplomacyState 稀疏慣例）：無協定、從未交戰 ⇒ 'neutral'。
  */
-function getStance(state: PathfindingState, mover: ClanId, owner: ClanId): Stance {
+export function getStance(state: PathfindingState, mover: ClanId, owner: ClanId): Stance {
   if (mover === owner) return 'own';
   const row = getDiplomacyRow(state, mover, owner);
   if (!row) return 'neutral';

@@ -94,6 +94,7 @@ export interface EvtDistrictSubjugated extends GameEventBase {
   fromClanId: ClanId;
   toClanId: ClanId;
   armyId: ArmyId; // 完成制壓之部隊（報告 leader enrichment，五輪裁決 B）
+  leaderId: OfficerId;
 }
 export interface EvtArmyDeparted extends GameEventBase {
   type: 'army.departed';
@@ -101,12 +102,14 @@ export interface EvtArmyDeparted extends GameEventBase {
   clanId: ClanId;
   originCastleId: CastleId;
   targetNodeId: MapNodeId;
+  leaderId: OfficerId;
 }
 export interface EvtArmyArrived extends GameEventBase {
   type: 'army.arrived';
   armyId: ArmyId;
   clanId: ClanId;
   nodeId: MapNodeId; // 部隊抵達其目標節點（04 movement；勘誤 E-30）
+  leaderId: OfficerId;
 }
 export interface EvtArmyReturned extends GameEventBase {
   type: 'army.returned';
@@ -114,23 +117,27 @@ export interface EvtArmyReturned extends GameEventBase {
   clanId: ClanId;
   castleId: CastleId;
   soldiersReturned: number; // 歸還入城解散
+  leaderId: OfficerId;
 }
 export interface EvtArmyBlocked extends GameEventBase {
   type: 'army.blocked';
   armyId: ArmyId;
   clanId: ClanId;
   nodeId: MapNodeId; // 行軍受阻、於節點轉 holding 待命（04 §5.4；四輪裁決 C-6）
+  leaderId: OfficerId;
 }
 export interface EvtArmyStarving extends GameEventBase {
   type: 'army.starving';
   armyId: ArmyId;
   clanId: ClanId; // 攜帶兵糧歸 0
+  leaderId: OfficerId;
 }
 export interface EvtArmyRouted extends GameEventBase {
   type: 'army.routed';
   armyId: ArmyId;
   clanId: ClanId;
   nodeId: MapNodeId; // 士氣崩潰／糧盡潰走轉 routed（潰走發生節點；七輪裁決 2）
+  leaderId: OfficerId;
 }
 
 // ── 經濟/內政（05）──
@@ -154,6 +161,8 @@ export interface EvtEconomyGranaryOverflow extends GameEventBase {
 export interface EvtEconomyUpkeepUnpaid extends GameEventBase {
   type: 'economy.upkeepUnpaid';
   clanId: ClanId; // 金錢不足、當月俸祿未全額發放（warning 級；四輪裁決 C-5）
+  /** Step 6 支薪時計算出的實際對象；Step 9 必須使用此快照，避免軍事結算改變武將集合。 */
+  payeeIds: OfficerId[];
 }
 export interface EvtEconomyFoodShortage extends GameEventBase {
   type: 'economy.foodShortage';
@@ -388,9 +397,9 @@ export interface EvtTaimei extends GameEventBase {
   taimeiId: TaimeiId;
 }
 export interface EvtClanSuccession extends GameEventBase {
-  type: 'clan.succession'; // 當主歿後家督繼承（06 §3.9.3；七輪裁決 2）
+  type: 'clan.succession'; // 當主死亡或被俘後家督繼承（06 §3.9.3；七輪裁決 2）
   clanId: ClanId;
-  deceasedId: OfficerId; // 亡故當主
+  deceasedId: OfficerId; // 前任當主（沿用 canonical 欄名；可能仍存活但已被俘）
   heirId: OfficerId; // 繼任者
 }
 export interface EvtClanDestroyed extends GameEventBase {
