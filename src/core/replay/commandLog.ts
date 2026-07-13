@@ -35,7 +35,6 @@ export interface ReplayResult {
   match: boolean;
   actualHash: string;
   expectedHash: string;
-  divergedDay: number | null;
   balanceMismatch: boolean;
 }
 
@@ -184,7 +183,6 @@ export function replayCommandLog(
     match: actualHash === log.finalHash,
     actualHash,
     expectedHash: log.finalHash,
-    divergedDay: null,
     balanceMismatch: log.balanceHash !== balanceHash(),
   };
 }

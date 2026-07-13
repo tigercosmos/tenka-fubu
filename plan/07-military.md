@@ -1224,3 +1224,16 @@ supplyDailyTick(state, army):
   行軍抵達／追上該特定 routed Army 的原勝方部隊可造成 §3.4 後續追擊；同勢力其後因飢餓或其他戰鬥
   潰走的 Army、同節點其他未列入資格的 routed Army，皆不得因 clanId 相同而連帶受損。追擊結算按
   `winner Army × eligible loser Army` 關係篩選，混合 bucket 中僅對有精確配對者套用損害。
+- **D37｜潰走路徑採真正無權 BFS（2026-07-13，M4 Opus review）**：§3.4「最少跳數」同時約束選城與
+  實際撤退路徑；不得先以行軍日數 Dijkstra 求各城路徑後再比較節點數。實作自目前節點做單次無權 BFS，
+  第一排序鍵為 hop 數、同距城以 `castleId` 字典序決定；鄰節點亦以 node/edge id 排序以維持決定論。
+- **D38｜合戰 M5 feature gate（2026-07-13，M4 Opus review）**：M4 尚無可消費合戰選擇的戰術流程，
+  因此 `BAL.featureKassenEnabled=false` 時不得發出 `battle.kassenAvailable`，reports 亦不得由該事件產生
+  `battleAvailable` 自動暫停。M5 完成戰術入口時須在同一變更啟用 producer 與 auto-pause gate。
+- **D39｜既有內容為零的擴充 hook（2026-07-13，M4 Opus review）**：初始部隊士氣公式保留
+  `policyMoraleBonus(state, clanId)`、攻城減免保留 `facilitySiegeMitigation(state, castle)`；目前政策／施設
+  無對應效果，兩者回傳 0。城防基礎值與施設加成合計後強制 clamp 至 `[0,0.7]`，避免未來內容突破上限。
+- **D40｜兵站與城恢復邊界（2026-07-13，M4 Opus review）**：`moraleEnemyLandDaily` 僅在外交立場為
+  `war` 時扣除，中立但可征服領地不等於敵境。非圍城中的城每月初回復
+  `BAL.castleMoraleRecoverMonthly` 至上限 100；低糧攻城自動撤回的士氣／耐久 20% 門檻分別由
+  `autoReturnSiegeMoraleMinRatio`／`autoReturnSiegeDurabilityMinRatio` 持有。

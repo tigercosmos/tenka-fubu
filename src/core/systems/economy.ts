@@ -79,6 +79,15 @@ function monthlyIncomeAndUpkeep(state: GameState, events: GameEvent[]): void {
   }
 }
 
+function recoverCastleMoraleMonthly(state: GameState): void {
+  const besieged = new Set(Object.values(state.sieges).map((siege) => siege.castleId));
+  for (const castle of Object.values(state.castles)) {
+    if (!besieged.has(castle.id)) {
+      castle.morale = Math.min(100, castle.morale + BAL.castleMoraleRecoverMonthly);
+    }
+  }
+}
+
 function autumnHarvest(state: GameState, events: GameEvent[]): void {
   const totals = new Map<string, number>();
   for (const id of Object.keys(state.castles).sort()) {
@@ -121,6 +130,7 @@ export function economySystem(state: GameState): GameEvent[] {
   events.push(...transportDaily(state));
   if (state.time.dayOfMonth === 1) {
     for (const castle of Object.values<Castle>(state.castles)) castle.riceTradedThisMonth = 0;
+    recoverCastleMoraleMonthly(state);
     monthlyIncomeAndUpkeep(state, events);
     events.push(...conscriptionSystem(state));
   }

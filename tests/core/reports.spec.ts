@@ -642,6 +642,18 @@ describe('reportsSystem（Step 13 行為整合，03 §3.4.3）', () => {
     expect(reportsSystem(state, [byPlayer])).toEqual([]);
   });
 
+  it('does not auto-pause for an inert M5 kassen event while the feature gate is off', () => {
+    const state = makeLoopTestState({ day: 30 });
+    const event: GameEvent = {
+      type: 'battle.kassenAvailable',
+      day: 30,
+      clanIds: [TEST_CLAN],
+      battleId: 'fc.test-30',
+    };
+    expect(BAL.featureKassenEnabled).toBe(false);
+    expect(reportsSystem(state, [event])).toEqual([]);
+  });
+
   it('historicalEvent：僅 hasChoice=true 觸發', () => {
     const state = makeLoopTestState({ day: 30 });
     const withChoice: GameEvent = {

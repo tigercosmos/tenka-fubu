@@ -399,6 +399,7 @@ export const zhTW = {
   'ui.siege.title': '{castle}攻圍 ─ 第{days}日',
   'ui.siege.assault': '強攻',
   'ui.siege.encircle': '包圍',
+  'ui.siege.encircleNeed': '包圍需兵力達城兵{ratio}倍',
   'ui.siege.mode': '攻城方式',
   'ui.siege.castleFoodEst': '城糧　估 {days}日',
   'ui.siege.durabilityValue': '耐久　{value}／{max}',

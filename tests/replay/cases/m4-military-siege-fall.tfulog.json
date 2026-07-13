@@ -1,0 +1,81 @@
+{
+  "formatVersion": 1,
+  "appVersion": "0.0.0-mini",
+  "scenarioId": "mini",
+  "seed": 42,
+  "playerClanId": "clan.alpha",
+  "balanceHash": "e64d9cab24d18a6d",
+  "truncated": false,
+  "finalDay": 61,
+  "finalHash": "523b89fad68e2cb9",
+  "entries": [
+    {
+      "day": 1,
+      "seq": 0,
+      "command": {
+        "type": "march",
+        "clanId": "clan.alpha",
+        "originCastleId": "castle.a1",
+        "leaderId": "off.alpha-lord",
+        "deputyIds": [],
+        "soldiers": 2000,
+        "food": 2400,
+        "targetNodeId": "castle.a2"
+      }
+    },
+    {
+      "day": 1,
+      "seq": 1,
+      "command": {
+        "type": "march",
+        "clanId": "clan.alpha",
+        "originCastleId": "castle.a2",
+        "leaderId": "off.alpha-taisho-a",
+        "deputyIds": [],
+        "soldiers": 800,
+        "food": 960,
+        "targetNodeId": "castle.b2"
+      }
+    },
+    {
+      "day": 2,
+      "seq": 0,
+      "command": {
+        "type": "setArmyTarget",
+        "clanId": "clan.alpha",
+        "armyId": "army.000001",
+        "targetNodeId": "castle.b2"
+      }
+    },
+    {
+      "day": 2,
+      "seq": 1,
+      "command": {
+        "type": "setAutoReturn",
+        "clanId": "clan.alpha",
+        "armyId": "army.000001",
+        "enabled": false
+      }
+    },
+    {
+      "day": 2,
+      "seq": 2,
+      "command": {
+        "type": "setAutoReturn",
+        "clanId": "clan.alpha",
+        "armyId": "army.000002",
+        "enabled": false
+      }
+    },
+    {
+      "day": 12,
+      "seq": 0,
+      "command": {
+        "type": "setSiegeMode",
+        "clanId": "clan.alpha",
+        "siegeId": "siege.000001",
+        "mode": "encircle"
+      }
+    }
+  ]
+}

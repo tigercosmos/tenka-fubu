@@ -174,7 +174,7 @@ function autoPauseReasonFor(event: GameEvent, playerClanId: ClanId): AutoPauseRe
         ? 'siegeOnPlayer'
         : null;
     case 'battle.kassenAvailable':
-      return 'battleAvailable';
+      return BAL.featureKassenEnabled ? 'battleAvailable' : null;
     case 'proposal.submitted':
       return 'proposalArrived';
     case 'diplo.envoyArrived':

@@ -4,6 +4,7 @@ import {
   applyMarch,
   applyRecallArmy,
   applySetArmyTarget,
+  policyMoraleBonus,
   validateSetAutoReturn,
   validateSetSiegeMode,
   validateMarch,
@@ -15,7 +16,12 @@ import { garrisonFoodMonthly } from '../../src/core/domestic';
 import { militaryMovementSystem } from '../../src/core/systems/military';
 import { fieldCombatSystem, startFieldCombat } from '../../src/core/systems/fieldCombat';
 import { applyAwe } from '../../src/core/systems/awe';
-import { beginSiege, siegeSystem } from '../../src/core/systems/siege';
+import {
+  beginSiege,
+  combinedSiegeMitigation,
+  facilitySiegeMitigation,
+  siegeSystem,
+} from '../../src/core/systems/siege';
 import {
   nearestOwnedCastleByHops,
   nearestOwnedCastleByTravelTime,
@@ -153,6 +159,27 @@ function makeA2BetaRefuge(state: GameState): void {
 }
 
 describe('M4 軍事 core', () => {
+  it('keeps future policy/facility hooks neutral with current content', () => {
+    const state = buildTinyState();
+    expect(policyMoraleBonus(state, CLAN_ALPHA)).toBe(0);
+    expect(facilitySiegeMitigation(state, state.castles[CASTLE_A1]!)).toBe(0);
+    expect(combinedSiegeMitigation(0.5, 0.4)).toBe(0.7);
+    expect(combinedSiegeMitigation(0.3, -0.5)).toBe(0);
+  });
+
+  it('keeps M5 kassen offers disabled until the feature gate is enabled', () => {
+    const state = buildTinyState();
+    const alpha = deploy(state, CLAN_ALPHA, CASTLE_A2, OFF_ALPHA_TAISHO, CASTLE_B1, 2_000);
+    const beta = deploy(state, CLAN_BETA, CASTLE_B1, OFF_BETA_TAISHO, CASTLE_A2, 2_000);
+    place(alpha, CASTLE_A2);
+    place(beta, CASTLE_A2);
+
+    const events = startFieldCombat(state, CASTLE_A2, [alpha.id], [beta.id]);
+
+    expect(BAL.featureKassenEnabled).toBe(false);
+    expect(events.some((event) => event.type === 'battle.kassenAvailable')).toBe(false);
+  });
+
   it('M4-1 validates officer availability and classifies an allied castle as march, not conquer', () => {
     const state = buildTinyState();
     const row = defaultDiplomacyRow(CLAN_ALPHA, CLAN_BETA);
@@ -719,6 +746,85 @@ describe('M4 軍事 core', () => {
     expect(nearestOwnedCastleByTravelTime(state, CLAN_ALPHA, CASTLE_B1, CASTLE_A2)?.castle.id).toBe(
       CASTLE_A2,
     );
+  });
+
+  it('returns a genuinely hop-minimal routed path even when a longer route is faster', () => {
+    const state = buildTinyState();
+    state.castles[CASTLE_A2]!.ownerClanId = CLAN_BETA;
+    const directId = 'road.b1-a1-direct-slow' as RoadEdgeId;
+    state.roads[directId] = {
+      id: directId,
+      a: CASTLE_B1,
+      b: CASTLE_A1,
+      type: 'land',
+      grade: 1,
+      baseDays: 100,
+    };
+    const detourId = 'road.b1-a1x-fast' as RoadEdgeId;
+    state.roads[detourId] = {
+      id: detourId,
+      a: CASTLE_B1,
+      b: DIST_A1X,
+      type: 'land',
+      grade: 1,
+      baseDays: 0.5,
+    };
+    state.roads['road.a1-a1x' as RoadEdgeId]!.baseDays = 0.5;
+
+    const choice = nearestOwnedCastleByHops(state, CLAN_ALPHA, CASTLE_B1);
+
+    expect(choice?.castle.id).toBe(CASTLE_A1);
+    expect(choice?.path.nodes).toEqual([CASTLE_B1, CASTLE_A1]);
+  });
+
+  it('applies enemy-land morale loss only during an active war', () => {
+    const neutral = buildTinyState();
+    const neutralArmy = deploy(neutral, CLAN_ALPHA, CASTLE_A1, OFF_ALPHA_BUSHO, DIST_B1X);
+    place(neutralArmy, DIST_B1X);
+    neutralArmy.autoReturn = false;
+    const neutralMorale = neutralArmy.morale;
+    militaryMovementSystem(neutral);
+    expect(neutralArmy.morale).toBe(neutralMorale);
+
+    const war = buildTinyState();
+    setWar(war, CLAN_ALPHA, CLAN_BETA);
+    const warArmy = deploy(war, CLAN_ALPHA, CASTLE_A1, OFF_ALPHA_BUSHO, DIST_B1X);
+    place(warArmy, DIST_B1X);
+    warArmy.autoReturn = false;
+    const warMorale = warArmy.morale;
+    militaryMovementSystem(war);
+    expect(warArmy.morale).toBe(warMorale - BAL.moraleEnemyLandDaily);
+  });
+
+  it('recovers castle morale monthly only outside an active siege', () => {
+    const state = buildTinyState();
+    const attacker = deploy(state, CLAN_ALPHA, CASTLE_A2, OFF_ALPHA_TAISHO, CASTLE_B1);
+    place(attacker, CASTLE_B1);
+    beginSiege(state, CASTLE_B1, attacker.id);
+    state.time.dayOfMonth = 1;
+    state.castles[CASTLE_A1]!.morale = 50;
+    state.castles[CASTLE_B1]!.morale = 50;
+
+    economySystem(state);
+
+    expect(state.castles[CASTLE_A1]!.morale).toBe(50 + BAL.castleMoraleRecoverMonthly);
+    expect(state.castles[CASTLE_B1]!.morale).toBe(50);
+  });
+
+  it('registers every canonical awe threshold, radius, and prestige constant', () => {
+    expect({
+      fastTicks: BAL.aweLargeFastTicks,
+      largeRatio: BAL.aweLargeKillRatio,
+      medRatio: BAL.aweMedKillRatio,
+      ranges: [BAL.aweRangeSmall, BAL.aweRangeMed, BAL.aweRangeLarge],
+      prestige: [BAL.awePrestigeSmall, BAL.awePrestigeMed, BAL.awePrestigeLarge],
+    }).toEqual({
+      fastTicks: 40,
+      largeRatio: 0.7,
+      medRatio: 0.5,
+      ranges: [1, 2, 3],
+      prestige: [10, 25, 50],
+    });
   });
 
   it('recalls to the shortest travel-time castle after the origin is lost', () => {

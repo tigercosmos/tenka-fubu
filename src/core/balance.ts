@@ -266,12 +266,21 @@ export const BAL = {
   pursuitDamageRate: 0.1,
   fieldAweKillRatio: 0.6,
   aweRangeSmall: 1,
+  aweRangeMed: 2,
+  aweRangeLarge: 3,
   awePrestigeSmall: 10,
+  awePrestigeMed: 25,
+  awePrestigeLarge: 50,
+  aweLargeFastTicks: 40,
+  aweLargeKillRatio: 0.7,
+  aweMedKillRatio: 0.5,
   aweCastleMoraleHit: 20,
   aweCastleDurabilityRatio: 0.05,
   noFoodMoraleDaily: 8,
   noFoodDesertionRate: 0.05,
   autoReturnFoodDays: 7,
+  autoReturnSiegeMoraleMinRatio: 0.2,
+  autoReturnSiegeDurabilityMinRatio: 0.2,
   marchLowMoraleThreshold: 40,
   marchLowMoraleFactor: 0.8,
   marchSpeedMin: 0.5,
@@ -288,6 +297,7 @@ export const BAL = {
   encircleRatio: 3,
   siegeMitigationBranch: 0.3,
   siegeMitigationMain: 0.5,
+  castleMoraleRecoverMonthly: 10,
   starvingCastleMoraleDaily: 5,
   starvingCastleDesertionRate: 0.03,
   postSiegeDurabilityRatio: 0.3,
@@ -297,6 +307,8 @@ export const BAL = {
   siegeEscapeChance: 0.35,
   siegeDeathChanceEscapeFail: 0.15,
   kassenMinTroops: 3000,
+  /** M5 tactical battle is not implemented yet; M5 enables the producer and auto-pause together. */
+  featureKassenEnabled: false,
 
   // ── UI／渲染效能（15 §5.1；01 §3.6.1；M2-13 MapRenderer Application.init 所需） ──
   uiDprMax: 2, // 15 §5.1：Pixi resolution／devicePixelRatio 取用上限（倍率，無量綱；01 §3.6.1）

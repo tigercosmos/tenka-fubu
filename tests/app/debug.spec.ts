@@ -163,7 +163,6 @@ describe('installDebugApi（01 §3.11.4 TenkaDebugApi）', () => {
     await expect(api?.replayCommandLog(log!)).resolves.toMatchObject({
       match: true,
       balanceMismatch: false,
-      divergedDay: null,
     });
   });
 

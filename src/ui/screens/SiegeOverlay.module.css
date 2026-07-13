@@ -23,3 +23,8 @@
 .overlay legend {
   margin-bottom: var(--space-1);
 }
+.hint {
+  margin: var(--space-1) 0 0;
+  color: var(--ink-500);
+  font-size: var(--font-size-sm);
+}

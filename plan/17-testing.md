@@ -698,7 +698,6 @@ export interface ReplayResult {
   match: boolean;          // finalHash 是否一致
   actualHash: string;      // 重放實得 hash
   expectedHash: string;    // log.finalHash
-  divergedDay: number | null; // 首次分歧 tick（match=true 時為 null；偵測法見 §5.5）
   balanceMismatch: boolean;   // balanceHash 不一致（結果僅供參考）
 }
 ```
@@ -834,7 +833,7 @@ scanSimplified(rootDir):
 `L1_MAP`／`L3_MAP` 由上方註解的正體字串同序 zip 而成（實作時以兩條等長字串建表，
 建構時 assert 長度相等）。
 
-### 5.5 command log 重放與分歧定位
+### 5.5 command log 重放
 
 ```
 replay(log):
@@ -845,14 +844,11 @@ replay(log):
       advanceDay(state, commandsOf(byDay[tick]))
   actual = hashState(state)
   return { match: actual == log.finalHash, actualHash: actual,
-           expectedHash: log.finalHash, balanceMismatch, divergedDay: null }
-
-# 分歧定位（僅不一致且需要診斷時第二次執行；O(n) 額外 hash 成本）：
-locateDivergence(log, dailyHashes?):
-  若 log 內含選配欄位 dailyHashes（除錯版匯出每 30 tick 一筆 {day, hash}）：
-      重放時於相同 tick 取 hashState 比對，回傳第一個不符的 day
-  否則 divergedDay = null（僅報告 finalHash 不符）
+           expectedHash: log.finalHash, balanceMismatch }
 ```
+
+v1 command log 僅保存最終 hash，沒有逐日 expected hash，故無法可靠推導首次分歧日；`ReplayResult`
+不宣稱提供此資料。若日後格式版本加入帶 day 的中間 hash checkpoint，再同步新增分歧定位 API。
 
 `tests/replay/replay.spec.ts`：對 `cases/*.tfulog.json` 逐一執行 `replay`，
 斷言 `match === true`；`balanceMismatch === true` 的案例改為失敗並提示重錄
@@ -1097,3 +1093,7 @@ perfGate():
     ③ production 劇本為保留 code-split 只有 async loader（`loadScenario`），故 debug `replayCommandLog`
     回傳 `Promise<ReplayResult>`；它使用與新遊戲相同的 `buildNewGameState` 重建，不另造同步 loader
     而破壞劇本 JSON 分塊。④ M4 bench 固定暖身 60 tick 後取樣 360 tick；M7 AI 落地後再加入 AI 負載。
+20. **（2026-07-13；M4 Opus review）移除無證據的 `ReplayResult.divergedDay`**：v1 log 只有
+    `finalHash`，沒有逐日 expected hash/checkpoint，重放不一致時只能證明最終狀態不同，不能可靠判定首次
+    分歧日。原實作永遠回傳 `null` 會讓公開型別誤示功能存在，故從結果契約移除；未來必須先升版 log 並
+    保存具 day 的中間 hash，才可重新加入分歧定位。

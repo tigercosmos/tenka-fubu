@@ -336,7 +336,7 @@ export type BalConfig = typeof BAL;
 | `traitYashinMerit` | 0.20 | 係數(無量綱) | 野心家：功績獲得乘數加成 | 06 §3.3 |  |
 | `unpaidSalaryLoyaltyPenalty` | 2 | 忠誠點 | 金錢不足全額支薪時，該月全體支薪對象忠誠即時扣減（欠俸） | 06 §3.4.2 | ⚠ 06 忠誠擁有者；05.unpaidSalaryLoyaltyHit(3)/17.deficitLoyaltyPenalty 別名，統一 2 |
 
-#### 編成出陣・野戰・合戰・戰法・威風・攻城・軍團・兵站（07）（88）
+#### 編成出陣・野戰・合戰・戰法・威風・攻城・軍團・兵站（07）（90）
 
 | 常數 `BAL.*` | 定案值 | 單位 | 語意 | 出處 | 備註 |
 |---|---|---|---|---|---|
@@ -345,6 +345,8 @@ export type BalConfig = typeof BAL;
 | `assaultDefenderLossRate` | 0.008 | 比率(每日) | 強攻每日守兵損率（對Σ攻方power） | 07 §3.11 |  |
 | `assaultDurabilityRate` | 0.004 | 比率(每日) | 強攻每日城耐久傷害率（對Σ攻方power） | 07 §3.11 |  |
 | `autoReturnFoodDays` | 7 | 日 | 剩餘兵糧可支撐日數低於此→觸發自動歸還 | 07 §3.13 |  |
+| `autoReturnSiegeDurabilityMinRatio` | 0.2 | 比率(佔耐久上限) | 低糧自動歸還在攻城末段的耐久豁免門檻；須嚴格高於此值才可撤回 | 07 §3.13 |  |
+| `autoReturnSiegeMoraleMinRatio` | 0.2 | 比率(佔士氣上限) | 低糧自動歸還在攻城末段的城士氣豁免門檻；須嚴格高於此值才可撤回 | 07 §3.13 |  |
 | `aweCastleDurabilityRatio` | 0.05 | 比率(佔耐久上限) | 威風範圍內敗方城耐久扣減比 | 07 §3.10 |  |
 | `aweCastleMoraleHit` | 20 | 點 | 威風範圍內敗方城士氣扣減 | 07 §3.10 | ⚠ 17.aweMoraleHit=15 別名須改為 20 |
 | `aweLargeFastTicks` | 40 | tick | 本陣陷落tick≤此值→威風(大) | 07 §3.10 |  |

@@ -14,6 +14,13 @@ import type { ValidationResult } from './types';
 const ok: ValidationResult = { ok: true };
 const reject = (reasonKey: string): ValidationResult => ({ ok: false, reasonKey });
 
+/** Future policy seam; no currently shipped policy modifies an army's initial morale. */
+export function policyMoraleBonus(_state: Readonly<GameState>, _clanId: ClanId): number {
+  void _state;
+  void _clanId;
+  return 0;
+}
+
 function graphOf(state: Readonly<GameState>) {
   return buildMapGraph(state.castles, state.districts, state.roads);
 }
@@ -127,7 +134,9 @@ export function applyMarch(state: GameState, cmd: CommandByType['march'], emit: 
       Math.min(
         100,
         Math.round(
-          BAL.moraleInitBase + (leader.ldr + leader.statGrowth.ldr) * BAL.moraleInitLdrFactor,
+          BAL.moraleInitBase +
+            (leader.ldr + leader.statGrowth.ldr) * BAL.moraleInitLdrFactor +
+            policyMoraleBonus(state, cmd.clanId),
         ),
       ),
     ),

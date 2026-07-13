@@ -27,10 +27,15 @@ const selectSiegeModel = makeCachedSelector((game, siegeId: SiegeId) => {
     ((castle.soldiers * BAL.garrisonFoodPerSoldierMonthly) / 30) *
       (siege.mode === 'encircle' ? BAL.encircleFoodMult : 1),
   );
+  const attackerSoldiers = siege.attackerArmyIds.reduce(
+    (sum, armyId) => sum + (game.armies[armyId]?.soldiers ?? 0),
+    0,
+  );
   return {
     playerClanId: game.meta.playerClanId,
     siege,
     castle,
+    canEncircle: attackerSoldiers >= castle.soldiers * BAL.encircleRatio,
     days: Math.max(1, game.time.day - siege.startDay + 1),
     foodDays: Math.max(0, Math.ceil(castle.food / dailyFood)),
   };
@@ -57,9 +62,11 @@ export function SiegeOverlay({
             (model.castle.pos.y - mapCamera.camera.y) * mapCamera.camera.scale,
         });
   const setMode = (mode: 'encircle' | 'assault') => {
+    if (mode === 'encircle' && !model.canEncircle) return;
     if (mode === model.siege.mode) return;
     onCommand({ type: 'setSiegeMode', clanId: model.playerClanId, siegeId, mode });
   };
+  const encircleHintId = `siege-${siegeId}-encircle-need`;
   return (
     <aside
       className={styles.overlay}
@@ -98,6 +105,8 @@ export function SiegeOverlay({
             type="radio"
             name={`siege-${siegeId}`}
             checked={model.siege.mode === 'encircle'}
+            disabled={!model.canEncircle}
+            aria-describedby={!model.canEncircle ? encircleHintId : undefined}
             onChange={() => setMode('encircle')}
           />
           {t('ui.siege.encircle')}
@@ -112,6 +121,11 @@ export function SiegeOverlay({
           {t('ui.siege.assault')}
         </label>
       </fieldset>
+      {!model.canEncircle && (
+        <p id={encircleHintId} className={styles.hint}>
+          {t('ui.siege.encircleNeed', { ratio: BAL.encircleRatio })}
+        </p>
+      )}
     </aside>
   );
 }

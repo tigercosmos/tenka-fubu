@@ -19,8 +19,8 @@
 | M1 core＋HUD  | ✅ 已 checkpoint（tag m1）             | 431 tests；型別=02 全型別零缺失（46 Cmd/68 Event）                                               |
 | M2 資料＋地圖 | ✅ 已 checkpoint（tag m2，2026-07-12） | 792 tests＋P1/P2 e2e 綠；DoD 四條全過（review 報告見 wf_dcccc2d1-835）                           |
 | M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13） | 845 tests＋P1/P2/P3 e2e 綠；24 個月 DoD、全量 review 與 checkpoint 後 review 收尾（73bc28f）完成 |
-| M4 軍事一     | ✅ 已完成（2026-07-13）                | 935 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與多輪 fix-forward 全綠     |
-| M5 合戰       | ⬜ **未開工——待使用者核准後才開始**    | milestone.json current=M5 僅為 checkpoint 前進，非已動工                                         |
+| M4 軍事一     | ✅ 已完成（2026-07-13）                | 945 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與 review fix-forward 全綠   |
+| M5 合戰       | 🟡 **已核准，準備開工**                | 僅做 M5-1～M5-9；完成 checkpoint 前不開 M6                                                       |
 | M6–M9         | ⬜                                     | 依 `plan/18-roadmap.md`                                                                          |
 
 ## M4 已收尾（2026-07-13）
@@ -44,7 +44,23 @@ Playwright P1–P3、production build 全綠；字型 866 字元、187.1 KB。M4
 全程 `validateState` 零違規且七類必要事件／報告齊全。bench 三次 mean 0.2364–0.2502 ms、p99
 4.6555–4.9812 ms（僅報告、不阻斷）。
 
-**下一步（待使用者核准）**：M5 合戰戰術戰場＋戰法＋威風（plan/18 §3.8）；一次只做 M5，不預先開 M6。
+**M4 checkpoint 當時下一步**：M5 合戰戰術戰場＋戰法＋威風（plan/18 §3.8）；一次只做 M5，不預先開 M6。
+
+### M4 Opus review 收尾（2026-07-13）
+
+使用者要求之 Claude Opus 全量 review 找出 9 組 M4 收尾項目，已全數 fix-forward：潰走改為真正無權 BFS
+最少跳數路徑；威風範圍／威信／分級門檻與攻城末段撤回門檻移入 `BAL`；攻城 overlay 依存活攻方總兵力
+停用包圍並提供提示；新增可重放至落城的 M4 軍事案例；中立領地不再誤扣敵境士氣；M5 合戰入口在功能
+完成前同時 gate producer／auto-pause；補政策士氣與施設攻城減免擴充 hook、攻城減免 `[0,0.7]` clamp、
+非圍城城池每月士氣回復；移除 v1 log 無逐日 checkpoint 卻永遠為 null 的 `divergedDay` 假契約。
+
+修正後由 orchestrator 自行逐檔 review，未發現剩餘 actionable finding；完整 gate：lint、typecheck、
+validate:data（0 ERROR／0 WARN／簡體 0）、**945 tests**、Playwright P1–P3、production build、bench 全綠。
+golden-mini 因每月城士氣回復而更新為 day 360 `afe70fe49392a21f`、day 720
+`6bd1e548f446d7e1`，BAL hash `e64d9cab24d18a6d`；新增 M4 replay final hash
+`523b89fad68e2cb9`，既有政策 replay final hash 仍為 `98990ec2b597787f`。
+
+**現行下一步**：使用者已核准 M5；實作 M5-1～M5-9，完成後停下，不預先開 M6。
 
 ## M3 已收尾（2026-07-13）
 

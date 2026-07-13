@@ -1,6 +1,6 @@
 import { BAL } from '../balance';
 import { defaultDiplomacyRow, nextId, pairKey } from '../state/serialize';
-import type { Army, GameState, Siege } from '../state/gameState';
+import type { Army, Castle, GameState, Siege } from '../state/gameState';
 import type { ArmyId, CastleId, ClanId } from '../state/ids';
 import type { GameEvent } from '../state/events';
 import { computeArmyPower } from './fieldCombat';
@@ -8,6 +8,20 @@ import { createRngStream } from '../rng';
 import { appointClanSuccessor, dieOfficer } from './officers';
 import { nearestOwnedCastleByTravelTime } from './castleSelection';
 import { garrisonFoodMonthly } from '../domestic';
+
+/** Future facility seam; no currently shipped facility grants siege mitigation. */
+export function facilitySiegeMitigation(
+  _state: Readonly<GameState>,
+  _castle: Readonly<Castle>,
+): number {
+  void _state;
+  void _castle;
+  return 0;
+}
+
+export function combinedSiegeMitigation(base: number, facility: number): number {
+  return Math.min(0.7, Math.max(0, base + facility));
+}
 
 function markHostile(state: GameState, a: ClanId, b: ClanId): void {
   const key = pairKey(a, b);
@@ -319,7 +333,12 @@ export function siegeSystem(state: GameState): GameEvent[] {
     const attackerTroops = attackers.reduce((sum, army) => sum + army.soldiers, 0);
     if (siege.mode === 'encircle' && attackerTroops < castle.soldiers * BAL.encircleRatio)
       siege.mode = 'assault';
-    const mitigation = castle.tier === 'main' ? BAL.siegeMitigationMain : BAL.siegeMitigationBranch;
+    const baseMitigation =
+      castle.tier === 'main' ? BAL.siegeMitigationMain : BAL.siegeMitigationBranch;
+    const mitigation = combinedSiegeMitigation(
+      baseMitigation,
+      facilitySiegeMitigation(state, castle),
+    );
     const attackPower = attackers.reduce((sum, army) => sum + computeArmyPower(state, army), 0);
     const defensePower =
       castle.soldiers *

@@ -217,7 +217,7 @@ function supply(state: GameState, army: Army, events: GameEvent[]): void {
   }
   if (army.status === 'routed') return;
   const owner = nodeOwner(state, army.posNodeId);
-  if (owner && isConquerable(state, army.clanId, owner))
+  if (owner && isHostile(state, army.clanId, owner))
     army.morale = Math.max(0, army.morale - BAL.moraleEnemyLandDaily);
   if (
     army.morale <= BAL.moraleBreakThreshold ||
@@ -718,7 +718,10 @@ function lowFoodAutoReturnAllowed(state: Readonly<GameState>, army: Readonly<Arm
   const siege = state.sieges[army.siegeId];
   const castle = siege ? state.castles[siege.castleId] : undefined;
   if (!castle) return true;
-  return castle.morale > 20 && castle.durability > castle.maxDurability * 0.2;
+  return (
+    castle.morale > 100 * BAL.autoReturnSiegeMoraleMinRatio &&
+    castle.durability > castle.maxDurability * BAL.autoReturnSiegeDurabilityMinRatio
+  );
 }
 
 export function militaryMovementSystem(state: GameState): GameEvent[] {

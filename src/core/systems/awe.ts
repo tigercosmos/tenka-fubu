@@ -13,8 +13,18 @@ export function applyAwe(
   loserClanId: ClanId,
   sourceBattleId: string,
 ): GameEvent[] {
-  const range = level === 'small' ? BAL.aweRangeSmall : level === 'medium' ? 2 : 3;
-  const prestige = level === 'small' ? BAL.awePrestigeSmall : level === 'medium' ? 25 : 50;
+  const range =
+    level === 'small'
+      ? BAL.aweRangeSmall
+      : level === 'medium'
+        ? BAL.aweRangeMed
+        : BAL.aweRangeLarge;
+  const prestige =
+    level === 'small'
+      ? BAL.awePrestigeSmall
+      : level === 'medium'
+        ? BAL.awePrestigeMed
+        : BAL.awePrestigeLarge;
   const graph = buildMapGraph(state.castles, state.districts, state.roads);
   const distances = new Map<MapNodeId, number>([[centerNodeId, 0]]);
   const queue: MapNodeId[] = [centerNodeId];

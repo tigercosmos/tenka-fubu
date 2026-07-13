@@ -74,8 +74,9 @@ export function startFieldCombat(
     },
   ];
   if (
-    combat.sideA.clanIds.includes(state.meta.playerClanId) ||
-    combat.sideB.clanIds.includes(state.meta.playerClanId)
+    BAL.featureKassenEnabled &&
+    (combat.sideA.clanIds.includes(state.meta.playerClanId) ||
+      combat.sideB.clanIds.includes(state.meta.playerClanId))
   ) {
     if (combat.sideA.initialTroops + combat.sideB.initialTroops >= BAL.kassenMinTroops) {
       events.push({
