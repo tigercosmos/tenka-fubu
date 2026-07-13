@@ -5,6 +5,8 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { installDebugApi, parseDebugFlags, type TenkaDebugApi } from '../../src/app/debug';
 import { resetGameStoreForTests, setGame, store } from '../../src/app/store';
 import { makeLoopTestState } from '../helpers/loopState';
+import { buildNewGameState, loadScenario } from '../../src/app/boot';
+import type { ClanId } from '../../src/core/state/ids';
 
 describe('parseDebugFlags（01 §3.11.1／§4.5）', () => {
   it('空字串：全部回預設值', () => {
@@ -133,6 +135,36 @@ describe('installDebugApi（01 §3.11.4 TenkaDebugApi）', () => {
     expect(typeof snapshot?.lastTickMs).toBe('number');
     expect(typeof snapshot?.avgTickMs).toBe('number');
     expect(typeof snapshot?.maxTickMs).toBe('number');
+  });
+
+  it('exportCommandLog()：透過 debug API 匯出 canonical 檔頭', () => {
+    setGame(makeLoopTestState({ debugMode: true }));
+    installDebugApi(parseDebugFlags('?debug=1'));
+    expect(getGlobalApi()?.exportCommandLog()).toMatchObject({
+      formatVersion: 1,
+      finalDay: 0,
+      truncated: false,
+    });
+  });
+
+  it('replayCommandLog()：以 production scenario loader 非同步重建並比對 hash', async () => {
+    const bundle = await loadScenario('s1560');
+    const game = buildNewGameState(bundle, {
+      playerClanId: 'clan.oda' as ClanId,
+      difficulty: 'normal',
+      seed: 42,
+    });
+    setGame(game);
+    installDebugApi(parseDebugFlags('?debug=1'));
+
+    const api = getGlobalApi();
+    const log = api?.exportCommandLog();
+    expect(log).toBeDefined();
+    await expect(api?.replayCommandLog(log!)).resolves.toMatchObject({
+      match: true,
+      balanceMismatch: false,
+      divergedDay: null,
+    });
   });
 
   it('setSpeed()：轉發至 gameLoop.setSpeed（session.speed 隨之更新）', () => {

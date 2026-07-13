@@ -5,6 +5,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import {
   dispatchCommand,
+  exportCommandLog,
   onAutoPauseReasons,
   resetBridgeForTests,
   runOneDay,
@@ -57,6 +58,29 @@ describe('dispatchCommand — 已 boot', () => {
     }
     expect(store.getState().session.pendingCommandCount).toBe(0);
   });
+
+  it('換成進度存檔時清掉舊 pending，並從 lastAppliedCmdSeq 後續接', () => {
+    dispatchCommand(grantGold(1)); // 舊局 pending，不應流入讀檔後的局。
+
+    const loaded = makeLoopTestState({
+      debugMode: true,
+      gold: 100,
+      lastAppliedCmdSeq: 41,
+    });
+    loaded.meta.stateVersion = 41;
+    resetGameStoreForTests(loaded);
+
+    expect(dispatchCommand(grantGold(500))).toEqual({ ok: true });
+    runOneDay();
+
+    expect(loaded.clans[TEST_CLAN]?.gold).toBe(600);
+    expect(loaded.meta.lastAppliedCmdSeq).toBe(42);
+    expect(exportCommandLog()).toMatchObject({
+      finalDay: 1,
+      truncated: true,
+      incompleteReasons: ['loadedGame'],
+    });
+  });
 });
 
 describe('runOneDay — game 未 boot', () => {
@@ -82,10 +106,21 @@ describe('runOneDay — 已 boot（01 §3.4.4／§5.2 流程）', () => {
     expect(events.some((e) => e.type === 'command.rejected')).toBe(false);
   });
 
+  it('在完整 tick 成功後匯出 success-only command log', () => {
+    dispatchCommand(grantGold(500));
+    runOneDay();
+
+    const log = exportCommandLog();
+    expect(log).toMatchObject({ formatVersion: 1, finalDay: 1, truncated: false });
+    expect(log.entries).toHaveLength(1);
+    expect(log.entries[0]).toMatchObject({ day: 1, seq: 0, command: grantGold(500) });
+  });
+
   it('空佇列亦可推進（tickSeq +1、無事件）', () => {
     const events = runOneDay();
     expect(store.getState().tickSeq).toBe(1);
     expect(events).toEqual([]);
+    expect(exportCommandLog()).toMatchObject({ finalDay: 1, truncated: false, entries: [] });
   });
 
   it('連續呼叫兩次 tickSeq 累加至 2', () => {

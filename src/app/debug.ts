@@ -4,11 +4,18 @@
 
 import { store } from './store';
 import type { GameSpeed } from './store';
-import { dispatchCommand, type CommandDispatchResult } from './bridge';
+import { dispatchCommand, exportCommandLog, type CommandDispatchResult } from './bridge';
 import { gameLoop } from './gameLoop';
 import { perfMonitor, type PerfSnapshot } from './perfMonitor';
+import { buildNewGameState, loadScenario } from './boot';
 import type { Command } from '@core/commands/types';
 import type { GameState } from '@core/state/gameState';
+import {
+  replayCommandLog as replayCoreCommandLog,
+  type CommandLogFile,
+  type ReplayResult,
+} from '@core/replay/commandLog';
+import { isClanId } from '@core/state/ids';
 
 /**
  * URL 參數解析結果（01 §4.5 逐字；boot 前產生，執行期唯讀）。
@@ -70,6 +77,8 @@ export interface TenkaDebugApi {
   setSpeed(s: GameSpeed): void;
   getSeed(): number;
   getPerf(): PerfSnapshot;
+  exportCommandLog(): CommandLogFile;
+  replayCommandLog(log: CommandLogFile): Promise<ReplayResult>;
 }
 
 function requireGame(): GameState {
@@ -78,6 +87,21 @@ function requireGame(): GameState {
     throw new Error('__TENKA_DEBUG__: game 尚未初始化（尚未開新局）');
   }
   return game;
+}
+
+async function replayCommandLog(log: CommandLogFile): Promise<ReplayResult> {
+  const playerClanId = log.playerClanId;
+  if (!isClanId(playerClanId)) {
+    throw new Error(`replayCommandLog: 無效的 playerClanId「${playerClanId}」`);
+  }
+  const bundle = await loadScenario(log.scenarioId);
+  return replayCoreCommandLog(log, () =>
+    buildNewGameState(bundle, {
+      playerClanId,
+      difficulty: 'normal',
+      seed: log.seed,
+    }),
+  );
 }
 
 /**
@@ -104,6 +128,8 @@ export function installDebugApi(flags: DebugFlags): void {
     getPerf() {
       return perfMonitor.getSnapshot();
     },
+    exportCommandLog,
+    replayCommandLog,
   };
   (window as unknown as { __TENKA_DEBUG__?: TenkaDebugApi }).__TENKA_DEBUG__ = api;
 }

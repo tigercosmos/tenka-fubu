@@ -17,12 +17,28 @@ import { validateCommand } from '@core/commands/validate';
 import { CommandQueue } from '@core/commands/queue';
 import type { Command } from '@core/commands/types';
 import type { GameEvent } from '@core/state/events';
+import type { GameState } from '@core/state/gameState';
+import { CommandLogRecorder, type CommandLogFile } from '@core/replay/commandLog';
 import { CoreError } from '@core/errors';
 import { store } from './store';
 import { captureFatalError } from './errors';
 import { perfMonitor } from './perfMonitor';
 
 let commandQueue = new CommandQueue();
+let commandLogGame: GameState | null = null;
+const commandLogRecorder = new CommandLogRecorder();
+
+function prepareCommandLog(game: GameState): void {
+  if (commandLogGame === game) return;
+  commandLogGame = game;
+  // 讀檔／換局時必須同步清掉前一局 pending，並從存檔的已消耗 seq 後續接。
+  commandQueue = new CommandQueue(game.meta.lastAppliedCmdSeq + 1);
+  store.getState().actions.setPendingCommandCount(0);
+  // 從進度中存檔開始無法由劇本初始狀態完整重放，明確標記為 truncated。
+  commandLogRecorder.reset({
+    ...(game.meta.stateVersion !== 0 ? { incompleteReason: 'loadedGame' as const } : {}),
+  });
+}
 
 /** dispatchCommand 的同步預檢結果（01 §4.5）。
  * `reason` 直接沿用 core `ValidationResult.reasonKey` 原始值（已含 `cmd.reject.` 前綴，見
@@ -39,6 +55,7 @@ export function dispatchCommand(cmd: Command): CommandDispatchResult {
   if (game === null) {
     return { ok: false, reason: 'cmd.reject.notBooted' };
   }
+  prepareCommandLog(game);
   const verdict = validateCommand(game, cmd); // 同步預檢，立即回饋 UI（軟驗證；Step 1 仍會再硬驗證一次）
   if (!verdict.ok) {
     // exactOptionalPropertyTypes：verdict.params 為 undefined 時不得顯式帶入該 key。
@@ -75,6 +92,7 @@ export function runOneDay(): GameEvent[] {
   if (game === null) {
     throw new CoreError('DATA_INTEGRITY', 'runOneDay: game 尚未初始化');
   }
+  prepareCommandLog(game);
   const queue = commandQueue.drain();
   const t0 = performance.now(); // §3.9.4／M1-23：tick 耗時取樣（perfMonitor 環形緩衝）
   let result: TickResult;
@@ -86,6 +104,11 @@ export function runOneDay(): GameEvent[] {
     return [];
   }
   perfMonitor.recordTick(performance.now() - t0);
+  commandLogRecorder.recordTick(result.appliedCommands, {
+    ...(result.appliedCommands.length === queue.length
+      ? {}
+      : { incompleteReason: 'hardRejection' as const }),
+  });
   // dev/debugFlags 條件式 invariant 檢查（01 §3.4.4 步驟 7）留待 M1-22（debugFlags 落地）再接線，
   // 避免在尚無 URL 旗標可用時對每個 tick 的最小測試 fixture 強加 25 條不變量。
   store.setState((s) => ({ tickSeq: s.tickSeq + 1 }));
@@ -94,9 +117,21 @@ export function runOneDay(): GameEvent[] {
   return result.events;
 }
 
+/** 匯出目前局的 success-only command log；檔案的 hash 對應匯出當下狀態。 */
+export function exportCommandLog(): CommandLogFile {
+  const game = store.getState().game;
+  if (game === null) {
+    throw new CoreError('DATA_INTEGRITY', 'exportCommandLog: game 尚未初始化');
+  }
+  prepareCommandLog(game);
+  return commandLogRecorder.export(game);
+}
+
 /** 供測試重置模組私有佇列與回呼（非產品程式碼路徑）。 */
 export function resetBridgeForTests(): void {
   commandQueue = new CommandQueue();
+  commandLogGame = null;
+  commandLogRecorder.reset();
   autoPauseHandler = null;
 }
 
