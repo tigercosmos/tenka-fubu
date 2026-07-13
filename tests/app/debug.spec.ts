@@ -73,13 +73,19 @@ describe('installDebugApi（01 §3.11.4 TenkaDebugApi）', () => {
     return (window as unknown as { __TENKA_DEBUG__?: TenkaDebugApi }).__TENKA_DEBUG__;
   }
 
+  function getTestApi(): TenkaDebugApi | undefined {
+    return (window as unknown as { __tenka?: { debug: TenkaDebugApi } }).__tenka?.debug;
+  }
+
   beforeEach(() => {
     resetGameStoreForTests(null);
     delete (window as unknown as { __TENKA_DEBUG__?: TenkaDebugApi }).__TENKA_DEBUG__;
+    delete (window as unknown as { __tenka?: unknown }).__tenka;
   });
 
   afterEach(() => {
     delete (window as unknown as { __TENKA_DEBUG__?: TenkaDebugApi }).__TENKA_DEBUG__;
+    delete (window as unknown as { __tenka?: unknown }).__tenka;
   });
 
   it('flags.enabled === false 時不安裝 window.__TENKA_DEBUG__（01 §3.11.1）', () => {
@@ -90,6 +96,18 @@ describe('installDebugApi（01 §3.11.4 TenkaDebugApi）', () => {
   it('flags.enabled === true 時安裝 window.__TENKA_DEBUG__', () => {
     installDebugApi(parseDebugFlags('?debug=1&seed=42'));
     expect(getGlobalApi()).toBeDefined();
+    expect(getTestApi()).toBe(getGlobalApi());
+  });
+
+  it('startBattle() 以 seed 42 直接載入 debug-battle-01 並切換至合戰畫面', () => {
+    installDebugApi(parseDebugFlags('?debug=1'));
+    getTestApi()?.startBattle('debug-battle-01');
+
+    const game = store.getState().game;
+    const battle = Object.values(game?.battles ?? {})[0];
+    expect(game?.meta.seed).toBe(42);
+    expect(battle?.units).toHaveLength(4);
+    expect(store.getState().session.screen).toBe('battle');
   });
 
   it('getSeed()：game 尚未 boot 時回傳 flags.seed（無則 0）；boot 後回傳 state.meta.seed', () => {

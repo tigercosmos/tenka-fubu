@@ -2,7 +2,7 @@
 // 規格：plan/01-architecture.md §3.11.1（URL 參數表）／§3.11.4（console API）／§4.5（DebugFlags 型別）。
 // M1-22（01-A11）實作。
 
-import { store } from './store';
+import { bumpTickSeq, setGame, store } from './store';
 import type { GameSpeed } from './store';
 import { dispatchCommand, exportCommandLog, type CommandDispatchResult } from './bridge';
 import { gameLoop } from './gameLoop';
@@ -16,6 +16,8 @@ import {
   type ReplayResult,
 } from '@core/replay/commandLog';
 import { isClanId } from '@core/state/ids';
+import { startDebugBattle } from '@core/debugBattle';
+import { startNewDemoGame } from './newGame';
 
 /**
  * URL 參數解析結果（01 §4.5 逐字；boot 前產生，執行期唯讀）。
@@ -71,6 +73,7 @@ export function parseDebugFlags(search: string): DebugFlags {
 
 /** console 除錯 API（01 §3.11.4 `TenkaDebugApi` 逐字）；僅 `debugFlags.enabled` 時安裝。 */
 export interface TenkaDebugApi {
+  startBattle(layoutId: string): void;
   getState(): GameState; // 直接參考（唯讀約定，僅供檢查）
   dispatch(cmd: Command): CommandDispatchResult;
   stepDays(n: number): void;
@@ -113,6 +116,13 @@ export function installDebugApi(flags: DebugFlags): void {
     return;
   }
   const api: TenkaDebugApi = {
+    startBattle(layoutId) {
+      const game = startNewDemoGame({ seed: 42, enabled: true });
+      startDebugBattle(game, layoutId);
+      setGame(game);
+      store.getState().actions.setScreen('battle');
+      bumpTickSeq();
+    },
     getState: requireGame,
     dispatch: dispatchCommand,
     stepDays(n) {
@@ -131,5 +141,10 @@ export function installDebugApi(flags: DebugFlags): void {
     exportCommandLog,
     replayCommandLog,
   };
-  (window as unknown as { __TENKA_DEBUG__?: TenkaDebugApi }).__TENKA_DEBUG__ = api;
+  const debugWindow = window as unknown as {
+    __TENKA_DEBUG__?: TenkaDebugApi;
+    __tenka?: { debug: TenkaDebugApi };
+  };
+  debugWindow.__TENKA_DEBUG__ = api;
+  debugWindow.__tenka = { debug: api };
 }

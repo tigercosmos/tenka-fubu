@@ -64,4 +64,18 @@ test.describe('Playwright smoke（17 §3.8）', () => {
     await page.waitForTimeout(500);
     await expect(page.getByTestId('hud-date')).toHaveText(pausedDate ?? '');
   });
+
+  test('P5 直達合戰畫面：debug-battle-01 可載入並撤退回策略畫面', async ({ page }) => {
+    await page.goto('/?debug=1');
+    await page.evaluate(() => {
+      const debugWindow = window as unknown as {
+        __tenka: { debug: { startBattle(layoutId: string): void } };
+      };
+      debugWindow.__tenka.debug.startBattle('debug-battle-01');
+    });
+
+    await expect(page.getByTestId('screen-battle')).toBeVisible();
+    await page.getByTestId('battle-retreat').click();
+    await expect(page.getByTestId('screen-strategy')).toBeVisible();
+  });
 });

@@ -1,0 +1,175 @@
+.screen {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 48px 1fr 136px;
+  color: var(--ink-900);
+  background: linear-gradient(145deg, var(--washi-100), var(--washi-300));
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0 var(--space-4);
+  border-bottom: 1px solid var(--ink-300);
+  background: var(--ink-900);
+  color: var(--washi-100);
+}
+
+.header h1 {
+  margin: 0 auto 0 0;
+  font-size: var(--font-size-lg);
+}
+
+.body {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) 1fr minmax(240px, 320px);
+}
+
+.units,
+.log {
+  overflow: auto;
+  padding: var(--space-3);
+  background: color-mix(in srgb, var(--washi-100) 92%, transparent);
+}
+
+.units {
+  border-right: 1px solid var(--ink-300);
+}
+
+.log {
+  border-left: 1px solid var(--ink-300);
+}
+
+.units h2,
+.log h2 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-size-md);
+}
+
+.unitCard {
+  width: 100%;
+  display: grid;
+  gap: var(--space-1);
+  margin-bottom: var(--space-2);
+  padding: var(--space-2);
+  border: 1px solid var(--ink-300);
+  border-radius: var(--radius-sm);
+  background: var(--washi-100);
+  color: inherit;
+  text-align: left;
+}
+
+.unitCard[aria-pressed='true'] {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-gold) 30%, transparent);
+}
+
+.battlefield {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(72px, 1fr));
+  grid-template-rows: repeat(3, minmax(96px, 1fr));
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-6);
+  background:
+    radial-gradient(circle at center, rgb(255 255 255 / 35%), transparent 60%),
+    color-mix(in srgb, var(--accent-moss) 35%, var(--washi-300));
+}
+
+.jin {
+  position: relative;
+  min-height: 72px;
+  border: 2px solid var(--ink-500);
+  border-radius: 50%;
+  background: var(--washi-100);
+  color: inherit;
+}
+
+.jinButton {
+  width: 100%;
+  min-height: 68px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+}
+
+.jin[data-owner='attacker'] {
+  border-color: var(--accent-gold);
+}
+
+.jin[data-owner='defender'] {
+  border-color: var(--accent-vermilion);
+}
+
+.honjin {
+  box-shadow: inset 0 0 0 4px rgb(0 0 0 / 12%);
+  font-weight: 700;
+}
+
+.enemyUnit {
+  display: block;
+  margin: 2px auto 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent-vermilion);
+  font-size: var(--font-size-sm);
+}
+
+.log ol {
+  margin: 0;
+  padding-left: var(--space-6);
+}
+
+.tactics {
+  display: grid;
+  grid-template-columns: minmax(180px, 280px) 1fr;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--ink-300);
+  background: var(--washi-100);
+}
+
+.tacticButtons {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+}
+
+.tacticButtons button[data-pending='true'] {
+  outline: 2px solid var(--accent-gold);
+}
+
+.targetHint {
+  grid-column: 2;
+  margin: calc(-1 * var(--space-2)) 0 0;
+  color: var(--accent-vermilion);
+  font-size: var(--font-size-sm);
+}
+
+.result {
+  position: fixed;
+  inset: 25% 30%;
+  z-index: 10;
+  display: grid;
+  place-content: center;
+  gap: var(--space-3);
+  border: 2px solid var(--accent-gold);
+  background: var(--ink-900);
+  color: var(--washi-100);
+  text-align: center;
+}
+
+@media (max-width: 960px) {
+  .body {
+    grid-template-columns: 200px 1fr;
+  }
+
+  .log {
+    display: none;
+  }
+}

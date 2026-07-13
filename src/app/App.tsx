@@ -11,6 +11,7 @@
 // 相互獨立，互不影響。
 
 import { useCallback, useEffect, useMemo, useState, type ReactElement } from 'react';
+import { useStore } from 'zustand';
 import { ErrorBoundary } from '../ui/components/ErrorBoundary';
 import type { FatalErrorInfo } from './errors';
 import { DebugPanel } from '../ui/debug/DebugPanel';
@@ -18,19 +19,45 @@ import { TitleScreen } from '../ui/screens/TitleScreen';
 import { ScenarioSelect } from '../ui/screens/ScenarioSelect';
 import { DaimyoSelect } from '../ui/screens/DaimyoSelect';
 import { MainScreen } from '../ui/screens/MainScreen';
+import { BattleScreen } from '../ui/screens/BattleScreen';
 import { useSession } from '../ui/hooks/useSession';
-import { store, setGame } from './store';
+import { bumpTickSeq, store, setGame } from './store';
 import { gameLoop } from './gameLoop';
 import { parseDebugFlags, installDebugApi } from './debug';
 import { startNewDemoGame } from './newGame';
 import type { ScenarioBundleData } from '@data/schemas';
 import type { GameState } from '@core/state/gameState';
+import type { BattleId } from '@core/state/ids';
+import { abortDebugBattle } from '@core/debugBattle';
+import { acknowledgeBattleResult, clearBattleOrders } from './battleBridge';
 
 export function App(): ReactElement {
   // location.search 於整個 session 期間不變（v1.0 無深連結／路由，01 §8-D8）；只解析一次。
   const flags = useMemo(() => parseDebugFlags(window.location.search), []);
   const screen = useSession((s) => s.screen);
+  const tickSeq = useStore(store, (state) => state.tickSeq);
   const [scenarioBundle, setScenarioBundle] = useState<ScenarioBundleData | null>(null);
+  const [battleId, setBattleId] = useState<BattleId | null>(null);
+
+  useEffect(() => {
+    const game = store.getState().game;
+    if (game !== null && battleId !== null && game.battles[battleId] !== undefined) {
+      // Keep the selected battle through its resolved result screen until the player acknowledges it.
+      return;
+    }
+    const activeBattle =
+      game === null
+        ? undefined
+        : Object.values(game.battles)
+            .filter((battle) => battle.result === null)
+            .sort((a, b) => a.id.localeCompare(b.id))[0];
+    if (activeBattle !== undefined && battleId !== activeBattle.id) {
+      setBattleId(activeBattle.id);
+      store.getState().actions.setScreen('battle');
+    } else if (activeBattle === undefined && battleId !== null) {
+      setBattleId(null);
+    }
+  }, [battleId, tickSeq]);
 
   const handleQuickDemo = useCallback((): void => {
     const game = startNewDemoGame(flags);
@@ -86,8 +113,29 @@ export function App(): ReactElement {
     store.getState().actions.setFatalError(info);
   }, []);
 
+  const handleBattleExit = useCallback((): void => {
+    if (battleId === null || !acknowledgeBattleResult(battleId).ok) return;
+    setBattleId(null);
+    store.getState().actions.setScreen('main');
+  }, [battleId]);
+
+  const handleBattleRetreat = useCallback((): void => {
+    if (battleId === null) return;
+    const game = store.getState().game;
+    if (game === null || !game.meta.debugMode) return;
+    abortDebugBattle(game, battleId);
+    clearBattleOrders(battleId);
+    bumpTickSeq();
+    setBattleId(null);
+    store.getState().actions.setScreen('main');
+  }, [battleId]);
+
   let content: ReactElement;
-  if (screen === 'main') {
+  if (screen === 'battle' && battleId !== null) {
+    content = (
+      <BattleScreen battleId={battleId} onExit={handleBattleExit} onRetreat={handleBattleRetreat} />
+    );
+  } else if (screen === 'main') {
     content = <MainScreen />;
   } else if (screen === 'scenarioSelect') {
     content = <ScenarioSelect onSelectScenario={handleSelectScenario} onBack={handleBackToTitle} />;
