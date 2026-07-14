@@ -501,6 +501,36 @@ M4 階段的 golden-mini 依第 19 條實作裁決改用固定軍事 Command 排
 6. 滾輪連續縮放 10 次往返：無閃爍、無 WebGL context lost。
 7. 任一步不達標即開 issue 並阻擋發版（渲染分層與剔除策略見 04）。
 
+#### 3.9.3 M6-V 視覺回歸與地圖可讀性 gate（M6 起阻斷）
+
+此 suite 獨立於 §3.8 固定 5 條功能 smoke，不增加 P1–P5 數量。以 `/?debug=visual-map` 載入固定
+`debug-visual-map-01`：固定種子、日期、字型、動畫關閉、天候固定，畫面同時含平原／山地／森林／河川、
+三道級道路與橋樑、本城／支城、至少 8 支敵我部隊、圍城、補給警告、選取路徑與通知。
+
+Playwright `e2e/visual.spec.ts` 使用 Chromium、viewport 1280×720、DPR 1、`prefers-reduced-motion: reduce`，
+等待 `document.fonts.ready`、Pixi assets ready 與連續兩幀 renderer idle 後截圖。基準固定三張：
+
+| baseline | 鏡頭 | 必須可見 |
+|---|---|---|
+| `strategy-overview.png` | overview／約 25% | 海岸、主要山系／水系、勢力領域、主幹道、本城、軍隊、勢力名 |
+| `strategy-operational.png` | operational／約 50% | 上列＋次要道路、支城、郡界、城名、方向／目的地與警告 |
+| `strategy-close.png` | close／100% 以上 | 上列＋聚落、道路名、城耐久、軍隊士氣／補給、ETA 與選取狀態 |
+
+通過規則：
+
+1. pixel diff 門檻只吸收跨平台抗鋸齒微差；任何 baseline 更新都須獨立 commit，PR 附 before／after、
+   對應 Art Bible 條目與 reviewer 核准，不可用「更新全部」掩蓋不明差異。
+2. layer-presence smoke 直接向 DEV renderer diagnostics 讀每層 children／visible／dirty 統計，斷言
+   `terrainBase`、`territory`、`roads`、`nodeMarkers`、`armies`、`labels` 在對應 LOD 非空；只看像素不算完成。
+3. 靜態 tick 連跑 30 日，`terrainBase/roads/nodeMarkers` rebuild count 保持 0；翻轉一郡只允許
+   `territory` dirty；移動部隊只允許相應 ArmyChip transform／狀態更新。
+4. 以色弱模擬／灰階截圖人工檢查敵我、warning／hostile、三道路級仍有形狀、旗型、明暗或線型差異；
+   所有小路點與 icon 的 hit target ≥32 CSS px。
+5. 同 fixture 另跑 1920×1080、20 支移動部隊、連續平移／縮放 30 秒：FPS p95 ≥55；renderer destroy／
+   remount 後 texture cache、listener 與 heap 回到穩態，無 WebGL context lost。
+6. `npm run validate:assets` 必須先通過；缺作者／來源／授權／hash、未知 runtime path 或 raw source 混入
+   production bundle 均為阻斷失敗。
+
 ### 3.10 回歸素材：command log 匯出／重放
 
 **用途**：bug 報告的標準格式。玩家（或開發者）在除錯面板匯出 `.tfulog.json`，
@@ -559,6 +589,8 @@ install ──┬── lint        （eslint + prettier check）
 | AI 合法性 A1 | — | — | — | — | — | — | — | ✓ | ✓ | ✓ |
 | AI 合法性 A2（全國） | — | — | — | — | — | — | — | ○ | ✓ | ✓ |
 | replay 回歸庫 | — | — | — | — | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| 素材 manifest／授權驗證 | — | — | — | — | — | — | ✓ | ✓ | ✓ | ✓ |
+| 視覺回歸（三縮放＋layer presence） | — | — | — | — | — | — | ✓ | ✓ | ✓ | ✓ |
 | perf gate（8ms） | — | — | — | — | ○ | ○ | ○ | ○ | ○ | ✓ |
 | core 覆蓋率 80/70 | — | ○ | ○ | ○ | ○ | ○ | ○ | ○ | ○ | ✓ |
 | 60fps 手動驗收 | — | — | — | — | — | — | — | — | — | ✓ |
@@ -950,6 +982,9 @@ perfGate():
       驗收：PR 上五個 job 並行、失敗註記到 PR；門檻表 §3.11.2 以 job 條件化（依 milestone 標籤或設定檔）落實。
 - [ ] **T14 發版檢查表**：`plan/17-testing.md` §3.9.2 的 60fps 步驟複製為 repo 內 `RELEASE_CHECKLIST.md`，含核取方塊。
       驗收：M9 發版 PR 附已勾選清單。
+- [ ] **T15 M6-V 視覺回歸與素材 gate**：固定 visual fixture、獨立 Playwright visual suite、三縮放
+      baseline、layer-presence／dirty-domain diagnostics、`validate:assets`、色弱／命中區與 55fps／memory gate。
+      驗收：§3.9.3 全部通過；baseline 更新為獨立 commit 且附 before／after 與 Art Bible 依據；不增減 P1–P5。
 
 ---
 
@@ -1097,3 +1132,8 @@ perfGate():
     `finalHash`，沒有逐日 expected hash/checkpoint，重放不一致時只能證明最終狀態不同，不能可靠判定首次
     分歧日。原實作永遠回傳 `null` 會讓公開型別誤示功能存在，故從結果契約移除；未來必須先升版 log 並
     保存具 day 的中間 hash，才可重新加入分歧定位。
+21. **（2026-07-14；M6-V 視覺品質 gate）固定五條 Playwright smoke 不承擔像素品質**：§3.8 的
+    P1–P5 鎖功能旅程且「5 條不增不減」仍有效；視覺回歸另立 `visual.spec.ts`，以固定 visual fixture、
+    字型／DPR／動畫／鏡頭條件產生三段縮放 baseline，並用 renderer diagnostics 鎖 layer presence 與
+    dirty domain。這可避免只靠像素誤把空層當成功，也不讓 UI 改版把功能 smoke 變成高維護截圖測試。
+    M6 起 `validate:assets` 與 visual suite 皆為 checkpoint 阻斷，baseline 更新必須獨立 commit 並人工核准。

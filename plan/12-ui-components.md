@@ -10,7 +10,8 @@
 ### 1.1 目的
 
 定義所有可重用 UI 建材，使畫面層（`plan/11-ui-screens.md`）能以「組裝」方式實作，
-不需要再做任何視覺設計決策。內容包含：
+在 11 的 Art Bible 與本文件 tokens／元件契約內不需臨場發明樣式；新增視覺語彙時必須先回寫規格，
+不得以 emoji、Unicode 圖案、臨時文字或未登錄圖片占位。內容包含：
 
 1. Design tokens 完整表（CSS custom properties 與 TypeScript 常數雙形式）。
 2. 24 個共用 React 元件的 props 介面、狀態、行為、樣式要點。
@@ -18,6 +19,7 @@
 4. 動畫規範與 `prefers-reduced-motion` 支援。
 5. 無障礙基線。
 6. 元件目錄結構、命名規範、開發用展示路由 `/dev/components`。
+7. 原創／授權素材 manifest、atlas、尺寸預算與 Pixi texture 生命週期。
 
 ### 1.2 範圍界線
 
@@ -106,7 +108,9 @@ Pixi 繪製程式一律以 `TOKENS_NUM.xxx` 引用。
 和紙質感：`--texture-washi` 為內嵌 data URI 的 SVG `feTurbulence` 雜訊
 （`baseFrequency=0.9`、`numOctaves=2`、灰階、鋪磚 128×128），以
 `background-image` 疊在 `--washi-100` 上、`opacity: 0.05` 等效（實作用預先乘好透明度的雜訊）。
-禁止外部圖片資產。
+禁止未登錄的外部圖片資產。允許自行繪製、AI 生成後人工整理、公有領域或相容授權的原創素材，
+但每筆都必須進 §3.7 manifest 並記錄作者／工具、來源、授權、衍生狀態與內容 hash；禁止直接擷取、
+描摹或修改 KOEI TECMO 與其他遊戲的美術資產。
 
 #### 3.1.3 勢力色盤 — 40 色相環
 
@@ -589,19 +593,28 @@ type IconName =
   | 'close' | 'pause' | 'play' | 'ff2' | 'ff5'
   | 'plus' | 'minus' | 'chevron-left' | 'chevron-right' | 'arrow-up' | 'arrow-down'
   | 'gear' | 'flag' | 'sword' | 'castle' | 'scroll' | 'coin' | 'rice' | 'people'
-  | 'crown' | 'handshake' | 'search' | 'pin' | 'book';
+  | 'crown' | 'handshake' | 'search' | 'pin' | 'book'
+  | 'army' | 'road' | 'bridge' | 'terrain' | 'layer' | 'supply' | 'morale'
+  | 'siege' | 'warning' | 'blocked' | 'eye' | 'eye-off';
 interface IconButtonProps {
   icon: IconName;
   ariaLabel: string;          // 必填（無可見文字）；也作為預設 Tooltip 內容
-  size?: 'sm' | 'md';         // 24 / 32px 方形
+  size?: 'sm' | 'md';         // 32 / 40px 控制面；glyph 為 16 / 24px
   toggled?: boolean;          // 常駐按下態（如 SpeedControl 現行檔）
   disabled?: boolean;
   onClick: () => void;
 }
 ```
 
-- 圖示：**自繪 inline SVG sprite**（`src/ui/components/IconButton/icons.tsx`），
-  24×24 網格、`stroke: currentColor`、線寬 1.75；禁止外部 icon 庫（00 §2 禁止清單精神）。
+- 圖示分類固定為六族：導航／時間、資源／內政、軍事／外交、地圖／圖層、狀態／警告、系統／資料。
+  同族共用視角、端點、留白與輪廓重量；名詞優先剪影、動詞優先「物件＋方向／變化」。
+- 圖示以**自繪 SVG sprite**為主（`src/ui/components/IconButton/icons.tsx`），24×24 master grid、
+  2px safe area、`stroke: currentColor`、基準線寬 1.75；為 16／24／32px 提供光學校正，不直接等比縮放
+  細節過多的 glyph。禁止外部 icon library、emoji、Unicode 圖案與單字首字母充當正式 icon。
+- 狀態不得只靠色彩：selected 加實心底／外框，disabled 降低對比並保留輪廓，warning 加三角／驚嘆號，
+  hostile 使用尖角外形或旗型；所有無文字按鈕仍須有 `ariaLabel` 與 Tooltip。
+- glyph 可為 16／24／32px，但互動 hit target 不小於 32×32 CSS px；地圖上的小 icon／路點同樣以透明
+  hit area 擴至至少 32px，不放大可見圖形來換點擊性。
 - 態：hover 底 `--washi-200`；toggled 底 `--accent-gold` 20% 透明度＋`--accent-gold-text` 圖色。
 
 #### 3.2.19 MenuList — 選單列表
@@ -850,12 +863,17 @@ UI 層以 `matchMedia('(prefers-reduced-motion: reduce)')` 讀取一次並訂閱
 4. **語意角色**：各元件規格中已指定 `role`/`aria-*`；表格用原生 `<table>` 結構（虛擬捲動仍保留 `<thead>`）。
 5. **地圖替代路徑**：Pixi canvas 對螢幕閱讀器不可及；所有地圖可做的操作必須在 DOM 面板有等價入口
    （城一覽、武將一覽、部隊一覽；佈局參見 11）。此為 11 的畫面驗收條件之一。
-6. 最小可點目標 24×24px（IconButton sm 即為下限）。
+6. 最小可點目標以 32×32 CSS px 為專案基線；24px 以下 glyph 必須置於透明 padding／hit area 中，
+   不得要求像素級點選。資料表內空間受限的例外仍不得低於 WCAG 2.2 的 24×24px，且相鄰目標須有間隔。
 
 ### 3.6 目錄結構、命名與 /dev/components 展示路由
 
 ```
 src/ui/
+├── assets/
+│   ├── manifest.ts          # §3.7 runtime id、來源／授權與 hash
+│   ├── loader.ts            # Pixi preload／cache／dispose
+│   └── generated/           # atlas frame map；由 tools/build-atlas.ts 產生
 ├── styles/
 │   ├── tokens.ts            # §3.1 全部 tokens ＋ injectCssVariables ＋ TOKENS_NUM
 │   ├── global.css           # reset、@font-face、:root 之外的全域規則、reduce-motion 覆蓋
@@ -888,6 +906,38 @@ sceneParts 檔名 camelCase（非 React）。元件不得 import `src/core/syste
   （預設／hover 說明／selected／disabled／empty／各 size／各 severity）。
 - DataTable section 以 650 列生成資料驗證虛擬捲動；ReportStack section 提供「加一條 info/critical」按鈕。
 - Gallery 用字不進 i18n 主表（開發工具豁免，仍須繁中）。
+
+### 3.7 視覺素材生產與載入管線（M6-V）
+
+素材分為 `icons`（SVG）、`map`（地形／城池／軍隊 atlas）、`textures`（可平鋪材質）與 `source`（不進
+production bundle 的工作檔）。檔名採 `{domain}-{subject}-{variant}@{scale}` 小寫 kebab-case；禁止 `final2`、
+`new` 等無語意名稱。所有 runtime 素材由 `src/ui/assets/manifest.ts` 具名引用，不允許元件散落硬編 URL。
+
+```ts
+export interface VisualAssetManifestEntry {
+  id: string;                         // 例 map.castle.mountain.normal
+  runtimePath: string;                // atlas frame 或 production asset path
+  sourcePath: string | null;          // 工作檔；無工作檔時為 null
+  kind: 'svg' | 'atlas' | 'texture';
+  authorOrTool: string;               // 作者或生成工具／模型
+  sourceUrl: string | null;           // 自繪可為 null；外部來源必填
+  license: 'project-original' | 'cc0' | 'cc-by-4.0' | 'compatible-other';
+  derivative: boolean;
+  contentHash: string;
+  pixelSize: { width: number; height: number } | null;
+}
+```
+
+- `tools/validate-assets.ts` 驗證 id／路徑唯一、來源與授權欄完整、hash 相符、runtime path 存在，並拒絕
+  source 工作檔進 production bundle；缺欄或未知授權一律阻斷。
+- `tools/build-atlas.ts` 依 manifest 決定性排序產生 atlas 與 frame map；單張 texture 最大 2048×2048，
+  超出須分頁；同輸入重建的 manifest hash 必須一致。
+- 首屏地圖與 HUD 的壓縮後視覺資產預算為 `UI.initialVisualAssetBytesMax = 8 MiB`，其餘場景 lazy load；
+  build 輸出各 domain bytes，超標即失敗。此為工程呈現常數，不進 BAL。
+- Pixi loader 以 asset id cache；`MapRenderer.destroy()` 必須釋放本 instance 建立的 Texture／RenderTexture／
+  BaseTexture 引用並移除 listener，不銷毀跨畫面共享 atlas。StrictMode 重掛兩次後 cache／listener 數回到穩態。
+- AI 生成素材不得直接以首次輸出入庫；須經人工構圖、邊緣、透明度、色盤、縮放可讀性與相似性檢查，
+  並在 reference board 記錄生成意圖與禁抄來源。最終責任仍由人工 review 承擔。
 
 ---
 
@@ -1128,6 +1178,15 @@ dismiss(id): 播退場動畫（--duration-normal）後自 stack 移除
 - [ ] **T14 無障礙驗收**
   - 驗收：axe-core（開發依賴）跑 Gallery 無 critical violation；全元件鍵盤可達；
     §3.5 對比表通過自動驗算。
+- [ ] **T15 M6-V 圖示語彙重整**
+  - 驗收：§3.2.18 六族 icon 在 16／24／32px Gallery 皆清楚；selected／disabled／warning／hostile
+    不只靠色彩；MainScreen 無 emoji／Unicode／字首占位；所有 hit target 達 §3.5 基線。
+- [ ] **T16 M6-V 素材 manifest／atlas／loader**
+  - 驗收：`validate-assets` 對缺授權、hash 不符、未知 runtime path 皆紅燈；atlas 重建決定性；首屏壓縮資產
+    ≤8 MiB；StrictMode 重掛後 texture cache 與 listener 回到穩態。
+- [ ] **T17 M6-V 既有 HUD 元件整合 Gallery**
+  - 驗收：ResourceBar、SpeedControl、MiniMap、IconButton、ContextPanel、ReportStack 以實際 MainScreen
+    組合狀態展示 overview／operational／close safe area；1280×720 無溢版與主要戰場遮蔽。
 
 ---
 
@@ -1198,6 +1257,11 @@ dismiss(id): 播退場動畫（--duration-normal）後自 stack 移除
   使其對 `--washi-100` 對比提升至 ≈4.8:1（實測 4.834，留有餘裕）；同步更正 §3.5 表三筆近似值
   （12.9→16.3、7.9→8.6、4.6→4.8）。此為色彩定案值的唯一一次事後修正，其餘 39 個色彩 token
   與 40 勢力色公式（§5.1）不受影響。
+- **D15｜M6-V 開放受管控的原創／授權圖片資產（2026-07-14）**：既有「禁止外部圖片資產」會把
+  地形、城池與軍隊長期鎖在程式員占位幾何，且 00 只禁止 KOEI 資產與未列技術，並未禁止專案原創、
+  公有領域或相容授權圖片。改為 §3.7 manifest gate：允許自繪、AI 生成後人工整理、CC0／CC BY 4.0
+  或經確認相容授權的素材；每筆強制作者／工具、來源、授權、衍生狀態與 hash。Icon 仍以自繪 SVG 為主，
+  禁止外部 icon library、emoji 與臨時文字占位；具體畫面與圖層分別以 11／04 為準。
 
 ---
 
