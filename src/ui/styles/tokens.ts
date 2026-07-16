@@ -133,6 +133,36 @@ export const TOKENS_NUM = {
   traitCommon: hexToNum(TOKENS.color.traitCommon),
 } as const;
 
+/** 地圖色票（art-bible §3.2 十色，M6-V5 落為具名常數）：地形/水系/領地繪製一律引用本表，
+ *  不得散落 hex 魔術數字。**不進 `TOKENS.color`**——地圖色非 CSS 用途，且併入會牽動
+ *  `TOKENS_NUM` 一一對應斷言與 CSS 變數表（VD7，見 plan/04-map-and-movement.md §8）。 */
+export const MAP_PALETTE_HEX = {
+  seaDeep: '#27303d',
+  landBase: '#cfc6ae',
+  plainLight: '#d8cfb8',
+  reliefInk: '#776a55',
+  forestMoss: '#4f6448',
+  waterRiver: '#5f8190',
+  roadCasing: '#302a22',
+  roadArterial: '#b89b64',
+  roadMinor: '#86745a',
+  neutral: '#8a8578',
+} as const;
+
+/** `MAP_PALETTE_HEX` 的 Pixi 數值色版本（繪製程式一律引用本表，見 VD7）。 */
+export const MAP_PALETTE_NUM = {
+  seaDeep: hexToNum(MAP_PALETTE_HEX.seaDeep),
+  landBase: hexToNum(MAP_PALETTE_HEX.landBase),
+  plainLight: hexToNum(MAP_PALETTE_HEX.plainLight),
+  reliefInk: hexToNum(MAP_PALETTE_HEX.reliefInk),
+  forestMoss: hexToNum(MAP_PALETTE_HEX.forestMoss),
+  waterRiver: hexToNum(MAP_PALETTE_HEX.waterRiver),
+  roadCasing: hexToNum(MAP_PALETTE_HEX.roadCasing),
+  roadArterial: hexToNum(MAP_PALETTE_HEX.roadArterial),
+  roadMinor: hexToNum(MAP_PALETTE_HEX.roadMinor),
+  neutral: hexToNum(MAP_PALETTE_HEX.neutral),
+} as const;
+
 /** 勢力色數量（0..39，Clan.colorIndex 值域，欄位定義見 plan/02-data-model.md）。 */
 export const CLAN_COLOR_COUNT = 40;
 

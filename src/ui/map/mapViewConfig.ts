@@ -5,9 +5,11 @@
 // 參數不影響模擬結果、不進 golden，屬渲染設定，集中於本檔）。渲染程式一律引用 `MAPVIEW.*`，
 // 不得散落魔術數字（M2-13；04-T8）。
 //
-// 色彩：`MAPVIEW.colors` 為建議值，design token 覆蓋參見 plan/12（04 §4.5 註）。目前 tokens.ts
-// 未定義地圖海／陸色，故本檔即為海陸與路徑/威風/界線色的真相來源；日後若 12 定義覆蓋 token，
-// 於此改為引用（回寫 §8）。
+// 色彩：`MAPVIEW.colors` 之 sea/land/neutral 已遷移為引用 `src/ui/styles/tokens.ts` 的
+// `MAP_PALETTE_NUM`（M6-V5，VD7；地圖色票具名常數化，真相在 tokens.ts）；`borderDarken`/
+// `pathOk`/`pathBad`/`awe` 非地圖色票範疇，維持原值。
+
+import { MAP_PALETTE_NUM } from '@ui/styles/tokens';
 
 export const MAPVIEW = {
   minScale: 0.15,
@@ -31,17 +33,21 @@ export const MAPVIEW = {
    */
   dragTapThresholdPx: 4,
   lodFarScale: 0.5,
+  lodNearScale: 1.0, // 新增（M6-V5，VD3）：mid/near 段界，語意獨立於 labelScale（雖同值）
   labelScale: 1.0, // LOD 門檻
+  lodHysteresis: 0.1, // 新增（M6-V5，VD3）：三段 LOD 滾輪連續縮放的 10% 死區
   cullMargin: 256,
   cullBucket: 256, // 視錐剔除外擴與桶邊長（world unit）
   territoryGridSize: 1024, // 勢力色網格解析度
   territoryMaxDist: 260, // 郡域最大延伸距離（world unit）
   territoryAlpha: 0.45, // 郡域紋理透明度（一般/遠 LOD 0.65/勢力圖 0.85）
+  territoryAlphaFar: 0.65, // 新增（M6-V5，VD3）：far LOD 郡域紋理透明度
+  territoryAlphaFaction: 0.85, // 新增（M6-V5，VD3）：勢力分析圖模式郡域紋理透明度
   colors: {
-    // 建議值；design token 覆蓋參見 plan/12
-    sea: 0x27303d,
-    land: 0xcfc6ae,
-    neutral: 0x8a8578,
+    // sea/land/neutral 遷移自 MAP_PALETTE_NUM（M6-V5，VD7）；其餘為既有建議值
+    sea: MAP_PALETTE_NUM.seaDeep,
+    land: MAP_PALETTE_NUM.landBase,
+    neutral: MAP_PALETTE_NUM.neutral,
     borderDarken: 0.55,
     pathOk: 0xffffff,
     pathBad: 0xcc3333,
@@ -86,3 +92,19 @@ export const NODE_MARKER = {
 
 /** 世界空間邊長（world unit）；投影常數的真相在 `@data/map/projection` PROJECTION.worldSize。 */
 export const WORLD_SIZE = 4096;
+
+/** 河川 widthClass → 線寬（world unit）；上游細下游寬另由 taper 逐段內插達成（terrainDraw，M6-V5）。 */
+export const RIVER_WIDTH: Readonly<Record<1 | 2 | 3, number>> = { 1: 2, 2: 4, 3: 7 };
+
+/** 河川沿線起端相對寬度比例（0..1）；末端＝1（下游最寬）（M6-V5）。 */
+export const RIVER_TAPER_HEAD = 0.4;
+
+/** relief／forest 烘焙紋理邊長（world unit 覆蓋範圍）；Sprite setSize 用（M6-V5）。 */
+export const TERRAIN_SPRITE_WORLD = WORLD_SIZE;
+
+/** forest Sprite 各 LOD 段 alpha（far 低 alpha 亦顯，回應「米黃平面」抱怨；M6-V5，VD3／§10-(7)）。 */
+export const FOREST_ALPHA: Readonly<Record<'far' | 'mid' | 'near', number>> = {
+  far: 0.35,
+  mid: 0.85,
+  near: 0.9,
+};

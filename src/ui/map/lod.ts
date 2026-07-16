@@ -2,6 +2,9 @@ import { MAPVIEW } from './mapViewConfig';
 
 export type LodMode = 'far' | 'near';
 
+/** 三段 LOD（M6-V5，VD3）：far/mid/near，用於地形/水系/領地顯示細分（既有 LodMode 二分維持相容）。 */
+export type LodStage = 'far' | 'mid' | 'near';
+
 export interface WorldRect {
   left: number;
   top: number;
@@ -15,6 +18,33 @@ export function lodModeForScale(scale: number): LodMode {
 
 export function shouldShowDetailLabels(scale: number): boolean {
   return scale >= MAPVIEW.labelScale;
+}
+
+/**
+ * 純分類（無 hysteresis）：截圖 preset（`setCameraPose`）用，決定論——同一 scale 恆回傳同一段，
+ * 不受先前段別影響（M6-V5，VD3）。
+ */
+export function lodStageForScale(scale: number): LodStage {
+  if (scale < MAPVIEW.lodFarScale) return 'far'; // <0.5
+  if (scale < MAPVIEW.lodNearScale) return 'mid'; // <1.0
+  return 'near'; // >=1.0
+}
+
+/**
+ * 帶 10% 死區（滾輪連續縮放防閃爍）：同段回傳同段；跨段須超過死區邊界才切換
+ * （M6-V5，VD3）。截圖 preset 走 `lodStageForScale`（純分類），不吃死區。
+ */
+export function lodStageWithHysteresis(scale: number, prev: LodStage): LodStage {
+  const f = MAPVIEW.lodFarScale;
+  const n = MAPVIEW.lodNearScale;
+  const h = MAPVIEW.lodHysteresis;
+  const pure = lodStageForScale(scale);
+  if (pure === prev) return prev;
+  if (prev === 'far') return scale >= f * (1 + h) ? pure : 'far';
+  if (prev === 'near') return scale <= n * (1 - h) ? pure : 'near';
+  // prev === 'mid'
+  if (pure === 'near') return scale >= n * (1 + h) ? 'near' : 'mid';
+  /* pure === 'far' */ return scale <= f * (1 - h) ? 'far' : 'mid';
 }
 
 function bucketKey(x: number, y: number): string {
