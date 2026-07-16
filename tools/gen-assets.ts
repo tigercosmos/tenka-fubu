@@ -13,7 +13,7 @@
 // sha256（id → hash），供作者依補遺 AD7 直接填回 src/ui/assets/manifest.ts 的 contentHash。
 
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { PNG } from 'pngjs';
 
@@ -24,7 +24,9 @@ import {
   DETERMINISTIC_PNG_OPTS,
   REPO_ROOT,
 } from './asset-paths';
-import { TOKENS } from '../src/ui/styles/tokens';
+import { MAP_PALETTE_HEX, TOKENS } from '../src/ui/styles/tokens';
+import { zTerrainFile, type TerrainFile } from '../src/data/schemas/terrain';
+import { zJapanOutlineFile, type JapanOutlineFile } from '../src/data/schemas/outline';
 
 // ═══════════════════════════════════════════════════════════════════
 // 共用像素緩衝工具
@@ -322,6 +324,326 @@ export function generateCompassSvg(): string {
 }
 
 // ═══════════════════════════════════════════════════════════════════
+// 地形烘焙紋理：relief（陸底＋平原＋分層山脈剪影＋短墨脊＋海岸內陰影）／forest（森林群塊）
+// 規格：M6-V5 技術設計文件 §4.5、§6；art-bible §3.2／§6.2「紙雕分層山脈、無白邊、海透明」。
+// 全程 seeded／整數／線性，色一律取自 MAP_PALETTE_HEX（tokens 單一真相來源）。
+// ═══════════════════════════════════════════════════════════════════
+
+/** relief／forest 紋理邊長（每邊 texel，≤2048 限制）；覆蓋 4096×4096 世界，Sprite scale=2。 */
+export const TERRAIN_TEXTURE_SIZE = 2048;
+const TERRAIN_WORLD = 4096; // 覆蓋世界邊長
+const TERRAIN_TEXEL_PER_WORLD = TERRAIN_TEXTURE_SIZE / TERRAIN_WORLD; // 0.5
+
+const MAP_LAND_BASE = hexToRgb(MAP_PALETTE_HEX.landBase);
+const MAP_PLAIN_LIGHT = hexToRgb(MAP_PALETTE_HEX.plainLight);
+const MAP_RELIEF_INK = hexToRgb(MAP_PALETTE_HEX.reliefInk);
+const MAP_FOREST_MOSS = hexToRgb(MAP_PALETTE_HEX.forestMoss);
+
+/** 世界座標 → texel 座標（決定論，四捨五入）。 */
+function worldToTexel(v: number): number {
+  return Math.round(v * TERRAIN_TEXEL_PER_WORLD);
+}
+
+/** 於 `(tx,ty)` 以 source-over 疊上一色（`alpha` 為 0..1）；越界即忽略。RGBA 非預乘。 */
+function blendPixel(
+  buf: Uint8Array,
+  size: number,
+  tx: number,
+  ty: number,
+  color: readonly [number, number, number],
+  alpha: number,
+): void {
+  if (tx < 0 || ty < 0 || tx >= size || ty >= size || alpha <= 0) return;
+  const idx = (ty * size + tx) * 4;
+  const dstA = buf[idx + 3]! / 255;
+  const outA = alpha + dstA * (1 - alpha);
+  if (outA <= 0) return;
+  for (let c = 0; c < 3; c += 1) {
+    const src = color[c]!;
+    const dst = buf[idx + c]!;
+    buf[idx + c] = clampByte((src * alpha + dst * dstA * (1 - alpha)) / outA);
+  }
+  buf[idx + 3] = clampByte(outA * 255);
+}
+
+/** 水平線 y=py（世界座標）與多邊形（扁平世界座標）邊之交點 x（升冪）。even-odd 掃描線。 */
+function scanlineIntersectionsWorld(flat: readonly number[], py: number): number[] {
+  const xs: number[] = [];
+  const n = flat.length / 2;
+  for (let i = 0; i < n; i += 1) {
+    const j = (i + 1) % n;
+    const yi = flat[i * 2 + 1]!;
+    const yj = flat[j * 2 + 1]!;
+    if (yi > py !== yj > py) {
+      const xi = flat[i * 2]!;
+      const xj = flat[j * 2]!;
+      xs.push(xi + ((py - yi) / (yj - yi)) * (xj - xi));
+    }
+  }
+  xs.sort((a, b) => a - b);
+  return xs;
+}
+
+/** 陸地遮罩（texel 空間）：以 outline 多邊形逐列掃描線相交判定；1＝陸、0＝海。 */
+function buildLandMask(outline: JapanOutlineFile, size: number): Uint8Array {
+  const land = new Uint8Array(size * size);
+  const polys = outline.polygons.map((p) => p.points);
+  for (let ty = 0; ty < size; ty += 1) {
+    const pyWorld = ty / TERRAIN_TEXEL_PER_WORLD; // texel → world（=ty×2）
+    const raw: Array<[number, number]> = [];
+    for (const poly of polys) {
+      const xs = scanlineIntersectionsWorld(poly, pyWorld);
+      for (let k = 0; k + 1 < xs.length; k += 2) raw.push([xs[k]!, xs[k + 1]!]);
+    }
+    for (const [x0, x1] of raw) {
+      const tx0 = Math.max(0, worldToTexel(x0));
+      const tx1 = Math.min(size - 1, worldToTexel(x1));
+      const row = ty * size;
+      for (let tx = tx0; tx <= tx1; tx += 1) land[row + tx] = 1;
+    }
+  }
+  return land;
+}
+
+/** 世界座標多邊形（可帶 texel 位移）以掃描線填色，僅作用於陸地 texel（clip land）。 */
+function fillPolygonOnLand(
+  buf: Uint8Array,
+  size: number,
+  land: Uint8Array,
+  flatWorld: readonly number[],
+  offTx: number,
+  offTy: number,
+  color: readonly [number, number, number],
+  alpha: number,
+): void {
+  // 轉為 texel 多邊形（含位移），求 y 範圍。
+  const txPoly: number[] = [];
+  let minTy = Infinity;
+  let maxTy = -Infinity;
+  for (let i = 0; i < flatWorld.length; i += 2) {
+    const tx = worldToTexel(flatWorld[i]!) + offTx;
+    const ty = worldToTexel(flatWorld[i + 1]!) + offTy;
+    txPoly.push(tx, ty);
+    if (ty < minTy) minTy = ty;
+    if (ty > maxTy) maxTy = ty;
+  }
+  const yStart = Math.max(0, Math.floor(minTy));
+  const yEnd = Math.min(size - 1, Math.ceil(maxTy));
+  for (let ty = yStart; ty <= yEnd; ty += 1) {
+    const xs = scanlineIntersectionsWorld(txPoly, ty);
+    for (let k = 0; k + 1 < xs.length; k += 2) {
+      const xa = Math.max(0, Math.round(xs[k]!));
+      const xb = Math.min(size - 1, Math.round(xs[k + 1]!));
+      const row = ty * size;
+      for (let tx = xa; tx <= xb; tx += 1) {
+        if (land[row + tx] === 1) blendPixel(buf, size, tx, ty, color, alpha);
+      }
+    }
+  }
+}
+
+/** 折線（世界座標）以 1px 於陸地 texel 描線（Bresenham，決定論）。 */
+function strokePolylineOnLand(
+  buf: Uint8Array,
+  size: number,
+  land: Uint8Array,
+  flatWorld: readonly number[],
+  color: readonly [number, number, number],
+  alpha: number,
+): void {
+  for (let i = 0; i + 3 < flatWorld.length; i += 2) {
+    let x0 = worldToTexel(flatWorld[i]!);
+    let y0 = worldToTexel(flatWorld[i + 1]!);
+    const x1 = worldToTexel(flatWorld[i + 2]!);
+    const y1 = worldToTexel(flatWorld[i + 3]!);
+    const dx = Math.abs(x1 - x0);
+    const dy = -Math.abs(y1 - y0);
+    const sx = x0 < x1 ? 1 : -1;
+    const sy = y0 < y1 ? 1 : -1;
+    let e = dx + dy;
+    for (;;) {
+      if (x0 >= 0 && y0 >= 0 && x0 < size && y0 < size && land[y0 * size + x0] === 1) {
+        blendPixel(buf, size, x0, y0, color, alpha);
+      }
+      if (x0 === x1 && y0 === y1) break;
+      const e2 = 2 * e;
+      if (e2 >= dy) {
+        e += dy;
+        x0 += sx;
+      }
+      if (e2 <= dx) {
+        e += dx;
+        y0 += sy;
+      }
+    }
+  }
+}
+
+/** 山體世界座標 AABB（供平原提亮之距離粗篩）。 */
+function massAabbWorld(flat: readonly number[]): {
+  minX: number;
+  maxX: number;
+  minY: number;
+  maxY: number;
+} {
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+  for (let i = 0; i < flat.length; i += 2) {
+    const x = flat[i]!;
+    const y = flat[i + 1]!;
+    if (x < minX) minX = x;
+    if (x > maxX) maxX = x;
+    if (y < minY) minY = y;
+    if (y > maxY) maxY = y;
+  }
+  return { minX, maxX, minY, maxY };
+}
+
+/**
+ * relief 紙雕紋理（§4.5）：
+ * 1) 陸地遮罩掃描線填 landBase（不透明）；海保持透明。
+ * 2) 平原提亮：距任何山體 AABB > 200 世界單位之陸地 texel 混入 plainLight（0.4）。
+ * 3) 山脈（依 id 序）：畫 min(2+tier,4) 層錯位剪影（第 k 層向左上平移 3k texel、reliefInk、
+ *    alpha 0.20→0.12），再對 ridges 每條折線以 reliefInk alpha 0.5 描短脊。
+ * 4) 海岸內陰影：距海 ≤4 texel 之陸地 texel 疊 reliefInk alpha 0.18（暖灰）；**無白／高亮邊**。
+ */
+export function generateReliefTexture(terrain: TerrainFile, outline: JapanOutlineFile): RgbaImage {
+  const size = TERRAIN_TEXTURE_SIZE;
+  const rgba = newTransparentBuffer(size, size);
+  const land = buildLandMask(outline, size);
+
+  // 1) 陸地底色（不透明）。
+  for (let i = 0; i < land.length; i += 1) {
+    if (land[i] === 1) {
+      const idx = i * 4;
+      rgba[idx] = MAP_LAND_BASE[0];
+      rgba[idx + 1] = MAP_LAND_BASE[1];
+      rgba[idx + 2] = MAP_LAND_BASE[2];
+      rgba[idx + 3] = 255;
+    }
+  }
+
+  // 2) 平原提亮（距山遠者）。
+  const massAabbs = terrain.mountains.map((m) => massAabbWorld(m.mass));
+  const PLAIN_DIST = 200; // 世界單位
+  for (let ty = 0; ty < size; ty += 1) {
+    const wy = ty / TERRAIN_TEXEL_PER_WORLD;
+    const row = ty * size;
+    for (let tx = 0; tx < size; tx += 1) {
+      if (land[row + tx] !== 1) continue;
+      const wx = tx / TERRAIN_TEXEL_PER_WORLD;
+      let near = false;
+      for (const a of massAabbs) {
+        const ddx = Math.max(a.minX - wx, 0, wx - a.maxX);
+        const ddy = Math.max(a.minY - wy, 0, wy - a.maxY);
+        if (ddx * ddx + ddy * ddy <= PLAIN_DIST * PLAIN_DIST) {
+          near = true;
+          break;
+        }
+      }
+      if (!near) blendPixel(rgba, size, tx, ty, MAP_PLAIN_LIGHT, 0.4);
+    }
+  }
+
+  // 3) 山脈分層剪影＋短墨脊（依 id 字典序，快照穩定）。
+  const mountains = [...terrain.mountains].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  for (const m of mountains) {
+    const layers = Math.min(2 + m.tier, 4);
+    for (let k = 0; k < layers; k += 1) {
+      const t = layers === 1 ? 0 : k / (layers - 1);
+      const alpha = 0.2 - (0.2 - 0.12) * t;
+      const off = -3 * k; // 向左上（-x,-y）平移，左上受光
+      fillPolygonOnLand(rgba, size, land, m.mass, off, off, MAP_RELIEF_INK, alpha);
+    }
+    for (const r of m.ridges) {
+      strokePolylineOnLand(rgba, size, land, r, MAP_RELIEF_INK, 0.5);
+    }
+  }
+
+  // 4) 海岸內陰影（距海 ≤4 texel 之陸地 texel），無白邊。
+  const SHADOW_R = 4;
+  for (let ty = 0; ty < size; ty += 1) {
+    const row = ty * size;
+    for (let tx = 0; tx < size; tx += 1) {
+      if (land[row + tx] !== 1) continue;
+      let coastal = false;
+      for (let d = 1; d <= SHADOW_R && !coastal; d += 1) {
+        for (const [ox, oy] of [
+          [d, 0],
+          [-d, 0],
+          [0, d],
+          [0, -d],
+          [d, d],
+          [d, -d],
+          [-d, d],
+          [-d, -d],
+        ] as const) {
+          const nx = tx + ox;
+          const ny = ty + oy;
+          if (nx < 0 || ny < 0 || nx >= size || ny >= size || land[ny * size + nx] === 0) {
+            coastal = true;
+            break;
+          }
+        }
+      }
+      if (coastal) blendPixel(rgba, size, tx, ty, MAP_RELIEF_INK, 0.18);
+    }
+  }
+
+  return { width: size, height: size, rgba };
+}
+
+/**
+ * forest 森林冠幅紋理（§4.5）：透明底；每 forest.polygon 掃描線填 forestMoss（alpha≈0.82），
+ * 邊緣以固定種子雜訊製造缺口（林緣節奏，外輪廓重於內部）；其餘保持透明。
+ * 與 relief 一致以陸地遮罩 clip（`land[...]===1`）——森林多邊形可能於沿海突出海面，
+ * 未 clip 會令苔綠越海（如 fo.hakone／fo.suzuka）；比照 `fillPolygonOnLand` 之陸地紀律。
+ */
+export function generateForestTexture(terrain: TerrainFile, outline: JapanOutlineFile): RgbaImage {
+  const size = TERRAIN_TEXTURE_SIZE;
+  const rgba = newTransparentBuffer(size, size);
+  const land = buildLandMask(outline, size);
+  const forests = [...terrain.forests].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  const EDGE = 4; // 林緣節奏之邊帶寬（texel）
+  for (const f of forests) {
+    // 轉 texel 多邊形。
+    const txPoly: number[] = [];
+    let minTy = Infinity;
+    let maxTy = -Infinity;
+    for (let i = 0; i < f.polygon.length; i += 2) {
+      const tx = worldToTexel(f.polygon[i]!);
+      const ty = worldToTexel(f.polygon[i + 1]!);
+      txPoly.push(tx, ty);
+      if (ty < minTy) minTy = ty;
+      if (ty > maxTy) maxTy = ty;
+    }
+    const yStart = Math.max(0, Math.floor(minTy));
+    const yEnd = Math.min(size - 1, Math.ceil(maxTy));
+    for (let ty = yStart; ty <= yEnd; ty += 1) {
+      const xs = scanlineIntersectionsWorld(txPoly, ty);
+      for (let k = 0; k + 1 < xs.length; k += 2) {
+        const xa = Math.max(0, Math.round(xs[k]!));
+        const xb = Math.min(size - 1, Math.round(xs[k + 1]!));
+        const row = ty * size;
+        for (let tx = xa; tx <= xb; tx += 1) {
+          if (land[row + tx] !== 1) continue; // clip 陸地：森林不越海（比照 relief）
+          const edgeDist = Math.min(tx - xa, xb - tx, ty - yStart, yEnd - ty);
+          // 邊帶以雜訊挖缺口（外輪廓重）；內部滿填。
+          if (edgeDist < EDGE) {
+            const n = washiNoiseValue(tx, ty, size, size);
+            if (n < 0.45) continue; // 缺口
+          }
+          blendPixel(rgba, size, tx, ty, MAP_FOREST_MOSS, 0.82);
+        }
+      }
+    }
+  }
+  return { width: size, height: size, rgba };
+}
+
+// ═══════════════════════════════════════════════════════════════════
 // PNG 編碼與雜湊
 // ═══════════════════════════════════════════════════════════════════
 
@@ -377,6 +699,32 @@ export function runGenAssets(): readonly GeneratedAsset[] {
     id: 'texture.washi.base@1x',
     hashedPath: path.relative(REPO_ROOT, washiRuntimePath),
     sha256: washiResult.sha256,
+  });
+
+  // ── 地形烘焙紋理 relief／forest（程序生成，直接即 runtime 檔，無 source 母檔；M6-V5 §4.5） ──
+  const terrainFile = zTerrainFile.parse(
+    JSON.parse(readFileSync(path.join(REPO_ROOT, 'src/data/map/terrain.json'), 'utf-8')),
+  );
+  const outlineFile = zJapanOutlineFile.parse(
+    JSON.parse(readFileSync(path.join(REPO_ROOT, 'src/data/map/japan-outline.json'), 'utf-8')),
+  );
+
+  const reliefPng = encodeDeterministicPng(generateReliefTexture(terrainFile, outlineFile));
+  const reliefPath = path.join(ASSETS_PUBLIC_DIR, 'textures/terrain-relief@1x.png');
+  const reliefResult = writeAndHash(reliefPath, reliefPng);
+  results.push({
+    id: 'texture.terrain.relief@1x',
+    hashedPath: path.relative(REPO_ROOT, reliefPath),
+    sha256: reliefResult.sha256,
+  });
+
+  const forestPng = encodeDeterministicPng(generateForestTexture(terrainFile, outlineFile));
+  const forestPath = path.join(ASSETS_PUBLIC_DIR, 'textures/terrain-forest@1x.png');
+  const forestResult = writeAndHash(forestPath, forestPng);
+  results.push({
+    id: 'texture.terrain.forest@1x',
+    hashedPath: path.relative(REPO_ROOT, forestPath),
+    sha256: forestResult.sha256,
   });
 
   // ── compass.svg：程序生成，直接即 runtime 檔（無 source 母檔，補遺 AD1／設計 D3） ──

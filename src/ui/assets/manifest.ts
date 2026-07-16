@@ -100,6 +100,30 @@ export const VISUAL_ASSET_MANIFEST: readonly VisualAssetManifestEntry[] = [
     contentHash: 'c1b0cb7949393b06899d1aee53d7fe506123c5c9195426c2752c72a2825fce24',
     pixelSize: { width: 48, height: 64 },
   },
+  {
+    id: 'texture.terrain.relief@1x',
+    runtimePath: 'assets/textures/terrain-relief@1x.png',
+    sourcePath: null,
+    kind: 'texture',
+    authorOrTool: 'tools/gen-assets.ts（程序生成，紙雕分層山脈／平原／海岸內陰影 relief）',
+    sourceUrl: null,
+    license: 'project-original',
+    derivative: false,
+    contentHash: 'cce889580b0c6bdafd6e2330e303c9ba18fe1bafdcbd8222b97781817b2b8dd2',
+    pixelSize: { width: 2048, height: 2048 },
+  },
+  {
+    id: 'texture.terrain.forest@1x',
+    runtimePath: 'assets/textures/terrain-forest@1x.png',
+    sourcePath: null,
+    kind: 'texture',
+    authorOrTool: 'tools/gen-assets.ts（程序生成，森林群塊冠幅 forest）',
+    sourceUrl: null,
+    license: 'project-original',
+    derivative: false,
+    contentHash: 'f3201c3f6516d74ecb2cbbf087b5a91fc6df999ed39d20c9c56a81daec6440c4',
+    pixelSize: { width: 2048, height: 2048 },
+  },
 ];
 
 /** 首屏必要素材 id（裁決 D9）：其餘一律 lazy load。 */
@@ -109,6 +133,8 @@ export const FIRST_SCREEN_ASSET_IDS: readonly string[] = [
   'map.marker.castle-plain.normal',
   'map.marker.castle-mountain.normal',
   'map.marker.army-banner.normal',
+  'texture.terrain.relief@1x',
+  'texture.terrain.forest@1x',
 ];
 
 /** id → entry（O(1) 查詢；loader 與 validate 共用）。 */
