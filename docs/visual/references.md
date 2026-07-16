@@ -71,3 +71,22 @@
 - 明確的「不可直接沿用」內容。
 
 若來源頁失效，保留 URL 與文字紀錄並標記失效日期；不得以來路不明的鏡像站或圖片搜尋縮圖取代。
+
+## 5. M6-V3 素材 manifest 登錄（reference board，2026-07-17）
+
+依 art-bible §12.3 第 5 點「新資產進 manifest，記錄作者／工具、來源、授權、衍生狀態與內容 hash」，
+本節登錄 `src/ui/assets/manifest.ts`（`VISUAL_ASSET_MANIFEST`）交付的 5 筆 M6-V3 真實素材。全部
+project-original、純程序生成（`tools/gen-assets.ts`），**禁抄來源＝無**（未參考、未擷取、未描摹任何
+外部圖片或既有遊戲畫面；色值全部取自 `src/ui/styles/tokens.ts` 既定 tokens，幾何為原創構圖）。
+
+| manifest id                         | 生成意圖                                                                                                  | 作者／工具                        | 禁抄來源 | 授權             | 衍生狀態 | contentHash（sha256）                                              |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------- | -------- | ---------------- | -------- | ------------------------------------------------------------------ |
+| `texture.washi.base@1x`             | 和紙暖底可平鋪材質：washi300 色盤＋固定種子 LCG 低振幅雜訊（wrap 取樣），512² 母檔盒式降採至 256² runtime | `tools/gen-assets.ts`（程序生成） | 無       | project-original | 否       | `63945837177fa786052d215d7829cfc4d5f28670d5b2d781ab8f21cabce39dc7` |
+| `map.decor.compass.normal`          | 原創方位盤 SVG：外圈墨色描邊、4 主方位＋4 次方位刻度、金色北向指標與中心圓（補遺 AD1）                    | `tools/gen-assets.ts`（程序生成） | 無       | project-original | 否       | `c4884aa400e15c0c91d2b094c657ad186f95f5a2274372bdf339cfe8cd07f8c5` |
+| `map.marker.castle-plain.normal`    | 平城占位標記：寬扁矩形郭體＋墨色描邊＋女牆節奏＋城門缺口，純幾何 glyph                                    | `tools/gen-assets.ts`（程序生成） | 無       | project-original | 否       | `f80ed6d497d82338f960584e64629b62511e0254c24874687c77699140c80bb5` |
+| `map.marker.castle-mountain.normal` | 山城占位標記：三角岩基＋窄郭疊頂，表達垂直堆疊母題，純幾何 glyph                                          | `tools/gen-assets.ts`（程序生成） | 無       | project-original | 否       | `b5f1992aef1c810c1cc0653a3053e8767daf6beefd777b605abbb797f96f9594` |
+| `map.marker.army-banner.normal`     | 軍隊旗型占位：墨色旗桿＋朱紅燕尾旗面（art-bible §6.5 燕尾旗母題），純幾何 glyph                           | `tools/gen-assets.ts`（程序生成） | 無       | project-original | 否       | `c1b0cb7949393b06899d1aee53d7fe506123c5c9195426c2752c72a2825fce24` |
+
+生成流程與決定性保證（不用 `Math.random`／`Date.now`，固定種子 LCG／整數幾何運算）詳見
+`tools/gen-assets.ts` 檔頭註解與 `plan/12-ui-components.md` §8 決策 D16–D28；驗證器
+`tools/validate-assets.ts` 於 CI `unit` job 每次 PR 核對授權欄完整性、hash 相符與未登錄素材。

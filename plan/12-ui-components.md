@@ -232,6 +232,7 @@ export const UI = {
   uiScaleMin: 0.8,            // 介面縮放（16 設定項 #11 `uiScale`）下限
   uiScaleMax: 1.5,            // 介面縮放上限
   uiScaleStep: 0.05,          // 介面縮放滑桿步進
+  initialVisualAssetBytesMax: 8 * 1024 * 1024, // 首屏視覺資產壓縮後 bytes 預算（§3.7；D24）
 } as const;
 ```
 
@@ -1262,6 +1263,70 @@ dismiss(id): 播退場動畫（--duration-normal）後自 stack 移除
   公有領域或相容授權圖片。改為 §3.7 manifest gate：允許自繪、AI 生成後人工整理、CC0／CC BY 4.0
   或經確認相容授權的素材；每筆強制作者／工具、來源、授權、衍生狀態與 hash。Icon 仍以自繪 SVG 為主，
   禁止外部 icon library、emoji 與臨時文字占位；具體畫面與圖層分別以 11／04 為準。
+- **D16｜M6-V3 最小真實素材集：5 筆 runtime＋2 個 source 工作檔（2026-07-17，[M6-V3]）**：
+  交付 `texture.washi.base@1x`（和紙可平鋪材質）、`map.decor.compass.normal`（方位盤 SVG）、
+  `map.marker.castle-plain.normal`／`map.marker.castle-mountain.normal`／`map.marker.army-banner.normal`
+  （3 個 atlas 占位 glyph），全部 project-original、`tools/gen-assets.ts` 決定性程序生成，
+  對應 2 個 source 工作檔（washi 512² 母檔＋3 個 atlas 來源 frame 共用一個目錄）。採「程序生成＋
+  手繪」混合、不採「純 fixture」：理由是本里程碑須真正跑通 `validate-assets`／`build-atlas`／
+  loader 三條端到端路徑，且素材對 M6-V5～V9（地圖暖底、HUD 裝飾、城池／軍隊占位）皆有實際用途，
+  非丟棄式測試資料；art-bible §4.1「可程序生成者優先程序生成」亦支持此選擇。
+- **D17｜新設 `tools/assets/visual/source/` 為素材 source 工作檔根（2026-07-17，[M6-V3]）**：
+  與既有 `tools/assets/`（字型原始檔等 raw-source）語意區隔，獨立子目錄避免未來字型／素材工作檔
+  混雜；天然在 `public/`（bundled runtime）與 `src/`（bundled 原始碼）之外，vite 不會誤打包。
+  `frames/` 子目錄收 atlas 來源 frame，母檔（如 washi 512² 母檔）直接放在 source 根。
+- **D18｜`sourcePath: null` 判準（2026-07-17，[M6-V3]）**：純程序生成／直接手繪的 **SVG** 可
+  `sourcePath: null`（無點陣工作檔）；有點陣母檔的素材（如 washi 材質 512²→256² 降採）
+  `sourcePath` 必須指向 `tools/assets/visual/source/**` 的母檔；`kind:'atlas'` 一律要求
+  `sourcePath` 非 null（指向其 authored 來源 frame，供 `build-atlas.ts` 讀取與雜湊）。
+- **D19｜`contentHash` 演算法與雜湊來源（2026-07-17，[M6-V3]）**：`node:crypto`
+  `createHash('sha256')`，輸出全長 64 字小寫 hex；不沿用 `src/core` 的 hash 工具（那受 core
+  純度約束，本管線是 Node build-time 工具）。依 `kind` 決定雜湊來源：`'texture'|'svg'` 雜湊
+  **runtime 檔**（`public/assets/<runtimePath>`）；`'atlas'` 雜湊**來源 frame 檔**
+  （`sourcePath`），並與 frame map 內 `sourceHash` 三方交叉核對（manifest／frame map／實體檔案）。
+- **D20｜atlas 排序鍵：id 二進位升冪，非 `localeCompare`（2026-07-17，[M6-V3]）**：
+  `build-atlas.ts` 對輸入 frame 依 `id` 做 `a.id < b.id ? -1 : a.id > b.id ? 1 : 0` 純二進位
+  排序後再進 shelf packing，確保決定性、可預期，且與檔案系統枚舉順序、locale 設定無關。
+- **D21｜`validate:assets` 為獨立 npm script／CI step，不併入 `validate:data`（2026-07-17，[M6-V3]）**：
+  對齊 §3.11.2 門檻表「素材 manifest／授權驗證」為獨立一列；CI `unit` job 於既有 `validate:data`
+  step 之後、`vitest run` step 之前新增獨立 `validate:assets` step，兩者關注點不同（劇本資料
+  vs. 視覺素材）、失敗訊息不應混雜。
+- **D22｜既有 `IconButton/icons.tsx` inline SVG 不進 manifest（2026-07-17，[M6-V3]）**：那是
+  原始碼常數、DOM 用途、非可定址檔案；§3.7 manifest 的 `kind:'svg'` 專指**獨立 `.svg` 檔、Pixi
+  畫布用**的 runtime 素材。四分類（`icons`/`map`/`textures`/`source`）與三個 manifest `kind`
+  （`'svg'`/`'atlas'`/`'texture'`）對照：`icons`→`'svg'`（獨立檔）、`map`→`'atlas'`、
+  `textures`→`'texture'`、`source`→不建立獨立 entry（僅作為他 entry 的 `sourcePath`）。
+- **D23｜「未登錄素材」判定範圍（2026-07-17，[M6-V3]）**：`validate-assets` 對 `public/assets/**`
+  做反向掃描（有檔但 manifest 無登錄→阻斷）＋manifest→檔案存在雙向核對。原始碼硬編 URL 掃描
+  本里程碑不做（留待 M6-V9 以自訂 ESLint 規則實作，建議規則：禁止 `Assets.load('/assets/...')`
+  這類字面量路徑，強制一律經 `getManifestEntry`/`resolveRuntimeUrl`）。
+- **D24｜8 MiB 首屏視覺資產預算語意（2026-07-17，[M6-V3]）**：`UI.initialVisualAssetBytesMax =
+  8 * 1024 * 1024`（§3.1.8，工程呈現常數，不進 BAL）。「首屏」＝ `FIRST_SCREEN_ASSET_IDS` 常數
+  列舉；「壓縮後 bytes」＝ runtime 檔案磁碟位元組（PNG 本身即 deflate 壓縮、SVG 取原始位元組），
+  非 gzip 傳輸量；atlas frame 以其所屬頁 PNG 整檔 bytes 計一次（同頁多 frame 不重複累加）；
+  per-domain bytes 輸出 `{icons, map, textures}`（依 id 首段映射，`source` 不計）；預算 gate 執行於
+  `validate-assets`（CI 每 PR 恆跑），非 `build-atlas`（半人工 committed 產物工具，不逐 PR 跑）。
+- **D25｜StrictMode 穩態驗證位置（2026-07-17，[M6-V3]）**：loader 暴露 DEV/測試診斷
+  `getAssetLoaderStats()`；穩態測試放 `src/ui/assets/loader.spec.ts`（`ui` project、jsdom、
+  `vi.mock('pixi.js')`），驗證 mount→StrictMode remount→逐一 dispose 後 refcount／loadedKeys／
+  sub-texture cache 皆回到空。
+- **D26｜`src/ui/assets/generated/**`（atlas frame map＋分頁 PNG）checked-in，非 build-time 產生
+  （2026-07-17，[M6-V3]）**：CI 五個 job 各自 `npm ci` 後直接使用、`e2e` job 的 `vite build`
+  不得依賴先跑 `atlas:build`、loader 於 build 期以 `import` 讀 JSON（`resolveJsonModule` 已開，
+  免走 `.ts` 資料退路）。`validate-assets` 以 `buildAtlas(...)` 純函式在記憶體內重建比對
+  committed frame map 的 rect／sourceHash／頁尺寸（**不比對頁 PNG bytes**，避免 `pngjs`
+  跨平台 deflate 輸出的位元組級差異造成誤報；頁 PNG 由 Node 22／CI 相容環境產生後 commit）。
+- **D27｜PNG 處理依賴採 `pngjs`＋`@types/pngjs`（純 JS，非 `sharp`）（2026-07-17，[M6-V3]）**：
+  比照 `subset-font`／`@types/subset-font` 先例成對加入 devDependencies；pure-JS 實作跨平台可
+  重現、無 native binding 位元組漂移風險，decode／encode 皆備，並以固定 `deflateLevel`／
+  `deflateStrategy`／`filterType:0`（None，非 adaptive）達成同 Node 環境下的決定性編碼。
+- **D28｜`map.decor.compass.normal` 由「手繪」改為「程序生成」（2026-07-17，[M6-V3]，
+  orchestrator 審核裁決）**：原設計曾規劃由開發者手繪方位盤 SVG，審核後改為
+  `tools/gen-assets.ts` 決定性組裝原創方位盤 SVG 字串（外圈墨色描邊、4 主方位＋4 次方位刻度、
+  金色北向指標與中心圓；色值取自既定 tokens、幾何原創，禁止描摹任何現有羅盤圖樣）；manifest
+  `authorOrTool` 對應改為 `'tools/gen-assets.ts（程序生成，原創方位盤 SVG）'`。理由：誠實署名
+  （避免宣稱人工手繪卻無可稽核的繪製過程）、可決定性重現（雙跑字串完全相同，供
+  `tests/data/gen-assets.spec.ts` 覆蓋）、與其餘 4 筆素材一致走同一條可測試生成管線。
 
 ---
 

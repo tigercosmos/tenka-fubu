@@ -26,6 +26,16 @@ import { gameLoop } from './gameLoop';
 import { parseDebugFlags, installDebugApi } from './debug';
 import { startNewDemoGame } from './newGame';
 import { bootVisualMapGame } from './visualMapBoot';
+import { preloadFirstScreenAssets } from './visualAssetsBoot';
+
+// 首屏視覺素材為「盡力預熱」（12 §3.7；M6-V3 唯一 runtime 接線，僅 warm Pixi Assets 快取，畫面
+// 尚不顯示這些 texture）：失敗（如測試環境 mock pixi.js 未提供 Assets、或素材尚未生成）不得中斷
+// 遊戲主流程，故一律 catch 並僅記錄，不 rethrow。
+function warmVisualAssets(): void {
+  void preloadFirstScreenAssets().catch((error: unknown) => {
+    console.error('首屏視覺素材預熱失敗（不影響遊戲流程，12 §3.7）：', error);
+  });
+}
 import type { ScenarioBundleData } from '@data/schemas';
 import type { GameState } from '@core/state/gameState';
 import type { BattleId } from '@core/state/ids';
@@ -67,6 +77,7 @@ export function App(): ReactElement {
       gameLoop.setSpeed(flags.initialSpeed); // ?speed=x5 等開局預設檔位（01 §3.11.1）
     }
     store.getState().actions.setScreen('main');
+    warmVisualAssets(); // 進入 main 畫面：預熱首屏視覺素材快取（12 §3.7；M6-V3）
   }, [flags]);
 
   // `?debug=visual-map`（M6-V2；17 §3.9.3）：載入固定 debugVisual fixture，刻意忽略 `?seed`／
@@ -76,6 +87,7 @@ export function App(): ReactElement {
     const game = bootVisualMapGame();
     setGame(game);
     store.getState().actions.setScreen('main');
+    warmVisualAssets(); // 進入 main 畫面：預熱首屏視覺素材快取（12 §3.7；M6-V3）
   }, []);
 
   // 標題「新遊戲」→ ScenarioSelectScreen（11 §3.2.2；17 §3.8 P2 首步）。
@@ -105,6 +117,7 @@ export function App(): ReactElement {
         gameLoop.setSpeed(flags.initialSpeed);
       }
       store.getState().actions.setScreen('main');
+      warmVisualAssets(); // 進入 main 畫面：預熱首屏視覺素材快取（12 §3.7；M6-V3）
     },
     [flags],
   );

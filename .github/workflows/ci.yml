@@ -59,7 +59,7 @@ jobs:
       - run: npm run typecheck
 
   unit:
-    name: unit（vitest：core＋ui＋data＋scan＋golden＋replay；validate:data）
+    name: unit（vitest：core＋ui＋data＋scan＋golden＋replay；validate:data／validate:assets）
     needs: install
     runs-on: ubuntu-latest
     steps:
@@ -71,6 +71,11 @@ jobs:
       # 簡體字掃描＋劇本資料驗證（17 §3.6；恆為阻斷，自 M0 起——plan/ 已存在）。
       - name: validate:data（劇本資料驗證＋簡體字/新字體掃描）
         run: npm run validate:data
+
+      # 視覺素材 manifest／授權／hash／預算驗證（12 §3.7；17 §3.11.2「素材 manifest／授權驗證」
+      # 自 M6 起恆阻斷；M6-V3 設計文件 §10.2）。
+      - name: validate:assets（視覺素材 manifest／授權／hash／預算驗證）
+        run: npm run validate:assets
 
       # 基礎 unit（core+ui+data+scan+golden-mini+replay，17 §3.11.1「unit」job 定義）；
       # 涵蓋率報告一併輸出（覆蓋率門檻本身至 M9 才轉阻斷，見 17 §3.11.2，由

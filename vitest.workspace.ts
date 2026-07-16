@@ -34,7 +34,10 @@ export default defineWorkspace([
     test: {
       name: 'ui',
       environment: 'jsdom',
-      include: ['src/ui/**/*.spec.tsx'],
+      // `.spec.ts`（M6-V3 新增）：非 React 元件、無需 JSX 的 ui 層測試（如
+      // `src/ui/assets/loader.spec.ts`）沿用既有 `.spec.tsx` 慣例的 jsdom 環境，
+      // 只是不需要 tsx 副檔名（12 §3.7；M6-V3 設計文件 §9.5）。
+      include: ['src/ui/**/*.spec.tsx', 'src/ui/**/*.spec.ts'],
       setupFiles: ['tests/helpers/rtl-setup.ts'], // jest-dom matchers（於引入 @testing-library/jest-dom 時補上）
     },
   },

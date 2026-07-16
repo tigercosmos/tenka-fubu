@@ -28,4 +28,5 @@ export const UI = {
   uiScaleMin: 0.8, // 介面縮放（16 設定項 #11 `uiScale`）下限
   uiScaleMax: 1.5, // 介面縮放上限
   uiScaleStep: 0.05, // 介面縮放滑桿步進
+  initialVisualAssetBytesMax: 8 * 1024 * 1024, // 首屏地圖＋HUD 壓縮後視覺資產預算（8 MiB，12 §3.7；決策 D24）
 } as const;

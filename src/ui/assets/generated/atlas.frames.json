@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "generatedBy": "tools/build-atlas.ts",
+  "pages": [
+    {
+      "file": "assets/map/atlas-map-0.png",
+      "width": 128,
+      "height": 128,
+      "contentHash": "baa0bbe9fbfc9733608b42f48af7d13fa451862616278ad0e154e51615b972cf"
+    }
+  ],
+  "frames": {
+    "map.marker.army-banner.normal": {
+      "page": 0,
+      "x": 0,
+      "y": 0,
+      "w": 48,
+      "h": 64,
+      "sourceHash": "c1b0cb7949393b06899d1aee53d7fe506123c5c9195426c2752c72a2825fce24"
+    },
+    "map.marker.castle-mountain.normal": {
+      "page": 0,
+      "x": 48,
+      "y": 0,
+      "w": 64,
+      "h": 64,
+      "sourceHash": "b5f1992aef1c810c1cc0653a3053e8767daf6beefd777b605abbb797f96f9594"
+    },
+    "map.marker.castle-plain.normal": {
+      "page": 0,
+      "x": 0,
+      "y": 64,
+      "w": 64,
+      "h": 64,
+      "sourceHash": "f80ed6d497d82338f960584e64629b62511e0254c24874687c77699140c80bb5"
+    }
+  }
+}
