@@ -24,7 +24,7 @@
 | M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13）  | 845 tests＋P1/P2/P3 e2e 綠；24 個月 DoD、全量 review 與 checkpoint 後 review 收尾（73bc28f）完成 |
 | M4 軍事一     | ✅ 已完成（2026-07-13）                 | 945 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與 review fix-forward 全綠  |
 | M5 合戰       | ✅ **已完成（2026-07-14）**             | 1011 tests、P1/P2/P3/P5、golden/transcript、bench、自行 review 與 checkpoint gate 全綠           |
-| M6            | 🎨 M6-V 進行中，**M6-V1～M6-V4 已完成** | M6 功能尚未開工；先完成視覺阻斷串流，下一個獲准階段只做 M6-V5 地形／水系／領地                   |
+| M6            | 🎨 M6-V 進行中，**M6-V1～M6-V5 已完成** | M6 功能尚未開工；使用者 2026-07-17 以「地圖要像真的遊戲（缺城／軍／路／城市／地形）」授權 V5–V8 整串視覺鏈，V6/V7/V8 設計已平行產出                   |
 | M7–M9         | ⬜                                      | 依 `plan/18-roadmap.md`                                                                          |
 
 ## M6-V 視覺優先工作串流（2026-07-14）
@@ -141,19 +141,44 @@
 - 已知留待事項：`selectMapStaticModel` 於 MainScreen 以 `useMemo([])` 快取——換劇本／重開新局需
   remount MainScreen（現行流程如此，無 bug）；linux visual baseline 由 CI 驗（本機 darwin 綠）。
 
+### M6-V5 完成記錄（2026-07-17，commits c212051…37710b4，直接 commit main）
+
+使用者本輪指示（2026-07-17）：貼圖抱怨「UI 醜到看不出城／軍隊／道路／城市／地形，要像
+《信長之野望》一樣的真遊戲」＝授權 **V5→V6→V7→V8 整串視覺鏈**；並要求「use more agent to
+parallel」＝設計階段平行化。執行模式：Fable orchestrate、設計/複雜/審查 Opus、一般實作 Sonnet。
+
+- **設計**：Opus 設計→雙對抗評審（spec/visual＋engineering）→修訂，14 findings 全數接受，
+  含兩個 Blocker（地形建構只掛 setMapData-initialized 分支在實機永不執行；territory 首幀未著色）。
+  最終設計檔：session scratchpad `design-m6v5-final.md`（決策 VD1–VD10 已回寫 plan/04 §8）。
+- **實作**（4 slice 依 B→A→C→D 序）：B token/LOD（MAP_PALETTE、三級 LOD＋hysteresis）；
+  A terrain.json（14 山系／10 森林／10 河／2 湖，rv.tone 依史實入江戶灣）＋2048² relief/forest
+  烘焙紋理（首屏 944.5 KiB／8 MiB）；C terrainDraw/terrainPack；D renderer 接線（13 層
+  LAYER_ORDER、reconstructTerrainLayers 雙路徑、territory Sprite 首幀著色、destroy 共享
+  texture 防護）。
+- **review**：Opus 4 lens＋逐 finding 對抗驗證（13 agent），7 confirmed 全修：forest 紋理未裁陸
+  （越海綠塊，重產 PNG）、琵琶湖畫成東西向（改南北長橢圓＋走向回歸測試）、committed PNG 與
+  生成器逐像素一致性 gate、acquire 失敗回退測試、setMapData(null) teardown 測試、pixiMock
+  parent 追蹤、landBase 斷言收緊。
+- **gate**：typecheck／lint／validate:data（0/0）／validate:assets（0/0）／**1226 tests**（golden
+  byte-identical）／build／e2e P1/P2/P3/P5 綠（visual 對舊基準之像素差＝預期）。
+- **baseline**：三段截圖 darwin＋linux（Docker `mcr.microsoft.com/playwright:v1.61.1-noble`，
+  容器內重跑 compare confirm；**注意：容器要以匿名 volume 蓋掉 `/work/node_modules`，否則
+  linux npm ci 會毀掉本機 darwin 原生模組**——本輪踩過，`npm ci` 復原）。orchestrator 親眼
+  驗收 §9.3 全項：紙浮雕日本、山系／森林／河湖可辨、領地染紙透出地形、無白海岸線。
+
 ### 停止點與安全續作順序
 
-1. 本輪停止於 **M6-V4 完成**（使用者 2026-07-17 授權連做 V3＋V4 兩階段，明示勿開第三階段）；
-   不要直接開始一般 M6 外交／武將功能，也不要跳過視覺阻斷工作串流。
-2. 下一個獲准階段只做 **M6-V5**：地形／水系／領地（山地、森林、平原、河流、湖泊、海岸陰影、
-   三級 LOD、`TerritoryGrid` 接成 Sprite），見 `plan/18-roadmap.md` M6-V5 列；依賴 M6-V3（素材
-   管線）與 M6-V4（dirty update）皆已就緒——territory dirty 訊號（`rebuildCounts.territory`）與
-   `MapStaticData.terrain` optional 欄位是預留的接點。
-3. M6-V5 完成、驗證、提交並停下後，再依 `plan/18-roadmap.md` 取得許可進入 M6-V6；勿預先實作
-   後續階段。
-4. 更新視覺 baseline 一律獨立 commit＋附 before/after 說明（17 §3.9.3）；重產指令
-   `npm run e2e:visual:update`（darwin）與 Docker 一行（見上，linux）。M6-V5 是第一個**預期**
-   改變 baseline 的階段（正式地形取代平面陸地）。
+1. 本輪已完成 **M6-V5**（含 review fix-forward、雙平台 baseline、plan/04 §8 回寫）。
+2. **V6／V7／V8 最終設計文件已平行產出**於 session scratchpad：`design-m6v6-final.md`／
+   `design-m6v7-final.md`／`design-m6v8-final.md`（各自經設計→雙對抗評審→修訂）。續作時
+   先讀對應設計檔，再依其 slice 分解啟動實作 workflow（模式同 V5：Sonnet 一般 slice、
+   Opus 複雜 slice／整合／review）。
+3. 建議實作順序 V6→V7→V8（V6/V7 依賴 V5 的 13 層與 LOD stage；V8 只依 V3/V4，可視情況
+   與 V6 交錯，但共用 MapRenderer.ts／gen-assets.ts／manifest.ts，同一時間只允許一個
+   stage 的整合 slice 動這些檔）。
+4. 更新視覺 baseline 一律獨立 commit＋附 before/after 說明（17 §3.9.3）；V6/V7/V8 皆為
+   預期改變 baseline 的階段。V6 若渲染道路名（RoadEdge.name 進 BitmapText）**必須跑
+   `npm run font:subset`**。
 
 ## M4 已收尾（2026-07-13）
 
