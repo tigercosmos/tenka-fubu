@@ -1,4 +1,4 @@
-# WIP — 實作交接文件（更新 2026-07-16）
+# WIP — 實作交接文件（更新 2026-07-17）
 
 > 給下一個接手的 AI／未來 session：本文件描述《天下布武》**實作階段**的當前進度與剩餘工作。
 > 規格階段已於 2026-07-11 收斂完成（21 份 plan 定稿、E-01…E-80 全數消化、七輪裁決記錄於 `plan/02 §8`）。
@@ -23,7 +23,7 @@
 | M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13）  | 845 tests＋P1/P2/P3 e2e 綠；24 個月 DoD、全量 review 與 checkpoint 後 review 收尾（73bc28f）完成 |
 | M4 軍事一     | ✅ 已完成（2026-07-13）                 | 945 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與 review fix-forward 全綠  |
 | M5 合戰       | ✅ **已完成（2026-07-14）**             | 1011 tests、P1/P2/P3/P5、golden/transcript、bench、自行 review 與 checkpoint gate 全綠           |
-| M6            | 🎨 M6-V 進行中，**M6-V1、M6-V2 已完成** | M6 功能尚未開工；先完成視覺阻斷串流，下一個獲准階段只做 M6-V3 素材管線                           |
+| M6            | 🎨 M6-V 進行中，**M6-V1～M6-V4 已完成** | M6 功能尚未開工；先完成視覺阻斷串流，下一個獲准階段只做 M6-V5 地形／水系／領地                   |
 | M7–M9         | ⬜                                      | 依 `plan/18-roadmap.md`                                                                          |
 
 ## M6-V 視覺優先工作串流（2026-07-14）
@@ -83,14 +83,76 @@
   露出 washi 背景條（既有版面問題，M6-V9 HUD 組裝時處理）、領地色淡、標籤重疊、far LOD 資訊稀
   ——皆為 M6-V3～V9 的待改善「before」基準。
 
+### M6-V3 完成記錄（2026-07-17，commit c7a930f，直接 commit main——依使用者 no-PR 指示）
+
+執行模式：Fable orchestrate、Sonnet 實作（3 平行 slice）、Opus 設計／整合／全量 review。
+
+- **manifest**：`src/ui/assets/manifest.ts`——12 §3.7 逐字 `VisualAssetManifestEntry`＋5 筆
+  project-original 素材（washi 材質 256²＋512² 母檔、程序生成方位盤 SVG、平城／山城／軍旗 atlas
+  glyph）；contentHash 全為實算 sha256（texture/svg＝runtime 檔、atlas＝source frame，三方核對）。
+- **工具鏈**：`tools/gen-assets.ts`（固定種子 LCG、wrap 週期雜訊、雙跑 byte-identical）；
+  `tools/build-atlas.ts`（id 二進位升冪＋shelf packing＋≤2048 分頁＋頁裁最小 2 次方＋pngjs
+  決定性編碼；產物 checked-in：`atlas-map-0.png` 128²＋`atlas.frames.json`）；
+  `tools/validate-assets.ts`（A01–A16：授權 fail-closed、public/assets 反向掃描、hash 核對、
+  記憶體重建比對（不比頁 PNG bytes，跨平台安全）、8 MiB 首屏預算=`UI.initialVisualAssetBytesMax`、
+  dist 存在時掃 source 洩漏）。新 scripts：`gen:assets`／`atlas:build`／`validate:assets`（CI unit
+  job 新 step）。source 工作檔隔離於 `tools/assets/visual/source/`。
+- **loader**：`src/ui/assets/loader.ts`＋`src/app/visualAssetsBoot.ts`——Pixi Assets 以 id cache、
+  模組級 refcount 共享 atlas 頁、歸零才 unload、sub-Texture `destroy(false)`、await 後 disposed
+  檢查；App 進 main 畫面首屏預熱（StrictMode 安全 singleton）。新 devDeps：pngjs＋@types/pngjs。
+- **review**：Opus 4 lens＋對抗驗證——8 findings 僅 2 確認（皆文件交叉引用錯誤，已修＋回歸測試）；
+  6 rejected 各有具體上游防線（acquireMany 循序、disposeFirstScreenAssets 無呼叫者、manifest 為
+  checked-in 信任源等）。
+- **gate**：lint／typecheck／validate:data／validate:assets（首屏 156.8 KiB／8192 KiB）／
+  **1109 tests**／build＋dist 無 source 洩漏／e2e 5/5（visual baseline 不變）全綠；DoD 現場驗證
+  （塞未登錄檔→A12 ERROR exit 1）。push 後 CI／Deploy 綠、Pages 200、atlas 於 Pages 子路徑 200。
+- plan/12 §8 新增 D16–D28 決策；`docs/visual/references.md` 登錄 5 筆素材（禁抄來源＝無）。
+
+### M6-V4 完成記錄（2026-07-17，commit 949a3af）
+
+執行模式同上（A core／B renderer 平行 → C 接線 → Opus 整合＋review）。
+
+- **core 契約（04 §4.6 全量）**：`selectMapViewModel` 補 castles[]（durability／maxDurability／
+  tier／terrainKind='plain' 佔位／siegeMode／warning 由圍城推導 assault→critical、
+  encircle→threatened）、armies[]（fromNode/toNode/edgeT、morale、foodDays 沿用
+  `BAL.fieldFoodPerSoldierDaily`、status/mission/corps）、battles[]／sieges[] 並存、analysisMode；
+  `selectMapStaticModel` 補 names（城/郡/勢力/省）＋provinceLabelPos。
+- **關鍵裁決 D1**：道路 `name/waypoints` 只進 transient `MapGraph`（`MapRoadEdge`＋`buildMapGraph`
+  optional 第 4 參數），**不進 GameState**——golden hash byte-identical（嚴禁為此 golden:update）。
+  waypoints V4 只攜帶，`drawRoads` 一行未改（V6 才消費）。
+- **dirty update**：`redrawDataLayers` 拆為 `buildStaticDataLayers`（setMapData 一次：roads＋node
+  初繪＋labels）與 `applyOwnerDirty`（owner 結構 diff 只重畫變更 node）；updateView 不再碰
+  roads/labels/pathPreview；ArmyChip 冪等 update（只 pos 變→reposition 不重繪）；內插移入
+  renderer（`dirty.ts` 純函式，逐字等價原 MainScreen 公式——stackKey=edgeT===0?fromNode:id）；
+  `rebuildCounts`／`getRebuildCounts()` 診斷（V11 雛形）；`panTo()` camera command（MiniMap V9 接）。
+  sieges 逐幀動畫刻意保留（勿套冪等 skip）。
+- **UI 接線**：`composeMapViewState` 純函式橋（selection 於 UI 邊界併入；uiStore 三態
+  castle/district→node 對映）；MainScreen 兩層參考穩定化（makeCachedSelector＋useMemo）——開面板／
+  hover 不再觸發 updateView。
+- **DoD 三句自動化證明**（`src/ui/map/mapRendererDirty.spec.ts`，置於 src/ 因需 jsdom）：僅 day 變
+  30 tick 零重建；owner 翻轉恰一 node clear＋territory 訊號＋roads/labels 零增；移動只 reposition
+  （armyChips 計數不增）、繪製欄位變才 +1。
+- **review**：Opus 4 lens 僅 3 findings 全 rejected（各有防線論證）；orchestrator 追加修 plan/04 §8
+  一處 T14/T19 模糊引用（改指 M6-V9）。
+- **gate**：typecheck（含 core 純度）／lint／validate:data／validate:assets／**1169 tests**／
+  golden・replay・determinism 29/29（snapshot byte-identical）／e2e 5/5（**視覺 baseline 原樣通過，
+  未 update**）全綠。
+- 已知留待事項：`selectMapStaticModel` 於 MainScreen 以 `useMemo([])` 快取——換劇本／重開新局需
+  remount MainScreen（現行流程如此，無 bug）；linux visual baseline 由 CI 驗（本機 darwin 綠）。
+
 ### 停止點與安全續作順序
 
-1. 本輪停止於 **M6-V2 完成**；不要直接開始一般 M6 外交／武將功能，也不要跳過視覺阻斷工作串流。
-2. 下一個獲准階段只做 **M6-V3**：素材管線（manifest、來源／授權 metadata、命名、atlas build、壓縮、
-   尺寸預算、Pixi preload/cache/dispose、`validate:assets`），見 `plan/18-roadmap.md` M6-V3 列。
-3. M6-V3 完成、驗證、提交並停下後，再依 `plan/18-roadmap.md` 取得許可進入 M6-V4；勿預先實作後續階段。
+1. 本輪停止於 **M6-V4 完成**（使用者 2026-07-17 授權連做 V3＋V4 兩階段，明示勿開第三階段）；
+   不要直接開始一般 M6 外交／武將功能，也不要跳過視覺阻斷工作串流。
+2. 下一個獲准階段只做 **M6-V5**：地形／水系／領地（山地、森林、平原、河流、湖泊、海岸陰影、
+   三級 LOD、`TerritoryGrid` 接成 Sprite），見 `plan/18-roadmap.md` M6-V5 列；依賴 M6-V3（素材
+   管線）與 M6-V4（dirty update）皆已就緒——territory dirty 訊號（`rebuildCounts.territory`）與
+   `MapStaticData.terrain` optional 欄位是預留的接點。
+3. M6-V5 完成、驗證、提交並停下後，再依 `plan/18-roadmap.md` 取得許可進入 M6-V6；勿預先實作
+   後續階段。
 4. 更新視覺 baseline 一律獨立 commit＋附 before/after 說明（17 §3.9.3）；重產指令
-   `npm run e2e:visual:update`（darwin）與 Docker 一行（見上，linux）。
+   `npm run e2e:visual:update`（darwin）與 Docker 一行（見上，linux）。M6-V5 是第一個**預期**
+   改變 baseline 的階段（正式地形取代平面陸地）。
 
 ## M4 已收尾（2026-07-13）
 
