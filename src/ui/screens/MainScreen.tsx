@@ -1,5 +1,5 @@
 // 最小主畫面／HUD（規格：plan/11-ui-screens.md §3.3 縮減版；plan/12-ui-components.md §3.2.11
-// SpeedControl；18-roadmap.md M1-20／M2-19）。
+// SpeedControl；18-roadmap.md M1-20／M2-19；M6-V4 §4.3 UI 接線改寫）。
 //
 // M1 縮減：僅上緣資源列的三項（日期、金錢佔位、SpeedControl 簡版）；左側快捷列、通知堆疊、
 // 迷你地圖、底部上下文面板留待 M3 起（11/12 對應里程碑）。
@@ -7,6 +7,11 @@
 // （城∪郡節點圖＋勢力色索引）與動態視圖（owner）由 `@core/state/selectors` 之
 // `selectMapStaticModel`／`selectMapViewModel` 純函式推導（04 §4.6）；地圖點擊/懸停事件目前僅
 // 同步進 `session.selection`（面板開啟屬 M3 CastlePanel/DistrictPanel 範圍，11-T4/T5）。
+// [M6-V4] §4.1 兩層參考穩定化：`gameView` 經 `makeCachedSelector`（tickSeq 快取，同 tick 內重複
+// 呼叫回傳同一參考）取得，`viewState` 再經 `useMemo(composeMapViewState, [gameView, selection])`
+// 併入選取狀態——同 tick 內非選取變更的 UI 互動（開面板／hover／marchDraft）不再使 `viewState`
+// 換新參考，`MapCanvasHost` 的 `useEffect([viewState])` 因而不觸發，`MapRenderer.updateView` 不再
+// 被無謂呼叫；真正變更時交由 renderer 端結構 diff（§3.3）只重畫真的變了的東西。
 // data-testid 依 plan/17-testing.md §6.2 契約：`screen-strategy`／`hud-date`／
 // `speed-pause`／`speed-1`／`speed-2`／`speed-5`。
 
@@ -17,6 +22,7 @@ import type { GameSpeed } from '@app/store';
 import { selectMapStaticModel, selectMapViewModel } from '@core/state/selectors';
 import { computePath, getStance, severityOf } from '@core/index';
 import type { MapStaticData, MapRendererEvent, MapPathPreview } from '../map/mapViewTypes';
+import { composeMapViewState } from '../map/composeMapView';
 import { formatDate, formatNumber, t, type StringKey } from '@i18n/zh-TW';
 import {
   makeCachedSelector,
@@ -37,6 +43,10 @@ import { ReportStack, type ToastItem } from '../components';
 import { MarchModal } from './MarchModal';
 import { SiegeOverlay } from './SiegeOverlay';
 import { renderReport } from '../reports/renderReport';
+
+// [M6-V4] Layer 1（producer 參考穩定）：同一 tickSeq 內重複呼叫回傳同一參考（比照下方
+// `selectReportToasts` 既有慣例）。
+const cachedSelectMapViewModel = makeCachedSelector(selectMapViewModel);
 
 const selectReportToasts = makeCachedSelector((game): ToastItem[] =>
   game.reports.slice(0, 20).flatMap((report) => {
@@ -98,66 +108,28 @@ export function MainScreen(): ReactElement {
   // 空白鍵暫停⇄繼續、1/2/3 變速、反引號開除錯面板（01 §6.3；M1-16 已實作本 hook，此處掛載）。
   useHotkeys(gameLoop, toggleDebugPanel);
 
-  // 地圖靜態資料（城∪郡節點圖＋勢力色索引）只計算一次——開局後拓樸不變，僅 owner 會變動
-  // （見 @core/state/selectors 檔頭裁決）。
+  // 地圖靜態資料（城∪郡節點圖＋勢力色索引＋顯示名／省標籤座標）只計算一次——開局後拓樸不變，
+  // 僅 owner 會變動（見 @core/state/selectors 檔頭裁決）。[M6-V4]：`selectMapStaticModel` 已全量
+  // 含 `names`／`provinceLabelPos`，不再手工拼裝。
   const staticData: MapStaticData | null = useMemo(() => {
     const game = store.getState().game;
     if (game === null) return null;
-    return {
-      ...selectMapStaticModel(game),
-      nodeLabels: {
-        ...Object.fromEntries(
-          Object.values(game.castles).map((castle) => [castle.id, castle.name]),
-        ),
-        ...Object.fromEntries(
-          Object.values(game.districts).map((district) => [district.id, district.name]),
-        ),
-      },
-      provinceLabels: Object.values(game.provinces).map((province) => ({
-        id: province.id,
-        text: province.name,
-        pos: province.labelPos,
-      })),
-    };
+    return selectMapStaticModel(game);
   }, []);
-  // 動態視圖（owner）：不經 useGameSelector（該 hook 之 select 規則禁止直接回傳整個 GameState，
-  // 見其檔頭；且 game 於 advanceDay 內就地變異、參考不變，shallow compare 對此無效）。改比照本檔
-  // 既有 `handleMapEvent`／`toggleDebugPanel` 慣例直接 `store.getState()` 讀取；`dateText`（上方
-  // `useGameSelector`）已確保 tick 前進時本元件會重渲染，故每次 render 重算 owner 足夠新鮮
-  // （成本 O(城數+郡數)，M2 子集規模可忽略）。
+
+  // 動態視圖：[M6-V4] §4.1 兩層參考穩定化。
+  // Layer 1（producer 參考穩定）：`gameView` 經 `useCachedGameSelector`（tickSeq 快取）取得，
+  // 同一 tickSeq 內重複呼叫回傳同一參考。
+  const gameView = useCachedGameSelector(cachedSelectMapViewModel);
+  const playerClanId = useGameSelector((g) => g.meta.playerClanId);
   const currentGame = store.getState().game;
-  const viewState =
-    currentGame === null
-      ? undefined
-      : {
-          ...selectMapViewModel(currentGame),
-          playerClanId: currentGame.meta.playerClanId,
-          armies: Object.values(currentGame.armies).map((army) => {
-            const from = staticData?.graph.nodes.get(army.posNodeId)?.pos ?? { x: 0, y: 0 };
-            const nextId = army.path[army.pathCursor + 1];
-            const to = nextId === undefined ? undefined : staticData?.graph.nodes.get(nextId)?.pos;
-            const edgeT =
-              army.edgeCostDays <= 0
-                ? 0
-                : Math.max(0, Math.min(1, army.edgeProgressDays / army.edgeCostDays));
-            return {
-              id: army.id,
-              stackKey: edgeT === 0 ? army.posNodeId : army.id,
-              pos:
-                to === undefined
-                  ? from
-                  : { x: from.x + (to.x - from.x) * edgeT, y: from.y + (to.y - from.y) * edgeT },
-              colorIndex: currentGame.clans[army.clanId]?.colorIndex ?? 0,
-              soldiers: army.soldiers,
-              morale: army.morale,
-              corps: army.corpsId !== null,
-            };
-          }),
-          sieges: Object.values(currentGame.sieges).flatMap((siege) => {
-            const pos = staticData?.graph.nodes.get(siege.castleId)?.pos;
-            return pos === undefined ? [] : [{ id: siege.id, pos, mode: siege.mode }];
-          }),
-        };
+  // Layer 2（UI 邊界組裝）：`composeMapViewState`（純函式，D7）併入目前選取狀態；`useMemo` 確保
+  // `gameView`／`selection`（uiStore 參考穩定）皆不變時 `viewState` 參考不變——`MapCanvasHost` 的
+  // `useEffect([viewState])` 因而不觸發，開面板/hover/marchDraft 不再誤觸 `updateView`。
+  const viewState = useMemo(
+    () => composeMapViewState(gameView, selection, playerClanId),
+    [gameView, selection, playerClanId],
+  );
 
   const openMarch = useCallback(
     (originCastleId: CastleId): void => {

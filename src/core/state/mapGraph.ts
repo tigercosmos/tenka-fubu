@@ -30,12 +30,24 @@ export interface MapGraphNode {
   castleId?: CastleId;
 }
 
+/**
+ * `MapGraph.edges` 專用的 runtime 邊型別（transient；只在 `MapGraph` 內存在，不進 `GameState`／
+ * canonical `RoadEdge`——canonical 型別刻意不含純顯示欄位以避免進 `stateHash` 造成 golden 漂移，
+ * [M6-V4] 裁決見 `plan/02-data-model.md` §8 2026-07-17）。
+ */
+export interface MapRoadEdge extends RoadEdge {
+  /** 道路顯示名（'東海道' 等）；模擬/尋路不使用。來源：scenario roads 原始資料。V6 起 `drawRoads` 消費。 */
+  readonly name?: string;
+  /** 多段線 waypoints（偶數長度 x,y 交錯世界座標）；未提供時回退兩端點直線。V6 起 `drawRoads` 消費。 */
+  readonly waypoints?: readonly number[];
+}
+
 /** 載入劇本後建立的唯讀圖結構（04 §4.1），整局不變；transient，不進入 GameState。 */
 export interface MapGraph {
   /** 節點查表。 */
   nodes: ReadonlyMap<MapNodeId, MapGraphNode>;
-  /** 邊查表。 */
-  edges: ReadonlyMap<RoadEdgeId, RoadEdge>;
+  /** 邊查表（含 name/waypoints 顯示欄位，見 `MapRoadEdge`；[M6-V4]）。 */
+  edges: ReadonlyMap<RoadEdgeId, MapRoadEdge>;
   /** 鄰接表：nodeId → 與其相連的 RoadEdge id 陣列（依 edgeId 字典序，確保決定論；04 §4.1）。 */
   adjacency: ReadonlyMap<MapNodeId, readonly RoadEdgeId[]>;
 }
@@ -51,11 +63,16 @@ export interface MapGraph {
  *   （若某未連通節點完全無邊，則邊清單為空——代表該節點連一條街道都沒有）。
  *
  * 決定論：邊依 `id` 字典序處理，鄰接表內每個節點的邊 id 陣列因而保持字典序（04 §4.1／§5.1）。
+ *
+ * `roadDisplay`（[M6-V4] 新增，optional）：依 edge id 查表的純顯示欄位（`name`／`waypoints`），
+ * 缺省時 `edges` 的 value 與現況（純 `RoadEdge`）完全一致——連通性驗證、字典序鄰接表、錯誤訊息
+ * 皆不受影響，只是 value 型別擴為 `MapRoadEdge`（多帶兩個 optional 欄位）。
  */
 export function buildMapGraph(
   castles: Readonly<Record<CastleId, CastleNodeInput>>,
   districts: Readonly<Record<DistrictId, DistrictNodeInput>>,
   roads: Readonly<Record<RoadEdgeId, RoadEdge>>,
+  roadDisplay?: Readonly<Record<string, { name?: string; waypoints?: readonly number[] }>>,
 ): MapGraph {
   const nodes = new Map<MapNodeId, MapGraphNode>();
   for (const castle of Object.values<CastleNodeInput>(castles)) {
@@ -73,7 +90,7 @@ export function buildMapGraph(
 
   // 依 edgeId 字典序處理（04 §5.1：「for e in roads.edges（依 e.id 字典序）」）。
   const sortedEdgeIds = (Object.keys(roads) as RoadEdgeId[]).sort();
-  const edges = new Map<RoadEdgeId, RoadEdge>();
+  const edges = new Map<RoadEdgeId, MapRoadEdge>();
   const adjacencyBuild = new Map<MapNodeId, RoadEdgeId[]>();
   for (const nodeId of nodes.keys()) adjacencyBuild.set(nodeId, []);
 
@@ -89,7 +106,18 @@ export function buildMapGraph(
     if (!nodes.has(edge.b)) {
       throw new Error(`buildMapGraph: 街道 ${edgeId} 的端點 b=${edge.b} 不存在於城/郡節點`);
     }
-    edges.set(edgeId, edge);
+    // 併入純顯示欄位（[M6-V4]；缺表或該邊無顯示欄位時 disp 為 undefined，edge 原樣存入，
+    // 與「不傳 roadDisplay」行為完全一致）。
+    const disp = roadDisplay?.[edgeId];
+    const merged: MapRoadEdge =
+      disp === undefined
+        ? edge
+        : {
+            ...edge,
+            ...(disp.name !== undefined ? { name: disp.name } : {}),
+            ...(disp.waypoints !== undefined ? { waypoints: disp.waypoints } : {}),
+          };
+    edges.set(edgeId, merged);
     adjacencyBuild.get(edge.a)?.push(edgeId);
     adjacencyBuild.get(edge.b)?.push(edgeId);
   }

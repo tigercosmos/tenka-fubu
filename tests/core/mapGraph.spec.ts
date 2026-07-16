@@ -129,4 +129,64 @@ describe('buildMapGraph', () => {
     expect(graph.edges.size).toBe(0);
     expect(graph.adjacency.size).toBe(0);
   });
+
+  // [M6-V4] §2.1／§2.5：MapRoadEdge（name/waypoints 顯示欄位）保留，不影響既有行為。
+  describe('roadDisplay（[M6-V4] optional 第 4 參數；D1）', () => {
+    const roads: Record<RoadEdgeId, RoadEdge> = {
+      ['road.a-a1' as RoadEdgeId]: makeRoad('road.a-a1', CASTLE_A, DIST_A1),
+      ['road.a-b' as RoadEdgeId]: makeRoad('road.a-b', CASTLE_A, CASTLE_B),
+      ['road.b-b1' as RoadEdgeId]: makeRoad('road.b-b1', CASTLE_B, DIST_B1),
+    };
+
+    it('不傳 roadDisplay 時行為與現況完全一致（回歸保護）：edges 的 value 不含 name/waypoints', () => {
+      const graph = buildMapGraph(castles, districts, roads);
+      expect(graph.edges.get('road.a-b' as RoadEdgeId)).toEqual({
+        id: 'road.a-b',
+        a: CASTLE_A,
+        b: CASTLE_B,
+        type: 'land',
+        grade: 1,
+        baseDays: 1,
+      });
+      // 連通性／字典序既有斷言不受影響。
+      expect(graph.adjacency.get(CASTLE_A)).toEqual(['road.a-a1', 'road.a-b']);
+    });
+
+    it('傳入 roadDisplay 查表：對應 edge 的 .name/.waypoints 被保留；未在查表內的 edge 無此欄', () => {
+      const roadDisplay = {
+        'road.a-b': { name: '東海道', waypoints: [0, 0, 50, 0, 100, 0] },
+        'road.a-a1': { name: '中山道' }, // 只給 name，無 waypoints
+      };
+      const graph = buildMapGraph(castles, districts, roads, roadDisplay);
+
+      const abEdge = graph.edges.get('road.a-b' as RoadEdgeId);
+      expect(abEdge?.name).toBe('東海道');
+      expect(abEdge?.waypoints).toEqual([0, 0, 50, 0, 100, 0]);
+
+      const aa1Edge = graph.edges.get('road.a-a1' as RoadEdgeId);
+      expect(aa1Edge?.name).toBe('中山道');
+      expect(aa1Edge?.waypoints).toBeUndefined();
+
+      // 'road.b-b1' 不在查表內：無 name/waypoints 欄位（不是 undefined 值的欄位，是欄位本身不存在）。
+      const bb1Edge = graph.edges.get('road.b-b1' as RoadEdgeId);
+      expect(bb1Edge).toEqual({
+        id: 'road.b-b1',
+        a: CASTLE_B,
+        b: DIST_B1,
+        type: 'land',
+        grade: 1,
+        baseDays: 1,
+      });
+      expect('name' in (bb1Edge as object)).toBe(false);
+      expect('waypoints' in (bb1Edge as object)).toBe(false);
+    });
+
+    it('roadDisplay 不影響連通性驗證／鄰接表字典序（只多帶顯示欄位）', () => {
+      const roadDisplay = { 'road.a-b': { name: '東海道' } };
+      const graph = buildMapGraph(castles, districts, roads, roadDisplay);
+      expect(graph.nodes.size).toBe(4);
+      expect(graph.edges.size).toBe(3);
+      expect(graph.adjacency.get(CASTLE_A)).toEqual(['road.a-a1', 'road.a-b']);
+    });
+  });
 });

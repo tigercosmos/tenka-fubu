@@ -9,8 +9,8 @@
 import { describe, expect, it } from 'vitest';
 import { BAL } from '../../src/core/balance';
 import { createDerivedCache } from '../../src/core/state/derivedCache';
-import type { Corps } from '../../src/core/state/gameState';
-import type { CorpsId } from '../../src/core/state/ids';
+import type { Army, Corps, FieldCombat, Siege } from '../../src/core/state/gameState';
+import type { ArmyId, CorpsId, SiegeId } from '../../src/core/state/ids';
 import {
   adjacency,
   clanKokudaka,
@@ -24,6 +24,8 @@ import {
   officerRole,
   provinceCastles,
   season,
+  selectMapStaticModel,
+  selectMapViewModel,
 } from '../../src/core/state/selectors';
 import {
   CASTLE_A1,
@@ -244,5 +246,329 @@ describe('getCastleDistricts／getClanCastles（18-roadmap M1-10 範例；不經
     expect(alphaCastles.sort()).toEqual([CASTLE_A1, CASTLE_A2].sort());
     const betaCastles = getClanCastles(state, CLAN_BETA).map((c) => c.id);
     expect(betaCastles).toEqual([CASTLE_B1]);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════
+// [M6-V4] selectMapViewModel／selectMapStaticModel 全量補齊驗收
+// 規格：plan/04-map-and-movement.md §4.6（canonical）；m6v4-design.md §2.2/§2.3/§2.5。
+// ═══════════════════════════════════════════════════════════════════
+
+/** 出陣部隊 fixture（同 tests/core/miniMapModel.spec.ts baseArmy 慣例）。 */
+function baseArmy(overrides: Partial<Army> & Pick<Army, 'id' | 'clanId'>): Army {
+  return {
+    leaderId: overrides.leaderId ?? ('off.x' as never),
+    deputyIds: [],
+    soldiers: 500,
+    initialTroops: 500,
+    food: 100,
+    morale: 80,
+    status: 'holding',
+    mission: 'march',
+    originCastleId: CASTLE_A1,
+    targetNodeId: CASTLE_A1,
+    path: [CASTLE_A1],
+    pathCursor: 0,
+    posNodeId: CASTLE_A1,
+    edgeProgressDays: 0,
+    edgeCostDays: 0,
+    battleId: null,
+    siegeId: null,
+    autoReturn: true,
+    corpsId: null,
+    pursuitEligibleArmyIds: [],
+    ...overrides,
+  };
+}
+
+function baseSiege(
+  overrides: Partial<Siege> & Pick<Siege, 'id' | 'castleId' | 'attackerClanId'>,
+): Siege {
+  return {
+    attackerArmyIds: [],
+    mode: 'encircle',
+    startDay: 0,
+    interrupted: false,
+    betrayalUsed: false,
+    ...overrides,
+  };
+}
+
+function baseFieldCombat(
+  overrides: Partial<FieldCombat> & Pick<FieldCombat, 'id' | 'nodeId'>,
+): FieldCombat {
+  return {
+    startedDay: 0,
+    sideA: { clanIds: [CLAN_ALPHA], armyIds: [], initialTroops: 0, cumulativeLosses: 0 },
+    sideB: { clanIds: [CLAN_BETA], armyIds: [], initialTroops: 0, cumulativeLosses: 0 },
+    kassenUsed: false,
+    interrupted: false,
+    ...overrides,
+  };
+}
+
+describe('selectMapViewModel（04 §4.6；[M6-V4] 全量補齊）', () => {
+  it('day＝state.time.day；analysisMode 恆 none；districtOwner 型別容許 |null（值恆非 null）', () => {
+    const state = buildTinyState();
+    const model = selectMapViewModel(state);
+    expect(model.day).toBe(state.time.day);
+    expect(model.analysisMode).toBe('none');
+    expect(model.districtOwner[DIST_A1X]).toBe(CLAN_ALPHA);
+  });
+
+  it('castles[]：依 id 字典序，逐欄位讀自 Castle；terrainKind 恆 plain；無圍城時 siegeMode/warning 皆 none', () => {
+    const state = buildTinyState();
+    const model = selectMapViewModel(state);
+    expect(model.castles.map((c) => c.id)).toEqual([CASTLE_A1, CASTLE_A2, CASTLE_B1]);
+    const a1 = model.castles.find((c) => c.id === CASTLE_A1)!;
+    const castleA1 = state.castles[CASTLE_A1]!;
+    expect(a1).toEqual({
+      id: CASTLE_A1,
+      ownerClanId: castleA1.ownerClanId,
+      durability: castleA1.durability,
+      maxDurability: castleA1.maxDurability,
+      tier: castleA1.tier,
+      terrainKind: 'plain',
+      siegeMode: 'none',
+      warning: 'none',
+    });
+  });
+
+  it('圍城 encircle：該城 siegeMode=encircle、warning=threatened；其餘城不受影響', () => {
+    const state = buildTinyState();
+    const siegeId = 'siege.000001' as SiegeId;
+    state.sieges[siegeId] = baseSiege({
+      id: siegeId,
+      castleId: CASTLE_B1,
+      attackerClanId: CLAN_ALPHA,
+      mode: 'encircle',
+    });
+    const model = selectMapViewModel(state);
+    const b1 = model.castles.find((c) => c.id === CASTLE_B1)!;
+    expect(b1.siegeMode).toBe('encircle');
+    expect(b1.warning).toBe('threatened');
+    const a1 = model.castles.find((c) => c.id === CASTLE_A1)!;
+    expect(a1.siegeMode).toBe('none');
+    expect(a1.warning).toBe('none');
+  });
+
+  it('圍城 assault：該城 siegeMode=assault、warning=critical', () => {
+    const state = buildTinyState();
+    const siegeId = 'siege.000002' as SiegeId;
+    state.sieges[siegeId] = baseSiege({
+      id: siegeId,
+      castleId: CASTLE_A2,
+      attackerClanId: CLAN_BETA,
+      mode: 'assault',
+    });
+    const model = selectMapViewModel(state);
+    const a2 = model.castles.find((c) => c.id === CASTLE_A2)!;
+    expect(a2.siegeMode).toBe('assault');
+    expect(a2.warning).toBe('critical');
+  });
+
+  it('armies[]：fromNode=posNodeId；行軍中 toNode=path[cursor+1]；抵終點 toNode=null', () => {
+    const state = buildTinyState();
+    const marchingId = 'army.000001' as ArmyId;
+    state.armies[marchingId] = baseArmy({
+      id: marchingId,
+      clanId: CLAN_ALPHA,
+      leaderId: OFF_ALPHA_LORD,
+      status: 'marching',
+      path: [CASTLE_A1, CASTLE_A2],
+      pathCursor: 0,
+      posNodeId: CASTLE_A1,
+      edgeProgressDays: 1,
+      edgeCostDays: 2,
+    });
+    const arrivedId = 'army.000002' as ArmyId;
+    state.armies[arrivedId] = baseArmy({
+      id: arrivedId,
+      clanId: CLAN_ALPHA,
+      leaderId: OFF_ALPHA_TAISHO,
+      path: [CASTLE_A2],
+      pathCursor: 0,
+      posNodeId: CASTLE_A2,
+      edgeProgressDays: 0,
+      edgeCostDays: 0,
+    });
+
+    const model = selectMapViewModel(state);
+    const marching = model.armies.find((a) => a.id === marchingId)!;
+    expect(marching.fromNode).toBe(CASTLE_A1);
+    expect(marching.toNode).toBe(CASTLE_A2);
+    expect(marching.edgeT).toBeCloseTo(0.5);
+
+    const arrived = model.armies.find((a) => a.id === arrivedId)!;
+    expect(arrived.fromNode).toBe(CASTLE_A2);
+    expect(arrived.toNode).toBeNull();
+    expect(arrived.edgeT).toBe(0); // edgeCostDays<=0 → 0
+  });
+
+  it('armies[]：edgeT 於 edgeProgressDays>edgeCostDays 時 clamp 於 1（防禦：資料異常不外插）', () => {
+    const state = buildTinyState();
+    const armyId = 'army.000003' as ArmyId;
+    state.armies[armyId] = baseArmy({
+      id: armyId,
+      clanId: CLAN_ALPHA,
+      leaderId: OFF_ALPHA_LORD,
+      path: [CASTLE_A1, CASTLE_A2],
+      pathCursor: 0,
+      posNodeId: CASTLE_A1,
+      edgeProgressDays: 999,
+      edgeCostDays: 2,
+    });
+    const model = selectMapViewModel(state);
+    expect(model.armies.find((a) => a.id === armyId)!.edgeT).toBe(1);
+  });
+
+  it('armies[]：foodDays 依 BAL.fieldFoodPerSoldierDaily 推導（同 military.ts autoReturn 判定公式）', () => {
+    const state = buildTinyState();
+    const armyId = 'army.000004' as ArmyId;
+    const soldiers = 300;
+    const food = 90;
+    state.armies[armyId] = baseArmy({
+      id: armyId,
+      clanId: CLAN_ALPHA,
+      leaderId: OFF_ALPHA_LORD,
+      soldiers,
+      food,
+    });
+    const expectedFoodDays = food / Math.max(1, Math.ceil(soldiers * BAL.fieldFoodPerSoldierDaily));
+    const model = selectMapViewModel(state);
+    expect(model.armies.find((a) => a.id === armyId)!.foodDays).toBeCloseTo(expectedFoodDays);
+  });
+
+  it('armies[]：soldiers=0 時 foodDays=0（防禦，避免除以查表下限造成非零假象）', () => {
+    const state = buildTinyState();
+    const armyId = 'army.000005' as ArmyId;
+    state.armies[armyId] = baseArmy({
+      id: armyId,
+      clanId: CLAN_ALPHA,
+      leaderId: OFF_ALPHA_LORD,
+      soldiers: 0,
+      food: 50,
+    });
+    const model = selectMapViewModel(state);
+    expect(model.armies.find((a) => a.id === armyId)!.foodDays).toBe(0);
+  });
+
+  it('armies[]：corps＝corpsId!==null；status/mission 直通', () => {
+    const state = buildTinyState();
+    const armyId = 'army.000006' as ArmyId;
+    state.armies[armyId] = baseArmy({
+      id: armyId,
+      clanId: CLAN_ALPHA,
+      leaderId: OFF_ALPHA_LORD,
+      corpsId: 'corps.000001' as CorpsId,
+      status: 'sieging',
+      mission: 'conquer',
+    });
+    const model = selectMapViewModel(state);
+    const a = model.armies.find((x) => x.id === armyId)!;
+    expect(a.corps).toBe(true);
+    expect(a.status).toBe('sieging');
+    expect(a.mission).toBe('conquer');
+  });
+
+  it('sieges[]：pos = state.castles[castleId].pos', () => {
+    const state = buildTinyState();
+    const siegeId = 'siege.000003' as SiegeId;
+    state.sieges[siegeId] = baseSiege({
+      id: siegeId,
+      castleId: CASTLE_B1,
+      attackerClanId: CLAN_ALPHA,
+      mode: 'assault',
+    });
+    const model = selectMapViewModel(state);
+    expect(model.sieges).toEqual([
+      { id: siegeId, pos: state.castles[CASTLE_B1]!.pos, mode: 'assault' },
+    ]);
+  });
+
+  it('battles[]：FieldCombat→{kind:field}，Siege→{kind:siege}，nodeOrEdgeId 正確', () => {
+    const state = buildTinyState();
+    const fcId = 'fc.a1-1';
+    state.fieldCombats[fcId] = baseFieldCombat({ id: fcId, nodeId: CASTLE_A1 });
+    const siegeId = 'siege.000004' as SiegeId;
+    state.sieges[siegeId] = baseSiege({
+      id: siegeId,
+      castleId: CASTLE_B1,
+      attackerClanId: CLAN_ALPHA,
+    });
+
+    const model = selectMapViewModel(state);
+    expect(model.battles).toEqual(
+      expect.arrayContaining([
+        { nodeOrEdgeId: CASTLE_A1, kind: 'field' },
+        { nodeOrEdgeId: CASTLE_B1, kind: 'siege' },
+      ]),
+    );
+    expect(model.battles).toHaveLength(2);
+  });
+
+  it('決定論：同 state 呼叫兩次結構深相等；castles/armies 依 id 字典序', () => {
+    const state = buildTinyState();
+    state.armies['army.000007' as ArmyId] = baseArmy({
+      id: 'army.000007' as ArmyId,
+      clanId: CLAN_BETA,
+      leaderId: OFF_ALPHA_BUSHO,
+    });
+    const m1 = selectMapViewModel(state);
+    const m2 = selectMapViewModel(state);
+    expect(m1).toEqual(m2);
+    expect(m1.castles.map((c) => c.id)).toEqual([...m1.castles.map((c) => c.id)].sort());
+    expect(m1.armies.map((a) => a.id)).toEqual([...m1.armies.map((a) => a.id)].sort());
+  });
+});
+
+describe('selectMapStaticModel（04 §4.6；[M6-V4] names／provinceLabelPos）', () => {
+  it('names 含城／郡／勢力／省名', () => {
+    const state = buildTinyState();
+    const model = selectMapStaticModel(state);
+    expect(model.names[CASTLE_A1]).toBe(state.castles[CASTLE_A1]!.name);
+    expect(model.names[DIST_A1X]).toBe(state.districts[DIST_A1X]!.name);
+    expect(model.names[CLAN_ALPHA]).toBe(state.clans[CLAN_ALPHA]!.name);
+    expect(model.names[PROV_OWARI]).toBe(state.provinces[PROV_OWARI]!.name);
+  });
+
+  it('provinceLabelPos 對應 province.labelPos', () => {
+    const state = buildTinyState();
+    const model = selectMapStaticModel(state);
+    expect(model.provinceLabelPos[PROV_OWARI]).toEqual(state.provinces[PROV_OWARI]!.labelPos);
+    expect(model.provinceLabelPos[PROV_SURUGA]).toEqual(state.provinces[PROV_SURUGA]!.labelPos);
+  });
+
+  it('castleTier 保留（命中半徑用）', () => {
+    const state = buildTinyState();
+    const model = selectMapStaticModel(state);
+    expect(model.castleTier[CASTLE_A1]).toBe(state.castles[CASTLE_A1]!.tier);
+    expect(model.castleTier[CASTLE_A2]).toBe(state.castles[CASTLE_A2]!.tier);
+  });
+
+  it('graph：tiny 劇本自身街道無 name/waypoints（roadDisplay 只對真實 s1560 roads.json id 命中，不洩漏未命中 edge）', () => {
+    const state = buildTinyState();
+    const model = selectMapStaticModel(state);
+    for (const edge of model.graph.edges.values()) {
+      expect(edge.name).toBeUndefined();
+      expect(edge.waypoints).toBeUndefined();
+    }
+  });
+
+  it('graph：真實 s1560 劇本（roadDisplayLookup 直讀 roads.json）— 已知具名街道的 name 被保留', async () => {
+    const { loadS1560Scenario } = await import('../../src/data/scenarios/s1560/index');
+    const { buildGameStateFromScenario } = await import('../../src/core/state/builder');
+    const bundle = await loadS1560Scenario();
+    const realState = buildGameStateFromScenario(bundle, {
+      appVersion: '0.0.0-test',
+      seed: 1,
+      playerClanId: 'clan.oda' as never,
+      difficulty: 'normal',
+      regions: ['tokai'],
+    });
+    const model = selectMapStaticModel(realState);
+    // road.kiyosu-nagoya-01 在 src/data/scenarios/s1560/roads.json 中標示 name='東海道'（見資料檔）。
+    const edge = model.graph.edges.get('road.kiyosu-nagoya-01' as never);
+    expect(edge?.name).toBe('東海道');
   });
 });

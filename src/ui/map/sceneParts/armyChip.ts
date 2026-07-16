@@ -103,9 +103,33 @@ export function drawArmyChip(g: Graphics, props: ArmyChipProps): void {
   }
 }
 
+/**
+ * 冪等比較器（M6-V4 §3.4）：`pos` 除外——僅位移不視為需要重繪（`update` 仍會 reposition，
+ * 但不呼叫 `drawArmyChip`）；label 文字由 `soldiers`/`collapsedCount` 決定，故一併比較。
+ * 單一真相：供 `createArmyChip` 內部 memo 與測試（`armyChip.spec.ts`）共用。
+ */
+export function armyChipDrawEqual(a: ArmyChipProps, b: ArmyChipProps): boolean {
+  return (
+    a.colorIndex === b.colorIndex &&
+    a.soldiers === b.soldiers &&
+    a.morale === b.morale &&
+    a.corps === b.corps &&
+    a.collapsedCount === b.collapsedCount
+  );
+}
+
+function samePos(a: ArmyChipProps['pos'], b: ArmyChipProps['pos']): boolean {
+  return a.x === b.x && a.y === b.y;
+}
+
+/**
+ * 建立 ArmyChip 場景元件：`update` 為冪等（M6-V4 §3.4，仿 `castleNode.ts`），回傳「是否實際重繪
+ * 圖形」（`drawArmyChip` 有無被呼叫）——首繪（`last===null`）必為 `true`；只 `pos` 變更→僅
+ * `container.position.set`、回傳 `false`（DoD③：移動不重繪）；繪製欄位變更→重繪並回傳 `true`。
+ */
 export function createArmyChip(): {
   container: Container;
-  update: (props: ArmyChipProps) => void;
+  update: (props: ArmyChipProps) => boolean;
 } {
   const container = new Container();
   const graphics = new Graphics();
@@ -122,15 +146,24 @@ export function createArmyChip(): {
     ARMY_CHIP_GEOMETRY.flagWidth + ARMY_CHIP_GEOMETRY.hitPadding * 2,
     ARMY_CHIP_GEOMETRY.poleHeight + ARMY_CHIP_GEOMETRY.hitPadding * 2,
   );
+  let last: ArmyChipProps | null = null;
   return {
     container,
-    update(props) {
-      container.position.set(props.pos.x, props.pos.y);
+    update(props): boolean {
+      if (last === null || !samePos(last.pos, props.pos)) {
+        container.position.set(props.pos.x, props.pos.y);
+      }
+      if (last !== null && armyChipDrawEqual(last, props)) {
+        last = props;
+        return false;
+      }
       drawArmyChip(graphics, props);
       label.text =
         props.collapsedCount && props.collapsedCount > 0
           ? `+${props.collapsedCount}`
           : formatArmyTroops(props.soldiers);
+      last = props;
+      return true;
     },
   };
 }

@@ -1680,3 +1680,26 @@ calendarToDay(y,m,d) = (y-1560)*360 + (m-1)*30 + (d-1)
 - **M1-F1｜§4.11 `DiplomacyRow` 四欄 optional `?` → 非 optional**：三輪裁決 1 以 optional `?` 宣告 `lastHostileDay`／`refusalCooldownUntilDay`／`lastReinforceRequestDayAtoB`／`lastReinforceRequestDayBtoA`，與 §7「無 optional（`?:`）欄位」及 §3.4 第 1 點「可缺欄位一律型別宣告為 `X | null` 並存 `null`」直接牴觸（02 內部不一致；三輪裁決之「非 `undefined` 值」論述僅滿足 INV-25，未滿足 §7/§3.4）。裁決：依 00 > 02 與 §7/§3.4 規範改為**非 optional**——scalar 三欄 → `number | null`（`null` = 未設，語意同原「未設＝預設」，且與 `lastHostileDay` 註解「≠0」相容）；`refusalCooldownUntilDay` → 必填 `Partial<Record<DiplomacyActionKind, number>>`（比照 §4.14 `ClanPolicyState.cooldownUntil` 既有型式：欄位必填、缺鍵＝預設 0）。§4.11 型別欄與註解同步更新。下游備忘錄：**14/builder（M1-14）** `defaultRow()`（§5.5）materialize 該列時，三 scalar 欄寫 `null`、`refusalCooldownUntilDay` 寫 `{}`；**08** 讀寫語意不變（null/缺鍵仍視同預設）。
 - **M1-F2｜§4.18 `CmdBattleDelegate.unitId` `string | 'all'` → `string`**：原型 `string | 'all'` 為冗餘聯集（`'all' ⊆ string`），觸發 ESLint `@typescript-eslint/no-redundant-type-constituents`（決定論守門硬紅燈，不得繞過）。裁決：收斂為 `string`；`'all'` 保留為「全單位委任」哨兵值（apply 時以 `unitId === 'all'` 判別，值集合完全不變）。§4.18 型別欄改 `string`、註解標記 `'all'` 哨兵語意。無下游連動（apply/validate M1-6 以字串比較判別哨兵）。
 - **M1-F3｜§5.4 `stateHash` 位元寬度「32-bit」→ 64-bit（M1-12 `src/core/state/serialize.ts` 實作時發現）**：§5.4 原文「`stateHash(state) = fnv1a32(canonicalStringify(state))`……32-bit FNV-1a，**實作於 17**」——但其明文指定之實作 `plan/17-testing.md` §5.2（`fnv1a64`／`hashState = fnv1a64(stableStringify(state))`）與 M0 已鎖定測試向量並隨 M0 一併完成的 `tests/helpers/hash.ts`（`fnv1a64('') === 'cbf29ce484222325'`，18-roadmap M0-5 驗收原文）皆為 **64-bit**，與 §5.4 內文「32-bit」字面直接矛盾（02 §5.4 自身「內文敘述」vs「援引之實作」不一致）。研判成因：本文「32-bit」應為與 `03-game-loop.md` §3.5.2 RNG 流播種用途之 `fnv1a32`（不同函式、不同用途——`initRng` 內部種子推導雜湊，非 state 序列化）混淆沿用之筆誤，非刻意分岔設計。裁決：依 00 > 02 規範，02 本文與其援引之下游實作衝突時，以「該援引之下游實作已定案且測試向量已鎖定（M0 綠燈在案）」為準——採 **64-bit**（`fnv1a64`），§5.4 之「32-bit」視為誤植、以本條裁決取代；函式命名維持 02 既有之 `canonicalStringify`／`stateHash`（17 另稱 `stableStringify`／`hashState`，同一演算法，02 命名優先）。`src/core/state/serialize.ts` 依此實作：`canonicalStringify`／`fnv1a64`／`stateHash` 皆為與 `tests/helpers/hash.ts` 演算法相同、輸出位元一致之獨立重寫（core 不得 import tests/，CLAUDE.md／ESLint 邊界鐵律）；`fnv1a64` 內部 UTF-8 編碼因 `tsconfig.core.json` 排除 DOM/node 型別庫（`TextEncoder` 不可用）改手動位元組編碼，輸出與 `TextEncoder` 一致。無下游連動（17 §5.2 本即 64-bit，不需修改；03 §3.5.2 `fnv1a32` 為獨立用途函式，不受影響）。
+
+**2026-07-17（[M6-V4] canonical `RoadEdge` 刻意不含純顯示欄位；`builder.ts` 誤引勘誤修正）**：
+
+- **canonical `RoadEdge` 不含 `name`/`waypoints`**：`plan/04-map-and-movement.md` §4.6（M6-V4 view
+  contract 補齊）需要道路顯示名與多段線 waypoints 供 UI runtime `MapGraph` 使用，但 `state.roads`
+  （§4.7 `RoadEdge`）全量進 `stateHash`（M1-F3 定案之 `canonicalStringify`），若把純顯示欄位塞進
+  canonical 型別，任何劇本資料的顯示文字/座標調整都會使 golden／replay／determinism 全部漂移，
+  直接牴觸 CLAUDE.md 硬約束②「同（劇本、種子、Command 紀錄）必須重放出 bit-exact 相同狀態」。
+  裁決：`RoadEdge`（§4.7）維持不含此二欄；顯示欄位改活在 `src/ui/state`/`ui/map` 側 transient
+  `MapGraph.edges`（`MapRoadEdge extends RoadEdge`，由 `selectMapStaticModel` 於 selector 端讀
+  scenario `roads.json` 原始資料併入，不寫回 `GameState`）。此為 00＞02 之明定範疇內裁決（04 §4.6
+  之 view contract 需求 vs 02 canonical 型別穩定性衝突，依「模擬決定論優先於顯示欄位」原則解）。
+- **`builder.ts` 誤引勘誤修正**：`src/core/state/builder.ts` 原有一處註解引用「（02 RoadEdge 無此
+  二欄，勘誤 E-11／E-36）」說明 `name`/`waypoints` 不進 canonical 型別的理由，但 E-11／E-36
+  （見本檔 §8 2026-07-10 記錄）分別是「`MarchState.nodeIndex`→`pathCursor` 更名」與「`RoadEdge`
+  欄位 `kind/length`→`type/grade/baseDays` 改名」，均與 `name`/`waypoints` 無關，屬誤引。已改為
+  直接引用本條（2026-07-17 [M6-V4]）之 golden-hash 穩定性裁決，零行為／`stateHash` 變更。
+- **`MapViewState.districtOwner` 型別放寬為 `Record<string, string | null>`**：對齊 04 §4.6
+  canonical view 型別（無主郡以 `null` 表示）；`GameState.districts[id].ownerClanId` 本身（canonical，
+  02 §4.6）不受影響，s1560 v1.0 劇本資料實際值恆非 `null`（無中立郡開局設定），此放寬純為型別層面
+  對齊 view contract、不影響現有資料驗證（`validate:data`）。
+  依據：`plan/04-map-and-movement.md` §8 2026-07-17 [M6-V4] 條目；M6-V4 技術設計 §2.1／§10；
+  CLAUDE.md 架構鐵律①②。

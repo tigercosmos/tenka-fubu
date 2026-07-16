@@ -29,6 +29,7 @@ import type { FederatedPointerEvent } from 'pixi.js';
 import { BAL } from '@core/balance';
 import { MAPVIEW, WORLD_SIZE } from './mapViewConfig';
 import { drawNodeMarker, drawRoads, drawSeaBackground, loadOutline } from './mapDraw';
+import { armyStackKey, armyWorldPos, buildOwnerByNode, diffOwnerByNode } from './dirty';
 import { LAYER_ORDER } from './mapViewTypes';
 import { MapInteraction, screenToWorld } from './interaction';
 import { Camera } from './camera';
@@ -51,9 +52,24 @@ import type {
 const EMPTY_VIEW: MapViewState = {
   day: 0,
   districtOwner: {},
-  castleOwner: {},
+  castles: [],
+  armies: [],
+  battles: [],
   selection: null,
+  analysisMode: 'none',
 };
+
+/**
+ * `MapRenderer` 重繪計數診斷（M6-V4 決策 D11）：供 dirty-update DoD 測試斷言、V11 layer-presence
+ * smoke 雛形。純幾個整數累加，恆開，成本可忽略。`getRebuildCounts()` 回傳唯讀複本。
+ */
+export interface MapRebuildCounts {
+  roads: number;
+  labels: number;
+  nodeMarkers: number;
+  territory: number;
+  armyChips: number;
+}
 
 export class MapRenderer {
   private app: Application | null = null;
@@ -92,6 +108,19 @@ export class MapRenderer {
   private readonly nodeCull = new SpatialCullIndex<string>();
   private readonly labelCull = new SpatialCullIndex<string>();
   private collapsedArmyIds = new Set<string>();
+  /**
+   * nodeMarkers owner dirty 判定用之前一 view owner 查表（M6-V4 §3.3.3）；`null` 視為「全部
+   * dirty」。`setMapData` 完成後重設為 `null`，保證下一次 `updateView` 全 node 首繪上真色（§11.1）。
+   */
+  private prevOwnerByNode: Map<string, string | null> | null = null;
+  /** 重繪計數診斷（決策 D11）；`getRebuildCounts()` 對外唯讀存取。 */
+  private rebuildCounts: MapRebuildCounts = {
+    roads: 0,
+    labels: 0,
+    nodeMarkers: 0,
+    territory: 0,
+    armyChips: 0,
+  };
   private siegeElapsedMs = 0;
   private reducedMotion = false;
   /**
@@ -271,7 +300,8 @@ export class MapRenderer {
     this.pathPreview = createPathPreview();
     this.layers.selectionAndPath.addChild(this.pathPreview.container);
     this.drawStaticBackground();
-    this.redrawDataLayers();
+    this.buildStaticDataLayers();
+    this.prevOwnerByNode = null; // 首繪保證（§11.1）：下一次 updateView 視全部 node 為 dirty
     this.redrawMilitaryObjects();
     this.redrawPathPreview();
     // 鏡頭：初始置中全圖（fit scale），使用者以滾輪／拖曳操作，focusNode 補間聚焦（04 §3.11）。
@@ -324,8 +354,14 @@ export class MapRenderer {
     drawSeaBackground(this.seaGfx, outline);
   }
 
-  /** Roads remain batched; node markers and labels are individual objects so they can be culled. */
-  private redrawDataLayers(): void {
+  /**
+   * 靜態圖層建立（M6-V4 決策 D9）：roads（批次）＋node（個別 Graphics，供裁剪）初繪＋labels
+   * （BitmapText，文字整局不變）。**只由 `setMapData` 呼叫，整局一次**；node 初繪之 owner 取「當前
+   * `this.view`」（通常為呼叫端隨後立即 `updateView` 帶入真實 owner；即使此處用到舊/空 view，
+   * `setMapData` 會把 `prevOwnerByNode` 重設為 `null`，保證下一次 `updateView` 全 node 視為 dirty
+   * 而重繪出正確 owner，見 §11.1「首繪保證」）。`updateView` 之後永不呼叫本函式（roads/labels 靜態化）。
+   */
+  private buildStaticDataLayers(): void {
     if (this.layers === null) return;
     const data = this.staticData;
     if (this.roadsGfx === null) {
@@ -343,6 +379,9 @@ export class MapRenderer {
       return;
     }
     drawRoads(this.roadsGfx, data.graph);
+    this.rebuildCounts.roads += 1;
+    const ownerByNode = buildOwnerByNode(this.view);
+    const names = data.names ?? {};
     const active = new Set<string>();
     const activeLabels = new Set<string>();
     for (const node of [...data.graph.nodes.values()].sort((a, b) => a.id.localeCompare(b.id))) {
@@ -356,10 +395,10 @@ export class MapRenderer {
         this.nodeParts.set(node.id, part);
       }
       part.graphics.clear();
-      drawNodeMarker(part.graphics, node, this.view, data.clanColorIndex);
+      drawNodeMarker(part.graphics, node, ownerByNode.get(node.id) ?? null, data.clanColorIndex);
       this.nodeCull.upsert(node.id, node.pos.x, node.pos.y);
 
-      const text = data.nodeLabels?.[node.id];
+      const text = names[node.id];
       if (text !== undefined) {
         activeLabels.add(node.id);
         let labelPart = this.labelParts.get(node.id);
@@ -375,24 +414,28 @@ export class MapRenderer {
         }
         labelPart.label.text = text;
         this.labelCull.upsert(node.id, node.pos.x, node.pos.y);
+        this.rebuildCounts.labels += 1;
       }
     }
-    for (const province of data.provinceLabels ?? []) {
-      const id = `province:${province.id}`;
+    for (const [provinceId, pos] of Object.entries(data.provinceLabelPos ?? {})) {
+      const text = names[provinceId];
+      if (text === undefined) continue;
+      const id = `province:${provinceId}`;
       activeLabels.add(id);
       let part = this.labelParts.get(id);
       if (part === undefined) {
         const label = new BitmapText({
-          text: province.text,
+          text,
           style: { fontFamily: 'Noto Serif TC', fontSize: 14 },
         });
-        label.position.set(province.pos.x, province.pos.y);
+        label.position.set(pos.x, pos.y);
         this.layers.labels.addChild(label);
         part = { label, kind: 'province' };
         this.labelParts.set(id, part);
       }
-      part.label.text = province.text;
-      this.labelCull.upsert(id, province.pos.x, province.pos.y);
+      part.label.text = text;
+      this.labelCull.upsert(id, pos.x, pos.y);
+      this.rebuildCounts.labels += 1;
     }
     for (const [id, part] of this.nodeParts) {
       if (active.has(id)) continue;
@@ -408,6 +451,32 @@ export class MapRenderer {
       this.labelParts.delete(id);
       this.labelCull.remove(id);
     }
+  }
+
+  /**
+   * nodeMarkers owner dirty-update（M6-V4 §3.3.3）：只重畫 owner 相對前一次 view 真的變了的
+   * node。`day`／`selection`／`analysisMode`／`battles`／`durability`/`siegeMode`/`warning`/
+   * `terrainKind` 等其餘欄位變化一律不觸發（§3.3.5 dirty 判定條件表）。V4 `territory` 圖層容器仍空
+   * （V5 掛 `TerritoryGrid`），`rebuildCounts.territory` 僅作為 dirty 訊號雛形計數（§3.3.3 觀測口徑）。
+   */
+  private applyOwnerDirty(view: MapViewState): void {
+    const next = buildOwnerByNode(view);
+    const dirty = diffOwnerByNode(this.prevOwnerByNode, next);
+    if (dirty.size > 0) this.rebuildCounts.territory += 1;
+    const data = this.staticData;
+    if (data !== null) {
+      for (const nodeId of dirty) {
+        const part = this.nodeParts.get(nodeId);
+        if (part === undefined) continue;
+        const node = data.graph.nodes.get(nodeId as never);
+        if (node === undefined) continue;
+        const owner = next.get(nodeId) ?? null;
+        part.graphics.clear();
+        drawNodeMarker(part.graphics, node, owner, data.clanColorIndex);
+        this.rebuildCounts.nodeMarkers += 1;
+      }
+    }
+    this.prevOwnerByNode = next;
   }
 
   /**
@@ -492,11 +561,27 @@ export class MapRenderer {
     this.layers.labels.visible = true;
   }
 
+  /**
+   * armies：per-id diff（M6-V4 §3.3.4）。pos 由 `armyWorldPos`（`dirty.ts`，決策 D6）內插——
+   * `MapArmyView` 座標無關，只帶 `fromNode`/`toNode`/`edgeT`；`stackKey`（UI 疊放概念，不進 core
+   * 契約）由 `armyStackKey` 導出，逐字等價改前 `MainScreen` 內插語意（補遺 AD-V4-4）。`colorIndex`
+   * 查 `staticData.clanColorIndex[clanId] ?? 0`（對齊現行 `?? 0` fallback，視覺不變）。`ArmyChip.update`
+   * 冪等（§3.4）：只 pos 變→僅 reposition，回傳 `false`，累計 `rebuildCounts.armyChips` 不增；繪製
+   * 欄位變→重繪，回傳 `true`，計數 +1（DoD③）。互動命中測試資料（`interaction.setArmies`）維持餵入
+   * 不變（補遺 AD-V4-1：不得斷線）。sieges 維持現狀：建立/銷毀 diff＋逐幀動畫（onTick）不套用冪等。
+   */
   private redrawMilitaryObjects(): void {
     if (this.layers === null) return;
-    const armies = this.view.armies ?? [];
-    const layout = layoutArmyStacks(armies);
-    const activeArmyIds = new Set(armies.map((army) => army.id));
+    const graph = this.staticData?.graph;
+    const clanColorIndex = this.staticData?.clanColorIndex ?? {};
+    const viewArmies = this.view.armies;
+    const layoutSource = viewArmies.map((a) => ({
+      ...a,
+      stackKey: armyStackKey(a),
+      pos: graph === undefined ? { x: 0, y: 0 } : armyWorldPos(a, graph),
+    }));
+    const layout = layoutArmyStacks(layoutSource);
+    const activeArmyIds = new Set(viewArmies.map((army) => army.id));
     for (const [id, part] of this.armyParts) {
       if (activeArmyIds.has(id)) continue;
       this.layers.armies.removeChild(part.container);
@@ -515,14 +600,15 @@ export class MapRenderer {
       }
       if (!entry.visible) this.collapsedArmyIds.add(army.id);
       const pos = entry.pos;
-      part.update({
+      const redrew = part.update({
         pos,
-        colorIndex: army.colorIndex,
+        colorIndex: clanColorIndex[army.clanId] ?? 0,
         soldiers: army.soldiers,
         morale: army.morale,
         corps: army.corps,
         ...(entry.collapsedCount === undefined ? {} : { collapsedCount: entry.collapsedCount }),
       });
+      if (redrew) this.rebuildCounts.armyChips += 1;
       this.armyCull.upsert(army.id, pos.x, pos.y);
     }
     this.interaction.setArmies(
@@ -694,24 +780,51 @@ export class MapRenderer {
 
   // ── 平行 agent 掛層／資料流擴充（見檔頭裁定） ──────────────────────
 
-  /** 傳入靜態地圖資料（整局一次）；重繪 roads/nodeMarkers、同步互動命中測試資料。init 前呼叫亦可，init 完成時會套用。 */
+  /**
+   * 傳入靜態地圖資料（整局一次）；建立/重繪 roads/nodeMarkers/labels（`buildStaticDataLayers`，
+   * D9 靜態化：此後 `updateView` 不再碰它們）、同步互動命中測試資料。`prevOwnerByNode` 重設為
+   * `null`，保證下一次 `updateView` 視全部 node 為 dirty（首繪保證，§11.1）。init 前呼叫亦可，
+   * init 完成時會套用。
+   */
   setMapData(data: MapStaticData | null): void {
     this.staticData = data;
     this.interaction.setStaticData(data);
     if (this.initialized) {
       this.drawStaticBackground(); // outline 可能被 data.outline 覆蓋
-      this.redrawDataLayers();
-      this.redrawPathPreview();
+      this.buildStaticDataLayers();
+      this.prevOwnerByNode = null;
+      this.redrawPathPreview(); // graph 換了要重畫 path preview（D9 保留在此，非 updateView）
       this.applyLodAndCulling();
     }
   }
 
-  /** 每 tick 動態視圖更新（04 §4.6）；本階段重繪 nodeMarkers 的 owner 勢力色。 */
+  /**
+   * 每 tick 動態視圖更新（04 §4.6）。M6-V4（決策 D8/D9）：不再每次全量重畫——只做 nodeMarkers owner
+   * 結構 diff（`applyOwnerDirty`）＋ armies/sieges per-id diff（`redrawMilitaryObjects`）；roads／
+   * labels／`redrawPathPreview` 一律不在此呼叫（靜態化／獨立 prop 驅動，見 `setMapData`／
+   * `showPathPreview`）。
+   */
   updateView(view: MapViewState): void {
     this.view = view;
-    if (this.initialized && this.staticData !== null) this.redrawDataLayers();
-    if (this.initialized) this.redrawMilitaryObjects();
-    if (this.initialized) this.redrawPathPreview();
+    if (!this.initialized) return;
+    this.applyOwnerDirty(view);
+    this.redrawMilitaryObjects();
+  }
+
+  /**
+   * MiniMap `onNavigate` 用（決策 D10）：瞬移主鏡頭中心至世界座標，維持現縮放（04 §3.13.1
+   * 無動畫）。V4 只交付本方法，MiniMap 尚未掛載，接線留 V9（建議 `MapCanvasHost` 以
+   * `forwardRef`+`useImperativeHandle` 對外露出，非 remount）。
+   */
+  panTo(worldX: number, worldY: number): void {
+    if (this.camera === null) return;
+    const { scale } = this.camera.getState();
+    this.setCameraPose({ x: worldX, y: worldY }, scale);
+  }
+
+  /** 重繪計數診斷（決策 D11）：供 dirty-update 測試斷言與 V11 layer-presence smoke 沿用。 */
+  getRebuildCounts(): Readonly<MapRebuildCounts> {
+    return { ...this.rebuildCounts };
   }
 
   /** 手動 resize（04 §3.12.3）；平時由 Application `resizeTo` 自動處理，此為顯式入口。 */

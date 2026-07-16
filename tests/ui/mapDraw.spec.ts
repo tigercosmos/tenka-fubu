@@ -12,7 +12,6 @@ import type { CastleId, DistrictId, RoadEdgeId } from '@core/state/ids';
 import type { RoadEdge } from '@core/state/gameState';
 import { clanColorNum } from '@ui/styles/tokens';
 import { MAPVIEW, ROAD_GRADE_WIDTH, WORLD_SIZE } from '@ui/map/mapViewConfig';
-import type { MapViewState } from '@ui/map/mapViewTypes';
 import { drawNodeMarkers, drawRoads, drawSeaBackground, loadOutline } from '@ui/map/mapDraw';
 
 /** 錄製每個 Graphics 指令（method + 參數）以斷言繪製序列。 */
@@ -163,14 +162,14 @@ describe('drawNodeMarkers（圖層 3 骨架占位；04 §3.10.1）', () => {
   it('每節點 fill+stroke 各一次；owner→勢力色、無主→中性灰', () => {
     const { rec, g } = makeRec();
     const graph = fixtureGraph();
-    const view: MapViewState = {
-      day: 1,
-      districtOwner: { 'dist.xx': 'clan.oda', 'dist.yy': null },
-      castleOwner: { 'castle.aa': 'clan.oda', 'castle.bb': 'clan.imagawa' },
-      selection: null,
-    };
+    const ownerByNode = new Map<string, string | null>([
+      ['dist.xx', 'clan.oda'],
+      ['dist.yy', null],
+      ['castle.aa', 'clan.oda'],
+      ['castle.bb', 'clan.imagawa'],
+    ]);
     const clanColorIndex = { 'clan.oda': 5, 'clan.imagawa': 10 };
-    drawNodeMarkers(g, graph, view, clanColorIndex);
+    drawNodeMarkers(g, graph, ownerByNode, clanColorIndex);
 
     expect(rec.calls[0]?.[0]).toBe('clear');
     // 4 節點 × (填色 poly + 描邊 poly) = 8 poly；fill/stroke 各 4。
@@ -186,13 +185,8 @@ describe('drawNodeMarkers（圖層 3 骨架占位；04 §3.10.1）', () => {
   it('clanColorIndex 缺 owner 對照時退回中性灰（不 throw）', () => {
     const { rec, g } = makeRec();
     const graph = fixtureGraph();
-    const view: MapViewState = {
-      day: 1,
-      districtOwner: {},
-      castleOwner: { 'castle.aa': 'clan.unknown' },
-      selection: null,
-    };
-    drawNodeMarkers(g, graph, view, {});
+    const ownerByNode = new Map<string, string | null>([['castle.aa', 'clan.unknown']]);
+    drawNodeMarkers(g, graph, ownerByNode, {});
     const fillColors = rec.argsOf('fill').map((a) => (a[0] as { color: number }).color);
     expect(fillColors.every((c) => c === MAPVIEW.colors.neutral)).toBe(true);
   });

@@ -297,8 +297,8 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
       graph: soloGraph(),
       clanColorIndex: {},
       castleTier: { 'castle.solo': 'main' },
-      nodeLabels: { 'castle.solo': '試城' },
-      provinceLabels: [{ id: 'province.test', text: '試國', pos: { x: 10, y: 20 } }],
+      names: { 'castle.solo': '試城', 'province.test': '試國' },
+      provinceLabelPos: { 'province.test': { x: 10, y: 20 } },
     });
     expect(layers?.roads.children.length).toBe(1);
     expect(layers?.nodeMarkers.children.length).toBe(1);
@@ -306,7 +306,15 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
     expect(layers?.labels.children[0]?.visible).toBe(false);
     expect(layers?.labels.children[1]?.visible).toBe(true);
     expect(layers?.nodeMarkers.children[0]?.scale.x).toBe(1.4); // initial fit is far LOD
-    r.updateView({ day: 2, districtOwner: {}, castleOwner: {}, selection: null });
+    r.updateView({
+      day: 2,
+      districtOwner: {},
+      castles: [],
+      armies: [],
+      battles: [],
+      selection: null,
+      analysisMode: 'none',
+    });
     r.destroy();
   });
 
@@ -316,19 +324,26 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
     await r.init(host, vi.fn());
     const armies = Array.from({ length: 5 }, (_, index) => ({
       id: `army.${String(index + 1).padStart(6, '0')}`,
-      stackKey: 'castle.solo',
-      pos: { x: 10, y: 20 },
-      colorIndex: 0,
+      clanId: 'clan.solo',
       soldiers: 1_000,
+      status: 'holding' as const,
       morale: 80,
+      foodDays: 10,
+      mission: 'march' as const,
+      fromNode: 'castle.solo' as never,
+      toNode: null,
+      edgeT: 0,
       corps: false,
+      selected: false,
     }));
     r.updateView({
       day: 1,
       districtOwner: {},
-      castleOwner: {},
-      selection: null,
+      castles: [],
       armies,
+      battles: [],
+      selection: null,
+      analysisMode: 'none',
       sieges: [{ id: 'siege.000001', pos: { x: 10, y: 20 }, mode: 'encircle' }],
     });
 

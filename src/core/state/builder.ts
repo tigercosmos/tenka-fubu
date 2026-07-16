@@ -605,7 +605,10 @@ export function deriveScenarioInput(
     labelPos: p.labelPos,
   }));
 
-  // ── roads：丟棄資料層純顯示欄位 name/waypoints（02 RoadEdge 無此二欄，勘誤 E-11／E-36） ──
+  // ── roads：canonical RoadEdge 刻意不含純顯示欄位 name/waypoints（避免進 stateHash 造成 golden
+  //    漂移，[M6-V4] 裁決見 plan/02-data-model.md §8 2026-07-17；原「勘誤 E-11／E-36」引註有誤，
+  //    二者分別為行軍日數模型／欄位改名，均與 name/waypoints 無關）。顯示欄位於
+  //    `selectMapStaticModel` 併入 transient `MapGraph.edges`（`MapRoadEdge`），不經 GameState。 ──
   const roads: RoadEdge[] = filtered.roads.map((r) => ({
     id: r.id as RoadEdgeId,
     a: r.a,

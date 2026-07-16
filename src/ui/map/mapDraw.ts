@@ -23,7 +23,6 @@ import {
   SEA_ROUTE_DASH,
   WORLD_SIZE,
 } from './mapViewConfig';
-import type { MapViewState } from './mapViewTypes';
 
 let cachedOutline: JapanOutlineFile | null = null;
 
@@ -142,11 +141,15 @@ function ownerColor(
  * 圖層 3「nodeMarkers」：城＝五角天守形、郡＝菱形（04 §3.10.1）——**M2-13 骨架占位**。
  * 填色＝owner 勢力色，描邊墨色。M2-16（sceneParts CastleNode/DistrictNode/SelectionRing，12-T10）
  * 以正式繪製參數（含本城/支城區分、LOD 縮放、命中區）取代之。節點依 id 字典序繪製（決定論）。
+ *
+ * M6-V4（設計 §3.5）：owner 來源改為呼叫端解析後的 `ownerByNode` 查表（不再讀 `MapViewState`），
+ * 供 `MapRenderer` 之 dirty-update（`applyOwnerDirty`）與 `buildStaticDataLayers` 共用單一繪製
+ * 路徑；繪製指令與改前逐項相同（視覺不變）。
  */
 export function drawNodeMarkers(
   g: Graphics,
   graph: MapGraph,
-  view: MapViewState,
+  ownerByNode: ReadonlyMap<string, string | null>,
   clanColorIndex: Readonly<Record<string, number>>,
 ): void {
   g.clear();
@@ -154,30 +157,30 @@ export function drawNodeMarkers(
   for (const nodeId of nodeIds) {
     const node = graph.nodes.get(nodeId);
     if (node === undefined) continue;
-    drawNodeMarker(g, node, view, clanColorIndex, node.pos);
+    drawNodeMarker(g, node, ownerByNode.get(nodeId) ?? null, clanColorIndex, node.pos);
   }
 }
 
-/** Draw one node, optionally at a local coordinate for individually cullable scene objects. */
+/**
+ * Draw one node, optionally at a local coordinate for individually cullable scene objects.
+ * `ownerClanId`：已解析之 owner（`null`＝無主），由呼叫端查表傳入（M6-V4 §3.5：owner 來源參數化，
+ * 使本函式不依賴 view 型別）。
+ */
 export function drawNodeMarker(
   g: Graphics,
   node: MapGraphNode,
-  view: MapViewState,
+  ownerClanId: string | null,
   clanColorIndex: Readonly<Record<string, number>>,
   at: { x: number; y: number } = { x: 0, y: 0 },
 ): void {
   const { x, y } = at;
-  const nodeId = node.id;
   const up = -Math.PI / 2;
+  const color = ownerColor(ownerClanId, clanColorIndex);
   if (node.kind === 'castle') {
-    const owner = view.castleOwner[nodeId];
-    const color = ownerColor(owner, clanColorIndex);
     const pts = regularPolygon(x, y, NODE_MARKER.castleRadius, 5, up);
     g.poly(pts).fill({ color });
     g.poly(pts).stroke({ width: NODE_MARKER.strokeWidth, color: TOKENS_NUM.ink700 });
   } else {
-    const owner = view.districtOwner[nodeId] ?? null;
-    const color = ownerColor(owner, clanColorIndex);
     const r = NODE_MARKER.districtRadius;
     const pts = [x, y - r, x + r, y, x, y + r, x - r, y]; // 菱形（上右下左）
     g.poly(pts).fill({ color });

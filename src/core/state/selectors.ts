@@ -19,11 +19,28 @@ import {
   officerSalary,
   policyUpkeep,
 } from '../domestic';
-import { RANK_VALUES, type CastleTier, type Rank, type Season } from './enums';
+import {
+  RANK_VALUES,
+  type ArmyMission,
+  type ArmyStatus,
+  type CastleTier,
+  type Rank,
+  type Season,
+  type SiegeMode,
+} from './enums';
 import type { DerivedCache } from './derivedCache';
 import { getOrCompute } from './derivedCache';
 import { buildMapGraph, type MapGraph } from './mapGraph';
-import type { Army, Castle, Clan, District, GameState } from './gameState';
+import type {
+  Army,
+  Castle,
+  Clan,
+  District,
+  FieldCombat,
+  GameState,
+  Province,
+  Siege,
+} from './gameState';
 import type {
   ArmyId,
   CastleId,
@@ -34,10 +51,13 @@ import type {
   OfficerId,
   ProvinceId,
   RoadEdgeId,
+  SiegeId,
 } from './ids';
 import { seasonOf } from '../systems/time';
 import outlineJson from '../../data/map/japan-outline.json';
 import { zJapanOutlineFile } from '../../data/schemas/outline';
+import roadsJson from '../../data/scenarios/s1560/roads.json';
+import { zRoadsFile } from '../../data/schemas/road';
 
 // ═══════════════════════════════════════════════════════════════════
 // 曆法（02 §5.1 `season(month)`）
@@ -382,53 +402,255 @@ export function selectMiniMapModel(state: GameState): MiniMapModel {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// 地圖靜態／動態視圖（04 §4.6；M2-19 接線——MainScreen 掛 MapCanvasHost 顯示地圖）
+// 地圖靜態／動態視圖（04 §4.6；M2-19 接線——MainScreen 掛 MapCanvasHost 顯示地圖；
+// [M6-V4] 全量補齊至 04 §4.6 canonical——見 plan/18-roadmap.md M6-V4、
+// plan/04-map-and-movement.md §8 2026-07-17 條目）
 // ═══════════════════════════════════════════════════════════════════
 //
 // 型別刻意獨立於 `src/ui/map/mapViewTypes.ts`（core 不得 import UI 層，同 `MiniMapModel` 上方
-// 檔頭裁決同一取捨）；兩者欄位形狀一致，呼叫端（`src/app/boot.ts`／`MainScreen.tsx`）以結構相容
-// 直接指派給 `MapStaticData`/`MapViewState`。`outline` 欄位不在此提供——`MapRenderer` 未收到覆蓋值
-// 時自帶 `japan-outline.json`（`mapDraw.loadOutline`），故省略。
+// 檔頭裁決同一取捨）；兩者欄位形狀一致（UI 側以 `type` 別名複用本檔匯出型別，只在邊界補
+// `selected`／`selection`，見 04 §8 [M6-V4] D7），呼叫端（`src/app/boot.ts`／`MainScreen.tsx`）
+// 以結構相容直接指派給 `MapStaticData`/`MapViewState`。`outline` 欄位不在此提供——`MapRenderer`
+// 未收到覆蓋值時自帶 `japan-outline.json`（`mapDraw.loadOutline`），故省略。
 //
 // 開局後城∪郡∪街道拓樸不變（僅 owner 會變動），`selectMapStaticModel` 呼叫端只需計算一次
 // （見 `src/app/boot.ts` 建局處），不比照 `clanKokudaka` 等經 `DerivedCache` 逐 tick memo。
+//
+// [M6-V4] 新欄位一律「攜帶不消費」（硬約束①：視覺輸出不得改變）：`terrainKind`（V4 恆 'plain'，
+// 真實資料 V7／14）、`warning`（V4 由圍城推導，語意完整依賴的 09 AI 威脅評估未實作）、
+// `battles[]`（消費見 V8／V10）、`analysisMode`（V4 恆 'none'，消費見 V10）；`selection`／
+// `armies[].selected` 刻意不在 core 契約內（D7：core selector 不吃 UI selection 型別，由 UI 邊界
+// `composeMapViewState` 併入）。
 
-/** 地圖（04 §4.6 `MapStaticData` M2-13 子集）靜態資料：城∪郡節點圖＋勢力色索引＋城格。 */
+/**
+ * 道路顯示欄位查表（依 edge id；[M6-V4] D1）：直讀 scenario `roads.json` 原始資料＋zod 解析＋
+ * 模組級快取（比照上方 `miniMapOutline()` 之 outline 直讀先例）。只在 `selectMapStaticModel`
+ * 併入 transient `MapGraph.edges`（`MapRoadEdge`），不寫回 `GameState`，不影響 golden hash。
+ *
+ * scenario 硬編碼為 `s1560`（v1.0 唯一劇本，與既有 `japan-outline.json` 硬編碼同構）；
+ * `buildMapGraph` 只對呼叫端傳入之 `state.roads` 內存在的 edge id 查表，被 region 篩掉的
+ * edge 天然不會命中，不會洩漏未載入地方的顯示資料。
+ */
+let cachedRoadDisplay: Readonly<
+  Record<string, { name?: string; waypoints?: readonly number[] }>
+> | null = null;
+
+function roadDisplayLookup(): Readonly<
+  Record<string, { name?: string; waypoints?: readonly number[] }>
+> {
+  if (cachedRoadDisplay === null) {
+    const file = zRoadsFile.parse(roadsJson);
+    const out: Record<string, { name?: string; waypoints?: readonly number[] }> = {};
+    for (const r of file.edges) {
+      if (r.name !== undefined || r.waypoints !== undefined) {
+        out[r.id] = {
+          ...(r.name !== undefined ? { name: r.name } : {}),
+          ...(r.waypoints !== undefined ? { waypoints: r.waypoints } : {}),
+        };
+      }
+    }
+    cachedRoadDisplay = out;
+  }
+  return cachedRoadDisplay;
+}
+
+/** 地圖（04 §4.6 `MapStaticData`）靜態資料：城∪郡節點圖＋勢力色索引＋城格＋顯示名＋國名標籤位置。 */
 export interface MapStaticModel {
   graph: MapGraph;
   clanColorIndex: Record<string, number>;
+  /** 城格（保留：命中半徑等 UI 互動用；渲染另見 `castles[].tier`，[M6-V4] D2）。 */
   castleTier: Record<string, CastleTier>;
+  /** nodeId／clanId／provinceId → 顯示名（04 §4.6；provinceId 為超集擴充，見 §8 [M6-V4]）。 */
+  names: Record<string, string>;
+  /** provinceId → 國名標籤渲染座標（04 §4.6；= `Province.labelPos`）。 */
+  provinceLabelPos: Record<string, { x: number; y: number }>;
 }
 
 export function selectMapStaticModel(state: GameState): MapStaticModel {
-  const graph = buildMapGraph(state.castles, state.districts, state.roads);
+  const graph = buildMapGraph(state.castles, state.districts, state.roads, roadDisplayLookup());
   const clanColorIndex: Record<string, number> = {};
   for (const clan of Object.values<Clan>(state.clans)) {
     clanColorIndex[clan.id] = clan.colorIndex;
   }
   const castleTier: Record<string, CastleTier> = {};
+  const names: Record<string, string> = {};
   for (const castle of Object.values<Castle>(state.castles)) {
     castleTier[castle.id] = castle.tier;
+    names[castle.id] = castle.name;
   }
-  return { graph, clanColorIndex, castleTier };
+  for (const district of Object.values<District>(state.districts)) {
+    names[district.id] = district.name;
+  }
+  for (const clan of Object.values<Clan>(state.clans)) {
+    names[clan.id] = clan.name; // 勢力名（V9/V10 消費）
+  }
+  const provinceLabelPos: Record<string, { x: number; y: number }> = {};
+  for (const province of Object.values<Province>(state.provinces)) {
+    names[province.id] = province.name;
+    provinceLabelPos[province.id] = province.labelPos;
+  }
+  return { graph, clanColorIndex, castleTier, names, provinceLabelPos };
 }
 
-/** 地圖（04 §4.6 `MapViewState` M2-13 子集）每 tick 動態視圖：城／郡現任 owner。 */
+/** 地圖節點（城）動態視圖（04 §4.6 `MapViewState.castles[]`；[M6-V4]）。 */
+export interface MapCastleViewModel {
+  id: CastleId;
+  ownerClanId: ClanId;
+  durability: number;
+  maxDurability: number;
+  tier: CastleTier;
+  /** 地形種類：V4 恆 `'plain'`（佔位，攜帶不消費）；真實資料見 M6-V7／14（[M6-V4] D3）。 */
+  terrainKind: 'plain' | 'mountain';
+  /** 圍城狀態：由 `state.sieges` 反查（一城至多一場進行中 Siege，02 §4.10）。 */
+  siegeMode: 'none' | 'encircle' | 'assault';
+  /** 警示：由 `siegeMode` 推導（[M6-V4] D4；`threatened` 完整語意依賴未實作的 09 AI 威脅評估）。 */
+  warning: 'none' | 'threatened' | 'critical';
+}
+
+/** 出陣部隊動態視圖（04 §4.6 `MapViewState.armies[]`；[M6-V4]）。座標無關——內插參數交給 renderer（D6）。 */
+export interface MapArmyViewModel {
+  id: string;
+  clanId: string;
+  soldiers: number;
+  status: ArmyStatus;
+  morale: number;
+  /** 存糧可維持天數（顯示值，V4 不消費）：公式與 `military.ts` autoReturn 判定同一式
+   *  （`BAL.fieldFoodPerSoldierDaily`；不新增 BAL 常數，硬約束③）。 */
+  foodDays: number;
+  mission: ArmyMission;
+  /** = `army.posNodeId`（最近抵達節點）。 */
+  fromNode: MapNodeId;
+  /** = `army.path[pathCursor+1]`；已抵終點為 `null`。 */
+  toNode: MapNodeId | null;
+  /** 邊上內插比例 0..1；`edgeCostDays<=0` 時為 0。 */
+  edgeT: number;
+  /** 軍團底線（UI 擴充）：`army.corpsId !== null`。 */
+  corps: boolean;
+}
+
+/** 圍城動態視圖（擴充，驅動既有 `SiegeMarker` 視覺；[M6-V4] D5）。 */
+export interface MapSiegeViewModel {
+  id: string;
+  /** 位置靜態（= 被圍城 `pos`），selector 直接給值（D6）。 */
+  pos: { x: number; y: number };
+  mode: SiegeMode;
+}
+
+/** 交戰動態視圖（04 §4.6 canonical `battles[]`；[M6-V4] D5：與擴充 `sieges[]` 並存，V4 不消費）。 */
+export interface MapBattleViewModel {
+  nodeOrEdgeId: string;
+  kind: 'field' | 'siege';
+}
+
+/** 地圖（04 §4.6 `MapViewState`）每 tick 動態視圖：[M6-V4] 全量補齊至 canonical。 */
 export interface MapViewModel {
   day: number;
-  districtOwner: Record<string, string>;
-  castleOwner: Record<string, string>;
-  selection: null;
+  /** 04 canonical 放寬為 `| null`（[M6-V4] D2；s1560 資料值恆非 null）。 */
+  districtOwner: Record<string, string | null>;
+  castles: MapCastleViewModel[];
+  armies: MapArmyViewModel[];
+  /** 擴充：驅動現有 `SiegeMarker`（D5）。 */
+  sieges: MapSiegeViewModel[];
+  /** canonical 04 §4.6；V4 攜帶不消費（消費見 V8/V10）。 */
+  battles: MapBattleViewModel[];
+  /** V4 恆 `'none'`（消費見 V10）。 */
+  analysisMode:
+    'none' | 'faction' | 'supply' | 'roadCapacity' | 'terrainAdvantage' | 'castleDefense';
+  // selection 與 armies[].selected 刻意不在此——由 UI 邊界 composeMapViewState 併入（D7）。
 }
 
 export function selectMapViewModel(state: GameState): MapViewModel {
-  const districtOwner: Record<string, string> = {};
+  // 1. districtOwner（放寬 | null，[M6-V4] D2）。
+  const districtOwner: Record<string, string | null> = {};
   for (const district of Object.values<District>(state.districts)) {
     districtOwner[district.id] = district.ownerClanId;
   }
-  const castleOwner: Record<string, string> = {};
-  for (const castle of Object.values<Castle>(state.castles)) {
-    castleOwner[castle.id] = castle.ownerClanId;
+
+  // 2. 圍城反查表：castleId → SiegeMode（一城至多一場進行中 Siege，02 §4.10 單勢力聯攻）。
+  const siegeModeByCastle = new Map<CastleId, SiegeMode>();
+  for (const siege of Object.values<Siege>(state.sieges)) {
+    siegeModeByCastle.set(siege.castleId, siege.mode);
   }
-  return { day: state.time.day, districtOwner, castleOwner, selection: null };
+
+  // 3. castles[]（依 id 字典序，決定論）。
+  const castles: MapCastleViewModel[] = (Object.keys(state.castles).sort() as CastleId[]).map(
+    (id) => {
+      const c = state.castles[id] as Castle;
+      const siegeMode: MapCastleViewModel['siegeMode'] = siegeModeByCastle.get(id) ?? 'none';
+      const warning: MapCastleViewModel['warning'] =
+        siegeMode === 'assault' ? 'critical' : siegeMode === 'encircle' ? 'threatened' : 'none';
+      return {
+        id: c.id,
+        ownerClanId: c.ownerClanId,
+        durability: c.durability,
+        maxDurability: c.maxDurability,
+        tier: c.tier,
+        terrainKind: 'plain', // [M6-V4] D3：V4 佔位
+        siegeMode,
+        warning,
+      };
+    },
+  );
+
+  // 4. armies[]（依 id 字典序）——座標無關，只給 renderer 端內插參數（D6）。
+  const armies: MapArmyViewModel[] = (Object.keys(state.armies).sort() as ArmyId[]).map((id) => {
+    const a = state.armies[id] as Army;
+    const toNode = a.path[a.pathCursor + 1] ?? null;
+    const edgeT =
+      a.edgeCostDays <= 0 ? 0 : Math.min(1, Math.max(0, a.edgeProgressDays / a.edgeCostDays));
+    // foodDays：與 military.ts autoReturn 判定（L745-747）同一公式；BAL.fieldFoodPerSoldierDaily
+    // 沿用既有常數，不新增 BAL（硬約束③）。此為顯示值，V4 不消費，不影響 golden。
+    const foodDays =
+      a.soldiers > 0
+        ? a.food / Math.max(1, Math.ceil(a.soldiers * BAL.fieldFoodPerSoldierDaily))
+        : 0;
+    return {
+      id: a.id,
+      clanId: a.clanId,
+      soldiers: a.soldiers,
+      status: a.status,
+      morale: a.morale,
+      foodDays,
+      mission: a.mission,
+      fromNode: a.posNodeId,
+      toNode,
+      edgeT,
+      corps: a.corpsId !== null,
+    };
+  });
+
+  // 5. sieges[]（擴充，pos = castle.pos；D6）。
+  const sieges: MapSiegeViewModel[] = (Object.keys(state.sieges).sort() as SiegeId[]).flatMap(
+    (id) => {
+      const s = state.sieges[id] as Siege;
+      const castle = state.castles[s.castleId];
+      return castle === undefined ? [] : [{ id: s.id, pos: castle.pos, mode: s.mode }];
+    },
+  );
+
+  // 6. battles[]（canonical；FieldCombat + Siege 位置與種類，依 id 字典序；D5）。
+  const battles: MapBattleViewModel[] = [
+    ...Object.keys(state.fieldCombats)
+      .sort()
+      .map((id) => ({
+        nodeOrEdgeId: (state.fieldCombats[id] as FieldCombat).nodeId,
+        kind: 'field' as const,
+      })),
+    ...Object.keys(state.sieges)
+      .sort()
+      .map((id) => ({
+        nodeOrEdgeId: (state.sieges[id as SiegeId] as Siege).castleId,
+        kind: 'siege' as const,
+      })),
+  ];
+
+  return {
+    day: state.time.day,
+    districtOwner,
+    castles,
+    armies,
+    sieges,
+    battles,
+    analysisMode: 'none',
+  };
 }

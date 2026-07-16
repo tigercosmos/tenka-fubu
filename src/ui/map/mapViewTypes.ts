@@ -9,10 +9,13 @@
 //   （待 M2-15 `camera.ts` 落地鏡頭後才有意義）與 `pathPreviewHover`（`orderMarch` 模式路徑預覽，
 //   歸 M4-14「04-T12 剩餘」）仍延後。裁定依據見 04 §8.1 之 M2-13 記錄與本檔本輪備忘。
 // - 靜態／動態視圖資料（`MapStaticData`／`MapViewState`）：plan/04-map-and-movement.md §4.6
-//   （core → view 的 plain data selector 輸出；本檔取 M2-13 骨架實際消費之欄位子集）。
-//   §4.6 明訂此二型別最終由 `src/core/state/selectors.ts` 之 selector 產出；劇本批次資料
-//   （M2-9 東海／M2-10 近畿起）就緒後補上該 selector 並改為自 core 匯入，屆時回寫本檔與 04 §8.1。
-//   M2-17 另補 `castleTier`（見下）供命中測試半徑判定，同屬待該 selector 補齊之欄位。
+//   （core → view 的 plain data selector 輸出）。M6-V4 技術設計 §3.1：一次到位對齊 04 §4.6
+//   canonical 全量——`MapCastleView`／`MapArmyView`／`MapSiegeView`／`MapBattleView` 直接複用
+//   `src/core/state/selectors.ts` 匯出之 core view-model 型別（`MapCastleViewModel` 等），只在此
+//   UI 邊界另補 `selected`（army）／`selection`（僅 UI 邊界 `composeMapViewState` 組裝，core
+//   selector 不吃 UI selection 型別，見設計 §2.4 決策 D7）。新欄位（`battles`／`terrain`／
+//   `analysisMode`／`selection`／`armies[].selected` 等）本階段（V4）一律「攜帶不消費」——繪製輸出
+//   不變（硬約束①），消費留給後續里程碑（V5/V7/V8/V9/V10，見各欄位註解）。
 //
 // 本檔為純型別（`export type`／`interface`），無執行期相依。
 
@@ -20,6 +23,12 @@ import type { Container, Graphics } from 'pixi.js';
 import type { MapGraph } from '@core/state/mapGraph';
 import type { MapNodeId } from '@core/state/ids';
 import type { CastleTier } from '@core/state/enums';
+import type {
+  MapArmyViewModel,
+  MapBattleViewModel,
+  MapCastleViewModel,
+  MapSiegeViewModel,
+} from '@core/state/selectors';
 import type { JapanOutlineFile } from '@data/schemas/outline';
 import type { DebugOverlayFlags } from '@app/store';
 import type { PathResult } from '@core/index';
@@ -64,14 +73,34 @@ export interface MapPathPreview {
   hostileNodeIds: readonly MapNodeId[];
 }
 
+// ── view-model 型別（複用 core `selectors.ts` 匯出；04 §4.6，M6-V4 §3.1） ──────────────
+
+/** 城/郡結構化 view（= core `MapCastleViewModel`；`terrainKind`/`siegeMode`/`warning` V4 攜帶不消費）。 */
+export type MapCastleView = MapCastleViewModel;
+
+/** 圍城 view（擴充，驅動現有 `SiegeMarker` 視覺；D5 與 canonical `battles[]` 並存）。 */
+export type MapSiegeView = MapSiegeViewModel;
+
+/** 戰鬥 view（canonical 04 §4.6；V4 攜帶不消費，battle badge 留 V8/V10）。 */
+export type MapBattleView = MapBattleViewModel;
+
 /**
- * 靜態地圖資料（init 後經 `setMapData` 傳入一次；整局不變）。04 §4.6 `MapStaticData` 的 M2-13 子集。
+ * 部隊 view（= core `MapArmyViewModel` ＋ UI 邊界補 `selected`）。`fromNode`/`toNode`/`edgeT` 為
+ * renderer 端內插參數（決策 D6，見 `dirty.ts` 之 `armyWorldPos`），非世界座標；`selected` 由
+ * `composeMapViewState`（Slice C）依目前 `selection` 組裝，V4 無渲染消費者（存不畫，選取環留 V9）。
+ */
+export type MapArmyView = MapArmyViewModel & { selected: boolean };
+
+/**
+ * 靜態地圖資料（init 後經 `setMapData` 傳入一次；整局不變）。04 §4.6 `MapStaticData` 全量對齊
+ * （M6-V4 §3.1）。
  *
  * `outline` 於本階段由渲染器直接靜態 import `@data/map/japan-outline.json`（見 mapDraw.loadOutline），
- * 此處保留為可選覆蓋（測試以 fixture 傳入）；`clanColorIndex` 供 nodeMarkers 依 owner 取勢力色
- * （Clan.colorIndex，值域 0..39，公式見 tokens.clanColorNum）。
+ * 此處保留為可選覆蓋（測試以 fixture 傳入）；`clanColorIndex` 供 nodeMarkers／armyChip 依
+ * owner/clanId 取勢力色（Clan.colorIndex，值域 0..39，公式見 tokens.clanColorNum）。
  */
 export interface MapStaticData {
+  /** `edges` 現含 `name`/`waypoints`（D1，transient `MapRoadEdge`）；本階段 `drawRoads` 仍不消費（V6）。 */
   graph: MapGraph;
   /** clanId → Clan.colorIndex（0..39）；無主節點以 MAPVIEW.colors.neutral 呈現（02／tokens §5.1）。 */
   clanColorIndex: Readonly<Record<string, number>>;
@@ -80,46 +109,46 @@ export interface MapStaticData {
   /**
    * 可選：城 id → 城格（`'main'` 本城／`'branch'` 支城），供命中測試半徑判定
    * （`MAPVIEW.hitRadius.castleMain`/`castleBranch`，04 §3.12.1／M2-17）。未列出的城視為支城
-   * （較小半徑，保守）。`Castle.tier`（02 §4.5）直接可用；待 §4.6 selector 補齊後由該處產出。
+   * （較小半徑，保守）。與 `castles[].tier`（渲染，V4 攜帶不消費）並存（設計 §10 回寫記錄）。
    */
   castleTier?: Readonly<Record<string, CastleTier>>;
-  /** Optional node display names used by individually culled label objects. */
-  nodeLabels?: Readonly<Record<string, string>>;
-  /** Province names have canonical far-LOD anchor positions. */
-  provinceLabels?: readonly { id: string; text: string; pos: { x: number; y: number } }[];
+  /** nodeId/clanId(+provinceId 擴充)→顯示名（04 §4.6；取代舊 `nodeLabels`）。城/郡/勢力/省名皆含。 */
+  names?: Readonly<Record<string, string>>;
+  /** provinceId→省名標籤世界座標（04 §4.6；取代舊 `provinceLabels`）；文字來源見 `names`。 */
+  provinceLabelPos?: Readonly<Record<string, { x: number; y: number }>>;
+  /**
+   * V5 terrain pack（地形浮雕／森林／河流／湖泊資產）；V4 攜帶不消費，保持 optional，
+   * V5 填值後改必填（04 §8 記錄）。
+   */
+  terrain?: {
+    reliefAssetId: string;
+    forestAssetId: string;
+    rivers: ReadonlyArray<{
+      id: string;
+      points: ReadonlyArray<{ x: number; y: number }>;
+      widthClass: 1 | 2 | 3;
+    }>;
+    lakes: ReadonlyArray<{ id: string; polygon: ReadonlyArray<{ x: number; y: number }> }>;
+  };
 }
 
 /**
  * 每 tick 更新的動態視圖（不含任何函式／類別，可直接結構比對 diff）。04 §4.6 `MapViewState`
- * 的 M2-13 子集：本階段僅消費 `districtOwner`／`castleOwner`（nodeMarkers 勢力色）與 `selection`。
- * `armies`／`battles` 等於 armies／effects 層（M5）落地時補齊。
+ * 全量對齊（M6-V4 §3.1）。`day` 僅供顯示/測試斷言——**任何 dirty 判定一律不看 `day`**（見
+ * `dirty.ts`／`MapRenderer.applyOwnerDirty`）。`selection`／`armies[].selected`／`battles`／
+ * `analysisMode` 為 V4「攜帶不消費」欄位（選取環/戰鬥標記/勢力圖模式留待後續里程碑）。
  */
 export interface MapViewState {
-  day: number; // 遊戲日序號（diff 用）
+  day: number;
   playerClanId?: string;
   districtOwner: Readonly<Record<string, string | null>>; // districtId → clanId（null=無主）
-  castleOwner: Readonly<Record<string, string>>; // castleId → clanId
-  selection: { kind: 'node' | 'army'; id: string } | null;
-  /** M4 dynamic scene objects. Optional keeps the M2 core selector structurally compatible. */
-  armies?: readonly MapArmyView[];
-  sieges?: readonly MapSiegeView[];
-}
-
-export interface MapArmyView {
-  id: string;
-  /** Exact shared-node key; moving armies use their own id so they do not collapse mid-edge. */
-  stackKey: string;
-  pos: { x: number; y: number };
-  colorIndex: number;
-  soldiers: number;
-  morale: number;
-  corps: boolean;
-}
-
-export interface MapSiegeView {
-  id: string;
-  pos: { x: number; y: number };
-  mode: 'encircle' | 'assault';
+  castles: readonly MapCastleView[]; // 取代舊 castleOwner（D2 一次到位）
+  armies: readonly MapArmyView[];
+  sieges?: readonly MapSiegeView[]; // 擴充：驅動現有 SiegeMarker
+  battles: readonly MapBattleView[]; // canonical（V4 攜帶不消費）
+  selection: { kind: 'node' | 'army'; id: string } | null; // V4 攜帶不消費（存不畫）
+  analysisMode:
+    'none' | 'faction' | 'supply' | 'roadCapacity' | 'terrainAdvantage' | 'castleDefense';
 }
 
 /**
