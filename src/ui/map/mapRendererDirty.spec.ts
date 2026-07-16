@@ -17,20 +17,39 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const hoisted = vi.hoisted(() => {
   const apps: { destroyed: boolean }[] = [];
-  return { apps };
+  // M6-V5（§8.2）：territory 自持 BufferImageSource/Texture 生命週期追蹤（首幀著色／owner 翻轉
+  // recolor 之 source.update 次數、重掛對稱 destroy）。
+  const bufferSources: { updateCalls: number; destroyed: boolean }[] = [];
+  const textures: { destroyed: boolean }[] = [];
+  return { apps, bufferSources, textures };
 });
 
 vi.mock('pixi.js', async () => {
   const { createPixiMockClasses } = await import('../../../tests/helpers/pixiMock');
-  return createPixiMockClasses(hoisted.apps);
+  return createPixiMockClasses(hoisted.apps, {
+    bufferSources: hoisted.bufferSources,
+    textures: hoisted.textures,
+  });
 });
 
 import type { Graphics } from 'pixi.js';
 import { buildMapGraph } from '@core/state/mapGraph';
 import type { CastleId, DistrictId, RoadEdgeId } from '@core/state/ids';
 import type { RoadEdge } from '@core/state/gameState';
+import type { JapanOutlineFile } from '@data/schemas/outline';
 import { MapRenderer } from './MapRenderer';
 import type { MapStaticData, MapViewState } from './mapViewTypes';
+
+/**
+ * 環繞 fixture 節點（100–300 世界座標）之小型合成 outline（M6-V5，Minor 6／§5.5）：使
+ * `buildTerritoryLayer` 的 `buildTerritoryGrid` 掃描線只掃小陸地範圍、hermetic 且快，不啟用完整
+ * 470 點 japan outline fallback。（`source:'handcrafted'` 僅為滿足型別；本檔不經 zod 驗證。）
+ */
+const TEST_OUTLINE: JapanOutlineFile = {
+  version: 1,
+  source: 'handcrafted',
+  polygons: [{ id: 'box', points: [50, 50, 350, 50, 350, 350, 50, 350] }],
+};
 
 /** castle.a(100,100) — dist.x(200,100) — castle.b(300,100)：單一連通鏈，供 buildMapGraph 驗證。 */
 function fixtureGraph(): ReturnType<typeof buildMapGraph> {
@@ -65,8 +84,40 @@ function staticData(overrides: Partial<MapStaticData> = {}): MapStaticData {
   return {
     graph: fixtureGraph(),
     clanColorIndex: { 'clan.oda': 0, 'clan.imagawa': 1 },
+    outline: TEST_OUTLINE, // M6-V5：hermetic 小型 outline（territory grid 快建，Minor 6）
     ...overrides,
   };
+}
+
+/** M6-V5：帶 terrain pack（relief/forest asset id＋一河一湖）的 staticData——正向存在斷言用。 */
+function staticDataWithTerrain(overrides: Partial<MapStaticData> = {}): MapStaticData {
+  return staticData({
+    terrain: {
+      reliefAssetId: 'texture.terrain.relief@1x',
+      forestAssetId: 'texture.terrain.forest@1x',
+      rivers: [
+        {
+          id: 'rv.test',
+          points: [
+            { x: 100, y: 100 },
+            { x: 150, y: 150 },
+          ],
+          widthClass: 3,
+        },
+      ],
+      lakes: [
+        {
+          id: 'lk.test',
+          polygon: [
+            { x: 200, y: 200 },
+            { x: 250, y: 200 },
+            { x: 225, y: 250 },
+          ],
+        },
+      ],
+    },
+    ...overrides,
+  });
 }
 
 function baseView(overrides: Partial<MapViewState> = {}): MapViewState {
@@ -111,6 +162,8 @@ async function makeRenderer(): Promise<MapRenderer> {
 
 beforeEach(() => {
   hoisted.apps.length = 0;
+  hoisted.bufferSources.length = 0;
+  hoisted.textures.length = 0;
 });
 
 describe('MapRenderer dirty-update（M6-V4 §7 DoD①：無變更 tick 不重建）', () => {
@@ -292,5 +345,182 @@ describe('MapRenderer.panTo（決策 D10；MiniMap onNavigate 用）', () => {
 
     r1.destroy();
     r2.destroy();
+  });
+});
+
+describe('territory sprite dirty（M6-V5 §8.2；VD4 首幀著色＋owner 翻轉）', () => {
+  /** territory 為最後建立之 BufferImageSource（每次 buildTerritoryLayer 建新 source）。 */
+  const currentSource = (): { updateCalls: number; destroyed: boolean } => {
+    const src = hoisted.bufferSources.at(-1);
+    if (src === undefined) throw new Error('尚無 territory BufferImageSource');
+    return src;
+  };
+
+  it('setMapData＋首 updateView：territory 有 1 sprite child、首幀著色已呼叫 source.update', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(baseView({ day: 1 }));
+
+    expect(r.getLayers()!.territory.children.length).toBe(1); // territory Sprite 掛上
+    expect(currentSource().updateCalls).toBeGreaterThanOrEqual(1); // 首幀著色（build 當下）+ 首 updateView
+    // 首幀著色不動 rebuildCounts（territory 計數僅由 applyOwnerDirty dirty 訊號驅動）。
+    expect(r.getRebuildCounts().territory).toBe(1);
+
+    r.destroy();
+  });
+
+  it('翻轉一郡 owner：territory 計數 +1、source.update 再 +1（recolor 每幀至多一次）', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(baseView());
+    const baseline = r.getRebuildCounts();
+    const src = currentSource();
+    const updatesBefore = src.updateCalls;
+
+    r.updateView(baseView({ districtOwner: { 'dist.x': 'clan.imagawa' } }));
+
+    expect(r.getRebuildCounts().territory).toBe(baseline.territory + 1);
+    expect(src.updateCalls).toBe(updatesBefore + 1);
+
+    r.destroy();
+  });
+
+  it('僅 day 變：territory 計數不增、source.update 不再呼叫（連續 30 日零增量）', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(baseView({ day: 1 }));
+    const baseline = r.getRebuildCounts();
+    const src = currentSource();
+    const updatesBefore = src.updateCalls;
+
+    for (let i = 0; i < 30; i += 1) r.updateView(baseView({ day: 2 + i }));
+
+    expect(r.getRebuildCounts().territory).toBe(baseline.territory);
+    expect(src.updateCalls).toBe(updatesBefore);
+
+    r.destroy();
+  });
+
+  it('無 terrain pack：territory 仍建（sprite 存在）、waterFeatures／terrainBase 空、不崩', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData()); // 無 terrain
+    r.updateView(baseView());
+
+    const layers = r.getLayers()!;
+    expect(layers.territory.children.length).toBe(1); // territory 與 terrain pack 無關
+    expect(layers.waterFeatures.children.length).toBe(0); // 無 river/lake → 無 container
+    expect(layers.terrainBase.children.length).toBe(0); // 無 terrain → relief/forest 不載入
+
+    r.destroy();
+  });
+});
+
+describe('地形/水系正向存在（M6-V5 §8.2，M2 處置）——堵靜默退回平面圖漏洞', () => {
+  it('帶 terrain pack：terrainBase 掛 relief＋forest 2 child、waterFeatures container 非空（4 Graphics）', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticDataWithTerrain());
+    r.updateView(baseView());
+    // loadTerrainTextures 之 mock Assets.load 同步 resolve；等一個 macrotask 讓 async IIFE attach sprite。
+    await new Promise((res) => setTimeout(res, 0));
+
+    const layers = r.getLayers()!;
+    expect(layers.terrainBase.children.length).toBe(2); // relief + forest 皆掛上
+    expect(layers.waterFeatures.children.length).toBe(1); // waterFeatures container
+    expect(layers.waterFeatures.children[0]!.children.length).toBe(4); // lake + river×3 class Graphics
+
+    r.destroy();
+  });
+
+  it('app 序回歸（Blocker 1）：setMapData→updateView→await init，init 後 territory 有 sprite＋首幀著色已跑', async () => {
+    const r = new MapRenderer();
+    // 實機 effect 序：init(async 未 resolve)→setMapData(initialized===false)→updateView(early-return)。
+    r.setMapData(staticData()); // 僅存 staticData
+    r.updateView(baseView()); // 僅存 view（early-return）
+    await r.init(document.createElement('div'), vi.fn()); // init 內 reconstructTerrainLayers 建 territory
+
+    const layers = r.getLayers()!;
+    expect(layers.territory.children.length).toBe(1); // Blocker 1：init 亦建 territory（非只 setMapData 分支）
+    expect(hoisted.bufferSources.at(-1)!.updateCalls).toBeGreaterThanOrEqual(1); // Blocker 2：首幀著色已跑
+
+    r.destroy();
+  });
+});
+
+describe('地形載入失敗與 teardown（M6-V5 §5.1 VD6 優雅退回／§8.2 對稱 destroy）', () => {
+  /** reliefAssetId 於 manifest 查無 → loader.acquire reject → loadTerrainTextures catch 退回平面。 */
+  function terrainWithBadRelief(): MapStaticData {
+    return staticDataWithTerrain({
+      terrain: {
+        reliefAssetId: 'texture.terrain.relief.__missing__', // manifest 查無 → acquire reject
+        forestAssetId: 'texture.terrain.forest@1x',
+        rivers: [
+          {
+            id: 'rv.test',
+            points: [
+              { x: 100, y: 100 },
+              { x: 150, y: 150 },
+            ],
+            widthClass: 3,
+          },
+        ],
+        lakes: [],
+      },
+    });
+  }
+
+  it('relief acquire reject：優雅退回平面（terrainBase 空）、不丟例外、idle gate 於 finally 重置', async () => {
+    const r = await makeRenderer();
+    r.setMapData(terrainWithBadRelief());
+    r.updateView(baseView());
+    // 等一個 macrotask 讓 loadTerrainTextures 之 async IIFE 走完 reject→catch→finally。
+    await new Promise((res) => setTimeout(res, 0));
+
+    const layers = r.getLayers()!;
+    // (b) 退回平面：relief/forest 皆未掛（seaBackground fallback 生效）；renderer 仍可用。
+    expect(layers.terrainBase.children.length).toBe(0);
+    expect(layers.territory.children.length).toBe(1); // territory 與 terrain 無關，照常建
+
+    // (c) idle gate 已於 finally 重置（terrainTexturesPending=false）：註冊 waiter＋推進一幀應 resolve；
+    //     若失敗路徑漏掉 finally，advanceIdleWaiters 會永久 early-return，waiter 永不 resolve（e2e 懸掛）。
+    let resolved = false;
+    const p = r.waitForIdleFrames(1).then(() => {
+      resolved = true;
+    });
+    (r.getApp()!.ticker as unknown as { tick: () => void }).tick();
+    await p;
+    expect(resolved).toBe(true);
+
+    r.destroy();
+  });
+
+  it('setMapData(null) teardown：territory/waterFeatures/terrainBase 清空、自持 source/texture 對稱 destroy、不丟例外', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticDataWithTerrain());
+    r.updateView(baseView());
+    await new Promise((res) => setTimeout(res, 0)); // relief/forest attach
+
+    const layers = r.getLayers()!;
+    expect(layers.terrainBase.children.length).toBe(2); // 前置：relief+forest 已掛
+    expect(layers.waterFeatures.children.length).toBe(1);
+    expect(layers.territory.children.length).toBe(1);
+
+    const territorySource = hoisted.bufferSources.at(-1)!; // territory 自持 BufferImageSource（唯一）
+    expect(territorySource.destroyed).toBe(false);
+    const destroyedTexturesBefore = hoisted.textures.filter((t) => t.destroyed).length;
+
+    // data===null → reconstructTerrainLayers 內部見 null 即清空並 destroy 自持資源。
+    expect(() => r.setMapData(null)).not.toThrow();
+    await new Promise((res) => setTimeout(res, 0));
+
+    expect(layers.territory.children.length).toBe(0);
+    expect(layers.waterFeatures.children.length).toBe(0);
+    expect(layers.terrainBase.children.length).toBe(0);
+    // 自持 territory BufferImageSource＋Texture 對稱 destroy（relief/forest 共享 texture 不隨之 destroy）。
+    expect(territorySource.destroyed).toBe(true);
+    expect(hoisted.textures.filter((t) => t.destroyed).length).toBeGreaterThan(
+      destroyedTexturesBefore,
+    );
+
+    r.destroy();
   });
 });

@@ -14,7 +14,11 @@ import { act, render } from '@testing-library/react';
 
 const hoisted = vi.hoisted(() => {
   const apps: { destroyed: boolean }[] = [];
-  return { apps };
+  // M6-V5（§5.6／B1）：territory 自持 BufferImageSource/Texture 生命週期追蹤，供 StrictMode 重掛
+  // 對稱 destroy（無洩漏）斷言，與既有 Application 對稱 destroy 並列（本檔即 01-A10 洩漏守門檔）。
+  const bufferSources: { updateCalls: number; destroyed: boolean }[] = [];
+  const textures: { destroyed: boolean }[] = [];
+  return { apps, bufferSources, textures };
 });
 
 vi.mock('pixi.js', () => {
@@ -111,6 +115,62 @@ vi.mock('pixi.js', () => {
       public height: number,
     ) {}
   }
+  // M6-V5（§5.6／B1）：territory build 路徑（BufferImageSource/Texture/Sprite）與 relief/forest
+  // 之 Assets 於整合後由 init/setMapData 觸發；此 inline mock 補上四類 stub 使其不 throw。
+  class Sprite extends Container {
+    texture: unknown;
+    alpha = 1;
+    width = 0;
+    height = 0;
+    constructor(texture?: unknown) {
+      super();
+      this.texture = texture ?? null;
+    }
+    setSize(w: number, h: number = w): void {
+      this.width = w;
+      this.height = h;
+    }
+    // 呼叫端傳入之 options（如 `{ texture: false }`）於 mock 忽略；JS 允許多傳實參。
+    override destroy(): void {}
+  }
+  class BufferImageSource {
+    scaleMode = 'linear';
+    updateCalls = 0;
+    destroyed = false;
+    constructor() {
+      hoisted.bufferSources.push(this);
+    }
+    update(): void {
+      this.updateCalls += 1;
+    }
+    destroy(): void {
+      this.destroyed = true;
+    }
+  }
+  class Texture {
+    source: { scaleMode: string };
+    destroyed = false;
+    constructor(options?: { source?: unknown }) {
+      this.source = (options?.source as { scaleMode: string }) ?? { scaleMode: 'linear' };
+      hoisted.textures.push(this);
+    }
+    // 呼叫端 `destroy(true)` 之布林實參於 mock 忽略。
+    destroy(): void {
+      this.destroyed = true;
+    }
+  }
+  const Assets = {
+    add(): void {},
+    load(): Promise<unknown> {
+      return Promise.resolve(new Texture());
+    },
+    get(): unknown {
+      return new Texture();
+    },
+    unload(): Promise<void> {
+      return Promise.resolve();
+    },
+  };
   class Application {
     canvas: HTMLCanvasElement = document.createElement('canvas');
     stage = new Container();
@@ -150,7 +210,17 @@ vi.mock('pixi.js', () => {
       this.record.destroyed = true;
     }
   }
-  return { Application, Container, Graphics, BitmapText, Rectangle };
+  return {
+    Application,
+    Container,
+    Graphics,
+    BitmapText,
+    Rectangle,
+    Sprite,
+    Texture,
+    BufferImageSource,
+    Assets,
+  };
 });
 
 // mock 生效後才 import 受測模組（vitest 會 hoist vi.mock 到 import 之上，但顯式順序更清楚）。
@@ -183,6 +253,8 @@ const alive = (): number => hoisted.apps.filter((a) => !a.destroyed).length;
 
 beforeEach(() => {
   hoisted.apps.length = 0;
+  hoisted.bufferSources.length = 0;
+  hoisted.textures.length = 0;
   resetDebugMapRendererForTests();
 });
 
@@ -214,6 +286,27 @@ describe('MapCanvasHost 生命週期（01-A10）', () => {
     await flush();
     expect(destroyed()).toBe(created()); // 2 = 2，無 WebGL context 洩漏
     expect(alive()).toBe(0);
+  });
+
+  it('StrictMode＋territory：每個建立的 territory BufferImageSource/Texture 皆對稱 destroy（M6-V5 §5.6/B1）', async () => {
+    // 帶 graph 的 staticData → init 後 buildTerritoryLayer 建 territory source/texture/sprite。
+    const staticData = { graph: soloGraph(), clanColorIndex: {} };
+    const { unmount } = render(
+      <StrictMode>
+        <MapCanvasHost onMapEvent={vi.fn()} staticData={staticData} />
+      </StrictMode>,
+    );
+    await flush();
+    // 存活的渲染器已建 territory（source/texture 至少各一）。
+    expect(hoisted.bufferSources.length).toBeGreaterThan(0);
+    expect(hoisted.textures.length).toBeGreaterThan(0);
+
+    unmount();
+    await flush();
+    // 卸載後：每個 territory BufferImageSource 與（自持）Texture 皆已 destroy——無 texture/source 洩漏。
+    expect(hoisted.bufferSources.every((s) => s.destroyed)).toBe(true);
+    expect(hoisted.textures.every((t) => t.destroyed)).toBe(true);
+    expect(alive()).toBe(0); // Application 亦全數銷毀
   });
 });
 

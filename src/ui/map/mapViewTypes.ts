@@ -155,39 +155,60 @@ export interface MapViewState {
  * 場景圖固定圖層容器（04 §3.10.1 由下而上層序，各為一個 `Container`）。
  * 全部掛在 `world`（鏡頭變換根）之下，供平行 agent（M2-14 territory／M2-16 nodeMarkers・
  * selectionAndPath／M5 armies・effects／labels）以 `renderer.getLayers()` 取得後掛入自己的
- * display object。本階段（M2-13）僅 `seaBackground`／`roads` 有實繪內容，其餘為空容器。
+ * display object。
+ *
+ * M6-V5（VD2）：一次補齊 04 §3.10.1 全 13 層——新增 `terrainBase`(1)／`waterFeatures`(2)／
+ * `analysisOverlay`(4)／`settlements`(6)／`debug`(12)。`terrainBase`（relief／forest 烘焙紋理
+ * Sprite）與 `waterFeatures`（河川／湖泊向量）本階段有實繪內容；`territory`(3) 亦於本階段掛
+ * `TerritoryGrid` Sprite；`analysisOverlay`（V10 勢力圖）／`settlements`（V7 聚落）／`debug`
+ * （DEV overlay）為空容器占位，避免 V6–V10 反覆改層序。
  */
 export interface MapLayers {
-  /** 鏡頭變換根：8 圖層之父容器；scale/position 由 camera.ts（M2-15，04-T10）驅動。 */
+  /** 鏡頭變換根：13 圖層之父容器；scale/position 由 camera.ts（M2-15，04-T10）驅動。 */
   readonly world: Container;
-  /** 0 海陸背景：海色矩形＋japan-outline 陸地多邊形（靜態一次建立）。 */
+  /** 0 海陸背景：海色矩形＋japan-outline 陸地多邊形（靜態一次建立；relief 未載入時之 fallback 底）。 */
   readonly seaBackground: Container;
-  /** 1 勢力色郡域紋理（M2-14，04-T9）。 */
+  /** 1 地形浮雕：relief／forest 烘焙紋理 Sprite（M6-V5，04-T15）。 */
+  readonly terrainBase: Container;
+  /** 2 水系：河川（widthClass 線寬＋taper）／湖泊向量（M6-V5，04-T15）。 */
+  readonly waterFeatures: Container;
+  /** 3 勢力色郡域紋理（M2-14／M6-V5，04-T9／T15；柵格化 Voronoi Sprite）。 */
   readonly territory: Container;
-  /** 2 街道線（依 grade 線寬、海路虛線）。 */
+  /** 4 分析 overlay：勢力圖／補給／道路容量等（V10 空容器占位）。 */
+  readonly analysisOverlay: Container;
+  /** 5 街道線（依 grade 線寬、海路虛線）。 */
   readonly roads: Container;
-  /** 3 城／郡標記（M2-16 sceneParts 取代骨架占位）。 */
+  /** 6 聚落標記（V7 空容器占位）。 */
+  readonly settlements: Container;
+  /** 7 城／郡標記（M2-16 sceneParts 取代骨架占位）。 */
   readonly nodeMarkers: Container;
-  /** 4 部隊 sprite（M5）。 */
+  /** 8 部隊 sprite（M5）。 */
   readonly armies: Container;
-  /** 5 選取高亮環／行軍路徑預覽（M2-16 SelectionRing／M4-14 orderMarch 路徑預覽）。 */
+  /** 9 選取高亮環／行軍路徑預覽（M2-16 SelectionRing／M4-14 orderMarch 路徑預覽）。 */
   readonly selectionAndPath: Container;
-  /** 6 特效：威風環／交鋒 icon（M5）。 */
+  /** 10 特效：威風環／交鋒 icon（M5）。 */
   readonly effects: Container;
-  /** 7 文字標籤（BitmapText；城名／郡名／國名／勢力名）。 */
+  /** 11 文字標籤（BitmapText；城名／郡名／國名／勢力名）。 */
   readonly labels: Container;
+  /** 12 除錯 overlay（DEV 空容器占位；AI 意圖／尋路除錯繪製屬後續里程碑）。 */
+  readonly debug: Container;
 }
 
-/** `MapLayers` 的圖層 key（不含 `world` 根）——依 04 §3.10.1 由下而上層序。 */
+/** `MapLayers` 的圖層 key（不含 `world` 根）——依 04 §3.10.1 由下而上層序（M6-V5：13 層）。 */
 export const LAYER_ORDER = [
   'seaBackground',
+  'terrainBase',
+  'waterFeatures',
   'territory',
+  'analysisOverlay',
   'roads',
+  'settlements',
   'nodeMarkers',
   'armies',
   'selectionAndPath',
   'effects',
   'labels',
+  'debug',
 ] as const satisfies ReadonlyArray<Exclude<keyof MapLayers, 'world'>>;
 
 /**

@@ -24,10 +24,18 @@
 //   init 尚未 resolve 前先跑）；若已 destroy 則立即銷毀剛建立的 Application 並返回，不掛入 DOM。
 // - `destroy` 冪等：可在 init 前／中／後、重複呼叫皆安全（全程 null-guard）。
 
-import { Application, BitmapText, Container, Graphics } from 'pixi.js';
+import {
+  Application,
+  BitmapText,
+  BufferImageSource,
+  Container,
+  Graphics,
+  Sprite,
+  Texture,
+} from 'pixi.js';
 import type { FederatedPointerEvent } from 'pixi.js';
 import { BAL } from '@core/balance';
-import { MAPVIEW, WORLD_SIZE } from './mapViewConfig';
+import { FOREST_ALPHA, MAPVIEW, WORLD_SIZE } from './mapViewConfig';
 import { drawNodeMarker, drawRoads, drawSeaBackground, loadOutline } from './mapDraw';
 import { armyStackKey, armyWorldPos, buildOwnerByNode, diffOwnerByNode } from './dirty';
 import { LAYER_ORDER } from './mapViewTypes';
@@ -36,7 +44,10 @@ import { Camera } from './camera';
 import { createPathPreview } from './sceneParts/pathPreview';
 import { createArmyChip, layoutArmyStacks } from './sceneParts/armyChip';
 import { createSiegeMarker } from './sceneParts/siegeMarker';
-import { lodModeForScale, shouldShowDetailLabels, SpatialCullIndex } from './lod';
+import { lodStageForScale, lodStageWithHysteresis, SpatialCullIndex, type LodStage } from './lod';
+import { buildTerritoryGrid, recolorTerritory, type TerritoryGrid } from './territoryGrid';
+import { createTerrainSprite, createWaterFeatures } from './terrain/terrainDraw';
+import { MapAssetLoader } from '@ui/assets/loader';
 import type {
   DebugOverlayFlags,
   MapEventHandler,
@@ -91,6 +102,25 @@ export class MapRenderer {
 
   private seaGfx: Graphics | null = null;
   private roadsGfx: Graphics | null = null;
+  /**
+   * 地形／水系／領地（M6-V5）：relief／forest 為共享烘焙紋理 Sprite（texture 由 `terrainLoader`
+   * refcount 管理，destroy 時只 detach＋`destroy({texture:false})`，不隨 `app.destroy` 銷毀共享
+   * texture）；`waterFeatures` 為河湖向量；territory 為自持 `BufferImageSource`＋`Texture`（destroy
+   * 時顯式銷毀）。`territoryDirty` 為 owner 翻轉後之次幀 recolor 訊號；`lodStage` 為當前三級 LOD 段
+   * （hysteresis 狀態）；`terrainTexturesPending` 於 relief/forest 尚未 attach 前 gate 住 idle 推進
+   * （截圖決定論，VD3／§5.1）。
+   */
+  private reliefSprite: Sprite | null = null;
+  private forestSprite: Sprite | null = null;
+  private waterFeatures: ReturnType<typeof createWaterFeatures> | null = null;
+  private territoryGrid: TerritoryGrid | null = null;
+  private territorySprite: Sprite | null = null;
+  private territoryTexture: Texture | null = null;
+  private territorySource: BufferImageSource | null = null;
+  private territoryDirty = false;
+  private lodStage: LodStage = 'far';
+  private terrainLoader: MapAssetLoader | null = null;
+  private terrainTexturesPending = false;
   private pathPreview: ReturnType<typeof createPathPreview> | null = null;
   private marchPathPreview: MapPathPreview | null = null;
   private readonly nodeParts = new Map<
@@ -225,6 +255,8 @@ export class MapRenderer {
 
   /** 每幀推進 `waitForIdleFrames` 待決佇列（M6-V2）：frame 計數即可，見該方法註解。 */
   private advanceIdleWaiters(): void {
+    // M6-V5：relief/forest 尚未 attach 前不推進 idle，保證截圖含地形（決定論，§5.1）。
+    if (this.terrainTexturesPending) return;
     if (this.idleWaiters.length === 0) return;
     const remaining: typeof this.idleWaiters = [];
     for (const waiter of this.idleWaiters) {
@@ -297,10 +329,15 @@ export class MapRenderer {
     host.appendChild(app.canvas);
 
     this.layers = this.buildLayers(app);
+    this.terrainLoader = new MapAssetLoader(); // 建構本身不 load（relief/forest 於 loadTerrainTextures acquire）
     this.pathPreview = createPathPreview();
     this.layers.selectionAndPath.addChild(this.pathPreview.container);
     this.drawStaticBackground();
     this.buildStaticDataLayers();
+    // Blocker 1（§5.1）：地形/水系/領地必須在 init() 亦建構——實機 effect 序為 init(async)→
+    // setMapData(initialized===false)→updateView(early-return)，若只掛 setMapData-initialized 分支
+    // 則實機/fixture 永遠空地形。此時 this.view/this.staticData 已具 pre-init 值。
+    this.reconstructTerrainLayers();
     this.prevOwnerByNode = null; // 首繪保證（§11.1）：下一次 updateView 視全部 node 為 dirty
     this.redrawMilitaryObjects();
     this.redrawPathPreview();
@@ -318,7 +355,7 @@ export class MapRenderer {
     this.initialized = true;
   }
 
-  /** 建立鏡頭根 `world` 與 8 個圖層容器（04 §3.10.1 由下而上層序，以 LAYER_ORDER 保證順序）。 */
+  /** 建立鏡頭根 `world` 與 13 個圖層容器（04 §3.10.1 由下而上層序，以 LAYER_ORDER 保證順序）。 */
   private buildLayers(app: Application): MapLayers {
     const world = new Container();
     world.label = 'world';
@@ -333,13 +370,18 @@ export class MapRenderer {
     return {
       world,
       seaBackground: containers.seaBackground as Container,
+      terrainBase: containers.terrainBase as Container,
+      waterFeatures: containers.waterFeatures as Container,
       territory: containers.territory as Container,
+      analysisOverlay: containers.analysisOverlay as Container,
       roads: containers.roads as Container,
+      settlements: containers.settlements as Container,
       nodeMarkers: containers.nodeMarkers as Container,
       armies: containers.armies as Container,
       selectionAndPath: containers.selectionAndPath as Container,
       effects: containers.effects as Container,
       labels: containers.labels as Container,
+      debug: containers.debug as Container,
     };
   }
 
@@ -454,6 +496,118 @@ export class MapRenderer {
   }
 
   /**
+   * Blocker 1 修正（§5.1）：`init()` 與 `setMapData`(initialized) 共用之地形/水系/領地重建路徑。
+   * territory 與 terrain pack 無關（只需 graph＋outline＋clanColorIndex），故無 terrain 亦建。
+   */
+  private reconstructTerrainLayers(): void {
+    this.buildTerritoryLayer(); // grid＋sprite＋首幀著色（graph 存在即建）
+    this.buildWaterFeatures(); // data.terrain?.rivers/lakes → waterFeatures（無 terrain 則空）
+    this.loadTerrainTextures(); // async fire-and-forget，disposed 防護
+  }
+
+  /**
+   * territory 圖層（M6-V5，VD4）：`TerritoryGrid`（柵格化 Voronoi）接 `BufferImageSource`＋
+   * `Texture`＋`Sprite`（1024²→4096 世界，隱含 scale 4，`scaleMode:'linear'`）。**build 當下即以
+   * `this.view.districtOwner` 首幀著色**（比照 `buildStaticDataLayers` 為 node 上色的既有語意），
+   * 否則 fixture 之穩定 `viewState` 參考於 post-init 不再觸發 `updateView`，領地將永遠全透明
+   * （Blocker 2）。首幀著色**不動** `rebuildCounts`、**不設** `territoryDirty`。
+   */
+  private buildTerritoryLayer(): void {
+    // 清舊（含 detach 以免 app.destroy 或後續重建雙重銷毀）。
+    if (this.territorySprite) {
+      this.layers?.territory.removeChild(this.territorySprite);
+      this.territorySprite.destroy({ texture: false });
+    }
+    this.territoryTexture?.destroy(true);
+    this.territorySource?.destroy();
+    this.territorySprite = null;
+    this.territoryTexture = null;
+    this.territorySource = null;
+    this.territoryGrid = null;
+    const data = this.staticData;
+    if (this.layers === null || data === null) return;
+    const outline = data.outline ?? loadOutline();
+    this.territoryGrid = buildTerritoryGrid(data.graph, outline); // 同步 ~115ms（載入期一次性）
+    this.territorySource = new BufferImageSource({
+      resource: this.territoryGrid.imageData.data,
+      width: this.territoryGrid.size,
+      height: this.territoryGrid.size,
+      scaleMode: 'linear',
+      alphaMode: 'premultiply-alpha-on-upload',
+      label: 'territory',
+    });
+    this.territoryTexture = new Texture({ source: this.territorySource });
+    this.territorySprite = createTerrainSprite(this.territoryTexture); // setSize 4096、position 0,0
+    this.territorySprite.alpha = MAPVIEW.territoryAlpha;
+    this.layers.territory.addChild(this.territorySprite);
+    // Blocker 2 修正：build 當下即以 this.view 首幀著色（不設 territoryDirty、不動 rebuildCounts）。
+    recolorTerritory(this.territoryGrid, this.view.districtOwner, data.clanColorIndex);
+    this.territorySource.update();
+  }
+
+  /**
+   * waterFeatures 圖層（M6-V5）：河川（widthClass 線寬＋taper）／湖泊向量。無 terrain pack 則空
+   * （territory 與 terrain 無關，仍照常）。init 一次建立幾何，LOD 只切 `visible`（`setStage`）。
+   */
+  private buildWaterFeatures(): void {
+    if (this.waterFeatures) {
+      this.layers?.waterFeatures.removeChild(this.waterFeatures.container);
+      this.waterFeatures.destroy();
+      this.waterFeatures = null;
+    }
+    const t = this.staticData?.terrain;
+    if (this.layers === null || t === undefined) return;
+    this.waterFeatures = createWaterFeatures(t.rivers, t.lakes);
+    this.layers.waterFeatures.addChild(this.waterFeatures.container);
+    this.waterFeatures.setStage(this.lodStage);
+  }
+
+  /**
+   * relief／forest 烘焙紋理（M6-V5）：以自持 `terrainLoader` async acquire（fire-and-forget）。
+   * disposed 或 layers 已清時放棄 attach；acquire reject 時優雅退回（relief/forest 缺席，
+   * `seaBackground` fallback 底生效，VD5/VD6）。`terrainTexturesPending` 於期間 gate 住 idle 推進
+   * （截圖決定論，`advanceIdleWaiters`）。
+   */
+  private loadTerrainTextures(): void {
+    // 清舊 relief/forest（detach＋destroy，共享 texture 不隨之銷毀）。
+    for (const s of [this.reliefSprite, this.forestSprite]) {
+      if (s) {
+        s.parent?.removeChild(s);
+        s.destroy({ texture: false });
+      }
+    }
+    this.reliefSprite = null;
+    this.forestSprite = null;
+    const t = this.staticData?.terrain;
+    const loader = this.terrainLoader;
+    if (this.layers === null || t === undefined || loader === null) {
+      this.terrainTexturesPending = false;
+      return;
+    }
+    this.terrainTexturesPending = true;
+    void (async () => {
+      try {
+        const [relief, forest] = await Promise.all([
+          loader.acquire(t.reliefAssetId),
+          loader.acquire(t.forestAssetId),
+        ]);
+        if (this.disposed || this.layers === null) return;
+        relief.source.scaleMode = 'linear';
+        forest.source.scaleMode = 'linear';
+        this.reliefSprite = createTerrainSprite(relief);
+        this.forestSprite = createTerrainSprite(forest);
+        this.layers.terrainBase.addChild(this.reliefSprite);
+        this.layers.terrainBase.addChild(this.forestSprite);
+        this.applyLodAndCulling(); // 依 stage 設 forest alpha
+      } catch {
+        /* 優雅退回：relief/forest 缺席，seaBackground fallback 底生效（VD5/VD6）。 */
+      } finally {
+        this.terrainTexturesPending = false;
+      }
+    })();
+  }
+
+  /**
    * nodeMarkers owner dirty-update（M6-V4 §3.3.3）：只重畫 owner 相對前一次 view 真的變了的
    * node。`day`／`selection`／`analysisMode`／`battles`／`durability`/`siegeMode`/`warning`/
    * `terrainKind` 等其餘欄位變化一律不觸發（§3.3.5 dirty 判定條件表）。V4 `territory` 圖層容器仍空
@@ -462,7 +616,10 @@ export class MapRenderer {
   private applyOwnerDirty(view: MapViewState): void {
     const next = buildOwnerByNode(view);
     const dirty = diffOwnerByNode(this.prevOwnerByNode, next);
-    if (dirty.size > 0) this.rebuildCounts.territory += 1;
+    if (dirty.size > 0) {
+      this.rebuildCounts.territory += 1;
+      this.territoryDirty = true; // M6-V5：owner 翻轉 → 次幀 recolor（updateView 內至多一次）
+    }
     const data = this.staticData;
     if (data !== null) {
       for (const nodeId of dirty) {
@@ -522,7 +679,15 @@ export class MapRenderer {
     this.layers.world.position.set(t.x, t.y);
   }
 
-  /** Camera-driven LOD switches plus bucket culling for dynamic scene objects. */
+  /**
+   * Camera-driven LOD switches plus bucket culling for dynamic scene objects.
+   *
+   * M6-V5（VD3）：改用三級 LOD `lodStageWithHysteresis`（滾輪連續縮放防閃；截圖 preset 由
+   * `setCameraPose` 先以 `lodStageForScale` 清狀態，決定論）。既有 roads/nodeMarkers/labels 消費者
+   * 以 `nearish = stage !== 'far'`（等價舊 `lodModeForScale===near`，即 `scale>=0.5`）／
+   * `detail = stage === 'near'`（等價舊 `shouldShowDetailLabels`，即 `scale>=1.0`）**逐項等價**取代，
+   * 零行為變更；`mid`/`near` 細分只由地形/水系/領地新消費。
+   */
   private applyLodAndCulling(): void {
     if (this.app === null || this.layers === null || this.camera === null) return;
     const camera = this.camera.getState();
@@ -542,23 +707,41 @@ export class MapRenderer {
       part.container.visible = visibleArmies.has(id) && !this.collapsedArmyIds.has(id);
     }
     for (const [id, part] of this.siegeParts) part.container.visible = visibleSieges.has(id);
-    const near = lodModeForScale(camera.scale) === 'near';
+    const stage = lodStageWithHysteresis(camera.scale, this.lodStage);
+    this.lodStage = stage;
+    const nearish = stage !== 'far'; // 取代舊 near（scale>=lodFarScale）
+    const detail = stage === 'near'; // 取代舊 shouldShowDetailLabels（scale>=labelScale）
     for (const [id, part] of this.nodeParts) {
       const mainCastle = part.kind === 'castle' && this.staticData?.castleTier?.[id] === 'main';
-      part.graphics.visible = visibleNodes.has(id) && (near || part.kind === 'castle');
-      part.graphics.scale.set(!near && mainCastle ? 1.4 : 1);
+      part.graphics.visible = visibleNodes.has(id) && (nearish || part.kind === 'castle');
+      part.graphics.scale.set(!nearish && mainCastle ? 1.4 : 1);
     }
     for (const [id, part] of this.labelParts) {
       const mainCastle = part.kind === 'castle' && this.staticData?.castleTier?.[id] === 'main';
       const lodVisible =
         part.kind === 'province'
-          ? !near
-          : near &&
-            ((part.kind === 'castle' && mainCastle) || shouldShowDetailLabels(camera.scale));
+          ? !nearish
+          : nearish && ((part.kind === 'castle' && mainCastle) || detail);
       part.label.visible = visibleLabels.has(id) && lodVisible;
     }
-    this.layers.roads.visible = near;
+    this.layers.roads.visible = nearish;
     this.layers.labels.visible = true;
+    // M6-V5：地形/水系/領地依 stage 顯示（relief 恆顯；forest 恆顯、alpha 由 FOREST_ALPHA[stage]；
+    // water 河依 class 切 visible；territory alpha 依 stage＋analysisMode）。
+    if (this.reliefSprite) this.reliefSprite.visible = true;
+    if (this.forestSprite) {
+      this.forestSprite.visible = true;
+      this.forestSprite.alpha = FOREST_ALPHA[stage];
+    }
+    this.waterFeatures?.setStage(stage);
+    if (this.territorySprite) {
+      const faction = this.view.analysisMode === 'faction';
+      this.territorySprite.alpha = faction
+        ? MAPVIEW.territoryAlphaFaction
+        : stage === 'far'
+          ? MAPVIEW.territoryAlphaFar
+          : MAPVIEW.territoryAlpha;
+    }
   }
 
   /**
@@ -665,6 +848,8 @@ export class MapRenderer {
     const clampedScale = Math.max(MAPVIEW.minScale, Math.min(MAPVIEW.maxScale, scale));
     void this.camera.focusOn(center, { scale: clampedScale, durationMs: 0 });
     this.applyCameraTransform();
+    // M6-V5（VD3）：preset 瞬移先以純分類清 hysteresis 狀態，保證 0.25→far／0.5→mid／1.25→near 決定論。
+    this.lodStage = lodStageForScale(clampedScale);
     this.applyLodAndCulling();
   }
 
@@ -756,6 +941,35 @@ export class MapRenderer {
       app.renderer.off('resize', this.onRendererResize);
       app.ticker.remove(this.onTick);
       app.canvas.removeEventListener('wheel', this.onWheel);
+      // Major 3 修正（§5.1）：先 detach＋destroy 地形/領地 sprite，控制 texture 銷毀範圍，再讓
+      // app.destroy 收其餘 display object——避免 app.destroy({texture:true}) 直接銷毀與 boot 共享之
+      // relief/forest texture source。共享 source 只經 terrainLoader.dispose() refcount 釋放；
+      // territory 為自持 texture，顯式銷毀。
+      for (const s of [this.reliefSprite, this.forestSprite]) {
+        if (s) {
+          s.parent?.removeChild(s);
+          s.destroy({ texture: false });
+        }
+      }
+      this.reliefSprite = null;
+      this.forestSprite = null;
+      if (this.territorySprite) {
+        this.territorySprite.parent?.removeChild(this.territorySprite);
+        this.territorySprite.destroy({ texture: false });
+        this.territorySprite = null;
+      }
+      this.territoryTexture?.destroy(true); // 自持 texture，顯式銷毀
+      this.territoryTexture = null;
+      this.territorySource?.destroy();
+      this.territorySource = null;
+      this.territoryGrid = null;
+      this.waterFeatures?.destroy(); // 顯式，勿依賴 app.destroy
+      this.waterFeatures = null;
+      this.terrainLoader?.dispose(); // 共享 relief/forest 只經 refcount 釋放（不 Assets.unload 若他人仍持有）
+      this.terrainLoader = null;
+      this.territoryDirty = false;
+      this.terrainTexturesPending = false;
+      this.lodStage = 'far';
       app.destroy({ removeView: true }, { children: true, texture: true });
     }
     this.app = null;
@@ -792,6 +1006,8 @@ export class MapRenderer {
     if (this.initialized) {
       this.drawStaticBackground(); // outline 可能被 data.outline 覆蓋
       this.buildStaticDataLayers();
+      // Blocker 1（§5.1）：與 init() 鏡像呼叫；data===null 時 reconstructTerrainLayers 內部見 null 即清空。
+      this.reconstructTerrainLayers();
       this.prevOwnerByNode = null;
       this.redrawPathPreview(); // graph 換了要重畫 path preview（D9 保留在此，非 updateView）
       this.applyLodAndCulling();
@@ -808,6 +1024,18 @@ export class MapRenderer {
     this.view = view;
     if (!this.initialized) return;
     this.applyOwnerDirty(view);
+    // M6-V5（VD4）：owner 翻轉後之次幀 territory recolor（每幀至多一次）；不動 rebuildCounts
+    // （sprite 內容 in-place 重上傳，非重建）。territory 只吃郡 owner（`districtOwner`）。
+    if (
+      this.territoryDirty &&
+      this.territoryGrid !== null &&
+      this.staticData !== null &&
+      this.territorySource !== null
+    ) {
+      recolorTerritory(this.territoryGrid, view.districtOwner, this.staticData.clanColorIndex);
+      this.territorySource.update();
+      this.territoryDirty = false;
+    }
     this.redrawMilitaryObjects();
   }
 

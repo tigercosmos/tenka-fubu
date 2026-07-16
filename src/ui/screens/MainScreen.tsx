@@ -32,6 +32,7 @@ import {
 import { useSession } from '../hooks/useSession';
 import { useHotkeys } from '../hooks/useHotkeys';
 import { MapCanvasHost } from '../map/MapCanvasHost';
+import { buildTerrainPack } from '../map/terrain/terrainPack';
 import { uiStore, useUIStore } from '../hooks/uiStore';
 import { CastlePanel } from './panels/CastlePanel';
 import { DistrictPanel } from './panels/DistrictPanel';
@@ -111,10 +112,13 @@ export function MainScreen(): ReactElement {
   // 地圖靜態資料（城∪郡節點圖＋勢力色索引＋顯示名／省標籤座標）只計算一次——開局後拓樸不變，
   // 僅 owner 會變動（見 @core/state/selectors 檔頭裁決）。[M6-V4]：`selectMapStaticModel` 已全量
   // 含 `names`／`provinceLabelPos`，不再手工拼裝。
+  // [M6-V5]（VD6）：由 UI 邊界併入 terrain pack（地形浮雕/森林/河湖）——core `selectMapStaticModel`
+  // 不 import terrain.json（維持純度／golden 不動）。`buildTerrainPack()` 為模組級快取純函式，回傳
+  // 穩定參考，故 `useMemo` 仍在整局內只算一次。terrain 資產載入失敗時 renderer 優雅退回平面渲染。
   const staticData: MapStaticData | null = useMemo(() => {
     const game = store.getState().game;
     if (game === null) return null;
-    return selectMapStaticModel(game);
+    return { ...selectMapStaticModel(game), terrain: buildTerrainPack() };
   }, []);
 
   // 動態視圖：[M6-V4] §4.1 兩層參考穩定化。
