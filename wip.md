@@ -34,7 +34,8 @@
 
 ### 已完成並推送
 
-- 分支：`agent/m6-visual-roadmap`；draft PR：<https://github.com/tigercosmos/tenka-fubu/pull/1>。
+- 分支：`agent/m6-visual-roadmap`；M6-V1 之 PR #1 已於 2026-07-14 merge 進 main（merge commit d698937）。
+- M6-V2 起改走 draft PR #2：<https://github.com/tigercosmos/tenka-fubu/pull/2>（同分支續推）。
 - `d46fc40 docs(plan): 排入 M6-V 視覺基礎工作串流`：更新 `plan/01`、`04`、`11`、`12`、`17`、`18` 與
   `plan/README.md`，在 M6 功能前加入 M6-V1～M6-V11。地圖規劃擴為 13 個 visual domain layer、
   overview／operational／close 三段 LOD，並加入素材、授權、visual regression、55fps、記憶體與無障礙 gate。
