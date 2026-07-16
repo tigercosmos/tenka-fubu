@@ -25,6 +25,7 @@ import { bumpTickSeq, store, setGame } from './store';
 import { gameLoop } from './gameLoop';
 import { parseDebugFlags, installDebugApi } from './debug';
 import { startNewDemoGame } from './newGame';
+import { bootVisualMapGame } from './visualMapBoot';
 import type { ScenarioBundleData } from '@data/schemas';
 import type { GameState } from '@core/state/gameState';
 import type { BattleId } from '@core/state/ids';
@@ -68,6 +69,15 @@ export function App(): ReactElement {
     store.getState().actions.setScreen('main');
   }, [flags]);
 
+  // `?debug=visual-map`（M6-V2；17 §3.9.3）：載入固定 debugVisual fixture，刻意忽略 `?seed`／
+  // `?speed`（速度維持 session 初始值 'paused'，供 e2e 截圖 harness 決定論等待，見任務說明第 2 點）；
+  // 一次性場景 UI 態（選取行軍中我方部隊＋路徑預覽）由 `bootVisualMapGame` 內部佈置（見該檔）。
+  const handleVisualMap = useCallback((): void => {
+    const game = bootVisualMapGame();
+    setGame(game);
+    store.getState().actions.setScreen('main');
+  }, []);
+
   // 標題「新遊戲」→ ScenarioSelectScreen（11 §3.2.2；17 §3.8 P2 首步）。
   const handleNewGameClick = useCallback((): void => {
     store.getState().actions.setScreen('scenarioSelect');
@@ -102,11 +112,13 @@ export function App(): ReactElement {
   useEffect(() => {
     installDebugApi(flags); // 僅 flags.enabled 時真的安裝 window.__TENKA_DEBUG__（01 §3.11.4）
     gameLoop.start(); // 掛上 rAF；game 未 boot 或 speed='paused' 時迴圈本身是 no-op（01 §5.1）
-    if (flags.skipTitle) {
+    if (flags.visualMap) {
+      handleVisualMap(); // ?debug=visual-map：固定視覺 fixture（M6-V2），優先於 skipTitle
+    } else if (flags.skipTitle) {
       handleQuickDemo(); // ?skipTitle=1：跳過標題直接開新局（01 §3.11.1；e2e／開發迭代用）
     }
     return () => gameLoop.stop();
-  }, [flags, handleQuickDemo]);
+  }, [flags, handleQuickDemo, handleVisualMap]);
 
   const handleFatalError = useCallback((info: FatalErrorInfo): void => {
     gameLoop.stop();

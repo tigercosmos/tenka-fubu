@@ -124,8 +124,17 @@ vi.mock('pixi.js', () => {
     };
     ticker = {
       deltaMS: 16,
-      add(): void {},
-      remove(): void {},
+      callbacks: [] as (() => void)[],
+      add(cb: () => void): void {
+        this.callbacks.push(cb);
+      },
+      remove(cb: () => void): void {
+        this.callbacks = this.callbacks.filter((f) => f !== cb);
+      },
+      /** 測試專用：手動推進一幀（M6-V2：`waitForIdleFrames` 驗證）。 */
+      tick(): void {
+        for (const cb of this.callbacks) cb();
+      },
     };
     initOpts: unknown = null;
     private readonly record: { destroyed: boolean };
@@ -151,6 +160,7 @@ import { LAYER_ORDER } from './mapViewTypes';
 import type { MapEventHandler } from './mapViewTypes';
 import { buildMapGraph } from '@core/state/mapGraph';
 import type { CastleId } from '@core/state/ids';
+import { getDebugMapRenderer, resetDebugMapRendererForTests } from './debugMapBridge';
 
 /** 沖掉 init 的 async 鏈（await app.init 之後的 .then 需再一輪 macrotask）。 */
 async function flush(): Promise<void> {
@@ -173,6 +183,7 @@ const alive = (): number => hoisted.apps.filter((a) => !a.destroyed).length;
 
 beforeEach(() => {
   hoisted.apps.length = 0;
+  resetDebugMapRendererForTests();
 });
 
 describe('MapCanvasHost 生命週期（01-A10）', () => {
@@ -203,6 +214,19 @@ describe('MapCanvasHost 生命週期（01-A10）', () => {
     await flush();
     expect(destroyed()).toBe(created()); // 2 = 2，無 WebGL context 洩漏
     expect(alive()).toBe(0);
+  });
+});
+
+describe('debugMapBridge 登記／解除登記（M6-V2；17 §3.9.3）', () => {
+  it('mount 完成後登記為活躍渲染器；unmount 後解除登記', async () => {
+    expect(getDebugMapRenderer()).toBeNull();
+    const { unmount } = render(<MapCanvasHost onMapEvent={vi.fn()} />);
+    await flush();
+    expect(getDebugMapRenderer()).not.toBeNull();
+
+    unmount();
+    await flush();
+    expect(getDebugMapRenderer()).toBeNull();
   });
 });
 
@@ -395,5 +419,74 @@ describe('idle 模式命中測試與事件協定（M2-17；04 §3.12）', () => 
     stage.emit('rightclick');
     expect(onEvent).toHaveBeenCalledWith({ type: 'rightClick' });
     r.destroy();
+  });
+});
+
+describe('setCameraPose／waitForIdleFrames（M6-V2；17 §3.9.3 決定論截圖 harness）', () => {
+  function tickerOf(r: MapRenderer): { tick: () => void } {
+    return r.getApp()?.ticker as unknown as { tick: () => void };
+  }
+
+  it('setCameraPose：瞬移（無補間）、scale 依 MAPVIEW.min/maxScale 夾限', async () => {
+    const host = document.createElement('div');
+    const r = new MapRenderer();
+    await r.init(host, vi.fn());
+
+    r.setCameraPose({ x: 123, y: 456 }, 2);
+    const layers = r.getLayers()!;
+    // world.scale 已即刻反映新 scale（非等待下一 tick 才生效，見 setCameraPose 內 applyCameraTransform）。
+    expect(layers.world.scale.x).toBe(2);
+
+    r.setCameraPose({ x: 0, y: 0 }, 999); // 超過 maxScale(4.0) 應夾限
+    expect(layers.world.scale.x).toBe(4);
+
+    r.setCameraPose({ x: 0, y: 0 }, 0.0001); // 低於 minScale(0.15) 應夾限
+    expect(layers.world.scale.x).toBeCloseTo(0.15);
+
+    r.destroy();
+  });
+
+  it('waitForIdleFrames(n)：滿 n 個 ticker frame 才 resolve；未滿不 resolve', async () => {
+    const host = document.createElement('div');
+    const r = new MapRenderer();
+    await r.init(host, vi.fn());
+
+    let resolved = false;
+    const p = r.waitForIdleFrames(3).then(() => {
+      resolved = true;
+    });
+    const ticker = tickerOf(r);
+
+    ticker.tick();
+    await Promise.resolve();
+    expect(resolved).toBe(false);
+
+    ticker.tick();
+    await Promise.resolve();
+    expect(resolved).toBe(false);
+
+    ticker.tick();
+    await p;
+    expect(resolved).toBe(true);
+
+    r.destroy();
+  });
+
+  it('waitForIdleFrames(0)：立即 resolve（不待任何 frame）', async () => {
+    const host = document.createElement('div');
+    const r = new MapRenderer();
+    await r.init(host, vi.fn());
+    await expect(r.waitForIdleFrames(0)).resolves.toBeUndefined();
+    r.destroy();
+  });
+
+  it('destroy()：未決 waitForIdleFrames 立即 resolve（不懸掛）', async () => {
+    const host = document.createElement('div');
+    const r = new MapRenderer();
+    await r.init(host, vi.fn());
+
+    const p = r.waitForIdleFrames(100);
+    r.destroy();
+    await expect(p).resolves.toBeUndefined();
   });
 });

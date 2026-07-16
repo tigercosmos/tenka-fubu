@@ -1,12 +1,19 @@
 // src/app/debug.ts 單元測試（M1-22／01-A11 驗收）。
 // 規格：plan/01-architecture.md §3.11.1（URL 參數表）／§3.11.4（console API）／§4.5（DebugFlags）。
 
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { installDebugApi, parseDebugFlags, type TenkaDebugApi } from '../../src/app/debug';
 import { resetGameStoreForTests, setGame, store } from '../../src/app/store';
 import { makeLoopTestState } from '../helpers/loopState';
 import { buildNewGameState, loadScenario } from '../../src/app/boot';
 import type { ClanId } from '../../src/core/state/ids';
+import { buildVisualMapState, VISUAL_ANCHOR_CASTLE_ID } from '../../src/core/debugVisual';
+import { MAPVIEW } from '../../src/ui/map/mapViewConfig';
+import {
+  registerDebugMapRenderer,
+  resetDebugMapRendererForTests,
+} from '../../src/ui/map/debugMapBridge';
+import type { MapRenderer } from '../../src/ui/map/MapRenderer';
 
 describe('parseDebugFlags（01 §3.11.1／§4.5）', () => {
   it('空字串：全部回預設值', () => {
@@ -17,6 +24,7 @@ describe('parseDebugFlags（01 §3.11.1／§4.5）', () => {
       initialSpeed: 'paused',
       skipTitle: false,
       logTags: null,
+      visualMap: false,
     });
   });
 
@@ -25,6 +33,16 @@ describe('parseDebugFlags（01 §3.11.1／§4.5）', () => {
     expect(parseDebugFlags('?debug=0').enabled).toBe(false);
     expect(parseDebugFlags('?debug=true').enabled).toBe(false);
     expect(parseDebugFlags('').enabled).toBe(false);
+  });
+
+  it('?debug=visual-map（M6-V2）：enabled 與 visualMap 皆為 true；?debug=1 之 visualMap 維持 false', () => {
+    const visualFlags = parseDebugFlags('?debug=visual-map');
+    expect(visualFlags.enabled).toBe(true);
+    expect(visualFlags.visualMap).toBe(true);
+
+    const normalFlags = parseDebugFlags('?debug=1');
+    expect(normalFlags.enabled).toBe(true);
+    expect(normalFlags.visualMap).toBe(false);
   });
 
   it('?seed=42 解析為數字；缺值／空字串／非數字回 null', () => {
@@ -189,5 +207,81 @@ describe('installDebugApi（01 §3.11.4 TenkaDebugApi）', () => {
     installDebugApi(parseDebugFlags('?debug=1'));
     getGlobalApi()?.setSpeed('x2');
     expect(store.getState().session.speed).toBe('x2');
+  });
+});
+
+describe('setMapCameraPreset()／waitMapIdle()（M6-V2；17 §3.9.3）', () => {
+  function getGlobalApi(): TenkaDebugApi | undefined {
+    return (window as unknown as { __TENKA_DEBUG__?: TenkaDebugApi }).__TENKA_DEBUG__;
+  }
+
+  function fakeRenderer(): {
+    setCameraPose: ReturnType<typeof vi.fn>;
+    waitForIdleFrames: ReturnType<typeof vi.fn>;
+  } {
+    return {
+      setCameraPose: vi.fn(),
+      waitForIdleFrames: vi.fn().mockResolvedValue(undefined),
+    };
+  }
+
+  beforeEach(() => {
+    resetGameStoreForTests(null);
+    resetDebugMapRendererForTests();
+    delete (window as unknown as { __TENKA_DEBUG__?: TenkaDebugApi }).__TENKA_DEBUG__;
+    delete (window as unknown as { __tenka?: unknown }).__tenka;
+  });
+
+  afterEach(() => {
+    resetDebugMapRendererForTests();
+    delete (window as unknown as { __TENKA_DEBUG__?: TenkaDebugApi }).__TENKA_DEBUG__;
+    delete (window as unknown as { __tenka?: unknown }).__tenka;
+  });
+
+  it.each([
+    ['overview', MAPVIEW.visualOverviewScale] as const,
+    ['operational', MAPVIEW.visualOperationalScale] as const,
+    ['close', MAPVIEW.visualCloseScale] as const,
+  ])(
+    'setMapCameraPreset("%s")：VISUAL_ANCHOR_CASTLE_ID 座標＋對應 scale（M6-V2 修正：三段皆以錨點城為中心，見 src/app/debug.ts resolveCameraPresetPose 註解）',
+    async (preset, scale) => {
+      const game = buildVisualMapState();
+      setGame(game);
+      installDebugApi(parseDebugFlags('?debug=1'));
+      const renderer = fakeRenderer();
+      registerDebugMapRenderer(renderer as unknown as MapRenderer);
+
+      await getGlobalApi()?.setMapCameraPreset(preset);
+
+      expect(renderer.setCameraPose).toHaveBeenCalledWith(
+        game.castles[VISUAL_ANCHOR_CASTLE_ID]!.pos,
+        scale,
+      );
+      expect(renderer.waitForIdleFrames).toHaveBeenCalledWith(2);
+    },
+  );
+
+  it('setMapCameraPreset()：尚未掛載地圖 renderer 時擲例外', async () => {
+    setGame(buildVisualMapState());
+    installDebugApi(parseDebugFlags('?debug=1'));
+    await expect(getGlobalApi()?.setMapCameraPreset('overview')).rejects.toThrow();
+  });
+
+  it('waitMapIdle()：轉發至 renderer.waitForIdleFrames（預設 2）', async () => {
+    setGame(buildVisualMapState());
+    installDebugApi(parseDebugFlags('?debug=1'));
+    const renderer = fakeRenderer();
+    registerDebugMapRenderer(renderer as unknown as MapRenderer);
+
+    await getGlobalApi()?.waitMapIdle();
+    expect(renderer.waitForIdleFrames).toHaveBeenCalledWith(2);
+
+    await getGlobalApi()?.waitMapIdle(5);
+    expect(renderer.waitForIdleFrames).toHaveBeenCalledWith(5);
+  });
+
+  it('waitMapIdle()：尚未掛載地圖 renderer 時擲例外', async () => {
+    installDebugApi(parseDebugFlags('?debug=1'));
+    await expect(getGlobalApi()?.waitMapIdle()).rejects.toThrow();
   });
 });

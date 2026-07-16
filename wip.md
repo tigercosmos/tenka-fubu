@@ -1,4 +1,4 @@
-# WIP — 實作交接文件（更新 2026-07-14）
+# WIP — 實作交接文件（更新 2026-07-16）
 
 > 給下一個接手的 AI／未來 session：本文件描述《天下布武》**實作階段**的當前進度與剩餘工作。
 > 規格階段已於 2026-07-11 收斂完成（21 份 plan 定稿、E-01…E-80 全數消化、七輪裁決記錄於 `plan/02 §8`）。
@@ -15,16 +15,16 @@
 
 ## 目前進度（里程碑）
 
-| 里程碑        | 狀態                                   | 備註                                                                                             |
-| ------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| M0 鷹架       | ✅ 已 checkpoint（tag m0）             | CI 五 job 綠、Pages 200（https://tigercosmos.github.io/tenka-fubu/）                             |
-| M1 core＋HUD  | ✅ 已 checkpoint（tag m1）             | 431 tests；型別=02 全型別零缺失（46 Cmd/68 Event）                                               |
-| M2 資料＋地圖 | ✅ 已 checkpoint（tag m2，2026-07-12） | 792 tests＋P1/P2 e2e 綠；DoD 四條全過（review 報告見 wf_dcccc2d1-835）                           |
-| M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13） | 845 tests＋P1/P2/P3 e2e 綠；24 個月 DoD、全量 review 與 checkpoint 後 review 收尾（73bc28f）完成 |
-| M4 軍事一     | ✅ 已完成（2026-07-13）                | 945 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與 review fix-forward 全綠  |
-| M5 合戰       | ✅ **已完成（2026-07-14）**            | 1011 tests、P1/P2/P3/P5、golden/transcript、bench、自行 review 與 checkpoint gate 全綠           |
-| M6            | 🎨 M6-V 已開工，**M6-V1 已完成**       | M6 功能尚未開工；先完成視覺阻斷串流，下一步只做 M6-V2 visual fixture／截圖 harness               |
-| M7–M9         | ⬜                                     | 依 `plan/18-roadmap.md`                                                                          |
+| 里程碑        | 狀態                                    | 備註                                                                                             |
+| ------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| M0 鷹架       | ✅ 已 checkpoint（tag m0）              | CI 五 job 綠、Pages 200（https://tigercosmos.github.io/tenka-fubu/）                             |
+| M1 core＋HUD  | ✅ 已 checkpoint（tag m1）              | 431 tests；型別=02 全型別零缺失（46 Cmd/68 Event）                                               |
+| M2 資料＋地圖 | ✅ 已 checkpoint（tag m2，2026-07-12）  | 792 tests＋P1/P2 e2e 綠；DoD 四條全過（review 報告見 wf_dcccc2d1-835）                           |
+| M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13）  | 845 tests＋P1/P2/P3 e2e 綠；24 個月 DoD、全量 review 與 checkpoint 後 review 收尾（73bc28f）完成 |
+| M4 軍事一     | ✅ 已完成（2026-07-13）                 | 945 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與 review fix-forward 全綠  |
+| M5 合戰       | ✅ **已完成（2026-07-14）**             | 1011 tests、P1/P2/P3/P5、golden/transcript、bench、自行 review 與 checkpoint gate 全綠           |
+| M6            | 🎨 M6-V 進行中，**M6-V1、M6-V2 已完成** | M6 功能尚未開工；先完成視覺阻斷串流，下一個獲准階段只做 M6-V3 素材管線                           |
+| M7–M9         | ⬜                                      | 依 `plan/18-roadmap.md`                                                                          |
 
 ## M6-V 視覺優先工作串流（2026-07-14）
 
@@ -34,7 +34,8 @@
 
 ### 已完成並推送
 
-- 分支：`agent/m6-visual-roadmap`；draft PR：<https://github.com/tigercosmos/tenka-fubu/pull/1>。
+- 分支：`agent/m6-visual-roadmap`；M6-V1 之 PR #1 已於 2026-07-14 merge 進 main（merge commit d698937）。
+- M6-V2 起改走 draft PR #2：<https://github.com/tigercosmos/tenka-fubu/pull/2>（同分支續推）。
 - `d46fc40 docs(plan): 排入 M6-V 視覺基礎工作串流`：更新 `plan/01`、`04`、`11`、`12`、`17`、`18` 與
   `plan/README.md`，在 M6 功能前加入 M6-V1～M6-V11。地圖規劃擴為 13 個 visual domain layer、
   overview／operational／close 三段 LOD，並加入素材、授權、visual regression、55fps、記憶體與無障礙 gate。
@@ -50,12 +51,46 @@
 - 現行 production 仍是 8 層 renderer、平面陸地、far LOD 隱藏道路、城／郡占位 marker、24 枚 icon 與
   inline-style 簡化 HUD；這些是 M6-V2～V9 的待實作範圍，不得把 M6-V1 文件交付誤認為畫面已完成。
 
+### M6-V2 完成記錄（2026-07-16）
+
+執行模式依使用者本輪指示：Fable orchestrate、Sonnet 實作、Opus 複雜任務與 code review。
+
+- **core fixture**：`src/core/debugVisual.ts`（`debug-visual-map-01`）——自包含 ScenarioInput、固定種子；
+  3 勢力（織田／今川／齋藤）、5 城（2 main＋2 branch＋齋藤本城）、10 郡、14 條街道（grade 1/2/3 齊、
+  含 1 條海路）、9 支敵我軍（2 支多節點行軍中、圍城中、holding 混合）、對駿府城（`VISUAL_ANCHOR_CASTLE_ID`）
+  的進行中圍城（真實 `beginSiege`）、1 支軍供糧 5 日＜`BAL.autoReturnFoodDays`(7) 觸發補給警告、1 筆
+  `siege.started` Report。城／郡座標沿用 s1560 實座標（清洲/駿府/掛川/稻葉山→岐阜），全節點經
+  point-in-polygon 驗證在 `japan-outline.json` 陸地上（territory 層是陸地限定 Voronoi，落海即無領色）。
+- **app 接線**：`?debug=visual-map`（`DebugFlags.visualMap`，優先於 `skipTitle`，忽略 `?seed`、速度
+  paused）；`bootVisualMapGame()` 一次性 stage 選取行軍軍隊＋路徑預覽；`MapRenderer.setCameraPose()`／
+  `waitForIdleFrames()`（destroy 時 resolve 未決 waiter）；`debugMapBridge` 登記活 renderer；
+  `TenkaDebugApi` 增 `setMapCameraPreset('overview'|'operational'|'close')`（三段都以錨點城為中心，
+  scale 取 `MAPVIEW.visualOverviewScale/visualOperationalScale/visualCloseScale`＝0.25/0.5/1.25）與
+  `waitMapIdle()`。
+- **e2e harness**：`e2e/visual.spec.ts`（1280×720、DPR 1、`reducedMotion:'reduce'`、`document.fonts.ready`
+  →`waitMapIdle`（`expect.poll` 吸收 renderer 登記競態）→三段截圖）；`toHaveScreenshot`
+  `maxDiffPixelRatio 0.01`；本平台無 baseline 且未設 `UPDATE_VISUAL=1` 時明確 skip。新 scripts：
+  `e2e:visual`、`e2e:visual:update`。
+- **baseline 按平台分檔提交**（獨立 commit）：darwin 本機產、linux 以 `mcr.microsoft.com/playwright:v1.61.1-noble`
+  Docker 產（同 CI 環境；容器內 compare 重跑 1 passed 確認可重現）。
+- **字型缺口修復**：`tools/font-charset.ts` 加掃 `debugVisual.ts` 字串字面量（fixture 名稱走 BitmapText
+  直接進截圖，原掃描涵蓋不到，雪/鳴/阜會靜默 tofu）；`font:subset` 重產 885→899 字元、193.1 KB。
+- **Opus 全量 review** 2 findings 均收斂：e2e idle 等待競態（已改 `expect.poll`）、字型缺字（上項）。
+  另修 fixture 落海問題（Sonnet 收尾 agent，見座標記錄）。plan/17 §8 新增第 22 條四項裁決
+  （地形/橋樑遞延 M6-V5/V6、s1560 實座標、跨平台 baseline 策略、字型掃描範圍）。
+- **gate**：lint、typecheck、validate:data（0 ERROR／0 WARN／簡體 0、字型涵蓋通過）、**1040 tests**、
+  Playwright 5/5（P1–P3、P5＋visual）、production build 全綠。現況已知（非 M6-V2 回歸）：頁面底部
+  露出 washi 背景條（既有版面問題，M6-V9 HUD 組裝時處理）、領地色淡、標籤重疊、far LOD 資訊稀
+  ——皆為 M6-V3～V9 的待改善「before」基準。
+
 ### 停止點與安全續作順序
 
-1. 本輪停止於 **M6-V1 完成且已推送**；不要直接開始一般 M6 外交／武將功能，也不要跳過視覺阻斷工作串流。
-2. 下一個獲准階段只做 **M6-V2**：固定 visual fixture＋截圖 harness，建立 1280×720、DPR 1、固定字型／種子
-   的 overview／operational／close 基準，場景須含地形、道路、兩類城、至少 8 支敵我軍、圍城與補給警告。
-3. M6-V2 完成、驗證、提交並停下後，再依 `plan/18-roadmap.md` 取得許可進入 M6-V3；勿預先實作後續階段。
+1. 本輪停止於 **M6-V2 完成**；不要直接開始一般 M6 外交／武將功能，也不要跳過視覺阻斷工作串流。
+2. 下一個獲准階段只做 **M6-V3**：素材管線（manifest、來源／授權 metadata、命名、atlas build、壓縮、
+   尺寸預算、Pixi preload/cache/dispose、`validate:assets`），見 `plan/18-roadmap.md` M6-V3 列。
+3. M6-V3 完成、驗證、提交並停下後，再依 `plan/18-roadmap.md` 取得許可進入 M6-V4；勿預先實作後續階段。
+4. 更新視覺 baseline 一律獨立 commit＋附 before/after 說明（17 §3.9.3）；重產指令
+   `npm run e2e:visual:update`（darwin）與 Docker 一行（見上，linux）。
 
 ## M4 已收尾（2026-07-13）
 

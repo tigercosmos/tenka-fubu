@@ -18,6 +18,8 @@
     "test:golden": "vitest run tests/golden",
     "golden:update": "UPDATE_GOLDEN=1 vitest run tests/golden",
     "e2e": "npm run build && playwright test",
+    "e2e:visual": "playwright test e2e/visual.spec.ts",
+    "e2e:visual:update": "npm run build && UPDATE_VISUAL=1 playwright test e2e/visual.spec.ts --update-snapshots",
     "bench": "vitest bench tests/perf",
     "validate:data": "tsx tools/validate.ts && tsx tools/scan-simplified.ts && tsx tools/check-font-coverage.ts",
     "scan:simplified": "tsx tools/scan-simplified.ts",

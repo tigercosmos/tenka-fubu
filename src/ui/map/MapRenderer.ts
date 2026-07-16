@@ -15,6 +15,9 @@
 // 取 01（掛載契約），staticData 改由 setMapData 傳入。記錄見 04 §8.1 之 M2-13 裁定。
 // M2-17（idle 模式命中測試＋事件協定，04 §3.12）已落地：見下方 `interaction` 欄位／attachEvents；
 // `setMode`／orderMarch 模式（hover 即時尋路預覽、左鍵送出行軍）留待 M4-14「04-T12 剩餘」。
+// M6-V2（17 §3.9.3）新增 `setCameraPose`／`waitForIdleFrames`：供 e2e／`TenkaDebugApi`
+// （src/app/debug.ts）驅動決定論截圖之三段鏡頭 preset 與 renderer idle 訊號；本檔以外的活躍實例
+// 取得方式見 `src/ui/map/debugMapBridge.ts`（`MapCanvasHost` 掛載時登記）。
 //
 // Pixi 生命週期防護（本檔最易錯處，01 §3.6.2）：
 // - `init` 於 `await app.init(...)` 後**再次檢查**是否已 destroy（StrictMode 雙掛載：cleanup 可能在
@@ -91,6 +94,11 @@ export class MapRenderer {
   private collapsedArmyIds = new Set<string>();
   private siegeElapsedMs = 0;
   private reducedMotion = false;
+  /**
+   * `waitForIdleFrames` 待決佇列（M6-V2，17 §3.9.3）：每 tick 遞減，歸零即 resolve；
+   * `destroy` 時全數立即 resolve（非 reject）以避免懸掛 Promise／未預期例外（見該方法註解）。
+   */
+  private idleWaiters: { framesLeft: number; resolve: () => void }[] = [];
   private cameraEventElapsedMs = 100;
   private lastCameraEvent = '';
 
@@ -183,7 +191,20 @@ export class MapRenderer {
     this.applyCameraTransform();
     this.applyLodAndCulling();
     this.emitCameraChanged();
+    this.advanceIdleWaiters();
   };
+
+  /** 每幀推進 `waitForIdleFrames` 待決佇列（M6-V2）：frame 計數即可，見該方法註解。 */
+  private advanceIdleWaiters(): void {
+    if (this.idleWaiters.length === 0) return;
+    const remaining: typeof this.idleWaiters = [];
+    for (const waiter of this.idleWaiters) {
+      waiter.framesLeft -= 1;
+      if (waiter.framesLeft <= 0) waiter.resolve();
+      else remaining.push(waiter);
+    }
+    this.idleWaiters = remaining;
+  }
 
   private emitCameraChanged(): void {
     if (this.cameraEventElapsedMs < 100 || this.camera === null || this.app === null) return;
@@ -547,6 +568,34 @@ export class MapRenderer {
     void this.camera.focusOn(node.pos);
   }
 
+  /**
+   * 瞬移鏡頭至指定世界座標／縮放（M6-V2，17 §3.9.3：三段鏡頭 preset 供 e2e 決定論截圖，
+   * 由 `TenkaDebugApi.setMapCameraPreset` 呼叫，見 src/app/debug.ts）。`scale` 依
+   * `MAPVIEW.minScale..maxScale` 夾限。以 `camera.focusOn(..., { durationMs: 0 })` 實作——見
+   * `Camera.focusOn`：`durationMs<=0` 時直接寫入終態並同步 resolve，無補間、無殘留動畫狀態。
+   */
+  setCameraPose(center: { x: number; y: number }, scale: number): void {
+    if (this.camera === null) return;
+    const clampedScale = Math.max(MAPVIEW.minScale, Math.min(MAPVIEW.maxScale, scale));
+    void this.camera.focusOn(center, { scale: clampedScale, durationMs: 0 });
+    this.applyCameraTransform();
+    this.applyLodAndCulling();
+  }
+
+  /**
+   * 等待 n 個連續 Pixi ticker frame 後 resolve（M6-V2：供 e2e 在截圖前確保 renderer 已推進過
+   * 「靜止」畫面，17 §3.9.3「連續兩幀 renderer idle」）；frame 計數即可，`prefers-reduced-motion`
+   * 下雖無動畫但 ticker 仍每幀 tick，不受影響。`n<=0` 立即 resolve。`destroy()` 呼叫時所有未決
+   * waiter 直接 resolve（非 reject）：teardown 視同「已達成 idle 前提」，避免呼叫端因渲染器提前
+   * 卸載而收到未預期例外／懸掛 Promise。
+   */
+  waitForIdleFrames(n: number): Promise<void> {
+    if (n <= 0) return Promise.resolve();
+    return new Promise<void>((resolve) => {
+      this.idleWaiters.push({ framesLeft: n, resolve });
+    });
+  }
+
   /** 除錯 overlay 開關（01 §4.3）；debugOverlay 圖層內容屬後續里程碑，本階段僅保存旗標。 */
   setDebugOverlay(flags: Partial<DebugOverlayFlags>): void {
     this.debug = { ...this.debug, overlay: { ...this.debug.overlay, ...flags } };
@@ -638,6 +687,9 @@ export class MapRenderer {
     this.collapsedArmyIds.clear();
     this.siegeElapsedMs = 0;
     this.initialized = false;
+    // waitForIdleFrames 待決佇列（M6-V2）：teardown 視同已達成 idle，直接 resolve（見該方法註解）。
+    for (const waiter of this.idleWaiters) waiter.resolve();
+    this.idleWaiters = [];
   }
 
   // ── 平行 agent 掛層／資料流擴充（見檔頭裁定） ──────────────────────
