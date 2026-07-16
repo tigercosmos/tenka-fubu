@@ -16,16 +16,16 @@
 
 ## 目前進度（里程碑）
 
-| 里程碑        | 狀態                                    | 備註                                                                                             |
-| ------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| M0 鷹架       | ✅ 已 checkpoint（tag m0）              | CI 五 job 綠、Pages 200（https://tigercosmos.github.io/tenka-fubu/）                             |
-| M1 core＋HUD  | ✅ 已 checkpoint（tag m1）              | 431 tests；型別=02 全型別零缺失（46 Cmd/68 Event）                                               |
-| M2 資料＋地圖 | ✅ 已 checkpoint（tag m2，2026-07-12）  | 792 tests＋P1/P2 e2e 綠；DoD 四條全過（review 報告見 wf_dcccc2d1-835）                           |
-| M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13）  | 845 tests＋P1/P2/P3 e2e 綠；24 個月 DoD、全量 review 與 checkpoint 後 review 收尾（73bc28f）完成 |
-| M4 軍事一     | ✅ 已完成（2026-07-13）                 | 945 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與 review fix-forward 全綠  |
-| M5 合戰       | ✅ **已完成（2026-07-14）**             | 1011 tests、P1/P2/P3/P5、golden/transcript、bench、自行 review 與 checkpoint gate 全綠           |
-| M6            | 🎨 M6-V 進行中，**M6-V1～M6-V5 已完成** | M6 功能尚未開工；使用者 2026-07-17 以「地圖要像真的遊戲（缺城／軍／路／城市／地形）」授權 V5–V8 整串視覺鏈，V6/V7/V8 設計已平行產出                   |
-| M7–M9         | ⬜                                      | 依 `plan/18-roadmap.md`                                                                          |
+| 里程碑        | 狀態                                    | 備註                                                                                                                                |
+| ------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| M0 鷹架       | ✅ 已 checkpoint（tag m0）              | CI 五 job 綠、Pages 200（https://tigercosmos.github.io/tenka-fubu/）                                                                |
+| M1 core＋HUD  | ✅ 已 checkpoint（tag m1）              | 431 tests；型別=02 全型別零缺失（46 Cmd/68 Event）                                                                                  |
+| M2 資料＋地圖 | ✅ 已 checkpoint（tag m2，2026-07-12）  | 792 tests＋P1/P2 e2e 綠；DoD 四條全過（review 報告見 wf_dcccc2d1-835）                                                              |
+| M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13）  | 845 tests＋P1/P2/P3 e2e 綠；24 個月 DoD、全量 review 與 checkpoint 後 review 收尾（73bc28f）完成                                    |
+| M4 軍事一     | ✅ 已完成（2026-07-13）                 | 945 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與 review fix-forward 全綠                                     |
+| M5 合戰       | ✅ **已完成（2026-07-14）**             | 1011 tests、P1/P2/P3/P5、golden/transcript、bench、自行 review 與 checkpoint gate 全綠                                              |
+| M6            | 🎨 M6-V 進行中，**M6-V1～M6-V5 已完成** | M6 功能尚未開工；使用者 2026-07-17 以「地圖要像真的遊戲（缺城／軍／路／城市／地形）」授權 V5–V8 整串視覺鏈，V6/V7/V8 設計已平行產出 |
+| M7–M9         | ⬜                                      | 依 `plan/18-roadmap.md`                                                                                                             |
 
 ## M6-V 視覺優先工作串流（2026-07-14）
 
