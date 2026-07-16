@@ -48,6 +48,18 @@ export const MAPVIEW = {
     awe: 0xe8b93f,
   },
   hitRadius: { army: 16, castleMain: 20, castleBranch: 16, district: 12 }, // 命中半徑（world unit）
+  /**
+   * M6-V2 固定截圖三段鏡頭 preset（17 §3.9.3；由 `TenkaDebugApi.setMapCameraPreset` 消費，
+   * 見 src/app/debug.ts）：`visualOverviewScale`(0.25) 落在 `lodFarScale`(0.5) 之下＝far LOD
+   * （地形輪廓／主幹道層級）；`visualOperationalScale`(0.5) 恰為 `lodFarScale` 邊界本身
+   * （`lodModeForScale` 於 `scale>=lodFarScale` 即回傳 'near'，故已屬 near LOD，可見次要道路／
+   * 支城）；`visualCloseScale`(1.25) 高於 `labelScale`(1.0)＝觸發詳細標籤／士氣／補給等 close-only
+   * 資訊（見 `shouldShowDetailLabels`，lod.ts）。三值僅供除錯 API 使用、不影響一般互動流程
+   * （滾輪／focusOn 仍用 `wheelZoomStep`/`focusScale`），故獨立命名而非覆用既有欄位。
+   */
+  visualOverviewScale: 0.25,
+  visualOperationalScale: 0.5,
+  visualCloseScale: 1.25,
 } as const;
 
 /** 街道道級 → 線寬（world unit）：grade 1/2/3 = 1.5/2.5/3.5（04 §3.10.1 圖層 2「roads」）。 */

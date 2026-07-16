@@ -1,6 +1,8 @@
 // 全案「應顯示用字」收集（供 tools/subset-font.ts 產生子集、tools/check-font-coverage.ts 涵蓋率比對共用）。
 // 規格：plan/01-architecture.md §3.9.3、A13——
 //   掃描 src/i18n/zh-TW.ts 全字串＋ src/data/scenarios/**/*.json 全 name 欄位＋數字標點集。
+// M6-V2 起加掃 src/core/debugVisual.ts：視覺 fixture 的城／郡／武將名以 BitmapText 直接上圖
+// （17 §3.9.3 截圖 baseline），不在 i18n 與劇本 JSON 掃描範圍內，缺字會靜默烘成 tofu。
 //
 // 純函式庫：不印東西、不呼叫 process.exit，供 CLI 工具與 Vitest 共用（比照 tools/validate.ts 的
 // 「純函式庫＋CLI 包裝」慣例，17 §3.6.1）。
@@ -26,6 +28,8 @@ export const BASELINE_CHARS = BASELINE_DIGITS + BASELINE_LATIN + BASELINE_PUNCTU
 const REPO_ROOT = path.resolve(import.meta.dirname, '..');
 const DEFAULT_I18N_FILE = path.join(REPO_ROOT, 'src/i18n/zh-TW.ts');
 const DEFAULT_SCENARIOS_DIR = path.join(REPO_ROOT, 'src/data/scenarios');
+/** 含地圖顯示名稱的 debug fixture 檔案（字串字面量整檔掃描，同 i18n 掃法）。 */
+const DEFAULT_DEBUG_FIXTURE_FILES = [path.join(REPO_ROOT, 'src/core/debugVisual.ts')];
 
 /** 將字串拆成 Unicode code point（非 UTF-16 code unit）的集合，正確處理 surrogate pair。 */
 function toCharSet(text: string): Set<string> {
@@ -121,9 +125,25 @@ export function collectScenarioNameChars(
   return chars;
 }
 
+/**
+ * 掃描 debug fixture 檔案（預設 `src/core/debugVisual.ts`）全部字串樣式節點，回傳用字集合。
+ * fixture 的顯示名稱（城／郡／武將）會由 MapRenderer 以 BitmapText 直接繪於截圖 baseline
+ * （17 §3.9.3），故一併納入子集；非顯示用的 id 字串多為 ASCII，已被基準字集涵蓋，無額外成本。
+ */
+export function collectDebugFixtureChars(
+  fixtureFiles: readonly string[] = DEFAULT_DEBUG_FIXTURE_FILES,
+): Set<string> {
+  const chars = new Set<string>();
+  for (const file of fixtureFiles) {
+    for (const ch of collectI18nChars(file)) chars.add(ch);
+  }
+  return chars;
+}
+
 export interface RequiredCharsOptions {
   readonly i18nFilePath?: string;
   readonly scenariosDir?: string;
+  readonly debugFixtureFiles?: readonly string[];
 }
 
 export interface RequiredCharsResult {
@@ -134,23 +154,31 @@ export interface RequiredCharsResult {
     readonly baseline: number;
     readonly i18n: number;
     readonly scenarioNames: number;
+    readonly debugFixtures: number;
   };
 }
 
-/** 彙整全案應顯示用字：基準字集 ∪ i18n 全字串 ∪ 劇本 name 欄位。 */
+/** 彙整全案應顯示用字：基準字集 ∪ i18n 全字串 ∪ 劇本 name 欄位 ∪ debug fixture 顯示字串。 */
 export function collectRequiredChars(options: RequiredCharsOptions = {}): RequiredCharsResult {
   const baseline = toCharSet(BASELINE_CHARS);
   const i18n = collectI18nChars(options.i18nFilePath);
   const scenarioNames = collectScenarioNameChars(options.scenariosDir);
+  const debugFixtures = collectDebugFixtureChars(options.debugFixtureFiles);
 
   const chars = new Set<string>();
   for (const ch of baseline) chars.add(ch);
   for (const ch of i18n) chars.add(ch);
   for (const ch of scenarioNames) chars.add(ch);
+  for (const ch of debugFixtures) chars.add(ch);
 
   return {
     chars,
-    breakdown: { baseline: baseline.size, i18n: i18n.size, scenarioNames: scenarioNames.size },
+    breakdown: {
+      baseline: baseline.size,
+      i18n: i18n.size,
+      scenarioNames: scenarioNames.size,
+      debugFixtures: debugFixtures.size,
+    },
   };
 }
 

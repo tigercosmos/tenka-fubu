@@ -68,7 +68,8 @@ export async function generateFontSubset(): Promise<
 
   console.log(
     `字型子集完成：${chars.size} 字元(基準 ${breakdown.baseline}／i18n ${breakdown.i18n}／` +
-      `劇本 name ${breakdown.scenarioNames})，成品 ${(subsetBuffer.byteLength / 1024).toFixed(1)} KB` +
+      `劇本 name ${breakdown.scenarioNames}／debug fixture ${breakdown.debugFixtures})，` +
+      `成品 ${(subsetBuffer.byteLength / 1024).toFixed(1)} KB` +
       `(預算 ${FONT_SIZE_BUDGET_KB} KB) → ${path.relative(REPO_ROOT, OUTPUT_WOFF2)}`,
   );
 

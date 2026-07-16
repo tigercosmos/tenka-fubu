@@ -1137,3 +1137,17 @@ perfGate():
     字型／DPR／動畫／鏡頭條件產生三段縮放 baseline，並用 renderer diagnostics 鎖 layer presence 與
     dirty domain。這可避免只靠像素誤把空層當成功，也不讓 UI 改版把功能 smoke 變成高維護截圖測試。
     M6 起 `validate:assets` 與 visual suite 皆為 checkpoint 阻斷，baseline 更新必須獨立 commit 並人工核准。
+22. **（2026-07-16；M6-V2 實作裁決）visual fixture 範圍、座標基準與跨平台 baseline 策略**：
+    ① §3.9.3 場景清單中的「平原／山地／森林／河川」與「橋樑」在 core `GameState` 尚無資料模型
+    （地形與 waypoints/橋樑分屬 M6-V5／M6-V6 產出），`debug-visual-map-01` 首版不發明臨時欄位，
+    該兩項由 M6-V5/V6 依 roadmap 既定安排擴充 fixture 時補齊；其餘項目（三道級＋海路、兩類城、
+    9 支敵我軍、圍城、補給警告、選取路徑、通知）首版即齊。② fixture 城／郡座標一律取 s1560 實際
+    座標（同名城逐字沿用，如駿府館/掛川城/清洲城/稻葉山城），因 seaBackground 永遠繪製
+    `japan-outline.json` 且 territory 層為陸地 cell 限定 Voronoi，虛構散布座標會讓節點落海、架空
+    「地圖可讀性」基準；鳴海城等 s1560 未收錄之城取鄰近陸地點並以 point-in-polygon 驗證。
+    ③ 截圖 baseline 依 Playwright 預設按平台分檔（`-darwin`/`-linux` 後綴）：darwin 由本機產生，
+    linux 以官方 `mcr.microsoft.com/playwright` image（同 CI ubuntu 環境）產生後提交；平台無
+    baseline 且未設 `UPDATE_VISUAL=1` 時 spec 明確 `test.skip`，避免新平台首跑誤紅（M6-V11 收斂為
+    全阻斷 gate 時再檢討）。④ 字型子集掃描（`tools/font-charset.ts`）加掃 `src/core/debugVisual.ts`
+    全字串字面量：fixture 顯示名稱由 MapRenderer BitmapText 直接烘進 baseline，原掃描範圍
+    （i18n＋劇本 JSON name）涵蓋不到，缺字（雪/鳴/阜）會靜默變 tofu 且涵蓋率檢查仍綠。

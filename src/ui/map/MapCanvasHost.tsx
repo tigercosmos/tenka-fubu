@@ -11,9 +11,14 @@
 // 顯示地圖」接線）：以獨立 `useEffect` 觀察其變化，經 `rendererRef` 呼叫既有的 `MapRenderer.
 // setMapData`／`updateView`；`focusNodeId` 只在掛載完成後套用一次（`MapRenderer.focusNode` 經
 // `camera.focusOn` 補間聚焦，鏡頭已於 M2-15 接入 `MapRenderer`）。
+//
+// M6-V2 新增：init 完成後（且未在等待期間被卸載）向 `debugMapBridge` 登記目前渲染器實例、
+// unmount 時取消登記，供 `window.__TENKA_DEBUG__.setMapCameraPreset`／`waitMapIdle`（src/app/
+// debug.ts）取得活躍渲染器以驅動決定論截圖（17 §3.9.3）。
 
 import { useEffect, useRef, type ReactElement } from 'react';
 import { MapRenderer } from './MapRenderer';
+import { registerDebugMapRenderer, unregisterDebugMapRenderer } from './debugMapBridge';
 import type {
   MapEventHandler,
   MapInteractionMode,
@@ -64,9 +69,13 @@ export function MapCanvasHost({
         return;
       }
       if (focusNodeId !== undefined) renderer.focusNode(focusNodeId);
+      // M6-V2：登記為目前活躍渲染器，供 window.__TENKA_DEBUG__ 的地圖鏡頭 preset／idle 等待使用
+      // （src/app/debug.ts；src/ui/map/debugMapBridge.ts）。
+      registerDebugMapRenderer(renderer);
     });
     return () => {
       disposed = true;
+      unregisterDebugMapRenderer(renderer);
       renderer.destroy(); // 冪等
       rendererRef.current = null;
     };
