@@ -7,7 +7,8 @@
 
 ## 執行模式（使用者指示，多次重申）
 
-- **GPT-5.6-sol 當 orchestrator 並處理複雜任務；GPT-5.6-terra 處理一般任務。**
+- **模型分工（2026-07-17 現行）：Fable orchestrate；Sonnet 實作一般任務；Opus 設計／複雜任務／code review。**
+  （2026-07-14 前曾用 GPT-5.6-sol/terra 分工，已由使用者本輪指示取代。）
 - 以 Workflow 多 agent 編排；每個里程碑：實作 → Opus 全量 review（fix-forward）→ orchestrator 本機驗證 DoD → 依任務 ID 分組 commit → checkpoint（README 進度表＋milestone.json＋tag）→ push（已核准，push 後驗 CI/Pages）。
 - **2026-07-13 最新覆寫：後續 review 不使用 Codexmon；由 orchestrator 自行 code review 即可。**
 - **一次只做一個里程碑階段，完成後停下（使用者 2026-07-12 指示：勿先開下一階段）。**
