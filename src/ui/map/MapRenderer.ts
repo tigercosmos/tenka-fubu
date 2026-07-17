@@ -71,8 +71,10 @@ import { lodStageForScale, lodStageWithHysteresis, SpatialCullIndex, type LodSta
 import { buildTerritoryGrid, recolorTerritory, type TerritoryGrid } from './territoryGrid';
 import { createTerrainSprite, createWaterFeatures } from './terrain/terrainDraw';
 import { MapAssetLoader } from '@ui/assets/loader';
+import type { MapGraph } from '@core/state/mapGraph';
 import type {
   DebugOverlayFlags,
+  MapArmyView,
   MapEventHandler,
   MapInteractionMode,
   MapLayers,
@@ -155,6 +157,15 @@ export class MapRenderer {
   private territorySource: BufferImageSource | null = null;
   private territoryDirty = false;
   private lodStage: LodStage = 'far';
+  /**
+   * M6-V8（V8D11）：軍隊 chip 已繪製之 LOD 段，與 `lodStage` 解耦。`setCameraPose` 於呼叫
+   * `applyLodAndCulling` 前已預改 `lodStage`（line ~1023），故不能以 `stage !== this.lodStage`
+   * 判定 preset 路徑之 restage（恆為 false，軍隊會凍結在開機 far detail）。改以本欄位落差
+   * （`this.lodStage !== this.armyChipStage`）在 `applyLodAndCulling` 開頭觸發 `syncArmyChips`；
+   * `syncArmyChips` 末行登記 `this.armyChipStage = this.lodStage`。init 初值與 `lodStage` 一致，
+   * 故 init 不因段落差重繪（首個 updateView 之 syncArmyChips 為正常首繪）。
+   */
+  private armyChipStage: LodStage = 'far';
   private terrainLoader: MapAssetLoader | null = null;
   private terrainTexturesPending = false;
   private pathPreview: ReturnType<typeof createPathPreview> | null = null;
@@ -852,6 +863,12 @@ export class MapRenderer {
   private applyLodAndCulling(): void {
     if (this.app === null || this.layers === null || this.camera === null) return;
     const camera = this.camera.getState();
+    // M6-V8（V8D11／MINOR5）：先算 LOD 段；軍隊繪製段落後才 restage（不遞迴——syncArmyChips 不呼
+    // applyLodAndCulling）。置於 army 可見性查詢／迴圈之前，使 restage 之 armyCull.upsert／
+    // collapsedArmyIds 先於下方查詢生效。
+    const stage = lodStageWithHysteresis(camera.scale, this.lodStage);
+    this.lodStage = stage;
+    if (this.lodStage !== this.armyChipStage) this.syncArmyChips();
     const halfWidth = this.app.screen.width / (2 * camera.scale);
     const halfHeight = this.app.screen.height / (2 * camera.scale);
     const rect = {
@@ -866,10 +883,12 @@ export class MapRenderer {
     const visibleLabels = this.labelCull.query(rect);
     for (const [id, part] of this.armyParts) {
       part.container.visible = visibleArmies.has(id) && !this.collapsedArmyIds.has(id);
+      // M6-V8（V8D13）：far 反向放大（transform，不經 chip.update、不計 armyChips；比照主城 far ×1.4）。
+      // armyCull.query 於 restage 後仍有效——純 stage 變更不改軍隊世界位置與 cull entry；未來若在
+      // syncArmyChips 內重定位軍隊，須把可見性查詢移至其後。
+      part.container.scale.set(stage === 'far' ? MAPVIEW.armyFarChipScale : 1);
     }
     for (const [id, part] of this.siegeParts) part.container.visible = visibleSieges.has(id);
-    const stage = lodStageWithHysteresis(camera.scale, this.lodStage);
-    this.lodStage = stage;
     const nearish = stage !== 'far'; // 取代舊 near（scale>=lodFarScale）
     const detail = stage === 'near'; // 取代舊 shouldShowDetailLabels（scale>=labelScale）
     for (const [id, entry] of this.nodeParts) {
@@ -916,15 +935,39 @@ export class MapRenderer {
   }
 
   /**
-   * armies：per-id diff（M6-V4 §3.3.4）。pos 由 `armyWorldPos`（`dirty.ts`，決策 D6）內插——
-   * `MapArmyView` 座標無關，只帶 `fromNode`/`toNode`/`edgeT`；`stackKey`（UI 疊放概念，不進 core
-   * 契約）由 `armyStackKey` 導出，逐字等價改前 `MainScreen` 內插語意（補遺 AD-V4-4）。`colorIndex`
-   * 查 `staticData.clanColorIndex[clanId] ?? 0`（對齊現行 `?? 0` fallback，視覺不變）。`ArmyChip.update`
-   * 冪等（§3.4）：只 pos 變→僅 reposition，回傳 `false`，累計 `rebuildCounts.armyChips` 不增；繪製
-   * 欄位變→重繪，回傳 `true`，計數 +1（DoD③）。互動命中測試資料（`interaction.setArmies`）維持餵入
-   * 不變（補遺 AD-V4-1：不得斷線）。sieges 維持現狀：建立/銷毀 diff＋逐幀動畫（onTick）不套用冪等。
+   * M6-V8（V8D4）：行軍方向單位向量（chip 方向箭頭），由 `fromNode`/`toNode`/`edgeT`（§4.6 D9
+   * 渲染內插參數）計算——非規則、於一段行軍（同邊）為常數 → props 穩定、不造成 per-frame 重繪。
+   * 移動 iff `toNode!==null && toNode!==fromNode && edgeT>0`；否則（靜止／未出發）回 `null`。
    */
-  private redrawMilitaryObjects(): void {
+  private computeArmyHeading(
+    a: MapArmyView,
+    graph: MapGraph | undefined,
+  ): { x: number; y: number } | null {
+    if (graph === undefined || a.toNode === null || a.toNode === a.fromNode || a.edgeT <= 0) {
+      return null;
+    }
+    const from = graph.nodes.get(a.fromNode)?.pos;
+    const to = graph.nodes.get(a.toNode)?.pos;
+    if (from === undefined || to === undefined) return null;
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const len = Math.hypot(dx, dy);
+    return len === 0 ? null : { x: dx / len, y: dy / len };
+  }
+
+  /**
+   * M6-V8（V8D11）：軍隊 chip 之 per-id diff＋冪等 update＋被選取置頂，自 `redrawMilitaryObjects`
+   * 抽出，使 LOD 段變更（restage）可獨立於 tick 重繪軍隊段（`applyLodAndCulling` 開頭以
+   * `lodStage !== armyChipStage` 落差觸發，不遞迴——本方法不呼 `applyLodAndCulling`）。
+   *
+   * props 除既有 pos/colorIndex/soldiers/morale/corps/collapsedCount，補齊 M6-V8 新欄位：
+   * `status`/`foodDays`/`relation`/`selected`（皆來自 `MapArmyView`）、`heading`（renderer 內插，
+   * V8D4）、`stage`（當前 LOD 段，V8D9/D13）、`labelStagger`（同節點 stackIndex，兵數底板垂直
+   * 錯位，V8D14）。皆納入 `armyChipDrawEqual`（pos 除外）→ day-only tick 段不變、props 相等 →
+   * `update` 回 `false` → `armyChips` 零增量（守 M6-V4 DoD③）。restage 之重繪為合法遞增；far
+   * container 反向放大為 `applyLodAndCulling` 之 transform（不經本方法、不計數）。
+   */
+  private syncArmyChips(): void {
     if (this.layers === null) return;
     const graph = this.staticData?.graph;
     const clanColorIndex = this.staticData?.clanColorIndex ?? {};
@@ -950,7 +993,7 @@ export class MapRenderer {
       if (part === undefined) {
         part = createArmyChip();
         this.armyParts.set(army.id, part);
-        this.layers?.armies.addChild(part.container);
+        this.layers.armies.addChild(part.container);
       }
       if (!entry.visible) this.collapsedArmyIds.add(army.id);
       const pos = entry.pos;
@@ -960,6 +1003,13 @@ export class MapRenderer {
         soldiers: army.soldiers,
         morale: army.morale,
         corps: army.corps,
+        status: army.status,
+        foodDays: army.foodDays,
+        relation: army.relation,
+        selected: army.selected,
+        heading: this.computeArmyHeading(army, graph),
+        stage: this.lodStage,
+        labelStagger: entry.stackIndex,
         ...(entry.collapsedCount === undefined ? {} : { collapsedCount: entry.collapsedCount }),
       });
       if (redrew) this.rebuildCounts.armyChips += 1;
@@ -970,6 +1020,30 @@ export class MapRenderer {
         .filter((entry) => entry.visible)
         .map((entry) => ({ id: entry.army.id, pos: entry.pos })),
     );
+    // V8D10：被選取軍隊 re-append 至末（＝繪製最上）；單選、確定性。至多一軍 selected。
+    for (const entry of layout) {
+      if (!entry.army.selected || !entry.visible) continue;
+      const part = this.armyParts.get(entry.army.id);
+      if (part === undefined) continue;
+      this.layers.armies.removeChild(part.container);
+      this.layers.armies.addChild(part.container);
+    }
+    // V8D11：登記已繪段，供 applyLodAndCulling 之 restage 落差判定（this.lodStage !== armyChipStage）。
+    this.armyChipStage = this.lodStage;
+  }
+
+  /**
+   * armies：per-id diff（M6-V4 §3.3.4）。pos 由 `armyWorldPos`（`dirty.ts`，決策 D6）內插——
+   * `MapArmyView` 座標無關，只帶 `fromNode`/`toNode`/`edgeT`；`stackKey`（UI 疊放概念，不進 core
+   * 契約）由 `armyStackKey` 導出，逐字等價改前 `MainScreen` 內插語意（補遺 AD-V4-4）。`colorIndex`
+   * 查 `staticData.clanColorIndex[clanId] ?? 0`（對齊現行 `?? 0` fallback，視覺不變）。`ArmyChip.update`
+   * 冪等（§3.4）：只 pos 變→僅 reposition，回傳 `false`，累計 `rebuildCounts.armyChips` 不增；繪製
+   * 欄位變→重繪，回傳 `true`，計數 +1（DoD③）。互動命中測試資料（`interaction.setArmies`）維持餵入
+   * 不變（補遺 AD-V4-1：不得斷線）。sieges 維持現狀：建立/銷毀 diff＋逐幀動畫（onTick）不套用冪等。
+   */
+  private redrawMilitaryObjects(): void {
+    if (this.layers === null) return;
+    this.syncArmyChips();
 
     const sieges = this.view.sieges ?? [];
     const activeSiegeIds = new Set(sieges.map((siege) => siege.id));
@@ -1141,6 +1215,7 @@ export class MapRenderer {
       this.territoryDirty = false;
       this.terrainTexturesPending = false;
       this.lodStage = 'far';
+      this.armyChipStage = 'far'; // M6-V8（V8D11）：與 lodStage 同步重設，重掛後 init 不因段落差重繪
       // M6-V6：顯式卸載＋銷毀 RoadsLayer／roadHighlight（勿只依賴 app.destroy children 遞迴）。
       if (this.roadsLayer) {
         this.roadsLayer.container.parent?.removeChild(this.roadsLayer.container);

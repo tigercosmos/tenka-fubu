@@ -117,6 +117,10 @@ export function createPixiMockClasses(
     rect(): this {
       return this;
     }
+    // M6-V8（§8.5）：兵數 washi100 底板（`plateGfx.roundRect`）於 mock 不 throw；比照既有 rect/poly。
+    roundRect(): this {
+      return this;
+    }
     poly(): this {
       return this;
     }
@@ -146,6 +150,11 @@ export function createPixiMockClasses(
       super();
       this.text = options.text;
       this.style = options.style;
+    }
+    // M6-V8（§8.5）：以字元數 × 估寬回傳穩定 width（供任何讀 BitmapText.width 之底板尺寸斷言
+    // 決定論；ArmyChip 本身改用 plateWidthForLabel 不讀此值，此為 mock 與真 pixi 之 API 對齊）。
+    get width(): number {
+      return this.text.length * 7;
     }
   }
   class Rectangle {

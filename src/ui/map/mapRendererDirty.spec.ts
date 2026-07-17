@@ -38,6 +38,7 @@ import type { RoadEdge } from '@core/state/gameState';
 import type { JapanOutlineFile } from '@data/schemas/outline';
 import { MapRenderer } from './MapRenderer';
 import type { MapStaticData, MapViewState } from './mapViewTypes';
+import { MAPVIEW } from './mapViewConfig';
 import { TOKENS_NUM } from '@ui/styles/tokens';
 
 /**
@@ -529,6 +530,204 @@ describe('MapRenderer dirty-update（M6-V4 §7 DoD③：移動只更新相關 Ar
     r.updateView(baseView({ armies: marchingArmies(0.6, 1_900) })); // B 的 soldiers 變
     expect(r.getRebuildCounts().armyChips).toBe(baseline.armyChips + 1);
 
+    r.destroy();
+  });
+});
+
+// ── M6-V8：軍隊棋子整合（heading／armyChipStage restage／far 放大／被選取置頂／relation） ──────
+//
+// 全部以相對增量（Δ）斷言，不釘死 post-init 絕對 armyChips 值（V8D11 §8.3／#9）。chip container 於
+// V8D14 為 3 子節點 [graphics, plateGfx, label]；MockGfx.poly 可 vi.spyOn 觀測方向箭頭之額外 poly。
+
+interface SpyableGfx {
+  poly: (...a: unknown[]) => unknown;
+}
+
+describe('軍隊 V8（M6-V8 §8.3）：heading／stage restage／far 放大／置頂／relation', () => {
+  /** V8 軍隊字面量（含必填 relation）；`over` 覆寫任意欄位。以 cast 餵入 MapViewState['armies']。 */
+  function v8Army(over: Record<string, unknown> = {}): Record<string, unknown> {
+    return {
+      id: 'army.x',
+      clanId: 'clan.oda',
+      soldiers: 2_000,
+      status: 'holding',
+      morale: 70,
+      foodDays: 10,
+      mission: 'march',
+      fromNode: 'castle.a',
+      toNode: null,
+      edgeT: 0,
+      corps: false,
+      selected: false,
+      relation: 'friendly',
+      ...over,
+    };
+  }
+  function armiesView(list: Record<string, unknown>[]): MapViewState['armies'] {
+    return list as unknown as MapViewState['armies'];
+  }
+
+  it('heading 接線：marching 軍畫方向箭頭（額外 poly），holding 軍無', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(
+      baseView({
+        armies: armiesView([
+          v8Army({
+            id: 'army.1',
+            fromNode: 'castle.a',
+            toNode: 'dist.x',
+            edgeT: 0.5,
+            status: 'marching',
+          }),
+          v8Army({ id: 'army.2', fromNode: 'castle.b', toNode: null, status: 'holding' }),
+        ]),
+      }),
+    );
+    const children = r.getLayers()!.armies.children as unknown as MockGfx[];
+    // id 序：army.1（marching）在前、army.2（holding）在後；container.children[0]＝graphics。
+    const gfxMarching = children[0]!.children[0]! as unknown as SpyableGfx;
+    const gfxHolding = children[1]!.children[0]! as unknown as SpyableGfx;
+    const polyMarching = vi.spyOn(gfxMarching, 'poly');
+    const polyHolding = vi.spyOn(gfxHolding, 'poly');
+    // 改 soldiers 觸發兩軍重繪（drawEqual false）。
+    r.updateView(
+      baseView({
+        day: 2,
+        armies: armiesView([
+          v8Army({
+            id: 'army.1',
+            fromNode: 'castle.a',
+            toNode: 'dist.x',
+            edgeT: 0.5,
+            status: 'marching',
+            soldiers: 2_500,
+          }),
+          v8Army({
+            id: 'army.2',
+            fromNode: 'castle.b',
+            toNode: null,
+            status: 'holding',
+            soldiers: 2_500,
+          }),
+        ]),
+      }),
+    );
+    // marching 多畫一個方向箭頭 poly（旗面 poly 兩軍皆有；箭頭僅 heading!==null）。
+    expect(polyMarching.mock.calls.length).toBeGreaterThan(polyHolding.mock.calls.length);
+    r.destroy();
+  });
+
+  it('LOD restage Δ 遞增（BLOCKER1 守門）：far→near 落差觸發 syncArmyChips 重繪', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(baseView({ armies: armiesView([v8Army({ id: 'army.1' })]) }));
+    r.setCameraPose({ x: 200, y: 100 }, 0.25); // far（已為 far → armyChipStage 落差為 0，不 restage）
+    const base = r.getRebuildCounts().armyChips;
+    r.setCameraPose({ x: 200, y: 100 }, 1.25); // far→near：armyChipStage 落差 → restage 重繪
+    expect(r.getRebuildCounts().armyChips).toBeGreaterThan(base);
+    r.destroy();
+  });
+
+  it('day-only Δ 零：固定相機（同 stage）連跑 30 日，armyChips 不增', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    const mk = (day: number): MapViewState =>
+      baseView({
+        day,
+        armies: armiesView([
+          v8Army({
+            id: 'army.1',
+            fromNode: 'castle.a',
+            toNode: 'dist.x',
+            edgeT: 0.5,
+            status: 'marching',
+          }),
+        ]),
+      });
+    r.updateView(mk(1));
+    const base = r.getRebuildCounts().armyChips;
+    for (let i = 0; i < 30; i += 1) r.updateView(mk(2 + i)); // heading 常數（同邊）＋pos 同 → drawEqual → Δ0
+    expect(r.getRebuildCounts().armyChips).toBe(base);
+    r.destroy();
+  });
+
+  it('far 放大為 transform（不計 armyChips）＋ far/near container scale 切換', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(
+      baseView({
+        armies: armiesView([v8Army({ id: 'army.1', fromNode: 'castle.a', toNode: null })]),
+      }),
+    );
+    r.setCameraPose({ x: 100, y: 100 }, 0.25); // far
+    const base = r.getRebuildCounts().armyChips;
+    const container = r.getLayers()!.armies.children[0]!;
+    expect(container.scale.x).toBe(MAPVIEW.armyFarChipScale); // far 反向放大
+    r.updateView(
+      baseView({
+        day: 2,
+        armies: armiesView([v8Army({ id: 'army.1', fromNode: 'castle.a', toNode: null })]),
+      }),
+    ); // 同 stage far、props 同
+    expect(r.getRebuildCounts().armyChips).toBe(base); // 放大為 transform，不重繪、不計數
+    r.setCameraPose({ x: 100, y: 100 }, 1.25); // near
+    expect(container.scale.x).toBe(1); // mid/near 恢復 1
+    r.destroy();
+  });
+
+  it('MapRebuildCounts 恆 5 欄位（toEqual 整物件）', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(baseView({ armies: armiesView([v8Army({ id: 'army.1' })]) }));
+    r.setCameraPose({ x: 200, y: 100 }, 1.25); // 觸發 restage
+    const counts = r.getRebuildCounts();
+    expect(Object.keys(counts).sort()).toEqual([
+      'armyChips',
+      'labels',
+      'nodeMarkers',
+      'roads',
+      'territory',
+    ]);
+    r.destroy();
+  });
+
+  it('被選取置頂（V8D10）：selected 軍 re-append 至 armies.children 末端；換選取換置頂', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    const mk = (sel: string | null): MapViewState =>
+      baseView({
+        armies: armiesView([
+          v8Army({ id: 'army.1', fromNode: 'castle.a', toNode: null, selected: sel === 'army.1' }),
+          v8Army({ id: 'army.2', fromNode: 'castle.b', toNode: null, selected: sel === 'army.2' }),
+        ]),
+      });
+    r.updateView(mk(null));
+    const children = r.getLayers()!.armies.children;
+    const c1 = children[0]!; // army.1（id 序在前）
+    const c2 = children[1]!; // army.2
+    r.updateView(mk('army.1'));
+    expect(r.getLayers()!.armies.children.at(-1)).toBe(c1); // army.1 選取 → 置頂
+    r.updateView(mk('army.2'));
+    expect(r.getLayers()!.armies.children.at(-1)).toBe(c2); // 換 army.2 選取 → 換置頂
+    r.destroy();
+  });
+
+  it('正向存在（堵靜默）：friendly/enemy/neutral 三軍皆建立 chip、各 3 子節點 [graphics,plateGfx,label]', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(
+      baseView({
+        armies: armiesView([
+          v8Army({ id: 'army.1', relation: 'friendly', fromNode: 'castle.a', toNode: null }),
+          v8Army({ id: 'army.2', relation: 'enemy', fromNode: 'castle.b', toNode: null }),
+          v8Army({ id: 'army.3', relation: 'neutral', fromNode: 'dist.x', toNode: null }),
+        ]),
+      }),
+    );
+    const children = r.getLayers()!.armies.children as unknown as MockGfx[];
+    expect(children.length).toBe(3);
+    for (const c of children) expect(c.children.length).toBe(3); // graphics / plateGfx / label
     r.destroy();
   });
 });

@@ -22,7 +22,7 @@ import type { GameSpeed } from '@app/store';
 import { selectMapStaticModel, selectMapViewModel } from '@core/state/selectors';
 import { computePath, getStance, severityOf } from '@core/index';
 import type { MapStaticData, MapRendererEvent, MapPathPreview } from '../map/mapViewTypes';
-import { composeMapViewState } from '../map/composeMapView';
+import { composeMapViewState, stanceToRelation } from '../map/composeMapView';
 import { formatDate, formatNumber, t, type StringKey } from '@i18n/zh-TW';
 import {
   makeCachedSelector,
@@ -130,10 +130,17 @@ export function MainScreen(): ReactElement {
   // Layer 2（UI 邊界組裝）：`composeMapViewState`（純函式，D7）併入目前選取狀態；`useMemo` 確保
   // `gameView`／`selection`（uiStore 參考穩定）皆不變時 `viewState` 參考不變——`MapCanvasHost` 的
   // `useEffect([viewState])` 因而不觸發，開面板/hover/marchDraft 不再誤觸 `updateView`。
-  const viewState = useMemo(
-    () => composeMapViewState(gameView, selection, playerClanId),
-    [gameView, selection, playerClanId],
-  );
+  // [M6-V8]（V8D3／MINOR6）：供給以 `getStance` 為底之 `relationOf`（敵我關係次級通道推導於 UI
+  // 邊界，core selector/golden 不動）。復用組件本體既有 `currentGame`（非 memo 內 `store.getState()`
+  // 之 stale-closure），並顯式加入 deps（與 `gameView` 每 tick 同步變，無多餘 re-render）。
+  const viewState = useMemo(() => {
+    const relationOf =
+      currentGame === null
+        ? undefined
+        : (clanId: string) =>
+            stanceToRelation(getStance(currentGame, playerClanId, clanId as never));
+    return composeMapViewState(gameView, selection, playerClanId, relationOf);
+  }, [gameView, selection, playerClanId, currentGame]);
 
   const openMarch = useCallback(
     (originCastleId: CastleId): void => {

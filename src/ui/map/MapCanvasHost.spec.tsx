@@ -78,6 +78,10 @@ vi.mock('pixi.js', () => {
     rect(): this {
       return this;
     }
+    // M6-V8：兵數 washi100 底板（`plateGfx.roundRect`）於 mock 不 throw；比照既有 rect/poly。
+    roundRect(): this {
+      return this;
+    }
     poly(): this {
       return this;
     }
@@ -480,6 +484,7 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
       edgeT: 0,
       corps: false,
       selected: false,
+      relation: 'neutral' as const, // M6-V8：MapArmyView.relation 必填（V8D3）
     }));
     r.updateView({
       day: 1,
@@ -495,8 +500,10 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
     const layers = r.getLayers()!;
     expect(layers.armies.children).toHaveLength(5);
     expect(layers.armies.children.filter((child) => child.visible)).toHaveLength(4);
+    // M6-V8（V8D14）：chip container 現為 3 子節點 [graphics, plateGfx, label]；兵數（含「+N」）
+    // 承載於 label＝children[2]（原 children[1] 已改為 washi100 底板 plateGfx）。
     const collapseChip = layers.armies.children[3] as unknown as { children: { text?: string }[] };
-    expect(collapseChip.children[1]?.text).toBe('+2');
+    expect(collapseChip.children[2]?.text).toBe('+2');
     expect(layers.effects.children).toHaveLength(1);
     r.destroy();
   });
