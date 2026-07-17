@@ -11,7 +11,9 @@ import {
 import { validateState } from '../../src/core/state/invariants';
 import { stateHash } from '../../src/core/state/serialize';
 import { selectMapViewModel } from '../../src/core/state/selectors';
+import { getStance } from '../../src/core/systems/pathfinding';
 import { advanceDay } from '../../src/core/systems';
+import type { ClanId } from '../../src/core/state/ids';
 
 describe('debugVisual：buildVisualMapState（M6-V2 固定視覺 fixture）', () => {
   it('決定論：同一呼叫序列重複 build 兩次，hashState 完全相同', () => {
@@ -172,6 +174,39 @@ describe('debugVisual：buildVisualMapState（M6-V2 固定視覺 fixture）', ()
       const byCastle = new Map(sieges.map((s) => [s.castleId, s.mode]));
       expect(byCastle.get(VISUAL_ANCHOR_CASTLE_ID)).toBe('assault');
       expect(byCastle.get(VISUAL_ENCIRCLE_CASTLE_ID)).toBe('encircle');
+    });
+  });
+
+  // ── [M6-V8] V8D6/D7/D8：軍隊棋子 DoD 佐證（敗走、補給危急/低、敵我三通道） ──
+  describe('[M6-V8] 軍隊棋子 fixture', () => {
+    it('軍隊 ≥10 支（含守方新增之敗走軍）', () => {
+      const state = buildVisualMapState();
+      expect(Object.values(state.armies).length).toBeGreaterThanOrEqual(10);
+    });
+
+    it('至少 1 支 routed（敗走）軍，且士氣低於 40（破裂框門檻）', () => {
+      const state = buildVisualMapState();
+      const routed = Object.values(state.armies).filter((a) => a.status === 'routed');
+      expect(routed.length).toBeGreaterThanOrEqual(1);
+      expect(routed.some((a) => a.morale < 40)).toBe(true);
+    });
+
+    it('補給：至少 1 支危急（view foodDays<3）與 1 支低（3≤view<7）', () => {
+      const state = buildVisualMapState();
+      const foodDaysOf = (soldiers: number, food: number): number =>
+        food / Math.max(1, Math.ceil(soldiers * BAL.fieldFoodPerSoldierDaily));
+      const views = Object.values(state.armies).map((a) => foodDaysOf(a.soldiers, a.food));
+      expect(views.some((v) => v < 3)).toBe(true);
+      expect(views.some((v) => v >= 3 && v < 7)).toBe(true);
+    });
+
+    it('外交：getStance(Oda,Imagawa)===war（敵）、getStance(Oda,Saito)===neutral（中立）', () => {
+      const state = buildVisualMapState();
+      const oda = 'clan.oda' as ClanId;
+      const imagawa = 'clan.imagawa' as ClanId;
+      const saito = 'clan.saito' as ClanId;
+      expect(getStance(state, oda, imagawa)).toBe('war');
+      expect(getStance(state, oda, saito)).toBe('neutral');
     });
   });
 });

@@ -26,7 +26,7 @@ import { applyMarch } from './commands/march';
 import { beginSiege } from './systems/siege';
 import { buildGameState, type ScenarioInput } from './state/builder';
 import { calendarToDay } from './systems/time';
-import { nextId } from './state/serialize';
+import { defaultDiplomacyRow, nextId, pairKey } from './state/serialize';
 import { validateState } from './state/invariants';
 import type { Kinship, Rank, RoadKind } from './state/enums';
 import type {
@@ -905,7 +905,7 @@ export function buildVisualMapState(): GameState {
     originCastleId: CASTLE_KIYOSU,
     leaderId: OFF_ODA_TOSHIIE,
     soldiers: 700,
-    foodDays: 15,
+    foodDays: 5, // [M6-V8] V8D5：view foodDays = 70/14 = 5（3≤5<7 → 補給低，米袋缺口 badge）
     targetNodeId: DIST_KIYOSU_E,
   });
   collapseToHolding(state, toshiieArmy, DIST_KIYOSU_E);
@@ -916,7 +916,7 @@ export function buildVisualMapState(): GameState {
     originCastleId: CASTLE_NARUMI,
     leaderId: OFF_ODA_HIDEYOSHI,
     soldiers: 600,
-    foodDays: 5, // < BAL.autoReturnFoodDays(7)：刻意觸發補給警告門檻
+    foodDays: 2, // [M6-V8] V8D5：view foodDays = 24/12 = 2（<3 → 補給危急，空袋＋驚嘆三角 badge）
     targetNodeId: DIST_NARUMI_E,
   });
   collapseToHolding(state, hideyoshiArmy, DIST_NARUMI_E);
@@ -978,6 +978,34 @@ export function buildVisualMapState(): GameState {
     const army = state.armies[yoshitatsuArmy]!;
     army.edgeProgressDays = army.edgeCostDays * 0.5;
   }
+
+  // ── 守方：今川氏真自掛川出陣馳援駿府，於駿府東郡潰散（敗走＋低士氣）──
+  // [M6-V8] V8D7／§6.2：復用既有城主武將（今川氏真，掛川城主，原未領野戰軍）→ 零新武將、零新字。
+  // INV-04 不要求城主 locationCastleId 落於該城（僅 serving＋同勢力＋rank≥samurai-taisho＋不兼多城）；
+  // INV-07 於領軍時 locationCastleId=null／armyId≠null 恰一者非 null；掛川保留 lordId=UJIZANE 不動。
+  const ujizaneArmy = deployArmy(state, {
+    clanId: CLAN_IMAGAWA,
+    originCastleId: CASTLE_KAKEGAWA,
+    leaderId: OFF_IMAGAWA_UJIZANE,
+    soldiers: 500,
+    foodDays: 12,
+    targetNodeId: CASTLE_SUNPU,
+  });
+  collapseToHolding(state, ujizaneArmy, DIST_SUNPU_E); // 抵駿府東郡
+  {
+    const a = state.armies[ujizaneArmy]!;
+    a.status = 'routed'; // 敗走 → 旗面下垂 20°（V8D7）＋朱紅撤退 badge（V8D6）
+    a.morale = 22; // 低士氣（<UI.moralePipLow=40）→ 破裂外框（V8D8）
+  }
+
+  // ── 外交敵對列（合併非覆蓋，§6.1／#8）：使 relation 三通道確定 ──
+  // Oda↔Imagawa 設 lastHostileDay=今日 → getStance='war' → 今川軍在織田玩家視角為 enemy（朱紅尖角）；
+  // Oda↔Saito 維持預設稀疏列（無協定、從未交戰）→ getStance='neutral' → 齋藤軍為 neutral（灰菱形）；
+  // 織田自軍恆 friendly（靛藍雙環）。只在既有列上補 lastHostileDay，避免蓋掉 beginSiege 之圍城/敵對簿記。
+  const odaImagawaKey = pairKey(CLAN_ODA, CLAN_IMAGAWA);
+  const existingRow =
+    state.diplomacy.rows[odaImagawaKey] ?? defaultDiplomacyRow(CLAN_ODA, CLAN_IMAGAWA);
+  state.diplomacy.rows[odaImagawaKey] = { ...existingRow, lastHostileDay: state.time.day };
 
   const violations = validateState(state);
   if (violations.length > 0) {
