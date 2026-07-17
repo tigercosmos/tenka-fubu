@@ -24,7 +24,7 @@
 | M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13）  | 845 tests＋P1/P2/P3 e2e 綠；24 個月 DoD、全量 review 與 checkpoint 後 review 收尾（73bc28f）完成                                    |
 | M4 軍事一     | ✅ 已完成（2026-07-13）                 | 945 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與 review fix-forward 全綠                                     |
 | M5 合戰       | ✅ **已完成（2026-07-14）**             | 1011 tests、P1/P2/P3/P5、golden/transcript、bench、自行 review 與 checkpoint gate 全綠                                              |
-| M6            | 🎨 M6-V 進行中，**M6-V1～M6-V6 已完成** | M6 功能尚未開工；使用者 2026-07-17 以「地圖要像真的遊戲（缺城／軍／路／城市／地形）」授權 V5–V8 整串視覺鏈，V6/V7/V8 設計已平行產出 |
+| M6            | 🎨 M6-V 進行中，**M6-V1～M6-V7 已完成** | M6 功能尚未開工；使用者 2026-07-17 以「地圖要像真的遊戲（缺城／軍／路／城市／地形）」授權 V5–V8 整串視覺鏈，V6/V7/V8 設計已平行產出 |
 | M7–M9         | ⬜                                      | 依 `plan/18-roadmap.md`                                                                                                             |
 
 ## M6-V 視覺優先工作串流（2026-07-14）
@@ -189,15 +189,30 @@ parallel」＝設計階段平行化。執行模式：Fable orchestrate、設計/
 - 已知小噪音：StrictMode 雙 boot 使 Pixi Assets Resolver 印 "already has key … overwriting"
   warning（terrain/atlas 預熱重複 add，無害；可於 V9/V11 清理）。
 
+### M6-V7 完成記錄（2026-07-17，commits 03bd67f…，直接 commit main）
+
+- **實作**（與 V6 review 補跑合併之 workflow：3 個 V6 backfill lens ∥ V7 slices A/B/C →
+  V6 fixer → V7 slice D → gate）：A terrainKind 顯示欄位（s1560 13 山城指派、builder 不搬、
+  golden 不動）＋fixture CD8（耐久三色＋encircle threatened）；B 四型紙雕城郭＋金色雙環選取環；
+  C seeded 城下聚落＋DistrictNode 狀態；D nodeMarkers 接 sceneParts＋簽章 diff（重繪計數＝
+  簽章 diff 成員數）＋汰除 drawNodeMarker。
+- **V6 review 補跑**：4 findings、1 confirmed（道路名 ink900 fill 與 near-only LOD 無單元斷言
+  ＋pixiMock 丟棄 style），已修。
+- **gate 自抓回歸**：V7 對掛川加玩家方 encircle 圍城使 V6 的「選掛川」重新開 SiegeOverlay
+  遮蔽 baseline——fixture 選取改鳴海城（VISUAL_ENCIRCLE_CASTLE_ID＝掛川另立）。
+- **review**：4 lens＋對抗驗證，3 confirmed 收斂為 1 個真缺陷（graph swap 後選取環殘留——
+  與 V6 roadHighlight 同型），一行修＋回歸測試。
+- **gate**：typecheck／lint／validate:data（0/0）／**1377 tests**（golden byte-identical）／
+  build／e2e 4/5（visual 差異＝預期）；baseline darwin＋linux（--update-snapshots all）重產
+  並親眼驗收（紙雕城郭四型可辨、耐久三色、警戒、選取環、聚落）。
+
 ### 停止點與安全續作順序
 
-1. 本輪已完成 **M6-V5＋M6-V6**（皆已 push；V6 的全量 review 因額度中斷只完成 1/4 lens，
+1. 本輪已完成 **M6-V5＋M6-V6＋M6-V7**（皆已 push；V6 的全量 review 因額度中斷只完成 1/4 lens，
    額度恢復後補跑）。四份最終設計已入 repo：`docs/design/m6-v{5,6,7,8}-*.md`。
-2. 下一步：**V7（城池／郡／聚落）→ V8（軍隊棋子）實作**，各依 `docs/design/m6-v7-castles.md`
-   ／`m6-v8-armies.md` 的 slice 分解與整合序施工（模式同 V5/V6：Workflow 多 slice、
-   Sonnet 一般 slice、Opus 複雜 slice／整合／review、gate agent 收尾；orchestrator 驗收
-   baseline 並分組 commit）。V7 slice A 依賴已 landed 的 V6 fixture 選取
-   （`VISUAL_SELECTED_CASTLE_ID`＝掛川，V7 設計 CD5 已知悉並去重）。
+2. 下一步：**V8（軍隊棋子）實作**，依 `docs/design/m6-v8-armies.md` slice 分解
+   （B → A∥C → E）施工；注意 fixture 選取現為鳴海城、encircle 展示城為掛川
+   （V8 fixture 擴充勿再讓選取城被玩家圍攻，否則 SiegeOverlay 遮 baseline）。
 3. V7/V8 共用 MapRenderer.ts／mapRendererDirty.spec／MapCanvasHost.spec／pixiMock——
    兩 stage 之整合 slice 不得並行；V8 可在 V7 整合完成後開工（V8 設計 Slice E 為唯一
    整合 slice）。
