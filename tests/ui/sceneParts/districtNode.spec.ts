@@ -1,5 +1,7 @@
 // DistrictNode（src/ui/map/sceneParts/districtNode.ts）繪製參數測試。
-// 規格：plan/12-ui-components.md §3.3.3；18-roadmap.md M2-16（12-T10 部分）。
+// 規格：plan/12-ui-components.md §3.3.3；18-roadmap.md M2-16（12-T10 部分）；
+// M6-V7（docs/design/m6-v7-castles.md §3.2/§8.1，Slice C）：三狀態欄改可選（預設直轄點）、
+// `setLodStage` no-op。
 
 import { describe, expect, it, vi } from 'vitest';
 import { Graphics } from 'pixi.js';
@@ -115,6 +117,34 @@ describe('drawDistrictNode（12 §3.3.3）', () => {
   });
 });
 
+describe('drawDistrictNode（M6-V7 AD1：可選狀態欄未提供時之預設）', () => {
+  it('三欄皆未提供 → 視同直轄點（ink900 實心點）、無制壓弧、無一揆三角', () => {
+    const { rec, g } = makeRec();
+    const minimal: DistrictNodeProps = { pos: { x: 0, y: 0 }, colorIndex: 3 };
+    drawDistrictNode(g, minimal);
+
+    // 本體填色/描邊 + 中心點填色 = fill 2 次；本體描邊 = stroke 1 次（無制壓弧）。
+    expect(rec.countOf('fill')).toBe(2);
+    expect(rec.countOf('stroke')).toBe(1);
+    expect(rec.countOf('arc')).toBe(0);
+    expect(rec.countOf('poly')).toBe(0);
+    const dotFill = rec.argsOf('fill')[1]?.[0] as { color: number };
+    expect(dotFill.color).toBe(TOKENS_NUM.ink900);
+  });
+
+  it('未提供欄位與顯式預設值（false/null/false）產生相同繪製指令序', () => {
+    const withDefaults = makeRec();
+    const explicit = makeRec();
+    const base = { pos: { x: 0, y: 0 }, colorIndex: 7 };
+    drawDistrictNode(withDefaults.g, base);
+    drawDistrictNode(
+      explicit.g,
+      props({ ...base, hasSteward: false, subjugationProgress: null, ikkiActive: false }),
+    );
+    expect(withDefaults.rec.calls).toEqual(explicit.rec.calls);
+  });
+});
+
 describe('createDistrictNode（12 §4 ScenePart 工廠）', () => {
   it('container 內建一個 Graphics 子物件；update() 設定 position', () => {
     const part = createDistrictNode();
@@ -143,5 +173,17 @@ describe('createDistrictNode（12 §4 ScenePart 工廠）', () => {
     part.destroy();
     expect(part.container.destroyed).toBe(true);
     expect(() => part.destroy()).not.toThrow();
+  });
+
+  it('setLodStage() no-op：不 throw、不影響 container/繪製狀態', () => {
+    const part = createDistrictNode();
+    part.update(props());
+    const gfx = part.container.children[0] as Graphics;
+    const clearSpy = vi.spyOn(gfx, 'clear');
+    expect(() => part.setLodStage('far')).not.toThrow();
+    expect(() => part.setLodStage('mid')).not.toThrow();
+    expect(() => part.setLodStage('near')).not.toThrow();
+    expect(clearSpy).not.toHaveBeenCalled();
+    expect(part.container.visible).toBe(true);
   });
 });
