@@ -1327,6 +1327,16 @@ dismiss(id): 播退場動畫（--duration-normal）後自 stack 移除
   `authorOrTool` 對應改為 `'tools/gen-assets.ts（程序生成，原創方位盤 SVG）'`。理由：誠實署名
   （避免宣稱人工手繪卻無可稽核的繪製過程）、可決定性重現（雙跑字串完全相同，供
   `tests/data/gen-assets.spec.ts` 覆蓋）、與其餘 4 筆素材一致走同一條可測試生成管線。
+- **D29｜[M6-V7] CastleNode／DistrictNode／選取環落地裁決**：(a) §3.3.2 CastleNode 幾何以
+  平城／山城 × 本城／支城四型剪影＋二階內主郭＋右下投影擴充（保留 28／20 尺寸、填框、耐久環
+  契約）；`terrainKind`／`warning` 併入繪製 props；far 本城只放大剪影 `bodyGfx`。(b) §3.3.2
+  名標 halo：Pixi BitmapText 無 halo 且無預烘焙底板，V7 不引入 halo（對比不足時以 `fill:ink900`
+  修正）；城名重疊風險在 operational（far 無城名），以眼驗收把關。(c) §3.3.4 選取環：art-bible
+  §6.4「金色雙環」優先於 §3.3.4「單環」，改繪雙同心金環（外 hit+6／內 hit+2）；掛於
+  `selectionAndPath` 之 `[roadHighlight, selectionRing, pathPreview]` z-order（plain addChild
+  插序）；脈動延後。(d) §3.3.3 DistrictNode 幾何沿用（filled 70%＋ink700＋中心點）不改為
+  art-bible「空心圓印」。(e) `ScenePart.update` 維持 `void`（節點計數改由 dirty 簽章成員數驅動，
+  非 update 回傳）。(f) 落城補間＋煙塵、受攻低頻脈衝延後至 effect 里程碑。
 
 ---
 
