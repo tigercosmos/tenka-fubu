@@ -13,6 +13,10 @@
 - **2026-07-13 最新覆寫：後續 review 不使用 Codexmon；由 orchestrator 自行 code review 即可。**
 - **一次只做一個里程碑階段，完成後停下（使用者 2026-07-12 指示：勿先開下一階段）。**
 - ⚠ 使用者額度（5 小時窗口）常中斷 agent 艦隊：接手時先 `git status` 看未 commit 的部分產出——**通常品質良好，核實後續作，勿 reset**；workflow 可用 `resumeFromRunId` 續跑（已完成 agent 走快取）。
+- **2026-07-17 使用者指示：session 用量達 75% 即暫停 agent 艦隊，等 5 小時窗口重置再續**。
+  orchestrator 無法直接讀用量表，以代理訊號執行：任一 agent 撞 limit 錯誤＝立即停（收攏已
+  commit 狀態、更新本檔）；session 已跑數小時時傾向「收尾當前階段」而非開新階段；暫停期以長
+  wakeup 待機，重啟艦隊前先以單一 trivial agent 探測額度。
 
 ## 目前進度（里程碑）
 
