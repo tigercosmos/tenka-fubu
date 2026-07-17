@@ -24,7 +24,7 @@
 | M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13）  | 845 tests＋P1/P2/P3 e2e 綠；24 個月 DoD、全量 review 與 checkpoint 後 review 收尾（73bc28f）完成                                    |
 | M4 軍事一     | ✅ 已完成（2026-07-13）                 | 945 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與 review fix-forward 全綠                                     |
 | M5 合戰       | ✅ **已完成（2026-07-14）**             | 1011 tests、P1/P2/P3/P5、golden/transcript、bench、自行 review 與 checkpoint gate 全綠                                              |
-| M6            | 🎨 M6-V 進行中，**M6-V1～M6-V7 已完成** | M6 功能尚未開工；使用者 2026-07-17 以「地圖要像真的遊戲（缺城／軍／路／城市／地形）」授權 V5–V8 整串視覺鏈，V6/V7/V8 設計已平行產出 |
+| M6            | 🎨 M6-V 進行中，**M6-V1～M6-V8 已完成** | M6 功能尚未開工；使用者 2026-07-17 以「地圖要像真的遊戲（缺城／軍／路／城市／地形）」授權 V5–V8 整串視覺鏈，V6/V7/V8 設計已平行產出 |
 | M7–M9         | ⬜                                      | 依 `plan/18-roadmap.md`                                                                                                             |
 
 ## M6-V 視覺優先工作串流（2026-07-14）
@@ -206,13 +206,32 @@ parallel」＝設計階段平行化。執行模式：Fable orchestrate、設計/
   build／e2e 4/5（visual 差異＝預期）；baseline darwin＋linux（--update-snapshots all）重產
   並親眼驗收（紙雕城郭四型可辨、耐久三色、警戒、選取環、聚落）。
 
+### M6-V8 完成記錄（2026-07-17，commits 1f3f1c4…，直接 commit main）
+
+- **實作**（B → A∥C → E → gate）：B ArmyRelation UI 邊界推導＋MAPVIEW 常數；A fixture
+  敗走氏真／補給危急／敵對外交列（零新字）；C 軍旗棋子幾何全升級（關係三通道／方向箭頭／
+  敗走 20° 下垂／士氣形狀通道／單一 badge／washi 兵數底板 stackIndex 錯位／far 變體，58 tests）；
+  E armyChipStage restage（修 preset 不 restage 缺陷）＋heading 內插＋far ×2.4 transform＋
+  選取置頂。**B／A agent 中途死於 API 529，gate agent fix-forward 補完**（B 的 spec 完成＋
+  restricted-import 修正、A 的 fixture 全量實作）。
+- **review 債**：4 lens review 全數死於組織月額度上限（0/4 跑完）；orchestrator 親自審
+  MapRenderer restage／heading／destroy 與 armyChip 契約 hunks 後放行。**額度恢復後應對
+  V8 diff（1f3f1c4…cf73a5d）補跑全量 review**（V6 補跑時 4 findings 1 confirmed 的先例）。
+- **gate**：typecheck／lint／validate:data（0/0、零新字）／**1437 tests**（golden
+  byte-identical）／build／e2e 5/5；bench 記錄 mean 0.30–0.33 ms。
+- **baseline**：darwin＋linux（--update-snapshots all）重產並親眼驗收；V8 像素差同樣
+  <1% 容忍（非 all 模式不重寫，V6 教訓再次適用）。
+- **DoD#5（20 軍 55fps）尚未驗**：bench 只測 core tick；渲染 FPS 場景屬 V11。
+
 ### 停止點與安全續作順序
 
-1. 本輪已完成 **M6-V5＋M6-V6＋M6-V7**（皆已 push；V6 的全量 review 因額度中斷只完成 1/4 lens，
+1. 本輪已完成 **M6-V5＋M6-V6＋M6-V7＋M6-V8**——使用者授權的「像真遊戲」視覺鏈
+   （地形／道路／城池／軍隊）全數 landed（皆已 push；V6 的全量 review 因額度中斷只完成 1/4 lens，
    額度恢復後補跑）。四份最終設計已入 repo：`docs/design/m6-v{5,6,7,8}-*.md`。
-2. 下一步：**V8（軍隊棋子）實作**，依 `docs/design/m6-v8-armies.md` slice 分解
-   （B → A∥C → E）施工；注意 fixture 選取現為鳴海城、encircle 展示城為掛川
-   （V8 fixture 擴充勿再讓選取城被玩家圍攻，否則 SiegeOverlay 遮 baseline）。
+2. 下一步（依 plan/18 M6-V 串流）：**M6-V9（HUD 組裝）→ M6-V10（分析圖層）→
+   M6-V11（視覺／效能／無障礙 gate）**；V9–V11 尚無設計文件，續作時先走設計→對抗評審→
+   實作 workflow 模式。另有兩筆 review 債：V8 全量 review（額度中斷）；V11 應收緊視覺
+   gate（<1% 容忍會漏細線變化，V6/V8 兩度驗證）。
 3. V7/V8 共用 MapRenderer.ts／mapRendererDirty.spec／MapCanvasHost.spec／pixiMock——
    兩 stage 之整合 slice 不得並行；V8 可在 V7 整合完成後開工（V8 設計 Slice E 為唯一
    整合 slice）。
