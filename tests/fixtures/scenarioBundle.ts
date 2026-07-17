@@ -44,6 +44,7 @@ const castles: CastleData[] = [
     food: 5000,
     morale: 80,
     facilities: [],
+    terrainKind: 'plain', // [M6-V7] zCastle 新增顯示欄位（builder 不搬入 GameState）
   },
   {
     id: 'castle.b1',
@@ -60,6 +61,7 @@ const castles: CastleData[] = [
     food: 4500,
     morale: 75,
     facilities: [],
+    terrainKind: 'plain', // [M6-V7] zCastle 新增顯示欄位（builder 不搬入 GameState）
   },
 ];
 

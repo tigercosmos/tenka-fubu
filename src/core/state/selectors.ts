@@ -32,6 +32,7 @@ import type { DerivedCache } from './derivedCache';
 import { getOrCompute } from './derivedCache';
 import { buildMapGraph, type MapGraph } from './mapGraph';
 import { DEBUG_VISUAL_ROAD_DISPLAY } from './debugVisualRoadDisplay';
+import { DEBUG_VISUAL_CASTLE_TERRAIN } from './debugVisualCastleTerrain';
 import type {
   Army,
   Castle,
@@ -59,6 +60,8 @@ import outlineJson from '../../data/map/japan-outline.json';
 import { zJapanOutlineFile } from '../../data/schemas/outline';
 import roadsJson from '../../data/scenarios/s1560/roads.json';
 import { zRoadsFile } from '../../data/schemas/road';
+import castlesJson from '../../data/scenarios/s1560/castles.json';
+import { zCastlesFile } from '../../data/schemas/castle';
 
 // ═══════════════════════════════════════════════════════════════════
 // 曆法（02 §5.1 `season(month)`）
@@ -474,6 +477,40 @@ export function roadDisplayLookup(scenarioId: string): RoadDisplayTable {
   return table;
 }
 
+/**
+ * 城型顯示欄位查表（依 castle id；[M6-V7] CD3）：回傳純顯示欄位 `terrainKind`（'plain'|'mountain'）之表，
+ * 供 `selectMapViewModel` 之 `castles[].terrainKind` 取代 V4/V5 佔位，不寫回 `GameState`，不影響 golden hash
+ * （builder.ts 刻意不搬 terrainKind，見該檔 castles.map 註解）。
+ *
+ * scenario 分派（比照 `roadDisplayLookup`）：
+ *   - `debug-visual-map-01`（visual fixture）→ 回 `DEBUG_VISUAL_CASTLE_TERRAIN`（純資料葉模組；
+ *     不拉進 `debugVisual.ts` 整個建構器）。
+ *   - 其餘（v1.0 唯一真實劇本 `s1560`）→ 直讀 `castles.json` 原始資料＋zod 解析（terrainKind 有 `.default('plain')`）。
+ * 兩者皆以 scenarioId 為鍵做模組級快取（比照 `roadDisplayLookup`／`miniMapOutline`）。查無城 id 之呼叫端
+ * 於 `selectMapViewModel` 以 `?? 'plain'` 補平城（如 tiny/mini 測試劇本之城 id 不在 s1560 表中）。
+ */
+type CastleTerrainTable = Readonly<Record<string, 'plain' | 'mountain'>>;
+
+const cachedCastleTerrain = new Map<string, CastleTerrainTable>();
+
+export function castleTerrainLookup(scenarioId: string): CastleTerrainTable {
+  const cached = cachedCastleTerrain.get(scenarioId);
+  if (cached !== undefined) return cached;
+  let table: CastleTerrainTable;
+  if (scenarioId === DEBUG_VISUAL_SCENARIO_ID) {
+    table = DEBUG_VISUAL_CASTLE_TERRAIN;
+  } else {
+    const file = zCastlesFile.parse(castlesJson);
+    const out: Record<string, 'plain' | 'mountain'> = {};
+    for (const c of file) {
+      out[c.id] = c.terrainKind;
+    }
+    table = out;
+  }
+  cachedCastleTerrain.set(scenarioId, table);
+  return table;
+}
+
 /** 地圖（04 §4.6 `MapStaticData`）靜態資料：城∪郡節點圖＋勢力色索引＋城格＋顯示名＋國名標籤位置。 */
 export interface MapStaticModel {
   graph: MapGraph;
@@ -532,6 +569,21 @@ export interface MapCastleViewModel {
   warning: 'none' | 'threatened' | 'critical';
 }
 
+/**
+ * 郡節點次級狀態動態視圖（[M6-V7] AD1）：`districtNode` 需知行／制壓／一揆次級狀態，而 `MapViewState`
+ * 既有欄位僅有 `districtOwner`（單一 owner 真相）。本 view-model 只補次級狀態，郡填色仍取 `districtOwner`。
+ * golden 安全（純 view-model；fixture／s1560 開局 steward/subjugation/uprising 多為 null → baseline 無差異）。
+ */
+export interface MapDistrictViewModel {
+  id: DistrictId;
+  /** 是否已置領主（知行受封）：= `District.stewardId !== null`。 */
+  hasSteward: boolean;
+  /** 制壓進度 0..100；無人制壓時 null：= `District.subjugation?.progress ?? null`。 */
+  subjugationProgress: number | null;
+  /** 是否一揆中：= `District.uprising !== null`。 */
+  ikkiActive: boolean;
+}
+
 /** 出陣部隊動態視圖（04 §4.6 `MapViewState.armies[]`；[M6-V4]）。座標無關——內插參數交給 renderer（D6）。 */
 export interface MapArmyViewModel {
   id: string;
@@ -573,6 +625,8 @@ export interface MapViewModel {
   /** 04 canonical 放寬為 `| null`（[M6-V4] D2；s1560 資料值恆非 null）。 */
   districtOwner: Record<string, string | null>;
   castles: MapCastleViewModel[];
+  /** 郡次級狀態（[M6-V7] AD1；依 id 字典序）。owner 仍取 `districtOwner`，本欄僅補知行／制壓／一揆。 */
+  districts: MapDistrictViewModel[];
   armies: MapArmyViewModel[];
   /** 擴充：驅動現有 `SiegeMarker`（D5）。 */
   sieges: MapSiegeViewModel[];
@@ -590,6 +644,9 @@ export function selectMapViewModel(state: GameState): MapViewModel {
   for (const district of Object.values<District>(state.districts)) {
     districtOwner[district.id] = district.ownerClanId;
   }
+
+  // 1b. 城型顯示查表（[M6-V7] CD3；scenario 分派，view 邊界注入，不進 GameState）。
+  const terrain = castleTerrainLookup(state.meta.scenarioId);
 
   // 2. 圍城反查表：castleId → SiegeMode（一城至多一場進行中 Siege，02 §4.10 單勢力聯攻）。
   const siegeModeByCastle = new Map<CastleId, SiegeMode>();
@@ -610,12 +667,25 @@ export function selectMapViewModel(state: GameState): MapViewModel {
         durability: c.durability,
         maxDurability: c.maxDurability,
         tier: c.tier,
-        terrainKind: 'plain', // [M6-V4] D3：V4 佔位
+        terrainKind: terrain[id] ?? 'plain', // [M6-V7] CD3：真值取自 castleTerrainLookup（取代 V4 佔位）
         siegeMode,
         warning,
       };
     },
   );
+
+  // 3b. districts[]（次級狀態，依 id 字典序；[M6-V7] AD1）。owner 仍走 districtOwner。
+  const districts: MapDistrictViewModel[] = (
+    Object.keys(state.districts).sort() as DistrictId[]
+  ).map((id) => {
+    const d = state.districts[id] as District;
+    return {
+      id: d.id,
+      hasSteward: d.stewardId !== null,
+      subjugationProgress: d.subjugation?.progress ?? null,
+      ikkiActive: d.uprising !== null,
+    };
+  });
 
   // 4. armies[]（依 id 字典序）——座標無關，只給 renderer 端內插參數（D6）。
   const armies: MapArmyViewModel[] = (Object.keys(state.armies).sort() as ArmyId[]).map((id) => {
@@ -673,6 +743,7 @@ export function selectMapViewModel(state: GameState): MapViewModel {
     day: state.time.day,
     districtOwner,
     castles,
+    districts,
     armies,
     sieges,
     battles,

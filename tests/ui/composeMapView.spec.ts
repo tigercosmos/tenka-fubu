@@ -50,6 +50,7 @@ function makeModel(overrides: Partial<MapViewModel> = {}): MapViewModel {
         corps: true,
       },
     ],
+    districts: [], // [M6-V7] AD1：MapViewModel 新增必填 districts（pass-through；此測試不涉次級狀態）
     sieges: [{ id: 'siege.1', pos: { x: 1, y: 2 }, mode: 'encircle' }],
     battles: [{ nodeOrEdgeId: 'castle.a', kind: 'siege' }],
     analysisMode: 'none',

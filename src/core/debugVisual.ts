@@ -75,12 +75,22 @@ const CASTLE_GIFU = 'castle.gifu' as CastleId; // 齋藤本城
 export const VISUAL_ANCHOR_CASTLE_ID = CASTLE_SUNPU;
 
 /**
- * 視覺 fixture 之預設選取城（M6-V6 選取高亮入三段 baseline 用）：刻意取**非圍城中**的
- * 掛川城，而非錨點駿府——玩家（織田）正圍攻駿府，選取駿府會開 `SiegeOverlay` 攻城面板，
- * 於三段截圖置中遮蔽主戰場（違反 M6-V DoD「HUD 不遮蔽主戰場」）。掛川相鄰道路涵蓋
- * grade 2 陸路、兩條 grade 1 小路與海路，正好展示多道級高亮。
+ * 視覺 fixture 之預設選取城（M6-V6 選取高亮入三段 baseline 用）：刻意取**未被玩家圍攻**的
+ * 鳴海城，而非錨點駿府或掛川——玩家（織田）正圍攻駿府（assault）與掛川（encircle，見 CD8），
+ * 選取任一被玩家圍攻的城會開 `SiegeOverlay` 攻城面板，於三段截圖置中遮蔽主戰場（違反 M6-V
+ * DoD「HUD 不遮蔽主戰場」）。鳴海為織田前線支城，相鄰道路涵蓋 grade 3 東海道幹道（往駿府）、
+ * grade 2 尾張幹道（往清洲）與兩條 grade 1 小路，正好展示多道級選取高亮；且於三段鏡頭皆入框。
+ * （M6-V6 原選掛川係因其當時未被圍；M6-V7 CD8 於掛川新增 encircle 圍城後，改選鳴海以維持
+ * 「選取城非玩家圍攻目標→不開攻城面板」之不變式，見設計 §6.3。）
  */
-export const VISUAL_SELECTED_CASTLE_ID = CASTLE_KAKEGAWA;
+export const VISUAL_SELECTED_CASTLE_ID = CASTLE_NARUMI;
+
+/**
+ * 城型／耐久／警戒 DoD 佐證所用之 encircle 示範城（掛川）：耐久 45%（金環）＋ encircle→threatened
+ * （金烽火）。與「選取城」（見上）刻意分離，避免選取被圍城觸發 SiegeOverlay 遮蔽戰場。
+ * `tests/visual/debugVisual.spec` 以此常數斷言掛川之耐久 ratio／warning／siege mode（CD8）。
+ */
+export const VISUAL_ENCIRCLE_CASTLE_ID = CASTLE_KAKEGAWA;
 
 // ── 郡 id（每城 2 郡，INV-03 合法範圍） ──
 const DIST_KIYOSU_E = 'dist.kiyosu-higashi' as DistrictId;
@@ -106,6 +116,7 @@ const OFF_ODA_KATSUIE = 'off.oda-katsuie' as OfficerId; // 圍城攻方大將
 const OFF_ODA_NAGAHIDE = 'off.oda-nagahide' as OfficerId; // 行軍中（多節點）
 const OFF_ODA_TOSHIIE = 'off.oda-toshiie' as OfficerId; // 固守
 const OFF_ODA_HIDEYOSHI = 'off.oda-hideyoshi' as OfficerId; // 固守＋補給警告
+const OFF_ODA_YOSHINARI = 'off.oda-yoshinari' as OfficerId; // 圍掛川（encircle，示範 threatened 金烽火；CD8）
 
 const OFF_IMAGAWA_YOSHIMOTO = 'off.imagawa-yoshimoto' as OfficerId; // 今川家當主／駿府城主
 const OFF_IMAGAWA_UJIZANE = 'off.imagawa-ujizane' as OfficerId; // 掛川城主
@@ -181,6 +192,8 @@ function makeCastle(p: {
   lordId: OfficerId | null;
   coastal: boolean;
   durability: number;
+  /** [M6-V7] CD8：滿耐久之城可省略（預設＝durability，ratio 1.0→綠環）；受損城顯式指定以現三色門檻。 */
+  maxDurability?: number;
   soldiers: number;
   food: number;
   districtIds: DistrictId[];
@@ -197,7 +210,7 @@ function makeCastle(p: {
     directControl: true,
     corpsId: null,
     durability: p.durability,
-    maxDurability: p.durability,
+    maxDurability: p.maxDurability ?? p.durability,
     soldiers: p.soldiers,
     food: p.food,
     foodFrac: 0,
@@ -392,6 +405,21 @@ const officers: Officer[] = [
     locationCastleId: CASTLE_NARUMI,
   }),
   makeOfficer({
+    id: OFF_ODA_YOSHINARI,
+    name: '森可成',
+    clanId: CLAN_ODA,
+    rank: 'busho',
+    ldr: 72,
+    val: 74,
+    int: 55,
+    pol: 48,
+    loyalty: 82,
+    kinship: 'fudai',
+    birthYear: 1523,
+    deathYear: 1590,
+    locationCastleId: CASTLE_NARUMI,
+  }),
+  makeOfficer({
     id: OFF_IMAGAWA_YOSHIMOTO,
     name: '今川義元',
     clanId: CLAN_IMAGAWA,
@@ -536,7 +564,9 @@ const castles: Castle[] = [
     ownerClanId: CLAN_IMAGAWA,
     lordId: OFF_IMAGAWA_YOSHIMOTO,
     coastal: false,
-    durability: BAL.durabilityMain,
+    // [M6-V7] CD8：耐久 25%（ratio 0.25 ≤ Danger → 朱環）；受 assault 圍城→critical（朱光暈），語意一致（瀕危被強攻）。
+    durability: Math.round(BAL.durabilityMain * 0.25),
+    maxDurability: BAL.durabilityMain,
     soldiers: 5000,
     food: 18000,
     districtIds: [DIST_SUNPU_E, DIST_SUNPU_W],
@@ -550,7 +580,9 @@ const castles: Castle[] = [
     ownerClanId: CLAN_IMAGAWA,
     lordId: OFF_IMAGAWA_UJIZANE,
     coastal: true,
-    durability: BAL.durabilityBranch,
+    // [M6-V7] CD8：耐久 45%（ratio 0.45 介於 Danger/Warn → 金環）；受 encircle 圍城→threatened（金烽火）。
+    durability: Math.round(BAL.durabilityBranch * 0.45),
+    maxDurability: BAL.durabilityBranch,
     soldiers: 2500,
     food: 7000,
     districtIds: [DIST_KAKEGAWA_E, DIST_KAKEGAWA_W],
@@ -797,8 +829,9 @@ function collapseToMidTransit(
 /**
  * 建立 M6-V2 固定視覺 fixture（17 §3.9.3）：織田（攻方）／今川（守方，本城遭圍）／齋藤（第三方）
  * 三勢力、5 城（2 本城＋2 支城為下限，齋藤另補 1 本城）、10 郡、14 條街道（涵蓋道級 1/2/3 與海路），
- * 9 支軍隊（sieging／marching［≥2 多節點中途］／holding，含 1 支補給警告），
- * 1 場對 `VISUAL_ANCHOR_CASTLE_ID` 的進行中圍城，1 筆合法 Report。
+ * 10 支軍隊（sieging／marching［≥2 多節點中途］／holding，含 1 支補給警告），
+ * 2 場進行中圍城（駿府 assault→critical、掛川 encircle→threatened；[M6-V7] CD8 令警戒雙態與
+ * 耐久三色門檻在三段 baseline 可見），1 筆合法 Report。
  *
  * 決定論：全程不讀 Math.random/Date.now；純由本檔常數與 `applyMarch`／`beginSiege`（皆為決定論
  * core 函式）推導，故同一呼叫序列重複呼叫本函式產生的 state 必然 hashState 相同。
@@ -832,6 +865,28 @@ export function buildVisualMapState(): GameState {
     event: siegeStarted,
     read: false,
   });
+
+  // ── 攻方：森可成自鳴海出陣圍掛川（今川支城），encircle 模式（CD8：示範 threatened 金色烽火）──
+  // beginSiege 預設 mode='assault'（siege.ts），故於其後將該 siege 之 mode 覆寫為 'encircle'；
+  // 攻方為小型軍（600 < 掛川 2500 × BAL.encircleRatio(3)＝7500），靜態 fixture 不再 tick，mode 穩定。
+  const yoshinariArmy = deployArmy(state, {
+    clanId: CLAN_ODA,
+    originCastleId: CASTLE_NARUMI,
+    leaderId: OFF_ODA_YOSHINARI,
+    soldiers: 600,
+    foodDays: 15,
+    targetNodeId: CASTLE_KAKEGAWA,
+  });
+  collapseToHolding(state, yoshinariArmy, CASTLE_KAKEGAWA);
+  const kakegawaSiegeEvents = beginSiege(state, CASTLE_KAKEGAWA, yoshinariArmy);
+  const kakegawaSiegeStarted = kakegawaSiegeEvents.find((event) => event.type === 'siege.started');
+  if (kakegawaSiegeStarted === undefined || kakegawaSiegeStarted.type !== 'siege.started') {
+    throw new CoreError(
+      'DATA_INTEGRITY',
+      'debugVisual：掛川圍城未能正確開始（beginSiege 未發事件）',
+    );
+  }
+  state.sieges[kakegawaSiegeStarted.siegeId]!.mode = 'encircle';
 
   // ── 攻方：丹羽長秀自清洲行軍中，途經鳴海往鳴海西郡（多節點 path，中途，非跨勢力）──
   const nagahideArmy = deployArmy(state, {

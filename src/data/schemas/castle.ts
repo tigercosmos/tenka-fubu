@@ -21,6 +21,9 @@ export const zCastle = z.object({
   food: int0, // 兵糧（石）
   morale: pct100.default(70), // 城士氣
   facilities: z.array(id(RE.fac)).default([]), // 已完工施設；長度 ≤ slot 數（6/3）
+  terrainKind: z.enum(['plain', 'mountain']).default('plain'),
+  // 城型（顯示用；平城／山城剪影）。[M6-V7]：builder.ts 刻意不搬入 GameState `Castle`，
+  // 僅經 view 邊界 castleTerrainLookup 供給 MapViewState，故 golden/stateHash byte-identical。
 });
 export type CastleData = z.infer<typeof zCastle>;
 

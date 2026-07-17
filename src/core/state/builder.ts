@@ -640,6 +640,9 @@ export function deriveScenarioInput(
   const castles: Castle[] = filtered.castles.map((c) => {
     const durability =
       c.maxDurability ?? (c.tier === 'main' ? BAL.durabilityMain : BAL.durabilityBranch);
+    // [M6-V7] CD3：`c.terrainKind`（zCastle 顯示欄位）刻意**不搬**入 `Castle`（以具名欄位逐一構造，
+    // 非 spread），故不進 GameState／stateHash，golden byte-identical。城型僅經 view 邊界
+    // `selectors.castleTerrainLookup` 供給 `MapViewState`（比照 roads.json 之 name/waypoints）。
     return {
       id: c.id as CastleId,
       name: c.name,

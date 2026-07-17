@@ -6,9 +6,11 @@ import {
   buildVisualMapState,
   DEBUG_VISUAL_MAP_ID,
   VISUAL_ANCHOR_CASTLE_ID,
+  VISUAL_ENCIRCLE_CASTLE_ID,
 } from '../../src/core/debugVisual';
 import { validateState } from '../../src/core/state/invariants';
 import { stateHash } from '../../src/core/state/serialize';
+import { selectMapViewModel } from '../../src/core/state/selectors';
 import { advanceDay } from '../../src/core/systems';
 
 describe('debugVisual：buildVisualMapState（M6-V2 固定視覺 fixture）', () => {
@@ -131,5 +133,45 @@ describe('debugVisual：buildVisualMapState（M6-V2 固定視覺 fixture）', ()
       expect(() => advanceDay(state, [])).not.toThrow();
     }
     expect(validateState(state)).toEqual([]);
+  });
+
+  // ── [M6-V7] CD8：耐久三色門檻與警戒雙態於三段 baseline 可見之 fixture 佐證 ──
+  describe('[M6-V7] CD8：耐久三色門檻＋警戒雙態', () => {
+    it('駿府：耐久 ratio≈0.25（朱環）且 assault→critical（受攻）', () => {
+      const state = buildVisualMapState();
+      const sunpu = state.castles[VISUAL_ANCHOR_CASTLE_ID]!;
+      expect(sunpu.durability / sunpu.maxDurability).toBeCloseTo(0.25, 2);
+      const view = selectMapViewModel(state);
+      const sunpuView = view.castles.find((c) => c.id === VISUAL_ANCHOR_CASTLE_ID)!;
+      expect(sunpuView.siegeMode).toBe('assault');
+      expect(sunpuView.warning).toBe('critical');
+    });
+
+    it('掛川：耐久 ratio≈0.45（金環）且 encircle→threatened（警戒金烽火）', () => {
+      const state = buildVisualMapState();
+      const kakegawa = state.castles[VISUAL_ENCIRCLE_CASTLE_ID]!;
+      expect(kakegawa.durability / kakegawa.maxDurability).toBeCloseTo(0.45, 2);
+      const view = selectMapViewModel(state);
+      const kakegawaView = view.castles.find((c) => c.id === VISUAL_ENCIRCLE_CASTLE_ID)!;
+      expect(kakegawaView.siegeMode).toBe('encircle');
+      expect(kakegawaView.warning).toBe('threatened');
+    });
+
+    it('其餘城（清洲／鳴海／岐阜）滿耐久（ratio 1.0 → 綠環）', () => {
+      const state = buildVisualMapState();
+      for (const id of ['castle.kiyosu', 'castle.narumi', 'castle.gifu']) {
+        const c = state.castles[id as keyof typeof state.castles]!;
+        expect(c.durability).toBe(c.maxDurability);
+      }
+    });
+
+    it('圍城：恰有兩場（駿府 assault、掛川 encircle）', () => {
+      const state = buildVisualMapState();
+      const sieges = Object.values(state.sieges);
+      expect(sieges).toHaveLength(2);
+      const byCastle = new Map(sieges.map((s) => [s.castleId, s.mode]));
+      expect(byCastle.get(VISUAL_ANCHOR_CASTLE_ID)).toBe('assault');
+      expect(byCastle.get(VISUAL_ENCIRCLE_CASTLE_ID)).toBe('encircle');
+    });
   });
 });

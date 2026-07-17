@@ -173,7 +173,8 @@
     "lordId": "off.saito-yoshitatsu",
     "soldiers": 2400,
     "food": 6000,
-    "facilities": ["fac.ichi"]
+    "facilities": ["fac.ichi"],
+    "terrainKind": "mountain"
   },
   {
     "id": "castle.ogaki",
@@ -205,7 +206,8 @@
     "lordId": "off.toyama-kageto",
     "soldiers": 800,
     "food": 1800,
-    "facilities": []
+    "facilities": [],
+    "terrainKind": "mountain"
   },
   {
     "id": "castle.kiriyama",
@@ -221,7 +223,8 @@
     "lordId": "off.kitabatake-tomonori",
     "soldiers": 2000,
     "food": 5000,
-    "facilities": []
+    "facilities": [],
+    "terrainKind": "mountain"
   },
   {
     "id": "castle.tamaru",
@@ -253,7 +256,8 @@
     "lordId": "off.azai-nagamasa",
     "soldiers": 2000,
     "food": 5000,
-    "facilities": []
+    "facilities": [],
+    "terrainKind": "mountain"
   },
   {
     "id": "castle.sawayama",
@@ -269,7 +273,8 @@
     "lordId": "off.isono-kazumasa",
     "soldiers": 1200,
     "food": 3000,
-    "facilities": []
+    "facilities": [],
+    "terrainKind": "mountain"
   },
   {
     "id": "castle.kannonji",
@@ -285,7 +290,8 @@
     "lordId": "off.rokkaku-yoshikata",
     "soldiers": 2200,
     "food": 5500,
-    "facilities": ["fac.ichi"]
+    "facilities": ["fac.ichi"],
+    "terrainKind": "mountain"
   },
   {
     "id": "castle.hino",
@@ -349,7 +355,8 @@
     "lordId": "off.miyoshi-nagayoshi",
     "soldiers": 2600,
     "food": 6500,
-    "facilities": ["fac.ichi"]
+    "facilities": ["fac.ichi"],
+    "terrainKind": "mountain"
   },
   {
     "id": "castle.ishiyama",
@@ -381,7 +388,8 @@
     "lordId": "off.miyoshi-yoshioki",
     "soldiers": 1600,
     "food": 4000,
-    "facilities": []
+    "facilities": [],
+    "terrainKind": "mountain"
   },
   {
     "id": "castle.takaya",
@@ -429,7 +437,8 @@
     "lordId": "off.matsunaga-hisahide",
     "soldiers": 1500,
     "food": 3800,
-    "facilities": []
+    "facilities": [],
+    "terrainKind": "mountain"
   },
   {
     "id": "castle.tsutsui",
@@ -477,7 +486,8 @@
     "lordId": "off.hatano-harumichi",
     "soldiers": 1500,
     "food": 3800,
-    "facilities": []
+    "facilities": [],
+    "terrainKind": "mountain"
   },
   {
     "id": "castle.yagi",
@@ -493,7 +503,8 @@
     "lordId": "off.hatano-munenaga",
     "soldiers": 900,
     "food": 2000,
-    "facilities": []
+    "facilities": [],
+    "terrainKind": "mountain"
   },
   {
     "id": "castle.konosumiyama",
@@ -509,7 +520,8 @@
     "lordId": "off.yamana-suketoyo",
     "soldiers": 1400,
     "food": 3500,
-    "facilities": []
+    "facilities": [],
+    "terrainKind": "mountain"
   },
   {
     "id": "castle.takeda",
@@ -525,7 +537,8 @@
     "lordId": "off.otagaki-terunobu",
     "soldiers": 900,
     "food": 2000,
-    "facilities": []
+    "facilities": [],
+    "terrainKind": "mountain"
   },
   {
     "id": "castle.nagashima",

@@ -47,6 +47,7 @@ function mkCastle(over: Partial<CastleData> & Pick<CastleData, 'id'>): CastleDat
     food: 2500,
     morale: 70,
     facilities: [],
+    terrainKind: 'plain', // [M6-V7] zCastle 新增顯示欄位（builder 不搬入 GameState）
     ...over,
   };
 }

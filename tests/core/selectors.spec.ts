@@ -334,6 +334,32 @@ describe('selectMapViewModel（04 §4.6；[M6-V4] 全量補齊）', () => {
     });
   });
 
+  it('districts[]：依 id 字典序；tiny 開局全直轄（stewardId/subjugation/uprising 皆 null）→ 預設值', () => {
+    const state = buildTinyState();
+    const model = selectMapViewModel(state);
+    const ids = model.districts.map((d) => d.id);
+    expect(ids).toEqual([...ids].sort());
+    expect(ids).toContain(DIST_A1X);
+    for (const d of model.districts) {
+      expect(d.hasSteward).toBe(false);
+      expect(d.subjugationProgress).toBeNull();
+      expect(d.ikkiActive).toBe(false);
+    }
+  });
+
+  it('districts[]：次級狀態自 District 推導（hasSteward／subjugationProgress／ikkiActive；[M6-V7] AD1）', () => {
+    const state = buildTinyState();
+    const district = state.districts[DIST_A1X]!;
+    district.stewardId = OFF_ALPHA_BUSHO;
+    district.subjugation = { clanId: CLAN_BETA, progress: 42, daysRequired: 10 };
+    district.uprising = { startedOnDay: 0, armySoldiers: 500 };
+    const model = selectMapViewModel(state);
+    const view = model.districts.find((d) => d.id === DIST_A1X)!;
+    expect(view.hasSteward).toBe(true);
+    expect(view.subjugationProgress).toBe(42);
+    expect(view.ikkiActive).toBe(true);
+  });
+
   it('圍城 encircle：該城 siegeMode=encircle、warning=threatened；其餘城不受影響', () => {
     const state = buildTinyState();
     const siegeId = 'siege.000001' as SiegeId;
