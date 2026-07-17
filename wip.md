@@ -24,7 +24,7 @@
 | M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13）  | 845 tests＋P1/P2/P3 e2e 綠；24 個月 DoD、全量 review 與 checkpoint 後 review 收尾（73bc28f）完成                                    |
 | M4 軍事一     | ✅ 已完成（2026-07-13）                 | 945 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與 review fix-forward 全綠                                     |
 | M5 合戰       | ✅ **已完成（2026-07-14）**             | 1011 tests、P1/P2/P3/P5、golden/transcript、bench、自行 review 與 checkpoint gate 全綠                                              |
-| M6            | 🎨 M6-V 進行中，**M6-V1～M6-V5 已完成** | M6 功能尚未開工；使用者 2026-07-17 以「地圖要像真的遊戲（缺城／軍／路／城市／地形）」授權 V5–V8 整串視覺鏈，V6/V7/V8 設計已平行產出 |
+| M6            | 🎨 M6-V 進行中，**M6-V1～M6-V6 已完成** | M6 功能尚未開工；使用者 2026-07-17 以「地圖要像真的遊戲（缺城／軍／路／城市／地形）」授權 V5–V8 整串視覺鏈，V6/V7/V8 設計已平行產出 |
 | M7–M9         | ⬜                                      | 依 `plan/18-roadmap.md`                                                                                                             |
 
 ## M6-V 視覺優先工作串流（2026-07-14）
@@ -166,19 +166,45 @@ parallel」＝設計階段平行化。執行模式：Fable orchestrate、設計/
   linux npm ci 會毀掉本機 darwin 原生模組**——本輪踩過，`npm ci` 復原）。orchestrator 親眼
   驗收 §9.3 全項：紙浮雕日本、山系／森林／河湖可辨、領地染紙透出地形、無白海岸線。
 
+### M6-V6 完成記錄（2026-07-17，commits 87e744c…42241e0，直接 commit main）
+
+- **設計**：因 workflow args 傳遞 bug，三個平行設計 workflow 全部收斂到 V6，副作用是 V6 取得
+  **六份**對抗性評審＋兩輪修訂（含 per-stage 線寬倍率修正——固定世界線寬在 overview 0.25 呈
+  次像素）。最終設計已保存 `docs/design/m6-v6-roads.md`。
+- **實作**（6 slice 依 B→A∥D→C→E→F 序）：B 道路常數；A roads bridges schema＋東海道
+  waypoints／橋樑（避 mass、沿段密取樣 pointInPolygon 把關）＋roadDisplayLookup 分派；
+  C RoadsLayer（五 tier casing／內線／海路波節落海／per-stage 重描）；D 命中 CSS-px 下限；
+  E 選取高亮；F 整合（far 不再整層隱 roads、汰除 drawRoads）。
+- **review 中斷**：4 lens 對抗性 review 跑到一半撞**組織月額度上限**（4/5 agent 死亡）；
+  唯一完成的 lifecycle lens 找到 1 個 minor（graph swap 後 null 選取殘留舊高亮），由
+  orchestrator 親自驗證屬實並修復＋回歸測試。**其餘 3 lens（visual-spec／data-geography／
+  tests-quality）未跑**——額度恢復後應對 V6 diff（87e744c…6cf8dce）補跑全量 review。
+- **orchestrator 追加修正**：fixture 選取由駿府改為**非圍城中的掛川城**
+  （`VISUAL_SELECTED_CASTLE_ID`）——選駿府會開 SiegeOverlay 於三段截圖置中遮蔽主戰場。
+- **gate**：typecheck／lint／validate:data（0/0）／**1321 tests**（golden byte-identical）／
+  build／e2e P1/P2/P3/P5 綠；baseline darwin＋linux 重產並親眼驗收。
+- **⚠ 視覺 gate 弱點（V11 待補）**：V6 細線變化在三 preset 皆落在 `maxDiffPixelRatio 0.01`
+  容忍內——**stale baseline 也會綠燈**；linux baseline 須以 `--update-snapshots all` 強制重寫
+  （預設 changed 模式不觸發）。V11 應加 layer-presence smoke 或收緊容忍度。
+- 已知小噪音：StrictMode 雙 boot 使 Pixi Assets Resolver 印 "already has key … overwriting"
+  warning（terrain/atlas 預熱重複 add，無害；可於 V9/V11 清理）。
+
 ### 停止點與安全續作順序
 
-1. 本輪已完成 **M6-V5**（含 review fix-forward、雙平台 baseline、plan/04 §8 回寫）。
-2. **V6／V7／V8 最終設計文件已平行產出**於 session scratchpad：`design-m6v6-final.md`／
-   `design-m6v7-final.md`／`design-m6v8-final.md`（各自經設計→雙對抗評審→修訂）。續作時
-   先讀對應設計檔，再依其 slice 分解啟動實作 workflow（模式同 V5：Sonnet 一般 slice、
-   Opus 複雜 slice／整合／review）。
-3. 建議實作順序 V6→V7→V8（V6/V7 依賴 V5 的 13 層與 LOD stage；V8 只依 V3/V4，可視情況
-   與 V6 交錯，但共用 MapRenderer.ts／gen-assets.ts／manifest.ts，同一時間只允許一個
-   stage 的整合 slice 動這些檔）。
-4. 更新視覺 baseline 一律獨立 commit＋附 before/after 說明（17 §3.9.3）；V6/V7/V8 皆為
-   預期改變 baseline 的階段。V6 若渲染道路名（RoadEdge.name 進 BitmapText）**必須跑
-   `npm run font:subset`**。
+1. 本輪已完成 **M6-V5＋M6-V6**（皆已 push；V6 的全量 review 因額度中斷只完成 1/4 lens，
+   額度恢復後補跑）。四份最終設計已入 repo：`docs/design/m6-v{5,6,7,8}-*.md`。
+2. 下一步：**V7（城池／郡／聚落）→ V8（軍隊棋子）實作**，各依 `docs/design/m6-v7-castles.md`
+   ／`m6-v8-armies.md` 的 slice 分解與整合序施工（模式同 V5/V6：Workflow 多 slice、
+   Sonnet 一般 slice、Opus 複雜 slice／整合／review、gate agent 收尾；orchestrator 驗收
+   baseline 並分組 commit）。V7 slice A 依賴已 landed 的 V6 fixture 選取
+   （`VISUAL_SELECTED_CASTLE_ID`＝掛川，V7 設計 CD5 已知悉並去重）。
+3. V7/V8 共用 MapRenderer.ts／mapRendererDirty.spec／MapCanvasHost.spec／pixiMock——
+   兩 stage 之整合 slice 不得並行；V8 可在 V7 整合完成後開工（V8 設計 Slice E 為唯一
+   整合 slice）。
+4. 更新視覺 baseline 一律獨立 commit＋附 before/after；**linux 重產記得
+   `--update-snapshots all`**＋容器匿名 volume 蓋 node_modules（見 V5/V6 記錄兩個坑）。
+5. M6-V9（HUD）前已知版面既有問題：頁面底部 washi 背景條、SiegeOverlay 置中遮圖
+   （V6 已以 fixture 選取繞開，正式解法屬 V9 HUD 版面）。
 
 ## M4 已收尾（2026-07-13）
 
