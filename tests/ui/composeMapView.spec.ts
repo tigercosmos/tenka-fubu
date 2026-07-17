@@ -2,9 +2,11 @@
 // node 環境（純函式，無 pixi/DOM 相依）；不需 mock。
 
 import { describe, expect, it } from 'vitest';
-import { composeMapViewState } from '@ui/map/composeMapView';
+import { composeMapViewState, stanceToRelation } from '@ui/map/composeMapView';
 import type { MapViewModel } from '@core/state/selectors';
 import type { CastleId, ClanId, MapNodeId } from '@core/state/ids';
+import type { Stance } from '@core/systems/pathfinding';
+import type { ArmyRelation } from '@ui/map/mapViewTypes';
 
 function makeModel(overrides: Partial<MapViewModel> = {}): MapViewModel {
   return {
@@ -99,12 +101,13 @@ describe('composeMapViewState（M6-V4 §4.2）', () => {
     expect(out.analysisMode).toBe(model.analysisMode);
   });
 
-  it('armies[]：除 selected 外其餘欄位逐一直通不變形', () => {
+  it('armies[]：除 selected／relation 外其餘欄位逐一直通不變形', () => {
     const model = makeModel();
     const out = composeMapViewState(model, null);
     out.armies.forEach((a, i) => {
       const rest: Record<string, unknown> = { ...a };
       delete rest.selected;
+      delete rest.relation; // M6-V8 V8D3：relation 由 composeMapViewState 推導，非 model 直通欄位（#7）
       expect(rest).toEqual(model.armies[i]);
     });
   });
@@ -121,5 +124,39 @@ describe('composeMapViewState（M6-V4 §4.2）', () => {
     const a = composeMapViewState(model, { kind: 'castle', id: 'castle.a' });
     const b = composeMapViewState(model, { kind: 'castle', id: 'castle.a' });
     expect(a).toEqual(b);
+  });
+});
+
+describe('relation 推導（M6-V8 §4.1／V8D3）', () => {
+  it('預設（無 resolver）：己方→friendly、他方→enemy、undefined playerClanId→neutral', () => {
+    // model.armies：army.1=clan.a、army.2=clan.b
+    const asPlayerA = composeMapViewState(makeModel(), null, 'clan.a');
+    const relA = new Map(asPlayerA.armies.map((a) => [a.id, a.relation]));
+    expect(relA.get('army.1')).toBe('friendly'); // 己方
+    expect(relA.get('army.2')).toBe('enemy'); // 有玩家、非己方
+
+    const asSpectator = composeMapViewState(makeModel(), null); // playerClanId undefined
+    expect(asSpectator.armies.every((a) => a.relation === 'neutral')).toBe(true);
+  });
+
+  it('注入 relationOf resolver：採用其回傳值（覆寫預設）', () => {
+    const resolver = (clanId: string): ArmyRelation => (clanId === 'clan.b' ? 'neutral' : 'enemy');
+    const out = composeMapViewState(makeModel(), null, 'clan.a', resolver);
+    const rel = new Map(out.armies.map((a) => [a.id, a.relation]));
+    expect(rel.get('army.1')).toBe('enemy'); // resolver 覆寫（預設本會是 friendly）
+    expect(rel.get('army.2')).toBe('neutral');
+  });
+
+  it('stanceToRelation：5 個 Stance 全對映（own/friendly→friendly、war→enemy、ceasefire/neutral→neutral）', () => {
+    const cases: ReadonlyArray<[Stance, ArmyRelation]> = [
+      ['own', 'friendly'],
+      ['friendly', 'friendly'],
+      ['war', 'enemy'],
+      ['ceasefire', 'neutral'],
+      ['neutral', 'neutral'],
+    ];
+    for (const [stance, expected] of cases) {
+      expect(stanceToRelation(stance)).toBe(expected);
+    }
   });
 });

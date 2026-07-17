@@ -8,8 +8,9 @@
 // 快取交給呼叫端 `useMemo`，見 MainScreen.tsx）。armies[].selected／selection 為 V4「攜帶不消費」
 // 欄位（存不畫，選取環留待 V9），此處僅負責正確組裝、不負責渲染。
 
+import type { Stance } from '@core/index';
 import type { MapViewModel } from '@core/state/selectors';
-import type { MapArmyView, MapViewState } from './mapViewTypes';
+import type { ArmyRelation, MapArmyView, MapViewState } from './mapViewTypes';
 
 /**
  * 呼叫端目前的選取型別（`src/ui/hooks/uiStore.ts` 之 `Selection`）之最小子集。
@@ -22,18 +23,39 @@ export interface ComposeSelection {
   readonly id: string;
 }
 
+/** Stance → 視覺三通道（M6-V8，V8D3）。`getStance`（`@core/systems/pathfinding`）為既有匯出純函式。 */
+export function stanceToRelation(stance: Stance): ArmyRelation {
+  if (stance === 'own' || stance === 'friendly') return 'friendly';
+  if (stance === 'war') return 'enemy';
+  return 'neutral'; // ceasefire | neutral
+}
+
+/**
+ * 預設關係解析（無外交資料時，M6-V8 V8D3）：己方→friendly；有玩家但非己方→enemy；
+ * 無玩家（旁觀）→neutral。
+ */
+function defaultRelationOf(playerClanId: string | undefined): (clanId: string) => ArmyRelation {
+  return (clanId) =>
+    playerClanId === undefined ? 'neutral' : clanId === playerClanId ? 'friendly' : 'enemy';
+}
+
 /**
  * 組裝 `MapViewState`（唯一橋接點，D7）。`playerClanId` 為擴充欄位，renderer 目前不消費，
  * 省略時維持 `MapViewState.playerClanId` 為 `undefined`（`exactOptionalPropertyTypes` 友善）。
+ * `relationOf`（M6-V8 V8D3，可選）：clanId → `ArmyRelation` 之解析器；省略時採
+ * `defaultRelationOf(playerClanId)`。呼叫端（`MainScreen`）供給以 `getStance` 為底之版本。
  */
 export function composeMapViewState(
   model: MapViewModel,
   selection: ComposeSelection | null,
   playerClanId?: string,
+  relationOf?: (clanId: string) => ArmyRelation,
 ): MapViewState {
+  const resolveRelation = relationOf ?? defaultRelationOf(playerClanId);
   const armies: MapArmyView[] = model.armies.map((army) => ({
     ...army,
     selected: selection !== null && selection.kind === 'army' && selection.id === army.id,
+    relation: resolveRelation(army.clanId),
   }));
   const mappedSelection: MapViewState['selection'] =
     selection === null

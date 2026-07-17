@@ -56,6 +56,14 @@ export const MAPVIEW = {
   hitRadius: { army: 16, castleMain: 20, castleBranch: 16, district: 12 }, // 命中半徑（world unit）
   /** 命中測試 CSS-px 半徑下限（world 有效半徑＝hitMinCssRadius/scale；達 ~32 CSS px 命中區，04 §3.12.1 DoD）。僅套用於城/郡節點。 */
   hitMinCssRadius: 16,
+  /** 補給 badge 門檻（對 MapArmyView.foodDays；顯示鏡射 BAL.autoReturnFoodDays=7，不 import BAL，M6-V8 V8D5）。 */
+  armySupplyLowDays: 7, // foodDays 3..<7：低（米袋缺口）
+  armySupplyCriticalDays: 3, // foodDays <3：危急（空袋＋驚嘆三角）
+  /** 兵力量感三級旗幅門檻（人數；M6-V8 V8D2）。 */
+  armySoldierTierMid: 1000, // <1000：small；1000..<3000：mid
+  armySoldierTierLarge: 3000, // >=3000：large
+  /** far LOD 軍隊 chip container 反向放大（M6-V8 V8D13；transform，非重繪；比照主城 far ×1.4）。 */
+  armyFarChipScale: 2.4,
   /** 道路名標籤沿道路法線之偏移（world unit，偏上避開 casing；V6D5）。 */
   roadLabelOffset: 10,
   /**

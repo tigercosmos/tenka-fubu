@@ -88,12 +88,18 @@ export type MapSiegeView = MapSiegeViewModel;
 /** 戰鬥 view（canonical 04 §4.6；V4 攜帶不消費，battle badge 留 V8/V10）。 */
 export type MapBattleView = MapBattleViewModel;
 
+/** 軍隊對「檢視方（playerClanId）」的外交關係之視覺通道（art-bible §3.3）。純 view 概念，
+ *  由 UI 邊界 composeMapViewState 依 getStance 推導；'friendly'＝含己方與同盟，'enemy'＝交戰中，
+ *  'neutral'＝停戰/中立/未知（含 playerClanId 未定之旁觀）。（M6-V8，V8D3） */
+export type ArmyRelation = 'friendly' | 'neutral' | 'enemy';
+
 /**
- * 部隊 view（= core `MapArmyViewModel` ＋ UI 邊界補 `selected`）。`fromNode`/`toNode`/`edgeT` 為
- * renderer 端內插參數（決策 D6，見 `dirty.ts` 之 `armyWorldPos`），非世界座標；`selected` 由
- * `composeMapViewState`（Slice C）依目前 `selection` 組裝，V4 無渲染消費者（存不畫，選取環留 V9）。
+ * 部隊 view（= core `MapArmyViewModel` ＋ UI 邊界補 `selected`／`relation`）。`fromNode`/`toNode`/
+ * `edgeT` 為 renderer 端內插參數（決策 D6，見 `dirty.ts` 之 `armyWorldPos`），非世界座標；
+ * `selected` 由 `composeMapViewState` 依目前 `selection` 組裝；`relation`（M6-V8，V8D3，必填）
+ * 由 `composeMapViewState` 依 `getStance`（或注入之 `relationOf`）推導，供 ArmyChip 敵我次級通道。
  */
-export type MapArmyView = MapArmyViewModel & { selected: boolean };
+export type MapArmyView = MapArmyViewModel & { selected: boolean; relation: ArmyRelation };
 
 /**
  * 靜態地圖資料（init 後經 `setMapData` 傳入一次；整局不變）。04 §4.6 `MapStaticData` 全量對齊
