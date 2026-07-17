@@ -36,10 +36,12 @@ export interface MapGraphNode {
  * [M6-V4] 裁決見 `plan/02-data-model.md` §8 2026-07-17）。
  */
 export interface MapRoadEdge extends RoadEdge {
-  /** 道路顯示名（'東海道' 等）；模擬/尋路不使用。來源：scenario roads 原始資料。V6 起 `drawRoads` 消費。 */
+  /** 道路顯示名（'東海道' 等）；模擬/尋路不使用。來源：scenario roads 原始資料。V6 起 RoadsLayer 消費。 */
   readonly name?: string;
-  /** 多段線 waypoints（偶數長度 x,y 交錯世界座標）；未提供時回退兩端點直線。V6 起 `drawRoads` 消費。 */
+  /** 多段線 waypoints（偶數長度 x,y 交錯世界座標）；未提供時回退兩端點直線。V6 起 RoadsLayer 消費。 */
   readonly waypoints?: readonly number[];
+  /** 橋面中心點（扁平 x,y,...；世界座標）；模擬不使用，roads 層繪製橋樑。來源：roadDisplay。V6 起 RoadsLayer 消費。 */
+  readonly bridges?: readonly number[];
 }
 
 /** 載入劇本後建立的唯讀圖結構（04 §4.1），整局不變；transient，不進入 GameState。 */
@@ -64,15 +66,17 @@ export interface MapGraph {
  *
  * 決定論：邊依 `id` 字典序處理，鄰接表內每個節點的邊 id 陣列因而保持字典序（04 §4.1／§5.1）。
  *
- * `roadDisplay`（[M6-V4] 新增，optional）：依 edge id 查表的純顯示欄位（`name`／`waypoints`），
- * 缺省時 `edges` 的 value 與現況（純 `RoadEdge`）完全一致——連通性驗證、字典序鄰接表、錯誤訊息
- * 皆不受影響，只是 value 型別擴為 `MapRoadEdge`（多帶兩個 optional 欄位）。
+ * `roadDisplay`（[M6-V4] 新增，optional；[M6-V6] 擴入 `bridges`）：依 edge id 查表的純顯示欄位
+ * （`name`／`waypoints`／`bridges`），缺省時 `edges` 的 value 與現況（純 `RoadEdge`）完全一致——
+ * 連通性驗證、字典序鄰接表、錯誤訊息皆不受影響，只是 value 型別擴為 `MapRoadEdge`（多帶 optional 顯示欄位）。
  */
 export function buildMapGraph(
   castles: Readonly<Record<CastleId, CastleNodeInput>>,
   districts: Readonly<Record<DistrictId, DistrictNodeInput>>,
   roads: Readonly<Record<RoadEdgeId, RoadEdge>>,
-  roadDisplay?: Readonly<Record<string, { name?: string; waypoints?: readonly number[] }>>,
+  roadDisplay?: Readonly<
+    Record<string, { name?: string; waypoints?: readonly number[]; bridges?: readonly number[] }>
+  >,
 ): MapGraph {
   const nodes = new Map<MapNodeId, MapGraphNode>();
   for (const castle of Object.values<CastleNodeInput>(castles)) {
@@ -116,6 +120,7 @@ export function buildMapGraph(
             ...edge,
             ...(disp.name !== undefined ? { name: disp.name } : {}),
             ...(disp.waypoints !== undefined ? { waypoints: disp.waypoints } : {}),
+            ...(disp.bridges !== undefined ? { bridges: disp.bridges } : {}),
           };
     edges.set(edgeId, merged);
     adjacencyBuild.get(edge.a)?.push(edgeId);

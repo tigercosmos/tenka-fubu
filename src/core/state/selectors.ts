@@ -31,6 +31,7 @@ import {
 import type { DerivedCache } from './derivedCache';
 import { getOrCompute } from './derivedCache';
 import { buildMapGraph, type MapGraph } from './mapGraph';
+import { DEBUG_VISUAL_ROAD_DISPLAY } from './debugVisualRoadDisplay';
 import type {
   Army,
   Castle,
@@ -423,35 +424,54 @@ export function selectMiniMapModel(state: GameState): MiniMapModel {
 // `composeMapViewState` 併入）。
 
 /**
- * 道路顯示欄位查表（依 edge id；[M6-V4] D1）：直讀 scenario `roads.json` 原始資料＋zod 解析＋
- * 模組級快取（比照上方 `miniMapOutline()` 之 outline 直讀先例）。只在 `selectMapStaticModel`
- * 併入 transient `MapGraph.edges`（`MapRoadEdge`），不寫回 `GameState`，不影響 golden hash。
+ * 道路顯示欄位查表（依 edge id；[M6-V4] D1，[M6-V6] 擴入 `bridges`＋scenario 分派）：回傳純顯示欄位
+ * （`name`／`waypoints`／`bridges`）之表，只在 `selectMapStaticModel` 併入 transient `MapGraph.edges`
+ * （`MapRoadEdge`），不寫回 `GameState`，不影響 golden hash。
  *
- * scenario 硬編碼為 `s1560`（v1.0 唯一劇本，與既有 `japan-outline.json` 硬編碼同構）；
+ * scenario 分派（設計 §4.2／V6D9）：
+ *   - `debug-visual-map-01`（visual fixture）→ 回 `DEBUG_VISUAL_ROAD_DISPLAY`（純資料葉模組；
+ *     不拉進 `debugVisual.ts` 整個建構器）。
+ *   - 其餘（v1.0 唯一真實劇本 `s1560`）→ 直讀 `roads.json` 原始資料＋zod 解析。
+ * 兩者皆以 scenarioId 為鍵做模組級快取（比照 `miniMapOutline()` 之 outline 直讀先例）。
  * `buildMapGraph` 只對呼叫端傳入之 `state.roads` 內存在的 edge id 查表，被 region 篩掉的
  * edge 天然不會命中，不會洩漏未載入地方的顯示資料。
+ *
+ * export（[M6-V6] 處置 spec-F6）：測試計畫直接以 scenarioId 呼叫驗證分派。
  */
-let cachedRoadDisplay: Readonly<
-  Record<string, { name?: string; waypoints?: readonly number[] }>
-> | null = null;
+type RoadDisplayTable = Readonly<
+  Record<string, { name?: string; waypoints?: readonly number[]; bridges?: readonly number[] }>
+>;
 
-function roadDisplayLookup(): Readonly<
-  Record<string, { name?: string; waypoints?: readonly number[] }>
-> {
-  if (cachedRoadDisplay === null) {
+/** visual fixture scenario id（`debugVisual.ts` 之 `DEBUG_VISUAL_MAP_ID`；此處以字面量避免拉進重量級 fixture 建構器）。 */
+const DEBUG_VISUAL_SCENARIO_ID = 'debug-visual-map-01';
+
+const cachedRoadDisplay = new Map<string, RoadDisplayTable>();
+
+export function roadDisplayLookup(scenarioId: string): RoadDisplayTable {
+  const cached = cachedRoadDisplay.get(scenarioId);
+  if (cached !== undefined) return cached;
+  let table: RoadDisplayTable;
+  if (scenarioId === DEBUG_VISUAL_SCENARIO_ID) {
+    table = DEBUG_VISUAL_ROAD_DISPLAY;
+  } else {
     const file = zRoadsFile.parse(roadsJson);
-    const out: Record<string, { name?: string; waypoints?: readonly number[] }> = {};
+    const out: Record<
+      string,
+      { name?: string; waypoints?: readonly number[]; bridges?: readonly number[] }
+    > = {};
     for (const r of file.edges) {
-      if (r.name !== undefined || r.waypoints !== undefined) {
+      if (r.name !== undefined || r.waypoints !== undefined || r.bridges !== undefined) {
         out[r.id] = {
           ...(r.name !== undefined ? { name: r.name } : {}),
           ...(r.waypoints !== undefined ? { waypoints: r.waypoints } : {}),
+          ...(r.bridges !== undefined ? { bridges: r.bridges } : {}),
         };
       }
     }
-    cachedRoadDisplay = out;
+    table = out;
   }
-  return cachedRoadDisplay;
+  cachedRoadDisplay.set(scenarioId, table);
+  return table;
 }
 
 /** 地圖（04 §4.6 `MapStaticData`）靜態資料：城∪郡節點圖＋勢力色索引＋城格＋顯示名＋國名標籤位置。 */
@@ -467,7 +487,12 @@ export interface MapStaticModel {
 }
 
 export function selectMapStaticModel(state: GameState): MapStaticModel {
-  const graph = buildMapGraph(state.castles, state.districts, state.roads, roadDisplayLookup());
+  const graph = buildMapGraph(
+    state.castles,
+    state.districts,
+    state.roads,
+    roadDisplayLookup(state.meta.scenarioId),
+  );
   const clanColorIndex: Record<string, number> = {};
   for (const clan of Object.values<Clan>(state.clans)) {
     clanColorIndex[clan.id] = clan.colorIndex;

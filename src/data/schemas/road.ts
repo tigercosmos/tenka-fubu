@@ -14,6 +14,7 @@ export const zRoadEdge = z.object({
   baseDays: z.number().min(0.5).max(8).multipleOf(0.5),
   name: zName.optional(), // '東海道'（渲染用）
   waypoints: z.array(z.number().int()).optional(), // 偶數長度（validate.ts 檢）
+  bridges: z.array(z.number().int()).optional(), // 橋面中心點扁平 [x,y,...]（偶數長度，validate.ts 檢）；顯示用（[M6-V6]）
 });
 export type RoadEdgeData = z.infer<typeof zRoadEdge>;
 

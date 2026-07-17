@@ -58,7 +58,8 @@
       "type": "land",
       "grade": 3,
       "baseDays": 1,
-      "name": "東海道"
+      "name": "東海道",
+      "waypoints": [1980, 2880]
     },
     {
       "id": "road.hekikai-okazaki-01",
@@ -76,7 +77,8 @@
       "type": "land",
       "grade": 3,
       "baseDays": 1,
-      "name": "東海道"
+      "name": "東海道",
+      "waypoints": [2047, 2922]
     },
     {
       "id": "road.hoi-yoshida-01",
@@ -94,7 +96,8 @@
       "type": "land",
       "grade": 3,
       "baseDays": 1.5,
-      "name": "東海道"
+      "name": "東海道",
+      "waypoints": [2108, 2962]
     },
     {
       "id": "road.kakegawa-abe-01",
@@ -103,7 +106,9 @@
       "type": "land",
       "grade": 3,
       "baseDays": 2,
-      "name": "東海道"
+      "name": "東海道",
+      "waypoints": [2280, 2958],
+      "bridges": [2275, 2958]
     },
     {
       "id": "road.kasugai-inuyama-01",
@@ -169,7 +174,9 @@
       "type": "land",
       "grade": 3,
       "baseDays": 1.5,
-      "name": "東海道"
+      "name": "東海道",
+      "waypoints": [2322, 2795, 2410, 2795],
+      "bridges": [2375, 2795]
     },
     {
       "id": "road.kokokuji-sunto-01",

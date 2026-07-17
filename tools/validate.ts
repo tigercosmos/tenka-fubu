@@ -667,6 +667,9 @@ function checkGraph(world: ScenarioWorld, idx: WorldIndex): Violation[] {
     if (r.waypoints !== undefined && r.waypoints.length % 2 !== 0) {
       v.push(err('V5', `街道 ${r.id} waypoints 長度非偶數（${r.waypoints.length}）`, [r.id]));
     }
+    if (r.bridges !== undefined && r.bridges.length % 2 !== 0) {
+      v.push(err('V5', `街道 ${r.id} bridges 長度非偶數（${r.bridges.length}）`, [r.id]));
+    }
     if (r.a !== r.b && nodes.has(r.a) && nodes.has(r.b)) {
       adjacency.get(r.a)?.push(r.b);
       adjacency.get(r.b)?.push(r.a);
