@@ -1248,3 +1248,30 @@ supplyDailyTick(state, army):
 - **D43｜已結束 BattleState 留存至玩家確認（2026-07-14）**：合戰結算時先原子回寫策略層並填入
   `BattleState.result`，但不立即刪除 BattleState；結果 modal 顯示勝敗、雙方損失與威風後，由
   `closeResolvedBattle()` 在玩家確認時刪除。未結束 battle 才阻擋策略時間，已結束結果畫面不重複結算。
+- **[M6-V8]｜軍隊棋子視覺（2026-07-17）**：依 art-bible §6.5、12 §3.3.1 落地，逐項裁決：
+  (1) 保留 `ArmyChip` 冪等契約；新增視覺由 `ArmyChipProps` 新欄位驅動並入 `armyChipDrawEqual`；
+  far container 反向放大為 renderer transform（不計 `armyChips`）；`day` tick 零重繪、
+  `MapRebuildCounts` 5 欄位不變。
+  (2) 純 `Graphics`、不採 atlas、不新增素材；縮寫 ASCII、badge 向量→不觸發
+  gen:assets／validate:assets／font:subset。
+  (3) 敵我三通道：`ArmyRelation` 於 UI 邊界 `composeMapViewState` 推導（`relationOf`→`getStance`→
+  `stanceToRelation`），core selector／golden 不動；友靛藍雙環／敵朱紅尖角／中立灰空心菱形；
+  交叉刀專屬 engaged badge，不入關係通道。
+  (4) 方向 `heading` 由 renderer 依 `fromNode/toNode/edgeT`（04 §4.6 D9）計算，非規則。
+  (5) 補給門檻 `MAPVIEW.armySupplyLowDays=7`（鏡射 `BAL.autoReturnFoodDays`）、
+  `armySupplyCriticalDays=3`；低＝米袋缺口、危急＝空袋＋驚嘆三角。
+  (6) 狀態 badge 單一最高優先：routed>engaged>sieging>subjugating>危急>低>corps。
+  (7) 敗走旗面繞旗桿頂順時針 20°；fixture 復用今川氏真領 routed 軍。
+  (8) 士氣次級通道：三點 pip＋低士氣破裂框／高士氣旗結（near-only）。
+  (9) 三級 LOD：`stage` 入 props；LOD 段變更以獨立 `armyChipStage` 落差在 `applyLodAndCulling`
+  觸發 restage（修正 preset 路徑不 restage 之缺陷），不遞迴、day-only 零增量。
+  (10) far 可讀性：far container ×`armyFarChipScale`(2.4) 反向放大（transform)＋敵尾 far 變體，
+  使敵我三通道於 0.25 preset 特徵尺寸 ≥ ~8 CSS px、色弱可辨。
+  (11) 疊放／置頂：`layoutArmyStacks` 扇形／收合不變（加 additive `stackIndex`）；被選取
+  re-append 置頂；標籤避讓＝兵數 washi100 底板依 `stackIndex` 垂直錯位（世界座標不變）。
+  (12) washi100 兵數底板（12 §3.3.1）補齊。
+  (13) 動效延後（V9+，須 `reducedMotion` 凍結、不計 rebuildCounts）。
+  (14) ETA 延後：`MapArmyViewModel` 僅暴露 `edgeT`，忠實 ETA 需新 view 欄位＝view-contract 變更，
+  延至 V9+。
+  (15) fixture：+1 routed 軍（復用今川氏真，零新字）＋補給危急／低各一＋Oda↔Imagawa 敵對外交列
+  （合併非覆蓋）；非 golden、決定論、s1560 零觸。
