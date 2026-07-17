@@ -26,10 +26,19 @@ describe('M4 map helpers', () => {
       colorIndex: 2,
       soldiers: 2_000,
       morale: 80,
-      corps: true,
+      corps: false,
+      // M6-V8：drawArmyChip 契約擴充（ArmyChipProps 新增必填欄位）。此處以最小組合驗證旗面＋士氣：
+      // friendly 於 near 時＝旗面(1 poly) ＋ 友軍靛藍雙環(2 circle) ＋ 三點士氣 pip(3 circle)。
+      status: 'holding',
+      foodDays: 20,
+      relation: 'friendly',
+      selected: false,
+      heading: null,
+      stage: 'near',
+      labelStagger: 0,
     });
-    expect(rec.countOf('circle')).toBe(3);
-    expect(rec.countOf('poly')).toBe(1);
+    expect(rec.countOf('circle')).toBe(5); // 友軍雙環 2 ＋ 士氣 pip 3
+    expect(rec.countOf('poly')).toBe(1); // 旗面（corps false → 無腰帶；friendly → 無菱形/尾角）
   });
 
   it('路徑區分陸路、敵境與海路', () => {
