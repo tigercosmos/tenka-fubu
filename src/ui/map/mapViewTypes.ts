@@ -27,6 +27,7 @@ import type {
   MapArmyViewModel,
   MapBattleViewModel,
   MapCastleViewModel,
+  MapDistrictViewModel,
   MapSiegeViewModel,
 } from '@core/state/selectors';
 import type { JapanOutlineFile } from '@data/schemas/outline';
@@ -75,8 +76,11 @@ export interface MapPathPreview {
 
 // ── view-model 型別（複用 core `selectors.ts` 匯出；04 §4.6，M6-V4 §3.1） ──────────────
 
-/** 城/郡結構化 view（= core `MapCastleViewModel`；`terrainKind`/`siegeMode`/`warning` V4 攜帶不消費）。 */
+/** 城/郡結構化 view（= core `MapCastleViewModel`；`terrainKind`/`siegeMode`/`warning` V7 起消費）。 */
 export type MapCastleView = MapCastleViewModel;
+
+/** 郡次級狀態 view（= core `MapDistrictViewModel`；M6-V7 AD1：供 DistrictNode 知行/制壓/一揆徽記）。 */
+export type MapDistrictView = MapDistrictViewModel;
 
 /** 圍城 view（擴充，驅動現有 `SiegeMarker` 視覺；D5 與 canonical `battles[]` 並存）。 */
 export type MapSiegeView = MapSiegeViewModel;
@@ -143,6 +147,8 @@ export interface MapViewState {
   playerClanId?: string;
   districtOwner: Readonly<Record<string, string | null>>; // districtId → clanId（null=無主）
   castles: readonly MapCastleView[]; // 取代舊 castleOwner（D2 一次到位）
+  /** 郡次級狀態（M6-V7 AD1，可選 view-model 擴充；golden 安全）。owner 仍取 `districtOwner`。 */
+  readonly districts?: readonly MapDistrictView[];
   armies: readonly MapArmyView[];
   sieges?: readonly MapSiegeView[]; // 擴充：驅動現有 SiegeMarker
   battles: readonly MapBattleView[]; // canonical（V4 攜帶不消費）
@@ -160,8 +166,8 @@ export interface MapViewState {
  * M6-V5（VD2）：一次補齊 04 §3.10.1 全 13 層——新增 `terrainBase`(1)／`waterFeatures`(2)／
  * `analysisOverlay`(4)／`settlements`(6)／`debug`(12)。`terrainBase`（relief／forest 烘焙紋理
  * Sprite）與 `waterFeatures`（河川／湖泊向量）本階段有實繪內容；`territory`(3) 亦於本階段掛
- * `TerritoryGrid` Sprite；`analysisOverlay`（V10 勢力圖）／`settlements`（V7 聚落）／`debug`
- * （DEV overlay）為空容器占位，避免 V6–V10 反覆改層序。
+ * `TerritoryGrid` Sprite；`settlements`（V7 城下聚落）本階段起有實繪內容；`analysisOverlay`
+ * （V10 勢力圖）／`debug`（DEV overlay）為空容器占位，避免 V6–V10 反覆改層序。
  */
 export interface MapLayers {
   /** 鏡頭變換根：13 圖層之父容器；scale/position 由 camera.ts（M2-15，04-T10）驅動。 */
@@ -178,13 +184,13 @@ export interface MapLayers {
   readonly analysisOverlay: Container;
   /** 5 街道線（V6 RoadsLayer 子容器：casing＋內線、waypoints 多段線、道級分批、海路波節、橋面；主幹道 far 保留；per-stage 線寬）。 */
   readonly roads: Container;
-  /** 6 聚落標記（V7 空容器占位）。 */
+  /** 6 聚落標記（V7：本城城下屋頂群＋田畦，程序生成、close only、繪於 nodeMarkers 之下）。 */
   readonly settlements: Container;
-  /** 7 城／郡標記（M2-16 sceneParts 取代骨架占位）。 */
+  /** 7 城／郡標記（V7：CastleNode/DistrictNode 元件取代占位 drawNodeMarker）。 */
   readonly nodeMarkers: Container;
   /** 8 部隊 sprite（M5）。 */
   readonly armies: Container;
-  /** 9 選取高亮環／行軍路徑預覽（M2-16 SelectionRing／M4-14 orderMarch 路徑預覽）。 */
+  /** 9 選取高亮環／行軍路徑預覽（V7 節點選取環金色雙環，錨點置中＋V6 相鄰道路高亮；M4-14 orderMarch 預覽）。 */
   readonly selectionAndPath: Container;
   /** 10 特效：威風環／交鋒 icon（M5）。 */
   readonly effects: Container;

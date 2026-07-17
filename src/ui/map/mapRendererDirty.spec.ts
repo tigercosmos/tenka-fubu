@@ -32,13 +32,13 @@ vi.mock('pixi.js', async () => {
   });
 });
 
-import type { Graphics } from 'pixi.js';
 import { buildMapGraph } from '@core/state/mapGraph';
 import type { CastleId, DistrictId, RoadEdgeId } from '@core/state/ids';
 import type { RoadEdge } from '@core/state/gameState';
 import type { JapanOutlineFile } from '@data/schemas/outline';
 import { MapRenderer } from './MapRenderer';
 import type { MapStaticData, MapViewState } from './mapViewTypes';
+import { TOKENS_NUM } from '@ui/styles/tokens';
 
 /**
  * 環繞 fixture 節點（100–300 世界座標）之小型合成 outline（M6-V5，Minor 6／§5.5）：使
@@ -219,15 +219,17 @@ describe('MapRenderer dirty-update（M6-V4 §7 DoD①：無變更 tick 不重建
 });
 
 describe('MapRenderer dirty-update（M6-V4 §7 DoD②：owner 變更只更新受影響 node/territory）', () => {
-  it('翻轉一個城的 owner → 恰該 node nodeMarkers/territory +1，其餘 node 不重畫（Graphics.clear spy）', async () => {
+  it('翻轉一個城的 owner → 恰該 node nodeMarkers/territory +1，其餘 node 不重畫（body Graphics.clear spy，#M1）', async () => {
     const r = await makeRenderer();
     r.setMapData(staticData());
     r.updateView(baseView());
     const baseline = r.getRebuildCounts();
 
-    const nodeGfx = r.getLayers()!.nodeMarkers.children as unknown as Graphics[];
-    // buildStaticDataLayers 依 id 字典序建立：castle.a(0) < castle.b(1) < dist.x(2)。
-    const spies = nodeGfx.map((g) => vi.spyOn(g, 'clear'));
+    // M6-V7（#M1）：nodeMarkers.children 為 castleNode/districtNode Container（無 clear）；改對其
+    // children[0]（castle＝bodyGfx／district＝gfx，皆 Graphics）spy clear。依 id 字典序建立：
+    // castle.a(0) < castle.b(1) < dist.x(2)。
+    const containers = r.getLayers()!.nodeMarkers.children as unknown as MockGfx[];
+    const bodySpies = containers.map((c) => vi.spyOn(c.children[0]!, 'clear'));
 
     const view2 = baseView({
       castles: baseView().castles.map((c) =>
@@ -243,9 +245,9 @@ describe('MapRenderer dirty-update（M6-V4 §7 DoD②：owner 變更只更新受
     expect(after.labels).toBe(baseline.labels);
     expect(after.armyChips).toBe(baseline.armyChips);
 
-    expect(spies[0]).not.toHaveBeenCalled(); // castle.a 未變，不重畫
-    expect(spies[1]).toHaveBeenCalledTimes(1); // castle.b 變了，恰重畫一次
-    expect(spies[2]).not.toHaveBeenCalled(); // dist.x 未變，不重畫
+    expect(bodySpies[0]).not.toHaveBeenCalled(); // castle.a 未變，body 不重畫
+    expect(bodySpies[1]).toHaveBeenCalledTimes(1); // castle.b 變了，body 恰重畫一次
+    expect(bodySpies[2]).not.toHaveBeenCalled(); // dist.x 未變，不重畫
 
     r.destroy();
   });
@@ -264,6 +266,213 @@ describe('MapRenderer dirty-update（M6-V4 §7 DoD②：owner 變更只更新受
     expect(r.getRebuildCounts()).toEqual(afterFirstFlip);
 
     r.destroy();
+  });
+});
+
+// ── M6-V7：城池/郡 元件整合、節點簽章 dirty、選取環、聚落（設計 §8.2） ──────────────────
+
+/** 帶 warning／city 狀態欄之 castles（castle.a 本城平城、castle.b 本城；可覆寫 warning/durability/terrainKind）。 */
+function castlesWith(
+  a: Partial<{
+    warning: string;
+    durability: number;
+    maxDurability: number;
+    terrainKind: string;
+    ownerClanId: string;
+  }> = {},
+  b: Partial<{
+    warning: string;
+    durability: number;
+    maxDurability: number;
+    terrainKind: string;
+    ownerClanId: string;
+  }> = {},
+): MapViewState['castles'] {
+  return [
+    {
+      id: 'castle.a',
+      ownerClanId: a.ownerClanId ?? 'clan.oda',
+      durability: a.durability ?? 1000,
+      maxDurability: a.maxDurability ?? 1000,
+      tier: 'main',
+      terrainKind: a.terrainKind ?? 'plain',
+      siegeMode: 'none',
+      warning: a.warning ?? 'none',
+    },
+    {
+      id: 'castle.b',
+      ownerClanId: b.ownerClanId ?? 'clan.imagawa',
+      durability: b.durability ?? 1000,
+      maxDurability: b.maxDurability ?? 1000,
+      tier: 'main',
+      terrainKind: b.terrainKind ?? 'plain',
+      siegeMode: 'none',
+      warning: b.warning ?? 'none',
+    },
+  ] as unknown as MapViewState['castles'];
+}
+
+/** 節點 Container（castle＝[bodyGfx,ringGfx,warnGfx]／district＝[gfx]）之最小形狀。 */
+interface NodeContainer {
+  label: string;
+  visible: boolean;
+  children: { visible: boolean; scale: { x: number } }[];
+}
+
+describe('城池/郡 元件（M6-V7 §8.2）：不再呼叫占位 marker、簽章 dirty、正向存在', () => {
+  it('DoD：mapDraw 不再匯出 drawNodeMarker；nodeMarkers children 為 castleNode/districtNode container', async () => {
+    const mod = (await import('./mapDraw')) as Record<string, unknown>;
+    expect(mod.drawNodeMarker).toBeUndefined();
+    expect(mod.drawNodeMarkers).toBeUndefined();
+
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(baseView());
+    const containers = r.getLayers()!.nodeMarkers.children as unknown as NodeContainer[];
+    const labels = containers.map((c) => c.label).sort();
+    expect(labels).toEqual(['castleNode', 'castleNode', 'districtNode']); // castle.a/castle.b/dist.x
+    r.destroy();
+  });
+
+  it('首繪＋正向存在：3 節點各一 container、nodeMarkers 計數===3、critical/threatened 城 warnGfx 顯示', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(
+      baseView({ castles: castlesWith({ warning: 'critical' }, { warning: 'threatened' }) }),
+    );
+
+    expect(r.getLayers()!.nodeMarkers.children.length).toBe(3);
+    expect(r.getRebuildCounts().nodeMarkers).toBe(3); // 首繪：全 3 node 簽章 dirty 各計數一次
+
+    const containers = r.getLayers()!.nodeMarkers.children as unknown as NodeContainer[];
+    // id 字典序：castle.a(0, critical)／castle.b(1, threatened)／dist.x(2)。warnGfx＝children[2]。
+    expect(containers[0]!.children[2]!.visible).toBe(true); // critical → warnGfx 顯
+    expect(containers[1]!.children[2]!.visible).toBe(true); // threatened → warnGfx 顯
+    r.destroy();
+  });
+
+  it('耐久/警戒/城型 dirty：翻 durability→+1、翻 warning→+1、翻 terrainKind→+1；castle-only 變動不動 territory', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(baseView());
+    let baseline = r.getRebuildCounts();
+
+    r.updateView(baseView({ castles: castlesWith({ durability: 500 }) })); // castle.a 耐久變
+    expect(r.getRebuildCounts().nodeMarkers).toBe(baseline.nodeMarkers + 1);
+    expect(r.getRebuildCounts().territory).toBe(baseline.territory); // owner 未變 → territory 不動
+
+    baseline = r.getRebuildCounts();
+    r.updateView(baseView({ castles: castlesWith({ durability: 500, warning: 'critical' }) })); // warning 變
+    expect(r.getRebuildCounts().nodeMarkers).toBe(baseline.nodeMarkers + 1);
+
+    baseline = r.getRebuildCounts();
+    r.updateView(
+      baseView({
+        castles: castlesWith({ durability: 500, warning: 'critical', terrainKind: 'mountain' }),
+      }),
+    ); // terrainKind 變
+    expect(r.getRebuildCounts().nodeMarkers).toBe(baseline.nodeMarkers + 1);
+    expect(r.getRebuildCounts().territory).toBe(baseline.territory);
+    r.destroy();
+  });
+
+  it('re-setMapData +3（B3 守門）：重新 setMapData(same)＋同 updateView → nodeMarkers === baseline + 節點數', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(baseView());
+    const baseline = r.getRebuildCounts();
+
+    r.setMapData(staticData()); // prevNodeSig 重設為 null
+    r.updateView(baseView()); // 與前一次 view 完全相同（元件 update 冪等短路，但計數由簽章 diff 保證）
+    expect(r.getRebuildCounts().nodeMarkers).toBe(baseline.nodeMarkers + 3);
+    r.destroy();
+  });
+
+  it('day-only 零增量：僅 day 變連跑 30 日 → nodeMarkers/territory/labels/roads 零增量', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(baseView({ day: 1 }));
+    const baseline = r.getRebuildCounts();
+    for (let i = 0; i < 30; i += 1) r.updateView(baseView({ day: 2 + i }));
+    expect(r.getRebuildCounts()).toEqual(baseline);
+    r.destroy();
+  });
+
+  it('聚落正向存在＋LOD：settlements.container 非空；far→visible false、near→true', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData({ castleTier: { 'castle.a': 'main', 'castle.b': 'main' } }));
+    r.updateView(baseView());
+
+    const settlements = r.getLayers()!.settlements;
+    expect(settlements.children.length).toBe(1); // 單一 container（屋頂/田畦繪於其內 Graphics；繪製正確性見 settlementsDraw.spec）
+
+    r.setCameraPose({ x: 200, y: 100 }, 0.25); // far
+    expect(settlements.visible).toBe(false);
+    r.setCameraPose({ x: 200, y: 100 }, 1.25); // near
+    expect(settlements.visible).toBe(true);
+    r.destroy();
+  });
+
+  it('選取環 dirty（與 V6 協調）：node 選取→雙環顯＋roadHighlight 更新；day-only→不重更；army→隱；rebuildCounts 全程不動；z-order 中層', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(baseView({ day: 1 })); // selection null
+    const baseline = r.getRebuildCounts();
+
+    const selPath = r.getLayers()!.selectionAndPath.children as unknown as MockGfx[];
+    expect(selPath.length).toBe(3); // [roadHighlight, selectionRing, pathPreview]
+    const ringContainer = selPath[1] as unknown as { label: string; visible: boolean };
+    expect(ringContainer.label).toBe('selectionRing'); // z-order 中層（壓道路高亮上、march 預覽下）
+    const highlightGfx = selPath[0]!.children[0]!;
+    const strokeSpy = vi.spyOn(highlightGfx, 'stroke');
+    expect(ringContainer.visible).toBe(false); // 初始未選
+
+    r.updateView(baseView({ day: 2, selection: { kind: 'node', id: 'castle.a' } }));
+    expect(ringContainer.visible).toBe(true); // 節點選取 → 金色雙環顯
+    expect(strokeSpy).toHaveBeenCalled(); // V6 相鄰道路高亮亦更新
+    expect(r.getRebuildCounts()).toEqual(baseline); // 選取環/高亮不動計數
+
+    strokeSpy.mockClear();
+    r.updateView(baseView({ day: 3, selection: { kind: 'node', id: 'castle.a' } })); // day-only
+    expect(strokeSpy).not.toHaveBeenCalled(); // selKey 未變 → 不重更
+    expect(ringContainer.visible).toBe(true);
+
+    r.updateView(baseView({ day: 4, selection: { kind: 'army', id: 'army.z' } })); // 選軍隊
+    expect(ringContainer.visible).toBe(false); // selKey=null → 節點環隱（軍隊環屬 V8）
+
+    expect(r.getRebuildCounts()).toEqual(baseline); // MapRebuildCounts 5 欄位全程不動
+
+    // M6-V7 review：graph swap 當下即隱選取環（鏡像 roadHighlight）——否則新選取為 null 時
+    // updateView 的 selKey diff 為 null===null 不觸發 updateSelectionRing，舊環殘留於舊座標。
+    r.updateView(baseView({ day: 5, selection: { kind: 'node', id: 'castle.a' } }));
+    expect(ringContainer.visible).toBe(true); // 先重新選取 → 環顯
+    r.setMapData(staticData()); // graph swap
+    expect(ringContainer.visible).toBe(false); // swap 當下即隱，不得依賴 selKey diff
+    r.updateView(baseView({ day: 6, selection: null })); // selKey=null===prevSelectionKey(null)
+    expect(ringContainer.visible).toBe(false); // 仍隱（無殘留）
+
+    // updateSelectionRing 的 node===undefined 防線：選取不存在於當前圖之 id → 環隱。
+    r.updateView(baseView({ day: 7, selection: { kind: 'node', id: 'castle.absent' } }));
+    expect(ringContainer.visible).toBe(false);
+
+    r.destroy();
+  });
+
+  it('StrictMode/destroy：init→setMapData→destroy→重掛，nodeParts/選取環/聚落對稱建立/銷毀，無殘留', async () => {
+    const r1 = await makeRenderer();
+    r1.setMapData(staticData());
+    r1.updateView(baseView());
+    expect(r1.getLayers()!.nodeMarkers.children.length).toBe(3);
+    expect(r1.getLayers()!.settlements.children.length).toBe(1);
+    r1.destroy();
+    expect(r1.getLayers()).toBeNull(); // 圖層清空、無殘留參考
+
+    const r2 = await makeRenderer();
+    r2.setMapData(staticData());
+    r2.updateView(baseView());
+    expect(r2.getLayers()!.nodeMarkers.children.length).toBe(3);
+    expect(r2.getLayers()!.selectionAndPath.children.length).toBe(3);
+    r2.destroy();
   });
 });
 
@@ -648,6 +857,33 @@ describe('roads／道路名／橋樑／選取高亮（M6-V6，設計 §8.2）', 
     expect(tiers.bridge.visible).toBe(false); // 橋樑 far 隱
     expect(clearSpy).toHaveBeenCalledTimes(1); // near→far：per-stage 倍率重描一次
     expect(r.getRebuildCounts().roads).toBe(roadsBefore); // 重描為 LOD 轉場，不動 rebuildCounts
+
+    r.destroy();
+  });
+
+  it('道路名標籤：fill=ink900（V6D5／eng-F2 HARD DoD）＋near-only LOD（04 §3.10.3）', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData({ graph: arterialGraph() }));
+    r.updateView(baseView({ day: 1 }));
+
+    const labels = r.getLayers()!.labels.children as unknown as {
+      text?: string;
+      visible: boolean;
+      style?: { fill?: number };
+    }[];
+    const roadLabel = labels.find((c) => c.text === '東海道');
+    expect(roadLabel).toBeDefined();
+    // V6D5／eng-F2（HARD）：道路名以 ink900 填色（warm base 上白字不可讀＝DoD 失敗）。
+    expect(roadLabel!.style?.fill).toBe(TOKENS_NUM.ink900);
+
+    // near-only（04 §3.10.3）：near 顯、mid／far 隱（label 位於 (150,110) 附近，三 pose 皆在視域內，
+    // 差異純由 LOD detail 閘控，非 culling）。setCameraPose 以 lodStageForScale 決定論設段。
+    r.setCameraPose({ x: 200, y: 100 }, 1.25); // near（scale>=1.0）
+    expect(roadLabel!.visible).toBe(true);
+    r.setCameraPose({ x: 200, y: 100 }, 0.75); // mid（0.5<=scale<1.0）
+    expect(roadLabel!.visible).toBe(false);
+    r.setCameraPose({ x: 200, y: 100 }, 0.25); // far（scale<0.5）
+    expect(roadLabel!.visible).toBe(false);
 
     r.destroy();
   });

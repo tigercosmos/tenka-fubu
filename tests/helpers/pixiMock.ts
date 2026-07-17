@@ -141,9 +141,11 @@ export function createPixiMockClasses(
   }
   class BitmapText extends Container {
     text: string;
-    constructor(options: { text: string }) {
+    style: unknown;
+    constructor(options: { text: string; style?: unknown }) {
       super();
       this.text = options.text;
+      this.style = options.style;
     }
   }
   class Rectangle {

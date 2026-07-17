@@ -381,7 +381,7 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
     expect(destroyed()).toBe(1);
   });
 
-  it('setMapData：roads 建 RoadsLayer 子容器（children===1）、nodeMarkers 建 Graphics 並重繪；updateView 不 throw', async () => {
+  it('setMapData：roads 建 RoadsLayer 子容器（children===1）、nodeMarkers 建 ScenePart container；updateView 不 throw', async () => {
     const host = document.createElement('div');
     const r = new MapRenderer();
     await r.init(host, vi.fn());
@@ -394,11 +394,14 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
       provinceLabelPos: { 'province.test': { x: 10, y: 20 } },
     });
     expect(layers?.roads.children.length).toBe(1);
-    expect(layers?.nodeMarkers.children.length).toBe(1);
+    expect(layers?.nodeMarkers.children.length).toBe(1); // 一個 castleNode container 取代裸 Graphics
     expect(layers?.labels.children.length).toBe(2);
     expect(layers?.labels.children[0]?.visible).toBe(false);
     expect(layers?.labels.children[1]?.visible).toBe(true);
-    expect(layers?.nodeMarkers.children[0]?.scale.x).toBe(1.4); // initial fit is far LOD
+    // M6-V7（#3）：far 本城 ×1.4 移至 bodyGfx（container.children[0]）；container.scale 恆 1。
+    expect(layers?.nodeMarkers.children[0]?.scale.x).toBe(1); // container 不放大
+    const bodyGfx = layers?.nodeMarkers.children[0]?.children[0];
+    expect(bodyGfx?.scale.x).toBe(1.4); // initial fit is far LOD；本城剪影 bodyGfx ×1.4
     r.updateView({
       day: 2,
       districtOwner: {},
@@ -408,6 +411,55 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
       selection: null,
       analysisMode: 'none',
     });
+    r.destroy();
+  });
+
+  it('M6-V7 smoke：城下聚落於 near 顯示（far/mid 隱）、節點選取時金色雙環顯示', async () => {
+    const host = document.createElement('div');
+    const r = new MapRenderer();
+    await r.init(host, vi.fn());
+    r.setMapData({
+      graph: soloGraph(),
+      clanColorIndex: { 'clan.solo': 0 },
+      castleTier: { 'castle.solo': 'main' },
+    });
+    const layers = r.getLayers()!;
+    // 城下聚落：本城建一組 → settlements 層掛上單一 container。
+    expect(layers.settlements.children.length).toBe(1);
+
+    // LOD 顯隱：near 顯、mid/far 隱。
+    r.setCameraPose({ x: 10, y: 20 }, 1.25); // near
+    expect(layers.settlements.visible).toBe(true);
+    r.setCameraPose({ x: 10, y: 20 }, 0.75); // mid
+    expect(layers.settlements.visible).toBe(false);
+    r.setCameraPose({ x: 10, y: 20 }, 0.25); // far
+    expect(layers.settlements.visible).toBe(false);
+
+    // 選取環：selectionAndPath 之 [roadHighlight, selectionRing, pathPreview]（index 1＝選取環）。
+    const selectionRing = layers.selectionAndPath.children[1]!;
+    expect(selectionRing.visible).toBe(false); // 初始未選節點
+    r.updateView({
+      day: 1,
+      districtOwner: {},
+      castles: [
+        {
+          id: 'castle.solo',
+          ownerClanId: 'clan.solo',
+          durability: 1000,
+          maxDurability: 1000,
+          tier: 'main',
+          terrainKind: 'plain',
+          siegeMode: 'none',
+          warning: 'none',
+        },
+      ],
+      armies: [],
+      battles: [],
+      selection: { kind: 'node', id: 'castle.solo' },
+      analysisMode: 'none',
+    } as never);
+    expect(selectionRing.visible).toBe(true); // 選取節點 → 金色雙環顯示
+
     r.destroy();
   });
 

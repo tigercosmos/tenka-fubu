@@ -38,10 +38,29 @@ import { BAL } from '@core/balance';
 import { TOKENS_NUM } from '@ui/styles/tokens';
 import { pointInPolygon } from '@data/map/outlineGeometry';
 import { FOREST_ALPHA, MAPVIEW, WORLD_SIZE } from './mapViewConfig';
-import { drawNodeMarker, drawSeaBackground, loadOutline } from './mapDraw';
+import { drawSeaBackground, loadOutline } from './mapDraw';
 import { buildRoadsLayer, edgePolyline, polylineMidpoint, type SeaTest } from './roads/roadsDraw';
 import { createRoadHighlight } from './roads/roadHighlight';
-import { armyStackKey, armyWorldPos, buildOwnerByNode, diffOwnerByNode } from './dirty';
+import {
+  armyStackKey,
+  armyWorldPos,
+  buildNodeSig,
+  buildOwnerByNode,
+  diffNodeSig,
+  diffOwnerByNode,
+} from './dirty';
+import {
+  createCastleNode,
+  type CastleNodePart,
+  type CastleNodeProps,
+} from './sceneParts/castleNode';
+import {
+  createDistrictNode,
+  type DistrictNodePart,
+  type DistrictNodeProps,
+} from './sceneParts/districtNode';
+import { createSelectionRing } from './sceneParts/selectionRing';
+import { buildSettlements } from './settlements/settlementsDraw';
 import { LAYER_ORDER } from './mapViewTypes';
 import { MapInteraction, screenToWorld } from './interaction';
 import { Camera } from './camera';
@@ -142,8 +161,18 @@ export class MapRenderer {
   private marchPathPreview: MapPathPreview | null = null;
   private readonly nodeParts = new Map<
     string,
-    { graphics: Graphics; kind: 'castle' | 'district' }
+    { part: CastleNodePart | DistrictNodePart; kind: 'castle' | 'district' }
   >();
+  /**
+   * M6-V7（CD1）：節點視覺簽章 diff 之前一 view 簽章查表（`null`＝全部 dirty）。與 `prevOwnerByNode`
+   * 於 `setMapData`/`init` 同處重設為 `null`，保證重建後下一次 `updateView` 全節點重繪一次
+   * （首繪保證；節點重繪計數＝簽章 diff 成員數，非元件 `update` 回傳，見 §13-B3）。
+   */
+  private prevNodeSig: Map<string, string> | null = null;
+  /** M6-V7（CD5）：節點選取環（金色雙環，錨點置中）；掛於 `selectionAndPath` 之 roadHighlight 與 pathPreview 之間。 */
+  private selectionRing: ReturnType<typeof createSelectionRing> | null = null;
+  /** M6-V7（CD4）：城下聚落（本城城下屋頂群＋田畦，`settlements` 層；靜態一次建、close LOD 顯隱、不動計數）。 */
+  private settlements: ReturnType<typeof buildSettlements> | null = null;
   private readonly labelParts = new Map<
     string,
     { label: BitmapText; kind: 'castle' | 'district' | 'province' | 'road' }
@@ -347,10 +376,14 @@ export class MapRenderer {
 
     this.layers = this.buildLayers(app);
     this.terrainLoader = new MapAssetLoader(); // 建構本身不 load（relief/forest 於 loadTerrainTextures acquire）
-    // M6-V6（§5.1）：roadHighlight 先以 plain addChild 掛入 → 位於 pathPreview 之下（下層 z-order，
-    // 全樹無 addChildAt、mock 亦無，故以插入序取得層序）；路徑預覽疊於選取高亮之上。
+    // M6-V6／V7（§5.1／CD5）：selectionAndPath 之 z-order（下→上）＝ [roadHighlight, selectionRing,
+    // pathPreview]，全以 plain addChild 插序決定（禁 addChildAt/getChildIndex，mock 亦無此法，B1/#4）。
+    // roadHighlight 最下（相鄰道路金色高亮）→ selectionRing 中（節點選取金色雙環）→ pathPreview 最上。
     this.roadHighlight = createRoadHighlight();
     this.layers.selectionAndPath.addChild(this.roadHighlight.container);
+    this.selectionRing = createSelectionRing();
+    this.selectionRing.container.visible = false;
+    this.layers.selectionAndPath.addChild(this.selectionRing.container);
     this.pathPreview = createPathPreview();
     this.layers.selectionAndPath.addChild(this.pathPreview.container);
     this.drawStaticBackground();
@@ -360,6 +393,7 @@ export class MapRenderer {
     // 則實機/fixture 永遠空地形。此時 this.view/this.staticData 已具 pre-init 值。
     this.reconstructTerrainLayers();
     this.prevOwnerByNode = null; // 首繪保證（§11.1）：下一次 updateView 視全部 node 為 dirty
+    this.prevNodeSig = null; // M6-V7：同上，節點簽章 diff 首繪保證
     this.redrawMilitaryObjects();
     this.redrawPathPreview();
     // 鏡頭：初始置中全圖（fit scale），使用者以滾輪／拖曳操作，focusNode 補間聚焦（04 §3.11）。
@@ -434,12 +468,19 @@ export class MapRenderer {
       this.roadsLayer = null;
     }
     if (data === null) {
-      for (const part of this.nodeParts.values()) part.graphics.destroy();
+      for (const entry of this.nodeParts.values()) entry.part.destroy();
       for (const part of this.labelParts.values()) part.label.destroy();
       this.layers.nodeMarkers.removeChildren();
       this.layers.labels.removeChildren();
       this.nodeParts.clear();
       this.labelParts.clear();
+      // M6-V7：清城下聚落＋隱節點選取環（node/label 之清理如上）。
+      if (this.settlements) {
+        this.layers.settlements.removeChild(this.settlements.container);
+        this.settlements.destroy();
+        this.settlements = null;
+      }
+      if (this.selectionRing) this.selectionRing.container.visible = false;
       this.roadHighlight?.update(null); // 清空選取高亮
       this.prevSelectionKey = null;
       return;
@@ -454,24 +495,27 @@ export class MapRenderer {
     // graph swap 後：立即清舊高亮（鏡像 data===null 分支；否則新選取為 null 時 updateView 的
     // selKey diff 為 null===null 不觸發 update，舊圖 gold strokes 殘留）＋強制下次 updateView 重算。
     this.roadHighlight?.update(null);
+    if (this.selectionRing) this.selectionRing.container.visible = false; // M6-V7：同步隱選取環（否則 swap→deselect 殘留舊環）
     this.prevSelectionKey = null;
     this.rebuildCounts.roads += 1; // 維持一次（dirty 契約：+1/次 setMapData）
-    const ownerByNode = buildOwnerByNode(this.view);
     const names = data.names ?? {};
     const active = new Set<string>();
     const activeLabels = new Set<string>();
     for (const node of [...data.graph.nodes.values()].sort((a, b) => a.id.localeCompare(b.id))) {
       active.add(node.id);
-      let part = this.nodeParts.get(node.id);
-      if (part === undefined) {
-        const graphics = new Graphics();
-        graphics.position.set(node.pos.x, node.pos.y);
-        this.layers.nodeMarkers.addChild(graphics);
-        part = { graphics, kind: node.kind };
-        this.nodeParts.set(node.id, part);
+      let entry = this.nodeParts.get(node.id);
+      if (entry === undefined) {
+        // M6-V7（DoD）：以 CastleNode/DistrictNode 元件取代占位 Graphics＋drawNodeMarker。
+        const part = node.kind === 'castle' ? createCastleNode() : createDistrictNode();
+        part.container.position.set(node.pos.x, node.pos.y);
+        this.layers.nodeMarkers.addChild(part.container);
+        entry = { part, kind: node.kind };
+        this.nodeParts.set(node.id, entry);
       }
-      part.graphics.clear();
-      drawNodeMarker(part.graphics, node, ownerByNode.get(node.id) ?? null, data.clanColorIndex);
+      // 首繪（比照現行 drawNodeMarker 於 build 一次；供 init 無後續 updateView 時仍能首幀繪出）；不計數
+      //（計數在首次 updateView 之簽章 diff，§13-B3）。
+      entry.part.update(this.buildNodeProps(node.id, entry.kind) as never);
+      entry.part.setLodStage(this.lodStage);
       this.nodeCull.upsert(node.id, node.pos.x, node.pos.y);
 
       const text = names[node.id];
@@ -548,10 +592,10 @@ export class MapRenderer {
       this.labelCull.upsert(id, pos.x, pos.y);
       this.rebuildCounts.labels += 1;
     }
-    for (const [id, part] of this.nodeParts) {
+    for (const [id, entry] of this.nodeParts) {
       if (active.has(id)) continue;
-      this.layers.nodeMarkers.removeChild(part.graphics);
-      part.graphics.destroy();
+      this.layers.nodeMarkers.removeChild(entry.part.container);
+      entry.part.destroy();
       this.nodeParts.delete(id);
       this.nodeCull.remove(id);
     }
@@ -562,6 +606,52 @@ export class MapRenderer {
       this.labelParts.delete(id);
       this.labelCull.remove(id);
     }
+    // M6-V7（CD4）：城下聚落——每次 setMapData 重建（靜態一次建、只繞本城、close LOD 顯隱、不動計數）。
+    if (this.settlements) {
+      this.layers.settlements.removeChild(this.settlements.container);
+      this.settlements.destroy();
+      this.settlements = null;
+    }
+    this.settlements = buildSettlements(data.graph, data.castleTier ?? {});
+    this.layers.settlements.addChild(this.settlements.container);
+  }
+
+  /**
+   * M6-V7（§5.1）：由 `this.view`＋graph 導出單一節點之繪製 props（城 CastleNodeProps／郡
+   * DistrictNodeProps）。`pos` 取**真實** `graph.nodes.get(id).pos`（非 {0,0}，B2）；城之 `tier`
+   * 以 `view.castles[].tier` 為權威（`staticData.castleTier` 僅供 LOD/命中半徑，M2）。dirty diff 已
+   * 限制只對變動節點呼叫本函式（非全節點/幀），`find` 成本可忽略。
+   */
+  private buildNodeProps(
+    id: string,
+    kind: 'castle' | 'district',
+  ): CastleNodeProps | DistrictNodeProps {
+    const node = this.staticData?.graph.nodes.get(id as never);
+    const pos = node ? { x: node.pos.x, y: node.pos.y } : { x: 0, y: 0 };
+    if (kind === 'castle') {
+      const c = this.view.castles.find((x) => x.id === id);
+      const tier = c?.tier ?? this.staticData?.castleTier?.[id] ?? 'branch';
+      const colorIndex = c ? (this.staticData?.clanColorIndex[c.ownerClanId] ?? 0) : 0;
+      return {
+        pos,
+        tier,
+        colorIndex,
+        terrainKind: c?.terrainKind ?? 'plain',
+        durability: c?.durability ?? 0,
+        maxDurability: c?.maxDurability ?? 1,
+        warning: c?.warning ?? 'none',
+      };
+    }
+    const owner = this.view.districtOwner[id] ?? null;
+    const colorIndex = owner === null ? null : (this.staticData?.clanColorIndex[owner] ?? 0);
+    const d = this.view.districts?.find((x) => x.id === id);
+    return {
+      pos,
+      colorIndex,
+      hasSteward: d?.hasSteward ?? false,
+      subjugationProgress: d?.subjugationProgress ?? null,
+      ikkiActive: d?.ikkiActive ?? false,
+    };
   }
 
   /**
@@ -683,26 +773,28 @@ export class MapRenderer {
    * （V5 掛 `TerritoryGrid`），`rebuildCounts.territory` 僅作為 dirty 訊號雛形計數（§3.3.3 觀測口徑）。
    */
   private applyOwnerDirty(view: MapViewState): void {
-    const next = buildOwnerByNode(view);
-    const dirty = diffOwnerByNode(this.prevOwnerByNode, next);
-    if (dirty.size > 0) {
+    // (1) owner 訊號（territory 用；語意完全不變，M6-V4/V5）。
+    const nextOwner = buildOwnerByNode(view);
+    const ownerDirty = diffOwnerByNode(this.prevOwnerByNode, nextOwner);
+    if (ownerDirty.size > 0) {
       this.rebuildCounts.territory += 1;
       this.territoryDirty = true; // M6-V5：owner 翻轉 → 次幀 recolor（updateView 內至多一次）
     }
-    const data = this.staticData;
-    if (data !== null) {
-      for (const nodeId of dirty) {
-        const part = this.nodeParts.get(nodeId);
-        if (part === undefined) continue;
-        const node = data.graph.nodes.get(nodeId as never);
-        if (node === undefined) continue;
-        const owner = next.get(nodeId) ?? null;
-        part.graphics.clear();
-        drawNodeMarker(part.graphics, node, owner, data.clanColorIndex);
+    this.prevOwnerByNode = nextOwner;
+    // (2) 節點視覺簽章 diff（M6-V7 CD1）：owner/耐久/warning/terrainKind/tier（城）、owner/steward/
+    // subj/ikki（郡）變動之節點才重繪；day 不入簽章（day-only tick 零重畫）。**計數＝簽章 diff 成員
+    // 數**（每 dirty id 無條件 +1，比照現行 owner-diff 迴圈；不依賴元件 `update` 冪等短路回傳，§13-B3）。
+    const nextSig = buildNodeSig(view);
+    const sigDirty = diffNodeSig(this.prevNodeSig, nextSig);
+    if (this.staticData !== null) {
+      for (const id of sigDirty) {
+        const entry = this.nodeParts.get(id);
+        if (entry === undefined) continue;
+        entry.part.update(this.buildNodeProps(id, entry.kind) as never);
         this.rebuildCounts.nodeMarkers += 1;
       }
     }
-    this.prevOwnerByNode = next;
+    this.prevNodeSig = nextSig;
   }
 
   /**
@@ -780,10 +872,12 @@ export class MapRenderer {
     this.lodStage = stage;
     const nearish = stage !== 'far'; // 取代舊 near（scale>=lodFarScale）
     const detail = stage === 'near'; // 取代舊 shouldShowDetailLabels（scale>=labelScale）
-    for (const [id, part] of this.nodeParts) {
-      const mainCastle = part.kind === 'castle' && this.staticData?.castleTier?.[id] === 'main';
-      part.graphics.visible = visibleNodes.has(id) && (nearish || part.kind === 'castle');
-      part.graphics.scale.set(!nearish && mainCastle ? 1.4 : 1);
+    for (const [id, entry] of this.nodeParts) {
+      // M6-V7（CD1 LOD）：far 僅本城可見（支城/郡隱）；far 本城剪影 ×1.4 由 setLodStage 施於 bodyGfx
+      //（不放大 ring/warn，#3），故此處不再設 container.scale。耐久環/警戒徽記顯隱亦由 setLodStage 切。
+      const isMain = entry.kind === 'castle' && this.staticData?.castleTier?.[id] === 'main';
+      entry.part.container.visible = visibleNodes.has(id) && (nearish || isMain);
+      entry.part.setLodStage(stage);
     }
     for (const [id, part] of this.labelParts) {
       const mainCastle = part.kind === 'castle' && this.staticData?.castleTier?.[id] === 'main';
@@ -802,6 +896,7 @@ export class MapRenderer {
     this.roadsLayer?.setStage(stage);
     this.interaction.setScale(camera.scale); // V6D8：命中測試 CSS-px 下限隨相機縮放同步
     this.layers.labels.visible = true;
+    this.layers.settlements.visible = detail; // M6-V7：城下地景 close only（art-bible §5）
     // M6-V5：地形/水系/領地依 stage 顯示（relief 恆顯；forest 恆顯、alpha 由 FOREST_ALPHA[stage]；
     // water 河依 class 切 visible；territory alpha 依 stage＋analysisMode）。
     if (this.reliefSprite) this.reliefSprite.visible = true;
@@ -1055,6 +1150,16 @@ export class MapRenderer {
       this.roadHighlight?.destroy();
       this.roadHighlight = null;
       this.prevSelectionKey = null;
+      // M6-V7：顯式卸載＋銷毀選取環／城下聚落／節點元件（勿只依賴 app.destroy children 遞迴）。
+      this.selectionRing?.destroy();
+      this.selectionRing = null;
+      if (this.settlements) {
+        this.settlements.container.parent?.removeChild(this.settlements.container);
+        this.settlements.destroy();
+        this.settlements = null;
+      }
+      this.prevNodeSig = null;
+      for (const { part } of this.nodeParts.values()) part.destroy();
       app.destroy({ removeView: true }, { children: true, texture: true });
     }
     this.app = null;
@@ -1093,6 +1198,7 @@ export class MapRenderer {
       // Blocker 1（§5.1）：與 init() 鏡像呼叫；data===null 時 reconstructTerrainLayers 內部見 null 即清空。
       this.reconstructTerrainLayers();
       this.prevOwnerByNode = null;
+      this.prevNodeSig = null; // M6-V7：重建保證——下次 updateView 全節點簽章 dirty（§13-B3）
       this.redrawPathPreview(); // graph 換了要重畫 path preview（D9 保留在此，非 updateView）
       this.applyLodAndCulling();
     }
@@ -1128,10 +1234,38 @@ export class MapRenderer {
     if (selKey !== this.prevSelectionKey) {
       this.prevSelectionKey = selKey;
       if (this.staticData !== null) {
-        this.roadHighlight?.update({ graph: this.staticData.graph, selectedNodeId: selKey });
+        this.roadHighlight?.update({ graph: this.staticData.graph, selectedNodeId: selKey }); // V6
+        this.updateSelectionRing(selKey); // M6-V7（CD5）：節點選取金色雙環（與 V6 共用 prevSelectionKey）
       }
     }
     this.redrawMilitaryObjects();
+  }
+
+  /**
+   * M6-V7（CD5）：節點選取環顯隱／定位。`selKey===null`（未選節點或選軍隊）或 graph 無此 node →
+   * 隱藏；否則依 node 種類（本城/支城/郡）取命中半徑，於 node.pos 畫金色雙環（錨點置中）。
+   * 不動任何 `rebuildCounts`；由 `updateView` 之 `prevSelectionKey` diff 驅動（day-only selKey 不變 → 不更新）。
+   */
+  private updateSelectionRing(selKey: string | null): void {
+    const ring = this.selectionRing;
+    if (ring === null) return;
+    if (selKey === null || this.staticData === null) {
+      ring.container.visible = false;
+      return;
+    }
+    const node = this.staticData.graph.nodes.get(selKey as never);
+    if (node === undefined) {
+      ring.container.visible = false;
+      return;
+    }
+    const hr =
+      node.kind === 'castle'
+        ? this.staticData.castleTier?.[selKey] === 'main'
+          ? MAPVIEW.hitRadius.castleMain
+          : MAPVIEW.hitRadius.castleBranch
+        : MAPVIEW.hitRadius.district;
+    ring.update({ pos: node.pos, targetHitRadius: hr, primary: true });
+    ring.container.visible = true;
   }
 
   /**

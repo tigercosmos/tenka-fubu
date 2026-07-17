@@ -1,26 +1,24 @@
-// 地圖靜態圖層的純繪製輔助函式（seaBackground／nodeMarkers）。
+// 地圖靜態圖層的純繪製輔助函式（seaBackground）。
 //
-// 規格：plan/04-map-and-movement.md §3.10.1（圖層 0 海陸背景、圖層 3 城/郡標記之內容）、
-// §3.2（世界座標）。M2-13（04-T8「outline 與街道繪製」）。
+// 規格：plan/04-map-and-movement.md §3.10.1（圖層 0 海陸背景）、§3.2（世界座標）。
+// M2-13（04-T8「outline 與街道繪製」）。
 //
 // M6-V6（V6D10）：道路繪製（舊 `drawRoads`／`addDashedPath`／`endpointsOf`）已汰除，改由
-// `src/ui/map/roads/roadsDraw.ts` 之 `buildRoadsLayer`（RoadsLayer 子容器：casing／內線、waypoints
-// 多段線、道級分批、海路波節、橋樑、per-stage 線寬）承接。本檔僅保留 seaBackground／nodeMarkers。
+// `src/ui/map/roads/roadsDraw.ts` 之 `buildRoadsLayer` 承接。
+// M6-V7（DoD 硬項）：占位節點標記（`drawNodeMarker`／`drawNodeMarkers`／`regularPolygon`／
+// `ownerColor`）已移除，nodeMarkers 改由 `sceneParts/castleNode`／`districtNode` 元件繪製
+// （`MapRenderer.buildStaticDataLayers`）。本檔僅保留 seaBackground。
 //
 // 設計要點：
 // - 本檔為**純函式**：只對傳入的 Pixi `Graphics` 呼叫繪製指令，不持有狀態、不建立 Application、
 //   不碰 DOM。`Graphics` 僅以 `import type` 引入（verbatimModuleSyntax 下於執行期抹除），故本檔可在
 //   node 測試環境以「錄製用 mock」直接驗證繪製指令序列，無需 Pixi 執行期（17 §3.2；jsdom 外亦可跑）。
-// - 決定論：節點一律依 id 字典序處理（雖對繪製結果無影響，仍與 core 慣例一致、利於快照）。
-// - 數值：標記幾何走 mapViewConfig（非 BAL，04 §4.5/§8-D8）；勢力色走 tokens.clanColorNum
-//   （12 §5.1 公式）；描邊墨色走 TOKENS_NUM（12）。
+// - 數值：海陸色走 mapViewConfig（非 BAL，04 §4.5/§8-D8）。
 
 import type { Graphics } from 'pixi.js';
-import type { MapGraph, MapGraphNode } from '@core/state/mapGraph';
 import outlineJson from '@data/map/japan-outline.json';
 import { zJapanOutlineFile, type JapanOutlineFile } from '@data/schemas/outline';
-import { clanColorNum, TOKENS_NUM } from '@ui/styles/tokens';
-import { MAPVIEW, NODE_MARKER, WORLD_SIZE } from './mapViewConfig';
+import { MAPVIEW, WORLD_SIZE } from './mapViewConfig';
 
 let cachedOutline: JapanOutlineFile | null = null;
 
@@ -48,85 +46,5 @@ export function drawSeaBackground(g: Graphics, outline: JapanOutlineFile): void 
     if (poly.points.length >= 6) {
       g.poly(poly.points).fill({ color: MAPVIEW.colors.land });
     }
-  }
-}
-
-/** 以 (cx,cy) 為心、半徑 r 的正 n 邊形頂點（扁平陣列）；`startAngle` 弧度（預設頂點朝上 -90°）。 */
-function regularPolygon(
-  cx: number,
-  cy: number,
-  r: number,
-  n: number,
-  startAngle: number,
-): number[] {
-  const pts: number[] = [];
-  for (let i = 0; i < n; i += 1) {
-    const a = startAngle + (i * 2 * Math.PI) / n;
-    pts.push(cx + r * Math.cos(a), cy + r * Math.sin(a));
-  }
-  return pts;
-}
-
-/** owner 勢力色（有主＝clanColorNum；無主／索引非法＝中性灰 MAPVIEW.colors.neutral）。 */
-function ownerColor(
-  clanId: string | null | undefined,
-  clanColorIndex: Readonly<Record<string, number>>,
-): number {
-  if (clanId == null) return MAPVIEW.colors.neutral;
-  const idx = clanColorIndex[clanId];
-  if (idx === undefined || !Number.isInteger(idx) || idx < 0 || idx >= 40) {
-    return MAPVIEW.colors.neutral;
-  }
-  return clanColorNum(idx);
-}
-
-/**
- * 圖層 3「nodeMarkers」：城＝五角天守形、郡＝菱形（04 §3.10.1）——**M2-13 骨架占位**。
- * 填色＝owner 勢力色，描邊墨色。M2-16（sceneParts CastleNode/DistrictNode/SelectionRing，12-T10）
- * 以正式繪製參數（含本城/支城區分、LOD 縮放、命中區）取代之。節點依 id 字典序繪製（決定論）。
- *
- * M6-V4（設計 §3.5）：owner 來源改為呼叫端解析後的 `ownerByNode` 查表（不再讀 `MapViewState`），
- * 供 `MapRenderer` 之 dirty-update（`applyOwnerDirty`）與 `buildStaticDataLayers` 共用單一繪製
- * 路徑；繪製指令與改前逐項相同（視覺不變）。
- */
-export function drawNodeMarkers(
-  g: Graphics,
-  graph: MapGraph,
-  ownerByNode: ReadonlyMap<string, string | null>,
-  clanColorIndex: Readonly<Record<string, number>>,
-): void {
-  g.clear();
-  const nodeIds = [...graph.nodes.keys()].sort();
-  for (const nodeId of nodeIds) {
-    const node = graph.nodes.get(nodeId);
-    if (node === undefined) continue;
-    drawNodeMarker(g, node, ownerByNode.get(nodeId) ?? null, clanColorIndex, node.pos);
-  }
-}
-
-/**
- * Draw one node, optionally at a local coordinate for individually cullable scene objects.
- * `ownerClanId`：已解析之 owner（`null`＝無主），由呼叫端查表傳入（M6-V4 §3.5：owner 來源參數化，
- * 使本函式不依賴 view 型別）。
- */
-export function drawNodeMarker(
-  g: Graphics,
-  node: MapGraphNode,
-  ownerClanId: string | null,
-  clanColorIndex: Readonly<Record<string, number>>,
-  at: { x: number; y: number } = { x: 0, y: 0 },
-): void {
-  const { x, y } = at;
-  const up = -Math.PI / 2;
-  const color = ownerColor(ownerClanId, clanColorIndex);
-  if (node.kind === 'castle') {
-    const pts = regularPolygon(x, y, NODE_MARKER.castleRadius, 5, up);
-    g.poly(pts).fill({ color });
-    g.poly(pts).stroke({ width: NODE_MARKER.strokeWidth, color: TOKENS_NUM.ink700 });
-  } else {
-    const r = NODE_MARKER.districtRadius;
-    const pts = [x, y - r, x + r, y, x, y + r, x - r, y]; // 菱形（上右下左）
-    g.poly(pts).fill({ color });
-    g.poly(pts).stroke({ width: NODE_MARKER.strokeWidth, color: TOKENS_NUM.ink700 });
   }
 }

@@ -46,6 +46,78 @@ export function diffOwnerByNode(
   return dirty;
 }
 
+/**
+ * 節點視覺簽章之 view 子集（城／郡；M6-V7 CD1／§3.5）。城簽章欄位＝影響繪製之欄位：
+ * owner／耐久（durability/maxDurability）／warning（烽火/裂口/光暈）／terrainKind（平/山城剪影）／
+ * tier；郡簽章＝owner／steward／subjugation／ikki。**`day` 一律不入簽章**（day-only tick 零重畫）。
+ */
+export interface NodeSigView {
+  readonly castles: readonly {
+    readonly id: string;
+    readonly ownerClanId: string;
+    readonly durability: number;
+    readonly maxDurability: number;
+    readonly tier: string;
+    readonly warning: string;
+    readonly terrainKind: string;
+  }[];
+  readonly districtOwner: Readonly<Record<string, string | null>>;
+  readonly districts?: readonly {
+    readonly id: string;
+    readonly hasSteward: boolean;
+    readonly subjugationProgress: number | null;
+    readonly ikkiActive: boolean;
+  }[];
+}
+
+/**
+ * 每節點視覺簽章字串（純函式；供 `diffNodeSig` 與 `MapRenderer.applyOwnerDirty` 之節點重繪 diff）。
+ * - 城：`c|owner|dur/max|warning|terrainKind|tier`
+ * - 郡：`d|owner|steward|subj|ikki`（owner 取 `districtOwner`；次級狀態取 `districts[]`，缺省視同
+ *   直轄/無制壓/非一揆）。**day 不參與**（day-only 變更不改任何簽章 → 零重畫）。
+ */
+export function buildNodeSig(view: NodeSigView): Map<string, string> {
+  const sig = new Map<string, string>();
+  for (const c of view.castles) {
+    sig.set(
+      c.id,
+      `c|${c.ownerClanId}|${c.durability}/${c.maxDurability}|${c.warning}|${c.terrainKind}|${c.tier}`,
+    );
+  }
+  const districtState = new Map<
+    string,
+    { hasSteward: boolean; subjugationProgress: number | null; ikkiActive: boolean }
+  >();
+  for (const d of view.districts ?? []) districtState.set(d.id, d);
+  for (const [id, owner] of Object.entries(view.districtOwner)) {
+    const d = districtState.get(id);
+    const steward = d?.hasSteward ?? false;
+    const subj = d?.subjugationProgress ?? null;
+    const ikki = d?.ikkiActive ?? false;
+    sig.set(id, `d|${owner ?? ''}|${steward}|${subj ?? ''}|${ikki}`);
+  }
+  return sig;
+}
+
+/**
+ * `prev===null` 視為「全部 dirty」（首繪保證，比照 `diffOwnerByNode`；見 renderer `setMapData` 後
+ * `prevNodeSig=null`）；否則回傳簽章相對 prev 相異之 nodeId 集合。
+ */
+export function diffNodeSig(
+  prev: ReadonlyMap<string, string> | null,
+  next: ReadonlyMap<string, string>,
+): Set<string> {
+  const dirty = new Set<string>();
+  if (prev === null) {
+    for (const k of next.keys()) dirty.add(k);
+    return dirty;
+  }
+  for (const [id, s] of next) {
+    if (prev.get(id) !== s) dirty.add(id);
+  }
+  return dirty;
+}
+
 /** `armyWorldPos` 消費之最小欄位（`MapArmyView` 位置相關子集）。 */
 export interface ArmyPosInput {
   readonly fromNode: string;

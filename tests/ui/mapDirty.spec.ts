@@ -9,7 +9,15 @@ import { describe, expect, it } from 'vitest';
 import { buildMapGraph } from '@core/state/mapGraph';
 import type { CastleId, DistrictId, RoadEdgeId } from '@core/state/ids';
 import type { RoadEdge } from '@core/state/gameState';
-import { armyStackKey, armyWorldPos, buildOwnerByNode, diffOwnerByNode } from '@ui/map/dirty';
+import {
+  armyStackKey,
+  armyWorldPos,
+  buildNodeSig,
+  buildOwnerByNode,
+  diffNodeSig,
+  diffOwnerByNode,
+  type NodeSigView,
+} from '@ui/map/dirty';
 
 function fixtureGraph(): ReturnType<typeof buildMapGraph> {
   const castles = {
@@ -132,5 +140,103 @@ describe('armyStackKey（UI 疊放概念；補遺 AD-V4-4：逐字等價改前 s
 
   it('edgeT>0（行軍中）→ 用 army id（不與他人共疊）', () => {
     expect(armyStackKey({ id: 'army.1', fromNode: 'castle.aa', edgeT: 0.3 })).toBe('army.1');
+  });
+});
+
+// ── M6-V7（CD1／§3.5）：節點視覺簽章 diff（buildNodeSig／diffNodeSig） ──────────────────
+
+function sigView(overrides: Partial<NodeSigView> = {}): NodeSigView {
+  return {
+    castles: [
+      {
+        id: 'castle.aa',
+        ownerClanId: 'clan.oda',
+        durability: 1000,
+        maxDurability: 1000,
+        tier: 'main',
+        warning: 'none',
+        terrainKind: 'plain',
+      },
+    ],
+    districtOwner: { 'dist.xx': 'clan.oda' },
+    ...overrides,
+  };
+}
+
+describe('buildNodeSig（M6-V7 §3.5）：城/郡視覺簽章', () => {
+  it('城簽章含 owner/durability/maxDurability/warning/terrainKind/tier；郡簽章含 owner/steward/subj/ikki', () => {
+    const sig = buildNodeSig(
+      sigView({
+        districts: [
+          { id: 'dist.xx', hasSteward: true, subjugationProgress: 40, ikkiActive: false },
+        ],
+      }),
+    );
+    expect(sig.get('castle.aa')).toBe('c|clan.oda|1000/1000|none|plain|main');
+    expect(sig.get('dist.xx')).toBe('d|clan.oda|true|40|false');
+  });
+
+  it('郡無 districts[] 對映 → 次級狀態預設（直轄/無制壓/非一揆）；無主 owner→空字串', () => {
+    const sig = buildNodeSig(sigView({ districtOwner: { 'dist.xx': null } }));
+    expect(sig.get('dist.xx')).toBe('d||false||false');
+  });
+
+  it('owner/durability/warning/terrainKind 任一變 → 城簽章改變（各為獨立欄位）', () => {
+    const base = buildNodeSig(sigView()).get('castle.aa');
+    expect(
+      buildNodeSig(sigView({ castles: [{ ...sigView().castles[0]!, ownerClanId: 'clan.x' }] })).get(
+        'castle.aa',
+      ),
+    ).not.toBe(base);
+    expect(
+      buildNodeSig(sigView({ castles: [{ ...sigView().castles[0]!, durability: 500 }] })).get(
+        'castle.aa',
+      ),
+    ).not.toBe(base);
+    expect(
+      buildNodeSig(sigView({ castles: [{ ...sigView().castles[0]!, warning: 'critical' }] })).get(
+        'castle.aa',
+      ),
+    ).not.toBe(base);
+    expect(
+      buildNodeSig(
+        sigView({ castles: [{ ...sigView().castles[0]!, terrainKind: 'mountain' }] }),
+      ).get('castle.aa'),
+    ).not.toBe(base);
+  });
+});
+
+describe('diffNodeSig（M6-V7 §3.5）：簽章 diff 成員集', () => {
+  it('prev===null → 回傳全部 id（首繪保證，比照 diffOwnerByNode）', () => {
+    const next = buildNodeSig(sigView());
+    expect([...diffNodeSig(null, next)].sort()).toEqual(['castle.aa', 'dist.xx']);
+  });
+
+  it('day-only（簽章不含 day）：同一 view 兩次簽章 → 空集合', () => {
+    const prev = buildNodeSig(sigView());
+    const next = buildNodeSig(sigView()); // day 不入簽章，故完全相同
+    expect(diffNodeSig(prev, next).size).toBe(0);
+  });
+
+  it('僅耐久變 → 該城 dirty、其餘不列入', () => {
+    const prev = buildNodeSig(sigView());
+    const next = buildNodeSig(
+      sigView({ castles: [{ ...sigView().castles[0]!, durability: 300 }] }),
+    );
+    expect([...diffNodeSig(prev, next)]).toEqual(['castle.aa']);
+  });
+
+  it('僅 warning 變（terrainKind/owner 不變）→ 該城 dirty', () => {
+    const prev = buildNodeSig(sigView());
+    const next = buildNodeSig(
+      sigView({ castles: [{ ...sigView().castles[0]!, warning: 'threatened' }] }),
+    );
+    expect([...diffNodeSig(prev, next)]).toEqual(['castle.aa']);
+  });
+
+  it('郡 owner 無主化 → 該郡 dirty', () => {
+    const prev = buildNodeSig(sigView());
+    const next = buildNodeSig(sigView({ districtOwner: { 'dist.xx': null } }));
+    expect([...diffNodeSig(prev, next)]).toEqual(['dist.xx']);
   });
 });

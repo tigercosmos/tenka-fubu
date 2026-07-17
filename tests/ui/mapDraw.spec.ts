@@ -7,12 +7,8 @@
 
 import { describe, expect, it } from 'vitest';
 import type { Graphics } from 'pixi.js';
-import { buildMapGraph } from '@core/state/mapGraph';
-import type { CastleId, DistrictId, RoadEdgeId } from '@core/state/ids';
-import type { RoadEdge } from '@core/state/gameState';
-import { clanColorNum } from '@ui/styles/tokens';
 import { MAPVIEW, WORLD_SIZE } from '@ui/map/mapViewConfig';
-import { drawNodeMarkers, drawSeaBackground, loadOutline } from '@ui/map/mapDraw';
+import { drawSeaBackground, loadOutline } from '@ui/map/mapDraw';
 
 /** 錄製每個 Graphics 指令（method + 參數）以斷言繪製序列。 */
 class RecordingGraphics {
@@ -55,47 +51,6 @@ function makeRec(): { rec: RecordingGraphics; g: Graphics } {
   return { rec, g: rec as unknown as Graphics };
 }
 
-function fixtureGraph(): ReturnType<typeof buildMapGraph> {
-  const castles = {
-    'castle.aa': { id: 'castle.aa' as CastleId, pos: { x: 100, y: 100 } },
-    'castle.bb': { id: 'castle.bb' as CastleId, pos: { x: 300, y: 300 } },
-  } as unknown as Parameters<typeof buildMapGraph>[0];
-  const districts = {
-    'dist.xx': {
-      id: 'dist.xx' as DistrictId,
-      pos: { x: 200, y: 200 },
-      isPort: false,
-      castleId: 'castle.aa' as CastleId,
-    },
-    'dist.yy': {
-      id: 'dist.yy' as DistrictId,
-      pos: { x: 400, y: 100 },
-      isPort: true,
-      castleId: 'castle.bb' as CastleId,
-    },
-  } as unknown as Parameters<typeof buildMapGraph>[1];
-  const road = (
-    id: string,
-    a: string,
-    b: string,
-    type: 'land' | 'sea',
-    grade: 1 | 2 | 3,
-  ): RoadEdge => ({
-    id: id as RoadEdgeId,
-    a: a as CastleId,
-    b: b as CastleId,
-    type,
-    grade,
-    baseDays: 2,
-  });
-  const roads = {
-    'road.aa-xx': road('road.aa-xx', 'castle.aa', 'dist.xx', 'land', 2),
-    'road.xx-bb': road('road.xx-bb', 'dist.xx', 'castle.bb', 'land', 1),
-    'road.bb-yy': road('road.bb-yy', 'castle.bb', 'dist.yy', 'sea', 1),
-  } as unknown as Parameters<typeof buildMapGraph>[2];
-  return buildMapGraph(castles, districts, roads);
-}
-
 describe('loadOutline（內建 japan-outline.json，04 §3.3）', () => {
   it('回傳 version 1、含 honshu/shikoku/kyushu 三 polygon 的已驗證 outline', () => {
     const outline = loadOutline();
@@ -130,39 +85,17 @@ describe('drawSeaBackground（圖層 0；04 §3.10.1）', () => {
   });
 });
 
-// M6-V6（V6D10）：`drawRoads` 已汰除、由 `roads/roadsDraw.ts` 之 `buildRoadsLayer` 承接
-// （道路繪製測試移至 `src/ui/map/roads/roadsDraw.spec.ts`）。本檔僅保留 seaBackground／nodeMarkers。
+// M6-V6（V6D10）：`drawRoads` 已汰除、由 `roads/roadsDraw.ts` 之 `buildRoadsLayer` 承接。
+// M6-V7（DoD 硬項）：占位 `drawNodeMarker`／`drawNodeMarkers` 已移除，nodeMarkers 改由
+// `sceneParts/castleNode`／`districtNode` 元件繪製（測試見 tests/ui/sceneParts/*.spec.ts、
+// src/ui/map/mapRendererDirty.spec.ts）。本檔僅保留 seaBackground。
 
-describe('drawNodeMarkers（圖層 3 骨架占位；04 §3.10.1）', () => {
-  it('每節點 fill+stroke 各一次；owner→勢力色、無主→中性灰', () => {
-    const { rec, g } = makeRec();
-    const graph = fixtureGraph();
-    const ownerByNode = new Map<string, string | null>([
-      ['dist.xx', 'clan.oda'],
-      ['dist.yy', null],
-      ['castle.aa', 'clan.oda'],
-      ['castle.bb', 'clan.imagawa'],
-    ]);
-    const clanColorIndex = { 'clan.oda': 5, 'clan.imagawa': 10 };
-    drawNodeMarkers(g, graph, ownerByNode, clanColorIndex);
-
-    expect(rec.calls[0]?.[0]).toBe('clear');
-    // 4 節點 × (填色 poly + 描邊 poly) = 8 poly；fill/stroke 各 4。
-    expect(rec.countOf('poly')).toBe(8);
-    expect(rec.countOf('fill')).toBe(4);
-    expect(rec.countOf('stroke')).toBe(4);
-    const fillColors = rec.argsOf('fill').map((a) => (a[0] as { color: number }).color);
-    expect(fillColors).toContain(clanColorNum(5)); // 織田領（castle.aa / dist.xx）
-    expect(fillColors).toContain(clanColorNum(10)); // 今川領（castle.bb）
-    expect(fillColors).toContain(MAPVIEW.colors.neutral); // 無主 dist.yy
-  });
-
-  it('clanColorIndex 缺 owner 對照時退回中性灰（不 throw）', () => {
-    const { rec, g } = makeRec();
-    const graph = fixtureGraph();
-    const ownerByNode = new Map<string, string | null>([['castle.aa', 'clan.unknown']]);
-    drawNodeMarkers(g, graph, ownerByNode, {});
-    const fillColors = rec.argsOf('fill').map((a) => (a[0] as { color: number }).color);
-    expect(fillColors.every((c) => c === MAPVIEW.colors.neutral)).toBe(true);
+describe('mapDraw 不再匯出占位節點標記（M6-V7 DoD）', () => {
+  it('drawNodeMarker／drawNodeMarkers 已自 mapDraw 移除', async () => {
+    const mod = (await import('@ui/map/mapDraw')) as Record<string, unknown>;
+    expect(mod.drawNodeMarker).toBeUndefined();
+    expect(mod.drawNodeMarkers).toBeUndefined();
+    expect(typeof mod.drawSeaBackground).toBe('function');
+    expect(typeof mod.loadOutline).toBe('function');
   });
 });

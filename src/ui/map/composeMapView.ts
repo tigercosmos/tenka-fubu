@@ -44,6 +44,7 @@ export function composeMapViewState(
     day: model.day,
     districtOwner: model.districtOwner,
     castles: model.castles,
+    districts: model.districts, // M6-V7 AD1：郡次級狀態 pass-through（DistrictNode 知行/制壓/一揆）
     armies,
     sieges: model.sieges,
     battles: model.battles,
