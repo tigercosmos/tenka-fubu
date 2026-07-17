@@ -35,8 +35,12 @@ import {
 } from 'pixi.js';
 import type { FederatedPointerEvent } from 'pixi.js';
 import { BAL } from '@core/balance';
+import { TOKENS_NUM } from '@ui/styles/tokens';
+import { pointInPolygon } from '@data/map/outlineGeometry';
 import { FOREST_ALPHA, MAPVIEW, WORLD_SIZE } from './mapViewConfig';
-import { drawNodeMarker, drawRoads, drawSeaBackground, loadOutline } from './mapDraw';
+import { drawNodeMarker, drawSeaBackground, loadOutline } from './mapDraw';
+import { buildRoadsLayer, edgePolyline, polylineMidpoint, type SeaTest } from './roads/roadsDraw';
+import { createRoadHighlight } from './roads/roadHighlight';
 import { armyStackKey, armyWorldPos, buildOwnerByNode, diffOwnerByNode } from './dirty';
 import { LAYER_ORDER } from './mapViewTypes';
 import { MapInteraction, screenToWorld } from './interaction';
@@ -101,7 +105,20 @@ export class MapRenderer {
   };
 
   private seaGfx: Graphics | null = null;
-  private roadsGfx: Graphics | null = null;
+  /**
+   * M6-V6：`roads`(5) 圖層改掛單一 `RoadsLayer` 子容器（取代舊 `roadsGfx`＋`drawRoads`）；
+   * casing＋內線、waypoints 多段線、道級分批、海路波節、橋樑、per-stage 線寬。只於 `setMapData`
+   * 重建（`rebuildCounts.roads` +1／次）；`applyLodAndCulling` 以 `setStage(stage)` 切能見度／依
+   * stage 倍率重描（LOD 轉場，非 tick，不動 rebuildCounts；stage 未變則內部早退，守 dirty 契約）。
+   */
+  private roadsLayer: ReturnType<typeof buildRoadsLayer> | null = null;
+  /**
+   * M6-V6（Slice E）：節點選取相鄰道路金色高亮（`selectionAndPath`(9) 動態層，掛於 pathPreview
+   * 之下）。由 `updateView` 依 `prevSelectionKey` diff 驅動 `update`；不動 `rebuildCounts`。
+   */
+  private roadHighlight: ReturnType<typeof createRoadHighlight> | null = null;
+  /** 上一次已套用之選取節點 id（`null`＝無節點選取）；graph swap 後重設為 null 強制重算高亮。 */
+  private prevSelectionKey: string | null = null;
   /**
    * 地形／水系／領地（M6-V5）：relief／forest 為共享烘焙紋理 Sprite（texture 由 `terrainLoader`
    * refcount 管理，destroy 時只 detach＋`destroy({texture:false})`，不隨 `app.destroy` 銷毀共享
@@ -129,7 +146,7 @@ export class MapRenderer {
   >();
   private readonly labelParts = new Map<
     string,
-    { label: BitmapText; kind: 'castle' | 'district' | 'province' }
+    { label: BitmapText; kind: 'castle' | 'district' | 'province' | 'road' }
   >();
   private readonly armyParts = new Map<string, ReturnType<typeof createArmyChip>>();
   private readonly siegeParts = new Map<string, ReturnType<typeof createSiegeMarker>>();
@@ -330,6 +347,10 @@ export class MapRenderer {
 
     this.layers = this.buildLayers(app);
     this.terrainLoader = new MapAssetLoader(); // 建構本身不 load（relief/forest 於 loadTerrainTextures acquire）
+    // M6-V6（§5.1）：roadHighlight 先以 plain addChild 掛入 → 位於 pathPreview 之下（下層 z-order，
+    // 全樹無 addChildAt、mock 亦無，故以插入序取得層序）；路徑預覽疊於選取高亮之上。
+    this.roadHighlight = createRoadHighlight();
+    this.layers.selectionAndPath.addChild(this.roadHighlight.container);
     this.pathPreview = createPathPreview();
     this.layers.selectionAndPath.addChild(this.pathPreview.container);
     this.drawStaticBackground();
@@ -406,22 +427,35 @@ export class MapRenderer {
   private buildStaticDataLayers(): void {
     if (this.layers === null) return;
     const data = this.staticData;
-    if (this.roadsGfx === null) {
-      this.roadsGfx = new Graphics();
-      this.layers.roads.addChild(this.roadsGfx);
+    // M6-V6：舊 RoadsLayer 先卸載＋銷毀（每次 setMapData 重建；取代舊 roadsGfx.clear/drawRoads）。
+    if (this.roadsLayer) {
+      this.layers.roads.removeChild(this.roadsLayer.container);
+      this.roadsLayer.destroy();
+      this.roadsLayer = null;
     }
     if (data === null) {
-      this.roadsGfx.clear();
       for (const part of this.nodeParts.values()) part.graphics.destroy();
       for (const part of this.labelParts.values()) part.label.destroy();
       this.layers.nodeMarkers.removeChildren();
       this.layers.labels.removeChildren();
       this.nodeParts.clear();
       this.labelParts.clear();
+      this.roadHighlight?.update(null); // 清空選取高亮
+      this.prevSelectionKey = null;
       return;
     }
-    drawRoads(this.roadsGfx, data.graph);
-    this.rebuildCounts.roads += 1;
+    // M6-V6：以 outline 陸地多邊形建 seaTest（海路波節僅落海之弧節繪製，陸段抑制，§4.1/§5.1）。
+    const outline = data.outline ?? loadOutline();
+    const landPolys = outline.polygons.map((p) => p.points);
+    const seaTest: SeaTest = (x, y) => !landPolys.some((poly) => pointInPolygon(x, y, poly));
+    this.roadsLayer = buildRoadsLayer(data.graph, seaTest);
+    this.layers.roads.addChild(this.roadsLayer.container);
+    this.roadsLayer.setStage(this.lodStage); // 首描（依當前 stage 倍率）
+    // graph swap 後：立即清舊高亮（鏡像 data===null 分支；否則新選取為 null 時 updateView 的
+    // selKey diff 為 null===null 不觸發 update，舊圖 gold strokes 殘留）＋強制下次 updateView 重算。
+    this.roadHighlight?.update(null);
+    this.prevSelectionKey = null;
+    this.rebuildCounts.roads += 1; // 維持一次（dirty 契約：+1/次 setMapData）
     const ownerByNode = buildOwnerByNode(this.view);
     const names = data.names ?? {};
     const active = new Set<string>();
@@ -458,6 +492,41 @@ export class MapRenderer {
         this.labelCull.upsert(node.id, node.pos.x, node.pos.y);
         this.rebuildCounts.labels += 1;
       }
+    }
+    // M6-V6（§5.1）：道路名標籤（`edge.name`）於多段線弧長中點、沿真法線偏上位移建 BitmapText
+    // （near-only，`fill: ink900` 避免白字落暖底不可讀）。排序統一為預設 `.sort()` on keys（決定論）。
+    for (const edgeId of [...data.graph.edges.keys()].sort()) {
+      const edge = data.graph.edges.get(edgeId)!;
+      if (edge.name === undefined) continue;
+      const pts = edgePolyline(edge, data.graph);
+      if (pts === null) continue;
+      const mid = polylineMidpoint(pts);
+      if (mid === null) continue;
+      let nx = -Math.sin(mid.angle);
+      let ny = Math.cos(mid.angle); // 真法線（⊥ 段方向）
+      if (ny > 0) {
+        nx = -nx;
+        ny = -ny;
+      } // 令 ny<0（世界 y 向下，偏上避 casing）
+      const lx = mid.x + nx * MAPVIEW.roadLabelOffset;
+      const ly = mid.y + ny * MAPVIEW.roadLabelOffset;
+      const id = `road:${edgeId}`;
+      activeLabels.add(id);
+      let part = this.labelParts.get(id);
+      if (part === undefined) {
+        const label = new BitmapText({
+          text: edge.name,
+          style: { fontFamily: 'Noto Serif TC', fontSize: 12, fill: TOKENS_NUM.ink900 },
+        });
+        label.position.set(lx, ly);
+        this.layers.labels.addChild(label);
+        part = { label, kind: 'road' };
+        this.labelParts.set(id, part);
+      }
+      part.label.text = edge.name;
+      part.label.position.set(lx, ly);
+      this.labelCull.upsert(id, lx, ly);
+      this.rebuildCounts.labels += 1;
     }
     for (const [provinceId, pos] of Object.entries(data.provinceLabelPos ?? {})) {
       const text = names[provinceId];
@@ -721,10 +790,17 @@ export class MapRenderer {
       const lodVisible =
         part.kind === 'province'
           ? !nearish
-          : nearish && ((part.kind === 'castle' && mainCastle) || detail);
+          : part.kind === 'road'
+            ? detail // 道路名 near-only（04 §3.10.3）
+            : nearish && ((part.kind === 'castle' && mainCastle) || detail);
       part.label.visible = visibleLabels.has(id) && lodVisible;
     }
-    this.layers.roads.visible = nearish;
+    // M6-V6（V6D4）：roads 層恆顯（修正舊 `visible=nearish` 於 far 整層隱藏，違 04 §3.10.3）；
+    // 由 RoadsLayer.setStage 切各 tier 能見度（arterial/sea 恆顯、minor/bridge mid 起、path near）
+    // 並依 stage 倍率重描——stage 未變則內部早退（零重描，守 day-only tick dirty 契約）。
+    this.layers.roads.visible = true;
+    this.roadsLayer?.setStage(stage);
+    this.interaction.setScale(camera.scale); // V6D8：命中測試 CSS-px 下限隨相機縮放同步
     this.layers.labels.visible = true;
     // M6-V5：地形/水系/領地依 stage 顯示（relief 恆顯；forest 恆顯、alpha 由 FOREST_ALPHA[stage]；
     // water 河依 class 切 visible；territory alpha 依 stage＋analysisMode）。
@@ -970,6 +1046,15 @@ export class MapRenderer {
       this.territoryDirty = false;
       this.terrainTexturesPending = false;
       this.lodStage = 'far';
+      // M6-V6：顯式卸載＋銷毀 RoadsLayer／roadHighlight（勿只依賴 app.destroy children 遞迴）。
+      if (this.roadsLayer) {
+        this.roadsLayer.container.parent?.removeChild(this.roadsLayer.container);
+        this.roadsLayer.destroy();
+        this.roadsLayer = null;
+      }
+      this.roadHighlight?.destroy();
+      this.roadHighlight = null;
+      this.prevSelectionKey = null;
       app.destroy({ removeView: true }, { children: true, texture: true });
     }
     this.app = null;
@@ -977,7 +1062,6 @@ export class MapRenderer {
     this.camera = null;
     this.dragPointerId = null;
     this.seaGfx = null;
-    this.roadsGfx = null;
     this.pathPreview = null;
     this.marchPathPreview = null;
     this.nodeParts.clear();
@@ -1035,6 +1119,17 @@ export class MapRenderer {
       recolorTerritory(this.territoryGrid, view.districtOwner, this.staticData.clanColorIndex);
       this.territorySource.update();
       this.territoryDirty = false;
+    }
+    // M6-V6（Slice E）：節點選取相鄰道路金色高亮 dirty——僅 selection.kind==='node' 之 id 變動時
+    // 重畫（day-only 變更 selKey 不變 → 不重畫，守 dirty 契約；不動 rebuildCounts）。graph swap 後
+    // prevSelectionKey 已於 buildStaticDataLayers 重設為 null → 下次必重算，杜絕陳舊高亮。
+    const selKey =
+      view.selection !== null && view.selection.kind === 'node' ? view.selection.id : null;
+    if (selKey !== this.prevSelectionKey) {
+      this.prevSelectionKey = selKey;
+      if (this.staticData !== null) {
+        this.roadHighlight?.update({ graph: this.staticData.graph, selectedNodeId: selKey });
+      }
     }
     this.redrawMilitaryObjects();
   }

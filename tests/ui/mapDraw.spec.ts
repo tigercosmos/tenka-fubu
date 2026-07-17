@@ -11,8 +11,8 @@ import { buildMapGraph } from '@core/state/mapGraph';
 import type { CastleId, DistrictId, RoadEdgeId } from '@core/state/ids';
 import type { RoadEdge } from '@core/state/gameState';
 import { clanColorNum } from '@ui/styles/tokens';
-import { MAPVIEW, ROAD_GRADE_WIDTH, WORLD_SIZE } from '@ui/map/mapViewConfig';
-import { drawNodeMarkers, drawRoads, drawSeaBackground, loadOutline } from '@ui/map/mapDraw';
+import { MAPVIEW, WORLD_SIZE } from '@ui/map/mapViewConfig';
+import { drawNodeMarkers, drawSeaBackground, loadOutline } from '@ui/map/mapDraw';
 
 /** 錄製每個 Graphics 指令（method + 參數）以斷言繪製序列。 */
 class RecordingGraphics {
@@ -130,33 +130,8 @@ describe('drawSeaBackground（圖層 0；04 §3.10.1）', () => {
   });
 });
 
-describe('drawRoads（圖層 2；04 §3.10.1／§3.4.2/§3.4.3）', () => {
-  it('先 clear；每邊一次 stroke；道級決定線寬；海路以多段虛線', () => {
-    const { rec, g } = makeRec();
-    const graph = fixtureGraph();
-    drawRoads(g, graph);
-
-    expect(rec.calls[0]?.[0]).toBe('clear');
-    // 3 條邊 → 3 次 stroke（陸路各一段、海路一次收尾）。
-    expect(rec.countOf('stroke')).toBe(3);
-    const widths = rec.argsOf('stroke').map((a) => (a[0] as { width: number }).width);
-    expect(widths).toContain(ROAD_GRADE_WIDTH[2]); // 陸路 grade 2 = 2.5
-    expect(widths).toContain(ROAD_GRADE_WIDTH[1]); // 陸路 grade 1／海路 = 1.5
-    // 海路虛線：lineTo 總數應遠多於邊數（單一海路即拆成多段 dash）。
-    expect(rec.countOf('lineTo')).toBeGreaterThan(3);
-  });
-
-  it('無邊圖不 throw、無 stroke（防禦）', () => {
-    const { rec, g } = makeRec();
-    const empty = buildMapGraph(
-      { 'castle.solo': { id: 'castle.solo' as CastleId, pos: { x: 0, y: 0 } } } as never,
-      {},
-      {},
-    );
-    drawRoads(g, empty);
-    expect(rec.countOf('stroke')).toBe(0);
-  });
-});
+// M6-V6（V6D10）：`drawRoads` 已汰除、由 `roads/roadsDraw.ts` 之 `buildRoadsLayer` 承接
+// （道路繪製測試移至 `src/ui/map/roads/roadsDraw.spec.ts`）。本檔僅保留 seaBackground／nodeMarkers。
 
 describe('drawNodeMarkers（圖層 3 骨架占位；04 §3.10.1）', () => {
   it('每節點 fill+stroke 各一次；owner→勢力色、無主→中性灰', () => {

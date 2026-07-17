@@ -381,7 +381,7 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
     expect(destroyed()).toBe(1);
   });
 
-  it('setMapData 為 roads/nodeMarkers 各建立一個 Graphics 並重繪；updateView 不 throw', async () => {
+  it('setMapData：roads 建 RoadsLayer 子容器（children===1）、nodeMarkers 建 Graphics 並重繪；updateView 不 throw', async () => {
     const host = document.createElement('div');
     const r = new MapRenderer();
     await r.init(host, vi.fn());

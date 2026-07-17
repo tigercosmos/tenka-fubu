@@ -74,6 +74,14 @@ const CASTLE_GIFU = 'castle.gifu' as CastleId; // 齋藤本城
 /** 視覺錨點城：operational／close 鏡頭對準的城＝本 fixture 中被圍的今川本城。 */
 export const VISUAL_ANCHOR_CASTLE_ID = CASTLE_SUNPU;
 
+/**
+ * 視覺 fixture 之預設選取城（M6-V6 選取高亮入三段 baseline 用）：刻意取**非圍城中**的
+ * 掛川城，而非錨點駿府——玩家（織田）正圍攻駿府，選取駿府會開 `SiegeOverlay` 攻城面板，
+ * 於三段截圖置中遮蔽主戰場（違反 M6-V DoD「HUD 不遮蔽主戰場」）。掛川相鄰道路涵蓋
+ * grade 2 陸路、兩條 grade 1 小路與海路，正好展示多道級高亮。
+ */
+export const VISUAL_SELECTED_CASTLE_ID = CASTLE_KAKEGAWA;
+
 // ── 郡 id（每城 2 郡，INV-03 合法範圍） ──
 const DIST_KIYOSU_E = 'dist.kiyosu-higashi' as DistrictId;
 const DIST_KIYOSU_W = 'dist.kiyosu-nishi' as DistrictId;

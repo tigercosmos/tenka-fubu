@@ -19,7 +19,7 @@ import { resetGameStoreForTests, store } from '../../src/app/store';
 import { resetBridgeForTests } from '../../src/app/bridge';
 import { uiStore } from '../../src/ui/hooks/uiStore';
 import { bootVisualMapGame } from '../../src/app/visualMapBoot';
-import { DEBUG_VISUAL_MAP_ID } from '../../src/core/debugVisual';
+import { DEBUG_VISUAL_MAP_ID, VISUAL_SELECTED_CASTLE_ID } from '../../src/core/debugVisual';
 import type { TenkaDebugApi } from '../../src/app/debug';
 
 beforeEach(() => {
@@ -35,22 +35,29 @@ afterEach(() => {
 });
 
 describe('bootVisualMapGame()（純函式；M6-V2）', () => {
-  it('回傳固定 debugVisual fixture（debugMode=true）並選取一支行軍中我方部隊、佈置路徑預覽', () => {
+  it('回傳固定 debugVisual fixture（debugMode=true）並選取視覺錨點本城（駿府）、佈置路徑預覽', () => {
     const game = bootVisualMapGame();
     expect(game.meta.scenarioId).toBe(DEBUG_VISUAL_MAP_ID);
     expect(game.meta.debugMode).toBe(true);
 
+    // M6-V6（§5.6）：選取由「行軍部隊」改為視覺錨點本城（駿府）——使 roadHighlight 於三段 baseline
+    // 點亮其相鄰道路金色（selection 走 UI store，golden 安全）。
     const selection = uiStore.getState().selection;
-    expect(selection?.kind).toBe('army');
-    const selectedArmy = selection === null ? undefined : game.armies[selection.id as never];
-    expect(selectedArmy?.clanId).toBe(game.meta.playerClanId);
-    expect(selectedArmy?.status).toBe('marching'); // 唯一符合「本方行軍中」的部隊（丹羽長秀）
+    expect(selection?.kind).toBe('castle');
+    expect(selection?.id).toBe(VISUAL_SELECTED_CASTLE_ID);
 
+    // 路徑預覽本體仍佈自唯一「本方行軍中」部隊（丹羽長秀）；選取改為本城不影響其展示。
+    const marchingArmy = Object.values(game.armies).find(
+      (a) => a.clanId === game.meta.playerClanId && a.status === 'marching',
+    );
+    expect(marchingArmy).toBeDefined();
     const draft = uiStore.getState().marchDraft;
     expect(draft?.phase).toBe('compose'); // 非 'pickTarget'：不觸發 orderMarch 互動模式
     expect(draft?.previewPath?.result.found).toBe(true);
-    expect(draft?.previewPath?.originNodeId).toBe(selectedArmy?.path[0]);
-    expect(draft?.previewPath?.targetNodeId).toBe(selectedArmy?.targetNodeId);
+    expect(draft?.previewPath?.originNodeId).toBe(
+      marchingArmy?.path[0] ?? marchingArmy?.originCastleId,
+    );
+    expect(draft?.previewPath?.targetNodeId).toBe(marchingArmy?.targetNodeId);
   });
 
   it('未 enqueueModal：modal 仍為 null（路徑預覽不應彈出行軍 modal）', () => {

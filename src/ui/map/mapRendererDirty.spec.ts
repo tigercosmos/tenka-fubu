@@ -524,3 +524,173 @@ describe('地形載入失敗與 teardown（M6-V5 §5.1 VD6 優雅退回／§8.2 
     r.destroy();
   });
 });
+
+// ── M6-V6：roads／道路名／橋樑／選取高亮（設計 §8.2） ──────────────────────────
+//
+// mock 手法：共用 pixiMock 之 Graphics 不記錄呼叫，但可 `vi.spyOn(gfx, 'clear'|'stroke')` 觀測
+// RoadsLayer per-stage 重描（clear）與選取高亮重畫（stroke）。RoadsLayer 掛為 `layers.roads` 之
+// 唯一 child（container），其 5 個具名 tier 依 addChild 序 [sea,path,bridge,minor,arterial]。
+// roadHighlight container 為 `layers.selectionAndPath.children[0]`（掛於 pathPreview 之前），其
+// 內單一 Graphics 承接金色高亮描繪。
+
+interface MockGfx {
+  visible: boolean;
+  children: MockGfx[];
+  clear(): unknown;
+  stroke(): unknown;
+}
+
+/** castle.a(100,100)—dist.x(200,100)—castle.b(300,100)：road.a-x 為 grade-3 主幹道（含 name／waypoints／bridge）。 */
+function arterialGraph(): ReturnType<typeof buildMapGraph> {
+  const castles = {
+    'castle.a': { id: 'castle.a' as CastleId, pos: { x: 100, y: 100 } },
+    'castle.b': { id: 'castle.b' as CastleId, pos: { x: 300, y: 100 } },
+  } as unknown as Parameters<typeof buildMapGraph>[0];
+  const districts = {
+    'dist.x': {
+      id: 'dist.x' as DistrictId,
+      pos: { x: 200, y: 100 },
+      isPort: false,
+      castleId: 'castle.a' as CastleId,
+    },
+  } as unknown as Parameters<typeof buildMapGraph>[1];
+  const road = (id: string, a: string, b: string, grade: 1 | 2 | 3): RoadEdge => ({
+    id: id as RoadEdgeId,
+    a: a as CastleId,
+    b: b as CastleId,
+    type: 'land',
+    grade,
+    baseDays: 2,
+  });
+  const roads = {
+    'road.a-x': road('road.a-x', 'castle.a', 'dist.x', 3), // 主幹道（arterial）
+    'road.x-b': road('road.x-b', 'dist.x', 'castle.b', 1), // 小路
+  } as unknown as Parameters<typeof buildMapGraph>[2];
+  const roadDisplay = {
+    'road.a-x': { name: '東海道', waypoints: [150, 110], bridges: [150, 110] },
+  };
+  return buildMapGraph(castles, districts, roads, roadDisplay);
+}
+
+/** RoadsLayer container 之 5 具名 tier（addChild 序：sea/path/bridge/minor/arterial）。 */
+function roadsTiers(r: MapRenderer): {
+  container: MockGfx;
+  sea: MockGfx;
+  path: MockGfx;
+  bridge: MockGfx;
+  minor: MockGfx;
+  arterial: MockGfx;
+} {
+  const container = r.getLayers()!.roads.children[0] as unknown as MockGfx;
+  const c = container.children;
+  return {
+    container,
+    sea: c[0]!,
+    path: c[1]!,
+    bridge: c[2]!,
+    minor: c[3]!,
+    arterial: c[4]!,
+  };
+}
+
+describe('roads／道路名／橋樑／選取高亮（M6-V6，設計 §8.2）', () => {
+  it('靜態建構＋正向存在：roads 單一 container（5 tier）、labels 含 road:<edgeId>（東海道）', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData({ graph: arterialGraph() }));
+    r.updateView(baseView({ day: 1 }));
+
+    const layers = r.getLayers()!;
+    expect(layers.roads.children.length).toBe(1); // RoadsLayer 子容器（V6D2）
+    expect(roadsTiers(r).container.children.length).toBe(5); // sea/path/bridge/minor/arterial
+
+    const labelTexts = (layers.labels.children as unknown as { text?: string }[]).map(
+      (c) => c.text,
+    );
+    expect(labelTexts).toContain('東海道'); // 道路名標籤已建（堵靜默無名）
+
+    r.destroy();
+  });
+
+  it('roads 靜態化＋setStage 不動計數：僅 day 變（stage 不變）連跑 30 日，roads/labels 零增量、arterial 不重描', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData({ graph: arterialGraph() }));
+    r.updateView(baseView({ day: 1 }));
+    const baseline = r.getRebuildCounts();
+    expect(baseline.roads).toBe(1);
+    expect(baseline.labels).toBe(1); // 唯一道路名（東海道）；本 graph 未提供 node names
+
+    const clearSpy = vi.spyOn(roadsTiers(r).arterial, 'clear');
+    for (let i = 0; i < 30; i += 1) r.updateView(baseView({ day: 2 + i }));
+
+    expect(clearSpy).not.toHaveBeenCalled(); // stage 未變 → setStage 早退（零重描）
+    expect(r.getRebuildCounts()).toEqual(baseline); // MapRebuildCounts 5 欄位整物件不變
+
+    r.destroy();
+  });
+
+  it('far 保留主幹道＋海路（tier 能見度矩陣）；near→far 之 stage 轉場觸發一次重描、不動 roads 計數', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData({ graph: arterialGraph() }));
+    r.updateView(baseView({ day: 1 }));
+
+    r.setCameraPose({ x: 200, y: 100 }, 1.25); // near：全 tier 顯
+    const tiers = roadsTiers(r);
+    expect(tiers.path.visible).toBe(true); // 小路 near 顯
+    const roadsBefore = r.getRebuildCounts().roads;
+
+    const clearSpy = vi.spyOn(tiers.arterial, 'clear');
+    r.setCameraPose({ x: 200, y: 100 }, 0.25); // far
+
+    expect(tiers.arterial.visible).toBe(true); // 主幹道 far 保留（DoD 核心）
+    expect(tiers.sea.visible).toBe(true); // 海路 far 保留
+    expect(tiers.minor.visible).toBe(false); // 次道 far 隱
+    expect(tiers.path.visible).toBe(false); // 小路 far 隱
+    expect(tiers.bridge.visible).toBe(false); // 橋樑 far 隱
+    expect(clearSpy).toHaveBeenCalledTimes(1); // near→far：per-stage 倍率重描一次
+    expect(r.getRebuildCounts().roads).toBe(roadsBefore); // 重描為 LOD 轉場，不動 rebuildCounts
+
+    r.destroy();
+  });
+
+  it('選取高亮 dirty：node 選取→重畫；day-only→不重畫；graph swap 後同選取仍重算；rebuildCounts 全程不變', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData({ graph: arterialGraph() }));
+    r.updateView(baseView({ day: 1 })); // selection null → 不觸發高亮
+    const baseline = r.getRebuildCounts();
+
+    // roadHighlight container = selectionAndPath.children[0]，其內單一 Graphics。
+    const highlightGfx = (r.getLayers()!.selectionAndPath.children[0] as unknown as MockGfx)
+      .children[0]!;
+    const strokeSpy = vi.spyOn(highlightGfx, 'stroke');
+
+    // null → 選取 castle.a（node）：相鄰道路（road.a-x）重畫；選取高亮為動態層，零計數增量。
+    r.updateView(baseView({ day: 2, selection: { kind: 'node', id: 'castle.a' } }));
+    expect(strokeSpy).toHaveBeenCalled();
+    expect(r.getRebuildCounts()).toEqual(baseline); // MapRebuildCounts 5 欄位不變（高亮不動計數）
+
+    // day-only（選取不變）：不重畫、計數仍不變。
+    strokeSpy.mockClear();
+    r.updateView(baseView({ day: 3, selection: { kind: 'node', id: 'castle.a' } }));
+    expect(strokeSpy).not.toHaveBeenCalled();
+    expect(r.getRebuildCounts()).toEqual(baseline);
+
+    // graph swap（非 null setMapData）→ prevSelectionKey 重設；同選取下次 updateView 仍重算。
+    r.setMapData(staticData({ graph: arterialGraph() }));
+    strokeSpy.mockClear();
+    r.updateView(baseView({ day: 4, selection: { kind: 'node', id: 'castle.a' } }));
+    expect(strokeSpy).toHaveBeenCalled(); // 陳舊高亮杜絕：prevSelectionKey 已重設 → 重算
+    expect(r.getRebuildCounts().roads).toBe(baseline.roads + 1); // 靜態重建 +1（高亮本身仍不動計數）
+
+    // graph swap 後新選取為 null：swap 當下即清舊高亮（clear），不得依賴 selKey diff
+    //（null===null 不觸發 update）而殘留舊圖 gold strokes（M6-V6 review：stale-strokes gap）。
+    const clearSpy = vi.spyOn(highlightGfx, 'clear');
+    r.setMapData(staticData({ graph: arterialGraph() }));
+    expect(clearSpy).toHaveBeenCalled(); // swap 當下鏡像 data===null 分支之 update(null)
+    clearSpy.mockClear();
+    strokeSpy.mockClear();
+    r.updateView(baseView({ day: 5, selection: null }));
+    expect(strokeSpy).not.toHaveBeenCalled(); // null 選取不重畫（且無殘留可言）
+
+    r.destroy();
+  });
+});

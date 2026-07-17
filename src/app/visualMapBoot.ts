@@ -11,7 +11,7 @@
 // 故 `MarchModal` 不會彈出、`interactionMode` 維持 'idle'（`MainScreen` 之
 // `marchDraft?.phase === 'pickTarget'` 判斷為 false）——純粹讓路徑線出現在地圖上。
 
-import { buildVisualMapState } from '@core/debugVisual';
+import { buildVisualMapState, VISUAL_SELECTED_CASTLE_ID } from '@core/debugVisual';
 import { selectMapStaticModel } from '@core/state/selectors';
 import { computePath } from '@core/index';
 import type { GameState } from '@core/state/gameState';
@@ -53,7 +53,10 @@ function applyVisualMapSceneState(state: GameState): void {
         hostileNodeIds: [],
       };
 
-  uiStore.getState().actions.setSelection({ kind: 'army', id: marching.id });
+  // M6-V6（§5.6）：fixture 預選駿府本城（相機錨點），使 `roadHighlight` 於三段 baseline 點亮其
+  // 相鄰道路（東海道 arterial 等）金色，直接於截圖驗證選取高亮。選取走 UI store（非 GameState），
+  // golden 安全。軍隊之敵我/方向辨識不依賴其被選取，DoD 軍隊項不受影響；路徑預覽照舊佈置。
+  uiStore.getState().actions.setSelection({ kind: 'castle', id: VISUAL_SELECTED_CASTLE_ID });
   uiStore.getState().actions.setMarchDraft({
     originCastleId: marching.originNodeId,
     leaderOfficerId: null,

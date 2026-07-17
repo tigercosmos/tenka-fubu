@@ -100,7 +100,7 @@ export type MapArmyView = MapArmyViewModel & { selected: boolean };
  * owner/clanId 取勢力色（Clan.colorIndex，值域 0..39，公式見 tokens.clanColorNum）。
  */
 export interface MapStaticData {
-  /** `edges` 現含 `name`/`waypoints`（D1，transient `MapRoadEdge`）；本階段 `drawRoads` 仍不消費（V6）。 */
+  /** `edges` 含 `name`/`waypoints`/`bridges`（D1，transient `MapRoadEdge`）；V6：RoadsLayer 消費 name/waypoints/bridges。 */
   graph: MapGraph;
   /** clanId → Clan.colorIndex（0..39）；無主節點以 MAPVIEW.colors.neutral 呈現（02／tokens §5.1）。 */
   clanColorIndex: Readonly<Record<string, number>>;
@@ -146,7 +146,7 @@ export interface MapViewState {
   armies: readonly MapArmyView[];
   sieges?: readonly MapSiegeView[]; // 擴充：驅動現有 SiegeMarker
   battles: readonly MapBattleView[]; // canonical（V4 攜帶不消費）
-  selection: { kind: 'node' | 'army'; id: string } | null; // V4 攜帶不消費（存不畫）
+  selection: { kind: 'node' | 'army'; id: string } | null; // V6 選取高亮消費（節點選取 → 相鄰道路金色高亮）
   analysisMode:
     'none' | 'faction' | 'supply' | 'roadCapacity' | 'terrainAdvantage' | 'castleDefense';
 }
@@ -176,7 +176,7 @@ export interface MapLayers {
   readonly territory: Container;
   /** 4 分析 overlay：勢力圖／補給／道路容量等（V10 空容器占位）。 */
   readonly analysisOverlay: Container;
-  /** 5 街道線（依 grade 線寬、海路虛線）。 */
+  /** 5 街道線（V6 RoadsLayer 子容器：casing＋內線、waypoints 多段線、道級分批、海路波節、橋面；主幹道 far 保留；per-stage 線寬）。 */
   readonly roads: Container;
   /** 6 聚落標記（V7 空容器占位）。 */
   readonly settlements: Container;
