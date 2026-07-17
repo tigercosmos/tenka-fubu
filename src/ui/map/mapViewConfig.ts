@@ -54,6 +54,10 @@ export const MAPVIEW = {
     awe: 0xe8b93f,
   },
   hitRadius: { army: 16, castleMain: 20, castleBranch: 16, district: 12 }, // 命中半徑（world unit）
+  /** 命中測試 CSS-px 半徑下限（world 有效半徑＝hitMinCssRadius/scale；達 ~32 CSS px 命中區，04 §3.12.1 DoD）。僅套用於城/郡節點。 */
+  hitMinCssRadius: 16,
+  /** 道路名標籤沿道路法線之偏移（world unit，偏上避開 casing；V6D5）。 */
+  roadLabelOffset: 10,
   /**
    * M6-V2 固定截圖三段鏡頭 preset（17 §3.9.3；由 `TenkaDebugApi.setMapCameraPreset` 消費，
    * 見 src/app/debug.ts）：`visualOverviewScale`(0.25) 落在 `lodFarScale`(0.5) 之下＝far LOD
@@ -67,16 +71,6 @@ export const MAPVIEW = {
   visualOperationalScale: 0.5,
   visualCloseScale: 1.25,
 } as const;
-
-/** 街道道級 → 線寬（world unit）：grade 1/2/3 = 1.5/2.5/3.5（04 §3.10.1 圖層 2「roads」）。 */
-export const ROAD_GRADE_WIDTH: Readonly<Record<1 | 2 | 3, number>> = {
-  1: 1.5,
-  2: 2.5,
-  3: 3.5,
-};
-
-/** 海路虛線 dash/gap（world unit）：12/8（04 §3.10.1 圖層 2「roads」）。 */
-export const SEA_ROUTE_DASH = { dash: 12, gap: 8 } as const;
 
 /**
  * 節點標記幾何（04 §3.10.1 圖層 3「nodeMarkers」）——本階段（M2-13）骨架的簡化占位值：
@@ -107,4 +101,48 @@ export const FOREST_ALPHA: Readonly<Record<'far' | 'mid' | 'near', number>> = {
   far: 0.35,
   mid: 0.85,
   near: 0.9,
+};
+
+// ---------------------------------------------------------------------------
+// M6-V6：道路／橋樑渲染常數（Slice B）。線寬為 near（scale 1.25）基準，
+// `RoadsLayer.setStage` 依 `ROAD_STAGE_WIDTH_MULT` 乘 stage 倍率後重描，
+// 使螢幕外觀於 far/mid/near 三段近似恆定（V6D3）。顏色一律取 MAP_PALETTE_NUM
+// （V6 不新增顏色 token）。舊 `ROAD_GRADE_WIDTH`／`SEA_ROUTE_DASH` 已隨 `drawRoads`
+// 於 Slice F 汰除（V6D10）——道路線寬/線型改由下列 V6 常數 + `setStage` 倍率描繪。
+// ---------------------------------------------------------------------------
+
+/** 道級 casing（外框）線寬（world unit，near 基準）：grade 1/2/3（V6D3）。 */
+export const ROAD_CASING_WIDTH: Readonly<Record<1 | 2 | 3, number>> = { 1: 1.5, 2: 2.5, 3: 4 };
+
+/** 道級內線線寬（world unit，near 基準）：grade 1/2/3（V6D3）。 */
+export const ROAD_INNER_WIDTH: Readonly<Record<1 | 2 | 3, number>> = { 1: 1.0, 2: 1.2, 3: 2.0 };
+
+/** grade1 小路內線節線 dash/gap（world unit，near 基準）（V6D3）。 */
+export const ROAD_PATH_DASH = { dash: 5, gap: 4 } as const;
+
+/** 海路內線長節線 dash/gap（world unit，near 基準）（V6D3）。 */
+export const SEA_ROUTE_KNOT = { dash: 14, gap: 10 } as const;
+
+/** 海路外 halo／內線線寬（world unit，near 基準）；皆 waterRiver 家族（V6D3）。 */
+export const SEA_ROUTE_WIDTH = { outer: 3, inner: 1.5 } as const;
+
+/** 海路外 halo 之 alpha（低 alpha 水暈，內線／波節全 alpha）。 */
+export const SEA_ROUTE_OUTER_ALPHA = 0.5;
+
+/** 海路週期波節：每 spacing 世界單位一枚半圓弧、半徑 radius（僅落海之段繪製；near 基準）。 */
+export const SEA_WAVE = { spacing: 40, radius: 3 } as const;
+
+/** 橋樑幾何（world unit，near 基準）。 */
+export const BRIDGE = { deckLength: 16, deckWidth: 9, abutment: 3 } as const;
+
+/**
+ * per-stage 線寬倍率（螢幕近似恆定＝1.25/stageScale；V6D3-B）。`RoadsLayer.setStage`
+ * 乘於所有線寬／節線／波節／橋樑幾何，避免固定世界線寬在 far(0.25) 呈次像素。
+ * 以 inline 字面聯集 `'far'|'mid'|'near'` 為鍵，刻意不 import `LodStage`
+ * （避免 `mapViewConfig` ↔ `lod` 循環依賴，`lod.ts` 已 import `MAPVIEW`）。
+ */
+export const ROAD_STAGE_WIDTH_MULT: Readonly<Record<'far' | 'mid' | 'near', number>> = {
+  far: 5,
+  mid: 2.5,
+  near: 1,
 };
