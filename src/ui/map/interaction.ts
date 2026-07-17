@@ -22,6 +22,12 @@
 //   `hitTestWorldPoint` 已依 §3.12.1 完整實作優先序（含 army 分支，供該里程碑直接餵資料、
 //   單元測試以合成 fixture 驗證），但 `MapInteraction` 目前恆傳空陣列，故 army 分支現階段不會
 //   被觸發（非死碼——型別與測試皆涵蓋，僅待 M5 接線）。
+// - M6-V6：命中測試 scale-aware CSS-px 下限（04 §3.12.1 DoD，`MAPVIEW.hitMinCssRadius`）。
+//   `HitTestOptions.minHitRadius` **僅**套用於城／郡有效半徑（`Math.max(base, minHitRadius)`）；
+//   軍隊維持固定半徑不 floor（保優先序，遠景放大會吞掉鄰近城/郡點擊，見 eng-F4）。
+//   `MapInteraction.setScale(scale)`（由 `MapRenderer` 隨鏡頭同步）換算
+//   `minHit = MAPVIEW.hitMinCssRadius / scale`，並僅擴大節點空間索引 query box 半邊
+//   （`Math.max(castleMain, minHit)`）；軍隊 query box 不動。缺省／`scale=1` 時行為不變。
 
 import { useCallback, useRef } from 'react';
 import type { MapGraph } from '@core/state/mapGraph';
@@ -50,6 +56,13 @@ interface HitTestOptions {
   castleTier?: CastleTierLookup;
   armies?: readonly HitTestArmy[];
   nodeIds?: readonly string[];
+  /**
+   * 命中半徑下限（world unit；04 §3.12.1 DoD，M6-V6）：僅套用於城／郡候選之有效半徑
+   * （`Math.max(原半徑, minHitRadius)`），使遠景縮小節點仍維持 CSS-px 可點面積。
+   * **軍隊半徑不受本欄位影響**（維持固定 `MAPVIEW.hitRadius.army`，保優先序，見 eng-F4）。
+   * 缺省（`undefined`）＝三類行為與 M6-V6 前完全相同。
+   */
+  minHitRadius?: number;
 }
 
 /** 平面上兩點距離（world unit）。 */
@@ -107,6 +120,8 @@ export function hitTestWorldPoint(
           const node = graph.nodes.get(id as never);
           return node === undefined ? [] : [node];
         });
+  const minHit = opts.minHitRadius ?? 0;
+
   const castles = nodes.filter((n) => n.kind === 'castle');
   const castle = nearestWithinRadius(
     worldX,
@@ -114,7 +129,10 @@ export function hitTestWorldPoint(
     castles,
     (n) => n.pos,
     (n) =>
-      castleTier[n.id] === 'main' ? MAPVIEW.hitRadius.castleMain : MAPVIEW.hitRadius.castleBranch,
+      Math.max(
+        castleTier[n.id] === 'main' ? MAPVIEW.hitRadius.castleMain : MAPVIEW.hitRadius.castleBranch,
+        minHit,
+      ),
   );
   if (castle !== null) return { kind: 'castle', id: castle.id };
 
@@ -124,7 +142,7 @@ export function hitTestWorldPoint(
     worldY,
     districts,
     (n) => n.pos,
-    () => MAPVIEW.hitRadius.district,
+    () => Math.max(MAPVIEW.hitRadius.district, minHit),
   );
   if (district !== null) return { kind: 'district', id: district.id };
 
@@ -169,8 +187,18 @@ export class MapInteraction {
   private nodeIndex = new SpatialCullIndex<string>();
   private mode: MapInteractionMode = 'idle';
   private lastMarchHoverId: string | null | undefined;
+  private scale = 1;
 
   constructor(private readonly opts: MapInteractionOptions) {}
+
+  /**
+   * 同步目前鏡頭縮放比例（`camera.ts` `WorldTransform.scale`；M6-V6，04 §3.12.1 DoD）：
+   * `hitTest` 據此換算城／郡有效命中半徑下限（`MAPVIEW.hitMinCssRadius/scale`），使遠景
+   * （scale 小）之縮小節點仍維持約 32 CSS px 可點面積。非正數視為 1（保守回退）。
+   */
+  setScale(scale: number): void {
+    this.scale = scale > 0 ? scale : 1;
+  }
 
   /** 同步靜態地圖資料（`MapRenderer.setMapData` 呼叫）；`null`＝尚未載入，此時一律無命中。 */
   setStaticData(data: MapInteractionStaticData | null): void {
@@ -196,7 +224,8 @@ export class MapInteraction {
 
   private hitTest(worldX: number, worldY: number, includeArmies = true): HitResult | null {
     if (this.graph === null) return null;
-    const radius = MAPVIEW.hitRadius.castleMain;
+    const minHit = MAPVIEW.hitMinCssRadius / this.scale;
+    const radius = Math.max(MAPVIEW.hitRadius.castleMain, minHit);
     const nodeIds = [
       ...this.nodeIndex.query(
         {
@@ -229,6 +258,7 @@ export class MapInteraction {
       castleTier: this.castleTier,
       armies,
       nodeIds,
+      minHitRadius: minHit,
     });
   }
 

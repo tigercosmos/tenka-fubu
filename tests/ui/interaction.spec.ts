@@ -87,6 +87,55 @@ describe('hitTestWorldPoint（04 §3.12.1）', () => {
   });
 });
 
+describe('hitTestWorldPoint：CSS-px 命中下限（04 §3.12.1 DoD，M6-V6）', () => {
+  it('不傳 minHitRadius：既有行為不變（郡半徑仍是原本 12，40wu 外不中）', () => {
+    const graph = fixtureGraph([node('dist.a', 'district', 0, 0)]);
+    expect(hitTestWorldPoint(40, 0, graph)).toBeNull();
+  });
+
+  it('傳 minHitRadius=64：郡於半徑外（40wu，原半徑 12 命不中）仍命中', () => {
+    const graph = fixtureGraph([node('dist.a', 'district', 0, 0)]);
+    expect(hitTestWorldPoint(40, 0, graph, { minHitRadius: 64 })).toEqual({
+      kind: 'district',
+      id: 'dist.a',
+    });
+    // 超出 floor 半徑（64）則仍不中。
+    expect(hitTestWorldPoint(65, 0, graph, { minHitRadius: 64 })).toBeNull();
+  });
+
+  it('傳 minHitRadius=64：城（支城，原半徑 16）亦受 floor，40wu 命中', () => {
+    const graph = fixtureGraph([node('castle.a', 'castle', 0, 0)]);
+    expect(hitTestWorldPoint(40, 0, graph, { minHitRadius: 64 })).toEqual({
+      kind: 'castle',
+      id: 'castle.a',
+    });
+  });
+
+  it('軍隊不受 minHitRadius floor（即使傳大 minHitRadius，半徑仍固定 16，不吞鄰近城/郡）', () => {
+    const graph = fixtureGraph([]);
+    const armies: HitTestArmy[] = [{ id: 'army.000001', pos: { x: 0, y: 0 } }];
+    // 距軍隊 40wu：若 floor 誤套到軍隊（40≤64）會命中 army；正確行為（軍隊半徑固定 16、
+    // 40>16）應無命中——證明 army 半徑未被 floor 放大。
+    expect(hitTestWorldPoint(40, 0, graph, { armies, minHitRadius: 64 })).toBeNull();
+    // 軍隊固定半徑內（16wu）仍正常命中，證明 army 分支本身未受影響。
+    expect(hitTestWorldPoint(16, 0, graph, { armies, minHitRadius: 64 })).toEqual({
+      kind: 'army',
+      id: 'army.000001',
+    });
+  });
+
+  it('army 與城重疊於 floor 放大範圍內：軍隊仍優先（未被 floor 吞掉之城搶先），驗證 eng-F4 處置', () => {
+    // 軍隊在 (0,0)、城在 (40,0)：查詢點 (40,0) 距城 0（必中，任何半徑），距軍隊 40（固定半徑 16 外，不中）。
+    // 若軍隊誤套用 floor（64），army 會搶在城之前被判定命中；正確行為應由城勝出。
+    const graph = fixtureGraph([node('castle.a', 'castle', 40, 0)]);
+    const armies: HitTestArmy[] = [{ id: 'army.000001', pos: { x: 0, y: 0 } }];
+    expect(hitTestWorldPoint(40, 0, graph, { armies, minHitRadius: 64 })).toEqual({
+      kind: 'castle',
+      id: 'castle.a',
+    });
+  });
+});
+
 describe('screenToWorld', () => {
   it('反套用 world 容器 position/scale（camera.ts WorldTransform 同構）', () => {
     expect(screenToWorld(300, 150, { x: 100, y: 50, scale: 2 })).toEqual({ x: 100, y: 50 });
@@ -216,6 +265,57 @@ describe('MapInteraction（idle 模式，04 §3.12.2；M2-17 驗收）', () => {
     interaction.setStaticData({ graph });
     interaction.setStaticData(null);
     interaction.handleTap(100, 100);
+    expect(emit).toHaveBeenCalledWith({ type: 'emptyClick' });
+  });
+
+  it('setScale(0.25)：遠景縮小之郡節點（有效半徑 hitMinCssRadius/scale=64）仍可命中', () => {
+    const { interaction, emit } = setup();
+    const graph = fixtureGraph([node('dist.owari', 'district', 200, 200)]);
+    interaction.setStaticData({ graph });
+    interaction.setScale(0.25);
+    // 距節點 40wu：原半徑 12 命不中，floor（16/0.25=64）後應命中。
+    interaction.handleTap(240, 200);
+    expect(emit).toHaveBeenCalledWith({
+      type: 'nodeClick',
+      nodeKind: 'district',
+      id: 'dist.owari',
+    });
+  });
+
+  it('未呼叫 setScale（預設 scale=1）：floor＝hitMinCssRadius(16)，行為與既有一致（郡半徑 12 外不中）', () => {
+    const { interaction, emit } = setup();
+    const graph = fixtureGraph([node('dist.owari', 'district', 200, 200)]);
+    interaction.setStaticData({ graph });
+    interaction.handleTap(200 + MAPVIEW.hitMinCssRadius + 1, 200);
+    expect(emit).toHaveBeenCalledWith({ type: 'emptyClick' });
+  });
+
+  it('setScale(0.25) 時軍隊 query box／半徑不受影響（遠景仍維持固定 16，不吞鄰近城/郡）', () => {
+    const { interaction, emit } = setup();
+    const graph = fixtureGraph([node('castle.kiyosu', 'castle', 100, 100)]);
+    interaction.setStaticData({ graph });
+    interaction.setArmies([{ id: 'army.000001', pos: { x: 100, y: 100 } }]);
+    interaction.setScale(0.25);
+    // 距軍隊 40wu：若軍隊亦受節點 floor 影響會命中 army；正確行為應命中底下的城
+    // （軍隊固定半徑 16 外不中，城之 floor 半徑 64 命中）。
+    interaction.handleTap(140, 100);
+    expect(emit).toHaveBeenCalledWith({
+      type: 'nodeClick',
+      nodeKind: 'castle',
+      id: 'castle.kiyosu',
+    });
+  });
+
+  it('setScale(0)／負值：回退為 1（保守），不拋錯', () => {
+    const { interaction, emit, graph } = setup();
+    interaction.setStaticData({ graph });
+    expect(() => {
+      interaction.setScale(0);
+    }).not.toThrow();
+    expect(() => {
+      interaction.setScale(-2);
+    }).not.toThrow();
+    interaction.handleTap(200 + MAPVIEW.hitMinCssRadius + 1, 200);
     expect(emit).toHaveBeenCalledWith({ type: 'emptyClick' });
   });
 });
