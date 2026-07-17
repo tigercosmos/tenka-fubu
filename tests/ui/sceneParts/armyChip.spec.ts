@@ -8,6 +8,7 @@
 
 import { describe, expect, it, vi } from 'vitest';
 import { Graphics } from 'pixi.js';
+import { TOKENS_NUM } from '@ui/styles/tokens';
 import {
   abbreviateTroops,
   ARMY_CHIP_GEOMETRY,
@@ -194,6 +195,16 @@ describe('drawArmyChip 幾何（M6-V8 §4.2）', () => {
     // 菱形為 4 點 poly
     const diamond = s.poly.mock.calls.map((c) => c[0] as number[]).find((p) => p.length === 8);
     expect(diamond).toBeDefined();
+    // 「空心」契約：菱形以 neutralClanless 描邊（1.5px），且全 chip 無任何以 neutralClanless 著色之
+    // fill——若回歸為菱形加上 .fill({color: neutralClanless}) 使其實心，本斷言必翻紅（釘死 hollow）。
+    const strokeColors = s.stroke.mock.calls.map(
+      (c) => (c[0] as { color?: number } | undefined)?.color,
+    );
+    expect(strokeColors).toContain(TOKENS_NUM.neutralClanless);
+    const fillColors = s.fill.mock.calls.map(
+      (c) => (c[0] as { color?: number } | undefined)?.color,
+    );
+    expect(fillColors).not.toContain(TOKENS_NUM.neutralClanless);
   });
 
   it('heading!==null → 方向箭頭（far 桿長 > base）', () => {
@@ -306,6 +317,30 @@ describe('drawArmyChip 幾何（M6-V8 §4.2）', () => {
     );
     // critical badge 含 rect + poly（驚嘆三角）→ poly 呼叫數多於無 badge 版。
     expect(farCritical.poly.mock.calls.length).toBeGreaterThan(farOk.poly.mock.calls.length);
+  });
+
+  it('士氣 pip 置於底板下緣之下、不被 washi100 底板遮蔽，且隨 labelStagger 同步錯位（V8D8／V8D14）', () => {
+    const pipCircleY = (s: ReturnType<typeof spyGfx>): number[] =>
+      s.circle.mock.calls.filter((c) => c[2] === ARMY_CHIP_GEOMETRY.moraleRadius).map((c) => c[1]);
+    // labelStagger 0：底板下緣 = baseY(1) + plateHeight；pip 上緣須 >= 底板下緣（不被遮蔽）。
+    const s0 = spyGfx();
+    drawArmyChip(s0.g, props({ relation: 'neutral', stage: 'near', morale: 80, labelStagger: 0 }));
+    const y0 = pipCircleY(s0);
+    expect(y0).toHaveLength(3);
+    const plateBottom0 = 1 + ARMY_CHIP_GEOMETRY.plateHeight;
+    for (const y of y0) {
+      expect(y - ARMY_CHIP_GEOMETRY.moraleRadius).toBeGreaterThanOrEqual(plateBottom0);
+    }
+    // labelStagger 1：底板整體下移；pip 亦須同步下移相同步距，恆保持在錯位後底板之下。
+    const s1 = spyGfx();
+    drawArmyChip(s1.g, props({ relation: 'neutral', stage: 'near', morale: 80, labelStagger: 1 }));
+    const y1 = pipCircleY(s1);
+    const step = ARMY_CHIP_GEOMETRY.plateHeight + ARMY_CHIP_GEOMETRY.platePadY;
+    expect(y1[0]! - y0[0]!).toBeCloseTo(step);
+    const plateBottom1 = 1 + step + ARMY_CHIP_GEOMETRY.plateHeight;
+    for (const y of y1) {
+      expect(y - ARMY_CHIP_GEOMETRY.moraleRadius).toBeGreaterThanOrEqual(plateBottom1);
+    }
   });
 
   it('selected → 金色雙環（far 外環半徑 > base）', () => {

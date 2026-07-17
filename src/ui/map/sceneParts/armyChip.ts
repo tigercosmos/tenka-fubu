@@ -387,11 +387,14 @@ export function drawArmyChip(g: Graphics, props: ArmyChipProps): void {
     g.circle(ccx, ccy, geo.selectRingInner).stroke({ width: 1, color: TOKENS_NUM.accentGold });
   }
 
-  // 10. 士氣 pip（near 或 selected；位置不變）。
+  // 10. 士氣 pip（near 或 selected）：置於兵數 washi100 底板下緣之下，並隨 labelStagger 同步錯位，
+  //     使不透明底板（plateGfx，z 在 graphics 之上）永不遮蔽士氣點（V8D8／V8D14）。
   if (near || props.selected) {
     const pips = moralePips(props.morale);
+    const plateBaseY = 1 + props.labelStagger * (geo.plateHeight + geo.platePadY);
+    const pipY = plateBaseY + geo.plateHeight + moraleRadius + 2;
     for (let i = 0; i < 3; i += 1) {
-      g.circle(5 + i * 7, 15, moraleRadius).fill({
+      g.circle(5 + i * 7, pipY, moraleRadius).fill({
         color: i < pips.lit ? pips.color : TOKENS_NUM.ink100,
       });
     }

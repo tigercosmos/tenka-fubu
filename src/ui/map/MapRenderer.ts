@@ -995,7 +995,9 @@ export class MapRenderer {
         this.armyParts.set(army.id, part);
         this.layers.armies.addChild(part.container);
       }
-      if (!entry.visible) this.collapsedArmyIds.add(army.id);
+      // V8D10：被選取軍隊「在任何 zoom 皆破例顯示且置頂」——即使 id 落於 5+ 疊放收合區（index>=4），
+      // 亦不加入 collapsedArmyIds（否則 applyLodAndCulling 會強制隱藏），確保金色雙環可見。
+      if (!entry.visible && !army.selected) this.collapsedArmyIds.add(army.id);
       const pos = entry.pos;
       const redrew = part.update({
         pos,
@@ -1021,8 +1023,10 @@ export class MapRenderer {
         .map((entry) => ({ id: entry.army.id, pos: entry.pos })),
     );
     // V8D10：被選取軍隊 re-append 至末（＝繪製最上）；單選、確定性。至多一軍 selected。
+    // 收合區（!entry.visible）之被選取軍亦須置頂——上方已將其排除於 collapsedArmyIds，故其 container
+    // 會顯示；此處不得再以 !entry.visible 跳過，否則置頂失效（「永遠置頂」硬約束）。
     for (const entry of layout) {
-      if (!entry.army.selected || !entry.visible) continue;
+      if (!entry.army.selected) continue;
       const part = this.armyParts.get(entry.army.id);
       if (part === undefined) continue;
       this.layers.armies.removeChild(part.container);
