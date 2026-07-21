@@ -11,9 +11,13 @@ import { t } from '@i18n/zh-TW';
 export interface TitleScreenProps {
   /** 點擊「新遊戲」（M1 直接以 tests/fixtures/tiny.ts 建局，見 src/app/newGame.ts）。 */
   onNewGame: () => void;
+  /** 是否存在可續玩的存檔（16 §5.8；MVP 存讀檔先行，決定「繼續」啟用）。 */
+  hasSave?: boolean;
+  /** 點擊「繼續」：載入最新存檔（App 外殼處理；hasSave=false 時不會被呼叫）。 */
+  onContinue?: () => void;
 }
 
-export function TitleScreen({ onNewGame }: TitleScreenProps): ReactElement {
+export function TitleScreen({ onNewGame, hasSave, onContinue }: TitleScreenProps): ReactElement {
   return (
     <div
       data-testid="screen-title"
@@ -57,8 +61,13 @@ export function TitleScreen({ onNewGame }: TitleScreenProps): ReactElement {
         <button type="button" data-testid="title-newgame" onClick={onNewGame}>
           {t('ui.title.newGame')}
         </button>
-        {/* 無存檔系統前恆停用（M8-17 落地存讀檔後接線，比照 16-T7 精神）。 */}
-        <button type="button" data-testid="title-loadgame" disabled>
+        {/* 無存檔時停用（16-T7「無存檔『繼續』停用」；MVP 存讀檔先行接線）。 */}
+        <button
+          type="button"
+          data-testid="title-loadgame"
+          disabled={hasSave !== true}
+          onClick={onContinue}
+        >
           {t('ui.title.continue')}
         </button>
         <button type="button" data-testid="title-settings" disabled>

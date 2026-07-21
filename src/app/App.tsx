@@ -43,6 +43,8 @@ import type { BattleId } from '@core/state/ids';
 import { abortDebugBattle } from '@core/debugBattle';
 import { acknowledgeGameOver } from '@core/systems/victory';
 import { acknowledgeBattleResult, clearBattleOrders } from './battleBridge';
+import { hasAnySave, latestSlot, loadFromSlot, saveToSlot } from './persistence';
+import { t } from '@i18n/zh-TW';
 
 export function App(): ReactElement {
   // location.search 於整個 session 期間不變（v1.0 無深連結／路由，01 §8-D8）；只解析一次。
@@ -54,6 +56,21 @@ export function App(): ReactElement {
   // 敗北後「繼續觀戰」旗標（10 §3.8.4）：gameOver 維持非 null，僅抑制結局畫面重入；
   // 新局／回標題時重置。session 過渡態（不進 GameState），比照 scenarioBundle 留在外殼。
   const [observing, setObserving] = useState(false);
+  // 換局世代：每次掛上新 GameState（新局／讀檔）遞增，作為 MainScreen 的 key 強制 remount
+  //（selectMapStaticModel 以 useMemo([]) 快取靜態模型，換局必須重建；見 wip M6-V4 記錄）。
+  const [gameEpoch, setGameEpoch] = useState(0);
+  // 標題「繼續」啟用判定（16 §5.8；讀 meta 鍵，便宜）。回標題時重新計算。
+  const [saveAvailable, setSaveAvailable] = useState(() => hasAnySave());
+
+  // 掛上新 GameState 共同路徑（新局／讀檔）：重置觀戰旗標、遞增世代、轉場並預熱素材。
+  const mountGame = useCallback((game: GameState): void => {
+    setObserving(false);
+    setBattleId(null);
+    setGame(game);
+    setGameEpoch((epoch) => epoch + 1);
+    store.getState().actions.setScreen('main');
+    warmVisualAssets(); // 進入 main 畫面：預熱首屏視覺素材快取（12 §3.7；M6-V3）
+  }, []);
 
   // gameOver 偵測（10 §6.4：game.victory／game.defeat → UI 立即切結局畫面）：
   // 每 tick 檢查 state.meta.gameOver；勝敗成立時暫停時間並切至 EndingScreen。
@@ -88,24 +105,18 @@ export function App(): ReactElement {
 
   const handleQuickDemo = useCallback((): void => {
     const game = startNewDemoGame(flags);
-    setObserving(false);
-    setGame(game);
+    mountGame(game);
     if (flags.initialSpeed !== 'paused') {
       gameLoop.setSpeed(flags.initialSpeed); // ?speed=x5 等開局預設檔位（01 §3.11.1）
     }
-    store.getState().actions.setScreen('main');
-    warmVisualAssets(); // 進入 main 畫面：預熱首屏視覺素材快取（12 §3.7；M6-V3）
-  }, [flags]);
+  }, [flags, mountGame]);
 
   // `?debug=visual-map`（M6-V2；17 §3.9.3）：載入固定 debugVisual fixture，刻意忽略 `?seed`／
   // `?speed`（速度維持 session 初始值 'paused'，供 e2e 截圖 harness 決定論等待，見任務說明第 2 點）；
   // 一次性場景 UI 態（選取行軍中我方部隊＋路徑預覽）由 `bootVisualMapGame` 內部佈置（見該檔）。
   const handleVisualMap = useCallback((): void => {
-    const game = bootVisualMapGame();
-    setGame(game);
-    store.getState().actions.setScreen('main');
-    warmVisualAssets(); // 進入 main 畫面：預熱首屏視覺素材快取（12 §3.7；M6-V3）
-  }, []);
+    mountGame(bootVisualMapGame());
+  }, [mountGame]);
 
   // 標題「新遊戲」→ ScenarioSelectScreen（11 §3.2.2；17 §3.8 P2 首步）。
   const handleNewGameClick = useCallback((): void => {
@@ -119,6 +130,7 @@ export function App(): ReactElement {
 
   const handleBackToTitle = useCallback((): void => {
     setScenarioBundle(null);
+    setSaveAvailable(hasAnySave());
     store.getState().actions.setScreen('title');
   }, []);
 
@@ -129,16 +141,55 @@ export function App(): ReactElement {
   // DaimyoSelectScreen「開始遊戲」→ GameState 已建好，僅需掛進 store 並轉場（11 §3.2.3）。
   const handleStartGame = useCallback(
     (game: GameState): void => {
-      setObserving(false);
-      setGame(game);
+      mountGame(game);
       if (flags.initialSpeed !== 'paused') {
         gameLoop.setSpeed(flags.initialSpeed);
       }
-      store.getState().actions.setScreen('main');
-      warmVisualAssets(); // 進入 main 畫面：預熱首屏視覺素材快取（12 §3.7；M6-V3）
     },
-    [flags],
+    [flags, mountGame],
   );
+
+  // 標題「繼續」：載入 timestamp 最新的存檔槽（16 §5.8；MVP 槽位子集 auto:1/quick:1）。
+  const handleContinue = useCallback((): void => {
+    const slot = latestSlot();
+    if (slot === null) return;
+    const result = loadFromSlot(slot);
+    if (!result.ok) {
+      console.warn(`讀取存檔失敗（${slot}）：${result.code}`);
+      setSaveAvailable(hasAnySave());
+      return;
+    }
+    mountGame(result.state);
+  }, [mountGame]);
+
+  // 快速存檔 Ctrl+S／快速讀檔 F9（16 §3.4；僅策略畫面有效，合戰／標題停用）。
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent): void {
+      const { screen: currentScreen } = store.getState().session;
+      const game = store.getState().game;
+      if (currentScreen !== 'main' || game === null) return;
+      const target = e.target;
+      if (
+        target instanceof HTMLElement &&
+        (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)
+      ) {
+        return;
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+        e.preventDefault(); // 阻止瀏覽器「另存網頁」（16 §3.4）
+        if (saveToSlot('quick:1', game)) setSaveAvailable(true);
+      } else if (e.key === 'F9') {
+        e.preventDefault();
+        const result = loadFromSlot('quick:1');
+        if (!result.ok) return; // 槽空／損毀：MVP 靜默（toast 屬 M8-20）
+        if (!window.confirm(t('ui.load.quickLoadConfirm'))) return;
+        store.getState().actions.requestPause('user');
+        mountGame(result.state);
+      }
+    }
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [mountGame]);
 
   useEffect(() => {
     installDebugApi(flags); // 僅 flags.enabled 時真的安裝 window.__TENKA_DEBUG__（01 §3.11.4）
@@ -174,7 +225,8 @@ export function App(): ReactElement {
     setObserving(false);
     setScenarioBundle(null);
     setBattleId(null);
-    setGame(null); // state 丟棄（10 §3.8.4；自動存檔屬 M8/MVP-3）
+    setGame(null); // state 丟棄（10 §3.8.4；月結自動存檔已落地於 auto:1）
+    setSaveAvailable(hasAnySave());
     store.getState().actions.setScreen('title');
   }, []);
 
@@ -209,7 +261,7 @@ export function App(): ReactElement {
       <BattleScreen battleId={battleId} onExit={handleBattleExit} onRetreat={handleBattleRetreat} />
     );
   } else if (screen === 'main') {
-    content = <MainScreen />;
+    content = <MainScreen key={gameEpoch} />;
   } else if (screen === 'scenarioSelect') {
     content = <ScenarioSelect onSelectScenario={handleSelectScenario} onBack={handleBackToTitle} />;
   } else if (screen === 'daimyoSelect' && scenarioBundle !== null) {
@@ -221,7 +273,13 @@ export function App(): ReactElement {
       />
     );
   } else {
-    content = <TitleScreen onNewGame={handleNewGameClick} />;
+    content = (
+      <TitleScreen
+        onNewGame={handleNewGameClick}
+        hasSave={saveAvailable}
+        onContinue={handleContinue}
+      />
+    );
   }
 
   return (

@@ -23,6 +23,7 @@ import { CoreError } from '@core/errors';
 import { store } from './store';
 import { captureFatalError } from './errors';
 import { perfMonitor } from './perfMonitor';
+import { autosave } from './persistence';
 
 let commandQueue = new CommandQueue();
 let commandLogGame: GameState | null = null;
@@ -113,6 +114,10 @@ export function runOneDay(): GameEvent[] {
   // 避免在尚無 URL 旗標可用時對每個 tick 的最小測試 fixture 強加 25 條不變量。
   store.setState((s) => ({ tickSeq: s.tickSeq + 1 }));
   store.getState().actions.setPendingCommandCount(commandQueue.size);
+  // 月結自動存檔（03 §3.9.1：驅動器讀 autosaveDue 旗標；debug 時間跳轉期間抑制）。
+  if (result.autosaveDue === 'monthly' && store.getState().session.debug.jumping === null) {
+    autosave(game);
+  }
   autoPauseHandler?.(result.autoPauseReasons);
   return result.events;
 }

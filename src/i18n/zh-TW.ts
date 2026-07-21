@@ -318,6 +318,8 @@ export const zhTW = {
   'ui.ending.statMaxCastles': '最大版圖：{count}城',
   'ui.ending.statMaxKokudaka': '最大石高：{koku}石',
   'ui.ending.statOfficers': '麾下家臣：{count}名',
+  // ── 16 §6：存讀檔（MVP 先行實作，原屬 M8-13/M8-14 子集） ──
+  'ui.load.quickLoadConfirm': '尚有未存檔的進度，要讀取快速存檔嗎？',
   'ui.ending.actionContinue': '繼續治世',
   'ui.ending.actionObserve': '繼續觀戰',
   'ui.ending.actionTitle': '回到標題',
