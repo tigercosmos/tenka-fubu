@@ -336,6 +336,10 @@ export const BAL = {
   /** M5 tactical battle producer and auto-pause gate; enabled once the battle core is available. */
   featureKassenEnabled: true,
 
+  // ── 勝敗判定（10 §5.7；MVP 先行實作，原屬 M8-9） ──
+  victoryKokudakaSharePct: 50, // %；天下人條件：支配圈石高 ≥ 全國石高之此百分比（10 §3.8.1）
+  victoryTenkabitoMonths: 12, // 月；天下人條件連續成立月數門檻（10 §3.8.1）
+
   // ── UI／渲染效能（15 §5.1；01 §3.6.1；M2-13 MapRenderer Application.init 所需） ──
   uiDprMax: 2, // 15 §5.1：Pixi resolution／devicePixelRatio 取用上限（倍率，無量綱；01 §3.6.1）
 } as const;

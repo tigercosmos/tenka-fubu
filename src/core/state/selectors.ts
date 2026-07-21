@@ -750,3 +750,50 @@ export function selectMapViewModel(state: GameState): MapViewModel {
     analysisMode: 'none',
   };
 }
+
+// ═══════════════════════════════════════════════════════════════════
+// 結局畫面 ViewModel（10 §3.9；MVP 先行實作，原屬 M8-10）
+// ═══════════════════════════════════════════════════════════════════
+
+/** EndingScreen 渲染協定（10 §3.9 canonical；名稱為資料顯示名，標語由 UI 以 i18n 導出）。 */
+export interface EndingScreenVM {
+  kind: 'victory' | 'defeat';
+  endingId: string; // 'unification' / 'tenkabito' / 'no-heir' / 'no-castle'
+  clanName: string; // 玩家勢力顯示名
+  leaderName: string; // 現任（或末代）當主顯示名
+  elapsedYears: number; // floor(time.day / 360)
+  elapsedMonths: number; // floor((time.day mod 360) / 30)
+  battlesFought: number;
+  battlesWon: number;
+  maxCastles: number;
+  maxKokudaka: number;
+  officerCount: number; // 現任 serving 家臣數（即時計算）
+  actions: Array<'continue' | 'observe' | 'title'>; // victory→[continue,title]；defeat→[observe,title]
+}
+
+/** 結局畫面 ViewModel（gameOver 為 null 時回傳 null；10 §3.9 buildEndingVM）。 */
+export function buildEndingVM(state: GameState): EndingScreenVM | null {
+  const over = state.meta.gameOver;
+  if (over === null) return null;
+  const playerClanId = state.meta.playerClanId;
+  const clan = state.clans[playerClanId];
+  const leader = clan ? state.officers[clan.leaderId] : undefined;
+  let officerCount = 0;
+  for (const officer of Object.values(state.officers)) {
+    if (officer.status === 'serving' && officer.clanId === playerClanId) officerCount += 1;
+  }
+  return {
+    kind: over.kind,
+    endingId: over.endingId,
+    clanName: clan?.name ?? '',
+    leaderName: leader?.name ?? '',
+    elapsedYears: Math.floor(state.time.day / 360),
+    elapsedMonths: Math.floor((state.time.day % 360) / 30),
+    battlesFought: state.events.stats.battlesFought,
+    battlesWon: state.events.stats.battlesWon,
+    maxCastles: state.events.stats.maxCastles,
+    maxKokudaka: state.events.stats.maxKokudaka,
+    officerCount,
+    actions: over.kind === 'victory' ? ['continue', 'title'] : ['observe', 'title'],
+  };
+}

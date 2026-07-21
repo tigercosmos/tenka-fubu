@@ -22,6 +22,7 @@ import { officersSystem } from './officers';
 import { militaryMovementSystem } from './military';
 import { fieldCombatSystem } from './fieldCombat';
 import { siegeSystem } from './siege';
+import { victorySystem } from './victory';
 
 // ═══════════════════════════════════════════════════════════════════
 // 迴圈機制型別（03 §4.1 canonical）
@@ -154,8 +155,10 @@ function stepProposals(): GameEvent[] {
 function stepAi(): GameEvent[] {
   return []; // AI 評定入列/消化（09；排程器骨架見 systems/ai/scheduler.ts M1-24，於後續里程碑接入本步）
 }
-function stepVictory(): GameEvent[] {
-  return []; // 勝敗檢查（territoryChangedToday 髒標記閘控）（10；M8）
+function stepVictory(state: GameState, ctx: TickContext): GameEvent[] {
+  // 勝敗檢查（10 §5.6；MVP 先行實作，見 systems/victory.ts 檔頭）：
+  // ctx.events 傳入本 tick 至本步的事件全集，供結局統計消費 battle.ended（M8-3 前過渡）。
+  return victorySystem(state, ctx.events);
 }
 function stepReports(state: GameState, ctx: TickContext): GameEvent[] {
   // Step 13 reports（M1-8；src/core/systems/reports.ts）：消費 ctx.events（本 tick 全集）→

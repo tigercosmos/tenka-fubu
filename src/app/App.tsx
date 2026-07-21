@@ -20,6 +20,7 @@ import { ScenarioSelect } from '../ui/screens/ScenarioSelect';
 import { DaimyoSelect } from '../ui/screens/DaimyoSelect';
 import { MainScreen } from '../ui/screens/MainScreen';
 import { BattleScreen } from '../ui/screens/BattleScreen';
+import { EndingScreen } from '../ui/screens/EndingScreen';
 import { useSession } from '../ui/hooks/useSession';
 import { bumpTickSeq, store, setGame } from './store';
 import { gameLoop } from './gameLoop';
@@ -40,6 +41,7 @@ import type { ScenarioBundleData } from '@data/schemas';
 import type { GameState } from '@core/state/gameState';
 import type { BattleId } from '@core/state/ids';
 import { abortDebugBattle } from '@core/debugBattle';
+import { acknowledgeGameOver } from '@core/systems/victory';
 import { acknowledgeBattleResult, clearBattleOrders } from './battleBridge';
 
 export function App(): ReactElement {
@@ -49,6 +51,20 @@ export function App(): ReactElement {
   const tickSeq = useStore(store, (state) => state.tickSeq);
   const [scenarioBundle, setScenarioBundle] = useState<ScenarioBundleData | null>(null);
   const [battleId, setBattleId] = useState<BattleId | null>(null);
+  // 敗北後「繼續觀戰」旗標（10 §3.8.4）：gameOver 維持非 null，僅抑制結局畫面重入；
+  // 新局／回標題時重置。session 過渡態（不進 GameState），比照 scenarioBundle 留在外殼。
+  const [observing, setObserving] = useState(false);
+
+  // gameOver 偵測（10 §6.4：game.victory／game.defeat → UI 立即切結局畫面）：
+  // 每 tick 檢查 state.meta.gameOver；勝敗成立時暫停時間並切至 EndingScreen。
+  useEffect(() => {
+    const { game, session, actions } = store.getState();
+    if (game === null || game.meta.gameOver === null || observing) return;
+    if (session.screen !== 'ending') {
+      actions.requestPause('modalOpen');
+      actions.setScreen('ending');
+    }
+  }, [tickSeq, observing]);
 
   useEffect(() => {
     const game = store.getState().game;
@@ -72,6 +88,7 @@ export function App(): ReactElement {
 
   const handleQuickDemo = useCallback((): void => {
     const game = startNewDemoGame(flags);
+    setObserving(false);
     setGame(game);
     if (flags.initialSpeed !== 'paused') {
       gameLoop.setSpeed(flags.initialSpeed); // ?speed=x5 等開局預設檔位（01 §3.11.1）
@@ -112,6 +129,7 @@ export function App(): ReactElement {
   // DaimyoSelectScreen「開始遊戲」→ GameState 已建好，僅需掛進 store 並轉場（11 §3.2.3）。
   const handleStartGame = useCallback(
     (game: GameState): void => {
+      setObserving(false);
       setGame(game);
       if (flags.initialSpeed !== 'paused') {
         gameLoop.setSpeed(flags.initialSpeed);
@@ -138,6 +156,28 @@ export function App(): ReactElement {
     store.getState().actions.setFatalError(info);
   }, []);
 
+  // 結局畫面動作（10 §3.8.4：非 Command，外殼直接呼叫 core API）。
+  const handleEndingContinue = useCallback((): void => {
+    const game = store.getState().game;
+    if (game === null) return;
+    acknowledgeGameOver(game, 'continue'); // 記 ack 旗標、解除 gameOver
+    bumpTickSeq();
+    store.getState().actions.setScreen('main');
+  }, []);
+
+  const handleEndingObserve = useCallback((): void => {
+    setObserving(true); // gameOver 維持原值：時間可推進、指令持續被拒（純觀戰）
+    store.getState().actions.setScreen('main');
+  }, []);
+
+  const handleEndingTitle = useCallback((): void => {
+    setObserving(false);
+    setScenarioBundle(null);
+    setBattleId(null);
+    setGame(null); // state 丟棄（10 §3.8.4；自動存檔屬 M8/MVP-3）
+    store.getState().actions.setScreen('title');
+  }, []);
+
   const handleBattleExit = useCallback((): void => {
     if (battleId === null || !acknowledgeBattleResult(battleId).ok) return;
     setBattleId(null);
@@ -156,7 +196,15 @@ export function App(): ReactElement {
   }, [battleId]);
 
   let content: ReactElement;
-  if (screen === 'battle' && battleId !== null) {
+  if (screen === 'ending') {
+    content = (
+      <EndingScreen
+        onContinue={handleEndingContinue}
+        onObserve={handleEndingObserve}
+        onTitle={handleEndingTitle}
+      />
+    );
+  } else if (screen === 'battle' && battleId !== null) {
     content = (
       <BattleScreen battleId={battleId} onExit={handleBattleExit} onRetreat={handleBattleRetreat} />
     );

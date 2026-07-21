@@ -1,0 +1,52 @@
+.screen {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-map-overlay);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  background: var(--ink-900);
+  color: var(--washi-100);
+  text-align: center;
+}
+
+.kind {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+  color: var(--ink-300, #999);
+}
+
+.slogan {
+  margin: 0;
+  font-size: 2.25rem;
+  letter-spacing: 0.15em;
+}
+
+.victory .slogan {
+  color: var(--gold-500, #c9a227);
+}
+
+.stats {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--font-size-md, 1rem);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.actions button {
+  min-width: 9rem;
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-md, 1rem);
+}

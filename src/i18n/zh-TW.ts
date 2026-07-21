@@ -306,6 +306,22 @@ export const zhTW = {
   'report.siege.fallen': '{castle}落城！',
   'report.siege.repelled': '{castle}擊退了圍城之敵。',
 
+  // ── 10 §6.3：勝敗判定與結局畫面（MVP 先行實作，原屬 M8-9／M8-10） ──
+  'report.clan.destroyed': '{clanName}滅亡了',
+  'report.victory.tenkabitoProgress': '天下人之路：條件已連續達成{months}／12月',
+  'ui.ending.victory.unification': '天下布武，四海歸一',
+  'ui.ending.victory.tenkabito': '奉戴朝廷，號令天下',
+  'ui.ending.defeat.noHeir': '{clanName}，就此斷絕',
+  'ui.ending.defeat.noCastle': '{clanName}的旗幟，自天下消失了',
+  'ui.ending.statYears': '歷時：{years}年{months}月',
+  'ui.ending.statBattles': '合戰：{fought}戰{won}勝',
+  'ui.ending.statMaxCastles': '最大版圖：{count}城',
+  'ui.ending.statMaxKokudaka': '最大石高：{koku}石',
+  'ui.ending.statOfficers': '麾下家臣：{count}名',
+  'ui.ending.actionContinue': '繼續治世',
+  'ui.ending.actionObserve': '繼續觀戰',
+  'ui.ending.actionTitle': '回到標題',
+
   // ── 13 §6.1／03 §6.2／12-T7：SpeedControl 速度控制 ──
   'ui.speed.paused': '暫停',
   'ui.speed.x1': '×1',

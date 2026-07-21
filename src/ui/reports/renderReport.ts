@@ -188,6 +188,10 @@ export function renderReport(
       });
     case 'command.rejected':
       return t(event.reasonKey, event.params);
+    case 'clan.destroyed':
+      return t('report.clan.destroyed', { clanName: clanName(game, event.clanId) });
+    case 'victory.tenkabitoProgress':
+      return t('report.victory.tenkabitoProgress', { months: event.months });
     case 'policy.enacted':
     case 'policy.revoked':
     case 'conscript.completed':
