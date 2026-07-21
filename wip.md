@@ -257,15 +257,39 @@ parallel」＝設計階段平行化。執行模式：Fable orchestrate、設計/
   <1% 容忍（非 all 模式不重寫，V6 教訓再次適用）。
 - **DoD#5（20 軍 55fps）尚未驗**：bench 只測 core tick；渲染 FPS 場景屬 V11。
 
+### M6-V9 完成記錄（2026-07-22，commits 4d1a5ae…，直接 commit main）
+
+使用者貼實機截圖抱怨「the whole UI sucks, make it more like a game」＝授權 M6-V9（HUD 組裝）
+並連帶修地圖可讀性回歸。執行模式照舊：Fable orchestrate、Opus 設計/評審/review、Sonnet 實作。
+
+- **設計**（wf_e1153b7d-9d2）：Opus 設計→visual-spec∥engineering 雙對抗評審→修訂；
+  2 Blocker（點城雙開滿版面板、borderDarken spec 未納片）與切片「可平行」宣稱皆被評審打掉。
+  定稿＝`docs/design/m6-v9-hud-readability.md`（單一真相，605 行全數值）。
+- **實作**（wf_716462d7-8ff；S1 palette→S2 labels→S3 HUD 定序＋gate＋雙 lens review＋fixer）：
+  染紙勢力色雙軌（clanDyeHsl s25/L67·53 只餵 territory；旗幟軌不動）、紙墨邊（borderInk
+  0x2e281d×0.55、once-guard）、標籤 pixel-lock（per-label container 反縮放、CSS px 恆定、
+  rebuildCounts 不動）＋ink900/washi halo（labelStyle.ts）＋64px declutter（idle/scale/LOD
+  觸發）、耐久環/郡點降噪、HUD 全組裝（ResourceBar 淨額/駐城兵、SpeedControl、MiniMap→
+  panToWorld、家紋左欄、ContextPanel 三態快覽條、ReportStack 收合、☰ 占位）、點擊語意改
+  「只 setSelection」、--accent-red/--danger 壞 var 修繕（出陣鈕原全隱形）。
+- **review**：Opus 雙 lens 0 Blocker/0 Major、3 Minor confirmed 全修＋回歸測試（StatBar
+  max/showValue、ReportStack 空清單、resize 監聽）。orchestrator 追加：MiniMap 快覽條開啟時
+  垂直讓位（1280 與 ContextPanel 相疊）。
+- **gate**：typecheck/lint/validate:data（0/0、917 字元）/**1479 tests**/build/e2e 5/5；
+  golden byte-identical（core 未動）。baseline darwin＋linux（docker --update-snapshots all
+  ＋匿名 volume，容器內 compare 復跑綠）獨立 commit；orchestrator 親眼驗收三 preset＋s1560
+  實局截圖（染紙領地透出地形、標籤不再爆大混戰、墨帶/家紋欄/快覽條成形）。
+- plan/04 §8、plan/11 §8（D21）已回寫，交叉引用設計定稿。
+- 已知後續：底部快覽條 1280 高度斷點 112px 為定稿裁決；1920 全尺寸驗證與 55fps/無障礙
+  gate 屬 M6-V10/V11；「頁面底部 washi 條」查明為紀伊半島陸地色非 bug。
+
 ### 停止點與安全續作順序
 
-1. 本輪已完成 **M6-V5＋M6-V6＋M6-V7＋M6-V8**——使用者授權的「像真遊戲」視覺鏈
-   （地形／道路／城池／軍隊）全數 landed（皆已 push；V6 的全量 review 因額度中斷只完成 1/4 lens，
-   額度恢復後補跑）。四份最終設計已入 repo：`docs/design/m6-v{5,6,7,8}-*.md`。
-2. 下一步（依 plan/18 M6-V 串流）：**M6-V9（HUD 組裝）→ M6-V10（分析圖層）→
-   M6-V11（視覺／效能／無障礙 gate）**；V9–V11 尚無設計文件，續作時先走設計→對抗評審→
-   實作 workflow 模式。另有兩筆 review 債：V8 全量 review（額度中斷）；V11 應收緊視覺
-   gate（<1% 容忍會漏細線變化，V6/V8 兩度驗證）。
+1. 本輪已完成 **M6-V5～M6-V9**——視覺鏈（地形／道路／城池／軍隊／HUD）全數 landed。
+   五份最終設計已入 repo：`docs/design/m6-v{5,6,7,8}-*.md`、`docs/design/m6-v9-hud-readability.md`。
+2. 下一步（依 plan/18 M6-V 串流）：**M6-V10（分析圖層）→ M6-V11（視覺／效能／無障礙 gate）**；
+   續作時先走設計→對抗評審→實作 workflow 模式。另有兩筆 review 債：V8 全量 review
+   （額度中斷）；V11 應收緊視覺 gate（<1% 容忍會漏細線變化，V6/V8 兩度驗證）。
 3. V7/V8 共用 MapRenderer.ts／mapRendererDirty.spec／MapCanvasHost.spec／pixiMock——
    兩 stage 之整合 slice 不得並行；V8 可在 V7 整合完成後開工（V8 設計 Slice E 為唯一
    整合 slice）。
