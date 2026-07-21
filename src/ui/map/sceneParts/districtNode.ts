@@ -23,11 +23,11 @@ import { clanColorNum, TOKENS_NUM } from '@ui/styles/tokens';
 import type { ScenePart } from '@ui/components/types';
 import type { LodStage } from '../lod';
 
-/** §3.3.3 表：郡節點幾何（world unit）。 */
+/** §3.3.3 表：郡節點幾何（world unit）。M6-V9 §3.2 降噪：r7→6、fillAlpha .7→.6（填色維持旗幟軌）。 */
 export const DISTRICT_NODE_GEOMETRY = {
-  radius: 7, // 圓形半徑
-  fillAlpha: 0.7, // 填色透明度 70%
-  strokeWidth: 1, // 描邊線寬
+  radius: 6, // 圓形半徑（M6-V9 §3.2）
+  fillAlpha: 0.6, // 填色透明度 60%（M6-V9 §3.2）
+  strokeWidth: 1, // 描邊線寬（ink700，維持）
   centerDotDiameter: 2.5, // 直轄/知行中心點直徑
   subjugationRingRadius: 10, // 制壓進度弧半徑
   subjugationRingWidth: 2, // 制壓進度弧線寬

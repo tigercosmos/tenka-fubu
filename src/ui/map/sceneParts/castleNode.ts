@@ -31,10 +31,13 @@ export const CASTLE_NODE_GEOMETRY = {
   mainSize: 28, // 本城剪影外接盒邊長 28×28
   branchSize: 20, // 支城剪影外接盒邊長 20×20
   strokeWidth: 2, // 剪影描邊線寬（本城/支城同）
-  ringRadiusMain: 20, // 耐久環半徑：本城 20
-  ringRadiusBranch: 15, // 耐久環半徑：支城 15
-  ringWidth: 3, // 耐久環線寬
-  ringBaseAlpha: 0.25, // 底環透明度
+  // ── M6-V9 §3.1 耐久環降噪：縮一圈（r 20/15→18/13）、線寬 3→2、底環 ink700 α .35 安靜底槽、
+  //    耐久弧降飽和（accentMoss 非 bright）α .9；仍表 HP（角度＝durability/maxDurability × 2π）。
+  ringRadiusMain: 18, // 耐久環半徑：本城 18
+  ringRadiusBranch: 13, // 耐久環半徑：支城 13
+  ringWidth: 2, // 耐久環線寬（底環/耐久弧同）
+  ringBaseAlpha: 0.35, // 底環（track）透明度
+  ringArcAlpha: 0.9, // 耐久弧透明度
   // ── M6-V7 ──
   farMainBodyScale: 1.4, // far 本城剪影放大（僅施於 bodyGfx，不放大 ring/warn；#3）
   shadowOffsetMain: 3, // 本城右下紙雕投影位移
@@ -127,23 +130,27 @@ function mainKeepPoints(size: number): number[] {
   ];
 }
 
-/** 耐久環色（12 §5.6）：ratio 三段門檻決定（與圍城 warning 無關，兩通道獨立）；不含底環。 */
+/**
+ * 耐久環色（12 §5.6）：ratio 三段門檻決定（與圍城 warning 無關，兩通道獨立）；不含底環。
+ * M6-V9 §3.1：健康段改 `accentMoss`（非 bright）——降飽和「安靜」化；gold/vermilion 警示段不變。
+ */
 export function durabilityRingColor(ratio: number): number {
-  if (ratio > UI.durabilityRingWarn) return TOKENS_NUM.accentMossBright;
+  if (ratio > UI.durabilityRingWarn) return TOKENS_NUM.accentMoss;
   if (ratio > UI.durabilityRingDanger) return TOKENS_NUM.accentGold;
   return TOKENS_NUM.accentVermilionBright;
 }
 
 /**
- * 繪製耐久環（12 §5.6 通用弧＋§3.3.2 底環）：先 clear，畫底環（`ink300` 25% 整圈），
- * 再疊「12 點鐘起順時針」的比例弧（三段變色）。
+ * 繪製耐久環（12 §5.6 通用弧＋§3.3.2 底環；M6-V9 §3.1 降噪）：先 clear，畫底環
+ * （`ink700` α ringBaseAlpha 整圈安靜底槽），再疊「12 點鐘起順時針」的比例弧
+ * （三段變色、α ringArcAlpha）。
  */
 export function drawDurabilityRing(g: Graphics, radius: number, ratio: number): void {
   g.clear();
   const width = CASTLE_NODE_GEOMETRY.ringWidth;
   g.circle(0, 0, radius).stroke({
     width,
-    color: TOKENS_NUM.ink300,
+    color: TOKENS_NUM.ink700,
     alpha: CASTLE_NODE_GEOMETRY.ringBaseAlpha,
   });
   const clamped = clamp01(ratio);
@@ -151,6 +158,7 @@ export function drawDurabilityRing(g: Graphics, radius: number, ratio: number): 
   g.arc(0, 0, radius, start, start + 2 * Math.PI * clamped).stroke({
     width,
     color: durabilityRingColor(clamped),
+    alpha: CASTLE_NODE_GEOMETRY.ringArcAlpha,
   });
 }
 

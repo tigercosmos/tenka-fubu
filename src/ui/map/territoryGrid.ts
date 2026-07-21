@@ -20,14 +20,15 @@
 //   AABB 篩」之精神延伸：同一列的陸地判定攤成一次掃描線相交運算，避免 1024² × 多邊形點數的重覆
 //   ray casting），最近郡搜尋以「桶＝固定大小陣列（非 Map，避免字串 hash 成本）＋環狀擴張」加速
 //   （04 §5.5「128 world unit」桶）。M2-14 DoD：1024 網格建構 <200ms。
-// - 顏色：`clanColorNum(colorIndex)`（12 §5.1／tokens.ts）取代 04 §4.6 舊稿之 `clanColors:
+// - 顏色：染紙軌 `clanDyeNum(colorIndex)`（M6-V9 §1.2/§1.3 雙軌制；低彩度薄染，旗幟軌
+//   `clanColorNum` 仍供節點/HUD 使用）取代 04 §4.6 舊稿之 `clanColors:
 //   Record<clanId, hex>` 直接傳入——與 M2-13 既已確立之 `clanColorIndex` 慣例一致（見
 //   mapViewTypes.ts `MapStaticData.clanColorIndex` 註解），故 `recolorTerritory` 第三參數命名
 //   `clanColorIndex`（非 04 §5.5 逐字之 `clanColors`）。
 
 import type { MapGraph } from '@core/state/mapGraph';
 import type { JapanOutlineFile } from '@data/schemas/outline';
-import { clanColorNum } from '@ui/styles/tokens';
+import { clanDyeNum } from '@ui/styles/tokens';
 import { MAPVIEW, WORLD_SIZE } from './mapViewConfig';
 
 /** 04 §4.4：勢力色網格資料（載入時建立一次，`nearestDistrict`/`districtIds` 整局不變）。 */
@@ -300,8 +301,9 @@ function clanIdxOf(
  * 郡歸屬 dirty 時重繪（04 §5.5 `recolorTerritory`；呼叫端負責「每幀至多一次」之節流與
  * `texture.update()`，本函式僅同步計算＋寫入 `grid.imageData`）：
  * - pass1：每 cell 之勢力索引（海／超距＝`CLAN_IDX_SEA`；無主＝`CLAN_IDX_NEUTRAL`；否則 colorIndex）。
- * - pass2：base 色（clan 色／中性灰／透明海）寫入 RGBA；同一 pass 內對每 cell 檢查右鄰／下鄰，
- *   勢力索引不同則兩側各乘 `MAPVIEW.colors.borderDarken`（界線烘焙，兩次差異各自獨立疊乘）。
+ * - pass2：base 色（染紙軌 `clanDyeNum`／中性灰／透明海）寫入 RGBA；同一 pass 內對每 cell 檢查
+ *   右鄰／下鄰，勢力索引不同則兩側各朝 `MAPVIEW.colors.borderInk` 以 `borderInkMix` 混合一次
+ *   （紙墨邊，M6-V9 §1.4；once-guard 保證一像素本 pass 至多上墨一次，杜絕角落雙混近黑噪點）。
  */
 export function recolorTerritory(
   grid: TerritoryGrid,
@@ -331,7 +333,7 @@ export function recolorTerritory(
       data[o + 3] = 0; // 透明(海)
       continue;
     }
-    const color = idx === CLAN_IDX_NEUTRAL ? MAPVIEW.colors.neutral : clanColorNum(idx);
+    const color = idx === CLAN_IDX_NEUTRAL ? MAPVIEW.colors.neutral : clanDyeNum(idx);
     const { r, g, b } = splitRgb(color);
     data[o] = r;
     data[o + 1] = g;
@@ -339,13 +341,19 @@ export function recolorTerritory(
     data[o + 3] = 255;
   }
 
-  // pass2b：界線烘焙（右鄰／下鄰各自獨立判斷，符合則兩側各乘一次 borderDarken）。
-  const darken = MAPVIEW.colors.borderDarken;
+  // pass2b：紙墨邊（M6-V9 §1.4）：右鄰／下鄰各自獨立判斷，符合則兩側各朝固定暖墨
+  // `borderInk` 以 `borderInkMix` 混合；once-guard（inked 旗標）保證一像素本 pass 至多
+  // 上墨一次——對右、對下同時越界的角落第二次跳過，上限恆為 borderInkMix。
+  const ink = splitRgb(MAPVIEW.colors.borderInk);
+  const inkMix = MAPVIEW.colors.borderInkMix;
+  const inked = new Uint8Array(n);
   const darkenPixel = (i: number): void => {
+    if (inked[i] === 1) return;
+    inked[i] = 1;
     const o = i * 4;
-    data[o] = Math.round((data[o] ?? 0) * darken);
-    data[o + 1] = Math.round((data[o + 1] ?? 0) * darken);
-    data[o + 2] = Math.round((data[o + 2] ?? 0) * darken);
+    data[o] = Math.round((data[o] ?? 0) * (1 - inkMix) + ink.r * inkMix);
+    data[o + 1] = Math.round((data[o + 1] ?? 0) * (1 - inkMix) + ink.g * inkMix);
+    data[o + 2] = Math.round((data[o + 2] ?? 0) * (1 - inkMix) + ink.b * inkMix);
   };
   for (let cy = 0; cy < size; cy += 1) {
     for (let cx = 0; cx < size; cx += 1) {

@@ -84,6 +84,7 @@ export const TOKENS = {
     map: 0,
     mapOverlay: 50,
     hud: 100,
+    panel: 200,
     dropdown: 500,
     tooltip: 900,
     modalBackdrop: 1000,
@@ -206,6 +207,31 @@ export function clanColorNum(index: number, bright = false): number {
   return hexToNum(clanColorHex(index, bright));
 }
 
+/** M6-V9 §1.3 染紙軌（Dye track）：territory 光柵 base 色專用之低彩度薄染。
+ *  與旗幟軌 `clanColorHsl` 共用 `hue = index * 9`（同勢力同色系），差異只在 S/L：
+ *  s 恆為 25，l 依索引奇偶取 67／53（Δ14 亮度鋸齒，抵 sprite alpha 0.45 壓縮後仍過 JND）。
+ *  只餵 `territoryGrid.recolorTerritory` 的 base 色；HUD／節點／ArmyChip 等仍走旗幟軌。 */
+export function clanDyeHsl(index: number): {
+  readonly h: number;
+  readonly s: number;
+  readonly l: number;
+} {
+  assertClanColorIndex(index);
+  const hue = (index * 9) % 360;
+  return { h: hue, s: 25, l: index % 2 === 0 ? 67 : 53 };
+}
+
+/** 染紙軌 hex（同 `clanColorHex` 之 `hslToHex` 四捨五入路徑，M6-V9 §1.3）。 */
+export function clanDyeHex(index: number): string {
+  const { h, s, l } = clanDyeHsl(index);
+  return hslToHex(h, s, l);
+}
+
+/** 染紙軌數值色（供 territory 光柵寫入 RGBA，M6-V9 §1.3）。 */
+export function clanDyeNum(index: number): number {
+  return hexToNum(clanDyeHex(index));
+}
+
 /** `--clan-00`..`--clan-39` 的兩位數索引字串（`0` → `'00'`）。 */
 function clanIndexLabel(index: number): string {
   return String(index).padStart(2, '0');
@@ -279,6 +305,7 @@ function buildBaseCssVarEntries(): ReadonlyArray<readonly [string, string]> {
     ['--z-map', String(z.map)],
     ['--z-map-overlay', String(z.mapOverlay)],
     ['--z-hud', String(z.hud)],
+    ['--z-panel', String(z.panel)],
     ['--z-dropdown', String(z.dropdown)],
     ['--z-tooltip', String(z.tooltip)],
     ['--z-modal-backdrop', String(z.modalBackdrop)],

@@ -113,7 +113,7 @@ describe('drawCastleBody（M6-V7 §6.1 四型剪影）', () => {
 });
 
 describe('drawDurabilityRing／durabilityRingColor（12 §5.6）', () => {
-  it('先 clear；底環 ink300 α .25、比例弧起角 -90°、掃角=ratio×360°', () => {
+  it('先 clear；底環 ink700 α ringBaseAlpha（M6-V9 §3.1）、比例弧起角 -90°、掃角=ratio×360°、弧 α ringArcAlpha', () => {
     const { rec, g } = makeRec();
     drawDurabilityRing(g, CASTLE_NODE_GEOMETRY.ringRadiusMain, 0.5);
     expect(rec.calls[0]?.[0]).toBe('clear');
@@ -121,16 +121,18 @@ describe('drawDurabilityRing／durabilityRingColor（12 §5.6）', () => {
     expect(circle[2]).toBe(CASTLE_NODE_GEOMETRY.ringRadiusMain);
     const baseStroke = rec.argsOf('stroke')[0]?.[0] as StrokeArg;
     expect(baseStroke.width).toBe(CASTLE_NODE_GEOMETRY.ringWidth);
-    expect(baseStroke.color).toBe(TOKENS_NUM.ink300);
+    expect(baseStroke.color).toBe(TOKENS_NUM.ink700);
     expect(baseStroke.alpha).toBe(CASTLE_NODE_GEOMETRY.ringBaseAlpha);
     const arc = rec.argsOf('arc')[0] as number[];
     expect(arc[2]).toBe(CASTLE_NODE_GEOMETRY.ringRadiusMain);
     expect(arc[3]).toBeCloseTo(-Math.PI / 2, 10);
     expect(arc[4]).toBeCloseTo(-Math.PI / 2 + 2 * Math.PI * 0.5, 10);
+    const arcStroke = rec.argsOf('stroke').at(-1)?.[0] as StrokeArg;
+    expect(arcStroke.alpha).toBe(CASTLE_NODE_GEOMETRY.ringArcAlpha);
   });
 
-  it('三段門檻色：ratio 1.0→綠、0.45→金、0.25→朱；門檻邊界 0.6 落 gold、maxDur=0 視為 0', () => {
-    expect(durabilityRingColor(1.0)).toBe(TOKENS_NUM.accentMossBright);
+  it('三段門檻色：ratio 1.0→moss（M6-V9 非 bright）、0.45→金、0.25→朱；門檻邊界 0.6 落 gold、maxDur=0 視為 0', () => {
+    expect(durabilityRingColor(1.0)).toBe(TOKENS_NUM.accentMoss);
     expect(durabilityRingColor(0.45)).toBe(TOKENS_NUM.accentGold);
     expect(durabilityRingColor(0.25)).toBe(TOKENS_NUM.accentVermilionBright);
     expect(durabilityRingColor(UI.durabilityRingWarn)).toBe(TOKENS_NUM.accentGold); // 恰門檻不算「>」

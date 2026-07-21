@@ -6,8 +6,9 @@
 // 不得散落魔術數字（M2-13；04-T8）。
 //
 // 色彩：`MAPVIEW.colors` 之 sea/land/neutral 已遷移為引用 `src/ui/styles/tokens.ts` 的
-// `MAP_PALETTE_NUM`（M6-V5，VD7；地圖色票具名常數化，真相在 tokens.ts）；`borderDarken`/
-// `pathOk`/`pathBad`/`awe` 非地圖色票範疇，維持原值。
+// `MAP_PALETTE_NUM`（M6-V5，VD7；地圖色票具名常數化，真相在 tokens.ts）；`borderInk`/
+// `borderInkMix`（M6-V9 §1.4 紙墨邊，取代舊 `borderDarken` 乘法）與 `pathOk`/`pathBad`/`awe`
+// 非地圖色票範疇，定義於本檔。
 
 import { MAP_PALETTE_NUM } from '@ui/styles/tokens';
 
@@ -48,7 +49,10 @@ export const MAPVIEW = {
     sea: MAP_PALETTE_NUM.seaDeep,
     land: MAP_PALETTE_NUM.landBase,
     neutral: MAP_PALETTE_NUM.neutral,
-    borderDarken: 0.55,
+    /** 紙墨邊固定墨色（暖 sumi 墨；M6-V9 §1.4，取代 borderDarken 乘法）。 */
+    borderInk: 0x2e281d,
+    /** 紙墨邊朝 borderInk 的混合比（M6-V9 §1.4；once-guard 保證一像素至多混一次）。 */
+    borderInkMix: 0.55,
     pathOk: 0xffffff,
     pathBad: 0xcc3333,
     awe: 0xe8b93f,

@@ -1034,9 +1034,10 @@ describe('roads／道路名／橋樑／選取高亮（M6-V6，設計 §8.2）', 
     expect(layers.roads.children.length).toBe(1); // RoadsLayer 子容器（V6D2）
     expect(roadsTiers(r).container.children.length).toBe(5); // sea/path/bridge/minor/arterial
 
-    const labelTexts = (layers.labels.children as unknown as { text?: string }[]).map(
-      (c) => c.text,
-    );
+    // M6-V9（§2.1）：labels.children 為 per-label container（pixel-lock），BitmapText 為其 children[0]。
+    const labelTexts = (
+      layers.labels.children as unknown as { children: { text?: string }[] }[]
+    ).map((c) => c.children[0]?.text);
     expect(labelTexts).toContain('東海道'); // 道路名標籤已建（堵靜默無名）
 
     r.destroy();
@@ -1088,15 +1089,15 @@ describe('roads／道路名／橋樑／選取高亮（M6-V6，設計 §8.2）', 
     r.setMapData(staticData({ graph: arterialGraph() }));
     r.updateView(baseView({ day: 1 }));
 
+    // M6-V9（§2.1）：labels.children 為 per-label container；顯隱切於 container、字樣式在 children[0]。
     const labels = r.getLayers()!.labels.children as unknown as {
-      text?: string;
       visible: boolean;
-      style?: { fill?: number };
+      children: { text?: string; style?: { fill?: number } }[];
     }[];
-    const roadLabel = labels.find((c) => c.text === '東海道');
+    const roadLabel = labels.find((c) => c.children[0]?.text === '東海道');
     expect(roadLabel).toBeDefined();
     // V6D5／eng-F2（HARD）：道路名以 ink900 填色（warm base 上白字不可讀＝DoD 失敗）。
-    expect(roadLabel!.style?.fill).toBe(TOKENS_NUM.ink900);
+    expect(roadLabel!.children[0]!.style?.fill).toBe(TOKENS_NUM.ink900);
 
     // near-only（04 §3.10.3）：near 顯、mid／far 隱（label 位於 (150,110) 附近，三 pose 皆在視域內，
     // 差異純由 LOD detail 閘控，非 culling）。setCameraPose 以 lodStageForScale 決定論設段。

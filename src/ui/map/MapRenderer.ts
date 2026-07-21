@@ -35,9 +35,14 @@ import {
 } from 'pixi.js';
 import type { FederatedPointerEvent } from 'pixi.js';
 import { BAL } from '@core/balance';
-import { TOKENS_NUM } from '@ui/styles/tokens';
 import { pointInPolygon } from '@data/map/outlineGeometry';
 import { FOREST_ALPHA, MAPVIEW, WORLD_SIZE } from './mapViewConfig';
+import {
+  LABEL_DECLUTTER_CELL_PX,
+  LABEL_STYLE,
+  labelTextStyle,
+  type LabelStyleSpec,
+} from './labelStyle';
 import { drawSeaBackground, loadOutline } from './mapDraw';
 import { buildRoadsLayer, edgePolyline, polylineMidpoint, type SeaTest } from './roads/roadsDraw';
 import { createRoadHighlight } from './roads/roadHighlight';
@@ -83,6 +88,23 @@ import type {
   MapStaticData,
   MapViewState,
 } from './mapViewTypes';
+
+/**
+ * 標籤條目（M6-V9 §2.1）：per-label `Container` 掛節點世界座標（隨 world 平移「免費」正確），
+ * `BitmapText` 為其子（anchor 頂-中、局部偏移＝螢幕 px）；相機縮放時 container `scale=1/s`
+ * （pixel-lock，字級恆 CSS px）。`lodVisible`/`cullVisible`/`declutterHidden` 三旗標於
+ * `applyLodAndCulling` 合成最終 `container.visible`（§2.5 步驟 5）。
+ */
+interface LabelPart {
+  container: Container;
+  text: BitmapText;
+  kind: 'castle' | 'district' | 'province' | 'road';
+  /** 標籤錨點世界座標（declutter worldToScreen 用）。 */
+  pos: { x: number; y: number };
+  lodVisible: boolean;
+  cullVisible: boolean;
+  declutterHidden: boolean;
+}
 
 /** 空的動態視圖（無主全圖）；setMapData 早於 updateView 到達時的預設，使 nodeMarkers 可先以中性色繪出。 */
 const EMPTY_VIEW: MapViewState = {
@@ -184,10 +206,16 @@ export class MapRenderer {
   private selectionRing: ReturnType<typeof createSelectionRing> | null = null;
   /** M6-V7（CD4）：城下聚落（本城城下屋頂群＋田畦，`settlements` 層；靜態一次建、close LOD 顯隱、不動計數）。 */
   private settlements: ReturnType<typeof buildSettlements> | null = null;
-  private readonly labelParts = new Map<
-    string,
-    { label: BitmapText; kind: 'castle' | 'district' | 'province' | 'road' }
-  >();
+  private readonly labelParts = new Map<string, LabelPart>();
+  /**
+   * M6-V9（§2.1）pixel-lock 反向縮放快取：`applyLodAndCulling` 於 `camera.scale !== lastLabelScale`
+   * 時才遍歷標籤設 `container.scale = 1/scale`（camera-dirty，不動 `rebuildCounts`）。
+   * `buildStaticDataLayers` 尾重設為 NaN（哨兵：NaN !== 任何值 → 下一次必全量重設，杜絕
+   * 「新標籤停在 scale=1」的快取漏更）。
+   */
+  private lastLabelScale = Number.NaN;
+  /** M6-V9（§2.5）declutter idle 下降沿偵測：上一幀是否 idle（拖曳/慣性/focusOn 皆停）。 */
+  private lastCameraIdle = false;
   private readonly armyParts = new Map<string, ReturnType<typeof createArmyChip>>();
   private readonly siegeParts = new Map<string, ReturnType<typeof createSiegeMarker>>();
   private readonly armyCull = new SpatialCullIndex<string>();
@@ -480,7 +508,7 @@ export class MapRenderer {
     }
     if (data === null) {
       for (const entry of this.nodeParts.values()) entry.part.destroy();
-      for (const part of this.labelParts.values()) part.label.destroy();
+      for (const part of this.labelParts.values()) part.container.destroy({ children: true });
       this.layers.nodeMarkers.removeChildren();
       this.layers.labels.removeChildren();
       this.nodeParts.clear();
@@ -532,18 +560,14 @@ export class MapRenderer {
       const text = names[node.id];
       if (text !== undefined) {
         activeLabels.add(node.id);
-        let labelPart = this.labelParts.get(node.id);
-        if (labelPart === undefined) {
-          const label = new BitmapText({
-            text,
-            style: { fontFamily: 'Noto Serif TC', fontSize: 12 },
-          });
-          label.position.set(node.pos.x, node.pos.y + 18);
-          this.layers.labels.addChild(label);
-          labelPart = { label, kind: node.kind };
-          this.labelParts.set(node.id, labelPart);
-        }
-        labelPart.label.text = text;
+        // M6-V9（§2.3/§2.4）：類別樣式——城依 tier 取 main/branch、郡取 district；gap＝螢幕 px。
+        const spec =
+          node.kind === 'castle'
+            ? data.castleTier?.[node.id] === 'main'
+              ? LABEL_STYLE.mainCastle
+              : LABEL_STYLE.branchCastle
+            : LABEL_STYLE.district;
+        this.upsertLabel(node.id, text, node.kind, spec, node.pos);
         this.labelCull.upsert(node.id, node.pos.x, node.pos.y);
         this.rebuildCounts.labels += 1;
       }
@@ -563,23 +587,13 @@ export class MapRenderer {
         nx = -nx;
         ny = -ny;
       } // 令 ny<0（世界 y 向下，偏上避 casing）
-      const lx = mid.x + nx * MAPVIEW.roadLabelOffset;
-      const ly = mid.y + ny * MAPVIEW.roadLabelOffset;
+      // 道路名沿法線偏移為 world unit（near-only、scale≈1.25，觀感穩定；M6-V9 §2.4 road.offset）。
+      const roadOffset = LABEL_STYLE.road.offset;
+      const lx = mid.x + nx * roadOffset;
+      const ly = mid.y + ny * roadOffset;
       const id = `road:${edgeId}`;
       activeLabels.add(id);
-      let part = this.labelParts.get(id);
-      if (part === undefined) {
-        const label = new BitmapText({
-          text: edge.name,
-          style: { fontFamily: 'Noto Serif TC', fontSize: 12, fill: TOKENS_NUM.ink900 },
-        });
-        label.position.set(lx, ly);
-        this.layers.labels.addChild(label);
-        part = { label, kind: 'road' };
-        this.labelParts.set(id, part);
-      }
-      part.label.text = edge.name;
-      part.label.position.set(lx, ly);
+      this.upsertLabel(id, edge.name, 'road', LABEL_STYLE.road, { x: lx, y: ly });
       this.labelCull.upsert(id, lx, ly);
       this.rebuildCounts.labels += 1;
     }
@@ -588,18 +602,7 @@ export class MapRenderer {
       if (text === undefined) continue;
       const id = `province:${provinceId}`;
       activeLabels.add(id);
-      let part = this.labelParts.get(id);
-      if (part === undefined) {
-        const label = new BitmapText({
-          text,
-          style: { fontFamily: 'Noto Serif TC', fontSize: 14 },
-        });
-        label.position.set(pos.x, pos.y);
-        this.layers.labels.addChild(label);
-        part = { label, kind: 'province' };
-        this.labelParts.set(id, part);
-      }
-      part.label.text = text;
+      this.upsertLabel(id, text, 'province', LABEL_STYLE.province, pos);
       this.labelCull.upsert(id, pos.x, pos.y);
       this.rebuildCounts.labels += 1;
     }
@@ -612,11 +615,14 @@ export class MapRenderer {
     }
     for (const [id, part] of this.labelParts) {
       if (activeLabels.has(id)) continue;
-      this.layers.labels.removeChild(part.label);
-      part.label.destroy();
+      this.layers.labels.removeChild(part.container);
+      part.container.destroy({ children: true });
       this.labelParts.delete(id);
       this.labelCull.remove(id);
     }
+    // M6-V9（§2.1，採納評審 B M4）：NaN 哨兵——強制下一次 applyLodAndCulling 全量重設反向縮放
+    //（新建 container 已即時套用當前 scale，此為雙保險，涵蓋 init 期 camera 尚未建立之路徑）。
+    this.lastLabelScale = Number.NaN;
     // M6-V7（CD4）：城下聚落——每次 setMapData 重建（靜態一次建、只繞本城、close LOD 顯隱、不動計數）。
     if (this.settlements) {
       this.layers.settlements.removeChild(this.settlements.container);
@@ -625,6 +631,49 @@ export class MapRenderer {
     }
     this.settlements = buildSettlements(data.graph, data.castleTier ?? {});
     this.layers.settlements.addChild(this.settlements.container);
+  }
+
+  /**
+   * 建立/更新單一標籤（M6-V9 §2.1/§2.2）：per-label `Container` 掛世界座標，`BitmapText` 子元素
+   * anchor(0.5,0)（頂-中，反向縮放繞錨點對稱）、position=(0, +gap)（螢幕 px）。新建當下即套
+   * `1/camera.scale`（camera 未建立時＝1，由 NaN 哨兵於首次 applyLodAndCulling 補正）。
+   * 只由 `buildStaticDataLayers` 呼叫（labels 靜態化不變）；計數（`rebuildCounts.labels` 以
+   * label id 為單位）由呼叫端負責。
+   */
+  private upsertLabel(
+    id: string,
+    text: string,
+    kind: LabelPart['kind'],
+    spec: LabelStyleSpec,
+    pos: { x: number; y: number },
+  ): void {
+    if (this.layers === null) return;
+    let part = this.labelParts.get(id);
+    if (part === undefined) {
+      const container = new Container();
+      container.label = `label:${kind}`;
+      const bt = new BitmapText({ text, style: labelTextStyle(spec) });
+      bt.anchor.set(0.5, 0);
+      bt.position.set(0, spec.gap ?? 0);
+      if (spec.alpha !== undefined) bt.alpha = spec.alpha;
+      container.addChild(bt);
+      const scale = this.camera?.getState().scale ?? 1;
+      container.scale.set(1 / scale); // §2.1：新建即套反向縮放（採納評審 B M4）
+      this.layers.labels.addChild(container);
+      part = {
+        container,
+        text: bt,
+        kind,
+        pos: { x: pos.x, y: pos.y },
+        lodVisible: false,
+        cullVisible: false,
+        declutterHidden: false,
+      };
+      this.labelParts.set(id, part);
+    }
+    part.text.text = text;
+    part.pos = { x: pos.x, y: pos.y };
+    part.container.position.set(pos.x, pos.y);
   }
 
   /**
@@ -866,7 +915,11 @@ export class MapRenderer {
     // M6-V8（V8D11／MINOR5）：先算 LOD 段；軍隊繪製段落後才 restage（不遞迴——syncArmyChips 不呼
     // applyLodAndCulling）。置於 army 可見性查詢／迴圈之前，使 restage 之 armyCull.upsert／
     // collapsedArmyIds 先於下方查詢生效。
+    const prevStage = this.lodStage;
     const stage = lodStageWithHysteresis(camera.scale, this.lodStage);
+    // M6-V9（§2.5 觸發 3）：lodStage 變（另 setCameraPose 預改 lodStage 之 preset 路徑必伴隨
+    // scale 變，由 scaleChanged 觸發覆蓋，比照 V8D11 之 armyChipStage 手法不倚賴此旗標）。
+    const stageChanged = stage !== prevStage;
     this.lodStage = stage;
     if (this.lodStage !== this.armyChipStage) this.syncArmyChips();
     const halfWidth = this.app.screen.width / (2 * camera.scale);
@@ -892,21 +945,39 @@ export class MapRenderer {
     const nearish = stage !== 'far'; // 取代舊 near（scale>=lodFarScale）
     const detail = stage === 'near'; // 取代舊 shouldShowDetailLabels（scale>=labelScale）
     for (const [id, entry] of this.nodeParts) {
-      // M6-V7（CD1 LOD）：far 僅本城可見（支城/郡隱）；far 本城剪影 ×1.4 由 setLodStage 施於 bodyGfx
-      //（不放大 ring/warn，#3），故此處不再設 container.scale。耐久環/警戒徽記顯隱亦由 setLodStage 切。
+      // M6-V9（§3.2/§3.3）：主城全段可見（far 剪影 ×1.4＝overview 政治歸屬錨點）；支城/郡僅
+      // near（detail）——far/mid 隱，遠景降噪。far 本城剪影 ×1.4 由 setLodStage 施於 bodyGfx
+      //（不放大 ring/warn），故此處不設 container.scale。耐久環/警戒徽記顯隱亦由 setLodStage 切。
       const isMain = entry.kind === 'castle' && this.staticData?.castleTier?.[id] === 'main';
-      entry.part.container.visible = visibleNodes.has(id) && (nearish || isMain);
+      entry.part.container.visible = visibleNodes.has(id) && (isMain || detail);
       entry.part.setLodStage(stage);
+    }
+    // ── M6-V9 標籤：pixel-lock（§2.1）＋LOD 顯示表（§2.3）＋declutter（§2.5） ──
+    // 反向縮放只在 camera.scale 變時遍歷（camera-dirty；NaN 哨兵見 lastLabelScale 註解）。
+    // 遍歷全部標籤而非僅可見者：LOD 隱藏中的標籤若不同步，之後轉可見時 scale 已陳舊。
+    const scaleChanged = camera.scale !== this.lastLabelScale;
+    if (scaleChanged) {
+      for (const part of this.labelParts.values()) part.container.scale.set(1 / camera.scale);
+      this.lastLabelScale = camera.scale;
     }
     for (const [id, part] of this.labelParts) {
       const mainCastle = part.kind === 'castle' && this.staticData?.castleTier?.[id] === 'main';
-      const lodVisible =
+      part.lodVisible =
         part.kind === 'province'
           ? !nearish
           : part.kind === 'road'
             ? detail // 道路名 near-only（04 §3.10.3）
             : nearish && ((part.kind === 'castle' && mainCastle) || detail);
-      part.label.visible = visibleLabels.has(id) && lodVisible;
+      part.cullVisible = visibleLabels.has(id);
+    }
+    // declutter 觸發（§2.5，嚴禁每幀）：idle 下降沿／scale 變／lodStage 變；平移縮放進行中不跑。
+    const idle =
+      this.dragPointerId === null && !this.camera.isInertiaActive() && !this.camera.isAnimating();
+    const idleSettled = idle && !this.lastCameraIdle;
+    this.lastCameraIdle = idle;
+    if (scaleChanged || stageChanged || idleSettled) this.runLabelDeclutter();
+    for (const part of this.labelParts.values()) {
+      part.container.visible = part.cullVisible && part.lodVisible && !part.declutterHidden;
     }
     // M6-V6（V6D4）：roads 層恆顯（修正舊 `visible=nearish` 於 far 整層隱藏，違 04 §3.10.3）；
     // 由 RoadsLayer.setStage 切各 tier 能見度（arterial/sea 恆顯、minor/bridge mid 起、path near）
@@ -931,6 +1002,48 @@ export class MapRenderer {
         : stage === 'far'
           ? MAPVIEW.territoryAlphaFar
           : MAPVIEW.territoryAlpha;
+    }
+  }
+
+  /**
+   * 輕量標籤 declutter（M6-V9 §2.5）：O(可見標籤)、決定論。64×64 CSS px 佔用網格，優先序
+   * 主城(0) > 國名(1) > 支城(2) > 郡(3) > 道路(4)，同級以 id 字典序 tie-break；已佔格者
+   * `declutterHidden=true`。只由 applyLodAndCulling 於 idle 下降沿／scale 變／lodStage 變時
+   * 呼叫（非每幀）。已知取捨（定稿裁決 A-m6）：相鄰桶邊緣仍可 2px 並排，不做 AABB。
+   */
+  private runLabelDeclutter(): void {
+    if (this.app === null || this.camera === null) return;
+    const viewport = { width: this.app.screen.width, height: this.app.screen.height };
+    const candidates: { priority: number; id: string; part: LabelPart }[] = [];
+    for (const [id, part] of this.labelParts) {
+      if (!part.lodVisible || !part.cullVisible) {
+        part.declutterHidden = false; // 非本輪參與者重設，轉可見時由下一次觸發重算
+        continue;
+      }
+      const mainCastle = part.kind === 'castle' && this.staticData?.castleTier?.[id] === 'main';
+      const priority =
+        part.kind === 'castle'
+          ? mainCastle
+            ? 0
+            : 2
+          : part.kind === 'province'
+            ? 1
+            : part.kind === 'district'
+              ? 3
+              : 4;
+      candidates.push({ priority, id, part });
+    }
+    candidates.sort((a, b) => a.priority - b.priority || a.id.localeCompare(b.id));
+    const occupancy = new Set<string>();
+    for (const { part } of candidates) {
+      const s = this.camera.worldToScreen(part.pos, viewport);
+      const cell = `${Math.floor(s.x / LABEL_DECLUTTER_CELL_PX)},${Math.floor(s.y / LABEL_DECLUTTER_CELL_PX)}`;
+      if (occupancy.has(cell)) {
+        part.declutterHidden = true;
+      } else {
+        occupancy.add(cell);
+        part.declutterHidden = false;
+      }
     }
   }
 
@@ -1220,6 +1333,8 @@ export class MapRenderer {
       this.terrainTexturesPending = false;
       this.lodStage = 'far';
       this.armyChipStage = 'far'; // M6-V8（V8D11）：與 lodStage 同步重設，重掛後 init 不因段落差重繪
+      this.lastLabelScale = Number.NaN; // M6-V9：pixel-lock 快取重設（重掛後首次全量重套）
+      this.lastCameraIdle = false; // M6-V9：declutter idle 邊緣偵測重設
       // M6-V6：顯式卸載＋銷毀 RoadsLayer／roadHighlight（勿只依賴 app.destroy children 遞迴）。
       if (this.roadsLayer) {
         this.roadsLayer.container.parent?.removeChild(this.roadsLayer.container);
@@ -1356,6 +1471,16 @@ export class MapRenderer {
     if (this.camera === null) return;
     const { scale } = this.camera.getState();
     this.setCameraPose({ x: worldX, y: worldY }, scale);
+  }
+
+  /**
+   * MiniMap `onNavigate` 接線（M6-V9 §4.4）：鏡頭**補間**至世界座標（非瞬移；沿用 `focusNode`
+   * 之 `camera.focusOn` 路徑，由 onTick 推進，無新 ticker）。scale 取 `MAPVIEW.focusScale` 預設。
+   * S3 由 `MapCanvasHost` 之 `useImperativeHandle` 暴露本方法。
+   */
+  panToWorld(x: number, y: number): void {
+    if (this.camera === null) return;
+    void this.camera.focusOn({ x, y });
   }
 
   /** 重繪計數診斷（決策 D11）：供 dirty-update 測試斷言與 V11 layer-presence smoke 沿用。 */

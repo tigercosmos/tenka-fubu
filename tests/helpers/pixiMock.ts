@@ -146,6 +146,17 @@ export function createPixiMockClasses(
   class BitmapText extends Container {
     text: string;
     style: unknown;
+    alpha = 1;
+    // M6-V9（§2.1）：標籤 pixel-lock 之 `anchor.set(0.5, 0)`（頂-中）於 mock 不 throw；
+    // 比照 Sprite.anchor（真 pixi v8 BitmapText 具 anchor ObservablePoint）。
+    anchor = {
+      x: 0,
+      y: 0,
+      set(x: number, y: number = x): void {
+        this.x = x;
+        this.y = y;
+      },
+    };
     constructor(options: { text: string; style?: unknown }) {
       super();
       this.text = options.text;
