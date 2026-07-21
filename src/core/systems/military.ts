@@ -7,6 +7,7 @@ import type { GameEvent } from '../state/events';
 import { computePath, getStance } from './pathfinding';
 import { pursueRoutedArmies, startFieldCombat } from './fieldCombat';
 import { beginSiege, detachArmyFromSiege } from './siege';
+import { releaseOrphanedCaptives } from './officers';
 import { defaultDiplomacyRow, pairKey } from '../state/serialize';
 import { nearestOwnedCastleByHops, nearestOwnedCastleByTravelTime } from './castleSelection';
 
@@ -100,6 +101,7 @@ function disbandArmy(state: GameState, army: Army, events: GameEvent[]): void {
       officer.armyId = null;
       officer.locationCastleId ??= officer.debutCastleId;
     }
+    events.push(...releaseOrphanedCaptives(state)); // 捕獲方滅亡 → 捕虜就地釋放（INV-18）
     events.push({
       type: 'clan.destroyed',
       day: state.time.day,

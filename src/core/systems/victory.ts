@@ -17,6 +17,7 @@ import { BAL } from '../balance';
 import type { GameEvent } from '../state/events';
 import type { Clan, GameState } from '../state/gameState';
 import type { ClanId, ProvinceId } from '../state/ids';
+import { releaseOrphanedCaptives } from './officers';
 
 /** 天下人條件之「京都所在國」（10 §3.8.1；山城國須玩家本家直接持有，§8 D13）。 */
 export const TENKABITO_PROVINCE_ID = 'prov.yamashiro' as ProvinceId;
@@ -127,17 +128,12 @@ export function destroyClanRemnants(state: GameState, clan: Clan, events: GameEv
   for (const corps of Object.values(state.corps)) {
     if (corps.clanId === clanId) delete state.corps[corps.id];
   }
-  // 5) 武將：serving → 浪人（就地寄寓）；被本勢力關押者就地釋放（§3.8.3-1/2）
+  // 5) 武將：serving → 浪人（就地寄寓）；被本勢力關押者由孤兒捕虜清掃釋放（§3.8.3-1/2）
   for (const officer of Object.values(state.officers)) {
     if (officer.status === 'serving' && officer.clanId === clanId) {
       officer.status = 'ronin';
       officer.clanId = null;
       officer.armyId = null;
-      officer.locationCastleId ??= officer.debutCastleId;
-    } else if (officer.status === 'captive' && officer.capturedByClanId === clanId) {
-      officer.status = 'ronin';
-      officer.clanId = null;
-      officer.capturedByClanId = null;
       officer.locationCastleId ??= officer.debutCastleId;
     }
   }
@@ -169,6 +165,7 @@ export function destroyClanRemnants(state: GameState, clan: Clan, events: GameEv
   }
   clan.alive = false;
   clan.destroyedDay = state.time.day;
+  events.push(...releaseOrphanedCaptives(state)); // 捕獲方滅亡／關押城易主 → 就地釋放（INV-18）
   events.push({
     type: 'clan.destroyed',
     day: state.time.day,

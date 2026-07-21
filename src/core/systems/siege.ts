@@ -5,7 +5,7 @@ import type { ArmyId, CastleId, ClanId } from '../state/ids';
 import type { GameEvent } from '../state/events';
 import { computeArmyPower } from './fieldCombat';
 import { createRngStream } from '../rng';
-import { appointClanSuccessor, dieOfficer } from './officers';
+import { appointClanSuccessor, dieOfficer, releaseOrphanedCaptives } from './officers';
 import { nearestOwnedCastleByTravelTime } from './castleSelection';
 import { garrisonFoodMonthly } from '../domestic';
 
@@ -302,6 +302,9 @@ function fallCastle(
   }
   state.meta.territoryChangedToday = true;
   delete state.sieges[siege.id];
+  // 城陷釋放（06-T7 精神；INV-18）：本城原先關押的他勢力捕虜（捕獲方≠新城主）就地釋放；
+  // 勢力吸收（absorbDefeatedClan）造成的整批城池易主亦由同一清掃收束。
+  events.push(...releaseOrphanedCaptives(state));
   events.push({
     type: 'siege.ended',
     day: state.time.day,

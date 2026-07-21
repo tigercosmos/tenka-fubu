@@ -462,12 +462,51 @@ export function dieOfficer(
         member.armyId = null;
         member.locationCastleId ??= member.debutCastleId;
       }
+      events.push(...releaseOrphanedCaptives(state)); // 捕獲方滅亡 → 捕虜就地釋放（INV-18）
       events.push({
         type: 'clan.destroyed',
         day: state.time.day,
         clanIds: [clan.id],
         clanId: clan.id,
         byClanId: null,
+      });
+    }
+  }
+  return events;
+}
+
+/**
+ * 釋放「孤兒捕虜」（INV-18 的落地修復；06-T7「城陷釋放」精神、10 §3.8.3-2）：
+ * 捕獲方已滅亡、或關押城已不屬捕獲方（落城易主／勢力吸收）→ 就地釋放為浪人。
+ * 冪等全域清掃（O(officers)、id 字典序決定論）；於任何城池易主／勢力滅亡的結算點呼叫。
+ * MVP 先行：正式的捕虜生命週期（登用／處刑／贖回）屬 M6-10，屆時本函式僅剩防禦性角色。
+ */
+export function releaseOrphanedCaptives(state: GameState): GameEvent[] {
+  const events: GameEvent[] = [];
+  for (const officer of Object.values(state.officers).sort((a, b) => a.id.localeCompare(b.id))) {
+    if (officer.status !== 'captive') continue;
+    const captorId = officer.capturedByClanId;
+    const captor = captorId === null ? undefined : state.clans[captorId];
+    const prison =
+      officer.locationCastleId === null ? undefined : state.castles[officer.locationCastleId];
+    const orphaned =
+      captorId === null ||
+      captor?.alive !== true ||
+      prison === undefined ||
+      prison.ownerClanId !== captorId;
+    if (!orphaned) continue;
+    officer.status = 'ronin';
+    officer.clanId = null;
+    officer.capturedByClanId = null;
+    officer.armyId = null;
+    officer.locationCastleId ??= officer.debutCastleId;
+    if (captorId !== null) {
+      events.push({
+        type: 'officer.released',
+        day: state.time.day,
+        clanIds: [captorId],
+        officerId: officer.id,
+        byClanId: captorId,
       });
     }
   }

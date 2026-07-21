@@ -284,6 +284,28 @@ describe('victorySystem（10 §5.6）', () => {
     expect(validateState(state)).toEqual([]);
   });
 
+  it('孤兒捕虜釋放（INV-18 回歸）：關押城易主／捕獲方滅亡皆就地釋放', () => {
+    const state = buildTinyState();
+    // 玩家武將被 beta 關押於 b1；beta 武將被玩家關押於 a1
+    state.officers[OFF_ALPHA_BUSHO]!.status = 'captive';
+    state.officers[OFF_ALPHA_BUSHO]!.capturedByClanId = CLAN_BETA;
+    state.officers[OFF_ALPHA_BUSHO]!.locationCastleId = CASTLE_B1;
+    state.officers[OFF_BETA_BUSHO]!.status = 'captive';
+    state.officers[OFF_BETA_BUSHO]!.clanId = CLAN_BETA;
+    state.officers[OFF_BETA_BUSHO]!.capturedByClanId = CLAN_ALPHA;
+    state.officers[OFF_BETA_BUSHO]!.locationCastleId = CASTLE_A2;
+    expect(validateState(state)).toEqual([]);
+    // beta 覆滅（含 b1 易主）→ Step 12 收尾：兩名捕虜都成為孤兒（捕獲方滅亡／關押城易主皆不成立——
+    // alpha 關押的 beta 武將關押城仍屬 alpha，不受影響；beta 關押的 alpha 武將被釋放）
+    stripBetaHoldings(state);
+    const events = victorySystem(state, []);
+    expect(state.officers[OFF_ALPHA_BUSHO]!.status).toBe('ronin');
+    expect(state.officers[OFF_ALPHA_BUSHO]!.capturedByClanId).toBeNull();
+    expect(state.officers[OFF_BETA_BUSHO]!.status).toBe('captive'); // 合法關押不受清掃影響
+    expect(events.some((e) => e.type === 'officer.released')).toBe(true);
+    expect(validateState(state)).toEqual([]);
+  });
+
   it('advanceDay 整合：Step 12 於固定 13 步序內生效（統一於當日 tick 判定）', () => {
     const state = buildTinyState();
     stripBetaHoldings(state);
