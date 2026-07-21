@@ -23,6 +23,8 @@ import { militaryMovementSystem } from './military';
 import { fieldCombatSystem } from './fieldCombat';
 import { siegeSystem } from './siege';
 import { victorySystem } from './victory';
+import { enrollMonthlyCouncils, runCouncilTick } from './ai/scheduler';
+import { runDaimyoCouncil } from './ai/daimyo';
 
 // ═══════════════════════════════════════════════════════════════════
 // 迴圈機制型別（03 §4.1 canonical）
@@ -152,8 +154,24 @@ function stepOfficers(state: GameState, ctx: TickContext): GameEvent[] {
 function stepProposals(): GameEvent[] {
   return []; // 具申生成與逾期作廢（06/09；M6-13）
 }
-function stepAi(): GameEvent[] {
-  return []; // AI 評定入列/消化（09；排程器骨架見 systems/ai/scheduler.ts M1-24，於後續里程碑接入本步）
+function stepAi(state: GameState): GameEvent[] {
+  // AI 評定入列/消化（03 §3.8.2 排程器＋最小大名 AI 評定本體；MVP 先行，M7 擴充為 09 §3.4 四階段）。
+  // 入列對象＝存活的非玩家勢力；消化每 tick 至多 BAL.aiCouncilsPerTick 家（字典序，決定論）。
+  const events: GameEvent[] = [];
+  const emit: EmitFn = (e) => {
+    events.push(e);
+  };
+  const aiClanIds = Object.values(state.clans)
+    .filter((clan) => clan.alive && clan.id !== state.meta.playerClanId)
+    .map((clan) => clan.id);
+  if (state.time.dayOfMonth === 1) {
+    enrollMonthlyCouncils(state.ai, aiClanIds, state.time.day);
+  }
+  const aiSet = new Set(aiClanIds);
+  runCouncilTick(state.ai, state.time.day, (clanId) => {
+    if (aiSet.has(clanId)) runDaimyoCouncil(state, clanId, emit);
+  });
+  return events;
 }
 function stepVictory(state: GameState, ctx: TickContext): GameEvent[] {
   // 勝敗檢查（10 §5.6；MVP 先行實作，見 systems/victory.ts 檔頭）：

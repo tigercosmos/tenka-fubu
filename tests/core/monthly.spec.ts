@@ -49,12 +49,13 @@ describe('月結整合（M3 內政接線，03 §3.6／18-roadmap M3）', () => {
     expect(events.filter((event) => event.type === 'economy.income')).toHaveLength(4);
     expect(events.some((event) => event.type === 'conscript.completed')).toBe(true);
 
-    // 月結 hook：僅兩個月初 tick 觸發 autoPauseReasons=['monthStart']，其餘 58 個 tick 恆空。
-    const withReasons = autoPauseByDay.filter((d) => d.reasons.length > 0);
-    expect(withReasons).toEqual([
-      { day: may1, reasons: ['monthStart'] },
-      { day: jun1, reasons: ['monthStart'] },
-    ]);
+    // 月結 hook：恰兩個月初 tick 觸發 monthStart。MVP 大名 AI 落地後 beta 於 5/1 評定出陣，
+    // 途中可能對玩家城發起攻城（siegeOnPlayer 等其他自動暫停原因屬 AI 行為的正當產物），
+    // 故僅斷言 monthStart 的日集合精確等於兩個月初、且月初以外的 tick 不含 monthStart。
+    const monthStartDays = autoPauseByDay
+      .filter((d) => d.reasons.includes('monthStart'))
+      .map((d) => d.day);
+    expect(monthStartDays).toEqual([may1, jun1]);
   });
 
   it('autosaveDue：僅兩個月初 tick 為 monthly，其餘 58 個 tick 為 null（03 §3.9.1）', () => {

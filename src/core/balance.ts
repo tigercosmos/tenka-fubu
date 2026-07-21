@@ -336,6 +336,15 @@ export const BAL = {
   /** M5 tactical battle producer and auto-pause gate; enabled once the battle core is available. */
   featureKassenEnabled: true,
 
+  // ── 最小大名 AI（MVP 先行實作；09 完整評定屬 M7，屆時與 15 主表對齊） ──
+  aiMaxConcurrentArmies: 2, // 支；單一 AI 勢力同時在外部隊數上限（含出征/歸還中）
+  aiGarrisonFloorTroops: 500, // 人；AI 出陣後城中至少保留的守軍
+  aiAttackRatioBase: 1.8, // 倍；aggression=0 時 AI 發起攻擊所需的我攻/敵守兵力比
+  aiAttackRatioAggressionSpan: 0.6, // 倍；aggression 由 0→100 時攻擊門檻線性下修量（100 時 1.2 倍）
+  aiAttackMaxTravelDays: 10, // 日；AI 出陣目標的最大行軍日數（超出視為非鄰接、不列入候選）
+  aiCarryDays: 60, // 日；AI 出陣攜行糧目標日數（clamp 於 min/maxCarryDays 之間）
+  aiFoodReserveRatio: 0.5, // 比率；AI 出陣後城中至少保留的兵糧比例（防守軍斷糧）
+
   // ── 勝敗判定（10 §5.7；MVP 先行實作，原屬 M8-9） ──
   victoryKokudakaSharePct: 50, // %；天下人條件：支配圈石高 ≥ 全國石高之此百分比（10 §3.8.1）
   victoryTenkabitoMonths: 12, // 月；天下人條件連續成立月數門檻（10 §3.8.1）

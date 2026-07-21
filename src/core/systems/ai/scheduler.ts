@@ -44,11 +44,18 @@ export function enrollMonthlyCouncils(
 
 /**
  * 消化游標（03 §3.8.2「消化」／§8-D8）：每 tick 呼叫一次（含入列當日）。
- * 依 clanId 字典序取至多 `BAL.aiCouncilsPerTick` 家仍有待辦評定的勢力，各執行一次評定
- * （本體空殼，見檔頭說明），使 40 家於 10 tick 內各評定恰一次、不重不漏。
+ * 依 clanId 字典序取至多 `BAL.aiCouncilsPerTick` 家仍有待辦評定的勢力，各執行一次評定，
+ * 使 40 家於 10 tick 內各評定恰一次、不重不漏。
+ * `execute`（MVP 起）：評定本體回呼——被排到的勢力在標記完成前執行實際決策
+ * （最小大名 AI 見 ai/daimyo.ts；M7-4 改為 09 §3.4 逐階段消化時本參數重構）。
+ * 未提供時維持 M1 骨架行為（直接視為完成，不下達任何 Command）。
  * 回傳本 tick 實際完成評定的 clanId（決定論，供測試／debug 使用）。
  */
-export function runCouncilTick(ai: Pick<AiState, 'clans'>, today: number): ClanId[] {
+export function runCouncilTick(
+  ai: Pick<AiState, 'clans'>,
+  today: number,
+  execute?: (clanId: ClanId) => void,
+): ClanId[] {
   const due = Object.values(ai.clans)
     .filter((clan) => clan.pendingPhases.length > 0)
     .sort((a, b) => (a.clanId < b.clanId ? -1 : a.clanId > b.clanId ? 1 : 0));
@@ -58,6 +65,7 @@ export function runCouncilTick(ai: Pick<AiState, 'clans'>, today: number): ClanI
     if (executed.length >= BAL.aiCouncilsPerTick) {
       break;
     }
+    execute?.(clan.clanId);
     runCouncilStub(clan, today);
     executed.push(clan.clanId);
   }

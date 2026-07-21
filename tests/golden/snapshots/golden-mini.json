@@ -6,12 +6,12 @@
   "checkpoints": [
     {
       "day": 360,
-      "hash": "3e55744eeee3b959"
+      "hash": "2aabc0500fd7ff22"
     },
     {
       "day": 720,
-      "hash": "f7956a0fbd6f1eee"
+      "hash": "11710ab9ea6519bb"
     }
   ],
-  "balanceHash": "ff5eb9e09e92d37a"
+  "balanceHash": "2ff761ae72508a69"
 }

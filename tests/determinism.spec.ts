@@ -185,7 +185,12 @@ describe('DT2 — 含指令的重跑（17 §3.5.2）', () => {
       day40Command: marchCommand(),
     });
     expect(run.rejectedCommandTypes).toEqual([]);
-    expect(Object.keys(run.state.armies)).toHaveLength(1);
+    // 玩家指令產生恰一支 alpha 部隊；beta 部隊為 MVP 大名 AI 自主出陣的正當產物（Step 11），
+    // 不走 Step 1 指令管線，故不計入本測試的投遞驗證。
+    const alphaArmies = Object.values(run.state.armies).filter(
+      (army) => army.clanId === CLAN_ALPHA,
+    );
+    expect(alphaArmies).toHaveLength(1);
     expect(run.state.meta.lastAppliedCmdSeq).toBe(2);
   });
 

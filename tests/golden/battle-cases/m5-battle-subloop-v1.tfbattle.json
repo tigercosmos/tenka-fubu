@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "scenarioId": "mini",
   "seed": 42,
-  "balanceHash": "ff5eb9e09e92d37a",
+  "balanceHash": "2ff761ae72508a69",
   "initial": {
     "layoutId": "mini-duel-v1",
     "battleId": "battle.000001",
