@@ -1,4 +1,4 @@
-# WIP — 實作交接文件（更新 2026-07-17）
+# WIP — 實作交接文件（更新 2026-07-22）
 
 > 給下一個接手的 AI／未來 session：本文件描述《天下布武》**實作階段**的當前進度與剩餘工作。
 > 規格階段已於 2026-07-11 收斂完成（21 份 plan 定稿、E-01…E-80 全數消化、七輪裁決記錄於 `plan/02 §8`）。
@@ -17,6 +17,36 @@
   orchestrator 無法直接讀用量表，以代理訊號執行：任一 agent 撞 limit 錯誤＝立即停（收攏已
   commit 狀態、更新本檔）；session 已跑數小時時傾向「收尾當前階段」而非開新階段；暫停期以長
   wakeup 待機，重啟艦隊前先以單一 trivial agent 探測額度。
+
+## MVP 交付記錄（2026-07-22；使用者指示「先完成可通關 MVP，再回頭照 plan 補完」）
+
+使用者 2026-07-22 指示：**先把遊戲做成可通關的 MVP，之後再回到 plan 補完整版**；每步獨立
+commit、每步 ≤2000 LOC（盡量 ≤1000）、每步不破壞整體。四步全數 landed（直接 commit main）：
+
+| Commit            | 內容                                                                                                                                                                                                                           | 提前自              |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
+| `68b84c0` [MVP-1] | 勝敗判定 victorySystem（Step 12：滅亡收尾安全網／no-heir·no-castle 敗北／天下統一／天下人 12 月＋山城國空集防真空）＋acknowledgeGameOver＋EndingScreen＋App 接線；BAL victory* 2 常數                                          | M8-9/M8-10          |
+| `c045dc3` [MVP-2] | 最小大名 AI：M1 排程器接上評定本體回呼；每月至多一次出陣（最強城→最弱可及敵城、persona.aggression 調門檻、守軍/糧秣保留、走玩家同一 validate/apply 管線、零亂數決定論）；BAL ai* 7 常數                                        | M7（09 §3.4 子集）  |
+| `e4b711f` [MVP-3] | 存讀檔：core/save codec（SaveFile 信封＋錯誤碼＋invariants 深度防線）＋遷移框架（v1 空鏈）＋app localStorage 槽位 auto:1/quick:1＋月結自動存檔（autosaveDue hook）＋標題「繼續」＋Ctrl+S/F9＋gameEpoch 強制 MainScreen remount | M8-12/13/14/17 子集 |
+| `20efe4d` [MVP-4] | 修復模擬抓到的既有 INV-18（關押城易主/捕獲方滅亡）→ releaseOrphanedCaptives 四結算點清掃                                                                                                                                       | —（缺陷修復）       |
+
+- **golden/replay 刻意更新兩輪**（MVP-1 stats 寫入＋BAL、MVP-2 AI 活動）：golden-mini day360/720、
+  m4 replay finalHash 重算；policy replay 與 battle transcript 僅 BAL hash（重放驗證 checkpoint 不變）。
+- **通關性驗證**（scratchpad 模擬）：s1560 全 AI 2 年（seed 7）＝6 場野戰、20 次落城、41→12 家存活、
+  validateState 0 違規；tiny 雙勢力對稱體質會僵持（AI 攻擊門檻 1.5× 對稱成長打不動）——正常，
+  通關動力來自玩家主動征服；平衡（AI 併吞速度偏快）留 M9-2 simulate 調。
+- **MVP 已知簡化**（回 plan 補完時的抵充清單）：battlesFought/Won 統計在 Step 12 直接消費
+  battle.ended（M8-3 事件引擎落地時遷回 Step 3 hook）；存檔介質 localStorage（M8-13 換
+  idb-keyval＋lz-string，鍵名契約已按 16 §3.2 固定）；槽位僅 auto:1/quick:1（無 manual、無季輪替）；
+  quick load 用 window.confirm、無 toast（M8-20 SystemMenu/存讀檔 UI）；AI 無內政/外交/反應層
+  （M7）；EndingScreen 無天下人進度 UI。
+- **bench**：mean 0.46ms（AI 前 0.30）、p99 ~8ms（評定日尖峰＝buildMapGraph per council）；
+  M9-4 若需壓 p99，先做「graph 每 tick 共用」再談其他。
+- gate 全綠基準：**1472 tests**／e2e 5/5（visual baseline 未動）／typecheck/lint/validate:data/build。
+- **下一步＝回到 plan 補完整版**：依 18 §3.9.1 續作 M6-V9（HUD 組裝）→ V10 → V11 gate，
+  再開 M6 功能（M6-1…依賴 M6-V11 不變）；MVP 先行件於對應完整任務（M7 AI 四階段、
+  M8 事件/存讀檔/畫面）落地時以完整版取代，抵充清單見上。V8 review 債與 V11 視覺 gate
+  收緊（見下方 M6-V8 記錄）仍在。
 
 ## 目前進度（里程碑）
 
