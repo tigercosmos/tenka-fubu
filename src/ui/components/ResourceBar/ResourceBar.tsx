@@ -92,7 +92,8 @@ function Item({
 export function ResourceBar(props: ResourceBarProps) {
   return (
     <div className={styles.root}>
-      <time>{formatDate(props.date)}</time>
+      {/* e2e 契約 data-testid（M6-V9 §4.2／§5；17 §6.2）：hud-date 隨 ResourceBar 遷移至此。 */}
+      <time data-testid="hud-date">{formatDate(props.date)}</time>
       <Item icon="coin" label={t('ui.hud.gold')} value={props.gold} delta={props.goldDelta} />
       <Item icon="rice" label={t('ui.hud.food')} value={props.foodTotal} delta={props.foodDelta} />
       <Item icon="people" label={t('ui.hud.soldiers')} value={props.soldiersTotal}>

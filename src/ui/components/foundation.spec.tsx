@@ -114,4 +114,16 @@ describe('UI foundation components', () => {
     render(<StatBar label="統率" value={112} />);
     expect(screen.getByRole('img', { name: '統率 112' })).not.toBeNull();
   });
+
+  it('StatBar max=100 快覽尺：滿值填滿整條，非 0..120 能力尺的 83%（M6-V9 review 補跑）', () => {
+    const { container } = render(<StatBar label="耐久" value={100} max={100} showValue={false} />);
+    const widths = [...container.querySelectorAll('span')].map((span) => span.style.width);
+    expect(widths).toContain('100%');
+  });
+
+  it('StatBar showValue=false 不外洩尾端數字（可見文字與 aria 皆僅 label）', () => {
+    const { container } = render(<StatBar label="士氣" value={83} max={100} showValue={false} />);
+    expect(screen.getByRole('img', { name: '士氣' })).not.toBeNull();
+    expect(container.textContent).toBe('士氣');
+  });
 });

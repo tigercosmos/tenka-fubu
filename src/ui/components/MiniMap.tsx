@@ -53,6 +53,12 @@ export interface MiniMapProps {
   viewport: MiniMapViewport;
   /** 點擊／拖曳 → 主鏡頭中心移至該世界座標（呼叫端接 `camera.focusOn`，見檔頭說明）。 */
   onNavigate: (worldX: number, worldY: number) => void;
+  /**
+   * 距視窗底緣的 px 偏移（預設 `TOKENS.space.space3`）。底部情境快覽條開啟時由呼叫端抬高，
+   * 避免 1280×720 下與 ContextPanel 重疊（11 §3.3 的 1920 佈局中面板寬 1536、小地圖在其右側
+   * 不相疊；窄版面改以垂直讓位等價落實，M6-V9 收尾裁決）。
+   */
+  bottomOffset?: number;
 }
 
 /** canvas 元素相對版面的本地座標（小地圖座標系，左上為原點）。 */
@@ -68,6 +74,7 @@ export function MiniMap({
   size = UI.minimapSizePx,
   viewport,
   onNavigate,
+  bottomOffset,
 }: MiniMapProps): ReactElement {
   const baseCanvasRef = useRef<HTMLCanvasElement>(null);
   const frameCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -150,10 +157,11 @@ export function MiniMap({
       style={{
         position: 'fixed',
         right: TOKENS.space.space3,
-        bottom: TOKENS.space.space3,
+        bottom: bottomOffset ?? TOKENS.space.space3,
         width: size,
         height: size,
         zIndex: 'var(--z-hud)',
+        transition: 'bottom var(--duration-normal) var(--ease-out)',
       }}
     >
       <canvas

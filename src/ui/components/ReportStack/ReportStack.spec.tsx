@@ -18,6 +18,18 @@ describe('ReportStack', () => {
     vi.useRealTimers();
   });
 
+  it('renders no header/collapse button when there are no notifications（M6-V9 review 補跑：空態淨空）', () => {
+    const onDismiss = vi.fn();
+    const view = render(<ReportStack items={[]} onDismiss={onDismiss} />);
+    expect(screen.queryByRole('button')).toBeNull();
+
+    view.rerender(<ReportStack items={[toast('1')]} onDismiss={onDismiss} />);
+    expect(screen.getByRole('button', { name: '通報 1 則' })).not.toBeNull();
+
+    view.rerender(<ReportStack items={[]} onDismiss={onDismiss} />);
+    expect(screen.queryByRole('button', { name: '通報 0 則' })).toBeNull();
+  });
+
   it('shows only max items, evicts overflow non-sticky items, and retains sticky items for refill', () => {
     const onDismiss = vi.fn();
     const first = [toast('1'), toast('2'), toast('3'), toast('4'), toast('5'), toast('6')];

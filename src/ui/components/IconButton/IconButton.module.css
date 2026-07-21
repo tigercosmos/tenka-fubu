@@ -28,6 +28,11 @@
   width: 32px;
   height: 32px;
 }
+.lg {
+  /* M6-V9 §4.5：左欄四域鈕 56×56 */
+  width: 56px;
+  height: 56px;
+}
 .toggled {
   color: var(--accent-gold-text);
   background: color-mix(in srgb, var(--accent-gold) 20%, transparent);

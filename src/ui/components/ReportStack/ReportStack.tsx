@@ -124,6 +124,8 @@ function Toast({ item, onDismiss }: ToastProps) {
 
 export function ReportStack({ items, max = UI.toastMaxVisible, onDismiss }: ReportStackProps) {
   const evicted = useRef(new Set<string>());
+  // M6-V9 §4.7：可收合（本地 UI 態，不進 store）；收合時只留計數 pill。
+  const [collapsed, setCollapsed] = useState(false);
   const overflow = items.slice(Math.max(0, max));
 
   useEffect(() => {
@@ -140,11 +142,26 @@ export function ReportStack({ items, max = UI.toastMaxVisible, onDismiss }: Repo
     }
   }, [onDismiss, overflow]);
 
+  const countText = t('ui.hud.reportCount', { count: items.length });
   return (
     <section className={styles.stack} aria-live="polite">
-      {items.slice(0, Math.max(0, max)).map((item) => (
-        <Toast key={item.id} item={item} onDismiss={onDismiss} />
-      ))}
+      {/* [M6-V9 review 補跑] 零通報時不畫 header/chevron——維持空態淨空（section 保留為
+          aria-live 容器）；有通報時才提供收合/計數。 */}
+      {items.length > 0 && (
+        <div className={styles.header}>
+          {collapsed && <span className={styles.countPill}>{countText}</span>}
+          <IconButton
+            icon={collapsed ? 'chevron-down' : 'chevron-up'}
+            ariaLabel={countText}
+            size="sm"
+            onClick={() => setCollapsed((value) => !value)}
+          />
+        </div>
+      )}
+      {!collapsed &&
+        items
+          .slice(0, Math.max(0, max))
+          .map((item) => <Toast key={item.id} item={item} onDismiss={onDismiss} />)}
     </section>
   );
 }

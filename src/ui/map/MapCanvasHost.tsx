@@ -16,7 +16,7 @@
 // unmount 時取消登記，供 `window.__TENKA_DEBUG__.setMapCameraPreset`／`waitMapIdle`（src/app/
 // debug.ts）取得活躍渲染器以驅動決定論截圖（17 §3.9.3）。
 
-import { useEffect, useRef, type ReactElement } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef, type ReactElement } from 'react';
 import { MapRenderer } from './MapRenderer';
 import { registerDebugMapRenderer, unregisterDebugMapRenderer } from './debugMapBridge';
 import type {
@@ -26,6 +26,12 @@ import type {
   MapStaticData,
   MapViewState,
 } from './mapViewTypes';
+
+/** M6-V9 §4.4：對外命令式握把（MainScreen 端 ref 取名 `mapHandleRef`，與內部 `hostRef` 區隔）。 */
+export interface MapHandle {
+  /** 鏡頭補間至世界座標（MiniMap `onNavigate` 接線；`MapRenderer.panToWorld`）。 */
+  panToWorld(x: number, y: number): void;
+}
 
 export interface MapCanvasHostProps {
   /** 渲染器對外事件的接收者（React 收到後轉 Command 丟入佇列，01 §3.6.1／§3.12.2）。 */
@@ -41,18 +47,32 @@ export interface MapCanvasHostProps {
   interactionMode?: MapInteractionMode | undefined;
 }
 
-export function MapCanvasHost({
-  onMapEvent,
-  staticData,
-  viewState,
-  focusNodeId,
-  pathPreview,
-  interactionMode = 'idle',
-}: MapCanvasHostProps): ReactElement {
+export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function MapCanvasHost(
+  {
+    onMapEvent,
+    staticData,
+    viewState,
+    focusNodeId,
+    pathPreview,
+    interactionMode = 'idle',
+  }: MapCanvasHostProps,
+  ref,
+): ReactElement {
   const hostRef = useRef<HTMLDivElement>(null);
   const onMapEventRef = useRef(onMapEvent);
   onMapEventRef.current = onMapEvent;
   const rendererRef = useRef<MapRenderer | null>(null);
+
+  // M6-V9 §4.4：只暴露 panToWorld（補間導航）；renderer 尚未 init 完成時為安全 no-op。
+  useImperativeHandle(
+    ref,
+    () => ({
+      panToWorld(x: number, y: number): void {
+        rendererRef.current?.panToWorld(x, y);
+      },
+    }),
+    [],
+  );
 
   useEffect(() => {
     const host = hostRef.current;
@@ -106,4 +126,4 @@ export function MapCanvasHost({
       style={{ position: 'fixed', inset: 0, zIndex: 'var(--z-map)' }}
     />
   );
-}
+});

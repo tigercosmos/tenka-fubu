@@ -385,6 +385,24 @@ export const zhTW = {
   'ui.rail.policy': '政策',
   'ui.map.path.unreachable': '無法抵達',
 
+  // ── M6-V9 §4.7bis：HUD 組裝（ResourceBar 增減明細／通報收合／情境面板／系統選單）──
+  'ui.hud.income': '收入',
+  'ui.hud.salary': '俸祿',
+  'ui.hud.policyUpkeep': '政策維持',
+  'ui.hud.foodConsume': '每月消耗',
+  'ui.hud.harvestAmortized': '收成攤提',
+  'ui.hud.harvestNext': '下次收成',
+  'ui.hud.reportCount': '通報 {count} 則',
+  'ui.context.transport.locked': '輸送尚未開放',
+  'ui.context.castle.panel': '城面板',
+  'ui.context.district.panel': '郡面板',
+  'ui.system.menu': '系統選單',
+  // 選配（M6-V9 本版不接，季節字預留）：
+  'ui.season.spring': '春',
+  'ui.season.summer': '夏',
+  'ui.season.autumn': '秋',
+  'ui.season.winter': '冬',
+
   // ── 13 §6.6：軍事（M4 出陣編成／攻城 overlay）──
   'ui.march.title': '出陣編成',
   'ui.march.origin': '出陣城：{castle}',

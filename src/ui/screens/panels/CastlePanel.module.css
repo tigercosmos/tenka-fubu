@@ -85,20 +85,26 @@
   display: flex;
   gap: var(--space-5);
 }
+/* M6-V9 §5：--accent-red／--danger 為未定義 var（tokens 無此二名），改 vermilion 家族
+   （art-bible §9 錯誤/危險語意）；出陣鈕實心朱底＋washi 字，並補 hover/active 互動回饋。 */
 .primary {
   min-height: 56px;
   border: var(--border-strong);
-  background: var(--accent-red);
+  background: var(--accent-vermilion);
   color: var(--washi-100);
   font: inherit;
   font-weight: 700;
   cursor: pointer;
+}
+.primary:hover:not(:disabled),
+.primary:active:not(:disabled) {
+  background: var(--accent-vermilion-bright);
 }
 .primary:disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }
 .error {
-  color: var(--danger);
+  color: var(--accent-vermilion-bright);
   font-weight: 700;
 }

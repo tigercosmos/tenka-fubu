@@ -38,12 +38,13 @@
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+/* M6-V9 §5：--accent-red／--danger 為未定義 var，改 vermilion 家族（art-bible §9）。 */
 .danger progress {
-  accent-color: var(--accent-red);
+  accent-color: var(--accent-vermilion);
 }
 .warning,
 .error {
-  color: var(--danger);
+  color: var(--accent-vermilion-bright);
 }
 .focus {
   display: flex;

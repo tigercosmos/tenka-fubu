@@ -106,6 +106,16 @@ vi.mock('pixi.js', () => {
   }
   class BitmapText extends Container {
     text: string;
+    alpha = 1;
+    // M6-V9（§2.1）：標籤 pixel-lock 之 `anchor.set(0.5, 0)` 於 mock 不 throw（真 pixi v8 具 anchor）。
+    anchor = {
+      x: 0,
+      y: 0,
+      set(x: number, y: number = x): void {
+        this.x = x;
+        this.y = y;
+      },
+    };
     constructor(options: { text: string }) {
       super();
       this.text = options.text;
