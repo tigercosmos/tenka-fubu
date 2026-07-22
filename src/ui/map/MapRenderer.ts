@@ -49,11 +49,19 @@ import { createRoadHighlight } from './roads/roadHighlight';
 import {
   armyStackKey,
   armyWorldPos,
+  buildNameplateSig,
   buildNodeSig,
   buildOwnerByNode,
+  diffNameplateSig,
   diffNodeSig,
   diffOwnerByNode,
 } from './dirty';
+import {
+  createCastleNameplate,
+  type CastleNameplatePart,
+  type CastleNameplateProps,
+} from './sceneParts/castleNameplate';
+import { NAMEPLATE_GEOMETRY } from './sceneParts/nameplateStyle';
 import {
   createCastleNode,
   type CastleNodePart,
@@ -76,6 +84,7 @@ import { lodStageForScale, lodStageWithHysteresis, SpatialCullIndex, type LodSta
 import { buildTerritoryGrid, recolorTerritory, type TerritoryGrid } from './territoryGrid';
 import { createTerrainSprite, createWaterFeatures } from './terrain/terrainDraw';
 import { MapAssetLoader } from '@ui/assets/loader';
+import type { CastleTier } from '@core/state/enums';
 import type { MapGraph } from '@core/state/mapGraph';
 import type {
   DebugOverlayFlags,
@@ -106,6 +115,24 @@ interface LabelPart {
   declutterHidden: boolean;
 }
 
+/**
+ * 名牌條目（M6-V9b §2.9）：per-castle `CastleNameplatePart` 掛 `layers.nameplates`（世界座標＋
+ * pixel-lock 反向縮放，平行 `lastNameplateScale`）。`lodVisible`/`cullVisible`/`declutterHidden`
+ * 三旗標於 `applyLodAndCulling` 合成最終 `container.visible`（比照 LabelPart）；`tier`/`warning`/
+ * `isPlayer` 為 declutter 優先序與破例（§2.8：選取我方城/告急/目標恆顯）之快取。
+ */
+interface NameplateEntry {
+  part: CastleNameplatePart;
+  /** 節點錨點世界座標（declutter worldToScreen 用；名牌容器另加 worldGap 偏移）。 */
+  pos: { x: number; y: number };
+  tier: CastleTier;
+  warning: 'none' | 'threatened' | 'critical';
+  isPlayer: boolean;
+  lodVisible: boolean;
+  cullVisible: boolean;
+  declutterHidden: boolean;
+}
+
 /** 空的動態視圖（無主全圖）；setMapData 早於 updateView 到達時的預設，使 nodeMarkers 可先以中性色繪出。 */
 const EMPTY_VIEW: MapViewState = {
   day: 0,
@@ -127,6 +154,9 @@ export interface MapRebuildCounts {
   nodeMarkers: number;
   territory: number;
   armyChips: number;
+  /** M6-V9b §2.9：城名牌建/毀（`buildStaticDataLayers`）以名牌 id 為單位計數；與 `labels` 分離。
+   *  每 tick 名牌簽章 diff 之冪等 `update` 與反向縮放/declutter（camera-dirty）**不**計入。 */
+  nameplates: number;
 }
 
 export class MapRenderer {
@@ -208,6 +238,20 @@ export class MapRenderer {
   private settlements: ReturnType<typeof buildSettlements> | null = null;
   private readonly labelParts = new Map<string, LabelPart>();
   /**
+   * M6-V9b（DD-A0）：城名牌 part 存放處（castleId → NameplateEntry），於 `buildStaticDataLayers`
+   * 隨城節點一併建立（城名移出 `labelParts`），每 tick 由**名牌專屬簽章** diff（`prevNameplateSig`）
+   * 驅動冪等 `update`（§2.9；與 node 簽章路徑完全分離——node 簽章不含 soldiers）。
+   */
+  private readonly nameplateParts = new Map<string, NameplateEntry>();
+  /** M6-V9b §2.9：名牌簽章 diff 之前一 view 簽章查表（`null`＝全部 dirty；比照 `prevNodeSig`）。 */
+  private prevNameplateSig: Map<string, string> | null = null;
+  /**
+   * M6-V9b §2.9：名牌 pixel-lock 反向縮放快取（平行 `lastLabelScale`，同步觸發；NaN 哨兵語意同）。
+   */
+  private lastNameplateScale = Number.NaN;
+  /** M6-V9b §3.4：出陣目標城 id（`setMarchTarget`）；該名牌金框高亮＋declutter 破例恆顯。 */
+  private marchTargetId: string | null = null;
+  /**
    * M6-V9（§2.1）pixel-lock 反向縮放快取：`applyLodAndCulling` 於 `camera.scale !== lastLabelScale`
    * 時才遍歷標籤設 `container.scale = 1/scale`（camera-dirty，不動 `rebuildCounts`）。
    * `buildStaticDataLayers` 尾重設為 NaN（哨兵：NaN !== 任何值 → 下一次必全量重設，杜絕
@@ -222,6 +266,7 @@ export class MapRenderer {
   private readonly siegeCull = new SpatialCullIndex<string>();
   private readonly nodeCull = new SpatialCullIndex<string>();
   private readonly labelCull = new SpatialCullIndex<string>();
+  private readonly nameplateCull = new SpatialCullIndex<string>();
   private collapsedArmyIds = new Set<string>();
   /**
    * nodeMarkers owner dirty 判定用之前一 view owner 查表（M6-V4 §3.3.3）；`null` 視為「全部
@@ -235,6 +280,7 @@ export class MapRenderer {
     nodeMarkers: 0,
     territory: 0,
     armyChips: 0,
+    nameplates: 0,
   };
   private siegeElapsedMs = 0;
   private reducedMotion = false;
@@ -433,6 +479,7 @@ export class MapRenderer {
     this.reconstructTerrainLayers();
     this.prevOwnerByNode = null; // 首繪保證（§11.1）：下一次 updateView 視全部 node 為 dirty
     this.prevNodeSig = null; // M6-V7：同上，節點簽章 diff 首繪保證
+    this.prevNameplateSig = null; // M6-V9b §2.9：名牌簽章 diff 首繪保證（比照 prevNodeSig）
     this.redrawMilitaryObjects();
     this.redrawPathPreview();
     // 鏡頭：初始置中全圖（fit scale），使用者以滾輪／拖曳操作，focusNode 補間聚焦（04 §3.11）。
@@ -471,6 +518,7 @@ export class MapRenderer {
       roads: containers.roads as Container,
       settlements: containers.settlements as Container,
       nodeMarkers: containers.nodeMarkers as Container,
+      nameplates: containers.nameplates as Container,
       armies: containers.armies as Container,
       selectionAndPath: containers.selectionAndPath as Container,
       effects: containers.effects as Container,
@@ -509,10 +557,17 @@ export class MapRenderer {
     if (data === null) {
       for (const entry of this.nodeParts.values()) entry.part.destroy();
       for (const part of this.labelParts.values()) part.container.destroy({ children: true });
+      // M6-V9b：清城名牌（比照 node/label；cull 索引一併移除）。
+      for (const [id, entry] of this.nameplateParts) {
+        entry.part.destroy();
+        this.nameplateCull.remove(id);
+      }
       this.layers.nodeMarkers.removeChildren();
+      this.layers.nameplates.removeChildren();
       this.layers.labels.removeChildren();
       this.nodeParts.clear();
       this.labelParts.clear();
+      this.nameplateParts.clear();
       // M6-V7：清城下聚落＋隱節點選取環（node/label 之清理如上）。
       if (this.settlements) {
         this.layers.settlements.removeChild(this.settlements.container);
@@ -540,6 +595,7 @@ export class MapRenderer {
     const names = data.names ?? {};
     const active = new Set<string>();
     const activeLabels = new Set<string>();
+    const activeNameplates = new Set<string>();
     for (const node of [...data.graph.nodes.values()].sort((a, b) => a.id.localeCompare(b.id))) {
       active.add(node.id);
       let entry = this.nodeParts.get(node.id);
@@ -559,17 +615,46 @@ export class MapRenderer {
 
       const text = names[node.id];
       if (text !== undefined) {
-        activeLabels.add(node.id);
-        // M6-V9（§2.3/§2.4）：類別樣式——城依 tier 取 main/branch、郡取 district；gap＝螢幕 px。
-        const spec =
-          node.kind === 'castle'
-            ? data.castleTier?.[node.id] === 'main'
-              ? LABEL_STYLE.mainCastle
-              : LABEL_STYLE.branchCastle
-            : LABEL_STYLE.district;
-        this.upsertLabel(node.id, text, node.kind, spec, node.pos);
-        this.labelCull.upsert(node.id, node.pos.x, node.pos.y);
-        this.rebuildCounts.labels += 1;
+        if (node.kind === 'castle') {
+          // M6-V9b（DD-A0）：城名移出 labelParts——改建和紙綬帶名牌 part（nameplates 圖層、
+          // 名牌專屬簽章 diff 驅動更新；建/毀計入 rebuildCounts.nameplates，與 labels 分離）。
+          activeNameplates.add(node.id);
+          let np = this.nameplateParts.get(node.id);
+          if (np === undefined) {
+            const part = createCastleNameplate();
+            this.layers.nameplates.addChild(part.container);
+            np = {
+              part,
+              pos: { x: node.pos.x, y: node.pos.y },
+              tier: 'branch',
+              warning: 'none',
+              isPlayer: false,
+              lodVisible: false,
+              cullVisible: false,
+              declutterHidden: false,
+            };
+            this.nameplateParts.set(node.id, np);
+          }
+          np.pos = { x: node.pos.x, y: node.pos.y };
+          // 首繪（比照節點；供 init 無後續 updateView 時仍能首幀繪出）＋LOD＋目標高亮同步。
+          const props = this.buildNameplateProps(node.id);
+          np.tier = props.tier;
+          np.warning = props.warning;
+          np.isPlayer = props.isPlayer;
+          np.part.update(props);
+          np.part.setLodStage(this.lodStage);
+          np.part.setTargetHighlight(this.marchTargetId === node.id);
+          // §2.9：新建即套反向縮放（camera 未建立時＝1，由 NaN 哨兵於首次 applyLodAndCulling 補正）。
+          np.part.container.scale.set(1 / (this.camera?.getState().scale ?? 1));
+          this.nameplateCull.upsert(node.id, node.pos.x, node.pos.y);
+          this.rebuildCounts.nameplates += 1;
+        } else {
+          activeLabels.add(node.id);
+          // M6-V9（§2.3/§2.4）：郡標籤維持 V9 labelParts 樣式不動（M6-V9b：城名已移出）。
+          this.upsertLabel(node.id, text, node.kind, LABEL_STYLE.district, node.pos);
+          this.labelCull.upsert(node.id, node.pos.x, node.pos.y);
+          this.rebuildCounts.labels += 1;
+        }
       }
     }
     // M6-V6（§5.1）：道路名標籤（`edge.name`）於多段線弧長中點、沿真法線偏上位移建 BitmapText
@@ -620,9 +705,19 @@ export class MapRenderer {
       this.labelParts.delete(id);
       this.labelCull.remove(id);
     }
+    // M6-V9b：名牌 stale 清理（graph swap 後不在新圖之城；毀亦計入 nameplates 計數，§2.9）。
+    for (const [id, entry] of this.nameplateParts) {
+      if (activeNameplates.has(id)) continue;
+      this.layers.nameplates.removeChild(entry.part.container);
+      entry.part.destroy();
+      this.nameplateParts.delete(id);
+      this.nameplateCull.remove(id);
+      this.rebuildCounts.nameplates += 1;
+    }
     // M6-V9（§2.1，採納評審 B M4）：NaN 哨兵——強制下一次 applyLodAndCulling 全量重設反向縮放
     //（新建 container 已即時套用當前 scale，此為雙保險，涵蓋 init 期 camera 尚未建立之路徑）。
     this.lastLabelScale = Number.NaN;
+    this.lastNameplateScale = Number.NaN; // M6-V9b §2.9：名牌平行哨兵（同步觸發）
     // M6-V7（CD4）：城下聚落——每次 setMapData 重建（靜態一次建、只繞本城、close LOD 顯隱、不動計數）。
     if (this.settlements) {
       this.layers.settlements.removeChild(this.settlements.container);
@@ -711,6 +806,28 @@ export class MapRenderer {
       hasSteward: d?.hasSteward ?? false,
       subjugationProgress: d?.subjugationProgress ?? null,
       ikkiActive: d?.ikkiActive ?? false,
+    };
+  }
+
+  /**
+   * M6-V9b（§2.9）：由 `this.view`＋staticData 導出單一城之名牌繪製 props。`soldiers`/`relation`/
+   * `isPlayer` 取 UI 邊界注入之 `MapCastleView` 三欄（§1.3；view 未含該城時保守兜底 0/'neutral'/
+   * false）；`name` 取 `staticData.names`（canvas 文字不進 i18n，§0）。dirty diff 已限制只對變動
+   * 城呼叫本函式，`find` 成本可忽略（比照 `buildNodeProps`）。
+   */
+  private buildNameplateProps(id: string): CastleNameplateProps {
+    const node = this.staticData?.graph.nodes.get(id as never);
+    const pos = node ? { x: node.pos.x, y: node.pos.y } : { x: 0, y: 0 };
+    const c = this.view.castles.find((x) => x.id === id);
+    return {
+      pos,
+      name: this.staticData?.names?.[id] ?? '',
+      tier: c?.tier ?? this.staticData?.castleTier?.[id] ?? 'branch',
+      colorIndex: c ? (this.staticData?.clanColorIndex[c.ownerClanId] ?? 0) : 0,
+      relation: c?.relation ?? 'neutral',
+      isPlayer: c?.isPlayer ?? false,
+      warning: c?.warning ?? 'none',
+      soldiers: c?.soldiers ?? 0,
     };
   }
 
@@ -855,6 +972,24 @@ export class MapRenderer {
       }
     }
     this.prevNodeSig = nextSig;
+    // (3) 名牌專屬簽章 diff（M6-V9b §2.9，DD-A0／評審 Blocker 1）：於節點 diff 之後跑**第二個
+    // diff loop**——簽章含 soldiers/relation/isPlayer/name（node 簽章所無），故「只兵數變」的 tick
+    // 只命中該城名牌、node 簽章不變（`rebuildCounts.nodeMarkers` 不增）。命中之城才呼叫冪等
+    // `nameplate.update`；**不動 rebuildCounts**（`nameplates` 只計 buildStaticDataLayers 建/毀）。
+    const nextNameplateSig = buildNameplateSig(view, this.staticData?.names ?? {});
+    const nameplateDirty = diffNameplateSig(this.prevNameplateSig, nextNameplateSig);
+    if (this.staticData !== null) {
+      for (const id of nameplateDirty) {
+        const entry = this.nameplateParts.get(id);
+        if (entry === undefined) continue;
+        const props = this.buildNameplateProps(id);
+        entry.tier = props.tier;
+        entry.warning = props.warning;
+        entry.isPlayer = props.isPlayer;
+        entry.part.update(props);
+      }
+    }
+    this.prevNameplateSig = nextNameplateSig;
   }
 
   /**
@@ -960,6 +1095,23 @@ export class MapRenderer {
       for (const part of this.labelParts.values()) part.container.scale.set(1 / camera.scale);
       this.lastLabelScale = camera.scale;
     }
+    // M6-V9b（§2.9）：名牌 pixel-lock——僅 camera.scale 變時遍歷（~121 次，可忽略；camera-dirty，
+    // 不動 rebuildCounts）。平行 lastNameplateScale＋NaN 哨兵，與 lastLabelScale 同步觸發。
+    const nameplateScaleChanged = camera.scale !== this.lastNameplateScale;
+    if (nameplateScaleChanged) {
+      for (const e of this.nameplateParts.values()) {
+        e.part.container.scale.set(1 / camera.scale);
+      }
+      this.lastNameplateScale = camera.scale;
+    }
+    // M6-V9b（§2.7）：名牌 LOD 顯隱表——far 全隱（overview 交給既有 far 主城剪影 ×1.4 ensign）、
+    // mid 本城顯/支城隱、near 全顯；part.setLodStage 切子物件 visible（不重繪、不建毀）。
+    const visibleNameplates = this.nameplateCull.query(rect);
+    for (const [id, e] of this.nameplateParts) {
+      e.part.setLodStage(stage);
+      e.lodVisible = stage === 'near' || (stage === 'mid' && e.tier === 'main');
+      e.cullVisible = visibleNameplates.has(id);
+    }
     for (const [id, part] of this.labelParts) {
       const mainCastle = part.kind === 'castle' && this.staticData?.castleTier?.[id] === 'main';
       part.lodVisible =
@@ -975,9 +1127,16 @@ export class MapRenderer {
       this.dragPointerId === null && !this.camera.isInertiaActive() && !this.camera.isAnimating();
     const idleSettled = idle && !this.lastCameraIdle;
     this.lastCameraIdle = idle;
-    if (scaleChanged || stageChanged || idleSettled) this.runLabelDeclutter();
+    if (scaleChanged || nameplateScaleChanged || stageChanged || idleSettled) {
+      this.runLabelDeclutter();
+    }
     for (const part of this.labelParts.values()) {
       part.container.visible = part.cullVisible && part.lodVisible && !part.declutterHidden;
+    }
+    // M6-V9b（§2.8 破例）：選取之我方城／告急（critical）／出陣目標之名牌不受 declutter 隱藏。
+    for (const [id, e] of this.nameplateParts) {
+      const force = this.nameplateForceShow(id, e);
+      e.part.container.visible = e.cullVisible && e.lodVisible && (!e.declutterHidden || force);
     }
     // M6-V6（V6D4）：roads 層恆顯（修正舊 `visible=nearish` 於 far 整層隱藏，違 04 §3.10.3）；
     // 由 RoadsLayer.setStage 切各 tier 能見度（arterial/sea 恆顯、minor/bridge mid 起、path near）
@@ -1005,44 +1164,102 @@ export class MapRenderer {
     }
   }
 
+  /** M6-V9b（§2.8）：名牌 declutter 破例判定——選取之我方城／告急（critical）／出陣目標恆顯。 */
+  private nameplateForceShow(id: string, e: NameplateEntry): boolean {
+    const selKey =
+      this.view.selection !== null && this.view.selection.kind === 'node'
+        ? this.view.selection.id
+        : null;
+    return e.warning === 'critical' || id === this.marchTargetId || (e.isPlayer && id === selKey);
+  }
+
   /**
-   * 輕量標籤 declutter（M6-V9 §2.5）：O(可見標籤)、決定論。64×64 CSS px 佔用網格，優先序
-   * 主城(0) > 國名(1) > 支城(2) > 郡(3) > 道路(4)，同級以 id 字典序 tie-break；已佔格者
-   * `declutterHidden=true`。只由 applyLodAndCulling 於 idle 下降沿／scale 變／lodStage 變時
-   * 呼叫（非每幀）。已知取捨（定稿裁決 A-m6）：相鄰桶邊緣仍可 2px 並排，不做 AABB。
+   * M6-V9b（§2.8）：名牌綬帶螢幕 AABB 覆蓋到的所有 64px 格 key（採納評審 Minor 6——名牌綬帶寬
+   * 可達 ~120 CSS px，單點桶會漏疊字/整牌誤隱）。錨點螢幕座標＝worldToScreen(node.pos) 加
+   * (0, worldGap×scale) 偏移為 AABB 中心-上緣；w/h 取 part 目前綬帶尺寸（pixel-lock 後即 CSS px）。
+   */
+  private nameplateCells(
+    e: NameplateEntry,
+    viewport: { width: number; height: number },
+    scale: number,
+  ): string[] {
+    if (this.camera === null) return [];
+    const s = this.camera.worldToScreen(e.pos, viewport);
+    const { w, h } = e.part.getRibbonSize();
+    const cx = s.x;
+    const cy = s.y + NAMEPLATE_GEOMETRY[e.tier].worldGap * scale;
+    const x0 = Math.floor((cx - w / 2) / LABEL_DECLUTTER_CELL_PX);
+    const x1 = Math.floor((cx + w / 2) / LABEL_DECLUTTER_CELL_PX);
+    const y0 = Math.floor(cy / LABEL_DECLUTTER_CELL_PX);
+    const y1 = Math.floor((cy + h) / LABEL_DECLUTTER_CELL_PX);
+    const cells: string[] = [];
+    for (let gx = x0; gx <= x1; gx += 1) {
+      for (let gy = y0; gy <= y1; gy += 1) cells.push(`${gx},${gy}`);
+    }
+    return cells;
+  }
+
+  /**
+   * 輕量標籤＋名牌 declutter（M6-V9 §2.5／M6-V9b §2.8）：O(可見標籤)、決定論。64×64 CSS px
+   * 共用佔用網格，優先序 本城名牌(0) > 國名(1) > 支城名牌(2) > 郡(3) > 道路(4)，同級以 id 字典序
+   * tie-break；已佔格者 `declutterHidden=true`。名牌以**綬帶螢幕 AABB 佔格**（覆蓋到的所有格），
+   * 窄標籤（省/郡/道路）維持單點桶；破例名牌（§2.8）先強制顯示並先佔格。只由 applyLodAndCulling
+   * 於 idle 下降沿／scale 變／lodStage 變時呼叫（非每幀）。
    */
   private runLabelDeclutter(): void {
     if (this.app === null || this.camera === null) return;
     const viewport = { width: this.app.screen.width, height: this.app.screen.height };
-    const candidates: { priority: number; id: string; part: LabelPart }[] = [];
+    const scale = this.camera.getState().scale;
+    type Item =
+      | { priority: number; id: string; kind: 'label'; part: LabelPart }
+      | { priority: number; id: string; kind: 'nameplate'; entry: NameplateEntry };
+    const candidates: Item[] = [];
     for (const [id, part] of this.labelParts) {
       if (!part.lodVisible || !part.cullVisible) {
         part.declutterHidden = false; // 非本輪參與者重設，轉可見時由下一次觸發重算
         continue;
       }
-      const mainCastle = part.kind === 'castle' && this.staticData?.castleTier?.[id] === 'main';
-      const priority =
-        part.kind === 'castle'
-          ? mainCastle
-            ? 0
-            : 2
-          : part.kind === 'province'
-            ? 1
-            : part.kind === 'district'
-              ? 3
-              : 4;
-      candidates.push({ priority, id, part });
+      // M6-V9b：城名已移出 labelParts，剩餘標籤＝省(1)/郡(3)/道路(4)。
+      const priority = part.kind === 'province' ? 1 : part.kind === 'district' ? 3 : 4;
+      candidates.push({ priority, id, kind: 'label', part });
+    }
+    for (const [id, entry] of this.nameplateParts) {
+      if (!entry.lodVisible || !entry.cullVisible) {
+        entry.declutterHidden = false;
+        continue;
+      }
+      candidates.push({ priority: entry.tier === 'main' ? 0 : 2, id, kind: 'nameplate', entry });
     }
     candidates.sort((a, b) => a.priority - b.priority || a.id.localeCompare(b.id));
     const occupancy = new Set<string>();
-    for (const { part } of candidates) {
-      const s = this.camera.worldToScreen(part.pos, viewport);
+    // 破例名牌（§2.8）：先強制 declutterHidden=false 並先佔格（沿 M6-V8 收合疊軍選取破例精神）。
+    const forced = new Set<string>();
+    for (const item of candidates) {
+      if (item.kind !== 'nameplate') continue;
+      if (!this.nameplateForceShow(item.id, item.entry)) continue;
+      forced.add(item.id);
+      item.entry.declutterHidden = false;
+      for (const cell of this.nameplateCells(item.entry, viewport, scale)) occupancy.add(cell);
+    }
+    for (const item of candidates) {
+      if (item.kind === 'nameplate') {
+        if (forced.has(item.id)) continue;
+        const cells = this.nameplateCells(item.entry, viewport, scale);
+        if (cells.some((cell) => occupancy.has(cell))) {
+          item.entry.declutterHidden = true;
+        } else {
+          for (const cell of cells) occupancy.add(cell);
+          item.entry.declutterHidden = false;
+        }
+        continue;
+      }
+      const s = this.camera.worldToScreen(item.part.pos, viewport);
       const cell = `${Math.floor(s.x / LABEL_DECLUTTER_CELL_PX)},${Math.floor(s.y / LABEL_DECLUTTER_CELL_PX)}`;
       if (occupancy.has(cell)) {
-        part.declutterHidden = true;
+        item.part.declutterHidden = true;
       } else {
         occupancy.add(cell);
-        part.declutterHidden = false;
+        item.part.declutterHidden = false;
       }
     }
   }
@@ -1249,6 +1466,22 @@ export class MapRenderer {
     this.interaction.setMode(mode);
   }
 
+  /**
+   * M6-V9b（§3.4）：出陣目標選中城之名牌「目標高亮」——綬帶外 1px accentGold 金框（切既繪
+   * Graphics 子物件 visible，不重繪名牌本體、不進 nameplates 計數）＋declutter 破例恆顯（§2.8）。
+   * `null` 清除。由 `MapCanvasHost` 之 `marchTargetId` prop 透傳（S2 接線）。
+   */
+  setMarchTarget(targetId: string | null): void {
+    if (targetId === this.marchTargetId) return;
+    if (this.marchTargetId !== null) {
+      this.nameplateParts.get(this.marchTargetId)?.part.setTargetHighlight(false);
+    }
+    this.marchTargetId = targetId;
+    if (targetId !== null) {
+      this.nameplateParts.get(targetId)?.part.setTargetHighlight(true);
+    }
+  }
+
   private redrawPathPreview(): void {
     if (this.pathPreview === null || this.staticData === null) return;
     const debugNodes = (this.debug.path ?? []) as MapPathPreview['result']['nodes'];
@@ -1334,6 +1567,7 @@ export class MapRenderer {
       this.lodStage = 'far';
       this.armyChipStage = 'far'; // M6-V8（V8D11）：與 lodStage 同步重設，重掛後 init 不因段落差重繪
       this.lastLabelScale = Number.NaN; // M6-V9：pixel-lock 快取重設（重掛後首次全量重套）
+      this.lastNameplateScale = Number.NaN; // M6-V9b：名牌 pixel-lock 快取重設（平行哨兵）
       this.lastCameraIdle = false; // M6-V9：declutter idle 邊緣偵測重設
       // M6-V6：顯式卸載＋銷毀 RoadsLayer／roadHighlight（勿只依賴 app.destroy children 遞迴）。
       if (this.roadsLayer) {
@@ -1353,7 +1587,9 @@ export class MapRenderer {
         this.settlements = null;
       }
       this.prevNodeSig = null;
+      this.prevNameplateSig = null; // M6-V9b：名牌簽章快取重設
       for (const { part } of this.nodeParts.values()) part.destroy();
+      for (const { part } of this.nameplateParts.values()) part.destroy(); // M6-V9b：名牌對稱銷毀
       app.destroy({ removeView: true }, { children: true, texture: true });
     }
     this.app = null;
@@ -1365,6 +1601,8 @@ export class MapRenderer {
     this.marchPathPreview = null;
     this.nodeParts.clear();
     this.labelParts.clear();
+    this.nameplateParts.clear();
+    this.marchTargetId = null; // M6-V9b：目標高亮重設（重掛後無殘留）
     this.armyParts.clear();
     this.siegeParts.clear();
     this.collapsedArmyIds.clear();
@@ -1393,6 +1631,7 @@ export class MapRenderer {
       this.reconstructTerrainLayers();
       this.prevOwnerByNode = null;
       this.prevNodeSig = null; // M6-V7：重建保證——下次 updateView 全節點簽章 dirty（§13-B3）
+      this.prevNameplateSig = null; // M6-V9b §2.9：同上，名牌簽章全 dirty 首繪保證
       this.redrawPathPreview(); // graph 換了要重畫 path preview（D9 保留在此，非 updateView）
       this.applyLodAndCulling();
     }

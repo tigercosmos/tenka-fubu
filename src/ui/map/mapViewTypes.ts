@@ -76,8 +76,26 @@ export interface MapPathPreview {
 
 // ── view-model 型別（複用 core `selectors.ts` 匯出；04 §4.6，M6-V4 §3.1） ──────────────
 
-/** 城/郡結構化 view（= core `MapCastleViewModel`；`terrainKind`/`siegeMode`/`warning` V7 起消費）。 */
-export type MapCastleView = MapCastleViewModel;
+/** 軍隊/城對「檢視方（playerClanId）」的外交關係之視覺通道（art-bible §3.3）。純 view 概念，
+ *  由 UI 邊界 composeMapViewState 依 getStance 推導；'friendly'＝含己方與同盟，'enemy'＝交戰中，
+ *  'neutral'＝停戰/中立/未知（含 playerClanId 未定之旁觀）。（M6-V8，V8D3；M6-V9b 城名牌沿用） */
+export type ArmyRelation = 'friendly' | 'neutral' | 'enemy';
+
+/**
+ * 城/郡結構化 view（= core `MapCastleViewModel` ＋ UI 邊界補三欄；`terrainKind`/`siegeMode`/
+ * `warning` V7 起消費）。M6-V9b §1.3（DD-A1，core-safe，採 army-relation 先例）：`soldiers`／
+ * `relation`／`isPlayer` 為 **UI 推導必填欄**——`composeMapViewState` 逐城注入（soldiers 由
+ * `soldiersByCastle` 查表、relation 依 relationOf(ownerClanId)、isPlayer＝ownerClanId===playerClanId），
+ * core `MapCastleViewModel`／`selectors.ts` 不動（golden 安全）。城名牌（castleNameplate）消費。
+ */
+export type MapCastleView = MapCastleViewModel & {
+  /** 城內駐軍（composeMapViewState 由全 game 注入；名牌兵數內嵌區）。 */
+  readonly soldiers: number;
+  /** 對 player 的敵我（名牌 CVD 第二辨識通道，§2.4）。 */
+  readonly relation: ArmyRelation;
+  /** ownerClanId === playerClanId（我方通道：雙環＋home tick）。 */
+  readonly isPlayer: boolean;
+};
 
 /** 郡次級狀態 view（= core `MapDistrictViewModel`；M6-V7 AD1：供 DistrictNode 知行/制壓/一揆徽記）。 */
 export type MapDistrictView = MapDistrictViewModel;
@@ -87,11 +105,6 @@ export type MapSiegeView = MapSiegeViewModel;
 
 /** 戰鬥 view（canonical 04 §4.6；V4 攜帶不消費，battle badge 留 V8/V10）。 */
 export type MapBattleView = MapBattleViewModel;
-
-/** 軍隊對「檢視方（playerClanId）」的外交關係之視覺通道（art-bible §3.3）。純 view 概念，
- *  由 UI 邊界 composeMapViewState 依 getStance 推導；'friendly'＝含己方與同盟，'enemy'＝交戰中，
- *  'neutral'＝停戰/中立/未知（含 playerClanId 未定之旁觀）。（M6-V8，V8D3） */
-export type ArmyRelation = 'friendly' | 'neutral' | 'enemy';
 
 /**
  * 部隊 view（= core `MapArmyViewModel` ＋ UI 邊界補 `selected`／`relation`）。`fromNode`/`toNode`/
@@ -194,6 +207,9 @@ export interface MapLayers {
   readonly settlements: Container;
   /** 7 城／郡標記（V7：CastleNode/DistrictNode 元件取代占位 drawNodeMarker）。 */
   readonly nodeMarkers: Container;
+  /** 7.5 城名牌（M6-V9b §6：和紙綬帶名牌——nodeMarkers 之上（節點資訊延伸，壓過聚落/節點本體）、
+   *  labels 之下（overview 國名大字壓過名牌）、selectionAndPath 之下（選取金環/路徑光帶壓過名牌）。 */
+  readonly nameplates: Container;
   /** 8 部隊 sprite（M5）。 */
   readonly armies: Container;
   /** 9 選取高亮環／行軍路徑預覽（V7 節點選取環金色雙環，錨點置中＋V6 相鄰道路高亮；M4-14 orderMarch 預覽）。 */
@@ -216,6 +232,7 @@ export const LAYER_ORDER = [
   'roads',
   'settlements',
   'nodeMarkers',
+  'nameplates', // M6-V9b §6：nodeMarkers 之上、armies/selectionAndPath/labels 之下
   'armies',
   'selectionAndPath',
   'effects',

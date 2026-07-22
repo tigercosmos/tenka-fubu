@@ -90,12 +90,20 @@ describe('composeMapViewState（M6-V4 §4.2）', () => {
     },
   );
 
-  it('castles/sieges/battles/districtOwner/day/analysisMode 直通不變形', () => {
+  it('castles（除三衍生欄）/sieges/battles/districtOwner/day/analysisMode 直通不變形', () => {
     const model = makeModel();
     const out = composeMapViewState(model, null);
     expect(out.day).toBe(model.day);
     expect(out.districtOwner).toEqual(model.districtOwner);
-    expect(out.castles).toEqual(model.castles);
+    // M6-V9b §1.3：soldiers/relation/isPlayer 為 composeMapViewState 注入之 UI 推導欄，
+    // 非 model 直通欄位——比照下方 armies 之 delete rest.relation 先例，剝除後逐城比對。
+    out.castles.forEach((c, i) => {
+      const rest: Record<string, unknown> = { ...c };
+      delete rest.soldiers;
+      delete rest.relation;
+      delete rest.isPlayer;
+      expect(rest).toEqual(model.castles[i]);
+    });
     expect(out.sieges).toEqual(model.sieges);
     expect(out.battles).toEqual(model.battles);
     expect(out.analysisMode).toBe(model.analysisMode);
@@ -145,6 +153,31 @@ describe('relation 推導（M6-V8 §4.1／V8D3）', () => {
     const rel = new Map(out.armies.map((a) => [a.id, a.relation]));
     expect(rel.get('army.1')).toBe('enemy'); // resolver 覆寫（預設本會是 friendly）
     expect(rel.get('army.2')).toBe('neutral');
+  });
+
+  it('城三欄注入（M6-V9b §1.3）：soldiers 查 soldiersByCastle（缺→0）、relation 依 owner、isPlayer 依 playerClanId', () => {
+    // model.castles：castle.a owner=clan.a。
+    const withTable = composeMapViewState(makeModel(), null, 'clan.a', undefined, {
+      'castle.a': 1_234,
+    });
+    const c = withTable.castles[0]!;
+    expect(c.soldiers).toBe(1_234); // soldiersByCastle 注入
+    expect(c.relation).toBe('friendly'); // owner===player → friendly（預設 resolver）
+    expect(c.isPlayer).toBe(true); // ownerClanId === playerClanId
+
+    const asEnemyViewer = composeMapViewState(makeModel(), null, 'clan.zzz');
+    expect(asEnemyViewer.castles[0]!.soldiers).toBe(0); // 缺表 → 0 兜底
+    expect(asEnemyViewer.castles[0]!.relation).toBe('enemy'); // 有玩家、非己方
+    expect(asEnemyViewer.castles[0]!.isPlayer).toBe(false);
+
+    const spectator = composeMapViewState(makeModel(), null); // playerClanId undefined
+    expect(spectator.castles[0]!.relation).toBe('neutral'); // 旁觀
+    expect(spectator.castles[0]!.isPlayer).toBe(false);
+
+    // 注入 relationOf resolver：城 relation 採其回傳（與 army 同一 resolver 路徑）。
+    const resolver = (): ArmyRelation => 'neutral';
+    const resolved = composeMapViewState(makeModel(), null, 'clan.a', resolver);
+    expect(resolved.castles[0]!.relation).toBe('neutral');
   });
 
   it('stanceToRelation：5 個 Stance 全對映（own/friendly→friendly、war→enemy、ceasefire/neutral→neutral）', () => {

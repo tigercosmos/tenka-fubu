@@ -10,7 +10,7 @@
 
 import type { Stance } from '@core/index';
 import type { MapViewModel } from '@core/state/selectors';
-import type { ArmyRelation, MapArmyView, MapViewState } from './mapViewTypes';
+import type { ArmyRelation, MapArmyView, MapCastleView, MapViewState } from './mapViewTypes';
 
 /**
  * 呼叫端目前的選取型別（`src/ui/hooks/uiStore.ts` 之 `Selection`）之最小子集。
@@ -44,18 +44,29 @@ function defaultRelationOf(playerClanId: string | undefined): (clanId: string) =
  * 省略時維持 `MapViewState.playerClanId` 為 `undefined`（`exactOptionalPropertyTypes` 友善）。
  * `relationOf`（M6-V8 V8D3，可選）：clanId → `ArmyRelation` 之解析器；省略時採
  * `defaultRelationOf(playerClanId)`。呼叫端（`MainScreen`）供給以 `getStance` 為底之版本。
+ * `soldiersByCastle`（M6-V9b §1.3，可選）：castleId → 城內駐軍查表（`MainScreen` 以 `useMemo`
+ * 由 `currentGame.castles` 建），供逐城注入 `MapCastleView.soldiers`；缺表/缺城以 0 兜底。
  */
 export function composeMapViewState(
   model: MapViewModel,
   selection: ComposeSelection | null,
   playerClanId?: string,
   relationOf?: (clanId: string) => ArmyRelation,
+  soldiersByCastle?: Readonly<Record<string, number>>,
 ): MapViewState {
   const resolveRelation = relationOf ?? defaultRelationOf(playerClanId);
   const armies: MapArmyView[] = model.armies.map((army) => ({
     ...army,
     selected: selection !== null && selection.kind === 'army' && selection.id === army.id,
     relation: resolveRelation(army.clanId),
+  }));
+  // M6-V9b §1.3（DD-A1，比照上方 army relation 先例）：三個 UI 推導必填欄逐城注入——
+  // soldiers（城名牌兵數內嵌區）／relation（CVD 第二通道）／isPlayer（我方雙環＋home tick）。
+  const castles: MapCastleView[] = model.castles.map((c) => ({
+    ...c,
+    soldiers: soldiersByCastle?.[c.id] ?? 0,
+    relation: resolveRelation(c.ownerClanId),
+    isPlayer: playerClanId !== undefined && c.ownerClanId === playerClanId,
   }));
   const mappedSelection: MapViewState['selection'] =
     selection === null
@@ -65,7 +76,7 @@ export function composeMapViewState(
   return {
     day: model.day,
     districtOwner: model.districtOwner,
-    castles: model.castles,
+    castles,
     districts: model.districts, // M6-V7 AD1：郡次級狀態 pass-through（DistrictNode 知行/制壓/一揆）
     armies,
     sieges: model.sieges,

@@ -118,6 +118,57 @@ export function diffNodeSig(
   return dirty;
 }
 
+/**
+ * 名牌簽章之 view 子集（M6-V9b §2.9，DD-A0／評審 Blocker 1）：城名牌走**獨立簽章與獨立 diff
+ * loop**，與 `buildNodeSig`/`castleNode` 完全分離——node 簽章不含 soldiers/relation/isPlayer/name，
+ * 若名牌騎 node 簽章，「只兵數變」的 tick 名牌永不刷新（stale）；反之把 soldiers 塞進 node 簽章
+ * 會污染 `rebuildCounts.nodeMarkers`。`soldiers`/`relation`/`isPlayer` 為 UI 邊界推導欄
+ * （`composeMapViewState` 注入，§1.3 army-relation 先例）。
+ */
+export interface NameplateSigView {
+  readonly castles: readonly {
+    readonly id: string;
+    readonly ownerClanId: string;
+    readonly tier: string;
+    readonly warning: string;
+    readonly soldiers: number;
+    readonly relation: string;
+    readonly isPlayer: boolean;
+  }[];
+}
+
+/**
+ * 每城名牌視覺簽章（M6-V9b §2.9）：
+ * `n|owner|tier|name|warning|relation|isPlayer|soldiers`——**含 soldiers/relation/isPlayer/name**
+ * （node 簽章所無），故兵數/關係/我方旗標任一變即命中 diff。pos 不入簽章（移動另判 reposition）；
+ * `day` 一律不參與（day-only tick 零重畫）。`names` 為靜態顯示名查表（`MapStaticData.names`，
+ * 城名不在 view-model 內故由呼叫端供給；缺名以空字串入章）。
+ */
+export function buildNameplateSig(
+  view: NameplateSigView,
+  names: Readonly<Record<string, string>> = {},
+): Map<string, string> {
+  const sig = new Map<string, string>();
+  for (const c of view.castles) {
+    sig.set(
+      c.id,
+      `n|${c.ownerClanId}|${c.tier}|${names[c.id] ?? ''}|${c.warning}|${c.relation}|${c.isPlayer}|${c.soldiers}`,
+    );
+  }
+  return sig;
+}
+
+/**
+ * `prev===null` 視為「全部 dirty」（首繪保證，見 renderer `setMapData` 後 `prevNameplateSig=null`）；
+ * 否則回傳簽章相異之城 id 集合。與 `diffNodeSig` 同結構（§2.9「可共用泛型 diff」——直接委派）。
+ */
+export function diffNameplateSig(
+  prev: ReadonlyMap<string, string> | null,
+  next: ReadonlyMap<string, string>,
+): Set<string> {
+  return diffNodeSig(prev, next);
+}
+
 /** `armyWorldPos` 消費之最小欄位（`MapArmyView` 位置相關子集）。 */
 export interface ArmyPosInput {
   readonly fromNode: string;

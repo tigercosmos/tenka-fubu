@@ -12,10 +12,13 @@ import type { RoadEdge } from '@core/state/gameState';
 import {
   armyStackKey,
   armyWorldPos,
+  buildNameplateSig,
   buildNodeSig,
   buildOwnerByNode,
+  diffNameplateSig,
   diffNodeSig,
   diffOwnerByNode,
+  type NameplateSigView,
   type NodeSigView,
 } from '@ui/map/dirty';
 
@@ -238,5 +241,85 @@ describe('diffNodeSig（M6-V7 §3.5）：簽章 diff 成員集', () => {
     const prev = buildNodeSig(sigView());
     const next = buildNodeSig(sigView({ districtOwner: { 'dist.xx': null } }));
     expect([...diffNodeSig(prev, next)]).toEqual(['dist.xx']);
+  });
+});
+
+// ── M6-V9b（§2.9，DD-A0／評審 Blocker 1）：名牌專屬簽章（buildNameplateSig／diffNameplateSig）──
+//
+// 名牌簽章與 node 簽章完全分離：含 soldiers/relation/isPlayer/name（node 簽章所無），
+// 「只兵數變」的 tick 只命中名牌 diff、node 簽章不變（rebuildCounts.nodeMarkers 零污染）。
+
+function nameplateView(over: Partial<NameplateSigView['castles'][number]> = {}): NameplateSigView {
+  return {
+    castles: [
+      {
+        id: 'castle.aa',
+        ownerClanId: 'clan.oda',
+        tier: 'main',
+        warning: 'none',
+        soldiers: 2_000,
+        relation: 'friendly',
+        isPlayer: true,
+        ...over,
+      },
+    ],
+  };
+}
+
+const NAMES = { 'castle.aa': '甲城' } as const;
+
+describe('buildNameplateSig（M6-V9b §2.9）：名牌視覺簽章', () => {
+  it('簽章＝n|owner|tier|name|warning|relation|isPlayer|soldiers（含 soldiers——node 簽章所無）', () => {
+    const sig = buildNameplateSig(nameplateView(), NAMES);
+    expect(sig.get('castle.aa')).toBe('n|clan.oda|main|甲城|none|friendly|true|2000');
+  });
+
+  it('缺名以空字串入章（names 省略/查無皆同）', () => {
+    expect(buildNameplateSig(nameplateView()).get('castle.aa')).toBe(
+      'n|clan.oda|main||none|friendly|true|2000',
+    );
+  });
+
+  it('owner/tier/warning/relation/isPlayer/soldiers 任一變 → 簽章改變（各為獨立欄位）', () => {
+    const base = buildNameplateSig(nameplateView(), NAMES).get('castle.aa');
+    const variants: Partial<NameplateSigView['castles'][number]>[] = [
+      { ownerClanId: 'clan.x' },
+      { tier: 'branch' },
+      { warning: 'critical' },
+      { relation: 'enemy' },
+      { isPlayer: false },
+      { soldiers: 1_999 },
+    ];
+    for (const over of variants) {
+      expect(buildNameplateSig(nameplateView(over), NAMES).get('castle.aa')).not.toBe(base);
+    }
+  });
+
+  it('pos 不入簽章（NameplateSigView 無 pos 欄；移動另判 reposition）——同 view 兩次簽章恆等', () => {
+    const a = buildNameplateSig(nameplateView(), NAMES);
+    const b = buildNameplateSig(nameplateView(), NAMES);
+    expect(a).toEqual(b);
+  });
+});
+
+describe('diffNameplateSig（M6-V9b §2.9）：簽章 diff 成員集', () => {
+  it('prev===null → 全部 dirty（首繪保證，比照 diffNodeSig）', () => {
+    const next = buildNameplateSig(nameplateView(), NAMES);
+    expect([...diffNameplateSig(null, next)]).toEqual(['castle.aa']);
+  });
+
+  it('只兵數變 → 該城即命中（Blocker 1 核心：名牌不騎 node 簽章）', () => {
+    const prev = buildNameplateSig(nameplateView(), NAMES);
+    const next = buildNameplateSig(nameplateView({ soldiers: 1_500 }), NAMES);
+    expect([...diffNameplateSig(prev, next)]).toEqual(['castle.aa']);
+    // 對照：同一變更之 node 簽章不變（soldiers 不在 node 簽章內）。
+    const nodePrev = buildNodeSig(sigView());
+    expect(diffNodeSig(nodePrev, buildNodeSig(sigView())).size).toBe(0);
+  });
+
+  it('day-only／無變更 → 空集合（簽章不含 day）', () => {
+    const prev = buildNameplateSig(nameplateView(), NAMES);
+    const next = buildNameplateSig(nameplateView(), NAMES);
+    expect(diffNameplateSig(prev, next).size).toBe(0);
   });
 });

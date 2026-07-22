@@ -409,9 +409,11 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
     });
     expect(layers?.roads.children.length).toBe(1);
     expect(layers?.nodeMarkers.children.length).toBe(1); // 一個 castleNode container 取代裸 Graphics
-    expect(layers?.labels.children.length).toBe(2);
-    expect(layers?.labels.children[0]?.visible).toBe(false);
-    expect(layers?.labels.children[1]?.visible).toBe(true);
+    // M6-V9b（§2.9）：城名移出 labelParts → labels 只剩省名；城名改建 nameplates 層和紙綬帶名牌。
+    expect(layers?.labels.children.length).toBe(1); // 試國（省）
+    expect(layers?.labels.children[0]?.visible).toBe(true); // 省名 far 顯（!nearish）
+    expect(layers?.nameplates.children.length).toBe(1); // 試城名牌
+    expect(layers?.nameplates.children[0]?.visible).toBe(false); // far 名牌全隱（剪影 ensign 獨撐）
     // M6-V7（#3）：far 本城 ×1.4 移至 bodyGfx（container.children[0]）；container.scale 恆 1。
     expect(layers?.nodeMarkers.children[0]?.scale.x).toBe(1); // container 不放大
     const bodyGfx = layers?.nodeMarkers.children[0]?.children[0];
@@ -465,6 +467,9 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
           terrainKind: 'plain',
           siegeMode: 'none',
           warning: 'none',
+          soldiers: 1_000, // M6-V9b §1.3：MapCastleView 三必填 UI 推導欄（composeMapViewState 注入）
+          relation: 'friendly',
+          isPlayer: true,
         },
       ],
       armies: [],
