@@ -283,6 +283,29 @@ parallel」＝設計階段平行化。執行模式：Fable orchestrate、設計/
 - 已知後續：底部快覽條 1280 高度斷點 112px 為定稿裁決；1920 全尺寸驗證與 55fps/無障礙
   gate 屬 M6-V10/V11；「頁面底部 washi 條」查明為紀伊半島陸地色非 bug。
 
+### M6-V9b 完成記錄（2026-07-22，commits 19c9516…1a6e851，直接 commit main）
+
+使用者指示「上網查《信長之野望 新生》UI 圖並模仿」（例示 qbnews.tw/shinsei——Cloudflare 403，
+改用專案登錄之 KOEI 官方 manual/press 頁截圖；orchestrator 親閱）。依 M6-V 研究規則只轉譯
+資訊層級/操作回饋，禁抄具體構圖（放射狀指令輪判定為新生招牌版面、明確不做）。
+
+- **設計**（wf_31bfd557-2a8）：Opus 設計→合併 lens 評審→修訂。評審抓到真 Blocker
+  （名牌若騎 node 簽章則兵數永不更新→獨立 buildNameplateSig）與構圖近同構（DD-A3 三處
+  去同構：城名左置/兵數內嵌綬帶尾段/印記騎接點）。定稿＝docs/design/m6-v9b-map-plates.md；
+  references.md 新增 R11＋qbnews 阻擋記錄。
+- **實作**：S1（renderer 名牌，Sonnet 完成，1493 tests 綠）→ **S2 起組織月額度中斷
+  （4 agent 死亡）**，依額度協議收攏：S1 先行 commit（19c9516），S2（出陣目標三浮層/
+  頂帶色章/soldiersByCastle 接線）由 orchestrator 親自完成（285b6d2）。
+  途中自抓：S1 的 soldiersByCastle 可選參數在未接線前名牌全顯 •0（實機截圖發現）；
+  快覽條與確認藥丸重疊（pickTarget 時 ContextPanel 讓位）。
+- **gate**：typecheck/lint/validate:data（0/0、919 字元）/**1494 tests**/build/smoke 4/4/
+  golden byte-identical；出陣全流程實機截圖驗收（模式帶＋目標卡敵我比較＋藥丸＋名牌
+  金框高亮）。baseline darwin＋linux 重生（1a6e851）。
+- **review 債**：S2 之 Opus 全量 review 因額度未跑（S1 已過設計期評審；S2 為 orchestrator
+  手寫小 diff 並自審）。額度恢復後對 285b6d2 diff 補跑 review（V6/V8 先例）。
+- plan 回寫：名牌/目標模式決策以設計定稿為單一真相（plan/04 §8 之 V9 條目已涵蓋標籤系統
+  演進脈絡；V9b 條目待補跑 review 時一併回寫，避免額度中斷期反覆改 plan）。
+
 ### 停止點與安全續作順序
 
 1. 本輪已完成 **M6-V5～M6-V9**——視覺鏈（地形／道路／城池／軍隊／HUD）全數 landed。
