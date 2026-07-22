@@ -37,3 +37,28 @@
 .negative {
   color: var(--accent-vermilion-bright);
 }
+.clanIdentity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-right: var(--space-2);
+  border-right: 1px solid var(--ink-500);
+}
+.clanChip {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  border: 1px solid var(--ink-900);
+  box-shadow: 0 0 0 1px var(--washi-300);
+  flex: none;
+}
+.clanName {
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+@media (max-width: 1440px) {
+  .clanName {
+    display: none; /* M6-V9b §4.1：窄版面只留色章 */
+  }
+}

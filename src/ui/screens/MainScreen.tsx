@@ -79,6 +79,12 @@ import { renderReport } from '../reports/renderReport';
 // [M6-V4] Layer 1（producer 參考穩定）：同一 tickSeq 內重複呼叫回傳同一參考（比照下方
 // `selectReportToasts` 既有慣例）。
 const cachedSelectMapViewModel = makeCachedSelector(selectMapViewModel);
+// [M6-V9b] §1.3：名牌兵數查表（UI selector；core VM 無 castle soldiers 欄）。
+const cachedSelectSoldiersByCastle = makeCachedSelector((game): Record<string, number> =>
+  Object.fromEntries(
+    Object.values(game.castles).map((castle) => [castle.id, Math.floor(castle.soldiers)]),
+  ),
+);
 
 // [M6-V9] §4.2：ResourceBar 資料接線——`selectBudgetForecast`（既有 core selector，UI 讀取合法）
 // 與駐城兵 UI 匯總皆經 tickSeq 快取，避免每 render 重建物件觸發重渲染。
@@ -127,6 +133,7 @@ export function MainScreen(): ReactElement {
   const gold = useGameSelector((g) => g.clans[g.meta.playerClanId]?.gold ?? 0);
   const prestige = useGameSelector((g) => g.clans[g.meta.playerClanId]?.prestige ?? 0);
   const clanColorIndex = useGameSelector((g) => g.clans[g.meta.playerClanId]?.colorIndex ?? 0);
+  const clanName = useGameSelector((g) => g.clans[g.meta.playerClanId]?.name ?? '');
   const homeCastleId = useGameSelector((g) => g.clans[g.meta.playerClanId]?.homeCastleId);
   const budget = useCachedGameSelector(cachedSelectBudget);
   const military = useCachedGameSelector(cachedSelectPlayerMilitary);
@@ -169,14 +176,17 @@ export function MainScreen(): ReactElement {
   // [M6-V8]（V8D3／MINOR6）：供給以 `getStance` 為底之 `relationOf`（敵我關係次級通道推導於 UI
   // 邊界，core selector/golden 不動）。復用組件本體既有 `currentGame`（非 memo 內 `store.getState()`
   // 之 stale-closure），並顯式加入 deps（與 `gameView` 每 tick 同步變，無多餘 re-render）。
+  // [M6-V9b] §1.3：名牌兵數查表（castleId → 駐軍；core VM 無此欄，UI 端自 game 讀）；
+  // tickSeq 快取確保同 tick 參考穩定，名牌只在 buildNameplateSig（含 soldiers）diff 命中時重繪。
+  const soldiersByCastle = useCachedGameSelector(cachedSelectSoldiersByCastle);
   const viewState = useMemo(() => {
     const relationOf =
       currentGame === null
         ? undefined
         : (clanId: string) =>
             stanceToRelation(getStance(currentGame, playerClanId, clanId as never));
-    return composeMapViewState(gameView, selection, playerClanId, relationOf);
-  }, [gameView, selection, playerClanId, currentGame]);
+    return composeMapViewState(gameView, selection, playerClanId, relationOf, soldiersByCastle);
+  }, [gameView, selection, playerClanId, currentGame, soldiersByCastle]);
 
   // [M6-V9] §4.2：金/糧增減明細（金＝淨 goldNetMonthly；糧＝淨：收成年化攤提 − 每月消耗，
   // 真實脈衝在 breakdown「下次收成」交代——評審 A m1，與金錢語意一致）。
@@ -324,7 +334,9 @@ export function MainScreen(): ReactElement {
           return;
         }
         if (event.type === 'nodeClick') {
-          previewMarchTarget(event.id, true);
+          // [M6-V9b] §3.6：點選＝設目標＋預覽並停留 pickTarget（可比較敵我後再按「確認目標」
+          // 藥丸回 compose）；不再自動 finishPick。
+          previewMarchTarget(event.id, false);
           return;
         }
         if (event.type === 'rightClick') {
@@ -523,6 +535,7 @@ export function MainScreen(): ReactElement {
         focusNodeId={homeCastleId}
         pathPreview={marchDraft?.previewPath}
         interactionMode={marchDraft?.phase === 'pickTarget' ? 'orderMarch' : 'idle'}
+        marchTargetId={marchDraft?.phase === 'pickTarget' ? marchDraft.targetNodeId : null}
       />
       {/* 頂墨帶（M6-V9 §4.1：48px ink900 底 washi 字）＝ResourceBar＋SpeedControl＋☰ 占位。 */}
       <header
@@ -539,6 +552,8 @@ export function MainScreen(): ReactElement {
       >
         <ResourceBar
           date={day}
+          clanName={clanName}
+          clanColorIndex={clanColorIndex}
           gold={gold}
           goldDelta={goldDelta}
           foodTotal={budget.foodStock}
@@ -645,7 +660,7 @@ export function MainScreen(): ReactElement {
       {selectedSiegeId !== null && <SiegeOverlay siegeId={selectedSiegeId} />}
       {/* 底部情境快覽條（M6-V9 §4.6）：城/郡/軍三態；完整面板由動作鈕開啟。 */}
       <ContextPanel
-        open={contextView !== null}
+        open={contextView !== null && marchDraft?.phase !== 'pickTarget'}
         title={contextView?.title ?? ''}
         height={contextHeight}
         actions={contextView?.actions}

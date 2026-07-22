@@ -45,6 +45,8 @@ export interface MapCanvasHostProps {
   /** 行軍目標選取時的 authoritative path result；null 清除 selectionAndPath 層。 */
   pathPreview?: MapPathPreview | null | undefined;
   interactionMode?: MapInteractionMode | undefined;
+  /** 出陣目標城 id（M6-V9b §3.4）：該城名牌金框高亮＋declutter 破例；null 清除。 */
+  marchTargetId?: string | null | undefined;
 }
 
 export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function MapCanvasHost(
@@ -55,6 +57,7 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
     focusNodeId,
     pathPreview,
     interactionMode = 'idle',
+    marchTargetId = null,
   }: MapCanvasHostProps,
   ref,
 ): ReactElement {
@@ -118,6 +121,10 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
   useEffect(() => {
     rendererRef.current?.setMode(interactionMode);
   }, [interactionMode]);
+
+  useEffect(() => {
+    rendererRef.current?.setMarchTarget(marchTargetId);
+  }, [marchTargetId]);
 
   return (
     <div

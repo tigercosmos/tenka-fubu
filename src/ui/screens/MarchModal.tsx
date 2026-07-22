@@ -8,6 +8,7 @@ import { RANK_VALUES } from '@core/state/enums';
 import type { CastleId, MapNodeId, OfficerId } from '@core/state/ids';
 import { t } from '@i18n/zh-TW';
 import { Dialog, NumberSlider } from '@ui/components';
+import { StatBar } from '@ui/components/StatBar/StatBar';
 import { makeCachedSelector, useCachedGameSelector } from '@ui/hooks/useGameSelector';
 import { useUIStore } from '@ui/hooks/uiStore';
 import styles from './MarchModal.module.css';
@@ -52,6 +53,17 @@ const selectMarchModel = makeCachedSelector((game, originCastleId: CastleId) => 
       ...Object.fromEntries(Object.values(game.castles).map((item) => [item.id, item.name])),
       ...Object.fromEntries(Object.values(game.districts).map((item) => [item.id, item.name])),
     },
+    // M6-V9b §3.3：目標卡資料（UI selector，非 core）——敵城守備/耐久量條用。
+    castleStatsById: Object.fromEntries(
+      Object.values(game.castles).map((item) => [
+        item.id,
+        {
+          soldiers: Math.floor(item.soldiers),
+          durability: Math.floor(item.durability),
+          maxDurability: item.maxDurability,
+        },
+      ]),
+    ),
   };
 });
 
@@ -169,35 +181,87 @@ export function MarchModal({ onCommand = dispatchCommand }: MarchModalProps): Re
   };
 
   if (draft.phase === 'pickTarget') {
+    // M6-V9b §3.2：地圖內模式層三浮層——(a) 頂中操作說明帶（沿用 testid/焦點）、
+    // (b) 底中確認/取消藥丸（點選＝預覽，確認才回 compose）、(c) 右側目標卡（敵我戰力比較）。
+    const targetStats =
+      draft.targetNodeId !== null ? model.castleStatsById[draft.targetNodeId] : undefined;
+    const canConfirmTarget = draft.targetNodeId !== null && draft.previewPath?.unreachable !== true;
+    const clearAndCompose = () =>
+      update({
+        phase: 'compose',
+        targetNodeId: null,
+        previewPath: null,
+        previewDays: null,
+        errorKey: null,
+      });
+    const soldierBarMax = Math.max(targetStats?.soldiers ?? 0, draft.soldiers, 1);
     return (
-      <section
-        ref={targetStripRef}
-        className={styles.targetStrip}
-        data-testid="march-target-strip"
-        aria-live="polite"
-        aria-label={t('ui.march.pickTarget')}
-        tabIndex={-1}
-      >
-        <strong>{t('ui.march.pickTarget')}</strong>
-        {draft.previewDays !== null && (
-          <span>{t('ui.march.estDays', { days: draft.previewDays })}</span>
-        )}
-        {draft.errorKey !== null && <span role="alert">{t(draft.errorKey)}</span>}
-        <button
-          type="button"
-          onClick={() =>
-            update({
-              phase: 'compose',
-              targetNodeId: null,
-              previewPath: null,
-              previewDays: null,
-              errorKey: null,
-            })
-          }
+      <>
+        <section
+          ref={targetStripRef}
+          className={styles.targetStrip}
+          data-testid="march-target-strip"
+          aria-live="polite"
+          aria-label={t('ui.march.modeBanner')}
+          tabIndex={-1}
         >
-          {t('ui.march.backCompose')}
-        </button>
-      </section>
+          <strong>{t('ui.march.modeBanner')}</strong>
+          <span>
+            {draft.previewDays !== null
+              ? t('ui.march.estDays', { days: draft.previewDays })
+              : t('ui.march.pickTarget')}
+          </span>
+          {draft.errorKey !== null && <span role="alert">{t(draft.errorKey)}</span>}
+        </section>
+        {draft.targetNodeId !== null && (
+          <aside className={styles.targetCard} data-testid="march-target-card">
+            <h3>{model.names[draft.targetNodeId] ?? draft.targetNodeId}</h3>
+            {targetStats !== undefined ? (
+              <>
+                <StatBar
+                  label={t('ui.march.targetEnemy')}
+                  value={targetStats.soldiers}
+                  max={soldierBarMax}
+                />
+                <StatBar
+                  label={t('ui.march.targetDurability')}
+                  value={targetStats.durability}
+                  max={Math.max(targetStats.maxDurability, 1)}
+                />
+                <StatBar
+                  label={t('ui.march.targetOurForce')}
+                  value={draft.soldiers}
+                  max={soldierBarMax}
+                />
+              </>
+            ) : (
+              // 目標為郡（無守備/耐久）：只顯路徑日數（§3.2c）
+              draft.previewDays !== null && (
+                <p>{t('ui.march.estDays', { days: draft.previewDays })}</p>
+              )
+            )}
+          </aside>
+        )}
+        <div className={styles.targetActions}>
+          <button
+            type="button"
+            className={styles.confirmPill}
+            data-testid="march-target-confirm"
+            disabled={!canConfirmTarget}
+            onClick={() => update({ phase: 'compose' })}
+          >
+            {t('ui.march.confirmTarget')}
+          </button>
+          <button
+            type="button"
+            className={styles.cancelPill}
+            data-testid="march-target-cancel"
+            onClick={clearAndCompose}
+          >
+            {t('ui.common.cancel')}
+          </button>
+        </div>
+      </>
     );
   }
 

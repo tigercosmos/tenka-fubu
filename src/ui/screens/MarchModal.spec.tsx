@@ -105,7 +105,7 @@ describe('MarchModal', () => {
     expect(uiStore.getState().marchDraft).toBeNull();
   });
 
-  it('目標選取階段暫停策略時間，返回編成後恢復原速度', () => {
+  it('目標選取階段暫停策略時間，取消藥丸返回編成後恢復原速度（M6-V9b §3.2b）', () => {
     store.getState().actions.setSpeed('x2');
     uiStore.getState().actions.setMarchDraft({
       ...uiStore.getState().marchDraft!,
@@ -114,8 +114,33 @@ describe('MarchModal', () => {
     render(<MarchModal />);
 
     expect(store.getState().session.speed).toBe('paused');
-    fireEvent.click(screen.getByRole('button', { name: '返回編成' }));
+    fireEvent.click(screen.getByTestId('march-target-cancel'));
     expect(store.getState().session.speed).toBe('x2');
+    expect(uiStore.getState().marchDraft).toMatchObject({ phase: 'compose', targetNodeId: null });
+  });
+
+  it('確認目標藥丸：未選定時 disabled；選定可達目標後 enabled、按下保留目標回編成（M6-V9b §3.2b）', () => {
+    uiStore.getState().actions.setMarchDraft({
+      ...uiStore.getState().marchDraft!,
+      phase: 'pickTarget',
+      targetNodeId: null,
+      previewPath: null,
+      previewDays: null,
+    });
+    const { rerender } = render(<MarchModal />);
+    expect(screen.getByTestId('march-target-confirm')).toHaveProperty('disabled', true);
+    expect(screen.queryByTestId('march-target-card')).toBeNull(); // 未選目標不渲染目標卡
+
+    uiStore.getState().actions.setMarchDraft({
+      ...uiStore.getState().marchDraft!,
+      targetNodeId: TARGET,
+      previewDays: 4,
+    });
+    rerender(<MarchModal />);
+    expect(screen.getByTestId('march-target-confirm')).toHaveProperty('disabled', false);
+    expect(screen.getByTestId('march-target-card')).toBeTruthy(); // 敵我戰力比較卡
+    fireEvent.click(screen.getByTestId('march-target-confirm'));
+    expect(uiStore.getState().marchDraft).toMatchObject({ phase: 'compose', targetNodeId: TARGET });
   });
 
   it('目標選取階段聚焦提示列，Escape 返回編成並清除預覽', () => {

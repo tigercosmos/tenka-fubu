@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { formatDate, formatNumber, t } from '@i18n/zh-TW';
-import { TOKENS } from '@ui/styles/tokens';
+import { clanColorHex, TOKENS } from '@ui/styles/tokens';
 import { Icon, type IconName } from '../IconButton/icons';
 import { Tooltip } from '../Tooltip/Tooltip';
 import styles from './ResourceBar.module.css';
@@ -21,6 +21,9 @@ export interface ResourceBarProps {
   soldiersCap: number;
   prestige: number;
   date: number;
+  /** 勢力識別塊（M6-V9b §4.1：旗幟軌色章＋勢力名；省略＝不渲染，向後相容）。 */
+  clanName?: string;
+  clanColorIndex?: number;
 }
 function useTween(value: number) {
   const [shown, setShown] = useState(value);
@@ -92,6 +95,20 @@ function Item({
 export function ResourceBar(props: ResourceBarProps) {
   return (
     <div className={styles.root}>
+      {/* 勢力識別塊（M6-V9b §4.1）：頂帶最左、資源緊隨——「勢力身分與資源同座」的原創轉譯；
+          色章＝旗幟軌 clanColorHex（呼應名牌印記），≤1440px 以 CSS 斷點只留色章。 */}
+      {props.clanName !== undefined && props.clanColorIndex !== undefined && (
+        <span
+          className={styles.clanIdentity}
+          aria-label={t('ui.hud.clanIdentity', { clan: props.clanName })}
+        >
+          <span
+            className={styles.clanChip}
+            style={{ background: clanColorHex(props.clanColorIndex) }}
+          />
+          <strong className={styles.clanName}>{props.clanName}</strong>
+        </span>
+      )}
       {/* e2e 契約 data-testid（M6-V9 §4.2／§5；17 §6.2）：hud-date 隨 ResourceBar 遷移至此。 */}
       <time data-testid="hud-date">{formatDate(props.date)}</time>
       <Item icon="coin" label={t('ui.hud.gold')} value={props.gold} delta={props.goldDelta} />
