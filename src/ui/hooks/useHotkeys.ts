@@ -5,12 +5,18 @@
 import { useEffect } from 'react';
 import { store } from '@app/store';
 import type { GameLoopController } from '@app/gameLoop';
+import type { MapAnalysisMode } from '@app/store';
+import { uiStore } from './uiStore';
 
 /** 輸入框／可編輯元素聚焦時停用快捷鍵（01 §6.3）。 */
 function isTypingTarget(target: EventTarget | null): boolean {
   return (
     target instanceof HTMLElement &&
-    (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)
+    (target.tagName === 'INPUT' ||
+      target.tagName === 'TEXTAREA' ||
+      target.tagName === 'SELECT' ||
+      target.isContentEditable ||
+      target.closest('[contenteditable="true"]') !== null)
   );
 }
 
@@ -24,9 +30,40 @@ export function useHotkeys(loop: GameLoopController, onToggleDebugPanel?: () => 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent): void {
       if (isTypingTarget(e.target)) return;
+      if (e.ctrlKey || e.metaKey) return;
+      const ui = uiStore.getState();
+      const mapTarget =
+        e.target === document.body ||
+        (e.target instanceof HTMLElement &&
+          (e.target.tagName === 'CANVAS' || e.target.dataset.testid === 'map-canvas-host'));
+      const themeKeys: Record<string, MapAnalysisMode> = {
+        '1': 'faction',
+        '2': 'supply',
+        '3': 'roadCapacity',
+        '4': 'terrainAdvantage',
+        '5': 'castleDefense',
+      };
+      const theme =
+        e.key === 'Tab' && !e.shiftKey && !e.altKey && mapTarget
+          ? 'faction'
+          : e.altKey
+            ? themeKeys[e.key]
+            : undefined;
+      if (theme !== undefined) {
+        if (ui.screen !== 'main' || ui.modal !== null || ui.panelStack.length > 0) return;
+        e.preventDefault();
+        if (!e.repeat) ui.actions.setAnalysisMode(ui.analysisMode === theme ? 'none' : theme);
+        return;
+      }
+      if (e.altKey) return;
       switch (e.key) {
         case ' ':
         case 'Spacebar': {
+          if (
+            e.target instanceof HTMLElement &&
+            e.target.closest('button, summary, a[href], [role="button"], [role="link"]') !== null
+          )
+            return;
           e.preventDefault();
           if (store.getState().session.speed === 'paused') {
             loop.resume();

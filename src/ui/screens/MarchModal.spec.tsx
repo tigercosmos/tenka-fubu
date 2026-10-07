@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { resetGameStoreForTests, store } from '@app/store';
 import type { Officer } from '@core/state/gameState';
 import type { MapNodeId, OfficerId } from '@core/state/ids';
@@ -131,11 +131,35 @@ describe('MarchModal', () => {
     expect(screen.getByTestId('march-target-confirm')).toHaveProperty('disabled', true);
     expect(screen.queryByTestId('march-target-card')).toBeNull(); // 未選目標不渲染目標卡
 
-    uiStore.getState().actions.setMarchDraft({
-      ...uiStore.getState().marchDraft!,
-      targetNodeId: TARGET,
-      previewDays: 4,
-    });
+    act(() =>
+      uiStore.getState().actions.setMarchDraft({
+        ...uiStore.getState().marchDraft!,
+        targetNodeId: TARGET,
+        previewDays: 4,
+      }),
+    );
+    rerender(<MarchModal />);
+    expect(screen.getByTestId('march-target-confirm')).toHaveProperty('disabled', true);
+    act(() =>
+      uiStore.getState().actions.setMarchDraft({
+        ...uiStore.getState().marchDraft!,
+        previewPath: {
+          result: {
+            found: true,
+            nodes: [TEST_CASTLE, TARGET],
+            edgeIds: [],
+            travelDays: 4,
+            subjugateDays: 0,
+            totalDays: 4,
+            steps: [],
+          },
+          originNodeId: TEST_CASTLE,
+          targetNodeId: TARGET,
+          unreachable: false,
+          hostileNodeIds: [],
+        },
+      }),
+    );
     rerender(<MarchModal />);
     expect(screen.getByTestId('march-target-confirm')).toHaveProperty('disabled', false);
     expect(screen.getByTestId('march-target-card')).toBeTruthy(); // 敵我戰力比較卡
@@ -159,4 +183,42 @@ describe('MarchModal', () => {
     render(<MarchModal />);
     expect(screen.queryByRole('button', { name: /試將/ })).toBeNull();
   });
+
+  it.each(['missing', 'unreachable', 'stale', 'failed', 'sameOrigin'] as const)(
+    '無有效目標路徑（%s）不得確認或出陣',
+    (reason) => {
+      const draft = uiStore.getState().marchDraft!;
+      const preview = draft.previewPath!;
+      uiStore.getState().actions.setMarchDraft({
+        ...draft,
+        phase: 'pickTarget',
+        previewPath:
+          reason === 'missing'
+            ? null
+            : {
+                ...preview,
+                unreachable: reason === 'unreachable',
+                targetNodeId: reason === 'stale' ? ('castle.other' as MapNodeId) : TARGET,
+                result: {
+                  ...preview.result,
+                  found: reason !== 'failed',
+                  nodes: reason === 'sameOrigin' ? [TEST_CASTLE] : preview.result.nodes,
+                },
+              },
+      });
+      const onCommand = vi.fn();
+      const { rerender } = render(<MarchModal onCommand={onCommand} />);
+      expect(screen.getByTestId('march-target-confirm')).toHaveProperty('disabled', true);
+      act(() =>
+        uiStore
+          .getState()
+          .actions.setMarchDraft({ ...uiStore.getState().marchDraft!, phase: 'compose' }),
+      );
+      rerender(<MarchModal onCommand={onCommand} />);
+      const march = screen.getByRole('button', { name: '出陣' });
+      expect(march).toHaveProperty('disabled', true);
+      fireEvent.click(march);
+      expect(onCommand).not.toHaveBeenCalled();
+    },
+  );
 });

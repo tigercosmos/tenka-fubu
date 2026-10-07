@@ -2,6 +2,7 @@
 // 此狀態只描述畫面、疊層與暫態草稿，不進 GameState／存檔。
 import { create } from 'zustand';
 import { store as gameStore } from '@app/store';
+import type { MapAnalysisMode } from '@app/store';
 import type { MapPathPreview } from '@ui/map/mapViewTypes';
 import type { CameraState } from '@ui/map/camera';
 
@@ -73,6 +74,8 @@ export interface UIState {
   mapCamera: { camera: CameraState; width: number; height: number } | null;
   speedBeforePause: 1 | 2 | 5;
   uiScale: number;
+  analysisMode: MapAnalysisMode;
+  analysisOpacity: number;
 }
 
 export interface UIActions {
@@ -86,6 +89,8 @@ export interface UIActions {
   setMarchDraft(draft: MarchDraft | null): void;
   setMapCamera(value: UIState['mapCamera']): void;
   setUiScale(scale: number): void;
+  setAnalysisMode(mode: MapAnalysisMode): void;
+  setAnalysisOpacity(opacity: number): void;
   onEsc(): void;
   reset(): void;
 }
@@ -121,6 +126,8 @@ const initialUIState: UIState = {
   mapCamera: null,
   speedBeforePause: 1,
   uiScale: 1,
+  analysisMode: 'none',
+  analysisOpacity: 0.55,
 };
 
 /** 只由 action 呼叫；取出 FIFO 首項，必要時透過 app store 暫停策略時間。 */
@@ -193,6 +200,14 @@ export const useUIStore = create<UIStore>()((set, get) => ({
     },
     setUiScale(uiScale) {
       set({ uiScale });
+    },
+    setAnalysisMode(analysisMode) {
+      set({ analysisMode });
+    },
+    setAnalysisOpacity(analysisOpacity) {
+      if (Number.isFinite(analysisOpacity)) {
+        set({ analysisOpacity: Math.max(0, Math.min(1, analysisOpacity)) });
+      }
     },
     onEsc() {
       const state = get();

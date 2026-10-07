@@ -1,0 +1,71 @@
+.root {
+  position: absolute;
+  top: 4rem;
+  left: 5rem;
+  z-index: var(--z-hud);
+  width: 15rem;
+  max-width: calc(100vw - 10rem);
+  padding: var(--space-2);
+  color: var(--ink-900);
+  background: var(--washi-100);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-1);
+  font-size: var(--font-size-sm);
+}
+
+.root summary {
+  cursor: pointer;
+  min-height: 2rem;
+}
+
+.modes {
+  display: grid;
+  gap: var(--space-1);
+  margin: var(--space-2) 0;
+  padding: var(--space-2);
+  border: var(--border-thin);
+}
+
+.modes label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  cursor: pointer;
+  min-height: 2rem;
+}
+
+.modes kbd {
+  margin-left: auto;
+  font-size: var(--font-size-xs);
+}
+
+.opacity {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.opacity input {
+  width: 100%;
+  accent-color: var(--accent-vermilion);
+  min-height: 2rem;
+}
+
+.root summary:focus-visible,
+.root input:focus-visible {
+  outline: 2px solid var(--accent-vermilion);
+  outline-offset: 2px;
+}
+
+.legend {
+  display: grid;
+  gap: var(--space-1);
+  margin: var(--space-2) 0 0;
+  line-height: var(--line-height-body);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}

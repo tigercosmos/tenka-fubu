@@ -67,6 +67,7 @@ import {
   type ToastItem,
 } from '../components';
 import { MiniMap, type MiniMapViewport } from '../components/MiniMap';
+import { LayerControl } from '../components/LayerControl';
 import { Icon } from '../components/IconButton/icons';
 import { clanColorHex } from '@ui/styles/tokens';
 import { UI } from '../uiConstants';
@@ -143,6 +144,8 @@ export function MainScreen(): ReactElement {
   const marchDraft = useUIStore((s) => s.marchDraft);
   const selection = useUIStore((s) => s.selection);
   const mapCamera = useUIStore((s) => s.mapCamera);
+  const analysisMode = useUIStore((s) => s.analysisMode);
+  const analysisOpacity = useUIStore((s) => s.analysisOpacity);
   const uiActions = useUIStore((s) => s.actions);
   const topPanel = panelStack.at(-1);
   const reportToasts = useCachedGameSelector(selectReportToasts);
@@ -536,7 +539,10 @@ export function MainScreen(): ReactElement {
         pathPreview={marchDraft?.previewPath}
         interactionMode={marchDraft?.phase === 'pickTarget' ? 'orderMarch' : 'idle'}
         marchTargetId={marchDraft?.phase === 'pickTarget' ? marchDraft.targetNodeId : null}
+        analysisMode={analysisMode}
+        analysisOpacity={analysisOpacity}
       />
+      <LayerControl />
       {/* 頂墨帶（M6-V9 §4.1：48px ink900 底 washi 字）＝ResourceBar＋SpeedControl＋☰ 占位。 */}
       <header
         style={{

@@ -32,6 +32,32 @@
  * 字面值型別，13 §3.1）。
  */
 export const zhTW = {
+  'ui.map.layers.title': '戰略圖層',
+  'ui.map.mode.none': '一般地圖',
+  'ui.map.mode.faction': '勢力圖',
+  'ui.map.mode.supply': '補給',
+  'ui.map.mode.roadCapacity': '通行能力',
+  'ui.map.mode.terrainAdvantage': '城池地形',
+  'ui.map.mode.castleDefense': '城池防禦',
+  'ui.map.layers.opacity': '圖層透明度',
+  'ui.map.layers.legend': '圖例',
+  'ui.map.layers.factionLegend': '領域色表示所屬勢力；勢力名稱標示領土中心。',
+  'ui.map.layers.supplyLegend': '部隊攜糧可支應日數：危急、短缺、充足。',
+  'ui.map.layers.roadLegend': '街道等級：一級、二級、三級；虛線為海路。',
+  'ui.map.layers.terrainLegend': '標記區分城池所在的平原與山地；山城使用雙環。',
+  'ui.map.legend.supplyHealthy': '充足（至少７日）',
+  'ui.map.legend.supplyLow': '短缺（３至６日）',
+  'ui.map.legend.supplyCritical': '危急（不足３日，雙環）',
+  'ui.map.legend.road1': '一級街道',
+  'ui.map.legend.road2': '二級街道',
+  'ui.map.legend.road3': '三級街道',
+  'ui.map.legend.sea': '海路',
+  'ui.map.legend.plain': '平原',
+  'ui.map.legend.mountain': '山地（雙環）',
+  'ui.map.legend.defenseHealthy': '耐久至少５０％',
+  'ui.map.legend.defenseLow': '耐久３０％至未滿５０％',
+  'ui.map.legend.defenseCritical': '耐久不足３０％',
+  'ui.map.layers.defenseLegend': '城防強度依耐久比例標示；本城與支城保留角色標記。',
   // ── plan/01-architecture.md §6.2：架構層字串（致命錯誤畫面；M1-18／01-A9） ──
   // 注意：13 §2 關係表列舉的字串來源草案僅含 03～10、16、11、12，未含 01——01 §7 明列
   // 「除錯工具」（含致命錯誤畫面）為其專屬擁有範圍（00 §7「一個機制只在一份文件定義」），

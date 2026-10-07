@@ -128,6 +128,15 @@ export function MarchModal({ onCommand = dispatchCommand }: MarchModalProps): Re
     draft.soldiers <= 0
       ? 0
       : Math.floor(draft.food / (draft.soldiers * BAL.fieldFoodPerSoldierDaily));
+  const hasReachableTarget =
+    draft.targetNodeId !== null &&
+    draft.previewPath !== null &&
+    draft.previewPath.targetNodeId === draft.targetNodeId &&
+    draft.previewPath.originNodeId === draft.originCastleId &&
+    draft.previewPath.result.found &&
+    draft.previewPath.result.nodes.length > 1 &&
+    !draft.previewPath.unreachable &&
+    draft.errorKey === null;
 
   const update = (patch: Partial<typeof draft>) => {
     actions.setMarchDraft({ ...draft, ...patch });
@@ -185,7 +194,7 @@ export function MarchModal({ onCommand = dispatchCommand }: MarchModalProps): Re
     // (b) 底中確認/取消藥丸（點選＝預覽，確認才回 compose）、(c) 右側目標卡（敵我戰力比較）。
     const targetStats =
       draft.targetNodeId !== null ? model.castleStatsById[draft.targetNodeId] : undefined;
-    const canConfirmTarget = draft.targetNodeId !== null && draft.previewPath?.unreachable !== true;
+    const canConfirmTarget = hasReachableTarget;
     const clearAndCompose = () =>
       update({
         phase: 'compose',
@@ -267,7 +276,7 @@ export function MarchModal({ onCommand = dispatchCommand }: MarchModalProps): Re
 
   const canConfirm =
     leader !== undefined &&
-    draft.targetNodeId !== null &&
+    hasReachableTarget &&
     draft.soldiers >= BAL.minMarchTroops &&
     draft.soldiers <= soldierMax &&
     draft.food >= foodMin &&
