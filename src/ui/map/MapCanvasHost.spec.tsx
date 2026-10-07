@@ -241,7 +241,7 @@ vi.mock('pixi.js', () => {
 import { MapCanvasHost } from './MapCanvasHost';
 import { MapRenderer } from './MapRenderer';
 import { LAYER_ORDER } from './mapViewTypes';
-import type { MapEventHandler } from './mapViewTypes';
+import type { MapEventHandler, MapViewState } from './mapViewTypes';
 import { buildMapGraph } from '@core/state/mapGraph';
 import type { CastleId } from '@core/state/ids';
 import { getDebugMapRenderer, resetDebugMapRendererForTests } from './debugMapBridge';
@@ -273,6 +273,90 @@ beforeEach(() => {
 });
 
 describe('MapCanvasHost 生命週期（01-A10）', () => {
+  it('does not create a renderer application before the font loads or after unmount during loading', async () => {
+    const originalFonts = Object.getOwnPropertyDescriptor(document, 'fonts');
+    let finish!: () => void;
+    Object.defineProperty(document, 'fonts', {
+      configurable: true,
+      value: {
+        load: () =>
+          new Promise<void>((resolve) => {
+            finish = resolve;
+          }),
+        ready: Promise.resolve(),
+      },
+    });
+    const { unmount } = render(<MapCanvasHost onMapEvent={vi.fn()} />);
+    try {
+      expect(created()).toBe(0);
+      unmount();
+      await act(async () => {
+        finish();
+        await Promise.resolve();
+      });
+      expect(created()).toBe(0);
+      expect(getDebugMapRenderer()).toBeNull();
+    } finally {
+      unmount();
+      if (originalFonts !== undefined) Object.defineProperty(document, 'fonts', originalFonts);
+      else Reflect.deleteProperty(document, 'fonts');
+    }
+  });
+  it('reapplies latest presentation props after delayed initialization without remounting', async () => {
+    let finish: () => void = () => {};
+    const init = vi.spyOn(MapRenderer.prototype, 'init').mockImplementation(
+      () =>
+        new Promise<void>((resolve) => {
+          finish = resolve;
+        }),
+    );
+    const update = vi.spyOn(MapRenderer.prototype, 'update').mockImplementation(() => {});
+    const setMode = vi.spyOn(MapRenderer.prototype, 'setMode').mockImplementation(() => {});
+    const setTarget = vi
+      .spyOn(MapRenderer.prototype, 'setMarchTarget')
+      .mockImplementation(() => {});
+    const view = {
+      day: 0,
+      castles: [],
+      armies: [],
+      sieges: [],
+      battles: [],
+      districtOwner: {},
+      selection: null,
+      analysisMode: 'none',
+    } satisfies MapViewState;
+    const onMapEvent = vi.fn();
+    const { rerender, unmount } = render(
+      <MapCanvasHost onMapEvent={onMapEvent} viewState={view} />,
+    );
+    await flush(); // Font readiness precedes the deliberately delayed renderer init.
+    rerender(
+      <MapCanvasHost
+        onMapEvent={onMapEvent}
+        viewState={view}
+        analysisMode="supply"
+        analysisOpacity={0.8}
+        interactionMode="orderMarch"
+        marchTargetId="castle.solo"
+      />,
+    );
+    update.mockClear();
+    setMode.mockClear();
+    setTarget.mockClear();
+    await act(async () => {
+      finish();
+      await Promise.resolve();
+    });
+    expect(init).toHaveBeenCalledTimes(1);
+    expect(update).toHaveBeenLastCalledWith(view, { analysisMode: 'supply', analysisOpacity: 0.8 });
+    expect(setMode).toHaveBeenLastCalledWith('orderMarch');
+    expect(setTarget).toHaveBeenLastCalledWith('castle.solo');
+    unmount();
+    init.mockRestore();
+    update.mockRestore();
+    setMode.mockRestore();
+    setTarget.mockRestore();
+  });
   it('mount→unmount：建立的 Application 全數 destroy（無洩漏）', async () => {
     const { unmount } = render(<MapCanvasHost onMapEvent={vi.fn()} />);
     await flush();
@@ -292,13 +376,13 @@ describe('MapCanvasHost 生命週期（01-A10）', () => {
       </StrictMode>,
     );
     await flush();
-    // StrictMode 於 dev 雙掛載：建立 2 個渲染器，第一個於 cleanup 後被銷毀，僅 1 個存活。
-    expect(created()).toBe(2);
+    // StrictMode 首次掛載在字型等待期間卸載，不建立其 Application。
+    expect(created()).toBe(1);
     expect(alive()).toBe(1);
 
     unmount();
     await flush();
-    expect(destroyed()).toBe(created()); // 2 = 2，無 WebGL context 洩漏
+    expect(destroyed()).toBe(created()); // 全數對稱銷毀，無 WebGL context 洩漏
     expect(alive()).toBe(0);
   });
 

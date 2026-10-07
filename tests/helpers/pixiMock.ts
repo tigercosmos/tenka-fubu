@@ -49,6 +49,7 @@ export function createPixiMockClasses(
   Container: unknown;
   Graphics: unknown;
   BitmapText: unknown;
+  TextStyle: unknown;
   Rectangle: unknown;
   Sprite: unknown;
   Texture: unknown;
@@ -143,9 +144,24 @@ export function createPixiMockClasses(
       return this;
     }
   }
+  class TextStyle {
+    constructor(options: object) {
+      Object.assign(this, options);
+    }
+    off(): this {
+      return this;
+    }
+  }
   class BitmapText extends Container {
     text: string;
-    style: unknown;
+    private _style: unknown;
+    get style(): unknown {
+      return this._style;
+    }
+    set style(value: unknown) {
+      if (this._style instanceof TextStyle) this._style.off();
+      this._style = value;
+    }
     alpha = 1;
     // M6-V9（§2.1）：標籤 pixel-lock 之 `anchor.set(0.5, 0)`（頂-中）於 mock 不 throw；
     // 比照 Sprite.anchor（真 pixi v8 BitmapText 具 anchor ObservablePoint）。
@@ -283,6 +299,7 @@ export function createPixiMockClasses(
     Container,
     Graphics,
     BitmapText,
+    TextStyle,
     Rectangle,
     Sprite,
     Texture,

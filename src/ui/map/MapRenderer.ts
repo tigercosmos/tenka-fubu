@@ -84,6 +84,8 @@ import { lodStageForScale, lodStageWithHysteresis, SpatialCullIndex, type LodSta
 import { buildTerritoryGrid, recolorTerritory, type TerritoryGrid } from './territoryGrid';
 import { createTerrainSprite, createWaterFeatures } from './terrain/terrainDraw';
 import { MapAssetLoader } from '@ui/assets/loader';
+import { createAnalysisOverlay } from './analysisOverlay/analysisDraw';
+import type { MapAnalysisMode } from './analysisOverlay/analysisModel';
 import type { CastleTier } from '@core/state/enums';
 import type { MapGraph } from '@core/state/mapGraph';
 import type {
@@ -170,6 +172,9 @@ export class MapRenderer {
 
   private staticData: MapStaticData | null = null;
   private view: MapViewState = EMPTY_VIEW;
+  private analysisOpacity = 0.55;
+  private analysisOverlay: ReturnType<typeof createAnalysisOverlay> | null = null;
+  private registeredListenerCount = 0;
   /** 除錯狀態（01 §4.3 setDebugOverlay/showDebugPath 存放處）；overlay 圖層與路徑繪製屬後續里程碑。 */
   private debug: { overlay: DebugOverlayFlags; path: string[] | null; costLabel: string | null } = {
     overlay: { aiIntent: false, pathfinding: false },
@@ -492,7 +497,9 @@ export class MapRenderer {
     this.applyLodAndCulling();
     this.attachEvents(app);
     app.renderer.on('resize', this.onRendererResize);
+    this.registeredListenerCount += 1;
     app.ticker.add(this.onTick);
+    this.registeredListenerCount += 1;
     this.initialized = true;
   }
 
@@ -849,6 +856,8 @@ export class MapRenderer {
    * （Blocker 2）。首幀著色**不動** `rebuildCounts`、**不設** `territoryDirty`。
    */
   private buildTerritoryLayer(): void {
+    this.analysisOverlay?.destroy();
+    this.analysisOverlay = null;
     // 清舊（含 detach 以免 app.destroy 或後續重建雙重銷毀）。
     if (this.territorySprite) {
       this.layers?.territory.removeChild(this.territorySprite);
@@ -879,6 +888,11 @@ export class MapRenderer {
     // Blocker 2 修正：build 當下即以 this.view 首幀著色（不設 territoryDirty、不動 rebuildCounts）。
     recolorTerritory(this.territoryGrid, this.view.districtOwner, data.clanColorIndex);
     this.territorySource.update();
+    this.analysisOverlay = createAnalysisOverlay(data, this.territoryGrid);
+    this.layers.analysisOverlay.addChild(this.analysisOverlay.container);
+    if (this.view.analysisMode === 'faction')
+      this.layers.labels.addChild(this.analysisOverlay.annotations);
+    this.analysisOverlay.update(this.view, this.view.analysisMode, this.analysisOpacity);
   }
 
   /**
@@ -1002,12 +1016,19 @@ export class MapRenderer {
     stage.eventMode = 'static';
     stage.hitArea = app.screen; // 全螢幕命中；逐節點命中測試為空間查詢，非逐物件監聽（04 §3.12.1）
     stage.on('pointermove', this.onPointerMove);
+    this.registeredListenerCount += 1;
     stage.on('pointerdown', this.onPointerDown);
+    this.registeredListenerCount += 1;
     stage.on('pointerup', this.onPointerUp);
+    this.registeredListenerCount += 1;
     stage.on('pointerupoutside', this.onPointerUp);
+    this.registeredListenerCount += 1;
     stage.on('pointertap', this.onPointerTap);
+    this.registeredListenerCount += 1;
     stage.on('rightclick', this.onRightClick);
+    this.registeredListenerCount += 1;
     app.canvas.addEventListener('wheel', this.onWheel, { passive: false });
+    this.registeredListenerCount += 1;
   }
 
   private emit(event: MapRendererEvent): void {
@@ -1069,8 +1090,15 @@ export class MapRenderer {
     const visibleSieges = this.siegeCull.query(rect);
     const visibleNodes = this.nodeCull.query(rect);
     const visibleLabels = this.labelCull.query(rect);
+    const faction = this.view.analysisMode === 'faction';
+    this.analysisOverlay?.setScale(camera.scale);
+    const armyViews = faction ? new Map(this.view.armies.map((army) => [army.id, army])) : null;
     for (const [id, part] of this.armyParts) {
       part.container.visible = visibleArmies.has(id) && !this.collapsedArmyIds.has(id);
+      if (faction) {
+        const army = armyViews?.get(id);
+        part.container.visible &&= army !== undefined && this.forceKeepChip(army);
+      }
       // M6-V8（V8D13）：far 反向放大（transform，不經 chip.update、不計 armyChips；比照主城 far ×1.4）。
       // armyCull.query 於 restage 後仍有效——純 stage 變更不改軍隊世界位置與 cull entry；未來若在
       // syncArmyChips 內重定位軍隊，須把可見性查詢移至其後。
@@ -1084,7 +1112,7 @@ export class MapRenderer {
       // near（detail）——far/mid 隱，遠景降噪。far 本城剪影 ×1.4 由 setLodStage 施於 bodyGfx
       //（不放大 ring/warn），故此處不設 container.scale。耐久環/警戒徽記顯隱亦由 setLodStage 切。
       const isMain = entry.kind === 'castle' && this.staticData?.castleTier?.[id] === 'main';
-      entry.part.container.visible = visibleNodes.has(id) && (isMain || detail);
+      entry.part.container.visible = visibleNodes.has(id) && (isMain || (!faction && detail));
       entry.part.setLodStage(stage);
     }
     // ── M6-V9 標籤：pixel-lock（§2.1）＋LOD 顯示表（§2.3）＋declutter（§2.5） ──
@@ -1131,17 +1159,22 @@ export class MapRenderer {
       this.runLabelDeclutter();
     }
     for (const part of this.labelParts.values()) {
-      part.container.visible = part.cullVisible && part.lodVisible && !part.declutterHidden;
+      part.container.visible =
+        !faction && part.cullVisible && part.lodVisible && !part.declutterHidden;
     }
     // M6-V9b（§2.8 破例）：選取之我方城／告急（critical）／出陣目標之名牌不受 declutter 隱藏。
     for (const [id, e] of this.nameplateParts) {
       const force = this.nameplateForceShow(id, e);
-      e.part.container.visible = e.cullVisible && e.lodVisible && (!e.declutterHidden || force);
+      e.part.container.visible =
+        (!faction || e.tier === 'main') &&
+        e.cullVisible &&
+        e.lodVisible &&
+        (!e.declutterHidden || force);
     }
     // M6-V6（V6D4）：roads 層恆顯（修正舊 `visible=nearish` 於 far 整層隱藏，違 04 §3.10.3）；
     // 由 RoadsLayer.setStage 切各 tier 能見度（arterial/sea 恆顯、minor/bridge mid 起、path near）
     // 並依 stage 倍率重描——stage 未變則內部早退（零重描，守 day-only tick dirty 契約）。
-    this.layers.roads.visible = true;
+    this.layers.roads.visible = !faction;
     this.roadsLayer?.setStage(stage);
     this.interaction.setScale(camera.scale); // V6D8：命中測試 CSS-px 下限隨相機縮放同步
     this.layers.labels.visible = true;
@@ -1327,7 +1360,7 @@ export class MapRenderer {
       }
       // V8D10：被選取軍隊「在任何 zoom 皆破例顯示且置頂」——即使 id 落於 5+ 疊放收合區（index>=4），
       // 亦不加入 collapsedArmyIds（否則 applyLodAndCulling 會強制隱藏），確保金色雙環可見。
-      if (!entry.visible && !army.selected) this.collapsedArmyIds.add(army.id);
+      if (!entry.visible && !this.forceKeepChip(army)) this.collapsedArmyIds.add(army.id);
       const pos = entry.pos;
       const redrew = part.update({
         pos,
@@ -1349,8 +1382,16 @@ export class MapRenderer {
     }
     this.interaction.setArmies(
       layout
-        .filter((entry) => entry.visible)
-        .map((entry) => ({ id: entry.army.id, pos: entry.pos })),
+        .filter(
+          (entry) =>
+            entry.visible || this.forceKeepChip(entry.army) || this.isFactionDot(entry.army),
+        )
+        .map((entry) => ({
+          id: entry.army.id,
+          // Simplified faction symbols deliberately have no chip stacking. Match
+          // their actual world positions, including armies collapsed in chip mode.
+          pos: this.isFactionDot(entry.army) ? (entry.army.pos ?? entry.pos) : entry.pos,
+        })),
     );
     // V8D10：被選取軍隊 re-append 至末（＝繪製最上）；單選、確定性。至多一軍 selected。
     // 收合區（!entry.visible）之被選取軍亦須置頂——上方已將其排除於 collapsedArmyIds，故其 container
@@ -1364,6 +1405,20 @@ export class MapRenderer {
     }
     // V8D11：登記已繪段，供 applyLodAndCulling 之 restage 落差判定（this.lodStage !== armyChipStage）。
     this.armyChipStage = this.lodStage;
+  }
+
+  private isFactionDot(army: MapViewState['armies'][number]): boolean {
+    return this.view.analysisMode === 'faction' && !this.forceKeepChip(army);
+  }
+
+  private forceKeepChip(army: MapViewState['armies'][number]): boolean {
+    return (
+      army.selected ||
+      (this.view.analysisMode === 'faction' &&
+        (army.foodDays < MAPVIEW.armySupplyLowDays ||
+          army.status === 'engaged' ||
+          army.status === 'sieging'))
+    );
   }
 
   /**
@@ -1480,6 +1535,10 @@ export class MapRenderer {
     if (targetId !== null) {
       this.nameplateParts.get(targetId)?.part.setTargetHighlight(true);
     }
+    if (this.initialized) {
+      this.runLabelDeclutter();
+      this.applyLodAndCulling();
+    }
   }
 
   private redrawPathPreview(): void {
@@ -1525,17 +1584,28 @@ export class MapRenderer {
   /** 冪等銷毀（01 §3.6.2）：移除事件與 canvas、銷毀 Pixi Application 與所有 texture；可重複呼叫。 */
   destroy(): void {
     this.disposed = true;
+    this.analysisOverlay?.destroy();
+    this.analysisOverlay = null;
     const app = this.app;
     if (app !== null) {
       app.stage.off('pointermove', this.onPointerMove);
+      this.registeredListenerCount -= 1;
       app.stage.off('pointerdown', this.onPointerDown);
+      this.registeredListenerCount -= 1;
       app.stage.off('pointerup', this.onPointerUp);
+      this.registeredListenerCount -= 1;
       app.stage.off('pointerupoutside', this.onPointerUp);
+      this.registeredListenerCount -= 1;
       app.stage.off('pointertap', this.onPointerTap);
+      this.registeredListenerCount -= 1;
       app.stage.off('rightclick', this.onRightClick);
+      this.registeredListenerCount -= 1;
       app.renderer.off('resize', this.onRendererResize);
+      this.registeredListenerCount -= 1;
       app.ticker.remove(this.onTick);
+      this.registeredListenerCount -= 1;
       app.canvas.removeEventListener('wheel', this.onWheel);
+      this.registeredListenerCount -= 1;
       // Major 3 修正（§5.1）：先 detach＋destroy 地形/領地 sprite，控制 texture 銷毀範圍，再讓
       // app.destroy 收其餘 display object——避免 app.destroy({texture:true}) 直接銷毀與 boot 共享之
       // relief/forest texture source。共享 source 只經 terrainLoader.dispose() refcount 釋放；
@@ -1646,6 +1716,13 @@ export class MapRenderer {
   updateView(view: MapViewState): void {
     this.view = view;
     if (!this.initialized) return;
+    this.analysisOverlay?.update(view, view.analysisMode, this.analysisOpacity);
+    if (this.analysisOverlay !== null && this.layers !== null) {
+      const annotations = this.analysisOverlay.annotations;
+      if (view.analysisMode === 'faction' && annotations.parent === null)
+        this.layers.labels.addChild(annotations);
+      if (view.analysisMode !== 'faction') annotations.parent?.removeChild(annotations);
+    }
     this.applyOwnerDirty(view);
     // M6-V5（VD4）：owner 翻轉後之次幀 territory recolor（每幀至多一次）；不動 rebuildCounts
     // （sprite 內容 in-place 重上傳，非重建）。territory 只吃郡 owner（`districtOwner`）。
@@ -1672,6 +1749,22 @@ export class MapRenderer {
       }
     }
     this.redrawMilitaryObjects();
+  }
+
+  /** UI-only theme controls; neither the input view nor GameState is mutated. */
+  update(
+    view: MapViewState,
+    ui?: { analysisMode?: MapAnalysisMode; analysisOpacity?: number },
+  ): void {
+    if (ui?.analysisOpacity !== undefined) {
+      this.analysisOpacity = Number.isFinite(ui.analysisOpacity)
+        ? Math.max(0, Math.min(1, ui.analysisOpacity))
+        : 0.55;
+    }
+    this.updateView(
+      ui?.analysisMode === undefined ? view : { ...view, analysisMode: ui.analysisMode },
+    );
+    if (this.initialized) this.applyLodAndCulling();
   }
 
   /**
@@ -1742,6 +1835,55 @@ export class MapRenderer {
   /** 供測試／橋接層取用底層 Application（init 前或 destroy 後為 null）。 */
   getApp(): Application | null {
     return this.app;
+  }
+
+  /** Observed renderer state for visual gates; counts cover renderer-owned resources only. */
+  getDiagnostics() {
+    const visibleDrawables = (container: Container): number => {
+      if (!container.visible || !container.renderable || container.alpha <= 0) return 0;
+      if (container.children.length > 0) {
+        return container.children.reduce((total, child) => total + visibleDrawables(child), 0);
+      }
+      if (container instanceof Graphics) return container.context.instructions.length > 0 ? 1 : 0;
+      if (container instanceof BitmapText) return container.text.length > 0 ? 1 : 0;
+      return container instanceof Sprite ? 1 : 0;
+    };
+    const counts = this.rebuildCounts;
+    const rebuildByLayer: Partial<Record<(typeof LAYER_ORDER)[number], number>> = {
+      roads: counts.roads,
+      labels: counts.labels,
+      nodeMarkers: counts.nodeMarkers,
+      territory: counts.territory,
+      armies: counts.armyChips,
+      nameplates: counts.nameplates,
+      analysisOverlay: this.analysisOverlay?.redraws ?? 0,
+    };
+    return {
+      ready: this.isReady(),
+      analysisMode: this.view.analysisMode,
+      analysisOpacity: this.analysisOpacity,
+      layers: Object.fromEntries(
+        LAYER_ORDER.map((key) => [
+          key,
+          {
+            children: this.layers?.[key].children.length ?? 0,
+            visible: this.layers?.[key].visible ?? false,
+            visibleDrawables: this.layers === null ? 0 : visibleDrawables(this.layers[key]),
+            dirty: key === 'territory' && this.territoryDirty,
+            rebuildCount: rebuildByLayer[key] ?? 0,
+          },
+        ]),
+      ),
+      resources: {
+        ownedTextures:
+          Number(this.territoryTexture !== null) + (this.analysisOverlay?.ownedTextures ?? 0),
+        sharedTerrainSprites:
+          Number(this.reliefSprite !== null) + Number(this.forestSprite !== null),
+        // Six stage listeners, resize, ticker and wheel; attachEvents/destroy own this set.
+        eventListeners: this.registeredListenerCount,
+      },
+      ticker: { fps: this.app?.ticker.FPS ?? 0, deltaMS: this.app?.ticker.deltaMS ?? 0 },
+    };
   }
 
   /** 是否已完成 init 且未 destroy。 */

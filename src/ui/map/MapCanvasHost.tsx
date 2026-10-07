@@ -18,6 +18,8 @@
 
 import { forwardRef, useEffect, useImperativeHandle, useRef, type ReactElement } from 'react';
 import { MapRenderer } from './MapRenderer';
+import { waitForMapFont } from './mapFontReady';
+import type { MapAnalysisMode } from '@app/store';
 import { registerDebugMapRenderer, unregisterDebugMapRenderer } from './debugMapBridge';
 import type {
   MapEventHandler,
@@ -47,6 +49,8 @@ export interface MapCanvasHostProps {
   interactionMode?: MapInteractionMode | undefined;
   /** 出陣目標城 id（M6-V9b §3.4）：該城名牌金框高亮＋declutter 破例；null 清除。 */
   marchTargetId?: string | null | undefined;
+  analysisMode?: MapAnalysisMode | undefined;
+  analysisOpacity?: number | undefined;
 }
 
 export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function MapCanvasHost(
@@ -58,6 +62,8 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
     pathPreview,
     interactionMode = 'idle',
     marchTargetId = null,
+    analysisMode = 'none',
+    analysisOpacity = 0.55,
   }: MapCanvasHostProps,
   ref,
 ): ReactElement {
@@ -65,6 +71,24 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
   const onMapEventRef = useRef(onMapEvent);
   onMapEventRef.current = onMapEvent;
   const rendererRef = useRef<MapRenderer | null>(null);
+  const latestProps = useRef({
+    staticData,
+    viewState,
+    pathPreview,
+    interactionMode,
+    marchTargetId,
+    analysisMode,
+    analysisOpacity,
+  });
+  latestProps.current = {
+    staticData,
+    viewState,
+    pathPreview,
+    interactionMode,
+    marchTargetId,
+    analysisMode,
+    analysisOpacity,
+  };
 
   // M6-V9 §4.4：只暴露 panToWorld（補間導航）；renderer 尚未 init 完成時為安全 no-op。
   useImperativeHandle(
@@ -86,11 +110,24 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
     rendererRef.current = renderer;
     const handler: MapEventHandler = (event) => onMapEventRef.current(event);
     // init 完成前若已卸載（StrictMode／快速切畫面）則立即銷毀，防 WebGL context 洩漏（01 §3.6.2）。
-    void renderer.init(host, handler).then(() => {
+    void waitForMapFont().then(async () => {
+      if (disposed) return;
+      await renderer.init(host, handler);
       if (disposed) {
         renderer.destroy();
         return;
       }
+      const latest = latestProps.current;
+      renderer.setMapData(latest.staticData ?? null);
+      if (latest.viewState !== undefined) {
+        renderer.update(latest.viewState, {
+          analysisMode: latest.analysisMode,
+          analysisOpacity: latest.analysisOpacity,
+        });
+      }
+      renderer.showPathPreview(latest.pathPreview ?? null);
+      renderer.setMode(latest.interactionMode);
+      renderer.setMarchTarget(latest.marchTargetId);
       if (focusNodeId !== undefined) renderer.focusNode(focusNodeId);
       // M6-V2：登記為目前活躍渲染器，供 window.__TENKA_DEBUG__ 的地圖鏡頭 preset／idle 等待使用
       // （src/app/debug.ts；src/ui/map/debugMapBridge.ts）。
@@ -111,8 +148,9 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
   }, [staticData]);
 
   useEffect(() => {
-    if (viewState !== undefined) rendererRef.current?.updateView(viewState);
-  }, [viewState]);
+    if (viewState !== undefined)
+      rendererRef.current?.update(viewState, { analysisMode, analysisOpacity });
+  }, [viewState, analysisMode, analysisOpacity]);
 
   useEffect(() => {
     rendererRef.current?.showPathPreview(pathPreview ?? null);

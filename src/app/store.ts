@@ -14,6 +14,10 @@ import type { GameState } from '@core/state/gameState';
 /** 速度檔位；'paused' 之外對應 00 §5.2 的三檔（01 §4.1）。 */
 export type GameSpeed = 'paused' | 'x1' | 'x2' | 'x5';
 
+/** Presentation-only map themes; never stored in GameState or save files. */
+export type MapAnalysisMode =
+  'none' | 'faction' | 'supply' | 'roadCapacity' | 'terrainAdvantage' | 'castleDefense';
+
 /** 自動暫停原因（00 §5.2 清單＋架構層原因；01 §4.1）。 */
 export type PauseReason =
   | 'user' // 玩家手動（空白鍵／按鈕）

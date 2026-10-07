@@ -40,6 +40,13 @@ import { MapRenderer } from './MapRenderer';
 import type { MapStaticData, MapViewState } from './mapViewTypes';
 import { MAPVIEW } from './mapViewConfig';
 import { TOKENS_NUM } from '@ui/styles/tokens';
+import {
+  ANALYSIS_COLORS,
+  analysisSignature,
+  buildAnalysisMarks,
+  buildFactionPixels,
+} from './analysisOverlay/analysisModel';
+import type { TerritoryGrid } from './territoryGrid';
 
 /**
  * 環繞 fixture 節點（100–300 世界座標）之小型合成 outline（M6-V5，Minor 6／§5.5）：使
@@ -172,6 +179,188 @@ beforeEach(() => {
   hoisted.apps.length = 0;
   hoisted.bufferSources.length = 0;
   hoisted.textures.length = 0;
+});
+
+describe('M6-V10 analysis overlay', () => {
+  function analysisArmy(
+    overrides: Partial<MapViewState['armies'][number]> = {},
+  ): MapViewState['armies'][number] {
+    return {
+      id: 'army.1',
+      clanId: 'clan.oda',
+      soldiers: 1000,
+      status: 'holding',
+      morale: 80,
+      foodDays: 20,
+      mission: 'march',
+      fromNode: 'castle.a' as CastleId,
+      toNode: null,
+      edgeT: 0,
+      corps: false,
+      selected: false,
+      relation: 'friendly',
+      ...overrides,
+    };
+  }
+  it('switches mutually exclusive themes, clamps opacity and leaves input view unchanged', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    const view = baseView();
+    const original = JSON.stringify(view);
+    for (const mode of [
+      'roadCapacity',
+      'supply',
+      'terrainAdvantage',
+      'castleDefense',
+      'faction',
+      'none',
+    ] as const) {
+      r.update(view, { analysisMode: mode, analysisOpacity: 2 });
+      const diagnostics = r.getDiagnostics();
+      expect(diagnostics.analysisMode).toBe(mode);
+      expect(diagnostics.analysisOpacity).toBe(1);
+      expect(r.getLayers()!.analysisOverlay.children.length).toBe(1);
+      expect(r.getLayers()!.analysisOverlay.children[0]!.visible).toBe(mode !== 'none');
+      expect(r.getLayers()!.roads.visible).toBe(mode !== 'faction');
+    }
+    expect(JSON.stringify(view)).toBe(original);
+    r.destroy();
+    expect(r.getDiagnostics().resources).toMatchObject({ ownedTextures: 0, eventListeners: 0 });
+  });
+
+  it('opacity/day changes do not redraw; relevant defense updates redraw only analysis content', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    const view = baseView();
+    r.update(view, { analysisMode: 'castleDefense' });
+    const count = r.getDiagnostics().layers.analysisOverlay!.rebuildCount;
+    r.update({ ...view, day: 2 }, { analysisMode: 'castleDefense', analysisOpacity: 0.2 });
+    expect(r.getDiagnostics().layers.analysisOverlay!.rebuildCount).toBe(count);
+    r.update(
+      { ...view, castles: view.castles.map((c) => ({ ...c, durability: 100 })) },
+      { analysisMode: 'castleDefense' },
+    );
+    expect(r.getDiagnostics().layers.analysisOverlay!.rebuildCount).toBe(count + 1);
+    r.destroy();
+  });
+
+  it('faction annotations follow castle ownership and healthy army movement without recoloring raster', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData({ names: { 'clan.oda': '織田家', 'clan.imagawa': '今川家' } }));
+    const view = baseView({
+      armies: [analysisArmy({ status: 'marching', toNode: 'dist.x' as DistrictId })],
+    });
+    r.update(view, { analysisMode: 'faction' });
+    const annotations = r
+      .getLayers()!
+      .labels.children.find((c) => c.label === 'factionAnnotations')!;
+    expect(annotations.children.length).toBe(3);
+    const labelBeforeMove = annotations.children[0];
+    const dotBeforeMove = annotations.children[2];
+    const source = hoisted.bufferSources[1]!;
+    const before = source.updateCalls;
+    r.update(
+      { ...view, armies: view.armies.map((a) => ({ ...a, edgeT: 0.5 })) },
+      { analysisMode: 'faction' },
+    );
+    expect(annotations.children[2]!.position.x).toBe(150);
+    expect(annotations.children[0]).toBe(labelBeforeMove);
+    expect(annotations.children[2]).toBe(dotBeforeMove);
+    expect(source.updateCalls).toBe(before);
+    const dotClear = vi.spyOn(dotBeforeMove as unknown as { clear: () => unknown }, 'clear');
+    r.update(
+      { ...view, armies: view.armies.map((a) => ({ ...a, relation: 'enemy' as const })) },
+      { analysisMode: 'faction' },
+    );
+    expect(annotations.children[2]).toBe(dotBeforeMove);
+    expect(dotClear).toHaveBeenCalledOnce();
+    r.update(
+      {
+        ...view,
+        castles: view.castles.map((c) => ({ ...c, ownerClanId: view.castles[0]!.ownerClanId })),
+      },
+      { analysisMode: 'faction' },
+    );
+    expect(annotations.children.length).toBe(2);
+    r.destroy();
+    expect(hoisted.bufferSources.every((s) => s.destroyed)).toBe(true);
+    expect(hoisted.textures.every((t) => t.destroyed)).toBe(true);
+  });
+
+  it('reuses halo TextStyle identity across faction redraws and renderer remounts', async () => {
+    const data = staticData({ names: { 'clan.oda': '織田家', 'clan.imagawa': '今川家' } });
+    const r = await makeRenderer();
+    r.setMapData(data);
+    r.update(baseView(), { analysisMode: 'faction' });
+    const styles = () =>
+      r
+        .getLayers()!
+        .labels.children.find((c) => c.label === 'factionAnnotations')!
+        .children.filter((c) => 'text' in c)
+        .map((c) => (c as unknown as { style: unknown }).style);
+    const before = styles();
+    const detach = vi.spyOn(before[0] as { off: () => unknown }, 'off');
+    r.setMapData(data);
+    r.update(baseView(), { analysisMode: 'faction' });
+    expect(styles()[0]).toBe(before[0]);
+    expect(detach).toHaveBeenCalledOnce();
+    r.destroy();
+    expect(detach).toHaveBeenCalledTimes(2);
+    const remount = await makeRenderer();
+    remount.setMapData(data);
+    remount.update(baseView(), { analysisMode: 'faction' });
+    const label = remount
+      .getLayers()!
+      .labels.children.find((c) => c.label === 'factionAnnotations')!.children[0]!;
+    expect((label as unknown as { style: unknown }).style).toBe(before[0]);
+    remount.destroy();
+    expect(detach).toHaveBeenCalledTimes(3);
+  });
+
+  it('uses model road grades, castle terrain, durability and supply facts', () => {
+    const data = staticData();
+    const view = baseView({ armies: [analysisArmy({ foodDays: 2 })] });
+    const road = buildAnalysisMarks(data, view, 'roadCapacity')[0]!;
+    expect(road).toMatchObject({
+      color: ANALYSIS_COLORS.critical,
+      width: 7,
+      points: [100, 100, 200, 100],
+    });
+    expect(buildAnalysisMarks(data, view, 'supply')[0]).toMatchObject({
+      color: ANALYSIS_COLORS.critical,
+      double: true,
+    });
+    expect(buildAnalysisMarks(data, view, 'terrainAdvantage')).toHaveLength(2);
+    expect(buildAnalysisMarks(data, view, 'castleDefense')[0]).toMatchObject({
+      color: ANALYSIS_COLORS.healthy,
+      double: true,
+    });
+    expect(analysisSignature(view, 'roadCapacity')).toBe(
+      analysisSignature({ ...view, day: 5, armies: [] }, 'roadCapacity'),
+    );
+  });
+
+  it('clips faction raster to land and distinguishes district/faction borders', () => {
+    const grid = {
+      size: 2,
+      districtIds: ['dist.a', 'dist.b'],
+      nearestDistrict: new Uint16Array([0, 1, 0xffff, 0xffff]),
+    } as TerritoryGrid;
+    const data = staticData();
+    const same = buildFactionPixels(
+      grid,
+      data,
+      baseView({ districtOwner: { 'dist.a': 'clan.oda', 'dist.b': 'clan.oda' } }),
+    );
+    const different = buildFactionPixels(
+      grid,
+      data,
+      baseView({ districtOwner: { 'dist.a': 'clan.oda', 'dist.b': 'clan.imagawa' } }),
+    );
+    expect([...same.slice(8)]).toEqual(Array(8).fill(0));
+    expect(same[3]).toBe(255);
+    expect([...same.slice(0, 3)]).not.toEqual([...different.slice(0, 3)]);
+  });
 });
 
 describe('MapRenderer dirty-update（M6-V4 §7 DoD①：無變更 tick 不重建）', () => {
@@ -734,9 +923,85 @@ describe('軍隊 V8（M6-V8 §8.3）：heading／stage restage／far 放大／�
     r.destroy();
   });
 
+  it('faction dots register every unstacked position and mode switches restore chip hit positions', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    const interaction = (
+      r as unknown as {
+        interaction: {
+          setArmies: (armies: readonly { id: string; pos: { x: number; y: number } }[]) => void;
+        };
+      }
+    ).interaction;
+    const spy = vi.spyOn(interaction, 'setArmies');
+    const view = baseView({
+      armies: armiesView(
+        Array.from({ length: 5 }, (_, i) =>
+          v8Army({ id: `army.${i}`, fromNode: 'castle.a', toNode: null, foodDays: 10 }),
+        ),
+      ),
+    });
+    r.update(view, { analysisMode: 'none' });
+    const regular = spy.mock.calls.at(-1)![0];
+    expect(regular).toHaveLength(4);
+    r.update(view, { analysisMode: 'faction' });
+    const faction = spy.mock.calls.at(-1)![0];
+    expect(faction).toHaveLength(5);
+    expect(faction.every((a) => a.pos.x === 100 && a.pos.y === 100)).toBe(true);
+    r.update(view, { analysisMode: 'none' });
+    expect(spy.mock.calls.at(-1)![0]).toEqual(regular);
+    r.destroy();
+  });
+
+  it.each([{ foodDays: 1 }, { status: 'engaged' }, { status: 'sieging' }])(
+    'faction keeps a fifth critical chip visible and hittable: %j',
+    async (critical) => {
+      const r = await makeRenderer();
+      r.setMapData(staticData());
+      const interaction = (
+        r as unknown as {
+          interaction: {
+            setArmies: (armies: readonly { id: string; pos: { x: number; y: number } }[]) => void;
+          };
+        }
+      ).interaction;
+      const spy = vi.spyOn(interaction, 'setArmies');
+      const view = baseView({
+        armies: armiesView(
+          Array.from({ length: 5 }, (_, i) =>
+            v8Army({
+              id: `army.${i}`,
+              fromNode: 'castle.a',
+              toNode: null,
+              foodDays: 10,
+              ...(i === 4 ? critical : {}),
+            }),
+          ),
+        ),
+      });
+      r.update(view, { analysisMode: 'none' });
+      const chip = r.getLayers()!.armies.children[4]!;
+      expect(chip.visible).toBe(false);
+      expect(spy.mock.calls.at(-1)![0].some((a) => a.id === 'army.4')).toBe(false);
+      r.update(view, { analysisMode: 'faction' });
+      expect(chip.visible).toBe(true);
+      expect(spy.mock.calls.at(-1)![0].find((a) => a.id === 'army.4')?.pos).toEqual({
+        x: chip.position.x,
+        y: chip.position.y,
+      });
+      r.update(view, { analysisMode: 'none' });
+      expect(chip.visible).toBe(false);
+      r.destroy();
+    },
+  );
+
   it('被選取軍深埋 5+ 收合區仍破例顯示且置頂（V8D10「永遠置頂」硬約束回歸）', async () => {
     const r = await makeRenderer();
     r.setMapData(staticData());
+    const interaction = (
+      r as unknown as { interaction: { setArmies: (armies: readonly { id: string }[]) => void } }
+    ).interaction;
+    const setArmies = vi.spyOn(interaction, 'setArmies');
     // 5 支 holding 軍同駐 castle.a（同 stackKey）→ 收合：id 序 index>=4 預設隱藏。選取 id 序最末
     // （army.5，index 4）者：修正前會被加入 collapsedArmyIds → container 隱藏、且置頂迴圈以
     // !entry.visible 跳過 → 既不顯示亦不置頂，違反「被選取軍隊永遠置頂／破例顯示」硬約束。
@@ -754,6 +1019,7 @@ describe('軍隊 V8（M6-V8 §8.3）：heading／stage restage／far 放大／�
     const selected = children[4]!; // 建立序 army.1..army.5 → army.5 = index 4（收合區）
     expect(selected.visible).toBe(true); // 破例顯示（未被 collapsedArmyIds 隱藏）
     expect(r.getLayers()!.armies.children.at(-1)).toBe(selected); // re-append 至末＝置頂
+    expect(setArmies.mock.calls.at(-1)![0].some((army) => army.id === 'army.5')).toBe(true);
     r.destroy();
   });
 
