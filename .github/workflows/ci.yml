@@ -114,6 +114,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci
+      - run: npm run validate:assets
       - run: npm run build
 
       # M0 佔位：Playwright smoke（P1）於 M1-27 才產出（17 §3.11.2 M0 欄 Playwright P1 為

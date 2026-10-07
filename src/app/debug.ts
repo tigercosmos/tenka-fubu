@@ -22,6 +22,8 @@ import { startNewDemoGame } from './newGame';
 import { MAPVIEW } from '@ui/map/mapViewConfig';
 import { getDebugMapRenderer } from '@ui/map/debugMapBridge';
 import type { MapRenderer } from '@ui/map/MapRenderer';
+import { selectMapViewModel } from '@core/state/selectors';
+import { composeMapViewState } from '@ui/map/composeMapView';
 
 /**
  * URL 參數解析結果（01 §4.5 逐字；boot 前產生，執行期唯讀）。
@@ -105,6 +107,20 @@ export interface TenkaDebugApi {
   setMapCameraPreset(preset: 'overview' | 'operational' | 'close'): Promise<void>;
   /** 等待地圖 renderer 連續 `frames`（預設 2）個 ticker frame，供截圖前確保畫面已靜止（17 §3.9.3）。 */
   waitMapIdle(frames?: number): Promise<void>;
+  getMapDiagnostics(): ReturnType<MapRenderer['getDiagnostics']>;
+  remountMap(): Promise<void>;
+  measureMapFrames(durationMs?: number): Promise<{
+    durationMs: number;
+    armyCount: number;
+    frames: number;
+    fpsP95: number;
+    frameTimeP95: number;
+    frameTimesMs: number[];
+    cpuUpdateTimeP95: number;
+    cpuUpdateTimesMs: number[];
+    resourcesBefore: ReturnType<MapRenderer['getDiagnostics']>['resources'];
+    resourcesAfter: ReturnType<MapRenderer['getDiagnostics']>['resources'];
+  }>;
 }
 
 function requireGame(): GameState {
@@ -209,6 +225,92 @@ export function installDebugApi(flags: DebugFlags): void {
     },
     async waitMapIdle(frames = 2) {
       await requireMapRenderer().waitForIdleFrames(frames);
+    },
+    getMapDiagnostics() {
+      return requireMapRenderer().getDiagnostics();
+    },
+    async remountMap() {
+      const oldRenderer = requireMapRenderer();
+      store.getState().actions.setScreen('title');
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      store.getState().actions.setScreen('main');
+      const deadline = performance.now() + 10_000;
+      while (performance.now() < deadline) {
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        const renderer = getDebugMapRenderer();
+        if (renderer !== null && renderer !== oldRenderer) {
+          await renderer.waitForIdleFrames(2);
+          return;
+        }
+      }
+      throw new Error('Map remount did not finish within 10 seconds');
+    },
+    async measureMapFrames(durationMs = 30_000) {
+      if (!Number.isFinite(durationMs) || durationMs < 1000 || durationMs > 60_000) {
+        throw new Error('Frame measurement duration must be between 1000 and 60000 ms');
+      }
+      const renderer = requireMapRenderer();
+      const game = requireGame();
+      const base = composeMapViewState(selectMapViewModel(game), null, game.meta.playerClanId);
+      const template = base.armies.find(
+        (army) => army.toNode !== null && army.fromNode !== army.toNode,
+      );
+      if (template === undefined) throw new Error('Frame measurement needs an army fixture');
+      const anchor = game.castles[VISUAL_ANCHOR_CASTLE_ID]!.pos;
+      const resourcesBefore = renderer.getDiagnostics().resources;
+      const intervals: number[] = [];
+      const cpuUpdateTimesMs: number[] = [];
+      const started = performance.now();
+      let previous = started;
+      try {
+        await new Promise<void>((resolve) => {
+          const frame = (now: number) => {
+            intervals.push(now - previous);
+            previous = now;
+            const elapsed = now - started;
+            const updateStarted = performance.now();
+            // Rendering workload only: synthetic view entries never enter GameState or saves.
+            const armies = Array.from({ length: 20 }, (_, index) => ({
+              ...template,
+              id: `army.visual-perf-${index}`,
+              status: 'marching' as const,
+              edgeT: 0.05 + ((elapsed / 10_000 + index / 20) % 1) * 0.9,
+            }));
+            renderer.updateView({ ...base, armies });
+            renderer.setCameraPose(
+              {
+                x: anchor.x + Math.sin(elapsed / 2000) * 100,
+                y: anchor.y + Math.cos(elapsed / 2000) * 60,
+              },
+              0.5 + (Math.sin(elapsed / 3000) + 1) * 0.3,
+            );
+            cpuUpdateTimesMs.push(performance.now() - updateStarted);
+            if (elapsed >= durationMs) resolve();
+            else requestAnimationFrame(frame);
+          };
+          requestAnimationFrame(frame);
+        });
+        const frameTimesMs = intervals.slice(1);
+        const frameTimes = [...frameTimesMs].sort((a, b) => a - b);
+        const fps = frameTimes.map((ms) => 1000 / ms).sort((a, b) => a - b);
+        const percentile = (values: number[]) => values[Math.ceil(values.length * 0.95) - 1] ?? 0;
+        return {
+          durationMs: previous - started,
+          armyCount: 20,
+          frames: frameTimes.length,
+          fpsP95: percentile(fps),
+          frameTimeP95: percentile(frameTimes),
+          frameTimesMs,
+          cpuUpdateTimeP95: percentile([...cpuUpdateTimesMs].sort((a, b) => a - b)),
+          cpuUpdateTimesMs,
+          resourcesBefore,
+          resourcesAfter: renderer.getDiagnostics().resources,
+        };
+      } finally {
+        renderer.updateView(base);
+        const pose = resolveCameraPresetPose(game, 'operational');
+        renderer.setCameraPose(pose.center, pose.scale);
+      }
     },
   };
   const debugWindow = window as unknown as {

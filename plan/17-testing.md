@@ -512,7 +512,7 @@ Playwright `e2e/visual.spec.ts` 使用 Chromium、viewport 1280×720、DPR 1、`
 
 | baseline | 鏡頭 | 必須可見 |
 |---|---|---|
-| `strategy-overview.png` | overview／約 25% | 海岸、主要山系／水系、勢力領域、主幹道、本城、軍隊、勢力名 |
+| `strategy-overview.png` | overview／約 25% | 海岸、主要山系／水系、勢力領域、主幹道、本城、軍隊、國名；勢力模式另驗證勢力名 |
 | `strategy-operational.png` | operational／約 50% | 上列＋次要道路、支城、郡界、城名、方向／目的地與警告 |
 | `strategy-close.png` | close／100% 以上 | 上列＋聚落、道路名、城耐久、軍隊士氣／補給、ETA 與選取狀態 |
 
@@ -520,13 +520,14 @@ Playwright `e2e/visual.spec.ts` 使用 Chromium、viewport 1280×720、DPR 1、`
 
 1. pixel diff 門檻只吸收跨平台抗鋸齒微差；任何 baseline 更新都須獨立 commit，PR 附 before／after、
    對應 Art Bible 條目與 reviewer 核准，不可用「更新全部」掩蓋不明差異。
-2. layer-presence smoke 直接向 DEV renderer diagnostics 讀每層 children／visible／dirty 統計，斷言
-   `terrainBase`、`territory`、`roads`、`nodeMarkers`、`armies`、`labels` 在對應 LOD 非空；只看像素不算完成。
+2. layer-presence smoke 直接向 DEV renderer diagnostics 讀每層 children／visible／dirty 與有效 drawable 統計，
+   斷言 `terrainBase`、`territory`、`roads`、`nodeMarkers`、`armies` 在對應 LOD 有可見繪製內容；
+   overview 驗證 `labels`，operational／close 驗證 V9b 的 `nameplates`。空容器不算內容；只看像素不算完成。
 3. 靜態 tick 連跑 30 日，`terrainBase/roads/nodeMarkers` rebuild count 保持 0；翻轉一郡只允許
    `territory` dirty；移動部隊只允許相應 ArmyChip transform／狀態更新。
 4. 以色弱模擬／灰階截圖人工檢查敵我、warning／hostile、三道路級仍有形狀、旗型、明暗或線型差異；
    所有小路點與 icon 的 hit target ≥32 CSS px。
-5. 同 fixture 另跑 1920×1080、20 支移動部隊、連續平移／縮放 30 秒：FPS p95 ≥55；renderer destroy／
+5. 同 fixture 另跑 1920×1080、20 支移動部隊、連續平移／縮放 30 秒：FPS p95 ≥55，且 frame time p95 ≤1000/55 ms；renderer destroy／
    remount 後 texture cache、listener 與 heap 回到穩態，無 WebGL context lost。
 6. `npm run validate:assets` 必須先通過；缺作者／來源／授權／hash、未知 runtime path 或 raw source 混入
    production bundle 均為阻斷失敗。
@@ -1151,3 +1152,12 @@ perfGate():
     全阻斷 gate 時再檢討）。④ 字型子集掃描（`tools/font-charset.ts`）加掃 `src/core/debugVisual.ts`
     全字串字面量：fixture 顯示名稱由 MapRenderer BitmapText 直接烘進 baseline，原掃描範圍
     （i18n＋劇本 JSON name）涵蓋不到，缺字（雪/鳴/阜）會靜默變 tofu 且涵蓋率檢查仍綠。
+23. **（2026-10-08；M6-V11 gate 收緊）空層、像素容忍與測試環境**：
+    ① 截圖門檻改為最多 100 changed pixels、threshold 0.15；未知平台缺 baseline 直接失敗，
+    僅明確 `UPDATE_VISUAL=1` 可建立基準。② diagnostics 遞迴計算有效可見 drawable，
+    不以 children 數量代替繪製內容；V9b 城名牌依 LOD 獨立驗證。③ FPS p95 是快端分位，
+    另以 frame time p95 ≤1000/55 ms 約束慢端；保存原始 frame／CPU update 時間與 GPU 名稱。
+    軟體 rasterizer 的結果保留為環境證據，不得冒充硬體效能。④ remount 先啟用 faction，
+    覆蓋 lazy analysis texture；核對 texture、listener 與 post-GC heap，不以資源計數不變推論無 heap 洩漏。
+    ⑤ 使用者要求所有後續瀏覽器測試 headless，不開新視窗；已完成的硬體量測保留，未完成 gate 不預先宣告通過。
+    ⑥ 一般 overview 沿用 V9 的國名標籤；勢力名屬 V10 faction 主題，不以一般模式的國名冒充勢力名。

@@ -15,11 +15,29 @@ export default defineConfig({
     trace: 'retain-on-failure', // 17 §3.11.1／T10：trace on failure
   },
   // 17 §3.9.3：M6-V2 視覺回歸 gate（`e2e/visual.spec.ts`）toHaveScreenshot 門檻——
-  // maxDiffPixelRatio 只吸收跨平台反鋸齒／字型 hinting 微差,不得放寬到掩蓋真實回歸；
+  // 100 changed pixels catches thin-road regressions that the old 1% allowance missed.
   // animations:'disabled' 讓 CSS transition／animation 定格,避免截圖時序閃動。
   expect: {
-    toHaveScreenshot: { maxDiffPixelRatio: 0.01, animations: 'disabled' },
+    toHaveScreenshot: { maxDiffPixels: 100, threshold: 0.15, animations: 'disabled' },
   },
   webServer: { command: 'npm run preview', port: 4173, reuseExistingServer: !process.env.CI },
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }], // 00 §1.5：僅 chromium
+  projects: [
+    {
+      name: 'chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+        // Full Chromium's new headless mode can use the reference GPU without opening a window.
+        ...(process.env.VISUAL_GPU === '1'
+          ? {
+              channel: 'chromium',
+              headless: true,
+              launchOptions: {
+                headless: true,
+                ...(process.platform === 'darwin' ? { args: ['--use-angle=metal'] } : {}),
+              },
+            }
+          : {}),
+      },
+    },
+  ], // 00 §1.5：僅 chromium
 });
