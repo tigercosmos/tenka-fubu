@@ -29,7 +29,10 @@ const REPO_ROOT = path.resolve(import.meta.dirname, '..');
 const DEFAULT_I18N_FILE = path.join(REPO_ROOT, 'src/i18n/zh-TW.ts');
 const DEFAULT_SCENARIOS_DIR = path.join(REPO_ROOT, 'src/data/scenarios');
 /** 含地圖顯示名稱的 debug fixture 檔案（字串字面量整檔掃描，同 i18n 掃法）。 */
-const DEFAULT_DEBUG_FIXTURE_FILES = [path.join(REPO_ROOT, 'src/core/debugVisual.ts')];
+const DEFAULT_DEBUG_FIXTURE_FILES = [
+  path.join(REPO_ROOT, 'src/core/debugVisual.ts'),
+  path.join(REPO_ROOT, 'src/core/debugM6.ts'),
+];
 
 /** 將字串拆成 Unicode code point（非 UTF-16 code unit）的集合，正確處理 surrogate pair。 */
 function toCharSet(text: string): Set<string> {

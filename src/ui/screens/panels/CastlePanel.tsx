@@ -203,6 +203,20 @@ export function CastlePanel({
         onClose={close}
         variant="ornate"
       >
+        {!owned && (
+          <button
+            type="button"
+            onClick={() =>
+              uiStore.getState().actions.openPanel('plot', {
+                kind: 'betrayal',
+                targetClanId: model.castle.ownerClanId,
+                targetId: castleId,
+              })
+            }
+          >
+            {t('ui.plot.title')}
+          </button>
+        )}
         <TabView tabs={tabs} activeId={tab} onChange={(id) => setTab(id as TabId)} keepMounted>
           <TabView.Pane id="overview">
             <div className={styles.page}>

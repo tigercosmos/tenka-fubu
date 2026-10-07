@@ -107,6 +107,14 @@ describe('translateAutoPauseReasons — core AutoPauseReason → app PauseReason
 });
 
 describe('installAutoPause 與 bridge.runOneDay 的整合（01 §3.4.4 步驟 9 對應）', () => {
+  it('來使、具申與月初事件不覆寫玩家手動暫停', () => {
+    const loop = createGameLoopController(createManualScheduler().scheduler);
+    uninstall = installAutoPause(loop);
+    loop.requestPause('user');
+    triggerAutoPauseHandlerForTests(['envoyArrived', 'proposalArrived', 'monthStart']);
+    expect(store.getState().session.speed).toBe('paused');
+    expect(store.getState().session.lastPauseReason).toBe('user');
+  });
   it('runOneDay 每次結束都會呼叫已安裝的回呼（M1 骨架期 autoPauseReasons 恆空，不觸發暫停）', () => {
     const loop = createGameLoopController(createManualScheduler().scheduler);
     uninstall = installAutoPause(loop);

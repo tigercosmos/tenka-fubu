@@ -4,12 +4,14 @@ import { RANK_VALUES } from '@core/state/enums';
 import type { Officer } from '@core/state/gameState';
 import type { OfficerId } from '@core/state/ids';
 import { TRAITS } from '@core/traits';
-import { formatNumber, t } from '@i18n/zh-TW';
+import { formatNumber, formatDate, t } from '@i18n/zh-TW';
 import { Badge, EmptyState, Panel, StatBar } from '@ui/components';
 import { makeCachedSelector, useCachedGameSelector } from '@ui/hooks/useGameSelector';
 import { useUIStore } from '@ui/hooks/uiStore';
 import { rankLabel, roleLabel, type OfficerRoleKind } from './OfficerList';
 import styles from './OfficerDetail.module.css';
+import { OfficerActions } from './OfficerActions';
+import { renderReport } from '../reports/renderReport';
 
 export interface OfficerDetailProps {
   officerId?: OfficerId;
@@ -69,6 +71,18 @@ const selectOfficerDetail = makeCachedSelector((game, resolvedOfficerId: Officer
     traits,
     fiefs,
     promotionReady: nextThreshold !== undefined && officer.merit >= nextThreshold,
+    history: game.reports
+      .filter(
+        (report) =>
+          ('officerId' in report.event && report.event.officerId === officer.id) ||
+          ('targetOfficerId' in report.event && report.event.targetOfficerId === officer.id),
+      )
+      .slice(0, 5)
+      .map((report) => ({
+        id: report.id,
+        text: renderReport(report.event, game, game.meta.playerClanId),
+        day: report.day,
+      })),
   };
 });
 
@@ -147,8 +161,19 @@ export function OfficerDetail({ officerId, onClose }: OfficerDetailProps): React
         </section>
         <section className={styles.section}>
           <h3>{t('ui.officer.history')}</h3>
-          <p>{t('ui.common.noData')}</p>
+          {model.history.length === 0 ? (
+            <p>{t('ui.common.noData')}</p>
+          ) : (
+            <ul>
+              {model.history.map((report) => (
+                <li key={report.id}>
+                  {formatDate(report.day)} · {report.text}
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
+        <OfficerActions officerId={model.id} />
       </Panel>
     </aside>
   );

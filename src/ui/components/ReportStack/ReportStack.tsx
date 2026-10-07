@@ -14,6 +14,7 @@ export interface ToastItem {
   date: number;
   onClick?: () => void;
   sticky?: boolean;
+  dismissible?: boolean;
 }
 
 export interface ReportStackProps {
@@ -104,17 +105,19 @@ function Toast({ item, onDismiss }: ToastProps) {
     >
       <div className={styles.heading}>
         <strong>{item.title}</strong>
-        <span
-          onClick={(event) => event.stopPropagation()}
-          onKeyDown={(event) => event.stopPropagation()}
-        >
-          <IconButton
-            icon="close"
-            ariaLabel={t('ui.toast.dismiss')}
-            size="sm"
-            onClick={beginDismiss}
-          />
-        </span>
+        {item.dismissible !== false && (
+          <span
+            onClick={(event) => event.stopPropagation()}
+            onKeyDown={(event) => event.stopPropagation()}
+          >
+            <IconButton
+              icon="close"
+              ariaLabel={t('ui.toast.dismiss')}
+              size="sm"
+              onClick={beginDismiss}
+            />
+          </span>
+        )}
       </div>
       {item.body !== undefined && <p>{item.body}</p>}
       <time>{formatDate(item.date)}</time>

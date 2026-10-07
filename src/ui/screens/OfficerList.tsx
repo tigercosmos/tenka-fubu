@@ -35,6 +35,7 @@ export interface OfficerRow {
   role: OfficerRoleKind;
   roleLabel: string;
   loyaltyRisk: boolean;
+  promotionReady?: boolean;
 }
 
 export interface OfficerFilters {
@@ -134,6 +135,9 @@ export function buildOfficerRows(game: GameState): OfficerRow[] {
         role,
         roleLabel: roleLabel(role),
         loyaltyRisk: officer.loyalty < 30,
+        promotionReady:
+          (BAL.rankMeritThresholds[RANK_VALUES.indexOf(officer.rank) + 1] ?? Infinity) <=
+          officer.merit,
       };
     });
 }
@@ -283,6 +287,9 @@ export function OfficerList({ onClose, onOpenOfficer }: OfficerListProps): React
               title={row.loyaltyRisk ? t('ui.officer.loyaltyRisk') : undefined}
             >
               {value}
+              {key === 'name' && row.promotionReady && (
+                <small> · {t('ui.officer.meritReady')}</small>
+              )}
             </span>
           );
         },
@@ -304,6 +311,9 @@ export function OfficerList({ onClose, onOpenOfficer }: OfficerListProps): React
           })}）`}
           onClose={close}
         >
+          <button type="button" onClick={() => actions.openPanel('ronin')}>
+            {t('ui.recruit.title')}
+          </button>
           <div className={styles.filters}>
             <label>
               {t('ui.officer.filter.castle')}

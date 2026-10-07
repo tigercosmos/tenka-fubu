@@ -12,6 +12,7 @@ export type PanelId =
   | 'district'
   | 'officers'
   | 'officerDetail'
+  | 'ronin'
   | 'diplomacy'
   | 'plot'
   | 'policy'
@@ -76,6 +77,7 @@ export interface UIState {
   uiScale: number;
   analysisMode: MapAnalysisMode;
   analysisOpacity: number;
+  queuedDecisionIds: string[];
 }
 
 export interface UIActions {
@@ -91,6 +93,8 @@ export interface UIActions {
   setUiScale(scale: number): void;
   setAnalysisMode(mode: MapAnalysisMode): void;
   setAnalysisOpacity(opacity: number): void;
+  markDecisionQueued(id: string): void;
+  clearQueuedDecisions(): void;
   onEsc(): void;
   reset(): void;
 }
@@ -102,6 +106,7 @@ interface UIStore extends UIState {
 }
 
 const FORCED_MODAL_IDS = new Set<ModalId>([
+  'envoy',
   'event',
   'proposalInbox',
   'monthSummary',
@@ -128,6 +133,7 @@ const initialUIState: UIState = {
   uiScale: 1,
   analysisMode: 'none',
   analysisOpacity: 0.55,
+  queuedDecisionIds: [],
 };
 
 /** 只由 action 呼叫；取出 FIFO 首項，必要時透過 app store 暫停策略時間。 */
@@ -137,13 +143,18 @@ function pump(state: UIStore): Partial<UIStore> | null {
   if (next === undefined) return null;
   if (next.pausesTime) {
     const wasRunning = gameStore.getState().session.speed !== 'paused';
+    const pauseReason = gameStore.getState().session.lastPauseReason;
+    const ownsArrivalPause =
+      (next.id === 'envoy' && pauseReason === 'diploEnvoy') ||
+      (next.id === 'proposalInbox' &&
+        (pauseReason === 'proposalArrived' || pauseReason === 'monthStart'));
     const before = speedNumber();
     if (wasRunning) gameStore.getState().actions.requestPause('modalOpen');
     return {
       modal: next,
       modalQueue: remaining,
-      speedBeforePause: wasRunning ? before : state.speedBeforePause,
-      restoreSpeedOnQueueDrain: state.restoreSpeedOnQueueDrain || wasRunning,
+      speedBeforePause: wasRunning || ownsArrivalPause ? before : state.speedBeforePause,
+      restoreSpeedOnQueueDrain: state.restoreSpeedOnQueueDrain || wasRunning || ownsArrivalPause,
     };
   }
   return { modal: next, modalQueue: remaining };
@@ -153,6 +164,12 @@ export const useUIStore = create<UIStore>()((set, get) => ({
   ...initialUIState,
   restoreSpeedOnQueueDrain: false,
   actions: {
+    markDecisionQueued(id) {
+      set((state) => ({ queuedDecisionIds: [...new Set([...state.queuedDecisionIds, id])] }));
+    },
+    clearQueuedDecisions() {
+      set({ queuedDecisionIds: [] });
+    },
     setScreen(screen) {
       set({ screen });
     },
@@ -185,7 +202,14 @@ export const useUIStore = create<UIStore>()((set, get) => ({
       }
       if (afterClose.modalQueue.length === 0 && afterClose.restoreSpeedOnQueueDrain) {
         const speed = afterClose.speedBeforePause;
-        gameStore.getState().actions.setSpeed(speed === 5 ? 'x5' : speed === 2 ? 'x2' : 'x1');
+        const reason = gameStore.getState().session.lastPauseReason;
+        if (
+          reason === 'modalOpen' ||
+          reason === 'proposalArrived' ||
+          reason === 'diploEnvoy' ||
+          reason === 'monthStart'
+        )
+          gameStore.getState().actions.setSpeed(speed === 5 ? 'x5' : speed === 2 ? 'x2' : 'x1');
         set({ restoreSpeedOnQueueDrain: false });
       }
     },

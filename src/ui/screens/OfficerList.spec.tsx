@@ -127,7 +127,9 @@ describe('OfficerDetail', () => {
     render(<OfficerDetail officerId={officer.id} onClose={vi.fn()} />);
 
     const detail = screen.getByTestId('officer-detail');
-    expect(within(detail).getByText(new RegExp(officer.name))).toBeTruthy();
+    expect(
+      within(detail).getByText(new RegExp(officer.name), { selector: 'header span' }),
+    ).toBeTruthy();
     expect(within(detail).getByRole('img', { name: `政務 ${officer.pol + 2}` })).toBeTruthy();
     expect(within(detail).getByText('人望')).toBeTruthy();
     expect(within(detail).getByText('功績')).toBeTruthy();

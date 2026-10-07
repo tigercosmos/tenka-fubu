@@ -11,6 +11,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
+    headless: true,
     baseURL: 'http://localhost:4173',
     trace: 'retain-on-failure', // 17 §3.11.1／T10：trace on failure
   },

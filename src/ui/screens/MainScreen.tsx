@@ -76,6 +76,16 @@ import { selectPlayerMilitary } from '../hud/selectPlayerMilitary';
 import { MarchModal } from './MarchModal';
 import { SiegeOverlay } from './SiegeOverlay';
 import { renderReport } from '../reports/renderReport';
+import { DiplomacyPanel } from './DiplomacyPanel';
+import { PlotPanel } from './PlotPanel';
+import { RecruitPanel } from './RecruitPanel';
+import { CaptiveModal } from './CaptiveModal';
+import { EnvoyModal } from './EnvoyModal';
+import { ProposalInbox } from './ProposalInbox';
+import { useM6Dialogs } from '../hooks/useM6Dialogs';
+import { useM6View } from '../hooks/useM6View';
+import type { ProposalId } from '@core/state/ids';
+import { useStore } from 'zustand';
 
 // [M6-V4] Layer 1（producer 參考穩定）：同一 tickSeq 內重複呼叫回傳同一參考（比照下方
 // `selectReportToasts` 既有慣例）。
@@ -154,6 +164,9 @@ export function MainScreen(): ReactElement {
 
   // 空白鍵暫停⇄繼續、1/2/3 變速、反引號開除錯面板（01 §6.3；M1-16 已實作本 hook，此處掛載）。
   useHotkeys(gameLoop, toggleDebugPanel);
+  useM6Dialogs();
+  const m6 = useM6View();
+  const pendingCommands = useStore(store, (state) => state.session.pendingCommandCount);
 
   // 地圖靜態資料（城∪郡節點圖＋勢力色索引＋顯示名／省標籤座標）只計算一次——開局後拓樸不變，
   // 僅 owner 會變動（見 @core/state/selectors 檔頭裁決）。[M6-V4]：`selectMapStaticModel` 已全量
@@ -580,6 +593,9 @@ export function MainScreen(): ReactElement {
           }}
         >
           <SpeedControl speed={speed} onChange={(next) => gameLoop.setSpeed(next)} />
+          {pendingCommands > 0 && (
+            <span role="status">{t('ui.command.pending', { count: pendingCommands })}</span>
+          )}
           {/* ☰ 系統選單：M8 前 disabled 占位（M6-V9 §4.7）。 */}
           <IconButton icon="gear" ariaLabel={t('ui.system.menu')} disabled onClick={() => {}} />
         </div>
@@ -643,6 +659,22 @@ export function MainScreen(): ReactElement {
           onClick={() => uiActions.openPanel('officers')}
         />
         <IconButton
+          icon="handshake"
+          ariaLabel={t('ui.diplomacy.title')}
+          size="lg"
+          testId="rail-diplomacy"
+          toggled={topPanel?.id === 'diplomacy'}
+          onClick={() => uiActions.openPanel('diplomacy')}
+        />
+        <IconButton
+          icon="search"
+          ariaLabel={t('ui.plot.title')}
+          size="lg"
+          testId="rail-plot"
+          toggled={topPanel?.id === 'plot'}
+          onClick={() => uiActions.openPanel('plot')}
+        />
+        <IconButton
           icon="scroll"
           ariaLabel={t('ui.rail.policy')}
           size="lg"
@@ -659,10 +691,23 @@ export function MainScreen(): ReactElement {
       )}
       {topPanel?.id === 'officers' && <OfficerList />}
       {topPanel?.id === 'policy' && <PolicyPanel />}
+      {topPanel?.id === 'diplomacy' && <DiplomacyPanel />}
+      {topPanel?.id === 'plot' && <PlotPanel key={JSON.stringify(topPanel.params)} />}
+      {topPanel?.id === 'ronin' && <RecruitPanel />}
       {topPanel?.id === 'officerDetail' && topPanel.params.officerId && (
         <OfficerDetail officerId={topPanel.params.officerId as OfficerId} />
       )}
       {modal?.id === 'march' && <MarchModal />}
+      {modal?.id === 'envoy' && modal.params.proposalId && (
+        <EnvoyModal
+          key={modal.params.proposalId}
+          proposalId={modal.params.proposalId as ProposalId}
+        />
+      )}
+      {modal?.id === 'proposalInbox' && <ProposalInbox />}
+      {modal?.id === 'captive' && modal.params.officerId && (
+        <CaptiveModal officerId={modal.params.officerId as OfficerId} />
+      )}
       {selectedSiegeId !== null && <SiegeOverlay siegeId={selectedSiegeId} />}
       {/* 底部情境快覽條（M6-V9 §4.6）：城/郡/軍三態；完整面板由動作鈕開啟。 */}
       <ContextPanel
@@ -682,7 +727,29 @@ export function MainScreen(): ReactElement {
         {...(contextView !== null ? { bottomOffset: contextHeight + 12 } : {})}
       />
       <ReportStack
-        items={reportToasts.filter((item) => !dismissedReports.includes(item.id))}
+        items={[
+          ...(m6.proposals.length > 0
+            ? [
+                {
+                  id: 'proposal-inbox-unread',
+                  severity: 'warning' as const,
+                  title: t('ui.proposal.unread', { count: m6.proposals.length }),
+                  date: day,
+                  sticky: true,
+                  dismissible: false,
+                  onClick: () => {
+                    const ui = uiStore.getState();
+                    if (
+                      ui.modal?.id !== 'proposalInbox' &&
+                      !ui.modalQueue.some((item) => item.id === 'proposalInbox')
+                    )
+                      uiActions.enqueueModal({ id: 'proposalInbox', params: {}, pausesTime: true });
+                  },
+                },
+              ]
+            : []),
+          ...reportToasts.filter((item) => !dismissedReports.includes(item.id)),
+        ]}
         onDismiss={(id) => setDismissedReports((current) => [...current, id])}
       />
     </div>

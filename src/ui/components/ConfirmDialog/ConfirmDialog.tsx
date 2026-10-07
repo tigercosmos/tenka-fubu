@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
 import { t } from '@i18n/zh-TW';
 import { Dialog } from '../Dialog/Dialog';
 import styles from './ConfirmDialog.module.css';
@@ -23,17 +23,6 @@ export function ConfirmDialog({
   onCancel,
 }: ConfirmDialogProps) {
   const cancel = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: globalThis.KeyboardEvent) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        onConfirm();
-      }
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [open, onConfirm]);
   const footer = (
     <>
       <button ref={cancel} type="button" onClick={onCancel}>

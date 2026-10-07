@@ -14,6 +14,7 @@ import type { AutoPauseReason } from '@core/systems/index';
 import { onAutoPauseReasons } from './bridge';
 import type { PauseReason } from './store';
 import type { GameLoopController } from './gameLoop';
+import { store } from './store';
 
 /** core AutoPauseReason → app PauseReason（命名差異見兩檔各自出處；01 §3.5.3／03 §4.1）。 */
 const REASON_MAP: Record<AutoPauseReason, PauseReason> = {
@@ -43,6 +44,8 @@ export function translateAutoPauseReasons(reasons: readonly AutoPauseReason[]): 
  */
 export function installAutoPause(loop: GameLoopController): () => void {
   onAutoPauseReasons((reasons) => {
+    // An arrival cannot acquire ownership of a pause the player already requested.
+    if (store.getState().session.speed === 'paused') return;
     const reason = translateAutoPauseReasons(reasons);
     if (reason !== null) {
       loop.requestPause(reason);

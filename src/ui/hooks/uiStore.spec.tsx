@@ -42,6 +42,32 @@ describe('UI navigation store', () => {
     expect(gameStore.getState().session.speed).toBe('paused');
   });
 
+  it('resumes an arrival-owned pause only when the whole decision FIFO drains', () => {
+    gameStore.getState().actions.setSpeed('x2');
+    gameStore.getState().actions.requestPause('proposalArrived');
+    const a = uiStore.getState().actions;
+    a.enqueueModal({ id: 'proposalInbox', params: {}, pausesTime: true });
+    a.enqueueModal({ id: 'envoy', params: { proposalId: 'envoy.a' }, pausesTime: true });
+    a.closeModal();
+    expect(gameStore.getState().session.speed).toBe('paused');
+    a.closeModal();
+    expect(gameStore.getState().session.speed).toBe('x2');
+  });
+
+  it('preserves a newer manual pause and de-duplicates UI-only queued decisions', () => {
+    gameStore.getState().actions.setSpeed('x5');
+    const a = uiStore.getState().actions;
+    a.enqueueModal({ id: 'envoy', params: { proposalId: 'envoy.a' }, pausesTime: true });
+    a.markDecisionQueued('envoy.a');
+    a.markDecisionQueued('envoy.a');
+    expect(uiStore.getState().queuedDecisionIds).toEqual(['envoy.a']);
+    gameStore.getState().actions.requestPause('user');
+    a.closeModal();
+    expect(gameStore.getState().session.speed).toBe('paused');
+    a.clearQueuedDecisions();
+    expect(uiStore.getState().queuedDecisionIds).toEqual([]);
+  });
+
   it('applies the canonical ESC priority and cannot dismiss forced modals', () => {
     const a = uiStore.getState().actions;
     a.setSelection({ kind: 'castle', id: 'castle.a' });

@@ -16,6 +16,7 @@ export interface DialogProps {
   size?: 'sm' | 'md' | 'lg';
   onClose: () => void;
   closeOnBackdrop?: boolean;
+  dismissible?: boolean;
   footer?: ReactNode;
   initialFocusRef?: RefObject<HTMLElement>;
   children: ReactNode;
@@ -43,6 +44,7 @@ export function Dialog({
   size = 'md',
   onClose,
   closeOnBackdrop = true,
+  dismissible = true,
   footer,
   initialFocusRef,
   children,
@@ -76,7 +78,7 @@ export function Dialog({
     if (!isTop()) return;
     if (e.key === 'Escape') {
       e.stopPropagation();
-      onClose();
+      if (dismissible) onClose();
       return;
     }
     if (e.key !== 'Tab' || dialog.current === null) return;
@@ -97,7 +99,7 @@ export function Dialog({
     }
   };
   const backdrop = (e: MouseEvent<HTMLDivElement>) => {
-    if (closeOnBackdrop && e.target === e.currentTarget && isTop()) onClose();
+    if (dismissible && closeOnBackdrop && e.target === e.currentTarget && isTop()) onClose();
   };
   const portal = document.getElementById('modal-root') ?? document.body;
   return createPortal(
@@ -114,7 +116,7 @@ export function Dialog({
       >
         <header>
           <h2 id={titleId}>{title}</h2>
-          <IconButton icon="close" ariaLabel={title} size="sm" onClick={onClose} />
+          {dismissible && <IconButton icon="close" ariaLabel={title} size="sm" onClick={onClose} />}
         </header>
         <div className={styles.body}>{children}</div>
         {footer !== undefined && <footer>{footer}</footer>}

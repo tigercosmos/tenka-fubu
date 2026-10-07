@@ -1,0 +1,89 @@
+.scrim {
+  position: fixed;
+  inset: 48px 0 0 72px;
+  z-index: var(--z-panel);
+  background: rgb(18 18 18 / 60%);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+.panel {
+  width: min(90vw, 90rem);
+  max-height: calc(100vh - 5rem);
+  overflow: auto;
+  background: var(--washi-100);
+  color: var(--ink-900);
+  border: var(--border-thin);
+  box-shadow: var(--shadow-2);
+}
+.panel button,
+.panel select,
+.panel input {
+  min-height: 2rem;
+}
+.panel button {
+  padding: 0.4rem 0.8rem;
+}
+.panel small {
+  display: block;
+  color: var(--ink-700);
+}
+.panel h3 {
+  margin: 1rem 0 0.5rem;
+}
+.columns {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) minmax(18rem, 2fr);
+  gap: 1.5rem;
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+.form {
+  display: grid;
+  gap: 0.75rem;
+}
+.form label {
+  display: grid;
+  gap: 0.25rem;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th,
+.table td {
+  text-align: left;
+  padding: 0.5rem;
+  border-bottom: var(--border-thin);
+}
+.card {
+  padding: 1rem;
+  border: var(--border-thin);
+  background: var(--washi-200);
+}
+.danger {
+  color: var(--accent-vermilion);
+}
+.badge {
+  padding: 0.2rem 0.5rem;
+  border: var(--border-thin);
+}
+@media (max-width: 800px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
+  .scrim {
+    inset: 48px 0 0;
+    padding: 0.5rem;
+  }
+}

@@ -18,6 +18,8 @@ import {
 import { isClanId } from '@core/state/ids';
 import { startDebugBattle } from '@core/debugBattle';
 import { VISUAL_ANCHOR_CASTLE_ID } from '@core/debugVisual';
+import { DEBUG_M6_FLOW_IDS, DEBUG_M6_FLOW_SEED, prepareM6FlowState } from '@core/debugM6';
+import { uiStore } from '@ui/hooks/uiStore';
 import { startNewDemoGame } from './newGame';
 import { MAPVIEW } from '@ui/map/mapViewConfig';
 import { getDebugMapRenderer } from '@ui/map/debugMapBridge';
@@ -89,6 +91,7 @@ export function parseDebugFlags(search: string): DebugFlags {
 
 /** console 除錯 API（01 §3.11.4 `TenkaDebugApi` 逐字）；僅 `debugFlags.enabled` 時安裝。 */
 export interface TenkaDebugApi {
+  startM6Flow(): Promise<void>;
   startBattle(layoutId: string): void;
   getState(): GameState; // 直接參考（唯讀約定，僅供檢查）
   dispatch(cmd: Command): CommandDispatchResult;
@@ -193,6 +196,22 @@ export function installDebugApi(flags: DebugFlags): void {
     return;
   }
   const api: TenkaDebugApi = {
+    async startM6Flow() {
+      const bundle = await loadScenario('s1560');
+      const game = prepareM6FlowState(
+        buildNewGameState(bundle, {
+          playerClanId: DEBUG_M6_FLOW_IDS.actor,
+          difficulty: 'normal',
+          seed: DEBUG_M6_FLOW_SEED,
+        }),
+      );
+      game.meta.debugMode = true;
+      gameLoop.setSpeed('paused');
+      uiStore.getState().actions.reset();
+      setGame(game);
+      store.getState().actions.setScreen('main');
+      bumpTickSeq();
+    },
     startBattle(layoutId) {
       const game = startNewDemoGame({ seed: 42, enabled: true });
       startDebugBattle(game, layoutId);
