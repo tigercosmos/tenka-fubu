@@ -4,7 +4,7 @@
 > 而它真正的野望，是讓 **AI 執掌每一位大名**，看群雄在同一張日本地圖上，自行逐鹿天下。
 
 > 🚧 **專案現況：M5「合戰」已完成，checkpoint 前進至 M6。** 規格套件（`plan/`，21 份）已定稿收斂；
-> M6 尚未開工。網站：<https://tigercosmos.github.io/tenka-fubu/>。
+> 可通關 MVP 與 M6 視覺基礎已完成；外交／調略完整功能尚待實作。網站：<https://tigercosmos.github.io/tenka-fubu/>。
 > 進度見下方〈開發進度〉表。
 
 ---
@@ -66,6 +66,7 @@
 - **規格已定稿**：完整系統規格、資料模型、UI 與元件規格、劇本資料規格、數值平衡主表（`plan/15-balance.md`，635 個常數定案）、跨文件一致性勘誤台帳（`plan/19-glossary.md §3.13`，E-01…E-80 全數消化）——並經多輪對抗式驗證收斂。
 - **M0 專案鷹架完成**：TypeScript strict＋React＋Vite 工具鏈、core 純度與決定論 CI 守門、簡體字掃描器、字型子集管線、GitHub Actions CI/CD 與 Pages 部署全數就緒。
 - **M5 合戰完成**：9–13 陣決定論戰場、battle tick、12 戰法、委任 AI、威風大 3 跳翻轉、合戰 UI／特效、debug P5 與 bit-exact battle transcript 已落地。
+- **M6 視覺基礎完成**：地形、水系、道路、城池／軍隊名牌與 HUD 已接線；五種戰略分析主題、圖例與透明度控制已完成。雙平台截圖、headless 硬體效能、字型／資源生命週期與鍵盤驗收通過；證據見 `docs/visual/m6-v11-review.md`。M6 外交／調略功能為下一階段。
 - **實作路線**：`plan/18-roadmap.md` 的里程碑 **M0 → M9**（專案鷹架 → 核心迴圈 → 地圖與資料 → 內政 → 軍事 → 合戰與威風 → 外交調略 → AI → 事件與全國資料 → 平衡與部署）；當前里程碑見 `milestone.json`。
 - **想了解全貌？** 從 `plan/README.md` 與 `plan/00-foundations.md` 讀起。
 

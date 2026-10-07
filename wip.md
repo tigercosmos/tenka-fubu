@@ -1,4 +1,4 @@
-# WIP — 實作交接文件（更新 2026-07-22）
+# WIP — 實作交接文件（更新 2026-10-08）
 
 > 給下一個接手的 AI／未來 session：本文件描述《天下布武》**實作階段**的當前進度與剩餘工作。
 > 規格階段已於 2026-07-11 收斂完成（21 份 plan 定稿、E-01…E-80 全數消化、七輪裁決記錄於 `plan/02 §8`）。
@@ -7,6 +7,8 @@
 
 ## 執行模式（使用者指示，多次重申）
 
+- **2026-10-08 續作**：使用者要求平行完成專案；維持里程碑依賴與品質 gate。
+  所有後續瀏覽器測試使用 headless，不開新視窗。當前以 renderer、UI、visual gate 三個 agent 平行協作。
 - **模型分工（2026-07-17 現行）：Fable orchestrate；Sonnet 實作一般任務；Opus 設計／複雜任務／code review。**
   （2026-07-14 前曾用 GPT-5.6-sol/terra 分工，已由使用者本輪指示取代。）
 - 以 Workflow 多 agent 編排；每個里程碑：實作 → Opus 全量 review（fix-forward）→ orchestrator 本機驗證 DoD → 依任務 ID 分組 commit → checkpoint（README 進度表＋milestone.json＋tag）→ push（已核准，push 後驗 CI/Pages）。
@@ -50,16 +52,16 @@ commit、每步 ≤2000 LOC（盡量 ≤1000）、每步不破壞整體。四步
 
 ## 目前進度（里程碑）
 
-| 里程碑        | 狀態                                    | 備註                                                                                                                                |
-| ------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| M0 鷹架       | ✅ 已 checkpoint（tag m0）              | CI 五 job 綠、Pages 200（https://tigercosmos.github.io/tenka-fubu/）                                                                |
-| M1 core＋HUD  | ✅ 已 checkpoint（tag m1）              | 431 tests；型別=02 全型別零缺失（46 Cmd/68 Event）                                                                                  |
-| M2 資料＋地圖 | ✅ 已 checkpoint（tag m2，2026-07-12）  | 792 tests＋P1/P2 e2e 綠；DoD 四條全過（review 報告見 wf_dcccc2d1-835）                                                              |
-| M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13）  | 845 tests＋P1/P2/P3 e2e 綠；24 個月 DoD、全量 review 與 checkpoint 後 review 收尾（73bc28f）完成                                    |
-| M4 軍事一     | ✅ 已完成（2026-07-13）                 | 945 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與 review fix-forward 全綠                                     |
-| M5 合戰       | ✅ **已完成（2026-07-14）**             | 1011 tests、P1/P2/P3/P5、golden/transcript、bench、自行 review 與 checkpoint gate 全綠                                              |
-| M6            | 🎨 M6-V 進行中，**M6-V1～M6-V8 已完成** | M6 功能尚未開工；使用者 2026-07-17 以「地圖要像真的遊戲（缺城／軍／路／城市／地形）」授權 V5–V8 整串視覺鏈，V6/V7/V8 設計已平行產出 |
-| M7–M9         | ⬜                                      | 依 `plan/18-roadmap.md`                                                                                                             |
+| 里程碑        | 狀態                                   | 備註                                                                                             |
+| ------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| M0 鷹架       | ✅ 已 checkpoint（tag m0）             | CI 五 job 綠、Pages 200（https://tigercosmos.github.io/tenka-fubu/）                             |
+| M1 core＋HUD  | ✅ 已 checkpoint（tag m1）             | 431 tests；型別=02 全型別零缺失（46 Cmd/68 Event）                                               |
+| M2 資料＋地圖 | ✅ 已 checkpoint（tag m2，2026-07-12） | 792 tests＋P1/P2 e2e 綠；DoD 四條全過（review 報告見 wf_dcccc2d1-835）                           |
+| M3 內政       | ✅ 已 checkpoint（tag m3，2026-07-13） | 845 tests＋P1/P2/P3 e2e 綠；24 個月 DoD、全量 review 與 checkpoint 後 review 收尾（73bc28f）完成 |
+| M4 軍事一     | ✅ 已完成（2026-07-13）                | 945 tests＋P1/P2/P3 e2e；19 tick 織田—齋藤 DoD、golden/replay、bench 與 review fix-forward 全綠  |
+| M5 合戰       | ✅ **已完成（2026-07-14）**            | 1011 tests、P1/P2/P3/P5、golden/transcript、bench、自行 review 與 checkpoint gate 全綠           |
+| M6            | 🎨 **M6-V1～M6-V11 已完成**            | 外交／朝廷幕府／調略／家臣系統完整化待續作                                                       |
+| M7–M9         | ⬜                                     | 依 `plan/18-roadmap.md`                                                                          |
 
 ## M6-V 視覺優先工作串流（2026-07-14）
 
@@ -306,7 +308,27 @@ parallel」＝設計階段平行化。執行模式：Fable orchestrate、設計/
 - plan 回寫：名牌/目標模式決策以設計定稿為單一真相（plan/04 §8 之 V9 條目已涵蓋標籤系統
   演進脈絡；V9b 條目待補跑 review 時一併回寫，避免額度中斷期反覆改 plan）。
 
-### 停止點與安全續作順序
+### M6-V10／V11 續作記錄（2026-10-08）
+
+- 五種互斥分析主題、透明度、同步圖例、Alt+1…5 與地圖背景 Tab 已接線，設定不進 GameState。
+  資料邊界與設計見 `docs/design/m6-v10-analysis.md`；不把道級當吞吐量、不捏造全地圖戰術加成。
+- 補 V8／V9b review 債：選取的收合軍隊可命中、目標名牌立即更新、缺少／過期／不可達路徑不允許確認，
+  async init 後重套最新 props；Space 不再攔截原生 button／summary 操作。
+- Gate 收緊：最多 100 changed pixels、缺 baseline 直接失敗、有效 drawable／LOD 名牌驗證、
+  faction lazy texture remount、原始 frame／CPU 與 post-GC heap 證據。測試產物列入 ESLint ignore，
+  避免與 Playwright 清理目錄產生競態。
+- 實測抓到並修正兩個缺陷：font-ready 前的 BitmapText fallback cache、每次重掛三份新的勢力名 atlas。
+  共享 bounded TextStyle，並在銷毀文字時解除 style listener；20 次 headless remount 的 atlas／context／BitmapText 為 7→7／13→13／38→38。
+- 初次 headless shell 使用 SwiftShader，效能未達標；已保留失敗原始資料。
+  最終 `VISUAL_GPU=1` 完整 Chromium new-headless 的 Metal 量測通過：30 秒／20 軍隊／1080p，frame time p95 9 ms，CPU update p95 0.2 ms。
+- 最終驗證：1517 tests／typecheck／lint／validate:data（950 字元）／validate:assets（944.5 KiB）／build；
+  headless E2E 10 passed＋1 optional perf skip（硬體測試另跑通過）；darwin／linux baseline update 後各自 compare 通過。
+  詳細證據與 heap 差額限制見 `docs/visual/m6-v11-review.md`。V11 已完成；M6 與整個專案尚未完成。
+- **下一步**：依 roadmap 開 M6-1；完整外交／調略／家臣功能仍需實作與 M6 checkpoint。
+  M6 準備已找到兩項必須裁決的資料缺口：京都 metadata 與內應免疫／城主更替的持久欄位；
+  歷史官位／役職保留 canonical 劇本值，`shogun` 不當成第六階可申請役職。
+
+### V9b 當時的停止點與安全續作順序（歷史記錄）
 
 1. 本輪已完成 **M6-V5～M6-V9**——視覺鏈（地形／道路／城池／軍隊／HUD）全數 landed。
    五份最終設計已入 repo：`docs/design/m6-v{5,6,7,8}-*.md`、`docs/design/m6-v9-hud-readability.md`。
