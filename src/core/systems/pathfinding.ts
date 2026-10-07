@@ -88,7 +88,7 @@ function getDiplomacyRow(state: PathfindingState, a: ClanId, b: ClanId): Diploma
 /** atWar 衍生判定（08 §3.1）：近期有敵對行為，且雙方目前無任何生效中協定。 */
 function isAtWar(row: DiplomacyRow, today: number): boolean {
   if (row.lastHostileDay === null) return false;
-  if (row.pacts.length > 0) return false;
+  if (row.pacts.some((pact) => pact.endDay === null || today <= pact.endDay)) return false;
   return today - row.lastHostileDay < BAL.warStateMonths * DAYS_PER_MONTH;
 }
 
@@ -100,9 +100,18 @@ export function getStance(state: PathfindingState, mover: ClanId, owner: ClanId)
   if (mover === owner) return 'own';
   const row = getDiplomacyRow(state, mover, owner);
   if (!row) return 'neutral';
-  if (row.pacts.some((p) => p.kind === 'ceasefire')) return 'ceasefire';
   if (
-    row.pacts.some((p) => p.kind === 'alliance' || p.kind === 'marriage' || p.kind === 'vassal')
+    row.pacts.some(
+      (p) => p.kind === 'ceasefire' && (p.endDay === null || state.time.day <= p.endDay),
+    )
+  )
+    return 'ceasefire';
+  if (
+    row.pacts.some(
+      (p) =>
+        (p.kind === 'alliance' || p.kind === 'marriage' || p.kind === 'vassal') &&
+        (p.endDay === null || state.time.day <= p.endDay),
+    )
   ) {
     return 'friendly';
   }

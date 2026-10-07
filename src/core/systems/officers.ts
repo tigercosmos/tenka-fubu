@@ -3,18 +3,319 @@
 
 import { BAL } from '../balance';
 import { RANK_VALUES, type Rank } from '../state/enums';
-import type { ClanId, MapNodeId, OfficerId } from '../state/ids';
+import type { CastleId, ClanId, MapNodeId, OfficerId } from '../state/ids';
 import type { GameEvent } from '../state/events';
 import type { GameState, Officer } from '../state/gameState';
 import type { OfficerStat } from '../state/officerTypes';
 import { traitModifier } from '../traits';
 import { nearestOwnedCastleByTravelTime } from './castleSelection';
+import { createRngStream } from '../rng';
 
 const clamp = (value: number, min: number, max: number): number =>
   Math.max(min, Math.min(max, value));
 
 const sortedOfficers = (state: GameState): Officer[] =>
   Object.values(state.officers).sort((a, b) => a.id.localeCompare(b.id));
+
+type OfficerEmit = (event: GameEvent) => void;
+
+/** Release offices and work when an officer dies or changes allegiance. */
+export function releaseOfficerAssignments(state: GameState, officerId: OfficerId): void {
+  const officer = state.officers[officerId];
+  if (!officer) return;
+  for (const castle of Object.values(state.castles)) {
+    if (castle.lordId === officerId) {
+      castle.lordId =
+        sortedOfficers(state)
+          .filter(
+            (candidate) =>
+              candidate.id !== officerId &&
+              candidate.hasComeOfAge &&
+              candidate.status === 'serving' &&
+              candidate.clanId === castle.ownerClanId &&
+              candidate.locationCastleId === castle.id &&
+              candidate.armyId === null &&
+              rankIndex(candidate.rank) >= rankIndex('samurai-taisho'),
+          )
+          .sort(successorOrder)[0]?.id ?? null;
+    }
+    if (castle.betrayalReadyTargetLordId === officerId) {
+      castle.betrayalReadyClanId = null;
+      castle.betrayalReadyUntilDay = 0;
+      castle.betrayalReadyTargetClanId = null;
+      castle.betrayalReadyTargetLordId = null;
+    }
+  }
+  for (const district of Object.values(state.districts)) {
+    if (district.stewardId === officerId) district.stewardId = null;
+  }
+  for (const corps of Object.values(state.corps)) {
+    if (corps.corpsLeaderId !== officerId) continue;
+    for (const castle of Object.values(state.castles))
+      if (castle.corpsId === corps.id) castle.corpsId = null;
+    for (const army of Object.values(state.armies))
+      if (army.corpsId === corps.id) army.corpsId = null;
+    delete state.corps[corps.id];
+  }
+  const army = officer.armyId === null ? undefined : state.armies[officer.armyId];
+  if (army) {
+    army.deputyIds = army.deputyIds.filter((id) => id !== officerId);
+    if (army.leaderId === officerId) {
+      const successorId = army.deputyIds.find((id) => {
+        const deputy = state.officers[id];
+        return deputy?.hasComeOfAge && deputy.status === 'serving' && deputy.clanId === army.clanId;
+      });
+      if (successorId) {
+        army.leaderId = successorId;
+        army.deputyIds = army.deputyIds.filter((id) => id !== successorId);
+        for (const battle of Object.values(state.battles)) {
+          for (const unit of battle.units)
+            if (unit.armyId === army.id) unit.generalId = successorId;
+        }
+      } else {
+        const refuge = nearestOwnedCastleByTravelTime(state, army.clanId, army.posNodeId)?.castle;
+        for (const id of army.deputyIds) {
+          const deputy = state.officers[id];
+          if (!deputy) continue;
+          deputy.armyId = null;
+          deputy.locationCastleId = refuge?.id ?? deputy.debutCastleId;
+        }
+        delete state.armies[army.id];
+        for (const combat of Object.values(state.fieldCombats)) {
+          combat.sideA.armyIds = combat.sideA.armyIds.filter((id) => id !== army.id);
+          combat.sideB.armyIds = combat.sideB.armyIds.filter((id) => id !== army.id);
+          const activeBattle = Object.values(state.battles).some(
+            (battle) => battle.result === null && battle.fieldCombatId === combat.id,
+          );
+          if (
+            !activeBattle &&
+            (combat.sideA.armyIds.length === 0 || combat.sideB.armyIds.length === 0)
+          ) {
+            for (const id of [...combat.sideA.armyIds, ...combat.sideB.armyIds]) {
+              const survivor = state.armies[id];
+              if (survivor) survivor.status = survivor.siegeId !== null ? 'sieging' : 'holding';
+            }
+            delete state.fieldCombats[combat.id];
+          }
+        }
+        for (const siege of Object.values(state.sieges)) {
+          siege.attackerArmyIds = siege.attackerArmyIds.filter((id) => id !== army.id);
+          if (siege.attackerArmyIds.length === 0) delete state.sieges[siege.id];
+        }
+        for (const battle of Object.values(state.battles))
+          battle.units = battle.units.filter((unit) => unit.armyId !== army.id);
+        for (const other of Object.values(state.armies)) {
+          other.pursuitEligibleArmyIds = other.pursuitEligibleArmyIds.filter(
+            (id) => id !== army.id,
+          );
+        }
+      }
+    }
+  }
+  officer.armyId = null;
+  state.diplomacy.missions = state.diplomacy.missions.filter(
+    (mission) => mission.officerId !== officerId,
+  );
+  state.diplomacy.plots = state.diplomacy.plots.filter(
+    (plot) => plot.officerId !== officerId && plot.targetOfficerId !== officerId,
+  );
+}
+
+export interface OfficerTransfer {
+  clanId: ClanId;
+  castleId: CastleId;
+  loyalty: number;
+  rank: Rank;
+  source?: 'ronin' | 'captive' | 'poach';
+}
+
+export function transferOfficer(
+  state: GameState,
+  officerId: OfficerId,
+  target: OfficerTransfer,
+  emit: OfficerEmit,
+): void {
+  const officer = state.officers[officerId];
+  if (
+    !officer ||
+    !state.clans[target.clanId]?.alive ||
+    state.castles[target.castleId]?.ownerClanId !== target.clanId
+  ) {
+    throw new Error('transferOfficer requires a live receiving clan and an owned castle');
+  }
+  releaseOfficerAssignments(state, officerId);
+  officer.clanId = target.clanId;
+  officer.status = 'serving';
+  officer.locationCastleId = target.castleId;
+  officer.capturedByClanId = null;
+  officer.captiveRetryOn = null;
+  officer.recruitRetryOn = null;
+  officer.kinship = 'tozama';
+  officer.rank = target.rank;
+  officer.loyalty = clamp(target.loyalty, 0, 100);
+  officer.stalledPromotionMonths = 0;
+  emit({
+    type: 'officer.recruited',
+    day: state.time.day,
+    clanIds: [target.clanId],
+    officerId,
+    clanId: target.clanId,
+    source: target.source ?? 'poach',
+  });
+}
+
+export function poachAcceptanceFactor(state: Readonly<GameState>, officerId: OfficerId): number {
+  const officer = state.officers[officerId];
+  if (
+    !officer ||
+    !officer.hasComeOfAge ||
+    officer.status !== 'serving' ||
+    officer.kinship === 'kin' ||
+    officer.traits.some((trait) => trait === 'trait.chushin') ||
+    (officer.clanId !== null && state.clans[officer.clanId]?.leaderId === officerId)
+  )
+    return 0;
+  return clamp((BAL.poachEligibleLoyalty - officer.loyalty) / BAL.poachEligibleLoyalty, 0, 1);
+}
+
+export function checkDefections(state: GameState, emit: OfficerEmit): void {
+  const rng = createRngStream(state.rng, 'misc');
+  for (const officer of sortedOfficers(state)) {
+    if (
+      !officer.hasComeOfAge ||
+      officer.status !== 'serving' ||
+      officer.clanId === null ||
+      officer.armyId !== null ||
+      officer.kinship === 'kin' ||
+      officer.traits.some((trait) => trait === 'trait.chushin') ||
+      state.clans[officer.clanId]?.leaderId === officer.id ||
+      officer.loyalty >= BAL.defectionThreshold
+    )
+      continue;
+    if (!rng.chance((BAL.defectionThreshold - officer.loyalty) * BAL.defectionChancePerPoint))
+      continue;
+    const fromClanId = officer.clanId;
+    releaseOfficerAssignments(state, officer.id);
+    officer.status = 'ronin';
+    officer.clanId = null;
+    emit({
+      type: 'officer.defected',
+      day: state.time.day,
+      clanIds: [fromClanId],
+      officerId: officer.id,
+      fromClanId,
+      toClanId: null,
+    });
+  }
+}
+
+export function comingOfAge(state: GameState): GameEvent[] {
+  const events: GameEvent[] = [];
+  for (const officer of sortedOfficers(state)) {
+    if (officer.hasComeOfAge || officer.status === 'dead' || officer.debutYear > state.time.year)
+      continue;
+    officer.hasComeOfAge = true;
+    if (officer.scheduledDeath.year < officer.debutYear) {
+      releaseOfficerAssignments(state, officer.id);
+      officer.status = 'dead';
+      officer.clanId = null;
+      officer.locationCastleId = null;
+      officer.armyId = null;
+      officer.capturedByClanId = null;
+      continue;
+    }
+    const clan = officer.debutClanId === null ? undefined : state.clans[officer.debutClanId];
+    officer.clanId = clan?.alive ? clan.id : null;
+    officer.status = clan?.alive ? 'serving' : 'ronin';
+    officer.locationCastleId = officer.debutCastleId;
+    if (clan?.alive && state.castles[officer.debutCastleId]?.ownerClanId !== clan.id) {
+      officer.locationCastleId =
+        Object.values(state.castles)
+          .filter((castle) => castle.ownerClanId === clan.id)
+          .sort((a, b) => a.id.localeCompare(b.id))[0]?.id ?? officer.debutCastleId;
+    }
+    officer.rank = 'kumigashira';
+    officer.merit = 0;
+    officer.armyId = null;
+    officer.capturedByClanId = null;
+    officer.loyalty = loyaltyTarget(state, officer);
+    events.push({
+      type: 'officer.comingOfAge',
+      day: state.time.day,
+      clanIds: officer.clanId === null ? [] : [officer.clanId],
+      officerId: officer.id,
+      clanId: officer.clanId,
+    });
+  }
+  return events;
+}
+
+export function officerAbilityScore(officer: Officer): number {
+  return Math.max(...Object.values(effectiveStats(officer)));
+}
+
+export function recruitRoninSuccessRate(
+  state: Readonly<GameState>,
+  targetId: OfficerId,
+  executorId: OfficerId,
+  clanId: ClanId,
+): number {
+  const target = state.officers[targetId],
+    executor = state.officers[executorId],
+    clan = state.clans[clanId];
+  if (!target || !executor || !clan) return 0;
+  return clamp(
+    BAL.recruitBaseRate +
+      (effectiveStat(executor, 'pol') - 50) * BAL.recruitPolWeight +
+      Math.min(clan.prestige, 1000) * BAL.recruitPrestigeWeight -
+      Math.max(0, officerAbilityScore(target) - 60) * BAL.recruitAbilityPenalty +
+      traitModifier(executor, 'officer.recruitSuccessAdd').add,
+    0.05,
+    0.95,
+  );
+}
+
+export function captiveRecruitSuccessRate(
+  state: Readonly<GameState>,
+  targetId: OfficerId,
+  executorId: OfficerId | null,
+  clanId: ClanId,
+): number {
+  const target = state.officers[targetId],
+    clan = state.clans[clanId];
+  if (!clan) return 0;
+  const executor = state.officers[executorId ?? clan.leaderId];
+  if (!target || !executor || !clan) return 0;
+  return clamp(
+    BAL.captiveRecruitBaseRate +
+      (effectiveStat(executor, 'pol') - 50) * BAL.captiveRecruitPolWeight +
+      (100 - target.loyalty) * BAL.captiveRecruitLoyaltyWeight +
+      Math.min(clan.prestige, 1000) * BAL.captiveRecruitPrestigeWeight -
+      (target.kinship === 'kin' ? BAL.captiveKinPenalty : 0) +
+      traitModifier(executor, 'officer.recruitSuccessAdd').add,
+    0.02,
+    0.9,
+  );
+}
+
+export function rewardOfficerCost(tier: 'small' | 'medium' | 'large'): number {
+  return {
+    small: BAL.rewardGoldSmallCost,
+    medium: BAL.rewardGoldMediumCost,
+    large: BAL.rewardGoldLargeCost,
+  }[tier];
+}
+export function rewardOfficerLoyaltyGain(
+  officer: Officer,
+  tier: 'small' | 'medium' | 'large',
+): number {
+  const base = {
+    small: BAL.rewardGoldSmallLoyalty,
+    medium: BAL.rewardGoldMediumLoyalty,
+    large: BAL.rewardGoldLargeLoyalty,
+  }[tier];
+  return Math.max(1, Math.floor(base / 2 ** officer.rewardGiftsThisYear));
+}
 
 export function rankIndex(rank: Rank): number {
   return RANK_VALUES.indexOf(rank);
@@ -248,7 +549,7 @@ export function paySalaries(state: GameState): SalarySettlement[] {
     .map((clan) => paySalaryForClan(state, clan.id));
 }
 
-function expectedRankIndex(officer: Officer): number {
+export function expectedRankIndex(officer: Officer): number {
   const stats = effectiveStats(officer);
   const abilityScore = Math.max(stats.ldr, stats.val, stats.int, stats.pol);
   let expected = 0;
@@ -362,62 +663,47 @@ export function updatePromotionStalls(state: GameState): void {
  * M3 的 officers tick（每月 1 日）：先重算忠誠目標值並漂移（06 §3.6.2），再套用本 tick 欠俸懲罰
  *（漂移「之後」，見 applyUnpaidSalaryPenalty）。薪俸金錢由 economy 步驟結算，以維持金錢的單一擁有者。
  */
-export function officersSystem(state: GameState, unpaidPayeeIds: ReadonlySet<OfficerId>): void {
-  if (state.time.dayOfMonth !== 1) return;
+export function officersSystem(
+  state: GameState,
+  unpaidPayeeIds: ReadonlySet<OfficerId>,
+): GameEvent[] {
+  if (state.time.dayOfMonth !== 1) return [];
+  const events: GameEvent[] = [];
   recomputeLoyalty(state);
   updatePromotionStalls(state);
   applyUnpaidSalaryPenalty(state, unpaidPayeeIds);
+  checkDefections(state, (event) => events.push(event));
+  for (const officer of sortedOfficers(state)) {
+    if (
+      officer.hasComeOfAge &&
+      officer.status !== 'dead' &&
+      officer.scheduledDeath.year === state.time.year &&
+      officer.scheduledDeath.month === state.time.month
+    ) {
+      events.push(...dieOfficer(state, officer.id, null, false, 'age'));
+    }
+  }
+  if (state.time.month === 1) {
+    for (const officer of sortedOfficers(state)) officer.rewardGiftsThisYear = 0;
+    events.push(...comingOfAge(state));
+  }
+  return events;
 }
 
 /** Shared battle-death mutation used by field pursuit and siege resolution. */
 export function dieOfficer(
   state: GameState,
   officerId: OfficerId,
-  nodeId: MapNodeId,
+  nodeId: MapNodeId | null,
   deferSuccession = false,
+  cause: 'age' | 'battle' = 'battle',
 ): GameEvent[] {
   const officer = state.officers[officerId];
   if (!officer || officer.status === 'dead') return [];
   const clanId = officer.clanId;
-  const army = officer.armyId === null ? undefined : state.armies[officer.armyId];
-  if (army) {
-    if (army.leaderId === officer.id) {
-      const successor = army.deputyIds.find(
-        (id) => id !== officer.id && state.officers[id]?.status === 'serving',
-      );
-      if (successor) {
-        army.leaderId = successor;
-        army.deputyIds = army.deputyIds.filter((id) => id !== successor && id !== officer.id);
-      } else {
-        const refuge =
-          nearestOwnedCastleByTravelTime(state, army.clanId, army.posNodeId)?.castle ??
-          Object.values(state.castles)
-            .filter((castle) => castle.ownerClanId === army.clanId)
-            .sort((a, b) => a.id.localeCompare(b.id))[0];
-        for (const memberId of army.deputyIds) {
-          const member = state.officers[memberId];
-          if (!member) continue;
-          member.armyId = null;
-          member.locationCastleId = refuge?.id ?? member.debutCastleId;
-        }
-        delete state.armies[army.id];
-      }
-    } else {
-      army.deputyIds = army.deputyIds.filter((id) => id !== officer.id);
-    }
-  }
-  for (const castle of Object.values(state.castles)) {
-    if (castle.lordId === officer.id) castle.lordId = null;
-  }
-  for (const district of Object.values(state.districts)) {
-    if (district.stewardId === officer.id) district.stewardId = null;
-  }
-  for (const corps of Object.values(state.corps)) {
-    if (corps.corpsLeaderId !== officer.id) continue;
-    for (const castle of Object.values(state.castles))
-      if (castle.corpsId === corps.id) castle.corpsId = null;
-    delete state.corps[corps.id];
-  }
+  // Shared release must see the original commander/army so it can reconcile
+  // siege, field-combat and tactical-unit references before mutating ownership.
+  releaseOfficerAssignments(state, officer.id);
   officer.status = 'dead';
   officer.clanId = null;
   officer.locationCastleId = null;
@@ -430,7 +716,7 @@ export function dieOfficer(
       clanIds: clanId === null ? [] : [clanId],
       officerId: officer.id,
       clanId,
-      cause: 'battle',
+      cause,
       nodeId,
     },
   ];
@@ -457,10 +743,20 @@ export function dieOfficer(
       }
       for (const member of Object.values(state.officers)) {
         if (member.status !== 'serving' || member.clanId !== clan.id) continue;
+        releaseOfficerAssignments(state, member.id);
         member.status = 'ronin';
         member.clanId = null;
         member.armyId = null;
         member.locationCastleId ??= member.debutCastleId;
+      }
+      for (const castle of Object.values(state.castles)) {
+        if (castle.ownerClanId !== clan.id) continue;
+        castle.lordId = null;
+        castle.directControl = true;
+        castle.betrayalReadyClanId = null;
+        castle.betrayalReadyUntilDay = 0;
+        castle.betrayalReadyTargetClanId = null;
+        castle.betrayalReadyTargetLordId = null;
       }
       events.push(...releaseOrphanedCaptives(state)); // 捕獲方滅亡 → 捕虜就地釋放（INV-18）
       events.push({
@@ -495,9 +791,22 @@ export function releaseOrphanedCaptives(state: GameState): GameEvent[] {
       prison === undefined ||
       prison.ownerClanId !== captorId;
     if (!orphaned) continue;
-    officer.status = 'ronin';
-    officer.clanId = null;
+    const original = officer.clanId === null ? undefined : state.clans[officer.clanId];
+    const refuge = original?.alive
+      ? (nearestOwnedCastleByTravelTime(
+          state,
+          original.id,
+          officer.locationCastleId ?? officer.debutCastleId,
+        )?.castle ??
+        Object.values(state.castles)
+          .filter((castle) => castle.ownerClanId === original.id)
+          .sort((a, b) => a.id.localeCompare(b.id))[0])
+      : undefined;
+    officer.status = refuge ? 'serving' : 'ronin';
+    officer.clanId = refuge ? original!.id : null;
+    if (refuge) officer.locationCastleId = refuge.id;
     officer.capturedByClanId = null;
+    officer.captiveRetryOn = null;
     officer.armyId = null;
     officer.locationCastleId ??= officer.debutCastleId;
     if (captorId !== null) {

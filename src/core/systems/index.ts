@@ -25,6 +25,8 @@ import { siegeSystem } from './siege';
 import { victorySystem } from './victory';
 import { enrollMonthlyCouncils, runCouncilTick } from './ai/scheduler';
 import { runDaimyoCouncil } from './ai/daimyo';
+import { diplomacySystem } from './diplomacy';
+import { proposalsSystem } from './proposals';
 
 // ═══════════════════════════════════════════════════════════════════
 // 迴圈機制型別（03 §4.1 canonical）
@@ -124,8 +126,8 @@ function stepTime(state: GameState): GameEvent[] {
 function stepEvents(): GameEvent[] {
   return []; // 歷史/汎用事件引擎（10；M8）
 }
-function stepDiplomacy(): GameEvent[] {
-  return []; // 外交工作進度、協定到期、調略（08；M6）
+function stepDiplomacy(state: GameState): GameEvent[] {
+  return diplomacySystem(state);
 }
 function stepDevelopment(state: GameState): GameEvent[] {
   return developmentSystem(state);
@@ -148,11 +150,10 @@ function stepOfficers(state: GameState, ctx: TickContext): GameEvent[] {
       for (const officerId of event.payeeIds) unpaidPayeeIds.add(officerId);
     }
   }
-  officersSystem(state, unpaidPayeeIds);
-  return [];
+  return officersSystem(state, unpaidPayeeIds);
 }
-function stepProposals(): GameEvent[] {
-  return []; // 具申生成與逾期作廢（06/09；M6-13）
+function stepProposals(state: GameState): GameEvent[] {
+  return proposalsSystem(state);
 }
 function stepAi(state: GameState): GameEvent[] {
   // AI 評定入列/消化（03 §3.8.2 排程器＋最小大名 AI 評定本體；MVP 先行，M7 擴充為 09 §3.4 四階段）。

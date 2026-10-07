@@ -2,21 +2,8 @@ import { BAL } from '../balance';
 import { castleFoodCap, castleMaxSoldiers, hasFacility, hasPolicy } from '../domestic';
 import type { Army, GameState, RoadEdge, TransportOrder } from '../state/gameState';
 import type { GameEvent } from '../state/events';
-import type { ClanId, ClanPairKey, MapNodeId } from '../state/ids';
-
-function pairKey(a: ClanId, b: ClanId): ClanPairKey {
-  return (a < b ? `${a}|${b}` : `${b}|${a}`) as ClanPairKey;
-}
-
-function atWar(state: Readonly<GameState>, a: ClanId, b: ClanId): boolean {
-  const row = state.diplomacy.rows[pairKey(a, b)];
-  return (
-    row?.lastHostileDay !== null &&
-    row?.lastHostileDay !== undefined &&
-    row.pacts.length === 0 &&
-    state.time.day - row.lastHostileDay < BAL.warStateMonths * 30
-  );
-}
+import type { MapNodeId } from '../state/ids';
+import { isAtWar } from './diplomacyCommon';
 
 function edgeBetween(state: Readonly<GameState>, a: MapNodeId, b: MapNodeId): RoadEdge | undefined {
   return Object.values<RoadEdge>(state.roads).find(
@@ -49,7 +36,7 @@ function looterAt(
   nodeId: MapNodeId,
 ): Army | undefined {
   return Object.values<Army>(state.armies)
-    .filter((army) => army.posNodeId === nodeId && atWar(state, order.clanId, army.clanId))
+    .filter((army) => army.posNodeId === nodeId && isAtWar(state, order.clanId, army.clanId))
     .sort((a, b) => a.id.localeCompare(b.id))[0];
 }
 

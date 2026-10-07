@@ -396,6 +396,9 @@ export interface Castle {
   buildQueue: BuildOrder[];    // 建造佇列（[0]=施工中；長度 ≤ BAL.buildQueueSize；同時施工 1 件，完工自動接續，勘誤 E-39）
   betrayalReadyClanId: ClanId | null; // 內應成果持有勢力；圍攻該城時可發動內應（勘誤 E-44；08 §3.7.3）
   betrayalReadyUntilDay: number; // 內應標記到期絕對日；無標記時為 0
+  betrayalImmunityUntilDay: number; // 被揭露後的城級免疫期限；無免疫時為 0
+  betrayalReadyTargetClanId: ClanId | null; // 成功時的原城主勢力快照
+  betrayalReadyTargetLordId: OfficerId | null; // 成功時的原城主武將快照
   districtIds: DistrictId[];   // 所轄郡，2..4 個；與 District.castleId 互為鏡像（INV-03）
 }
 
@@ -1703,3 +1706,14 @@ calendarToDay(y,m,d) = (y-1560)*360 + (m-1)*30 + (d-1)
   對齊 view contract、不影響現有資料驗證（`validate:data`）。
   依據：`plan/04-map-and-movement.md` §8 2026-07-17 [M6-V4] 條目；M6-V4 技術設計 §2.1／§10；
   CLAUDE.md 架構鐵律①②。
+
+**2026-10-08（M6・內應持久化與存檔 v2）**：
+
+- 08 規定城主更替、城易主使內應失效，揭露後另有城級免疫。原兩欄無法保存原對象與免疫期限。
+  本版新增 §4.5 三欄；免疫隨城保存，成功標記保存原勢力與武將 ID。易主或換將時立即清除標記，
+  每日與發動前再次檢查。無標記時，兩個快照皆為 `null`，標記期限為 0。
+- `SAVE_FORMAT_VERSION` 升至 2。v1 遷移補中性值並清除缺少原對象快照的舊標記；不推測舊標記效力。
+  v2 存讀保留免疫與快照，不消費亂數。既有 golden 與 replay 因新欄位、版本號及 M6 月結而重錄。
+- 招募的每勢力冷卻、具申的月底清理期限使用既有 `events.cooldownUntil` 字典保存。
+  key 分別為 `officer.recruit:<officerId>:<clanId>`、`proposal.terminal:<proposalId>`。
+  不新增 transient cache 至存檔。

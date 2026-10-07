@@ -5,7 +5,12 @@ import type { ArmyId, CastleId, ClanId } from '../state/ids';
 import type { GameEvent } from '../state/events';
 import { computeArmyPower } from './fieldCombat';
 import { createRngStream } from '../rng';
-import { appointClanSuccessor, dieOfficer, releaseOrphanedCaptives } from './officers';
+import {
+  appointClanSuccessor,
+  dieOfficer,
+  releaseOfficerAssignments,
+  releaseOrphanedCaptives,
+} from './officers';
 import { nearestOwnedCastleByTravelTime } from './castleSelection';
 import { garrisonFoodMonthly } from '../domestic';
 
@@ -154,6 +159,10 @@ function absorbDefeatedClan(
   for (const castle of Object.values(state.castles)) {
     if (castle.ownerClanId === defeatedClanId) {
       castle.ownerClanId = conquerorClanId;
+      castle.betrayalReadyClanId = null;
+      castle.betrayalReadyUntilDay = 0;
+      castle.betrayalReadyTargetClanId = null;
+      castle.betrayalReadyTargetLordId = null;
       castle.tier = castle.id === state.clans[conquerorClanId]?.homeCastleId ? 'main' : 'branch';
       castle.directControl = true;
       castle.lordId = null;
@@ -192,6 +201,10 @@ function fallCastle(
   const oldOwner = castle.ownerClanId;
   const defeatedCorpsId = castle.corpsId;
   castle.ownerClanId = siege.attackerClanId;
+  castle.betrayalReadyClanId = null;
+  castle.betrayalReadyUntilDay = 0;
+  castle.betrayalReadyTargetClanId = null;
+  castle.betrayalReadyTargetLordId = null;
   castle.corpsId = null;
   castle.directControl = true;
   castle.durability = Math.ceil(
@@ -256,6 +269,7 @@ function fallCastle(
     } else if (rng.chance(BAL.siegeDeathChanceEscapeFail)) {
       events.push(...dieOfficer(state, officer.id, castle.id, true));
     } else {
+      releaseOfficerAssignments(state, officer.id);
       officer.status = 'captive';
       officer.capturedByClanId = siege.attackerClanId;
       officer.locationCastleId = castle.id;

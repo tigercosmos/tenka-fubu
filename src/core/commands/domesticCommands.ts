@@ -12,6 +12,8 @@ import type { CommandByType, EmitFn } from './registry';
 import { REJECT_REASONS } from './reasons';
 import { adjustLoyalty } from '../systems/officers';
 import { traitModifier } from '../traits';
+import { extraPolicySlots } from '../systems/court';
+import { clearBetrayalMark } from '../systems/plots';
 
 const ok: ValidationResult = { ok: true };
 const reject = (reasonKey: string): ValidationResult => ({ ok: false, reasonKey });
@@ -323,7 +325,10 @@ export function validateEnactPolicy(
     return reject(REJECT_REASONS.invalidTarget);
   if (def.exclusiveWith !== null && policies.active.includes(def.exclusiveWith))
     return reject(REJECT_REASONS.alreadyActive);
-  const slots = Math.min(BAL.policySlotMax, 1 + Math.floor(clan.prestige / BAL.policySlotPrestige));
+  const slots = Math.min(
+    BAL.policySlotMax,
+    1 + Math.floor(clan.prestige / BAL.policySlotPrestige) + extraPolicySlots(state, clan.id),
+  );
   if (policies.active.length >= slots) return reject(REJECT_REASONS.invalidTarget);
   return clan.gold >= def.upkeepGold ? ok : reject(REJECT_REASONS.insufficientGold);
 }
@@ -391,13 +396,17 @@ export function applyAppointLord(state: GameState, cmd: CommandByType['appointLo
   for (const castle of Object.values(state.castles))
     if (newLordId !== null && castle.lordId === newLordId && castle.id !== cmd.castleId) {
       const old = state.officers[newLordId];
-      if (old) old.loyalty = Math.max(0, old.loyalty - BAL.loyaltyDismiss);
+      if (old && state.clans[cmd.clanId]?.leaderId !== old.id)
+        old.loyalty = Math.max(0, old.loyalty - BAL.loyaltyDismiss);
       castle.lordId = null;
+      clearBetrayalMark(castle);
     }
   const target = state.castles[cmd.castleId]!;
+  if (target.lordId !== cmd.officerId) clearBetrayalMark(target);
   if (target.lordId !== null && target.lordId !== cmd.officerId) {
     const old = state.officers[target.lordId];
-    if (old) old.loyalty = Math.max(0, old.loyalty - BAL.loyaltyDismiss);
+    if (old && state.clans[cmd.clanId]?.leaderId !== old.id)
+      old.loyalty = Math.max(0, old.loyalty - BAL.loyaltyDismiss);
   }
   target.lordId = cmd.officerId;
 }

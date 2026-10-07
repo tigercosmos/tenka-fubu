@@ -423,6 +423,7 @@ export interface ShogunateTitleDef {
 
 - `Officer.kinship: Kinship`（一門／譜代／外樣；一門＝`kinship==='kin'`，勘誤 E-34）、`Officer.spouseId: OfficerId | null` —— 婚姻同盟使用（06 定義一門本體與 `Kinship` 型別）。
 - `Castle.betrayalReadyClanId: ClanId | null`、`Castle.betrayalReadyUntilDay: number` —— 內應標記。
+  原對象快照與揭露免疫另存 02 §4.5 的三個 M6 欄位；不以執行中的 Plot 代替成功標記。
 - `Clan.prestige`（威信 0..2000）已於 00 §6 定義，本系統讀寫。
 
 不變量（invariants，02 彙整）：

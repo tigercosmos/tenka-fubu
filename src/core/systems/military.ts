@@ -47,11 +47,11 @@ function canEnterNode(
   asTarget: boolean,
   viaSea = false,
 ): boolean {
-  if (viaSea) return true;
   const owner = nodeOwner(state, nodeId);
   if (owner === null) return false;
   const stance = getStance(state, clanId, owner);
   if (stance === 'ceasefire') return false;
+  if (viaSea) return true;
   if (state.districts[nodeId as DistrictId]) return true;
   return stance === 'own' || stance === 'friendly' || asTarget;
 }
@@ -112,7 +112,12 @@ function disbandArmy(state: GameState, army: Army, events: GameEvent[]): void {
   }
 }
 
-function setReturning(state: GameState, army: Army, routed: boolean, events: GameEvent[]): void {
+export function setReturning(
+  state: GameState,
+  army: Army,
+  routed: boolean,
+  events: GameEvent[],
+): void {
   const target = routed
     ? nearestOwnedCastleByHops(state, army.clanId, army.posNodeId)
     : nearestOwnedCastle(state, army);
@@ -490,7 +495,11 @@ function detectEncounters(
       .filter((army) => army.status !== 'routed' && army.status !== 'engaged')
       .filter((army) => {
         const stanceToOwner = getStance(state, army.clanId, castleOwnerId);
-        return stanceToOwner === 'own' || stanceToOwner === 'friendly';
+        const stanceToAttacker = getStance(state, army.clanId, siege.attackerClanId);
+        return (
+          (stanceToOwner === 'own' || stanceToOwner === 'friendly') &&
+          (stanceToAttacker === 'neutral' || stanceToAttacker === 'war')
+        );
       })
       .sort((a, b) => a.id.localeCompare(b.id));
     if (attackers.length === 0 || relief.length === 0) continue;
@@ -541,7 +550,7 @@ function detectEncounters(
         sideClanIds.some(
           (clanId) =>
             clanId === army.clanId || getStance(state, army.clanId, clanId) === 'friendly',
-        ) && enemyClanIds.some((clanId) => isHostile(state, army.clanId, clanId));
+        ) && enemyClanIds.every((clanId) => isHostile(state, army.clanId, clanId));
       const joinsA = joins(combat.sideA.clanIds, combat.sideB.clanIds);
       const joinsB = joins(combat.sideB.clanIds, combat.sideA.clanIds);
       if (joinsA === joinsB) continue;
@@ -597,10 +606,10 @@ function detectEncounters(
           if (ally === first || ally === challenger) continue;
           const joinsFirst =
             getStance(state, ally.clanId, first.clanId) === 'friendly' &&
-            isHostile(state, ally.clanId, challenger.clanId);
+            challengerArmies.every((army) => isHostile(state, ally.clanId, army.clanId));
           const joinsChallenger =
             getStance(state, ally.clanId, challenger.clanId) === 'friendly' &&
-            isHostile(state, ally.clanId, first.clanId);
+            firstArmies.every((army) => isHostile(state, ally.clanId, army.clanId));
           if (joinsFirst && !joinsChallenger) firstArmies.push(...ally.armies);
           else if (joinsChallenger && !joinsFirst) challengerArmies.push(...ally.armies);
         }

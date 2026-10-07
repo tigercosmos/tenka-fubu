@@ -221,6 +221,9 @@ function makeCastle(p: {
     buildQueue: [],
     betrayalReadyClanId: null,
     betrayalReadyUntilDay: 0,
+    betrayalImmunityUntilDay: 0,
+    betrayalReadyTargetClanId: null,
+    betrayalReadyTargetLordId: null,
     districtIds: p.districtIds,
   };
 }

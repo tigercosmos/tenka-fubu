@@ -279,7 +279,10 @@ describe('victorySystem（10 §5.6）', () => {
     expect(destroyClanRemnants(state, state.clans[CLAN_BETA]!, events)).toBe(true);
     expect(state.diplomacy.rows[key]?.pacts).toEqual([]);
     expect(state.diplomacy.missions).toEqual([]);
-    expect(state.officers[alphaCaptive]!.status).toBe('ronin');
+    expect(state.officers[alphaCaptive]).toMatchObject({ status: 'serving', clanId: CLAN_ALPHA });
+    const returnedCastleId = state.officers[alphaCaptive]?.locationCastleId;
+    if (returnedCastleId == null) throw new Error('Released officer must return to a castle');
+    expect(state.castles[returnedCastleId]?.ownerClanId).toBe(CLAN_ALPHA);
     expect(state.officers[alphaCaptive]!.capturedByClanId).toBeNull();
     expect(validateState(state)).toEqual([]);
   });
@@ -299,7 +302,13 @@ describe('victorySystem（10 §5.6）', () => {
     // alpha 關押的 beta 武將關押城仍屬 alpha，不受影響；beta 關押的 alpha 武將被釋放）
     stripBetaHoldings(state);
     const events = victorySystem(state, []);
-    expect(state.officers[OFF_ALPHA_BUSHO]!.status).toBe('ronin');
+    expect(state.officers[OFF_ALPHA_BUSHO]).toMatchObject({
+      status: 'serving',
+      clanId: CLAN_ALPHA,
+    });
+    expect(state.castles[state.officers[OFF_ALPHA_BUSHO]!.locationCastleId!]!.ownerClanId).toBe(
+      CLAN_ALPHA,
+    );
     expect(state.officers[OFF_ALPHA_BUSHO]!.capturedByClanId).toBeNull();
     expect(state.officers[OFF_BETA_BUSHO]!.status).toBe('captive'); // 合法關押不受清掃影響
     expect(events.some((e) => e.type === 'officer.released')).toBe(true);

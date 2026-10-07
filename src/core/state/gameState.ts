@@ -235,6 +235,9 @@ export interface Castle {
   buildQueue: BuildOrder[]; // 建造佇列（[0]=施工中；長度 ≤ BAL.buildQueueSize；同時施工 1 件，勘誤 E-39）
   betrayalReadyClanId: ClanId | null; // 內應成果持有勢力；圍攻該城時可發動內應（勘誤 E-44；08 §3.7.3）
   betrayalReadyUntilDay: number; // 內應標記到期絕對日；無標記時為 0
+  betrayalImmunityUntilDay: number;
+  betrayalReadyTargetClanId: ClanId | null;
+  betrayalReadyTargetLordId: OfficerId | null;
   districtIds: DistrictId[]; // 所轄郡，2..4 個；與 District.castleId 互為鏡像（INV-03）
 }
 

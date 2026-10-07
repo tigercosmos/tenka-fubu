@@ -19,6 +19,11 @@ import {
 import * as domestic from './domesticCommands';
 import * as officers from './officerCommands';
 import * as march from './march';
+import * as diplomacy from './diplomacyCommands';
+import * as court from './courtCommands';
+import * as plots from './plotCommands';
+import { createApplyResolveProposal, validateResolveProposal } from './proposalCommands';
+import { REJECT_REASONS } from './reasons';
 import { applyStartKassen, validateStartKassen } from '../systems/battle';
 
 /** tick 事件匯流排回呼：各步以此追加 GameEvent（03 §3.2.1）。 */
@@ -66,6 +71,72 @@ export function isDebugCommand(cmd: Command): boolean {
 
 /** CommandType → handler 登錄表（M1-6 僅 debug 指令；擴充見檔頭與 §8-D14）。 */
 const HANDLERS: Partial<Record<CommandType, AnyHandler>> = {
+  startDiploWork: defineHandler<'startDiploWork'>(
+    diplomacy.validateStartDiploWork,
+    diplomacy.applyStartDiploWork,
+  ),
+  stopDiploWork: defineHandler<'stopDiploWork'>(
+    diplomacy.validateStopDiploWork,
+    diplomacy.applyStopDiploWork,
+  ),
+  proposePact: defineHandler<'proposePact'>(
+    diplomacy.validateProposePact,
+    diplomacy.applyProposePact,
+  ),
+  respondPact: defineHandler<'respondPact'>(
+    diplomacy.validateRespondPact,
+    diplomacy.applyRespondPact,
+  ),
+  breakPact: defineHandler<'breakPact'>(diplomacy.validateBreakPact, diplomacy.applyBreakPact),
+  requestCourtRank: defineHandler<'requestCourtRank'>(
+    court.validateRequestCourtRank,
+    court.applyRequestCourtRank,
+  ),
+  requestMediation: defineHandler<'requestMediation'>(
+    court.validateRequestMediation,
+    court.applyRequestMediation,
+  ),
+  requestShogunateTitle: defineHandler<'requestShogunateTitle'>(
+    court.validateRequestShogunateTitle,
+    court.applyRequestShogunateTitle,
+  ),
+  nominateShogun: defineHandler<'nominateShogun'>(
+    court.validateNominateShogun,
+    court.applyNominateShogun,
+  ),
+  startPlot: defineHandler<'startPlot'>(plots.validateStartPlot, plots.applyStartPlot),
+  cancelPlot: defineHandler<'cancelPlot'>(plots.validateCancelPlot, plots.applyCancelPlot),
+  useBetrayal: defineHandler<'useBetrayal'>(plots.validateUseBetrayal, plots.applyUseBetrayal),
+  recruitRonin: defineHandler<'recruitRonin'>(
+    officers.validateRecruitRonin,
+    officers.applyRecruitRonin,
+  ),
+  rewardOfficer: defineHandler<'rewardOfficer'>(
+    officers.validateRewardOfficer,
+    officers.applyRewardOfficer,
+  ),
+  handleCaptive: defineHandler<'handleCaptive'>(
+    officers.validateHandleCaptive,
+    officers.applyHandleCaptive,
+  ),
+  resolveProposal: defineHandler<'resolveProposal'>(
+    validateResolveProposal,
+    createApplyResolveProposal({
+      validate: (state, command) => {
+        if (state.meta.gameOver !== null && !isDebugCommand(command))
+          return { ok: false, reasonKey: REJECT_REASONS.gameOver };
+        return (
+          getHandler(command.type)?.validate(state, command) ?? {
+            ok: false,
+            reasonKey: REJECT_REASONS.notImplemented,
+          }
+        );
+      },
+      apply: (state, command, emit) => {
+        getHandler(command.type)!.apply(state, command, emit);
+      },
+    }),
+  ),
   march: defineHandler<'march'>(march.validateMarch, march.applyMarch),
   setArmyTarget: defineHandler<'setArmyTarget'>(
     march.validateSetArmyTarget,

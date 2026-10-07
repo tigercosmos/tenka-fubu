@@ -33,7 +33,7 @@ import type { GameEvent } from '../state/events';
 import { applyAwe, judgeBattleAwe } from './awe';
 import { createDelegatedBattleOrders } from './battleAi';
 import { nearestOwnedCastleByHops } from './castleSelection';
-import { appointClanSuccessor, dieOfficer } from './officers';
+import { appointClanSuccessor, dieOfficer, releaseOfficerAssignments } from './officers';
 import {
   applyBattleTactic,
   decrementTacticTimers,
@@ -888,22 +888,7 @@ function captureDefeatedGeneral(
       army.deputyIds = army.deputyIds.filter((candidate) => candidate !== officer.id);
     }
   }
-  for (const castle of Object.values(state.castles)) {
-    if (castle.lordId === officer.id) castle.lordId = null;
-  }
-  for (const district of Object.values(state.districts)) {
-    if (district.stewardId === officer.id) district.stewardId = null;
-  }
-  for (const corps of Object.values(state.corps)) {
-    if (corps.corpsLeaderId !== officer.id) continue;
-    for (const castle of Object.values(state.castles)) {
-      if (castle.corpsId === corps.id) castle.corpsId = null;
-    }
-    for (const memberArmy of Object.values(state.armies)) {
-      if (memberArmy.corpsId === corps.id) memberArmy.corpsId = null;
-    }
-    delete state.corps[corps.id];
-  }
+  releaseOfficerAssignments(state, officer.id);
   officer.status = 'captive';
   officer.armyId = null;
   officer.locationCastleId = prisonCastleId;

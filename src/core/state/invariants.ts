@@ -1073,6 +1073,22 @@ function checkInv16(state: GameState): Violation[] {
         ]),
       );
     }
+    if (!isNonNegInt(castle.betrayalImmunityUntilDay) || !isNonNegInt(castle.betrayalReadyUntilDay))
+      v.push(violation('INV-16', `城 ${castle.id} 內應期限須為非負整數`, [castle.id]));
+    if (castle.betrayalReadyClanId === null) {
+      if (
+        castle.betrayalReadyUntilDay !== 0 ||
+        castle.betrayalReadyTargetClanId !== null ||
+        castle.betrayalReadyTargetLordId !== null
+      )
+        v.push(violation('INV-16', `城 ${castle.id} 無內應時不可保留標記資料`, [castle.id]));
+    } else if (
+      !state.clans[castle.betrayalReadyClanId]?.alive ||
+      castle.betrayalReadyTargetClanId !== castle.ownerClanId ||
+      castle.betrayalReadyTargetLordId === null ||
+      castle.betrayalReadyTargetLordId !== castle.lordId
+    )
+      v.push(violation('INV-16', `城 ${castle.id} 內應標記對象已失效`, [castle.id]));
     if (castle.durability > castle.maxDurability || castle.durability < 0) {
       v.push(
         violation(

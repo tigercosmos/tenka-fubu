@@ -5,6 +5,7 @@ import { nextId } from '../state/serialize';
 import { computePath, getStance } from '../systems/pathfinding';
 import { detachArmyFromSiege } from '../systems/siege';
 import { nearestOwnedCastleByTravelTime } from '../systems/castleSelection';
+import { isOfficerBusy } from '../systems/diplomacyCommon';
 import type { GameState } from '../state/gameState';
 import type { ClanId, MapNodeId } from '../state/ids';
 import type { CommandByType, EmitFn } from './registry';
@@ -56,7 +57,7 @@ function availableOfficer(
     officer.hasComeOfAge &&
     officer.clanId === clanId &&
     officer.locationCastleId === castleId &&
-    officer.armyId === null
+    !isOfficerBusy(state, officer.id)
     ? officer
     : undefined;
 }

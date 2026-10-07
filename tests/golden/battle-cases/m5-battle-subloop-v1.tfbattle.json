@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "scenarioId": "mini",
   "seed": 42,
-  "balanceHash": "2ff761ae72508a69",
+  "balanceHash": "26f8938846912a86",
   "initial": {
     "layoutId": "mini-duel-v1",
     "battleId": "battle.000001",
-    "stateHash": "1c31e73231f90e9e"
+    "stateHash": "919a3037d3e19d23"
   },
   "finalTick": 30,
   "entries": [
@@ -33,20 +33,20 @@
   "checkpoints": [
     {
       "tick": 1,
-      "hash": "61a3ed6027a1efb6"
+      "hash": "8568ea592c1288db"
     },
     {
       "tick": 10,
-      "hash": "fc8ac7f7c38022f5"
+      "hash": "75fcb967e52ff318"
     },
     {
       "tick": 20,
-      "hash": "ffc51b2789ee285f"
+      "hash": "a3c9eb88bd107b0e"
     },
     {
       "tick": 30,
-      "hash": "ee228589089dca59"
+      "hash": "a1b6b67806fc2248"
     }
   ],
-  "finalHash": "ee228589089dca59"
+  "finalHash": "a1b6b67806fc2248"
 }

@@ -7,6 +7,8 @@ import { conscriptionSystem } from './conscription';
 import { facilitiesDaily } from './facilities';
 import { transportDaily } from './transport';
 import { paySalaryForClan } from './officers';
+import { overlordOf } from '../commands/diplomacyCommands';
+import type { ClanId } from '../state/ids';
 
 function garrisonFoodDaily(state: GameState, castle: Castle, events: GameEvent[]): void {
   castle.foodFrac += garrisonFoodMonthly(state, castle) / 30;
@@ -34,10 +36,12 @@ function garrisonFoodDaily(state: GameState, castle: Castle, events: GameEvent[]
 }
 
 function monthlyIncomeAndUpkeep(state: GameState, events: GameEvent[]): void {
+  const incomes = new Map<ClanId, number>();
   for (const id of Object.keys(state.clans).sort()) {
     const clan: Clan | undefined = state.clans[id as keyof typeof state.clans];
     if (!clan?.alive) continue;
     const income = monthlyGoldIncome(state, clan.id);
+    incomes.set(clan.id, income);
     clan.gold += income;
     events.push({
       type: 'economy.income',
@@ -47,6 +51,18 @@ function monthlyIncomeAndUpkeep(state: GameState, events: GameEvent[]): void {
       gold: income,
       foodByCastle: {},
     });
+  }
+  // Gross monthly income, not treasury or incoming tribute. Settle all incomes first.
+  for (const [clanId, income] of incomes) {
+    const overlord = overlordOf(state, clanId);
+    if (overlord !== null && state.clans[overlord]?.alive) {
+      const tribute = Math.floor(income * BAL.vassalTributeRate);
+      state.clans[clanId]!.gold -= tribute;
+      state.clans[overlord].gold += tribute;
+    }
+  }
+  for (const clanId of incomes.keys()) {
+    const clan = state.clans[clanId]!;
     const salary = paySalaryForClan(state, clan.id);
     if (!salary.paid) {
       events.push({

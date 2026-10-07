@@ -3,3 +3,24 @@
 export { computePath, getStance } from './systems/pathfinding';
 export type { PathQuery, PathResult, Stance } from './systems/pathfinding';
 export { severityOf } from './systems/reports';
+export { validateCommand } from './commands/validate';
+export { getTrust, getSentiment, isAtWar, hasPact, isOfficerBusy } from './systems/diplomacyCommon';
+export { clanPower, evaluateProposal, reinforcementAidScore } from './systems/diplomacyEval';
+export {
+  courtRankOrder,
+  shogunateTitleOrder,
+  workCostMultiplier,
+  extraPolicySlots,
+  courtUnlocks,
+} from './systems/court';
+export { getPlotSuccessRate, plotMonthlyProgress } from './systems/plots';
+export { controlsCourtCapital } from './systems/court';
+export { shogunateTitleCost, mediationFavorCost } from './commands/courtCommands';
+export { pactTrustCost } from './commands/diplomacyCommands';
+export {
+  officerAbilityScore,
+  captiveRecruitSuccessRate,
+  recruitRoninSuccessRate,
+  rewardOfficerCost,
+  rewardOfficerLoyaltyGain,
+} from './systems/officers';

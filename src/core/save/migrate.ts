@@ -3,7 +3,7 @@
 // M8-12 增補實際遷移條目時不需改呼叫端。
 
 /** 目前存檔格式版本（寫入時蓋章；讀取時 version > 此值 → newerVersion 錯誤）。 */
-export const SAVE_FORMAT_VERSION = 1;
+export const SAVE_FORMAT_VERSION = 2;
 
 /** 單一遷移步驟：把 `from` 版的 SaveFile 原地升級為 `from + 1` 版（16 §4.5）。 */
 export interface SaveMigration {
@@ -13,7 +13,30 @@ export interface SaveMigration {
 }
 
 /** 遷移鏈（依 from 升冪；v1 起點，目前為空）。 */
-export const MIGRATIONS: readonly SaveMigration[] = [];
+function record(value: unknown): Record<string, unknown> {
+  if (value === null || typeof value !== 'object' || Array.isArray(value))
+    throw new Error('存檔遷移需要物件');
+  return value as Record<string, unknown>;
+}
+export const MIGRATIONS: readonly SaveMigration[] = [
+  {
+    from: 1,
+    migrate(saveFile) {
+      const state = record(saveFile.state);
+      for (const value of Object.values(record(state.castles))) {
+        const castle = record(value);
+        castle.betrayalImmunityUntilDay = 0;
+        castle.betrayalReadyTargetClanId = null;
+        castle.betrayalReadyTargetLordId = null;
+        // Legacy marks lack the original owner/lord snapshot and cannot safely survive migration.
+        castle.betrayalReadyClanId = null;
+        castle.betrayalReadyUntilDay = 0;
+      }
+      record(state.meta).saveVersion = 2;
+      saveFile.version = 2;
+    },
+  },
+];
 
 /**
  * 執行遷移鏈：從 saveFile.version 逐步升級至 SAVE_FORMAT_VERSION。

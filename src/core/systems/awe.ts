@@ -4,6 +4,8 @@ import type { AweLevel } from '../state/enums';
 import type { BattleSide, BattleState, GameState } from '../state/gameState';
 import type { ClanId, MapNodeId } from '../state/ids';
 import type { GameEvent } from '../state/events';
+import { adjustSentiment, buildAdjacency, hasPact } from './diplomacyCommon';
+import { pairKey } from '../state/serialize';
 
 /** 07 §3.10：合戰勝利必定至少為威風・小，依敗方殲滅比與本陣陷落速度取最高等級。 */
 export function judgeBattleAwe(
@@ -95,6 +97,22 @@ export function applyAwe(
   }
   const clan = state.clans[winnerClanId];
   if (clan) clan.prestige = Math.min(BAL.prestigeMax, clan.prestige + prestige);
+  const index = level === 'small' ? 0 : level === 'medium' ? 1 : 2;
+  adjustSentiment(state, loserClanId, winnerClanId, BAL.aweSentimentLoserHit[index]);
+  const adjacency = buildAdjacency(state);
+  for (const neighbor of Object.values(state.clans).sort((a, b) => a.id.localeCompare(b.id))) {
+    if (
+      !neighbor.alive ||
+      neighbor.id === winnerClanId ||
+      neighbor.id === loserClanId ||
+      !adjacency.has(pairKey(neighbor.id, winnerClanId)) ||
+      hasPact(state, neighbor.id, winnerClanId, 'alliance') ||
+      hasPact(state, neighbor.id, winnerClanId, 'marriage') ||
+      hasPact(state, neighbor.id, winnerClanId, 'vassal')
+    )
+      continue;
+    adjustSentiment(state, neighbor.id, winnerClanId, BAL.aweSentimentNeighborHit[index]);
+  }
   return [
     {
       type: 'awe.triggered',

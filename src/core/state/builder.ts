@@ -30,6 +30,8 @@ import { createRngStream, initRng, type RngStream } from '../rng';
 import { defaultDiplomacyRow, pairKey } from './serialize';
 import { dayToCalendar, EPOCH_YEAR } from '../systems/time';
 import { BAL } from '../balance';
+import { SAVE_FORMAT_VERSION } from '../save/migrate';
+import { getCourtMetadata } from '../../data/courtMetadata';
 import { RANK_VALUES, REGION_VALUES, type Difficulty, type Kinship, type Region } from './enums';
 import type {
   AiClanState,
@@ -132,6 +134,7 @@ export function buildGameState(input: ScenarioInput): GameState {
   const clans = toRecord<ClanId, Clan>(scenario.clans);
   const officers = toRecord<OfficerId, Officer>(scenario.officers);
   const castles = toRecord<CastleId, Castle>(scenario.castles);
+  const shogunClanId = getCourtMetadata(scenario.scenarioId)?.shogunClanId ?? null;
   const districts = toRecord<DistrictId, District>(scenario.districts);
   const provinces = toRecord<ProvinceId, Province>(scenario.provinces);
   const roads = toRecord<RoadEdgeId, RoadEdge>(scenario.roads);
@@ -158,7 +161,7 @@ export function buildGameState(input: ScenarioInput): GameState {
 
   return {
     meta: {
-      saveVersion: 1,
+      saveVersion: SAVE_FORMAT_VERSION,
       appVersion: scenario.appVersion,
       scenarioId: scenario.scenarioId,
       seed: scenario.seed,
@@ -205,7 +208,7 @@ export function buildGameState(input: ScenarioInput): GameState {
       courtFavor: {},
       shogunateFavor: {},
       shogunateExists: true,
-      shogunClanId: null,
+      shogunClanId: shogunClanId !== null && clans[shogunClanId] ? shogunClanId : null,
       patronClanId: null,
       mediationCooldownUntil: {},
     },
@@ -666,6 +669,9 @@ export function deriveScenarioInput(
       buildQueue: [],
       betrayalReadyClanId: null,
       betrayalReadyUntilDay: 0,
+      betrayalImmunityUntilDay: 0,
+      betrayalReadyTargetClanId: null,
+      betrayalReadyTargetLordId: null,
       districtIds: [],
     };
   });
