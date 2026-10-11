@@ -1,0 +1,30 @@
+[
+  {
+    "name": "drift-sign",
+    "file": "src/core/systems/diplomacy.ts",
+    "replace": "-Math.sign(value) * Math.min",
+    "with": "Math.sign(value) * Math.min",
+    "exitCode": 1
+  },
+  {
+    "name": "exclusive-threshold",
+    "file": "src/core/systems/diplomacy.ts",
+    "replace": ">=\n          BAL.dipAcceptThreshold",
+    "with": ">\n          BAL.dipAcceptThreshold",
+    "exitCode": 1
+  },
+  {
+    "name": "wrong-awe-loser-level",
+    "file": "src/core/systems/awe.ts",
+    "replace": "BAL.aweSentimentLoserHit[index]",
+    "with": "BAL.aweSentimentLoserHit[0]",
+    "exitCode": 1
+  },
+  {
+    "name": "wrong-awe-neighbor-level",
+    "file": "src/core/systems/awe.ts",
+    "replace": "BAL.aweSentimentNeighborHit[index]",
+    "with": "BAL.aweSentimentLoserHit[index]",
+    "exitCode": 1
+  }
+]

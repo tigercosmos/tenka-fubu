@@ -1,0 +1,14 @@
+{
+  "sourceHead": "9dad6a634cdb5914ec653f7fbbdc83c24487c74c",
+  "testCommit": "ffcf964",
+  "sourceArchive": "../m6-lifecycle-acceptance/source-9dad6a6.tar.gz",
+  "sourceArchiveSha256": "240f251955d3b9636ed0af6a7e579c8dd751e8fa3b175d6ef106f71e0ebabc67",
+  "restoredSourceSha256": {
+    "src/core/systems/diplomacy.ts": "a6ab74c84bda52e2a3d59887ad334eb7d43cdc7e0b968d9b147041d92c6f1b7e",
+    "src/core/systems/awe.ts": "21b0ccb410d4c2303b18622e60554ae41af3d0317077cc3ec96f54ecd19ae045"
+  },
+  "acceptedTests": 7,
+  "focusedTests": 33,
+  "faultControls": 4,
+  "scope": "test-only acceptance; no production defect identified or production source change"
+}

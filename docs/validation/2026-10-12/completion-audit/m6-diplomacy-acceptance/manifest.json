@@ -1,0 +1,33 @@
+{
+  "sourceHead": "9dad6a6",
+  "testCommit": "ffcf964",
+  "files": {
+    "README.md": "cb5a0246ca6ddf2f35c101858c9aac394e50d1e389f498f204a7379f625f4eb1",
+    "accepted-test.spec.ts.gz": "44096be502d033c61f3a711ac1888fd0ae64533a90750a9ca92eeac7a5704c4f",
+    "diplomacy-runnable-reproduction.log.gz": "7beef0b76f98fc8b6dbafc21be4e0b9d0e9b8346b7da4cb6d22165af01717d82",
+    "fault-controls.json": "2e791155ade718ce7adf54a884334ed1f87399efe3cb5b7b5916373019f5177d",
+    "fault-controls.json.gz": "233d5f73c2df4afe6590089195e65f368cf1267450c848afaaa6283f3d5c3d1c",
+    "fault-controls.py": "28eba309ea2a4b0bd712337783d51bcb0cc2edb3d9e24567042b2039d1a775b7",
+    "fault-drift-sign.log.gz": "d72c08a6ceea0ee1a2baaa15162ad3bcb94ba411a89baaec99f56c967a2d6351",
+    "fault-exclusive-threshold.log.gz": "20512e07686e6de4d3a9a585c4da9b3bbd12ea468662ecd8cb5b055c7c2d7bf0",
+    "fault-wrong-awe-loser-level.log.gz": "4dad0a2ea7b39eac708251f11d6ff054218b1e8a03cd7c5fc1eff20c9f49bead",
+    "fault-wrong-awe-neighbor-level.log.gz": "a768ccd2dc321d1852013cd094a2810caef2f19f9373958dae88cb99b6a0d700",
+    "m6-diplomacy-corrected-fixture.log.gz": "627945759e33e316db34a606aed3a9a102ae80ef8294d49501e55a2bbe3d1404",
+    "m6-diplomacy-eslint.log.gz": "6a326f03e4f68547abd5e79ab991f2ae854760f9cc531e28df35a39034a9a366",
+    "m6-diplomacy-focused-final-green.log.gz": "fec17d7aed6f68bca6e4d1818acebad2796d8d3eeef2651c36abda5decdcdb5f",
+    "m6-diplomacy-initial.log.gz": "fe2b7a7fb3668827a8cbc0a0d9ed4d408fbd5b28d56cdb58cd82517e5051931e",
+    "m6-diplomacy-typecheck.log.gz": "9e4c37cd141836f3c19488839eac1d103fe08b9a4e0b307cba33b8f1f5abc672",
+    "m6-diplomacy-valid-baseline-green.log.gz": "f69231f7ef88321d33d33102df92e41236715def8c92b8ef40d95e63f303d2a4",
+    "original-fault-controls.py.gz": "268dc01f4e28ad34d2238e73fe9204c10706d2fe6b6118217ad65a2fa2cee26e",
+    "provenance.json": "d0cb4b54ef101a73c3faec64aeb747957535cdf3db6eee12a8a30a1b6b2ae7f1",
+    "rejected-invalid-fixture-controls/fault-controls.json.gz": "233d5f73c2df4afe6590089195e65f368cf1267450c848afaaa6283f3d5c3d1c",
+    "rejected-invalid-fixture-controls/fault-drift-sign.log.gz": "ef46bf6184b3a989a1ba5c5e8302af275c22d55379f8c7e593503fa9f29d8439",
+    "rejected-invalid-fixture-controls/fault-exclusive-threshold.log.gz": "2c1d9530eb56ea9b2711ff812e7eb6ece752edcb8208a027a0f7923635025af6",
+    "rejected-invalid-fixture-controls/fault-wrong-awe-loser-level.log.gz": "59b8511a1abe471dabd87b8423f75aa4e9f58b910cd597b33256d8fb11f1ee3e",
+    "rejected-invalid-fixture-controls/fault-wrong-awe-neighbor-level.log.gz": "9183ec26fab5e3ef6ff124c38daf40d158dd7077158ea12e6e28691e3ebfb3a3",
+    "related-tests/allianceAdmissionBoundary.spec.ts.gz": "923ebaa225d9a26921d3696758f9470ff2d1d2dfaf2f38fde1e6dd21e3391d16",
+    "related-tests/awe.spec.ts.gz": "a0dff088fb533106ab71eca177954284e5d9dc16a29fe742620e431ff6933c6d",
+    "related-tests/diplomacy.spec.ts.gz": "1394f2a08ad0b1f0b34a2518882adedbe305655c7f425d24b6ab2927c3d167a1",
+    "related-tests/diplomacyIntegration.spec.ts.gz": "52dc38bb5e515c0df7210fdb4c6fd7ed276b9eb49e452433ac45d34e55505782"
+  }
+}
