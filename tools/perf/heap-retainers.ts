@@ -86,8 +86,9 @@ export function analyzeHeapRetainers(snapshot: HeapSnapshot, trackedIds: readonl
     if (!indexIn(snapshot.edges[edge + et]!, edgeTypes)) throw new Error('Invalid heap edge type');
     const nameIndex = snapshot.edges[edge + en]!;
     if (['element', 'hidden'].includes(edgeType(edge))) {
-      if (!Number.isSafeInteger(nameIndex) || nameIndex < 0)
-        throw new Error('Invalid heap edge index');
+      // V8 SerializeEdge writes signed int labels for ELEMENT/HIDDEN, not string
+      // or node offsets: https://chromium.googlesource.com/v8/v8/+/refs/branch-heads/14.9/src/profiler/heap-snapshot-generator.cc
+      if (!Number.isSafeInteger(nameIndex)) throw new Error('Invalid heap edge index');
     } else if (!indexIn(nameIndex, snapshot.strings)) throw new Error('Invalid heap edge name');
   }
   // Shortest strong root path only; weak edges do not establish retention.

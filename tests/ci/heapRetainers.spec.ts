@@ -85,6 +85,57 @@ describe('heap retained-object audit', () => {
     input.edges[4] = 99;
     expect(() => analyzeHeapRetainers(input)).toThrow('edge name');
   });
+  it.each(['element', 'hidden'])(
+    'preserves signed %s labels independently of target offsets',
+    (type) => {
+      const input = fixture();
+      const types = input.snapshot.meta.edge_types[0] as string[];
+      types.push(type);
+      input.edges[0] = types.length - 1;
+      // Actual ELEMENT label from Chrome 149's CDP remount snapshot.
+      input.edges[1] = -334847292;
+      const before = structuredClone(input);
+      expect(analyzeHeapRetainers(input).objects[0]?.strongRootPath?.[0]).toMatchObject({
+        edgeType: type,
+        edge: '-334847292',
+        toId: 3,
+      });
+      expect(input).toEqual(before);
+      input.edges[2] = -5;
+      expect(() => analyzeHeapRetainers(input)).toThrow('edge target');
+    },
+  );
+  it.each(['element', 'hidden'])(
+    'rejects non-integral or inexact %s labels even on unreachable edges',
+    (type) => {
+      const input = fixture(true);
+      const types = input.snapshot.meta.edge_types[0] as string[];
+      types.push(type);
+      input.edges[3] = types.length - 1;
+      for (const invalid of [
+        -0.5,
+        0.5,
+        NaN,
+        Infinity,
+        -Infinity,
+        Number.MAX_SAFE_INTEGER + 1,
+        Number.MIN_SAFE_INTEGER - 1,
+      ]) {
+        input.edges[4] = invalid;
+        expect(() => analyzeHeapRetainers(input)).toThrow('edge index');
+      }
+    },
+  );
+  it('still rejects negative string-table indexes for named edges', () => {
+    for (const type of ['property', 'weak', 'context', 'internal', 'shortcut']) {
+      const input = fixture();
+      const types = input.snapshot.meta.edge_types[0] as string[];
+      types.push(type);
+      input.edges[0] = types.length - 1;
+      input.edges[1] = -1;
+      expect(() => analyzeHeapRetainers(input)).toThrow('edge name');
+    }
+  });
   it('reports canvas names as candidates with their node type and actual root paths', () => {
     const input = fixture();
     input.strings[1] = '<canvas width="512" height="512">';
