@@ -75,30 +75,31 @@ function pointRectDistance(p: Point, r: PlateRect): number {
     dy = Math.max(r.y - p.y, p.y - r.y - r.height, 0);
   return dx * dx + dy * dy;
 }
-function pointSegmentDistance(p: Point, a: Point, b: Point): number {
+function pointSegmentDistance(x: number, y: number, a: Point, b: Point): number {
   const dx = b.x - a.x,
     dy = b.y - a.y,
     length = dx * dx + dy * dy;
-  const t =
-    length === 0 ? 0 : Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / length));
-  return (p.x - a.x - t * dx) ** 2 + (p.y - a.y - t * dy) ** 2;
+  const t = length === 0 ? 0 : Math.max(0, Math.min(1, ((x - a.x) * dx + (y - a.y) * dy) / length));
+  return (x - a.x - t * dx) ** 2 + (y - a.y - t * dy) ** 2;
 }
 function segmentRectDistance(a: Point, b: Point, r: PlateRect): number {
   let lo = 0,
     hi = 1;
-  for (const [start, delta, min, max] of [
-    [a.x, b.x - a.x, r.x, r.x + r.width],
-    [a.y, b.y - a.y, r.y, r.y + r.height],
-  ]) {
+  // Preserve x-then-y clipping arithmetic without allocating nested axis arrays.
+  for (let axis = 0; axis < 2; axis += 1) {
+    const start = axis === 0 ? a.x : a.y;
+    const delta = axis === 0 ? b.x - a.x : b.y - a.y;
+    const min = axis === 0 ? r.x : r.y;
+    const max = axis === 0 ? r.x + r.width : r.y + r.height;
     if (delta === 0) {
-      if (start! < min! || start! > max!) {
+      if (start < min || start > max) {
         lo = 1;
         hi = 0;
         break;
       }
     } else {
-      const t1 = (min! - start!) / delta!,
-        t2 = (max! - start!) / delta!;
+      const t1 = (min - start) / delta,
+        t2 = (max - start) / delta;
       lo = Math.max(lo, Math.min(t1, t2));
       hi = Math.min(hi, Math.max(t1, t2));
     }
@@ -107,9 +108,11 @@ function segmentRectDistance(a: Point, b: Point, r: PlateRect): number {
   return Math.min(
     pointRectDistance(a, r),
     pointRectDistance(b, r),
-    ...[r.x, r.x + r.width].flatMap((x) =>
-      [r.y, r.y + r.height].map((y) => pointSegmentDistance({ x, y }, a, b)),
-    ),
+    // Match the original x-major corner order and each distance operation.
+    pointSegmentDistance(r.x, r.y, a, b),
+    pointSegmentDistance(r.x, r.y + r.height, a, b),
+    pointSegmentDistance(r.x + r.width, r.y, a, b),
+    pointSegmentDistance(r.x + r.width, r.y + r.height, a, b),
   );
 }
 
