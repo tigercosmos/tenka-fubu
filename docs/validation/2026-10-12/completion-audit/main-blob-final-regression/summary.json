@@ -1,0 +1,20 @@
+{
+  "testedSourceCommit": "29da33d",
+  "productionFixCommit": "2cfb2d6",
+  "files": 674,
+  "passedFiles": 672,
+  "failedFiles": 1,
+  "skippedFiles": 1,
+  "passedTests": 6274,
+  "failedTests": 1,
+  "skippedTests": 1,
+  "durationSeconds": 116.46,
+  "soleFailure": "s1560 seed15600519 day450 no-heir territory INV-02/INV-22",
+  "sourceManifestFiles": 1357,
+  "capturedDuringRun": true,
+  "sourceChangesAfterTest": [],
+  "typecheck": "pass",
+  "eslintAndPrettier": "pass",
+  "build": "pass",
+  "bundle": "pass"
+}
