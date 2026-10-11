@@ -5,6 +5,7 @@ import {
   type GeographicLabelCandidate,
 } from '../../src/ui/map/geographicLabelLayout';
 import type { PlateRect } from '../../src/ui/map/armyPlateLayout';
+import { roadLabelClearsCapsules } from '../../src/ui/map/roadLabelCapsules';
 import { isRustPathfindingReady } from '../../src/core/acceleration/pathfindingKernel';
 import {
   createGeographicLabelLayouter as createReference,
@@ -205,6 +206,99 @@ describe('compiled Rust geographic scorer against frozen 239f300 layout', () => 
     expect(() => a.scorer.score(input)).toThrow(/disposed/);
     expect(b.scorer.score(input)).toBe(offset);
     expect(b.scorer.isReady()).toBe(true);
+  });
+
+  it('matches finite extreme layout/cache inputs and overflowing capsule intermediates', async () => {
+    const { scorer, getScoreCalls } = await owner();
+    const cached = createGeographicLabelLayouter(scorer),
+      reference = createReference();
+    let validScenes = 0;
+    for (const magnitude of [1e16, 1e100, 1e308]) {
+      for (const sign of [-1, 1]) {
+        for (const size of [0, magnitude]) {
+          const rect = { x: sign * magnitude, y: sign * magnitude, width: size, height: size };
+          // The existing layout contract also requires finite padded endpoint sums.
+          if (![rect.x + rect.width + 4, rect.y + rect.height + 4].every(Number.isFinite)) continue;
+          validScenes++;
+          const labels: GeographicLabelCandidate[] = [
+            { id: 'extreme.province', kind: 'province', rect },
+            {
+              id: 'extreme.road',
+              kind: 'road',
+              rect: { ...rect },
+              roadCapsules: [
+                {
+                  a: { x: -magnitude, y: -magnitude },
+                  b: { x: magnitude, y: magnitude },
+                  radius: 2,
+                },
+              ],
+            },
+          ];
+          const blockers = [
+            { ...rect },
+            { x: -sign * magnitude, y: -sign * magnitude, width: 0, height: 0 },
+          ];
+          const expected = referenceLayout(labels, blockers, blockers);
+          exact(layoutGeographicLabels(labels, blockers, blockers, undefined, scorer), expected);
+          exact(
+            cached.layout(labels, blockers, blockers),
+            reference.layout(labels, blockers, blockers),
+          );
+          const calls = getScoreCalls();
+          exact(
+            cached.layout(
+              structuredClone(labels),
+              structuredClone(blockers),
+              structuredClone(blockers),
+            ),
+            reference.layout(
+              structuredClone(labels),
+              structuredClone(blockers),
+              structuredClone(blockers),
+            ),
+          );
+          expect(getScoreCalls()).toBe(calls);
+          expect(cached.getDiagnostics()).toEqual(reference.getDiagnostics());
+        }
+      }
+    }
+    expect(validScenes).toBe(11);
+    const offset = { x: 8, y: 0 };
+    const probes = [
+      {
+        rect: { x: 1e308, y: 1e308, width: 0, height: 0 },
+        capsules: [{ a: { x: -1e308, y: -1e308 }, b: { x: 1e308, y: 1e308 }, radius: 2 }],
+        observedEligible: false,
+      },
+      {
+        rect: { x: 0, y: 0, width: 0, height: 0 },
+        capsules: [{ a: { x: -1e308, y: 1e308 }, b: { x: 1e308, y: 1e308 }, radius: 2 }],
+        observedEligible: false,
+      },
+      {
+        rect: { x: 0, y: 0, width: 0, height: 0 },
+        capsules: [{ a: { x: -100, y: 100 }, b: { x: 100, y: 100 }, radius: 2 }],
+        observedEligible: true,
+      },
+    ];
+    for (const { rect, capsules, observedEligible } of probes) {
+      const moved = { ...rect, x: rect.x + offset.x, y: rect.y + offset.y };
+      // Public JS observations govern both overflow probes and the finite positive control.
+      const eligible = roadLabelClearsCapsules(moved, capsules);
+      expect(eligible).toBe(observedEligible);
+      const actual = scorer.score({
+        rect,
+        offsets: [offset],
+        baselinePrimary: 0,
+        primary: [],
+        hard: [],
+        hardBaseline: [],
+        reserved: [],
+        roadCapsules: capsules,
+      });
+      expect(actual).toBe(eligible ? offset : undefined);
+    }
   });
 
   it('preserves layout validation before any compiled score call', async () => {
