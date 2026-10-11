@@ -167,6 +167,38 @@ describe('WASM geographic scorer adapter', () => {
     scorer.dispose();
   });
 
+  it('aborts a pending fetch on disposal before instantiation or arena allocation', async () => {
+    let signal: AbortSignal | undefined;
+    vi.spyOn(globalThis, 'fetch').mockImplementation((_url, options) => {
+      expect(_url).toBe('/render.wasm');
+      signal = options?.signal ?? undefined;
+      const transportSignal = signal;
+      if (!transportSignal) throw new Error('Missing fetch abort signal');
+      return new Promise<Response>((_resolve, reject) => {
+        void _resolve;
+        transportSignal.addEventListener(
+          'abort',
+          () => {
+            reject(new DOMException('Transport aborted', 'AbortError'));
+          },
+          { once: true },
+        );
+      });
+    });
+    const wasm = mockBackend();
+    const instantiate = vi.spyOn(WebAssembly, 'instantiate');
+    const scorer = createWasmGeographicScorer();
+    const pending = scorer.initialize('/render.wasm');
+    const rejected = expect(pending).rejects.toMatchObject({ name: 'AbortError' });
+    expect(signal?.aborted).toBe(false);
+    scorer.dispose();
+    expect(signal?.aborted).toBe(true);
+    await rejected;
+    expect(instantiate).not.toHaveBeenCalled();
+    expect(wasm.alloc).not.toHaveBeenCalled();
+    expect(scorer.isReady()).toBe(false);
+  });
+
   it('creates only a separate instance and rejects late initialization after disposal', async () => {
     let resolveBytes!: (bytes: ArrayBuffer) => void;
     const bytes = new Promise<ArrayBuffer>((resolve) => {
