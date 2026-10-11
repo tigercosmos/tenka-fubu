@@ -1,0 +1,15 @@
+{
+  "host": "local darwin arm64",
+  "node": "v22.17.0",
+  "commands": [
+    "npx vitest run tests/ui/castleRibbonZeroObjectiveParity.spec.ts tests/ui/castleRibbonLayout.spec.ts tests/ui/castleRibbonBudget.spec.ts tests/ui/castleRibbonHardTie.spec.ts tests/ui/castleRibbonContained.spec.ts tests/ui/castleRibbonLeader.spec.ts",
+    "npx vitest run tests/ui/castleRibbonZeroObjectiveParity.spec.ts",
+    "npm run typecheck",
+    "npx eslint src/ui/map/sceneParts/castleRibbonLayout.ts tests/helpers/castleRibbonZeroObjectiveReference.ts tests/ui/castleRibbonZeroObjectiveParity.spec.ts",
+    "npx prettier --check src/ui/map/sceneParts/castleRibbonLayout.ts tests/helpers/castleRibbonZeroObjectiveReference.ts tests/ui/castleRibbonZeroObjectiveParity.spec.ts"
+  ],
+  "testProject": "core automatically selected by workspace for tests/ui pure geometry modules",
+  "initialSetupQualification": "An initial --project ui invocation selected no files; corrected workspace invocation is the preserved accepted run. No assertions or timeouts changed.",
+  "nativeWork": "No sim2 native run; parent coordinates sim3 serial observations/FPS/profile.",
+  "rawPolicy": "Raw complete source copies and logs gzip-compressed before formatting derived metadata."
+}

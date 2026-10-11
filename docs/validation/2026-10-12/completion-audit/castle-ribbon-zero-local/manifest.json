@@ -1,0 +1,66 @@
+[
+  {
+    "file": "tenka-castle-zero-objective-tests.log.gz",
+    "source": "/tmp/tenka-castle-zero-objective-tests.log",
+    "rawBytes": 770,
+    "storedBytes": 400,
+    "sha256Uncompressed": "d44e97648573e50c12f368c57b1010a2e4fdec641bdce184ff51fc857b6d2223",
+    "sha256Stored": "a0beb995024ecf35230b514a3f0c1f111bac123476bd0864b2caef896c3f73e6"
+  },
+  {
+    "file": "tenka-castle-zero-objective-final-parity.log.gz",
+    "source": "/tmp/tenka-castle-zero-objective-final-parity.log",
+    "rawBytes": 445,
+    "storedBytes": 318,
+    "sha256Uncompressed": "ee9964c9c6fb3328321169a207a2f526513b4805acf6e8eae631ec137c24ef71",
+    "sha256Stored": "e001f4c981efa71a35939f61b9bb5cad0b7bf5e6cb98a15ad6d98f30e49ddda8"
+  },
+  {
+    "file": "tenka-castle-zero-objective-typecheck.log.gz",
+    "source": "/tmp/tenka-castle-zero-objective-typecheck.log",
+    "rawBytes": 84,
+    "storedBytes": 87,
+    "sha256Uncompressed": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a",
+    "sha256Stored": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984"
+  },
+  {
+    "file": "tenka-castle-zero-objective-lint.log.gz",
+    "source": "/tmp/tenka-castle-zero-objective-lint.log",
+    "rawBytes": 0,
+    "storedBytes": 20,
+    "sha256Uncompressed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256Stored": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  },
+  {
+    "file": "tenka-castle-zero-objective-format.log.gz",
+    "source": "/tmp/tenka-castle-zero-objective-format.log",
+    "rawBytes": 66,
+    "storedBytes": 82,
+    "sha256Uncompressed": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+    "sha256Stored": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5"
+  },
+  {
+    "file": "castleRibbonLayout.ts.gz",
+    "source": "src/ui/map/sceneParts/castleRibbonLayout.ts",
+    "rawBytes": 16331,
+    "storedBytes": 4583,
+    "sha256Uncompressed": "70fc7251e4b96c2ec08a718a51830760e6ad8b21754c349d9c5850a649796b41",
+    "sha256Stored": "9fd1125298ebe5112677ea6407a31e3f3bf92587d3d75240c579d1b9ea165c3e"
+  },
+  {
+    "file": "castleRibbonZeroObjectiveReference.ts.gz",
+    "source": "tests/helpers/castleRibbonZeroObjectiveReference.ts",
+    "rawBytes": 15979,
+    "storedBytes": 4629,
+    "sha256Uncompressed": "6d11e1a8f0d9b403c048b187d8195b1bb62a9ac03d02ca9193593a7f3c27b514",
+    "sha256Stored": "37c2f5e1af89ccf321ef08ed2b3b42962c0c64defb18db7a05a36bb34f07ce4c"
+  },
+  {
+    "file": "castleRibbonZeroObjectiveParity.spec.ts.gz",
+    "source": "tests/ui/castleRibbonZeroObjectiveParity.spec.ts",
+    "rawBytes": 5813,
+    "storedBytes": 2128,
+    "sha256Uncompressed": "88afee2866f148781d7996c960c08066dd12571130be4936b46f0b8b07e4fa4e",
+    "sha256Stored": "47ac85e702bd7f5d3fd1436d22048d6e8b322c9f1157b7d3cfb297058d9ad885"
+  }
+]

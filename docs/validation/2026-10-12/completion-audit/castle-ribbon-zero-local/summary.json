@@ -1,0 +1,59 @@
+{
+  "sourceCommit": "6795ed7",
+  "sourceFiles": [
+    {
+      "path": "src/ui/map/sceneParts/castleRibbonLayout.ts",
+      "bytes": 16331,
+      "sha256": "70fc7251e4b96c2ec08a718a51830760e6ad8b21754c349d9c5850a649796b41",
+      "matchesCommit6795ed7": true
+    },
+    {
+      "path": "tests/helpers/castleRibbonZeroObjectiveReference.ts",
+      "bytes": 15979,
+      "sha256": "6d11e1a8f0d9b403c048b187d8195b1bb62a9ac03d02ca9193593a7f3c27b514",
+      "matchesCommit6795ed7": true
+    },
+    {
+      "path": "tests/ui/castleRibbonZeroObjectiveParity.spec.ts",
+      "bytes": 5813,
+      "sha256": "88afee2866f148781d7996c960c08066dd12571130be4936b46f0b8b07e4fa4e",
+      "matchesCommit6795ed7": true
+    }
+  ],
+  "frozenReferenceCommit": "a381b7dc38325c3f76017a80ea17a238089a5bb7",
+  "frozenReferenceOriginalPath": "src/ui/map/sceneParts/castleRibbonLayout.ts",
+  "frozenReferenceBodySha256": "2c5e8d577598f1204cdcd67dfc0473e29be15ca4f4a3a613c24aa8287c6559ad",
+  "sourceFrozen": true,
+  "focusedTests": {
+    "files": 6,
+    "testsPassed": 37,
+    "testsFailed": 0
+  },
+  "finalParityTests": {
+    "testsPassed": 6,
+    "testsFailed": 0,
+    "exactSerializedBytes": true,
+    "strictValuesAndMapOrder": true,
+    "callbackWorkExact": true
+  },
+  "seedCoverage": {
+    "seeds": 120,
+    "permutationsPerSeed": 2,
+    "totalMixedScenes": 240
+  },
+  "boundaryCoverage": [
+    "Signed zero and empty-obstacle zero-charge accounting",
+    "Origins0,0.1,1e-9 and \u00b1999999900.125",
+    "Fractional dimensions12.125/8.5 and gap contacts\u00b132Number.EPSILON",
+    "Future proposal collisions and leader guards at a global-zero objective",
+    "Padding-positive and hard-area-positive counterexamples retain full search",
+    "40dense candidates+1024fixed/hard obstacles followed by a distant zero-charge candidate; earlier exhaustion preserved"
+  ],
+  "typecheck": "PASS",
+  "ownedESLint": "PASS",
+  "ownedPrettierCheck": "PASS",
+  "nativePerformance": "Pending separate sim3 serial validation; no measured benefit claim",
+  "sourceScope": "Only castle ribbon zero-objective fast path; candidate generation and final diagnostics unchanged",
+  "counterProof": "proposalWork is an integer; each skipped proposal has the same conservative charge independent of guards. Admitted count uses floor of remaining work, with separate zero-charge handling. Output is baseline because all objectives and distance are already global minima.",
+  "testQualification": "Independent full frozen producer code is byte-pinned; tests do not import production scoring helpers. Complete returned fields, input immutability, callback values and serialized order are compared."
+}
