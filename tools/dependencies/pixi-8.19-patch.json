@@ -406,7 +406,38 @@
           "from": "//# sourceMappingURL=GCManagedHash.js.map\n"
         }
       ]
+    },
+    {
+      "path": "lib/rendering/batcher/gpu/getTextureBatchBindGroup.mjs",
+      "originalSha256": "3429ffe1db24f0987db955ca75926cd12b9d038ec077cdbc786ebdcd5de6d3b0",
+      "patchedSha256": "9d462ac267913e768f15f65aa45721e0430d8768c817d6eb954a05b549ac1fda",
+      "replacements": [
+        {
+          "from": "  cachedGroups[key] = bindGroup;\n  return bindGroup;",
+          "to": "  const destroy = bindGroup.destroy.bind(bindGroup);\n  bindGroup.destroy = () => {\n    if (cachedGroups[key] === bindGroup) delete cachedGroups[key];\n    destroy();\n  };\n  cachedGroups[key] = bindGroup;\n  return bindGroup;"
+        },
+        {
+          "from": "//# sourceMappingURL=getTextureBatchBindGroup.mjs.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/batcher/gpu/getTextureBatchBindGroup.js",
+      "originalSha256": "3d130c3d17fed9ad79faeba9537cb86f9fec48ee2e6517a100f9bf120457e670",
+      "patchedSha256": "853df2d3a9b36a16194a07ff8cc4861d6f4732d7b32ad61f0f76764ce74f7869",
+      "replacements": [
+        {
+          "from": "  cachedGroups[key] = bindGroup;\n  return bindGroup;",
+          "to": "  const destroy = bindGroup.destroy.bind(bindGroup);\n  bindGroup.destroy = () => {\n    if (cachedGroups[key] === bindGroup) delete cachedGroups[key];\n    destroy();\n  };\n  cachedGroups[key] = bindGroup;\n  return bindGroup;"
+        },
+        {
+          "from": "//# sourceMappingURL=getTextureBatchBindGroup.js.map\n",
+          "to": ""
+        }
+      ]
     }
   ],
-  "managedResourceLifecyclePatch": "Local GCManagedHash removal detaches only its own unload callback, including already-absent GPU data. Shared buffers retain other renderer and user callbacks. This separate lifecycle fix does not claim complete heap stability."
+  "managedResourceLifecyclePatch": "Local GCManagedHash removal detaches only its own unload callback, including already-absent GPU data. Shared buffers retain other renderer and user callbacks. This separate lifecycle fix does not claim complete heap stability.",
+  "batchBindGroupLifecyclePatch": "Local texture batch bind-group cache evicts its own entry on group destruction, while preserving live reuse and other groups. Destroyed resource/key shells no longer accumulate in the module cache. This does not claim whole-heap stability."
 }
