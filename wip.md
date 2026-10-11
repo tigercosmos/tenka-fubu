@@ -10,6 +10,9 @@
 - sim4 最新 Worker 六項原生測試全部通過，三組完整狀態／日誌精確一致。120 日批次最長畫面間隔 1,028.1→124.9 ms，但總耗時 939.9→2,511.1 ms；正常 x5 實際自動暫停前完成 29 日，間隔 128.4→84.7 ms。單筆樣本不宣稱穩定 60 FPS；原始資料見 completion-audit/worker-final-sim4。
 - 後續 `d619085` 減少地理標籤的 edge-axis 暫存及快取命中前候選配置。25 項原版比對／邊界測試與六項 native Worker 流程通過；原生前後完整狀態、日誌、地圖發布及全部地理標籤一致。正常 x5 最長間隔 84.7→60.3 ms，後版此樣本沒有 long task；仍未達穩定 60 FPS。完整前後 profile／source map／原始數據見 completion-audit/geographic-allocation。
 - `7129f63` 修正零城勢力的普通野戰退出，84 項相關測試與本機十五項 victory 通過。有效戰術收尾仍缺中止／獎賞表示，已詢問使用者；真正失敗診斷保留，未用 expected-failure 或 skip 掩蓋。全量回歸 6,264 通過／1 失敗／1 跳過（唯一 day450 無繼承人領地問題），型別／完整 lint／build／bundle 通過；1,355 個固定 commit 的來源 SHA256 不變。證據見 completion-audit/field-extinction、continuation-7129。
+- `fc45370` 保存 sim2 凍結來源的原生補驗：區域九城實際結局與重載通過；色覺／道路土壤完整頁面復原仍有 HUD 圓角像素差異。40 支行軍部隊的 30 秒窗口含月度自動暫停，效能結果失效；保留原 gate 失敗，不修改門檻。詳見 completion-audit/native-gates-sim2-505d96a。
+- `38d22b0`／`9a0e242` 補齊 M6-18 自然具申採納、實際出陣／獎賞、次月清理與未付俸祿驗證；20 項測試與來源 archive 重跑均通過。逐項 M6 matrix 仍保留未完成 gate。sim4 延長掛載兩次均在第 41 次失敗，地面材質請求傳輸失敗；尚未定位底層原因，原始紀錄保留於 completion-audit/extended-remount，不認定整體記憶體穩定。
+- `8c0de41` 原生官位驗證通過：正常朝廷工作至第 150 日取得恩惠 23，第 151 日正常授官扣 300 金、加 50 威信，恩惠不變；原生存檔重載一致。相關現版來源與凍結來源相符，原始成功及四次觀測失敗均保存於 completion-audit/court-rank。具申驗證後全量回歸仍為 6,264 通過／1 失敗／1 跳過，型別／完整 lint／build／bundle 通過，詳見 continuation-38d22b0。
 - 分步提交與原始前後資料集中於 `docs/validation/2026-10-12/completion-audit/README.md`。WASM／Worker 架構已提交；全專案、長跑校準及原生藝術驗收仍未完成。人口校準與無繼承人領地處理仍待先前詢問的規則決定，不擅自改變遊戲結果。
 
 > 給下一個接手的 AI／未來 session：本文件描述《天下布武》**實作階段**的當前進度與剩餘工作。
