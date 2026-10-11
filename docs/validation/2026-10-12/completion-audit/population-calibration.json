@@ -1,0 +1,3109 @@
+{
+  "source": "schema-parsed loadS1560Scenario current checkout",
+  "basisCoefficient": 0.025,
+  "scope": "population-based contribution only; excludes castle rank bases, policy and facilities",
+  "districts": 344,
+  "kokudaka": 17994000,
+  "population": 6033500,
+  "populationPerKoku": 0.33530621318217185,
+  "effectivePopulationContributionPerKoku": 0.008382655329554296,
+  "targetPerKoku": 0.025,
+  "rows": [
+    {
+      "id": "dist.owari-kasugai",
+      "castleId": "castle.kiyosu",
+      "kokudaka": 42000,
+      "population": 13900,
+      "populationPerKoku": 0.33095238095238094,
+      "populationBasedSoldiers": 347,
+      "declaredKokuBasedSoldiers": 1050
+    },
+    {
+      "id": "dist.owari-kaito",
+      "castleId": "castle.kiyosu",
+      "kokudaka": 40000,
+      "population": 15000,
+      "populationPerKoku": 0.375,
+      "populationBasedSoldiers": 375,
+      "declaredKokuBasedSoldiers": 1000
+    },
+    {
+      "id": "dist.owari-nakashima",
+      "castleId": "castle.kiyosu",
+      "kokudaka": 44000,
+      "population": 14500,
+      "populationPerKoku": 0.32954545454545453,
+      "populationBasedSoldiers": 362,
+      "declaredKokuBasedSoldiers": 1100
+    },
+    {
+      "id": "dist.owari-kaisai",
+      "castleId": "castle.kiyosu",
+      "kokudaka": 34000,
+      "population": 11200,
+      "populationPerKoku": 0.32941176470588235,
+      "populationBasedSoldiers": 280,
+      "declaredKokuBasedSoldiers": 850
+    },
+    {
+      "id": "dist.owari-aichi",
+      "castleId": "castle.nagoya",
+      "kokudaka": 46000,
+      "population": 16800,
+      "populationPerKoku": 0.3652173913043478,
+      "populationBasedSoldiers": 420,
+      "declaredKokuBasedSoldiers": 1150
+    },
+    {
+      "id": "dist.owari-chita",
+      "castleId": "castle.nagoya",
+      "kokudaka": 38000,
+      "population": 13300,
+      "populationPerKoku": 0.35,
+      "populationBasedSoldiers": 332,
+      "declaredKokuBasedSoldiers": 950
+    },
+    {
+      "id": "dist.owari-niwa",
+      "castleId": "castle.inuyama",
+      "kokudaka": 36000,
+      "population": 11900,
+      "populationPerKoku": 0.33055555555555555,
+      "populationBasedSoldiers": 297,
+      "declaredKokuBasedSoldiers": 900
+    },
+    {
+      "id": "dist.owari-haguri",
+      "castleId": "castle.inuyama",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.suruga-abe",
+      "castleId": "castle.sunpu",
+      "kokudaka": 52000,
+      "population": 18200,
+      "populationPerKoku": 0.35,
+      "populationBasedSoldiers": 455,
+      "declaredKokuBasedSoldiers": 1300
+    },
+    {
+      "id": "dist.suruga-udo",
+      "castleId": "castle.sunpu",
+      "kokudaka": 48000,
+      "population": 16800,
+      "populationPerKoku": 0.35,
+      "populationBasedSoldiers": 420,
+      "declaredKokuBasedSoldiers": 1200
+    },
+    {
+      "id": "dist.suruga-sunto",
+      "castleId": "castle.kokokuji",
+      "kokudaka": 55000,
+      "population": 18200,
+      "populationPerKoku": 0.33090909090909093,
+      "populationBasedSoldiers": 455,
+      "declaredKokuBasedSoldiers": 1375
+    },
+    {
+      "id": "dist.suruga-fuji",
+      "castleId": "castle.kokokuji",
+      "kokudaka": 60000,
+      "population": 19800,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 495,
+      "declaredKokuBasedSoldiers": 1500
+    },
+    {
+      "id": "dist.totomi-sano",
+      "castleId": "castle.kakegawa",
+      "kokudaka": 58000,
+      "population": 19100,
+      "populationPerKoku": 0.3293103448275862,
+      "populationBasedSoldiers": 477,
+      "declaredKokuBasedSoldiers": 1450
+    },
+    {
+      "id": "dist.totomi-suchi",
+      "castleId": "castle.kakegawa",
+      "kokudaka": 55000,
+      "population": 18200,
+      "populationPerKoku": 0.33090909090909093,
+      "populationBasedSoldiers": 455,
+      "declaredKokuBasedSoldiers": 1375
+    },
+    {
+      "id": "dist.totomi-fuchi",
+      "castleId": "castle.hikuma",
+      "kokudaka": 62000,
+      "population": 20500,
+      "populationPerKoku": 0.33064516129032256,
+      "populationBasedSoldiers": 512,
+      "declaredKokuBasedSoldiers": 1550
+    },
+    {
+      "id": "dist.totomi-toyoda",
+      "castleId": "castle.hikuma",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.mikawa-hoi",
+      "castleId": "castle.yoshida",
+      "kokudaka": 64000,
+      "population": 21100,
+      "populationPerKoku": 0.3296875,
+      "populationBasedSoldiers": 527,
+      "declaredKokuBasedSoldiers": 1600
+    },
+    {
+      "id": "dist.mikawa-yana",
+      "castleId": "castle.yoshida",
+      "kokudaka": 52000,
+      "population": 17200,
+      "populationPerKoku": 0.33076923076923076,
+      "populationBasedSoldiers": 430,
+      "declaredKokuBasedSoldiers": 1300
+    },
+    {
+      "id": "dist.mikawa-atsumi",
+      "castleId": "castle.tahara",
+      "kokudaka": 58000,
+      "population": 20200,
+      "populationPerKoku": 0.3482758620689655,
+      "populationBasedSoldiers": 505,
+      "declaredKokuBasedSoldiers": 1450
+    },
+    {
+      "id": "dist.mikawa-hazu",
+      "castleId": "castle.tahara",
+      "kokudaka": 49000,
+      "population": 16200,
+      "populationPerKoku": 0.3306122448979592,
+      "populationBasedSoldiers": 405,
+      "declaredKokuBasedSoldiers": 1225
+    },
+    {
+      "id": "dist.mikawa-nukata",
+      "castleId": "castle.okazaki",
+      "kokudaka": 55000,
+      "population": 18200,
+      "populationPerKoku": 0.33090909090909093,
+      "populationBasedSoldiers": 455,
+      "declaredKokuBasedSoldiers": 1375
+    },
+    {
+      "id": "dist.mikawa-hekikai",
+      "castleId": "castle.okazaki",
+      "kokudaka": 62000,
+      "population": 20500,
+      "populationPerKoku": 0.33064516129032256,
+      "populationBasedSoldiers": 512,
+      "declaredKokuBasedSoldiers": 1550
+    },
+    {
+      "id": "dist.mikawa-kamo",
+      "castleId": "castle.okazaki",
+      "kokudaka": 50000,
+      "population": 16500,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 412,
+      "declaredKokuBasedSoldiers": 1250
+    },
+    {
+      "id": "dist.mino-atsumi",
+      "castleId": "castle.inabayama",
+      "kokudaka": 70000,
+      "population": 23100,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 577,
+      "declaredKokuBasedSoldiers": 1750
+    },
+    {
+      "id": "dist.mino-kagami",
+      "castleId": "castle.inabayama",
+      "kokudaka": 56000,
+      "population": 18500,
+      "populationPerKoku": 0.33035714285714285,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1400
+    },
+    {
+      "id": "dist.mino-katagata",
+      "castleId": "castle.inabayama",
+      "kokudaka": 48000,
+      "population": 15800,
+      "populationPerKoku": 0.32916666666666666,
+      "populationBasedSoldiers": 395,
+      "declaredKokuBasedSoldiers": 1200
+    },
+    {
+      "id": "dist.mino-yamagata",
+      "castleId": "castle.inabayama",
+      "kokudaka": 44000,
+      "population": 14500,
+      "populationPerKoku": 0.32954545454545453,
+      "populationBasedSoldiers": 362,
+      "declaredKokuBasedSoldiers": 1100
+    },
+    {
+      "id": "dist.mino-anpachi",
+      "castleId": "castle.ogaki",
+      "kokudaka": 64000,
+      "population": 21100,
+      "populationPerKoku": 0.3296875,
+      "populationBasedSoldiers": 527,
+      "declaredKokuBasedSoldiers": 1600
+    },
+    {
+      "id": "dist.mino-fuwa",
+      "castleId": "castle.ogaki",
+      "kokudaka": 52000,
+      "population": 17200,
+      "populationPerKoku": 0.33076923076923076,
+      "populationBasedSoldiers": 430,
+      "declaredKokuBasedSoldiers": 1300
+    },
+    {
+      "id": "dist.mino-ono",
+      "castleId": "castle.ogaki",
+      "kokudaka": 52000,
+      "population": 17200,
+      "populationPerKoku": 0.33076923076923076,
+      "populationBasedSoldiers": 430,
+      "declaredKokuBasedSoldiers": 1300
+    },
+    {
+      "id": "dist.mino-ikeda",
+      "castleId": "castle.ogaki",
+      "kokudaka": 48000,
+      "population": 15800,
+      "populationPerKoku": 0.32916666666666666,
+      "populationBasedSoldiers": 395,
+      "declaredKokuBasedSoldiers": 1200
+    },
+    {
+      "id": "dist.mino-ena",
+      "castleId": "castle.iwamura",
+      "kokudaka": 42000,
+      "population": 13900,
+      "populationPerKoku": 0.33095238095238094,
+      "populationBasedSoldiers": 347,
+      "declaredKokuBasedSoldiers": 1050
+    },
+    {
+      "id": "dist.mino-toki",
+      "castleId": "castle.iwamura",
+      "kokudaka": 48000,
+      "population": 15800,
+      "populationPerKoku": 0.32916666666666666,
+      "populationBasedSoldiers": 395,
+      "declaredKokuBasedSoldiers": 1200
+    },
+    {
+      "id": "dist.mino-kani",
+      "castleId": "castle.iwamura",
+      "kokudaka": 54000,
+      "population": 17800,
+      "populationPerKoku": 0.3296296296296296,
+      "populationBasedSoldiers": 445,
+      "declaredKokuBasedSoldiers": 1350
+    },
+    {
+      "id": "dist.mino-kamo",
+      "castleId": "castle.iwamura",
+      "kokudaka": 58000,
+      "population": 19100,
+      "populationPerKoku": 0.3293103448275862,
+      "populationBasedSoldiers": 477,
+      "declaredKokuBasedSoldiers": 1450
+    },
+    {
+      "id": "dist.ise-taki",
+      "castleId": "castle.kiriyama",
+      "kokudaka": 58000,
+      "population": 19100,
+      "populationPerKoku": 0.3293103448275862,
+      "populationBasedSoldiers": 477,
+      "declaredKokuBasedSoldiers": 1450
+    },
+    {
+      "id": "dist.ise-iitaka",
+      "castleId": "castle.kiriyama",
+      "kokudaka": 54000,
+      "population": 17800,
+      "populationPerKoku": 0.3296296296296296,
+      "populationBasedSoldiers": 445,
+      "declaredKokuBasedSoldiers": 1350
+    },
+    {
+      "id": "dist.ise-ichishi",
+      "castleId": "castle.kiriyama",
+      "kokudaka": 64000,
+      "population": 21100,
+      "populationPerKoku": 0.3296875,
+      "populationBasedSoldiers": 527,
+      "declaredKokuBasedSoldiers": 1600
+    },
+    {
+      "id": "dist.ise-ano",
+      "castleId": "castle.kiriyama",
+      "kokudaka": 70000,
+      "population": 23100,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 577,
+      "declaredKokuBasedSoldiers": 1750
+    },
+    {
+      "id": "dist.ise-watarai",
+      "castleId": "castle.tamaru",
+      "kokudaka": 86000,
+      "population": 31800,
+      "populationPerKoku": 0.3697674418604651,
+      "populationBasedSoldiers": 795,
+      "declaredKokuBasedSoldiers": 2150
+    },
+    {
+      "id": "dist.ise-iino",
+      "castleId": "castle.tamaru",
+      "kokudaka": 50000,
+      "population": 16500,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 412,
+      "declaredKokuBasedSoldiers": 1250
+    },
+    {
+      "id": "dist.ise-toshi",
+      "castleId": "castle.tamaru",
+      "kokudaka": 46000,
+      "population": 15200,
+      "populationPerKoku": 0.33043478260869563,
+      "populationBasedSoldiers": 380,
+      "declaredKokuBasedSoldiers": 1150
+    },
+    {
+      "id": "dist.ise-ago",
+      "castleId": "castle.tamaru",
+      "kokudaka": 38000,
+      "population": 12500,
+      "populationPerKoku": 0.32894736842105265,
+      "populationBasedSoldiers": 312,
+      "declaredKokuBasedSoldiers": 950
+    },
+    {
+      "id": "dist.omi-azai",
+      "castleId": "castle.odani",
+      "kokudaka": 90000,
+      "population": 29700,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 742,
+      "declaredKokuBasedSoldiers": 2250
+    },
+    {
+      "id": "dist.omi-ika",
+      "castleId": "castle.odani",
+      "kokudaka": 60000,
+      "population": 19800,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 495,
+      "declaredKokuBasedSoldiers": 1500
+    },
+    {
+      "id": "dist.omi-sakata",
+      "castleId": "castle.odani",
+      "kokudaka": 95000,
+      "population": 31400,
+      "populationPerKoku": 0.33052631578947367,
+      "populationBasedSoldiers": 785,
+      "declaredKokuBasedSoldiers": 2375
+    },
+    {
+      "id": "dist.omi-inukami",
+      "castleId": "castle.sawayama",
+      "kokudaka": 80000,
+      "population": 26400,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 660,
+      "declaredKokuBasedSoldiers": 2000
+    },
+    {
+      "id": "dist.omi-echi",
+      "castleId": "castle.sawayama",
+      "kokudaka": 65000,
+      "population": 21500,
+      "populationPerKoku": 0.33076923076923076,
+      "populationBasedSoldiers": 537,
+      "declaredKokuBasedSoldiers": 1625
+    },
+    {
+      "id": "dist.omi-gamo",
+      "castleId": "castle.kannonji",
+      "kokudaka": 80000,
+      "population": 26400,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 660,
+      "declaredKokuBasedSoldiers": 2000
+    },
+    {
+      "id": "dist.omi-kanzaki",
+      "castleId": "castle.kannonji",
+      "kokudaka": 65000,
+      "population": 21500,
+      "populationPerKoku": 0.33076923076923076,
+      "populationBasedSoldiers": 537,
+      "declaredKokuBasedSoldiers": 1625
+    },
+    {
+      "id": "dist.omi-yasu",
+      "castleId": "castle.kannonji",
+      "kokudaka": 70000,
+      "population": 23100,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 577,
+      "declaredKokuBasedSoldiers": 1750
+    },
+    {
+      "id": "dist.omi-shiga",
+      "castleId": "castle.kannonji",
+      "kokudaka": 60000,
+      "population": 19800,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 495,
+      "declaredKokuBasedSoldiers": 1500
+    },
+    {
+      "id": "dist.omi-koka",
+      "castleId": "castle.hino",
+      "kokudaka": 80000,
+      "population": 26400,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 660,
+      "declaredKokuBasedSoldiers": 2000
+    },
+    {
+      "id": "dist.omi-kurita",
+      "castleId": "castle.hino",
+      "kokudaka": 75000,
+      "population": 24800,
+      "populationPerKoku": 0.33066666666666666,
+      "populationBasedSoldiers": 620,
+      "declaredKokuBasedSoldiers": 1875
+    },
+    {
+      "id": "dist.yamashiro-otagi",
+      "castleId": "castle.nijo",
+      "kokudaka": 55000,
+      "population": 18200,
+      "populationPerKoku": 0.33090909090909093,
+      "populationBasedSoldiers": 455,
+      "declaredKokuBasedSoldiers": 1375
+    },
+    {
+      "id": "dist.yamashiro-kadono",
+      "castleId": "castle.nijo",
+      "kokudaka": 45000,
+      "population": 14900,
+      "populationPerKoku": 0.33111111111111113,
+      "populationBasedSoldiers": 372,
+      "declaredKokuBasedSoldiers": 1125
+    },
+    {
+      "id": "dist.yamashiro-kii",
+      "castleId": "castle.nijo",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.yamashiro-otokuni",
+      "castleId": "castle.shoryuji",
+      "kokudaka": 50000,
+      "population": 16500,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 412,
+      "declaredKokuBasedSoldiers": 1250
+    },
+    {
+      "id": "dist.yamashiro-uji",
+      "castleId": "castle.shoryuji",
+      "kokudaka": 55000,
+      "population": 18200,
+      "populationPerKoku": 0.33090909090909093,
+      "populationBasedSoldiers": 455,
+      "declaredKokuBasedSoldiers": 1375
+    },
+    {
+      "id": "dist.settsu-shimagami",
+      "castleId": "castle.akutagawa",
+      "kokudaka": 80000,
+      "population": 26400,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 660,
+      "declaredKokuBasedSoldiers": 2000
+    },
+    {
+      "id": "dist.settsu-shimoshimo",
+      "castleId": "castle.akutagawa",
+      "kokudaka": 75000,
+      "population": 24800,
+      "populationPerKoku": 0.33066666666666666,
+      "populationBasedSoldiers": 620,
+      "declaredKokuBasedSoldiers": 1875
+    },
+    {
+      "id": "dist.settsu-teshima",
+      "castleId": "castle.akutagawa",
+      "kokudaka": 70000,
+      "population": 23100,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 577,
+      "declaredKokuBasedSoldiers": 1750
+    },
+    {
+      "id": "dist.settsu-higashinari",
+      "castleId": "castle.ishiyama",
+      "kokudaka": 70000,
+      "population": 23100,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 577,
+      "declaredKokuBasedSoldiers": 1750
+    },
+    {
+      "id": "dist.settsu-nishinari",
+      "castleId": "castle.ishiyama",
+      "kokudaka": 75000,
+      "population": 27800,
+      "populationPerKoku": 0.37066666666666664,
+      "populationBasedSoldiers": 695,
+      "declaredKokuBasedSoldiers": 1875
+    },
+    {
+      "id": "dist.settsu-sumiyoshi",
+      "castleId": "castle.ishiyama",
+      "kokudaka": 55000,
+      "population": 20400,
+      "populationPerKoku": 0.3709090909090909,
+      "populationBasedSoldiers": 510,
+      "declaredKokuBasedSoldiers": 1375
+    },
+    {
+      "id": "dist.kawachi-sarara",
+      "castleId": "castle.iimoriyama",
+      "kokudaka": 60000,
+      "population": 19800,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 495,
+      "declaredKokuBasedSoldiers": 1500
+    },
+    {
+      "id": "dist.kawachi-kawachi",
+      "castleId": "castle.iimoriyama",
+      "kokudaka": 65000,
+      "population": 21500,
+      "populationPerKoku": 0.33076923076923076,
+      "populationBasedSoldiers": 537,
+      "declaredKokuBasedSoldiers": 1625
+    },
+    {
+      "id": "dist.kawachi-wakae",
+      "castleId": "castle.iimoriyama",
+      "kokudaka": 70000,
+      "population": 23100,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 577,
+      "declaredKokuBasedSoldiers": 1750
+    },
+    {
+      "id": "dist.kawachi-furuichi",
+      "castleId": "castle.takaya",
+      "kokudaka": 60000,
+      "population": 19800,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 495,
+      "declaredKokuBasedSoldiers": 1500
+    },
+    {
+      "id": "dist.kawachi-ishikawa",
+      "castleId": "castle.takaya",
+      "kokudaka": 55000,
+      "population": 18200,
+      "populationPerKoku": 0.33090909090909093,
+      "populationBasedSoldiers": 455,
+      "declaredKokuBasedSoldiers": 1375
+    },
+    {
+      "id": "dist.kawachi-tannan",
+      "castleId": "castle.takaya",
+      "kokudaka": 60000,
+      "population": 19800,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 495,
+      "declaredKokuBasedSoldiers": 1500
+    },
+    {
+      "id": "dist.izumi-otori",
+      "castleId": "castle.kishiwada",
+      "kokudaka": 70000,
+      "population": 25900,
+      "populationPerKoku": 0.37,
+      "populationBasedSoldiers": 647,
+      "declaredKokuBasedSoldiers": 1750
+    },
+    {
+      "id": "dist.izumi-izumi",
+      "castleId": "castle.kishiwada",
+      "kokudaka": 60000,
+      "population": 19800,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 495,
+      "declaredKokuBasedSoldiers": 1500
+    },
+    {
+      "id": "dist.izumi-hine",
+      "castleId": "castle.kishiwada",
+      "kokudaka": 55000,
+      "population": 18200,
+      "populationPerKoku": 0.33090909090909093,
+      "populationBasedSoldiers": 455,
+      "declaredKokuBasedSoldiers": 1375
+    },
+    {
+      "id": "dist.yamato-heguri",
+      "castleId": "castle.shigisan",
+      "kokudaka": 65000,
+      "population": 21500,
+      "populationPerKoku": 0.33076923076923076,
+      "populationBasedSoldiers": 537,
+      "declaredKokuBasedSoldiers": 1625
+    },
+    {
+      "id": "dist.yamato-hirose",
+      "castleId": "castle.shigisan",
+      "kokudaka": 55000,
+      "population": 18200,
+      "populationPerKoku": 0.33090909090909093,
+      "populationBasedSoldiers": 455,
+      "declaredKokuBasedSoldiers": 1375
+    },
+    {
+      "id": "dist.yamato-soenoshimo",
+      "castleId": "castle.tsutsui",
+      "kokudaka": 65000,
+      "population": 21500,
+      "populationPerKoku": 0.33076923076923076,
+      "populationBasedSoldiers": 537,
+      "declaredKokuBasedSoldiers": 1625
+    },
+    {
+      "id": "dist.yamato-soenokami",
+      "castleId": "castle.tsutsui",
+      "kokudaka": 60000,
+      "population": 19800,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 495,
+      "declaredKokuBasedSoldiers": 1500
+    },
+    {
+      "id": "dist.yamato-yamanobe",
+      "castleId": "castle.tsutsui",
+      "kokudaka": 45000,
+      "population": 14900,
+      "populationPerKoku": 0.33111111111111113,
+      "populationBasedSoldiers": 372,
+      "declaredKokuBasedSoldiers": 1125
+    },
+    {
+      "id": "dist.yamato-takaichi",
+      "castleId": "castle.tsutsui",
+      "kokudaka": 40000,
+      "population": 13200,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 330,
+      "declaredKokuBasedSoldiers": 1000
+    },
+    {
+      "id": "dist.kii-nagusa",
+      "castleId": "castle.saika",
+      "kokudaka": 65000,
+      "population": 24100,
+      "populationPerKoku": 0.3707692307692308,
+      "populationBasedSoldiers": 602,
+      "declaredKokuBasedSoldiers": 1625
+    },
+    {
+      "id": "dist.kii-ama",
+      "castleId": "castle.saika",
+      "kokudaka": 50000,
+      "population": 18500,
+      "populationPerKoku": 0.37,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1250
+    },
+    {
+      "id": "dist.kii-naga",
+      "castleId": "castle.saika",
+      "kokudaka": 40000,
+      "population": 13200,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 330,
+      "declaredKokuBasedSoldiers": 1000
+    },
+    {
+      "id": "dist.tamba-taki",
+      "castleId": "castle.yakami",
+      "kokudaka": 65000,
+      "population": 21500,
+      "populationPerKoku": 0.33076923076923076,
+      "populationBasedSoldiers": 537,
+      "declaredKokuBasedSoldiers": 1625
+    },
+    {
+      "id": "dist.tamba-hikami",
+      "castleId": "castle.yakami",
+      "kokudaka": 55000,
+      "population": 18200,
+      "populationPerKoku": 0.33090909090909093,
+      "populationBasedSoldiers": 455,
+      "declaredKokuBasedSoldiers": 1375
+    },
+    {
+      "id": "dist.tamba-funai",
+      "castleId": "castle.yagi",
+      "kokudaka": 45000,
+      "population": 14900,
+      "populationPerKoku": 0.33111111111111113,
+      "populationBasedSoldiers": 372,
+      "declaredKokuBasedSoldiers": 1125
+    },
+    {
+      "id": "dist.tamba-kuwada",
+      "castleId": "castle.yagi",
+      "kokudaka": 40000,
+      "population": 13200,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 330,
+      "declaredKokuBasedSoldiers": 1000
+    },
+    {
+      "id": "dist.tamba-ikaruga",
+      "castleId": "castle.yagi",
+      "kokudaka": 25000,
+      "population": 8300,
+      "populationPerKoku": 0.332,
+      "populationBasedSoldiers": 207,
+      "declaredKokuBasedSoldiers": 625
+    },
+    {
+      "id": "dist.tajima-izushi",
+      "castleId": "castle.konosumiyama",
+      "kokudaka": 55000,
+      "population": 18200,
+      "populationPerKoku": 0.33090909090909093,
+      "populationBasedSoldiers": 455,
+      "declaredKokuBasedSoldiers": 1375
+    },
+    {
+      "id": "dist.tajima-kinosaki",
+      "castleId": "castle.konosumiyama",
+      "kokudaka": 40000,
+      "population": 13200,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 330,
+      "declaredKokuBasedSoldiers": 1000
+    },
+    {
+      "id": "dist.tajima-keta",
+      "castleId": "castle.konosumiyama",
+      "kokudaka": 35000,
+      "population": 11600,
+      "populationPerKoku": 0.3314285714285714,
+      "populationBasedSoldiers": 290,
+      "declaredKokuBasedSoldiers": 875
+    },
+    {
+      "id": "dist.tajima-asako",
+      "castleId": "castle.takeda",
+      "kokudaka": 45000,
+      "population": 14900,
+      "populationPerKoku": 0.33111111111111113,
+      "populationBasedSoldiers": 372,
+      "declaredKokuBasedSoldiers": 1125
+    },
+    {
+      "id": "dist.tajima-yabu",
+      "castleId": "castle.takeda",
+      "kokudaka": 25000,
+      "population": 8300,
+      "populationPerKoku": 0.332,
+      "populationBasedSoldiers": 207,
+      "declaredKokuBasedSoldiers": 625
+    },
+    {
+      "id": "dist.ise-kuwana",
+      "castleId": "castle.nagashima",
+      "kokudaka": 90000,
+      "population": 33300,
+      "populationPerKoku": 0.37,
+      "populationBasedSoldiers": 832,
+      "declaredKokuBasedSoldiers": 2250
+    },
+    {
+      "id": "dist.ise-inabe",
+      "castleId": "castle.nagashima",
+      "kokudaka": 55000,
+      "population": 18200,
+      "populationPerKoku": 0.33090909090909093,
+      "populationBasedSoldiers": 455,
+      "declaredKokuBasedSoldiers": 1375
+    },
+    {
+      "id": "dist.sagami-ashigara-kami",
+      "castleId": "castle.odawara",
+      "kokudaka": 67100,
+      "population": 22100,
+      "populationPerKoku": 0.3293591654247392,
+      "populationBasedSoldiers": 552,
+      "declaredKokuBasedSoldiers": 1677.5
+    },
+    {
+      "id": "dist.sagami-ashigara-shimo",
+      "castleId": "castle.odawara",
+      "kokudaka": 30900,
+      "population": 10200,
+      "populationPerKoku": 0.3300970873786408,
+      "populationBasedSoldiers": 255,
+      "declaredKokuBasedSoldiers": 772.5
+    },
+    {
+      "id": "dist.sagami-yurugi",
+      "castleId": "castle.odawara",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.sagami-kamakura",
+      "castleId": "castle.tamanawa",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.sagami-koza",
+      "castleId": "castle.tamanawa",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.sagami-miura",
+      "castleId": "castle.tamanawa",
+      "kokudaka": 53100,
+      "population": 19600,
+      "populationPerKoku": 0.3691148775894539,
+      "populationBasedSoldiers": 490,
+      "declaredKokuBasedSoldiers": 1327.5
+    },
+    {
+      "id": "dist.izu-tagata",
+      "castleId": "castle.nirayama",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.izu-kimisawa",
+      "castleId": "castle.nirayama",
+      "kokudaka": 30900,
+      "population": 10200,
+      "populationPerKoku": 0.3300970873786408,
+      "populationBasedSoldiers": 255,
+      "declaredKokuBasedSoldiers": 772.5
+    },
+    {
+      "id": "dist.izu-kamo",
+      "castleId": "castle.nirayama",
+      "kokudaka": 53100,
+      "population": 19600,
+      "populationPerKoku": 0.3691148775894539,
+      "populationBasedSoldiers": 490,
+      "declaredKokuBasedSoldiers": 1327.5
+    },
+    {
+      "id": "dist.musashi-toshima",
+      "castleId": "castle.edo",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.musashi-ebara",
+      "castleId": "castle.edo",
+      "kokudaka": 53100,
+      "population": 19600,
+      "populationPerKoku": 0.3691148775894539,
+      "populationBasedSoldiers": 490,
+      "declaredKokuBasedSoldiers": 1327.5
+    },
+    {
+      "id": "dist.musashi-adachi",
+      "castleId": "castle.edo",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.musashi-iruma",
+      "castleId": "castle.kawagoe",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.musashi-niiza",
+      "castleId": "castle.kawagoe",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.musashi-saitama",
+      "castleId": "castle.kawagoe",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.musashi-tama-hachioji",
+      "castleId": "castle.takiyama",
+      "kokudaka": 30900,
+      "population": 10200,
+      "populationPerKoku": 0.3300970873786408,
+      "populationBasedSoldiers": 255,
+      "declaredKokuBasedSoldiers": 772.5
+    },
+    {
+      "id": "dist.musashi-tama-ome",
+      "castleId": "castle.takiyama",
+      "kokudaka": 30900,
+      "population": 10200,
+      "populationPerKoku": 0.3300970873786408,
+      "populationBasedSoldiers": 255,
+      "declaredKokuBasedSoldiers": 772.5
+    },
+    {
+      "id": "dist.musashi-tama-fuchu",
+      "castleId": "castle.takiyama",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.musashi-hiki",
+      "castleId": "castle.matsuyama",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.musashi-obusuma",
+      "castleId": "castle.matsuyama",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.musashi-osato",
+      "castleId": "castle.matsuyama",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.kazusa-moda",
+      "castleId": "castle.kururi",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.kazusa-ichihara",
+      "castleId": "castle.kururi",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.kazusa-isumi",
+      "castleId": "castle.kururi",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.kazusa-sue",
+      "castleId": "castle.sanuki",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.kazusa-ama",
+      "castleId": "castle.sanuki",
+      "kokudaka": 53100,
+      "population": 19600,
+      "populationPerKoku": 0.3691148775894539,
+      "populationBasedSoldiers": 490,
+      "declaredKokuBasedSoldiers": 1327.5
+    },
+    {
+      "id": "dist.kazusa-awa",
+      "castleId": "castle.sanuki",
+      "kokudaka": 53100,
+      "population": 19600,
+      "populationPerKoku": 0.3691148775894539,
+      "populationBasedSoldiers": 490,
+      "declaredKokuBasedSoldiers": 1327.5
+    },
+    {
+      "id": "dist.hitachi-kuji",
+      "castleId": "castle.ota",
+      "kokudaka": 30900,
+      "population": 10200,
+      "populationPerKoku": 0.3300970873786408,
+      "populationBasedSoldiers": 255,
+      "declaredKokuBasedSoldiers": 772.5
+    },
+    {
+      "id": "dist.hitachi-taga",
+      "castleId": "castle.ota",
+      "kokudaka": 53100,
+      "population": 19600,
+      "populationPerKoku": 0.3691148775894539,
+      "populationBasedSoldiers": 490,
+      "declaredKokuBasedSoldiers": 1327.5
+    },
+    {
+      "id": "dist.hitachi-naka",
+      "castleId": "castle.ota",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.hitachi-ibaraki",
+      "castleId": "castle.nukada",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.hitachi-namegata",
+      "castleId": "castle.nukada",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.hitachi-tsukuba",
+      "castleId": "castle.nukada",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.shimotsuke-kawachi",
+      "castleId": "castle.utsunomiya",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.shimotsuke-shioya",
+      "castleId": "castle.utsunomiya",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.shimotsuke-nasu",
+      "castleId": "castle.utsunomiya",
+      "kokudaka": 30900,
+      "population": 10200,
+      "populationPerKoku": 0.3300970873786408,
+      "populationBasedSoldiers": 255,
+      "declaredKokuBasedSoldiers": 772.5
+    },
+    {
+      "id": "dist.shimotsuke-haga",
+      "castleId": "castle.moka",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.shimotsuke-haga-mashiko",
+      "castleId": "castle.moka",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.shimotsuke-haga-motegi",
+      "castleId": "castle.moka",
+      "kokudaka": 30900,
+      "population": 10200,
+      "populationPerKoku": 0.3300970873786408,
+      "populationBasedSoldiers": 255,
+      "declaredKokuBasedSoldiers": 772.5
+    },
+    {
+      "id": "dist.shimosa-yuki",
+      "castleId": "castle.yuki",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.shimosa-sashima",
+      "castleId": "castle.yuki",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.shimosa-toyoda",
+      "castleId": "castle.yuki",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.kozuke-usui",
+      "castleId": "castle.minowa",
+      "kokudaka": 30900,
+      "population": 10200,
+      "populationPerKoku": 0.3300970873786408,
+      "populationBasedSoldiers": 255,
+      "declaredKokuBasedSoldiers": 772.5
+    },
+    {
+      "id": "dist.kozuke-gunma-misato",
+      "castleId": "castle.minowa",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.kozuke-agatsuma",
+      "castleId": "castle.minowa",
+      "kokudaka": 30900,
+      "population": 10200,
+      "populationPerKoku": 0.3300970873786408,
+      "populationBasedSoldiers": 255,
+      "declaredKokuBasedSoldiers": 772.5
+    },
+    {
+      "id": "dist.kozuke-gunma",
+      "castleId": "castle.umayabashi",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.kozuke-seta",
+      "castleId": "castle.umayabashi",
+      "kokudaka": 66300,
+      "population": 21900,
+      "populationPerKoku": 0.33031674208144796,
+      "populationBasedSoldiers": 547,
+      "declaredKokuBasedSoldiers": 1657.5
+    },
+    {
+      "id": "dist.kozuke-tone",
+      "castleId": "castle.umayabashi",
+      "kokudaka": 30900,
+      "population": 10200,
+      "populationPerKoku": 0.3300970873786408,
+      "populationBasedSoldiers": 255,
+      "declaredKokuBasedSoldiers": 772.5
+    },
+    {
+      "id": "dist.kai-yamanashi",
+      "castleId": "castle.tsutsujigasaki",
+      "kokudaka": 67000,
+      "population": 22100,
+      "populationPerKoku": 0.32985074626865674,
+      "populationBasedSoldiers": 552,
+      "declaredKokuBasedSoldiers": 1675
+    },
+    {
+      "id": "dist.kai-yatsushiro",
+      "castleId": "castle.tsutsujigasaki",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.kai-koma",
+      "castleId": "castle.tsutsujigasaki",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.kai-tsuru-otsuki",
+      "castleId": "castle.iwadono",
+      "kokudaka": 31200,
+      "population": 10300,
+      "populationPerKoku": 0.3301282051282051,
+      "populationBasedSoldiers": 257,
+      "declaredKokuBasedSoldiers": 780
+    },
+    {
+      "id": "dist.kai-tsuru-yamura",
+      "castleId": "castle.iwadono",
+      "kokudaka": 31200,
+      "population": 10300,
+      "populationPerKoku": 0.3301282051282051,
+      "populationBasedSoldiers": 257,
+      "declaredKokuBasedSoldiers": 780
+    },
+    {
+      "id": "dist.kai-tsuru-uenohara",
+      "castleId": "castle.iwadono",
+      "kokudaka": 31200,
+      "population": 10300,
+      "populationPerKoku": 0.3301282051282051,
+      "populationBasedSoldiers": 257,
+      "declaredKokuBasedSoldiers": 780
+    },
+    {
+      "id": "dist.shinano-ina",
+      "castleId": "castle.takato",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.shinano-suwa",
+      "castleId": "castle.takato",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.shinano-ina-iida",
+      "castleId": "castle.takato",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.shinano-chikuma",
+      "castleId": "castle.fukashi",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.shinano-azumi",
+      "castleId": "castle.fukashi",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.shinano-chiisagata",
+      "castleId": "castle.fukashi",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.shinano-hanishina",
+      "castleId": "castle.kaizu",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.shinano-sarashina",
+      "castleId": "castle.kaizu",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.shinano-saku",
+      "castleId": "castle.kaizu",
+      "kokudaka": 31200,
+      "population": 10300,
+      "populationPerKoku": 0.3301282051282051,
+      "populationBasedSoldiers": 257,
+      "declaredKokuBasedSoldiers": 780
+    },
+    {
+      "id": "dist.echigo-kubiki",
+      "castleId": "castle.kasugayama",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.echigo-kubiki-naoetsu",
+      "castleId": "castle.kasugayama",
+      "kokudaka": 53400,
+      "population": 19700,
+      "populationPerKoku": 0.36891385767790263,
+      "populationBasedSoldiers": 492,
+      "declaredKokuBasedSoldiers": 1335
+    },
+    {
+      "id": "dist.echigo-kubiki-itoigawa",
+      "castleId": "castle.kasugayama",
+      "kokudaka": 53400,
+      "population": 19700,
+      "populationPerKoku": 0.36891385767790263,
+      "populationBasedSoldiers": 492,
+      "declaredKokuBasedSoldiers": 1335
+    },
+    {
+      "id": "dist.echigo-koshi",
+      "castleId": "castle.tochio",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.echigo-kanbara",
+      "castleId": "castle.tochio",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.echigo-iwafune",
+      "castleId": "castle.tochio",
+      "kokudaka": 53400,
+      "population": 19700,
+      "populationPerKoku": 0.36891385767790263,
+      "populationBasedSoldiers": 492,
+      "declaredKokuBasedSoldiers": 1335
+    },
+    {
+      "id": "dist.echigo-uonuma",
+      "castleId": "castle.sakado",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.echigo-uonuma-yuzawa",
+      "castleId": "castle.sakado",
+      "kokudaka": 31200,
+      "population": 10300,
+      "populationPerKoku": 0.3301282051282051,
+      "populationBasedSoldiers": 257,
+      "declaredKokuBasedSoldiers": 780
+    },
+    {
+      "id": "dist.echigo-uonuma-tsumari",
+      "castleId": "castle.sakado",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.shinano-minochi",
+      "castleId": "castle.iiyama",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.shinano-takai",
+      "castleId": "castle.iiyama",
+      "kokudaka": 66800,
+      "population": 22000,
+      "populationPerKoku": 0.32934131736526945,
+      "populationBasedSoldiers": 550,
+      "declaredKokuBasedSoldiers": 1670
+    },
+    {
+      "id": "dist.shinano-minochi-nozawa",
+      "castleId": "castle.iiyama",
+      "kokudaka": 31200,
+      "population": 10300,
+      "populationPerKoku": 0.3301282051282051,
+      "populationBasedSoldiers": 257,
+      "declaredKokuBasedSoldiers": 780
+    },
+    {
+      "id": "dist.echizen-asuwa",
+      "castleId": "castle.ichijodani",
+      "kokudaka": 55700,
+      "population": 18400,
+      "populationPerKoku": 0.3303411131059246,
+      "populationBasedSoldiers": 460,
+      "declaredKokuBasedSoldiers": 1392.5
+    },
+    {
+      "id": "dist.echizen-yoshida",
+      "castleId": "castle.ichijodani",
+      "kokudaka": 56100,
+      "population": 18500,
+      "populationPerKoku": 0.32976827094474154,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1402.5
+    },
+    {
+      "id": "dist.echizen-sakai-mikuni",
+      "castleId": "castle.ichijodani",
+      "kokudaka": 44900,
+      "population": 16600,
+      "populationPerKoku": 0.36971046770601335,
+      "populationBasedSoldiers": 415,
+      "declaredKokuBasedSoldiers": 1122.5
+    },
+    {
+      "id": "dist.echizen-tsuruga",
+      "castleId": "castle.kanegasaki",
+      "kokudaka": 44900,
+      "population": 16600,
+      "populationPerKoku": 0.36971046770601335,
+      "populationBasedSoldiers": 415,
+      "declaredKokuBasedSoldiers": 1122.5
+    },
+    {
+      "id": "dist.echizen-nanjo",
+      "castleId": "castle.kanegasaki",
+      "kokudaka": 26200,
+      "population": 8600,
+      "populationPerKoku": 0.3282442748091603,
+      "populationBasedSoldiers": 215,
+      "declaredKokuBasedSoldiers": 655
+    },
+    {
+      "id": "dist.echizen-imadate",
+      "castleId": "castle.kanegasaki",
+      "kokudaka": 56100,
+      "population": 18500,
+      "populationPerKoku": 0.32976827094474154,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1402.5
+    },
+    {
+      "id": "dist.echizen-ono",
+      "castleId": "castle.ono",
+      "kokudaka": 56100,
+      "population": 18500,
+      "populationPerKoku": 0.32976827094474154,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1402.5
+    },
+    {
+      "id": "dist.echizen-ono-katsuyama",
+      "castleId": "castle.ono",
+      "kokudaka": 26200,
+      "population": 8600,
+      "populationPerKoku": 0.3282442748091603,
+      "populationBasedSoldiers": 215,
+      "declaredKokuBasedSoldiers": 655
+    },
+    {
+      "id": "dist.echizen-ono-izumi",
+      "castleId": "castle.ono",
+      "kokudaka": 26200,
+      "population": 8600,
+      "populationPerKoku": 0.3282442748091603,
+      "populationBasedSoldiers": 215,
+      "declaredKokuBasedSoldiers": 655
+    },
+    {
+      "id": "dist.echizen-wakasa-onyu",
+      "castleId": "castle.nochiseyama",
+      "kokudaka": 56100,
+      "population": 18500,
+      "populationPerKoku": 0.32976827094474154,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1402.5
+    },
+    {
+      "id": "dist.echizen-wakasa-mikata",
+      "castleId": "castle.nochiseyama",
+      "kokudaka": 44900,
+      "population": 16600,
+      "populationPerKoku": 0.36971046770601335,
+      "populationBasedSoldiers": 415,
+      "declaredKokuBasedSoldiers": 1122.5
+    },
+    {
+      "id": "dist.noto-kashima",
+      "castleId": "castle.nanao",
+      "kokudaka": 56100,
+      "population": 18500,
+      "populationPerKoku": 0.32976827094474154,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1402.5
+    },
+    {
+      "id": "dist.noto-fugeshi-wajima",
+      "castleId": "castle.nanao",
+      "kokudaka": 44900,
+      "population": 16600,
+      "populationPerKoku": 0.36971046770601335,
+      "populationBasedSoldiers": 415,
+      "declaredKokuBasedSoldiers": 1122.5
+    },
+    {
+      "id": "dist.noto-suzu",
+      "castleId": "castle.nanao",
+      "kokudaka": 44900,
+      "population": 16600,
+      "populationPerKoku": 0.36971046770601335,
+      "populationBasedSoldiers": 415,
+      "declaredKokuBasedSoldiers": 1122.5
+    },
+    {
+      "id": "dist.noto-hakui",
+      "castleId": "castle.suemori",
+      "kokudaka": 56100,
+      "population": 18500,
+      "populationPerKoku": 0.32976827094474154,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1402.5
+    },
+    {
+      "id": "dist.noto-hakui-togi",
+      "castleId": "castle.suemori",
+      "kokudaka": 44900,
+      "population": 16600,
+      "populationPerKoku": 0.36971046770601335,
+      "populationBasedSoldiers": 415,
+      "declaredKokuBasedSoldiers": 1122.5
+    },
+    {
+      "id": "dist.noto-hakui-oshimizu",
+      "castleId": "castle.suemori",
+      "kokudaka": 56100,
+      "population": 18500,
+      "populationPerKoku": 0.32976827094474154,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1402.5
+    },
+    {
+      "id": "dist.etchu-nei",
+      "castleId": "castle.toyama",
+      "kokudaka": 56100,
+      "population": 18500,
+      "populationPerKoku": 0.32976827094474154,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1402.5
+    },
+    {
+      "id": "dist.etchu-niikawa",
+      "castleId": "castle.toyama",
+      "kokudaka": 44900,
+      "population": 16600,
+      "populationPerKoku": 0.36971046770601335,
+      "populationBasedSoldiers": 415,
+      "declaredKokuBasedSoldiers": 1122.5
+    },
+    {
+      "id": "dist.etchu-niikawa-kamiichi",
+      "castleId": "castle.toyama",
+      "kokudaka": 56100,
+      "population": 18500,
+      "populationPerKoku": 0.32976827094474154,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1402.5
+    },
+    {
+      "id": "dist.etchu-tonami",
+      "castleId": "castle.masuyama",
+      "kokudaka": 56100,
+      "population": 18500,
+      "populationPerKoku": 0.32976827094474154,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1402.5
+    },
+    {
+      "id": "dist.etchu-imizu",
+      "castleId": "castle.masuyama",
+      "kokudaka": 44900,
+      "population": 16600,
+      "populationPerKoku": 0.36971046770601335,
+      "populationBasedSoldiers": 415,
+      "declaredKokuBasedSoldiers": 1122.5
+    },
+    {
+      "id": "dist.kaga-ishikawa",
+      "castleId": "castle.oyama-gobo",
+      "kokudaka": 56100,
+      "population": 18500,
+      "populationPerKoku": 0.32976827094474154,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1402.5
+    },
+    {
+      "id": "dist.kaga-kahoku",
+      "castleId": "castle.oyama-gobo",
+      "kokudaka": 56100,
+      "population": 18500,
+      "populationPerKoku": 0.32976827094474154,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1402.5
+    },
+    {
+      "id": "dist.kaga-ishikawa-kanaiwa",
+      "castleId": "castle.oyama-gobo",
+      "kokudaka": 44900,
+      "population": 16600,
+      "populationPerKoku": 0.36971046770601335,
+      "populationBasedSoldiers": 415,
+      "declaredKokuBasedSoldiers": 1122.5
+    },
+    {
+      "id": "dist.kaga-enuma",
+      "castleId": "castle.daishoji",
+      "kokudaka": 56100,
+      "population": 18500,
+      "populationPerKoku": 0.32976827094474154,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1402.5
+    },
+    {
+      "id": "dist.kaga-nomi",
+      "castleId": "castle.daishoji",
+      "kokudaka": 56100,
+      "population": 18500,
+      "populationPerKoku": 0.32976827094474154,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1402.5
+    },
+    {
+      "id": "dist.kaga-enuma-yamanaka",
+      "castleId": "castle.daishoji",
+      "kokudaka": 26200,
+      "population": 8600,
+      "populationPerKoku": 0.3282442748091603,
+      "populationBasedSoldiers": 215,
+      "declaredKokuBasedSoldiers": 655
+    },
+    {
+      "id": "dist.aki-takata",
+      "castleId": "castle.yoshida-koriyama",
+      "kokudaka": 56200,
+      "population": 18500,
+      "populationPerKoku": 0.3291814946619217,
+      "populationBasedSoldiers": 462,
+      "declaredKokuBasedSoldiers": 1405
+    },
+    {
+      "id": "dist.aki-yamagata",
+      "castleId": "castle.yoshida-koriyama",
+      "kokudaka": 26600,
+      "population": 8800,
+      "populationPerKoku": 0.3308270676691729,
+      "populationBasedSoldiers": 220,
+      "declaredKokuBasedSoldiers": 665
+    },
+    {
+      "id": "dist.aki-takata-yoshida",
+      "castleId": "castle.yoshida-koriyama",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.aki-sato",
+      "castleId": "castle.sato-kanayama",
+      "kokudaka": 45600,
+      "population": 16900,
+      "populationPerKoku": 0.3706140350877193,
+      "populationBasedSoldiers": 422,
+      "declaredKokuBasedSoldiers": 1140
+    },
+    {
+      "id": "dist.aki-numata",
+      "castleId": "castle.sato-kanayama",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.aki-takamiya",
+      "castleId": "castle.sato-kanayama",
+      "kokudaka": 26600,
+      "population": 8800,
+      "populationPerKoku": 0.3308270676691729,
+      "populationBasedSoldiers": 220,
+      "declaredKokuBasedSoldiers": 665
+    },
+    {
+      "id": "dist.aki-saeki",
+      "castleId": "castle.sakurao",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.aki-saeki-hatsukaichi",
+      "castleId": "castle.sakurao",
+      "kokudaka": 45600,
+      "population": 16900,
+      "populationPerKoku": 0.3706140350877193,
+      "populationBasedSoldiers": 422,
+      "declaredKokuBasedSoldiers": 1140
+    },
+    {
+      "id": "dist.aki-toyota",
+      "castleId": "castle.sakurao",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.suo-yoshiki",
+      "castleId": "castle.konomine",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.suo-tsuno",
+      "castleId": "castle.konomine",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.suo-kumage-kaminoseki",
+      "castleId": "castle.konomine",
+      "kokudaka": 45600,
+      "population": 16900,
+      "populationPerKoku": 0.3706140350877193,
+      "populationBasedSoldiers": 422,
+      "declaredKokuBasedSoldiers": 1140
+    },
+    {
+      "id": "dist.nagato-toyoura",
+      "castleId": "castle.katsuyama",
+      "kokudaka": 45600,
+      "population": 16900,
+      "populationPerKoku": 0.3706140350877193,
+      "populationBasedSoldiers": 422,
+      "declaredKokuBasedSoldiers": 1140
+    },
+    {
+      "id": "dist.nagato-abu",
+      "castleId": "castle.katsuyama",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.nagato-mine",
+      "castleId": "castle.katsuyama",
+      "kokudaka": 26600,
+      "population": 8800,
+      "populationPerKoku": 0.3308270676691729,
+      "populationBasedSoldiers": 220,
+      "declaredKokuBasedSoldiers": 665
+    },
+    {
+      "id": "dist.bitchu-jobo",
+      "castleId": "castle.bitchu-matsuyama",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.bitchu-kawakami",
+      "castleId": "castle.bitchu-matsuyama",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.bitchu-tetta",
+      "castleId": "castle.bitchu-matsuyama",
+      "kokudaka": 26600,
+      "population": 8800,
+      "populationPerKoku": 0.3308270676691729,
+      "populationBasedSoldiers": 220,
+      "declaredKokuBasedSoldiers": 665
+    },
+    {
+      "id": "dist.bingo-yasuna",
+      "castleId": "castle.kannabe",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.bingo-fukatsu",
+      "castleId": "castle.kannabe",
+      "kokudaka": 45600,
+      "population": 16900,
+      "populationPerKoku": 0.3706140350877193,
+      "populationBasedSoldiers": 422,
+      "declaredKokuBasedSoldiers": 1140
+    },
+    {
+      "id": "dist.bingo-ashida",
+      "castleId": "castle.kannabe",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.izumo-nogi",
+      "castleId": "castle.gassan-toda",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.izumo-ohara",
+      "castleId": "castle.gassan-toda",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.izumo-nogi-hirosek",
+      "castleId": "castle.gassan-toda",
+      "kokudaka": 26600,
+      "population": 8800,
+      "populationPerKoku": 0.3308270676691729,
+      "populationBasedSoldiers": 220,
+      "declaredKokuBasedSoldiers": 665
+    },
+    {
+      "id": "dist.izumo-shimane",
+      "castleId": "castle.shiraga",
+      "kokudaka": 45600,
+      "population": 16900,
+      "populationPerKoku": 0.3706140350877193,
+      "populationBasedSoldiers": 422,
+      "declaredKokuBasedSoldiers": 1140
+    },
+    {
+      "id": "dist.izumo-ou",
+      "castleId": "castle.shiraga",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.izumo-akika",
+      "castleId": "castle.shiraga",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.iwami-nima",
+      "castleId": "castle.yamabuki",
+      "kokudaka": 26600,
+      "population": 8800,
+      "populationPerKoku": 0.3308270676691729,
+      "populationBasedSoldiers": 220,
+      "declaredKokuBasedSoldiers": 665
+    },
+    {
+      "id": "dist.iwami-nima-yunotsu",
+      "castleId": "castle.yamabuki",
+      "kokudaka": 45600,
+      "population": 16900,
+      "populationPerKoku": 0.3706140350877193,
+      "populationBasedSoldiers": 422,
+      "declaredKokuBasedSoldiers": 1140
+    },
+    {
+      "id": "dist.iwami-naka",
+      "castleId": "castle.yamabuki",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.hoki-aimi",
+      "castleId": "castle.yonago",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.hoki-hino",
+      "castleId": "castle.yonago",
+      "kokudaka": 26600,
+      "population": 8800,
+      "populationPerKoku": 0.3308270676691729,
+      "populationBasedSoldiers": 220,
+      "declaredKokuBasedSoldiers": 665
+    },
+    {
+      "id": "dist.hoki-aseiri",
+      "castleId": "castle.yonago",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.inaba-iwai",
+      "castleId": "castle.tottori",
+      "kokudaka": 45600,
+      "population": 16900,
+      "populationPerKoku": 0.3706140350877193,
+      "populationBasedSoldiers": 422,
+      "declaredKokuBasedSoldiers": 1140
+    },
+    {
+      "id": "dist.inaba-homi",
+      "castleId": "castle.tottori",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.inaba-keta",
+      "castleId": "castle.tottori",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.bizen-wake",
+      "castleId": "castle.tenjinyama",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.bizen-mimasaka-aida",
+      "castleId": "castle.tenjinyama",
+      "kokudaka": 26600,
+      "population": 8800,
+      "populationPerKoku": 0.3308270676691729,
+      "populationBasedSoldiers": 220,
+      "declaredKokuBasedSoldiers": 665
+    },
+    {
+      "id": "dist.bizen-jodo",
+      "castleId": "castle.mitsuishi",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.bizen-kojima",
+      "castleId": "castle.mitsuishi",
+      "kokudaka": 45600,
+      "population": 16900,
+      "populationPerKoku": 0.3706140350877193,
+      "populationBasedSoldiers": 422,
+      "declaredKokuBasedSoldiers": 1140
+    },
+    {
+      "id": "dist.harima-shikama",
+      "castleId": "castle.okishio",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.harima-jinto",
+      "castleId": "castle.okishio",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.harima-ibo",
+      "castleId": "castle.tatsuno",
+      "kokudaka": 57000,
+      "population": 18800,
+      "populationPerKoku": 0.3298245614035088,
+      "populationBasedSoldiers": 470,
+      "declaredKokuBasedSoldiers": 1425
+    },
+    {
+      "id": "dist.harima-ako",
+      "castleId": "castle.tatsuno",
+      "kokudaka": 45600,
+      "population": 16900,
+      "populationPerKoku": 0.3706140350877193,
+      "populationBasedSoldiers": 422,
+      "declaredKokuBasedSoldiers": 1140
+    },
+    {
+      "id": "dist.awa-itano-muya",
+      "castleId": "castle.shozui",
+      "kokudaka": 38300,
+      "population": 14200,
+      "populationPerKoku": 0.370757180156658,
+      "populationBasedSoldiers": 355,
+      "declaredKokuBasedSoldiers": 957.5
+    },
+    {
+      "id": "dist.awa-myodo",
+      "castleId": "castle.shozui",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.awa-itano",
+      "castleId": "castle.shozui",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.sanuki-yamada",
+      "castleId": "castle.sogo",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.sanuki-kagawa",
+      "castleId": "castle.sogo",
+      "kokudaka": 38800,
+      "population": 14300,
+      "populationPerKoku": 0.36855670103092786,
+      "populationBasedSoldiers": 357,
+      "declaredKokuBasedSoldiers": 970
+    },
+    {
+      "id": "dist.sanuki-aya",
+      "castleId": "castle.sogo",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.sanuki-sangawa",
+      "castleId": "castle.toramaru",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.sanuki-ouchi",
+      "castleId": "castle.toramaru",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.tosa-nagaoka",
+      "castleId": "castle.oko",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.tosa-agawa",
+      "castleId": "castle.oko",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.tosa-kami",
+      "castleId": "castle.oko",
+      "kokudaka": 22600,
+      "population": 7500,
+      "populationPerKoku": 0.33185840707964603,
+      "populationBasedSoldiers": 187,
+      "declaredKokuBasedSoldiers": 565
+    },
+    {
+      "id": "dist.tosa-hata",
+      "castleId": "castle.nakamura",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.tosa-hata-sukumo",
+      "castleId": "castle.nakamura",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.tosa-hata-tosashimizu",
+      "castleId": "castle.nakamura",
+      "kokudaka": 22600,
+      "population": 7500,
+      "populationPerKoku": 0.33185840707964603,
+      "populationBasedSoldiers": 187,
+      "declaredKokuBasedSoldiers": 565
+    },
+    {
+      "id": "dist.iyo-wake",
+      "castleId": "castle.yuzuki",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.iyo-onsen",
+      "castleId": "castle.yuzuki",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.iyo-iyo",
+      "castleId": "castle.yuzuki",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.iyo-ochi-kurushima",
+      "castleId": "castle.kurushima",
+      "kokudaka": 38800,
+      "population": 14300,
+      "populationPerKoku": 0.36855670103092786,
+      "populationBasedSoldiers": 357,
+      "declaredKokuBasedSoldiers": 970
+    },
+    {
+      "id": "dist.iyo-ochi",
+      "castleId": "castle.kurushima",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.iyo-uwa",
+      "castleId": "castle.kurose",
+      "kokudaka": 48500,
+      "population": 16000,
+      "populationPerKoku": 0.32989690721649484,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1212.5
+    },
+    {
+      "id": "dist.iyo-uwa-sadamisaki",
+      "castleId": "castle.kurose",
+      "kokudaka": 38800,
+      "population": 14300,
+      "populationPerKoku": 0.36855670103092786,
+      "populationBasedSoldiers": 357,
+      "declaredKokuBasedSoldiers": 970
+    },
+    {
+      "id": "dist.iyo-kita",
+      "castleId": "castle.kurose",
+      "kokudaka": 22600,
+      "population": 7500,
+      "populationPerKoku": 0.33185840707964603,
+      "populationBasedSoldiers": 187,
+      "declaredKokuBasedSoldiers": 565
+    },
+    {
+      "id": "dist.bungo-oita",
+      "castleId": "castle.funai",
+      "kokudaka": 47400,
+      "population": 15600,
+      "populationPerKoku": 0.3291139240506329,
+      "populationBasedSoldiers": 390,
+      "declaredKokuBasedSoldiers": 1185
+    },
+    {
+      "id": "dist.bungo-hayami",
+      "castleId": "castle.funai",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.bungo-kusu",
+      "castleId": "castle.funai",
+      "kokudaka": 22700,
+      "population": 7500,
+      "populationPerKoku": 0.3303964757709251,
+      "populationBasedSoldiers": 187,
+      "declaredKokuBasedSoldiers": 567.5
+    },
+    {
+      "id": "dist.bungo-amabe-saganoseki",
+      "castleId": "castle.usuki",
+      "kokudaka": 38800,
+      "population": 14300,
+      "populationPerKoku": 0.36855670103092786,
+      "populationBasedSoldiers": 357,
+      "declaredKokuBasedSoldiers": 970
+    },
+    {
+      "id": "dist.bungo-amabe-usuki",
+      "castleId": "castle.usuki",
+      "kokudaka": 38800,
+      "population": 14300,
+      "populationPerKoku": 0.36855670103092786,
+      "populationBasedSoldiers": 357,
+      "declaredKokuBasedSoldiers": 970
+    },
+    {
+      "id": "dist.bungo-ono",
+      "castleId": "castle.usuki",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.buzen-kiku-moji",
+      "castleId": "castle.kokura",
+      "kokudaka": 38800,
+      "population": 14300,
+      "populationPerKoku": 0.36855670103092786,
+      "populationBasedSoldiers": 357,
+      "declaredKokuBasedSoldiers": 970
+    },
+    {
+      "id": "dist.buzen-kiku",
+      "castleId": "castle.kokura",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.buzen-miyako",
+      "castleId": "castle.kokura",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.chikuzen-kasuya",
+      "castleId": "castle.tachibanayama",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.chikuzen-naka-hakata",
+      "castleId": "castle.tachibanayama",
+      "kokudaka": 38800,
+      "population": 14300,
+      "populationPerKoku": 0.36855670103092786,
+      "populationBasedSoldiers": 357,
+      "declaredKokuBasedSoldiers": 970
+    },
+    {
+      "id": "dist.chikuzen-munakata",
+      "castleId": "castle.tachibanayama",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.higo-akita",
+      "castleId": "castle.kumamoto",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.higo-tamana",
+      "castleId": "castle.kumamoto",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.higo-uto",
+      "castleId": "castle.kumamoto",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.chikugo-yamato",
+      "castleId": "castle.yanagawa",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.chikugo-mii",
+      "castleId": "castle.yanagawa",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.chikugo-mizuma",
+      "castleId": "castle.yanagawa",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.satsuma-kagoshima",
+      "castleId": "castle.uchijo",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.satsuma-hioki",
+      "castleId": "castle.uchijo",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.satsuma-izumi",
+      "castleId": "castle.uchijo",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.satsuma-kawabe",
+      "castleId": "castle.kaseda",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.satsuma-ibusuki",
+      "castleId": "castle.kaseda",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.osumi-so",
+      "castleId": "castle.shimizu",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.osumi-kimotsuki",
+      "castleId": "castle.shimizu",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.hizen-saga",
+      "castleId": "castle.muranaka",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.hizen-ogi",
+      "castleId": "castle.muranaka",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.hizen-matsuura",
+      "castleId": "castle.muranaka",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.hizen-kanzaki",
+      "castleId": "castle.hasuike",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.hizen-kishima",
+      "castleId": "castle.hasuike",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.hizen-fujitsu",
+      "castleId": "castle.hasuike",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.hyuga-koyu",
+      "castleId": "castle.tonokori",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.hyuga-naka",
+      "castleId": "castle.tonokori",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.hyuga-usuki",
+      "castleId": "castle.tonokori",
+      "kokudaka": 22700,
+      "population": 7500,
+      "populationPerKoku": 0.3303964757709251,
+      "populationBasedSoldiers": 187,
+      "declaredKokuBasedSoldiers": 567.5
+    },
+    {
+      "id": "dist.hyuga-miyazaki",
+      "castleId": "castle.sadowara",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.hyuga-morokata",
+      "castleId": "castle.sadowara",
+      "kokudaka": 22700,
+      "population": 7500,
+      "populationPerKoku": 0.3303964757709251,
+      "populationBasedSoldiers": 187,
+      "declaredKokuBasedSoldiers": 567.5
+    },
+    {
+      "id": "dist.hyuga-naka-sadowara",
+      "castleId": "castle.sadowara",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.higo-kuma",
+      "castleId": "castle.hitoyoshi",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.higo-ashikita",
+      "castleId": "castle.hitoyoshi",
+      "kokudaka": 22700,
+      "population": 7500,
+      "populationPerKoku": 0.3303964757709251,
+      "populationBasedSoldiers": 187,
+      "declaredKokuBasedSoldiers": 567.5
+    },
+    {
+      "id": "dist.higo-yatsushiro",
+      "castleId": "castle.hitoyoshi",
+      "kokudaka": 48600,
+      "population": 16000,
+      "populationPerKoku": 0.3292181069958848,
+      "populationBasedSoldiers": 400,
+      "declaredKokuBasedSoldiers": 1215
+    },
+    {
+      "id": "dist.uzen-okitama",
+      "castleId": "castle.yonezawa",
+      "kokudaka": 64000,
+      "population": 21100,
+      "populationPerKoku": 0.3296875,
+      "populationBasedSoldiers": 527,
+      "declaredKokuBasedSoldiers": 1600
+    },
+    {
+      "id": "dist.uzen-okitama-east",
+      "castleId": "castle.yonezawa",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.uzen-okitama-west",
+      "castleId": "castle.yonezawa",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.iwashiro-shinobu",
+      "castleId": "castle.koori-nishiyama",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.iwashiro-date",
+      "castleId": "castle.koori-nishiyama",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.iwashiro-adachi",
+      "castleId": "castle.koori-nishiyama",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.rikuzen-shida",
+      "castleId": "castle.namo",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.rikuzen-tamazukuri",
+      "castleId": "castle.namo",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.rikuzen-miyagi",
+      "castleId": "castle.namo",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.iwashiro-aizu",
+      "castleId": "castle.kurokawa",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.iwashiro-yama",
+      "castleId": "castle.kurokawa",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.iwashiro-onuma",
+      "castleId": "castle.kurokawa",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.iwashiro-iwase",
+      "castleId": "castle.naganuma",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.iwashiro-asaka",
+      "castleId": "castle.naganuma",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.iwashiro-iwase-west",
+      "castleId": "castle.naganuma",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.iwashiro-shirakawa",
+      "castleId": "castle.shirakawa",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.iwashiro-shirakawa-east",
+      "castleId": "castle.shirakawa",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.iwashiro-iwaki",
+      "castleId": "castle.shirakawa",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.uzen-murayama",
+      "castleId": "castle.yamagata",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.uzen-mogami",
+      "castleId": "castle.yamagata",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.uzen-tagawa",
+      "castleId": "castle.yamagata",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.uzen-murayama-south",
+      "castleId": "castle.kaminoyama",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.uzen-murayama-east",
+      "castleId": "castle.kaminoyama",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.mutsu-sannohe",
+      "castleId": "castle.sannohe",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.mutsu-tsugaru-tosaminato",
+      "castleId": "castle.sannohe",
+      "kokudaka": 51400,
+      "population": 19000,
+      "populationPerKoku": 0.36964980544747084,
+      "populationBasedSoldiers": 475,
+      "declaredKokuBasedSoldiers": 1285
+    },
+    {
+      "id": "dist.mutsu-kamikita",
+      "castleId": "castle.sannohe",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.mutsu-ninohe",
+      "castleId": "castle.kunohe",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.mutsu-sannohe-east",
+      "castleId": "castle.kunohe",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.mutsu-ninohe-west",
+      "castleId": "castle.kunohe",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.rikuchu-iwate",
+      "castleId": "castle.kozukata",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.rikuchu-shiwa",
+      "castleId": "castle.kozukata",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.rikuchu-hei",
+      "castleId": "castle.kozukata",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.rikuchu-hienuki",
+      "castleId": "castle.hanamaki",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.rikuchu-waga",
+      "castleId": "castle.hanamaki",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.rikuchu-isawa",
+      "castleId": "castle.hanamaki",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.ugo-yamamoto-hiyama",
+      "castleId": "castle.hiyama",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.ugo-yamamoto",
+      "castleId": "castle.hiyama",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    },
+    {
+      "id": "dist.ugo-kitaakita",
+      "castleId": "castle.hiyama",
+      "kokudaka": 30000,
+      "population": 9900,
+      "populationPerKoku": 0.33,
+      "populationBasedSoldiers": 247,
+      "declaredKokuBasedSoldiers": 750
+    },
+    {
+      "id": "dist.ugo-akita-tsuchizaki",
+      "castleId": "castle.minato",
+      "kokudaka": 51400,
+      "population": 19000,
+      "populationPerKoku": 0.36964980544747084,
+      "populationBasedSoldiers": 475,
+      "declaredKokuBasedSoldiers": 1285
+    },
+    {
+      "id": "dist.ugo-akita",
+      "castleId": "castle.minato",
+      "kokudaka": 64300,
+      "population": 21200,
+      "populationPerKoku": 0.3297045101088647,
+      "populationBasedSoldiers": 530,
+      "declaredKokuBasedSoldiers": 1607.5
+    }
+  ]
+}

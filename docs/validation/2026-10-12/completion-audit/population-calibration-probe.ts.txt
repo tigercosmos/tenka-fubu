@@ -1,0 +1,6 @@
+import { loadS1560Scenario } from '../../../../src/data/scenarios/s1560/index.ts';
+import { BAL } from '../../../../src/core/balance.ts';
+const bundle=await loadS1560Scenario();
+const rows=bundle.districts.map(d=>({id:d.id,castleId:d.castleId,kokudaka:d.kokudaka,population:d.population,populationPerKoku:d.kokudaka>0?d.population/d.kokudaka:null,populationBasedSoldiers:Math.floor(d.population*BAL.soldiersPerPop),declaredKokuBasedSoldiers:d.kokudaka*0.025}));
+const koku=rows.reduce((n,d)=>n+d.kokudaka,0),population=rows.reduce((n,d)=>n+d.population,0);
+console.log(JSON.stringify({source:'schema-parsed loadS1560Scenario current checkout',basisCoefficient:BAL.soldiersPerPop,scope:'population-based contribution only; excludes castle rank bases, policy and facilities',districts:rows.length,kokudaka:koku,population,populationPerKoku:population/koku,effectivePopulationContributionPerKoku:population*BAL.soldiersPerPop/koku,targetPerKoku:0.025,rows},null,2));
