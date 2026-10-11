@@ -9,6 +9,7 @@ import { clanColorNum, TOKENS_NUM } from '@ui/styles/tokens';
 import {
   createDistrictNode,
   DISTRICT_NODE_GEOMETRY,
+  DISTRICT_NODE_MATERIAL,
   drawDistrictNode,
   type DistrictNodeProps,
 } from '@ui/map/sceneParts/districtNode';
@@ -26,60 +27,117 @@ function props(overrides: Partial<DistrictNodeProps> = {}): DistrictNodeProps {
 }
 
 describe('drawDistrictNode（12 §3.3.3）', () => {
-  it('先 clear；本體圓形半徑 7、填色 70% 透明度、描邊 1px ink700', () => {
+  it('keeps an interior seal within 40 RGB distance of earth on any opaque RGB substrate', () => {
+    const earth = [155, 146, 125];
+    const { rec, g } = makeRec();
+    drawDistrictNode(g, props());
+    const body = rec.argsOf('fill')[1]?.[0] as { color: number; alpha: number };
+    expect(body.color).toBe(0x9b927d);
+    // All eight RGB-cube extremes bound the convex alpha-composited interior,
+    // not antialiased outer edges or other foreground ornaments.
+    for (let mask = 0; mask < 8; mask++) {
+      const delta = earth.map((channel, i) => {
+        const substrate = mask & (1 << i) ? 255 : 0;
+        return channel * body.alpha + substrate * (1 - body.alpha) - channel;
+      });
+      expect(Math.hypot(...delta)).toBeLessThanOrEqual(40);
+    }
+  });
+  it('uses an earth ellipse and a small exact-color owner accent instead of full-clan paint', () => {
+    for (const colorIndex of [...Array.from({ length: 40 }, (_, i) => i), null]) {
+      const { rec, g } = makeRec();
+      drawDistrictNode(g, props({ colorIndex }));
+      expect(rec.argsOf('ellipse')).toContainEqual([0, 0, 6, 4]);
+      const fills = rec.argsOf('fill').map((args) => args[0] as { color: number });
+      expect(
+        fills.some(
+          (fill) =>
+            fill.color ===
+            (colorIndex === null ? TOKENS_NUM.neutralClanless : clanColorNum(colorIndex)),
+        ),
+      ).toBe(false);
+      const arcs = rec.argsOf('arc');
+      expect(arcs).toContainEqual([0, 0, 4, -Math.PI / 3, Math.PI / 3]);
+      const owner = rec
+        .argsOf('stroke')
+        .map((args) => args[0] as { color: number; width: number; alpha?: number })
+        .find((style) => style.width === 1.5);
+      expect(owner).toEqual({
+        color: colorIndex === null ? TOKENS_NUM.neutralClanless : clanColorNum(colorIndex),
+        width: 1.5,
+        alpha: 0.9,
+      });
+    }
+  });
+  it('先 clear；r6×4 土灰印章、低對比邊與半徑內陰影／西北亮邊', () => {
     const { rec, g } = makeRec();
     drawDistrictNode(g, props({ colorIndex: 5 }));
     expect(rec.calls[0]?.[0]).toBe('clear');
 
-    const circles = rec.argsOf('circle');
-    const bodyCircle = circles[0] as number[]; // circle(x,y,radius) 三個純量引數
-    expect(bodyCircle).toEqual([0, 0, DISTRICT_NODE_GEOMETRY.radius]);
+    expect(rec.argsOf('ellipse')).toEqual([
+      [0, 1.5, 5.2, 2.3],
+      [0, 0, 6, 4],
+      [0, 0, 6, 4],
+    ]);
+    const shadow = DISTRICT_NODE_MATERIAL.shadow;
+    for (let i = 0; i <= 64; i++) {
+      const theta = (i * Math.PI) / 32;
+      expect(
+        Math.hypot(
+          shadow.x + shadow.radiusX * Math.cos(theta),
+          shadow.y + shadow.radiusY * Math.sin(theta),
+        ),
+      ).toBeLessThanOrEqual(6);
+    }
+    expect(rec.argsOf('moveTo')[0]).toEqual([-4.6, -1.6]);
+    expect(rec.argsOf('lineTo').slice(0, 2)).toEqual([
+      [-3, -2.7],
+      [-0.8, -3.4],
+    ]);
 
     const fills = rec.argsOf('fill');
-    const bodyFill = fills[0]?.[0] as { color: number; alpha: number };
-    expect(bodyFill.color).toBe(clanColorNum(5));
-    expect(bodyFill.alpha).toBe(DISTRICT_NODE_GEOMETRY.fillAlpha);
+    const bodyFill = fills[1]?.[0] as { color: number; alpha: number };
+    expect(bodyFill).toEqual({ color: 0x9b927d, alpha: 0.86 });
 
     const strokes = rec.argsOf('stroke');
     const bodyStroke = strokes[0]?.[0] as { width: number; color: number };
-    expect(bodyStroke.width).toBe(DISTRICT_NODE_GEOMETRY.strokeWidth);
+    expect(bodyStroke.width).toBe(0.6);
     expect(bodyStroke.color).toBe(TOKENS_NUM.ink700);
   });
 
-  it('無主郡（colorIndex=null）填 neutralClanless', () => {
+  it('無主郡（colorIndex=null）保留 neutralClanless 小弧而非滿版填色', () => {
     const { rec, g } = makeRec();
     drawDistrictNode(g, props({ colorIndex: null }));
-    const bodyFill = rec.argsOf('fill')[0]?.[0] as { color: number };
-    expect(bodyFill.color).toBe(TOKENS_NUM.neutralClanless);
+    const ownerStroke = rec.argsOf('stroke')[2]?.[0] as { color: number };
+    expect(ownerStroke.color).toBe(TOKENS_NUM.neutralClanless);
   });
 
   it('直轄郡（hasSteward=false）：中心 ink900 實心點（fill，非 stroke）', () => {
     const { rec, g } = makeRec();
     drawDistrictNode(g, props({ hasSteward: false }));
     const fills = rec.argsOf('fill');
-    // fills[0]=本體填色；fills[1]=中心實心點。
-    const dotFill = fills[1]?.[0] as { color: number };
+    // 陰影、本體之後的中心實心點。
+    const dotFill = fills.at(-1)?.[0] as { color: number };
     expect(dotFill.color).toBe(TOKENS_NUM.ink900);
-    // circles: [0]=本體填色前 circle、[1]=本體描邊前 circle、[2]=中心點。
-    const dotCircle = rec.argsOf('circle')[2] as number[];
+    const dotCircle = rec.argsOf('circle')[0] as number[];
     expect(dotCircle[2]).toBeCloseTo(DISTRICT_NODE_GEOMETRY.centerDotDiameter / 2, 10);
   });
 
   it('知行郡（hasSteward=true）：中心 washi100 空心點（stroke，不 fill 該點）', () => {
     const { rec, g } = makeRec();
     drawDistrictNode(g, props({ hasSteward: true }));
-    // 中心點應只有 1 個額外 stroke（本體描邊 + 中心點描邊 = 2），fill 只有本體 1 次。
-    expect(rec.countOf('fill')).toBe(1);
+    // 中心點只有額外 stroke；兩個 fill 是陰影與本體。
+    expect(rec.countOf('fill')).toBe(2);
     const strokes = rec.argsOf('stroke');
-    expect(strokes).toHaveLength(2);
-    const dotStroke = strokes[1]?.[0] as { color: number };
+    expect(strokes).toHaveLength(4);
+    const dotStroke = strokes.at(-1)?.[0] as { color: number };
     expect(dotStroke.color).toBe(TOKENS_NUM.washi100);
   });
 
   it('制壓中：外圈進度弧半徑 10、線寬 2、vermilionBright、掃角=progress/100×360°', () => {
     const { rec, g } = makeRec();
     drawDistrictNode(g, props({ subjugationProgress: 40 }));
-    const arcs = rec.argsOf('arc');
+    const arcs = rec.argsOf('arc').filter((args) => args[2] === 10);
     expect(arcs).toHaveLength(1);
     const [cx, cy, radius, startAngle, endAngle] = arcs[0] as number[];
     expect([cx, cy, radius]).toEqual([0, 0, DISTRICT_NODE_GEOMETRY.subjugationRingRadius]);
@@ -94,7 +152,30 @@ describe('drawDistrictNode（12 §3.3.3）', () => {
   it('非制壓中（subjugationProgress=null）不畫進度弧', () => {
     const { rec, g } = makeRec();
     drawDistrictNode(g, props({ subjugationProgress: null }));
-    expect(rec.countOf('arc')).toBe(0);
+    expect(rec.argsOf('arc').filter((args) => args[2] === 10)).toHaveLength(0);
+  });
+
+  it('owner accent never changes clamped subjugation sweep, center or exact uprising triangle', () => {
+    for (const progress of [-10, 0, 25, 100, 120])
+      for (const hasSteward of [false, true]) {
+        const { rec, g } = makeRec();
+        drawDistrictNode(
+          g,
+          props({ colorIndex: 39, subjugationProgress: progress, hasSteward, ikkiActive: true }),
+        );
+        const arcs = rec.argsOf('arc').filter((args) => args[2] === 10);
+        expect(arcs).toHaveLength(1);
+        expect(arcs[0]).toEqual([
+          0,
+          0,
+          10,
+          -Math.PI / 2,
+          -Math.PI / 2 + (Math.max(0, Math.min(100, progress)) / 100) * 2 * Math.PI,
+        ]);
+        expect(rec.argsOf('circle')).toEqual([[0, 0, 1.25]]);
+        expect(rec.argsOf('poly')).toEqual([[[0, -11, 3, -5, -3, -5]]]);
+        expect(rec.argsOf('fill').at(-1)).toEqual([{ color: TOKENS_NUM.accentVermilionBright }]);
+      }
   });
 
   it('一揆中：節點上方畫 6px 朱紅三角警示', () => {
@@ -123,12 +204,12 @@ describe('drawDistrictNode（M6-V7 AD1：可選狀態欄未提供時之預設）
     const minimal: DistrictNodeProps = { pos: { x: 0, y: 0 }, colorIndex: 3 };
     drawDistrictNode(g, minimal);
 
-    // 本體填色/描邊 + 中心點填色 = fill 2 次；本體描邊 = stroke 1 次（無制壓弧）。
-    expect(rec.countOf('fill')).toBe(2);
-    expect(rec.countOf('stroke')).toBe(1);
-    expect(rec.countOf('arc')).toBe(0);
+    // 陰影／本體／中心點 fill；邊／亮邊／勢力弧 stroke（無制壓弧）。
+    expect(rec.countOf('fill')).toBe(3);
+    expect(rec.countOf('stroke')).toBe(3);
+    expect(rec.argsOf('arc').filter((args) => args[2] === 10)).toHaveLength(0);
     expect(rec.countOf('poly')).toBe(0);
-    const dotFill = rec.argsOf('fill')[1]?.[0] as { color: number };
+    const dotFill = rec.argsOf('fill').at(-1)?.[0] as { color: number };
     expect(dotFill.color).toBe(TOKENS_NUM.ink900);
   });
 

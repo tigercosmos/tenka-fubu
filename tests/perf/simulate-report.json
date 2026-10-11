@@ -1,0 +1,140 @@
+{
+  "runs": [
+    {
+      "seed": 1,
+      "yearsSimulated": 1,
+      "unifiedByClanId": null,
+      "unifiedYear": null,
+      "clanStats": [
+        {
+          "clanId": "clan.ashikaga",
+          "survived": true,
+          "castleCount": 1,
+          "kokudaka": 130115,
+          "peakKokudaka": 130115,
+          "destroyedYear": null
+        },
+        {
+          "clanId": "clan.azai",
+          "survived": true,
+          "castleCount": 2,
+          "kokudaka": 295175,
+          "peakKokudaka": 390138,
+          "destroyedYear": null
+        },
+        {
+          "clanId": "clan.hatano",
+          "survived": true,
+          "castleCount": 2,
+          "kokudaka": 230137,
+          "peakKokudaka": 230137,
+          "destroyedYear": null
+        },
+        {
+          "clanId": "clan.honganji",
+          "survived": true,
+          "castleCount": 3,
+          "kokudaka": 500285,
+          "peakKokudaka": 500285,
+          "destroyedYear": null
+        },
+        {
+          "clanId": "clan.imagawa",
+          "survived": true,
+          "castleCount": 6,
+          "kokudaka": 670997,
+          "peakKokudaka": 670997,
+          "destroyedYear": null
+        },
+        {
+          "clanId": "clan.kitabatake",
+          "survived": true,
+          "castleCount": 3,
+          "kokudaka": 434313,
+          "peakKokudaka": 504162,
+          "destroyedYear": null
+        },
+        {
+          "clanId": "clan.matsudaira",
+          "survived": true,
+          "castleCount": 1,
+          "kokudaka": 213217,
+          "peakKokudaka": 213217,
+          "destroyedYear": null
+        },
+        {
+          "clanId": "clan.miyoshi",
+          "survived": true,
+          "castleCount": 6,
+          "kokudaka": 1005616,
+          "peakKokudaka": 1005616,
+          "destroyedYear": null
+        },
+        {
+          "clanId": "clan.oda",
+          "survived": true,
+          "castleCount": 1,
+          "kokudaka": 160396,
+          "peakKokudaka": 310130,
+          "destroyedYear": null
+        },
+        {
+          "clanId": "clan.rokkaku",
+          "survived": true,
+          "castleCount": 2,
+          "kokudaka": 500560,
+          "peakKokudaka": 500560,
+          "destroyedYear": null
+        },
+        {
+          "clanId": "clan.saito",
+          "survived": true,
+          "castleCount": 4,
+          "kokudaka": 797945,
+          "peakKokudaka": 797945,
+          "destroyedYear": null
+        },
+        {
+          "clanId": "clan.tsutsui",
+          "survived": true,
+          "castleCount": 1,
+          "kokudaka": 210145,
+          "peakKokudaka": 210145,
+          "destroyedYear": null
+        },
+        {
+          "clanId": "clan.yamana",
+          "survived": true,
+          "castleCount": 2,
+          "kokudaka": 200187,
+          "peakKokudaka": 200187,
+          "destroyedYear": null
+        }
+      ],
+      "totalBattles": 1,
+      "totalSieges": 31,
+      "avgTickMs": 3.601924650000002,
+      "hardRejections": 0,
+      "invalidDecisionCount": 2604,
+      "survivalAtYear10": {}
+    }
+  ],
+  "unificationRate": 0,
+  "medianUnifiedYear": null,
+  "survivalRateByClan": {
+    "clan.ashikaga": 1,
+    "clan.azai": 1,
+    "clan.hatano": 1,
+    "clan.honganji": 1,
+    "clan.imagawa": 1,
+    "clan.kitabatake": 1,
+    "clan.matsudaira": 1,
+    "clan.miyoshi": 1,
+    "clan.oda": 1,
+    "clan.rokkaku": 1,
+    "clan.saito": 1,
+    "clan.tsutsui": 1,
+    "clan.yamana": 1
+  },
+  "loadedRegions": ["tokai", "kinki"]
+}

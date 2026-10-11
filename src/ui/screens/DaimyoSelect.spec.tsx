@@ -117,4 +117,29 @@ describe('DaimyoSelect（11 §3.2.3 縮減版）', () => {
     fireEvent.click(screen.getByTestId('daimyo-back'));
     expect(onBack).toHaveBeenCalledTimes(1);
   });
+
+  it.each([undefined, 42, 0])(
+    'preserves an optional wizard seed %s without manufacturing one',
+    (seed) => {
+      const fakeGame = { meta: { playerClanId: 'clan.oda' } } as unknown as GameState;
+      const buildNewGameState = vi.fn(() => fakeGame);
+      const bundle = fakeBundle();
+      render(
+        <DaimyoSelect
+          bundle={bundle}
+          onBack={vi.fn()}
+          onStart={vi.fn()}
+          {...(seed === undefined ? {} : { seed })}
+          buildNewGameState={buildNewGameState}
+        />,
+      );
+      fireEvent.click(screen.getByTestId('clan-pick-clan.oda'));
+      fireEvent.click(screen.getByTestId('newgame-start'));
+      expect(buildNewGameState).toHaveBeenCalledWith(bundle, {
+        playerClanId: 'clan.oda',
+        difficulty: 'normal',
+        ...(seed === undefined ? {} : { seed }),
+      });
+    },
+  );
 });

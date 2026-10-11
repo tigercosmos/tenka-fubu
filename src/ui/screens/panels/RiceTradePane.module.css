@@ -1,0 +1,45 @@
+.root {
+  padding: 1rem;
+  border: 1px solid var(--stroke-subtle);
+  border-radius: var(--radius-panel);
+  background: var(--surface-panel);
+  color: var(--text-primary);
+  font-size: max(12px, var(--font-size-sm));
+}
+.root h3 {
+  margin: 0 0 0.75rem;
+}
+.facts {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--text-secondary);
+}
+.amount {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+.amount input {
+  width: 8rem;
+  min-height: max(32px, 2rem);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.actions button {
+  min-height: max(32px, 2rem);
+  min-width: 32px;
+}
+.actions button:disabled {
+  opacity: 1;
+  color: var(--text-secondary);
+  background: var(--surface-panel);
+  border-color: var(--stroke-subtle);
+}
+.warning {
+  color: var(--status-warning);
+}

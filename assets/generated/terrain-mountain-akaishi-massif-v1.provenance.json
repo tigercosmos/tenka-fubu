@@ -1,0 +1,31 @@
+{
+  "license": "project-original",
+  "asset": "public/assets/textures/terrain-mountain-akaishi-massif-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [
+    "assets/generated/source-images/terrain-mountain-akaishi-massif-v1-input.png"
+  ],
+  "sha256": "db45455b3e18f432c3f79f413d9fd37876933a687be38ac46a31157ec080e220",
+  "dimensions": {
+    "width": 1024,
+    "height": 1536
+  },
+  "bytes": 2384679,
+  "alphaInspection": {
+    "zeroAlphaPixels": 931171,
+    "partialAlphaPixels": 641693,
+    "opaquePixels": 0,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 204,
+    "y": 13,
+    "width": 623,
+    "height": 1511
+  },
+  "prompt": "Use case: precise-object-edit. Input image: edit target, the newly generated original mountain massif. Keep the high-oblique orthographic 2.5D view, original miniature realism, olive woodland and warm-gray rock palette, fixed northwest/top-left daylight, connected asymmetric crests and valleys, genuine transparent background, and absence of all UI/buildings/roads/text. Change ONLY the composition of the mountain landform: rebuild it as a longer, narrower north-south chain whose ACTUAL alpha-visible landform is about 640 pixels wide and 1480 pixels tall within a 1024 by 1536 canvas (visible width/height about 0.43). The present landform is much too wide; leave genuinely empty transparent gutters on both sides. Do not mechanically squash/stretch the picture or crop ridges; reshape the original connected landform with three main unequal crest groups and subordinate branching foothills into the narrower footprint while keeping each peak naturally proportioned. All landform details and alpha shadows must fit those bounds; remove low-alpha haze/glow in the empty side gutters. Retain broad but restrained low foothills within the narrower chain, not a thin repetitive spine. Entire massif visible, no detached islands, no artificial rectangular groundplate, no checkerboard, no white halo, no watermark. This is an original production strategy-map terrain sprite, not exact geographical reconstruction."
+}

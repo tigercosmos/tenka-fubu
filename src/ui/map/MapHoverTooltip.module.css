@@ -1,0 +1,45 @@
+.tip {
+  position: fixed;
+  z-index: var(--z-tooltip);
+  box-sizing: border-box;
+  max-width: min(28rem, calc(100vw - 16px));
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--stroke-strong);
+  border-radius: var(--radius-panel);
+  border-top: 2px solid var(--brand-gold);
+  background: var(--surface-panel);
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-panel);
+  font-size: var(--font-size-xs);
+  pointer-events: none;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+  animation: fadeIn var(--duration-fast) var(--ease-out);
+}
+
+.tip > :first-child {
+  margin-bottom: 0.3rem;
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.tip > :first-child::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 0.8em;
+  margin-right: 0.5rem;
+  border-radius: 2px;
+  background: var(--brand-gold);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

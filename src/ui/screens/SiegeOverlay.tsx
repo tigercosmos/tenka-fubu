@@ -7,14 +7,13 @@ import { t } from '@i18n/zh-TW';
 import { ProgressBar } from '@ui/components';
 import { makeCachedSelector, useCachedGameSelector } from '@ui/hooks/useGameSelector';
 import styles from './SiegeOverlay.module.css';
-import { useUIStore } from '@ui/hooks/uiStore';
 
 type Dispatch = (command: Command) => CommandDispatchResult | void;
 
 export interface SiegeOverlayProps {
   siegeId: SiegeId;
   onCommand?: Dispatch;
-  anchor?: { x: number; y: number };
+  dock?: { left: number; top: number; maxHeight: number; maxWidth: number };
 }
 
 const selectSiegeModel = makeCachedSelector((game, siegeId: SiegeId) => {
@@ -44,23 +43,10 @@ const selectSiegeModel = makeCachedSelector((game, siegeId: SiegeId) => {
 export function SiegeOverlay({
   siegeId,
   onCommand = dispatchCommand,
-  anchor,
+  dock,
 }: SiegeOverlayProps): ReactElement | null {
   const model = useCachedGameSelector(selectSiegeModel, siegeId);
-  const mapCamera = useUIStore((state) => state.mapCamera);
   if (model === null) return null;
-  const projectedAnchor =
-    anchor ??
-    (mapCamera === null
-      ? undefined
-      : {
-          x:
-            mapCamera.width / 2 +
-            (model.castle.pos.x - mapCamera.camera.x) * mapCamera.camera.scale,
-          y:
-            mapCamera.height / 2 +
-            (model.castle.pos.y - mapCamera.camera.y) * mapCamera.camera.scale,
-        });
   const setMode = (mode: 'encircle' | 'assault') => {
     if (mode === 'encircle' && !model.canEncircle) return;
     if (mode === model.siege.mode) return;
@@ -71,13 +57,13 @@ export function SiegeOverlay({
     <aside
       className={styles.overlay}
       data-testid="siege-overlay"
-      style={
-        projectedAnchor === undefined
-          ? undefined
-          : { left: projectedAnchor.x, top: projectedAnchor.y }
-      }
+      tabIndex={0}
+      aria-labelledby={`siege-${siegeId}-title`}
+      style={dock}
     >
-      <h3>{t('ui.siege.title', { castle: model.castle.name, days: model.days })}</h3>
+      <h3 id={`siege-${siegeId}-title`}>
+        {t('ui.siege.title', { castle: model.castle.name, days: model.days })}
+      </h3>
       <ProgressBar
         value={model.castle.durability}
         max={model.castle.maxDurability}

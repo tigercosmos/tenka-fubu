@@ -144,7 +144,13 @@ describe('plot command validation and lifecycle', () => {
     const plot = start(state, command({ investGold: BAL.plotPoachInvestGoldOptions[1] }));
     expect(state.clans[CLAN_ALPHA]!.gold).toBe(gold - plot.investGold);
     expect(plot.officerId).toBe(cmd.executorId);
-    expect(validateStartPlot(state, cmd)).toMatchObject({ reasonKey: 'cmd.reject.officerBusy' });
+    const beforeBusyValidation = structuredClone(state);
+    expect(validateStartPlot(state, cmd)).toEqual({
+      ok: false,
+      reasonKey: 'cmd.reject.officerBusy',
+      params: { name: state.officers[cmd.executorId]!.name },
+    });
+    expect(state).toEqual(beforeBusyValidation);
     expect(validateStartPlot(state, command({ executorId: OFF_ALPHA_TAISHO }))).toMatchObject({
       reasonKey: 'cmd.reject.alreadyActive',
     });

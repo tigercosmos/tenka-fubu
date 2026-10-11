@@ -2,25 +2,28 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--ink-700);
+  border: 1px solid var(--stroke-strong);
   border-radius: var(--radius-sm);
-  color: var(--ink-900);
+  color: var(--text-primary);
   white-space: nowrap;
   padding: 0 var(--space-1);
   line-height: 1;
 }
 .sm {
-  min-height: 16px;
+  min-height: 1rem;
   font-size: var(--font-size-xs);
 }
+.neutral {
+  color: var(--surface-command);
+}
 .md {
-  min-height: 20px;
+  min-height: 1.25rem;
   font-size: var(--font-size-sm);
 }
 .swatch {
-  width: 12px;
-  min-width: 12px;
-  height: 12px;
-  min-height: 12px;
+  width: 0.75rem;
+  min-width: 0.75rem;
+  height: 0.75rem;
+  min-height: 0.75rem;
   padding: 0;
 }

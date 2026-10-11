@@ -1,0 +1,32 @@
+{
+  "license": "project-original",
+  "asset": "assets/generated/source-images/terrain-mountain-hida-massif-v1-input-base.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sourceImage": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-1ab24282-fa53-4fda-87d6-26757f647159.png",
+  "sourceImageSha256": "d0cc3931721ddf6b7d5d692c3137b988f1d4513c4caeaf46007d8735978e0b51",
+  "sha256": "d0cc3931721ddf6b7d5d692c3137b988f1d4513c4caeaf46007d8735978e0b51",
+  "dimensions": {
+    "width": 1024,
+    "height": 1536
+  },
+  "bytes": 2548717,
+  "alphaInspection": {
+    "zeroAlphaPixels": 846865,
+    "partialAlphaPixels": 725999,
+    "opaquePixels": 0,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 113,
+    "y": 20,
+    "width": 789,
+    "height": 1491
+  },
+  "processing": "Copied built-in output byte-for-byte; no raster edit, resize, crop, stretch or rotation.",
+  "prompt": "Use case: stylized-concept\nAsset type: transparent raster terrain sprite for an original Japanese Sengoku 2.5D strategy game.\nPrimary request: one distinctive Hida-inspired Japanese alpine mountain massif, a tall narrow north-south connected mountain chain viewed from an oblique overhead strategic-map camera. Three related jagged rocky ridges, irregular high central summits, eroded saddles, dark forested valleys, branching olive woodland foothills. Broad northern shoulder and gently curved tapered southern end; varied real landforms, not repeated cone mountains.\nComposition/framing: portrait canvas, entire connected landform isolated with no horizon. Visible mountain footprint height approximately 2.5 times width, target width/height 0.38 to 0.42, not a wide triangular peak. All summit and forest edges inside at least five percent transparent margin on every side. Camera shows upper surfaces and southeast relief faces; textured connected slopes, no opaque rectangular tile or display plinth.\nStyle/medium: polished original painterly realistic 2.5D miniature game terrain, believable warm gray-brown rock planes, muted earthy olive forest canopy, readable silhouettes at small strategic-map size. Match restrained natural micro-landscape rendering, not cartoon, paper-cut, low-poly or photograph.\nLighting/mood: fixed soft upper-left/northwest daylight, brighter northwest ridges and subdued southeast-facing internal shadows. Summer mountains without snow. Avoid strong cast shadow outside the landform.\nConstraints: genuinely transparent alpha background, soft irregular woodland perimeter, no ground rectangle, detached islands, roads, bridges, buildings, people, water, coastline, labels, letters, logos or watermark. Original artwork, do not copy assets from an existing commercial game."
+}

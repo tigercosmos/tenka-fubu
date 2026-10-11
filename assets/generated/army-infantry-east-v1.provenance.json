@@ -1,0 +1,42 @@
+{
+  "asset": "public/assets/textures/army-infantry-east-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-09",
+  "license": "project-original",
+  "transparentBackgroundRequested": true,
+  "referencedImages": ["public/assets/textures/castle-main-plain-v1.png"],
+  "referenceOriginalPaths": [
+    "/Users/tigercosmos/tenka-fubu/public/assets/textures/castle-main-plain-v1.png"
+  ],
+  "sha256": "6d04ea413a33b3d41f36e16eac0528cacabeb8bd88728128355efb74e2f2fd5c",
+  "dimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "bytes": 1379234,
+  "alphaInspection": {
+    "zeroAlphaPixels": 1069822,
+    "partialAlphaPixels": 501877,
+    "opaquePixels": 817,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 125,
+    "y": 82,
+    "width": 1005,
+    "height": 1089
+  },
+  "groundAnchor": {
+    "x": 627,
+    "y": 1170,
+    "method": "authored foremost-foot baseline selected after visual inspection; not a gameplay coordinate"
+  },
+  "qualityInspection": {
+    "redDominantPixelsAlphaAbove8": 8014,
+    "redDominanceRatio": 1.7,
+    "limitation": "Colored edge fringes remain. A built-in cleanup variant increased this heuristic count and was rejected; this artwork is not visual acceptance."
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: original transparent 2.5D infantry formation sprite for a Japanese grand-strategy map.\nInput images: Image 1 is an ORIGINAL fictional castle miniature style reference only. Do not draw or reproduce a castle. Use the same finely hand-painted material realism, soft high oblique camera and restrained colors.\nPrimary request: one compact formation of eight generic Japanese spear infantry marching toward SCREEN RIGHT (east). Every soldier's body and head clearly faces right; show right-facing profiles, never a frontal portrait. Staggered ranks create miniature depth, with all complete feet visible.\nStyle/medium: believable hand-painted miniature soldiers, muted charcoal and blue-grey lamellar armor, simple iron helmets with neck guards, olive-grey clothing, small natural skin tones and worn wood spear shafts. Refined tiny military formation, not flat vector, chibi, toy or low-poly. Generic original fictional troops, no exact historic clan identity or named heroes.\nComposition: one centered compact unit on a square genuinely transparent canvas, high oblique overhead view around 55 degrees. Three staggered ranks, feet form a shallow oval centered near lower middle; short controlled gaps between soldiers. Spears mostly upright and entirely visible. Entire group has transparent margins. Cohesive readable broad masses that remain legible at a small map scale.\nLighting: fixed soft NORTHWEST light from image upper left, darker lower-right material planes, tiny contact shadows beneath feet. Do not rotate lighting with marching direction.\nConstraints: infantry only, no horses, guns, flags, banners, poles without spearheads, insignia, text, UI, numbers, watermark, castle, ground tile, baseplate, landscape, sky or background. No large shadow blob. Exactly one east-facing formation, not a sheet or multiple views. Compact square sprite below 2048 pixels per side."
+}

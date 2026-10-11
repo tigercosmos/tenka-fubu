@@ -127,7 +127,7 @@
 | 從屬勸告（強→弱） | `clanPower(我)/clanPower(目標) ≥ BAL.vassalDemandPowerRatio = 3.0` | 0 | 0 | 永久（`endDay=null`） | 目標成為我方從屬：雙方不可互相攻擊/調略＋通行權；從屬方每月上繳金錢收入 × `BAL.vassalTributeRate = 0.15`（於 05 月收入結算轉移）；從屬方 AI 外交追隨宗主（09） |
 | 從屬提案（弱→強） | `clanPower(目標)/clanPower(我) ≥ BAL.vassalOfferPowerRatio = 2.0` | 0 | 0 | 無期限 | 我方成為目標的從屬（效果同上，方向相反） |
 | 援軍請求 | 與目標有生效中同盟或婚姻；距上次請求 ≥ `BAL.reinforceCooldownMonths = 6` 月 | `BAL.trustCostReinforce = 20` | 0 | 一次性 | 向盟友請求對指定敵勢力出兵；AI 是否派兵、派多少（參見 09 §援軍）；玩家收到請求時以提案 UI 回覆 |
-| 破棄 | 有生效中同盟/婚姻/從屬；婚姻須過 36 月硬鎖（`day ≥ startDay + BAL.marriageNoBreakMonths×30`）；停戰不可破棄 | 0 | 0 | 即時 | 協定消滅；我方在對方處信用歸零；對方對我感情 `BAL.sentimentBetrayalHit = -60`；我方威信 `-BAL.betrayalPrestigeHit = 150`；所有第三勢力對我感情 `BAL.betrayalGlobalSentimentHit = -10` |
+| 破棄 | 有生效中同盟/婚姻/從屬；婚姻須過 36 月硬鎖（`day ≥ startDay + BAL.marriageNoBreakMonths×30`）；停戰不可破棄 | 0 | 0 | 即時 | 協定消滅；我方在對方處信用歸零；對方對我感情 `BAL.sentimentBetrayalHit = -60`；我方威信 `-BAL.betrayalPrestigeHit = 150`；所有存續第三勢力對我感情 `BAL.betrayalGlobalSentimentHit = -10`，信用扣 `BAL.betrayalTrustPenaltyOthers = 20`（下限 0；15 §5.1） |
 
 補充規則：
 
@@ -136,6 +136,9 @@
 - 從屬破棄：從屬方破棄＝獨立，宗主方破棄＝放逐，兩者皆套用完整破棄懲罰（見 §8 決策 D6）。
 - 婚姻武將死亡不解除婚姻協定（`kind='marriage'` Pact 照存），僅清除 `spouseId`。
 - 對從屬我方的勢力與宗主，不可再提同盟/婚姻（從屬已涵蓋）。
+- 從屬接受另須宗主威信減從屬方威信 ≥ `BAL.vassalPrestigeGap`（500，15／17 DP7）。
+  使用當下 Clan.prestige；勸告為提案方減受方，提案為受方減提案方，不以國力差代替。
+  此為接受條件，不取代原有提案國力比；AI 評估與最終成立時都檢查，玩家接受也不能跳過。
 
 #### 3.4.2 信用與金錢扣款時機
 
@@ -500,7 +503,9 @@ trustGainMonthly(officer, clan, target):   # clan 對 target 進行外交工作�
   traitM  = 特性倍率 diplomacyWorkMult（參見 06；無相關特性 = 1.0）
   sentM   = clamp(1 + sentiment(target→clan) / BAL.trustGainSentimentDivisor(=200), 0.5, 1.5)  # 對方對我方感情
   rankM   = 官位 unlock 含 trustGainBonus ? 1.1 : 1.0
-  return base × traitM × sentM × rankM       # 政務100、感情0、無特性 → 6/月
+  facilityM = 本勢力有已落成且啟用的評定所 ? BAL.facDiplomacyWorkGainMult(=1.1) : 1.0
+  policyM = 工作勢力當前有遠交近攻 ? BAL.polEnkokinkoWorkGainMult(=1.25) : 1.0
+  return base × traitM × sentM × rankM × facilityM × policyM  # 無評定所／政策：政務100、感情0、無特性 → 6/月
 ```
 
 增益值**以小數累積於 `trust*`（不逐月捨入），僅顯示時 floor**（02 D16、對齊 `sentiment` E-24）；
@@ -510,11 +515,23 @@ trustGainMonthly(officer, clan, target):   # clan 對 target 進行外交工作�
 
 ```
 favorGainMonthly(officer):  # 朝廷幕府同式，常數各自獨立
-  return BAL.courtFavorGainBase(=2) + officer.pol / BAL.courtFavorGainPolDivisor(=40)
+  base = BAL.courtFavorGainBase(=2) + officer.pol / BAL.courtFavorGainPolDivisor(=40)
+  facilityM = 本勢力有已落成且啟用的評定所 ? BAL.facDiplomacyWorkGainMult(=1.1) : 1.0
+  policyM = 工作勢力當前有遠交近攻 ? BAL.polEnkokinkoWorkGainMult(=1.25) : 1.0
+  return base × facilityM × policyM
   # 幕府用 BAL.shogunateFavorGainBase(=2)、BAL.shogunateFavorGainPolDivisor(=40)
 ```
 
 `courtFavor`／`shogunateFavor` 亦**以小數累積、顯示時 floor**（同 §5.2.1 trust，02 D16）；衰減（§5.1 步驟 4）同以小數扣減。
+
+評定所倍率只作用於已付月費的工作增益，並在既有上限前套用；多座不疊加。
+結算依當時城主勢力與啟用狀態判定，不計建造佇列；拆除或轉移所有權後即重新判定。
+費用、調略、外交接受度與具申品質不使用此倍率。
+
+遠交近攻倍率依工作勢力當前 active 政策判定，與既有工作增益倍率合成一次。
+三種目標均只增加已付工作增益，再套用原信用或友好度上限；保留小數累積。
+外交在政策月費之前結算，後續月費不足廢止不回溯減去當日增益；不改 00 的步驟順序。
+非鄰接信用＋2 是另一效果，不混入此倍率；費用、調略、提案與友好度衰減不乘 1.25。
 
 #### 5.2.3 感情月變動（狀態型）
 
@@ -1122,5 +1139,28 @@ powerTerm  = clamp((P − 1) × BAL.dipPowerTermScale(=15), −BAL.dipPowerTermC
   原主勢力）。
 
 ---
+
+**（2026-10-09）第三方破約信用懲罰對齊 15 主表**：
+
+- 15 §5.1 的 betrayalTrustPenaltyOthers＝20 為信用懲罰，不是既有感情 −10 的別名。
+  玩家或 AI 明定破約者時，存續第三勢力對破約者的信用扣 20，最低為零。
+  反向信用、既有對象處置與感情懲罰不變；此項不消耗亂數。
+- 無指名破約者的劇本協定取消不套用此懲罰；停戰仍不可主動破棄。
+  實作沿用既有全域懲罰對象清單，不另修改已滅亡勢力的外交資料。
+
+**（2026-10-09）從屬接受威信差對齊 15 主表**：
+
+- 15 的 vassalPrestigeGap＝500 與 17 DP7 明定小勢力接受的威信差；舊 §3.4.1 只有提案國力比。
+  補上獨立接受門檻，不將既有國力比常數改名或移除；已過門檻時仍使用原接受度公式。
+  最終成立重驗威信差；途中降至門檻下，即使玩家回覆接受也不成立，不扣款或建立 Pact。
+- 同盟信用 60 已由 trustCostAlliance 的合法性與成立重驗執行，不增加第二個同值別名。
+  本次新增 BAL key 會改變實際 balance hash；保留 frozen 基準及原始失敗，不假造漂移檢查通過。
+
+**（2026-10-09）遠交近攻的已付外交工作增益**：
+
+- 05 §3.7.2 的效率 1.25 適用 §3.2 的勢力、朝廷及幕府工作，以獨立 BAL 常數登錄。
+  依工作勢力即時查詢，只乘成功扣費後的原增益；上限、功績條件、亂數與費用不變。
+- 外交先於經濟，政策月費不足的廢止只影響後續查詢，不回溯當日已付工作。
+  非鄰接信用＋2 的條件與加乘順序不在本次修正範圍；不以工作倍率完成宣告整項政策完成。
 
 *本文件依 00 §13 規範撰寫；術語依 00 §14 與 19-glossary。實作期變更請記錄於 §8。*

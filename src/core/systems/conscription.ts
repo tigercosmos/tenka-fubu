@@ -3,6 +3,7 @@ import { castleMaxSoldiers, hasFacility, hasPolicy } from '../domestic';
 import type { District, GameState } from '../state/gameState';
 import type { GameEvent } from '../state/events';
 import { traitModifier } from '../traits';
+import { taimeiEffects } from './events/taimei';
 
 export function conscriptionSystem(state: GameState): GameEvent[] {
   const events: GameEvent[] = [];
@@ -25,9 +26,14 @@ export function conscriptionSystem(state: GameState): GameEvent[] {
       recruit *= BAL.polJokashujuConscriptMult;
     const lord = castle.lordId === null ? undefined : state.officers[castle.lordId];
     if (lord) recruit *= traitModifier(lord, 'dev.conscriptionMult').mult;
-    const amount = Math.max(
-      0,
-      Math.min(castleMaxSoldiers(state, castle) - castle.soldiers, Math.floor(recruit)),
+    // 10 §3.7.3: increases the single recruitment amount, not permanent castle capacity.
+    // 05 §3.5 defines no gold charge; conscriptCostMult has no invented expenditure here.
+    recruit *= taimeiEffects(state, castle.ownerClanId).conscriptMaxMult;
+    const amount = Math.round(
+      Math.max(
+        0,
+        Math.min(castleMaxSoldiers(state, castle) - castle.soldiers, Math.floor(recruit)),
+      ),
     );
     if (amount === 0) continue;
     castle.soldiers += amount;

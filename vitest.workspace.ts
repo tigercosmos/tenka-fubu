@@ -22,11 +22,16 @@ export default defineWorkspace([
     test: {
       name: 'core',
       environment: 'node',
+      benchmark: { includeSamples: true },
       include: ['src/core/**/*.spec.ts', 'tests/**/*.spec.ts'],
       // `tests/app/**` 需要 jsdom（rAF／document），改由下方 `app` project 收納，此處排除避免
       // 同一檔案在 node 環境下被重跑一次而失敗（glob 交集：本行 include 之 `tests/**/*.spec.ts`
       // 與 `app` project 的 `tests/app/**/*.spec.ts` 重疊）。
-      exclude: ['tests/app/**'],
+      exclude: [
+        'tests/app/**',
+        'tests/perf/**/*.gate.spec.ts',
+        ...(process.env.CI_EXCLUDE_NATIONAL_GOLDEN === '1' ? ['tests/golden/s1560.spec.ts'] : []),
+      ],
     },
   },
   {

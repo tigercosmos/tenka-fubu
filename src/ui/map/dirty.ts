@@ -2,12 +2,13 @@
 //
 // 規格：M6-V4 技術設計 §3.3.3（buildOwnerByNode／diffOwnerByNode）、§3.2（armyWorldPos／
 // stackKey，決策 D6：renderer 端內插，selector 座標無關）；補遺 AD-V4-4：`armyWorldPos`／
-// `stackKey` 抽成本檔純函式，逐字等價改前 `MainScreen.tsx` L139-149 內插語意
+// `stackKey` 抽成本檔純函式。軍隊沿道路顯示中繼點移動；無中繼點仍維持原直線。
 // （`edgeCostDays<=0→edgeT=0`、`toNode===null→回 from`、`stackKey=edgeT===0?fromNode:id`）。
 //
 // 本檔不 import pixi.js、不持有狀態，可在 node 測試環境直接單元測試（同 mapDraw.ts 慣例）。
 
 import type { MapGraph } from '@core/state/mapGraph';
+import { edgeBetween, edgeVisualPolyline, pointAtPolyline } from './roads/roadGeometry';
 
 /** `buildOwnerByNode` 消費之最小 view 形狀（`castles[]`＋`districtOwner`，見 `MapViewState`）。 */
 export interface OwnerByNodeView {
@@ -177,16 +178,25 @@ export interface ArmyPosInput {
 }
 
 /**
- * 由 `fromNode`/`toNode`/`edgeT` 內插世界座標（renderer 端內插，決策 D6）。逐字等價改前
- * `MainScreen.tsx`（V4 前）L139-149：`toNode===null`（含 `edgeCostDays<=0` 已於 selector 端 clamp
- * 為 `edgeT<=0`）→回傳 `from`；否則沿 `from→to` 依 `edgeT` 線性插值。查無節點時退回 `(0,0)`
- * （防禦；正常資料不會發生，`graph` 未載入——例如尚未 `setMapData`——時亦走此分支）。
+ * Renderer-only progress along the shared display curve through authored road anchors.
+ * Reverse travel samples the same physical edge in reverse; simulation days and
+ * state remain unchanged. Stationary or missing destinations retain the prior
+ * fallback. A missing display edge retains endpoint interpolation.
  */
 export function armyWorldPos(army: ArmyPosInput, graph: MapGraph): { x: number; y: number } {
   const from = graph.nodes.get(army.fromNode as never)?.pos ?? { x: 0, y: 0 };
   if (army.toNode === null || army.edgeT <= 0) return from;
   const to = graph.nodes.get(army.toNode as never)?.pos;
   if (to === undefined) return from;
+  const edge = edgeBetween(graph, army.fromNode, army.toNode);
+  if (edge !== undefined) {
+    const points = edgeVisualPolyline(edge, graph);
+    const position =
+      points === null
+        ? null
+        : pointAtPolyline(points, edge.a === army.fromNode ? army.edgeT : 1 - army.edgeT);
+    if (position !== null) return position;
+  }
   return { x: from.x + (to.x - from.x) * army.edgeT, y: from.y + (to.y - from.y) * army.edgeT };
 }
 

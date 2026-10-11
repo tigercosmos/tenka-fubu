@@ -3,6 +3,8 @@ import { dispatchCommand, type CommandDispatchResult } from '@app/bridge';
 import { gameLoop } from '@app/gameLoop';
 import { store } from '@app/store';
 import { BAL } from '@core/balance';
+import { getOfficerTacticIds } from '@core/index';
+import { TACTICS } from '@core/tactics';
 import type { Command } from '@core/commands/types';
 import { RANK_VALUES } from '@core/state/enums';
 import type { CastleId, MapNodeId, OfficerId } from '@core/state/ids';
@@ -11,70 +13,92 @@ import { Dialog, NumberSlider } from '@ui/components';
 import { StatBar } from '@ui/components/StatBar/StatBar';
 import { makeCachedSelector, useCachedGameSelector } from '@ui/hooks/useGameSelector';
 import { useUIStore } from '@ui/hooks/uiStore';
+import { UI } from '@ui/uiConstants';
 import styles from './MarchModal.module.css';
+import { marchLeaderDefaults, marchOfficerEligible } from './marchDraft';
 
 type Dispatch = (command: Command) => CommandDispatchResult | void;
 
 export interface MarchModalProps {
   onCommand?: Dispatch;
+  targetNavigationActive?: boolean;
 }
 
-const selectMarchModel = makeCachedSelector((game, originCastleId: CastleId) => {
-  const castle = game.castles[originCastleId];
-  if (castle === undefined) return null;
-  const officers = Object.values(game.officers)
-    .filter(
-      (officer) =>
-        officer.status === 'serving' &&
-        officer.hasComeOfAge &&
-        officer.clanId === game.meta.playerClanId &&
-        officer.locationCastleId === castle.id &&
-        officer.armyId === null,
-    )
-    .sort((a, b) => b.ldr - a.ldr || a.id.localeCompare(b.id))
-    .map((officer) => ({
-      id: officer.id,
-      name: officer.name,
-      ldr: officer.ldr,
-      val: officer.val,
-      rank: officer.rank,
-      troopCap:
-        BAL.rankTroopCap[
-          game.clans[game.meta.playerClanId]?.leaderId === officer.id
-            ? RANK_VALUES.length - 1
-            : RANK_VALUES.indexOf(officer.rank)
-        ] ?? 0,
-    }));
-  return {
-    playerClanId: game.meta.playerClanId,
-    castle: { id: castle.id, name: castle.name, soldiers: castle.soldiers, food: castle.food },
-    officers,
-    names: {
-      ...Object.fromEntries(Object.values(game.castles).map((item) => [item.id, item.name])),
-      ...Object.fromEntries(Object.values(game.districts).map((item) => [item.id, item.name])),
-    },
-    // M6-V9b §3.3：目標卡資料（UI selector，非 core）——敵城守備/耐久量條用。
-    castleStatsById: Object.fromEntries(
-      Object.values(game.castles).map((item) => [
-        item.id,
-        {
-          soldiers: Math.floor(item.soldiers),
-          durability: Math.floor(item.durability),
-          maxDurability: item.maxDurability,
-        },
-      ]),
-    ),
-  };
-});
+const EMPTY_DEPUTIES: readonly string[] = [];
+const selectMarchModel = makeCachedSelector(
+  (game, originCastleId: CastleId, leaderId: string | null, deputyIds: readonly string[]) => {
+    const castle = game.castles[originCastleId];
+    if (castle === undefined) return null;
+    const officers = Object.values(game.officers)
+      .filter((officer) => marchOfficerEligible(game, castle.id, officer.id))
+      .sort((a, b) => b.ldr - a.ldr || a.id.localeCompare(b.id))
+      .map((officer) => ({
+        id: officer.id,
+        name: officer.name,
+        ldr: officer.ldr,
+        val: officer.val,
+        rank: officer.rank,
+        tactics: getOfficerTacticIds(game, [officer.id]).map((id) => t(`${id}.name`)),
+        troopCap:
+          BAL.rankTroopCap[
+            game.clans[game.meta.playerClanId]?.leaderId === officer.id
+              ? RANK_VALUES.length - 1
+              : RANK_VALUES.indexOf(officer.rank)
+          ] ?? 0,
+      }));
+    const leader = officers.find((officer) => officer.id === leaderId);
+    const selectedIds =
+      leader === undefined
+        ? []
+        : [
+            leader.id,
+            ...officers
+              .filter((officer) => officer.id !== leader.id && deputyIds.includes(officer.id))
+              .map((officer) => officer.id),
+          ];
+    return {
+      playerClanId: game.meta.playerClanId,
+      castle: { id: castle.id, name: castle.name, soldiers: castle.soldiers, food: castle.food },
+      officers,
+      formationTactics:
+        leader === undefined
+          ? null
+          : getOfficerTacticIds(game, selectedIds).map((id) => ({
+              id,
+              name: t(`${id}.name`),
+              cost: TACTICS[id]!.saihaiCost,
+            })),
+      names: {
+        ...Object.fromEntries(Object.values(game.castles).map((item) => [item.id, item.name])),
+        ...Object.fromEntries(Object.values(game.districts).map((item) => [item.id, item.name])),
+      },
+      // M6-V9b §3.3：目標卡資料（UI selector，非 core）——敵城守備/耐久量條用。
+      castleStatsById: Object.fromEntries(
+        Object.values(game.castles).map((item) => [
+          item.id,
+          {
+            soldiers: Math.floor(item.soldiers),
+            durability: Math.floor(item.durability),
+            maxDurability: item.maxDurability,
+          },
+        ]),
+      ),
+    };
+  },
+);
 
-function snap(value: number, max: number): number {
-  return Math.max(0, Math.min(max, Math.round(value / 100) * 100));
-}
-
-export function MarchModal({ onCommand = dispatchCommand }: MarchModalProps): ReactElement | null {
+export function MarchModal({
+  onCommand = dispatchCommand,
+  targetNavigationActive = false,
+}: MarchModalProps): ReactElement | null {
   const draft = useUIStore((state) => state.marchDraft);
   const actions = useUIStore((state) => state.actions);
-  const model = useCachedGameSelector(selectMarchModel, (draft?.originCastleId ?? '') as CastleId);
+  const model = useCachedGameSelector(
+    selectMarchModel,
+    (draft?.originCastleId ?? '') as CastleId,
+    draft?.leaderOfficerId ?? null,
+    draft?.subOfficerIds ?? EMPTY_DEPUTIES,
+  );
   const [feedback, setFeedback] = useState<string | null>(null);
   const speedBeforePick = useRef<'x1' | 'x2' | 'x5' | null>(null);
   const targetStripRef = useRef<HTMLElement>(null);
@@ -95,6 +119,7 @@ export function MarchModal({ onCommand = dispatchCommand }: MarchModalProps): Re
 
   useEffect(() => {
     if (draft?.phase !== 'pickTarget') return;
+    if (targetNavigationActive) return;
     targetStripRef.current?.focus();
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return;
@@ -110,9 +135,11 @@ export function MarchModal({ onCommand = dispatchCommand }: MarchModalProps): Re
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [actions, draft]);
+  }, [actions, draft, targetNavigationActive]);
 
   if (draft === null || model === null) return null;
+  // Retain the pick-mode pause owner while its native target list owns keyboard focus.
+  if (targetNavigationActive && draft.phase === 'pickTarget') return null;
 
   const leader = model.officers.find((officer) => officer.id === draft.leaderOfficerId);
   const soldierMax = Math.max(0, Math.min(model.castle.soldiers, leader?.troopCap ?? 0));
@@ -147,13 +174,9 @@ export function MarchModal({ onCommand = dispatchCommand }: MarchModalProps): Re
     actions.closeModal();
   };
   const chooseLeader = (id: OfficerId) => {
-    const next = model.officers.find((officer) => officer.id === id);
-    const max = Math.min(model.castle.soldiers, next?.troopCap ?? 0);
-    const soldiers = snap(max, max);
-    const food = snap(
-      soldiers * BAL.fieldFoodPerSoldierDaily * 60,
-      Math.min(model.castle.food, soldiers * BAL.fieldFoodPerSoldierDaily * BAL.maxCarryDays),
-    );
+    const game = store.getState().game;
+    if (game === null || !marchOfficerEligible(game, model.castle.id, id)) return;
+    const { soldiers, food } = marchLeaderDefaults(game, model.castle.id, id);
     update({
       leaderOfficerId: id,
       subOfficerIds: draft.subOfficerIds.filter((officerId) => officerId !== id),
@@ -297,95 +320,135 @@ export function MarchModal({ onCommand = dispatchCommand }: MarchModalProps): Re
           <button type="button" onClick={close}>
             {t('ui.common.cancel')}
           </button>
-          <button type="button" disabled={!canConfirm} onClick={confirm}>
+          <button type="button" data-dialog-primary="true" disabled={!canConfirm} onClick={confirm}>
             {t('cmd.march.confirm')}
           </button>
         </>
       }
     >
       <div className={styles.body} data-testid="march-modal">
-        <p>{t('ui.march.origin', { castle: model.castle.name })}</p>
-        <section>
-          <h3>{t('ui.march.selectGeneral')}</h3>
-          <div className={styles.officers}>
-            {model.officers.map((officer) => (
-              <button
-                type="button"
-                key={officer.id}
-                aria-pressed={draft.leaderOfficerId === officer.id}
-                onClick={() => chooseLeader(officer.id)}
-              >
-                {t('ui.march.officerRow', officer)}
-              </button>
-            ))}
+        <p className={styles.origin}>{t('ui.march.origin', { castle: model.castle.name })}</p>
+        <div className={styles.composition}>
+          <div className={styles.personnel}>
+            <section>
+              <h3>{t('ui.march.selectGeneral')}</h3>
+              <div className={styles.officers}>
+                {model.officers.map((officer) => (
+                  <div
+                    key={officer.id}
+                    className={styles.officerCard}
+                    data-testid={`march-general-${officer.id}`}
+                  >
+                    <button
+                      type="button"
+                      aria-pressed={draft.leaderOfficerId === officer.id}
+                      onClick={() => chooseLeader(officer.id)}
+                    >
+                      {t('ui.march.officerRow', {
+                        name: officer.name,
+                        ldr: officer.ldr,
+                        val: officer.val,
+                        troopCap: officer.troopCap,
+                      })}
+                    </button>
+                    <small>
+                      {t('ui.march.officerTactics', { tactics: officer.tactics.join('、') })}
+                    </small>
+                  </div>
+                ))}
+              </div>
+            </section>
+            <section>
+              <h3>{t('ui.march.selectDeputies', { max: BAL.maxDeputies })}</h3>
+              <div className={styles.officers}>
+                {model.officers
+                  .filter((officer) => officer.id !== draft.leaderOfficerId)
+                  .map((officer) => (
+                    <div
+                      key={officer.id}
+                      className={styles.officerCard}
+                      data-testid={`march-deputy-${officer.id}`}
+                    >
+                      <button
+                        type="button"
+                        aria-pressed={draft.subOfficerIds.includes(officer.id)}
+                        disabled={
+                          !draft.subOfficerIds.includes(officer.id) &&
+                          draft.subOfficerIds.length >= BAL.maxDeputies
+                        }
+                        onClick={() => toggleDeputy(officer.id)}
+                      >
+                        {officer.name}
+                      </button>
+                      <small>
+                        {t('ui.march.officerTactics', { tactics: officer.tactics.join('、') })}
+                      </small>
+                    </div>
+                  ))}
+              </div>
+            </section>
           </div>
-        </section>
-        <section>
-          <h3>{t('ui.march.selectDeputies', { max: BAL.maxDeputies })}</h3>
-          <div className={styles.officers}>
-            {model.officers
-              .filter((officer) => officer.id !== draft.leaderOfficerId)
-              .map((officer) => (
-                <button
-                  type="button"
-                  key={officer.id}
-                  aria-pressed={draft.subOfficerIds.includes(officer.id)}
-                  disabled={
-                    !draft.subOfficerIds.includes(officer.id) &&
-                    draft.subOfficerIds.length >= BAL.maxDeputies
-                  }
-                  onClick={() => toggleDeputy(officer.id)}
-                >
-                  {officer.name}
-                </button>
-              ))}
+          <div className={styles.orders}>
+            <section>
+              <h3>{t('ui.march.formationTactics')}</h3>
+              {model.formationTactics === null ? (
+                <p>{t('ui.march.formationIncomplete')}</p>
+              ) : (
+                <ul className={styles.tactics} data-testid="march-formation-tactics">
+                  {model.formationTactics.map((tactic) => (
+                    <li key={tactic.id}>{t('ui.march.tacticCost', tactic)}</li>
+                  ))}
+                </ul>
+              )}
+              <p>{t('ui.march.tacticPreviewNote')}</p>
+            </section>
+            <NumberSlider
+              label={t('ui.march.soldiers')}
+              min={0}
+              max={soldierMax}
+              step={UI.uiMarchSoldierStep}
+              value={Math.min(draft.soldiers, soldierMax)}
+              unit={t('term.unit.people')}
+              onChange={(soldiers) =>
+                update({
+                  soldiers,
+                  food: Math.min(
+                    draft.food,
+                    Math.floor(soldiers * BAL.fieldFoodPerSoldierDaily * BAL.maxCarryDays),
+                  ),
+                })
+              }
+            />
+            <NumberSlider
+              label={t('ui.march.food')}
+              min={0}
+              max={foodMax}
+              step={UI.uiMarchFoodStep}
+              value={Math.min(draft.food, foodMax)}
+              unit={t('term.unit.koku')}
+              onChange={(food) => update({ food })}
+            />
+            <p>{t('ui.march.foodDays', { days: supportedDays })}</p>
+            <button
+              type="button"
+              disabled={leader === undefined}
+              onClick={() => update({ phase: 'pickTarget', errorKey: null })}
+            >
+              {t('ui.march.pickTargetAction')}
+            </button>
+            {draft.targetNodeId !== null && draft.previewDays !== null && (
+              <p>
+                {t('ui.march.pathSummary', {
+                  from: model.castle.name,
+                  to: model.names[draft.targetNodeId] ?? draft.targetNodeId,
+                  via,
+                  days: draft.previewDays,
+                })}
+              </p>
+            )}
+            {(feedback ?? draft.errorKey) && <p role="alert">{feedback ?? t(draft.errorKey!)}</p>}
           </div>
-        </section>
-        <NumberSlider
-          label={t('ui.march.soldiers')}
-          min={0}
-          max={soldierMax}
-          step={100}
-          value={Math.min(draft.soldiers, soldierMax)}
-          unit={t('term.unit.people')}
-          onChange={(soldiers) =>
-            update({
-              soldiers,
-              food: Math.min(
-                draft.food,
-                Math.floor(soldiers * BAL.fieldFoodPerSoldierDaily * BAL.maxCarryDays),
-              ),
-            })
-          }
-        />
-        <NumberSlider
-          label={t('ui.march.food')}
-          min={0}
-          max={foodMax}
-          step={100}
-          value={Math.min(draft.food, foodMax)}
-          unit={t('term.unit.koku')}
-          onChange={(food) => update({ food })}
-        />
-        <p>{t('ui.march.foodDays', { days: supportedDays })}</p>
-        <button
-          type="button"
-          disabled={leader === undefined}
-          onClick={() => update({ phase: 'pickTarget', errorKey: null })}
-        >
-          {t('ui.march.pickTargetAction')}
-        </button>
-        {draft.targetNodeId !== null && draft.previewDays !== null && (
-          <p>
-            {t('ui.march.pathSummary', {
-              from: model.castle.name,
-              to: model.names[draft.targetNodeId] ?? draft.targetNodeId,
-              via,
-              days: draft.previewDays,
-            })}
-          </p>
-        )}
-        {(feedback ?? draft.errorKey) && <p role="alert">{feedback ?? t(draft.errorKey!)}</p>}
+        </div>
       </div>
     </Dialog>
   );

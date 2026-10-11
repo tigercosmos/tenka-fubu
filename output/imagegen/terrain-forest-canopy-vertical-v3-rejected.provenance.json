@@ -1,0 +1,14 @@
+{
+  "status": "rejected-candidate-not-production",
+  "mode": "built-in-image-gen",
+  "source": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-79925a9a-ccc1-41ec-8f60-245139dc2dc3.png",
+  "reference": "output/imagegen/terrain-forest-canopy-vertical-v2-candidate.png",
+  "sha256": "b3a80418b336bb9c19b82c6349bd7b93cd2efdcc3c75d33d9dd762cba230046d",
+  "width": 1024,
+  "height": 1536,
+  "encodedBytes": 2320504,
+  "decodedRgbaBytes": 6291456,
+  "alpha": { "zero": 905207, "partial": 667657, "maximum": 254 },
+  "rejection": "Targeted edit still retains a broad visible olive halo. Not integrated into manifest, loader, public assets, or game.",
+  "prompt": "Use case: background-extraction. Image 1 is the edit target, an original north-south forest canopy sprite for a 2.5D Sengoku map. Remove ONLY the diffuse olive-green fog/halo surrounding the woodland. Preserve the actual trees, connected canopy footprint, realistic quiet moss palette, northwestern highlights, perspective, orientation and crown shapes. Keep only a narrow subtle southeast contact shade immediately against the actual canopy edge. Everything outside that narrow edge must be genuinely alpha zero: no olive haze, luminous rim, backdrop or checkerboard. Keep the full woodland entirely inside the portrait canvas, with at least 10 percent transparent padding on all four sides. No new objects, no text, no watermark. Preserve original artwork; do not introduce commercial-game assets."
+}

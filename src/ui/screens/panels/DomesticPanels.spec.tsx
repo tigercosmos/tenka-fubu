@@ -1,12 +1,13 @@
-import { render, screen, within } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { resetGameStoreForTests } from '@app/store';
+import { resetGameStoreForTests, store } from '@app/store';
 import type { Command } from '@core/commands/types';
 import type { District, Officer } from '@core/state/gameState';
-import type { DistrictId, OfficerId } from '@core/state/ids';
+import type { DistrictId, OfficerId, FacilityTypeId } from '@core/state/ids';
 import { makeLoopTestState, TEST_CASTLE, TEST_CLAN } from '../../../../tests/helpers/loopState';
 import { CastlePanel } from './CastlePanel';
+import { uiStore } from '../../hooks/uiStore';
 import { DistrictPanel } from './DistrictPanel';
 import { PolicyPanel } from './PolicyPanel';
 import type { EventId } from '@core/state/ids';
@@ -82,7 +83,19 @@ function fixture() {
   return state;
 }
 
-beforeEach(() => resetGameStoreForTests(fixture()));
+beforeEach(() => {
+  resetGameStoreForTests(fixture());
+  store.getState().actions.setScreen('main');
+  uiStore.getState().actions.reset();
+});
+
+it('opens canonical domestic tab directly while keeping normal default overview', () => {
+  const view = render(<CastlePanel castleId={TEST_CASTLE} initialTab="domestic" />);
+  expect(screen.getByRole('tab', { name: '內政' }).getAttribute('aria-selected')).toBe('true');
+  view.unmount();
+  render(<CastlePanel castleId={TEST_CASTLE} />);
+  expect(screen.getByRole('tab', { name: '概要' }).getAttribute('aria-selected')).toBe('true');
+});
 
 describe('CastlePanel', () => {
   it('renders four tabs and emits the selected facility command', async () => {
@@ -106,6 +119,11 @@ describe('CastlePanel', () => {
     await user.click(screen.getByRole('tab', { name: '內政' }));
     await user.click(screen.getAllByRole('button', { name: /空位/ })[0]!);
     await user.click(screen.getByRole('button', { name: /市.*200貫.*60日/ }));
+
+    expect(commands).toEqual([]);
+    const confirmation = screen.getByRole('dialog', { name: '建造選單' });
+    expect(confirmation.textContent).toContain('200貫');
+    await user.click(within(confirmation).getByRole('button', { name: '確定' }));
 
     expect(commands).toContainEqual({
       type: 'buildFacility',
@@ -150,7 +168,15 @@ describe('DistrictPanel', () => {
       within(select)
         .getAllByRole('option')
         .map((option) => option.textContent),
-    ).toEqual(['直轄', '政務高（政92・忠70）', '政務低（政68・忠95）']);
+    ).toEqual([
+      '直轄',
+      '政務高（侍大將・政92・忠70・知行0／1郡）',
+      '政務低（侍大將・政68・忠95・知行0／1郡）',
+      '當主（足輕組頭・政50・忠100・知行0／0郡） · 目標無效或已不存在',
+    ]);
+    expect(within(select).getByRole('option', { name: /當主/ }).hasAttribute('disabled')).toBe(
+      true,
+    );
     await user.selectOptions(select, HIGH_POL);
     await user.click(screen.getByRole('radio', { name: '商業優先' }));
 
@@ -184,6 +210,7 @@ describe('PolicyPanel', () => {
   it('uses the command validator for event unlocks and facility prerequisites', () => {
     const locked = fixture();
     locked.clans[TEST_CLAN]!.prestige = 1_000;
+    locked.policies[TEST_CLAN] = { clanId: TEST_CLAN, active: [], cooldownUntil: {} };
     resetGameStoreForTests(locked);
     const view = render(<PolicyPanel />);
     const nanban = screen.getByRole('heading', { name: '南蠻貿易' }).closest('article')!;
@@ -191,15 +218,34 @@ describe('PolicyPanel', () => {
       true,
     );
 
+    const enabled = () =>
+      !within(screen.getByRole('heading', { name: '南蠻貿易' }).closest('article')!)
+        .getByRole('button', { name: '採用' })
+        .hasAttribute('disabled');
+    const publish = (state: ReturnType<typeof fixture>) => {
+      act(() => resetGameStoreForTests(state));
+      view.rerender(<PolicyPanel />);
+    };
+    // Prestige plus the required facility remains an independent unlock route.
+    const facilityUnlocked = structuredClone(locked);
+    facilityUnlocked.castles[TEST_CASTLE]!.facilities.push('fac.minato' as FacilityTypeId);
+    publish(facilityUnlocked);
+    expect(enabled()).toBe(true);
+
     const eventUnlocked = fixture();
+    eventUnlocked.clans[TEST_CLAN]!.prestige = 0;
     eventUnlocked.policies[TEST_CLAN] = { clanId: TEST_CLAN, active: [], cooldownUntil: {} };
     eventUnlocked.events.fired['evt.nanban-visit' as EventId] = eventUnlocked.time.day;
-    view.unmount();
-    resetGameStoreForTests(eventUnlocked);
-    render(<PolicyPanel />);
-    const unlocked = screen.getByRole('heading', { name: '南蠻貿易' }).closest('article')!;
-    expect(within(unlocked).getByRole('button', { name: '採用' }).hasAttribute('disabled')).toBe(
-      false,
-    );
+    publish(eventUnlocked);
+    expect(enabled()).toBe(false); // A fired offer alone does not establish acceptance.
+    const refused = structuredClone(eventUnlocked);
+    refused.events.flags[`unlock.pol.nanban.${TEST_CLAN}`] = 0;
+    refused.events.flags['unlock.pol.nanban.clan.other'] = 1;
+    publish(refused);
+    expect(enabled()).toBe(false); // Another clan's acceptance cannot leak into this clan.
+    const accepted = structuredClone(refused);
+    accepted.events.flags[`unlock.pol.nanban.${TEST_CLAN}`] = 1;
+    publish(accepted);
+    expect(enabled()).toBe(true);
   });
 });

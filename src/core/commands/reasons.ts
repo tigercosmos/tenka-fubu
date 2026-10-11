@@ -29,6 +29,10 @@ export const REJECT_REASONS = {
   // M1-6 骨架：佇列型指令之 validate/apply 尚待各系統里程碑（05/06/07/08/10）登錄；
   // 未登錄者硬驗證即拒（不改 state、不崩潰）。隨真實 handler 登錄自然消失（03 §8-D14）。
   notImplemented: 'cmd.reject.notImplemented',
+  taimeiLocked: 'cmd.reject.taimeiLocked',
+  taimeiBusy: 'cmd.reject.taimeiBusy',
+  taimeiCooldown: 'cmd.reject.taimeiCooldown',
+  prestigeShort: 'cmd.reject.prestigeShort',
 } as const;
 
 /** 拒絕原因鍵之型別（值域＝上表 i18n 鍵字串）。 */

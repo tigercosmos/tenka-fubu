@@ -1,4 +1,5 @@
 import styles from './StatBar.module.css';
+import { logicalPxToRem } from '../../layout/sizing';
 export interface StatBarProps {
   label: string;
   value: number;
@@ -24,7 +25,7 @@ export function StatBar({
   return (
     <div className={styles.root} role="img" aria-label={showValue ? `${label} ${value}` : label}>
       <span className={styles.label}>{label}</span>
-      <span className={styles.track} style={{ width }}>
+      <span className={styles.track} style={{ width: logicalPxToRem(width) }}>
         {compareValue !== undefined && (
           <span
             className={styles.compare}

@@ -7,10 +7,12 @@
 // plan/15-balance.md §4.3／§5.2 表 D 明文「以 BAL.* 書寫但實作不進 balance.ts，歸 src/app/ 迴圈驅動
 // 設定」，故本檔以獨立常數表定義，不放 src/core/balance.ts（值出處仍為 15 §5.1）。
 
-import { runOneDay } from './bridge';
+import { hasQueuedEventChoiceResolution, runOneDay } from './bridge';
 import { store } from './store';
-import type { GameSpeed, PauseReason } from './store';
+import type { DebugSessionState, GameSpeed, PauseReason } from './store';
+import type { GameState } from '@core/state/gameState';
 import { installAutoPause } from './autoPause';
+import { perfMonitor } from './perfMonitor';
 
 /** 15 §5.2 表 D／§4.3：速度節奏＋debug 跳轉節奏，非模擬常數、不進 BAL；值見 15 §5.1。 */
 const UI_LOOP = {
@@ -62,10 +64,12 @@ const defaultScheduler: FrameScheduler = {
  * 1. 玩家參與的合戰（`state.battles` 中任一筆 `result === null`──即進行中──且
  *    attacker/defenderClanId 為玩家勢力；02/gameState.ts 之 BattleState 無獨立
  *    `playerInvolved`/`status` 欄位，以既有欄位等價推導，見 03 §8 對應決策記錄）。
- * 2. 待玩家選擇的歷史事件（`state.events.pendingChoiceEventId != null`）。
- * M1 期間 battles/events 恆為空（M4/M5、M8 起才會真正填入），本判定式恆為 false，僅先備妥介面。
+ * 2. 待玩家選擇的歷史事件，且沒有合法待結算選擇（10 §5.3／D7）。
+ * 合法選擇只解除此凍結閘；手動暫停仍須由外殼正常恢復，不能在此繞過 speed='paused'。
+ * BattleScreen 另持有策略時間，包含結果成立後至明確確認返回前的階段。
  */
 function hasBlockingInteraction(): boolean {
+  if (store.getState().session.screen === 'battle') return true;
   const game = store.getState().game;
   if (game === null) return false;
   const playerClanId = game.meta.playerClanId;
@@ -77,7 +81,7 @@ function hasBlockingInteraction(): boolean {
       return true;
     }
   }
-  return game.events.pendingChoiceEventId !== null;
+  return game.events.pendingChoiceEventId !== null && !hasQueuedEventChoiceResolution();
 }
 
 function dayMsFor(speed: Exclude<GameSpeed, 'paused'>): number {
@@ -101,8 +105,34 @@ export function createGameLoopController(
   let rafId: number | null = null;
   let running = false;
   let uninstallAutoPause: (() => void) | null = null;
+  type DebugJump = {
+    game: GameState;
+    progress: NonNullable<DebugSessionState['jumping']>;
+  };
+  let activeJump: DebugJump | null = null;
+  let jumpTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function ownsJump(jump: DebugJump): boolean {
+    const state = store.getState();
+    return (
+      activeJump === jump &&
+      state.game === jump.game &&
+      state.session.debug.jumping === jump.progress
+    );
+  }
+
+  function cancelJump(jump: DebugJump | null): void {
+    if (jump === null || activeJump !== jump) return;
+    activeJump = null;
+    if (jumpTimer !== null) clearTimeout(jumpTimer);
+    jumpTimer = null;
+    const state = store.getState();
+    if (state.game === jump.game && state.session.debug.jumping === jump.progress)
+      state.actions.setDebugJumping(null);
+  }
 
   function onFrame(now: number): void {
+    perfMonitor.recordFrame(now);
     rafId = scheduler.requestFrame(onFrame); // 先排下一幀（§5.1 步驟 1）
     if (lastFrameTs === null) {
       lastFrameTs = now;
@@ -112,7 +142,11 @@ export function createGameLoopController(
     lastFrameTs = now;
 
     const speed = store.getState().session.speed;
-    if (speed === 'paused' || hasBlockingInteraction()) {
+    if (
+      speed === 'paused' ||
+      store.getState().session.viewportBlocked ||
+      hasBlockingInteraction()
+    ) {
       // 策略時間凍結（03 §3.7.1／§7-T7：「hasBlockingInteraction 凍結」）與暫停同義：
       // 累加器歸零、不推進，直到解除凍結。
       accumulatorMs = 0;
@@ -125,6 +159,7 @@ export function createGameLoopController(
       accumulatorMs >= dayMs &&
       ticks < UI_LOOP.maxTicksPerFrame &&
       store.getState().session.speed !== 'paused' && // tick 可能觸發自動暫停，逐次重查
+      !store.getState().session.viewportBlocked &&
       store.getState().session.fatalError === null && // runOneDay 內部致命錯誤攔截，01 §3.10.2／M1-18
       !hasBlockingInteraction()
     ) {
@@ -144,37 +179,62 @@ export function createGameLoopController(
     }
   }
 
-  function stepDaysChunk(): void {
-    const jumping = store.getState().session.debug.jumping;
-    if (jumping === null) return; // 已被中止（外部呼叫 setDebugJumping(null)）
+  function stepDaysChunk(jump: DebugJump): void {
+    if (!ownsJump(jump)) {
+      cancelJump(jump);
+      return;
+    }
+    jumpTimer = null;
+    if (store.getState().session.viewportBlocked || store.getState().session.screen === 'battle') {
+      cancelJump(jump);
+      return;
+    }
+    const jumping = jump.progress;
     const remaining = jumping.totalDays - jumping.doneDays;
     const chunkSize = Math.min(UI_LOOP.jumpChunkDays, remaining);
 
     let executed = 0;
     let aborted = false;
     for (let i = 0; i < chunkSize; i += 1) {
+      if (!ownsJump(jump)) {
+        cancelJump(jump);
+        return;
+      }
+      if (store.getState().session.viewportBlocked) {
+        aborted = true;
+        break;
+      }
       runOneDay(); // 跳轉期間忽略 autoPauseReasons、不逐 tick 重繪（§3.9.2）
       executed += 1;
-      if (store.getState().session.fatalError !== null || hasBlockingInteraction()) {
+      if (!ownsJump(jump)) {
+        cancelJump(jump);
+        return;
+      }
+      if (
+        store.getState().session.fatalError !== null ||
+        store.getState().session.viewportBlocked ||
+        hasBlockingInteraction()
+      ) {
         aborted = true;
         break;
       }
     }
 
-    const current = store.getState().session.debug.jumping;
-    if (current === null) return; // 執行期間被外部清除（理論上不可達，防禦性檢查）
-    const doneDays = current.doneDays + executed;
-    if (aborted || doneDays >= current.totalDays) {
-      store.getState().actions.setDebugJumping(null); // 完成或中止；維持暫停
+    const doneDays = jumping.doneDays + executed;
+    if (aborted || doneDays >= jumping.totalDays) {
+      cancelJump(jump); // 完成或中止；維持暫停
     } else {
-      store.getState().actions.setDebugJumping({ totalDays: current.totalDays, doneDays });
-      setTimeout(stepDaysChunk, 0); // 讓瀏覽器繪製進度條
+      jump.progress = { totalDays: jumping.totalDays, doneDays };
+      store.getState().actions.setDebugJumping(jump.progress);
+      if (ownsJump(jump)) jumpTimer = setTimeout(() => stepDaysChunk(jump), 0);
+      else cancelJump(jump);
     }
   }
 
   const controller: GameLoopController = {
     start() {
       if (running) return;
+      perfMonitor.resetFrames();
       running = true;
       lastFrameTs = null;
       rafId = scheduler.requestFrame(onFrame);
@@ -183,6 +243,8 @@ export function createGameLoopController(
       uninstallAutoPause ??= installAutoPause(controller);
     },
     stop() {
+      cancelJump(activeJump);
+      perfMonitor.resetFrames();
       if (rafId !== null) {
         scheduler.cancelFrame(rafId);
         rafId = null;
@@ -209,12 +271,27 @@ export function createGameLoopController(
     },
     stepDays(n) {
       const s = store.getState();
+      if (s.game === null) return;
       if (!Number.isInteger(n) || n < 1) return;
       if (s.session.debug.jumping !== null) return; // 已在跳轉中
       if (s.session.fatalError !== null) return;
+      if (s.session.viewportBlocked) return;
+      if (s.session.screen === 'battle') return;
       controller.requestPause('user');
-      s.actions.setDebugJumping({ totalDays: n, doneDays: 0 });
-      stepDaysChunk();
+      const current = store.getState();
+      if (
+        current.game !== s.game ||
+        current.session.debug.jumping !== null ||
+        current.session.fatalError !== null ||
+        current.session.viewportBlocked ||
+        current.session.screen === 'battle'
+      )
+        return;
+      cancelJump(activeJump);
+      const jump: DebugJump = { game: s.game, progress: { totalDays: n, doneDays: 0 } };
+      activeJump = jump;
+      current.actions.setDebugJumping(jump.progress);
+      stepDaysChunk(jump);
     },
     isRunning() {
       return running;

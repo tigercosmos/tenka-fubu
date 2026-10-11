@@ -1,0 +1,45 @@
+{
+  "license": "project-original",
+  "asset": "public/assets/textures/terrain-mountain-hida-massif-v2.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": ["assets/generated/source-images/terrain-mountain-hida-massif-v2-input.png"],
+  "sourceImage": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-793f1652-b998-44ef-8440-efb5b9b0e580.png",
+  "sourceImageSha256": "8db9a571f4dffbfedcba8eae85aaa46ed5972515c26c2de29348ecd885747416",
+  "sha256": "8db9a571f4dffbfedcba8eae85aaa46ed5972515c26c2de29348ecd885747416",
+  "bytes": 2078924,
+  "dimensions": {
+    "width": 1024,
+    "height": 1536
+  },
+  "alphaInspection": {
+    "zeroAlphaPixels": 1060963,
+    "partialAlphaPixels": 511901,
+    "opaquePixels": 0,
+    "centerAlpha": 253
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 244,
+    "y": 77,
+    "width": 582,
+    "height": 1376
+  },
+  "processing": "Copied built-in output byte-for-byte; no raster edit, resize, crop, stretch or rotation.",
+  "prompt": "Use case: precise-object-edit\nInput image: edit target, original transparent Hida massif with one tall broad central crag, a shorter northern group and lower southern broken shoulders. Keep the new asymmetrical three-group ridge topology, irregular branching spurs and unequal summit spacing. Do NOT restore the old repeated sawtooth pattern.\nChange only the framing and perimeter: redraw the complete same connected subject smaller within the portrait1024x1536canvas, keeping its camera angle, northwest light, olive tree crowns and gray-brown summer rock. Aim actual alpha>8 content about530px wide and1350px high, centered, with at least80px transparent top and bottom margins. Keep visible width/height0.38–0.40 naturally, no stretch, crop or rotation. Current content646x1502 at235,23 has inadequate top/bottom breathing room.\nRemove the smooth olive atmospheric haze outside tree crowns; tree tips transition directly to genuine transparent alpha. No ground tile, rectangle, exterior cast shadow or halo. Maintain all internal material detail and the three unequal connected groups. No text, roads, water, structures, troops, snow, logo or watermark. Original game sprite only.",
+  "compositionQualification": {
+    "requestedVisibleAspectRange": [0.38, 0.4],
+    "actualVisibleAspect": 0.42296511627906974,
+    "requestedTransparentMarginPixels": 80,
+    "actualMarginsPixels": {
+      "left": 244,
+      "top": 77,
+      "right": 198,
+      "bottom": 83
+    },
+    "qualification": "The visible aspect exceeds the requested range. The top margin misses 80 pixels by three pixels. Full-height placement remains possible without stretching.",
+    "visualReviewStatus": "Native scene review remains required. The source contains a soft woodland fringe despite the request to remove haze."
+  }
+}

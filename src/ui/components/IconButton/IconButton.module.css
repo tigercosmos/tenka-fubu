@@ -2,38 +2,47 @@
   display: inline-grid;
   place-items: center;
   border: 1px solid transparent;
-  border-radius: var(--radius-sm);
-  color: var(--ink-700);
+  border-radius: var(--radius-control);
+  color: inherit;
   background: transparent;
   cursor: pointer;
   padding: 0;
   transition: background var(--duration-fast);
 }
 .button:hover {
-  background: var(--washi-200);
+  background: color-mix(in srgb, currentColor 12%, transparent);
 }
 .button:disabled {
   opacity: 0.45;
   pointer-events: none;
 }
-.button svg {
-  width: 75%;
-  height: 75%;
-}
 .sm {
-  width: 24px;
-  height: 24px;
+  width: max(32px, 2rem);
+  height: max(32px, 2rem);
+}
+.sm svg {
+  width: max(16px, 1rem);
+  height: max(16px, 1rem);
 }
 .md {
-  width: 32px;
-  height: 32px;
+  width: max(32px, 2rem);
+  height: max(32px, 2rem);
+}
+.md svg {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 .lg {
   /* M6-V9 §4.5：左欄四域鈕 56×56 */
-  width: 56px;
-  height: 56px;
+  width: 3.5rem;
+  height: 3.5rem;
+}
+.lg svg {
+  width: 2.625rem;
+  height: 2.625rem;
 }
 .toggled {
-  color: var(--accent-gold-text);
-  background: color-mix(in srgb, var(--accent-gold) 20%, transparent);
+  color: inherit;
+  border-color: currentColor;
+  background: color-mix(in srgb, currentColor 15%, transparent);
 }

@@ -1,0 +1,197 @@
+{
+  "formatVersion": 1,
+  "appVersion": "0.0.0-mini",
+  "scenarioId": "mini",
+  "seed": 42,
+  "playerClanId": "clan.alpha",
+  "balanceHash": "824f87bf28bccf9a",
+  "truncated": false,
+  "finalDay": 31,
+  "finalHash": "f448ba666e2dd981",
+  "entries": [
+    {
+      "day": 1,
+      "seq": 0,
+      "command": {
+        "type": "enactPolicy",
+        "clanId": "clan.alpha",
+        "policyId": "pol.rakuichi"
+      }
+    },
+    {
+      "day": 1,
+      "seq": 1,
+      "command": {
+        "type": "march",
+        "clanId": "clan.alpha",
+        "originCastleId": "castle.a1",
+        "leaderId": "off.alpha-lord",
+        "deputyIds": [],
+        "soldiers": 2000,
+        "food": 2000,
+        "targetNodeId": "dist.b2x"
+      }
+    },
+    {
+      "day": 1,
+      "seq": 2,
+      "command": {
+        "type": "march",
+        "clanId": "clan.alpha",
+        "originCastleId": "castle.a2",
+        "leaderId": "off.alpha-taisho-a",
+        "deputyIds": [],
+        "soldiers": 800,
+        "food": 800,
+        "targetNodeId": "dist.b2x"
+      }
+    },
+    {
+      "day": 23,
+      "seq": 0,
+      "command": {
+        "type": "march",
+        "clanId": "clan.beta",
+        "originCastleId": "castle.b1",
+        "leaderId": "off.beta-lord",
+        "deputyIds": [],
+        "soldiers": 1400,
+        "food": 1680,
+        "targetNodeId": "castle.b2"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 0,
+      "command": {
+        "type": "setConscriptPolicy",
+        "clanId": "clan.beta",
+        "castleId": "castle.b1",
+        "policy": "high"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 1,
+      "command": {
+        "type": "setConscriptPolicy",
+        "clanId": "clan.beta",
+        "castleId": "castle.b2",
+        "policy": "high"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 2,
+      "command": {
+        "type": "buildFacility",
+        "clanId": "clan.beta",
+        "castleId": "castle.b1",
+        "facilityTypeId": "fac.ichi"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 3,
+      "command": {
+        "type": "buildFacility",
+        "clanId": "clan.beta",
+        "castleId": "castle.b2",
+        "facilityTypeId": "fac.ichi"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 4,
+      "command": {
+        "type": "enactPolicy",
+        "clanId": "clan.beta",
+        "policyId": "pol.meyasubako"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 5,
+      "command": {
+        "type": "setDevelopFocus",
+        "clanId": "clan.beta",
+        "districtId": "dist.b1y",
+        "focus": "commerce"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 6,
+      "command": {
+        "type": "setDevelopFocus",
+        "clanId": "clan.beta",
+        "districtId": "dist.b1x",
+        "focus": "commerce"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 7,
+      "command": {
+        "type": "setDevelopFocus",
+        "clanId": "clan.beta",
+        "districtId": "dist.b2y",
+        "focus": "commerce"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 28,
+      "seq": 0,
+      "command": {
+        "type": "march",
+        "clanId": "clan.beta",
+        "originCastleId": "castle.b2",
+        "leaderId": "off.beta-lord",
+        "deputyIds": [],
+        "soldiers": 1700,
+        "food": 2040,
+        "targetNodeId": "castle.a2"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    }
+  ]
+}

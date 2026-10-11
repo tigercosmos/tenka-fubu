@@ -190,6 +190,20 @@ describe('MapInteraction（idle 模式，04 §3.12.2；M2-17 驗收）', () => {
     });
   });
 
+  it('idle army hover has a distinct event with current pointer coordinates', () => {
+    const { interaction, emit, graph } = setup();
+    interaction.setStaticData({ graph });
+    interaction.setArmies([{ id: 'army.000001', pos: { x: 100, y: 100 } }]);
+    interaction.handleMove(100, 100, 21, 31);
+    expect(emit).toHaveBeenCalledTimes(1);
+    expect(emit).toHaveBeenCalledWith({
+      type: 'armyHover',
+      id: 'army.000001',
+      screenX: 21,
+      screenY: 31,
+    });
+  });
+
   it('hover 移出節點：發 nodeHover(id:null)', () => {
     const { interaction, emit, graph } = setup();
     interaction.setStaticData({ graph });

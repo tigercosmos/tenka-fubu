@@ -1,0 +1,17 @@
+{
+  "asset": "public/assets/textures/terrain-mountain-woodland-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-09",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sha256": "253ee592dbc6d2db59b46b63651729fc383581025a3ca75831b0d4eecb6a19bd",
+  "dimensions": { "width": 1024, "height": 1536 },
+  "alphaInspection": {
+    "zeroAlphaPixels": 626390,
+    "partialAlphaPixels": 946474,
+    "opaquePixels": 0,
+    "centerAlpha": 252
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: original transparent terrain sprite for a historical Japanese grand-strategy game map.\nPrimary request: a natural Japanese mountain ridge with dense mixed cedar woodland and weathered rock, suitable for a convincing 2.5D landscape map rather than low-poly toy geometry.\nStyle/medium: finely painted realistic miniature terrain with smooth forms, detailed canopy clusters, natural rock strata, restrained texture. Original design, not a copy of any existing game artwork.\nComposition/framing: one isolated elongated ridge running vertically across the image, seen from a fixed high oblique overhead angle about 60 degrees. All mountain and forest inside the frame with generous transparent margins; no rectangular ground plate, no floating island. Foothills fade naturally to genuinely transparent alpha so it can blend over a sage-green game map. No horizon.\nLighting: soft northwest daylight; coherent gentle southeast shadows integrated in the terrain, no large external cast shadow.\nColor palette: muted olive/sage vegetation, cool grey stone, believable soft sunlit peaks. Keep the silhouette readable at 150-400 screen pixels.\nConstraints: mountain/trees only, no castles, people, buildings, roads, rivers, ocean, snowy peaks, UI, labels, symbols, border, text, logo or watermark. No chunky polygon facets, no angular geometric tree cones, no dramatic fantasy peaks, no opaque backdrop. Genuinely transparent background."
+}

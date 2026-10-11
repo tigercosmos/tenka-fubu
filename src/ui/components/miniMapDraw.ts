@@ -4,8 +4,8 @@
 // - 座標換算（§5.5）：`s = size / 4096`；`world→mini`：`(wx*s, wy*s)`；`mini→world` 為其逆換算。
 //   世界邊長 4096 取自 `@ui/map/mapViewConfig` 之 `WORLD_SIZE`（單一真相見該檔頭註解：
 //   投影常數之權威為 `@data/map/projection` `PROJECTION.worldSize`，此處沿用既有 UI 層慣例）。
-// - 繪製順序（§5.5）：輪廓多邊形（washi300 填、ink300 0.5px 描）→ 城點（3px 方點，clanColor）
-//   → 部隊點（2px 圓點，clanColorBright）→（框層）viewport 矩形（gold 1.5px）。
+// - Atlas presentation: opaque map sea → map land (ink300 0.5px outline) → unchanged
+//   clan castle/army points → gold 1.5px viewport with an ink contrast keyline.
 //
 // 本檔為**純函式**：只對傳入的 2D context 呼叫繪製指令，不持有狀態、不建立 canvas、不碰 DOM
 // 事件；`MiniMapDrawCtx` 為 `CanvasRenderingContext2D` 的最小子集介面（僅本檔用到的成員），
@@ -13,7 +13,7 @@
 // mock 直接驗證繪製指令序列，無需真的 canvas 2D 實作（jsdom 預設不含，17 §3.2）。
 
 import type { MiniMapModel, MiniMapPoint } from '@core/state/selectors';
-import { clanColorHex } from '@ui/styles/tokens';
+import { clanColorHex, MAP_PALETTE_HEX } from '@ui/styles/tokens';
 import { TOKENS } from '@ui/styles/tokens';
 import { WORLD_SIZE } from '@ui/map/mapViewConfig';
 
@@ -82,8 +82,10 @@ function pointColor(point: MiniMapPoint, bright: boolean): string {
  */
 export function drawMiniMapBase(ctx: MiniMapDrawCtx, model: MiniMapModel, size: number): void {
   ctx.clearRect(0, 0, size, size);
-
-  ctx.fillStyle = TOKENS.color.washi300;
+  // Explicit sea keeps the atlas independent of its surrounding panel surface.
+  ctx.fillStyle = MAP_PALETTE_HEX.seaDeep;
+  ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = MAP_PALETTE_HEX.landBase;
   ctx.strokeStyle = TOKENS.color.ink300;
   ctx.lineWidth = OUTLINE_STROKE_WIDTH;
   for (const polygon of model.outline) {
@@ -132,6 +134,10 @@ export function drawMiniMapViewportFrame(
   ctx.clearRect(0, 0, size, size);
   const topLeft = worldToMini({ x: viewport.x, y: viewport.y }, size);
   const s = size / WORLD_SIZE;
+  // A quiet ink keyline separates the gold locator from the light land fill.
+  ctx.strokeStyle = TOKENS.color.ink900;
+  ctx.lineWidth = VIEWPORT_FRAME_WIDTH + 2;
+  ctx.strokeRect(topLeft.x, topLeft.y, viewport.width * s, viewport.height * s);
   ctx.strokeStyle = TOKENS.color.accentGold;
   ctx.lineWidth = VIEWPORT_FRAME_WIDTH;
   ctx.strokeRect(topLeft.x, topLeft.y, viewport.width * s, viewport.height * s);

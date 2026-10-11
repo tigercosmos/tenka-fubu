@@ -7,7 +7,7 @@
 import type { ReactElement } from 'react';
 import { t } from '@i18n/zh-TW';
 import { buildEndingVM } from '@core/state/selectors';
-import { useGameSelector } from '../hooks/useGameSelector';
+import { makeCachedSelector, useCachedGameSelector } from '../hooks/useGameSelector';
 import styles from './EndingScreen.module.css';
 
 export interface EndingScreenProps {
@@ -33,8 +33,10 @@ function sloganKey(endingId: string): string {
   }
 }
 
+const selectEndingVM = makeCachedSelector(buildEndingVM);
+
 export function EndingScreen({ onContinue, onObserve, onTitle }: EndingScreenProps): ReactElement {
-  const vm = useGameSelector(buildEndingVM);
+  const vm = useCachedGameSelector(selectEndingVM);
   if (vm === null) {
     // 防禦：gameOver 已被解除（如 StrictMode 雙渲染間 acknowledge）時不渲染內容，交由 App 切場。
     return <div data-testid="screen-ending" />;

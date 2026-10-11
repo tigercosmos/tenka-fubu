@@ -3,6 +3,34 @@ import { resetGameStoreForTests, store as gameStore } from '@app/store';
 import { uiStore } from './uiStore';
 
 describe('UI navigation store', () => {
+  it('battle offer owns only its arrival pause and restores after the complete FIFO', () => {
+    gameStore.getState().actions.setSpeed('x2');
+    gameStore.getState().actions.requestPause('battleOffer');
+    const actions = uiStore.getState().actions;
+    actions.enqueueModal({ id: 'battlePrompt', params: {}, pausesTime: true });
+    actions.enqueueModal({ id: 'confirm', params: {}, pausesTime: false });
+    actions.closeModal();
+    expect(gameStore.getState().session.speed).toBe('paused');
+    actions.closeModal();
+    expect(gameStore.getState().session.speed).toBe('x2');
+  });
+
+  it.each(['user', 'windowHidden', 'viewportTooSmall', 'fatalError'] as const)(
+    'declining a battle offer preserves an existing or newer %s pause',
+    (reason) => {
+      gameStore.getState().actions.setSpeed('x5');
+      gameStore.getState().actions.requestPause(reason);
+      const actions = uiStore.getState().actions;
+      actions.enqueueModal({ id: 'battlePrompt', params: {}, pausesTime: true });
+      actions.closeModal();
+      expect(gameStore.getState().session.speed).toBe('paused');
+      gameStore.getState().actions.setSpeed('x5');
+      actions.enqueueModal({ id: 'battlePrompt', params: {}, pausesTime: true });
+      gameStore.getState().actions.requestPause(reason);
+      actions.closeModal();
+      expect(gameStore.getState().session.speed).toBe('paused');
+    },
+  );
   beforeEach(() => {
     resetGameStoreForTests();
     uiStore.getState().actions.reset();
@@ -20,6 +48,32 @@ describe('UI navigation store', () => {
       { id: 'policy', params: {} },
       { id: 'officers', params: { tab: 'all' } },
     ]);
+  });
+
+  it('keeps presentation settings across navigation resets without importing settings-only fields', () => {
+    const settings = {
+      uiScale: 1.25,
+      mapLabelDensity: 'low' as const,
+      effectsEnabled: false,
+      notificationFilter: 'critical' as const,
+      defaultSpeed: 'x5',
+    };
+    const a = uiStore.getState().actions;
+    a.applyPresentationSettings(settings);
+    a.reset();
+    expect(uiStore.getState()).toMatchObject({
+      uiScale: 1.25,
+      mapLabelDensity: 'low',
+      effectsEnabled: false,
+      notificationFilter: 'critical',
+    });
+    expect('defaultSpeed' in uiStore.getState()).toBe(false);
+    a.applyPresentationSettings({
+      uiScale: 1,
+      mapLabelDensity: 'medium',
+      effectsEnabled: true,
+      notificationFilter: 'all',
+    });
   });
 
   it('pumps modals FIFO and restores speed only after the queue drains', () => {

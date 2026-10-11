@@ -1,0 +1,154 @@
+{
+  "formatVersion": 1,
+  "appVersion": "0.0.0-mini",
+  "scenarioId": "mini",
+  "seed": 42,
+  "playerClanId": "clan.alpha",
+  "balanceHash": "824f87bf28bccf9a",
+  "truncated": false,
+  "finalDay": 31,
+  "finalHash": "54aa90bddcee85aa",
+  "entries": [
+    {
+      "day": 24,
+      "seq": 0,
+      "command": {
+        "type": "setConscriptPolicy",
+        "clanId": "clan.beta",
+        "castleId": "castle.b1",
+        "policy": "low"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 1,
+      "command": {
+        "type": "buildFacility",
+        "clanId": "clan.beta",
+        "castleId": "castle.b1",
+        "facilityTypeId": "fac.ichi"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 2,
+      "command": {
+        "type": "enactPolicy",
+        "clanId": "clan.beta",
+        "policyId": "pol.meyasubako"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 3,
+      "command": {
+        "type": "setDevelopFocus",
+        "clanId": "clan.beta",
+        "districtId": "dist.b1y",
+        "focus": "commerce"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 4,
+      "command": {
+        "type": "setDevelopFocus",
+        "clanId": "clan.beta",
+        "districtId": "dist.b1x",
+        "focus": "commerce"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 5,
+      "command": {
+        "type": "setDevelopFocus",
+        "clanId": "clan.beta",
+        "districtId": "dist.b2x",
+        "focus": "commerce"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 6,
+      "command": {
+        "type": "setDevelopFocus",
+        "clanId": "clan.beta",
+        "districtId": "dist.b2y",
+        "focus": "commerce"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 25,
+      "seq": 0,
+      "command": {
+        "type": "startDiploWork",
+        "clanId": "clan.beta",
+        "target": "clan.alpha",
+        "executorId": "off.beta-lord"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 29,
+      "seq": 0,
+      "command": {
+        "type": "rewardOfficer",
+        "clanId": "clan.alpha",
+        "officerId": "off.alpha-taisho-b",
+        "tier": "small"
+      }
+    },
+    {
+      "day": 30,
+      "seq": 0,
+      "command": {
+        "type": "rewardOfficer",
+        "clanId": "clan.alpha",
+        "officerId": "off.alpha-taisho-b",
+        "tier": "small"
+      }
+    },
+    {
+      "day": 31,
+      "seq": 0,
+      "command": {
+        "type": "rewardOfficer",
+        "clanId": "clan.alpha",
+        "officerId": "off.alpha-taisho-b",
+        "tier": "small"
+      }
+    }
+  ]
+}

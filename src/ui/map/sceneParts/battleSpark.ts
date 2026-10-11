@@ -5,6 +5,7 @@ import { getSharedParticlePool, type LineParticleRequest, type ParticlePool } fr
 
 export const BATTLE_SPARK_TIMING = {
   intervalMs: 900,
+  assaultIntervalMs: 1200,
   lifetimeMs: 400,
 } as const;
 
@@ -88,15 +89,21 @@ export function createBattleSpark(
   options: {
     readonly particlePool?: ParticlePool;
     readonly random?: RandomSource;
+    readonly intervalMs?: number;
+    readonly showIcon?: boolean;
   } = {},
 ): BattleSparkPart {
   const particlePool = options.particlePool ?? getSharedParticlePool();
   const random = options.random ?? Math.random;
+  const intervalMs = options.intervalMs ?? BATTLE_SPARK_TIMING.intervalMs;
+  if (!Number.isFinite(intervalMs) || intervalMs <= 0)
+    throw new RangeError('Invalid spark interval');
   const container = new Container();
   const icon = new Graphics();
   container.label = 'battleSpark';
   container.addChild(icon);
   drawBattleSparkIcon(icon);
+  icon.visible = options.showIcon !== false;
 
   let nextBurstAtMs: number | null = null;
   let lastTimeMs: number | null = null;
@@ -119,10 +126,10 @@ export function createBattleSpark(
       }
 
       if (nextBurstAtMs === null) nextBurstAtMs = timeMs;
-      while (nextBurstAtMs <= timeMs) {
-        particlePool.advanceTo(nextBurstAtMs);
-        particlePool.spawn(makeBattleSparkParticles(props.pos, random), nextBurstAtMs);
-        nextBurstAtMs += BATTLE_SPARK_TIMING.intervalMs;
+      if (nextBurstAtMs <= timeMs) {
+        // A suspended/slow frame produces one current burst, never historical catch-up bursts.
+        particlePool.spawn(makeBattleSparkParticles(props.pos, random), timeMs);
+        nextBurstAtMs += (Math.floor((timeMs - nextBurstAtMs) / intervalMs) + 1) * intervalMs;
       }
       particlePool.advanceTo(timeMs);
     },

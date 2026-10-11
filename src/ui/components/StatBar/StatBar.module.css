@@ -8,8 +8,9 @@
   min-width: 2em;
 }
 .track {
-  height: 10px;
-  background: var(--washi-300);
+  height: 0.625rem;
+  border-radius: 1px;
+  background: var(--surface-hover);
   position: relative;
   overflow: hidden;
 }
@@ -21,13 +22,13 @@
   left: 0;
 }
 .base {
-  background: var(--accent-indigo);
+  background: var(--status-info);
 }
 .over {
-  background: var(--accent-gold);
+  background: var(--brand-gold);
 }
 .compare {
-  background: var(--accent-vermilion);
+  background: var(--status-danger);
   opacity: 0.45;
   z-index: 1;
 }

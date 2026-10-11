@@ -1,32 +1,126 @@
 .body {
   display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+  font-size: max(12px, var(--font-size-sm));
+}
+.origin {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-command);
+  color: var(--text-inverse);
+  border-left: 3px solid var(--brand-gold);
+  font-weight: 700;
+}
+.composition {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: var(--space-4);
-  min-height: 32rem;
+  align-items: start;
+}
+.personnel,
+.orders {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.personnel section,
+.orders section {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.body h3 {
+  margin: 0;
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid var(--stroke-strong);
+  color: var(--text-primary);
+  font-family: var(--font-family-display);
+  font-size: max(12px, var(--font-size-sm));
+  letter-spacing: 0.04em;
+}
+.orders {
+  padding: var(--space-3);
+  background: var(--surface-base);
+  border: 1px solid var(--stroke-subtle);
+  font-variant-numeric: tabular-nums;
+}
+.orders p {
+  margin: 0;
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+.body small,
+.body button,
+.body input,
+.body label,
+.orders p {
+  font-size: max(12px, var(--font-size-sm));
+}
+.orders > button {
+  min-height: max(32px, 2rem);
+  width: 100%;
+}
+@media (max-width: 700px) {
+  .composition {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 .officers {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-2);
 }
 .officers button[aria-pressed='true'] {
-  outline: 2px solid var(--accent-gold);
+  outline: 2px solid var(--brand-gold);
+  outline-offset: -2px;
+  background: var(--surface-hover);
+  font-weight: 700;
+}
+.officerCard {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+  max-width: 100%;
+  padding: var(--space-2);
+  border: 1px solid var(--stroke-subtle);
+  background: var(--surface-panel);
+}
+.officerCard button {
+  min-height: max(32px, 2rem);
+  width: 100%;
+  text-align: left;
+  overflow-wrap: anywhere;
+  font-size: max(12px, var(--font-size-sm));
+}
+.officerCard small {
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+.tactics {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding-left: var(--space-4);
 }
 .targetStrip {
   position: fixed;
   z-index: var(--z-modal);
   top: var(--space-2);
   left: 50%;
-  width: min(480px, calc(100vw - 2rem));
-  min-height: 64px;
+  width: min(30rem, calc(100vw - 2rem));
+  min-height: 4rem;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
-  background: var(--washi-100);
-  border: var(--border-strong);
-  box-shadow: var(--shadow-2);
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  border: 1px solid var(--brand-green);
+  box-shadow: var(--shadow-panel);
+  border-radius: var(--radius-panel);
 }
 
 /* ── M6-V9b §3.2：pickTarget 模式層（底中藥丸＋右側目標卡） ── */
@@ -43,16 +137,16 @@
 .cancelPill {
   min-width: 8.5rem;
   padding: var(--space-2) var(--space-4);
-  border-radius: 999px;
-  border: var(--border-strong);
-  background: var(--washi-100);
-  color: var(--ink-900);
+  border-radius: var(--radius-control);
+  border: 1px solid var(--stroke-strong);
+  background: var(--surface-panel);
+  color: var(--text-primary);
   font-size: var(--font-size-md, 1rem);
-  box-shadow: var(--shadow-2);
+  box-shadow: var(--shadow-panel);
 }
 .confirmPill:not(:disabled) {
-  background: color-mix(in srgb, var(--accent-gold) 20%, var(--washi-100));
-  color: var(--accent-gold-text);
+  background: var(--brand-red);
+  color: var(--text-inverse);
   font-weight: 700;
 }
 .confirmPill:disabled {
@@ -61,20 +155,50 @@
 .targetCard {
   position: fixed;
   right: var(--space-3);
-  bottom: 260px; /* 讓開 MiniMap（224＋邊距） */
-  width: 260px;
+  bottom: 16.25rem; /* 讓開 MiniMap（224＋邊距） */
+  width: 16.25rem;
   padding: var(--space-3);
-  background: var(--washi-100);
-  border: var(--border-strong);
-  box-shadow: var(--shadow-2);
+  background: var(--surface-hover);
+  color: var(--text-primary);
+  border: 1px solid var(--brand-green);
+  box-shadow: var(--shadow-panel);
   z-index: var(--z-modal);
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  border-radius: var(--radius-panel);
 }
 .targetCard h3 {
   margin: 0;
   font-size: var(--font-size-md, 1rem);
-  border-bottom: 1px solid var(--ink-300);
+  color: var(--brand-green);
+  font-family: var(--font-family-display);
+  border-bottom: 1px solid color-mix(in srgb, var(--brand-green) 40%, transparent);
   padding-bottom: var(--space-1);
+}
+.targetCard small {
+  color: var(--text-secondary);
+}
+.targetStrip button,
+.targetCard button {
+  color: var(--text-primary);
+  background: var(--surface-hover);
+  border-color: var(--brand-green);
+}
+.targetStrip button:focus-visible,
+.targetCard button:focus-visible {
+  outline: 2px solid var(--brand-green);
+  outline-offset: 2px;
+}
+
+[data-ui-dialog]:has(.body) > footer button {
+  font-size: max(12px, var(--font-size-sm));
+}
+
+.body button:disabled,
+[data-ui-dialog]:has(.body) > footer button:disabled {
+  opacity: 1;
+  color: var(--text-secondary);
+  background: var(--surface-raised);
+  border-color: var(--stroke-subtle);
 }

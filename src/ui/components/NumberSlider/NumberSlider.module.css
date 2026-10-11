@@ -10,7 +10,7 @@
 }
 .controls > input {
   flex: 1;
-  accent-color: var(--accent-gold);
+  accent-color: var(--brand-green);
 }
 .value {
   display: flex;
@@ -18,8 +18,8 @@
 }
 .value input {
   width: 8ch;
-  background: var(--washi-300);
-  border: var(--border-thin);
+  background: var(--surface-hover);
+  border: 1px solid var(--stroke-subtle);
   padding: var(--space-1);
   font: inherit;
   text-align: right;
@@ -30,8 +30,8 @@
   gap: var(--space-1);
 }
 .quick button {
-  border: var(--border-thin);
-  background: var(--washi-100);
+  border: 1px solid var(--stroke-subtle);
+  background: var(--surface-panel);
   font: inherit;
   padding: var(--space-1) var(--space-2);
   cursor: pointer;

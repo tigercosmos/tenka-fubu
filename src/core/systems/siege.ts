@@ -1,18 +1,26 @@
 import { BAL } from '../balance';
+import { getEffectiveOfficerStat } from '../battleStats';
 import { defaultDiplomacyRow, nextId, pairKey } from '../state/serialize';
 import type { Army, Castle, GameState, Siege } from '../state/gameState';
-import type { ArmyId, CastleId, ClanId } from '../state/ids';
+import type { ArmyId, CastleId, ClanId, OfficerId } from '../state/ids';
 import type { GameEvent } from '../state/events';
 import { computeArmyPower } from './fieldCombat';
 import { createRngStream } from '../rng';
 import {
   appointClanSuccessor,
   dieOfficer,
+  gainMerit,
   releaseOfficerAssignments,
   releaseOrphanedCaptives,
 } from './officers';
 import { nearestOwnedCastleByTravelTime } from './castleSelection';
 import { garrisonFoodMonthly } from '../domestic';
+import { dissolveCorps } from './corps';
+import { taimeiEffects } from './events/taimei';
+import { traitModifier } from '../traits';
+import { clearExtinctClanWork, collapseExtinctClanCourt } from './clanExtinction';
+import { detachArmyFromSiege } from './siegeMembership';
+export { detachArmyFromSiege } from './siegeMembership';
 
 /** Future facility seam; no currently shipped facility grants siege mitigation. */
 export function facilitySiegeMitigation(
@@ -73,34 +81,6 @@ export function beginSiege(state: GameState, castleId: CastleId, armyId: ArmyId)
   ];
 }
 
-/** Remove one army from a siege while keeping the bidirectional membership invariant intact. */
-export function detachArmyFromSiege(state: GameState, armyId: ArmyId): GameEvent[] {
-  const army = state.armies[armyId];
-  const siege =
-    army?.siegeId === null || army?.siegeId === undefined
-      ? Object.values(state.sieges).find((candidate) => candidate.attackerArmyIds.includes(armyId))
-      : state.sieges[army.siegeId];
-  if (!siege) {
-    if (army) army.siegeId = null;
-    return [];
-  }
-  siege.attackerArmyIds = siege.attackerArmyIds.filter((candidate) => candidate !== armyId);
-  if (army) army.siegeId = null;
-  if (siege.attackerArmyIds.length > 0) return [];
-  delete state.sieges[siege.id];
-  return [
-    {
-      type: 'siege.ended',
-      day: state.time.day,
-      clanIds: [siege.attackerClanId],
-      siegeId: siege.id,
-      castleId: siege.castleId,
-      fallen: false,
-      newOwnerClanId: null,
-    },
-  ];
-}
-
 function distributeLoss(armies: readonly Army[], total: number): void {
   const troops = armies.reduce((sum, army) => sum + army.soldiers, 0);
   if (troops <= 0) return;
@@ -118,7 +98,7 @@ function distributeLoss(armies: readonly Army[], total: number): void {
 function castleLordLdr(state: Readonly<GameState>, castleId: CastleId): number {
   const lordId = state.castles[castleId]?.lordId;
   const lord = lordId ? state.officers[lordId] : undefined;
-  return lord ? lord.ldr + lord.statGrowth.ldr : 0;
+  return lord ? getEffectiveOfficerStat(lord, 'ldr') : 0;
 }
 
 function endUnfallen(state: GameState, siege: Siege, events: GameEvent[]): void {
@@ -145,12 +125,14 @@ function absorbDefeatedClan(
   state: GameState,
   defeatedClanId: ClanId,
   conquerorClanId: ClanId,
+  events: GameEvent[],
 ): void {
   const clan = state.clans[defeatedClanId];
   if (clan) {
     clan.alive = false;
     clan.destroyedDay = state.time.day;
   }
+  clearExtinctClanWork(state, defeatedClanId);
   const defeatedCorpsIds = new Set(
     Object.values(state.corps)
       .filter((corps) => corps.clanId === defeatedClanId)
@@ -177,13 +159,16 @@ function absorbDefeatedClan(
     district.stewardId = null;
     district.subjugation = null;
   }
-  for (const corpsId of defeatedCorpsIds) delete state.corps[corpsId];
+  for (const corpsId of defeatedCorpsIds) dissolveCorps(state, corpsId);
   for (const army of Object.values(state.armies)) {
-    if (army.clanId === defeatedClanId) delete state.armies[army.id];
-    else if (army.corpsId !== null && defeatedCorpsIds.has(army.corpsId)) army.corpsId = null;
+    if (army.clanId === defeatedClanId) {
+      events.push(...detachArmyFromSiege(state, army.id));
+      delete state.armies[army.id];
+    } else if (army.corpsId !== null && defeatedCorpsIds.has(army.corpsId)) army.corpsId = null;
   }
   for (const officer of Object.values(state.officers)) {
     if (officer.status !== 'serving' || officer.clanId !== defeatedClanId) continue;
+    events.push(...releaseOfficerAssignments(state, officer.id));
     officer.status = 'ronin';
     officer.clanId = null;
     officer.armyId = null;
@@ -198,6 +183,19 @@ function fallCastle(
   events: GameEvent[],
 ): void {
   const castle = state.castles[siege.castleId]!;
+  // Capture the actual attacking roster before fall/capture assignment cleanup.
+  // Commander rounding precedes gainMerit's trait multiplier (06 §3.5/§5.7).
+  const meritRecipients = new Map<OfficerId, number>();
+  for (const army of attackers) {
+    for (const officerId of [army.leaderId, ...army.deputyIds]) {
+      const officer = state.officers[officerId];
+      if (officer?.status !== 'serving' || officer.clanId !== army.clanId) continue;
+      const amount = Math.round(
+        BAL.meritSiegeWin * (officerId === army.leaderId ? BAL.meritCommanderMult : 1),
+      );
+      meritRecipients.set(officerId, amount);
+    }
+  }
   const oldOwner = castle.ownerClanId;
   const defeatedCorpsId = castle.corpsId;
   castle.ownerClanId = siege.attackerClanId;
@@ -207,6 +205,12 @@ function fallCastle(
   castle.betrayalReadyTargetLordId = null;
   castle.corpsId = null;
   castle.directControl = true;
+  // A captured member is no longer an origin controlled by its former corps.
+  if (defeatedCorpsId !== null) {
+    for (const army of Object.values(state.armies))
+      if (army.corpsId === defeatedCorpsId && army.originCastleId === castle.id)
+        army.corpsId = null;
+  }
   castle.durability = Math.ceil(
     Math.max(castle.durability, castle.maxDurability * BAL.postSiegeDurabilityRatio),
   );
@@ -229,15 +233,7 @@ function fallCastle(
     defeatedCorpsId !== null &&
     !Object.values(state.castles).some((candidate) => candidate.corpsId === defeatedCorpsId)
   ) {
-    const defeatedCorps = state.corps[defeatedCorpsId];
-    const oldOwnerSurvives = Object.values(state.castles).some(
-      (candidate) => candidate.ownerClanId === oldOwner,
-    );
-    if (defeatedCorps && oldOwnerSurvives) state.clans[oldOwner]!.gold += defeatedCorps.gold;
-    delete state.corps[defeatedCorpsId];
-    for (const army of Object.values(state.armies)) {
-      if (army.corpsId === defeatedCorpsId) army.corpsId = null;
-    }
+    dissolveCorps(state, defeatedCorpsId);
   }
   const refuge = nearestOwnedCastleByTravelTime(state, oldOwner, castle.id)?.castle;
   const oldClan = state.clans[oldOwner];
@@ -269,7 +265,7 @@ function fallCastle(
     } else if (rng.chance(BAL.siegeDeathChanceEscapeFail)) {
       events.push(...dieOfficer(state, officer.id, castle.id, true));
     } else {
-      releaseOfficerAssignments(state, officer.id);
+      events.push(...releaseOfficerAssignments(state, officer.id));
       officer.status = 'captive';
       officer.capturedByClanId = siege.attackerClanId;
       officer.locationCastleId = castle.id;
@@ -295,12 +291,14 @@ function fallCastle(
       else {
         oldClan.alive = false;
         oldClan.destroyedDay = state.time.day;
-        if (oldOwner === state.meta.playerClanId) state.events.flags['defeat.no-heir'] = 1;
+        if (oldOwner === state.meta.playerClanId && !state.ai.allAi)
+          state.events.flags['defeat.no-heir'] = 1;
       }
     }
   }
   if (!oldClan?.alive) {
-    absorbDefeatedClan(state, oldOwner, siege.attackerClanId);
+    absorbDefeatedClan(state, oldOwner, siege.attackerClanId, events);
+    collapseExtinctClanCourt(state, oldOwner, (event) => events.push(event));
     events.push({
       type: 'clan.destroyed',
       day: state.time.day,
@@ -313,6 +311,9 @@ function fallCastle(
     army.siegeId = null;
     army.status = 'holding';
     army.morale = Math.min(100, army.morale + BAL.moraleVictoryGain);
+  }
+  for (const [officerId, amount] of meritRecipients) {
+    gainMerit(state.officers[officerId]!, amount, ['ldr', 'val']);
   }
   state.meta.territoryChangedToday = true;
   delete state.sieges[siege.id];
@@ -357,23 +358,46 @@ export function siegeSystem(state: GameState): GameEvent[] {
       facilitySiegeMitigation(state, castle),
     );
     const attackPower = attackers.reduce((sum, army) => sum + computeArmyPower(state, army), 0);
+    // Commander traits modify only that army's durability contribution, not
+    // the shared power used for defender casualties or attacker counter-losses.
+    const durabilityPower = attackers.reduce((sum, army) => {
+      const leader = state.officers[army.leaderId];
+      const multiplier = leader ? traitModifier(leader, 'siege.attackMult').mult : 1;
+      return sum + computeArmyPower(state, army) * multiplier;
+    }, 0);
+    const lord = castle.lordId === null ? undefined : state.officers[castle.lordId];
+    const damageMultiplier = lord ? traitModifier(lord, 'siege.defenseDamageMult').mult : 1;
+    const moraleMultiplier = lord ? traitModifier(lord, 'siege.defenseMoraleMult').mult : 1;
+    const defenderTaimei = taimeiEffects(state, castle.ownerClanId);
     const defensePower =
       castle.soldiers *
       (1 + castleLordLdr(state, castle.id) * BAL.ldrCombatFactor) *
-      (1 + mitigation);
+      (1 + mitigation) *
+      defenderTaimei.castleDefenseMult;
     if (siege.mode === 'assault') {
-      castle.durability = Math.max(
-        0,
-        castle.durability - attackPower * BAL.assaultDurabilityRate * (1 - mitigation),
+      castle.durability = Math.round(
+        Math.max(
+          0,
+          castle.durability -
+            durabilityPower *
+              BAL.assaultDurabilityRate *
+              (1 - mitigation) *
+              defenderTaimei.siegeDamageTakenMult *
+              damageMultiplier,
+        ),
       );
       castle.soldiers = Math.max(
         0,
         castle.soldiers - Math.round(attackPower * BAL.assaultDefenderLossRate),
       );
-      castle.morale = Math.max(0, castle.morale - BAL.assaultCastleMoraleDaily);
+      castle.morale = Math.round(
+        Math.max(0, castle.morale - BAL.assaultCastleMoraleDaily * moraleMultiplier),
+      );
       distributeLoss(attackers, Math.round(defensePower * BAL.assaultAttackerLossRate));
     } else {
-      castle.morale = Math.max(0, castle.morale - BAL.encircleCastleMoraleDaily);
+      castle.morale = Math.round(
+        Math.max(0, castle.morale - BAL.encircleCastleMoraleDaily * moraleMultiplier),
+      );
       castle.foodFrac += (garrisonFoodMonthly(state, castle) / 30) * (BAL.encircleFoodMult - 1);
       const extraFood = Math.floor(castle.foodFrac);
       castle.foodFrac -= extraFood;
@@ -381,7 +405,9 @@ export function siegeSystem(state: GameState): GameEvent[] {
       distributeLoss(attackers, Math.round(defensePower * BAL.encircleAttackerLossRate));
     }
     if (castle.food === 0) {
-      castle.morale = Math.max(0, castle.morale - BAL.starvingCastleMoraleDaily);
+      castle.morale = Math.round(
+        Math.max(0, castle.morale - BAL.starvingCastleMoraleDaily * moraleMultiplier),
+      );
       castle.soldiers = Math.max(
         0,
         castle.soldiers - Math.ceil(castle.soldiers * BAL.starvingCastleDesertionRate),

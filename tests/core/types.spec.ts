@@ -24,7 +24,7 @@ import {
 } from '../../src/core/state/enums';
 
 // —— 02 §4.18 Command 現行列數（2026-07-11；勘誤台帳 E-27/E-28/E-32 消化後） ——
-const COMMAND_TYPE_COUNT = 46;
+const COMMAND_TYPE_COUNT = 48; // 02 的 46 型別，加上 M7 的定向撤退與駐軍補給。
 // —— 03 §3.9／§4.2 專有 debug 指令（debugSkipDays／debugGrant；02 §4.18 未收，見 03 §8-D14） ——
 const DEBUG_COMMAND_TYPE_COUNT = 2;
 // —— 02 §4.19 GameEvent 現行列數（2026-07-11；含六輪/七輪裁決收錄後） ——
@@ -52,6 +52,8 @@ const ALL_COMMAND_TYPES: Record<CommandType, true> = {
   march: true,
   setArmyTarget: true,
   recallArmy: true,
+  returnArmyToCastle: true,
+  depositGarrison: true,
   setAutoReturn: true,
   startKassen: true,
   battleMove: true,

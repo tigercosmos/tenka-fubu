@@ -135,6 +135,411 @@
         "x": 1486,
         "y": 2790
       }
+    },
+    {
+      "id": "prov.hitachi",
+      "name": "常陸",
+      "region": "kanto",
+      "labelPos": {
+        "x": 2814,
+        "y": 2490
+      }
+    },
+    {
+      "id": "prov.shimotsuke",
+      "name": "下野",
+      "region": "kanto",
+      "labelPos": {
+        "x": 2680,
+        "y": 2491
+      }
+    },
+    {
+      "id": "prov.kozuke",
+      "name": "上野",
+      "region": "kanto",
+      "labelPos": {
+        "x": 2459,
+        "y": 2518
+      }
+    },
+    {
+      "id": "prov.shimosa",
+      "name": "下總",
+      "region": "kanto",
+      "labelPos": {
+        "x": 2664,
+        "y": 2541
+      }
+    },
+    {
+      "id": "prov.kazusa",
+      "name": "上總",
+      "region": "kanto",
+      "labelPos": {
+        "x": 2689,
+        "y": 2818
+      }
+    },
+    {
+      "id": "prov.musashi",
+      "name": "武藏",
+      "region": "kanto",
+      "labelPos": {
+        "x": 2571,
+        "y": 2668
+      }
+    },
+    {
+      "id": "prov.sagami",
+      "name": "相模",
+      "region": "kanto",
+      "labelPos": {
+        "x": 2535,
+        "y": 2810
+      }
+    },
+    {
+      "id": "prov.izu",
+      "name": "伊豆",
+      "region": "kanto",
+      "labelPos": {
+        "x": 2448,
+        "y": 2878
+      }
+    },
+    {
+      "id": "prov.kai",
+      "name": "甲斐",
+      "region": "koshinetsu",
+      "labelPos": {
+        "x": 2402,
+        "y": 2719
+      }
+    },
+    {
+      "id": "prov.shinano",
+      "name": "信濃",
+      "region": "koshinetsu",
+      "labelPos": {
+        "x": 2259,
+        "y": 2524
+      }
+    },
+    {
+      "id": "prov.echigo",
+      "name": "越後",
+      "region": "koshinetsu",
+      "labelPos": {
+        "x": 2390,
+        "y": 2295
+      }
+    },
+    {
+      "id": "prov.echizen",
+      "name": "越前",
+      "region": "hokuriku",
+      "labelPos": {
+        "x": 1790,
+        "y": 2681
+      }
+    },
+    {
+      "id": "prov.kaga",
+      "name": "加賀",
+      "region": "hokuriku",
+      "labelPos": {
+        "x": 1868,
+        "y": 2509
+      }
+    },
+    {
+      "id": "prov.noto",
+      "name": "能登",
+      "region": "hokuriku",
+      "labelPos": {
+        "x": 1962,
+        "y": 2377
+      }
+    },
+    {
+      "id": "prov.etchu",
+      "name": "越中",
+      "region": "hokuriku",
+      "labelPos": {
+        "x": 2019,
+        "y": 2446
+      }
+    },
+    {
+      "id": "prov.inaba",
+      "name": "因幡",
+      "region": "chugoku",
+      "labelPos": {
+        "x": 1343,
+        "y": 2755
+      }
+    },
+    {
+      "id": "prov.hoki",
+      "name": "伯耆",
+      "region": "chugoku",
+      "labelPos": {
+        "x": 1130,
+        "y": 2779
+      }
+    },
+    {
+      "id": "prov.izumo",
+      "name": "出雲",
+      "region": "chugoku",
+      "labelPos": {
+        "x": 1079,
+        "y": 2776
+      }
+    },
+    {
+      "id": "prov.iwami",
+      "name": "石見",
+      "region": "chugoku",
+      "labelPos": {
+        "x": 925,
+        "y": 2865
+      }
+    },
+    {
+      "id": "prov.harima",
+      "name": "播磨",
+      "region": "chugoku",
+      "labelPos": {
+        "x": 1431,
+        "y": 2920
+      }
+    },
+    {
+      "id": "prov.bizen",
+      "name": "備前",
+      "region": "chugoku",
+      "labelPos": {
+        "x": 1334,
+        "y": 2936
+      }
+    },
+    {
+      "id": "prov.bitchu",
+      "name": "備中",
+      "region": "chugoku",
+      "labelPos": {
+        "x": 1198,
+        "y": 2942
+      }
+    },
+    {
+      "id": "prov.bingo",
+      "name": "備後",
+      "region": "chugoku",
+      "labelPos": {
+        "x": 1140,
+        "y": 3014
+      }
+    },
+    {
+      "id": "prov.aki",
+      "name": "安藝",
+      "region": "chugoku",
+      "labelPos": {
+        "x": 936,
+        "y": 3025
+      }
+    },
+    {
+      "id": "prov.suo",
+      "name": "周防",
+      "region": "chugoku",
+      "labelPos": {
+        "x": 693,
+        "y": 3111
+      }
+    },
+    {
+      "id": "prov.nagato",
+      "name": "長門",
+      "region": "chugoku",
+      "labelPos": {
+        "x": 578,
+        "y": 3151
+      }
+    },
+    {
+      "id": "prov.awa",
+      "name": "阿波",
+      "region": "shikoku",
+      "labelPos": {
+        "x": 1409,
+        "y": 3124
+      }
+    },
+    {
+      "id": "prov.sanuki",
+      "name": "讚岐",
+      "region": "shikoku",
+      "labelPos": {
+        "x": 1340,
+        "y": 3095
+      }
+    },
+    {
+      "id": "prov.iyo",
+      "name": "伊予",
+      "region": "shikoku",
+      "labelPos": {
+        "x": 996,
+        "y": 3219
+      }
+    },
+    {
+      "id": "prov.tosa",
+      "name": "土佐",
+      "region": "shikoku",
+      "labelPos": {
+        "x": 1121,
+        "y": 3348
+      }
+    },
+    {
+      "id": "prov.chikuzen",
+      "name": "筑前",
+      "region": "kyushu",
+      "labelPos": {
+        "x": 459,
+        "y": 3245
+      }
+    },
+    {
+      "id": "prov.chikugo",
+      "name": "筑後",
+      "region": "kyushu",
+      "labelPos": {
+        "x": 445,
+        "y": 3384
+      }
+    },
+    {
+      "id": "prov.buzen",
+      "name": "豐前",
+      "region": "kyushu",
+      "labelPos": {
+        "x": 555,
+        "y": 3191
+      }
+    },
+    {
+      "id": "prov.bungo",
+      "name": "豐後",
+      "region": "kyushu",
+      "labelPos": {
+        "x": 752,
+        "y": 3380
+      }
+    },
+    {
+      "id": "prov.hizen",
+      "name": "肥前",
+      "region": "kyushu",
+      "labelPos": {
+        "x": 431,
+        "y": 3359
+      }
+    },
+    {
+      "id": "prov.higo",
+      "name": "肥後",
+      "region": "kyushu",
+      "labelPos": {
+        "x": 521,
+        "y": 3559
+      }
+    },
+    {
+      "id": "prov.hyuga",
+      "name": "日向",
+      "region": "kyushu",
+      "labelPos": {
+        "x": 674,
+        "y": 3681
+      }
+    },
+    {
+      "id": "prov.osumi",
+      "name": "大隅",
+      "region": "kyushu",
+      "labelPos": {
+        "x": 536,
+        "y": 3759
+      }
+    },
+    {
+      "id": "prov.satsuma",
+      "name": "薩摩",
+      "region": "kyushu",
+      "labelPos": {
+        "x": 454,
+        "y": 3825
+      }
+    },
+    {
+      "id": "prov.mutsu",
+      "name": "陸奧",
+      "region": "tohoku",
+      "labelPos": {
+        "x": 2992,
+        "y": 1463
+      }
+    },
+    {
+      "id": "prov.rikuchu",
+      "name": "陸中",
+      "region": "tohoku",
+      "labelPos": {
+        "x": 2958,
+        "y": 1675
+      }
+    },
+    {
+      "id": "prov.rikuzen",
+      "name": "陸前",
+      "region": "tohoku",
+      "labelPos": {
+        "x": 2898,
+        "y": 1922
+      }
+    },
+    {
+      "id": "prov.iwashiro",
+      "name": "岩代",
+      "region": "tohoku",
+      "labelPos": {
+        "x": 2742,
+        "y": 2239
+      }
+    },
+    {
+      "id": "prov.uzen",
+      "name": "羽前",
+      "region": "tohoku",
+      "labelPos": {
+        "x": 2749,
+        "y": 2059
+      }
+    },
+    {
+      "id": "prov.ugo",
+      "name": "羽後",
+      "region": "tohoku",
+      "labelPos": {
+        "x": 2714,
+        "y": 1568
+      }
     }
   ]
 }

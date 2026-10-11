@@ -1,6 +1,6 @@
 // 字型子集化管線（規格：plan/01-architecture.md §3.9.3、A13；工具選型記錄：01 §8）。
 //
-// 掃描 src/i18n/zh-TW.ts 全字串＋src/data/scenarios/**/*.json 全 name 欄位＋數字標點集
+// 掃描 i18n 全字串、劇本名稱與事件敘事／選項、數字標點集
 // （tools/font-charset.ts），由 tools/assets/NotoSerifTC-Regular.ttf（Noto Serif TC 官方
 // 可變字型原始檔，僅供子集化、不進 bundle）以 `subset-font`（harfbuzzjs 綁定）產出
 // public/fonts/noto-serif-tc-subset.woff2（committed 成品；01 §8-D7）。
@@ -68,7 +68,7 @@ export async function generateFontSubset(): Promise<
 
   console.log(
     `字型子集完成：${chars.size} 字元(基準 ${breakdown.baseline}／i18n ${breakdown.i18n}／` +
-      `劇本 name ${breakdown.scenarioNames}／debug fixture ${breakdown.debugFixtures})，` +
+      `劇本 name ${breakdown.scenarioNames}／事件文字 ${breakdown.scenarioText}／型錄 ${breakdown.catalogs}／debug fixture ${breakdown.debugFixtures})，` +
       `成品 ${(subsetBuffer.byteLength / 1024).toFixed(1)} KB` +
       `(預算 ${FONT_SIZE_BUDGET_KB} KB) → ${path.relative(REPO_ROOT, OUTPUT_WOFF2)}`,
   );

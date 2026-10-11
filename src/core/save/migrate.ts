@@ -1,9 +1,8 @@
 // 存檔版本遷移框架（16 §3.6／§4.5；MVP 先行實作 M8-12 子集）。
-// MVP 階段只有 v1 格式，MIGRATIONS 為空鏈；框架先落地讓 codec 與測試自始走遷移路徑，
-// M8-12 增補實際遷移條目時不需改呼叫端。
+// v1→v2 保存內應原對象；v2→v3 保存 M7 AI 工作與待執行指令。
 
 /** 目前存檔格式版本（寫入時蓋章；讀取時 version > 此值 → newerVersion 錯誤）。 */
-export const SAVE_FORMAT_VERSION = 2;
+export const SAVE_FORMAT_VERSION = 4;
 
 /** 單一遷移步驟：把 `from` 版的 SaveFile 原地升級為 `from + 1` 版（16 §4.5）。 */
 export interface SaveMigration {
@@ -12,13 +11,46 @@ export interface SaveMigration {
   migrate: (saveFile: { version: number; state: unknown }) => void;
 }
 
-/** 遷移鏈（依 from 升冪；v1 起點，目前為空）。 */
+/** 遷移查表從 v1 起逐版前進；陣列順序不影響查找。 */
 function record(value: unknown): Record<string, unknown> {
   if (value === null || typeof value !== 'object' || Array.isArray(value))
     throw new Error('存檔遷移需要物件');
   return value as Record<string, unknown>;
 }
 export const MIGRATIONS: readonly SaveMigration[] = [
+  {
+    from: 3,
+    migrate(saveFile) {
+      const state = record(saveFile.state);
+      for (const value of Object.values(record(state.clans))) {
+        // Earlier formats never recorded actual monthly reward debits; stray fields prove nothing.
+        record(value).rewardGoldSpentThisMonth = null;
+      }
+      record(state.meta).saveVersion = 4;
+      saveFile.version = 4;
+    },
+  },
+  {
+    from: 2,
+    migrate(saveFile) {
+      const state = record(saveFile.state);
+      const ai = record(state.ai);
+      ai.pendingOrders = [];
+      ai.allAi = false;
+      ai.councilJobs = [];
+      ai.lastCouncilEnrollment = {};
+      ai.deferredPhases = [];
+      for (const value of Object.values(record(ai.clans))) {
+        const clan = record(value);
+        // Legacy plans lack source identities and original target ownership.
+        // Discard only bookkeeping; never delete or recall deployed armies.
+        clan.attackPlans = [];
+        clan.pendingPhases = [];
+      }
+      record(state.meta).saveVersion = 3;
+      saveFile.version = 3;
+    },
+  },
   {
     from: 1,
     migrate(saveFile) {

@@ -12,6 +12,47 @@
 
 import { MAP_PALETTE_NUM } from '@ui/styles/tokens';
 
+/** Static lake-local sky reflection and bank tint, not measured depth. */
+export const LAKE_SURFACE = {
+  material: {
+    maxSide: 128,
+    minSide: 16,
+    maxLakes: 32,
+    maxVertices: 768,
+    shoreWidth: 5,
+    shallowColor: MAP_PALETTE_NUM.lakeReflectionLight,
+    interiorColor: MAP_PALETTE_NUM.lakeReflectionDark,
+    reflectionColor: MAP_PALETTE_NUM.lakeReflectionMid,
+  },
+  outline: { width: 0.45, color: MAP_PALETTE_NUM.reliefInk, alpha: 0.25 },
+  innerDark: { width: 0.6, color: MAP_PALETTE_NUM.seaDeep, alpha: 0.16 },
+  innerLight: { width: 0.35, color: MAP_PALETTE_NUM.plainLight, alpha: 0.2 },
+} as const;
+
+/** One-time water paint only; no animation, core RNG, new textures or coastline edits. */
+export const SEA_SURFACE = {
+  bands: 32,
+  lightMix: 0.07,
+  swellColumns: 12,
+  swellRows: 8,
+  swellWidth: 0.7,
+  swellAlpha: 0.12,
+  // Thin overlapping strokes soften the depth transition without moving the shore.
+  coast: Array.from({ length: 16 }, (_, index) => ({ width: 32 - index * 2, alpha: 0.025 })),
+} as const;
+
+export const TERRAIN_GROUND_TINT = 0xc5d5ac;
+/** Same channel multiplication used by the baked relief Sprite's runtime tint. */
+export const TERRAIN_GROUND_COLOR = [16, 8, 0].reduce(
+  (color, shift) =>
+    color |
+    (Math.round(
+      (((MAP_PALETTE_NUM.landBase >> shift) & 255) * ((TERRAIN_GROUND_TINT >> shift) & 255)) / 255,
+    ) <<
+      shift),
+  0,
+);
+
 export const MAPVIEW = {
   minScale: 0.15,
   maxScale: 4.0, // 鏡頭縮放範圍（螢幕 px / world unit）
@@ -41,18 +82,18 @@ export const MAPVIEW = {
   cullBucket: 256, // 視錐剔除外擴與桶邊長（world unit）
   territoryGridSize: 1024, // 勢力色網格解析度
   territoryMaxDist: 260, // 郡域最大延伸距離（world unit）
-  territoryAlpha: 0.45, // 郡域紋理透明度（一般/遠 LOD 0.65/勢力圖 0.85）
-  territoryAlphaFar: 0.65, // 新增（M6-V5，VD3）：far LOD 郡域紋理透明度
-  territoryAlphaFaction: 0.85, // 新增（M6-V5，VD3）：勢力分析圖模式郡域紋理透明度
+  territoryAlpha: 0.1, // Normal close/operational views prioritize terrain; ownership analysis remains explicit.
+  territoryAlphaFar: 0.3, // Overview remains an atlas, rather than opaque colored discs.
+  territoryAlphaFaction: 0.68, // Explicit ownership analysis retains a strong semantic tint.
   colors: {
     // sea/land/neutral 遷移自 MAP_PALETTE_NUM（M6-V5，VD7）；其餘為既有建議值
     sea: MAP_PALETTE_NUM.seaDeep,
-    land: MAP_PALETTE_NUM.landBase,
+    land: TERRAIN_GROUND_COLOR,
     neutral: MAP_PALETTE_NUM.neutral,
     /** 紙墨邊固定墨色（暖 sumi 墨；M6-V9 §1.4，取代 borderDarken 乘法）。 */
-    borderInk: 0x2e281d,
+    borderInk: 0x4d5148,
     /** 紙墨邊朝 borderInk 的混合比（M6-V9 §1.4；once-guard 保證一像素至多混一次）。 */
-    borderInkMix: 0.55,
+    borderInkMix: 0.26,
     pathOk: 0xffffff,
     pathBad: 0xcc3333,
     awe: 0xe8b93f,
@@ -68,6 +109,10 @@ export const MAPVIEW = {
   armySoldierTierLarge: 3000, // >=3000：large
   /** far LOD 軍隊 chip container 反向放大（M6-V8 V8D13；transform，非重繪；比照主城 far ×1.4）。 */
   armyFarChipScale: 2.4,
+  /** Number plates stay readable and do not grow with the world-camera zoom. */
+  armyPlateFontPixels: 14,
+  /** Informational plates may reflow within this CSS-pixel disk; army anchors never move. */
+  armyPlateMaxOffsetPixels: 80,
   /** 道路名標籤沿道路法線之偏移（world unit，偏上避開 casing；V6D5）。 */
   roadLabelOffset: 10,
   /**
@@ -115,6 +160,29 @@ export const FOREST_ALPHA: Readonly<Record<'far' | 'mid' | 'near', number>> = {
   near: 0.9,
 };
 
+/** Static atlas relief projection; visual heights only, never movement elevations. */
+export const TERRAIN_RELIEF = {
+  mountainHeight: { 1: 12, 2: 23, 3: 38 },
+  hillGrid: 24,
+  hillEdgeFade: 36,
+  hillRidgeWidth: 18,
+  hillRidgeUndulation: 45,
+  hillNormalSample: 1,
+  hillFacesPerPatch: 1024,
+  hillFacesTotal: 12000,
+  forestHeight: 0,
+  canopySpacing: 22,
+  canopyPerPatch: 64,
+  canopyTotal: 720,
+  canopyScanSide: 16,
+  groundTint: TERRAIN_GROUND_TINT,
+  bakedReliefAlpha: 0.18,
+  forestTint: 0xabc19d,
+  projectionX: -0.18,
+  shadowX: 0.65,
+  shadowY: 0.5,
+} as const;
+
 // ---------------------------------------------------------------------------
 // M6-V6：道路／橋樑渲染常數（Slice B）。線寬為 near（scale 1.25）基準，
 // `RoadsLayer.setStage` 依 `ROAD_STAGE_WIDTH_MULT` 乘 stage 倍率後重描，
@@ -132,6 +200,20 @@ export const ROAD_INNER_WIDTH: Readonly<Record<1 | 2 | 3, number>> = { 1: 1.0, 2
 /** grade1 小路內線節線 dash/gap（world unit，near 基準）（V6D3）。 */
 export const ROAD_PATH_DASH = { dash: 5, gap: 4 } as const;
 
+/** Mid/near ground paint only; original road surface widths and graph centerlines remain unchanged. */
+export const ROAD_GROUND_STYLE = {
+  vergeExtraWidth: 2,
+  vergeAlpha: 0.14,
+  casingAlpha: 0.62,
+  surfaceAlpha: 0.86,
+  grainFirst: 7,
+  grainSpacing: 11,
+  grainHalfWidthFactor: 0.3,
+  grainStrokeWidth: 0.25,
+  grainAlpha: 0.23,
+  grainMaxPerEdge: 128,
+} as const;
+
 /** 海路內線長節線 dash/gap（world unit，near 基準）（V6D3）。 */
 export const SEA_ROUTE_KNOT = { dash: 14, gap: 10 } as const;
 
@@ -146,6 +228,16 @@ export const SEA_WAVE = { spacing: 40, radius: 3 } as const;
 
 /** 橋樑幾何（world unit，near 基準）。 */
 export const BRIDGE = { deckLength: 16, deckWidth: 9, abutment: 3 } as const;
+
+/** Display-only ground shadow and raised bridge geometry, shared by painter and coast guards. */
+export const ROAD_DEPTH_STYLE = {
+  shadowOffset: 1.2,
+  shadowAlpha: 0.22,
+  highlightAlpha: 0.65,
+  bridgeLift: 3,
+  bridgeRailHeight: 2,
+  bridgePlanks: 5,
+} as const;
 
 /**
  * per-stage 線寬倍率（螢幕近似恆定＝1.25/stageScale；V6D3-B）。`RoadsLayer.setStage`

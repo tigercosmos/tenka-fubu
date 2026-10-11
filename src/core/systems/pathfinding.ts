@@ -211,6 +211,46 @@ function isBetter(a: DistEntry, b: DistEntry): boolean {
   return a.mode < b.mode;
 }
 
+/** Lazy decrease-key frontier; entries are replaced, never mutated. */
+class PathFrontier {
+  private readonly entries: DistEntry[] = [];
+
+  push(entry: DistEntry): void {
+    let index = this.entries.length;
+    this.entries.push(entry);
+    while (index > 0) {
+      const parentIndex = Math.floor((index - 1) / 2);
+      const parent = this.entries[parentIndex]!;
+      if (!isBetter(entry, parent)) break;
+      this.entries[index] = parent;
+      index = parentIndex;
+    }
+    this.entries[index] = entry;
+  }
+
+  pop(): DistEntry | undefined {
+    const first = this.entries[0];
+    const last = this.entries.pop();
+    if (!first || !last || this.entries.length === 0) return first;
+    let index = 0;
+    for (;;) {
+      const left = index * 2 + 1;
+      if (left >= this.entries.length) break;
+      const right = left + 1;
+      const childIndex =
+        right < this.entries.length && isBetter(this.entries[right]!, this.entries[left]!)
+          ? right
+          : left;
+      const child = this.entries[childIndex]!;
+      if (!isBetter(child, last)) break;
+      this.entries[index] = child;
+      index = childIndex;
+    }
+    this.entries[index] = last;
+    return first;
+  }
+}
+
 /**
  * computePath（04 §4.3／§5.2）：純函式，UI 路徑預覽與 AI 共用。
  * 單源 Dijkstra，邊權 = edgeCostDays（＝baseDays / BAL.roadGradeSpeedMult[grade]，海路固定
@@ -222,23 +262,22 @@ export function computePath(state: PathfindingState, graph: MapGraph, q: PathQue
   const dist = new Map<string, DistEntry>();
   const prev = new Map<string, { prevKey: string; edgeId: RoadEdgeId }>();
   const visited = new Set<string>();
+  const frontier = new PathFrontier();
 
   const startKey = stateKey(q.from, 'land');
-  dist.set(startKey, { nodeId: q.from, mode: 'land', cost: 0 });
+  const start: DistEntry = { nodeId: q.from, mode: 'land', cost: 0 };
+  dist.set(startKey, start);
+  frontier.push(start);
 
   let goalKey: string | null = null;
 
   for (;;) {
-    let bestKey: string | null = null;
-    let best: DistEntry | null = null;
-    for (const [key, entry] of dist) {
-      if (visited.has(key)) continue;
-      if (best === null || isBetter(entry, best)) {
-        best = entry;
-        bestKey = key;
-      }
-    }
-    if (bestKey === null || best === null) break; // pq 空
+    const best = frontier.pop();
+    if (best === undefined) break;
+    const bestKey = stateKey(best.nodeId, best.mode);
+    // Strict relaxation can leave older entries in the heap. Check before the
+    // destination test so a stale destination never terminates the search.
+    if (visited.has(bestKey) || dist.get(bestKey) !== best) continue;
     visited.add(bestKey);
     if (best.nodeId === q.to) {
       goalKey = bestKey;
@@ -270,7 +309,9 @@ export function computePath(state: PathfindingState, graph: MapGraph, q: PathQue
       const nextKey = stateKey(otherId, nextMode);
       const existing = dist.get(nextKey);
       if (existing === undefined || newCost < existing.cost) {
-        dist.set(nextKey, { nodeId: otherId, mode: nextMode, cost: newCost });
+        const entry: DistEntry = { nodeId: otherId, mode: nextMode, cost: newCost };
+        dist.set(nextKey, entry);
+        frontier.push(entry);
         prev.set(nextKey, { prevKey: bestKey, edgeId });
       }
     }

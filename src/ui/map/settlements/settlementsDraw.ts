@@ -1,4 +1,6 @@
-// 城下聚落 —— 程序生成屋頂群＋田畦（低對比城下地景），僅繞本城，close LOD 顯示。
+// Original road-oriented town: static grounded roofs/walls/shadows, mid volumes and near detail.
+// Explicit geographical context opts into the redesigned presentation; the two-argument
+// seeded flat-roof API below remains the historical reference, not the renderer's new painter.
 //
 // 規格：docs/design/m6-v7-castles.md CD4（城下聚落＝程序生成 runtime Graphics，seeded、決定論、
 // 只繞本城、close LOD）、§3.4（`SETTLEMENT` 常數）、§4.1（本檔完整簽章／行為）、§6.4（繪製幾何總表）；
@@ -25,6 +27,14 @@ import { Container, Graphics } from 'pixi.js';
 import type { CastleTier } from '@core/state/enums';
 import type { MapGraph } from '@core/state/mapGraph';
 import { MAP_PALETTE_NUM, TOKENS_NUM } from '@ui/styles/tokens';
+import type { LodStage } from '../lod';
+import type { PointProjection } from '../roads/projectPolyline';
+import {
+  buildSettlementGeometry,
+  type SettlementContext,
+  type TownGeometry,
+  type TownPoint,
+} from './settlementGeometry';
 
 /** §3.4 表：城下聚落幾何／散佈範圍（world unit）。渲染常數，非 BAL（12-T… 慣例，見 castleNode.ts 同款裁決）。 */
 export const SETTLEMENT = {
@@ -44,6 +54,18 @@ export const SETTLEMENT = {
 
 export interface Settlements {
   readonly container: Container;
+  setStage(stage: LodStage): void;
+  getGeometry(): TownGeometry;
+  /** Actual emitted scene coordinates; canonical source remains getGeometry(). */
+  getSceneGeometry(): TownGeometry;
+  getDiagnostics(): {
+    readonly houses: number;
+    readonly ownedGraphics: number;
+    readonly ownedTextures: number;
+    readonly attempted: number;
+    readonly rejected: number;
+    readonly limited: boolean;
+  };
   destroy(): void;
 }
 
@@ -158,15 +180,113 @@ function compareId(a: string, b: string): number {
  * 建城下聚落：僅繞本城（`castleTier[id]==='main'`）；屋頂群＋田畦，seeded 散佈於 `[innerR,outerR]` 環。
  * 靜態一次建（無 `update()`）；LOD 顯隱由 `MapRenderer` 切 `layers.settlements.visible`。
  * 決定論：城依 id 字典序（`compareId`，非 locale-dependent `localeCompare`）處理。
+ * With context + projection, each house's canonical ground center is projected
+ * once and every local facade/shadow is rigidly translated. The historical
+ * no-context painter stays flat; getGeometry retains canonical admission data.
  */
 export function buildSettlements(
   graph: MapGraph,
   castleTier: Readonly<Record<string, CastleTier>>,
+  context?: SettlementContext,
+  project?: PointProjection,
 ): Settlements {
+  const geometry = context ? buildSettlementGeometry(graph, castleTier, context) : undefined;
+  const emptyGeometry: TownGeometry = Object.freeze({
+    houses: Object.freeze([]),
+    attempted: 0,
+    rejected: 0,
+    limited: false,
+  });
+  const sceneGeometry =
+    geometry === undefined || project === undefined
+      ? geometry
+      : Object.freeze({
+          ...geometry,
+          houses: Object.freeze(
+            geometry.houses.map((h) => {
+              // The center is canonical ground, unlike the already raised roof vertices.
+              const center = project(h.center);
+              if (
+                !Number.isFinite(center.x) ||
+                !Number.isFinite(center.y) ||
+                Math.abs(center.x) > 1e6 ||
+                Math.abs(center.y) > 1e6
+              )
+                throw new RangeError('invalid projected settlement anchor');
+              const dx = center.x - h.center.x,
+                dy = center.y - h.center.y;
+              const translate = (points: readonly TownPoint[]) =>
+                Object.freeze(points.map((p) => Object.freeze({ x: p.x + dx, y: p.y + dy })));
+              return Object.freeze({
+                ...h,
+                center: Object.freeze({ ...center }),
+                footprint: translate(h.footprint),
+                shadow: translate(h.shadow),
+                walls: Object.freeze(h.walls.map(translate)),
+                roofs: Object.freeze(h.roofs.map(translate)),
+              });
+            }),
+          ),
+        });
   const container = new Container();
   container.label = 'settlements';
   const gfx = new Graphics();
   container.addChild(gfx);
+
+  if (geometry !== undefined && sceneGeometry !== undefined) {
+    gfx.label = 'town-ground-shadows';
+    const models = new Graphics();
+    models.label = 'town-roofs-and-walls';
+    container.addChild(models);
+    const points = (p: readonly { x: number; y: number }[]) => p.flatMap((v) => [v.x, v.y]);
+    const ordered = geometry.houses
+      .map((source, i) => ({ source, scene: sceneGeometry.houses[i]! }))
+      .sort(
+        (a, b) =>
+          a.scene.center.y - b.scene.center.y || compareId(a.source.castleId, b.source.castleId),
+      );
+    for (const { source: h, scene: painted } of ordered) {
+      gfx.poly(points(painted.shadow)).fill({ color: 0x514c3d, alpha: 0.18 });
+      const wallLight = h.walls.map((p) => p.reduce((sum, v) => sum + v.x + v.y, 0) / p.length);
+      for (const [i, wall] of painted.walls.entries())
+        models
+          .poly(points(wall))
+          .fill({ color: wallLight[i]! <= wallLight[1 - i]! ? 0xbca98a : 0x917f62, alpha: 0.95 });
+      // Roof lighting follows WORLD northwest, independent of approach rotation.
+      const light = h.roofs.map((p) => p.reduce((sum, v) => sum + v.x + v.y, 0) / p.length);
+      for (const [i, roof] of painted.roofs.entries())
+        models
+          .poly(points(roof))
+          .fill({ color: light[i]! <= light[1 - i]! ? 0x697465 : 0x414a42, alpha: 0.96 });
+    }
+    let destroyed = false;
+    return {
+      container,
+      setStage(stage) {
+        container.visible = stage !== 'far';
+        container.alpha = stage === 'mid' ? 0.65 : 1;
+      },
+      getGeometry: () => geometry,
+      getSceneGeometry: () => (destroyed ? emptyGeometry : sceneGeometry),
+      getDiagnostics: () => ({
+        houses: destroyed ? 0 : geometry.houses.length,
+        ownedGraphics: destroyed ? 0 : 2,
+        ownedTextures: 0,
+        attempted: geometry.attempted,
+        rejected: geometry.rejected,
+        limited: geometry.limited,
+      }),
+      destroy() {
+        if (destroyed) return;
+        destroyed = true;
+        container.removeChild(gfx);
+        container.removeChild(models);
+        gfx.destroy({ context: true });
+        models.destroy({ context: true });
+        container.destroy({ children: true });
+      },
+    };
+  }
 
   const nodes = [...graph.nodes.values()].sort((a, b) => compareId(a.id, b.id));
   for (const node of nodes) {
@@ -176,6 +296,19 @@ export function buildSettlements(
 
   return {
     container,
+    setStage(stage) {
+      container.visible = stage === 'near';
+    },
+    getGeometry: () => ({ houses: [], attempted: 0, rejected: 0, limited: false }),
+    getSceneGeometry: () => emptyGeometry,
+    getDiagnostics: () => ({
+      houses: 0,
+      ownedGraphics: 1,
+      ownedTextures: 0,
+      attempted: 0,
+      rejected: 0,
+      limited: false,
+    }),
     destroy(): void {
       container.destroy({ children: true });
     },

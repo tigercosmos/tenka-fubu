@@ -77,6 +77,7 @@ function buildFixture(): GameState {
     leaderId: 'officer.enemy-leader' as OfficerId,
     homeCastleId: TEST_CASTLE,
     gold: 0,
+    rewardGoldSpentThisMonth: 0,
     prestige: 0,
     courtRank: 'none',
     shogunateTitle: 'none',
@@ -124,7 +125,7 @@ describe('advanceBattleTick 凍結（03 §3.7.2：resolved 前只動 bs.tick）'
 
     for (let i = 1; i < BAL.kassenMaxTicks; i += 1) {
       const result = advanceBattleTick(state, BATTLE_ID);
-      expect(result).toEqual({ battleId: BATTLE_ID, tick: i, resolved: false });
+      expect(result).toEqual({ battleId: BATTLE_ID, tick: i, resolved: false, events: [] });
       expect(state.battles[BATTLE_ID]!.result).toBeNull();
     }
 

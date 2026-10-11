@@ -25,6 +25,16 @@ import {
 import { SCENARIO_BUNDLE_FIXTURE } from '../fixtures/scenarioBundle';
 
 describe('buildGameState（tiny 劇本，M1-14）', () => {
+  it('新局褒賞月支出為零，不沿用輸入資料的歷史且不改寫輸入', () => {
+    const input = structuredClone(TINY_SCENARIO);
+    input.clans[0]!.rewardGoldSpentThisMonth = null;
+    input.clans[1]!.rewardGoldSpentThisMonth = 150;
+    const before = structuredClone(input);
+    const state = buildGameState(input);
+    expect(Object.values(state.clans).map((clan) => clan.rewardGoldSpentThisMonth)).toEqual([0, 0]);
+    expect(input).toEqual(before);
+    expect(validateState(state)).toEqual([]);
+  });
   it('建置後 validateState 零違規', () => {
     const state = buildGameState(TINY_SCENARIO);
     expect(validateState(state)).toEqual([]);
@@ -127,6 +137,8 @@ describe('buildGameState（tiny 劇本，M1-14）', () => {
       fired: {},
       cooldownUntil: {},
       pendingChoiceEventId: null,
+      pendingChoiceBinding: null,
+      hookSignals: [],
       flags: {},
       tenkabitoStreakMonths: 0,
       stats: { battlesFought: 0, battlesWon: 0, maxCastles: 0, maxKokudaka: 0 },
@@ -202,7 +214,7 @@ function makeMinimalValidRawScenario(): unknown {
     name: '測試',
     unlockTraitId: null,
   }));
-  const policies = Array.from({ length: 13 }, (_, i) => ({
+  const policies = Array.from({ length: 12 }, (_, i) => ({
     id: `pol.p${String(i)}`,
     name: '測試',
     prestigeReq: 0,

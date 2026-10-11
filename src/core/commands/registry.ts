@@ -22,18 +22,35 @@ import * as march from './march';
 import * as diplomacy from './diplomacyCommands';
 import * as court from './courtCommands';
 import * as plots from './plotCommands';
+import * as corps from './corpsCommands';
 import { createApplyResolveProposal, validateResolveProposal } from './proposalCommands';
 import { REJECT_REASONS } from './reasons';
+import type { ExecutionAuthority } from './authority';
 import { applyStartKassen, validateStartKassen } from '../systems/battle';
+import type { EventEngine } from '../systems/events/engine';
+import { validateInvokeTaimei, applyInvokeTaimei } from './taimeiCommands';
+
+export interface CommandContext {
+  eventEngine?: EventEngine;
+}
 
 /** tick 事件匯流排回呼：各步以此追加 GameEvent（03 §3.2.1）。 */
 export type EmitFn = (event: GameEvent) => void;
 
 /** 驗證器（03 §3.3.2）：純函式，禁改 state／消費亂數／讀 UI（§3.5.4 禁令 2）。 */
-export type Validator<C extends Command> = (state: Readonly<GameState>, cmd: C) => ValidationResult;
+export type Validator<C extends Command> = (
+  state: Readonly<GameState>,
+  cmd: C,
+  authority?: ExecutionAuthority,
+) => ValidationResult;
 
 /** 套用函式（03 §3.3.3）：僅於驗證通過後呼叫；就地修改 state、原子（全有或全無）、不得再失敗。 */
-export type Applier<C extends Command> = (state: GameState, cmd: C, emit: EmitFn) => void;
+export type Applier<C extends Command> = (
+  state: GameState,
+  cmd: C,
+  emit: EmitFn,
+  authority?: ExecutionAuthority,
+) => void;
 
 export interface CommandHandler<C extends Command> {
   validate: Validator<C>;
@@ -71,6 +88,20 @@ export function isDebugCommand(cmd: Command): boolean {
 
 /** CommandType → handler 登錄表（M1-6 僅 debug 指令；擴充見檔頭與 §8-D14）。 */
 const HANDLERS: Partial<Record<CommandType, AnyHandler>> = {
+  invokeTaimei: defineHandler<'invokeTaimei'>(validateInvokeTaimei, applyInvokeTaimei),
+  createCorps: defineHandler<'createCorps'>(corps.validateCreateCorps, corps.applyCreateCorps),
+  setCorpsDirective: defineHandler<'setCorpsDirective'>(
+    corps.validateSetCorpsDirective,
+    corps.applySetCorpsDirective,
+  ),
+  assignCastleToCorps: defineHandler<'assignCastleToCorps'>(
+    corps.validateAssignCastleToCorps,
+    corps.applyAssignCastleToCorps,
+  ),
+  dissolveCorps: defineHandler<'dissolveCorps'>(
+    corps.validateDissolveCorps,
+    corps.applyDissolveCorps,
+  ),
   startDiploWork: defineHandler<'startDiploWork'>(
     diplomacy.validateStartDiploWork,
     diplomacy.applyStartDiploWork,
@@ -143,6 +174,14 @@ const HANDLERS: Partial<Record<CommandType, AnyHandler>> = {
     march.applySetArmyTarget,
   ),
   recallArmy: defineHandler<'recallArmy'>(march.validateRecallArmy, march.applyRecallArmy),
+  returnArmyToCastle: defineHandler<'returnArmyToCastle'>(
+    march.validateReturnArmyToCastle,
+    march.applyReturnArmyToCastle,
+  ),
+  depositGarrison: defineHandler<'depositGarrison'>(
+    march.validateDepositGarrison,
+    march.applyDepositGarrison,
+  ),
   setAutoReturn: defineHandler<'setAutoReturn'>(
     march.validateSetAutoReturn,
     march.applySetAutoReturn,
@@ -201,6 +240,13 @@ const HANDLERS: Partial<Record<CommandType, AnyHandler>> = {
 };
 
 /** 取指定 CommandType 之 handler；未登錄回 undefined（呼叫端據此判 notImplemented / fail-fast）。 */
-export function getHandler(type: CommandType): AnyHandler | undefined {
+export function getHandler(
+  type: CommandType,
+  context: CommandContext = {},
+): AnyHandler | undefined {
+  if (type === 'resolveEventChoice' && context.eventEngine) {
+    const engine = context.eventEngine;
+    return defineHandler<'resolveEventChoice'>(engine.validateChoice, engine.resolveChoice);
+  }
   return HANDLERS[type];
 }

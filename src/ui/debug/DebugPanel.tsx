@@ -3,11 +3,10 @@
 // M1 範圍：01 §3.11.2 六區塊中僅落地「時間」（+1日／+30日，對應已定案之 `debugSkipDays`）與
 // 「資源作弊」子集（僅金錢；`addFood`／`addTroops` 需先在地圖選取我方城，依賴 M2 地圖選取機制，
 // 延後）；另新增「狀態」區塊顯示種子與 `stateHash()`，供 03-T11「跳轉 360 日與逐日 hash 一致」
-// 人工核對用。AI 意圖／尋路 overlay／StateViewer JSON 樹／效能六區塊留待 M2（地圖）／M7（AI）／
-// M1-23（perfMonitor，已有資料來源 `perfMonitor.getSnapshot()`，僅未接顯示）等里程碑補齊。
+// 人工核對用（按鈕明確計算，tick 後標示過期）。AI 意圖、lazy JSON 樹與唯讀效能由子元件提供；尋路 overlay 另行實作。
 // 字串 key 見 13 §8 D17（草案併入）／`src/i18n/zh-TW.ts`。
 
-import type { ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import { useStore } from 'zustand';
 import { store } from '@app/store';
 import { gameLoop } from '@app/gameLoop';
@@ -16,6 +15,9 @@ import { BAL } from '@core/balance';
 import { stateHash } from '@core/state/serialize';
 import { t } from '@i18n/zh-TW';
 import { useSession } from '../hooks/useSession';
+import { M7DebugPanel } from './M7DebugPanel';
+import { PerfDebugPanel } from './PerfDebugPanel';
+import { StateViewer } from './StateViewer';
 
 const PANEL_STYLE: React.CSSProperties = {
   position: 'fixed',
@@ -51,7 +53,12 @@ export function DebugPanel(): ReactElement | null {
   // 直接訂閱 game／tickSeq（非 useGameSelector：game 尚未 boot 時該 hook 會擲例外，除錯面板
   // 在「新遊戲」按下前即可能已掛載，須容忍 game === null，見檔頭）。
   const game = useStore(store, (s) => s.game);
-  useStore(store, (s) => s.tickSeq); // 訂閱 tickSeq：每 tick 重渲染以更新下方 stateHash 顯示
+  const tickSeq = useStore(store, (s) => s.tickSeq);
+  const [measuredHash, setMeasuredHash] = useState<{
+    game: typeof game;
+    tickSeq: number;
+    hash: string;
+  } | null>(null);
 
   if (!panelOpen) {
     return null;
@@ -71,6 +78,16 @@ export function DebugPanel(): ReactElement | null {
       gold: BAL.debugGrantGoldAmount,
       food: null,
       castleId: null,
+    });
+  }
+
+  function handleCalculateHash(): void {
+    const current = store.getState();
+    if (current.game === null) return;
+    setMeasuredHash({
+      game: current.game,
+      tickSeq: current.tickSeq,
+      hash: stateHash(current.game),
     });
   }
 
@@ -127,11 +144,19 @@ export function DebugPanel(): ReactElement | null {
           <>
             <p data-testid="debug-seed">{t('ui.debug.seed', { seed: game.meta.seed })}</p>
             <p data-testid="debug-state-hash">
-              {t('ui.debug.stateHash', { hash: stateHash(game) })}
+              {measuredHash?.game === game && measuredHash.tickSeq === tickSeq
+                ? t('ui.debug.stateHash', { hash: measuredHash.hash })
+                : t('ui.debug.hashUnmeasured')}
             </p>
+            <button type="button" data-testid="debug-calculate-hash" onClick={handleCalculateHash}>
+              {t('ui.debug.calculateHash')}
+            </button>
+            <StateViewer data={game} revision={tickSeq} />
           </>
         )}
       </section>
+      <M7DebugPanel />
+      <PerfDebugPanel />
     </div>
   );
 }

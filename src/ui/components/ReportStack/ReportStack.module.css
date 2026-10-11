@@ -1,24 +1,45 @@
 .stack {
   position: fixed;
   z-index: var(--z-toast);
-  top: 60px;
-  right: 12px;
-  width: 320px;
+  top: 3.75rem;
+  right: 0.75rem;
+  width: 20rem;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
   pointer-events: none;
+  min-height: 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  overflow-y: auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+  pointer-events: auto;
+  scrollbar-width: thin;
+}
+
+.list > * {
+  flex-shrink: 0;
+}
+
+.stack[hidden] {
+  display: none;
 }
 
 /* M6-V9 §4.1：1280 檔通知堆疊 240px */
 @media (max-width: 1440px) {
   .stack {
-    width: 240px;
+    width: 15rem;
   }
 }
 
 /* M6-V9 §4.7：收合鈕列＋計數 pill */
 .header {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -27,41 +48,61 @@
 }
 .countPill {
   padding: 0 var(--space-2);
-  border: var(--border-thin);
-  border-radius: var(--radius-round);
-  background: var(--washi-100);
-  color: var(--ink-700);
-  font-size: var(--font-size-sm);
+  border: 1px solid var(--stroke-subtle);
+  border-radius: 4px;
+  background: var(--surface-command);
+  color: var(--command-gold);
+  border-color: var(--command-gold);
+  font-size: max(12px, var(--font-size-sm));
+}
+
+.openReports {
+  flex-shrink: 0;
+  width: 100%;
+  min-height: 32px;
+  border: 1px solid var(--command-gold);
+  border-radius: 2px;
+  background: var(--surface-command);
+  color: var(--text-inverse);
+  font-size: max(12px, var(--font-size-sm));
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: var(--shadow-panel);
+}
+.openReports:hover {
+  background: var(--surface-command);
+  color: var(--command-gold);
 }
 
 .toast {
   position: relative;
   overflow: hidden;
-  padding: var(--space-3);
-  border: var(--border-thin);
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--stroke-subtle);
   border-left: 4px solid;
-  border-radius: var(--radius-md);
-  background: var(--washi-100);
-  box-shadow: var(--shadow-1);
-  color: var(--ink-900);
+  border-radius: 2px;
+  background: linear-gradient(var(--surface-panel), var(--surface-base));
+  box-shadow: 0 3px 12px rgb(20 18 14 / 20%);
+  color: var(--text-primary);
   pointer-events: auto;
   animation: enter var(--duration-normal) var(--ease-out);
 }
 
 .info {
-  border-left-color: var(--accent-indigo);
+  border-left-color: var(--status-info);
 }
 .success {
-  border-left-color: var(--accent-moss);
+  border-left-color: var(--status-success);
 }
 .warning {
-  border-left-color: var(--accent-gold);
+  border-left-color: var(--brand-gold);
 }
 .critical {
-  border-left-color: var(--accent-vermilion);
+  border-left-color: var(--status-danger);
 }
 .critical .heading strong {
-  color: var(--accent-vermilion);
+  color: var(--status-danger);
   font-weight: 700;
 }
 
@@ -69,19 +110,56 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: var(--space-2);
+  gap: 0.5rem;
+}
+.metadata {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.severitySeal {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: max(20px, 1.25rem);
+  height: max(20px, 1.25rem);
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+  border-radius: 2px;
+}
+.severitySeal svg {
+  width: 100%;
+  height: 100%;
+}
+.dismissControl {
+  flex-shrink: 0;
+  min-width: 32px;
+  min-height: 32px;
 }
 .heading strong {
-  font-weight: 400;
+  font-weight: 600;
+  font-family: var(--font-family-display);
+  letter-spacing: 0.04em;
+  font-size: max(12px, var(--font-size-sm));
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 .toast p {
   margin: var(--space-1) 0;
-  color: var(--ink-500);
-  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-size: max(12px, var(--font-size-sm));
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 .toast time {
-  color: var(--ink-300);
-  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-size: max(12px, var(--font-size-xs));
+  display: block;
+  margin: 0;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 .clickable {
   cursor: pointer;

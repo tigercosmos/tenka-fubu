@@ -9,6 +9,7 @@
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import LZString from 'lz-string';
 
 const hoisted = vi.hoisted(() => ({ apps: [] as { destroyed: boolean }[] }));
 vi.mock('pixi.js', async () => {
@@ -19,18 +20,114 @@ vi.mock('pixi.js', async () => {
 import { App } from '../../src/app/App';
 import { resetGameStoreForTests, store } from '../../src/app/store';
 import { resetBridgeForTests } from '../../src/app/bridge';
+import { settingsStore } from '../../src/app/settings/runtime';
+import { SettingsSchema } from '../../src/app/settings';
+import { uiStore } from '../../src/ui/hooks/uiStore';
+import { t } from '../../src/i18n/zh-TW';
+import { indexedDbSaveStorage } from '../../src/app/persistence/storage';
+import { encodeSave } from '../../src/core/save/serialize';
 
 beforeEach(() => {
+  settingsStore.setState({ settings: SettingsSchema.parse({}) });
   resetBridgeForTests();
   resetGameStoreForTests(null);
 });
 
 afterEach(() => {
   cleanup();
+  settingsStore.setState({ settings: SettingsSchema.parse({}) });
+  document.documentElement.style.removeProperty('--ui-scale');
+  document.documentElement.style.removeProperty('font-size');
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
 });
 
 describe('App（新遊戲精靈全流程，M2-19）', () => {
+  it('restores the main UI screen and F7 after a main-to-main quickload without a tick', async () => {
+    const get = vi.spyOn(indexedDbSaveStorage, 'get').mockResolvedValue(undefined);
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(() => null);
+    render(<App />);
+    fireEvent.click(screen.getByTestId('title-save-list'));
+    await waitFor(() =>
+      expect(screen.getByTestId('save-load-panel').getAttribute('aria-busy')).toBe('false'),
+    );
+    fireEvent.click(screen.getByRole('button', { name: t('ui.common.back') }));
+    fireEvent.click(screen.getByTestId('title-newgame'));
+    await waitFor(() =>
+      expect(screen.getByTestId('scenario-pick-s1560')).toHaveProperty('disabled', false),
+    );
+    fireEvent.click(screen.getByTestId('scenario-pick-s1560'));
+    fireEvent.click(screen.getByTestId('clan-pick-clan.oda'));
+    fireEvent.click(screen.getByTestId('newgame-start'));
+    await waitFor(() => expect(screen.getByTestId('screen-strategy')).toBeTruthy());
+    const previous = store.getState().game!;
+    const tickSeq = store.getState().tickSeq;
+    const blob = LZString.compressToUTF16(encodeSave(previous, 123));
+    get.mockImplementation((key) =>
+      Promise.resolve(key === 'tf.save.quick:1.blob' ? blob : undefined),
+    );
+    fireEvent.keyDown(window, { key: 'F9' });
+    await waitFor(() => expect(store.getState().game).not.toBe(previous));
+    expect(store.getState().tickSeq).toBe(tickSeq);
+    expect(store.getState().session.screen).toBe('main');
+    expect(uiStore.getState().screen).toBe('main');
+    expect(screen.queryByRole('dialog')).toBeNull();
+    fireEvent.keyDown(document.body, { key: 'F7' });
+    expect(screen.getByTestId('taimei-panel')).toBeTruthy();
+    expect(store.getState().session.speed).toBe('paused');
+  });
+  it('quota quick-save failure exposes current-progress export without core mutations', async () => {
+    vi.spyOn(indexedDbSaveStorage, 'get').mockResolvedValue(undefined);
+    vi.spyOn(indexedDbSaveStorage, 'setMany').mockRejectedValue(
+      new DOMException('quota', 'QuotaExceededError'),
+    );
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(() => null);
+    const revoke = vi.fn();
+    const createUrl = vi.fn(() => 'blob:backup');
+    vi.stubGlobal('URL', { createObjectURL: createUrl, revokeObjectURL: revoke });
+    const download = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+    render(<App />);
+    // Await real persistence initialization before exercising keyboard actions.
+    fireEvent.click(screen.getByTestId('title-save-list'));
+    await waitFor(() =>
+      expect(screen.getByTestId('save-load-panel').getAttribute('aria-busy')).toBe('false'),
+    );
+    fireEvent.click(screen.getByRole('button', { name: t('ui.common.back') }));
+    fireEvent.click(screen.getByTestId('title-newgame'));
+    await waitFor(() =>
+      expect(screen.getByTestId('scenario-pick-s1560')).toHaveProperty('disabled', false),
+    );
+    fireEvent.click(screen.getByTestId('scenario-pick-s1560'));
+    fireEvent.click(screen.getByTestId('clan-pick-clan.oda'));
+    fireEvent.click(screen.getByTestId('newgame-start'));
+    await waitFor(() => expect(screen.getByTestId('screen-strategy')).toBeTruthy());
+    const before = structuredClone(store.getState().game);
+    fireEvent.keyDown(window, { key: 's', ctrlKey: true });
+    await waitFor(() =>
+      expect(screen.getByRole('alert').textContent).toBe(t('error.save.quotaExceeded')),
+    );
+    expect(screen.queryByText(t('ui.save.quickSaved'))).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: t('ui.save.exportCurrent') }));
+    await waitFor(() => expect(download).toHaveBeenCalledOnce());
+    expect(createUrl).toHaveBeenCalledOnce();
+    expect(revoke).toHaveBeenCalledWith('blob:backup');
+    expect(document.querySelector('a[download]')).toBeNull();
+    expect(store.getState().game).toEqual(before);
+  });
+  it('opens title settings and immediately applies DOM scale without changing active speed', () => {
+    render(<App />);
+    fireEvent.click(screen.getByTestId('title-settings'));
+    fireEvent.change(screen.getByRole('slider'), { target: { value: '1.25' } });
+    expect(settingsStore.getState().settings.uiScale).toBe(1.25);
+    expect(document.documentElement.style.getPropertyValue('--ui-scale')).toBe('1.25');
+    expect(uiStore.getState().uiScale).toBe(1.25);
+    fireEvent.click(screen.getByRole('radio', { name: '×5' }));
+    expect(store.getState().session.resumeSpeed).toBe('x1');
+    fireEvent.click(screen.getByRole('button', { name: t('ui.common.back') }));
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
   it('標題→劇本→選織田→開始遊戲：進入 MainScreen（screen-strategy），HUD 顯示 1560年，GameState 已建立', async () => {
+    settingsStore.setState({ settings: SettingsSchema.parse({ defaultSpeed: 'x5' }) });
     render(<App />);
 
     // 標題畫面。
@@ -56,8 +153,11 @@ describe('App（新遊戲精靈全流程，M2-19）', () => {
     fireEvent.click(screen.getByTestId('newgame-start'));
 
     // 驗收核心：store 進入 running（screen='main'，MainScreen 可見）＋ GameState 已建立。
-    expect(screen.getByTestId('screen-strategy')).toBeTruthy();
+    await waitFor(() => expect(screen.getByTestId('screen-strategy')).toBeTruthy());
     expect(store.getState().session.screen).toBe('main');
+    expect(store.getState().session.speed).toBe('paused');
+    expect(store.getState().session.resumeSpeed).toBe('x5');
+    expect(uiStore.getState().screen).toBe('main');
     const game = store.getState().game;
     expect(game).not.toBeNull();
     expect(game?.meta.playerClanId).toBe('clan.oda');

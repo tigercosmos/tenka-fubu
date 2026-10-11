@@ -18,8 +18,10 @@
 
 import { forwardRef, useEffect, useImperativeHandle, useRef, type ReactElement } from 'react';
 import { MapRenderer } from './MapRenderer';
+import type { FocusViewport } from './hudFocus';
 import { waitForMapFont } from './mapFontReady';
 import type { MapAnalysisMode } from '@app/store';
+import type { MapPresentationSettings } from './presentationSettings';
 import { registerDebugMapRenderer, unregisterDebugMapRenderer } from './debugMapBridge';
 import type {
   MapEventHandler,
@@ -32,10 +34,17 @@ import type {
 /** M6-V9 §4.4：對外命令式握把（MainScreen 端 ref 取名 `mapHandleRef`，與內部 `hostRef` 區隔）。 */
 export interface MapHandle {
   /** 鏡頭補間至世界座標（MiniMap `onNavigate` 接線；`MapRenderer.panToWorld`）。 */
-  panToWorld(x: number, y: number): void;
+  panToWorld(x: number, y: number, focusViewport?: FocusViewport | null): void;
+  panByKeyboard(dirX: number, dirY: number): void;
+  zoomByKeyboard(direction: -1 | 1): void;
+  focusNode(nodeId: string, focusViewport?: FocusViewport | null): void;
 }
 
 export interface MapCanvasHostProps {
+  /** Measured canvas-local CSS bounds, used only for explicit focus navigation. */
+  focusViewport?: FocusViewport | null | undefined;
+  /** Individual canvas-local CSS HUD rectangles; separate from focus navigation bounds. */
+  screenOcclusions?: readonly FocusViewport[] | undefined;
   /** 渲染器對外事件的接收者（React 收到後轉 Command 丟入佇列，01 §3.6.1／§3.12.2）。 */
   onMapEvent: MapEventHandler;
   /** 靜態地圖資料（省略／`null`＝尚未載入）；變更時重繪 roads/nodeMarkers（`MapRenderer.setMapData`）。 */
@@ -51,6 +60,9 @@ export interface MapCanvasHostProps {
   marchTargetId?: string | null | undefined;
   analysisMode?: MapAnalysisMode | undefined;
   analysisOpacity?: number | undefined;
+  mapLabelDensity?: MapPresentationSettings['mapLabelDensity'] | undefined;
+  effectsEnabled?: boolean | undefined;
+  reducedMotion?: boolean | undefined;
 }
 
 export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function MapCanvasHost(
@@ -59,11 +71,16 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
     staticData,
     viewState,
     focusNodeId,
+    focusViewport,
+    screenOcclusions,
     pathPreview,
     interactionMode = 'idle',
     marchTargetId = null,
     analysisMode = 'none',
     analysisOpacity = 0.55,
+    mapLabelDensity = 'medium',
+    effectsEnabled = true,
+    reducedMotion = false,
   }: MapCanvasHostProps,
   ref,
 ): ReactElement {
@@ -71,7 +88,12 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
   const onMapEventRef = useRef(onMapEvent);
   onMapEventRef.current = onMapEvent;
   const rendererRef = useRef<MapRenderer | null>(null);
+  const appliedStaticData = useRef<{ renderer: MapRenderer; data: MapStaticData | null } | null>(
+    null,
+  );
   const latestProps = useRef({
+    focusViewport,
+    screenOcclusions,
     staticData,
     viewState,
     pathPreview,
@@ -79,8 +101,13 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
     marchTargetId,
     analysisMode,
     analysisOpacity,
+    mapLabelDensity,
+    effectsEnabled,
+    reducedMotion,
   });
   latestProps.current = {
+    focusViewport,
+    screenOcclusions,
     staticData,
     viewState,
     pathPreview,
@@ -88,14 +115,26 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
     marchTargetId,
     analysisMode,
     analysisOpacity,
+    mapLabelDensity,
+    effectsEnabled,
+    reducedMotion,
   };
 
   // M6-V9 §4.4：只暴露 panToWorld（補間導航）；renderer 尚未 init 完成時為安全 no-op。
   useImperativeHandle(
     ref,
     () => ({
-      panToWorld(x: number, y: number): void {
-        rendererRef.current?.panToWorld(x, y);
+      panToWorld(x: number, y: number, focusViewport?: FocusViewport | null): void {
+        rendererRef.current?.panToWorld(x, y, focusViewport);
+      },
+      panByKeyboard(dirX: number, dirY: number): void {
+        rendererRef.current?.panByKeyboard(dirX, dirY);
+      },
+      zoomByKeyboard(direction: -1 | 1): void {
+        rendererRef.current?.zoomByKeyboard(direction);
+      },
+      focusNode(nodeId: string, focusViewport?: FocusViewport | null): void {
+        rendererRef.current?.focusNode(nodeId, focusViewport);
       },
     }),
     [],
@@ -118,7 +157,20 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
         return;
       }
       const latest = latestProps.current;
-      renderer.setMapData(latest.staticData ?? null);
+      const data = latest.staticData ?? null;
+      // init consumes data already received by the prop effect; do not reload that same receipt.
+      if (
+        appliedStaticData.current?.renderer !== renderer ||
+        appliedStaticData.current.data !== data
+      ) {
+        renderer.setMapData(data);
+        appliedStaticData.current = { renderer, data };
+      }
+      renderer.setPresentationSettings({
+        mapLabelDensity: latest.mapLabelDensity,
+        effectsEnabled: latest.effectsEnabled,
+        reducedMotion: latest.reducedMotion,
+      });
       if (latest.viewState !== undefined) {
         renderer.update(latest.viewState, {
           analysisMode: latest.analysisMode,
@@ -128,6 +180,8 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
       renderer.showPathPreview(latest.pathPreview ?? null);
       renderer.setMode(latest.interactionMode);
       renderer.setMarchTarget(latest.marchTargetId);
+      renderer.setFocusViewport(latest.focusViewport ?? null);
+      renderer.setScreenOcclusions(latest.screenOcclusions ?? []);
       if (focusNodeId !== undefined) renderer.focusNode(focusNodeId);
       // M6-V2：登記為目前活躍渲染器，供 window.__TENKA_DEBUG__ 的地圖鏡頭 preset／idle 等待使用
       // （src/app/debug.ts；src/ui/map/debugMapBridge.ts）。
@@ -137,6 +191,7 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
       disposed = true;
       unregisterDebugMapRenderer(renderer);
       renderer.destroy(); // 冪等
+      if (appliedStaticData.current?.renderer === renderer) appliedStaticData.current = null;
       rendererRef.current = null;
     };
     // focusNodeId 僅供掛載當下的初始聚焦（見上方檔頭），刻意不列入依賴陣列。
@@ -144,8 +199,20 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
   }, []);
 
   useEffect(() => {
-    rendererRef.current?.setMapData(staticData ?? null);
+    const renderer = rendererRef.current;
+    if (renderer === null) return;
+    const data = staticData ?? null;
+    renderer.setMapData(data);
+    appliedStaticData.current = { renderer, data };
   }, [staticData]);
+
+  useEffect(() => {
+    rendererRef.current?.setFocusViewport(focusViewport ?? null);
+  }, [focusViewport]);
+
+  useEffect(() => {
+    rendererRef.current?.setScreenOcclusions(screenOcclusions ?? []);
+  }, [screenOcclusions]);
 
   useEffect(() => {
     if (viewState !== undefined)
@@ -163,6 +230,13 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
   useEffect(() => {
     rendererRef.current?.setMarchTarget(marchTargetId);
   }, [marchTargetId]);
+  useEffect(() => {
+    rendererRef.current?.setPresentationSettings({
+      mapLabelDensity,
+      effectsEnabled,
+      reducedMotion,
+    });
+  }, [mapLabelDensity, effectsEnabled, reducedMotion]);
 
   return (
     <div

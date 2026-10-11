@@ -1,5 +1,12 @@
 # M6-V7 技術設計文件（最終版）：城池／郡／聚落（平城／山城輪廓、耐久／受攻／警戒、城下低對比地景、選取環）
 
+> 2026-10-10 呈現契約更新：本文件保留 M6-V7 的歷史設計與裁定。
+> [art-bible §6.4.1](../visual/art-bible.md#641-模型優先的狀態呈現2026-10-10) 取代本文件的同心選取圓、耐久圓弧、受攻光暈與 CD5 掛載層序。
+> 新節點選取與攻城地面標記位於 `nodeMarkers` 的首個子容器；城體位於其上。
+> [art-bible §6.4.2](../visual/art-bible.md#642-城堡與軍隊的共用模型深度2026-10-10) 定義共用模型深度與城體避讓。
+> [art-bible §6.4.3](../visual/art-bible.md#643-城堡與軍隊的模型比例2026-10-10) 定義放大素材及分離的狀態位置；向量替代與遠景規則不變。
+> 原世界錨點、命中半徑、耐久比例、色彩門檻與 LOD 契約不變。
+
 版本：Opus REVISER 交付（已納入 spec/visual 與 engineering 兩份對抗性審查，逐條處置見 §13）。
 實作 agent 僅依本文件＋四份 brief（brief-specs／brief-architecture／brief-assets／design-m6v5-final）＋已 landed 的 **M6-V6 final 設計**（`design-m6v6-final.md`）施工。
 語言：繁體中文（台灣慣用語）；程式契約為 TypeScript。所有路徑語意根為 `/Users/tigercosmos/nobunaga_ambition`。

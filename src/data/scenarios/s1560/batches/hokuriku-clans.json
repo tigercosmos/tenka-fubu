@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "_provenance": {
+    "identityAndPalette": "plan/14-scenario-data.md §3.3; prescribed scenario identities, homes and palette, not simultaneous historical-control proof",
+    "diplomacy": "plan/14 §3.3: Asakura/Honganji sentiment35 and Azai/Asakura80; no extra alliance or war inferred",
+    "prestigeAndTitles": "Authored prestige; no unrequired historical court or shogunate titles asserted",
+    "gold": "Calibrated from actual staged district koku using round(clanKokudaka / 200 / 100) * 100, plan/14 §3.2",
+    "status": "Staged B5 authoring batch; not imported by production"
+  },
+  "clans": [
+    {
+      "id": "clan.asakura",
+      "name": "朝倉家",
+      "leaderId": "off.asakura-yoshikage",
+      "homeCastleId": "castle.ichijodani",
+      "gold": 2500,
+      "prestige": 350,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.asakura",
+      "colorIndex": 22
+    },
+    {
+      "id": "clan.hatakeyama",
+      "name": "畠山家",
+      "leaderId": "off.hatakeyama-yoshitsuna",
+      "homeCastleId": "castle.nanao",
+      "gold": 1500,
+      "prestige": 250,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.hatakeyama",
+      "colorIndex": 14
+    },
+    {
+      "id": "clan.jinbo",
+      "name": "神保家",
+      "leaderId": "off.jinbo-nagamoto",
+      "homeCastleId": "castle.toyama",
+      "gold": 1300,
+      "prestige": 150,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.jinbo",
+      "colorIndex": 37
+    }
+  ],
+  "diplomacy": {
+    "pacts": [],
+    "wars": [],
+    "sentiments": [
+      { "a": "clan.asakura", "b": "clan.honganji", "aToB": 35, "bToA": 35 },
+      { "a": "clan.azai", "b": "clan.asakura", "aToB": 80, "bToA": 80 }
+    ]
+  }
+}

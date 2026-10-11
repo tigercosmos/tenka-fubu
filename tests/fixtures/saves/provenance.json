@@ -1,0 +1,40 @@
+{
+  "generator": "tools/freeze-save-fixture.ts",
+  "generatorSha256": "a9dfdaba1bbaecb21fd97d29890f3ff3fe7e6ba439c29d45e6b3285f495d30ca",
+  "dependencyLockSha256": "eefda94e21e31abe6920488363f39dfc151b7736d5759810c5c8661d05f0ae22",
+  "dependencySource": "shared current node_modules; historical builders and codecs run from isolated git archives",
+  "fixtureFormatting": "Prettier only; envelope fields unchanged from the source codec output",
+  "sourceFingerprintScope": "sorted relative paths and SHA256 contents: src/core/**/*.ts, src/data/schemas/**/*.ts, tests/fixtures/mini/**/*.{ts,json}, tests/config.ts, package.json",
+  "seed": 42,
+  "timestamp": 1751808000000,
+  "fixtures": [
+    {
+      "file": "save-v1.tenkafubu.json",
+      "version": 1,
+      "origin": "git-revision",
+      "revision": "e4b711fada8473bcf7d5903c3215763753cf3e32",
+      "generatorOutputSha256": "42dd38ae3a17b684dd8296f14e3ab8dacc5e9f4b663bba070b93939a076ac082",
+      "artifactSha256": "7283d0fc1f93cfe897b813c6d33eaddfd764aac4b276ebafb75925442af6c8fa",
+      "sourceFingerprintSha256": "fef69c9cdf68e546b804e7735410a4a5d7bc8e23eb91704e2bdf616429e550d7"
+    },
+    {
+      "file": "save-v2.tenkafubu.json",
+      "version": 2,
+      "origin": "git-revision",
+      "revision": "661ac6e8c7839d8e9c063d591872455c62abfe39",
+      "generatorOutputSha256": "686466b3ec8cdab787b6d884b1dfde8859cd8c16706f1d533744f1263867db95",
+      "artifactSha256": "092587465dfddb3354bb70925a26e6e9e7679aaefcebf910f9ecbf1246bbcb32",
+      "sourceFingerprintSha256": "a0ab25ea108bf02d5fe24cd298907bc534d12626a562d324f4d16a3174e6668a"
+    },
+    {
+      "file": "save-v3.tenkafubu.json",
+      "version": 3,
+      "origin": "working-tree",
+      "baseRevision": "3c04b74fe2e10d4491bc59ae3bb21b0798fe0398",
+      "fingerprintTiming": "captured immediately after generation; not a committed source revision",
+      "generatorOutputSha256": "3a8f267bb656bb3fbdc3b3949ce2f50f15f1c1c9353ed3e086bcc5bde4ecc6d4",
+      "artifactSha256": "e2e11a96894378af5e14a2a6735915e7c1afdff9b1a710ddcb8effd4b6a4c730",
+      "sourceFingerprintSha256": "99b4444f33f9f1cd68342873a9f1415ca5672d947e14ac73e09f623dca3c3d33"
+    }
+  ]
+}

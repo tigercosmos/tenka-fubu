@@ -14,8 +14,34 @@ if (container === null) {
   throw new Error('找不到 #root 掛載點');
 }
 
-createRoot(container).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+const root = createRoot(container);
+async function renderRoute(): Promise<void> {
+  if (import.meta.env.DEV && window.location.hash === '#/dev/battle-layout') {
+    const { default: BattleLayoutGallery } = await import('@ui/dev/BattleLayoutGallery');
+    if (window.location.hash !== '#/dev/battle-layout') return;
+    root.render(
+      <StrictMode>
+        <BattleLayoutGallery />
+      </StrictMode>,
+    );
+    return;
+  }
+  if (import.meta.env.DEV && window.location.hash === '#/dev/components') {
+    const { default: ComponentGallery } = await import('@ui/dev/ComponentGallery');
+    // Ignore a stale import when navigation already returned to the game.
+    if (window.location.hash !== '#/dev/components') return;
+    root.render(
+      <StrictMode>
+        <ComponentGallery />
+      </StrictMode>,
+    );
+    return;
+  }
+  root.render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
+}
+if (import.meta.env.DEV) window.addEventListener('hashchange', () => void renderRoute());
+void renderRoute();

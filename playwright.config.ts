@@ -28,13 +28,17 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         // Full Chromium's new headless mode can use the reference GPU without opening a window.
-        ...(process.env.VISUAL_GPU === '1'
+        ...(process.platform === 'darwin' || process.env.VISUAL_GPU === '1'
           ? {
               channel: 'chromium',
               headless: true,
               launchOptions: {
                 headless: true,
-                ...(process.platform === 'darwin' ? { args: ['--use-angle=metal'] } : {}),
+                ...(process.platform === 'darwin'
+                  ? { args: ['--use-angle=metal'] }
+                  : process.platform === 'linux'
+                    ? { args: ['--enable-gpu', '--use-angle=vulkan'] }
+                    : {}),
               },
             }
           : {}),

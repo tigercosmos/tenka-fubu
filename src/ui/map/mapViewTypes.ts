@@ -40,12 +40,14 @@ export type { DebugOverlayFlags };
 /**
  * 渲染器對外事件（01 §4.3 基底＋04 §3.12.2 idle 模式擴充，M2-17）；
  * React 世界經 `MapCanvasHost` 注入的 handler／`useMapEvents`（見 `interaction.ts`）接收。
- * `nodeHover` 之 `nodeKind`/`id` 於移出任何節點（含目前未支援 hover 事件的部隊）時同為 `null`；
+ * `nodeHover` 之 `nodeKind`/`id` 於移出任何節點時同為 `null`；部隊另發 `armyHover`。
  * `screenX`/`screenY` 為指標之全域（stage）座標，供 tooltip 依 §6.1「跟隨游標右下 16px」定位。
  */
 export type MapRendererEvent =
   | { type: 'nodeClick'; nodeKind: 'castle' | 'district'; id: string }
   | { type: 'armyClick'; id: string }
+  | { type: 'armyHover'; id: string; screenX: number; screenY: number }
+  | { type: 'hoverEnd' }
   | { type: 'emptyClick' } // 點空白處 → 清除選取
   | { type: 'rightClick' } // 右鍵：idle 清除選取；orderMarch 取消回 idle 留待 M4-14
   | {
@@ -146,6 +148,26 @@ export interface MapStaticData {
   terrain?: {
     reliefAssetId: string;
     forestAssetId: string;
+    mountainArtAssetId?: string;
+    /** Optional static woodland underpaint, shared across successfully painted mountain patches. */
+    mountainMaterialAssetId?: string;
+    mountainArtVariants?: { horizontal: string; vertical: string };
+    /** Stable authored visual overrides; geometry and axis fallback remain unchanged. */
+    mountainArtById?: Readonly<Record<string, string>>;
+    mountainArtContentBounds?: Readonly<
+      Record<string, { x: number; y: number; width: number; height: number }>
+    >;
+    forestArtAssetId?: string;
+    groundArtAssetId?: string;
+    /** Optional presentation-only lowland material; unrelated to simulated crop yield. */
+    fieldMaterialAssetId?: string;
+    mountains?: ReadonlyArray<{
+      id: string;
+      tier: 1 | 2 | 3;
+      mass: ReadonlyArray<{ x: number; y: number }>;
+      ridges: ReadonlyArray<ReadonlyArray<{ x: number; y: number }>>;
+    }>;
+    forests?: ReadonlyArray<{ id: string; polygon: ReadonlyArray<{ x: number; y: number }> }>;
     rivers: ReadonlyArray<{
       id: string;
       points: ReadonlyArray<{ x: number; y: number }>;
@@ -189,7 +211,7 @@ export interface MapViewState {
  * （V10 勢力圖）／`debug`（DEV overlay）為空容器占位，避免 V6–V10 反覆改層序。
  */
 export interface MapLayers {
-  /** 鏡頭變換根：13 圖層之父容器；scale/position 由 camera.ts（M2-15，04-T10）驅動。 */
+  /** 鏡頭變換根：15 圖層之父容器；scale/position 由 camera.ts（M2-15，04-T10）驅動。 */
   readonly world: Container;
   /** 0 海陸背景：海色矩形＋japan-outline 陸地多邊形（靜態一次建立；relief 未載入時之 fallback 底）。 */
   readonly seaBackground: Container;
@@ -205,16 +227,18 @@ export interface MapLayers {
   readonly roads: Container;
   /** 6 聚落標記（V7：本城城下屋頂群＋田畦，程序生成、close only、繪於 nodeMarkers 之下）。 */
   readonly settlements: Container;
-  /** 7 城／郡標記（V7：CastleNode/DistrictNode 元件取代占位 drawNodeMarker）。 */
+  /** 7 節點命中容器、郡標記與城堡／軍隊地面標記；城堡建築位於 actorBodies。 */
   readonly nodeMarkers: Container;
+  /** Shared castle-building / soldier-only depth plane; semantic signals remain above. */
+  readonly actorBodies: Container;
   /** 7.5 城名牌（M6-V9b §6：和紙綬帶名牌——nodeMarkers 之上（節點資訊延伸，壓過聚落/節點本體）、
    *  labels 之下（overview 國名大字壓過名牌）、selectionAndPath 之下（選取金環/路徑光帶壓過名牌）。 */
   readonly nameplates: Container;
-  /** 8 部隊 sprite（M5）。 */
+  /** 8 軍隊旗幟、狀態、兵數與士氣資訊；士兵模型位於 actorBodies。 */
   readonly armies: Container;
   /** 9 選取高亮環／行軍路徑預覽（V7 節點選取環金色雙環，錨點置中＋V6 相鄰道路高亮；M4-14 orderMarch 預覽）。 */
   readonly selectionAndPath: Container;
-  /** 10 特效：威風環／交鋒 icon（M5）。 */
+  /** 10 城堡旗幟、耐久、警戒及威風環／交鋒 icon。 */
   readonly effects: Container;
   /** 11 文字標籤（BitmapText；城名／郡名／國名／勢力名）。 */
   readonly labels: Container;
@@ -222,7 +246,7 @@ export interface MapLayers {
   readonly debug: Container;
 }
 
-/** `MapLayers` 的圖層 key（不含 `world` 根）——依 04 §3.10.1 由下而上層序（M6-V5：13 層）。 */
+/** `MapLayers` 的圖層 key（不含 `world` 根）——依 04 §3.10.1 由下而上，共15層。 */
 export const LAYER_ORDER = [
   'seaBackground',
   'terrainBase',
@@ -232,6 +256,7 @@ export const LAYER_ORDER = [
   'roads',
   'settlements',
   'nodeMarkers',
+  'actorBodies',
   'nameplates', // M6-V9b §6：nodeMarkers 之上、armies/selectionAndPath/labels 之下
   'armies',
   'selectionAndPath',

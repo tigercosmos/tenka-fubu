@@ -1,0 +1,381 @@
+{
+  "version": "8.19.0",
+  "upstreamIssue": "https://github.com/pixijs/pixijs/issues/12213",
+  "upstreamProposal": "https://github.com/pixijs/pixijs/pull/12235",
+  "localPatchStatus": "Local pinned 8.19.0 backport; the upstream proposal is open, not merged or blindly installed. Deterministic processed-source naming preserves precision and explicit defines; additional feedback identity, per-context reflection, shader-layout isolation and private back-buffer cleanup are locally tested. Native rendering and heap acceptance remain unverified.",
+  "purpose": "Deterministic processed GL identities; context-owned reflection and deletion; pooled mask source detachment; render-target source listener cleanup. Local backport, not upstream PR installation.",
+  "maskLifecyclePatch": "Local AlphaMaskEffect reset clears its completed mask source before pool reuse. This separate lifecycle fix does not claim upstream proposal coverage.",
+  "renderTargetLifecyclePatch": "Local RenderTargetSystem cleanup removes only its own source destroy callbacks. Source destruction retains target cleanup and removes the callback registry entry. This separate fix does not claim upstream proposal coverage or native heap acceptance.",
+  "graphicsBatchReusePatch": "Local GraphicsContextSystem bind-group preparation visits only the current batch count, not stale array tails retained by pooled render data. This separate lifecycle fix does not claim upstream proposal coverage or native remount acceptance.",
+  "targets": [
+    {
+      "path": "lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "originalSha256": "4bb896795e190daf33d49866d2dcb25d13edddb2d1bd323dd365b90b8e4c9a92",
+      "patchedSha256": "b78e6d7148b2adefb6bbea3290ede160ea94c4a17d9ea810603b5f4543360785",
+      "replacements": [
+        {
+          "from": "i < drawBatches.length",
+          "to": "i < batcher.batchIndex"
+        },
+        {
+          "from": "//# sourceMappingURL=GraphicsContextSystem.mjs.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/scene/graphics/shared/GraphicsContextSystem.js",
+      "originalSha256": "e0d07e5b24026a79e8e7ecd51ff4d373fc9d8050ad72a675c3c5352c3b632a8e",
+      "patchedSha256": "c6db03ddacda6a5740c75ad8a3d6ece485b4f6e823d39095c9085b30b1e3cd6c",
+      "replacements": [
+        {
+          "from": "i < drawBatches.length",
+          "to": "i < batcher.batchIndex"
+        },
+        {
+          "from": "//# sourceMappingURL=GraphicsContextSystem.js.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/shared/renderTarget/RenderTargetSystem.mjs",
+      "originalSha256": "b6ef46c86828ed5321e2b5281c3a4743e044770a97aa8d95f44a6922334eb089",
+      "patchedSha256": "7cd8b2f65f9576a6eb2ffea381874bfd06307446bdaa2a676bcffbdcee06ee3d",
+      "replacements": [
+        {
+          "from": "    this._renderSurfaceToRenderTargetHash = /* @__PURE__ */ new Map();",
+          "to": "    this._renderSurfaceToRenderTargetHash = /* @__PURE__ */ new Map();\n    this._renderSurfaceDestroyCallbacks = new Map();"
+        },
+        {
+          "from": "  destroy() {\n    this._renderer = null;",
+          "to": "  destroy() {\n    for (const [source, callback] of this._renderSurfaceDestroyCallbacks) {\n      source.off(\"destroy\", callback);\n    }\n    this._renderSurfaceDestroyCallbacks.clear();\n    this._renderer = null;"
+        },
+        {
+          "from": "      renderSurface.once(\"destroy\", () => {\n        renderTarget.destroy();",
+          "to": "      const onDestroy = () => {\n        this._renderSurfaceDestroyCallbacks.delete(renderSurface);\n        renderTarget.destroy();"
+        },
+        {
+          "from": "          this.adaptor.destroyGpuRenderTarget(gpuRenderTarget);\n        }\n      });",
+          "to": "          this.adaptor.destroyGpuRenderTarget(gpuRenderTarget);\n        }\n      };\n      this._renderSurfaceDestroyCallbacks.set(renderSurface, onDestroy);\n      renderSurface.once(\"destroy\", onDestroy);"
+        },
+        {
+          "from": "//# sourceMappingURL=RenderTargetSystem.mjs.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/shared/renderTarget/RenderTargetSystem.js",
+      "originalSha256": "3860bf0507cc2729cb4d62d8cb4983c9a6ed5a14f4c8573352576f320d3191b1",
+      "patchedSha256": "0d31501168f08889cb5f7fbfaec23dfc7908effa4e7160263d41b7e99fa1e5e7",
+      "replacements": [
+        {
+          "from": "    this._renderSurfaceToRenderTargetHash = /* @__PURE__ */ new Map();",
+          "to": "    this._renderSurfaceToRenderTargetHash = /* @__PURE__ */ new Map();\n    this._renderSurfaceDestroyCallbacks = new Map();"
+        },
+        {
+          "from": "  destroy() {\n    this._renderer = null;",
+          "to": "  destroy() {\n    for (const [source, callback] of this._renderSurfaceDestroyCallbacks) {\n      source.off(\"destroy\", callback);\n    }\n    this._renderSurfaceDestroyCallbacks.clear();\n    this._renderer = null;"
+        },
+        {
+          "from": "      renderSurface.once(\"destroy\", () => {\n        renderTarget.destroy();",
+          "to": "      const onDestroy = () => {\n        this._renderSurfaceDestroyCallbacks.delete(renderSurface);\n        renderTarget.destroy();"
+        },
+        {
+          "from": "          this.adaptor.destroyGpuRenderTarget(gpuRenderTarget);\n        }\n      });",
+          "to": "          this.adaptor.destroyGpuRenderTarget(gpuRenderTarget);\n        }\n      };\n      this._renderSurfaceDestroyCallbacks.set(renderSurface, onDestroy);\n      renderSurface.once(\"destroy\", onDestroy);"
+        },
+        {
+          "from": "//# sourceMappingURL=RenderTargetSystem.js.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/mask/alpha/AlphaMaskPipe.mjs",
+      "originalSha256": "c8ba669969ad486a5398595ebac8848b33ce254cbe4b05f41fe190cf71e403ab",
+      "patchedSha256": "37cecd26eedfe80df9f9262e72bd7e034758efb1ebae8b6e48cadbfd0dbfbe48",
+      "replacements": [
+        {
+          "from": "  get sprite() {",
+          "to": "  reset() {\n    // Release the renderer-owned mask source before this effect enters the global pool.\n    this.filters[0].resources.uMaskTexture = Texture.EMPTY.source;\n  }\n  get sprite() {"
+        },
+        {
+          "from": "//# sourceMappingURL=AlphaMaskPipe.mjs.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/mask/alpha/AlphaMaskPipe.js",
+      "originalSha256": "9cfaea87e59cc3563c435ca66d78734669f2e8a5e8139319e25b5e4567364789",
+      "patchedSha256": "65e349e5d6d869c42a7c238d7bb78a294cd9e9eaeb0a54a4fae234c96a8f2fad",
+      "replacements": [
+        {
+          "from": "  get sprite() {",
+          "to": "  reset() {\n    // Release the renderer-owned mask source before this effect enters the global pool.\n    this.filters[0].resources.uMaskTexture = Texture.Texture.EMPTY.source;\n  }\n  get sprite() {"
+        },
+        {
+          "from": "//# sourceMappingURL=AlphaMaskPipe.js.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/gl/shader/program/preprocessors/setProgramName.mjs",
+      "originalSha256": "dccffed7092fff7353339bb7b9fa990851633435ea0035780fedd8d4986cd661",
+      "patchedSha256": "d17eac2cf5b484f44d0aed3fa50498d31492d9ad178ffcefc758b1ac70bd8420",
+      "replacements": [
+        {
+          "from": "const fragmentNameCache = {};\nconst VertexNameCache = {};\n",
+          "to": ""
+        },
+        {
+          "from": "  const nameCache = isFragment ? fragmentNameCache : VertexNameCache;\n  if (nameCache[name]) {\n    nameCache[name]++;\n    name += `-${nameCache[name]}`;\n  } else {\n    nameCache[name] = 1;\n  }\n",
+          "to": ""
+        },
+        {
+          "from": "//# sourceMappingURL=setProgramName.mjs.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/gl/shader/GlProgram.mjs",
+      "originalSha256": "6cd38d2da8e6e73f913a1f8451359c190f973aef4f79e96abafc45d3b881d08c",
+      "patchedSha256": "1b6e00499d9f50e900db1fc8312d0f541e9dc1056dba86145cd06a334d8f4ac5",
+      "replacements": [
+        {
+          "from": "    this._key = createIdFromString(`${this.vertex}:${this.fragment}`, \"gl-program\");",
+          "to": "    this._key = createIdFromString(JSON.stringify([this.vertex, this.fragment, options.transformFeedbackVaryings?.names ?? null, options.transformFeedbackVaryings?.bufferMode ?? null]), \"gl-program\");"
+        },
+        {
+          "from": "    const key = `${options.vertex}:${options.fragment}`;",
+          "to": "    const resolved = { ..._GlProgram.defaultOptions, ...options };\n    const key = JSON.stringify([resolved.vertex, resolved.fragment, resolved.name ?? \"pixi-program\", resolved.preferredVertexPrecision, resolved.preferredFragmentPrecision, resolved.transformFeedbackVaryings?.names ?? null, resolved.transformFeedbackVaryings?.bufferMode ?? null]);"
+        },
+        {
+          "from": "//# sourceMappingURL=GlProgram.mjs.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/gl/shader/GlProgramData.mjs",
+      "originalSha256": "36dd8aca215e03c1ae8d1af2849281990e3b262f80f27557cf39a76bfe078753",
+      "patchedSha256": "b682e551ae2614821b1ddd1bd547a568cffa2ad482a8f2ccc3ae089bd9267bcc",
+      "replacements": [
+        {
+          "from": "  constructor(program, uniformData) {\n    this.program = program;",
+          "to": "  constructor(program, uniformData, gl) {\n    this.program = program;\n    this._gl = gl;"
+        },
+        {
+          "from": "  destroy() {\n    this.uniformData = null;",
+          "to": "  destroy() {\n    if (this.program) {\n      this._gl.deleteProgram(this.program);\n      this.program = null;\n    }\n    this._gl = null;\n    this.attributeData = null;\n    this.reflectedUniformData = null;\n    this.uniformBlockData = null;\n    this.uniformData = null;"
+        },
+        {
+          "from": "//# sourceMappingURL=GlProgramData.mjs.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/gl/shader/program/generateProgram.mjs",
+      "originalSha256": "c44a504494a23b29f9577fb2c3e43c6c05ca3ebfc8e3c1b39e75bdaca2639f81",
+      "patchedSha256": "49c208c06c2e7f149851a019ca86481daa91fb4efe5f5fb44ed67bdb001f0a86",
+      "replacements": [
+        {
+          "from": "  const glProgram = new GlProgramData(webGLProgram, uniformData);\n  return glProgram;",
+          "to": "  const glProgram = new GlProgramData(webGLProgram, uniformData, gl);\n  glProgram.attributeData = program._attributeData;\n  glProgram.reflectedUniformData = program._uniformData;\n  glProgram.uniformBlockData = program._uniformBlockData;\n  return glProgram;"
+        },
+        {
+          "from": "//# sourceMappingURL=generateProgram.mjs.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/gl/shader/GlShaderSystem.mjs",
+      "originalSha256": "09748b4c9929e246041ebb240f2b51233a1dfb64829c4d6cab4f6b8673f64231",
+      "patchedSha256": "9035a599afa808367c7d5e01e84a89b68e20c81508fac512ad48c92a6a443f3b",
+      "replacements": [
+        {
+          "from": "  contextChange(gl) {\n    this._gl = gl;",
+          "to": "  contextChange(gl) {\n    for (const data of Object.values(this._programDataHash)) data.destroy();\n    this._gl = gl;"
+        },
+        {
+          "from": "let syncFunction = this._shaderSyncFunctions[shader.glProgram._key];",
+          "to": "let syncFunction = this._shaderSyncFunctions[shader.uid];"
+        },
+        {
+          "from": "syncFunction = this._shaderSyncFunctions[shader.glProgram._key] =",
+          "to": "syncFunction = this._shaderSyncFunctions[shader.uid] ="
+        },
+        {
+          "from": "    return this._programDataHash[program._key] || this._createProgramData(program);",
+          "to": "    const data = this._programDataHash[program._key] || this._createProgramData(program);\n    program._attributeData = data.attributeData;\n    program._uniformData = data.reflectedUniformData;\n    program._uniformBlockData = data.uniformBlockData;\n    return data;"
+        },
+        {
+          "from": "  _setProgram(program) {\n    if (this._activeProgram === program) return;\n    this._activeProgram = program;\n    const programData = this._getProgramData(program);",
+          "to": "  _setProgram(program) {\n    const programData = this._getProgramData(program);\n    if (this._activeProgram === program) return;\n    this._activeProgram = program;"
+        },
+        {
+          "from": "//# sourceMappingURL=GlShaderSystem.mjs.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/gl/shader/program/preprocessors/setProgramName.js",
+      "originalSha256": "4368181e226fb1461ac57df8e99ab08ff650ff076510c52e27b659526caece26",
+      "patchedSha256": "86e09c2b6e7062e727c81ceec66ac844d4f13d543cc1bc55f0eeb08c3ba3f553",
+      "replacements": [
+        {
+          "from": "const fragmentNameCache = {};\nconst VertexNameCache = {};\n",
+          "to": ""
+        },
+        {
+          "from": "  const nameCache = isFragment ? fragmentNameCache : VertexNameCache;\n  if (nameCache[name]) {\n    nameCache[name]++;\n    name += `-${nameCache[name]}`;\n  } else {\n    nameCache[name] = 1;\n  }\n",
+          "to": ""
+        },
+        {
+          "from": "//# sourceMappingURL=setProgramName.js.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/gl/shader/GlProgram.js",
+      "originalSha256": "c1acb45794ccbd0728b2e89be1db4d504f4e779501a54761419fbb01fd788d20",
+      "patchedSha256": "2d2dda80ffb1030eca5856629f419495ce7ccf495d088c23b7a5f045aafb02e0",
+      "replacements": [
+        {
+          "from": "    this._key = createIdFromString.createIdFromString(`${this.vertex}:${this.fragment}`, \"gl-program\");",
+          "to": "    this._key = createIdFromString.createIdFromString(JSON.stringify([this.vertex, this.fragment, options.transformFeedbackVaryings?.names ?? null, options.transformFeedbackVaryings?.bufferMode ?? null]), \"gl-program\");"
+        },
+        {
+          "from": "    const key = `${options.vertex}:${options.fragment}`;",
+          "to": "    const resolved = { ..._GlProgram.defaultOptions, ...options };\n    const key = JSON.stringify([resolved.vertex, resolved.fragment, resolved.name ?? \"pixi-program\", resolved.preferredVertexPrecision, resolved.preferredFragmentPrecision, resolved.transformFeedbackVaryings?.names ?? null, resolved.transformFeedbackVaryings?.bufferMode ?? null]);"
+        },
+        {
+          "from": "//# sourceMappingURL=GlProgram.js.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/gl/shader/GlProgramData.js",
+      "originalSha256": "f045d9d753efdfeb5eba16a8fba4a03defd3fe88e125c5daef3f4b5dc0bef04f",
+      "patchedSha256": "26a96d86c79f1c0b7f7b62e51a23b47fe1defb5b74ac85f969f2893b745a72cf",
+      "replacements": [
+        {
+          "from": "  constructor(program, uniformData) {\n    this.program = program;",
+          "to": "  constructor(program, uniformData, gl) {\n    this.program = program;\n    this._gl = gl;"
+        },
+        {
+          "from": "  destroy() {\n    this.uniformData = null;",
+          "to": "  destroy() {\n    if (this.program) {\n      this._gl.deleteProgram(this.program);\n      this.program = null;\n    }\n    this._gl = null;\n    this.attributeData = null;\n    this.reflectedUniformData = null;\n    this.uniformBlockData = null;\n    this.uniformData = null;"
+        },
+        {
+          "from": "//# sourceMappingURL=GlProgramData.js.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/gl/shader/program/generateProgram.js",
+      "originalSha256": "4434d561c8525d134ef608db8e421cb9015b4c4b53968d6039fac5be9b1f9782",
+      "patchedSha256": "cb23b5839d2a24ea673269df629f65db17ff7bb375f7170e84ba16a4267211b7",
+      "replacements": [
+        {
+          "from": "  const glProgram = new GlProgramData.GlProgramData(webGLProgram, uniformData);\n  return glProgram;",
+          "to": "  const glProgram = new GlProgramData.GlProgramData(webGLProgram, uniformData, gl);\n  glProgram.attributeData = program._attributeData;\n  glProgram.reflectedUniformData = program._uniformData;\n  glProgram.uniformBlockData = program._uniformBlockData;\n  return glProgram;"
+        },
+        {
+          "from": "//# sourceMappingURL=generateProgram.js.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/gl/shader/GlShaderSystem.js",
+      "originalSha256": "4334acdf1f691f6fcbd422202a9d1349b4f2142386d29b796181bed1fd93f74d",
+      "patchedSha256": "78def093fee51bc8c4b001195a6e7fe750b12a00f2ff568a703cecd4dca603cf",
+      "replacements": [
+        {
+          "from": "  contextChange(gl) {\n    this._gl = gl;",
+          "to": "  contextChange(gl) {\n    for (const data of Object.values(this._programDataHash)) data.destroy();\n    this._gl = gl;"
+        },
+        {
+          "from": "let syncFunction = this._shaderSyncFunctions[shader.glProgram._key];",
+          "to": "let syncFunction = this._shaderSyncFunctions[shader.uid];"
+        },
+        {
+          "from": "syncFunction = this._shaderSyncFunctions[shader.glProgram._key] =",
+          "to": "syncFunction = this._shaderSyncFunctions[shader.uid] ="
+        },
+        {
+          "from": "    return this._programDataHash[program._key] || this._createProgramData(program);",
+          "to": "    const data = this._programDataHash[program._key] || this._createProgramData(program);\n    program._attributeData = data.attributeData;\n    program._uniformData = data.reflectedUniformData;\n    program._uniformBlockData = data.uniformBlockData;\n    return data;"
+        },
+        {
+          "from": "  _setProgram(program) {\n    if (this._activeProgram === program) return;\n    this._activeProgram = program;\n    const programData = this._getProgramData(program);",
+          "to": "  _setProgram(program) {\n    const programData = this._getProgramData(program);\n    if (this._activeProgram === program) return;\n    this._activeProgram = program;"
+        },
+        {
+          "from": "//# sourceMappingURL=GlShaderSystem.js.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/gl/shader/GlProgramData.d.ts",
+      "originalSha256": "9f1cf1bf8ca983dfd9b41f26758ced5289c200a3f0829d97a2b106accb2084e1",
+      "patchedSha256": "e968d64c388e482ff5b1baf301e01c3358d32ab5baa3e0d34ac48323b99a2491",
+      "replacements": [
+        {
+          "from": "/** @private */",
+          "to": "import type { GlProgram } from './GlProgram';\nimport type { GlRenderingContext } from '../context/GlRenderingContext';\n/** @private */"
+        },
+        {
+          "from": "    program: WebGLProgram;",
+          "to": "    program: WebGLProgram;\n    private _gl;\n    attributeData: GlProgram['_attributeData'];\n    reflectedUniformData: GlProgram['_uniformData'];\n    uniformBlockData: GlProgram['_uniformBlockData'];"
+        },
+        {
+          "from": "    });",
+          "to": "    }, gl: GlRenderingContext);"
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/gl/GlBackBufferSystem.js",
+      "originalSha256": "242a0a438c1cbe08e85964638e551605c2642c584efef5bbdecc3ecd15c6b111",
+      "patchedSha256": "3d1bcc10ffbb0066dfefa9c1d538d49e7c68c388c2a09f600d2974514dac0f4f",
+      "replacements": [
+        {
+          "from": "      this._backBufferTexture = null;\n    }\n  }\n};",
+          "to": "      this._backBufferTexture = null;\n    }\n    this._bigTriangleShader?.destroy(true);\n    this._bigTriangleShader = null;\n    this._targetTexture = null;\n    this._state = null;\n    this._renderer = null;\n  }\n};"
+        },
+        {
+          "from": "//# sourceMappingURL=GlBackBufferSystem.js.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/gl/GlBackBufferSystem.mjs",
+      "originalSha256": "99a4daa32d80d7a34642a8b2ae2f8f66ada7a1f0ee0502acc681274fb5010a24",
+      "patchedSha256": "db83442471d4c2805d4f715560c84d52f8653c7a97d74fed26bbd5fbcec255b5",
+      "replacements": [
+        {
+          "from": "      this._backBufferTexture = null;\n    }\n  }\n};",
+          "to": "      this._backBufferTexture = null;\n    }\n    this._bigTriangleShader?.destroy(true);\n    this._bigTriangleShader = null;\n    this._targetTexture = null;\n    this._state = null;\n    this._renderer = null;\n  }\n};"
+        },
+        {
+          "from": "//# sourceMappingURL=GlBackBufferSystem.mjs.map\n",
+          "to": ""
+        }
+      ]
+    }
+  ]
+}

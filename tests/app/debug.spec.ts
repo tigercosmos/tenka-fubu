@@ -6,7 +6,7 @@ import { installDebugApi, parseDebugFlags, type TenkaDebugApi } from '../../src/
 import { resetGameStoreForTests, setGame, store } from '../../src/app/store';
 import { makeLoopTestState } from '../helpers/loopState';
 import { buildNewGameState, loadScenario } from '../../src/app/boot';
-import type { ClanId } from '../../src/core/state/ids';
+import type { ArmyId, ClanId } from '../../src/core/state/ids';
 import { buildVisualMapState, VISUAL_ANCHOR_CASTLE_ID } from '../../src/core/debugVisual';
 import { MAPVIEW } from '../../src/ui/map/mapViewConfig';
 import {
@@ -14,6 +14,8 @@ import {
   resetDebugMapRendererForTests,
 } from '../../src/ui/map/debugMapBridge';
 import type { MapRenderer } from '../../src/ui/map/MapRenderer';
+import { canonicalStringify } from '../../src/core/state/serialize';
+import { perfMonitor } from '../../src/app/perfMonitor';
 
 describe('parseDebugFlags（01 §3.11.1／§4.5）', () => {
   it('空字串：全部回預設值', () => {
@@ -171,6 +173,66 @@ describe('installDebugApi（01 §3.11.4 TenkaDebugApi）', () => {
     expect(typeof snapshot?.lastTickMs).toBe('number');
     expect(typeof snapshot?.avgTickMs).toBe('number');
     expect(typeof snapshot?.maxTickMs).toBe('number');
+  });
+
+  it('getPerf reads fresh detached current-game counts without state or store publication', () => {
+    installDebugApi(parseDebugFlags('?debug=1'));
+    const api = getGlobalApi()!;
+    expect(api.getPerf().entityCounts).toEqual({
+      castles: 0,
+      districts: 0,
+      officers: 0,
+      armies: 0,
+    });
+    const game = buildVisualMapState();
+    setGame(game);
+    const before = canonicalStringify(game);
+    const tickSeq = store.getState().tickSeq;
+    const listener = vi.fn();
+    const unsubscribe = store.subscribe(listener);
+    const expected = {
+      castles: Object.keys(game.castles).length,
+      districts: Object.keys(game.districts).length,
+      officers: Object.keys(game.officers).length,
+      armies: Object.keys(game.armies).length,
+    };
+    const first = api.getPerf();
+    expect(first.entityCounts).toEqual(expected);
+    first.entityCounts.castles = -1;
+    expect(api.getPerf().entityCounts).toEqual(expected);
+    expect(canonicalStringify(game)).toBe(before);
+    expect(store.getState().tickSeq).toBe(tickSeq);
+    expect(listener).not.toHaveBeenCalled();
+    unsubscribe();
+    // A diagnostic read must reflect mutable collections without a tickSeq bump.
+    const armyId = Object.keys(game.armies)[0]! as ArmyId;
+    delete game.armies[armyId];
+    expect(api.getPerf().entityCounts.armies).toBe(expected.armies - 1);
+    setGame(makeLoopTestState());
+    expect(api.getPerf().entityCounts.armies).toBe(0);
+    setGame(null);
+    expect(api.getPerf().entityCounts).toEqual({
+      castles: 0,
+      districts: 0,
+      officers: 0,
+      armies: 0,
+    });
+  });
+
+  it('game identity changes clear old timings, but same-game publication keeps actual samples', () => {
+    installDebugApi(parseDebugFlags('?debug=1'));
+    const api = getGlobalApi()!;
+    const game = makeLoopTestState();
+    setGame(game);
+    perfMonitor.recordTick(3.5);
+    perfMonitor.recordSystems({ economy: 1 });
+    setGame(game);
+    expect(api.getPerf()).toMatchObject({ lastTickMs: 3.5, systemBreakdownMs: { economy: 1 } });
+    setGame(makeLoopTestState());
+    expect(api.getPerf()).toMatchObject({ lastTickMs: 0, systemBreakdownMs: {} });
+    perfMonitor.recordTick(2);
+    setGame(null);
+    expect(api.getPerf()).toMatchObject({ lastTickMs: 0, systemBreakdownMs: {} });
   });
 
   it('exportCommandLog()：透過 debug API 匯出 canonical 檔頭', () => {

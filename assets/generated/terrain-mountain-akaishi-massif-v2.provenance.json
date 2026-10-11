@@ -1,0 +1,26 @@
+{
+  "license": "project-original",
+  "asset": "public/assets/textures/terrain-mountain-akaishi-massif-v2.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": ["public/assets/textures/terrain-mountain-akaishi-massif-v1.png"],
+  "sha256": "50b4093f27e9387090284241013fa7672c8b3288b2e9404a7af40aff854259bf",
+  "dimensions": { "width": 1024, "height": 1536 },
+  "bytes": 2681121,
+  "alphaInspection": {
+    "zeroAlphaPixels": 784232,
+    "partialAlphaPixels": 788632,
+    "opaquePixels": 0,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 143,
+    "y": 25,
+    "width": 791,
+    "height": 1497
+  },
+  "prompt": "Use case: precise-object-edit. Edit target: the original Akaishi v1 mountain sprite. Create an original 2.5D strategy-map successor, not a copied game asset. Keep high-oblique orthographic camera, northwest daylight, muted olive woodland and warm gray-brown rock, genuine transparent background, complete north-south footprint with visible width/height about 0.42. Replace the repeated serrated ridge rhythm with three strongly unequal connected summit groups, broad asymmetric shoulders, two deep branching saddle valleys and quiet large slope planes. Reduce tiny sparkling tree/rock noise so the landform reads clearly at 85 by 207 map pixels. Preserve natural peak proportions and clean transparent gutters. No groundplate, haze halo, detached islands, snow, castles, rivers, roads, armies, flags, text, borders or watermark."
+}

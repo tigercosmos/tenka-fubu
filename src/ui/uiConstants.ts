@@ -10,10 +10,43 @@
 // ArmyChip 士氣點/設定 UI）消費時沿用本表，不重複定義。
 
 export const UI = {
+  kassenTickMs: 800,
+  uiDprMax: 2,
+  uiReportPageSize: 50,
+  stateViewerPageSize: 50,
+  uiMarchFoodStep: 100,
+  uiMarchSoldierStep: 100,
+  battleLogMaxRows: 50,
+  battleLogNearBottomPx: 32,
+  /** Tactical map logical px; fitted positions are shared by canvas and native hit targets. */
+  battleMapGeometry: {
+    marginX: 60,
+    marginTop: 112,
+    marginBottom: 52,
+    rowPitch: 156,
+    nodeRadius: 12,
+    unitOffsetY: 62,
+    stackStep: 64,
+    placementGap: 4,
+    stackRowOffset: 22,
+    unitHalfWidth: 30,
+    flagWidth: 18,
+    flagHeight: 26,
+    labelSize: 12,
+    hitSize: 32,
+    nodeHalfWidth: 36,
+    nodeTop: 20,
+    nodeBottom: 44,
+    unitTop: 20,
+    unitBottom: 36,
+  },
   tooltipDelayMs: 400, // Tooltip 延遲顯示（ms）
+  mapTooltipDelayMs: 250, // 04 §6.1 地圖懸停延遲（ms）
+  mapTooltipOffsetPx: 16, // 04 §6.1 地圖游標右下偏移（px）
   tooltipFollowOffsetX: 14, // 跟隨游標的 x 位移（px）
   tooltipFollowOffsetY: 18, // 跟隨游標的 y 位移（px）
   toastDurationInfoMs: 6000, // info/success Toast 自動消失（ms）
+  uiEventTextSpeedMsPerChar: 18, // 15 §5.2：事件敘事逐字顯示
   toastDurationWarnMs: 10000, // warning Toast 自動消失（ms）
   toastMaxVisible: 5, // Toast 同時顯示上限
   tableRowHeightPx: 40, // DataTable 預設列高（px，固定列高）

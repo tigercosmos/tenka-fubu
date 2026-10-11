@@ -1,0 +1,169 @@
+.screen {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(18rem, 0.9fr);
+  grid-template-rows: minmax(min-content, 1fr) auto;
+  padding: clamp(1.5rem, 4vw, 4rem);
+  gap: 0 clamp(2rem, 5vw, 5rem);
+  overflow: auto;
+  background: linear-gradient(90deg, var(--surface-command) 0 58%, var(--surface-base) 58%);
+  color: var(--text-primary);
+  font-family: var(--font-family-ui);
+}
+.identity {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 28rem;
+  padding: clamp(2rem, 4vw, 4rem);
+  overflow: hidden;
+  border: 1px solid rgb(164 127 73 / 40%);
+  border-top: 4px solid var(--command-gold);
+  border-radius: 4px;
+  background: var(--surface-command);
+  box-shadow: 0 24px 70px rgb(0 0 0 / 24%);
+  color: var(--text-inverse);
+}
+.landscape {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 76% 23%, #d1b27c 0 2.8rem, transparent 2.9rem),
+    linear-gradient(155deg, var(--surface-command-raised), var(--surface-command) 76%);
+}
+.landscape::before,
+.landscape::after {
+  content: '';
+  position: absolute;
+  inset: 35% -10% -1px;
+  clip-path: polygon(0 70%, 22% 28%, 37% 54%, 58% 5%, 77% 48%, 100% 20%, 100% 100%, 0 100%);
+  background: #516674;
+  opacity: 0.45;
+}
+.landscape::after {
+  inset: 54% -15% -1px;
+  transform: scaleX(-1);
+  background: #17252c;
+  opacity: 1;
+}
+.seal {
+  display: grid;
+  place-content: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 2.5rem;
+  background: var(--brand-red);
+  color: var(--text-inverse);
+  font-family: var(--font-family-display);
+  letter-spacing: 0.18em;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 18%);
+}
+.title {
+  margin: 0;
+  font: 500 clamp(3rem, 6.4vw, 7rem)/1.2 var(--font-family-display);
+  letter-spacing: 0.08em;
+  text-shadow: 0 2px 18px var(--surface-command);
+}
+.subtitle {
+  margin: 1.75rem 0 0;
+  color: var(--command-gold);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+}
+.menu {
+  align-self: center;
+  display: grid;
+  width: 100%;
+  gap: 0.625rem;
+  padding: 2rem;
+  border: 1px solid var(--stroke-subtle);
+  border-radius: 4px;
+  background: var(--surface-panel);
+  color: var(--text-primary);
+  box-shadow: 0 16px 44px rgb(32 42 39 / 10%);
+}
+.menu button {
+  position: relative;
+  min-height: max(64px, 4rem);
+  padding: 1rem 1rem 1rem 3.5rem;
+  border: 0;
+  border-bottom: 1px solid var(--stroke-subtle);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-primary);
+  text-align: left;
+  font: 600 1.1rem/1.4 var(--font-family-display);
+}
+.menuIndex {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--brand-gold);
+  font: 0.65rem/1 var(--font-family-ui);
+}
+.menu button:hover:not(:disabled) {
+  background: var(--surface-hover);
+}
+.menu .primary {
+  margin-bottom: 0.75rem;
+  background: var(--brand-red);
+  color: var(--text-inverse);
+  border-color: var(--brand-red);
+}
+.menu .primary .menuIndex {
+  color: var(--text-inverse);
+}
+.menu .primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--brand-red) 86%, black);
+  color: var(--text-inverse);
+}
+.menu button:disabled {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+.continueEntry {
+  min-width: 0;
+}
+.continueEntry button {
+  width: 100%;
+}
+.continuePreview {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0.5rem 1rem 0.75rem 3.5rem;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.footer {
+  grid-column: 1 / -1;
+  margin: 1.5rem 0 0;
+  padding: 0.75rem 1rem;
+  background: var(--surface-panel);
+  border-top: 1px solid var(--stroke-subtle);
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+}
+@media (max-width: 800px) {
+  .screen {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    background: var(--surface-base);
+  }
+  .identity {
+    min-height: 21rem;
+  }
+  .menu {
+    margin-top: 2rem;
+  }
+}

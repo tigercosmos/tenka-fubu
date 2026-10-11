@@ -11,7 +11,7 @@
     "coastal": false,
     "ownerClanId": "clan.oda",
     "lordId": "off.oda-nobunaga",
-    "soldiers": 2600,
+    "soldiers": 2365,
     "food": 6500,
     "facilities": ["fac.ichi"]
   },
@@ -27,7 +27,7 @@
     "coastal": true,
     "ownerClanId": "clan.oda",
     "lordId": "off.hayashi-hidesada",
-    "soldiers": 1400,
+    "soldiers": 1252,
     "food": 3500,
     "facilities": []
   },
@@ -59,7 +59,7 @@
     "coastal": true,
     "ownerClanId": "clan.imagawa",
     "lordId": "off.imagawa-yoshimoto",
-    "soldiers": 2600,
+    "soldiers": 1875,
     "food": 7000,
     "facilities": ["fac.ichi", "fac.jisha"]
   },
@@ -75,7 +75,7 @@
     "coastal": true,
     "ownerClanId": "clan.imagawa",
     "lordId": "off.katsurayama-ujimoto",
-    "soldiers": 1500,
+    "soldiers": 1450,
     "food": 3500,
     "facilities": []
   },
@@ -91,7 +91,7 @@
     "coastal": false,
     "ownerClanId": "clan.imagawa",
     "lordId": "off.asahina-yasutomo",
-    "soldiers": 1700,
+    "soldiers": 1432,
     "food": 4000,
     "facilities": []
   },
@@ -107,7 +107,7 @@
     "coastal": true,
     "ownerClanId": "clan.imagawa",
     "lordId": "off.ihara-tadatane",
-    "soldiers": 1600,
+    "soldiers": 1482,
     "food": 3800,
     "facilities": []
   },
@@ -123,7 +123,7 @@
     "coastal": true,
     "ownerClanId": "clan.imagawa",
     "lordId": "off.ohara-shigezane",
-    "soldiers": 1600,
+    "soldiers": 1457,
     "food": 3800,
     "facilities": []
   },
@@ -435,7 +435,7 @@
     "coastal": false,
     "ownerClanId": "clan.miyoshi",
     "lordId": "off.matsunaga-hisahide",
-    "soldiers": 1500,
+    "soldiers": 1492,
     "food": 3800,
     "facilities": [],
     "terrainKind": "mountain"
@@ -555,5 +555,1745 @@
     "soldiers": 1500,
     "food": 3800,
     "facilities": []
+  },
+  {
+    "id": "castle.odawara",
+    "name": "小田原城",
+    "tier": "main",
+    "provinceId": "prov.sagami",
+    "pos": {
+      "x": 2493,
+      "y": 2822
+    },
+    "coastal": true,
+    "ownerClanId": "clan.hojo",
+    "lordId": "off.hojo-ujiyasu",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1295,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.tamanawa",
+    "name": "玉繩城",
+    "tier": "branch",
+    "provinceId": "prov.sagami",
+    "pos": {
+      "x": 2577,
+      "y": 2798
+    },
+    "coastal": false,
+    "ownerClanId": "clan.hojo",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1146,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.nirayama",
+    "name": "韮山城",
+    "tier": "branch",
+    "provinceId": "prov.izu",
+    "pos": {
+      "x": 2448,
+      "y": 2878
+    },
+    "coastal": false,
+    "ownerClanId": "clan.hojo",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 985,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.edo",
+    "name": "江戶城",
+    "tier": "branch",
+    "provinceId": "prov.musashi",
+    "pos": {
+      "x": 2621,
+      "y": 2709
+    },
+    "coastal": true,
+    "ownerClanId": "clan.hojo",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1146,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.kawagoe",
+    "name": "河越城",
+    "tier": "branch",
+    "provinceId": "prov.musashi",
+    "pos": {
+      "x": 2572,
+      "y": 2645
+    },
+    "coastal": false,
+    "ownerClanId": "clan.hojo",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1178,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.takiyama",
+    "name": "瀧山城",
+    "tier": "branch",
+    "provinceId": "prov.musashi",
+    "pos": {
+      "x": 2535,
+      "y": 2704
+    },
+    "coastal": false,
+    "ownerClanId": "clan.hojo",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 856,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.matsuyama",
+    "name": "松山城",
+    "tier": "branch",
+    "provinceId": "prov.musashi",
+    "pos": {
+      "x": 2556,
+      "y": 2613
+    },
+    "coastal": false,
+    "ownerClanId": "clan.hojo",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1178,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.kururi",
+    "name": "久留里城",
+    "tier": "main",
+    "provinceId": "prov.kazusa",
+    "pos": {
+      "x": 2713,
+      "y": 2814
+    },
+    "coastal": false,
+    "ownerClanId": "clan.satomi",
+    "lordId": "off.satomi-yoshitaka",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1453,
+    "food": 3500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.sanuki",
+    "name": "佐貫城",
+    "tier": "branch",
+    "provinceId": "prov.kazusa",
+    "pos": {
+      "x": 2664,
+      "y": 2822
+    },
+    "coastal": false,
+    "ownerClanId": "clan.satomi",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1114,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.ota",
+    "name": "太田城",
+    "tier": "main",
+    "provinceId": "prov.hitachi",
+    "pos": {
+      "x": 2816,
+      "y": 2479
+    },
+    "coastal": false,
+    "ownerClanId": "clan.satake",
+    "lordId": "off.satake-yoshiaki",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1260,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.nukada",
+    "name": "額田城",
+    "tier": "branch",
+    "provinceId": "prov.hitachi",
+    "pos": {
+      "x": 2811,
+      "y": 2500
+    },
+    "coastal": false,
+    "ownerClanId": "clan.satake",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1178,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.utsunomiya",
+    "name": "宇都宮城",
+    "tier": "main",
+    "provinceId": "prov.shimotsuke",
+    "pos": {
+      "x": 2666,
+      "y": 2476
+    },
+    "coastal": false,
+    "ownerClanId": "clan.utsunomiya",
+    "lordId": "off.utsunomiya-hirotsuna",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1292,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.moka",
+    "name": "真岡城",
+    "tier": "branch",
+    "provinceId": "prov.shimotsuke",
+    "pos": {
+      "x": 2694,
+      "y": 2506
+    },
+    "coastal": false,
+    "ownerClanId": "clan.utsunomiya",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1017,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.yuki",
+    "name": "結城城",
+    "tier": "main",
+    "provinceId": "prov.shimosa",
+    "pos": {
+      "x": 2664,
+      "y": 2541
+    },
+    "coastal": false,
+    "ownerClanId": "clan.yuki",
+    "lordId": "off.yuki-harutomo",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1453,
+    "food": 3500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.minowa",
+    "name": "箕輪城",
+    "tier": "branch",
+    "provinceId": "prov.kozuke",
+    "pos": {
+      "x": 2446,
+      "y": 2516
+    },
+    "coastal": false,
+    "ownerClanId": "clan.nagao",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1012,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.umayabashi",
+    "name": "廄橋城",
+    "tier": "branch",
+    "provinceId": "prov.kozuke",
+    "pos": {
+      "x": 2472,
+      "y": 2519
+    },
+    "coastal": false,
+    "ownerClanId": "clan.nagao",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1202,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.tsutsujigasaki",
+    "name": "躑躅崎館",
+    "tier": "main",
+    "provinceId": "prov.kai",
+    "pos": {
+      "x": 2357,
+      "y": 2712
+    },
+    "coastal": false,
+    "ownerClanId": "clan.takeda",
+    "lordId": "off.takeda-shingen",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1723,
+    "food": 4500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.iwadono",
+    "name": "岩殿城",
+    "tier": "branch",
+    "provinceId": "prov.kai",
+    "pos": {
+      "x": 2446,
+      "y": 2725
+    },
+    "coastal": false,
+    "ownerClanId": "clan.takeda",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 826,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.takato",
+    "name": "高遠城",
+    "tier": "branch",
+    "provinceId": "prov.shinano",
+    "pos": {
+      "x": 2238,
+      "y": 2669
+    },
+    "coastal": false,
+    "ownerClanId": "clan.takeda",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1397,
+    "food": 3500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.fukashi",
+    "name": "深志城",
+    "tier": "branch",
+    "provinceId": "prov.shinano",
+    "pos": {
+      "x": 2217,
+      "y": 2559
+    },
+    "coastal": false,
+    "ownerClanId": "clan.takeda",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1397,
+    "food": 3500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.kaizu",
+    "name": "海津城",
+    "tier": "branch",
+    "provinceId": "prov.shinano",
+    "pos": {
+      "x": 2270,
+      "y": 2474
+    },
+    "coastal": false,
+    "ownerClanId": "clan.takeda",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1207,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.kasugayama",
+    "name": "春日山城",
+    "tier": "main",
+    "provinceId": "prov.echigo",
+    "pos": {
+      "x": 2282,
+      "y": 2316
+    },
+    "coastal": false,
+    "ownerClanId": "clan.nagao",
+    "lordId": "off.nagao-kagetora",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1647,
+    "food": 4000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.tochio",
+    "name": "栃尾城",
+    "tier": "branch",
+    "provinceId": "prov.echigo",
+    "pos": {
+      "x": 2455,
+      "y": 2230
+    },
+    "coastal": false,
+    "ownerClanId": "clan.nagao",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1359,
+    "food": 3500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.sakado",
+    "name": "坂戶城",
+    "tier": "branch",
+    "provinceId": "prov.echigo",
+    "pos": {
+      "x": 2432,
+      "y": 2340
+    },
+    "coastal": false,
+    "ownerClanId": "clan.nagao",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1207,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.iiyama",
+    "name": "飯山城",
+    "tier": "branch",
+    "provinceId": "prov.shinano",
+    "pos": {
+      "x": 2310,
+      "y": 2393
+    },
+    "coastal": false,
+    "ownerClanId": "clan.nagao",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1207,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.ichijodani",
+    "name": "一乘谷城",
+    "tier": "main",
+    "provinceId": "prov.echizen",
+    "pos": {
+      "x": 1823,
+      "y": 2624
+    },
+    "coastal": false,
+    "ownerClanId": "clan.asakura",
+    "lordId": "off.asakura-yoshikage",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1285,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.kanegasaki",
+    "name": "金崎城",
+    "tier": "branch",
+    "provinceId": "prov.echizen",
+    "pos": {
+      "x": 1772,
+      "y": 2712
+    },
+    "coastal": true,
+    "ownerClanId": "clan.asakura",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 875,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.ono",
+    "name": "大野城",
+    "tier": "branch",
+    "provinceId": "prov.echizen",
+    "pos": {
+      "x": 1868,
+      "y": 2626
+    },
+    "coastal": false,
+    "ownerClanId": "clan.asakura",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 765,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.nochiseyama",
+    "name": "後瀨山城",
+    "tier": "branch",
+    "provinceId": "prov.echizen",
+    "pos": {
+      "x": 1695,
+      "y": 2760
+    },
+    "coastal": true,
+    "ownerClanId": "clan.asakura",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 757,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.nanao",
+    "name": "七尾城",
+    "tier": "main",
+    "provinceId": "prov.noto",
+    "pos": {
+      "x": 1987,
+      "y": 2353
+    },
+    "coastal": false,
+    "ownerClanId": "clan.hatakeyama",
+    "lordId": "off.hatakeyama-yoshitsuna",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1260,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.suemori",
+    "name": "末森城",
+    "tier": "branch",
+    "provinceId": "prov.noto",
+    "pos": {
+      "x": 1936,
+      "y": 2401
+    },
+    "coastal": false,
+    "ownerClanId": "clan.hatakeyama",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1012,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.toyama",
+    "name": "富山城",
+    "tier": "main",
+    "provinceId": "prov.etchu",
+    "pos": {
+      "x": 2039,
+      "y": 2439
+    },
+    "coastal": false,
+    "ownerClanId": "clan.jinbo",
+    "lordId": "off.jinbo-nagamoto",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1287,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.masuyama",
+    "name": "增山城",
+    "tier": "branch",
+    "provinceId": "prov.etchu",
+    "pos": {
+      "x": 1999,
+      "y": 2452
+    },
+    "coastal": false,
+    "ownerClanId": "clan.jinbo",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 757,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.oyama-gobo",
+    "name": "尾山御坊",
+    "tier": "branch",
+    "provinceId": "prov.kaga",
+    "pos": {
+      "x": 1910,
+      "y": 2474
+    },
+    "coastal": false,
+    "ownerClanId": "clan.honganji",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1012,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.daishoji",
+    "name": "大聖寺城",
+    "tier": "branch",
+    "provinceId": "prov.kaga",
+    "pos": {
+      "x": 1826,
+      "y": 2543
+    },
+    "coastal": false,
+    "ownerClanId": "clan.honganji",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 902,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.yoshida-koriyama",
+    "name": "吉田郡山城",
+    "tier": "main",
+    "provinceId": "prov.aki",
+    "pos": {
+      "x": 983,
+      "y": 2980
+    },
+    "coastal": false,
+    "ownerClanId": "clan.mori",
+    "lordId": "off.mori-motonari",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1183,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.sato-kanayama",
+    "name": "佐東銀山城",
+    "tier": "branch",
+    "provinceId": "prov.aki",
+    "pos": {
+      "x": 925,
+      "y": 3031
+    },
+    "coastal": false,
+    "ownerClanId": "clan.mori",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 886,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.sakurao",
+    "name": "櫻尾城",
+    "tier": "branch",
+    "provinceId": "prov.aki",
+    "pos": {
+      "x": 899,
+      "y": 3065
+    },
+    "coastal": true,
+    "ownerClanId": "clan.mori",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1024,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.konomine",
+    "name": "高嶺城",
+    "tier": "branch",
+    "provinceId": "prov.suo",
+    "pos": {
+      "x": 693,
+      "y": 3111
+    },
+    "coastal": false,
+    "ownerClanId": "clan.mori",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1024,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.katsuyama",
+    "name": "勝山城",
+    "tier": "branch",
+    "provinceId": "prov.nagato",
+    "pos": {
+      "x": 578,
+      "y": 3151
+    },
+    "coastal": false,
+    "ownerClanId": "clan.mori",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 886,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.bitchu-matsuyama",
+    "name": "松山城",
+    "tier": "branch",
+    "provinceId": "prov.bitchu",
+    "pos": {
+      "x": 1198,
+      "y": 2942
+    },
+    "coastal": false,
+    "ownerClanId": "clan.mori",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 913,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.kannabe",
+    "name": "神邊城",
+    "tier": "branch",
+    "provinceId": "prov.bingo",
+    "pos": {
+      "x": 1140,
+      "y": 3014
+    },
+    "coastal": false,
+    "ownerClanId": "clan.mori",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1024,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.gassan-toda",
+    "name": "月山富田城",
+    "tier": "main",
+    "provinceId": "prov.izumo",
+    "pos": {
+      "x": 1098,
+      "y": 2795
+    },
+    "coastal": false,
+    "ownerClanId": "clan.amago",
+    "lordId": "off.amago-haruhisa",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1188,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.shiraga",
+    "name": "白鹿城",
+    "tier": "branch",
+    "provinceId": "prov.izumo",
+    "pos": {
+      "x": 1060,
+      "y": 2757
+    },
+    "coastal": false,
+    "ownerClanId": "clan.amago",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1024,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.yamabuki",
+    "name": "山吹城",
+    "tier": "branch",
+    "provinceId": "prov.iwami",
+    "pos": {
+      "x": 925,
+      "y": 2865
+    },
+    "coastal": false,
+    "ownerClanId": "clan.amago",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 886,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.yonago",
+    "name": "米子城",
+    "tier": "branch",
+    "provinceId": "prov.hoki",
+    "pos": {
+      "x": 1130,
+      "y": 2779
+    },
+    "coastal": true,
+    "ownerClanId": "clan.amago",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 913,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.tottori",
+    "name": "鳥取城",
+    "tier": "branch",
+    "provinceId": "prov.inaba",
+    "pos": {
+      "x": 1343,
+      "y": 2755
+    },
+    "coastal": false,
+    "ownerClanId": "clan.yamana",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1024,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.tenjinyama",
+    "name": "天神山城",
+    "tier": "main",
+    "provinceId": "prov.bizen",
+    "pos": {
+      "x": 1320,
+      "y": 2929
+    },
+    "coastal": false,
+    "ownerClanId": "clan.uragami",
+    "lordId": "off.uragami-munekage",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 929,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.mitsuishi",
+    "name": "三石城",
+    "tier": "branch",
+    "provinceId": "prov.bizen",
+    "pos": {
+      "x": 1348,
+      "y": 2942
+    },
+    "coastal": false,
+    "ownerClanId": "clan.uragami",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 765,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.okishio",
+    "name": "置鹽城",
+    "tier": "main",
+    "provinceId": "prov.harima",
+    "pos": {
+      "x": 1446,
+      "y": 2913
+    },
+    "coastal": false,
+    "ownerClanId": "clan.akamatsu",
+    "lordId": "off.akamatsu-harumasa",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1067,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.tatsuno",
+    "name": "龍野城",
+    "tier": "branch",
+    "provinceId": "prov.harima",
+    "pos": {
+      "x": 1416,
+      "y": 2926
+    },
+    "coastal": false,
+    "ownerClanId": "clan.akamatsu",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 765,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.shozui",
+    "name": "勝瑞城",
+    "tier": "branch",
+    "provinceId": "prov.awa",
+    "pos": {
+      "x": 1409,
+      "y": 3124
+    },
+    "coastal": false,
+    "ownerClanId": "clan.miyoshi",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 910,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.sogo",
+    "name": "十河城",
+    "tier": "branch",
+    "provinceId": "prov.sanuki",
+    "pos": {
+      "x": 1313,
+      "y": 3089
+    },
+    "coastal": false,
+    "ownerClanId": "clan.miyoshi",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 911,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.toramaru",
+    "name": "虎丸城",
+    "tier": "branch",
+    "provinceId": "prov.sanuki",
+    "pos": {
+      "x": 1367,
+      "y": 3100
+    },
+    "coastal": false,
+    "ownerClanId": "clan.miyoshi",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 715,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.oko",
+    "name": "岡豐城",
+    "tier": "main",
+    "provinceId": "prov.tosa",
+    "pos": {
+      "x": 1203,
+      "y": 3266
+    },
+    "coastal": false,
+    "ownerClanId": "clan.chosokabe",
+    "lordId": "off.chosokabe-kunichika",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1092,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.nakamura",
+    "name": "中村御所",
+    "tier": "main",
+    "provinceId": "prov.tosa",
+    "pos": {
+      "x": 1039,
+      "y": 3429
+    },
+    "coastal": false,
+    "ownerClanId": "clan.ichijo",
+    "lordId": "off.ichijo-kanesada",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1092,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.yuzuki",
+    "name": "湯築城",
+    "tier": "main",
+    "provinceId": "prov.iyo",
+    "pos": {
+      "x": 1004,
+      "y": 3199
+    },
+    "coastal": false,
+    "ownerClanId": "clan.kono",
+    "lordId": "off.kono-michinobu",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1210,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.kurushima",
+    "name": "來島城",
+    "tier": "branch",
+    "provinceId": "prov.iyo",
+    "pos": {
+      "x": 1046,
+      "y": 3127
+    },
+    "coastal": true,
+    "ownerClanId": "clan.kono",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 691,
+    "food": 1500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.kurose",
+    "name": "黑瀨城",
+    "tier": "main",
+    "provinceId": "prov.iyo",
+    "pos": {
+      "x": 939,
+      "y": 3330
+    },
+    "coastal": false,
+    "ownerClanId": "clan.saionji",
+    "lordId": "off.saionji-sanemitsu",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1069,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.funai",
+    "name": "府內館",
+    "tier": "main",
+    "provinceId": "prov.bungo",
+    "pos": {
+      "x": 728,
+      "y": 3365
+    },
+    "coastal": true,
+    "ownerClanId": "clan.otomo",
+    "lordId": "off.otomo-yoshishige",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1087,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.usuki",
+    "name": "臼杵城",
+    "tier": "branch",
+    "provinceId": "prov.bungo",
+    "pos": {
+      "x": 775,
+      "y": 3395
+    },
+    "coastal": true,
+    "ownerClanId": "clan.otomo",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 888,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.kokura",
+    "name": "小倉城",
+    "tier": "branch",
+    "provinceId": "prov.buzen",
+    "pos": {
+      "x": 555,
+      "y": 3191
+    },
+    "coastal": true,
+    "ownerClanId": "clan.otomo",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 911,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.tachibanayama",
+    "name": "立花山城",
+    "tier": "branch",
+    "provinceId": "prov.chikuzen",
+    "pos": {
+      "x": 459,
+      "y": 3245
+    },
+    "coastal": false,
+    "ownerClanId": "clan.otomo",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 911,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.kumamoto",
+    "name": "隈本城",
+    "tier": "branch",
+    "provinceId": "prov.higo",
+    "pos": {
+      "x": 515,
+      "y": 3480
+    },
+    "coastal": false,
+    "ownerClanId": "clan.otomo",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 935,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.yanagawa",
+    "name": "柳川城",
+    "tier": "branch",
+    "provinceId": "prov.chikugo",
+    "pos": {
+      "x": 445,
+      "y": 3384
+    },
+    "coastal": false,
+    "ownerClanId": "clan.otomo",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 935,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.uchijo",
+    "name": "內城",
+    "tier": "main",
+    "provinceId": "prov.satsuma",
+    "pos": {
+      "x": 482,
+      "y": 3799
+    },
+    "coastal": false,
+    "ownerClanId": "clan.shimazu",
+    "lordId": "off.shimazu-takahisa",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1210,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.kaseda",
+    "name": "加世田城",
+    "tier": "branch",
+    "provinceId": "prov.satsuma",
+    "pos": {
+      "x": 426,
+      "y": 3850
+    },
+    "coastal": false,
+    "ownerClanId": "clan.shimazu",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 715,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.shimizu",
+    "name": "清水城",
+    "tier": "branch",
+    "provinceId": "prov.osumi",
+    "pos": {
+      "x": 536,
+      "y": 3759
+    },
+    "coastal": false,
+    "ownerClanId": "clan.shimazu",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 715,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.muranaka",
+    "name": "村中城",
+    "tier": "main",
+    "provinceId": "prov.hizen",
+    "pos": {
+      "x": 421,
+      "y": 3360
+    },
+    "coastal": false,
+    "ownerClanId": "clan.ryuzoji",
+    "lordId": "off.ryuzoji-takanobu",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1210,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.hasuike",
+    "name": "蓮池城",
+    "tier": "branch",
+    "provinceId": "prov.hizen",
+    "pos": {
+      "x": 440,
+      "y": 3357
+    },
+    "coastal": false,
+    "ownerClanId": "clan.ryuzoji",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 935,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.tonokori",
+    "name": "都於郡城",
+    "tier": "main",
+    "provinceId": "prov.hyuga",
+    "pos": {
+      "x": 669,
+      "y": 3681
+    },
+    "coastal": false,
+    "ownerClanId": "clan.ito",
+    "lordId": "off.ito-yoshisuke",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1092,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.sadowara",
+    "name": "佐土原城",
+    "tier": "branch",
+    "provinceId": "prov.hyuga",
+    "pos": {
+      "x": 679,
+      "y": 3681
+    },
+    "coastal": false,
+    "ownerClanId": "clan.ito",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 817,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.hitoyoshi",
+    "name": "人吉城",
+    "tier": "main",
+    "provinceId": "prov.higo",
+    "pos": {
+      "x": 527,
+      "y": 3638
+    },
+    "coastal": false,
+    "ownerClanId": "clan.sagara",
+    "lordId": "off.sagara-yoshihi",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1092,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.yonezawa",
+    "name": "米澤城",
+    "tier": "main",
+    "provinceId": "prov.uzen",
+    "pos": {
+      "x": 2720,
+      "y": 2110
+    },
+    "coastal": false,
+    "ownerClanId": "clan.date",
+    "lordId": "off.date-harumune",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1267,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.koori-nishiyama",
+    "name": "桑折西山城",
+    "tier": "branch",
+    "provinceId": "prov.iwashiro",
+    "pos": {
+      "x": 2809,
+      "y": 2131
+    },
+    "coastal": false,
+    "ownerClanId": "clan.date",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1149,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.namo",
+    "name": "名生城",
+    "tier": "branch",
+    "provinceId": "prov.rikuzen",
+    "pos": {
+      "x": 2898,
+      "y": 1922
+    },
+    "coastal": false,
+    "ownerClanId": "clan.date",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 993,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.kurokawa",
+    "name": "黑川城",
+    "tier": "main",
+    "provinceId": "prov.iwashiro",
+    "pos": {
+      "x": 2675,
+      "y": 2225
+    },
+    "coastal": false,
+    "ownerClanId": "clan.ashina",
+    "lordId": "off.ashina-moriuji",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1113,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.naganuma",
+    "name": "長沼城",
+    "tier": "branch",
+    "provinceId": "prov.iwashiro",
+    "pos": {
+      "x": 2743,
+      "y": 2278
+    },
+    "coastal": false,
+    "ownerClanId": "clan.ashina",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 993,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.shirakawa",
+    "name": "白河城",
+    "tier": "branch",
+    "provinceId": "prov.iwashiro",
+    "pos": {
+      "x": 2741,
+      "y": 2321
+    },
+    "coastal": false,
+    "ownerClanId": "clan.ashina",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 993,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.yamagata",
+    "name": "山形城",
+    "tier": "main",
+    "provinceId": "prov.uzen",
+    "pos": {
+      "x": 2769,
+      "y": 2021
+    },
+    "coastal": false,
+    "ownerClanId": "clan.mogami",
+    "lordId": "off.mogami-yoshimori",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1268,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.kaminoyama",
+    "name": "上山城",
+    "tier": "branch",
+    "provinceId": "prov.uzen",
+    "pos": {
+      "x": 2757,
+      "y": 2045
+    },
+    "coastal": false,
+    "ownerClanId": "clan.mogami",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 702,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.sannohe",
+    "name": "三戶城",
+    "tier": "main",
+    "provinceId": "prov.mutsu",
+    "pos": {
+      "x": 2987,
+      "y": 1446
+    },
+    "coastal": false,
+    "ownerClanId": "clan.nanbu",
+    "lordId": "off.nanbu-harumasa",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1394,
+    "food": 3500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.kunohe",
+    "name": "九戶城",
+    "tier": "branch",
+    "provinceId": "prov.mutsu",
+    "pos": {
+      "x": 2996,
+      "y": 1480
+    },
+    "coastal": false,
+    "ownerClanId": "clan.nanbu",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 838,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.kozukata",
+    "name": "不來方城",
+    "tier": "branch",
+    "provinceId": "prov.rikuchu",
+    "pos": {
+      "x": 2961,
+      "y": 1633
+    },
+    "coastal": false,
+    "ownerClanId": "clan.nanbu",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 993,
+    "food": 2500,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.hanamaki",
+    "name": "花卷城",
+    "tier": "branch",
+    "provinceId": "prov.rikuchu",
+    "pos": {
+      "x": 2954,
+      "y": 1716
+    },
+    "coastal": false,
+    "ownerClanId": "clan.nanbu",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1149,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
+  },
+  {
+    "id": "castle.hiyama",
+    "name": "檜山城",
+    "tier": "main",
+    "provinceId": "prov.ugo",
+    "pos": {
+      "x": 2717,
+      "y": 1515
+    },
+    "coastal": false,
+    "ownerClanId": "clan.ando",
+    "lordId": "off.ando-chikasue",
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 1113,
+    "food": 3000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "mountain"
+  },
+  {
+    "id": "castle.minato",
+    "name": "湊城",
+    "tier": "branch",
+    "provinceId": "prov.ugo",
+    "pos": {
+      "x": 2710,
+      "y": 1620
+    },
+    "coastal": true,
+    "ownerClanId": "clan.ando",
+    "lordId": null,
+    "directControl": true,
+    "maxDurability": null,
+    "soldiers": 827,
+    "food": 2000,
+    "morale": 70,
+    "facilities": [],
+    "terrainKind": "plain"
   }
 ]

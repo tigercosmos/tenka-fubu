@@ -14,6 +14,7 @@ import { useEffect, useState, type ReactElement } from 'react';
 import { t } from '@i18n/zh-TW';
 import { loadScenario as loadScenarioReal, getScenarioTitle } from '@app/boot';
 import type { ScenarioBundleData } from '@data/schemas';
+import styles from './ScenarioSelect.module.css';
 
 export interface ScenarioSelectProps {
   /** 選定劇本（資料已載入完成）後呼叫，交由呼叫端轉場至 DaimyoSelectScreen。 */
@@ -69,54 +70,27 @@ export function ScenarioSelect({
         : t('ui.scenario.loading');
 
   return (
-    <div
-      data-testid="screen-scenario-select"
-      style={{
-        position: 'fixed',
-        inset: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 'var(--space-8)',
-        padding: 'var(--space-8)',
-        background: 'var(--ink-900)',
-        color: 'var(--washi-100)',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: '100%',
-          maxWidth: '40rem',
-        }}
-      >
-        <h1 style={{ fontSize: 'var(--font-size-lg)', margin: 0 }}>{t('ui.scenario.title')}</h1>
+    <div data-testid="screen-scenario-select" className={styles.screen}>
+      <header className={styles.header}>
+        <h1>{t('ui.scenario.title')}</h1>
         <button type="button" data-testid="scenario-back" onClick={onBack}>
           {t('ui.newGame.back')}
         </button>
-      </div>
+      </header>
 
       <button
         type="button"
         data-testid="scenario-pick-s1560"
         disabled={state.status !== 'ready'}
         onClick={handlePick}
-        style={{
-          width: '100%',
-          maxWidth: '40rem',
-          textAlign: 'left',
-          padding: 'var(--space-6)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--space-2)',
-        }}
+        className={styles.scenario}
       >
-        <span style={{ fontSize: 'var(--font-size-lg)' }}>
-          1560 {getScenarioTitle(SCENARIO_ID)}
+        <span className={styles.year}>1560</span>
+        <span className={styles.name}>{getScenarioTitle(SCENARIO_ID)}</span>
+        <span className={styles.stats}>{statsText}</span>
+        <span className={styles.arrow} aria-hidden="true">
+          →
         </span>
-        <span>{statsText}</span>
       </button>
     </div>
   );

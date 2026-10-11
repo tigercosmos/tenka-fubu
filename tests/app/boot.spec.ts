@@ -12,9 +12,19 @@ import { validateState } from '../../src/core/state/invariants';
 import type { ClanId } from '../../src/core/state/ids';
 
 describe('boot.ts（M2-19 新遊戲流程）', () => {
-  it('SUPPORTED_SCENARIO_IDS／NEW_GAME_REGIONS：v1.0 現況僅 s1560／東海＋近畿', () => {
+  it('exposes the single scenario and nine integrated new-game regions', () => {
     expect(SUPPORTED_SCENARIO_IDS).toEqual(['s1560']);
-    expect(NEW_GAME_REGIONS).toEqual(['tokai', 'kinki']);
+    expect(NEW_GAME_REGIONS).toEqual([
+      'tokai',
+      'kinki',
+      'kanto',
+      'koshinetsu',
+      'hokuriku',
+      'chugoku',
+      'shikoku',
+      'kyushu',
+      'tohoku',
+    ]);
   });
 
   it('getScenarioTitle：已知劇本回傳標題；未知 id 退回 id 本身', () => {
@@ -22,14 +32,21 @@ describe('boot.ts（M2-19 新遊戲流程）', () => {
     expect(getScenarioTitle('s9999')).toBe('s9999');
   });
 
-  it('loadScenario("s1560")：成功載入東海＋近畿批次資料（13 勢力／34 城）', async () => {
+  it('loads the nine-region scenario with41 families and121 castles', async () => {
     const bundle = await loadScenario('s1560');
     expect(bundle.id).toBe('s1560');
-    expect(bundle.clans.length).toBe(13);
-    expect(bundle.castles.length).toBe(34);
-    expect(bundle.officers[0]?.length ?? 0).toBeGreaterThan(0); // tokai
-    expect(bundle.officers[1]?.length ?? 0).toBeGreaterThan(0); // kinki
-    expect(bundle.officers[2]).toEqual([]); // kanto：尚未落地批次
+    expect(bundle.clans.length).toBe(41);
+    expect(bundle.castles.length).toBe(121);
+    expect(bundle.officers[0]).toHaveLength(91); // Tokai includes deferred Nobutada.
+    expect(bundle.officers[1]).toHaveLength(97); // Kinki includes cross-region officers and deferred Yoshiaki.
+    expect(bundle.officers[2]).toHaveLength(74);
+    expect(bundle.officers[3]).toHaveLength(70);
+    expect(bundle.officers[4]).toHaveLength(40);
+    expect(bundle.officers[5]).toHaveLength(69);
+    expect(bundle.officers.flat()).toHaveLength(619);
+    expect(bundle.officers[6]).toHaveLength(37);
+    expect(bundle.officers[7]).toHaveLength(76);
+    expect(bundle.officers[8]).toHaveLength(65);
   });
 
   it('loadScenario：不支援的劇本 id 拒絕', async () => {
@@ -39,7 +56,7 @@ describe('boot.ts（M2-19 新遊戲流程）', () => {
   it('summarizeClans：織田家摘要（當主／石高/城數/武將數）與 wip.md 校準值一致', async () => {
     const bundle = await loadScenario('s1560');
     const summaries = summarizeClans(bundle);
-    expect(summaries.length).toBe(13);
+    expect(summaries.length).toBe(41);
     const oda = summaries.find((s) => s.clanId === 'clan.oda');
     expect(oda).toBeDefined();
     expect(oda?.name).toBe('織田家');
@@ -61,8 +78,8 @@ describe('boot.ts（M2-19 新遊戲流程）', () => {
     expect(game.meta.scenarioId).toBe('s1560');
     expect(game.meta.seed).toBe(42);
     expect(game.time.day).toBe(0); // 1560/1/1（EPOCH_YEAR，02 §5.6）
-    expect(Object.keys(game.clans).length).toBe(13);
-    expect(Object.keys(game.castles).length).toBe(34);
+    expect(Object.keys(game.clans).length).toBe(41);
+    expect(Object.keys(game.castles).length).toBe(121);
     expect(validateState(game)).toEqual([]);
   });
 

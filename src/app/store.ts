@@ -10,6 +10,7 @@
 
 import { createStore } from 'zustand/vanilla';
 import type { GameState } from '@core/state/gameState';
+import { perfMonitor } from './perfMonitor';
 
 /** 速度檔位；'paused' 之外對應 00 §5.2 的三檔（01 §4.1）。 */
 export type GameSpeed = 'paused' | 'x1' | 'x2' | 'x5';
@@ -28,6 +29,7 @@ export type PauseReason =
   | 'historicalEvent' // 歷史事件
   | 'monthStart' // 月初
   | 'windowHidden' // 頁面失焦（visibilitychange）
+  | 'viewportTooSmall'
   | 'modalOpen' // 合戰／事件 modal 開啟（00 §5.3）
   | 'fatalError'; // CoreError 捕獲
 
@@ -78,6 +80,8 @@ export interface SessionState {
   speed: GameSpeed;
   resumeSpeed: Exclude<GameSpeed, 'paused'>;
   lastPauseReason: PauseReason | null;
+  /** Nonpersisted minimum-viewport strategy gate, independent of user/modal pause ownership. */
+  viewportBlocked: boolean;
   selection: Selection;
   openModal: ModalDescriptor | null;
   pendingCommandCount: number;
@@ -90,6 +94,7 @@ export const initialSession: SessionState = {
   speed: 'paused',
   resumeSpeed: 'x1',
   lastPauseReason: null,
+  viewportBlocked: false,
   selection: { kind: 'none', id: null },
   openModal: null,
   pendingCommandCount: 0,
@@ -114,6 +119,7 @@ export interface SessionActions {
   requestPause(reason: PauseReason): void;
   /** 回到 resumeSpeed、清除 lastPauseReason（§3.5.3）。 */
   resume(): void;
+  setViewportBlocked(blocked: boolean): void;
   setPendingCommandCount(count: number): void;
   setFatalError(error: { code: string; message: string; stack: string } | null): void;
   setDebugJumping(jumping: { totalDays: number; doneDays: number } | null): void;
@@ -146,7 +152,9 @@ export const store = createStore<GameStore>()((set) => ({
       set((s) => ({ session: { ...s.session, openModal: null } }));
     },
     setSpeed(speed) {
-      set((s) => ({ session: { ...s.session, speed, resumeSpeed: speed } }));
+      set((s) =>
+        s.session.viewportBlocked ? s : { session: { ...s.session, speed, resumeSpeed: speed } },
+      );
     },
     requestPause(reason) {
       set((s) => {
@@ -157,9 +165,32 @@ export const store = createStore<GameStore>()((set) => ({
       });
     },
     resume() {
-      set((s) => ({
-        session: { ...s.session, speed: s.session.resumeSpeed, lastPauseReason: null },
-      }));
+      set((s) =>
+        s.session.viewportBlocked
+          ? s
+          : {
+              session: { ...s.session, speed: s.session.resumeSpeed, lastPauseReason: null },
+            },
+      );
+    },
+    setViewportBlocked(blocked) {
+      set((s) => {
+        const running = blocked && s.session.speed !== 'paused';
+        return {
+          session: {
+            ...s.session,
+            viewportBlocked: blocked,
+            ...(running
+              ? {
+                  speed: 'paused' as const,
+                  resumeSpeed: s.session.speed as Exclude<GameSpeed, 'paused'>,
+                  lastPauseReason: 'viewportTooSmall' as const,
+                }
+              : {}),
+            ...(blocked ? { debug: { ...s.session.debug, jumping: null } } : {}),
+          },
+        };
+      });
     },
     setPendingCommandCount(count) {
       set((s) => ({ session: { ...s.session, pendingCommandCount: count } }));
@@ -178,6 +209,7 @@ export const store = createStore<GameStore>()((set) => ({
 
 /** bridge.ts 專用：boot／讀檔完成後掛上 GameState 參考（§3.4.1；本檔以外不應呼叫）。 */
 export function setGame(game: GameState | null): void {
+  if (store.getState().game !== game) perfMonitor.reset();
   store.setState({ game });
 }
 
@@ -188,5 +220,6 @@ export function bumpTickSeq(): void {
 
 /** 測試專用：整批重置 store（game/tickSeq/session 回初始值）；非產品程式碼路徑。 */
 export function resetGameStoreForTests(game: GameState | null = null): void {
+  perfMonitor.reset();
   store.setState({ game, tickSeq: 0, session: initialSession });
 }

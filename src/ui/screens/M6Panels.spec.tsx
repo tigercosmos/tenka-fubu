@@ -37,6 +37,8 @@ describe('M6 validated command panels', () => {
     expect(game.officers[view.officers[0]!.id]!.name).not.toBe('顯示草稿');
   });
   it('renders diplomacy tabs without unstable object-selector snapshots', () => {
+    store.getState().actions.setScreen('main');
+    uiStore.getState().actions.openPanel('diplomacy');
     render(<DiplomacyPanel />);
     expect(screen.getByTestId('diplomacy-panel')).toBeTruthy();
     fireEvent.click(screen.getByRole('tab', { name: t('ui.court.title') }));
@@ -81,6 +83,7 @@ describe('M6 validated command panels', () => {
       summaryParams: {},
     };
     resetGameStoreForTests(game);
+    store.getState().actions.setScreen('main');
     store.getState().actions.requestPause('user');
     function Harness() {
       useM6Dialogs();

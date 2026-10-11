@@ -35,6 +35,68 @@ export interface ShogunateTitleDef {
 }
 
 export const BAL = {
+  // ── M7 AI 中立常數（09／15 §5.1；難易度乘數另由 difficulty.ts 提供）──
+  aiAdvanceAbortRatio: 0.8,
+  aiAssaultRatio: 3,
+  aiAssaultDurabilityRatio: 0.5,
+  aiAttackPowerRatioAggrBonus: 0.6,
+  aiAttackPowerRatioBase: 1.8,
+  aiBetrayLoyaltyMax: 40,
+  aiBuildBudgetRatio: 0.5,
+  aiConscriptSecurityMin: 50,
+  aiConsolidateDays: 45,
+  aiConsolidateGarrisonRatio: 0.5,
+  aiCouncilMaxPerTick: 4,
+  aiCouncilPhaseCount: 4,
+  aiCouncilSpreadTicks: 30,
+  aiDefenseGarrisonRatio: 0.6,
+  aiDiploFearThreshold: 1.5,
+  aiDistanceNormDays: 10,
+  aiExpandScoreMin: 12,
+  aiFoodReserveDays: 180,
+  aiGarrisonTargetPeace: 0.7,
+  aiGarrisonTargetWar: 0.95,
+  aiGoldReserveMonths: 2,
+  aiHomeGarrisonMin: 500,
+  aiHomeGarrisonRatio: 0.3,
+  aiIntentLogSize: 1024,
+  aiInterceptRatioMin: 1.1,
+  aiKassenWinRateMin: 0.65,
+  aiLowGoldThreshold: 100,
+  aiMusterTimeoutDays: 30,
+  aiPersonaDefault: 50,
+  aiPlanPerCastles: 8,
+  aiPowerLdrDivisor: 240,
+  aiRecallThreat: 2,
+  aiReinforceMaxDays: 6,
+  aiReinforceRatio: 0.5,
+  aiRewardBudgetRatio: 0.3,
+  aiRewardLoyaltyThreshold: 40,
+  aiSiegeFoodAbortDays: 15,
+  aiSiegeReliefMaxDays: 8,
+  aiSiegeReliefRatio: 1.2,
+  aiThreatAlertRatio: 1.2,
+  aiThreatCacheDays: 10,
+  aiValueConnectivityWeight: 2,
+  aiValueKokudakaDivisor: 1000,
+  aiValueMainCastleBonus: 15,
+  aiVassalAmbitionWeight: 0.4,
+  aiVassalDemandRatio: 3,
+  aiWeaknessCap: 3,
+  aiWeaknessEpsilon: 100,
+  proposalStatThreshold: 70,
+  proposalTopK: 3,
+  corpsTithe: 0.2,
+  // 09 公式中的固定係數；名稱為實作提取，值沿用原公式。
+  aiNeighborAidRatio: 0.5,
+  aiBorderNodeRange: 2,
+  aiMusterReadyRatio: 0.8,
+  aiReliefApproachNodes: 3,
+  aiReliefRetainRatio: 1.5,
+  aiReliefFightRatio: 1,
+  aiConsolidateSafeThreat: 0.8,
+  aiAidTroopRatio: 0.6,
+  aiKassenDefenderMult: 1.1,
   // ── M6 外交・朝廷・調略（08／15 §5.1）──
   defectionThreshold: 30,
   defectionChancePerPoint: 0.01,
@@ -96,6 +158,7 @@ export const BAL = {
   marriageMaxAge: 45,
   vassalDemandPowerRatio: 3,
   vassalOfferPowerRatio: 2,
+  vassalPrestigeGap: 500, // 15 §5.1／17 DP7：宗主與從屬的接受威信差門檻
   vassalTributeRate: 0.15,
   reinforceCooldownMonths: 6,
   dipProposalExpiryDays: 30,
@@ -109,6 +172,7 @@ export const BAL = {
   sentimentPactSignedCeasefire: 5,
   sentimentBetrayalHit: -60,
   betrayalGlobalSentimentHit: -10,
+  betrayalTrustPenaltyOthers: 20,
   betrayalPrestigeHit: 150,
   aweSentimentLoserHit: [-8, -15, -25],
   aweSentimentNeighborHit: [-3, -5, -8],
@@ -353,6 +417,7 @@ export const BAL = {
   rngWarmupDraws: 12, // 次；各亂數流播種後空轉抽取次數，去除低熵種子相關性（15 §5.1；03 §3.5.2）
   maxCommandsPerTick: 200, // 個/tick；Step 1 applyCommands 單 tick 套用 Command 數上限（15 §5.1；03 §3.3.1／§5.1；M1-6）
   debugSkipMaxDays: 3600, // 日；debug 時間跳轉單次上限（15 §5.1；03 §3.9.2；M1-6 debugSkipDays 驗證用）
+  devInvariantCheckEveryDays: 30, // tick；02 §5.2／§5.7 明定的 dev build 不變量檢查頻率（正式 build 不跑）
   debugGrantGoldAmount: 10_000, // 貫；除錯面板「金錢作弊」鈕之 debugGrant 金額（15 §5.1 主表新增列，出處 01 §3.11.2／§3.11.3「建議 10000」；M1-22，見 15 §8 D20）
 
   // ── 02 §5.7／15 §5.1（02 引入之型別上限常數；M1-11 validateState INV-16 數值範圍所需） ──
@@ -394,6 +459,7 @@ export const BAL = {
   facRiceHarvestBonus: 0.1,
   facBarracksConscriptBonus: 0.25,
   facBarracksSoldierCap: 500,
+  facDiplomacyWorkGainMult: 1.1,
   facPortIncomeBonus: 0.2,
   facTempleSecurity: 2,
   facNanbanGold: 80,
@@ -436,6 +502,8 @@ export const BAL = {
   polKenchiHarvestMult: 1.1, // 檢地：秋收倍率
   polJokashujuConscriptMult: 1.2, // 城下集住：徵兵倍率
   polTenmaseiTransportDaysMult: 2 / 3, // 傳馬制：輸送日數倍率
+  polTenmaseiMarchSpeedMult: 1.1, // 傳馬制：陸路部隊每日行軍速度倍率（05 §3.7.2、04 §5.3）
+  polEnkokinkoWorkGainMult: 1.25, // 遠交近攻：已付外交工作月增益倍率（05 §3.7.2、08 §3.2）
   facPortSeaTransportDaysMult: 0.5, // 港灣：海運日數倍率（起訖任一具港）
   popGrowthOrderFloor: 0.5, // 人口成長治安因子下限（0.5 + publicOrder/100）
   securityIntDivisor: 40, // 治安月變化：行政官 int 除數
@@ -454,6 +522,7 @@ export const BAL = {
 
   // ── 02 §5.7／15 §5.1（報告保留上限；M1-11 INV-25 所需） ──
   reportMaxKept: 500, // 15 §5.1：報告（通知）保留數量上限（02 §5.7，勘誤 E-31；INV-25）
+  commerceMaxAbs: 2000, // 02 §5.7／15 §5.1：郡商業上限的絕對最大值。
 
   // ── 03 §3.4.3／15 §5.1（reports 修剪；M1-8 所需） ──
   reportRetentionDays: 360, // 15 §5.1：報告保留期，超過此日數即修剪（03 §3.4.3／§5.4）
@@ -478,7 +547,6 @@ export const BAL = {
   jinStackLimit: 2,
   kassenGatherRange: 2,
   kassenMaxUnitsPerSide: 6,
-  kassenTickMs: 800,
   valBattleFactor: 0.008,
   ldrBattleFactor: 0.004,
   battleTickDamageRate: 0.02,
@@ -504,8 +572,8 @@ export const BAL = {
   warStateMonths: 6, // 15 §5.1：交戰狀態判定窗，月；atWar(A,B) := lastHostileDay 在此窗內且無生效協定（08 §3.1）
 
   // ── 城下施設 slot 數（02 §5.7／15 §5.1；M2-2 tools/validate.ts V14 facilities.length 上限所需） ──
-  facilitySlotsMain: 6, // 15 §5.1（mainCastleSlots，勘誤 E-39）：本城城下施設可用 slot 數（05 §3.4.1／02 §5.7）
-  facilitySlotsBranch: 3, // 15 §5.1（branchCastleSlots，勘誤 E-39）：支城城下施設可用 slot 數（05 §3.4.1／02 §5.7）
+  mainCastleSlots: 6, // 15 §5.1／E-39：本城城下施設可用 slot 數（05 §3.4.1）。
+  branchCastleSlots: 3, // 15 §5.1／E-39：支城城下施設可用 slot 數（05 §3.4.1）。
 
   // ── 劇本資料驗證常數（14 §5.4 建議初值；15 §5.1 主表；M2-2 tools/validate.ts V6/V7/V12/V13/V15 所需） ──
   dataTotalKokudakaMin: 17_500_000, // 14 §3.2／§5.4：全國總石高下限（石）；基準 18,000,000
@@ -679,24 +747,73 @@ export const BAL = {
   siegeEscapeChance: 0.35,
   siegeDeathChanceEscapeFail: 0.15,
   kassenMinTroops: 3000,
-  /** M5 tactical battle producer and auto-pause gate; enabled once the battle core is available. */
-  featureKassenEnabled: true,
-
-  // ── 最小大名 AI（MVP 先行實作；09 完整評定屬 M7，屆時與 15 主表對齊） ──
-  aiMaxConcurrentArmies: 2, // 支；單一 AI 勢力同時在外部隊數上限（含出征/歸還中）
-  aiGarrisonFloorTroops: 500, // 人；AI 出陣後城中至少保留的守軍
-  aiAttackRatioBase: 1.8, // 倍；aggression=0 時 AI 發起攻擊所需的我攻/敵守兵力比
-  aiAttackRatioAggressionSpan: 0.6, // 倍；aggression 由 0→100 時攻擊門檻線性下修量（100 時 1.2 倍）
-  aiAttackMaxTravelDays: 10, // 日；AI 出陣目標的最大行軍日數（超出視為非鄰接、不列入候選）
-  aiCarryDays: 60, // 日；AI 出陣攜行糧目標日數（clamp 於 min/maxCarryDays 之間）
-  aiFoodReserveRatio: 0.5, // 比率；AI 出陣後城中至少保留的兵糧比例（防守軍斷糧）
 
   // ── 勝敗判定（10 §5.7；MVP 先行實作，原屬 M8-9） ──
+  evtDeclareWarSentiment: 20, // 15 §5.2 事件表／10 §3.3：事件宣戰的雙向感情懲罰
+  evtHonnojiOdaCastleMin: 25, // 15 §5.2 事件表／10 §3.5：本能寺觸發的織田持城數
+  evtTransferLoyalty: 60, // 15 §5.2 事件表／10 §3.3：事件移籍後的初始忠誠
+  // ── 汎用事件（15 §5.2 事件表／10 §3.6） ──
+  genHosakuChance: 0.1, // 機率；每年9/1每勢力
+  genKyosakuChance: 0.1, // 機率；每年9/1每勢力
+  genHarvestCooldownDays: 300, // 日；豐作／凶作共用冷卻
+  genJishinChance: 0.01, // 機率/月
+  genJishinCooldownDays: 720, // 日；全域冷卻
+  genJishinDurabilityLossPct: 20, // %；災區全部城
+  genJishinOrderLoss: 10, // 點；災區全部郡
+  genJishinPopLossPct: 2, // %；災區全部郡
+  genEkibyoChance: 0.008, // 機率/月
+  genEkibyoCooldownDays: 360, // 日；全域冷卻
+  genEkibyoPopLossPct: 8, // %；疫病郡
+  genEkibyoSoldierLossPct: 10, // %；所轄城兵力
+  genEkibyoOrderLoss: 8, // 點；疫病郡
+  genNanbanChance: 0.05, // 機率/月；每勢力
+  genNanbanCooldownDays: 360, // 日
+  genNanbanGold: 300, // 貫；允其通商
+  genTeppoChance: 0.04, // 機率/月；每勢力
+  genTeppoCooldownDays: 540, // 日
+  genTeppoCost: 500, // 貫；觸發／購買門檻
   victoryKokudakaSharePct: 50, // %；天下人條件：支配圈石高 ≥ 全國石高之此百分比（10 §3.8.1）
   victoryTenkabitoMonths: 12, // 月；天下人條件連續成立月數門檻（10 §3.8.1）
 
-  // ── UI／渲染效能（15 §5.1；01 §3.6.1；M2-13 MapRenderer Application.init 所需） ──
-  uiDprMax: 2, // 15 §5.1：Pixi resolution／devicePixelRatio 取用上限（倍率，無量綱；01 §3.6.1）
+  // ── 大命（15 §5.2／10 §3.7） ──
+  taimeiBushinDays: 180,
+  taimeiBushinPrestige: 180,
+  taimeiBushinStep: 2,
+  taimeiCooldownDays: 180,
+  taimeiGaikoDays: 180,
+  taimeiGaikoPrestige: 120,
+  taimeiGaikoTrustMult: 2,
+  taimeiKenkinFoodPerGold: 5,
+  taimeiKenkinGold: 1000,
+  taimeiKenkinPrestige: 80,
+  taimeiRakuichiCommerceMult: 2,
+  taimeiRakuichiDays: 180,
+  taimeiRakuichiPrestige: 150,
+  taimeiRankDiscountPerStep: 50,
+  taimeiShippuDays: 90,
+  taimeiShippuPrestige: 100,
+  taimeiShippuSpeedBonus: 0.3,
+  taimeiShogunateDiscount: 200,
+  taimeiSodoinCostMult: 0.5,
+  taimeiSodoinDays: 90,
+  taimeiSodoinMaxBonus: 0.25,
+  taimeiSodoinPrestige: 150,
+  taimeiSokujiPopRatio: 0.02,
+  taimeiSokujiPrestige: 100,
+  taimeiTeppekiDays: 90,
+  taimeiTeppekiDefMult: 1.2,
+  taimeiTeppekiPrestige: 130,
+  taimeiTeppekiReduce: 0.3,
+  taimeiUnlockPrestige: {
+    'taimei.sokuji-chohei': 200,
+    'taimei.kenkin-meneki': 250,
+    'taimei.sodoin': 400,
+    'taimei.gaiko-kosei': 300,
+    'taimei.rakuichi-shinko': 450,
+    'taimei.teppeki': 350,
+    'taimei.shippu-jinrai': 300,
+    'taimei.tenka-bushin': 600,
+  },
 } as const;
 
 export type BalConfig = typeof BAL;

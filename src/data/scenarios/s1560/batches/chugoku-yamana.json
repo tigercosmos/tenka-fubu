@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "rosterRegion": "kinki",
+  "_authoring": {
+    "status": "staged; not part of the production scenario loader",
+    "scope": "Required Inaba Takeda Takanobu remains in the Kinki Yamana roster under D11/D22; compose only with B6 Tottori geography.",
+    "sources": {
+      "takanobuResearch": "https://www.pref.tottori.lg.jp/223206.htm",
+      "takanobuTemple": "https://www.city.tottori.lg.jp/page/7440.html",
+      "takanobuChronology": "https://www.pref.tottori.lg.jp/secure/1223930/inabatyuusei.pdf"
+    },
+    "chronologyBoundary": "Prefectural research attests the named Yamana retainer guarding Tottori before the1563 conflict, not a verified birth year. Municipal temple tradition gives1578 killing whereas prefectural research cautions the chronology; death1578 is source-qualified, not a conclusively established death date. Initial Tottori location is a scenario approximation; no new clan or lord assignment."
+  },
+  "relocations": [],
+  "newOfficers": [
+    {
+      "id": "off.takeda-takanobu",
+      "name": "武田高信",
+      "clanId": "clan.yamana",
+      "locationCastleId": "castle.tottori",
+      "ldr": 77,
+      "val": 74,
+      "int": 72,
+      "pol": 59,
+      "traits": [],
+      "tactics": [],
+      "rank": "samurai-taisho",
+      "birthYear": 1529,
+      "deathYear": 1578
+    }
+  ],
+  "_provenance": {
+    "off.takeda-takanobu": {
+      "birthYear": "authored",
+      "deathYear": "source-qualified",
+      "sources": ["takanobuResearch", "takanobuTemple", "takanobuChronology"],
+      "note": "鳥取縣文獻研究具名山名重臣、鳥取城守備及1563衝突；鳥取市大義寺頁記1578遇害傳承，縣研究未定精確卒年。不將此人物合併甲斐武田族人或加血親旗標。1529生年、四維、職階與1560城配置為設計，1578卒年是有來源但未定論的取值。"
+    }
+  }
+}

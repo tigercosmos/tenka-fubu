@@ -90,7 +90,7 @@
       "name": "三好家",
       "leaderId": "off.miyoshi-nagayoshi",
       "homeCastleId": "castle.akutagawa",
-      "gold": 6500,
+      "gold": 8900,
       "prestige": 420,
       "courtRank": "ju4ge",
       "shogunateTitle": "shobanshu",
@@ -126,7 +126,7 @@
       "name": "本願寺家",
       "leaderId": "off.honganji-kennyo",
       "homeCastleId": "castle.ishiyama",
-      "gold": 2500,
+      "gold": 4000,
       "prestige": 380,
       "courtRank": "none",
       "shogunateTitle": "none",
@@ -138,7 +138,7 @@
       "name": "山名家",
       "leaderId": "off.yamana-suketoyo",
       "homeCastleId": "castle.konosumiyama",
-      "gold": 1000,
+      "gold": 1800,
       "prestige": 250,
       "courtRank": "ju5ge",
       "shogunateTitle": "none",
@@ -156,6 +156,342 @@
       "shogunateTitle": "shogun",
       "personaId": "persona.ashikaga",
       "colorIndex": 16
+    },
+    {
+      "id": "clan.hojo",
+      "name": "北條家",
+      "leaderId": "off.hojo-ujiyasu",
+      "homeCastleId": "castle.odawara",
+      "gold": 6100,
+      "prestige": 450,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.hojo",
+      "colorIndex": 20
+    },
+    {
+      "id": "clan.satomi",
+      "name": "里見家",
+      "leaderId": "off.satomi-yoshitaka",
+      "homeCastleId": "castle.kururi",
+      "gold": 1900,
+      "prestige": 200,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.satomi",
+      "colorIndex": 8
+    },
+    {
+      "id": "clan.satake",
+      "name": "佐竹家",
+      "leaderId": "off.satake-yoshiaki",
+      "homeCastleId": "castle.ota",
+      "gold": 1700,
+      "prestige": 250,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.satake",
+      "colorIndex": 16
+    },
+    {
+      "id": "clan.utsunomiya",
+      "name": "宇都宮家",
+      "leaderId": "off.utsunomiya-hirotsuna",
+      "homeCastleId": "castle.utsunomiya",
+      "gold": 1600,
+      "prestige": 150,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.utsunomiya",
+      "colorIndex": 4
+    },
+    {
+      "id": "clan.yuki",
+      "name": "結城家",
+      "leaderId": "off.yuki-harutomo",
+      "homeCastleId": "castle.yuki",
+      "gold": 1000,
+      "prestige": 150,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.yuki",
+      "colorIndex": 34
+    },
+    {
+      "id": "clan.takeda",
+      "name": "武田家",
+      "leaderId": "off.takeda-shingen",
+      "homeCastleId": "castle.tsutsujigasaki",
+      "gold": 4300,
+      "prestige": 500,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.takeda",
+      "colorIndex": 0
+    },
+    {
+      "id": "clan.nagao",
+      "name": "長尾家",
+      "leaderId": "off.nagao-kagetora",
+      "homeCastleId": "castle.kasugayama",
+      "gold": 4900,
+      "prestige": 500,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.nagao",
+      "colorIndex": 24
+    },
+    {
+      "id": "clan.asakura",
+      "name": "朝倉家",
+      "leaderId": "off.asakura-yoshikage",
+      "homeCastleId": "castle.ichijodani",
+      "gold": 2500,
+      "prestige": 350,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.asakura",
+      "colorIndex": 22
+    },
+    {
+      "id": "clan.hatakeyama",
+      "name": "畠山家",
+      "leaderId": "off.hatakeyama-yoshitsuna",
+      "homeCastleId": "castle.nanao",
+      "gold": 1500,
+      "prestige": 250,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.hatakeyama",
+      "colorIndex": 14
+    },
+    {
+      "id": "clan.jinbo",
+      "name": "神保家",
+      "leaderId": "off.jinbo-nagamoto",
+      "homeCastleId": "castle.toyama",
+      "gold": 1300,
+      "prestige": 150,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.jinbo",
+      "colorIndex": 37
+    },
+    {
+      "id": "clan.mori",
+      "name": "毛利家",
+      "leaderId": "off.mori-motonari",
+      "homeCastleId": "castle.yoshida-koriyama",
+      "gold": 5100,
+      "prestige": 500,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.mori",
+      "colorIndex": 15
+    },
+    {
+      "id": "clan.amago",
+      "name": "尼子家",
+      "leaderId": "off.amago-haruhisa",
+      "homeCastleId": "castle.gassan-toda",
+      "gold": 2900,
+      "prestige": 450,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.amago",
+      "colorIndex": 23
+    },
+    {
+      "id": "clan.uragami",
+      "name": "浦上家",
+      "leaderId": "off.uragami-munekage",
+      "homeCastleId": "castle.tenjinyama",
+      "gold": 900,
+      "prestige": 250,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.uragami",
+      "colorIndex": 29
+    },
+    {
+      "id": "clan.akamatsu",
+      "name": "赤松家",
+      "leaderId": "off.akamatsu-harumasa",
+      "homeCastleId": "castle.okishio",
+      "gold": 1100,
+      "prestige": 300,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.akamatsu",
+      "colorIndex": 12
+    },
+    {
+      "id": "clan.chosokabe",
+      "name": "長宗我部家",
+      "leaderId": "off.chosokabe-kunichika",
+      "homeCastleId": "castle.oko",
+      "gold": 600,
+      "prestige": 200,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.chosokabe",
+      "colorIndex": 6
+    },
+    {
+      "id": "clan.ichijo",
+      "name": "一條家",
+      "leaderId": "off.ichijo-kanesada",
+      "homeCastleId": "castle.nakamura",
+      "gold": 600,
+      "prestige": 250,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.ichijo",
+      "colorIndex": 36
+    },
+    {
+      "id": "clan.kono",
+      "name": "河野家",
+      "leaderId": "off.kono-michinobu",
+      "homeCastleId": "castle.yuzuki",
+      "gold": 1200,
+      "prestige": 180,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.kono",
+      "colorIndex": 21
+    },
+    {
+      "id": "clan.saionji",
+      "name": "西園寺家",
+      "leaderId": "off.saionji-sanemitsu",
+      "homeCastleId": "castle.kurose",
+      "gold": 500,
+      "prestige": 150,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.saionji",
+      "colorIndex": 32
+    },
+    {
+      "id": "clan.shimazu",
+      "name": "島津家",
+      "leaderId": "off.shimazu-takahisa",
+      "homeCastleId": "castle.uchijo",
+      "gold": 1700,
+      "prestige": 350,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.shimazu",
+      "colorIndex": 27
+    },
+    {
+      "id": "clan.otomo",
+      "name": "大友家",
+      "leaderId": "off.otomo-yoshishige",
+      "homeCastleId": "castle.funai",
+      "gold": 5300,
+      "prestige": 450,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.otomo",
+      "colorIndex": 28
+    },
+    {
+      "id": "clan.ryuzoji",
+      "name": "龍造寺家",
+      "leaderId": "off.ryuzoji-takanobu",
+      "homeCastleId": "castle.muranaka",
+      "gold": 1500,
+      "prestige": 300,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.ryuzoji",
+      "colorIndex": 10
+    },
+    {
+      "id": "clan.ito",
+      "name": "伊東家",
+      "leaderId": "off.ito-yoshisuke",
+      "homeCastleId": "castle.tonokori",
+      "gold": 1200,
+      "prestige": 250,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.ito",
+      "colorIndex": 39
+    },
+    {
+      "id": "clan.sagara",
+      "name": "相良家",
+      "leaderId": "off.sagara-yoshihi",
+      "homeCastleId": "castle.hitoyoshi",
+      "gold": 600,
+      "prestige": 200,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.sagara",
+      "colorIndex": 2
+    },
+    {
+      "id": "clan.date",
+      "name": "伊達家",
+      "leaderId": "off.date-harumune",
+      "homeCastleId": "castle.yonezawa",
+      "gold": 2500,
+      "prestige": 350,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.date",
+      "colorIndex": 38
+    },
+    {
+      "id": "clan.ashina",
+      "name": "蘆名家",
+      "leaderId": "off.ashina-moriuji",
+      "homeCastleId": "castle.kurokawa",
+      "gold": 2200,
+      "prestige": 300,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.ashina",
+      "colorIndex": 11
+    },
+    {
+      "id": "clan.mogami",
+      "name": "最上家",
+      "leaderId": "off.mogami-yoshimori",
+      "homeCastleId": "castle.yamagata",
+      "gold": 1300,
+      "prestige": 250,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.mogami",
+      "colorIndex": 19
+    },
+    {
+      "id": "clan.nanbu",
+      "name": "南部家",
+      "leaderId": "off.nanbu-harumasa",
+      "homeCastleId": "castle.sannohe",
+      "gold": 3300,
+      "prestige": 300,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.nanbu",
+      "colorIndex": 25
+    },
+    {
+      "id": "clan.ando",
+      "name": "安東家",
+      "leaderId": "off.ando-chikasue",
+      "homeCastleId": "castle.hiyama",
+      "gold": 1200,
+      "prestige": 250,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.ando",
+      "colorIndex": 33
     }
   ],
   "diplomacy": {
@@ -166,6 +502,55 @@
         "kind": "vassal",
         "months": null,
         "vassalClanId": "clan.matsudaira"
+      },
+      {
+        "a": "clan.takeda",
+        "b": "clan.imagawa",
+        "kind": "alliance",
+        "months": 48
+      },
+      {
+        "a": "clan.takeda",
+        "b": "clan.imagawa",
+        "kind": "marriage",
+        "months": null
+      },
+      {
+        "a": "clan.takeda",
+        "b": "clan.hojo",
+        "kind": "alliance",
+        "months": 48
+      },
+      {
+        "a": "clan.takeda",
+        "b": "clan.hojo",
+        "kind": "marriage",
+        "months": null
+      },
+      {
+        "a": "clan.imagawa",
+        "b": "clan.hojo",
+        "kind": "alliance",
+        "months": 48
+      },
+      {
+        "a": "clan.imagawa",
+        "b": "clan.hojo",
+        "kind": "marriage",
+        "months": null
+      },
+      {
+        "a": "clan.takeda",
+        "b": "clan.honganji",
+        "kind": "marriage",
+        "months": null
+      },
+      {
+        "a": "clan.date",
+        "b": "clan.mogami",
+        "kind": "marriage",
+        "months": null,
+        "vassalClanId": null
       }
     ],
     "wars": [
@@ -180,6 +565,38 @@
       {
         "a": "clan.azai",
         "b": "clan.rokkaku"
+      },
+      {
+        "a": "clan.nagao",
+        "b": "clan.takeda"
+      },
+      {
+        "a": "clan.nagao",
+        "b": "clan.hojo"
+      },
+      {
+        "a": "clan.satomi",
+        "b": "clan.hojo"
+      },
+      {
+        "a": "clan.mori",
+        "b": "clan.amago"
+      },
+      {
+        "a": "clan.mori",
+        "b": "clan.otomo"
+      },
+      {
+        "a": "clan.ryuzoji",
+        "b": "clan.otomo"
+      },
+      {
+        "a": "clan.ito",
+        "b": "clan.shimazu"
+      },
+      {
+        "a": "clan.ando",
+        "b": "clan.nanbu"
       }
     ],
     "sentiments": [
@@ -194,7 +611,153 @@
         "b": "clan.ashikaga",
         "aToB": 30,
         "bToA": 30
+      },
+      {
+        "a": "clan.takeda",
+        "b": "clan.nagao",
+        "aToB": 15,
+        "bToA": 15
+      },
+      {
+        "a": "clan.asakura",
+        "b": "clan.honganji",
+        "aToB": 35,
+        "bToA": 35
+      },
+      {
+        "a": "clan.azai",
+        "b": "clan.asakura",
+        "aToB": 80,
+        "bToA": 80
+      },
+      {
+        "a": "clan.amago",
+        "b": "clan.yamana",
+        "aToB": 40,
+        "bToA": 40
+      },
+      {
+        "a": "clan.chosokabe",
+        "b": "clan.ichijo",
+        "aToB": 75,
+        "bToA": 75
+      },
+      {
+        "a": "clan.kono",
+        "b": "clan.mori",
+        "aToB": 70,
+        "bToA": 70
+      },
+      {
+        "a": "clan.sagara",
+        "b": "clan.shimazu",
+        "aToB": 45,
+        "bToA": 45
+      },
+      {
+        "a": "clan.otomo",
+        "b": "clan.mori",
+        "aToB": 25,
+        "bToA": 25
+      },
+      {
+        "a": "clan.ashina",
+        "b": "clan.date",
+        "aToB": 65,
+        "bToA": 65
       }
     ]
+  },
+  "_provenance": {
+    "b3b4": {
+      "identityAndPalette": "plan/14-scenario-data.md §3.3; canonical scenario choices, not a claim of simultaneous historical control",
+      "diplomacy": "plan/14-scenario-data.md §3.3; joint B3/B4 additions to existing B1/B2 diplomacy",
+      "prestigeAndTitles": "Authored initial prestige; no court or shogunate title asserted without a scenario requirement",
+      "gold": "Authored treasury calibrated from joint district kokudaka: round(clanKokudaka / 200 / 100) * 100, plan/14 §3.2",
+      "status": "Integrated joint Kanto/Koshinetsu additions"
+    },
+    "b5": {
+      "identityAndPalette": "plan/14-scenario-data.md §3.3; prescribed scenario identities, homes and palette, not simultaneous historical-control proof",
+      "diplomacy": "plan/14 §3.3: Asakura/Honganji sentiment35 and Azai/Asakura80; no extra alliance or war inferred",
+      "prestigeAndTitles": "Authored prestige; no unrequired historical court or shogunate titles asserted",
+      "gold": "Calibrated from actual staged district koku using round(clanKokudaka / 200 / 100) * 100, plan/14 §3.2",
+      "status": "Integrated production Hokuriku additions; Honganji treasury includes all five castles"
+    },
+    "b6": {
+      "identityAndPalette": "plan/14 §3.3 scenario identities, homes and palette; not historical-control proof",
+      "gold": "plan/14 §3.2: round(actual owned district kokudaka / 200 / 100) * 100",
+      "prestigeAndTitles": "Authored prestige; no unrequired court or shogunate title asserted",
+      "diplomacy": "Only Mori/Amago war and Amago/Yamana40 close loaded endpoints; Otomo/Kono deferred",
+      "status": "Integrated production B6 additions; Yamana treasury includes Tottori"
+    },
+    "b7": {
+      "status": "Integrated production B7 additions; Miyoshi treasury includes Awa and Sanuki",
+      "identityAndPalette": "plan/14 §3.3 prescribed leaders, capitals and palette",
+      "gold": "plan/14 §3.2: owned district koku / 200, rounded to 100; Miyoshi commerce multiplier 1.3 before rounding",
+      "personality": "Existing persona.* design profiles reused unchanged; not historical psychological evidence",
+      "prestigeAndTitles": "Authored prestige; no court rank or shogunate title inferred from lineage",
+      "sources": {
+        "chosokabe": {
+          "url": "https://www.town.sakawa.lg.jp/file/?fid=20922&id=3210&t=LD",
+          "supports": "Municipal historical plan: Kunichika based at Oko in May1560, died the following month; not an exact death-day claim"
+        },
+        "ichijo": {
+          "url": "https://www.city.shimanto.lg.jp/uploaded/attachment/4675.pdf",
+          "supports": "Municipal history article identifies Kanesada succeeding after Fusamoto; capital site separately documented by city",
+          "capitalUrl": "https://www.city.shimanto.lg.jp/soshiki/13/1337.html"
+        },
+        "kono": {
+          "url": "https://www.city.matsuyama.ehime.jp/kanko/kankoguide/rekishibunka/rekishi/muromachi-azuchi.html",
+          "supports": "Municipal timeline explicitly records Michinobu in October1560; no earlier namesake date transferred",
+          "capitalUrl": "https://www.city.matsuyama.ehime.jp/kanko/kankoguide/rekishibunka/bunkazai/kuni/yudukijou_ato.html"
+        },
+        "saionji": {
+          "url": "https://www.city.uwajima.ehime.jp/site/sizen-bunka/106saionnjibo.html",
+          "supports": "Municipal cultural-property account names Sanemitsu as Kurose lord; no precise construction or lifespan claim"
+        }
+      }
+    },
+    "b8": {
+      "status": "Integrated production B8 additions; actual Kyushu owned district resources",
+      "identities": "plan/14 §3.3 fixes five leaders, capitals, palette indices and persona IDs.",
+      "resources": "plan/14 §3.2 uses actual owned district koku. Otomo receives the commercial multiplier 1.3 before rounding to 100.",
+      "prestige": "Prestige values are scenario design. Titles default to none; historical lineage does not imply a court award.",
+      "personas": "Existing persona profiles are gameplay design, not historical psychological evidence.",
+      "diplomacy": "Only plan/14 §3.3 prescribed wars and sentiments are included. No extra pact or kinship is inferred.",
+      "sourceClasses": "Municipal histories and institutional site descriptions support the stated facts. They do not prove every prescribed 1560 territorial boundary.",
+      "sources": {
+        "shimazu": {
+          "url": "https://higashi.edu.pref.kagoshima.jp/article/2021090400066/",
+          "supports": "Prefectural school account identifies Takahisa as the fifteenth leader and places his residence at Uchijo."
+        },
+        "otomo": {
+          "url": "https://www.city.oita.oita.jp/o157/bunkasports/citypromotion/1369370791117.html",
+          "supports": "Municipal history identifies Yoshishige as the twenty-first leader from 1550, and describes his trade from Funai.",
+          "capitalUrl": "https://www.city.oita.oita.jp/o204/bunkasports/rekishi/map/route3.html"
+        },
+        "ryuzoji": {
+          "url": "https://www.city.saga.lg.jp/bunka-sports/rekishi-bunkazai/4/3/2281.html",
+          "supports": "Municipal history identifies Takanobu succeeding the Muranaka main family in 1548."
+        },
+        "ito": {
+          "url": "https://www.city.saito.lg.jp/post_372.html",
+          "supports": "Municipal account identifies Yoshisuke as Yoshimasu’s father. The museum identifies Tonokori as the Ito political base.",
+          "capitalUrl": "https://www.city.saito.lg.jp/kanko_bunka/cat177/post_1620.html"
+        },
+        "sagara": {
+          "url": "https://www.city.hitoyoshi.lg.jp/resource.php?e=5f68f128e726ff4de5db83aaecfd809ccfa0271c33af56f8d1d22819e3744abcef76ce921037405d3969fc8273b5d8f9",
+          "supports": "Municipal publication identifies Yoshihi as the young successor in 1555 and describes a surviving 1557 letter.",
+          "capitalUrl": "https://www.city.hitoyoshi.lg.jp/kanko/kankojyoho/21341"
+        }
+      }
+    },
+    "b9": {
+      "status": "Integrated production B9 additions; actual Tohoku owned district resources",
+      "identities": "plan/14 sections3.3 and3.6 prescribe five distinct leaders and their gameplay capitals.",
+      "resources": "Treasuries use actual supplied owned district koku divided by200, rounded to100.",
+      "authored": "Prestige and existing persona profiles are gameplay design. Titles default to none.",
+      "boundary": "Canonical regional aggregation does not prove direct1560 control over every branch castle. The geography source record must describe actual historical houses and construction dates separately. Factory unit fixtures are not national closure evidence.",
+      "diplomacy": "Only the prescribed Date–Mogami marriage, Ando–Nanbu war and Ashina–Date65/65 sentiment are included. The marriage pact does not infer officer kinship."
+    }
   }
 }

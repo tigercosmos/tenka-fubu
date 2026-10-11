@@ -1,22 +1,39 @@
 .root {
   position: absolute;
   top: 4rem;
-  left: 5rem;
+  left: 5.25rem;
   z-index: var(--z-hud);
   width: 15rem;
   max-width: calc(100vw - 10rem);
   padding: var(--space-2);
-  color: var(--ink-900);
-  background: var(--washi-100);
-  border: var(--border-thin);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-1);
-  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background: var(--surface-panel);
+  border: 1px solid var(--stroke-subtle);
+  border-radius: 4px;
+  border-top: 2px solid var(--brand-gold);
+  box-shadow: 0 6px 20px rgb(15 25 30 / 16%);
+  font-size: max(12px, var(--font-size-sm));
+  max-height: calc(100dvh - 4rem - 12px);
+  overflow-y: auto;
+}
+
+.root[data-compact='true'] {
+  width: fit-content;
+  padding: 4px 8px;
+  color: var(--text-inverse);
+  background: var(--surface-command);
+  border-color: var(--command-gold);
+}
+
+.root[data-compact='true'] summary {
+  color: var(--text-inverse);
 }
 
 .root summary {
   cursor: pointer;
-  min-height: 2rem;
+  min-height: max(32px, 2rem);
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .modes {
@@ -24,7 +41,9 @@
   gap: var(--space-1);
   margin: var(--space-2) 0;
   padding: var(--space-2);
-  border: var(--border-thin);
+  border: 0;
+  background: var(--surface-base);
+  border-radius: 2px;
 }
 
 .modes label {
@@ -32,12 +51,12 @@
   align-items: center;
   gap: var(--space-1);
   cursor: pointer;
-  min-height: 2rem;
+  min-height: max(32px, 2rem);
 }
 
 .modes kbd {
   margin-left: auto;
-  font-size: var(--font-size-xs);
+  font-size: max(12px, var(--font-size-xs));
 }
 
 .opacity {
@@ -47,13 +66,13 @@
 
 .opacity input {
   width: 100%;
-  accent-color: var(--accent-vermilion);
-  min-height: 2rem;
+  accent-color: var(--brand-red);
+  min-height: max(32px, 2rem);
 }
 
 .root summary:focus-visible,
 .root input:focus-visible {
-  outline: 2px solid var(--accent-vermilion);
+  outline: 2px solid var(--brand-red);
   outline-offset: 2px;
 }
 
@@ -62,6 +81,8 @@
   gap: var(--space-1);
   margin: var(--space-2) 0 0;
   line-height: var(--line-height-body);
+  border-top: 1px solid var(--stroke-subtle);
+  padding-top: var(--space-2);
 }
 
 .legendItem {

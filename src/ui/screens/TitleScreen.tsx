@@ -1,90 +1,110 @@
-// 最小標題畫面（規格：plan/11-ui-screens.md §3.2.1 縮減版；18-roadmap.md M1-20）。
-//
-// M1 縮減：僅「天下布武」標題＋副標＋三顆主鈕（新遊戲／繼續／設定）。「繼續」「設定」依存檔
-// （M8）／設定系統（M8）落地前恆為 disabled（比照 16-T7「無存檔『繼續』停用」精神提前套用）；
-// 劇本選擇／大名選擇（11 §3.2.2／§3.2.3）與完整四主鈕流程留待 M2-19／M8-17。
-// data-testid 依 plan/17-testing.md §6.2 契約：`screen-title`／`title-newgame`／`title-loadgame`。
+// Title entry points follow 11 §3.2 and 16 §3.9.
+// App supplies the latest loadable save preview and owns loading, settings and new-game navigation.
 
-import type { ReactElement } from 'react';
-import { t } from '@i18n/zh-TW';
+import { useId, type ReactElement } from 'react';
+import { formatDate, t } from '@i18n/zh-TW';
+import type { ContinueSavePreview } from '../../app/persistence/useSaveLoad';
+import styles from './TitleScreen.module.css';
 
 export interface TitleScreenProps {
-  /** 點擊「新遊戲」（M1 直接以 tests/fixtures/tiny.ts 建局，見 src/app/newGame.ts）。 */
+  /** Opens the scenario, clan, difficulty and seed wizard. */
   onNewGame: () => void;
   /** 是否存在可續玩的存檔（16 §5.8；MVP 存讀檔先行，決定「繼續」啟用）。 */
   hasSave?: boolean;
+  continuePreview?: ContinueSavePreview | null;
   /** 點擊「繼續」：載入最新存檔（App 外殼處理；hasSave=false 時不會被呼叫）。 */
   onContinue?: () => void;
+  onSettings?: () => void;
+  onLoadGame?: () => void;
 }
 
-export function TitleScreen({ onNewGame, hasSave, onContinue }: TitleScreenProps): ReactElement {
+export function TitleScreen({
+  onNewGame,
+  hasSave,
+  continuePreview,
+  onContinue,
+  onSettings,
+  onLoadGame,
+}: TitleScreenProps): ReactElement {
+  const previewId = useId();
+  const realDate = continuePreview?.timestamp == null ? null : new Date(continuePreview.timestamp);
   return (
-    <div
-      data-testid="screen-title"
-      style={{
-        position: 'fixed',
-        inset: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 'var(--space-8)',
-        background: 'var(--ink-900)',
-        color: 'var(--washi-100)',
-        textAlign: 'center',
-      }}
-    >
-      <div>
-        <h1
-          style={{
-            fontSize: 'var(--font-size-xxl)',
-            letterSpacing: '0.3em',
-            color: 'var(--washi-100)',
-            margin: 0,
-          }}
-        >
-          {t('ui.title.gameTitle')}
-        </h1>
-        <p style={{ color: 'var(--accent-gold-text)', marginTop: 'var(--space-2)' }}>
-          {t('ui.title.subtitle')}
-        </p>
+    <div data-testid="screen-title" className={styles.screen}>
+      <div className={styles.identity}>
+        <div className={styles.landscape} aria-hidden="true" />
+        <span className={styles.seal} aria-hidden="true">
+          天下
+        </span>
+        <h1 className={styles.title}>{t('ui.title.gameTitle')}</h1>
+        <p className={styles.subtitle}>{t('ui.title.subtitle')}</p>
       </div>
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--space-4)',
-          width: '20rem',
-        }}
-      >
-        <button type="button" data-testid="title-newgame" onClick={onNewGame}>
+      <nav className={styles.menu} aria-label={t('ui.title.gameTitle')}>
+        <button
+          className={styles.primary}
+          type="button"
+          data-testid="title-newgame"
+          onClick={onNewGame}
+        >
+          <span className={styles.menuIndex} aria-hidden="true">
+            01
+          </span>
           {t('ui.title.newGame')}
         </button>
-        {/* 無存檔時停用（16-T7「無存檔『繼續』停用」；MVP 存讀檔先行接線）。 */}
+        <div className={styles.continueEntry}>
+          <button
+            type="button"
+            data-testid="title-loadgame"
+            disabled={hasSave !== true}
+            aria-describedby={hasSave === true && continuePreview ? previewId : undefined}
+            onClick={onContinue}
+          >
+            <span className={styles.menuIndex} aria-hidden="true">
+              02
+            </span>
+            {t('ui.title.continue')}
+          </button>
+          {hasSave === true && continuePreview && (
+            <p
+              id={previewId}
+              className={styles.continuePreview}
+              data-testid="title-continue-preview"
+            >
+              <span>
+                {continuePreview.clanName} · {continuePreview.leaderName}
+              </span>
+              <span>{continuePreview.dateText ?? formatDate(continuePreview.day)}</span>
+              {realDate !== null && Number.isFinite(realDate.getTime()) && (
+                <time dateTime={realDate.toISOString()}>{realDate.toLocaleString('zh-TW')}</time>
+              )}
+            </p>
+          )}
+        </div>
         <button
           type="button"
-          data-testid="title-loadgame"
-          disabled={hasSave !== true}
-          onClick={onContinue}
+          data-testid="title-save-list"
+          disabled={onLoadGame === undefined}
+          onClick={onLoadGame}
         >
-          {t('ui.title.continue')}
+          <span className={styles.menuIndex} aria-hidden="true">
+            03
+          </span>
+          {t('ui.title.loadGame')}
         </button>
-        <button type="button" data-testid="title-settings" disabled>
+        <button
+          type="button"
+          data-testid="title-settings"
+          disabled={onSettings === undefined}
+          onClick={onSettings}
+        >
+          <span className={styles.menuIndex} aria-hidden="true">
+            04
+          </span>
           {t('ui.title.settings')}
         </button>
-      </div>
+      </nav>
 
-      <p
-        style={{
-          position: 'fixed',
-          bottom: 'var(--space-4)',
-          fontSize: 'var(--font-size-xs)',
-          color: 'var(--ink-300)',
-        }}
-      >
-        v0.0.0 ・ {t('ui.title.disclaimer')}
-      </p>
+      <p className={styles.footer}>v0.0.0 ・ {t('ui.title.disclaimer')}</p>
     </div>
   );
 }

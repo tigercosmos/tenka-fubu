@@ -1,0 +1,34 @@
+{
+  "asset": "public/assets/textures/castle-branch-mountain-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-09",
+  "transparentBackgroundRequested": true,
+  "referencedImages": ["public/assets/textures/castle-main-mountain-v1.png"],
+  "sha256": "ba3c035e7e1eedccccddf70f402f8229256f968b51cfa7d017eb31146f05eee3",
+  "dimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "bytes": 2079385,
+  "alphaInspection": {
+    "zeroAlphaPixels": 888089,
+    "partialAlphaPixels": 684270,
+    "opaquePixels": 157,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 36,
+    "y": 190,
+    "width": 1196,
+    "height": 977
+  },
+  "groundAnchor": {
+    "x": 627,
+    "y": 925,
+    "method": "authored footprint center selected after visual inspection; not a gameplay coordinate"
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: transparent 2.5D strategy-map castle sprite.\nInput image: our own original main castle, STYLE reference only, not an edit target. Create a NEW fictional smaller branch fort, not the reference layout.\nStyle: restrained painterly realistic miniature, Sengoku Japanese timber, warm ivory plaster, charcoal gray tiled roofs, mossy rough stone; same high oblique three-quarter camera and upper-left daylight as reference. Small map readability, coherent silhouette.\nSubject: modest compact branch castle with a TWO-tier small keep, one gatehouse, low perimeter walls. Clearly lower and simpler than the three-tier main castle. Complete isolated compound centered, enough transparent margin, no crop.\nConstraints: actual transparent background, no people, flags, banners, mon, text, interface, watermark, scenic background. No colored outline or fringe. No copied commercial game assets, no identifiable real castle replica. Terrain: compact rocky hill fort, terraced low walls following the slope, rough olive-gray rock knoll; no moat. Keep ground contact clearly readable.",
+  "qualityInspection": "Original two-tier branch castle. Remaining colored edge fringes visible on inspection; provisional asset, not full-scene native visual acceptance."
+}

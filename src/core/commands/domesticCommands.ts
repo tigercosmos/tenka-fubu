@@ -6,6 +6,7 @@ import { COURT_RANK_VALUES, RANK_VALUES } from '../state/enums';
 import { buildMapGraph } from '../state/mapGraph';
 import { nextId } from '../state/serialize';
 import { computePath } from '../systems/pathfinding';
+import { reverseTransport } from '../systems/transportMovement';
 import type { GameState } from '../state/gameState';
 import type { ValidationResult } from './types';
 import type { CommandByType, EmitFn } from './registry';
@@ -14,6 +15,8 @@ import { adjustLoyalty } from '../systems/officers';
 import { traitModifier } from '../traits';
 import { extraPolicySlots } from '../systems/court';
 import { clearBetrayalMark } from '../systems/plots';
+import { canControlCastle, PLAYER_AUTHORITY, type ExecutionAuthority } from './authority';
+import { treasuryForCastle } from './treasury';
 
 const ok: ValidationResult = { ok: true };
 const reject = (reasonKey: string): ValidationResult => ({ ok: false, reasonKey });
@@ -31,10 +34,16 @@ function ownedDistrict(state: Readonly<GameState>, clanId: string, districtId: s
 export function validateSetDevelopFocus(
   state: Readonly<GameState>,
   cmd: CommandByType['setDevelopFocus'],
+  authority: ExecutionAuthority = PLAYER_AUTHORITY,
 ): ValidationResult {
   const district = ownedDistrict(state, cmd.clanId, cmd.districtId);
   if (!district) return reject(REJECT_REASONS.notOwner);
-  if (district.stewardId !== null || !state.castles[district.castleId]?.directControl)
+  if (authority.kind === 'steward')
+    return district.stewardId === authority.officerId && district.id === authority.districtId
+      ? ok
+      : reject(REJECT_REASONS.officerBusy);
+  const castle = state.castles[district.castleId];
+  if (district.stewardId !== null || !castle || !canControlCastle(state, castle, authority))
     return reject(REJECT_REASONS.officerBusy);
   return ok;
 }
@@ -64,7 +73,7 @@ export function validateGrantFief(
   )
     return reject(REJECT_REASONS.invalidTarget);
   if (officer.armyId !== null || officer.locationCastleId !== district.castleId)
-    return reject(REJECT_REASONS.officerBusy);
+    return { ok: false, reasonKey: REJECT_REASONS.officerBusy, params: { name: officer.name } };
   const fiefs = Object.values(state.districts).filter(
     (d) => d.stewardId === officer.id && d.id !== district.id,
   ).length;
@@ -106,10 +115,12 @@ function facilityAvailable(
 export function validateBuildFacility(
   state: Readonly<GameState>,
   cmd: CommandByType['buildFacility'],
+  authority: ExecutionAuthority = PLAYER_AUTHORITY,
 ): ValidationResult {
   const castle = ownedCastle(state, cmd.clanId, cmd.castleId);
   const def = FACILITIES[cmd.facilityTypeId];
   if (!castle) return reject(REJECT_REASONS.notOwner);
+  if (!canControlCastle(state, castle, authority)) return reject(REJECT_REASONS.delegatedToCorps);
   if (!def || !facilityAvailable(state, castle.id, def.id))
     return reject(REJECT_REASONS.invalidTarget);
   if (
@@ -117,13 +128,13 @@ export function validateBuildFacility(
     castle.buildQueue.some((item) => item.facilityTypeId === def.id)
   )
     return reject(REJECT_REASONS.alreadyActive);
-  const slots = castle.tier === 'main' ? BAL.facilitySlotsMain : BAL.facilitySlotsBranch;
+  const slots = castle.tier === 'main' ? BAL.mainCastleSlots : BAL.branchCastleSlots;
   if (
     castle.facilities.length + castle.buildQueue.length >= slots ||
     castle.buildQueue.length >= BAL.buildQueueSize
   )
     return reject(REJECT_REASONS.invalidTarget);
-  return (state.clans[cmd.clanId]?.gold ?? 0) >= def.costGold
+  return (treasuryForCastle(state, castle.id)?.gold ?? 0) >= def.costGold
     ? ok
     : reject(REJECT_REASONS.insufficientGold);
 }
@@ -135,7 +146,7 @@ export function applyBuildFacility(state: GameState, cmd: CommandByType['buildFa
     1,
     Math.ceil(def.buildDays * (builder ? traitModifier(builder, 'dev.facilityTimeMult').mult : 1)),
   );
-  state.clans[cmd.clanId]!.gold -= def.costGold;
+  treasuryForCastle(state, castle.id)!.gold -= def.costGold;
   castle.buildQueue.push({ facilityTypeId: def.id, daysLeft: buildDays });
 }
 export function validateCancelBuild(
@@ -150,7 +161,7 @@ export function validateCancelBuild(
 export function applyCancelBuild(state: GameState, cmd: CommandByType['cancelBuild']): void {
   const [order] = state.castles[cmd.castleId]!.buildQueue.splice(cmd.queueIndex, 1);
   if (order)
-    state.clans[cmd.clanId]!.gold += Math.floor(
+    treasuryForCastle(state, cmd.castleId)!.gold += Math.floor(
       (FACILITIES[order.facilityTypeId]?.costGold ?? 0) * BAL.buildRefundRate,
     );
 }
@@ -174,9 +185,10 @@ export function applyDemolishFacility(
 export function validateSetConscriptPolicy(
   state: Readonly<GameState>,
   cmd: CommandByType['setConscriptPolicy'],
+  authority: ExecutionAuthority = PLAYER_AUTHORITY,
 ): ValidationResult {
   const castle = ownedCastle(state, cmd.clanId, cmd.castleId);
-  return castle?.directControl && castle.corpsId === null
+  return castle && canControlCastle(state, castle, authority)
     ? ok
     : reject(castle ? REJECT_REASONS.delegatedToCorps : REJECT_REASONS.notOwner);
 }
@@ -209,7 +221,7 @@ export function validateTransport(
     return reject(REJECT_REASONS.invalidTarget);
   if (cmd.soldiers > from.soldiers) return reject(REJECT_REASONS.insufficientTroops);
   if (cmd.food > from.food) return reject(REJECT_REASONS.insufficientFood);
-  if (cmd.gold > (state.clans[cmd.clanId]?.gold ?? 0))
+  if (cmd.gold > (treasuryForCastle(state, from.id)?.gold ?? 0))
     return reject(REJECT_REASONS.insufficientGold);
   return transportPath(state, cmd).found ? ok : reject(REJECT_REASONS.pathBlocked);
 }
@@ -218,7 +230,7 @@ export function applyTransport(state: GameState, cmd: CommandByType['transport']
   const from = state.castles[cmd.fromCastleId]!;
   from.soldiers -= cmd.soldiers;
   from.food -= cmd.food;
-  state.clans[cmd.clanId]!.gold -= cmd.gold;
+  treasuryForCastle(state, from.id)!.gold -= cmd.gold;
   const id = nextId(state, 'transport');
   state.transports[id] = {
     id,
@@ -249,14 +261,7 @@ export function applyRecallTransport(
   cmd: CommandByType['recallTransport'],
 ): void {
   const order = state.transports[cmd.transportId]!;
-  // 行進中折返：把「已走過的部分」改成回到上一節點所需距離，並暫以原下一節點作游標。
-  // 若正位於節點（progress=0），transportDaily 會直接選前一條邊。
-  if (order.edgeProgressDays > 0 && order.pathCursor + 1 < order.path.length) {
-    order.pathCursor += 1;
-    order.edgeCostDays = order.edgeProgressDays;
-    order.edgeProgressDays = 0;
-  }
-  order.returning = true;
+  reverseTransport(order);
 }
 
 export function validateTradeRice(
@@ -274,13 +279,13 @@ export function validateTradeRice(
     return reject(REJECT_REASONS.invalidTarget);
   if (cmd.mode === 'sell')
     return castle.food >= cmd.amount ? ok : reject(REJECT_REASONS.insufficientFood);
-  return (state.clans[cmd.clanId]?.gold ?? 0) >= Math.ceil(cmd.amount * BAL.riceBuyRate)
+  return (treasuryForCastle(state, castle.id)?.gold ?? 0) >= Math.ceil(cmd.amount * BAL.riceBuyRate)
     ? ok
     : reject(REJECT_REASONS.insufficientGold);
 }
 export function applyTradeRice(state: GameState, cmd: CommandByType['tradeRice']): void {
   const castle = state.castles[cmd.castleId]!;
-  const clan = state.clans[cmd.clanId]!;
+  const clan = treasuryForCastle(state, castle.id)!;
   if (cmd.mode === 'sell') {
     castle.food -= cmd.amount;
     clan.gold += Math.floor(cmd.amount * BAL.riceSellRate);
@@ -298,7 +303,12 @@ export function policyUnlocked(
   const def = POLICIES[cmd.policyId];
   const clan = state.clans[cmd.clanId];
   if (!def || !clan) return false;
-  const eventUnlock = def.unlockEvent !== null && state.events.fired[def.unlockEvent] !== undefined;
+  // Plan10 §3.6: only this clan's accepted merchant offer unlocks these policies.
+  // The global fired record cannot distinguish a refused offer or another clan's decision.
+  const eventUnlock =
+    def.id === 'pol.nanban' || def.id === 'pol.kakishuchu'
+      ? (state.events.flags[`unlock.${def.id}.${clan.id}`] ?? 0) >= 1
+      : def.unlockEvent !== null && state.events.fired[def.unlockEvent] !== undefined;
   const courtUnlock =
     def.unlockCourtRank !== null &&
     COURT_RANK_VALUES.indexOf(clan.courtRank) >= COURT_RANK_VALUES.indexOf(def.unlockCourtRank);
@@ -330,7 +340,9 @@ export function validateEnactPolicy(
     1 + Math.floor(clan.prestige / BAL.policySlotPrestige) + extraPolicySlots(state, clan.id),
   );
   if (policies.active.length >= slots) return reject(REJECT_REASONS.invalidTarget);
-  return clan.gold >= def.upkeepGold ? ok : reject(REJECT_REASONS.insufficientGold);
+  return clan.gold >= def.upkeepGold
+    ? ok
+    : { ok: false, reasonKey: REJECT_REASONS.insufficientGold, params: { cost: def.upkeepGold } };
 }
 export function applyEnactPolicy(
   state: GameState,

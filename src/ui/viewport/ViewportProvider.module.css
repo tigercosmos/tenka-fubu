@@ -1,0 +1,17 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: var(--surface-base);
+  color: var(--text-primary);
+  text-align: center;
+  overflow: auto;
+  font-size: 1rem;
+}
+
+.overlay p {
+  max-width: 36rem;
+}

@@ -31,8 +31,7 @@ describe('scanSimplified — 全 repo 掃描（17 §3.6.2／18 M0-6 驗收）', 
   });
 
   it('CLI（npm run scan:simplified 同源）對目前 repo 掃描 exit code 為 0', () => {
-    const tsxBin = path.join(REPO_ROOT, 'node_modules', '.bin', 'tsx');
-    const result = spawnSync(tsxBin, ['tools/scan-simplified.ts'], {
+    const result = spawnSync(process.execPath, ['--import', 'tsx', 'tools/scan-simplified.ts'], {
       cwd: REPO_ROOT,
       encoding: 'utf8',
     });
@@ -75,6 +74,18 @@ describe('scanSimplified — 植入測試字元（17 §7-T3：簡體／新字體
     tempRoot = writeFixture('皇后與若干公里');
     const findings = scanSimplified(tempRoot);
     expect(findings).toEqual([]);
+  });
+
+  it('preserves the attested Kururi castle and Osato county proper names', () => {
+    tempRoot = writeFixture('久留里城／大里郡／七里賴周／江里口信常');
+    expect(scanSimplified(tempRoot)).toEqual([]);
+  });
+
+  it('still rejects an interior-location mistranscription outside the named exceptions', () => {
+    tempRoot = writeFixture('這\u91cc');
+    expect(scanSimplified(tempRoot)).toEqual([
+      expect.objectContaining({ char: '\u91cc', rule: 'context', suggestion: '裡' }),
+    ]);
   });
 });
 

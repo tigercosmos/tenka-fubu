@@ -72,8 +72,10 @@ function applyVisualMapSceneState(state: GameState): void {
 }
 
 /** 建立 M6-V2 固定視覺 fixture 並佈置場景 UI 態；供 `App.tsx` 於 `?debug=visual-map` 時呼叫。 */
-export function bootVisualMapGame(): GameState {
+export function bootVisualMapGame(beforeScene?: (state: GameState) => void): GameState {
   const state = buildVisualMapState();
+  // 外殼先重設換局狀態，再佈置一次性選取／路徑；不能被 mountGame 的 reset 擦除。
+  beforeScene?.(state);
   applyVisualMapSceneState(state);
   return state;
 }

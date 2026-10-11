@@ -7,7 +7,7 @@
 // 推進 30 日無錯）。
 //
 // 【與 14 §3.1 s1560 彙整流程的差異：型錄（traits/tactics/policies/personas）】14 §4.8/§4.9/
-// §4.10/§4.11 之型錄 zod schema 為「全域固定長度」（37 特性／12 戰法／13 政策／≥41 persona，
+// §4.10/§4.11 之型錄 zod schema 為「全域固定長度」（37 特性／12 戰法／12 政策／≥41 persona，
 // 對應 06/07/05/09 canonical 定案），屬「實際劇本資料」的驗收範圍（14-T2 對 s1560 才有意義），
 // 非本 mini 測試劇本的關注點——tests/fixtures/scenarioBundle.ts（M2-8）已立下相同precedent：
 // 手動建構 `ScenarioBundleData.catalogs`（不逐一經過 zTraitsFile.length(37) 等長度限制），
@@ -178,5 +178,6 @@ export function buildMiniState(opts: BuildMiniStateOptions = {}): GameState {
     startDay: MINI_START_DAY,
   });
   const state = buildGameState(input);
+  state.ai.allAi = opts.allAi ?? false;
   return opts.overrides ? deepMerge(state, opts.overrides) : state;
 }

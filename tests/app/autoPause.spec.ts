@@ -13,6 +13,8 @@ import {
 import { resetGameStoreForTests, store } from '../../src/app/store';
 import { makeLoopTestState } from '../helpers/loopState';
 import { createManualScheduler } from '../helpers/manualFrameScheduler';
+import { settingsStore } from '../../src/app/settings/runtime';
+import { SettingsSchema } from '../../src/app/settings';
 
 function setDocumentHidden(hidden: boolean): void {
   Object.defineProperty(document, 'hidden', { value: hidden, configurable: true });
@@ -21,12 +23,14 @@ function setDocumentHidden(hidden: boolean): void {
 let uninstall: (() => void) | null = null;
 
 beforeEach(() => {
+  settingsStore.setState({ settings: SettingsSchema.parse({}) });
   resetBridgeForTests();
   resetGameStoreForTests(makeLoopTestState());
   store.getState().actions.setSpeed('x1');
 });
 
 afterEach(() => {
+  settingsStore.setState({ settings: SettingsSchema.parse({}) });
   uninstall?.();
   uninstall = null;
   setDocumentHidden(false);
@@ -91,6 +95,15 @@ describe('失焦自動暫停（01-A8 主要交付）', () => {
 });
 
 describe('translateAutoPauseReasons — core AutoPauseReason → app PauseReason（01 §3.5.3／03 §4.1）', () => {
+  it('reads current preferences and skips disabled arrivals without masking enabled reasons', () => {
+    settingsStore.setState({
+      settings: SettingsSchema.parse({ autoPause: { envoy: false, monthStart: false } }),
+    });
+    expect(translateAutoPauseReasons(['envoyArrived', 'monthStart'])).toBeNull();
+    expect(translateAutoPauseReasons(['envoyArrived', 'proposalArrived'])).toBe('proposalArrived');
+    settingsStore.setState({ settings: SettingsSchema.parse({}) });
+    expect(translateAutoPauseReasons(['envoyArrived'])).toBe('diploEnvoy');
+  });
   it('依 03 §4.1 全部 6 種原因逐一轉譯正確', () => {
     expect(translateAutoPauseReasons(['siegeOnPlayer'])).toBe('castleBesieged');
     expect(translateAutoPauseReasons(['battleAvailable'])).toBe('battleOffer');

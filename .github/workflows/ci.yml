@@ -7,10 +7,11 @@
 #（install 驗證 `npm ci` 成功並計算里程碑門檻旗標；其餘 job 各自 checkout＋setup-node＋npm ci，
 # 依賴 install 僅表示排序與門檻旗標的共用，非跨 job 共享 node_modules）。
 #
-# 里程碑階段性門檻（18 §4.1／17 §3.11.2）：golden-s1560、AI 合法性 A2（全國）兩項門檻
+# 里程碑階段性門檻（18 §4.1／17 §3.11.2）：golden-s1560、AI 合法性 A2（全國）
 # 先以「僅報告」產出（M8-28／M7-14），之後才轉為阻斷（M9-6／M8-29）；
-# 阻斷與否由 install job 讀 milestone.json 的 current 計算，透過 job outputs 傳遞給 unit job。
-# M0 現況：兩項門檻對應的測試皆尚未產出，故本檔內對應步驟以「檔案是否存在」自然跳過
+# perf 與 core 覆蓋率 80/70 自 M9 阻斷；此前保留報告，不改變一般測試的失敗結果。
+# 阻斷與否由 install job 讀 milestone.json 的 current 計算，透過 job outputs 傳遞。
+# 尚未產出的測試以「檔案是否存在」自然跳過
 # （比照 package.json 的 `validate:data`／`scan:simplified` 雙工具鏈容錯慣例，見 18 §8-D16）。
 name: CI
 
@@ -27,6 +28,8 @@ jobs:
       milestoneCurrent: ${{ steps.gate.outputs.milestoneCurrent }}
       goldenS1560Blocking: ${{ steps.gate.outputs.goldenS1560Blocking }}
       aiLegalityA2Blocking: ${{ steps.gate.outputs.aiLegalityA2Blocking }}
+      perfGateBlocking: ${{ steps.gate.outputs.perfGateBlocking }}
+      coreCoverageBlocking: ${{ steps.gate.outputs.coreCoverageBlocking }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -78,10 +81,17 @@ jobs:
         run: npm run validate:assets
 
       # 基礎 unit（core+ui+data+scan+golden-mini+replay，17 §3.11.1「unit」job 定義）；
-      # 涵蓋率報告一併輸出（覆蓋率門檻本身至 M9 才轉阻斷，見 17 §3.11.2，由
-      # M9-7 於 vitest 設定內加上 thresholds 落實，本檔不需另行條件判斷）。
-      - name: vitest run（含覆蓋率報告）
-        run: npx vitest run --coverage --passWithNoTests
+      # 只有全國 golden 從基礎測試分離，依下方旗標決定阻斷；其餘測試失敗仍阻斷。
+      # core 覆蓋率門檻自 M9 啟用（17 §3.2／§3.11.2），此前只報告覆蓋率。
+      - name: vitest run（core 覆蓋率依里程碑決定是否阻斷）
+        env:
+          CI_EXCLUDE_NATIONAL_GOLDEN: '1'
+        run: |
+          if [ "${{ needs.install.outputs.coreCoverageBlocking }}" = "true" ]; then
+            npm run test:coverage
+          else
+            npm run test:coverage:report
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with: { name: coverage-report, path: coverage, retention-days: 7 }
@@ -92,7 +102,7 @@ jobs:
       - name: golden-s1560（依里程碑決定是否阻斷）
         if: hashFiles('tests/golden/*s1560*.spec.ts') != ''
         continue-on-error: ${{ needs.install.outputs.goldenS1560Blocking != 'true' }}
-        run: npx vitest run tests/golden --testNamePattern "s1560"
+        run: npx vitest run tests/golden/s1560.spec.ts
 
       # ── 階段性門檻擴充點：AI 合法性 A2／全國（M7-14 以「僅報告」產出、M8-29 轉阻斷）──
       # 慣例（供 M7-14／M8-29 遵循）：A2（全國規模）案例的測試標題須含子字串 "A2"，
@@ -105,6 +115,18 @@ jobs:
         continue-on-error: ${{ needs.install.outputs.aiLegalityA2Blocking != 'true' }}
         run: npx vitest run tests/core/ai-legality.spec.ts --testNamePattern "A2"
 
+  perf-gate:
+    name: perf-gate（serial national all-AI and event workload）
+    needs: install
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ needs.install.outputs.perfGateBlocking != 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run test:perf
+
   e2e:
     name: e2e（vite build → Playwright smoke）
     needs: install
@@ -116,6 +138,7 @@ jobs:
       - run: npm ci
       - run: npm run validate:assets
       - run: npm run build
+      - run: npm run validate:bundle
 
       # M0 佔位：Playwright smoke（P1）於 M1-27 才產出（17 §3.11.2 M0 欄 Playwright P1 為
       # 「—」非阻斷），且 playwright.config.ts 亦尚未鋪設；本步驟以存在性檢查 build-only
@@ -124,7 +147,7 @@ jobs:
         run: |
           if [ -f playwright.config.ts ] && ls e2e/*.spec.ts >/dev/null 2>&1; then
             npx playwright install chromium --with-deps
-            npm run e2e
+            npx playwright test
           else
             echo "尚未建立 playwright.config.ts 與/或 e2e/*.spec.ts，本階段僅驗證 build 成功（M1-27 起接上 Playwright smoke）。"
           fi

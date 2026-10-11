@@ -74,7 +74,8 @@ export function proposalsSystem(state: GameState): GameEvent[] {
     const invalid = !officer || officer.status !== 'serving' || officer.clanId !== proposal.clanId;
     if (proposal.status === 'pending' && (invalid || proposal.expiresDay <= state.time.day)) {
       proposal.status = 'expired';
-      if (!invalid) adjustLoyalty(officer, -BAL.proposalExpireLoyalty);
+      if (!invalid && state.clans[proposal.clanId]?.leaderId !== officer.id)
+        adjustLoyalty(officer, -BAL.proposalExpireLoyalty);
       markProposalTerminal(state, proposal);
       events.push({
         type: 'proposal.expired',

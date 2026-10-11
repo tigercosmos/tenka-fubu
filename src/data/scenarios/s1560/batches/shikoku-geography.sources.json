@@ -1,0 +1,78 @@
+{
+  "scope": "Staged seven-region geography: production five regions plus staged Chugoku/Shikoku. Not production validation or full roster closure.",
+  "coordinateMethod": "Rounded named-site coordinates, not institutional survey precision. Districts are fitted gameplay markers within40–180world units of their parent. Physical Kurushima island pin remains132.97,34.12; existing coarse outline misses it by6.548world units, within the unchanged canonical04 section3.3.4 boundary tolerance of8world units. This is a coarse-outline representation boundary, not an unresolved acceptance blocker. No mainland relocation, outline edit or validator relaxation.",
+  "districtMethod": "Four canonical provinces, eight prescribed castles and22named counties/subdivisions; totals950000koku. Resource/capacity/route values are authored game abstractions, not historical measurements.",
+  "ownershipMethod": "Existing Miyoshi retains its Kinki home/identity and gains only Shozui/Sogo/Toramaru branches. Toramaru1572Miyoshi conquest appears in secondary castle research, while institutional sources establish older Sangawa ownership/site; canonical1560Miyoshi assignment is explicitly a scenario abstraction. Kurushima Murakami affiliation is simplified to Kono. Kurose exact construction/relocation chronology remains unasserted.",
+  "sources": [
+    {
+      "castleId": "castle.shozui",
+      "url": "https://kunishitei.bunka.go.jp/bsys/maindetails/401/3285",
+      "supports": "Agency for Cultural Affairs: Shozui medieval Hosokawa/Miyoshi headquarters; excavated late16C moat/garden matches Yoshikata1552rise."
+    },
+    {
+      "castleId": "castle.sogo",
+      "url": "https://www.city.takamatsu.kagawa.jp/kurashi/kosodate/bunka/bunkazai/shiteibunkazai/shiseki/sogojo.html",
+      "supports": "Municipal Sogo castle at Shonenji; Miyoshi Kazumasa/Masayasu line."
+    },
+    {
+      "castleId": "castle.toramaru",
+      "url": "https://www.o-kouiki.jp/blog/blog-12938/",
+      "supports": "Regional public archaeology article establishes Toramaru hill/site identity; not1560Miyoshi ownership proof."
+    },
+    {
+      "castleId": "castle.oko",
+      "url": "https://kochi-rekimin.jp/sites/oko-castleruins.html",
+      "supports": "Prefectural museum identifies Oko hill and Chosokabe castle remains."
+    },
+    {
+      "castleId": "castle.nakamura",
+      "url": "https://www.city.shimanto.lg.jp/site/scp/1372.html",
+      "supports": "Municipal Nakamura Gosho at Komoriyama/Ichijo shrine; not later Nakamura mountain-castle substitution."
+    },
+    {
+      "castleId": "castle.yuzuki",
+      "url": "https://www.city.matsuyama.ehime.jp/kanko/kankoguide/rekishibunka/bunkazai/kuni/yudukijou_ato.html",
+      "supports": "Municipal Yuzuki castle identifies Kono medieval headquarters at Dogo."
+    },
+    {
+      "castleId": "castle.kurushima",
+      "url": "https://www.city.imabari.ehime.jp/kanko/spot/?a=100",
+      "supports": "Municipal Kurushima island sea fort and Kurushima Murakami naval base; Kono alignment simplified to scenario owner."
+    },
+    {
+      "castleId": "castle.kurose",
+      "url": "https://www.city.seiyo.ehime.jp/miryoku/seiyoshibunkazai/bunkazai/dayori/16215.html",
+      "supports": "Municipal Saionji Uwa jurisdiction and Kurose/Matsuba castles; fragmented local control simplified. Exact move date not asserted."
+    },
+    {
+      "castleId": "castle.kurushima",
+      "url": "https://geoshape.ex.nii.ac.jp/nrct-poi/resource/39/390000100000.html",
+      "supports": "Coordinate34.118823,132.968947; Japan Historical Place-name Dictionary facilities dataset (CODH), doi:10.20676/00000456, CC BY4.0. Rounded132.97,34.12."
+    },
+    {
+      "castleId": "castle.sogo",
+      "url": "https://geoshape.ex.nii.ac.jp/nrct-poi/resource/38/380000068500.html",
+      "supports": "Coordinate34.260771,134.105549; Japan Historical Place-name Dictionary facilities dataset (CODH), doi:10.20676/00000456, CC BY4.0. Rounded134.11,34.26."
+    },
+    {
+      "castleId": "castle.toramaru",
+      "url": "https://higashikagawa.net/course/course-929",
+      "supports": "Local institutional tourism describes Toramaru mountain as Sangawa branch castle in later chronicle. Not contemporary1560ownership proof."
+    },
+    {
+      "castleId": "castle.toramaru",
+      "url": "https://www.hb.pei.jp/shiro/sanuki/toramaru-jyo/",
+      "supports": "Secondary field castle study records1572Miyoshi takeover; source qualification retained."
+    },
+    {
+      "castleId": "castle.kurose",
+      "url": "https://seiyo-geo.jp/c/geopoint/mt-_matsuba_castle_and_mt-_kurose_castle/",
+      "supports": "Geopark site identifies Kurose mountain350m and later16Cmove fromMatsuba; no exact1560construction assertion."
+    },
+    {
+      "castleId": "castle.shozui",
+      "url": "https://www.town.aizumi.lg.jp/docs/2013122400052/",
+      "supports": "Municipality links the Shozui excavation site and official castle research."
+    }
+  ]
+}

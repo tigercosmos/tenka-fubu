@@ -1,0 +1,181 @@
+.screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.5rem, 3vw, 3rem);
+  gap: 1.5rem;
+  background: linear-gradient(180deg, var(--surface-command) 0 8.5rem, var(--surface-base) 8.5rem);
+  color: var(--text-primary);
+  font-family: var(--font-family-ui);
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--command-gold);
+}
+.header h1 {
+  color: var(--text-inverse);
+  margin: 0;
+  font: 500 1.8rem/1.4 var(--font-family-display);
+  letter-spacing: 0.06em;
+}
+.header button {
+  min-height: 40px;
+  padding: 0.5rem 1rem;
+  flex-shrink: 0;
+  border: 1px solid var(--stroke-strong);
+  border-radius: 4px;
+  background: var(--surface-panel);
+  color: var(--text-secondary);
+}
+.header button:hover:not(:disabled) {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+.header button:focus-visible,
+.clan:focus-visible,
+.start:focus-visible {
+  outline: 2px solid var(--brand-red);
+  outline-offset: 3px;
+}
+.body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 21rem;
+  gap: 1.5rem;
+}
+.roster {
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 1rem;
+  align-content: start;
+  padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+}
+.clan {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.5rem 1.25rem;
+  min-height: 32px;
+  text-align: left;
+  border: 1px solid var(--stroke-subtle);
+  border-left: 3px solid transparent;
+  border-radius: 4px;
+  background: var(--surface-panel);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  box-shadow: 0 3px 12px rgb(32 42 39 / 5%);
+}
+.clan:hover {
+  background: var(--surface-hover);
+}
+.clan[aria-pressed='true'] {
+  border-color: var(--brand-red);
+  border-left-color: var(--brand-red);
+  background: var(--accent-soft);
+  box-shadow:
+    inset 0 0 0 1px var(--brand-red),
+    0 6px 18px rgb(49 91 74 / 10%);
+}
+.clanName {
+  color: var(--text-primary);
+  font: 500 1.35rem/1.3 var(--font-family-display);
+  margin-bottom: 0.35rem;
+}
+.clan[aria-pressed='true'] .clanName {
+  color: var(--brand-red);
+}
+.selection {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: auto;
+  padding: 2rem;
+  background: linear-gradient(160deg, var(--surface-command-raised), var(--surface-command));
+  color: var(--text-inverse);
+  border: 1px solid rgb(164 127 73 / 45%);
+  border-radius: 4px;
+  box-shadow: 0 12px 32px rgb(32 42 39 / 15%);
+}
+.eyebrow {
+  color: var(--command-gold);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+}
+.selection h2 {
+  font: 500 2.5rem/1.4 var(--font-family-display);
+  margin: 1rem 0;
+}
+.selection p {
+  color: var(--command-muted);
+  margin: 0;
+}
+.metrics {
+  margin: 2rem 0;
+}
+.metrics > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-inverse) 18%, transparent);
+}
+.metrics dt {
+  color: var(--command-muted);
+  font-size: 0.8rem;
+}
+.metrics dd {
+  margin: 0;
+  color: var(--command-gold);
+  font-variant-numeric: tabular-nums;
+}
+.start {
+  width: 100%;
+  margin-top: auto;
+  min-height: max(48px, 3rem);
+  background: var(--surface-base);
+  color: var(--surface-command);
+  font-weight: 700;
+  border: 1px solid var(--surface-base);
+  border-radius: 4px;
+}
+.start:hover:not(:disabled) {
+  background: var(--command-gold);
+  color: var(--surface-command);
+}
+.start:disabled {
+  opacity: 0.5;
+}
+@media (max-width: 900px) {
+  .body {
+    grid-template-columns: minmax(0, 1fr) 17rem;
+    gap: 1.5rem;
+  }
+  .selection {
+    padding: 1.25rem;
+  }
+}
+@media (max-width: 640px) {
+  .screen {
+    overflow: auto;
+  }
+  .body {
+    display: flex;
+    flex-direction: column;
+  }
+  .roster {
+    overflow: visible;
+  }
+  .selection {
+    overflow: visible;
+    flex-shrink: 0;
+  }
+}

@@ -5,7 +5,17 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 
 export default tseslint.config(
-  { ignores: ['dist', 'coverage', 'playwright-report', 'test-results', 'node_modules'] },
+  {
+    ignores: [
+      'dist',
+      'coverage',
+      'playwright-report',
+      'test-results',
+      'node_modules',
+      // Retained rejected evidence is not part of the executable TypeScript project.
+      'output/evidence/army-annotation-v1-layout-rejected.spec.ts',
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   {
@@ -13,7 +23,13 @@ export default tseslint.config(
       parserOptions: {
         // 根目錄設定檔（eslint.config.js 本身等）不在 tsconfig.json 的 include 內，
         // 以 allowDefaultProject 讓 typescript-eslint 的 projectService 仍能解析它們。
-        projectService: { allowDefaultProject: ['*.config.js', '*.config.mjs'] },
+        projectService: {
+          allowDefaultProject: [
+            '*.config.js',
+            '*.config.mjs',
+            'tools/dependencies/pixi-8.19-patch.mjs',
+          ],
+        },
         tsconfigRootDir: import.meta.dirname,
       },
     },

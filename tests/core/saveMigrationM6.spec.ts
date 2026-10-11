@@ -45,7 +45,14 @@ describe('M6 betrayal save format migration', () => {
         betrayalReadyTargetLordId: null,
       });
     expect(decoded.saveFile.state.rng).toEqual(state.rng);
-    expect(decoded.saveFile.state.clans).toEqual(state.clans);
+    expect(decoded.saveFile.state.clans).toEqual(
+      Object.fromEntries(
+        Object.entries(state.clans).map(([id, clan]) => [
+          id,
+          { ...clan, rewardGoldSpentThisMonth: null },
+        ]),
+      ),
+    );
   });
 
   it('roundtrips v2 immunity, ownership/lord snapshots, exact expiry and canonical hash', () => {

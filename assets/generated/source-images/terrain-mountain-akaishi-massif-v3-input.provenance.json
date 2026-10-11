@@ -1,0 +1,29 @@
+{
+  "license": "project-original",
+  "asset": "assets/generated/source-images/terrain-mountain-akaishi-massif-v3-input.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": ["public/assets/textures/terrain-mountain-akaishi-massif-v2.png"],
+  "sha256": "dc9a01510c43fb663e24f3ee5247d6f15f2a32c0281e4d398dbad710abf1c32a",
+  "dimensions": {
+    "width": 1024,
+    "height": 1536
+  },
+  "bytes": 2603533,
+  "alphaInspection": {
+    "zeroAlphaPixels": 801954,
+    "partialAlphaPixels": 770910,
+    "opaquePixels": 0,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 142,
+    "y": 23,
+    "width": 796,
+    "height": 1500
+  },
+  "prompt": "Use case: precise-object-edit. Input image: edit target, the project's original Akaishi V2 sprite. Create a V3 production 2.5D strategy-map terrain sprite by reshaping only its internal valley and adjacent shoulders. Keep the same 1024x1536 canvas, high-oblique orthographic camera, northwest daylight, muted olive woodland and warm gray-brown rock, three unequal summit groups, outer silhouette and genuine transparent background. Keep the alpha-visible footprint approximately x143 y25 width791 height1497; no translation, rotation, stretching or cropping. Within the sprite, a dry valley must enter near pixel (543,451), descend through (485,1030), and exit the bottom near (456,1535). Rebuild terrain-shaped asymmetric wooded shoulders descending into this connected valley, with branching gullies, uneven terraces and a quiet muted soil/rock floor of naturally varying width about50-95pixels. Preserve solid painted land in the valley floor: do not erase alpha or reveal a flat groundplate. The valley must read as elevation, not a uniform pale slot or straight cut. Retain connected summit groups and foothills around it, and readable broad slope planes at about109x207 map pixels. No painted water or blue lines: the game overlays its own unchanged river. No roads, castles, armies, flags, text, snow, detached islands, haze halo, borders or watermark. This is an original game asset, not a copied commercial asset."
+}

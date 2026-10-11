@@ -1,0 +1,59 @@
+.menu {
+  display: grid;
+  grid-auto-rows: max-content;
+  align-content: start;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--surface-command);
+  border-top: 3px solid var(--command-gold);
+  border: 1px solid var(--brand-red);
+  border-radius: 4px;
+  font-size: max(12px, var(--font-size-sm));
+}
+
+.menu p {
+  color: var(--text-inverse);
+  font-size: max(12px, var(--font-size-sm));
+}
+
+.menu button {
+  min-width: 32px;
+  min-height: max(32px, 2rem);
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border-radius: 4px;
+  background: var(--surface-panel);
+  color: var(--text-primary);
+  border: 1px solid color-mix(in srgb, var(--brand-red) 40%, transparent);
+  font-family: var(--font-family-display);
+  font-size: max(12px, var(--font-size-sm));
+  white-space: normal;
+  overflow-wrap: anywhere;
+  letter-spacing: 0.04em;
+}
+
+.menu button.resume {
+  border-left: 3px solid var(--brand-gold);
+  font-weight: 600;
+}
+
+.menu button.titleExit {
+  color: var(--brand-red);
+  border-color: var(--stroke-subtle);
+}
+
+.menu button:disabled {
+  opacity: 1;
+  color: var(--text-secondary);
+  border-color: var(--stroke-subtle);
+}
+
+.menu button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--brand-red) 16%, var(--surface-hover));
+  border-color: var(--brand-red);
+}
+
+.menu button:focus-visible {
+  outline: 2px solid var(--brand-red);
+  outline-offset: 2px;
+}

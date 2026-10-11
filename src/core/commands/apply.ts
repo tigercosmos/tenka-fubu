@@ -7,16 +7,23 @@
 
 import type { GameState } from '../state/gameState';
 import type { Command } from './types';
-import { getHandler, type EmitFn } from './registry';
+import { getHandler, type EmitFn, type CommandContext } from './registry';
+import { PLAYER_AUTHORITY, type ExecutionAuthority } from './authority';
 
 /**
  * 套用單一已通過驗證的 Command。未登錄 handler 為理論不可達（validateCommand 對此已回
  * notImplemented 拒絕、不會走到 apply），仍 fail-fast 擲例外以防管線誤用（§3.3.3）。
  */
-export function applyCommand(state: GameState, cmd: Command, emit: EmitFn): void {
-  const handler = getHandler(cmd.type);
+export function applyCommand(
+  state: GameState,
+  cmd: Command,
+  emit: EmitFn,
+  authority: ExecutionAuthority = PLAYER_AUTHORITY,
+  context: CommandContext = {},
+): void {
+  const handler = getHandler(cmd.type, context);
   if (handler === undefined) {
     throw new Error(`applyCommand: no handler registered for command type '${cmd.type}'`);
   }
-  handler.apply(state, cmd, emit);
+  handler.apply(state, cmd, emit, authority);
 }

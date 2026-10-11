@@ -11,8 +11,44 @@
 //   });
 // 只需要「不 throw」、不關心建立/銷毀計數時，`apps` 參數可省略（內部退回一次性陣列）。
 
+import { vi } from 'vitest';
+
+// Borrow the installed CPU-only uniform value container, not an invented GPU
+// implementation. Existing async mock factories await this module unchanged.
+const { UniformGroup } = await vi.importActual<typeof import('pixi.js')>('pixi.js');
+
 export interface PixiMockAppRecord {
   destroyed: boolean;
+}
+
+/** Installed SystemRunner semantics: dispatch an observer's same-named method. */
+export class PixiMockRenderRunner {
+  items: { prerender?: (options?: unknown) => void; postrender?: (options?: unknown) => void }[] =
+    [];
+  constructor(private readonly name: 'prerender' | 'postrender') {}
+  add(item: (typeof this.items)[number]): this {
+    if (item[this.name]) {
+      this.remove(item);
+      this.items.push(item);
+    }
+    return this;
+  }
+  remove(item: (typeof this.items)[number]): this {
+    const index = this.items.indexOf(item);
+    if (index !== -1) this.items.splice(index, 1);
+    return this;
+  }
+  contains(item: (typeof this.items)[number]): boolean {
+    return this.items.includes(item);
+  }
+  emit(options?: unknown): this {
+    const items = this.items;
+    for (let i = 0, length = items.length; i < length; i++) items[i]![this.name]?.(options);
+    return this;
+  }
+  destroy(): void {
+    this.items = [];
+  }
 }
 
 /** territory 自持 `BufferImageSource` 之追蹤記錄（M6-V5，§5.4）：`update()` 次數與是否 `destroy`。 */
@@ -48,14 +84,38 @@ export function createPixiMockClasses(
   Application: unknown;
   Container: unknown;
   Graphics: unknown;
+  Mesh: unknown;
+  MeshGeometry: unknown;
+  Geometry: unknown;
+  Buffer: unknown;
+  BufferUsage: unknown;
+  GlProgram: unknown;
+  Shader: unknown;
+  UniformGroup: typeof UniformGroup;
   BitmapText: unknown;
   TextStyle: unknown;
   Rectangle: unknown;
   Sprite: unknown;
+  TilingSprite: unknown;
   Texture: unknown;
   BufferImageSource: unknown;
   Assets: unknown;
+  RendererType: unknown;
+  FillGradient: unknown;
+  Matrix: unknown;
 } {
+  // Only public affine coefficients are needed by recording mocks. Real Pixi
+  // matrix/UV behavior is covered separately by riverSurfaceMaterial.spec.ts.
+  class Matrix {
+    constructor(
+      public a = 1,
+      public b = 0,
+      public c = 0,
+      public d = 1,
+      public tx = 0,
+      public ty = 0,
+    ) {}
+  }
   class Container {
     label = '';
     children: Container[] = [];
@@ -82,10 +142,21 @@ export function createPixiMockClasses(
       },
     };
     private handlers: Record<string, ((...a: unknown[]) => void)[]> = {};
-    addChild<T extends Container>(c: T): T {
-      this.children.push(c);
-      c.parent = this;
-      return c;
+    addChild<T extends Container>(...children: T[]): T {
+      for (const child of children) {
+        child.parent?.removeChild(child);
+        this.children.push(child);
+        child.parent = this;
+      }
+      return children[0]!;
+    }
+    addChildAt<T extends Container>(child: T, index: number): T {
+      if (index < 0 || index > this.children.length)
+        throw new Error('addChildAt index out of bounds');
+      child.parent?.removeChild(child);
+      this.children.splice(index, 0, child);
+      child.parent = this;
+      return child;
     }
     removeChildren(): Container[] {
       const c = this.children;
@@ -126,6 +197,9 @@ export function createPixiMockClasses(
       return this;
     }
     circle(): this {
+      return this;
+    }
+    ellipse(): this {
       return this;
     }
     arc(): this {
@@ -183,6 +257,19 @@ export function createPixiMockClasses(
     get width(): number {
       return this.text.length * 7;
     }
+    get height(): number {
+      return (this.style as { fontSize?: number } | undefined)?.fontSize ?? 12;
+    }
+    // API compatibility only. Native loaded-font geometry is verified headlessly.
+    getLocalBounds(): { x: number; y: number; width: number; height: number } {
+      const height = this.height;
+      return {
+        x: -this.anchor.x * this.width,
+        y: -this.anchor.y * height,
+        width: this.width,
+        height,
+      };
+    }
   }
   class Rectangle {
     constructor(
@@ -216,11 +303,64 @@ export function createPixiMockClasses(
     // 呼叫端傳入之 options（如 `{ texture: false }`）於 mock 忽略；JS 允許多傳實參。
     override destroy(): void {}
   }
+  class TilingSprite extends Sprite {
+    tileScale = {
+      x: 1,
+      y: 1,
+      set(x: number, y = x) {
+        this.x = x;
+        this.y = y;
+      },
+    };
+    tilePosition = {
+      x: 0,
+      y: 0,
+      set(x: number, y = x) {
+        this.x = x;
+        this.y = y;
+      },
+    };
+    tileRotation = 0;
+    constructor(options: {
+      texture?: unknown;
+      width?: number;
+      height?: number;
+      tileScale?: { x: number; y: number };
+      tilePosition?: { x: number; y: number };
+      tileRotation?: number;
+    }) {
+      super(options.texture);
+      this.width = options.width ?? 256;
+      this.height = options.height ?? 256;
+      this.tileScale.set(options.tileScale?.x ?? 1, options.tileScale?.y ?? 1);
+      this.tilePosition.set(options.tilePosition?.x ?? 0, options.tilePosition?.y ?? 0);
+      this.tileRotation = options.tileRotation ?? 0;
+    }
+  }
   class BufferImageSource {
+    width: number;
+    height: number;
+    resource: unknown;
     scaleMode = 'linear';
     updateCalls = 0;
     destroyed = false;
-    constructor() {
+    style = {
+      addressMode: 'clamp-to-edge',
+      listeners: new Set<() => void>(),
+      on(_event: string, listener: () => void) {
+        this.listeners.add(listener);
+      },
+      off(_event: string, listener: () => void) {
+        this.listeners.delete(listener);
+      },
+      update() {
+        for (const listener of this.listeners) listener();
+      },
+    };
+    constructor(options: { width?: number; height?: number; resource?: unknown } = {}) {
+      this.width = options.width ?? 1;
+      this.height = options.height ?? 1;
+      this.resource = options.resource;
       trackers.bufferSources?.push(this);
     }
     update(): void {
@@ -231,26 +371,57 @@ export function createPixiMockClasses(
     }
   }
   class Texture {
-    source: { scaleMode: string };
+    width: number;
+    height: number;
+    frame: Rectangle;
+    orig: Rectangle;
+    rotate = 0;
+    trim: Rectangle | undefined;
+    source: {
+      scaleMode: string;
+      width: number;
+      height: number;
+      destroyed?: boolean;
+      style: unknown;
+      destroy?: () => void;
+    };
     destroyed = false;
-    constructor(options?: { source?: unknown }) {
-      this.source = (options?.source as { scaleMode: string }) ?? { scaleMode: 'linear' };
+    constructor(options?: { source?: unknown; frame?: Rectangle }) {
+      this.source = (options?.source as typeof this.source | undefined) ?? {
+        scaleMode: 'linear',
+        width: 1,
+        height: 1,
+        style: {},
+      };
+      this.frame = options?.frame ?? new Rectangle(0, 0, this.source.width, this.source.height);
+      this.orig = this.frame;
+      this.width = this.frame.width;
+      this.height = this.frame.height;
       trackers.textures?.push(this);
     }
-    // 呼叫端 `destroy(true)` 之布林實參於 mock 忽略。
-    destroy(): void {
+    destroy(destroySource = false): void {
+      if (this.destroyed) return;
       this.destroyed = true;
+      if (destroySource) (this.source as { destroy?: () => void }).destroy?.();
     }
   }
+  const assetTextures = new Map<string, Texture>();
   const Assets = {
     add(): void {},
-    load(): Promise<unknown> {
-      return Promise.resolve(new Texture());
+    load(alias: string): Promise<unknown> {
+      let texture = assetTextures.get(alias);
+      if (!texture) {
+        texture = new Texture();
+        assetTextures.set(alias, texture);
+      }
+      return Promise.resolve(texture);
     },
-    get(): unknown {
-      return new Texture();
+    get(alias: string): unknown {
+      return assetTextures.get(alias);
     },
-    unload(): Promise<void> {
+    unload(alias: string): Promise<void> {
+      assetTextures.get(alias)?.destroy();
+      assetTextures.delete(alias);
       return Promise.resolve();
     },
   };
@@ -264,6 +435,15 @@ export function createPixiMockClasses(
       on(): void {},
       off(): void {},
       resize(): void {},
+      runners: {
+        prerender: new PixiMockRenderRunner('prerender'),
+        postrender: new PixiMockRenderRunner('postrender'),
+      },
+      render: (options?: { container?: Container }): void => {
+        if (options?.container?.visible === false) return;
+        this.renderer.runners.prerender.emit(options);
+        this.renderer.runners.postrender.emit(options);
+      },
     };
     ticker = {
       deltaMS: 16,
@@ -276,8 +456,9 @@ export function createPixiMockClasses(
       },
       /** 測試專用：手動推進一幀（M6-V2：`waitForIdleFrames`／M6-V5：terrain 載入失敗後 idle
        *  gate 重置驗證）。 */
-      tick(): void {
-        for (const cb of this.callbacks) cb();
+      tick: (): void => {
+        for (const cb of this.ticker.callbacks) cb();
+        this.render();
       },
     };
     initOpts: unknown = null;
@@ -290,18 +471,152 @@ export function createPixiMockClasses(
       this.initOpts = opts;
       return Promise.resolve();
     }
+    render(): void {
+      this.renderer.render({ container: this.stage });
+    }
     destroy(): void {
       this.record.destroyed = true;
+      this.ticker.callbacks = [];
+      this.renderer.runners.prerender.destroy();
+      this.renderer.runners.postrender.destroy();
+    }
+  }
+  // Compatibility only: real allocation/lifetime is tested with actual Pixi.
+  class FillGradient {
+    constructor(public options: unknown) {}
+    destroy(): void {}
+  }
+  // Structural CPU records only: retain arrays emitted by the actual factories.
+  // No shader execution, GL allocation, projection or derived ideal geometry.
+  class Buffer {
+    destroyed = false;
+    updateCalls = 0;
+    data: Float32Array | Uint32Array | Uint16Array;
+    constructor(
+      public options: { data: Float32Array | Uint32Array | Uint16Array; usage?: number },
+    ) {
+      this.data = options.data;
+    }
+    update(): void {
+      this.updateCalls += 1;
+    }
+    destroy(): void {
+      this.destroyed = true;
+    }
+  }
+  type Attribute = { buffer: Buffer; format?: string; stride?: number; offset?: number };
+  class Geometry {
+    destroyed = false;
+    attributes: Record<string, Attribute>;
+    indexBuffer: Buffer;
+    buffers: Buffer[];
+    constructor(options: { attributes: Record<string, Attribute>; indexBuffer: Buffer }) {
+      this.attributes = options.attributes;
+      this.indexBuffer = options.indexBuffer;
+      this.buffers = [
+        ...new Set([
+          ...Object.values(options.attributes).map((a) => a.buffer),
+          options.indexBuffer,
+        ]),
+      ];
+    }
+    getBuffer(name: string): Buffer {
+      return this.attributes[name]!.buffer;
+    }
+    getAttribute(name: string): Attribute | undefined {
+      return this.attributes[name];
+    }
+    getIndex(): Buffer {
+      return this.indexBuffer;
+    }
+    destroy(destroyBuffers = false): void {
+      if (this.destroyed) return;
+      this.destroyed = true;
+      if (destroyBuffers) for (const buffer of this.buffers) buffer.destroy();
+      // Installed Geometry.destroy(false) still owns/destroys its index buffer.
+      this.indexBuffer.destroy();
+    }
+  }
+  class MeshGeometry extends Geometry {
+    constructor(
+      public options: { positions: Float32Array; uvs: Float32Array; indices?: Uint32Array },
+    ) {
+      super({
+        attributes: {
+          aPosition: {
+            buffer: new Buffer({ data: options.positions }),
+            format: 'float32x2',
+            stride: 8,
+            offset: 0,
+          },
+          aUV: {
+            buffer: new Buffer({ data: options.uvs }),
+            format: 'float32x2',
+            stride: 8,
+            offset: 0,
+          },
+        },
+        indexBuffer: new Buffer({ data: options.indices ?? new Uint32Array([0, 1, 2, 0, 2, 3]) }),
+      });
+    }
+    get positions(): Float32Array {
+      return this.getBuffer('aPosition').data as Float32Array;
+    }
+    get uvs(): Float32Array {
+      return this.getBuffer('aUV').data as Float32Array;
+    }
+  }
+  class GlProgram {
+    destroyed = false;
+    constructor(public options: unknown) {}
+    destroy(): void {
+      this.destroyed = true;
+    }
+  }
+  class Shader {
+    destroyed = false;
+    resources: unknown;
+    glProgram: GlProgram;
+    constructor(options: { glProgram: GlProgram; resources: unknown }) {
+      this.glProgram = options.glProgram;
+      this.resources = options.resources;
+    }
+    destroy(destroyPrograms = false): void {
+      this.destroyed = true;
+      if (destroyPrograms) this.glProgram.destroy();
+    }
+  }
+  class Mesh extends Container {
+    geometry: Geometry;
+    texture: Texture;
+    shader: Shader | undefined;
+    constructor(options: { geometry: Geometry; texture: Texture; shader?: Shader }) {
+      super();
+      this.geometry = options.geometry;
+      this.texture = options.texture;
+      this.shader = options.shader;
     }
   }
   return {
+    Matrix,
+    Mesh,
+    MeshGeometry,
+    Geometry,
+    Buffer,
+    BufferUsage: { COPY_DST: 8, INDEX: 16, VERTEX: 32 },
+    GlProgram,
+    Shader,
+    UniformGroup,
     Application,
+    FillGradient,
+    RendererType: { WEBGL: 1, WEBGPU: 2, CANVAS: 4 },
     Container,
     Graphics,
     BitmapText,
     TextStyle,
     Rectangle,
     Sprite,
+    TilingSprite,
     Texture,
     BufferImageSource,
     Assets,

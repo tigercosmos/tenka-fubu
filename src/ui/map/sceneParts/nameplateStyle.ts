@@ -6,7 +6,8 @@
 // 全部數值集中於此，繪製程式（castleNameplate.ts）不得散落魔術數字。
 //
 // DD-A3 去同構構圖（§2.1）：城名前置（左）、兵數內嵌綬帶尾段（右、非下掛 chip）、勢力印記
-// 騎於節點-綬帶接點（中心＝容器原點）、綬帶寬置中於節點——非新生名牌構圖之描摹（art-bible §12.2）。
+// 印記使用獨立識別欄，文字不穿過色章；綬帶仍置中於節點。
+// 現行識別欄版面見 art-bible §10.3。
 
 import type { CastleTier } from '@core/state/enums';
 import { TOKENS_NUM } from '@ui/styles/tokens';
@@ -29,6 +30,8 @@ export interface NameplateGeometrySpec {
   readonly divGapX: number;
   /** 勢力印記半徑（旗幟軌 clanColorNum 填＋ink900 環，騎接點）。 */
   readonly sealR: number;
+  /** 勢力印記右緣至城名字區的專用間距（CSS px，包含敵對交叉記號）。 */
+  readonly sealTextGap: number;
   /** 關係色帶寬（綬帶左內緣豎帶：靛/朱/灰，§2.4）。 */
   readonly relStripeW: number;
   /** 染紙暈邊高（綬帶下緣 clanDyeNum 薄暈，繫 territory 染紙軌）。 */
@@ -52,6 +55,7 @@ export const NAMEPLATE_GEOMETRY = {
     nameSize: 15,
     divGapX: 6,
     sealR: 8,
+    sealTextGap: 6,
     relStripeW: 3,
     dyeUnderlineH: 2,
     troopDotR: 3,
@@ -67,6 +71,7 @@ export const NAMEPLATE_GEOMETRY = {
     nameSize: 13,
     divGapX: 5,
     sealR: 6.5,
+    sealTextGap: 6,
     relStripeW: 3,
     dyeUnderlineH: 2,
     troopDotR: 3,
@@ -77,11 +82,18 @@ export const NAMEPLATE_GEOMETRY = {
 
 /**
  * 名牌非 per-tier 的呈現常數（§2.2 構成／§2.4 CVD 通道／§2.5 光照／§3.4 目標高亮）。
- * 投影階序：名牌 < HUD < modal（art-bible §7）——α 0.22、位移 +2/+2。
+ * 投影階序：名牌 < HUD < modal（art-bible §7）；普通材質投影較弱，告急保留原投影，位移 +2/+2。
  */
 export const NAMEPLATE_STYLE = {
+  /** 歷史紙色參考；實際分級材質由 NAMEPLATE_MATERIAL 決定，不改外框幾何。 */
+  paperColor: 0xd4c7a5,
+  troopRegisterColor: 0xcbbd99,
+  troopInk: TOKENS_NUM.ink700,
+  troopRegisterInset: 1,
+  /** 位移名牌與原城錨點之單一墨線透明度；線寬保持 1 CSS px。 */
+  leaderAlpha: 0.95,
   /** 右下微投影透明度（§2.2-1）。 */
-  shadowAlpha: 0.22,
+  shadowAlpha: 0.08,
   /** 右下微投影位移（+x/+y px）。 */
   shadowOffset: 2,
   /** 敵對綬帶左端「尖角（右斜切）」水平切深（§2.4 端形通道）。 */
@@ -104,11 +116,75 @@ export const NAMEPLATE_STYLE = {
   targetHighlightPad: 2,
 } as const;
 
-/** 名牌字體樣式（canvas 城名/兵數皆 ink900 墨字；washi 綬帶底即可讀性基底，不需 halo，§2.2-2）。 */
-export function nameplateTextStyle(size: number): {
+const mainMaterial = Object.freeze({
+  paperColor: 0xd0cbb8,
+  paperAlpha: 0.72,
+  troopRegisterColor: 0xbab8a1,
+  registerAlpha: 0.74,
+  dividerAlpha: 0.32,
+  outlineAlpha: 0.1,
+  shadowAlpha: 0.025,
+  highlightColor: 0xe0d4b8,
+  highlightAlpha: 0.18,
+});
+const branchMaterial = Object.freeze({
+  paperColor: 0xc1c7b4,
+  paperAlpha: 0.68,
+  troopRegisterColor: 0xb8b9a4,
+  registerAlpha: 0.74,
+  dividerAlpha: 0.32,
+  outlineAlpha: 0.07,
+  shadowAlpha: 0.02,
+  highlightColor: 0xcbc0a3,
+  highlightAlpha: 0.12,
+});
+export const NAMEPLATE_MATERIAL = Object.freeze({
+  main: mainMaterial,
+  branch: branchMaterial,
+  mainAttention: Object.freeze({
+    ...mainMaterial,
+    paperColor: 0xe0cda4,
+    paperAlpha: 1,
+    troopRegisterColor: 0xcbbd99,
+    registerAlpha: 1,
+    dividerAlpha: 1,
+    outlineAlpha: 0.2,
+    shadowAlpha: 0.08,
+    highlightAlpha: 0.45,
+  }),
+  branchAttention: Object.freeze({
+    ...branchMaterial,
+    paperColor: 0xcabb94,
+    paperAlpha: 1,
+    troopRegisterColor: 0xb5a986,
+    registerAlpha: 1,
+    dividerAlpha: 1,
+    outlineAlpha: 0.14,
+    shadowAlpha: 0.05,
+    highlightAlpha: 0.35,
+  }),
+});
+
+export function nameplateMaterial(tier: CastleTier = 'main', attention = false) {
+  return attention
+    ? tier === 'main'
+      ? NAMEPLATE_MATERIAL.mainAttention
+      : NAMEPLATE_MATERIAL.branchAttention
+    : NAMEPLATE_MATERIAL[tier];
+}
+
+/** 城名深墨、兵數次級墨；只改實色填色，不改字體、量寬或私有樣式生命週期。 */
+export function nameplateTextStyle(
+  size: number,
+  role: 'name' | 'troops' = 'name',
+): {
   fontFamily: string;
   fontSize: number;
   fill: number;
 } {
-  return { fontFamily: 'Noto Serif TC', fontSize: size, fill: TOKENS_NUM.ink900 };
+  return {
+    fontFamily: 'Noto Serif TC',
+    fontSize: size,
+    fill: role === 'troops' ? NAMEPLATE_STYLE.troopInk : TOKENS_NUM.ink900,
+  };
 }

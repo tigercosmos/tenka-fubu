@@ -1,10 +1,11 @@
 import { BAL } from '../balance';
 import type { EmitFn } from '../commands/registry';
 import type { CourtRank, ShogunateTitle } from '../state/enums';
-import type { DiplomacyActionKind, GameState, Officer } from '../state/gameState';
-import type { ClanId } from '../state/ids';
+import type { DiplomacyActionKind, DiploMission, GameState, Officer } from '../state/gameState';
+import type { ClanId, OfficerId } from '../state/ids';
 import { getCourtMetadata } from '../../data/courtMetadata';
 import { effectiveStat } from './officers';
+import { traitModifier } from '../traits';
 
 export type CourtRankUnlock =
   | 'mediation'
@@ -49,6 +50,29 @@ export function extraPolicySlots(state: Readonly<GameState>, clanId: ClanId): nu
 
 export function workCostMultiplier(state: Readonly<GameState>, clanId: ClanId): number {
   return titleEffects(state, clanId).includes('workCostDiscount') ? BAL.shogunateWorkCostMult : 1;
+}
+
+/** Named recurring executor only; rank requests have no executor attribution. Round once after composition. */
+export function monthlyDiplomacyWorkCost(
+  state: Readonly<GameState>,
+  mission: Pick<DiploMission, 'fromClanId' | 'target'> & { officerId: OfficerId | null },
+): number {
+  const officer = mission.officerId === null ? undefined : state.officers[mission.officerId];
+  const executorMult =
+    mission.target === 'court' &&
+    officer?.hasComeOfAge &&
+    officer.status === 'serving' &&
+    officer.clanId === mission.fromClanId &&
+    officer.armyId === null
+      ? traitModifier(officer, 'diplo.courtCostMult').mult
+      : 1;
+  const base =
+    mission.target === 'court'
+      ? BAL.courtWorkMonthlyCost
+      : mission.target === 'shogunate'
+        ? BAL.shogunateWorkMonthlyCost
+        : BAL.diplomacyWorkMonthlyCost;
+  return Math.round(base * workCostMultiplier(state, mission.fromClanId) * executorMult);
 }
 
 export function courtAcceptanceBonus(

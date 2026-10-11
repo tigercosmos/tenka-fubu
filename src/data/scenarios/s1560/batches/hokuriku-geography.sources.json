@@ -1,0 +1,68 @@
+{
+  "scope": "Reviewed B5 geography integrated into production JSON with the Hokuriku roster and Kinki Honganji patch; remaining four regions and national acceptance are incomplete.",
+  "coordinateMethod": "Castle coordinates are approximate named-site longitude/latitude rounded to two decimals. Sources verify site identity/location, not exact surveyed coordinates. District coordinates are authored gameplay markers fitted to the existing outline and 40–180 world-unit parent radius; they are not historical boundary centroids.",
+  "districtMethod": "County names and named local subdivisions denote gameplay allocations. Combined Wakasa is represented inside prov.echizen per plan14. Koku, population, commerce, garrison and road travel fields are authored canonical game abstractions, not historical measurements.",
+  "ownershipMethod": "Owners follow the explicit plan14 B5 castle allocation. Nochiseyama belonged to Wakasa Takeda in the historical period, so its Asakura allocation is a scenario abstraction. Ono uses the later Echizen-Ono/Kameyama site geographically; it does not assert that this castle existed in1560. It is not a relabelled Iyama or Inuyama castle.",
+  "sources": [
+    {
+      "castleId": "castle.ichijodani",
+      "url": "https://www.city.fukui.lg.jp/sisetu/kankou/p014285.html",
+      "supports": "Named Ichijodani Asakura site in Fukui; approximate site geography."
+    },
+    {
+      "castleId": "castle.kanegasaki",
+      "url": "https://www.city.tsuruga.lg.jp/page/4440.html",
+      "supports": "Municipal Kanegasaki castle-site guide in Tsuruga."
+    },
+    {
+      "castleId": "castle.ono",
+      "url": "https://www.city.ono.fukui.jp/kanko/kanko-joho/guide/ono-castle/saihakken_vol_4.html",
+      "supports": "Later Kameyama/Ono construction after1575; explicit later-site geographical abstraction."
+    },
+    {
+      "castleId": "castle.nochiseyama",
+      "url": "https://www1.city.obama.fukui.jp/japan_heritage/bunkazai/detail.php?id=27",
+      "supports": "Nochiseyama built1522 by Wakasa Takeda Motomitsu; named castle and residence site in Obama. Does not support1560Asakura ownership."
+    },
+    {
+      "castleId": "castle.nanao",
+      "url": "https://www.city.nanao.lg.jp/syougai/nanaojoushi.html",
+      "supports": "Hatakeyama castle site from early16th century in the southeast Nanao hills."
+    },
+    {
+      "castleId": "castle.suemori",
+      "url": "https://www.pref.ishikawa.lg.jp/kyoiku/bunkazai/siseki/ken1-11.html",
+      "supports": "Suemori mountain castle in Hodatsushimizu; fortification documented by1550 in the cited genealogy."
+    },
+    {
+      "castleId": "castle.toyama",
+      "url": "https://www.city.toyama.toyama.jp/etc/maibun/toyamajyo/history/sengoku2.htm",
+      "supports": "Toyama castle and Jinbo Nagamoto, including1560retreat to Masuyama."
+    },
+    {
+      "castleId": "castle.masuyama",
+      "url": "https://www.city.tonami.lg.jp/info/5726p/",
+      "supports": "Named Masuyama castle site and municipal visitor geography."
+    },
+    {
+      "castleId": "castle.oyama-gobo",
+      "url": "https://www4.city.kanazawa.lg.jp/soshikikarasagasu/bunkazaihogoka/gyomuannai/3/1/1/siteibunkazai/5/5817.html",
+      "supports": "Kanazawa castle site occupies the earlier Kanazawa Mido site; castle conversion began1580."
+    },
+    {
+      "castleId": "castle.daishoji",
+      "url": "https://www.city.kaga.ishikawa.jp/soshiki/kyoiku_iinkai/bunka/13871.html",
+      "supports": "Daishoji castle west of the town and a Sengoku Ikko base."
+    },
+    {
+      "districtId": "dist.echizen-sakai-mikuni",
+      "url": "https://www.city.fukui-sakai.lg.jp/kikakuseisaku/mikuniminatoguidelines.html",
+      "supports": "Mikuni important medieval/Sengoku trade port; modern Kitamaebune development is not backdated."
+    },
+    {
+      "districtId": "dist.noto-fugeshi-wajima",
+      "url": "https://www.city.wajima.ishikawa.jp/article/2025060900013/",
+      "supports": "Actual named Wajima port. Game sea connection is authored per plan14, not a verified1560shipping schedule."
+    }
+  ]
+}

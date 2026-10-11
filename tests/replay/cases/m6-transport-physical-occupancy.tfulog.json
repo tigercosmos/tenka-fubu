@@ -1,0 +1,314 @@
+{
+  "formatVersion": 1,
+  "appVersion": "0.0.0-mini",
+  "scenarioId": "mini",
+  "seed": 42,
+  "playerClanId": "clan.alpha",
+  "balanceHash": "824f87bf28bccf9a",
+  "truncated": false,
+  "finalDay": 70,
+  "finalHash": "22d505e71d0a7238",
+  "entries": [
+    {
+      "day": 1,
+      "seq": 0,
+      "command": {
+        "type": "march",
+        "clanId": "clan.alpha",
+        "originCastleId": "castle.a1",
+        "leaderId": "off.alpha-lord",
+        "deputyIds": [],
+        "soldiers": 2000,
+        "food": 2000,
+        "targetNodeId": "castle.b2"
+      }
+    },
+    {
+      "day": 1,
+      "seq": 1,
+      "command": {
+        "type": "march",
+        "clanId": "clan.alpha",
+        "originCastleId": "castle.a2",
+        "leaderId": "off.alpha-taisho-a",
+        "deputyIds": [],
+        "soldiers": 800,
+        "food": 800,
+        "targetNodeId": "castle.b2"
+      }
+    },
+    {
+      "day": 11,
+      "seq": 0,
+      "command": {
+        "type": "march",
+        "clanId": "clan.beta",
+        "originCastleId": "castle.b1",
+        "leaderId": "off.beta-lord",
+        "deputyIds": [],
+        "soldiers": 1400,
+        "food": 1680,
+        "targetNodeId": "castle.b2"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 12,
+      "seq": 0,
+      "command": {
+        "type": "setSiegeMode",
+        "clanId": "clan.alpha",
+        "siegeId": "siege.000001",
+        "mode": "encircle"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 0,
+      "command": {
+        "type": "setConscriptPolicy",
+        "clanId": "clan.beta",
+        "castleId": "castle.b1",
+        "policy": "high"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 1,
+      "command": {
+        "type": "setConscriptPolicy",
+        "clanId": "clan.beta",
+        "castleId": "castle.b2",
+        "policy": "low"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 2,
+      "command": {
+        "type": "buildFacility",
+        "clanId": "clan.beta",
+        "castleId": "castle.b1",
+        "facilityTypeId": "fac.toride"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 3,
+      "command": {
+        "type": "enactPolicy",
+        "clanId": "clan.beta",
+        "policyId": "pol.meyasubako"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 4,
+      "command": {
+        "type": "setDevelopFocus",
+        "clanId": "clan.beta",
+        "districtId": "dist.b1x",
+        "focus": "commerce"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 25,
+      "seq": 0,
+      "command": {
+        "type": "startDiploWork",
+        "clanId": "clan.beta",
+        "target": "clan.alpha",
+        "executorId": "off.beta-lord"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 27,
+      "seq": 0,
+      "command": {
+        "type": "setSiegeMode",
+        "clanId": "clan.alpha",
+        "siegeId": "siege.000001",
+        "mode": "encircle"
+      }
+    },
+    {
+      "day": 29,
+      "seq": 0,
+      "command": {
+        "type": "setSiegeMode",
+        "clanId": "clan.alpha",
+        "siegeId": "siege.000001",
+        "mode": "encircle"
+      }
+    },
+    {
+      "day": 32,
+      "seq": 0,
+      "command": {
+        "type": "setSiegeMode",
+        "clanId": "clan.alpha",
+        "siegeId": "siege.000001",
+        "mode": "encircle"
+      }
+    },
+    {
+      "day": 34,
+      "seq": 0,
+      "command": {
+        "type": "setSiegeMode",
+        "clanId": "clan.alpha",
+        "siegeId": "siege.000001",
+        "mode": "encircle"
+      }
+    },
+    {
+      "day": 37,
+      "seq": 0,
+      "command": {
+        "type": "setSiegeMode",
+        "clanId": "clan.alpha",
+        "siegeId": "siege.000001",
+        "mode": "encircle"
+      }
+    },
+    {
+      "day": 40,
+      "seq": 0,
+      "command": {
+        "type": "setSiegeMode",
+        "clanId": "clan.alpha",
+        "siegeId": "siege.000001",
+        "mode": "encircle"
+      }
+    },
+    {
+      "day": 42,
+      "seq": 0,
+      "command": {
+        "type": "setSiegeMode",
+        "clanId": "clan.alpha",
+        "siegeId": "siege.000001",
+        "mode": "encircle"
+      }
+    },
+    {
+      "day": 46,
+      "seq": 0,
+      "command": {
+        "type": "setSiegeMode",
+        "clanId": "clan.alpha",
+        "siegeId": "siege.000001",
+        "mode": "encircle"
+      }
+    },
+    {
+      "day": 54,
+      "seq": 0,
+      "command": {
+        "type": "depositGarrison",
+        "clanId": "clan.alpha",
+        "armyId": "army.000001",
+        "castleId": "castle.b2",
+        "soldiers": 656,
+        "food": 925
+      }
+    },
+    {
+      "day": 54,
+      "seq": 1,
+      "command": {
+        "type": "depositGarrison",
+        "clanId": "clan.alpha",
+        "armyId": "army.000002",
+        "castleId": "castle.b2",
+        "soldiers": 233,
+        "food": 405
+      }
+    },
+    {
+      "day": 54,
+      "seq": 2,
+      "command": {
+        "type": "buildFacility",
+        "clanId": "clan.beta",
+        "castleId": "castle.b1",
+        "facilityTypeId": "fac.ichi"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 55,
+      "seq": 0,
+      "command": {
+        "type": "march",
+        "clanId": "clan.beta",
+        "originCastleId": "castle.b1",
+        "leaderId": "off.beta-taisho-a",
+        "deputyIds": [],
+        "soldiers": 300,
+        "food": 300,
+        "targetNodeId": "castle.b2"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 57,
+      "seq": 0,
+      "command": {
+        "type": "transport",
+        "clanId": "clan.alpha",
+        "fromCastleId": "castle.a1",
+        "toCastleId": "castle.b2",
+        "soldiers": 0,
+        "food": 100,
+        "gold": 20
+      }
+    },
+    {
+      "day": 65,
+      "seq": 0,
+      "command": {
+        "type": "recallArmy",
+        "clanId": "clan.beta",
+        "armyId": "army.000004"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 // 城型 terrainKind 資料與 view 邊界分派驗收（[M6-V7] Slice A；設計 §3.8／CD3／§8.1）。
-// 規格：docs/design/m6-v7-castles.md §6.2（s1560 全 34 城 13 山城指派）／§3.6-§3.8。
+// 規格：docs/design/m6-v7-castles.md §3.6-§3.8／§6.2 原始 13 山城；B3/B4 擴充來自 castles.json。
 import { describe, expect, it } from 'vitest';
 import { zCastle } from '../../src/data/schemas/castle';
 import { castleTerrainLookup } from '../../src/core/state/selectors';
@@ -38,7 +38,7 @@ describe('zCastle.terrainKind（schema：預設與 enum）', () => {
 });
 
 describe('castleTerrainLookup（scenario 分派；設計 §3.6/CD3）', () => {
-  // 設計 §6.2 之 13 座山城 id。
+  // 原始 13 座＋B3/B4 的 12 座＋B5 的 8 座＋B6 的 15 座；terrainKind 僅為 view 欄位。
   const S1560_MOUNTAINS = [
     'castle.inabayama',
     'castle.odani',
@@ -53,10 +53,61 @@ describe('castleTerrainLookup（scenario 分派；設計 §3.6/CD3）', () => {
     'castle.yagi',
     'castle.konosumiyama',
     'castle.takeda',
+    'castle.tamanawa',
+    'castle.nirayama',
+    'castle.takiyama',
+    'castle.matsuyama',
+    'castle.kururi',
+    'castle.sanuki',
+    'castle.minowa',
+    'castle.iwadono',
+    'castle.takato',
+    'castle.kasugayama',
+    'castle.tochio',
+    'castle.sakado',
+    'castle.ichijodani',
+    'castle.kanegasaki',
+    'castle.ono',
+    'castle.nochiseyama',
+    'castle.nanao',
+    'castle.suemori',
+    'castle.masuyama',
+    'castle.daishoji',
+    'castle.yoshida-koriyama',
+    'castle.sato-kanayama',
+    'castle.konomine',
+    'castle.katsuyama',
+    'castle.bitchu-matsuyama',
+    'castle.kannabe',
+    'castle.gassan-toda',
+    'castle.shiraga',
+    'castle.yamabuki',
+    'castle.yonago',
+    'castle.tottori',
+    'castle.tenjinyama',
+    'castle.mitsuishi',
+    'castle.okishio',
+    'castle.tatsuno',
+    'castle.toramaru',
+    'castle.oko',
+    'castle.kurose',
+    'castle.kurushima',
+    'castle.tachibanayama',
+    'castle.kaseda',
+    'castle.shimizu',
+    'castle.tonokori',
+    'castle.sadowara',
+    'castle.hitoyoshi',
+    'castle.koori-nishiyama',
+    'castle.naganuma',
+    'castle.sannohe',
+    'castle.kunohe',
+    'castle.hiyama',
   ] as const;
 
-  it('s1560：13 座山城命中 mountain，其餘皆 plain', () => {
+  it('s1560：121 城中的 63 座具名山城命中 mountain，其餘皆 plain', () => {
     const table = castleTerrainLookup('s1560');
+    expect(Object.keys(table)).toHaveLength(121);
     const mountains = Object.keys(table)
       .filter((id) => table[id] === 'mountain')
       .sort();
@@ -65,6 +116,9 @@ describe('castleTerrainLookup（scenario 分派；設計 §3.6/CD3）', () => {
     expect(table['castle.kiyosu']).toBe('plain');
     expect(table['castle.sunpu']).toBe('plain');
     expect(table['castle.okazaki']).toBe('plain');
+    expect(table['castle.toyama']).toBe('plain');
+    expect(table['castle.oyama-gobo']).toBe('plain');
+    expect(table['castle.sakurao']).toBe('plain');
     // 全表值域僅 plain/mountain。
     for (const id of Object.keys(table)) {
       expect(['plain', 'mountain']).toContain(table[id]);

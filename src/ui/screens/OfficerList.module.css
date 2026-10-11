@@ -5,43 +5,160 @@
   display: grid;
   place-items: center;
   padding: var(--space-4);
-  background: color-mix(in srgb, var(--ink-900) 60%, transparent);
+  background: color-mix(in srgb, var(--surface-inverse) 34%, transparent);
 }
 .panel {
   width: min(90rem, calc(100vw - 2 * var(--space-4)));
   height: min(55rem, calc(100vh - 2 * var(--space-4)));
+  border-radius: 4px;
+  background: var(--surface-raised);
+  border: 1px solid var(--command-gold);
+  box-shadow: var(--shadow-dialog);
+  font-size: max(12px, var(--font-size-sm));
 }
 .panel > section {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+.panel > section > header {
+  flex-shrink: 0;
+}
+.panel > section > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.tableShell {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.tableShell > div {
+  flex: 1 1 0;
+  min-height: 0;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--stroke-subtle);
+}
+.actions button {
+  min-height: max(32px, 2rem);
+  padding: var(--space-1) var(--space-3);
+  font-size: max(12px, var(--font-size-sm));
 }
 .filters {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(12rem, 1.4fr);
+  flex-shrink: 0;
   align-items: end;
-  gap: var(--space-3);
-  margin-bottom: var(--space-3);
+  gap: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-2);
+  padding: var(--space-2) 0;
+  background: var(--surface-base);
+  border-bottom: 1px solid var(--stroke-strong);
 }
 .filters label {
   display: grid;
   gap: var(--space-1);
-  color: var(--ink-700);
-  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  min-width: 0;
+  font-size: max(12px, var(--font-size-sm));
 }
 .filters select,
 .filters input {
-  min-height: 2rem;
-  border: var(--border-thin);
-  border-radius: var(--radius-sm);
-  background: var(--washi-100);
-  color: var(--ink-900);
+  min-height: max(32px, 2rem);
+  min-width: 0;
+  width: 100%;
+  border: 1px solid var(--stroke-subtle);
+  border-radius: 4px;
+  background: var(--surface-panel);
+  color: var(--text-primary);
   font: inherit;
+  font-size: max(12px, var(--font-size-sm));
 }
 .search {
-  min-width: 16rem;
-  margin-left: auto;
+  min-width: 0;
+  margin-left: 0;
+}
+.tableShell {
+  background: var(--surface-panel);
+  font-size: max(12px, var(--font-size-sm));
+}
+.tableShell thead {
+  background: var(--surface-command);
+  color: var(--text-inverse);
+}
+.tableShell th button {
+  min-height: 32px;
+  color: var(--text-inverse);
+  font-size: max(12px, var(--font-size-sm));
+}
+.tableShell th button:hover:not(:disabled) {
+  color: var(--command-gold);
+  background: var(--surface-command-raised);
+}
+.tableShell th button:disabled {
+  opacity: 1;
+}
+.tableShell tbody td:first-child {
+  font-weight: 700;
+}
+.tableShell td {
+  font-variant-numeric: tabular-nums;
+}
+.tableShell small {
+  font-size: max(12px, var(--font-size-xs));
+}
+@media (max-width: 700px) {
+  .filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 .tableShell tr:has([data-loyalty-risk='true']) {
-  background: color-mix(in srgb, var(--accent-vermilion) 14%, transparent);
+  background: color-mix(in srgb, var(--status-danger) 14%, transparent);
 }
 .tableShell tr:has([data-loyalty-risk='true']):hover {
-  background: color-mix(in srgb, var(--accent-vermilion) 22%, var(--washi-100));
+  background: color-mix(in srgb, var(--status-danger) 22%, var(--surface-panel));
+}
+.loyaltyDanger {
+  color: var(--status-danger);
+}
+.loyaltyWarning {
+  color: var(--status-warning);
+}
+.traits {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.panel > section > header {
+  background: var(--surface-command);
+  color: var(--text-inverse);
+  border-bottom: 2px solid var(--command-gold);
+}
+.panel > section > header h2 {
+  color: var(--text-inverse);
+}
+.panel > section > header button {
+  background: transparent;
+  color: var(--text-inverse);
+  border-color: var(--command-muted);
+}
+.panel > section > header button:hover:not(:disabled) {
+  background: var(--surface-command-raised);
+  color: var(--command-gold);
+  border-color: var(--command-gold);
+}
+.panel > section > header button:focus-visible {
+  outline-color: var(--command-gold);
 }

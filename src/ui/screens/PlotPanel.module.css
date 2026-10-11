@@ -1,0 +1,155 @@
+.screen > div {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.screen > div > section {
+  width: min(90vw, 72rem);
+  max-width: 100%;
+}
+
+.screen [data-testid='plot-panel'] > section > header {
+  justify-content: flex-start;
+  gap: var(--space-4);
+}
+
+.frame {
+  min-width: 0;
+  background: var(--surface-panel);
+  font-size: max(12px, 1rem);
+  line-height: var(--line-height-body);
+}
+
+.frame h3 {
+  font-size: max(14px, 1.125rem);
+  margin: 0 0 var(--space-3);
+  color: var(--text-primary);
+}
+
+.frame small {
+  font-size: max(12px, var(--font-size-sm));
+}
+
+.operations {
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.operations:empty {
+  margin-bottom: var(--space-3);
+}
+
+.frame .dossier {
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--stroke-subtle);
+  border-left: 3px solid var(--command-gold);
+  background: var(--surface-raised);
+}
+
+.dossier h4,
+.dossier p {
+  margin: 0 0 var(--space-2);
+}
+
+.frame .form {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-4);
+  align-items: start;
+}
+
+.form > label {
+  min-width: 0;
+  gap: var(--space-2);
+  font-weight: 600;
+}
+
+.form select,
+.form input,
+.form button {
+  min-width: 32px;
+  min-height: max(32px, 2rem);
+  font-size: max(12px, 1rem);
+}
+
+.form select {
+  width: 100%;
+  font-weight: 400;
+}
+
+.frame .strategy {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--stroke-subtle);
+  background: var(--surface-raised);
+}
+
+.strategy legend {
+  padding-inline: var(--space-2);
+  font-weight: 600;
+}
+
+.frame .strategyOption,
+.frame .castleMode {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.frame .strategyOption {
+  padding: var(--space-2);
+  border: 1px solid var(--stroke-subtle);
+  background: var(--surface-panel);
+  font-weight: 600;
+}
+
+.strategyOption input,
+.castleMode input {
+  flex: 0 0 32px;
+  width: 32px;
+  margin: 0;
+}
+
+.frame .castleMode,
+.form > div,
+.form > button,
+.frame .estimate {
+  grid-column: 1 / -1;
+}
+
+.frame .estimate {
+  margin: 0;
+  padding: var(--space-3);
+  background: var(--surface-raised);
+  border-block: 1px solid var(--stroke-subtle);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.frame button:disabled {
+  opacity: 1;
+  color: var(--text-secondary);
+  background: var(--surface-raised);
+}
+
+.form > button {
+  justify-self: start;
+  color: var(--text-primary);
+}
+
+.frame button:focus-visible,
+.frame select:focus-visible,
+.frame input:focus-visible {
+  outline: 2px solid var(--brand-gold);
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .frame .form,
+  .frame .strategy {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

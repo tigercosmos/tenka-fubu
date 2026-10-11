@@ -6,8 +6,9 @@
 
 import type { GameState } from '../state/gameState';
 import type { Command, ValidationResult } from './types';
-import { getHandler, isDebugCommand } from './registry';
+import { getHandler, isDebugCommand, type CommandContext } from './registry';
 import { REJECT_REASONS } from './reasons';
+import { PLAYER_AUTHORITY, validateExecutionAuthority, type ExecutionAuthority } from './authority';
 
 /**
  * 驗證單一 Command。
@@ -15,13 +16,19 @@ import { REJECT_REASONS } from './reasons';
  * - 未登錄 handler（本里程碑尚未實作之佇列指令）回 `notImplemented`（不崩潰、不改 state；§8-D14）。
  * - 其餘委派至該 CommandType 之專屬驗證器（registry.ts）。
  */
-export function validateCommand(state: Readonly<GameState>, cmd: Command): ValidationResult {
+export function validateCommand(
+  state: Readonly<GameState>,
+  cmd: Command,
+  authority: ExecutionAuthority = PLAYER_AUTHORITY,
+  context: CommandContext = {},
+): ValidationResult {
   if (state.meta.gameOver !== null && !isDebugCommand(cmd)) {
     return { ok: false, reasonKey: REJECT_REASONS.gameOver };
   }
-  const handler = getHandler(cmd.type);
+  const handler = getHandler(cmd.type, context);
   if (handler === undefined) {
     return { ok: false, reasonKey: REJECT_REASONS.notImplemented, params: { type: cmd.type } };
   }
-  return handler.validate(state, cmd);
+  const permission = validateExecutionAuthority(state, cmd, authority);
+  return permission.ok ? handler.validate(state, cmd, authority) : permission;
 }

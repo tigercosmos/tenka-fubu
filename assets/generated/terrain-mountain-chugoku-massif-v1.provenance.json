@@ -1,0 +1,43 @@
+{
+  "license": "project-original",
+  "asset": "public/assets/textures/terrain-mountain-chugoku-massif-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [
+    "assets/generated/source-images/terrain-mountain-chugoku-massif-v1-input.png"
+  ],
+  "sourceImage": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-3e72ec65-613c-4f7e-a39f-7b6e886ce02b.png",
+  "sourceImageSha256": "7be2a77eced5a979b8fa71d739eb480be17fd94ac8b2d1b47c6df6a1d838ab5b",
+  "sha256": "7be2a77eced5a979b8fa71d739eb480be17fd94ac8b2d1b47c6df6a1d838ab5b",
+  "dimensions": {
+    "width": 1918,
+    "height": 820
+  },
+  "bytes": 1700144,
+  "alphaInspection": {
+    "zeroAlphaPixels": 955041,
+    "partialAlphaPixels": 617557,
+    "opaquePixels": 162,
+    "centerAlpha": 253
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 28,
+    "y": 152,
+    "width": 1862,
+    "height": 585
+  },
+  "processing": "Copied final built-in output byte-for-byte; no raster edit, resize, crop, stretch or rotation.",
+  "generationHistory": {
+    "initialOutputAdopted": false,
+    "referenceRole": "The preceding original generated image is the edit target, not commercial artwork and not referenced by runtime.",
+    "initialVisibleAspect": 5.4646739130434785,
+    "initialPrompt": "Use case: stylized-concept\nAsset type: transparent raster terrain sprite for an original Japanese Sengoku 2.5D strategy game.\nPrimary request: one original Chugoku-inspired east-west wooded mountain massif, a connected chain of lower eroded crests with irregular saddles, short lateral spurs and rounded forested foothills. Make a distinctive continuous natural landform, not a row of repeated cone icons. Moderate exposed warm gray-brown rock on upper ridges, predominantly muted sage and olive woodland shoulders.\nComposition/framing: landscape canvas with generous transparent space above and below. The visible massif silhouette is very wide and low, approximately 3.5:1 width-to-height, running horizontally left to right. Oblique overhead strategic-map viewpoint showing ridge relief and sloping faces; entire landform visible, feathered transparent perimeter. No horizon or background scene. Broad linked ridge structure with an asymmetrical higher section and several lower saddles, no towering twin peaks. It must read as one elongated terrain unit at small map scale.\nStyle/medium: polished original painterly realistic 2.5D game terrain, nuanced woodland canopy and stone planes, restrained detail, not photoreal aerial photography and not cartoon or polygon cones.\nLighting/mood: fixed soft daylight from upper-left/northwest, restrained shaded southeast slopes. Subtle local contact shadow only inside the silhouette.\nConstraints: genuinely transparent alpha background; no opaque ground rectangle, no detached trees or terrain islands, no bright outline, no snow, no rivers, no roads, no settlements, no buildings, no people, no labels, no text, no logos or watermark. Do not reproduce any existing commercial game's artwork. Preserve natural irregular form and a legible connected silhouette.",
+    "requestedVisibleAspectRange": [3.4, 3.7],
+    "finalMeasuredVisibleAspect": 3.1829059829059827,
+    "proportionQualification": "The measured aspect misses the prompt target. Existing uniform placement nevertheless preserves the prior 351.12-world-unit width and fits the unchanged authored mass/mask; native scene review remains required."
+  },
+  "prompt": "Use case: precise-object-edit\nInput image: edit target, an original transparent wooded mountain sprite.\nPrimary request: correct only the landform composition and framing. The current visible landform is too flat (about 5.46:1) and touches the left/right canvas edge. Redraw the same connected wooded Chugoku-inspired east-west massif with appreciably greater ridge-to-foothill vertical depth and a more compact footprint: the VISIBLE alpha silhouette should be approximately 3.5:1 width-to-height, between 3.4 and 3.7. Keep a clear genuinely transparent border of at least 3 percent around ALL sides; no part of the mountain touches the canvas edge. Use more of the canvas height for actual mountain, not empty padding.\nInvariants: preserve the original realistic painterly 2.5D overhead viewpoint, muted sage/olive woodland and warm gray-brown rocky crests, upper-left soft daylight and restrained southeast shade, asymmetrical higher section and linked lower saddles. One continuous irregular massif; same general regional character, not repeated cone icons. Do not merely stretch/distort the existing pixels; redraw slope structure naturally to the corrected proportions. Preserve transparent alpha, no opaque background or ground rectangle, no bright outline, snow, water, roads, buildings, people, labels, text, logos or watermark."
+}

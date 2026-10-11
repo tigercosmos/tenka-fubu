@@ -1,0 +1,30 @@
+.viewer {
+  max-height: 28rem;
+  overflow: auto;
+  overflow-wrap: anywhere;
+}
+.viewer ul {
+  list-style: none;
+  padding-inline-start: 1rem;
+}
+.viewer > ul {
+  padding-inline-start: 0;
+}
+.node {
+  margin-block: 0.25rem;
+}
+.node summary {
+  cursor: pointer;
+  min-block-size: 32px;
+}
+.node code {
+  white-space: pre-wrap;
+}
+.node button {
+  margin: 0.125rem 0.5rem;
+}
+.node summary:focus-visible,
+.node button:focus-visible {
+  outline: 0.125rem solid var(--brand-gold);
+  outline-offset: 0.125rem;
+}

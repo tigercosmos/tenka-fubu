@@ -193,7 +193,8 @@ moraleFactor = BAL.moraleFactorBase + morale / BAL.moraleFactorDivisor   // 0.5 
 每側至多 `BAL.kassenMaxUnitsPerSide`（建議 6）支，超過時取兵數最大者。
 城駐軍不參與合戰（§8 D7）。同盟軍不拉入（v1，§8 D8）。
 被拉入部隊在策略地圖上的位置不變，合戰結果套用後再繼續行動。
-1 支 `Army` = 合戰中 1 個 `BattleUnit`（以大將能力計算，副將僅貢獻戰法解鎖與特性）。
+1 支 `Army` = 合戰中 1 個 `BattleUnit`；能力與數值特性依 06 §3.1／§3.3 使用主將。
+副將可貢獻戰法解鎖；僅有明示適用副將的特性才提供數值效果，不疊加主將乘數。
 
 **攻守側**：發動合戰的一方為「攻方（attacker）」，另一方為「守方（defender）」。
 
@@ -256,10 +257,12 @@ damage(對目標) = attackPower × BAL.battleTickDamageRate
 
    建議值：`BAL.valBattleFactor` = 0.008、`BAL.ldrBattleFactor` = 0.004、`BAL.battleTickDamageRate` = 0.02。
    `tacticAtkMult`／`tacticDefMult` 來自戰法狀態（§3.8），無狀態時為 1.0。
+   能力值依 06 §3.1 計算並封頂；軍神只介入既有攻防與戰法能力值，不加成采配。
 5. **士氣與潰走**：每支部隊——本 tick 受損 ≥ 現有兵 × 0.03 → 士氣 −2；受損 > 0 → −1；
    造成傷害且未受損 → +1。之後依 §3.4 條件判潰走（`initialTroops` 以**合戰開始時**兵數計）；
    潰走部隊每 tick 沿最短路向己方本陣方向移出戰場邊緣後從戰場移除（不再受控、不接戰、
    途中經過敵部隊所在陣時受一次 §3.4 追擊式損害，`BAL.pursuitDamageRate` 減半）。
+   士氣潰走閾值另套主將的 06 冷靜加值；低兵力與全滅條件不變，不把每日士氣特性擴大到每刻。
 6. **陣旗力與佔領**：位於「非我方歸屬陣」且該陣無敵方部隊的每支部隊，
    使該陣 `旗力 −= troops × BAL.flagCaptureRate`（建議 0.012）。旗力 ≤ 0 →
    陣歸屬翻轉為該側、旗力回復至 `旗力上限 × BAL.flagResetRatio`（建議 0.5）。
@@ -299,6 +302,9 @@ damage(對目標) = attackPower × BAL.battleTickDamageRate
 
 多個增益乘數不並存（覆蓋制），故 `tacticAtkMult` 恆為單一值；
 減益的攻擊乘數與增益相乘（例：突擊×挑撥 → 1.5 × 0.8 = 1.2）。
+
+齊射與鐵砲三段的每次傷害，另套主將的遠程攻擊與遠程戰法威力掛鉤，效果依 06 §3.3。
+所有乘數合成後才取整，並以目標剩餘兵數限制每次傷害；不疊加副將數值或更改射擊次數。
 
 ### 3.9 合戰——委任 AI 與勝敗
 
@@ -435,10 +441,15 @@ AI 側（非玩家側）整側恆用同邏輯。完整難易度差異化見 `pla
   兵糧本日首度歸 0 時發出 `army.starving`（`armyId`、`clanId`、`leaderId`；02 §4.19）。
 - **歸還**：`CmdRecallArmy` → `mission = 'return'`、目標 = `originCastleId`（已失守則最近我方城）；
   抵達後兵力、殘糧併入城，武將回城，`Army` 移除。
+  原出陣城必須仍屬本家且可達；否則選實體位置可達的最近我方城（04 §3.6）。
+  途中撤返保留當前邊的已走進度與成本，必要時反向回到最近實際抵達節點，不能即時入庫或補糧。
 - **自動歸還**（`autoReturn == true`，預設開，玩家可關）：滿足任一即自動轉歸還——
   (a) 任務完成（march 抵達目標並完成制壓／conquer 目標落城）且無新指令；
   (b) 剩餘兵糧可支撐日數 ≤ `BAL.autoReturnFoodDays`（建議 7）且不在圍城最後階段
   （城士氣與耐久皆 > 20% 時才允許自動撤）。
+- **玩家切換**：選取我方部隊後，在戰略圖的部隊資訊列切換自動歸還。
+  經 `CmdSetAutoReturn` 正常入列並於下一日套用；目前值與待執行值分開顯示，不即時修改 `Army`。
+  潰走部隊不可切換；是否為軍團部隊不額外限制所有權。已有同部隊切換待執行時，禁止重複提交。
 
 ### 3.14 武將戰死
 
@@ -510,8 +521,9 @@ interface Army {
   path: MapNodeId[];          // 完整路徑（含起訖；由 04 尋路產生）
   pathCursor: number;         // 已抵達之 path 索引（依 02 §4.8，E-11）
   posNodeId: MapNodeId;       // 最近抵達節點（= path[pathCursor]）（依 02 §4.8，E-11）
-  edgeProgressDays: number;   // 往 path[pathCursor+1] 之當前邊已累積行軍日數（日，浮點 ≥0）；位於節點上／已抵終點為 0（日數累加模型見 04 §5，E-11）
-  edgeCostDays: number;       // 當前邊有效日數（日）＝edge.baseDays / BAL.roadGradeSpeedMult[grade]（海路固定＝baseDays）；抵達判定 edgeProgressDays ≥ edgeCostDays（04 §3.4.2／§5，E-11）
+  edgeProgressDays: number;   // 從最近實際抵達節點累積的當前邊進度；反向時減少，抵達才歸零（04 §3.7）
+  edgeCostDays: number;       // 當前邊有效日數快取；途中改令保留，計算及抵達規則見 04 §3.4.2／§5
+  reversingEdgeEndNodeId?: MapNodeId | null; // 反向時保留原未抵達端點；途中進度及快取不因改令清零（02 §4.8）
   battleId: string | null;    // 進入合戰（BattleState）時所屬合戰 id；否則 null（依 02 §4.8；野戰 engaged 之歸屬改由 FieldCombat.sideX.armyIds 反查，INV-13／E-18）
   siegeId: string | null;     // status=='sieging' 時所屬攻城戰 id；否則 null（依 02 §4.8，INV-13）
   autoReturn: boolean;        // 糧將盡／任務完成自動歸還
@@ -534,6 +546,10 @@ interface FieldCombatSide {
   armyIds: string[];
   initialTroops: number;      // 交戰開始時總兵數（威風判定）
   cumulativeLosses: number;   // 累計損失兵數
+  participation?: {
+    complete: boolean;        // 新遭遇完整；缺席舊檔不推測
+    participants: FieldCombatParticipant[]; // 歷史編成型別以 02 §4.9 為準
+  };
 }
 
 /** 合戰（戰術戰場）——策略時間暫停期間的獨立狀態機 */
@@ -764,26 +780,35 @@ advanceBattleTick(bs, orders):
 siegeDailyTick(state, sg):
   castle = state.castles[sg.castleId]
   atk = Σ computeArmyPower(a) for a in sg.armies
+  durAtk = Σ (computeArmyPower(a) × traitModifier(該部隊主將, 'siege.attackMult').mult)
+  lordDamageMult = traitModifier(該城城主, 'siege.defenseDamageMult').mult
+  lordMoraleMult = traitModifier(該城城主, 'siege.defenseMoraleMult').mult
   mitigation = clamp((castle.tier=='main'? BAL.siegeMitigationMain : BAL.siegeMitigationBranch)
                      + facilityMitigation(castle) /* 參見05 */, 0, 0.7)
   defPower = castle.soldiers × (1 + lordLdr × BAL.ldrCombatFactor) × (1 + mitigation)
   if sg.mode == 'encircle' 且 Σ攻方兵 < castle.soldiers × BAL.encircleRatio: sg.mode = 'assault'
   if sg.mode == 'assault':
-    castle.durability −= atk × BAL.assaultDurabilityRate × (1 − mitigation)
+    castle.durability = round(max(0, castle.durability
+      − durAtk × BAL.assaultDurabilityRate × (1 − mitigation) × lordDamageMult))
     attackerLoss = defPower × BAL.assaultAttackerLossRate
     castle.soldiers −= round(atk × BAL.assaultDefenderLossRate)
-    castle.morale −= BAL.assaultCastleMoraleDaily
+    castle.morale = round(max(0, castle.morale − BAL.assaultCastleMoraleDaily × lordMoraleMult))
   else: // encircle
-    castle.morale −= BAL.encircleCastleMoraleDaily
+    castle.morale = round(max(0, castle.morale − BAL.encircleCastleMoraleDaily × lordMoraleMult))
     // 城糧消耗於 economy step 以 ×BAL.encircleFoodMult 計，基準參見 05
     attackerLoss = defPower × BAL.encircleAttackerLossRate
   distributeLossByTroops(sg.armies, round(attackerLoss))
   if castle.food == 0:
-    castle.morale −= BAL.starvingCastleMoraleDaily
+    castle.morale = round(max(0, castle.morale − BAL.starvingCastleMoraleDaily × lordMoraleMult))
     castle.soldiers −= ceil(castle.soldiers × BAL.starvingCastleDesertionRate)
   if castle.durability ≤ 0 或 castle.morale ≤ 0 或 castle.soldiers ≤ 0:
     fallCastle(state, sg)        // §3.11 落城處理 1–4
 ```
+
+特性定義依 06 §3.3；缺少主將或城主時，對應特性乘數為一。
+攻城名手只調整該部隊的耐久傷害貢獻，不調整守軍傷亡或攻方反擊損失。
+既有大命耐久傷害乘數在取整前與上式相乘；城防減免公式不變。
+耐久與士氣每次寫入均依 02 §3.4 取整；基礎士氣扣減與糧盡扣減各自取整，不新增小數累加欄位。
 
 ### 5.6 威風套用
 
@@ -1275,3 +1300,65 @@ supplyDailyTick(state, army):
   延至 V9+。
   (15) fixture：+1 routed 軍（復用今川氏真，零新字）＋補給危急／低各一＋Oda↔Imagawa 敵對外交列
   （合併非覆蓋）；非 golden、決定論、s1560 零觸。
+- **D44｜合戰部隊的唯讀活動事實（2026-10-08）**：`queryBattleUnitActivity` 只讀取傳入 BattleState。
+  查無部隊回傳 null；每次回傳分離的新資料，不快取 mutable battle，也不發布狀態或消耗 RNG。
+  接觸對象限有效敵軍：同陣或實際 JinEdge 相鄰；指定攻擊目標不代表接觸、攻擊執行或傷害。
+  移動目標的阻擋依序為 inactive、戰法 immobile、缺少通路，與既有 movement stage 相同。
+  目的陣容量只描述當下快照，不當作必然阻擋；真正抵達仍由原有 stage 按序判定。
+  此查詢不改戰鬥規則、pipeline、GameState、SaveFile 或 transcript。
+- **D45｜途中軍令保留實體位置（2026-10-08）**：重定目標與撤返共用 04 的實體路徑規劃。
+  `posNodeId` 不因轉向改成未抵達端點；反向時以可選端點及遞減進度保存原邊位置。
+  正向與反向潰走部隊都必須實際位於節點，才參與同節點追擊；追擊者也須實際抵達。
+  既有勝利配對資格與傷害公式不變，不把相同 `posNodeId` 的邊上部隊當作已會合。
+- **D46｜退役 M4 至 M5 的合戰就緒旗標（2026-10-09）**：D38 的戰術入口已有正式 M5 流程。
+  移除固定為 true 的 BAL.featureKassenEnabled 與舊就緒分支，不把它改放至其他設定物件。
+  合戰提示保留 kassenMinTroops 門檻；進場保留所有權、部隊、已用與活動戰鬥驗證。
+  邊界測試揭露舊流程會為 AI 對 AI 發出提示並暫停玩家；依 §3.5 限定 producer 與暫停理由為玩家參戰。
+  AI 對 AI 保留野戰自動解算；是否自動暫停仍由玩家的 autoPause.battle 設定決定。
+  手動進場、婉拒與委任流程不變；事件軌跡差異另實跑記錄，不更新 frozen 基準或補丁 BAL hash。
+- **D47｜攻城特性與整數寫入（2026-10-09）**：06 §3.3 的攻城名手與籠城名手已有掛鉤定義。
+  每支參戰部隊的主將乘數只調整耐久傷害；實際城主乘數調整耐久損傷與每日士氣扣減，含糧盡扣減。
+  舊 §5.5 未明示取整，但 00 §6 與 02 §3.4／§4.5 要求耐久、士氣為整數；採較高優先序。
+  每次寫入最終值先截斷負值，再以 Math.round 取整；不只對有特性者取整，不新增 carry 或最低傷害。
+  半點士氣扣減可能因取整成為零；不改特性係數或既有每日順序來補償。
+  此修正可改變既有數值軌跡；保留 frozen golden／replay 基準與失敗證據，不假造通過。
+- **D48｜合戰能力與即時遠程掛鉤（2026-10-09）**：能力值上限依 06 D-12 與較高優先序 00／02。
+  正常攻擊、即時戰法的 fallback 與委任判斷共用主將計算能力；采配只使用普通有效統率。
+  齊射與鐵砲三段各次傷害套兩個明示遠程掛鉤；supplied attackPower 不再重複套四維乘數。
+  不把普通鄰接攻擊自訂為遠程，不新增兵種或改動其他 buff、旗力、冷卻與射擊次數。
+  現有資料結構與 RNG 不變；數值軌跡可能改變，保留 frozen 基準與實際失敗。
+- **D49｜野戰歷史與正常勝敗功績（2026-10-09）**：殘存 armyIds 不是完整參戰名單。
+  新遭遇保存分離的編成，援軍加入與實際參戰日補記角色；不因部隊潰走、消失或主將更換丟失歷史。
+  普通明確勝敗且當日開始雙方皆有正兵數時，才使用完整歷史授獎。
+  對仍仕官且屬原參戰勢力的武將唯一授獎，歷任實際主將適用主將倍率。
+
+  先依 06 取整主將倍率，再交 gainMerit 套野心與經驗；存檔保存歷史，格式 3 不升版。
+  舊檔未知歷史不新增推測獎勵；平手、外部非戰鬥關閉與合戰接管不另指派野戰勝敗功績。
+  這些相容行為不代表舊檔與非戰鬥關閉政策全部完成；保留驗收缺口，不以殘存部隊假造完整歷史。
+- **D50｜冷靜的合戰潰走閾值（2026-10-09）**：06 的潰走閾值加值適用實際部隊主將。
+  合戰沿用士氣低於或等於閾值的判定；副將不疊加，兵數過低與全滅仍可潰走。
+  背水的原有士氣下限不改；每日士氣下降與合戰一刻的損傷懲罰不同，不自訂每刻縮放。
+- **D51｜普通野戰與守城統率上限（2026-10-09）**：普通有效能力依 00／02／06 封頂。
+  野戰戰力與守城防禦使用 min(abilityMax, base＋growth)，不把合法微成長當作超過上限的能力。
+  共用野戰戰力的追擊與攻城攻方也適用；只改讀取，不回寫基本值與成長。
+  軍神仍只作用於明示的合戰能力讀取，不擴張到普通野戰或城主防禦。
+- **D52｜遭遇開始時的零兵部隊清理（2026-10-09）**：零兵部隊不參與當日戰力與功績判定。
+  仍列於遭遇側的零兵部隊交既有全滅清理，解除軍隊與攻城連結，將存活武將送回既有合法歸所。
+  不把零兵名單當作實際當日參戰，不更改既有勝敗與平手結果，也不補授非戰鬥功績。
+- **D53｜出陣初始士氣的統率上限（2026-10-09）**：§3.2 使用 02 的一般有效統率。
+  統率先取 `min(BAL.abilityMax, ldr + statGrowth.ldr)`，再套原士氣倍率與取整。
+  不擴張軍神的合戰能力作用；原政策入口、難度加值及士氣上下限不變。
+
+- **D54｜實際糧耗與自動歸還日數（2026-10-09）**：§3.13 的可支撐日數採當前實際每日糧耗。
+  大將的 06 兵站倍率先乘入兵數與每日基準，再向上取整；缺少大將沿用倍率 1。
+  剩餘日數為 `food / max(1, actualDailyUse)`；扣糧與歸還查詢共用純計算，不預測未來補給或逃散。
+  攜糧限制、城補給水位、七日門檻及圍城尾聲例外不變；不新增副將、政策或軍神倍率。
+
+- **D55｜輸送掠奪的整數兵糧寫入（2026-10-09）**：依 02 的整數資源限制，掠奪前先將可接收容量向下取整。
+  攜糧公式與貨物上限不變；增加到部隊的兵糧仍取貨物與可接收容量的較小值。
+  金錢、掠奪事件、輸送移除及後續自然歸還沿用原規則，不新增戰鬥或補給倍率。
+
+- **D56｜冷靜大將的每日補給士氣下降（2026-10-09）**：依 06 §3.3 的每日語意，補給管線使用大將的既有冷靜倍率。
+  缺糧及敵境士氣下降先乘倍率，再對士氣結果四捨五入，維持 02 的整數限制。
+  副將不提供此倍率；糧耗、逃散、潰走鎖定及事件不變。
+  本次不調整野戰傷害或合戰每刻效果，也不補訂未定的特性作用。

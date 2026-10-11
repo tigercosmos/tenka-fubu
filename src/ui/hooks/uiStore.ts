@@ -5,6 +5,8 @@ import { store as gameStore } from '@app/store';
 import type { MapAnalysisMode } from '@app/store';
 import type { MapPathPreview } from '@ui/map/mapViewTypes';
 import type { CameraState } from '@ui/map/camera';
+import type { GameSettings } from '@app/settings';
+import type { GameState } from '@core/state/gameState';
 
 export type ScreenId = 'title' | 'scenarioSelect' | 'daimyoSelect' | 'main' | 'battle' | 'ending';
 export type PanelId =
@@ -22,9 +24,11 @@ export type PanelId =
   | 'saveLoad'
   | 'settings';
 export type ModalId =
+  | 'realmNavigator'
   | 'march'
   | 'proposalInbox'
   | 'monthSummary'
+  | 'rewards'
   | 'event'
   | 'battlePrompt'
   | 'battleResult'
@@ -75,6 +79,9 @@ export interface UIState {
   mapCamera: { camera: CameraState; width: number; height: number } | null;
   speedBeforePause: 1 | 2 | 5;
   uiScale: number;
+  mapLabelDensity: GameSettings['mapLabelDensity'];
+  effectsEnabled: boolean;
+  notificationFilter: GameSettings['notificationFilter'];
   analysisMode: MapAnalysisMode;
   analysisOpacity: number;
   queuedDecisionIds: string[];
@@ -87,10 +94,20 @@ export interface UIActions {
   closePanelById(id: PanelId): void;
   enqueueModal(modal: ModalInstance): void;
   closeModal(): void;
+  closeOwnedModal(
+    expected: ModalInstance,
+    options?: { resume?: boolean; expectedGame?: GameState | null },
+  ): boolean;
   setSelection(selection: Selection | null): void;
   setMarchDraft(draft: MarchDraft | null): void;
   setMapCamera(value: UIState['mapCamera']): void;
   setUiScale(scale: number): void;
+  applyPresentationSettings(
+    settings: Pick<
+      GameSettings,
+      'uiScale' | 'mapLabelDensity' | 'effectsEnabled' | 'notificationFilter'
+    >,
+  ): void;
   setAnalysisMode(mode: MapAnalysisMode): void;
   setAnalysisOpacity(opacity: number): void;
   markDecisionQueued(id: string): void;
@@ -100,6 +117,8 @@ export interface UIActions {
 }
 
 interface UIStore extends UIState {
+  /** A flow with explicit continuation owns restoration until its whole FIFO drains. */
+  queueResumeBlocked: boolean;
   actions: UIActions;
   /** 強制暫停 modal 後仍有非暫停 modal 排隊時，待整條佇列清空才恢復。 */
   restoreSpeedOnQueueDrain: boolean;
@@ -131,6 +150,9 @@ const initialUIState: UIState = {
   mapCamera: null,
   speedBeforePause: 1,
   uiScale: 1,
+  mapLabelDensity: 'medium',
+  effectsEnabled: true,
+  notificationFilter: 'all',
   analysisMode: 'none',
   analysisOpacity: 0.55,
   queuedDecisionIds: [],
@@ -145,6 +167,7 @@ function pump(state: UIStore): Partial<UIStore> | null {
     const wasRunning = gameStore.getState().session.speed !== 'paused';
     const pauseReason = gameStore.getState().session.lastPauseReason;
     const ownsArrivalPause =
+      (next.id === 'battlePrompt' && pauseReason === 'battleOffer') ||
       (next.id === 'envoy' && pauseReason === 'diploEnvoy') ||
       (next.id === 'proposalInbox' &&
         (pauseReason === 'proposalArrived' || pauseReason === 'monthStart'));
@@ -163,6 +186,7 @@ function pump(state: UIStore): Partial<UIStore> | null {
 export const useUIStore = create<UIStore>()((set, get) => ({
   ...initialUIState,
   restoreSpeedOnQueueDrain: false,
+  queueResumeBlocked: false,
   actions: {
     markDecisionQueued(id) {
       set((state) => ({ queuedDecisionIds: [...new Set([...state.queuedDecisionIds, id])] }));
@@ -200,11 +224,16 @@ export const useUIStore = create<UIStore>()((set, get) => ({
         set(pumped);
         return;
       }
-      if (afterClose.modalQueue.length === 0 && afterClose.restoreSpeedOnQueueDrain) {
+      if (
+        afterClose.modalQueue.length === 0 &&
+        afterClose.restoreSpeedOnQueueDrain &&
+        !afterClose.queueResumeBlocked
+      ) {
         const speed = afterClose.speedBeforePause;
         const reason = gameStore.getState().session.lastPauseReason;
         if (
           reason === 'modalOpen' ||
+          reason === 'battleOffer' ||
           reason === 'proposalArrived' ||
           reason === 'diploEnvoy' ||
           reason === 'monthStart'
@@ -212,6 +241,73 @@ export const useUIStore = create<UIStore>()((set, get) => ({
           gameStore.getState().actions.setSpeed(speed === 5 ? 'x5' : speed === 2 ? 'x2' : 'x1');
         set({ restoreSpeedOnQueueDrain: false });
       }
+    },
+    closeOwnedModal(expected, options = {}) {
+      const state = get();
+      if (state.modal !== expected) {
+        if (!state.modalQueue.includes(expected)) return false;
+        set({ modalQueue: state.modalQueue.filter((entry) => entry !== expected) });
+        return true;
+      }
+      const app = gameStore.getState();
+      const session = app.session;
+      const sameGame = options.expectedGame === undefined || options.expectedGame === app.game;
+      const resume = options.resume !== false && sameGame;
+      const queue = state.modalQueue.filter((entry) => entry !== expected);
+      const next = queue[0] ?? null;
+      const remaining = next === null ? queue : queue.slice(1);
+      const wasRunning = session.speed !== 'paused';
+      const ownsArrivalPause =
+        next?.pausesTime &&
+        ((next.id === 'battlePrompt' && session.lastPauseReason === 'battleOffer') ||
+          (next.id === 'envoy' && session.lastPauseReason === 'diploEnvoy') ||
+          (next.id === 'proposalInbox' &&
+            (session.lastPauseReason === 'proposalArrived' ||
+              session.lastPauseReason === 'monthStart')));
+      const ownsNextPause = sameGame && next?.pausesTime && (wasRunning || ownsArrivalPause);
+      const speedBeforePause = ownsNextPause ? speedNumber() : state.speedBeforePause;
+      const restoreSpeedOnQueueDrain =
+        next !== null && ((resume && state.restoreSpeedOnQueueDrain) || !!ownsNextPause);
+      // Publish the entire ownership transfer before invoking any app-store action.
+      set({ modal: next, modalQueue: remaining, speedBeforePause, restoreSpeedOnQueueDrain });
+      const current = get();
+      const currentApp = gameStore.getState();
+      if (
+        !sameGame ||
+        currentApp.game !== app.game ||
+        currentApp.session.speed !== session.speed ||
+        currentApp.session.resumeSpeed !== session.resumeSpeed ||
+        currentApp.session.lastPauseReason !== session.lastPauseReason ||
+        currentApp.session.fatalError !== session.fatalError ||
+        currentApp.session.viewportBlocked !== session.viewportBlocked ||
+        currentApp.session.screen !== session.screen ||
+        current.modal !== next ||
+        current.modalQueue !== remaining ||
+        current.speedBeforePause !== speedBeforePause ||
+        current.restoreSpeedOnQueueDrain !== restoreSpeedOnQueueDrain ||
+        current.queueResumeBlocked !== state.queueResumeBlocked
+      )
+        return true;
+      if (next?.pausesTime && wasRunning) {
+        currentApp.actions.requestPause('modalOpen');
+      } else if (
+        next === null &&
+        resume &&
+        state.restoreSpeedOnQueueDrain &&
+        !state.queueResumeBlocked &&
+        session.fatalError === null &&
+        !session.viewportBlocked &&
+        session.screen === 'main' &&
+        currentApp.game !== null &&
+        currentApp.game.meta.gameOver === null &&
+        ['modalOpen', 'battleOffer', 'proposalArrived', 'diploEnvoy', 'monthStart'].includes(
+          session.lastPauseReason ?? '',
+        )
+      ) {
+        const speed = state.speedBeforePause;
+        currentApp.actions.setSpeed(speed === 5 ? 'x5' : speed === 2 ? 'x2' : 'x1');
+      }
+      return true;
     },
     setSelection(selection) {
       set({ selection });
@@ -224,6 +320,10 @@ export const useUIStore = create<UIStore>()((set, get) => ({
     },
     setUiScale(uiScale) {
       set({ uiScale });
+    },
+    applyPresentationSettings(settings) {
+      const { uiScale, mapLabelDensity, effectsEnabled, notificationFilter } = settings;
+      set({ uiScale, mapLabelDensity, effectsEnabled, notificationFilter });
     },
     setAnalysisMode(analysisMode) {
       set({ analysisMode });
@@ -242,11 +342,20 @@ export const useUIStore = create<UIStore>()((set, get) => ({
       } else if (state.selection !== null) {
         state.actions.setSelection(null);
       } else {
-        state.actions.enqueueModal({ id: 'systemMenu', params: {}, pausesTime: false });
+        state.actions.enqueueModal({ id: 'systemMenu', params: {}, pausesTime: true });
       }
     },
     reset() {
-      set({ ...initialUIState, restoreSpeedOnQueueDrain: false });
+      const { uiScale, mapLabelDensity, effectsEnabled, notificationFilter } = get();
+      set({
+        ...initialUIState,
+        uiScale,
+        mapLabelDensity,
+        effectsEnabled,
+        notificationFilter,
+        restoreSpeedOnQueueDrain: false,
+        queueResumeBlocked: false,
+      });
     },
   },
 }));

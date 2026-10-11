@@ -1,21 +1,36 @@
 import type { ReactElement } from 'react';
 import { BAL } from '@core/balance';
+import { getOfficerTacticIds } from '@core/index';
+import { TACTICS } from '@core/tactics';
 import { RANK_VALUES } from '@core/state/enums';
 import type { Officer } from '@core/state/gameState';
 import type { OfficerId } from '@core/state/ids';
-import { TRAITS } from '@core/traits';
 import { formatNumber, formatDate, t } from '@i18n/zh-TW';
-import { Badge, EmptyState, Panel, StatBar } from '@ui/components';
+import { Badge, EmptyState, Panel, ProgressBar, StatBar, Tooltip } from '@ui/components';
 import { makeCachedSelector, useCachedGameSelector } from '@ui/hooks/useGameSelector';
 import { useUIStore } from '@ui/hooks/uiStore';
 import { rankLabel, roleLabel, type OfficerRoleKind } from './OfficerList';
 import styles from './OfficerDetail.module.css';
 import { OfficerActions } from './OfficerActions';
 import { renderReport } from '../reports/renderReport';
+import { describeOfficerTrait } from '../officers/traitDescription';
 
 export interface OfficerDetailProps {
   officerId?: OfficerId;
   onClose?: () => void;
+}
+
+// Presentation ownership survives ordinary ticks, but never a game replacement.
+// Weak keys do not retain retired sessions.
+const traitSessions = new WeakMap<object, number>();
+let nextTraitSession = 0;
+function traitSessionKey(game: object): number {
+  let key = traitSessions.get(game);
+  if (key === undefined) {
+    key = ++nextTraitSession;
+    traitSessions.set(game, key);
+  }
+  return key;
 }
 
 function effectiveStats(officer: Officer) {
@@ -53,22 +68,31 @@ const selectOfficerDetail = makeCachedSelector((game, resolvedOfficerId: Officer
     .filter((district) => district.stewardId === officer.id)
     .map((district) => district.name)
     .sort((a, b) => a.localeCompare(b, 'zh-Hant'));
-  const traits = officer.traits
-    .map((traitId) => TRAITS[traitId])
-    .filter((trait) => trait !== undefined);
+  const traits = officer.traits.map(describeOfficerTrait).filter((trait) => trait !== null);
   const nextThreshold = BAL.rankMeritThresholds[RANK_VALUES.indexOf(officer.rank) + 1];
   return {
+    traitOwner: `${traitSessionKey(game)}:${officer.id}`,
     id: officer.id,
     name: officer.name,
     clanId: officer.clanId,
     clanName,
     rank: officer.rank,
     stats,
+    growth: (['ldr', 'val', 'int', 'pol'] as const).map((stat) => ({
+      stat,
+      base: officer[stat],
+      gained: officer.statGrowth[stat],
+      experience: officer.statExp[stat],
+    })),
     loyalty: officer.loyalty,
     merit: officer.merit,
     age: Math.max(0, game.time.year - officer.birthYear),
     roleName,
     traits,
+    tactics: getOfficerTacticIds(game, [officer.id]).map((id) => ({
+      id,
+      label: t('ui.march.tacticCost', { name: t(`${id}.name`), cost: TACTICS[id]!.saihaiCost }),
+    })),
     fiefs,
     promotionReady: nextThreshold !== undefined && officer.merit >= nextThreshold,
     history: game.reports
@@ -123,6 +147,34 @@ export function OfficerDetail({ officerId, onClose }: OfficerDetailProps): React
           <StatBar label={t('ui.officer.int')} value={model.stats.int} width={260} />
           <StatBar label={t('ui.officer.pol')} value={model.stats.pol} width={260} />
         </div>
+        <section className={styles.section}>
+          <h3>{t('ui.officer.growthTitle')}</h3>
+          <div className={styles.growth}>
+            {model.growth.map(({ stat, base, gained, experience }) => {
+              const capped = gained >= BAL.statGrowthCap;
+              const label = t(capped ? 'ui.officer.growthCapped' : 'ui.officer.growthExperience', {
+                stat: t(`ui.officer.${stat}`),
+              });
+              return (
+                <div key={stat}>
+                  <p>{label}</p>
+                  <ProgressBar
+                    value={capped ? gained : experience}
+                    max={capped ? BAL.statGrowthCap : BAL.statExpPerPoint}
+                    ariaLabel={label}
+                  />
+                  <p className={styles.growthSummary}>
+                    {t('ui.officer.growthSummary', {
+                      base,
+                      growth: gained,
+                      cap: BAL.statGrowthCap,
+                    })}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
         <dl className={styles.summary}>
           <div>
             <dt>{t('ui.officer.loyalty')}</dt>
@@ -147,12 +199,37 @@ export function OfficerDetail({ officerId, onClose }: OfficerDetailProps): React
             <dd>{model.roleName}</dd>
           </div>
         </dl>
+        <section
+          className={styles.section}
+          aria-label={t('ui.march.officerTactics', { tactics: '' })}
+        >
+          <h3>{t('ui.march.officerTactics', { tactics: '' })}</h3>
+          <ul className={styles.tactics}>
+            {model.tactics.map((tactic) => (
+              <li key={tactic.id}>{tactic.label}</li>
+            ))}
+          </ul>
+          <p className={styles.tacticNote}>{t('ui.march.tacticPreviewNote')}</p>
+        </section>
         <section className={styles.section}>
           <h3>{t('ui.officer.traits')}</h3>
           <div className={styles.chips}>
             {model.traits.length === 0
               ? t('ui.common.noData')
-              : model.traits.map((trait) => <span key={trait.id}>{t(`${trait.id}.name`)}</span>)}
+              : model.traits.map((trait) => (
+                  <Tooltip
+                    key={`${model.traitOwner}:${trait.id}`}
+                    content={
+                      <div className={styles.traitTooltip}>
+                        {trait.lines.map((line, index) => (
+                          <div key={index}>{line}</div>
+                        ))}
+                      </div>
+                    }
+                  >
+                    <span tabIndex={0}>{trait.name}</span>
+                  </Tooltip>
+                ))}
           </div>
         </section>
         <section className={styles.section}>
@@ -173,7 +250,9 @@ export function OfficerDetail({ officerId, onClose }: OfficerDetailProps): React
             </ul>
           )}
         </section>
-        <OfficerActions officerId={model.id} />
+        <div className={styles.assignments}>
+          <OfficerActions officerId={model.id} />
+        </div>
       </Panel>
     </aside>
   );

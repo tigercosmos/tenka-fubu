@@ -2,10 +2,11 @@
 //
 // 規格：docs/design/m6-v9b-map-plates.md §2.1–§2.7／§2.10。原創和紙綬帶名牌，把「城名＋勢力
 // 印記＋敵我通道＋兵數」收成一個 pixel-lock 小牌，取代 V9 城名裸標籤（城名由此移出 labelParts）。
+// 印記識別欄的現行版面修訂見 art-bible §10.3；歷史 DD-A3 接點不再覆蓋文字。
 //
 // DD-A3 去同構構圖（§2.1，採納評審 Major 4；非新生名牌之描摹，art-bible §12.2）：
 //   1. 城名前置（左）、兵數內嵌綬帶尾段（右）——不另起下掛 chip；
-//   2. 勢力印記騎於「節點-綬帶接點」：印記圓中心＝容器原點（節點正下方、綬帶頂緣中線）；
+//   2. 勢力印記有獨立左側識別欄，不覆蓋城名或兵數；
 //   3. 綬帶寬置中於節點（自 -ribbonW/2 起繪）。
 //
 // 敵我第二辨識通道（§2.4，art-bible §3.3 canonical；色弱下形態/端形/記號三通道皆成立）：
@@ -28,6 +29,7 @@ import {
   NAMEPLATE_GEOMETRY,
   NAMEPLATE_STYLE,
   nameplateTextStyle,
+  nameplateMaterial,
   type NameplateGeometrySpec,
 } from './nameplateStyle';
 
@@ -52,7 +54,28 @@ export interface CastleNameplatePart extends ScenePart<CastleNameplateProps> {
   setTargetHighlight(on: boolean): void;
   /** 綬帶目前螢幕尺寸（CSS px；pixel-lock 後恆定）——供整合層 declutter AABB 佔格（§2.8）。 */
   getRibbonSize(): { w: number; h: number };
+  /** Actual local text bounds plus painted seal envelope; not an opaque-pixel segmentation. */
+  getContentGeometry(offset?: {
+    x: number;
+    y: number;
+  }): { seal: ContentRect; name: ContentRect; troops: ContentRect } | null;
+  /** Baseline local painted envelope, including shadows, relation glyphs and highlight. */
+  getPaintBounds(): ContentRect;
+  /** Authoritative full-detail producer geometry, independent of compact paint. */
+  getOriginalPresentationGeometry(offset?: { x: number; y: number }): {
+    readonly paint: ContentRect;
+    readonly ribbon: { readonly w: number; readonly h: number };
+    readonly content: { seal: ContentRect; name: ContentRect; troops: ContentRect } | null;
+  };
+  /** Presentation-only; preserves the original text nodes and full geometry. */
+  setCompactPresentation(on: boolean): void;
+  /** CSS-only displacement; the world container and interaction anchor never move. */
+  setPresentationOffset(
+    offset: { x: number; y: number },
+    leader: { start: { x: number; y: number }; end: { x: number; y: number }; visible: boolean },
+  ): void;
 }
+type ContentRect = { x: number; y: number; width: number; height: number };
 
 /**
  * 兵數格式（§2.10）：單一規則跨所有 LOD——tabular numerals＋千分位（en-US），不縮寫、不混用
@@ -64,12 +87,21 @@ export function formatSoldierChip(soldiers: number): string {
 
 /**
  * 綬帶動態寬（§2.1 公式）：`padX + nameW + divGapX*2 + troopDotR*2 + 2 + troopsW + padX`，
- * 下限 `ribbonMinW`。印記圓不佔綬帶內部水平版位（騎於頂緣中線），不推移城名左起點。
+ * 下限 `ribbonMinW`。另保留關係帶、完整色章及專用字區間距。
  */
 export function ribbonWidthFor(geo: NameplateGeometrySpec, nameW: number, troopsW: number): number {
   return Math.max(
     geo.ribbonMinW,
-    geo.ribbonPadX + nameW + geo.divGapX * 2 + geo.troopDotR * 2 + 2 + troopsW + geo.ribbonPadX,
+    geo.ribbonPadX +
+      geo.relStripeW +
+      geo.sealR * 2 +
+      geo.sealTextGap +
+      nameW +
+      geo.divGapX * 2 +
+      geo.troopDotR * 2 +
+      2 +
+      troopsW +
+      geo.ribbonPadX,
   );
 }
 
@@ -82,7 +114,7 @@ function relationStripeColor(relation: ArmyRelation): number {
 
 /**
  * 純繪製（§2.2-1..3／§2.5）：右下微投影 → 和紙綬帶底（α 恆 1.0，左端端形依 relation：圓角/
- * 尖角/平口）→ 頂緣 washi200 提亮線 → 下緣染紙暈邊。綬帶自 y=0 向下、x 對稱展開（DD-A3-3）。
+ * 尖角/平口）→ 頂緣分級暖紙提亮線 → 下緣染紙暈邊。綬帶自 y=0 向下、x 對稱展開（DD-A3-3）。
  */
 export function drawRibbon(
   g: Graphics,
@@ -90,39 +122,45 @@ export function drawRibbon(
   w: number,
   colorIndex: number,
   relation: ArmyRelation,
+  tier: CastleTier = 'main',
+  attention = false,
 ): void {
+  const material = nameplateMaterial(tier, attention);
   const left = -w / 2;
   const right = w / 2;
   const h = geo.ribbonH;
   const r = geo.ribbonRadius;
   const off = NAMEPLATE_STYLE.shadowOffset;
-  const stroke = { width: geo.inkHairline, color: TOKENS_NUM.ink900 };
+  const stroke = { width: geo.inkHairline, color: TOKENS_NUM.ink900, alpha: material.outlineAlpha };
   // (1) 右下微投影（名牌 < HUD < modal 投影階序，art-bible §7）。
   g.roundRect(left + off, off, w, h, r).fill({
     color: TOKENS_NUM.ink900,
-    alpha: NAMEPLATE_STYLE.shadowAlpha,
+    alpha: material.shadowAlpha,
   });
-  // (2) 和紙綬帶底（washi100 α 1.0 恆定，採納評審 Minor 5）；左端端形＝CVD 端形通道（§2.4）。
+  // (2) 不透明柔和紙底；左端端形仍為 CVD 端形通道（§2.4）。
   if (relation === 'enemy') {
     // 尖角（右斜切）：左上角向右內切 enemyCutX。
     g.poly([left + NAMEPLATE_STYLE.enemyCutX, 0, right, 0, right, h, left, h])
-      .fill({ color: TOKENS_NUM.washi100 })
+      .fill({ color: material.paperColor, alpha: material.paperAlpha })
       .stroke(stroke);
   } else if (relation === 'neutral') {
     // 平口：左端直角（右端維持圓角語彙從簡為直角多邊形，端形差異集中於左端）。
     g.poly([left, 0, right, 0, right, h, left, h])
-      .fill({ color: TOKENS_NUM.washi100 })
+      .fill({ color: material.paperColor, alpha: material.paperAlpha })
       .stroke(stroke);
   } else {
-    g.roundRect(left, 0, w, h, r).fill({ color: TOKENS_NUM.washi100 }).stroke(stroke);
+    g.roundRect(left, 0, w, h, r)
+      .fill({ color: material.paperColor, alpha: material.paperAlpha })
+      .stroke(stroke);
   }
-  // (3) 左上柔光：綬帶頂緣 1px washi200 提亮線（§2.5）。
+  // (3) 左上柔光：綬帶頂緣 1px 分級暖紙提亮線（§2.5）。
   g.moveTo(left + r, 0.5)
     .lineTo(right - r, 0.5)
-    .stroke({ width: 1, color: TOKENS_NUM.washi200 });
+    .stroke({ width: 1, color: material.highlightColor, alpha: material.highlightAlpha });
   // (4) 染紙暈邊：下緣 dyeUnderlineH 高 clanDyeNum 薄帶（繫 territory 染紙軌）。
   g.rect(left + 1, h - 1 - geo.dyeUnderlineH, w - 2, geo.dyeUnderlineH).fill({
     color: clanDyeNum(colorIndex),
+    alpha: 0.38,
   });
 }
 
@@ -152,7 +190,7 @@ export function drawRelationChannel(
 }
 
 /**
- * 純繪製（§2.3／§2.4）：勢力印記騎於節點-綬帶接點（中心＝局部原點，DD-A3-2）。
+ * 純繪製（§2.3／§2.4）：勢力印記具有獨立欄位；center 由名牌版面提供。
  * 旗幟軌 clanColorNum 填（中立空心不填色）＋ink900 環形態（雙環/單環/缺角/空心）＋tier 刻痕
  * （雙刻＝本城/單刻＝支城；M8-22 家紋 landed 後由 crestGlyph 換圖不換版）＋home tick/交叉墨記。
  */
@@ -163,23 +201,25 @@ export function drawSeal(
   colorIndex: number,
   relation: ArmyRelation,
   isPlayer: boolean,
+  center = { x: 0, y: 0 },
 ): void {
   const r = geo.sealR;
+  const { x: cx, y: cy } = center;
   // 印記底：中立＝空心（washi 心，不填勢力色）；其餘＝旗幟軌填色。
-  g.circle(0, 0, r).fill({
+  g.circle(cx, cy, r).fill({
     color: relation === 'neutral' ? TOKENS_NUM.washi100 : clanColorNum(colorIndex),
   });
   if (relation === 'enemy') {
     // 單環＋右上缺角（尖角語彙）：缺角置於 -π/4 方向、掃 sealNotchRad。
     const gapCenter = -Math.PI / 4;
     const gapHalf = NAMEPLATE_STYLE.sealNotchRad / 2;
-    g.arc(0, 0, r, gapCenter + gapHalf, gapCenter - gapHalf + Math.PI * 2).stroke({
+    g.arc(cx, cy, r, gapCenter + gapHalf, gapCenter - gapHalf + Math.PI * 2).stroke({
       width: 1,
       color: TOKENS_NUM.ink900,
     });
     // 附加記號：印記旁小交叉墨記（2px）。
-    const mx = r + 3;
-    const my = -r + 1;
+    const mx = cx + r + 3;
+    const my = cy - r + 1;
     const s = NAMEPLATE_STYLE.crossMarkHalf;
     g.moveTo(mx - s, my - s)
       .lineTo(mx + s, my + s)
@@ -188,19 +228,19 @@ export function drawSeal(
       .lineTo(mx - s, my + s)
       .stroke({ width: 1, color: TOKENS_NUM.ink900 });
   } else {
-    g.circle(0, 0, r).stroke({ width: 1, color: TOKENS_NUM.ink900 });
+    g.circle(cx, cy, r).stroke({ width: 1, color: TOKENS_NUM.ink900 });
     if (isPlayer) {
       // 我方：ink900 雙環（友軍語彙）＋印記左上 3px 實心靛點（home tick）。
-      g.circle(0, 0, r - NAMEPLATE_STYLE.sealInnerRingInset).stroke({
+      g.circle(cx, cy, r - NAMEPLATE_STYLE.sealInnerRingInset).stroke({
         width: 1,
         color: TOKENS_NUM.ink900,
       });
-      g.circle(-r * 0.7, -r * 0.7, NAMEPLATE_STYLE.homeTickR).fill({
+      g.circle(cx - r * 0.7, cy - r * 0.7, NAMEPLATE_STYLE.homeTickR).fill({
         color: TOKENS_NUM.accentIndigo,
       });
     }
   }
-  crestGlyph(g, tier, r);
+  crestGlyph(g, tier, r, center);
 }
 
 /**
@@ -208,14 +248,20 @@ export function drawSeal(
  * 換掉本函式之「tier 刻痕」中心圖形，印記幾何/位置不變（換圖不換版）。
  * 本城＝2 枚短墨橫刻（上下並列）；支城＝1 枚（ink900 α 0.6）。
  */
-function crestGlyph(g: Graphics, tier: CastleTier, sealR: number): void {
+function crestGlyph(g: Graphics, tier: CastleTier, sealR: number, center = { x: 0, y: 0 }): void {
   const len = sealR * 0.55;
   const stroke = { width: 1.5, color: TOKENS_NUM.ink900, alpha: NAMEPLATE_STYLE.tierNotchAlpha };
   if (tier === 'main') {
-    g.moveTo(-len, -1.8).lineTo(len, -1.8).stroke(stroke);
-    g.moveTo(-len, 1.8).lineTo(len, 1.8).stroke(stroke);
+    g.moveTo(center.x - len, center.y - 1.8)
+      .lineTo(center.x + len, center.y - 1.8)
+      .stroke(stroke);
+    g.moveTo(center.x - len, center.y + 1.8)
+      .lineTo(center.x + len, center.y + 1.8)
+      .stroke(stroke);
   } else {
-    g.moveTo(-len, 0).lineTo(len, 0).stroke(stroke);
+    g.moveTo(center.x - len, center.y)
+      .lineTo(center.x + len, center.y)
+      .stroke(stroke);
   }
 }
 
@@ -228,11 +274,12 @@ export function drawTroops(
   geo: NameplateGeometrySpec,
   divX: number,
   dotX: number,
+  dividerAlpha = 1,
 ): void {
   const h = geo.ribbonH;
   g.moveTo(divX, 2)
     .lineTo(divX, h - 2)
-    .stroke({ width: geo.inkHairline, color: TOKENS_NUM.ink900 });
+    .stroke({ width: geo.inkHairline, color: TOKENS_NUM.ink900, alpha: dividerAlpha });
   g.circle(dotX, h / 2, geo.troopDotR).fill({ color: TOKENS_NUM.ink900 });
 }
 
@@ -276,7 +323,7 @@ export function createCastleNameplate(): CastleNameplatePart {
   nameText.anchor.set(0, 0.5);
   const troopsText = new BitmapText({
     text: '',
-    style: nameplateTextStyle(NAMEPLATE_GEOMETRY.main.troopNumSize),
+    style: nameplateTextStyle(NAMEPLATE_GEOMETRY.main.troopNumSize, 'troops'),
   });
   troopsText.anchor.set(1, 0.5);
   const highlightGfx = new Graphics(); // §3.4 目標高亮金框（既繪、平時隱）
@@ -285,12 +332,44 @@ export function createCastleNameplate(): CastleNameplatePart {
   container.addChild(nameText); // children[1]：城名
   container.addChild(troopsText); // children[2]：兵數
   container.addChild(highlightGfx); // children[3]：目標高亮金框
+  const leaderGfx = new Graphics();
+  leaderGfx.visible = false;
+  container.addChild(leaderGfx); // children[4]：位移名牌的錨點引線
 
   let last: CastleNameplateProps | null = null;
   let lastLodStage: LodStage = 'near';
   let targetHighlight = false;
   let ribbonW: number = NAMEPLATE_GEOMETRY.main.ribbonMinW;
   let ribbonH: number = NAMEPLATE_GEOMETRY.main.ribbonH;
+  let sealCenter = { x: 0, y: 0 };
+  let presentationOffset = { x: 0, y: 0 };
+  let nameBaseline = { x: 0, y: 0 };
+  let troopsBaseline = { x: 0, y: 0 };
+  let leaderVisible = false;
+  let leaderSignature = '';
+  let compactPresentation = false;
+  let lastCompactPaint = false;
+  let originalGeometry: ReturnType<CastleNameplatePart['getOriginalPresentationGeometry']> | null =
+    null;
+  let originalContent: {
+    seal: { x: number; y: number };
+    radius: number;
+    enemy: boolean;
+    name: { baseline: { x: number; y: number }; bounds: ContentRect };
+    troops: { baseline: { x: number; y: number }; bounds: ContentRect };
+  } | null = null;
+  const applyOffset = (): void => {
+    gfx.position.set(presentationOffset.x, presentationOffset.y);
+    highlightGfx.position.set(presentationOffset.x, presentationOffset.y);
+    nameText.position.set(
+      nameBaseline.x + presentationOffset.x,
+      nameBaseline.y + presentationOffset.y,
+    );
+    troopsText.position.set(
+      troopsBaseline.x + presentationOffset.x,
+      troopsBaseline.y + presentationOffset.y,
+    );
+  };
 
   /** LOD 顯隱表（§2.7）：far 全隱／mid 本城顯／near 全顯（只切 visible，不重繪、不建毀）。 */
   const applyLod = (stage: LodStage): void => {
@@ -299,47 +378,140 @@ export function createCastleNameplate(): CastleNameplatePart {
     const shown = stage === 'near' || (stage === 'mid' && tier === 'main');
     gfx.visible = shown;
     nameText.visible = shown;
-    troopsText.visible = shown;
+    troopsText.visible = shown && !compactPresentation;
     highlightGfx.visible = shown && targetHighlight;
+    leaderGfx.visible = shown && leaderVisible;
   };
 
-  return {
+  const captureOriginal = (): void => {
+    const content = part.getContentGeometry();
+    const text = (label: BitmapText, baseline: { x: number; y: number }) => {
+      const bounds = label.getLocalBounds();
+      return {
+        baseline: { ...baseline },
+        bounds: {
+          x: bounds.x,
+          y: bounds.y,
+          width: bounds.width,
+          height: bounds.height,
+        },
+      };
+    };
+    originalContent = last
+      ? {
+          seal: { ...sealCenter },
+          radius: NAMEPLATE_GEOMETRY[last.tier].sealR,
+          enemy: last.relation === 'enemy',
+          name: text(nameText, nameBaseline),
+          troops: text(troopsText, troopsBaseline),
+        }
+      : null;
+    originalGeometry = Object.freeze({
+      paint: Object.freeze(part.getPaintBounds()),
+      ribbon: Object.freeze(part.getRibbonSize()),
+      content:
+        content &&
+        Object.freeze({
+          seal: Object.freeze({ ...content.seal }),
+          name: Object.freeze({ ...content.name }),
+          troops: Object.freeze({ ...content.troops }),
+        }),
+    });
+  };
+  const part: CastleNameplatePart = {
     container,
     update(props: CastleNameplateProps): void {
+      // Warning information is authoritative at the part boundary, not only
+      // after a renderer layout flush. Clearing it requires fresh admission.
+      if (props.warning !== 'none') compactPresentation = false;
       const geo = NAMEPLATE_GEOMETRY[props.tier];
       if (last === null || !samePos(last.pos, props.pos) || last.tier !== props.tier) {
         container.position.set(props.pos.x, props.pos.y + geo.worldGap);
       }
-      if (last !== null && samePropsExceptPos(last, props)) {
+      if (
+        last !== null &&
+        samePropsExceptPos(last, props) &&
+        lastCompactPaint === compactPresentation
+      ) {
         last = props;
         return; // 冪等早退（§2.9：sameNameplateProps 未變則不重繪）
       }
+      if (compactPresentation && (last === null || !samePropsExceptPos(last, props))) {
+        // Refresh the original actual producer first, never infer its envelope
+        // from a shorter ribbon or allocate a second text/graphics owner.
+        compactPresentation = false;
+        part.update(props);
+        captureOriginal();
+        compactPresentation = true;
+        part.update(props);
+        return;
+      }
       // 文字先行（量寬）：城名/兵數字級依 tier；綬帶動態寬由 BitmapText.width 量得（§2.1）。
-      nameText.style = nameplateTextStyle(geo.nameSize);
+      // Keep each label's private style/key on non-font redraws. Plain style
+      // assignment allocates a new Pixi TextStyle and invalidates layout caches.
+      if ((last?.tier ?? 'main') !== props.tier) {
+        nameText.style = nameplateTextStyle(geo.nameSize);
+        troopsText.style = nameplateTextStyle(geo.troopNumSize, 'troops');
+      }
       nameText.text = props.name;
-      troopsText.style = nameplateTextStyle(geo.troopNumSize);
       troopsText.text = formatSoldierChip(props.soldiers);
       const nameW = nameText.width;
       const troopsW = troopsText.width;
-      const w = ribbonWidthFor(geo, nameW, troopsW);
+      const w = compactPresentation
+        ? Math.max(
+            geo.ribbonMinW,
+            geo.ribbonPadX * 2 + geo.relStripeW + geo.sealR * 2 + geo.sealTextGap + nameW,
+          )
+        : ribbonWidthFor(geo, nameW, troopsW);
       ribbonW = w;
       ribbonH = geo.ribbonH;
       const left = -w / 2;
       const midY = geo.ribbonH / 2;
-      // 由下而上繪製（§2.2）：投影→綬帶底→提亮線→染紙暈→關係色帶→分隔/兵符點→告急記→印記。
+      // 投影→綬帶→關係通道→分隔/兵符→告急→獨立識別欄中的印記。
       gfx.clear();
-      drawRibbon(gfx, geo, w, props.colorIndex, props.relation);
+      drawRibbon(
+        gfx,
+        geo,
+        w,
+        props.colorIndex,
+        props.relation,
+        props.tier,
+        props.warning !== 'none',
+      );
       drawRelationChannel(gfx, geo, w, props.relation);
-      const nameX = left + geo.ribbonPadX + geo.relStripeW;
+      sealCenter = { x: left + geo.ribbonPadX + geo.relStripeW + geo.sealR, y: midY };
+      const nameX = sealCenter.x + geo.sealR + geo.sealTextGap;
       const troopsRight = w / 2 - geo.ribbonPadX;
       const dotX = troopsRight - troopsW - 2 - geo.troopDotR;
       const divX = dotX - geo.troopDotR - geo.divGapX;
-      drawTroops(gfx, geo, divX, dotX);
+      // Reserve the numeric register inside the existing ribbon, above its unchanged clan-dye edge.
+      const inset = NAMEPLATE_STYLE.troopRegisterInset;
+      if (!compactPresentation)
+        gfx
+          .rect(
+            divX + inset,
+            inset,
+            w / 2 - divX - 2 * inset,
+            geo.ribbonH - geo.dyeUnderlineH - 2 * inset,
+          )
+          .fill({
+            color: nameplateMaterial(props.tier, props.warning !== 'none').troopRegisterColor,
+            alpha: nameplateMaterial(props.tier, props.warning !== 'none').registerAlpha,
+          });
+      if (!compactPresentation)
+        drawTroops(
+          gfx,
+          geo,
+          divX,
+          dotX,
+          nameplateMaterial(props.tier, props.warning !== 'none').dividerAlpha,
+        );
       if (props.warning !== 'none') drawWarnMark(gfx, geo, w);
-      drawSeal(gfx, geo, props.tier, props.colorIndex, props.relation, props.isPlayer);
+      drawSeal(gfx, geo, props.tier, props.colorIndex, props.relation, props.isPlayer, sealCenter);
       // 文字定位：城名接關係色帶右（anchor 0,0.5）；兵數右對齊綬帶尾段（anchor 1,0.5）。
-      nameText.position.set(nameX, midY);
-      troopsText.position.set(troopsRight, midY);
+      nameBaseline = { x: nameX, y: midY };
+      troopsBaseline = { x: troopsRight, y: midY };
+      applyOffset();
       // 目標高亮金框（§3.4）：隨綬帶寬重繪一次（開關只切 visible，不重繪）。
       const pad = NAMEPLATE_STYLE.targetHighlightPad;
       highlightGfx.clear();
@@ -347,20 +519,132 @@ export function createCastleNameplate(): CastleNameplatePart {
         .roundRect(left - pad, -pad, w + pad * 2, geo.ribbonH + pad * 2, geo.ribbonRadius + 1)
         .stroke({ width: 1, color: TOKENS_NUM.accentGold });
       last = props;
+      lastCompactPaint = compactPresentation;
       applyLod(lastLodStage); // 重繪後重套 LOD 顯隱，保持一致（比照 castleNode）。
+      if (!compactPresentation) originalGeometry = null;
     },
     setLodStage(stage: LodStage): void {
       applyLod(stage);
     },
     setTargetHighlight(on: boolean): void {
       targetHighlight = on;
+      if (on && compactPresentation) part.setCompactPresentation(false);
+      if (!compactPresentation) originalGeometry = null;
       applyLod(lastLodStage);
+    },
+    setCompactPresentation(on: boolean): void {
+      if (on && (targetHighlight || (last?.warning ?? 'none') !== 'none')) return;
+      if (compactPresentation === on) return;
+      if (on && last && !originalGeometry) captureOriginal();
+      compactPresentation = on;
+      if (last) part.update(last);
+    },
+    getOriginalPresentationGeometry(offset = presentationOffset) {
+      if (!originalGeometry) captureOriginal();
+      const geometry = originalGeometry!;
+      const text = (value: NonNullable<typeof originalContent>['name']): ContentRect => ({
+        ...value.bounds,
+        // Literal original order: position = baseline + offset; bounds follow.
+        x: value.baseline.x + offset.x + value.bounds.x,
+        y: value.baseline.y + offset.y + value.bounds.y,
+      });
+      return {
+        ...geometry,
+        content: originalContent && {
+          seal: {
+            x: originalContent.seal.x + offset.x - originalContent.radius - 0.5,
+            y: originalContent.seal.y + offset.y - originalContent.radius - 0.5,
+            width: originalContent.radius * 2 + 1 + (originalContent.enemy ? 4 : 0),
+            height: originalContent.radius * 2 + 1,
+          },
+          name: text(originalContent.name),
+          troops: text(originalContent.troops),
+        },
+      };
     },
     getRibbonSize(): { w: number; h: number } {
       return { w: ribbonW, h: ribbonH };
+    },
+    setPresentationOffset(offset, leader): void {
+      if (offset.x !== presentationOffset.x || offset.y !== presentationOffset.y) {
+        presentationOffset = { ...offset };
+        applyOffset();
+      }
+      const signature = JSON.stringify(leader);
+      if (signature !== leaderSignature) {
+        leaderSignature = signature;
+        leaderGfx.clear();
+        if (leader.visible)
+          leaderGfx
+            .moveTo(leader.start.x, leader.start.y)
+            .lineTo(leader.end.x, leader.end.y)
+            .stroke({ width: 1, color: TOKENS_NUM.ink900, alpha: NAMEPLATE_STYLE.leaderAlpha });
+      }
+      leaderVisible = leader.visible;
+      applyLod(lastLodStage);
+    },
+    getPaintBounds(): ContentRect {
+      const rects: ContentRect[] = [];
+      if (typeof gfx.getLocalBounds === 'function') rects.push(gfx.getLocalBounds());
+      else rects.push({ x: -ribbonW / 2 - 4, y: -4, width: ribbonW + 8, height: ribbonH + 8 });
+      if (targetHighlight && typeof highlightGfx.getLocalBounds === 'function')
+        rects.push(highlightGfx.getLocalBounds());
+      for (const [text, baseline] of [
+        [nameText, nameBaseline],
+        [troopsText, troopsBaseline],
+      ] as const) {
+        if (text === troopsText && compactPresentation) continue;
+        const bounds = text.getLocalBounds();
+        rects.push({
+          x: bounds.x + baseline.x,
+          y: bounds.y + baseline.y,
+          width: bounds.width,
+          height: bounds.height,
+        });
+      }
+      const x = Math.min(...rects.map((r) => r.x)),
+        y = Math.min(...rects.map((r) => r.y));
+      return {
+        x,
+        y,
+        width: Math.max(...rects.map((r) => r.x + r.width)) - x,
+        height: Math.max(...rects.map((r) => r.y + r.height)) - y,
+      };
+    },
+    getContentGeometry(offset) {
+      if (!last) return null;
+      const r = NAMEPLATE_GEOMETRY[last.tier].sealR;
+      const measured = (label: BitmapText): ContentRect => {
+        const bounds = label.getLocalBounds();
+        return {
+          x:
+            (offset
+              ? (label === nameText ? nameBaseline.x : troopsBaseline.x) + offset.x
+              : label.position.x) + bounds.x,
+          y:
+            (offset
+              ? (label === nameText ? nameBaseline.y : troopsBaseline.y) + offset.y
+              : label.position.y) + bounds.y,
+          width: bounds.width,
+          height: bounds.height,
+        };
+      };
+      return {
+        seal: {
+          x: sealCenter.x + (offset ?? presentationOffset).x - r - 0.5,
+          y: sealCenter.y + (offset ?? presentationOffset).y - r - 0.5,
+          width: r * 2 + 1 + (last.relation === 'enemy' ? 4 : 0),
+          height: r * 2 + 1,
+        },
+        name: measured(nameText),
+        troops: compactPresentation
+          ? { ...measured(troopsText), width: 0, height: 0 }
+          : measured(troopsText),
+      };
     },
     destroy(): void {
       container.destroy({ children: true });
     },
   };
+  return part;
 }

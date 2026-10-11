@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components -- deterministic table helpers are exported for focused M3-21 tests */
 import { useCallback, useMemo, useState, type ReactElement } from 'react';
 import { BAL } from '@core/balance';
+import { TRAITS } from '@core/traits';
 import { RANK_VALUES, type Rank } from '@core/state/enums';
 import type { GameState, Officer } from '@core/state/gameState';
 import type { CastleId, DistrictId, OfficerId } from '@core/state/ids';
@@ -12,7 +13,7 @@ import styles from './OfficerList.module.css';
 
 export type OfficerRoleKind = 'none' | 'lord' | 'steward' | 'corpsLeader';
 export type OfficerSortKey =
-  'name' | 'ldr' | 'val' | 'int' | 'pol' | 'rank' | 'loyalty' | 'location' | 'role';
+  'name' | 'ldr' | 'val' | 'int' | 'pol' | 'rank' | 'merit' | 'loyalty' | 'location' | 'role';
 
 export interface OfficerTableSort {
   key: OfficerSortKey;
@@ -29,6 +30,7 @@ export interface OfficerRow {
   rank: Rank;
   rankIndex: number;
   merit: number;
+  traits: string;
   loyalty: number;
   location: string;
   locationCastleId: CastleId | null;
@@ -129,6 +131,7 @@ export function buildOfficerRows(game: GameState): OfficerRow[] {
         rank: officer.rank,
         rankIndex: RANK_VALUES.indexOf(officer.rank),
         merit: officer.merit,
+        traits: officer.traits.map((id) => (TRAITS[id] ? t(`${id}.name`) : id)).join('、'),
         loyalty: officer.loyalty,
         location,
         locationCastleId: officer.locationCastleId,
@@ -257,7 +260,9 @@ export function OfficerList({ onClose, onOpenOfficer }: OfficerListProps): React
           ['int', t('ui.officer.int'), 64, 'right'],
           ['pol', t('ui.officer.pol'), 64, 'right'],
           ['rank', t('ui.officer.rank'), 110, 'left'],
+          ['merit', t('ui.officer.merit'), 90, 'right'],
           ['loyalty', t('ui.officer.loyalty'), 80, 'right'],
+          ['traits', t('ui.officer.traits'), 220, 'left'],
           ['location', t('ui.officer.location'), 160, 'left'],
           ['role', t('ui.officer.role'), 100, 'left'],
         ] as const
@@ -266,25 +271,47 @@ export function OfficerList({ onClose, onOpenOfficer }: OfficerListProps): React
         header,
         width,
         align,
-        sortable: true,
-        sortValue: (row) => sortValue(row, key),
+        sortable: key !== 'traits',
+        sortValue: (row) => (key === 'traits' ? 0 : sortValue(row, key)),
         render: (row) => {
           const value =
             key === 'rank'
               ? rankLabel(row.rank)
               : key === 'role'
                 ? row.roleLabel
-                : key === 'loyalty' ||
-                    key === 'ldr' ||
-                    key === 'val' ||
-                    key === 'int' ||
-                    key === 'pol'
-                  ? formatNumber(row[key])
-                  : row[key];
+                : key === 'traits'
+                  ? row.traits || t('ui.common.noData')
+                  : key === 'merit' ||
+                      key === 'loyalty' ||
+                      key === 'ldr' ||
+                      key === 'val' ||
+                      key === 'int' ||
+                      key === 'pol'
+                    ? formatNumber(row[key])
+                    : row[key];
           return (
             <span
+              className={
+                key === 'traits'
+                  ? styles.traits
+                  : key !== 'loyalty'
+                    ? undefined
+                    : row.loyalty < 30
+                      ? styles.loyaltyDanger
+                      : row.loyalty < 50
+                        ? styles.loyaltyWarning
+                        : undefined
+              }
               data-loyalty-risk={row.loyaltyRisk ? 'true' : undefined}
-              title={row.loyaltyRisk ? t('ui.officer.loyaltyRisk') : undefined}
+              title={
+                key === 'traits'
+                  ? [value, row.loyaltyRisk ? t('ui.officer.loyaltyRisk') : '']
+                      .filter(Boolean)
+                      .join('\n')
+                  : row.loyaltyRisk
+                    ? t('ui.officer.loyaltyRisk')
+                    : undefined
+              }
             >
               {value}
               {key === 'name' && row.promotionReady && (
@@ -311,9 +338,17 @@ export function OfficerList({ onClose, onOpenOfficer }: OfficerListProps): React
           })}）`}
           onClose={close}
         >
-          <button type="button" onClick={() => actions.openPanel('ronin')}>
-            {t('ui.recruit.title')}
-          </button>
+          <div className={styles.actions}>
+            <button type="button" onClick={() => actions.openPanel('ronin')}>
+              {t('ui.recruit.title')}
+            </button>
+            <button
+              type="button"
+              onClick={() => actions.enqueueModal({ id: 'rewards', params: {}, pausesTime: true })}
+            >
+              {t('ui.reward.title')}
+            </button>
+          </div>
           <div className={styles.filters}>
             <label>
               {t('ui.officer.filter.castle')}

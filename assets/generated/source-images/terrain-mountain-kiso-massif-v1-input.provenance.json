@@ -1,0 +1,22 @@
+{
+  "license": "project-original",
+  "asset": "assets/generated/source-images/terrain-mountain-kiso-massif-v1-input.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sourceImage": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-5fb28882-9327-4098-96e9-dc49e889e08e.png",
+  "sha256": "5eed6d829704817de8224dc343b4f0ad874694a07f7ebe5297991949a2abbdd7",
+  "bytes": 1938521,
+  "dimensions": { "width": 974, "height": 1615 },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 107,
+    "y": 15,
+    "width": 802,
+    "height": 1588
+  },
+  "processing": "Retained built-in original byte-for-byte; no resize, crop, stretch or rotation. Rejected for broad silhouette and insufficient margin, retained as the real edit input.",
+  "prompt": "Use case: stylized-concept. Asset type: production transparent 2.5D Japanese historical grand-strategy terrain sprite, a SINGLE original connected Kiso mountain massif. Primary request: replace an artificial repeated ladder of identical triangular peaks with a natural, asymmetric, rugged wooded mountain range appropriate to a realistic Nobunaga-like miniature strategic map, without copying any existing game artwork. Subject: a narrow north-to-south connected massif, gently bending toward the right; two unequal principal rocky peaks (one broader, one slightly lower), irregular subordinate rounded shoulders, deep but readable saddles, short asymmetric side spurs, connected wooded foothills. Visible object alpha silhouette has width-to-height about 0.37 (tall slender portrait object, not wide landscape); leave fully transparent margins all around, entire connected mountain visible with no clipping. View: fixed orthographic aerial 2.5D miniature camera, looking down about 60 degrees, north is the top of the image; terrain occupies long vertical footprint, not a side-view horizon. Lighting: soft daylight from upper-left/northwest, subdued right-side shadow integrated into the mountain, no cast shadow or ground oval outside terrain. Style/material: convincing naturalistic gray-brown layered rock faces with irregular erosion, muted olive and pine-green forest CANOPY PATCHES, broad coarse spatial texture readable when downscaled, gentle transitions into wooded slopes. Detail must support silhouette and relief, not a noisy carpet of individual miniature trees. Palette restrained earthy olive/stone, medium contrast, compatible with a realistic painted Japanese terrain map. Constraints: genuinely transparent alpha background; no backdrop, no sky, no rectangular or oval ground base, no text, labels, roads, rivers, castles, buildings, troops, snowcap, logos, or watermark. Avoid evenly spaced conical summits, five-peak accordion rhythm, diagonal sawtooth stair steps, identical trees, outline strokes, paper-cut layers, pixel art, toy clay, isolated disconnected mountains. Deliver a clean single full-range terrain cutout ready for a game sprite."
+}

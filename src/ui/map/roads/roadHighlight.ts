@@ -6,11 +6,11 @@
 //
 // 行為（處置 x4-m7）：`update` 讀 `graph.adjacency.get(selectedNodeId)`——回傳**邊 id 陣列**
 // （`readonly RoadEdgeId[]`，非 `MapRoadEdge`，見 `mapGraph.ts` `MapGraph.adjacency`）→ 對每
-// `edgeId` 先 `graph.edges.get(edgeId)`（查無則略過，防禦性）→ `edgePolyline(edge, graph)`
+// `edgeId` 先 `graph.edges.get(edgeId)`（查無則略過，防禦性）→ `edgeVisualPolyline(edge, graph)`
 // （端點缺失回 null 則略過）→ `strokePolyline` 以金色（`TOKENS_NUM.accentGold`, width 5,
 // alpha 0.5）描繪。`props===null`／`selectedNodeId===null`／節點無鄰接紀錄 → 清空（`clear()`）。
 //
-// 純繪製輔助復用 `roadsDraw.ts`（Slice C export）：`edgePolyline`／`strokePolyline`，不重新實作。
+// 幾何復用 roadGeometry 的 immutable visual cache；strokePolyline 復用 roadsDraw，不重新實作。
 // 每次 `update` 皆先 `clear()` 再視需要重描——天然 idempotent（重複同選取不累積殘影）。
 // 不含 LOD visible gate（`selectionAndPath` 層本身無 LOD 切換，三段 baseline 皆顯）；
 // 不動 `rebuildCounts`（MapRenderer 整合契約，選取高亮為 UI selection 動態層、非靜態資料重建）。
@@ -19,7 +19,15 @@ import { Container, Graphics } from 'pixi.js';
 import type { MapGraph } from '@core/state/mapGraph';
 import type { MapNodeId } from '@core/state/ids';
 import { TOKENS_NUM } from '@ui/styles/tokens';
-import { edgePolyline, strokePolyline } from './roadsDraw';
+import { strokePolyline } from './roadsDraw';
+import { edgeVisualPolyline } from './roadGeometry';
+import {
+  flatProjectionRecord,
+  projectPolyline,
+  assertProjectedStationBudget,
+  type PointProjection,
+  type RoadProjectionRecord,
+} from './projectPolyline';
 
 /** 選取高亮線寬（world unit；固定，不隨 `ROAD_STAGE_WIDTH_MULT` 重描，見 §6.3 註）。 */
 const HIGHLIGHT_WIDTH = 5;
@@ -37,33 +45,54 @@ export interface RoadHighlight {
   readonly container: Container;
   /** 依選取節點重描相鄰道路高亮；`null`（或 `selectedNodeId===null`）清空既有高亮。 */
   update(props: RoadHighlightProps | null): void;
+  getProjectionDiagnostics(): readonly RoadProjectionRecord[];
   destroy(): void;
 }
 
 /** 建節點選取相鄰道路金色高亮圖層（單一 `Graphics` 子容器）。 */
-export function createRoadHighlight(): RoadHighlight {
+export function createRoadHighlight(project?: PointProjection): RoadHighlight {
   const container = new Container();
   const graphics = new Graphics();
   container.addChild(graphics);
+  let diagnostics: readonly RoadProjectionRecord[] = Object.freeze([]);
 
   function update(props: RoadHighlightProps | null): void {
     graphics.clear();
+    diagnostics = Object.freeze([]);
     if (props === null || props.selectedNodeId === null) return;
     const { graph, selectedNodeId } = props;
     const edgeIds = graph.adjacency.get(selectedNodeId as MapNodeId);
     if (edgeIds === undefined) return;
-    for (const edgeId of edgeIds) {
+    const records: RoadProjectionRecord[] = [];
+    const sources = edgeIds.flatMap((edgeId) => {
       const edge = graph.edges.get(edgeId);
-      if (edge === undefined) continue;
-      const pts = edgePolyline(edge, graph);
-      if (pts === null) continue;
-      strokePolyline(graphics, pts, HIGHLIGHT_WIDTH, TOKENS_NUM.accentGold, HIGHLIGHT_ALPHA);
+      if (edge === undefined) return [];
+      const pts = edgeVisualPolyline(edge, graph);
+      return pts === null ? [] : [{ edge, pts }];
+    });
+    if (project !== undefined) assertProjectedStationBudget(sources.map(({ pts }) => pts));
+    for (const { edge, pts } of sources) {
+      const projected = project === undefined ? null : projectPolyline(pts, project);
+      records.push(
+        projected === null
+          ? flatProjectionRecord(edge.id, pts)
+          : Object.freeze({ roadId: edge.id, stations: projected.stations }),
+      );
+      strokePolyline(
+        graphics,
+        projected?.points ?? pts,
+        HIGHLIGHT_WIDTH,
+        TOKENS_NUM.accentGold,
+        HIGHLIGHT_ALPHA,
+      );
     }
+    diagnostics = Object.freeze(records);
   }
 
   function destroy(): void {
+    diagnostics = Object.freeze([]);
     container.destroy({ children: true });
   }
 
-  return { container, update, destroy };
+  return { container, update, destroy, getProjectionDiagnostics: () => diagnostics };
 }

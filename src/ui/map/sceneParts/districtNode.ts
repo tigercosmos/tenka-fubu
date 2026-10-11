@@ -1,12 +1,12 @@
 // DistrictNode —— 郡節點場景元件。
 //
-// 規格：plan/12-ui-components.md §3.3.3（原樣依循：圓形半徑/填色/描邊、直轄/知行中心點、
+// 規格：plan/12-ui-components.md §3.3.3（地面印章外觀；保留 r6、直轄/知行中心點、
 // 制壓進度弧、一揆警示三角）、§4（`ScenePart<P>` 工廠介面）。18-roadmap.md M2-16（12-T10 部分）。
 // M6-V7（docs/design/m6-v7-castles.md CD1/AD3/§3.2，Slice C）：`hasSteward`/`subjugationProgress`/
 // `ikkiActive` 三狀態欄改為可選（`MapViewState.districts` 未提供資料時預設直轄點，見下）；
 // 新增 `setLodStage`（no-op 佔位——郡節點無內部 LOD 顯隱切換，統一介面供 `MapRenderer` 整合迴圈
-// 對城/郡節點一律呼叫，不需分支判斷）；幾何維持 AD3 既有裁定（沿用 plan/12 filled 圓形，不改為
-// art-bible「空心圓印」）。`update` 維持回傳 `void`（AD2，`ScenePart<P>` 契約不變）。
+// 對城/郡節點一律呼叫，不需分支判斷）。滿版勢力圓改為低對比地面印章＋原色小弧；
+// `update` 維持回傳 `void`（AD2，`ScenePart<P>` 契約不變）。
 //
 // `colorIndex: number | null`（null=無主）沿用 M2-13 `MapViewState.districtOwner` 的既有慣例
 // （plan/04-map-and-movement.md §4.6：「districtId → clanId（null=無主）」；12 §3.3.3：
@@ -23,16 +23,29 @@ import { clanColorNum, TOKENS_NUM } from '@ui/styles/tokens';
 import type { ScenePart } from '@ui/components/types';
 import type { LodStage } from '../lod';
 
-/** §3.3.3 表：郡節點幾何（world unit）。M6-V9 §3.2 降噪：r7→6、fillAlpha .7→.6（填色維持旗幟軌）。 */
+/** 郡節點語意幾何（world unit）；地面材質獨立，r6 和狀態頻道尺寸不變。 */
 export const DISTRICT_NODE_GEOMETRY = {
   radius: 6, // 圓形半徑（M6-V9 §3.2）
-  fillAlpha: 0.6, // 填色透明度 60%（M6-V9 §3.2）
-  strokeWidth: 1, // 描邊線寬（ink700，維持）
   centerDotDiameter: 2.5, // 直轄/知行中心點直徑
   subjugationRingRadius: 10, // 制壓進度弧半徑
   subjugationRingWidth: 2, // 制壓進度弧線寬
   ikkiTriangleSize: 6, // 一揆警示三角外接盒邊長
   ikkiOffsetY: 8, // 一揆警示三角中心較節點中心上移量
+} as const;
+
+/** Original code-native ground seal; semantic colors stay exact on the small owner arc. */
+export const DISTRICT_NODE_MATERIAL = {
+  radiusY: 4,
+  bodyColor: 0x9b927d,
+  bodyAlpha: 0.86,
+  edgeAlpha: 0.38,
+  edgeWidth: 0.6,
+  shadow: { x: 0, y: 1.5, radiusX: 5.2, radiusY: 2.3, alpha: 0.12 },
+  rimAlpha: 0.26,
+  rimWidth: 0.65,
+  ownerRadius: 4,
+  ownerWidth: 1.5,
+  ownerAlpha: 0.9,
 } as const;
 
 export interface DistrictNodeProps {
@@ -74,18 +87,38 @@ function trianglePoints(cx: number, cy: number, size: number): number[] {
 }
 
 /**
- * 純繪製函式（12 §3.3.3）：郡圓形本體（填色/描邊）＋直轄/知行中心點＋制壓進度弧（可選）＋
+ * 純繪製函式（12 §3.3.3）：郡地面印章＋原色勢力小弧＋直轄/知行中心點＋制壓進度弧（可選）＋
  * 一揆警示三角（可選）。局部座標系（中心為原點）；世界定位由工廠的 `container.position` 負責。
  * `hasSteward`/`subjugationProgress`/`ikkiActive` 為可選欄位（M6-V7 AD1）：未提供時分別視同
  * `false`/`null`/`false`（直轄點、無制壓中、非一揆中）。
  */
 export function drawDistrictNode(g: Graphics, props: DistrictNodeProps): void {
   g.clear();
-  const { radius, fillAlpha, strokeWidth, centerDotDiameter } = DISTRICT_NODE_GEOMETRY;
-  const fillColor =
+  const { radius, centerDotDiameter } = DISTRICT_NODE_GEOMETRY;
+  const ownerColor =
     props.colorIndex === null ? TOKENS_NUM.neutralClanless : clanColorNum(props.colorIndex);
-  g.circle(0, 0, radius).fill({ color: fillColor, alpha: fillAlpha });
-  g.circle(0, 0, radius).stroke({ width: strokeWidth, color: TOKENS_NUM.ink700 });
+  const material = DISTRICT_NODE_MATERIAL;
+  const shadow = material.shadow;
+  g.ellipse(shadow.x, shadow.y, shadow.radiusX, shadow.radiusY).fill({
+    color: TOKENS_NUM.ink900,
+    alpha: shadow.alpha,
+  });
+  g.ellipse(0, 0, radius, material.radiusY).fill({
+    color: material.bodyColor,
+    alpha: material.bodyAlpha,
+  });
+  g.ellipse(0, 0, radius, material.radiusY).stroke({
+    width: material.edgeWidth,
+    color: TOKENS_NUM.ink700,
+    alpha: material.edgeAlpha,
+  });
+  g.moveTo(-4.6, -1.6)
+    .lineTo(-3, -2.7)
+    .lineTo(-0.8, -3.4)
+    .stroke({ width: material.rimWidth, color: TOKENS_NUM.washi100, alpha: material.rimAlpha });
+  g.moveTo(material.ownerRadius / 2, (-material.ownerRadius * Math.sqrt(3)) / 2)
+    .arc(0, 0, material.ownerRadius, -Math.PI / 3, Math.PI / 3)
+    .stroke({ width: material.ownerWidth, color: ownerColor, alpha: material.ownerAlpha });
 
   const dotRadius = centerDotDiameter / 2;
   if (props.hasSteward === true) {

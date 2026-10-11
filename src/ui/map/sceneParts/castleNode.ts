@@ -1,15 +1,14 @@
-// CastleNode —— 城節點場景元件（平城／山城 × 本城／支城四型剪影＋耐久環＋警戒／受攻徽記）。
+// CastleNode —— 原創等角城郭（平城／山城 × 本城／支城）＋耐久環＋警戒／受攻徽記。
 //
 // 規格：docs/design/m6-v7-castles.md（Slice B）＝ plan/12-ui-components.md §3.3.2／§5.6／§4 之
 // M6-V7 擴充。art-bible §6.4「俯視沙盤紙雕城郭」：35° 假等角、左上受光、右下 2–3px 投影、
-// 郭內勢力色填面＋ink900 統一描邊；本城五角外郭＋二階內主郭、支城四角郭；平城水平展開＋
-// 護城河短弧、山城三角岩基＋窄高牆。
+// 石垣正面／暗右面、白灰城牆、層疊瓦簷與角樓；勢力色僅用於旗幟。平城護城河、山城岩臺。
 //
-// 三子 Graphics 分離（供 LOD 逐項顯隱、且「只放大剪影、不放大環/徽記」）：
-//   - bodyGfx：投影 →（山城）岩基三角 → 外郭 →（本城）二階內主郭 →（平城）護城河短弧
-//   - ringGfx：耐久環（三段門檻變色）
-//   - warnGfx：警戒金烽火（threatened）／受攻裂口＋靜態朱紅光暈（critical）
-// `container.children[0] === bodyGfx`（整合層 far 本城 ×1.4 只施於 bodyGfx，故對此錨定 scale）。
+// 三個獨立子層（LOD 只放大建築組，不放大環／徽記）：
+//   - bodyGroup：vector bodyGfx；載入成功時另含原創 Sprite 與勢力旗 Graphics
+//   - ringGfx：base durability bar（三段門檻變色）
+//   - warnGfx：警戒金烽火（threatened）／compact red badge（critical）
+// `container.children[0] === bodyGroup`；far 本城 ×1.4 施於此組，且只顯示 vector fallback。
 //
 // 決定論優先（M6-V7 CD7）：警戒／受攻徽記為靜態繪製，低頻脈衝與落城補間＋煙塵延後至特效
 // 里程碑；本檔不引入任何逐幀動畫。`update` 冪等：props（除 pos 外）未變則不重繪，維持
@@ -19,7 +18,12 @@
 // 繪製方法子集，可在 node 測試環境以「錄製用 mock」驗證繪製指令序列與參數（17 §3.2）。
 // 工廠函式（createCastleNode）建立真正的 Pixi `Container`/`Graphics` 供整合期使用。
 
-import { Container, Graphics } from 'pixi.js';
+import { Container, Graphics, Sprite, type Texture } from 'pixi.js';
+import {
+  castleBodyArtPlacement,
+  type CastleBodyArtSpec,
+  type CastleBodyArt,
+} from './castleBodyArt';
 import type { CastleTier } from '@core/state/enums';
 import { clanColorNum, MAP_PALETTE_NUM, TOKENS_NUM } from '@ui/styles/tokens';
 import { UI } from '@ui/uiConstants';
@@ -30,14 +34,18 @@ import type { LodStage } from '../lod';
 export const CASTLE_NODE_GEOMETRY = {
   mainSize: 28, // 本城剪影外接盒邊長 28×28
   branchSize: 20, // 支城剪影外接盒邊長 20×20
+  paintedMainWidth: 40,
+  paintedBranchWidth: 30,
+  paintedStatusGap: 2,
   strokeWidth: 2, // 剪影描邊線寬（本城/支城同）
-  // ── M6-V9 §3.1 耐久環降噪：縮一圈（r 20/15→18/13）、線寬 3→2、底環 ink700 α .35 安靜底槽、
-  //    耐久弧降飽和（accentMoss 非 bright）α .9；仍表 HP（角度＝durability/maxDurability × 2π）。
-  ringRadiusMain: 18, // 耐久環半徑：本城 18
-  ringRadiusBranch: 13, // 耐久環半徑：支城 13
-  ringWidth: 2, // 耐久環線寬（底環/耐久弧同）
-  ringBaseAlpha: 0.35, // 底環（track）透明度
-  ringArcAlpha: 0.9, // 耐久弧透明度
+  // Legacy exported names retain caller compatibility; these now parameterize the HP bar.
+  ringRadiusMain: 18,
+  ringRadiusBranch: 13,
+  ringWidth: 2,
+  ringBaseAlpha: 0.35,
+  ringArcAlpha: 0.9,
+  durabilityY: 8,
+  durabilitySpanFactor: 0.6,
   // ── M6-V7 ──
   farMainBodyScale: 1.4, // far 本城剪影放大（僅施於 bodyGfx，不放大 ring/warn；#3）
   shadowOffsetMain: 3, // 本城右下紙雕投影位移
@@ -50,13 +58,13 @@ export const CASTLE_NODE_GEOMETRY = {
   moatArcRadius: 0.12, // 平城護城河短弧半徑（×S）
   moatArcAlpha: 0.5, // 護城河透明度
   signalFireSize: 7, // 警戒金烽火外接盒
-  signalFireLift: 8, // 烽火中心較城頂上移（世界單位）
-  crackWidth: 1.5, // 受攻裂口線寬
-  criticalHaloPad: 4, // 受攻靜態光暈半徑 = 耐久環半徑 + pad
-  criticalHaloAlpha: 0.5, // 受攻光暈透明度
+  signalFireLift: 13, // compact warning remains above all four authored art frames
+  criticalBadgeSize: 7,
 } as const;
 
 export type CastleWarning = 'none' | 'threatened' | 'critical';
+/** Outer envelope includes the round-joined 0.6-local contrasting stroke. */
+export const CASTLE_WARNING_PRESENTATION = { width: 7.6, pixels: 14, outlineWidth: 0.6 } as const;
 
 export interface CastleNodeProps {
   /** 世界座標（供工廠將 `container.position` 對齊；純繪製函式不消費本欄位，剪影恆繪於局部原點）。 */
@@ -72,25 +80,43 @@ export interface CastleNodeProps {
 
 /** 節點元件介面：`ScenePart<P>` 之加法擴充（M6-V7 AD2；僅新增 setLodStage，`update` 仍 void）。 */
 export interface CastleNodePart extends ScenePart<CastleNodeProps> {
+  readonly depthBody: Container;
+  attachDepthLayers(models: Container, signals: Container): void;
+  syncDepthBody(): void;
+  readonly durabilityVisible: boolean;
+  readonly warningVisible: boolean;
+  /** Actual selected raster alpha-content frame, not an opaque roof segmentation. */
+  getPresentationGeometry(): {
+    body: { x: number; y: number; width: number; height: number };
+    painted: boolean;
+    durability: { x: number; y: number; width: number; height: number };
+    warning: { x: number; y: number; width: number; height: number } | null;
+  } | null;
+  setBodyArt(art: CastleBodyArt): void;
+  /** Warning-only inverse camera transform; never changes body, ring or world anchor. */
+  setWarningScale(scale: number): void;
   /** 依 LOD 段切 ringGfx/warnGfx 顯隱＋far 本城 bodyGfx ×1.4（不重繪，僅切 visible/scale）。 */
   setLodStage(stage: LodStage): void;
 }
 
 function clamp01(v: number): number {
-  return Math.min(1, Math.max(0, v));
+  return Number.isFinite(v) ? Math.min(1, Math.max(0, v)) : 0;
 }
 
-// ── 四型外郭／岩基頂點模板（局部座標，中心＝原點，-y 為上；單位＝×S）。M6-V7 §6.1 表。 ──
-/** 本城·平城：不規則低寬五角外郭。 */
-const OUTER_MAIN_PLAIN = [-0.5, 0.3, 0.5, 0.3, 0.5, -0.02, 0.12, -0.2, -0.5, -0.02] as const;
-/** 本城·山城：三角岩基＋窄牆。 */
-const ROCK_MAIN = [-0.5, 0.42, 0.5, 0.42, 0, -0.06] as const;
-const WALL_MAIN_MOUNTAIN = [-0.3, 0.3, 0.3, 0.3, 0.3, -0.1, -0.3, -0.1] as const;
-/** 支城·平城：四角低寬梯形。 */
-const OUTER_BRANCH_PLAIN = [-0.5, 0.26, 0.5, 0.26, 0.4, -0.16, -0.4, -0.16] as const;
-/** 支城·山城：小三角岩基＋窄牆。 */
-const ROCK_BRANCH = [-0.46, 0.4, 0.46, 0.4, 0, 0.02] as const;
-const WALL_BRANCH_MOUNTAIN = [-0.3, 0.3, 0.3, 0.3, 0.26, -0.18, -0.26, -0.18] as const;
+/** 原創建築材質；左上受光，右面與屋簷下緣較暗。非勢力／狀態色。 */
+export const CASTLE_MATERIAL = {
+  stoneTop: 0xa9a58c,
+  stoneFront: 0x817c6b,
+  stoneRight: 0x535954,
+  plasterFront: 0xf2eddb,
+  plasterRight: 0xb7b9ab,
+  roofLight: 0x4b5c61,
+  roofDark: 0x26353d,
+  eaves: 0x17252c,
+  rockTop: 0x92917b,
+  rockFront: 0x6c7367,
+  rockRight: 0x444f49,
+} as const;
 
 /** 將 ×S 模板頂點縮放（可選位移）成局部座標扁平陣列。 */
 function scalePts(template: readonly number[], s: number, dx = 0, dy = 0): number[] {
@@ -102,32 +128,37 @@ function scalePts(template: readonly number[], s: number, dx = 0, dy = 0): numbe
   return out;
 }
 
-/** 本城二階內主郭（雙層屋簷）頂點；縮至 `.5S` 外接盒（局部座標，中心為原點）。 */
-function mainKeepPoints(size: number): number[] {
-  const half = size / 2;
-  const y1 = half - size * 0.35; // 下層屋簷高度
-  const y2 = half - size * 0.7; // 上層屋簷高度
-  const w2 = size * 0.32; // 上層（第二層）身寬半徑
-  return [
-    -half,
-    half, // 左下
-    half,
-    half, // 右下
-    half,
-    y1, // 右側下層簷
-    w2,
-    y1, // 內縮（下層簷緣）
-    w2,
-    y2, // 右側上層簷
-    0,
-    -half, // 屋頂尖
-    -w2,
-    y2, // 左側上層簷
-    -w2,
-    y1, // 外擴（下層簷緣）
-    -half,
-    y1, // 左側下層簷
-  ];
+/** 畫三個可見面的等角柱體；正面較右面亮，地面錨點不受升高影響。 */
+function prism(
+  g: Graphics,
+  x: number,
+  y: number,
+  w: number,
+  d: number,
+  h: number,
+  top: number,
+  front: number,
+  right: number,
+): void {
+  g.poly([x - w, y, x, y + d, x, y + d + h, x - w, y + h]).fill({ color: front });
+  g.poly([x, y + d, x + w, y, x + w, y + h, x, y + d + h]).fill({ color: right });
+  g.poly([x, y - d, x + w, y, x, y + d, x - w, y]).fill({ color: top });
+}
+
+/** 瓦頂雙斜面、伸出白牆的暗簷；每層保留不同高度，不使用平面城色剪影。 */
+function roof(g: Graphics, x: number, y: number, w: number, d: number): void {
+  const ridge = y - d;
+  g.poly([x - w, y, x, y + d, x + w, y, x + w, y + 0.8, x, y + d + 0.8, x - w, y + 0.8]).fill({
+    color: CASTLE_MATERIAL.eaves,
+  });
+  g.poly([x, y - d * 1.35, x + w, y, x, y + d]).fill({ color: CASTLE_MATERIAL.roofDark });
+  g.poly([x, y - d * 1.35, x, y + d, x - w, y]).fill({ color: CASTLE_MATERIAL.roofLight });
+  g.moveTo(x, y - d * 1.35)
+    .lineTo(x - w, y)
+    .stroke({ width: 0.6, color: CASTLE_MATERIAL.stoneTop });
+  g.moveTo(x, y - d * 1.35)
+    .lineTo(x, ridge)
+    .stroke({ width: 0.5, color: CASTLE_MATERIAL.eaves });
 }
 
 /**
@@ -141,25 +172,27 @@ export function durabilityRingColor(ratio: number): number {
 }
 
 /**
- * 繪製耐久環（12 §5.6 通用弧＋§3.3.2 底環；M6-V9 §3.1 降噪）：先 clear，畫底環
- * （`ink700` α ringBaseAlpha 整圈安靜底槽），再疊「12 點鐘起順時針」的比例弧
- * （三段變色、α ringArcAlpha）。
+ * Base HP bar: same clamped ratio, threshold colors and LOD as the former ring.
+ * The legacy function name is retained; length now encodes ratio without crossing the roof.
  */
 export function drawDurabilityRing(g: Graphics, radius: number, ratio: number): void {
   g.clear();
   const width = CASTLE_NODE_GEOMETRY.ringWidth;
-  g.circle(0, 0, radius).stroke({
+  const half = radius * CASTLE_NODE_GEOMETRY.durabilitySpanFactor;
+  const y = CASTLE_NODE_GEOMETRY.durabilityY;
+  g.moveTo(-half, y).lineTo(half, y).stroke({
     width,
     color: TOKENS_NUM.ink700,
     alpha: CASTLE_NODE_GEOMETRY.ringBaseAlpha,
   });
   const clamped = clamp01(ratio);
-  const start = -Math.PI / 2;
-  g.arc(0, 0, radius, start, start + 2 * Math.PI * clamped).stroke({
-    width,
-    color: durabilityRingColor(clamped),
-    alpha: CASTLE_NODE_GEOMETRY.ringArcAlpha,
-  });
+  g.moveTo(-half, y)
+    .lineTo(-half + 2 * half * clamped, y)
+    .stroke({
+      width,
+      color: durabilityRingColor(clamped),
+      alpha: CASTLE_NODE_GEOMETRY.ringArcAlpha,
+    });
 }
 
 function ringRadiusOf(tier: CastleTier): number {
@@ -169,10 +202,10 @@ function ringRadiusOf(tier: CastleTier): number {
 }
 
 /**
- * 純繪製函式（M6-V7 §6.1）：四型剪影（投影＋岩基＋外郭＋二階主郭＋護城河）。
+ * 純繪製函式：四型等角城郭（投影、石垣、立體白牆、層疊瓦簷與旗幟）。
  * 局部座標系（中心為原點）；世界定位由工廠的 `container.position` 負責。先 clear。
  */
-export function drawCastleBody(g: Graphics, props: CastleNodeProps): void {
+export function drawCastleBody(g: Graphics, props: CastleNodeProps, includeFlag = true): void {
   g.clear();
   const isMain = props.tier === 'main';
   const isMountain = props.terrainKind === 'mountain';
@@ -180,71 +213,92 @@ export function drawCastleBody(g: Graphics, props: CastleNodeProps): void {
   const shadow = isMain
     ? CASTLE_NODE_GEOMETRY.shadowOffsetMain
     : CASTLE_NODE_GEOMETRY.shadowOffsetBranch;
-  const fill = clanColorNum(props.colorIndex);
-  const fillBright = clanColorNum(props.colorIndex, true);
-  const stroke = { width: CASTLE_NODE_GEOMETRY.strokeWidth, color: TOKENS_NUM.ink900 };
-
-  // 外郭「footprint」頂點（山城＝岩基三角；平城＝外牆多邊形）——供投影與型別繪製共用。
-  const rock = isMain ? ROCK_MAIN : ROCK_BRANCH;
-  const wall = isMain ? WALL_MAIN_MOUNTAIN : WALL_BRANCH_MOUNTAIN;
-  const outerPlain = isMain ? OUTER_MAIN_PLAIN : OUTER_BRANCH_PLAIN;
-
-  // (1) 投影：外郭（本城另含岩基）整體位移 (+shadow, +shadow)，填 ink900 α shadowAlpha（最底）。
-  const shadowFill = { color: TOKENS_NUM.ink900, alpha: CASTLE_NODE_GEOMETRY.shadowAlpha };
-  if (isMountain) {
-    g.poly(scalePts(rock, s, shadow, shadow)).fill(shadowFill);
-    g.poly(scalePts(wall, s, shadow, shadow)).fill(shadowFill);
-  } else {
-    g.poly(scalePts(outerPlain, s, shadow, shadow)).fill(shadowFill);
-  }
-
-  if (isMountain) {
-    // (2) 山城岩基三角（reliefInk α .9）＋(3) 窄高牆（clan 填＋ink900 描）。
-    g.poly(scalePts(rock, s)).fill({
-      color: MAP_PALETTE_NUM.reliefInk,
-      alpha: CASTLE_NODE_GEOMETRY.mountainBaseAlpha,
-    });
-    g.poly(scalePts(rock, s)).stroke(stroke);
-    g.poly(scalePts(wall, s)).fill({ color: fill });
-    g.poly(scalePts(wall, s)).stroke(stroke);
-  } else {
-    // (3) 平城外郭（clan 填＋ink900 描）。
-    g.poly(scalePts(outerPlain, s)).fill({ color: fill });
-    g.poly(scalePts(outerPlain, s)).stroke(stroke);
-  }
-
-  // (4) 本城二階內主郭：mainKeepPoints(.5S) 上移（山城堆疊更高）；亮變體填＋ink900 描。
-  if (isMain) {
-    const lift =
-      (isMountain
-        ? CASTLE_NODE_GEOMETRY.innerKeepLiftMountain
-        : CASTLE_NODE_GEOMETRY.innerKeepLiftPlain) * s;
-    const keep = scalePts(mainKeepPoints(CASTLE_NODE_GEOMETRY.innerKeepScale * s), 1, 0, -lift);
-    g.poly(keep).fill({ color: fillBright });
-    g.poly(keep).stroke(stroke);
-  }
-
-  // (5) 平城護城河短弧：外牆下緣兩枚 arc（waterRiver α .5，掃角 ~120°）。僅本城平城。
-  if (!isMountain && isMain) {
-    const r = CASTLE_NODE_GEOMETRY.moatArcRadius * s;
-    const arcStroke = {
-      width: CASTLE_NODE_GEOMETRY.strokeWidth,
+  const m = CASTLE_MATERIAL;
+  const footprint = [-0.5, 0.15, 0, -0.1, 0.5, 0.15, 0, 0.4] as const;
+  g.poly(scalePts(footprint, s, shadow, shadow)).fill({
+    color: TOKENS_NUM.ink900,
+    alpha: CASTLE_NODE_GEOMETRY.shadowAlpha,
+  });
+  // 護城河位於石垣外圍；山城改為有明暗切面的高岩臺。
+  if (!isMountain) {
+    g.poly(scalePts(footprint, s)).stroke({
+      width: 1.6,
       color: MAP_PALETTE_NUM.waterRiver,
       alpha: CASTLE_NODE_GEOMETRY.moatArcAlpha,
-    };
-    const y = 0.34 * s;
-    const start = Math.PI * 0.15;
-    const sweep = (2 * Math.PI) / 3; // ~120°
-    g.arc(-0.35 * s, y, r, start, start + sweep).stroke(arcStroke);
-    g.arc(0.35 * s, y, r, start, start + sweep).stroke(arcStroke);
+    });
+  } else {
+    prism(g, 0, 0.03 * s, 0.5 * s, 0.23 * s, 0.17 * s, m.rockTop, m.rockFront, m.rockRight);
+    g.moveTo(-0.36 * s, 0.16 * s)
+      .lineTo(-0.27 * s, 0.28 * s)
+      .lineTo(-0.18 * s, 0.32 * s)
+      .stroke({ width: 0.7, color: m.rockRight });
   }
+  const baseY = (isMountain ? -0.07 : 0.09) * s;
+  prism(g, 0, baseY, 0.43 * s, 0.19 * s, 0.12 * s, m.stoneTop, m.stoneFront, m.stoneRight);
+  // 石垣水平砌縫與右面的深色門洞。
+  g.moveTo(-0.4 * s, baseY + 0.06 * s)
+    .lineTo(0, baseY + 0.25 * s)
+    .lineTo(0.4 * s, baseY + 0.06 * s)
+    .stroke({ width: 0.6, color: m.stoneRight });
+  g.poly([
+    0.17 * s,
+    baseY + 0.12 * s,
+    0.25 * s,
+    baseY + 0.08 * s,
+    0.25 * s,
+    baseY + 0.17 * s,
+    0.17 * s,
+    baseY + 0.21 * s,
+  ]).fill({ color: m.eaves });
+  const turret = (x: number, y: number): void => {
+    prism(g, x, y, 0.08 * s, 0.035 * s, 0.09 * s, m.plasterFront, m.plasterFront, m.plasterRight);
+    roof(g, x, y, 0.11 * s, 0.05 * s);
+  };
+  turret(-0.28 * s, baseY - 0.05 * s);
+  if (isMain) turret(0.28 * s, baseY - 0.05 * s);
+  // 主城三層、支城兩層；每層逐漸內縮，各有白牆正／右面與雙斜瓦頂。
+  const floors = isMain ? 3 : 2;
+  for (let floor = 0; floor < floors; floor++) {
+    const y = baseY - (0.1 + floor * 0.115) * s;
+    const w = (0.2 - floor * 0.04) * s;
+    prism(g, 0, y, w, 0.07 * s, 0.11 * s, m.plasterFront, m.plasterFront, m.plasterRight);
+    g.moveTo(-0.12 * s, y + 0.07 * s)
+      .lineTo(-0.04 * s, y + 0.1 * s)
+      .stroke({ width: 0.7, color: m.eaves });
+    roof(g, 0, y, w + 0.045 * s, 0.085 * s);
+  }
+  if (isMain) turret(-0.28 * s, baseY + 0.15 * s);
+  if (includeFlag) drawCastleFlag(g, props);
+}
+
+/** Ownership remains a vector overlay even when the building is original raster artwork. */
+export function drawCastleFlag(g: Graphics, props: CastleNodeProps): void {
+  const s = props.tier === 'main' ? CASTLE_NODE_GEOMETRY.mainSize : CASTLE_NODE_GEOMETRY.branchSize;
+  const baseY = (props.terrainKind === 'mountain' ? -0.07 : 0.09) * s;
+  const m = CASTLE_MATERIAL;
+  // 原始勢力色只出現在獨立旗面，不改變城郭材質／日照。
+  const bx = 0.34 * s;
+  const by = baseY - 0.22 * s;
+  g.moveTo(bx, by)
+    .lineTo(bx, baseY + 0.02 * s)
+    .stroke({ width: 0.8, color: m.eaves });
+  g.poly([
+    bx,
+    by,
+    bx + 0.1 * s,
+    by + 0.025 * s,
+    bx + 0.1 * s,
+    by + 0.105 * s,
+    bx,
+    by + 0.08 * s,
+  ]).fill({ color: clanColorNum(props.colorIndex) });
 }
 
 /**
  * 純繪製函式（M6-V7 §6.1 徽記）：警戒／受攻徽記。先 clear。
  * - none：不繪製（僅 clear）。
- * - threatened（encircle）：城頂金色小烽火（ink900 桿＋2 枚上尖三角焰 accentGold）。
- * - critical（assault）：跨主郭 3 段鋸齒裂口（accentVermilion）＋靜態朱紅光暈圓（accentVermilionBright α .5）。
+ * - threatened: upright ivory triangle/dark flame with contrasting round outline.
+ * - critical: red diamond/ivory exclamation with the same contrasting outline.
  */
 export function drawCastleWarning(g: Graphics, props: CastleNodeProps): void {
   g.clear();
@@ -253,48 +307,37 @@ export function drawCastleWarning(g: Graphics, props: CastleNodeProps): void {
 
   if (props.warning === 'threatened') {
     const half = CASTLE_NODE_GEOMETRY.signalFireSize / 2;
-    const cx = 0;
     const cy = -s / 2 - CASTLE_NODE_GEOMETRY.signalFireLift;
-    // 烽火桿（ink900 細桿，自焰底向城頂延伸）。
-    g.moveTo(cx, cy + half)
-      .lineTo(cx, cy + half + 3)
-      .stroke({ width: 1, color: TOKENS_NUM.ink900 });
-    // 兩枚上尖三角焰（accentGold）。
-    g.poly([
-      cx,
-      cy - half,
-      cx + half * 0.75,
-      cy + half * 0.5,
-      cx - half * 0.75,
-      cy + half * 0.5,
-    ]).fill({
-      color: TOKENS_NUM.accentGold,
+    // Upright ivory triangle plus a dark flame: independent of warning color.
+    g.poly([0, cy - half, half, cy + half, -half, cy + half])
+      .fill({ color: TOKENS_NUM.washi100 })
+      .stroke({
+        width: CASTLE_WARNING_PRESENTATION.outlineWidth,
+        color: TOKENS_NUM.ink900,
+        join: 'round',
+      });
+    g.poly([0, cy - 1.6, 1.1, cy + 0.7, 0, cy + 1.8, -1.1, cy + 0.7]).fill({
+      color: TOKENS_NUM.ink900,
     });
-    g.poly([
-      cx,
-      cy - half * 0.35,
-      cx + half * 0.4,
-      cy + half * 0.45,
-      cx - half * 0.4,
-      cy + half * 0.45,
-    ]).fill({ color: TOKENS_NUM.accentGold });
     return;
   }
 
   if (props.warning === 'critical') {
-    // 靜態朱紅光暈圓（半徑＝耐久環半徑＋pad）。
-    const haloR = ringRadiusOf(props.tier) + CASTLE_NODE_GEOMETRY.criticalHaloPad;
-    g.circle(0, 0, haloR).stroke({
-      width: 2,
-      color: TOKENS_NUM.accentVermilionBright,
-      alpha: CASTLE_NODE_GEOMETRY.criticalHaloAlpha,
-    });
-    // 跨主郭 3 段鋸齒裂口折線。
-    g.moveTo(-0.2 * s, -0.1 * s)
-      .lineTo(-0.08 * s, 0.02 * s)
-      .lineTo(0.04 * s, -0.04 * s)
-      .lineTo(0.15 * s, 0.1 * s)
-      .stroke({ width: CASTLE_NODE_GEOMETRY.crackWidth, color: TOKENS_NUM.accentVermilion });
+    const half = CASTLE_NODE_GEOMETRY.criticalBadgeSize / 2;
+    const cy = -s / 2 - CASTLE_NODE_GEOMETRY.signalFireLift;
+    g.poly([0, cy - half, half, cy, 0, cy + half, -half, cy])
+      .fill({
+        color: TOKENS_NUM.accentVermilionBright,
+      })
+      .stroke({
+        width: CASTLE_WARNING_PRESENTATION.outlineWidth,
+        color: TOKENS_NUM.ink900,
+        join: 'round',
+      });
+    g.moveTo(0, cy - 1.8)
+      .lineTo(0, cy + 0.4)
+      .stroke({ width: 1, color: TOKENS_NUM.washi100 });
+    g.rect(-0.5, cy + 1.2, 1, 1).fill({ color: TOKENS_NUM.washi100 });
   }
 }
 
@@ -314,21 +357,155 @@ function samePos(a: CastleNodeProps['pos'], b: CastleNodeProps['pos']): boolean 
 }
 
 /**
- * 工廠（12 §4：`ScenePart<P>` 加法擴充）：建立城節點的 `Container`（世界定位）＋三子 `Graphics`
- * （bodyGfx / ringGfx / warnGfx；addChild 序＝由下而上，故 `container.children[0] === bodyGfx`）。
+ * World-anchored castle: body group, independent durability ring and warning.
+ * Original raster replaces only the building at mid/near LOD; the shared
+ * texture remains loader-owned. Far and unavailable art use the vector body.
  */
 export function createCastleNode(): CastleNodePart {
   const container = new Container();
   container.label = 'castleNode';
   const bodyGfx = new Graphics();
+  const bodyGroup = new Container();
+  bodyGroup.addChild(bodyGfx);
   const ringGfx = new Graphics();
   const warnGfx = new Graphics();
-  container.addChild(bodyGfx); // children[0]：剪影（far 本城 ×1.4 錨定於此）
+  container.addChild(bodyGroup); // children[0]：建築組（far 本城 ×1.4 錨定於此）
   container.addChild(ringGfx); // children[1]：耐久環
   container.addChild(warnGfx); // children[2]：警戒／受攻徽記
 
   let last: CastleNodeProps | null = null;
   let lastLodStage: LodStage = 'near';
+  let art: Parameters<CastleNodePart['setBodyArt']>[0] = {};
+  let sprite: Sprite | null = null;
+  let contact: Graphics | null = null;
+  let contactTier: CastleTier | null = null;
+  let flag: Graphics | null = null;
+  let appliedTexture: Texture | null = null;
+  let appliedSpec: CastleBodyArtSpec | null = null;
+  let appliedWidth = 0;
+  let flagKey = '';
+  let detached = false;
+  let warningScale = 1;
+  const signals = new Container();
+  signals.eventMode = 'none';
+  const syncDepthBody = (): void => {
+    if (!detached) return;
+    bodyGroup.position.set(container.position.x, container.position.y);
+    bodyGroup.visible = container.visible;
+    signals.position.set(container.position.x, container.position.y);
+    signals.visible = container.visible;
+  };
+  const paintedFrame = (): { x: number; y: number; width: number; height: number } | null => {
+    if (!last || lastLodStage === 'far') return null;
+    const selected = art[last.tier]?.[last.terrainKind];
+    if (!selected) return null;
+    const width =
+      last.tier === 'main'
+        ? CASTLE_NODE_GEOMETRY.paintedMainWidth
+        : CASTLE_NODE_GEOMETRY.paintedBranchWidth;
+    const placement = castleBodyArtPlacement(selected.spec, width),
+      frame = selected.spec.contentBounds;
+    return {
+      x: placement.x + frame.x * placement.scale,
+      y: placement.y + frame.y * placement.scale,
+      width: frame.width * placement.scale,
+      height: frame.height * placement.scale,
+    };
+  };
+  const layoutPaintedSignals = (): void => {
+    const frame = paintedFrame();
+    ringGfx.position.y = frame
+      ? Math.max(
+          0,
+          frame.y +
+            frame.height +
+            CASTLE_NODE_GEOMETRY.paintedStatusGap +
+            CASTLE_NODE_GEOMETRY.ringWidth / 2 -
+            CASTLE_NODE_GEOMETRY.durabilityY,
+        )
+      : 0;
+    if (last) {
+      const s =
+        last.tier === 'main' ? CASTLE_NODE_GEOMETRY.mainSize : CASTLE_NODE_GEOMETRY.branchSize;
+      const baseCenter = -s / 2 - CASTLE_NODE_GEOMETRY.signalFireLift;
+      const farMain = lastLodStage === 'far' && last.tier === 'main';
+      const bodyTop = frame?.y ?? (-s / 2) * (farMain ? CASTLE_NODE_GEOMETRY.farMainBodyScale : 1);
+      const halfExtent = (CASTLE_WARNING_PRESENTATION.width * warningScale) / 2;
+      const gap = Math.max(
+        CASTLE_NODE_GEOMETRY.paintedStatusGap,
+        (2 * CASTLE_WARNING_PRESENTATION.width * warningScale) / CASTLE_WARNING_PRESENTATION.pixels,
+      );
+      warnGfx.scale.set(warningScale);
+      // Cancel the authored center's scaled translation, leaving the badge
+      // centered above the unchanged body frame without a new parent/group.
+      warnGfx.position.set(0, bodyTop - gap - halfExtent - baseCenter * warningScale);
+      if (frame && flag) {
+        const baseY = (last.terrainKind === 'mountain' ? -0.07 : 0.09) * s;
+        flag.position.set(
+          frame.x + frame.width + 2 - 0.34 * s,
+          frame.y + frame.height * 0.5 - baseY,
+        );
+      } else if (flag) flag.position.set(0, 0);
+    }
+  };
+
+  const applyBodyArt = (): void => {
+    const selected = last ? art[last.tier]?.[last.terrainKind] : undefined;
+    const visible = lastLodStage !== 'far' && selected !== undefined;
+    bodyGfx.visible = !visible;
+    if (selected && last) {
+      if (!sprite) {
+        contact = new Graphics();
+        contact.label = 'castleGroundContact';
+        contact.eventMode = 'none';
+        bodyGroup.addChild(contact);
+        sprite = new Sprite(selected.texture);
+        sprite.eventMode = 'none';
+        bodyGroup.addChild(sprite);
+        flag ??= new Graphics();
+        flag.eventMode = 'none';
+        (detached ? signals : bodyGroup).addChild(flag);
+      }
+      if (contact && contactTier !== last.tier) {
+        contact.clear();
+        const main = last.tier === 'main';
+        contact
+          .ellipse(main ? 1.5 : 1, main ? 1.25 : 1, main ? 17 : 12.5, main ? 4.25 : 3.25)
+          .fill({ color: 0x514b3d, alpha: 0.12 });
+        contact
+          .ellipse(0, 0.5, main ? 14 : 10, main ? 3 : 2.25)
+          .fill({ color: 0x81745b, alpha: 0.14 });
+        contactTier = last.tier;
+      }
+      const width =
+        last.tier === 'main'
+          ? CASTLE_NODE_GEOMETRY.paintedMainWidth
+          : CASTLE_NODE_GEOMETRY.paintedBranchWidth;
+      if (
+        appliedTexture !== selected.texture ||
+        appliedSpec !== selected.spec ||
+        appliedWidth !== width
+      ) {
+        sprite.texture = selected.texture;
+        const placement = castleBodyArtPlacement(selected.spec, width);
+        sprite.scale.set(placement.scale);
+        sprite.position.set(placement.x, placement.y);
+        appliedTexture = selected.texture;
+        appliedSpec = selected.spec;
+        appliedWidth = width;
+      }
+      const nextFlagKey = `${last.tier}:${last.terrainKind}:${last.colorIndex}`;
+      if (flag && flagKey !== nextFlagKey) {
+        flag.clear();
+        drawCastleFlag(flag, last);
+        flagKey = nextFlagKey;
+      }
+    }
+    if (sprite) sprite.visible = visible;
+    if (contact) contact.visible = visible;
+    if (flag) flag.visible = visible || detached;
+    layoutPaintedSignals();
+  };
 
   const applyLod = (stage: LodStage): void => {
     lastLodStage = stage;
@@ -336,21 +513,112 @@ export function createCastleNode(): CastleNodePart {
     ringGfx.visible = stage === 'near' || warning !== 'none';
     warnGfx.visible = warning !== 'none';
     const farMain = stage === 'far' && last?.tier === 'main';
-    bodyGfx.scale.set(farMain ? CASTLE_NODE_GEOMETRY.farMainBodyScale : 1);
+    bodyGroup.scale.set(farMain ? CASTLE_NODE_GEOMETRY.farMainBodyScale : 1);
+    if (detached && flag) flag.scale.set(farMain ? CASTLE_NODE_GEOMETRY.farMainBodyScale : 1);
+    applyBodyArt();
   };
 
   return {
     container,
+    depthBody: bodyGroup,
+    get durabilityVisible() {
+      return ringGfx.visible;
+    },
+    get warningVisible() {
+      return warnGfx.visible;
+    },
+    syncDepthBody,
+    attachDepthLayers(models, foreground): void {
+      if (detached) return;
+      detached = true;
+      container.removeChild(bodyGroup);
+      container.removeChild(ringGfx);
+      container.removeChild(warnGfx);
+      // Keep the original hit/anchor owner independent of mounted visual groups.
+      models.addChild(bodyGroup);
+      signals.addChild(ringGfx, warnGfx);
+      if (!flag) flag = new Graphics();
+      signals.addChild(flag);
+      foreground.addChild(signals);
+      if (last) {
+        drawCastleBody(bodyGfx, last, false);
+        flag.clear();
+        drawCastleFlag(flag, last);
+      }
+      syncDepthBody();
+    },
+    getPresentationGeometry() {
+      if (!last) return null;
+      const s =
+        last.tier === 'main' ? CASTLE_NODE_GEOMETRY.mainSize : CASTLE_NODE_GEOMETRY.branchSize;
+      const selected = art[last.tier]?.[last.terrainKind];
+      const painted = lastLodStage !== 'far' && selected !== undefined;
+      let body: { x: number; y: number; width: number; height: number } = {
+        x: -s / 2,
+        y: -s / 2,
+        width: s,
+        height: s,
+      };
+      if (painted && selected) {
+        body = paintedFrame()!;
+      } else if (lastLodStage === 'far' && last.tier === 'main') {
+        const scale = CASTLE_NODE_GEOMETRY.farMainBodyScale;
+        body = {
+          x: body.x * scale,
+          y: body.y * scale,
+          width: body.width * scale,
+          height: body.height * scale,
+        };
+      }
+      const half = ringRadiusOf(last.tier) * CASTLE_NODE_GEOMETRY.durabilitySpanFactor;
+      const width = CASTLE_NODE_GEOMETRY.ringWidth;
+      return {
+        body,
+        painted,
+        durability: {
+          x: -half - width / 2,
+          y: CASTLE_NODE_GEOMETRY.durabilityY + ringGfx.position.y - width / 2,
+          width: half * 2 + width,
+          height: width,
+        },
+        warning:
+          last.warning === 'none'
+            ? null
+            : {
+                x: (-CASTLE_WARNING_PRESENTATION.width * warningScale) / 2,
+                y:
+                  warnGfx.position.y +
+                  (-s / 2 - CASTLE_NODE_GEOMETRY.signalFireLift) * warningScale -
+                  (CASTLE_WARNING_PRESENTATION.width * warningScale) / 2,
+                width: CASTLE_WARNING_PRESENTATION.width * warningScale,
+                height: CASTLE_WARNING_PRESENTATION.width * warningScale,
+              },
+      };
+    },
+    setBodyArt(value): void {
+      art = value;
+      applyBodyArt();
+    },
+    setWarningScale(value): void {
+      if (!Number.isFinite(value) || value <= 0 || value > 64 || value === warningScale) return;
+      warningScale = value;
+      layoutPaintedSignals();
+    },
     update(props: CastleNodeProps): void {
       if (last === null || !samePos(last.pos, props.pos)) {
         container.position.set(props.pos.x, props.pos.y);
       }
+      syncDepthBody();
       // 冪等：props（除 pos 外）未變更則不重繪，維持既有語意與 void 回傳（AD2）。
       if (last !== null && samePropsExceptPos(last, props)) {
         last = props;
         return;
       }
-      drawCastleBody(bodyGfx, props);
+      drawCastleBody(bodyGfx, props, !detached);
+      if (detached && flag) {
+        flag.clear();
+        drawCastleFlag(flag, props);
+      }
       const ratio = props.maxDurability > 0 ? props.durability / props.maxDurability : 0;
       drawDurabilityRing(ringGfx, ringRadiusOf(props.tier), ratio);
       drawCastleWarning(warnGfx, props);
@@ -361,6 +629,17 @@ export function createCastleNode(): CastleNodePart {
       applyLod(stage);
     },
     destroy(): void {
+      if (sprite) {
+        sprite.parent?.removeChild(sprite);
+        sprite.destroy({ texture: false, textureSource: false });
+        sprite = null;
+      }
+      if (detached) {
+        bodyGroup.parent?.removeChild(bodyGroup);
+        signals.parent?.removeChild(signals);
+        bodyGroup.destroy({ children: true });
+      }
+      signals.destroy({ children: true });
       container.destroy({ children: true });
     },
   };

@@ -71,6 +71,7 @@ function deployDebugArmy(state: GameState, spec: DebugArmySpec): ArmyId {
   army.pathCursor = 0;
   army.edgeProgressDays = 0;
   army.edgeCostDays = 0;
+  delete army.reversingEdgeEndNodeId;
   army.status = 'holding';
   return armyId;
 }

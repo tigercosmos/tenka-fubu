@@ -25,10 +25,15 @@ export function ConfirmDialog({
   const cancel = useRef<HTMLButtonElement>(null);
   const footer = (
     <>
-      <button ref={cancel} type="button" onClick={onCancel}>
+      <button ref={cancel} type="button" data-dialog-primary={danger} onClick={onCancel}>
         {cancelText}
       </button>
-      <button className={danger ? styles.danger : styles.confirm} type="button" onClick={onConfirm}>
+      <button
+        className={danger ? styles.danger : styles.confirm}
+        type="button"
+        data-dialog-primary={!danger}
+        onClick={onConfirm}
+      >
         {confirmText}
       </button>
     </>

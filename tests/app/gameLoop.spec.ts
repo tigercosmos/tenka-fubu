@@ -9,7 +9,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createGameLoopController } from '../../src/app/gameLoop';
 import { resetGameStoreForTests, store } from '../../src/app/store';
-import type { EventId } from '../../src/core/state/ids';
+import type { EventId, BattleId, ClanId, MapNodeId } from '../../src/core/state/ids';
+import { canonicalStringify } from '../../src/core/state/serialize';
 import { makeLoopTestState } from '../helpers/loopState';
 import { createManualScheduler, type ManualScheduler } from '../helpers/manualFrameScheduler';
 
@@ -29,6 +30,72 @@ afterEach(() => {
 function tickSeq(): number {
   return store.getState().tickSeq;
 }
+
+describe('BattleScreen retained result is an app strategy-phase gate', () => {
+  it('freezes running strategy through acknowledgement, then resumes without accumulated backlog', () => {
+    const game = store.getState().game!;
+    // Synthetic app-phase fixture, not a core battle generation/invariant test.
+    const id = 'battle.result' as BattleId;
+    game.battles[id] = {
+      id,
+      fieldCombatId: 'fc.result',
+      nodeId: 'castle.test' as MapNodeId,
+      terrain: 'plain',
+      attackerClanId: game.meta.playerClanId,
+      defenderClanId: 'clan.enemy' as ClanId,
+      jins: [],
+      edges: [],
+      units: [],
+      tick: 3,
+      saihai: { attacker: 4, defender: 4 },
+      honjinFallenTick: null,
+      result: {
+        winnerSide: 'attacker',
+        endTick: 3,
+        attackerLosses: 0,
+        defenderLosses: 0,
+        aweLevel: 'none',
+      },
+    };
+    store.getState().actions.setScreen('battle');
+    store.getState().actions.setSpeed('x5');
+    const original = canonicalStringify(game);
+    loop.start();
+    manual.fire(0);
+    for (let now = 100; now <= 1000; now += 100) manual.fire(now);
+    expect(canonicalStringify(game)).toBe(original);
+    expect(tickSeq()).toBe(0);
+    delete game.battles[id];
+    store.getState().actions.setScreen('main');
+    manual.fire(1100);
+    expect(game.time.day).toBe(0);
+    manual.fire(1120);
+    expect(game.time.day).toBe(1);
+  });
+  it('rejects debug advance before its first day while BattleScreen owns the result phase', () => {
+    store.getState().actions.setScreen('battle');
+    const game = store.getState().game!,
+      original = canonicalStringify(game);
+    loop.stepDays(2);
+    expect(canonicalStringify(game)).toBe(original);
+    expect(tickSeq()).toBe(0);
+    expect(store.getState().session.debug.jumping).toBeNull();
+  });
+  it('stops an already queued debug chunk before advancing any day after battle phase entry', () => {
+    vi.useFakeTimers();
+    try {
+      loop.stepDays(45);
+      expect(store.getState().game!.time.day).toBe(30);
+      store.getState().actions.setScreen('battle');
+      const original = canonicalStringify(store.getState().game);
+      vi.runAllTimers();
+      expect(canonicalStringify(store.getState().game)).toBe(original);
+      expect(store.getState().session.debug.jumping).toBeNull();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+});
 
 describe('start／stop（§4.2）', () => {
   it('start 排下一幀；重複呼叫為 no-op；stop 取消排程並重置 isRunning', () => {

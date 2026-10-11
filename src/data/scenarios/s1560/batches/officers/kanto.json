@@ -1,0 +1,2772 @@
+{
+  "version": 1,
+  "region": "kanto",
+  "officers": [
+    {
+      "id": "off.hojo-ujiyasu",
+      "name": "北條氏康",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 98,
+      "val": 83,
+      "int": 95,
+      "pol": 96,
+      "traits": ["trait.chikujo"],
+      "tactics": [],
+      "rank": "shukuro",
+      "isKin": true,
+      "birthYear": 1515,
+      "deathYear": 1571
+    },
+    {
+      "id": "off.hojo-ujimasa",
+      "name": "北條氏政",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 82,
+      "val": 66,
+      "int": 77,
+      "pol": 88,
+      "traits": ["trait.naisei"],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": true,
+      "birthYear": 1538,
+      "deathYear": 1590
+    },
+    {
+      "id": "off.hojo-ujiteru",
+      "name": "北條氏照",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.takiyama",
+      "ldr": 88,
+      "val": 87,
+      "int": 75,
+      "pol": 71,
+      "traits": ["trait.goketsu"],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": true,
+      "birthYear": 1540,
+      "deathYear": 1590
+    },
+    {
+      "id": "off.hojo-ujinori",
+      "name": "北條氏規",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.nirayama",
+      "ldr": 72,
+      "val": 64,
+      "int": 86,
+      "pol": 83,
+      "traits": ["trait.naisei"],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": true,
+      "birthYear": 1545,
+      "deathYear": 1600
+    },
+    {
+      "id": "off.hojo-ujikuni",
+      "name": "北條氏邦",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.matsuyama",
+      "ldr": 87,
+      "val": 85,
+      "int": 73,
+      "pol": 78,
+      "traits": ["trait.chikujo"],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": true,
+      "birthYear": 1541,
+      "deathYear": 1597
+    },
+    {
+      "id": "off.hojo-ujinao",
+      "name": "北條氏直",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 70,
+      "val": 60,
+      "int": 65,
+      "pol": 72,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": true,
+      "birthYear": 1562,
+      "deathYear": 1591
+    },
+    {
+      "id": "off.hojo-tsunashige",
+      "name": "北條綱成",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.tamanawa",
+      "ldr": 95,
+      "val": 99,
+      "int": 78,
+      "pol": 67,
+      "traits": ["trait.goketsu"],
+      "tactics": [],
+      "rank": "shukuro",
+      "isKin": true,
+      "birthYear": 1515,
+      "deathYear": 1587
+    },
+    {
+      "id": "off.hojo-genan",
+      "name": "北條幻庵",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 55,
+      "val": 37,
+      "int": 90,
+      "pol": 93,
+      "traits": ["trait.naisei"],
+      "tactics": [],
+      "rank": "shukuro",
+      "isKin": true,
+      "birthYear": 1493,
+      "deathYear": 1589
+    },
+    {
+      "id": "off.hojo-ujishige",
+      "name": "北條氏繁",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.tamanawa",
+      "ldr": 81,
+      "val": 79,
+      "int": 71,
+      "pol": 72,
+      "traits": ["trait.chushin"],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": true,
+      "birthYear": 1536,
+      "deathYear": 1578
+    },
+    {
+      "id": "off.hojo-ujitaka",
+      "name": "北條氏堯",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.kawagoe",
+      "ldr": 76,
+      "val": 72,
+      "int": 75,
+      "pol": 74,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": true,
+      "birthYear": 1522,
+      "deathYear": 1562
+    },
+    {
+      "id": "off.hojo-ujikatsu",
+      "name": "北條氏勝",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.tamanawa",
+      "ldr": 78,
+      "val": 82,
+      "int": 66,
+      "pol": 64,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": true,
+      "birthYear": 1559,
+      "deathYear": 1611
+    },
+    {
+      "id": "off.hojo-tsunashige-genan",
+      "name": "北條綱重",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 64,
+      "val": 62,
+      "int": 66,
+      "pol": 65,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": true,
+      "birthYear": 1530,
+      "deathYear": 1569
+    },
+    {
+      "id": "off.matsuda-norihide",
+      "name": "松田憲秀",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 69,
+      "val": 58,
+      "int": 83,
+      "pol": 88,
+      "traits": ["trait.naisei"],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": false,
+      "birthYear": 1529,
+      "deathYear": 1590
+    },
+    {
+      "id": "off.matsuda-yasunaga",
+      "name": "松田康長",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 78,
+      "val": 75,
+      "int": 69,
+      "pol": 70,
+      "traits": ["trait.chikujo"],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1537,
+      "deathYear": 1590
+    },
+    {
+      "id": "off.kasahara-masaharu",
+      "name": "笠原政發",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 66,
+      "val": 69,
+      "int": 61,
+      "pol": 58,
+      "traits": [],
+      "tactics": [],
+      "rank": "samurai-taisho",
+      "isKin": false,
+      "birthYear": 1540,
+      "deathYear": 1590
+    },
+    {
+      "id": "off.daidoji-masashige",
+      "name": "大道寺政繁",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.kawagoe",
+      "ldr": 83,
+      "val": 78,
+      "int": 84,
+      "pol": 86,
+      "traits": ["trait.chikujo"],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": false,
+      "birthYear": 1533,
+      "deathYear": 1590
+    },
+    {
+      "id": "off.daidoji-naoshige",
+      "name": "大道寺直繁",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 65,
+      "val": 61,
+      "int": 69,
+      "pol": 71,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": false,
+      "birthYear": 1569,
+      "deathYear": 1649
+    },
+    {
+      "id": "off.toyama-tsunakage",
+      "name": "遠山綱景",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.edo",
+      "ldr": 76,
+      "val": 68,
+      "int": 75,
+      "pol": 79,
+      "traits": [],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": false,
+      "birthYear": 1513,
+      "deathYear": 1564
+    },
+    {
+      "id": "off.toyama-masakage",
+      "name": "遠山政景",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.edo",
+      "ldr": 65,
+      "val": 71,
+      "int": 60,
+      "pol": 61,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1525,
+      "deathYear": 1564
+    },
+    {
+      "id": "off.toyama-yasumitsu",
+      "name": "遠山康光",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.edo",
+      "ldr": 62,
+      "val": 59,
+      "int": 82,
+      "pol": 77,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1537,
+      "deathYear": 1579
+    },
+    {
+      "id": "off.tominaga-naokatsu",
+      "name": "富永直勝",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.edo",
+      "ldr": 75,
+      "val": 77,
+      "int": 63,
+      "pol": 64,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1515,
+      "deathYear": 1564
+    },
+    {
+      "id": "off.shimizu-yasuhide",
+      "name": "清水康英",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.nirayama",
+      "ldr": 77,
+      "val": 73,
+      "int": 70,
+      "pol": 75,
+      "traits": ["trait.chikujo"],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": false,
+      "birthYear": 1532,
+      "deathYear": 1591
+    },
+    {
+      "id": "off.shimizu-yasukuni",
+      "name": "清水康邦",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.nirayama",
+      "ldr": 63,
+      "val": 68,
+      "int": 59,
+      "pol": 65,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": false,
+      "birthYear": 1558,
+      "deathYear": 1597
+    },
+    {
+      "id": "off.fuma-kotaro",
+      "name": "風魔小太郎",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 61,
+      "val": 85,
+      "int": 94,
+      "pol": 32,
+      "traits": ["trait.ninja"],
+      "tactics": [],
+      "rank": "samurai-taisho",
+      "isKin": false,
+      "birthYear": 1540,
+      "deathYear": 1603
+    },
+    {
+      "id": "off.haga-ujitsugu",
+      "name": "垪和氏續",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 70,
+      "val": 61,
+      "int": 82,
+      "pol": 84,
+      "traits": ["trait.naisei"],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1530,
+      "deathYear": 1610
+    },
+    {
+      "id": "off.mamiya-yasutoshi",
+      "name": "間宮康俊",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 77,
+      "val": 88,
+      "int": 58,
+      "pol": 56,
+      "traits": ["trait.goketsu"],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1518,
+      "deathYear": 1590
+    },
+    {
+      "id": "off.narita-ujinaga",
+      "name": "成田氏長",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 72,
+      "val": 71,
+      "int": 64,
+      "pol": 76,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1542,
+      "deathYear": 1596
+    },
+    {
+      "id": "off.ota-yasusuke",
+      "name": "太田康資",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.edo",
+      "ldr": 78,
+      "val": 93,
+      "int": 55,
+      "pol": 53,
+      "traits": ["trait.goketsu"],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1531,
+      "deathYear": 1581
+    },
+    {
+      "id": "off.yamakado-sadakatsu",
+      "name": "山角定勝",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 49,
+      "val": 52,
+      "int": 75,
+      "pol": 80,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": false,
+      "birthYear": 1549,
+      "deathYear": 1625
+    },
+    {
+      "id": "off.ishimaki-yasumasa",
+      "name": "石卷康敬",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 56,
+      "val": 42,
+      "int": 79,
+      "pol": 85,
+      "traits": ["trait.naisei"],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1534,
+      "deathYear": 1613
+    },
+    {
+      "id": "off.itabeoka-setsusai",
+      "name": "板部岡江雪齋",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 41,
+      "val": 33,
+      "int": 91,
+      "pol": 85,
+      "traits": ["trait.naisei"],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1537,
+      "deathYear": 1609
+    },
+    {
+      "id": "off.kano-ichian",
+      "name": "狩野一庵",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 61,
+      "val": 66,
+      "int": 62,
+      "pol": 58,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": false,
+      "birthYear": 1547,
+      "deathYear": 1590
+    },
+    {
+      "id": "off.nakayama-ienori",
+      "name": "中山家範",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.takiyama",
+      "ldr": 65,
+      "val": 73,
+      "int": 60,
+      "pol": 58,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": false,
+      "birthYear": 1548,
+      "deathYear": 1590
+    },
+    {
+      "id": "off.kajiwara-kagetaka",
+      "name": "梶原景宗",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 72,
+      "val": 70,
+      "int": 67,
+      "pol": 62,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1531,
+      "deathYear": 1611
+    },
+    {
+      "id": "off.hojo-ujitada",
+      "name": "北條氏忠",
+      "clanId": "clan.hojo",
+      "locationCastleId": "castle.odawara",
+      "ldr": 63,
+      "val": 66,
+      "int": 62,
+      "pol": 59,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": true,
+      "birthYear": 1548,
+      "deathYear": 1593
+    },
+    {
+      "id": "off.satomi-yoshitaka",
+      "name": "里見義堯",
+      "clanId": "clan.satomi",
+      "locationCastleId": "castle.kururi",
+      "ldr": 90,
+      "val": 81,
+      "int": 85,
+      "pol": 82,
+      "traits": ["trait.goketsu"],
+      "tactics": [],
+      "rank": "shukuro",
+      "isKin": true,
+      "birthYear": 1507,
+      "deathYear": 1574
+    },
+    {
+      "id": "off.satomi-yoshihiro",
+      "name": "里見義弘",
+      "clanId": "clan.satomi",
+      "locationCastleId": "castle.sanuki",
+      "ldr": 85,
+      "val": 86,
+      "int": 77,
+      "pol": 72,
+      "traits": ["trait.goketsu"],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": true,
+      "birthYear": 1530,
+      "deathYear": 1578
+    },
+    {
+      "id": "off.satomi-yoshiyori",
+      "name": "里見義賴",
+      "clanId": "clan.satomi",
+      "locationCastleId": "castle.kururi",
+      "ldr": 72,
+      "val": 64,
+      "int": 81,
+      "pol": 72,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": true,
+      "birthYear": 1543,
+      "deathYear": 1587
+    },
+    {
+      "id": "off.masaki-tokishige",
+      "name": "正木時茂",
+      "clanId": "clan.satomi",
+      "locationCastleId": "castle.sanuki",
+      "ldr": 90,
+      "val": 97,
+      "int": 71,
+      "pol": 60,
+      "traits": ["trait.goketsu"],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": false,
+      "birthYear": 1513,
+      "deathYear": 1561
+    },
+    {
+      "id": "off.masaki-tokitada",
+      "name": "正木時忠",
+      "clanId": "clan.satomi",
+      "locationCastleId": "castle.sanuki",
+      "ldr": 78,
+      "val": 84,
+      "int": 68,
+      "pol": 59,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1515,
+      "deathYear": 1576
+    },
+    {
+      "id": "off.masaki-nobushige",
+      "name": "正木信茂",
+      "clanId": "clan.satomi",
+      "locationCastleId": "castle.kururi",
+      "ldr": 71,
+      "val": 77,
+      "int": 57,
+      "pol": 51,
+      "traits": [],
+      "tactics": [],
+      "rank": "samurai-taisho",
+      "isKin": false,
+      "birthYear": 1540,
+      "deathYear": 1564
+    },
+    {
+      "id": "off.masaki-noritoki",
+      "name": "正木憲時",
+      "clanId": "clan.satomi",
+      "locationCastleId": "castle.kururi",
+      "ldr": 78,
+      "val": 73,
+      "int": 72,
+      "pol": 60,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1533,
+      "deathYear": 1581
+    },
+    {
+      "id": "off.masaki-yoritada",
+      "name": "正木賴忠",
+      "clanId": "clan.satomi",
+      "locationCastleId": "castle.kururi",
+      "ldr": 65,
+      "val": 69,
+      "int": 61,
+      "pol": 60,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": false,
+      "birthYear": 1551,
+      "deathYear": 1622
+    },
+    {
+      "id": "off.anzai-sanemoto",
+      "name": "安西實元",
+      "clanId": "clan.satomi",
+      "locationCastleId": "castle.kururi",
+      "ldr": 68,
+      "val": 70,
+      "int": 62,
+      "pol": 58,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1520,
+      "deathYear": 1568
+    },
+    {
+      "id": "off.sakai-taneharu",
+      "name": "酒井胤治",
+      "clanId": "clan.satomi",
+      "locationCastleId": "castle.kururi",
+      "ldr": 71,
+      "val": 66,
+      "int": 76,
+      "pol": 67,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1506,
+      "deathYear": 1577,
+      "debutYear": 1564
+    },
+    {
+      "id": "off.satake-yoshiaki",
+      "name": "佐竹義昭",
+      "clanId": "clan.satake",
+      "locationCastleId": "castle.ota",
+      "ldr": 79,
+      "val": 70,
+      "int": 82,
+      "pol": 84,
+      "traits": ["trait.naisei"],
+      "tactics": [],
+      "rank": "shukuro",
+      "isKin": true,
+      "birthYear": 1531,
+      "deathYear": 1565
+    },
+    {
+      "id": "off.satake-yoshishige",
+      "name": "佐竹義重",
+      "clanId": "clan.satake",
+      "locationCastleId": "castle.ota",
+      "ldr": 96,
+      "val": 97,
+      "int": 91,
+      "pol": 86,
+      "traits": ["trait.goketsu"],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": true,
+      "birthYear": 1547,
+      "deathYear": 1612
+    },
+    {
+      "id": "off.satake-yoshinobu",
+      "name": "佐竹義宣",
+      "clanId": "clan.satake",
+      "locationCastleId": "castle.ota",
+      "ldr": 88,
+      "val": 77,
+      "int": 86,
+      "pol": 94,
+      "traits": ["trait.naisei"],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": true,
+      "birthYear": 1570,
+      "deathYear": 1633
+    },
+    {
+      "id": "off.wada-akitame",
+      "name": "和田昭為",
+      "clanId": "clan.satake",
+      "locationCastleId": "castle.ota",
+      "ldr": 67,
+      "val": 61,
+      "int": 80,
+      "pol": 83,
+      "traits": ["trait.naisei"],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": false,
+      "birthYear": 1532,
+      "deathYear": 1618
+    },
+    {
+      "id": "off.higashi-yoshikata",
+      "name": "東義堅",
+      "clanId": "clan.satake",
+      "locationCastleId": "castle.ota",
+      "ldr": 67,
+      "val": 62,
+      "int": 76,
+      "pol": 79,
+      "traits": [],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": true,
+      "birthYear": 1495,
+      "deathYear": 1567
+    },
+    {
+      "id": "off.onozaki-yoshimasa",
+      "name": "小野崎義昌",
+      "clanId": "clan.satake",
+      "locationCastleId": "castle.ota",
+      "ldr": 73,
+      "val": 72,
+      "int": 77,
+      "pol": 64,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": true,
+      "birthYear": 1531,
+      "deathYear": 1585
+    },
+    {
+      "id": "off.onozaki-michinaga",
+      "name": "小野崎通長",
+      "clanId": "clan.satake",
+      "locationCastleId": "castle.nukada",
+      "ldr": 72,
+      "val": 75,
+      "int": 65,
+      "pol": 62,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1525,
+      "deathYear": 1586
+    },
+    {
+      "id": "off.onozaki-yoshitsura",
+      "name": "小野崎義連",
+      "clanId": "clan.satake",
+      "locationCastleId": "castle.nukada",
+      "ldr": 66,
+      "val": 72,
+      "int": 62,
+      "pol": 59,
+      "traits": [],
+      "tactics": [],
+      "rank": "samurai-taisho",
+      "isKin": false,
+      "birthYear": 1540,
+      "deathYear": 1612
+    },
+    {
+      "id": "off.satake-yoshikado",
+      "name": "佐竹義廉",
+      "clanId": "clan.satake",
+      "locationCastleId": "castle.ota",
+      "ldr": 74,
+      "val": 68,
+      "int": 80,
+      "pol": 78,
+      "traits": [],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": true,
+      "birthYear": 1510,
+      "deathYear": 1580
+    },
+    {
+      "id": "off.satake-yoshitsuna",
+      "name": "佐竹義斯",
+      "clanId": "clan.satake",
+      "locationCastleId": "castle.ota",
+      "ldr": 76,
+      "val": 63,
+      "int": 87,
+      "pol": 86,
+      "traits": ["trait.naisei"],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": true,
+      "birthYear": 1545,
+      "deathYear": 1599
+    },
+    {
+      "id": "off.satake-yoshihisa",
+      "name": "佐竹義久",
+      "clanId": "clan.satake",
+      "locationCastleId": "castle.ota",
+      "ldr": 82,
+      "val": 75,
+      "int": 87,
+      "pol": 82,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": true,
+      "birthYear": 1554,
+      "deathYear": 1601
+    },
+    {
+      "id": "off.makabe-hisamoto",
+      "name": "真壁久幹",
+      "clanId": "clan.satake",
+      "locationCastleId": "castle.ota",
+      "ldr": 82,
+      "val": 89,
+      "int": 65,
+      "pol": 61,
+      "traits": ["trait.goketsu"],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1522,
+      "deathYear": 1589,
+      "debutYear": 1562
+    },
+    {
+      "id": "off.utsunomiya-hirotsuna",
+      "name": "宇都宮廣綱",
+      "clanId": "clan.utsunomiya",
+      "locationCastleId": "castle.utsunomiya",
+      "ldr": 71,
+      "val": 65,
+      "int": 70,
+      "pol": 74,
+      "traits": [],
+      "tactics": [],
+      "rank": "shukuro",
+      "isKin": true,
+      "birthYear": 1545,
+      "deathYear": 1576,
+      "debutYear": 1557
+    },
+    {
+      "id": "off.utsunomiya-kunitsuna",
+      "name": "宇都宮國綱",
+      "clanId": "clan.utsunomiya",
+      "locationCastleId": "castle.utsunomiya",
+      "ldr": 69,
+      "val": 71,
+      "int": 65,
+      "pol": 66,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": true,
+      "birthYear": 1568,
+      "deathYear": 1607
+    },
+    {
+      "id": "off.haga-takasada",
+      "name": "芳賀高定",
+      "clanId": "clan.utsunomiya",
+      "locationCastleId": "castle.utsunomiya",
+      "ldr": 79,
+      "val": 73,
+      "int": 82,
+      "pol": 75,
+      "traits": ["trait.chushin"],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": false,
+      "birthYear": 1521,
+      "deathYear": 1586
+    },
+    {
+      "id": "off.haga-takatsugu",
+      "name": "芳賀高繼",
+      "clanId": "clan.utsunomiya",
+      "locationCastleId": "castle.utsunomiya",
+      "ldr": 71,
+      "val": 76,
+      "int": 66,
+      "pol": 60,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1526,
+      "deathYear": 1591
+    },
+    {
+      "id": "off.mibu-tsunao",
+      "name": "壬生綱雄",
+      "clanId": "clan.utsunomiya",
+      "locationCastleId": "castle.utsunomiya",
+      "ldr": 69,
+      "val": 72,
+      "int": 65,
+      "pol": 62,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1520,
+      "deathYear": 1576
+    },
+    {
+      "id": "off.mashiko-katsumune",
+      "name": "益子勝宗",
+      "clanId": "clan.utsunomiya",
+      "locationCastleId": "castle.utsunomiya",
+      "ldr": 62,
+      "val": 56,
+      "int": 81,
+      "pol": 72,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1535,
+      "deathYear": 1589
+    },
+    {
+      "id": "off.okamoto-sokei",
+      "name": "岡本宗慶",
+      "clanId": "clan.utsunomiya",
+      "locationCastleId": "castle.utsunomiya",
+      "ldr": 60,
+      "val": 47,
+      "int": 85,
+      "pol": 83,
+      "traits": ["trait.naisei"],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": false,
+      "birthYear": 1503,
+      "deathYear": 1572
+    },
+    {
+      "id": "off.tako-fusaoki",
+      "name": "多功房興",
+      "clanId": "clan.utsunomiya",
+      "locationCastleId": "castle.moka",
+      "ldr": 72,
+      "val": 78,
+      "int": 63,
+      "pol": 64,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1535,
+      "deathYear": 1606
+    },
+    {
+      "id": "off.yuki-harutomo",
+      "name": "結城晴朝",
+      "clanId": "clan.yuki",
+      "locationCastleId": "castle.yuki",
+      "ldr": 74,
+      "val": 64,
+      "int": 78,
+      "pol": 81,
+      "traits": [],
+      "tactics": [],
+      "rank": "shukuro",
+      "isKin": true,
+      "birthYear": 1534,
+      "deathYear": 1614
+    },
+    {
+      "id": "off.mizunoya-masamura",
+      "name": "水谷正村",
+      "clanId": "clan.yuki",
+      "locationCastleId": "castle.yuki",
+      "ldr": 83,
+      "val": 90,
+      "int": 75,
+      "pol": 69,
+      "traits": ["trait.goketsu"],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": false,
+      "birthYear": 1524,
+      "deathYear": 1598
+    },
+    {
+      "id": "off.mizunoya-katsutoshi",
+      "name": "水谷勝俊",
+      "clanId": "clan.yuki",
+      "locationCastleId": "castle.yuki",
+      "ldr": 73,
+      "val": 76,
+      "int": 66,
+      "pol": 71,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1542,
+      "deathYear": 1606
+    },
+    {
+      "id": "off.tagaya-masatsune",
+      "name": "多賀谷政經",
+      "clanId": "clan.yuki",
+      "locationCastleId": "castle.yuki",
+      "ldr": 79,
+      "val": 75,
+      "int": 77,
+      "pol": 71,
+      "traits": [],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": false,
+      "birthYear": 1520,
+      "deathYear": 1576
+    },
+    {
+      "id": "off.tagaya-shigetsune",
+      "name": "多賀谷重經",
+      "clanId": "clan.yuki",
+      "locationCastleId": "castle.yuki",
+      "ldr": 81,
+      "val": 87,
+      "int": 72,
+      "pol": 69,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": false,
+      "birthYear": 1558,
+      "deathYear": 1618
+    },
+    {
+      "id": "off.yamakawa-ujishige",
+      "name": "山川氏重",
+      "clanId": "clan.yuki",
+      "locationCastleId": "castle.yuki",
+      "ldr": 68,
+      "val": 70,
+      "int": 61,
+      "pol": 65,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1530,
+      "deathYear": 1567
+    },
+    {
+      "id": "off.yamakawa-harushige",
+      "name": "山川晴重",
+      "clanId": "clan.yuki",
+      "locationCastleId": "castle.yuki",
+      "ldr": 65,
+      "val": 64,
+      "int": 66,
+      "pol": 67,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": false,
+      "birthYear": 1566,
+      "deathYear": 1593
+    },
+    {
+      "id": "off.yuki-tomokatsu",
+      "name": "結城朝勝",
+      "clanId": "clan.yuki",
+      "locationCastleId": "castle.yuki",
+      "ldr": 72,
+      "val": 78,
+      "int": 62,
+      "pol": 60,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": true,
+      "birthYear": 1569,
+      "deathYear": 1628
+    },
+    {
+      "id": "off.tsukahara-bokuden",
+      "name": "塚原卜傳",
+      "clanId": null,
+      "locationCastleId": "castle.ota",
+      "ldr": 53,
+      "val": 110,
+      "int": 82,
+      "pol": 39,
+      "traits": ["trait.goketsu"],
+      "tactics": [],
+      "rank": "samurai-taisho",
+      "isKin": false,
+      "birthYear": 1489,
+      "deathYear": 1571
+    }
+  ],
+  "_provenance": {
+    "off.hojo-ujiyasu": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/encycl/neohojo5/006/",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        },
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/encycl/neohojo5/009/",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1515,
+          "status": "primary-confirmed"
+        },
+        "death": {
+          "value": 1571,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "官方傳記記載出生與卒年；氏政於1559年底承繼。保留規格14指定的氏康當主。"
+    },
+    "off.hojo-ujimasa": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/486242/1-20210610155430.pdf",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        },
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/kanko/corridor/castle/p10000.html",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1538,
+          "status": "primary-confirmed"
+        },
+        "death": {
+          "value": 1590,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "官方刊物列1538出生；墓所資料記1590卒。"
+    },
+    "off.hojo-ujiteru": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        },
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/kanko/corridor/castle/p10000.html",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1540,
+          "status": "primary-approximate"
+        },
+        "death": {
+          "value": 1590,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "官方地方聯合刊物的出生年為約1540；1590卒年見氏政・氏照墓所。"
+    },
+    "off.hojo-ujinori": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1545,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1600,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.hojo-ujikuni": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1541,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1597,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.hojo-ujinao": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1562,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1591,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.hojo-tsunashige": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1515,
+          "status": "primary-confirmed"
+        },
+        "death": {
+          "value": 1587,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "官方刊物記1515出生、1587卒；玉繩城主。"
+    },
+    "off.hojo-genan": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/kanko/hojo/p17445.html",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1493,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1589,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "地方傳說有1590卒說；1493–1589採通行傳記設計值，卒年存在異說。"
+    },
+    "off.hojo-ujishige": {
+      "sources": [
+        {
+          "url": "https://ch.kanagawa-museum.jp/dm/gohojyo/relation/d_houjyo_09.html",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        },
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1536,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1578,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "神奈川縣博物館確認綱成嫡子；初名康成，1571改氏繁。出生未明，1536為設計值。"
+    },
+    "off.hojo-ujitaka": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1522,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1562,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.hojo-ujikatsu": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1559,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1611,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.hojo-tsunashige-genan": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1530,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1569,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.matsuda-norihide": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1529,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1590,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.matsuda-yasunaga": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1537,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1590,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.kasahara-masaharu": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1540,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1590,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.daidoji-masashige": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1533,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1590,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.daidoji-naoshige": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1569,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1649,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.toyama-tsunakage": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1513,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1564,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.toyama-masakage": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1525,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1564,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.toyama-yasumitsu": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1537,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1579,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.tominaga-naokatsu": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1515,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1564,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.shimizu-yasuhide": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1532,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1591,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.shimizu-yasukuni": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1558,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1597,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.fuma-kotaro": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1540,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1603,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "小太郎是世襲稱號。此筆是規格指定的代表角色；1540–1603與1560北條歸屬為設計抽象，不宣稱特定第五代當年活動。"
+    },
+    "off.haga-ujitsugu": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1530,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1610,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.mamiya-yasutoshi": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1518,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1590,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.narita-ujinaga": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1542,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1596,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。 地方家系合併於規格所列勢力是劇本抽象，不代表完全直屬。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.ota-yasusuke": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1531,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1581,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.yamakado-sadakatsu": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1549,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1625,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.ishimaki-yasumasa": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1534,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1613,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.itabeoka-setsusai": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1537,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1609,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.kano-ichian": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1547,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1590,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.nakayama-ienori": {
+      "sources": [
+        {
+          "url": "https://www.city.hachioji.tokyo.jp/kankobunka/003/003/001/002/p005266.html",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1548,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1590,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "八王子市確認氏照家臣與1590八王子城戰死；出生估年。"
+    },
+    "off.kajiwara-kagetaka": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1531,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1611,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.hojo-ujitada": {
+      "sources": [
+        {
+          "url": "https://www.city.odawara.kanagawa.jp/global-image/units/285069/1-20160921171525.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1548,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1593,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.satomi-yoshitaka": {
+      "sources": [
+        {
+          "url": "https://www.city.tateyama.chiba.jp/satomi/kanzenban/kan_2shou/k2shou_4/k2shou_4min.html",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        },
+        {
+          "url": "https://www.city.tateyama.chiba.jp/satomi/kanzenban/kan_4shou/k4shou_2/k4shou_2min.html",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1507,
+          "status": "primary-confirmed"
+        },
+        "death": {
+          "value": 1574,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "館山市記1507出生、1574卒；1560久留里。"
+    },
+    "off.satomi-yoshihiro": {
+      "sources": [
+        {
+          "url": "https://www.city.tateyama.chiba.jp/satomi/kanzenban/kan_4shou/k4shou_2/k4shou_2min.html",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1530,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1578,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "館山市記1578卒；出生年仍標設計值。"
+    },
+    "off.satomi-yoshiyori": {
+      "sources": [
+        {
+          "url": "https://www.city.tateyama.chiba.jp/satomi/kanzenban/kan_4shou/k4shou_2/k4shou_2min.html",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1543,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1587,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.masaki-tokishige": {
+      "sources": [
+        {
+          "url": "https://www.city.tateyama.chiba.jp/satomi/kanzenban/kan_4shou/k4shou_2/k4shou_2min.html",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1513,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1561,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "館山市記1561卒。"
+    },
+    "off.masaki-tokitada": {
+      "sources": [
+        {
+          "url": "https://www.city.tateyama.chiba.jp/satomi/kanzenban/kan_4shou/k4shou_2/k4shou_2min.html",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1515,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1576,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "館山市記1576卒；1564之後轉向北條。開局尚置里見。"
+    },
+    "off.masaki-nobushige": {
+      "sources": [
+        {
+          "url": "https://www.city.tateyama.chiba.jp/satomi/kanzenban/kan_4shou/k4shou_2/k4shou_2min.html",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1540,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1564,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "館山市記1564國府臺戰死；自然卒年基準沿用通行卒年，不宣稱事件已實作。"
+    },
+    "off.masaki-noritoki": {
+      "sources": [
+        {
+          "url": "https://www.city.tateyama.chiba.jp/satomi/kanzenban/kan_4shou/k4shou_2/k4shou_2min.html",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1533,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1581,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.masaki-yoritada": {
+      "sources": [
+        {
+          "url": "https://www.city.minamiboso.chiba.jp/cmsfiles/contents/0000014/14422/kouho2021-8.pdf",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1551,
+          "status": "primary-confirmed"
+        },
+        "death": {
+          "value": 1622,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "南房總市墓所介紹列1551–1622。開局未元服。"
+    },
+    "off.anzai-sanemoto": {
+      "sources": [
+        {
+          "url": "https://www.city.tateyama.chiba.jp/satomi/kanzenban/kan_4shou/k4shou_2/k4shou_2min.html",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1520,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1568,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.sakai-taneharu": {
+      "sources": [
+        {
+          "url": "https://www.city.tateyama.chiba.jp/satomi/kanzenban/kan_4shou/k4shou_2/k4shou_2min.html",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1506,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1577,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "館山市記1564才由北條轉投里見。debutYear=1564表示延後加入，非1560在仕；兩生命年為設計估年。"
+    },
+    "off.satake-yoshiaki": {
+      "sources": [
+        {
+          "url": "https://www.pref.akita.lg.jp/uploads/public/archive_0000000413_00/007satakebunkomokuorku.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1531,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1565,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.satake-yoshishige": {
+      "sources": [
+        {
+          "url": "https://www.pref.akita.lg.jp/uploads/public/archive_0000000413_00/007satakebunkomokuorku.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1547,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1612,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.satake-yoshinobu": {
+      "sources": [
+        {
+          "url": "https://www.pref.akita.lg.jp/uploads/public/archive_0000000413_00/007satakebunkomokuorku.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1570,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1633,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.wada-akitame": {
+      "sources": [
+        {
+          "url": "https://www.pref.akita.lg.jp/uploads/public/archive_0000000413_00/007satakebunkomokuorku.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1532,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1618,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.higashi-yoshikata": {
+      "sources": [
+        {
+          "url": "https://www.pref.akita.lg.jp/uploads/public/archive_0000000413_00/007satakebunkomokuorku.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1495,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1567,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。 地方家系合併於規格所列勢力是劇本抽象，不代表完全直屬。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.onozaki-yoshimasa": {
+      "sources": [
+        {
+          "url": "https://www.pref.akita.lg.jp/uploads/public/archive_0000000413_00/007satakebunkomokuorku.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1531,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1585,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.onozaki-michinaga": {
+      "sources": [
+        {
+          "url": "https://www.pref.akita.lg.jp/uploads/public/archive_0000000413_00/007satakebunkomokuorku.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1525,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1586,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。 地方家系合併於規格所列勢力是劇本抽象，不代表完全直屬。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.onozaki-yoshitsura": {
+      "sources": [
+        {
+          "url": "https://www.pref.akita.lg.jp/uploads/public/archive_0000000413_00/007satakebunkomokuorku.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1540,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1612,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。 地方家系合併於規格所列勢力是劇本抽象，不代表完全直屬。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.satake-yoshikado": {
+      "sources": [
+        {
+          "url": "https://www.pref.akita.lg.jp/uploads/public/archive_0000000396_00/kenkyuukiyou018.pdf",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1510,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1580,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "同表明記義廉生卒不詳。1510–1580是設計估年，不是史料值。"
+    },
+    "off.satake-yoshitsuna": {
+      "sources": [
+        {
+          "url": "https://www.pref.akita.lg.jp/uploads/public/archive_0000000396_00/kenkyuukiyou018.pdf",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1545,
+          "status": "primary-confirmed"
+        },
+        "death": {
+          "value": 1599,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "秋田縣公文書館研究紀要的北家當主表列1545–1599；義斯讀作よしつな。"
+    },
+    "off.satake-yoshihisa": {
+      "sources": [
+        {
+          "url": "https://www.pref.akita.lg.jp/uploads/public/archive_0000000413_00/007satakebunkomokuorku.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1554,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1601,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.makabe-hisamoto": {
+      "sources": [
+        {
+          "url": "https://www.pref.akita.lg.jp/uploads/public/archive_0000000413_00/007satakebunkomokuorku.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1522,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1589,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "真壁家另有獨立領主身份。以1562延後加入佐竹避免把較晚從屬說成1560在仕；年值與具體加入年尚待一級考證。"
+    },
+    "off.utsunomiya-hirotsuna": {
+      "sources": [
+        {
+          "url": "https://utsunomiya-8story.jp/wordpress/wp-content/themes/utsunomiya/image/archive/contents10/utsunomiyajyou.pdf",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1545,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1576,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "宇都宮市記1557復城。出生1545與卒年1576未由本次一級資料獨立確認；登場年1557明示覆寫15歲預設。"
+    },
+    "off.utsunomiya-kunitsuna": {
+      "sources": [
+        {
+          "url": "https://utsunomiya-8story.jp/wordpress/wp-content/themes/utsunomiya/image/archive/contents10/utsunomiyajyou.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1568,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1607,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.haga-takasada": {
+      "sources": [
+        {
+          "url": "https://utsunomiya-8story.jp/wordpress/wp-content/themes/utsunomiya/image/archive/contents10/utsunomiyajyou.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1521,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1586,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.haga-takatsugu": {
+      "sources": [
+        {
+          "url": "https://utsunomiya-8story.jp/wordpress/wp-content/themes/utsunomiya/image/archive/contents10/utsunomiyajyou.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1526,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1591,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.mibu-tsunao": {
+      "sources": [
+        {
+          "url": "https://utsunomiya-8story.jp/wordpress/wp-content/themes/utsunomiya/image/archive/contents10/utsunomiyajyou.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1520,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1576,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。 地方家系合併於規格所列勢力是劇本抽象，不代表完全直屬。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.mashiko-katsumune": {
+      "sources": [
+        {
+          "url": "https://utsunomiya-8story.jp/wordpress/wp-content/themes/utsunomiya/image/archive/contents10/utsunomiyajyou.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1535,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1589,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。 地方家系合併於規格所列勢力是劇本抽象，不代表完全直屬。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.okamoto-sokei": {
+      "sources": [
+        {
+          "url": "https://utsunomiya-8story.jp/wordpress/wp-content/themes/utsunomiya/image/archive/contents10/utsunomiyajyou.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1503,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1572,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.tako-fusaoki": {
+      "sources": [
+        {
+          "url": "https://utsunomiya-8story.jp/wordpress/wp-content/themes/utsunomiya/image/archive/contents10/utsunomiyajyou.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1535,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1606,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.yuki-harutomo": {
+      "sources": [
+        {
+          "url": "https://www.city.yuki.lg.jp/kosodate-kyouiku/shougaigakushuu/bunkazai/bunkazai/kenshitei/page003180.html",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1534,
+          "status": "primary-confirmed"
+        },
+        "death": {
+          "value": 1614,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "結城市文化財資料列1534–1614。"
+    },
+    "off.mizunoya-masamura": {
+      "sources": [
+        {
+          "url": "https://www.city.yuki.lg.jp/data/doc/1674452184_doc_174_0.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1524,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1598,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.mizunoya-katsutoshi": {
+      "sources": [
+        {
+          "url": "https://www.city.yuki.lg.jp/data/doc/1674452184_doc_174_0.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1542,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1606,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.tagaya-masatsune": {
+      "sources": [
+        {
+          "url": "https://www.city.shimotsuma.lg.jp/data/doc/1677480217_doc_226_0.pdf",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        },
+        {
+          "url": "https://kotobank.jp/word/%E5%A4%9A%E8%B3%80%E8%B0%B7%E6%94%BF%E7%B5%8C-1088038",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1520,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1576,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。 地方家系合併於規格所列勢力是劇本抽象，不代表完全直屬。",
+      "note": "下妻市確認政經署名文書；1576卒年來自人名辭典（非一級史料）。出生1520為活動世代估年。"
+    },
+    "off.tagaya-shigetsune": {
+      "sources": [
+        {
+          "url": "https://www.city.yuki.lg.jp/data/doc/1674452184_doc_174_0.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1558,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1618,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。 地方家系合併於規格所列勢力是劇本抽象，不代表完全直屬。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.yamakawa-ujishige": {
+      "sources": [
+        {
+          "url": "https://www.city.ibaraki-koga.lg.jp/material/files/group/3/200806.pdf",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1530,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1567,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。 地方家系合併於規格所列勢力是劇本抽象，不代表完全直屬。",
+      "note": "古河市轉述系圖記1567卒；出生估年。"
+    },
+    "off.yamakawa-harushige": {
+      "sources": [
+        {
+          "url": "https://www.city.ibaraki-koga.lg.jp/material/files/group/3/200806.pdf",
+          "scope": "個別事實見備註；不可外推未標確認的年份。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1566,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1593,
+          "status": "primary-confirmed"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。 地方家系合併於規格所列勢力是劇本抽象，不代表完全直屬。",
+      "note": "古河市據系圖推定約1566出生，1593卒。出生仍列設計推定；開局未出生。"
+    },
+    "off.yuki-tomokatsu": {
+      "sources": [
+        {
+          "url": "https://www.city.yuki.lg.jp/data/doc/1674452184_doc_174_0.pdf",
+          "scope": "勢力背景來源；不獨立證明本人的生卒或1560在仕。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1569,
+          "status": "authored-estimate"
+        },
+        "death": {
+          "value": 1628,
+          "status": "authored-estimate"
+        }
+      },
+      "estimateBasis": "未確認的年值是活動世代／通行傳記的設計估值；不是新史料發現。出生較晚者依正常元服門檻登場。",
+      "scenario": "能力、特性、戰法、職階、一門標記與駐城均為手工遊戲設計；駐城使用14的有限城表，不宣稱1560實際任職。",
+      "note": "具名歷史人物；個別一級生卒與開局在仕考證仍待補。不得將勢力背景連結當成本人的生卒證據。"
+    },
+    "off.tsukahara-bokuden": {
+      "sources": [
+        {
+          "url": "https://www.city.kashima.ibaraki.jp/site/karuta/16036.html",
+          "scope": "鹿嶋市記1489出生、1571卒、1504開始遊歷。"
+        }
+      ],
+      "lifeYears": {
+        "birth": {
+          "value": 1489,
+          "status": "primary-confirmed"
+        },
+        "death": {
+          "value": 1571,
+          "status": "primary-confirmed"
+        }
+      },
+      "scenario": "具名浪人；寄寓太田是有限城表下的設計位置，不代表歷史居所。能力、特性與職階為手工設計。",
+      "note": "不屬長尾的上野武將，不替代builder另外產生的40名未具名浪人。"
+    }
+  }
+}

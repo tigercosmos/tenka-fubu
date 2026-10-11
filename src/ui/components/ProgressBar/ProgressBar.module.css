@@ -9,8 +9,9 @@
   flex: 1;
   min-width: 24px;
   overflow: hidden;
-  border: 1px solid var(--ink-100);
-  background: var(--washi-300);
+  border: 0;
+  border-radius: var(--radius-round);
+  background: var(--surface-raised);
 }
 .fill {
   display: block;
@@ -18,14 +19,14 @@
   transition: width var(--duration-normal) linear;
 }
 .gold {
-  background: var(--accent-gold);
+  background: var(--brand-gold);
 }
 .moss {
-  background: var(--accent-moss-bright);
+  background: var(--status-success);
 }
 .vermilion {
-  background: var(--accent-vermilion-bright);
+  background: var(--status-danger);
 }
 .indigo {
-  background: var(--accent-indigo);
+  background: var(--status-info);
 }

@@ -1,0 +1,35 @@
+{
+  "license": "project-original",
+  "asset": "assets/generated/source-images/terrain-mountain-hida-massif-v2-input.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": ["public/assets/textures/terrain-mountain-hida-massif-v1.png"],
+  "sourceImage": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-3bdde651-4ad9-4ce1-95fd-676431dd75a9.png",
+  "sourceImageSha256": "9a2c8527214e49495631656a6bc4fd730fae686f67a3ebee72221e5928c3e28a",
+  "sha256": "9a2c8527214e49495631656a6bc4fd730fae686f67a3ebee72221e5928c3e28a",
+  "bytes": 2365418,
+  "dimensions": {
+    "width": 1024,
+    "height": 1536
+  },
+  "alphaInspection": {
+    "zeroAlphaPixels": 953626,
+    "partialAlphaPixels": 619238,
+    "opaquePixels": 0,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 235,
+    "y": 23,
+    "width": 646,
+    "height": 1502
+  },
+  "processing": "Copied built-in output byte-for-byte; no raster edit, resize, crop, stretch or rotation.",
+  "prompt": "Use case: precise-object-edit\nAsset type: original transparent 2.5D Hida mountain terrain sprite for historical strategy game.\nInput image: edit target, preserve its tall narrow connected footprint, camera angle, summer olive woodland and gray-brown rock, northwest illumination and painterly-realistic fine material detail.\nPrimary request: replace the repetitive accordion of evenly spaced triangular peaks with an asymmetrical, geologically believable Japanese mountain massif. Change the crest structure only. Use three unequal mountain groups joined by low irregular wooded saddles: one broad high central crag with branching side spurs, a smaller blunt northern crest, and a lower broken southern shoulder. Peaks must differ strongly in height, spacing, outline and orientation. Rock faces should form connected folded ridges, not a row of isolated cones. No periodic diagonal stripes, repeated chevrons, identical steep faces, or equal summit cadence. Keep a continuous north-south spine with a slight southeast lean and narrow overall footprint.\nComposition invariants: portrait1024x1536 canvas; complete subject visible, centered, no clipping; actual nontransparent subject approximately535px wide and1350px tall, visible width/height0.38–0.40; at least75 transparent pixels above and below. Preserve uniform scale and viewpoint, do not stretch or rotate.\nTransparent background: genuine alpha. Tree tips transition directly to transparency, remove any smooth colored fog or rectangular ground tile beyond individual tree crowns. No shadow outside the wooded silhouette.\nAvoid: roads, rivers, lakes, buildings, troops, snow, text, logos, watermarks, copied commercial assets. Original game art only.",
+  "compositionQualification": {
+    "qualification": "This retained input changes the crest structure. It misses the requested aspect and margins. It is not a runtime asset."
+  }
+}

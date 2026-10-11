@@ -13,6 +13,7 @@ const hoisted = vi.hoisted(() => {
   class MockDisplayObject {
     children: MockDisplayObject[] = [];
     visible = true;
+    alpha = 1;
     parent: MockDisplayObject | null = null;
     label = '';
     addChild<T extends MockDisplayObject>(c: T): T {
@@ -272,5 +273,97 @@ describe('buildSettlements（CD4：只繞本城，id 字典序，靜態一次建
     const spy = vi.spyOn(settlements.container, 'destroy');
     expect(() => settlements.destroy()).not.toThrow();
     expect(spy).toHaveBeenCalledWith({ children: true });
+  });
+});
+
+describe('road-oriented town material', () => {
+  it('explicit geographical context produces grounded walls and roofs in two static Graphics, not flat roof scatter', () => {
+    const graph = graphOf({
+      'castle.main': { x: 100, y: 100 },
+      'district.end': { x: 300, y: 100, kind: 'district' },
+    });
+    const edge = {
+      id: 'road.approach',
+      a: 'castle.main',
+      b: 'district.end',
+      type: 'land',
+      grade: 3,
+      baseDays: 1,
+    };
+    const connected = {
+      ...graph,
+      edges: new Map([[edge.id, edge]]),
+      adjacency: new Map([['castle.main', [edge.id]]]),
+    };
+    const context = {
+      land: { polygons: [{ id: 'land', points: [0, 0, 500, 0, 500, 500, 0, 500] }] },
+      lakes: [],
+      obstacles: [],
+    };
+    const town = Reflect.apply(buildSettlements, undefined, [
+      connected,
+      { 'castle.main': 'main' },
+      context,
+    ]) as Settlements;
+    expect(town.container.children).toHaveLength(2);
+    const model = town.container.children[1] as unknown as RecordingGraphics;
+    const colors = model.argsOf('fill').map((a) => (a[0] as { color: number }).color);
+    expect(new Set(colors).size).toBeGreaterThanOrEqual(4);
+    const geometry = town.getGeometry();
+    const ordered = [...geometry.houses].sort(
+      (a, b) =>
+        a.center.y - b.center.y || (a.castleId < b.castleId ? -1 : a.castleId > b.castleId ? 1 : 0),
+    );
+    const expectedPolygons = ordered
+      .flatMap((h) => [...h.walls, ...h.roofs])
+      .map((p) => [p.flatMap((v) => [v.x, v.y])]);
+    expect(model.argsOf('poly')).toEqual(expectedPolygons);
+    const sum = (p: readonly { x: number; y: number }[]) =>
+      p.reduce((total, v) => total + v.x + v.y, 0) / p.length;
+    const expectedPaint = ordered.flatMap((h) => [
+      ...h.walls.map((p, i) => [
+        { color: sum(p) <= sum(h.walls[1 - i]!) ? 0xbca98a : 0x917f62, alpha: 0.95 },
+      ]),
+      ...h.roofs.map((p, i) => [
+        { color: sum(p) <= sum(h.roofs[1 - i]!) ? 0x697465 : 0x414a42, alpha: 0.96 },
+      ]),
+    ]);
+    expect(model.argsOf('fill')).toEqual(expectedPaint);
+    expect((town.container.children[0] as unknown as RecordingGraphics).argsOf('fill')).toEqual(
+      ordered.map(() => [{ color: 0x514c3d, alpha: 0.18 }]),
+    );
+    // Every roof tone must separate from both warm wall tones, not merely have a different hex value.
+    const channels = (color: number) => [(color >>> 16) & 255, (color >>> 8) & 255, color & 255];
+    for (let index = 0; index < colors.length; index += 4) {
+      for (const roof of colors.slice(index + 2, index + 4)) {
+        for (const wall of colors.slice(index, index + 2)) {
+          const a = channels(roof),
+            b = channels(wall);
+          expect(Math.hypot(...a.map((value, i) => value - b[i]!))).toBeGreaterThan(40);
+        }
+      }
+    }
+    expect(model.countOf('poly')).toBeGreaterThan(SETTLEMENT.roofCount);
+    const commands = JSON.stringify(model.calls);
+    town.setStage('mid');
+    expect(town.container.visible).toBe(true);
+    expect(town.container.alpha).toBe(0.65);
+    town.setStage('near');
+    expect(town.container.alpha).toBe(1);
+    town.setStage('far');
+    expect(town.container.visible).toBe(false);
+    expect(JSON.stringify(model.calls)).toBe(commands);
+    expect(town.getDiagnostics()).toMatchObject({ ownedGraphics: 2, ownedTextures: 0 });
+    const ground = town.container.children[0]!,
+      body = town.container.children[1]!;
+    const groundDestroy = vi.spyOn(ground, 'destroy'),
+      bodyDestroy = vi.spyOn(body, 'destroy');
+    town.destroy();
+    town.destroy();
+    expect(groundDestroy).toHaveBeenCalledTimes(1);
+    expect(groundDestroy).toHaveBeenCalledWith({ context: true });
+    expect(bodyDestroy).toHaveBeenCalledTimes(1);
+    expect(bodyDestroy).toHaveBeenCalledWith({ context: true });
+    expect(town.getDiagnostics()).toMatchObject({ houses: 0, ownedGraphics: 0, ownedTextures: 0 });
   });
 });

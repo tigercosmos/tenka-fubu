@@ -18,6 +18,7 @@ import { createRngStream } from '../rng';
 import { RANK_VALUES } from '../state/enums';
 import { nearestOwnedCastleByTravelTime } from '../systems/castleSelection';
 import { isOfficerBusy } from '../systems/diplomacyCommon';
+import { clearSpouseOnDeath } from '../systems/marriage';
 import type { CommandByType, EmitFn } from './registry';
 import { REJECT_REASONS } from './reasons';
 import type { ValidationResult } from './types';
@@ -81,7 +82,7 @@ export function validateRecruitRonin(
   )
     return { ok: false, reasonKey: REJECT_REASONS.invalidTarget };
   if (isOfficerBusy(state, executor.id))
-    return { ok: false, reasonKey: REJECT_REASONS.officerBusy };
+    return { ok: false, reasonKey: REJECT_REASONS.officerBusy, params: { name: executor.name } };
   const cooldown = state.events.cooldownUntil[`officer.recruit:${target.id}:${cmd.clanId}`] ?? 0;
   if (cooldown > state.time.day) return { ok: false, reasonKey: REJECT_REASONS.alreadyActive };
   if (
@@ -157,7 +158,10 @@ export function applyRewardOfficer(
 ): void {
   void emit;
   const officer = state.officers[cmd.officerId]!;
-  state.clans[cmd.clanId]!.gold -= rewardOfficerCost(cmd.tier);
+  const clan = state.clans[cmd.clanId]!;
+  const cost = rewardOfficerCost(cmd.tier);
+  clan.gold -= cost;
+  if (clan.rewardGoldSpentThisMonth !== null) clan.rewardGoldSpentThisMonth += cost;
   adjustLoyalty(officer, rewardOfficerLoyaltyGain(officer, cmd.tier));
   officer.rewardGiftsThisYear += 1;
 }
@@ -243,7 +247,7 @@ export function applyHandleCaptive(
     );
     return;
   }
-  releaseOfficerAssignments(state, target.id);
+  releaseOfficerAssignments(state, target.id).forEach(emit);
   target.capturedByClanId = null;
   target.captiveRetryOn = null;
   target.armyId = null;
@@ -261,6 +265,7 @@ export function applyHandleCaptive(
     if (refuge) target.locationCastleId = refuge.id;
   } else {
     target.status = 'dead';
+    clearSpouseOnDeath(state, target.id);
     target.clanId = null;
     target.locationCastleId = null;
     clan.prestige = Math.max(0, clan.prestige - BAL.executePrestigeLoss);

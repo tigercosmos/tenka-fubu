@@ -54,6 +54,9 @@ import {
   OFF_BETA_BUSHO,
   OFF_BETA_LORD,
   OFF_BETA_TAISHO,
+  DIST_A2X,
+  PERSONA_DEFAULT,
+  TINY_SCENARIO,
 } from '../fixtures/tiny';
 
 function deploy(
@@ -167,7 +170,7 @@ describe('M4 軍事 core', () => {
     expect(combinedSiegeMitigation(0.3, -0.5)).toBe(0);
   });
 
-  it('emits M5 kassen offers after the feature gate is enabled', () => {
+  it('emits M5 kassen offers when combined troops meet the threshold', () => {
     const state = buildTinyState();
     const alpha = deploy(state, CLAN_ALPHA, CASTLE_A2, OFF_ALPHA_TAISHO, CASTLE_B1, 2_000);
     const beta = deploy(state, CLAN_BETA, CASTLE_B1, OFF_BETA_TAISHO, CASTLE_A2, 2_000);
@@ -176,8 +179,115 @@ describe('M4 軍事 core', () => {
 
     const events = startFieldCombat(state, CASTLE_A2, [alpha.id], [beta.id]);
 
-    expect(BAL.featureKassenEnabled).toBe(true);
     expect(events.some((event) => event.type === 'battle.kassenAvailable')).toBe(true);
+  });
+
+  it.each([2999, 3000])('preserves the M5 offer boundary at %i combined troops', (total) => {
+    const state = buildTinyState();
+    state.castles[CASTLE_A2]!.soldiers = 2000;
+    const deployments = [
+      {
+        clanId: CLAN_ALPHA,
+        originCastleId: CASTLE_A2,
+        leaderId: OFF_ALPHA_TAISHO,
+        targetNodeId: CASTLE_B1,
+        soldiers: 1500,
+      },
+      {
+        clanId: CLAN_BETA,
+        originCastleId: CASTLE_B1,
+        leaderId: OFF_BETA_TAISHO,
+        targetNodeId: CASTLE_A2,
+        soldiers: total - 1500,
+      },
+    ];
+    const armies = deployments.map((deployment) => {
+      expect(
+        validateMarch(state, {
+          type: 'march',
+          ...deployment,
+          deputyIds: [],
+          food: Math.ceil(deployment.soldiers * BAL.fieldFoodPerSoldierDaily * 30),
+        }),
+      ).toEqual({ ok: true });
+      return deploy(
+        state,
+        deployment.clanId,
+        deployment.originCastleId,
+        deployment.leaderId,
+        deployment.targetNodeId,
+        deployment.soldiers,
+      );
+    });
+    armies.forEach((army) => place(army, CASTLE_A2));
+    expect(validateState(state)).toEqual([]);
+    const events = startFieldCombat(state, CASTLE_A2, [armies[0]!.id], [armies[1]!.id]);
+    expect(events.some((event) => event.type === 'battle.kassenAvailable')).toBe(total === 3000);
+    expect(validateState(state)).toEqual([]);
+  });
+
+  it('keeps above-threshold AI-only encounters in automatic field combat without an offer', () => {
+    const player = 'clan.observer' as ClanId;
+    const leader = 'off.observer' as OfficerId;
+    const scenario = structuredClone(TINY_SCENARIO);
+    const alpha = scenario.clans.find((clan) => clan.id === CLAN_ALPHA)!;
+    scenario.clans.push({ ...alpha, id: player, leaderId: leader, homeCastleId: CASTLE_A1 });
+    alpha.homeCastleId = CASTLE_A2;
+    scenario.castles.find((castle) => castle.id === CASTLE_A1)!.ownerClanId = player;
+    scenario.castles.find((castle) => castle.id === CASTLE_A1)!.lordId = leader;
+    const staging = scenario.castles.find((castle) => castle.id === CASTLE_A2)!;
+    staging.tier = 'main';
+    staging.soldiers = 2000;
+    for (const district of scenario.districts)
+      if (district.castleId === CASTLE_A1) district.ownerClanId = player;
+    const originalLeader = scenario.officers.find((officer) => officer.id === OFF_ALPHA_LORD)!;
+    scenario.officers.push({
+      ...originalLeader,
+      id: leader,
+      clanId: player,
+      locationCastleId: CASTLE_A1,
+    });
+    for (const officer of scenario.officers)
+      if (officer.clanId === CLAN_ALPHA) officer.locationCastleId = CASTLE_A2;
+    const state = buildTinyState({
+      ...scenario,
+      playerClanId: player,
+      clanPersonaIds: { ...scenario.clanPersonaIds, [player]: PERSONA_DEFAULT },
+    });
+    const legalDeploy = (
+      clanId: ClanId,
+      originCastleId: CastleId,
+      leaderId: OfficerId,
+      targetNodeId: MapNodeId,
+    ) => {
+      expect(
+        validateMarch(state, {
+          type: 'march',
+          clanId,
+          originCastleId,
+          leaderId,
+          targetNodeId,
+          deputyIds: [],
+          soldiers: 1500,
+          food: Math.ceil(1500 * BAL.fieldFoodPerSoldierDaily * 30),
+        }),
+      ).toEqual({ ok: true });
+      return deploy(state, clanId, originCastleId, leaderId, targetNodeId, 1500);
+    };
+    const first = legalDeploy(CLAN_ALPHA, CASTLE_A2, OFF_ALPHA_TAISHO, CASTLE_B1);
+    const second = legalDeploy(CLAN_BETA, CASTLE_B1, OFF_BETA_TAISHO, CASTLE_A2);
+    place(first, CASTLE_A2);
+    place(second, CASTLE_A2);
+    expect(validateState(state)).toEqual([]);
+    const events = startFieldCombat(state, CASTLE_A2, [first.id], [second.id]);
+    expect(events.some((event) => event.type === 'battle.started')).toBe(true);
+    expect(events.some((event) => event.type === 'battle.kassenAvailable')).toBe(false);
+    expect(first.status).toBe('engaged');
+    expect(second.status).toBe('engaged');
+    const before = first.soldiers + second.soldiers;
+    fieldCombatSystem(state);
+    expect(first.soldiers + second.soldiers).toBeLessThan(before);
+    expect(validateState(state)).toEqual([]);
   });
 
   it('M4-1 validates officer availability and classifies an allied castle as march, not conquer', () => {
@@ -350,6 +460,30 @@ describe('M4 軍事 core', () => {
       [CLAN_BETA, gammaClan].sort(),
     );
     expect(alpha.status).toBe('holding');
+  });
+
+  it('detaches a routed contingent while its allied contingent continues the field battle', () => {
+    const state = buildTinyState();
+    const routed = deploy(state, CLAN_ALPHA, CASTLE_A1, OFF_ALPHA_LORD, CASTLE_B1, 200);
+    const ally = deploy(state, CLAN_ALPHA, CASTLE_A2, OFF_ALPHA_TAISHO, CASTLE_B1, 500);
+    const enemy = deploy(state, CLAN_BETA, CASTLE_B1, OFF_BETA_TAISHO, CASTLE_A2, 500);
+    for (const army of [routed, ally, enemy]) place(army, CASTLE_A2);
+    startFieldCombat(state, CASTLE_A2, [routed.id, ally.id], [enemy.id]);
+    routed.morale = 0;
+    ally.morale = enemy.morale = 100;
+    expect(validateState(state)).toEqual([]);
+    const events = fieldCombatSystem(state);
+    expect(routed.status).toBe('routed');
+    expect(ally.status).toBe('engaged');
+    expect(enemy.status).toBe('engaged');
+    const combat = Object.values(state.fieldCombats)[0]!;
+    expect(combat.sideA.armyIds).toEqual([ally.id]);
+    expect(combat.sideB.armyIds).toEqual([enemy.id]);
+    expect(combat.sideA.initialTroops).toBe(700);
+    expect(combat.sideA.cumulativeLosses).toBeGreaterThan(0);
+    expect(events.some((event) => event.type === 'army.routed')).toBe(true);
+    expect(events.some((event) => event.type === 'battle.ended')).toBe(false);
+    expect(validateState(state)).toEqual([]);
   });
 
   it('M4-6 resolves simultaneous rout as no winner instead of inventing an empty winning side', () => {
@@ -644,6 +778,51 @@ describe('M4 軍事 core', () => {
       validateRecallArmy(state, { type: 'recallArmy', clanId: CLAN_ALPHA, armyId: army.id }),
     ).toEqual({ ok: false, reasonKey: 'cmd.reject.pathBlocked' });
   });
+
+  it.each(['routed', 'destroyed'] as const)(
+    'detaches a %s siege contingent while relief continues (rout branch also resumes siege)',
+    (outcome) => {
+      const state = buildTinyState();
+      const departing = deploy(state, CLAN_ALPHA, CASTLE_A1, OFF_ALPHA_LORD, CASTLE_B1, 200);
+      const survivor = deploy(state, CLAN_ALPHA, CASTLE_A2, OFF_ALPHA_TAISHO, CASTLE_B1, 700);
+      const relief = deploy(state, CLAN_BETA, CASTLE_B1, OFF_BETA_TAISHO, CASTLE_A2, 200);
+      for (const army of [departing, survivor, relief]) place(army, CASTLE_B1);
+      beginSiege(state, CASTLE_B1, departing.id);
+      beginSiege(state, CASTLE_B1, survivor.id);
+      const siege = Object.values(state.sieges)[0]!;
+      militaryMovementSystem(state);
+      expect(siege.interrupted).toBe(true);
+      if (outcome === 'routed') departing.morale = 0;
+      else {
+        // INV-valid synthetic combat boundary: enough enemy power to destroy
+        // the one-soldier contingent by actual damage, but not its large ally.
+        departing.soldiers = 1;
+        relief.soldiers = relief.initialTroops = 6_000;
+      }
+      survivor.morale = relief.morale = 100;
+      expect(validateState(state)).toEqual([]);
+      const events = fieldCombatSystem(state);
+      expect(Object.keys(state.fieldCombats)).toHaveLength(1);
+      expect(siege.attackerArmyIds).toEqual([survivor.id]);
+      expect(survivor.siegeId).toBe(siege.id);
+      expect(survivor.status).toBe('engaged');
+      expect(siege.interrupted).toBe(true);
+      expect(events.some((e) => e.type === 'siege.ended')).toBe(false);
+      if (outcome === 'routed') expect(departing.status).toBe('routed');
+      else expect(state.armies[departing.id]).toBeUndefined();
+      expect(validateState(state)).toEqual([]);
+      if (outcome === 'destroyed') return;
+      // The surviving attacker wins the following relief exchange; the same siege resumes.
+      relief.morale = 0;
+      fieldCombatSystem(state);
+      expect(Object.keys(state.fieldCombats)).toHaveLength(0);
+      expect(state.sieges[siege.id]).toBe(siege);
+      expect(siege.interrupted).toBe(false);
+      expect(siege.attackerArmyIds).toEqual([survivor.id]);
+      expect(survivor.status).toBe('sieging');
+      expect(validateState(state)).toEqual([]);
+    },
+  );
 
   it('M4-10 interrupts a siege for relief and keeps the dual combat/siege linkage invariant-valid', () => {
     const state = buildTinyState();
@@ -1057,10 +1236,11 @@ describe('M4 軍事 core', () => {
   it('keeps the resident as defender and the same-day arrival as challenger', () => {
     const state = buildTinyState();
     setWar(state, CLAN_ALPHA, CLAN_BETA);
+    // Configure immutable travel input before departure caches the entered cost.
+    state.roads['road.a2-b1' as RoadEdgeId]!.baseDays = 0.5;
     const resident = deploy(state, CLAN_ALPHA, CASTLE_A2, OFF_ALPHA_TAISHO, CASTLE_B1, 100);
     const challenger = deploy(state, CLAN_BETA, CASTLE_B1, OFF_BETA_TAISHO, CASTLE_A2, 200);
     place(resident, CASTLE_A2, 'holding');
-    state.roads['road.a2-b1' as RoadEdgeId]!.baseDays = 0.5;
 
     const started = militaryMovementSystem(state).find((event) => event.type === 'battle.started');
 
@@ -1268,19 +1448,31 @@ describe('M4 軍事 core', () => {
   it('applies later-day pursuit when a winner meets a routed army', () => {
     const state = buildTinyState();
     setWar(state, CLAN_ALPHA, CLAN_BETA);
+    state.roads['road.a2-a2x' as RoadEdgeId]!.baseDays = BAL.retreatSpeedFactor;
+    const arrivalRoad = 'road.pursuit-meeting' as RoadEdgeId;
+    state.roads[arrivalRoad] = {
+      id: arrivalRoad,
+      a: CASTLE_B1,
+      b: DIST_A2X,
+      type: 'land',
+      grade: 1,
+      baseDays: 0.5,
+    };
     const routed = deploy(state, CLAN_ALPHA, CASTLE_A2, OFF_ALPHA_TAISHO, CASTLE_A1, 700);
-    const winner = deploy(state, CLAN_BETA, CASTLE_B1, OFF_BETA_TAISHO, CASTLE_A2, 700);
+    const winner = deploy(state, CLAN_BETA, CASTLE_B1, OFF_BETA_TAISHO, DIST_A2X, 700);
     winner.pursuitEligibleArmyIds = [routed.id];
     place(routed, CASTLE_A2, 'routed');
-    routed.path = [CASTLE_A2, CASTLE_A1];
+    // Both arrive at the district this phase; the routed army has no remaining
+    // budget to depart it. The old ten-day-edge fixture was not a node meeting.
+    routed.path = [CASTLE_A2, DIST_A2X, CASTLE_A2, CASTLE_A1];
     routed.targetNodeId = CASTLE_A1;
-    state.roads['road.a1-a2' as RoadEdgeId]!.baseDays = 10;
-    state.roads['road.a2-b1' as RoadEdgeId]!.baseDays = 0.5;
     state.rng.misc = rngSeedWhere((first) => first >= BAL.battleDeathChanceRout);
     const afterRoutLoss = routed.soldiers - Math.ceil(routed.soldiers * BAL.routDailyLossRate);
 
     militaryMovementSystem(state);
 
+    expect(state.armies[routed.id]?.posNodeId).toBe(DIST_A2X);
+    expect(state.armies[routed.id]?.edgeProgressDays).toBe(0);
     expect(state.armies[routed.id]?.soldiers).toBeLessThan(afterRoutLoss);
   });
 
@@ -1339,18 +1531,26 @@ describe('M4 軍事 core', () => {
   it('damages only the exact eligible routed army in a mixed same-clan bucket', () => {
     const state = buildTinyState();
     setWar(state, CLAN_ALPHA, CLAN_BETA);
+    state.roads['road.a2-a2x' as RoadEdgeId]!.baseDays = BAL.retreatSpeedFactor;
+    const arrivalRoad = 'road.pursuit-meeting' as RoadEdgeId;
+    state.roads[arrivalRoad] = {
+      id: arrivalRoad,
+      a: CASTLE_B1,
+      b: DIST_A2X,
+      type: 'land',
+      grade: 1,
+      baseDays: 0.5,
+    };
     const eligible = deploy(state, CLAN_ALPHA, CASTLE_A2, OFF_ALPHA_TAISHO, CASTLE_A1, 700);
     const unrelated = deploy(state, CLAN_ALPHA, CASTLE_A1, OFF_ALPHA_BUSHO, CASTLE_A2, 700);
-    const winner = deploy(state, CLAN_BETA, CASTLE_B1, OFF_BETA_TAISHO, CASTLE_A2, 700);
+    const winner = deploy(state, CLAN_BETA, CASTLE_B1, OFF_BETA_TAISHO, DIST_A2X, 700);
     place(eligible, CASTLE_A2, 'routed');
     place(unrelated, CASTLE_A2, 'routed');
-    eligible.path = [CASTLE_A2, CASTLE_A1];
+    eligible.path = [CASTLE_A2, DIST_A2X, CASTLE_A2, CASTLE_A1];
     eligible.targetNodeId = CASTLE_A1;
-    unrelated.path = [CASTLE_A2, CASTLE_A1];
+    unrelated.path = [CASTLE_A2, DIST_A2X, CASTLE_A2, CASTLE_A1];
     unrelated.targetNodeId = CASTLE_A1;
     winner.pursuitEligibleArmyIds = [eligible.id];
-    state.roads['road.a1-a2' as RoadEdgeId]!.baseDays = 10;
-    state.roads['road.a2-b1' as RoadEdgeId]!.baseDays = 0.5;
     state.rng.misc = rngSeedWhere((first) => first >= BAL.battleDeathChanceRout);
     const eligibleAfterRout =
       eligible.soldiers - Math.ceil(eligible.soldiers * BAL.routDailyLossRate);
@@ -1359,6 +1559,10 @@ describe('M4 軍事 core', () => {
 
     militaryMovementSystem(state);
 
+    expect(eligible.posNodeId).toBe(DIST_A2X);
+    expect(unrelated.posNodeId).toBe(DIST_A2X);
+    expect(eligible.edgeProgressDays).toBe(0);
+    expect(unrelated.edgeProgressDays).toBe(0);
     expect(state.armies[eligible.id]?.soldiers).toBeLessThan(eligibleAfterRout);
     expect(state.armies[unrelated.id]?.soldiers).toBe(unrelatedAfterRout);
   });

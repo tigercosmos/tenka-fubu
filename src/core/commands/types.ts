@@ -60,6 +60,8 @@ export type Command =
   | CmdMarch
   | CmdSetArmyTarget
   | CmdRecallArmy
+  | CmdReturnArmyToCastle
+  | CmdDepositGarrison
   | CmdSetAutoReturn
   | CmdStartKassen
   | CmdBattleMove
@@ -202,6 +204,20 @@ export interface CmdRecallArmy extends CommandBase {
   type: 'recallArmy';
   armyId: ArmyId;
 } // 召回
+/** M7 validated explicit retreat destination; legacy recallArmy retains its original semantics. */
+export interface CmdReturnArmyToCastle extends CommandBase {
+  type: 'returnArmyToCastle';
+  armyId: ArmyId;
+  destinationCastleId: CastleId;
+}
+/** M7 consolidation transfers only troops and food actually present at the owned castle. */
+export interface CmdDepositGarrison extends CommandBase {
+  type: 'depositGarrison';
+  armyId: ArmyId;
+  castleId: CastleId;
+  soldiers: number;
+  food: number;
+}
 export interface CmdSetAutoReturn extends CommandBase {
   // 切換部隊自動歸還（勘誤 E-32；07 §3.13）
   type: 'setAutoReturn';

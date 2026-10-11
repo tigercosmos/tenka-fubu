@@ -5,16 +5,14 @@
 // → app `PauseReason` 的轉譯掛鉤（§3.4.4 步驟 9 的行為對應，實際呼叫時機見 bridge.ts 內
 // `onAutoPauseReasons` 掛鉤說明）。
 //
-// 設定閘控（依玩家設定關閉個別自動暫停原因）留待 M8-16 settings 系統落地後接線；M1 期間全部
-// 原因視為預設開啟——由於 Step 13 reports（M1-8 起）尚為骨架、`autoPauseReasons` 恆空
-//（見 src/core/systems/index.ts stepReports 註解），本檔的 core 事件分支於 M1 階段實質不可達，
-// 僅先建好轉譯管線供 M1-8／M8-16 落地後即可運作，不需再改本檔。
+// M8：每次到達通知讀取最新設定；只控制到達提示的暫停，不解除必要選擇 modal 的暫停。
 
 import type { AutoPauseReason } from '@core/systems/index';
 import { onAutoPauseReasons } from './bridge';
 import type { PauseReason } from './store';
 import type { GameLoopController } from './gameLoop';
 import { store } from './store';
+import { settingsStore } from './settings/runtime';
 
 /** core AutoPauseReason → app PauseReason（命名差異見兩檔各自出處；01 §3.5.3／03 §4.1）。 */
 const REASON_MAP: Record<AutoPauseReason, PauseReason> = {
@@ -26,10 +24,18 @@ const REASON_MAP: Record<AutoPauseReason, PauseReason> = {
   monthStart: 'monthStart',
 };
 
-/** 純函式抽出以利單元測試（見 tests/app/autoPause.spec.ts）：多原因時取第一項
- * （Step 13 已依 03 §4.1 表列序排序去重）；空陣列回傳 null（不暫停）。 */
+/** 多原因取首個啟用項（Step 13 已排序去重）；設定只屬 app、不寫入 core。 */
 export function translateAutoPauseReasons(reasons: readonly AutoPauseReason[]): PauseReason | null {
-  const first = reasons[0];
+  const preferences = settingsStore.getState().settings.autoPause;
+  const preferenceForReason: Record<AutoPauseReason, keyof typeof preferences> = {
+    siegeOnPlayer: 'siege',
+    battleAvailable: 'battle',
+    proposalArrived: 'proposal',
+    envoyArrived: 'envoy',
+    historicalEvent: 'event',
+    monthStart: 'monthStart',
+  };
+  const first = reasons.find((reason) => preferences[preferenceForReason[reason]]);
   return first === undefined ? null : REASON_MAP[first];
 }
 

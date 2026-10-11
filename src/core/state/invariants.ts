@@ -556,7 +556,10 @@ function checkInv10(state: GameState): Violation[] {
         ]),
       );
     }
-    if (rankIndex(leader.rank) < rankIndex('karo')) {
+    if (
+      state.clans[corps.clanId]?.leaderId !== leader.id &&
+      rankIndex(leader.rank) < rankIndex('karo')
+    ) {
       v.push(
         violation('INV-10', `軍團 ${corps.id} 軍團長 ${leader.id} 身分 ${leader.rank} 未達 karo`, [
           corps.id,
@@ -681,7 +684,13 @@ function checkInv12(state: GameState): Violation[] {
         );
       }
     }
-    if (army.edgeProgressDays < 0 || army.edgeProgressDays > army.edgeCostDays) {
+    if (
+      !Number.isFinite(army.edgeProgressDays) ||
+      !Number.isFinite(army.edgeCostDays) ||
+      army.edgeCostDays < 0 ||
+      army.edgeProgressDays < 0 ||
+      army.edgeProgressDays > army.edgeCostDays
+    ) {
       v.push(
         violation(
           'INV-12',
@@ -690,9 +699,45 @@ function checkInv12(state: GameState): Violation[] {
         ),
       );
     }
+    if (army.reversingEdgeEndNodeId !== undefined && army.reversingEdgeEndNodeId !== null) {
+      const end = army.reversingEdgeEndNodeId;
+      if (
+        typeof end !== 'string' ||
+        end === army.posNodeId ||
+        !edgeExists(state, army.posNodeId, end) ||
+        army.edgeProgressDays <= 0 ||
+        army.edgeCostDays <= 0
+      ) {
+        v.push(violation('INV-12', `部隊 ${army.id} 的反向移動邊／進度不合法`, [army.id]));
+      }
+    }
   }
   for (const transport of Object.values<TransportOrder>(state.transports)) {
-    if (transport.pathCursor < 0 || transport.pathCursor >= transport.path.length) {
+    if (
+      typeof transport.fromCastleId !== 'string' ||
+      !Object.hasOwn(state.castles, transport.fromCastleId) ||
+      typeof transport.toCastleId !== 'string' ||
+      !Object.hasOwn(state.castles, transport.toCastleId)
+    ) {
+      v.push(violation('INV-12', `輸送隊 ${transport.id} 的起訖城不存在`, [transport.id]));
+    }
+    for (const nodeId of transport.path) {
+      if (
+        typeof nodeId !== 'string' ||
+        (!Object.hasOwn(state.castles, nodeId) && !Object.hasOwn(state.districts, nodeId))
+      ) {
+        v.push(
+          violation('INV-12', `輸送隊 ${transport.id} 的路徑節點 ${String(nodeId)} 不存在`, [
+            transport.id,
+          ]),
+        );
+      }
+    }
+    const cursorValid =
+      Number.isInteger(transport.pathCursor) &&
+      transport.pathCursor >= 0 &&
+      transport.pathCursor < transport.path.length;
+    if (!cursorValid) {
       v.push(
         violation(
           'INV-12',
@@ -710,12 +755,29 @@ function checkInv12(state: GameState): Violation[] {
         );
       }
     }
-    if (transport.edgeProgressDays < 0 || transport.edgeProgressDays > transport.edgeCostDays) {
+    const costValid =
+      typeof transport.edgeCostDays === 'number' &&
+      Number.isFinite(transport.edgeCostDays) &&
+      transport.edgeCostDays >= 0;
+    const progressValid =
+      typeof transport.edgeProgressDays === 'number' &&
+      Number.isFinite(transport.edgeProgressDays) &&
+      transport.edgeProgressDays >= 0 &&
+      transport.edgeProgressDays <= transport.edgeCostDays;
+    if (!costValid || !progressValid) {
       v.push(
         violation('INV-12', `輸送隊 ${transport.id} 的 edgeProgressDays 超出 [0, edgeCostDays]`, [
           transport.id,
         ]),
       );
+    }
+    if (typeof transport.returning !== 'boolean') {
+      v.push(violation('INV-12', `輸送隊 ${transport.id} 的 returning 須為布林值`, [transport.id]));
+    } else if (cursorValid && costValid && transport.edgeCostDays > 0) {
+      const nextIndex = transport.pathCursor + (transport.returning ? -1 : 1);
+      if (nextIndex < 0 || nextIndex >= transport.path.length) {
+        v.push(violation('INV-12', `輸送隊 ${transport.id} 的行進邊缺少方向終點`, [transport.id]));
+      }
     }
   }
   return v;
@@ -728,6 +790,50 @@ function checkInv13(state: GameState): Violation[] {
   const v: Violation[] = [];
   const engagedArmyIds = new Set<ArmyId>();
   for (const fc of Object.values(state.fieldCombats)) {
+    for (const side of [fc.sideA, fc.sideB]) {
+      const history = side.participation;
+      if (history === undefined) continue;
+      let valid =
+        history !== null &&
+        typeof history === 'object' &&
+        typeof history.complete === 'boolean' &&
+        Array.isArray(history.participants);
+      const snapshotKeys = new Set<string>();
+      if (valid) {
+        for (const participant of history.participants) {
+          const recordValid =
+            participant !== null &&
+            typeof participant === 'object' &&
+            typeof participant.armyId === 'string' &&
+            ID_PATTERN.ArmyId.test(participant.armyId) &&
+            typeof participant.clanId === 'string' &&
+            ID_PATTERN.ClanId.test(participant.clanId) &&
+            !!state.clans[participant.clanId] &&
+            side.clanIds.includes(participant.clanId) &&
+            typeof participant.leaderId === 'string' &&
+            ID_PATTERN.OfficerId.test(participant.leaderId) &&
+            !!state.officers[participant.leaderId] &&
+            Array.isArray(participant.deputyIds) &&
+            participant.deputyIds.every(
+              (id, index, ids) =>
+                typeof id === 'string' &&
+                ID_PATTERN.OfficerId.test(id) &&
+                !!state.officers[id] &&
+                id !== participant.leaderId &&
+                (index === 0 || ids[index - 1]! < id),
+            );
+          const key = JSON.stringify([
+            participant?.armyId,
+            participant?.clanId,
+            participant?.leaderId,
+            participant?.deputyIds,
+          ]);
+          if (!recordValid || snapshotKeys.has(key)) valid = false;
+          snapshotKeys.add(key);
+        }
+      }
+      if (!valid) v.push(violation('INV-13', `野戰 ${fc.id} 參戰紀錄格式不合法`, [fc.id]));
+    }
     for (const armyId of [...fc.sideA.armyIds, ...fc.sideB.armyIds]) {
       engagedArmyIds.add(armyId);
       const army = state.armies[armyId];
@@ -1064,6 +1170,16 @@ function checkInv16(state: GameState): Violation[] {
         violation('INV-16', `勢力 ${clan.id} gold ${String(clan.gold)} 須為非負整數`, [clan.id]),
       );
     }
+    if (
+      clan.rewardGoldSpentThisMonth !== null &&
+      (!Number.isSafeInteger(clan.rewardGoldSpentThisMonth) || clan.rewardGoldSpentThisMonth < 0)
+    ) {
+      v.push(
+        violation('INV-16', `勢力 ${clan.id} rewardGoldSpentThisMonth 須為非負安全整數或 null`, [
+          clan.id,
+        ]),
+      );
+    }
   }
   for (const castle of Object.values<Castle>(state.castles)) {
     if (!inRange(castle.morale, 0, 100)) {
@@ -1114,6 +1230,15 @@ function checkInv16(state: GameState): Violation[] {
     }
   }
   for (const district of Object.values<District>(state.districts)) {
+    if (!isNonNegInt(district.commerceCap) || district.commerceCap > BAL.commerceMaxAbs) {
+      v.push(
+        violation(
+          'INV-16',
+          `郡 ${district.id} commerceCap ${String(district.commerceCap)} 須為 [0,${String(BAL.commerceMaxAbs)}] 的整數`,
+          [district.id],
+        ),
+      );
+    }
     if (!inRange(district.publicOrder, 0, 100)) {
       v.push(
         violation(

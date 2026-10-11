@@ -36,6 +36,8 @@
     "e2e",
     "vite.config.ts",
     "vitest.workspace.ts",
-    "playwright.config.ts"
+    "playwright.config.ts",
+    "playwright.cold-load.config.ts",
+    "playwright.soak.config.ts"
   ]
 }

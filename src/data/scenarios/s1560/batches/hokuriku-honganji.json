@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "rosterRegion": "kinki",
+  "_authoring": {
+    "status": "staged; not part of the production scenario loader",
+    "scope": "Honganji Kaga additions remain in the Kinki roster by clan-home rule (14 D11); compose only with joint B5 geography.",
+    "sources": {
+      "shichiriLife": "https://www.library.pref.ishikawa.lg.jp/shosho/furucolle/list/prsn16339",
+      "shichiriDispatch": "https://www2.lib.kanazawa.ishikawa.jp/reference/komonjo.htm",
+      "shichiri1577": "https://www2.lib.kanazawa.ishikawa.jp/reference/komonjo/komonjo_330.pdf",
+      "sugiuraIdentity": "https://www.library.pref.ishikawa.lg.jp/shosho/furucolle/list/prsn16329",
+      "sugiuraKaga": "https://www.library-archives.pref.fukui.lg.jp/fukui/07/kenshi/T2/T2-4-01-05-02-04.htm",
+      "sugiuraLetter": "https://jpsearch.go.jp/item/tpada_kenmei-0000068454"
+    },
+    "chronologyBoundary": "Shichiri birth1517 is institutionally catalogued, not independently contemporary confirmed. SHOSHO death1576 conflicts with1577 municipal published document; death1580 is an explicit authored estimate compatible with known1577 activity. Exact historical1560 service and fortress placement are not proved. Default age15 debut is scenario manufacture, not a dated service claim. Sugiura existing lifespan/stat/tactic/rank values remain untouched."
+  },
+  "relocations": [
+    {
+      "officerId": "off.sugiura-gennin",
+      "fromCastleId": "castle.ishiyama",
+      "toCastleId": "castle.daishoji"
+    }
+  ],
+  "newOfficers": [
+    {
+      "id": "off.shichiri-yorichika",
+      "name": "七里賴周",
+      "clanId": "clan.honganji",
+      "locationCastleId": "castle.oyama-gobo",
+      "ldr": 74,
+      "val": 56,
+      "int": 78,
+      "pol": 69,
+      "traits": ["trait.shosai"],
+      "tactics": [],
+      "rank": "busho",
+      "birthYear": 1517,
+      "deathYear": 1580
+    }
+  ],
+  "_provenance": {
+    "off.shichiri-yorichika": {
+      "birthYear": "source-qualified",
+      "deathYear": "authored",
+      "sources": ["shichiriLife", "shichiriDispatch", "shichiri1577"],
+      "note": "石川縣立圖書館記本願寺坊官、加賀大將及1517生年，記1576卒年；金澤市所刊1577文書仍見其活動，故1580卒年明示設計估值。1571派遣加賀有文書目錄，1560尾山御坊駐在及預設15歲登場是劇本抽象，非確證任官年。四維、特性、身分為設計。"
+    },
+    "off.sugiura-gennin": {
+      "sources": ["sugiuraIdentity", "sugiuraKaga", "sugiuraLetter"],
+      "note": "石川縣立圖書館及富山檔案支持具名本願寺僧官；福井縣史記其加賀交戰活動。大聖寺具體1560駐在未證實，此移動是B5加賀配置抽象，不宣稱歷史城主。僅改駐在，保留既有1515／1580生卒、四維、特性、戰法、身分，不推定新登場年份。"
+    }
+  }
+}

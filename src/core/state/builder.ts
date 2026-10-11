@@ -26,7 +26,7 @@
 //
 // 規格衝突裁決回寫：plan/14-scenario-data.md §8（見 D17）。
 
-import { createRngStream, initRng, type RngStream } from '../rng';
+import { createRngStream, fnv1a32, initRng, type RngStream } from '../rng';
 import { defaultDiplomacyRow, pairKey } from './serialize';
 import { dayToCalendar, EPOCH_YEAR } from '../systems/time';
 import { BAL } from '../balance';
@@ -132,6 +132,7 @@ export function buildGameState(input: ScenarioInput): GameState {
   const cal = dayToCalendar(scenario.startDay);
 
   const clans = toRecord<ClanId, Clan>(scenario.clans);
+  for (const clan of Object.values(clans)) clan.rewardGoldSpentThisMonth = 0;
   const officers = toRecord<OfficerId, Officer>(scenario.officers);
   const castles = toRecord<CastleId, Castle>(scenario.castles);
   const shogunClanId = getCourtMetadata(scenario.scenarioId)?.shogunClanId ?? null;
@@ -149,7 +150,7 @@ export function buildGameState(input: ScenarioInput): GameState {
     aiClans[clan.id] = {
       clanId: clan.id,
       personaId,
-      councilOffset: 0, // M1 骨架恆 0（fnv1a 錯開排程屬 M7-4 完整版，03 §8-D13；本欄僅需合法存在）
+      councilOffset: fnv1a32(clan.id) % BAL.aiCouncilSpreadTicks,
       pendingPhases: [],
       attackPlans: [],
       nextPlanSeq: 1,
@@ -218,11 +219,22 @@ export function buildGameState(input: ScenarioInput): GameState {
       fired: {},
       cooldownUntil: {},
       pendingChoiceEventId: null,
+      pendingChoiceBinding: null,
+      hookSignals: [],
       flags: {},
       tenkabitoStreakMonths: 0,
       stats: { battlesFought: 0, battlesWon: 0, maxCastles: 0, maxKokudaka: 0 },
     },
-    ai: { personas: scenario.personas, clans: aiClans, intentLog: [], deferredPhases: [] },
+    ai: {
+      allAi: false,
+      personas: scenario.personas,
+      clans: aiClans,
+      intentLog: [],
+      deferredPhases: [],
+      councilJobs: [],
+      lastCouncilEnrollment: {},
+      pendingOrders: [],
+    },
     reports: [],
   };
 }
@@ -628,6 +640,7 @@ export function deriveScenarioInput(
     leaderId: c.leaderId as OfficerId,
     homeCastleId: c.homeCastleId as CastleId,
     gold: c.gold,
+    rewardGoldSpentThisMonth: 0,
     prestige: c.prestige,
     courtRank: c.courtRank,
     shogunateTitle: c.shogunateTitle,
@@ -725,6 +738,7 @@ export function deriveScenarioInput(
   const namedOfficers: Officer[] = filtered.officers.map((data) => {
     const clanId = data.clanId as ClanId | null;
     const status = clanId !== null ? ('serving' as const) : ('ronin' as const);
+    const debutYear = data.debutYear ?? data.birthYear + BAL.comingOfAgeAge;
     const debutClanId: ClanId | null =
       'debutClanId' in data ? ((data.debutClanId as ClanId | null) ?? null) : clanId;
     const locationCastleId = data.locationCastleId as CastleId;
@@ -747,8 +761,9 @@ export function deriveScenarioInput(
       spouseId: null,
       birthYear: data.birthYear,
       deathYear: data.deathYear,
-      hasComeOfAge: scenarioStartYear - data.birthYear >= BAL.comingOfAgeAge,
-      debutYear: data.debutYear ?? data.birthYear + BAL.comingOfAgeAge,
+      hasComeOfAge:
+        scenarioStartYear - data.birthYear >= BAL.comingOfAgeAge && debutYear <= scenarioStartYear,
+      debutYear,
       debutClanId,
       debutCastleId: (data.debutCastleId as CastleId | undefined) ?? locationCastleId,
       locationCastleId,

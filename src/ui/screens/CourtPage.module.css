@@ -1,0 +1,124 @@
+.courtFrame {
+  min-width: 0;
+  grid-template-columns: minmax(15rem, 0.85fr) minmax(0, 1.6fr);
+  gap: var(--space-4);
+  align-items: start;
+  font-size: max(12px, var(--font-size-sm));
+  line-height: 1.5;
+}
+
+.dossier,
+.register {
+  min-width: 0;
+  max-height: calc(100vh - 17rem);
+  overflow: auto;
+  scrollbar-gutter: stable;
+  padding: var(--space-4);
+  border: 1px solid var(--stroke-subtle);
+  background: var(--surface-panel);
+}
+
+.courtFrame h3 {
+  margin: var(--space-4) 0 var(--space-3);
+  font-size: max(12px, var(--font-size-md));
+  line-height: 1.5;
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+
+.courtFrame h3:first-child {
+  margin-top: 0;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--stroke-subtle);
+}
+
+.courtFrame p,
+.courtFrame label,
+.courtFrame li,
+.courtFrame small {
+  font-size: max(12px, var(--font-size-sm));
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.dossier > p {
+  margin: var(--space-2) 0;
+}
+
+.dossier > progress {
+  width: 100%;
+  height: 0.5rem;
+  accent-color: var(--command-gold);
+}
+
+.courtFrame label {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.courtFrame button,
+.courtFrame input,
+.courtFrame select {
+  min-width: 0;
+  min-height: max(32px, 2rem);
+  font-size: max(12px, var(--font-size-sm));
+  line-height: 1.5;
+}
+
+.courtFrame button:disabled {
+  opacity: 1;
+  color: var(--text-secondary);
+  border-color: var(--stroke-subtle);
+}
+
+.rankTable {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.rankTable th,
+.rankTable td {
+  padding: var(--space-3) var(--space-2);
+  white-space: normal;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  vertical-align: top;
+  font-size: max(12px, var(--font-size-sm));
+  line-height: 1.5;
+}
+
+.rankTable th {
+  background: var(--surface-command);
+  color: var(--text-inverse);
+  font-weight: 600;
+}
+
+.rankTable th:first-child {
+  width: 22%;
+}
+
+.rankTable th:last-child {
+  width: 29%;
+}
+
+.rankTable tr[aria-current='step'] {
+  background: var(--surface-base);
+  font-weight: 600;
+}
+
+.register ul {
+  padding-left: 1.25rem;
+  margin: var(--space-2) 0;
+}
+
+@media (max-width: 800px) {
+  .courtFrame {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dossier,
+  .register {
+    max-height: none;
+  }
+}

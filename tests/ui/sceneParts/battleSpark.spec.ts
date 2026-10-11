@@ -44,6 +44,30 @@ describe('BattleSpark geometry（12 §3.3.7）', () => {
 });
 
 describe('createBattleSpark timing and cleanup', () => {
+  it('supports assault cadence without a field icon and drops missed-frame emission backlog', () => {
+    const pool = createParticlePool();
+    let samples = 0;
+    const part = createBattleSpark({
+      particlePool: pool,
+      showIcon: false,
+      intervalMs: BATTLE_SPARK_TIMING.assaultIntervalMs,
+      random: () => {
+        samples++;
+        return 0.5;
+      },
+    });
+    part.update({ pos: { x: 0, y: 0 }, timeMs: 0, reduceMotion: false });
+    expect(part.container.children[0]!.visible).toBe(false);
+    part.update({ pos: { x: 0, y: 0 }, timeMs: 1199, reduceMotion: false });
+    expect(pool.activeCount).toBe(0);
+    part.update({ pos: { x: 0, y: 0 }, timeMs: 1200, reduceMotion: false });
+    expect(pool.activeCount).toBe(8);
+    part.update({ pos: { x: 0, y: 0 }, timeMs: 120_000, reduceMotion: false });
+    expect(samples).toBe(8 * 3 * 3); // Eight particles, three visual samples, three emitted bursts.
+    expect(pool.activeCount).toBe(8);
+    part.destroy();
+    pool.destroy();
+  });
   it('建立時立即迸發，之後每 900ms 再迸發；粒子在 400ms 線性消失', () => {
     const pool = createParticlePool();
     const part = createBattleSpark({ particlePool: pool, random: () => 0.5 });

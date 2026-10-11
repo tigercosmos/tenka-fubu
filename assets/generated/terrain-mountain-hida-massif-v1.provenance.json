@@ -1,0 +1,44 @@
+{
+  "license": "project-original",
+  "asset": "public/assets/textures/terrain-mountain-hida-massif-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": ["assets/generated/source-images/terrain-mountain-hida-massif-v1-input.png"],
+  "sourceImage": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-d3e30caf-0557-4260-ad38-6cc869cc246d.png",
+  "sourceImageSha256": "6da797d2da995ff166e9c036fdaeb5bad7102a5d380a9230ce501d8d7376bc56",
+  "sha256": "6da797d2da995ff166e9c036fdaeb5bad7102a5d380a9230ce501d8d7376bc56",
+  "dimensions": {
+    "width": 1024,
+    "height": 1536
+  },
+  "bytes": 2057807,
+  "alphaInspection": {
+    "zeroAlphaPixels": 1070756,
+    "partialAlphaPixels": 502108,
+    "opaquePixels": 0,
+    "centerAlpha": 253
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 251,
+    "y": 65,
+    "width": 573,
+    "height": 1423
+  },
+  "processing": "Copied built-in output byte-for-byte; no raster edit, resize, crop, stretch or rotation.",
+  "prompt": "Use case: precise-object-edit\nEdit target: transparent original Hida mountain massif sprite. Preserve original painterly realistic2.5D textures, fixed northwest light, summer gray-brown rock and olive woodland. Change only silhouette proportions and forest fringe.\nThe actual alpha>8 frame is currently656wide1451high, ratio0.4521, still too broad for full-ridge placement. Redraw a visibly NARROWER continuous mountain spine: actual subject target width/height0.38 to0.40. On1024x1536canvas aim visible535wide1350high, fully centered with≥75transparentpixels at topandbottom. Do not stretch or crop bitmap, redraw narrower connected slopes/wooded saddles naturally while preserving overallnorth-southmountainchain and irregularpeaks. No regularsawtooth row ofequallyspacedcones; varied unequal connectedcrests.\nRemove the broad soft smootholivegray haze/fringe outside tree crowns: silhouette should terminate in naturallyirregular soft tree tips directly to genuinelytransparent alpha, not a uniform tintedhalo. Keep all material insidegeneroustransparentmargin, no rectangle/groundtile/plinth/castshadowoutsideforest. No roads/water/buildings/text/logo/watermark.",
+  "compositionQualification": {
+    "requestedVisibleAspectRange": [0.38, 0.4],
+    "actualVisibleAspect": 0.4026704146170063,
+    "requestedTransparentMarginPercent": 5,
+    "actualMarginsPixels": {
+      "left": 251,
+      "top": 65,
+      "right": 200,
+      "bottom": 48
+    },
+    "qualification": "The final width-to-height ratio exceeds 0.40 but preserves the full 264-world-unit ridge. Top and bottom margins miss five percent. Native scene review remains required."
+  }
+}

@@ -4,11 +4,13 @@
 // 分離＋setLodStage 顯隱／far 本城 bodyGfx ×1.4；update 冪等且回傳 void（AD2）。
 
 import { describe, expect, it, vi } from 'vitest';
-import { Graphics } from 'pixi.js';
+import { Container, Graphics, Texture } from 'pixi.js';
+import { CASTLE_BODY_ART_BY_TIER } from '@ui/map/sceneParts/castleBodyArt';
 import { clanColorNum, MAP_PALETTE_NUM, TOKENS_NUM } from '@ui/styles/tokens';
 import { UI } from '@ui/uiConstants';
 import {
   CASTLE_NODE_GEOMETRY,
+  CASTLE_MATERIAL,
   createCastleNode,
   drawCastleBody,
   drawCastleWarning,
@@ -58,75 +60,165 @@ describe('drawCastleBody（M6-V7 §6.1 四型剪影）', () => {
     }
   });
 
-  it('填城主勢力色＋亮變體（本城內主郭）、描邊 2px ink900、右下投影 ink900 α shadowAlpha', () => {
+  it('uses ivory plaster, shaded stone and charcoal roofs; clan color is confined to one banner', () => {
     const { rec, g } = makeRec();
     drawCastleBody(g, props({ tier: 'main', terrainKind: 'plain', colorIndex: 5 }));
     const fills = rec.argsOf('fill').map((a) => a[0] as FillArg);
-    expect(fills.map((f) => f.color)).toContain(clanColorNum(5));
-    expect(fills.map((f) => f.color)).toContain(clanColorNum(5, true)); // 二階內主郭亮變體
+    expect(fills.filter((f) => f.color === clanColorNum(5))).toHaveLength(1);
+    for (const color of [
+      CASTLE_MATERIAL.plasterFront,
+      CASTLE_MATERIAL.plasterRight,
+      CASTLE_MATERIAL.stoneTop,
+      CASTLE_MATERIAL.stoneFront,
+      CASTLE_MATERIAL.stoneRight,
+      CASTLE_MATERIAL.roofLight,
+      CASTLE_MATERIAL.roofDark,
+      CASTLE_MATERIAL.eaves,
+    ]) {
+      expect(fills.map((f) => f.color)).toContain(color);
+    }
     expect(
       fills.some(
         (f) => f.color === TOKENS_NUM.ink900 && f.alpha === CASTLE_NODE_GEOMETRY.shadowAlpha,
       ),
     ).toBe(true);
-    const strokes = rec.argsOf('stroke').map((a) => a[0] as StrokeArg);
-    const bodyStroke = strokes.find((s) => s.color === TOKENS_NUM.ink900);
-    expect(bodyStroke?.width).toBe(CASTLE_NODE_GEOMETRY.strokeWidth);
+    const polygons = rec.argsOf('poly').map((a) => a[0] as number[]);
+    const banner = boundingBoxOf(polygons.at(-1)!);
+    expect(banner.width).toBeCloseTo(CASTLE_NODE_GEOMETRY.mainSize * 0.1);
+    expect(banner.height).toBeCloseTo(CASTLE_NODE_GEOMETRY.mainSize * 0.105);
   });
 
-  it('平城·本城：兩枚護城河短弧（waterRiver α .5），且本城多邊形數 > 支城（二階內主郭）', () => {
+  it('plain castles have an isometric moat; main castles have more keep levels and corner turrets', () => {
     const { rec: recMain, g: gMain } = makeRec();
     drawCastleBody(gMain, props({ tier: 'main', terrainKind: 'plain' }));
-    const arcs = recMain.argsOf('arc');
-    expect(arcs).toHaveLength(2);
+    expect(recMain.argsOf('arc')).toHaveLength(0);
     const moatStroke = recMain
       .argsOf('stroke')
       .map((a) => a[0] as StrokeArg)
       .find((s) => s.color === MAP_PALETTE_NUM.waterRiver);
     expect(moatStroke?.alpha).toBe(CASTLE_NODE_GEOMETRY.moatArcAlpha);
-    // 本城含 mainKeepPoints（9 頂點＝18 座標）之二階內主郭；支城無。
     const mainPolys = recMain.argsOf('poly').map((a) => a[0] as number[]);
-    expect(mainPolys.some((p) => p.length === 18)).toBe(true);
 
     const { rec: recBranch, g: gBranch } = makeRec();
     drawCastleBody(gBranch, props({ tier: 'branch', terrainKind: 'plain' }));
     const branchPolys = recBranch.argsOf('poly').map((a) => a[0] as number[]);
-    expect(branchPolys.some((p) => p.length === 18)).toBe(false);
     expect(branchPolys.length).toBeLessThan(mainPolys.length);
+    const roofCount = (fills: unknown[][]) =>
+      fills.filter((a) => (a[0] as FillArg).color === CASTLE_MATERIAL.roofLight).length;
+    expect(roofCount(recMain.argsOf('fill'))).toBe(6); // Three keep floors + three turrets.
+    expect(roofCount(recBranch.argsOf('fill'))).toBe(3); // Two floors + one turret.
   });
 
-  it('山城：三角岩基（reliefInk α .9，含上尖 apex）、無護城河弧', () => {
+  it('mountain castles have three shaded rock faces, lifted buildings and no moat', () => {
     const { rec, g } = makeRec();
     drawCastleBody(g, props({ tier: 'main', terrainKind: 'mountain' }));
     expect(rec.argsOf('arc')).toHaveLength(0); // 山城無護城河
     const fills = rec.argsOf('fill').map((a) => a[0] as FillArg);
-    const rockFill = fills.find((f) => f.color === MAP_PALETTE_NUM.reliefInk);
-    expect(rockFill?.alpha).toBe(CASTLE_NODE_GEOMETRY.mountainBaseAlpha);
-    // 岩基三角：3 頂點（6 座標），apex 為最上（最小 y）之單一頂點。
-    const triangles = rec.argsOf('poly').filter((a) => (a[0] as number[]).length === 6);
-    expect(triangles.length).toBeGreaterThanOrEqual(1);
-    const tri = triangles[0]![0] as number[];
-    const ys = [tri[1]!, tri[3]!, tri[5]!];
-    const apexY = Math.min(...ys);
-    expect(ys.filter((y) => y === apexY)).toHaveLength(1); // 單一上尖 apex
+    for (const color of [
+      CASTLE_MATERIAL.rockTop,
+      CASTLE_MATERIAL.rockFront,
+      CASTLE_MATERIAL.rockRight,
+    ])
+      expect(fills.map((f) => f.color)).toContain(color);
+    expect(
+      rec.argsOf('stroke').some((a) => (a[0] as StrokeArg).color === MAP_PALETTE_NUM.waterRiver),
+    ).toBe(false);
+    const plain = makeRec();
+    drawCastleBody(plain.g, props());
+    const topY = (polys: unknown[][]) =>
+      Math.min(...polys.flatMap((a) => (a[0] as number[]).filter((_, i) => i % 2 === 1)));
+    expect(topY(rec.argsOf('poly'))).toBeLessThan(topY(plain.rec.argsOf('poly')));
+  });
+
+  it('ownership changes recolor only the banner, not the NW-lit architecture or shadow', () => {
+    const a = makeRec();
+    const b = makeRec();
+    drawCastleBody(a.g, props({ colorIndex: 1 }));
+    drawCastleBody(b.g, props({ colorIndex: 2 }));
+    expect(a.rec.argsOf('poly')).toEqual(b.rec.argsOf('poly'));
+    expect(a.rec.argsOf('stroke')).toEqual(b.rec.argsOf('stroke'));
+    const fa = a.rec.argsOf('fill');
+    const fb = b.rec.argsOf('fill');
+    expect(fa.slice(0, -1)).toEqual(fb.slice(0, -1));
+    expect(fa.at(-1)).not.toEqual(fb.at(-1));
+    const shadow = a.rec.argsOf('poly')[0]![0] as number[];
+    expect(shadow[0]).toBe(
+      -CASTLE_NODE_GEOMETRY.mainSize / 2 + CASTLE_NODE_GEOMETRY.shadowOffsetMain,
+    );
+    expect(shadow[1]).toBe(
+      CASTLE_NODE_GEOMETRY.mainSize * 0.15 + CASTLE_NODE_GEOMETRY.shadowOffsetMain,
+    );
+  });
+
+  it('builds adjoining stone faces with real vertical depth and a shared top diamond', () => {
+    const { rec, g } = makeRec();
+    drawCastleBody(g, props());
+    const polys = rec.argsOf('poly').map((a) => a[0] as number[]);
+    const fills = rec.argsOf('fill').map((a) => a[0] as FillArg);
+    const front = polys[fills.findIndex((f) => f.color === CASTLE_MATERIAL.stoneFront)]!;
+    const right = polys[fills.findIndex((f) => f.color === CASTLE_MATERIAL.stoneRight)]!;
+    const top = polys[fills.findIndex((f) => f.color === CASTLE_MATERIAL.stoneTop)]!;
+    // Moat uses stroke only, so polygon/fill indices differ by one after the shadow.
+    const offset = 1;
+    const frontFace = polys[polys.indexOf(front) + offset]!;
+    const rightFace = polys[polys.indexOf(right) + offset]!;
+    const topFace = polys[polys.indexOf(top) + offset]!;
+    expect(frontFace.slice(2, 6)).toEqual([rightFace[0], rightFace[1], rightFace[6], rightFace[7]]);
+    expect(frontFace[7]! - frontFace[1]!).toBeCloseTo(CASTLE_NODE_GEOMETRY.mainSize * 0.12);
+    expect(topFace.slice(4, 6)).toEqual(frontFace.slice(2, 4));
+    expect(CASTLE_MATERIAL.plasterFront).not.toBe(CASTLE_MATERIAL.plasterRight);
+    expect(CASTLE_MATERIAL.roofLight).not.toBe(CASTLE_MATERIAL.roofDark);
   });
 });
 
 describe('drawDurabilityRing／durabilityRingColor（12 §5.6）', () => {
+  it.each([
+    [0, 0],
+    [0.25, 0.25],
+    [0.6, 0.6],
+    [1, 1],
+    [-1, 0],
+    [2, 1],
+    [NaN, 0],
+    [Infinity, 0],
+  ])('keeps the exact clamped HP fraction %s', (ratio, expected) => {
+    const { rec, g } = makeRec();
+    drawDurabilityRing(g, 18, ratio);
+    const start = rec.argsOf('moveTo')[1] as number[];
+    const end = rec.argsOf('lineTo')[1] as number[];
+    expect((end[0]! - start[0]!) / 21.6).toBeCloseTo(expected);
+    expect(start[1]).toBe(end[1]);
+    const fillStroke = rec.argsOf('stroke')[1]![0] as StrokeArg;
+    expect(fillStroke.color).toBe(durabilityRingColor(expected));
+  });
+  it('keeps exact HP as a base bar and replaces the critical roof crack with a compact badge', () => {
+    const { rec, g } = makeRec();
+    drawDurabilityRing(g, 18, 0.5);
+    expect(rec.countOf('circle')).toBe(0);
+    expect(rec.countOf('arc')).toBe(0);
+    expect(rec.argsOf('moveTo')).toEqual([
+      [-10.799999999999999, 8],
+      [-10.799999999999999, 8],
+    ]);
+    expect(rec.argsOf('lineTo')[1]).toEqual([0, 8]);
+    drawCastleWarning(g, props({ warning: 'critical' }));
+    expect(rec.argsOf('poly')).toHaveLength(1);
+    expect(rec.countOf('circle')).toBe(0);
+  });
   it('先 clear；底環 ink700 α ringBaseAlpha（M6-V9 §3.1）、比例弧起角 -90°、掃角=ratio×360°、弧 α ringArcAlpha', () => {
     const { rec, g } = makeRec();
     drawDurabilityRing(g, CASTLE_NODE_GEOMETRY.ringRadiusMain, 0.5);
     expect(rec.calls[0]?.[0]).toBe('clear');
-    const circle = rec.argsOf('circle')[0] as number[];
-    expect(circle[2]).toBe(CASTLE_NODE_GEOMETRY.ringRadiusMain);
+    expect(rec.countOf('circle')).toBe(0);
     const baseStroke = rec.argsOf('stroke')[0]?.[0] as StrokeArg;
     expect(baseStroke.width).toBe(CASTLE_NODE_GEOMETRY.ringWidth);
     expect(baseStroke.color).toBe(TOKENS_NUM.ink700);
     expect(baseStroke.alpha).toBe(CASTLE_NODE_GEOMETRY.ringBaseAlpha);
-    const arc = rec.argsOf('arc')[0] as number[];
-    expect(arc[2]).toBe(CASTLE_NODE_GEOMETRY.ringRadiusMain);
-    expect(arc[3]).toBeCloseTo(-Math.PI / 2, 10);
-    expect(arc[4]).toBeCloseTo(-Math.PI / 2 + 2 * Math.PI * 0.5, 10);
+    const start = rec.argsOf('moveTo')[1] as number[];
+    const end = rec.argsOf('lineTo')[1] as number[];
+    expect(start[0]).toBeCloseTo(-10.8);
+    expect(start[1]).toBe(8);
+    expect(end).toEqual([0, 8]);
     const arcStroke = rec.argsOf('stroke').at(-1)?.[0] as StrokeArg;
     expect(arcStroke.alpha).toBe(CASTLE_NODE_GEOMETRY.ringArcAlpha);
   });
@@ -153,51 +245,94 @@ describe('drawCastleWarning（M6-V7 §6.1 徽記）', () => {
     expect(rec.calls[0]?.[0]).toBe('clear');
   });
 
-  it('threatened：2 枚 accentGold 三角焰＋ink900 桿', () => {
+  it('threatened: contrasting upright ivory triangle and dark flame, not color-only', () => {
     const { rec, g } = makeRec();
     drawCastleWarning(g, props({ warning: 'threatened' }));
-    const goldFills = rec
-      .argsOf('fill')
-      .filter((a) => (a[0] as FillArg).color === TOKENS_NUM.accentGold);
-    expect(goldFills).toHaveLength(2);
+    expect(rec.argsOf('fill').map((a) => (a[0] as FillArg).color)).toEqual([
+      TOKENS_NUM.washi100,
+      TOKENS_NUM.ink900,
+    ]);
+    expect(rec.argsOf('poly')[0]?.[0]).toEqual([0, -30.5, 3.5, -23.5, -3.5, -23.5]);
     const poleStroke = rec
       .argsOf('stroke')
       .map((a) => a[0] as StrokeArg)
       .find((s) => s.color === TOKENS_NUM.ink900);
-    expect(poleStroke?.width).toBe(1);
-    expect(rec.countOf('moveTo')).toBeGreaterThanOrEqual(1);
+    expect(poleStroke?.width).toBe(0.6);
   });
 
-  it('critical：朱紅光暈圓 r=ringRadius+4 α .5＋vermilion 鋸齒裂口 w 1.5', () => {
+  it('critical：compact red badge above the main roof', () => {
     const { rec, g } = makeRec();
     drawCastleWarning(g, props({ tier: 'main', warning: 'critical' }));
-    const circle = rec.argsOf('circle')[0] as number[];
-    expect(circle[2]).toBe(
-      CASTLE_NODE_GEOMETRY.ringRadiusMain + CASTLE_NODE_GEOMETRY.criticalHaloPad,
-    );
+    expect(rec.countOf('circle')).toBe(0);
+    expect(rec.argsOf('poly')[0]?.[0]).toEqual([0, -30.5, 3.5, -27, 0, -23.5, -3.5, -27]);
     const strokes = rec.argsOf('stroke').map((a) => a[0] as StrokeArg);
-    const halo = strokes.find((s) => s.color === TOKENS_NUM.accentVermilionBright);
-    expect(halo?.alpha).toBe(CASTLE_NODE_GEOMETRY.criticalHaloAlpha);
-    const crack = strokes.find((s) => s.color === TOKENS_NUM.accentVermilion);
-    expect(crack?.width).toBe(CASTLE_NODE_GEOMETRY.crackWidth);
-    expect(rec.countOf('lineTo')).toBe(3); // 3 段鋸齒
+    expect(strokes[0]).toMatchObject({ color: TOKENS_NUM.ink900, width: 0.6 });
+    expect(strokes[1]?.color).toBe(TOKENS_NUM.washi100);
+    expect(rec.countOf('lineTo')).toBe(1);
   });
 
-  it('critical 光暈半徑隨 tier（支城 ringRadiusBranch+4）', () => {
+  it('critical badge height follows branch model height', () => {
     const { rec, g } = makeRec();
     drawCastleWarning(g, props({ tier: 'branch', warning: 'critical' }));
-    const circle = rec.argsOf('circle')[0] as number[];
-    expect(circle[2]).toBe(
-      CASTLE_NODE_GEOMETRY.ringRadiusBranch + CASTLE_NODE_GEOMETRY.criticalHaloPad,
-    );
+    expect(rec.argsOf('poly')[0]?.[0]).toEqual([0, -26.5, 3.5, -23, 0, -19.5, -3.5, -23]);
   });
 });
 
 describe('createCastleNode（12 §4 ScenePart 加法擴充）', () => {
-  it('container 內建三子 Graphics，children[0]=bodyGfx（far 放大錨定）', () => {
+  it('reports all four actual art frames with HP below and compact warnings above, without claiming roof pixels', () => {
+    for (const tier of ['main', 'branch'] as const) {
+      for (const terrainKind of ['plain', 'mountain'] as const) {
+        const part = createCastleNode();
+        part.setBodyArt({
+          [tier]: {
+            [terrainKind]: {
+              texture: Texture.EMPTY,
+              spec: CASTLE_BODY_ART_BY_TIER[tier][terrainKind],
+            },
+          },
+        });
+        for (const warning of ['threatened', 'critical'] as const) {
+          part.update(props({ tier, terrainKind, warning }));
+          const geometry = part.getPresentationGeometry();
+          if (!geometry?.warning) throw new Error('Expected visible warning frame');
+          expect(geometry.painted).toBe(true);
+          expect(geometry.body.width).toBeCloseTo(tier === 'main' ? 40 : 30);
+          expect(geometry.warning.y + geometry.warning.height).toBeLessThan(geometry.body.y);
+          expect(geometry.durability.y).toBeGreaterThan(geometry.body.y + geometry.body.height);
+          const body = part.container.children[0] as Container;
+          const sprite = body.children[2]!;
+          const flag = body.children[3] as Graphics;
+          const metadata = CASTLE_BODY_ART_BY_TIER[tier][terrainKind];
+          expect(sprite.position.x + metadata.groundAnchor.x * sprite.scale.x).toBeCloseTo(0);
+          expect(sprite.position.y + metadata.groundAnchor.y * sprite.scale.y).toBeCloseTo(0);
+          const flagFrame = flag.getLocalBounds();
+          expect(flag.position.x + flagFrame.x).toBeGreaterThan(
+            geometry.body.x + geometry.body.width,
+          );
+          expect(geometry.durability.y - (geometry.body.y + geometry.body.height)).toBeCloseTo(2);
+        }
+        part.setLodStage('far');
+        const far = part.getPresentationGeometry();
+        expect(far?.painted).toBe(false);
+        expect(far?.body.width).toBeCloseTo(tier === 'main' ? 28 * 1.4 : 20);
+        expect(far!.warning!.y + far!.warning!.height).toBeLessThan(far!.body.y);
+        part.setLodStage('near');
+        const restored = part.getPresentationGeometry();
+        if (!restored?.warning) throw new Error('Expected restored painted warning');
+        expect(restored.body.width).toBe(tier === 'main' ? 40 : 30);
+        expect(restored.warning.y + restored.warning.height).toBeLessThan(restored.body.y);
+        part.destroy();
+      }
+    }
+    expect(Texture.EMPTY.destroyed).toBe(false);
+  });
+  it('container keeps a body group plus independent ring and warning Graphics', () => {
     const part = createCastleNode();
     expect(part.container.children).toHaveLength(3);
-    for (const child of part.container.children) expect(child).toBeInstanceOf(Graphics);
+    expect(part.container.children[0]).toBeInstanceOf(Container);
+    expect((part.container.children[0] as Container).children[0]).toBeInstanceOf(Graphics);
+    expect(part.container.children[1]).toBeInstanceOf(Graphics);
+    expect(part.container.children[2]).toBeInstanceOf(Graphics);
   });
 
   it('update() 依 props.pos 設定 container.position、回傳 void', () => {
@@ -210,7 +345,7 @@ describe('createCastleNode（12 §4 ScenePart 加法擴充）', () => {
 
   it('update() 冪等：props（除 pos 外）不變時不重繪 bodyGfx', () => {
     const part = createCastleNode();
-    const bodyGfx = part.container.children[0] as Graphics;
+    const bodyGfx = (part.container.children[0] as Container).children[0] as Graphics;
     const clearSpy = vi.spyOn(bodyGfx, 'clear');
     const p = props();
     part.update(p);

@@ -1,0 +1,106 @@
+.summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: max-content;
+  align-items: start;
+  gap: var(--space-3);
+  max-height: min(29rem, calc(80dvh - 9rem));
+  overflow: auto;
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+  font-size: max(12px, var(--font-size-sm));
+}
+.summary section {
+  min-width: 0;
+  padding: var(--space-3);
+  background: var(--surface-panel);
+  border: 1px solid var(--stroke-subtle);
+  border-radius: var(--radius-panel);
+}
+.summary > p {
+  grid-column: 1 / -1;
+}
+.summary h3 {
+  margin: 0 0 var(--space-3);
+  font-size: max(12px, var(--font-size-md));
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  border-left: 3px solid var(--accent-brass);
+  border-radius: var(--radius-panel);
+  font-family: var(--font-family-display);
+}
+.summary p {
+  margin: var(--space-2) 0;
+}
+.figures {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-2) var(--space-3);
+  align-items: baseline;
+  margin: var(--space-3) 0;
+  padding: var(--space-3);
+  background: var(--surface-raised);
+  border-block: 1px solid var(--stroke-subtle);
+  border-radius: var(--radius-panel);
+}
+.figures dt {
+  color: var(--text-muted);
+}
+.figures dd {
+  margin: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.reports {
+  padding-left: 1.25rem;
+}
+.reports li {
+  padding: var(--space-2) 0;
+}
+.reports time {
+  display: block;
+  font-size: max(12px, var(--font-size-sm));
+}
+.continue,
+.rewards {
+  min-width: 32px;
+  min-height: 32px;
+  font-size: max(12px, var(--font-size-sm));
+  white-space: normal;
+  overflow-wrap: anywhere;
+  padding: var(--space-2) var(--space-3);
+  color: var(--text-inverse);
+  background: var(--surface-command);
+  border: 1px solid var(--stroke-subtle);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+}
+.rewards {
+  color: var(--text-primary);
+  background: var(--surface-panel);
+}
+.rewards:hover {
+  background: var(--surface-hover);
+}
+.continue:hover {
+  background: var(--surface-command-raised);
+}
+.summary:focus-visible {
+  outline: 2px solid var(--brand-gold);
+  outline-offset: -2px;
+}
+.continue:focus-visible {
+  outline: 2px solid var(--text-inverse);
+  outline-offset: -2px;
+}
+.rewards:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: -2px;
+}
+@media (max-width: 680px) {
+  .summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

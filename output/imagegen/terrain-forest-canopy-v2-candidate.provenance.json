@@ -1,0 +1,19 @@
+{
+  "status": "candidate-only; not referenced by production manifest or build",
+  "tool": "built-in image_gen",
+  "generatedSource": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-6cb756ca-4a83-44f2-8c67-94d2b46dedb9.png",
+  "workspaceImage": "output/imagegen/terrain-forest-canopy-v2-candidate.png",
+  "sha256": "79145d696276146b1e6bf6e82fad5c913654047b895539354fc69463ffa3439a",
+  "pixelSize": { "width": 1774, "height": 887 },
+  "inspection": {
+    "transparentPixels": 653075,
+    "partialAlphaPixels": 920463,
+    "opaquePixels": 0,
+    "maxAlpha": 254,
+    "alphaAtLeast200Pixels": 788838,
+    "contentBounds": { "x": 0, "y": 0, "width": 1768, "height": 887 },
+    "boundaryNonzeroAlphaPixels": { "top": 8, "bottom": 78, "left": 43 },
+    "limits": "No in-game forest geometry, compositing, readability or acceptance proof. Nonzero alpha reaches three image boundaries."
+  },
+  "prompt": "Use case: stylized-concept. Asset type: original transparent 2.5D forest-canopy raster for a Japanese Sengoku strategy game's miniature terrain map. Primary request: a single coherent low woodland group, broad connected overlapping canopy masses with irregular organic forest-edge rhythm, quiet moss/olive green canopy and muted warm soil glimpses, shallow convincing depth. View: high oblique orthographic map view, northwest daylight, restrained soft southeast contact shade, no horizon. Composition: one connected horizontally broad natural woodland group centered with generous truly transparent margins; several broad canopy lobes, sparse small crown detail, irregular inward fading edges. Silhouette must read as a forest group at small map scale, not separate floating tree islands. Style: grounded painterly miniature terrain, realistic organic woodland structure, matte muted surfaces, soft broad light planes rather than sharp black outlines or granular high-contrast noise. This is original art, not copied from any commercial game. Constraints: forest canopy only; no mountains, rocks, castles, houses, roads, rivers, people, flags, UI, labels, text, logo or watermark. No circular stamp border, no solid rectangular backing, no checkerboard painted into pixels. Genuine transparent background and soft alpha at the outer canopy edge."
+}

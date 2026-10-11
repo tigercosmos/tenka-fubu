@@ -517,16 +517,16 @@ describe('M5-2 deterministic battle tick and atomic writeback', () => {
       if (stateA.battles[battleId]!.result !== null) break;
     }
     expect(hashesA).toEqual([
-      '8eac88b5e4c70dad',
-      '92ed2b29ae3d30c6',
-      'ea437d156d67a98e',
-      '30dc2836ab390cd2',
-      '7a03b178f9328ce5',
-      '42b479ba7662534e',
-      'a0b54ef7930de90f',
-      '57025e543706d596',
-      '16c05d7b3babee5a',
-      'b0509a05afc751cd',
+      '8fd5eca404decc70',
+      'e10623b0de361eb5',
+      'dd5e750747a9a2a5',
+      'cf08b98088fdc175',
+      'fc092d53c43c26c4',
+      'c75d94425c4b71b5',
+      'b6a22ea0787423c2',
+      '5ffefffc44f5f811',
+      '4a3a53c0954d40a1',
+      '7243d4d6ee381170',
     ]);
     expect(hashesA).toEqual(hashesB);
     expect({

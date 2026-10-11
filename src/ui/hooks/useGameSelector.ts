@@ -3,10 +3,25 @@
 // M1-15（01-A6）實作。
 
 import { useStore } from 'zustand';
+import { createContext, createElement, useContext, type ReactNode } from 'react';
+import type { StoreApi } from 'zustand';
 import { useShallow } from 'zustand/react/shallow';
-import { store } from '@app/store';
+import { store, type GameStore } from '@app/store';
 import { CoreError } from '@core/errors';
 import type { GameState } from '@core/state/gameState';
+
+const selectorStoreContext = createContext<StoreApi<GameStore> | null>(null);
+
+/** Isolated presentation fixtures; omitted in production, where the live store remains the default. */
+export function GameSelectorProvider({
+  value,
+  children,
+}: {
+  value: StoreApi<GameStore>;
+  children: ReactNode;
+}) {
+  return createElement(selectorStoreContext.Provider, { value }, children);
+}
 
 /**
  * 訂閱 `game` slice（01 §3.4.2）。`select` 只能回傳原始值／tuple／每次重新建構的小型 derived
@@ -14,8 +29,9 @@ import type { GameState } from '@core/state/gameState';
  * 不觸發重渲染（`tickSeq` 遞增才會重跑 selector，見 bridge.ts `runOneDay`）。
  */
 export function useGameSelector<T>(select: (game: GameState) => T): T {
+  const selectorStore = useContext(selectorStoreContext) ?? store;
   return useStore(
-    store,
+    selectorStore,
     useShallow((s) => {
       if (s.game === null) {
         throw new CoreError('DATA_INTEGRITY', 'game 尚未初始化（useGameSelector）');
@@ -67,5 +83,6 @@ export function useCachedGameSelector<Args extends unknown[], R>(
   cachedSelector: (game: GameState, tickSeq: number, ...args: Args) => R,
   ...args: Args
 ): R {
-  return useGameSelector((game) => cachedSelector(game, store.getState().tickSeq, ...args));
+  const selectorStore = useContext(selectorStoreContext) ?? store;
+  return useGameSelector((game) => cachedSelector(game, selectorStore.getState().tickSeq, ...args));
 }

@@ -1,0 +1,28 @@
+{
+  "asset": "public/assets/textures/terrain-mountain-horizontal-v2.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-09",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sha256": "d3c7bbe82b5bfed3b9ffff0e5c9fe1eaec1469027d11b0331c8c59a3a7733d74",
+  "dimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "bytes": 606551,
+  "alphaInspection": {
+    "zeroAlphaPixels": 1375897,
+    "partialAlphaPixels": 196551,
+    "opaquePixels": 68,
+    "centerAlpha": 253
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 48,
+    "y": 508,
+    "width": 1158,
+    "height": 272
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: compact transparent game-map terrain sprite.\nCreate one original East-West mountain chain with cedar woodland and grey weathered rocky ridges, finely hand painted miniature terrain, seen from a fixed high oblique overhead view, northwest daylight. The main connected mountain chain is 3.5 times wider than tall, running strictly horizontally.\nCRITICAL CANVAS COMPOSITION: use a SQUARE canvas, keep the chain small and centered in the middle third of the square. The TOP THIRD and BOTTOM THIRD of the square must be completely empty and transparent. The terrain occupies only 80% of the square width and about 25% of its height. Preserve this generous empty square framing; do not crop or expand the image horizontally. Render a small 1024x1024 square sprite texture, never larger than 2048 pixels in either dimension.\nMuted sage olive woodland and grey stone. Genuine transparent alpha, no backdrop, no ground plate, no shadow halo, no low-poly shapes, no tree cones, no castles, buildings, roads, water, people, text, logos or watermark. All content fully inside square."
+}

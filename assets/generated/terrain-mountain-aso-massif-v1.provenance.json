@@ -1,0 +1,29 @@
+{
+  "license": "project-original",
+  "asset": "public/assets/textures/terrain-mountain-aso-massif-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sha256": "6aed9cf4156e22d937e02135459aabdeebfe9869c289f2a1f3df4406d846eca5",
+  "dimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "bytes": 2163850,
+  "alphaInspection": {
+    "zeroAlphaPixels": 795204,
+    "partialAlphaPixels": 777251,
+    "opaquePixels": 61,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 17,
+    "y": 125,
+    "width": 1230,
+    "height": 1025
+  },
+  "prompt": "Use case: stylized-concept. Asset type: ORIGINAL transparent production terrain sprite for a Japanese Sengoku 2.5D strategy map, a broad wooded mountain massif replacing a thin repeated comb strip. Subject: one connected asymmetric upland mass with three unequal rounded rocky crests, broad wooded shoulders, branching shallow valleys and low natural foothills, its main ridge gently trending northwest to southeast. High-oblique orthographic miniature terrain view about 55 degrees down; no horizon. Composition: square 1536 by 1536 canvas if supported; entire irregular connected landform centered, visible alpha footprint slightly wider than tall, width/height 1.10 to 1.20, fills about 85 percent canvas width and 75 percent height. Render strong coherent 2.5D ground volume, not a row of separate mountains and not a flat satellite canopy. Large, quiet and readable natural slope planes; muted gray-warm rock, olive woodland and ochre-green foothills; sparse exposed rock at two or three unequal crests; no snow, no smoke. Fixed northwest/top-left soft daylight and southeast self-shadow, restrained premium historical-strategy-game miniature realism. Designed to be readable at roughly 155 by 140 map pixels, with broad shapes and subordinate fine canopy texture, no speckled noise. Organic soft genuinely transparent alpha fringes. No rectangular ground plate, pedestal, vignette, rectangular shadow, or detached identical teeth. No rivers, roads, farms, buildings, castles, people, armies, banners, letters, labels, UI, logo, watermark, border, checkerboard background or white halo. Original imagery, no commercial game reference image copied, not a claim of exact geographical reconstruction."
+}

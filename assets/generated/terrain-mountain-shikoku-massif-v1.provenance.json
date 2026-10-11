@@ -1,0 +1,44 @@
+{
+  "license": "project-original",
+  "asset": "public/assets/textures/terrain-mountain-shikoku-massif-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sourceImage": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-22402859-c6d2-4732-9e87-82dc5204af04.png",
+  "sourceImageSha256": "194ed39bad1c2e6a4eda0d52302f65c7b3013c486b6269fef66fb55216530c67",
+  "sha256": "194ed39bad1c2e6a4eda0d52302f65c7b3013c486b6269fef66fb55216530c67",
+  "dimensions": {
+    "width": 1959,
+    "height": 803
+  },
+  "bytes": 1879312,
+  "alphaInspection": {
+    "zeroAlphaPixels": 880239,
+    "partialAlphaPixels": 692831,
+    "opaquePixels": 7,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 23,
+    "y": 122,
+    "width": 1926,
+    "height": 565
+  },
+  "processing": "Copied built-in output byte-for-byte; no raster edit, resize, crop, stretch or rotation.",
+  "compositionQualification": {
+    "requestedVisibleAspectRange": [3.3, 3.6],
+    "actualVisibleAspect": 3.408849557522124,
+    "requestedTransparentMarginPercent": 3,
+    "actualMarginsPixels": {
+      "left": 23,
+      "top": 122,
+      "right": 10,
+      "bottom": 116
+    },
+    "marginQualification": "Left and right margins miss the requested three percent. Visible alpha above eight does not touch the canvas edge; native placement and edge review remain required."
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: transparent raster terrain sprite for an original Japanese Sengoku 2.5D strategy game.\nPrimary request: one distinctive original Shikoku-inspired elongated wooded mountain backbone. A connected east-west range with lower irregular western saddles, a slightly offset taller eastern crest, branching short spurs and foothills, not a pair of identical peaks and not a row of mountain icons. Rounded eroded rock ridges emerging from dense muted olive woodland, warm gray-brown stone with restrained weathering.\nComposition/framing: oblique overhead strategic-map camera, realistic relief and visible sloping faces without any horizon. Entire single natural landform runs horizontally; actual visible landform approximately 3.4:1 width-to-height (target 3.3-3.6), with at least 3 percent transparent border on every side. Draw substantial foothill depth without a rectangular forest carpet. Low diffuse taper at outer woodland edges so it can blend into a farmland map. All terrain connected, no detached tree islands.\nStyle/medium: polished original painterly realistic 2.5D game terrain, nuanced forest canopy and rock planes readable at small scale, not a photo, not low-poly, not cartoon.\nLighting/mood: soft fixed upper-left/northwest daylight, restrained southeast slope shadows, subtle internal contact shade only.\nConstraints: genuinely transparent alpha background. No opaque ground tile, square or oval plinth, bright border, snow, water, coast, roads, settlements, buildings, people, labels, text, logo or watermark. Do not reproduce artwork from any existing commercial game."
+}

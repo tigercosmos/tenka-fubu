@@ -7,6 +7,7 @@
 // 依 00>02>15>系統>UI 優先序以 02 為準；本檔改為直接 reuse core/state/enums.ts 的
 // `DEVELOP_FOCUS_VALUES`（單一真相），已回寫 plan/14-scenario-data.md §8（D15）。
 import { z } from 'zod';
+import { BAL } from '../../core/balance';
 import { DEVELOP_FOCUS_VALUES } from '../../core/state/enums';
 import { RE, id, zPos, zName, int0, pct100 } from './common';
 
@@ -21,7 +22,7 @@ export const zDistrict = z.object({
   kokudaka: int0, // 石高（石/年）
   kokudakaCap: int0, // 開發潛力上限（石/年）；≥ kokudaka
   commerce: int0, // 商業（點）
-  commerceCap: z.number().int().min(0).max(2000), // ≤ BAL.commerceMaxAbs（00 §6）
+  commerceCap: z.number().int().min(0).max(BAL.commerceMaxAbs),
   population: int0, // 人口（人）
   populationCap: int0, // 人口上限（人）
   publicOrder: pct100.default(60), // 治安

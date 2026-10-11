@@ -1,0 +1,30 @@
+{
+  "asset": "public/assets/textures/terrain-lowland-field-material-v1.png",
+  "status": "adopted-bounded-decorative-lowland-material",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-09",
+  "transparentBackgroundRequested": false,
+  "referencedImages": [],
+  "bytes": 3975052,
+  "sha256": "26535ce43343d46ca3b8e04c18a9018212a3f7d8f073b5be073f2c15314ba40d",
+  "dimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "alphaInspection": {
+    "zeroAlphaPixels": 0,
+    "partialAlphaPixels": 0,
+    "opaquePixels": 1572516,
+    "centerAlpha": 255
+  },
+  "edgeRms": {
+    "wrapX": 21.745892448548492,
+    "adjacentX": 13.915414330190146,
+    "wrapY": 23.2087869938681,
+    "adjacentY": 13.014652520266743
+  },
+  "seamStatus": "Opposite pixel edges do not match exactly. Selected diagnostic scale shows no conspicuous repeating seam, not a seamless certification.",
+  "prompt": "Use case: stylized-concept\nAsset type: original tileable lowland surface texture for a Japanese Sengoku historical 2.5D strategy map, not a complete scene.\nPrimary request: square opaque seamless repeating ground material: a natural irregular mosaic of tiny traditional rice paddies, dry fields, grassy fallow patches and occasional small rounded copses. Fields should occupy only about half the surface, dispersed as clusters of irregular narrow plots, merging softly into olive grassland, not a rigid checkerboard. Each plot roughly 35 to 80 pixels wide on a 1024 tile. Narrow earthen banks, subtly visible rows of crops, occasional muted pale damp soil. No large roads or waterways.\nStyle/medium: realistic miniature hand-painted terrain, fixed high oblique overhead camera around 60 degrees, matching earthy muted sage/olive woodland, soft warm upper-left daylight, restrained contrast, very subtle small bank relief.\nComposition: continuous edge-to-edge uniform-density material, no focal point, horizon, island outline or scenic perspective. Matching color and pattern density on opposite edges for unobtrusive tiling, no border or vignette.\nConstraints: entirely original fictional terrain decoration, no copied game art. No castles, villages, people, armies, mountains, broad rivers, modern machinery, text, logo, watermark, tall trees, giant square farms, bright saturated greens, black outline grid, large shadows, transparency.",
+  "inspection": "Original fictional decorative fields, not simulation cultivation facts. Selected 384-world-unit period and .35 opacity with conservative exclusion of authored mountains and forests, 32-world-unit outward fade and exact coastline clip. Soft buffer remains visible; no native visual acceptance."
+}

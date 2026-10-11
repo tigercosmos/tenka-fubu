@@ -236,6 +236,21 @@ export const UI = {
 } as const;
 ```
 
+戰術地圖另用同一 `UI` 物件的 `battleMapGeometry` 群組，單位均為邏輯呈現 px：
+
+| 群組 | 值 |
+|---|---|
+| 橫向留白、上／下留白、列距 | 60、112／52、156 |
+| 陣半徑、完整操作區半寬／上／下 | 12、36／20／44 |
+| 棋子上移、同點間距／交錯列差 | 62、64／22 |
+| 全域備援格位間距 | 4 |
+| 棋子完整操作區半寬／上／下 | 30／20／36 |
+| 旗寬／高、文字尺寸、操作區下限 | 18／26、12、32 |
+
+`glyphScale = min(uiScale, width / 120, height / 476)`；width／height 為中央 map 的 CSS 尺寸。
+標籤字體至少 12px；原生操作區至少 32px，與完整 glyph 操作區共用同一份投影。
+這些值只供戰術 map 擬合，不進 BAL、存檔或 core，也不改根 `uiScale` 設定。
+
 ### 3.2 共用 React 元件規格
 
 通則（適用全部元件，下文不重複）：
@@ -317,12 +332,15 @@ interface TabViewProps {
   onChange: (id: string) => void;
   variant?: 'line' | 'contained'; // line=底線式（面板內）；contained=方塊式（畫面級）
   keepMounted?: boolean;          // 預設 false：非作用分頁卸載
+  sticky?: boolean;               // 預設 false；捲動面板可固定分頁列並保留焦點時捲動位置
   children: React.ReactNode;      // 與 tabs 對位的 <TabView.Pane id=...> 清單
 }
 ```
 
 - 作用分頁：`--accent-gold-text` 文字＋2px `--accent-gold` 底線（line）或 `--washi-100` 凸起（contained）。
 - 鍵盤：`←`/`→` 移動、`Home`/`End` 跳端點、跳過 disabled；`role="tablist"/"tab"/"tabpanel"`。
+- sticky 模式固定分頁列於捲動容器頂端，鍵盤 focus 使用 preventScroll；非 sticky 模式不改焦點捲動。
+  捲動容器須保留分頁列的 scroll-padding，避免內容焦點移入固定列下方。
 
 #### 3.2.5 DataTable — 泛型表格（排序＋虛擬捲動 600 列）
 
@@ -766,14 +784,17 @@ interface TextInputProps {
 |---|---|
 | 本城 | 天守輪廓多邊形（雙層屋簷剪影）28×28、填 `--clan-XX`、框 2px `ink900` |
 | 支城 | 單層櫓剪影 20×20、同上填框 |
-| 耐久環 | 圓弧半徑：本城 20／支城 15，線寬 3；起角 −90°、掃角 = `durability/durabilityMax × 360°`（欄位參見 02）；色：比例 > `UI.durabilityRingWarn` 用 `mossBright`、> `UI.durabilityRingDanger` 用 `gold`、否則 `vermilionBright`；底環 `ink300` 25% 透明度 |
+| 耐久槽 | 建築底部短槽；填入長度 = 槽寬 × `durability/durabilityMax`（欄位參見 02）；保留既有三段色彩門檻與 LOD 能見度，不再以圓弧覆蓋城體 |
 | 名標 | 節點下方 BitmapText 12px `ink900`，washi100 描邊 3px（halo）；鏡頭縮小超過閾值時隱藏支城名標（閾值參見 04 LOD 節） |
 | 被圍 | 疊 SiegeMarker（§3.3.8） |
 | 落城瞬間 | 填色 300ms 從舊勢力色補間至新勢力色＋一次 12 粒 `ink500` 煙塵粒子（壽命 500ms） |
 
 #### 3.3.3 DistrictNode — 郡節點
 
-- 圓形半徑 7、填 `--clan-XX` 70% 透明度、框 1px `ink700`；無主郡填 `--neutral-clanless`。
+- 2026-10-11 的原創郡材質取代舊滿版勢力圓：土灰橢圓長／短半徑為 6／4 world，透明度為 0.86。
+  勢力原色保留為右側 120 度短弧，半徑 4、線寬 1.5、透明度 0.9；無主使用 `--neutral-clanless`。
+  材質細節以 `docs/visual/art-bible.md` §6.4.5 為準；原世界位置與 LOD 行為不變。
+- 實際命中半徑仍為 12 world，且至少為 16 CSS px；可見半徑 6 不等於命中半徑。
 - 直轄郡：中心加 2.5px `ink900` 實心點；知行郡（有 `stewardId`）：中心加 2.5px `washi100` 空心點。
 - 制壓中：外圈疊進度弧（半徑 10、線寬 2、`vermilionBright`，掃角 = 制壓進度比例 × 360°；
   進度規則參見 04）。
@@ -781,7 +802,8 @@ interface TextInputProps {
 
 #### 3.3.4 SelectionRing — 選取光圈
 
-- 圓環半徑 = 目標命中半徑 + 6、線寬 2、色 `gold`。
+- 節點選取使用金色地面橢圓，世界錨點與命中半徑不變；橢圓位於城體後方。
+- 地面子容器位於 `nodeMarkers` 的首個子層；道路高亮與路徑預覽仍位於 `selectionAndPath`。
 - 動態：scale 1.00→1.08→1.00、alpha 0.9→0.6→0.9，週期 1200ms `--ease-in-out`；
   reduce-motion：靜止實環。
 - 同時間僅一個選取目標（多選部隊時每個棋子各掛一環，主選對象環加粗至 3px）。
@@ -815,11 +837,13 @@ interface TextInputProps {
 
 #### 3.3.8 SiegeMarker — 圍城標記
 
-- 城節點外圈半徑 24 畫 3 段等分圓弧（每段掃角 70°、線寬 3、色 `vermilionBright`）。
+- 城節點錨點周圍畫三段朱紅地面橢圓弧，與節點選取同屬模型後方的地面子容器。
 - 模式差異（攻城規則參見 07）：**包圍**＝虛線弧、旋轉 8s/圈；**強攻**＝實線弧、旋轉 4s/圈，
   且每 1.2s 在城節點上迸發一次 BattleSpark 粒子。
 - reduce-motion：弧線靜止（保留虛實線區分）。
 - 城内糧盡倒數等文字資訊不畫在場景內，由 ContextPanel 顯示（參見 11）。
+
+2026-10-10 的模型優先重設取代舊同心圓與受攻光暈；完整呈現契約見 [art-bible §6.4.1](../docs/visual/art-bible.md#641-模型優先的狀態呈現2026-10-10)。
 
 ### 3.4 動畫規範總表
 
@@ -1044,14 +1068,23 @@ show(trigger, mode):
 ```
 open 時:
   previouslyFocused = document.activeElement
-  focus(initialFocusRef ?? dialog 內第一個可聚焦元素 ?? dialog 本體[tabindex=-1])
+  僅頂層取得焦點；initialFocusRef 必須仍連接、可用、可見且屬於目前 dialog
+  focus(有效 initialFocusRef ?? dialog 內第一個可聚焦元素 ?? dialog 本體[tabindex=-1])
 keydown 監聽（掛在 dialog 根）:
-  Escape → onClose()
+  Escape → 僅頂層處理；已被阻止、重複、IME 合成或修飾鍵事件保留原生所有權
+           若目前焦點為輸入／select／contenteditable → blur，聚焦 dialog 本體，不關閉
+           其他情況僅 dismissible 時 onClose()
   Tab → focusables = dialog 內 querySelectorAll(
-          'button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])') 中可見且未停用者
+          'button,[href],input,select,textarea,' +
+          '[contenteditable]:not([contenteditable="false"]),[tabindex]:not([tabindex="-1"])') 中安全且可循環者
+        排除 :disabled（含 fieldset）、hidden/inert/aria-hidden 或隱藏祖先，以及負 tabindex
+        若 activeElement == dialog 本體 → Tab 聚焦第一個、shift+Tab 聚焦最後一個並 preventDefault
         若 shift+Tab 且 activeElement == focusables[0] → 聚焦最後一個並 preventDefault
         若 Tab 且 activeElement == 最後一個 → 聚焦 focusables[0] 並 preventDefault
-close 時: previouslyFocused?.focus()
+close 時:
+  若仍有頂層 dialog 且已有安全焦點 → 保持不變
+  否則還原該 owner 內仍可用的 previouslyFocused 或最後控制項；失效時用第一控制項／dialog 本體
+  若無剩餘 owner → 僅還原仍連接且安全的原開啟者
 多層 Dialog: 以 modal-root 內堆疊順序，僅最上層攔截鍵盤與背板事件。
 ```
 
@@ -1337,6 +1370,62 @@ dismiss(id): 播退場動畫（--duration-normal）後自 stack 移除
   插序）；脈動延後。(d) §3.3.3 DistrictNode 幾何沿用（filled 70%＋ink700＋中心點）不改為
   art-bible「空心圓印」。(e) `ScenePart.update` 維持 `void`（節點計數改由 dirty 簽章成員數驅動，
   非 update 回傳）。(f) 落城補間＋煙塵、受攻低頻脈衝延後至 effect 里程碑。
+
+- **D30｜Dialog Escape 與輸入所有權（2026-10-08）**：依 11 §3.16.1，第一次 Escape 只離開輸入焦點。
+  Dialog 保持開啟並聚焦本體；下一次 Escape 才依 dismissible 關閉，強制選擇仍不可略過。
+  IME 合成、已阻止、重複及修飾鍵事件不觸發 blur 或關閉；事件不穿透到較低層 modal。
+  本體聚焦時 Tab／Shift+Tab 分別到第一／最後控制項；contenteditable 亦列入焦點循環。
+  Enter、危險確認的取消優先及原開啟者焦點還原不變；不據單元測試宣稱原生 IME 全面驗證。
+- **D31｜Live 戰鬥火花的場景所有權（2026-10-08）**：MapRenderer 依既有 battles／sieges view 掛載特效。
+  野戰位置採節點座標或既有道路折線的弧長中點；野戰每 900ms、強攻每 1200ms 產生八粒火花。
+  同一 renderer 共用上限 128 的粒子池；各場景獨立所有權，換圖及銷毀清除並釋放。
+  OS 動態減量或停用特效立即清除現有粒子，保留雙刀圖示及圍城虛實弧線。
+  恢復時只產生目前一輪，不補播背景暫停期間的歷史輪次；不改 core 或 named RNG。
+
+  威風仍未接線：現有 core payload 不含 3.3.6 要求的中心與世界半徑，UI 不推測影響範圍。
+  這個缺口仍屬 T11／T12 未完成項目，不由已通過的火花測試取代。
+- **D32｜巢狀 Dialog 焦點還原（2026-10-08）**：SaveLoad 背景鎖定可在子框擷取 prior 前使 opener 失焦。
+  各 Dialog 記住最後實際聚焦的自有控制項；子 portal 的事件不能覆寫 parent 的記錄。
+  子框關閉後優先保留剩餘頂層的安全焦點，否則還原有效 opener／owner 最後控制項。
+  opener 因非同步操作停用或移除時，改用該 owner 第一控制項或本體，不把焦點留在 body。
+  acquisition 及 restoration 排除未連接、停用、inert、隱藏祖先；Tab 循環另排除負 tabindex。
+  只記錄 DOM 焦點，不改 SaveLoad 命令、存檔資料、pause 所有權或 Enter／Escape 規則。
+- **D33｜Viewport 解除後的 Dialog owner（2026-10-08）**：遮罩解除先還原 portal 的 inert／aria-hidden。
+  再用 Dialog 的同一 DOM helper 保留安全的頂層焦點，或還原有效 prior／owner 最後控制項。
+  遮罩期間新開的 Dialog 仍記住有效的初始偏好；恢復時確認框優先取消，不退回標題關閉鈕。
+  prior 消失時採有效初始偏好、第一控制項或本體；沒有 Dialog 時只還原安全的原控制項。
+  不排程延後回呼，不增加時鐘、store 或 core 依賴。
+- **D34｜Tactical glyph footprint（2026-10-08）**：戰術 map 的三列 footprint 由 `UI.battleMapGeometry` 擬合。
+  節點與部隊回傳分離的 logical anchor、glyphBox 及 hitBox，Canvas 和原生按鈕不各自推測操作區。
+  棋子低對比連線指向真實陣或 edge 進度 anchor；連線不是新通路，不改移動規則。
+  同點棋子依 id 排列；已離場或零兵數不繪圖，潰走保留灰色斜線標記。
+  renderer 只在 view／CSS 尺寸／DPR 變更時繪圖，不新增動畫 ticker；標籤沿用已載入的字型。
+- **D35｜全域戰術操作區（2026-10-08）**：投影先保留所有陣的 hitBox，再依穩定 id 配置可見棋子。
+  未碰撞的偏好位置不變；碰撞時選取距偏好呈現位置最近的可用格位，並以格位序打破同距。
+  備援格位彼此不重疊，也不碰陣；局部位置耗盡格位時，全部棋子改用不同格位。
+  格位數不少於可見棋子數時，此重置可完整配置；不宣稱全域最短距離或最佳配置。
+  不改真實 anchor、通路、時鐘、字體及操作區下限，也不以隱藏棋子消除碰撞。
+  未量測或低於支援尺寸的 host、超過格位容量的合成資料，不保證所有圖形能獨立配置。
+- **D36｜不可關閉 backdrop 的原生焦點（2026-10-08）**：頂層 Dialog 不接受 backdrop 關閉時，阻止該 mouseDown 的預設動作。
+  結果 Dialog 因此保留原有焦點，不因空白處點擊而移到 body；Escape／Tab 仍使用同一 owner。
+  Dialog 內容控制項不攔截原生 mouseDown；可關閉 backdrop 仍沿用既有 onClose。
+- **D37｜合戰日誌的有界呈現（2026-10-08）**：`UI.battleLogMaxRows` 限制保留列數，預設 50。
+  `UI.battleLogNearBottomPx` 定義跟隨底部的 CSS 像素距離，預設 32；不屬於 BAL 或 core 規則。
+  日誌 region 使用 `role=log` 及 additions 宣告，只新增實際 outcome；不重建已保存的戰鬥歷史。
+  自動捲動只由原本靠近底部的讀者觸發；閱讀舊列時不強制跳底。
+- **D38｜合戰活動的共用文字（2026-10-08）**：部隊卡與地圖按鈕的描述使用相同狀態 formatter。
+  接觸、移動及阻擋原因以文字呈現，不只依顏色；交戰含範圍與非傷害證明的說明。
+  卡片可換行，地圖沿用原生 aria-describedby；不更動 glyph、hitBox、倍率或時鐘。
+- **D39｜出陣與輸送的貨量刻度（2026-10-08）**：15 §5.2 表 D 的刻度歸 UI，不新增 core BAL。
+  `UI.uiMarchFoodStep` 與 `UI.uiMarchSoldierStep` 均為 100，輸送及出陣滑桿共用。
+  可提交量仍由目前來源庫存與 core 指令驗證限制；刻度不代表庫存、抵達容量或成功保證。
+- **D40｜唯讀 JSON 樹的分頁（2026-10-08）**：`UI.stateViewerPageSize` 為 50，屬於呈現參數而非 BAL。
+  根節點預設收合；每個展開節點首次呈現 50 個子節點，再由「顯示更多」增加可見列。
+  隱藏子樹不讀取內部欄位；此上限限制每次呈現增量，不宣稱限制所有已展開節點的總 DOM 數。
+- **D41｜城面板鍵盤分頁與捲動（2026-10-09）**：恢復深層分頁位置時，非固定分頁列會離開可視範圍。
+  城面板採 opt-in sticky 分頁列，搭配 preventScroll 焦點與三 rem 內容焦點留白。
+  其他 TabView 預設行為不變；不只禁止捲動而把鍵盤焦點藏在視窗外。
+  模擬測試驗證焦點參數與位置記帳，不當作原生 sticky 幾何或瀏覽器驗收證明。
 
 ---
 

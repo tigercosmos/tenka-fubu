@@ -1,0 +1,18 @@
+{
+  "asset": "public/assets/textures/terrain-forest-canopy-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-09",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sha256": "451903f3bd3eb1b6c4d5127fa3e3a135ad31541709a009895c8b70ed590c4262",
+  "dimensions": { "width": 1374, "height": 1145 },
+  "bytes": 2684068,
+  "alphaInspection": {
+    "zeroAlphaPixels": 574731,
+    "partialAlphaPixels": 998495,
+    "opaquePixels": 4,
+    "centerAlpha": 252
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: original transparent forest-canopy sprite for a realistic 2.5D historical Japanese strategy map.\nPrimary request: a compact irregular patch of dense Japanese cedar and mixed broadleaf woodland on nearly flat terrain, finely painted realistic miniature with natural rounded individual canopies and depth, not polygon cones.\nComposition/framing: fixed high oblique overhead camera approximately 60 degrees, no horizon. One continuous forest cluster, irregular roughly round shape, entirely visible with transparent margins. Tree bases and outer shrubs fade smoothly into genuinely transparent alpha for blending over a sage-green game map. No floating island, square plate, surrounding land backdrop or cutaway soil.\nLighting: soft northwest daylight and coherent gentle southeast shade within the trees. Muted olive/sage greens with restrained contrast and small natural variations, compatible with finely painted grey-rock mountain woodland.\nConstraints: vegetation only, no rocky peaks, mountains, rivers, roads, castles, people, snow, text, logo, watermark, symbols, border or background scenery. Original artwork, not copied game assets. No chunky polygon facets or geometric cones. Background genuinely transparent."
+}

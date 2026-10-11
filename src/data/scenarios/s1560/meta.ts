@@ -16,5 +16,15 @@
 /** s1560 劇本 id（14 §1）。 */
 export const S1560_SCENARIO_ID = 's1560';
 
-/** 目前已落地的地方批次（M2-9 東海／M2-10 近畿）；供 `src/app/boot.ts` 的 `regions` 白名單使用。 */
-export const S1560_LOADED_REGIONS = ['tokai', 'kinki'] as const;
+/** 九地方正式資料；全國長期、平衡及發版驗收另有獨立門檻。 */
+export const S1560_LOADED_REGIONS = [
+  'tokai',
+  'kinki',
+  'kanto',
+  'koshinetsu',
+  'hokuriku',
+  'chugoku',
+  'shikoku',
+  'kyushu',
+  'tohoku',
+] as const;

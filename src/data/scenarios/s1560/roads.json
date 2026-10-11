@@ -1076,6 +1076,3282 @@
       "type": "land",
       "grade": 1,
       "baseDays": 0.5
+    },
+    {
+      "id": "road.b34-1",
+      "a": "castle.odawara",
+      "b": "dist.sagami-ashigara-kami",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-2",
+      "a": "castle.odawara",
+      "b": "dist.sagami-ashigara-shimo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-3",
+      "a": "castle.odawara",
+      "b": "dist.sagami-yurugi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-4",
+      "a": "castle.tamanawa",
+      "b": "dist.sagami-kamakura",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-5",
+      "a": "castle.tamanawa",
+      "b": "dist.sagami-koza",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-6",
+      "a": "castle.tamanawa",
+      "b": "dist.sagami-miura",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-7",
+      "a": "castle.nirayama",
+      "b": "dist.izu-tagata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-8",
+      "a": "castle.nirayama",
+      "b": "dist.izu-kimisawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-9",
+      "a": "castle.nirayama",
+      "b": "dist.izu-kamo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-10",
+      "a": "castle.edo",
+      "b": "dist.musashi-toshima",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-11",
+      "a": "castle.edo",
+      "b": "dist.musashi-ebara",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-12",
+      "a": "castle.edo",
+      "b": "dist.musashi-adachi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-13",
+      "a": "castle.kawagoe",
+      "b": "dist.musashi-iruma",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-14",
+      "a": "castle.kawagoe",
+      "b": "dist.musashi-niiza",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-15",
+      "a": "castle.kawagoe",
+      "b": "dist.musashi-saitama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-16",
+      "a": "castle.takiyama",
+      "b": "dist.musashi-tama-hachioji",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-17",
+      "a": "castle.takiyama",
+      "b": "dist.musashi-tama-ome",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-18",
+      "a": "castle.takiyama",
+      "b": "dist.musashi-tama-fuchu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-19",
+      "a": "castle.matsuyama",
+      "b": "dist.musashi-hiki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-20",
+      "a": "castle.matsuyama",
+      "b": "dist.musashi-obusuma",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-21",
+      "a": "castle.matsuyama",
+      "b": "dist.musashi-osato",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-22",
+      "a": "castle.kururi",
+      "b": "dist.kazusa-moda",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-23",
+      "a": "castle.kururi",
+      "b": "dist.kazusa-ichihara",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-24",
+      "a": "castle.kururi",
+      "b": "dist.kazusa-isumi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-25",
+      "a": "castle.sanuki",
+      "b": "dist.kazusa-sue",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-26",
+      "a": "castle.sanuki",
+      "b": "dist.kazusa-ama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-27",
+      "a": "castle.sanuki",
+      "b": "dist.kazusa-awa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-28",
+      "a": "castle.ota",
+      "b": "dist.hitachi-kuji",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-29",
+      "a": "castle.ota",
+      "b": "dist.hitachi-taga",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-30",
+      "a": "castle.ota",
+      "b": "dist.hitachi-naka",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-31",
+      "a": "castle.nukada",
+      "b": "dist.hitachi-ibaraki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-32",
+      "a": "castle.nukada",
+      "b": "dist.hitachi-namegata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-33",
+      "a": "castle.nukada",
+      "b": "dist.hitachi-tsukuba",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-34",
+      "a": "castle.utsunomiya",
+      "b": "dist.shimotsuke-kawachi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-35",
+      "a": "castle.utsunomiya",
+      "b": "dist.shimotsuke-shioya",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-36",
+      "a": "castle.utsunomiya",
+      "b": "dist.shimotsuke-nasu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-37",
+      "a": "castle.moka",
+      "b": "dist.shimotsuke-haga",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-38",
+      "a": "castle.moka",
+      "b": "dist.shimotsuke-haga-mashiko",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-39",
+      "a": "castle.moka",
+      "b": "dist.shimotsuke-haga-motegi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-40",
+      "a": "castle.yuki",
+      "b": "dist.shimosa-yuki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-41",
+      "a": "castle.yuki",
+      "b": "dist.shimosa-sashima",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-42",
+      "a": "castle.yuki",
+      "b": "dist.shimosa-toyoda",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-43",
+      "a": "castle.minowa",
+      "b": "dist.kozuke-usui",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-44",
+      "a": "castle.minowa",
+      "b": "dist.kozuke-gunma-misato",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-45",
+      "a": "castle.minowa",
+      "b": "dist.kozuke-agatsuma",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-46",
+      "a": "castle.umayabashi",
+      "b": "dist.kozuke-gunma",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-47",
+      "a": "castle.umayabashi",
+      "b": "dist.kozuke-seta",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-48",
+      "a": "castle.umayabashi",
+      "b": "dist.kozuke-tone",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-49",
+      "a": "castle.tsutsujigasaki",
+      "b": "dist.kai-yamanashi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-50",
+      "a": "castle.tsutsujigasaki",
+      "b": "dist.kai-yatsushiro",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-51",
+      "a": "castle.tsutsujigasaki",
+      "b": "dist.kai-koma",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-52",
+      "a": "castle.iwadono",
+      "b": "dist.kai-tsuru-otsuki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-53",
+      "a": "castle.iwadono",
+      "b": "dist.kai-tsuru-yamura",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-54",
+      "a": "castle.iwadono",
+      "b": "dist.kai-tsuru-uenohara",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-55",
+      "a": "castle.takato",
+      "b": "dist.shinano-ina",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-56",
+      "a": "castle.takato",
+      "b": "dist.shinano-suwa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-57",
+      "a": "castle.takato",
+      "b": "dist.shinano-ina-iida",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-58",
+      "a": "castle.fukashi",
+      "b": "dist.shinano-chikuma",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-59",
+      "a": "castle.fukashi",
+      "b": "dist.shinano-azumi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-60",
+      "a": "castle.fukashi",
+      "b": "dist.shinano-chiisagata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-61",
+      "a": "castle.kaizu",
+      "b": "dist.shinano-hanishina",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-62",
+      "a": "castle.kaizu",
+      "b": "dist.shinano-sarashina",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-63",
+      "a": "castle.kaizu",
+      "b": "dist.shinano-saku",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-64",
+      "a": "castle.kasugayama",
+      "b": "dist.echigo-kubiki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-65",
+      "a": "castle.kasugayama",
+      "b": "dist.echigo-kubiki-naoetsu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-66",
+      "a": "castle.kasugayama",
+      "b": "dist.echigo-kubiki-itoigawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-67",
+      "a": "castle.tochio",
+      "b": "dist.echigo-koshi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-68",
+      "a": "castle.tochio",
+      "b": "dist.echigo-kanbara",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-69",
+      "a": "castle.tochio",
+      "b": "dist.echigo-iwafune",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-70",
+      "a": "castle.sakado",
+      "b": "dist.echigo-uonuma",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-71",
+      "a": "castle.sakado",
+      "b": "dist.echigo-uonuma-yuzawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-72",
+      "a": "castle.sakado",
+      "b": "dist.echigo-uonuma-tsumari",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-73",
+      "a": "castle.iiyama",
+      "b": "dist.shinano-minochi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-74",
+      "a": "castle.iiyama",
+      "b": "dist.shinano-takai",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-75",
+      "a": "castle.iiyama",
+      "b": "dist.shinano-minochi-nozawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b34-76",
+      "a": "castle.edo",
+      "b": "castle.kawagoe",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "鎌倉街道"
+    },
+    {
+      "id": "road.b34-77",
+      "a": "castle.kawagoe",
+      "b": "castle.matsuyama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "鎌倉街道"
+    },
+    {
+      "id": "road.b34-78",
+      "a": "castle.kawagoe",
+      "b": "castle.takiyama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "甲州街道"
+    },
+    {
+      "id": "road.b34-79",
+      "a": "castle.odawara",
+      "b": "castle.nirayama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "箱根道"
+    },
+    {
+      "id": "road.b34-80",
+      "a": "castle.kururi",
+      "b": "castle.sanuki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "房總往還"
+    },
+    {
+      "id": "road.b34-81",
+      "a": "castle.edo",
+      "b": "castle.yuki",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 2,
+      "name": "奧州街道"
+    },
+    {
+      "id": "road.b34-82",
+      "a": "castle.yuki",
+      "b": "castle.utsunomiya",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "奧州街道"
+    },
+    {
+      "id": "road.b34-83",
+      "a": "castle.utsunomiya",
+      "b": "castle.moka",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "下野往還"
+    },
+    {
+      "id": "road.b34-84",
+      "a": "castle.moka",
+      "b": "castle.nukada",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "常陸往還"
+    },
+    {
+      "id": "road.b34-85",
+      "a": "castle.nukada",
+      "b": "castle.ota",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "常陸往還"
+    },
+    {
+      "id": "road.b34-86",
+      "a": "castle.matsuyama",
+      "b": "castle.minowa",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1.5,
+      "name": "中山道"
+    },
+    {
+      "id": "road.b34-87",
+      "a": "castle.minowa",
+      "b": "castle.umayabashi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "上野往還"
+    },
+    {
+      "id": "road.b34-88",
+      "a": "castle.tsutsujigasaki",
+      "b": "castle.iwadono",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "甲州街道"
+    },
+    {
+      "id": "road.b34-89",
+      "a": "castle.tsutsujigasaki",
+      "b": "castle.takato",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "杖突峠"
+    },
+    {
+      "id": "road.b34-90",
+      "a": "castle.takato",
+      "b": "castle.fukashi",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "中山道"
+    },
+    {
+      "id": "road.b34-91",
+      "a": "castle.fukashi",
+      "b": "castle.kaizu",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "信濃往還"
+    },
+    {
+      "id": "road.b34-92",
+      "a": "castle.kaizu",
+      "b": "castle.iiyama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "川中島"
+    },
+    {
+      "id": "road.b34-93",
+      "a": "castle.iiyama",
+      "b": "castle.kasugayama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "北國街道"
+    },
+    {
+      "id": "road.b34-94",
+      "a": "castle.kasugayama",
+      "b": "castle.tochio",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 2,
+      "name": "北陸道"
+    },
+    {
+      "id": "road.b34-95",
+      "a": "castle.tochio",
+      "b": "castle.sakado",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "越後往還"
+    },
+    {
+      "id": "road.b34-96",
+      "a": "dist.sagami-yurugi",
+      "b": "dist.sagami-koza",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "鎌倉街道"
+    },
+    {
+      "id": "road.b34-97",
+      "a": "dist.sagami-koza",
+      "b": "dist.sagami-kamakura",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "鎌倉街道"
+    },
+    {
+      "id": "road.b34-98",
+      "a": "dist.sagami-kamakura",
+      "b": "dist.musashi-ebara",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "鎌倉街道"
+    },
+    {
+      "id": "road.b34-99",
+      "a": "dist.sagami-miura",
+      "b": "dist.kazusa-awa",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "江戶灣口航路"
+    },
+    {
+      "id": "road.b34-100",
+      "a": "dist.izu-tagata",
+      "b": "dist.suruga-sunto",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "箱根道"
+    },
+    {
+      "id": "road.b34-101",
+      "a": "dist.musashi-iruma",
+      "b": "dist.kai-yamanashi",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 2.5,
+      "name": "甲州街道"
+    },
+    {
+      "id": "road.b34-102",
+      "a": "dist.kozuke-usui",
+      "b": "dist.shinano-saku",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1.5,
+      "name": "中山道"
+    },
+    {
+      "id": "road.b34-103",
+      "a": "dist.kozuke-gunma",
+      "b": "dist.echigo-uonuma",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 3,
+      "name": "三國峠"
+    },
+    {
+      "id": "road.b34-104",
+      "a": "dist.mikawa-kamo",
+      "b": "dist.shinano-ina",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 4,
+      "name": "三州街道"
+    },
+    {
+      "id": "road.b34-105",
+      "a": "dist.mino-kamo",
+      "b": "dist.shinano-chikuma",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 4,
+      "name": "中山道木曾路"
+    },
+    {
+      "id": "road.b34-106",
+      "a": "dist.suruga-fuji",
+      "b": "dist.kai-yatsushiro",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "中道"
+    },
+    {
+      "id": "road.b5-1",
+      "a": "castle.ichijodani",
+      "b": "dist.echizen-asuwa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-2",
+      "a": "castle.ichijodani",
+      "b": "dist.echizen-yoshida",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-3",
+      "a": "castle.ichijodani",
+      "b": "dist.echizen-sakai-mikuni",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-4",
+      "a": "castle.kanegasaki",
+      "b": "dist.echizen-tsuruga",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-5",
+      "a": "castle.kanegasaki",
+      "b": "dist.echizen-nanjo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-6",
+      "a": "castle.kanegasaki",
+      "b": "dist.echizen-imadate",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-7",
+      "a": "castle.ono",
+      "b": "dist.echizen-ono",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-8",
+      "a": "castle.ono",
+      "b": "dist.echizen-ono-katsuyama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-9",
+      "a": "castle.ono",
+      "b": "dist.echizen-ono-izumi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-10",
+      "a": "castle.nochiseyama",
+      "b": "dist.echizen-wakasa-onyu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-11",
+      "a": "castle.nochiseyama",
+      "b": "dist.echizen-wakasa-mikata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-12",
+      "a": "castle.nanao",
+      "b": "dist.noto-kashima",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-13",
+      "a": "castle.nanao",
+      "b": "dist.noto-fugeshi-wajima",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-14",
+      "a": "castle.nanao",
+      "b": "dist.noto-suzu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-15",
+      "a": "castle.suemori",
+      "b": "dist.noto-hakui",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-16",
+      "a": "castle.suemori",
+      "b": "dist.noto-hakui-togi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-17",
+      "a": "castle.suemori",
+      "b": "dist.noto-hakui-oshimizu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-18",
+      "a": "castle.toyama",
+      "b": "dist.etchu-nei",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-19",
+      "a": "castle.toyama",
+      "b": "dist.etchu-niikawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-20",
+      "a": "castle.toyama",
+      "b": "dist.etchu-niikawa-kamiichi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-21",
+      "a": "castle.masuyama",
+      "b": "dist.etchu-tonami",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-22",
+      "a": "castle.masuyama",
+      "b": "dist.etchu-imizu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-23",
+      "a": "castle.oyama-gobo",
+      "b": "dist.kaga-ishikawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-24",
+      "a": "castle.oyama-gobo",
+      "b": "dist.kaga-kahoku",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-25",
+      "a": "castle.oyama-gobo",
+      "b": "dist.kaga-ishikawa-kanaiwa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-26",
+      "a": "castle.daishoji",
+      "b": "dist.kaga-enuma",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-27",
+      "a": "castle.daishoji",
+      "b": "dist.kaga-nomi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-28",
+      "a": "castle.daishoji",
+      "b": "dist.kaga-enuma-yamanaka",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b5-29",
+      "a": "castle.ichijodani",
+      "b": "castle.kanegasaki",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1.5,
+      "name": "北陸道"
+    },
+    {
+      "id": "road.b5-30",
+      "a": "castle.ichijodani",
+      "b": "castle.ono",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "北陸道"
+    },
+    {
+      "id": "road.b5-31",
+      "a": "castle.kanegasaki",
+      "b": "castle.nochiseyama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "北陸道"
+    },
+    {
+      "id": "road.b5-32",
+      "a": "castle.ichijodani",
+      "b": "castle.daishoji",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "北陸道"
+    },
+    {
+      "id": "road.b5-33",
+      "a": "castle.daishoji",
+      "b": "castle.oyama-gobo",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "北陸道"
+    },
+    {
+      "id": "road.b5-34",
+      "a": "castle.oyama-gobo",
+      "b": "castle.suemori",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "北陸道"
+    },
+    {
+      "id": "road.b5-35",
+      "a": "castle.suemori",
+      "b": "castle.nanao",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "北陸道"
+    },
+    {
+      "id": "road.b5-36",
+      "a": "castle.oyama-gobo",
+      "b": "castle.masuyama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "北陸道"
+    },
+    {
+      "id": "road.b5-37",
+      "a": "castle.masuyama",
+      "b": "castle.toyama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "北陸道"
+    },
+    {
+      "id": "road.b5-38",
+      "a": "dist.echizen-tsuruga",
+      "b": "dist.omi-shiga",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 2.5,
+      "name": "北國街道"
+    },
+    {
+      "id": "road.b5-39",
+      "a": "dist.etchu-niikawa",
+      "b": "dist.echigo-kubiki-itoigawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "親不知"
+    },
+    {
+      "id": "road.b5-40",
+      "a": "dist.echizen-wakasa-mikata",
+      "b": "dist.echizen-sakai-mikuni",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "若狹越前航路"
+    },
+    {
+      "id": "road.b5-41",
+      "a": "dist.echizen-sakai-mikuni",
+      "b": "dist.noto-fugeshi-wajima",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 4,
+      "name": "日本海西段航路"
+    },
+    {
+      "id": "road.b5-42",
+      "a": "dist.noto-fugeshi-wajima",
+      "b": "dist.echigo-kubiki-naoetsu",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 4,
+      "name": "日本海航路"
+    },
+    {
+      "id": "road.b6-1",
+      "a": "castle.yoshida-koriyama",
+      "b": "dist.aki-takata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-2",
+      "a": "castle.yoshida-koriyama",
+      "b": "dist.aki-yamagata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-3",
+      "a": "castle.yoshida-koriyama",
+      "b": "dist.aki-takata-yoshida",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-4",
+      "a": "castle.sato-kanayama",
+      "b": "dist.aki-sato",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-5",
+      "a": "castle.sato-kanayama",
+      "b": "dist.aki-numata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-6",
+      "a": "castle.sato-kanayama",
+      "b": "dist.aki-takamiya",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-7",
+      "a": "castle.sakurao",
+      "b": "dist.aki-saeki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-8",
+      "a": "castle.sakurao",
+      "b": "dist.aki-saeki-hatsukaichi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-9",
+      "a": "castle.sakurao",
+      "b": "dist.aki-toyota",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-10",
+      "a": "castle.konomine",
+      "b": "dist.suo-yoshiki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-11",
+      "a": "castle.konomine",
+      "b": "dist.suo-tsuno",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-12",
+      "a": "castle.konomine",
+      "b": "dist.suo-kumage-kaminoseki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-13",
+      "a": "castle.katsuyama",
+      "b": "dist.nagato-toyoura",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-14",
+      "a": "castle.katsuyama",
+      "b": "dist.nagato-abu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-15",
+      "a": "castle.katsuyama",
+      "b": "dist.nagato-mine",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-16",
+      "a": "castle.bitchu-matsuyama",
+      "b": "dist.bitchu-jobo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-17",
+      "a": "castle.bitchu-matsuyama",
+      "b": "dist.bitchu-kawakami",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-18",
+      "a": "castle.bitchu-matsuyama",
+      "b": "dist.bitchu-tetta",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-19",
+      "a": "castle.kannabe",
+      "b": "dist.bingo-yasuna",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-20",
+      "a": "castle.kannabe",
+      "b": "dist.bingo-fukatsu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-21",
+      "a": "castle.kannabe",
+      "b": "dist.bingo-ashida",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-22",
+      "a": "castle.gassan-toda",
+      "b": "dist.izumo-nogi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-23",
+      "a": "castle.gassan-toda",
+      "b": "dist.izumo-ohara",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-24",
+      "a": "castle.gassan-toda",
+      "b": "dist.izumo-nogi-hirosek",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-25",
+      "a": "castle.shiraga",
+      "b": "dist.izumo-shimane",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-26",
+      "a": "castle.shiraga",
+      "b": "dist.izumo-ou",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-27",
+      "a": "castle.shiraga",
+      "b": "dist.izumo-akika",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-28",
+      "a": "castle.yamabuki",
+      "b": "dist.iwami-nima",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-29",
+      "a": "castle.yamabuki",
+      "b": "dist.iwami-nima-yunotsu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-30",
+      "a": "castle.yamabuki",
+      "b": "dist.iwami-naka",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-31",
+      "a": "castle.yonago",
+      "b": "dist.hoki-aimi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-32",
+      "a": "castle.yonago",
+      "b": "dist.hoki-hino",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-33",
+      "a": "castle.yonago",
+      "b": "dist.hoki-aseiri",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-34",
+      "a": "castle.tottori",
+      "b": "dist.inaba-iwai",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-35",
+      "a": "castle.tottori",
+      "b": "dist.inaba-homi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-36",
+      "a": "castle.tottori",
+      "b": "dist.inaba-keta",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-37",
+      "a": "castle.tenjinyama",
+      "b": "dist.bizen-wake",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-38",
+      "a": "castle.tenjinyama",
+      "b": "dist.bizen-mimasaka-aida",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-39",
+      "a": "castle.mitsuishi",
+      "b": "dist.bizen-jodo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-40",
+      "a": "castle.mitsuishi",
+      "b": "dist.bizen-kojima",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-41",
+      "a": "castle.okishio",
+      "b": "dist.harima-shikama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-42",
+      "a": "castle.okishio",
+      "b": "dist.harima-jinto",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-43",
+      "a": "castle.tatsuno",
+      "b": "dist.harima-ibo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-44",
+      "a": "castle.tatsuno",
+      "b": "dist.harima-ako",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b6-45",
+      "a": "castle.tatsuno",
+      "b": "castle.okishio",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 0.5,
+      "name": "山陽道"
+    },
+    {
+      "id": "road.b6-46",
+      "a": "castle.tatsuno",
+      "b": "castle.mitsuishi",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 1,
+      "name": "山陽道"
+    },
+    {
+      "id": "road.b6-47",
+      "a": "castle.mitsuishi",
+      "b": "castle.tenjinyama",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 0.5,
+      "name": "山陽道"
+    },
+    {
+      "id": "road.b6-48",
+      "a": "castle.tenjinyama",
+      "b": "castle.bitchu-matsuyama",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 1.5,
+      "name": "山陽道"
+    },
+    {
+      "id": "road.b6-49",
+      "a": "castle.bitchu-matsuyama",
+      "b": "castle.kannabe",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 1,
+      "name": "山陽道"
+    },
+    {
+      "id": "road.b6-50",
+      "a": "castle.kannabe",
+      "b": "castle.yoshida-koriyama",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 2,
+      "name": "山陽道"
+    },
+    {
+      "id": "road.b6-51",
+      "a": "castle.yoshida-koriyama",
+      "b": "castle.sato-kanayama",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 1,
+      "name": "山陽道"
+    },
+    {
+      "id": "road.b6-52",
+      "a": "castle.sato-kanayama",
+      "b": "castle.sakurao",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 0.5,
+      "name": "山陽道"
+    },
+    {
+      "id": "road.b6-53",
+      "a": "castle.sakurao",
+      "b": "castle.konomine",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 2.5,
+      "name": "山陽道"
+    },
+    {
+      "id": "road.b6-54",
+      "a": "castle.konomine",
+      "b": "castle.katsuyama",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 1.5,
+      "name": "山陽道"
+    },
+    {
+      "id": "road.b6-55",
+      "a": "castle.tottori",
+      "b": "castle.yonago",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 2.5,
+      "name": "山陰道"
+    },
+    {
+      "id": "road.b6-56",
+      "a": "castle.yonago",
+      "b": "castle.gassan-toda",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "山陰道"
+    },
+    {
+      "id": "road.b6-57",
+      "a": "castle.gassan-toda",
+      "b": "castle.shiraga",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "山陰道"
+    },
+    {
+      "id": "road.b6-58",
+      "a": "castle.shiraga",
+      "b": "castle.yamabuki",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 2,
+      "name": "山陰道"
+    },
+    {
+      "id": "road.b6-59",
+      "a": "castle.yamabuki",
+      "b": "castle.yoshida-koriyama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 2,
+      "name": "銀山往還"
+    },
+    {
+      "id": "road.b6-60",
+      "a": "castle.tenjinyama",
+      "b": "castle.tottori",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 3,
+      "name": "出雲街道"
+    },
+    {
+      "id": "road.b6-61",
+      "a": "dist.harima-shikama",
+      "b": "dist.settsu-nishinari",
+      "type": "land",
+      "grade": 3,
+      "baseDays": 2,
+      "name": "山陽道"
+    },
+    {
+      "id": "road.b6-62",
+      "a": "dist.inaba-keta",
+      "b": "dist.tajima-keta",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 3,
+      "name": "山陰道"
+    },
+    {
+      "id": "road.b6-63",
+      "a": "dist.iwami-nima-yunotsu",
+      "b": "dist.kaga-ishikawa-kanaiwa",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 8,
+      "name": "日本海西段航路"
+    },
+    {
+      "id": "road.b6-64",
+      "a": "dist.aki-saeki-hatsukaichi",
+      "b": "dist.suo-kumage-kaminoseki",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "瀨戶內西段航路"
+    },
+    {
+      "id": "road.b6-65",
+      "a": "dist.suo-kumage-kaminoseki",
+      "b": "dist.nagato-toyoura",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 3,
+      "name": "周防灘航路"
+    },
+    {
+      "id": "road.b7-1",
+      "a": "castle.shozui",
+      "b": "dist.awa-itano-muya",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-2",
+      "a": "castle.shozui",
+      "b": "dist.awa-myodo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-3",
+      "a": "castle.shozui",
+      "b": "dist.awa-itano",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-4",
+      "a": "castle.sogo",
+      "b": "dist.sanuki-yamada",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-5",
+      "a": "castle.sogo",
+      "b": "dist.sanuki-kagawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-6",
+      "a": "castle.sogo",
+      "b": "dist.sanuki-aya",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-7",
+      "a": "castle.toramaru",
+      "b": "dist.sanuki-sangawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-8",
+      "a": "castle.toramaru",
+      "b": "dist.sanuki-ouchi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-9",
+      "a": "castle.oko",
+      "b": "dist.tosa-nagaoka",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-10",
+      "a": "castle.oko",
+      "b": "dist.tosa-agawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-11",
+      "a": "castle.oko",
+      "b": "dist.tosa-kami",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-12",
+      "a": "castle.nakamura",
+      "b": "dist.tosa-hata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-13",
+      "a": "castle.nakamura",
+      "b": "dist.tosa-hata-sukumo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-14",
+      "a": "castle.nakamura",
+      "b": "dist.tosa-hata-tosashimizu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-15",
+      "a": "castle.yuzuki",
+      "b": "dist.iyo-wake",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-16",
+      "a": "castle.yuzuki",
+      "b": "dist.iyo-onsen",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-17",
+      "a": "castle.yuzuki",
+      "b": "dist.iyo-iyo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-18",
+      "a": "castle.kurushima",
+      "b": "dist.iyo-ochi-kurushima",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-19",
+      "a": "castle.kurushima",
+      "b": "dist.iyo-ochi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-20",
+      "a": "castle.kurose",
+      "b": "dist.iyo-uwa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-21",
+      "a": "castle.kurose",
+      "b": "dist.iyo-uwa-sadamisaki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-22",
+      "a": "castle.kurose",
+      "b": "dist.iyo-kita",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b7-23",
+      "a": "castle.shozui",
+      "b": "castle.toramaru",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "阿讚往還"
+    },
+    {
+      "id": "road.b7-24",
+      "a": "castle.toramaru",
+      "b": "castle.sogo",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "讚岐往還"
+    },
+    {
+      "id": "road.b7-25",
+      "a": "castle.sogo",
+      "b": "castle.kurushima",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 4.5,
+      "name": "北四國往還"
+    },
+    {
+      "id": "road.b7-26",
+      "a": "castle.kurushima",
+      "b": "castle.yuzuki",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "伊予往還"
+    },
+    {
+      "id": "road.b7-27",
+      "a": "castle.yuzuki",
+      "b": "castle.kurose",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2.5,
+      "name": "南予往還"
+    },
+    {
+      "id": "road.b7-28",
+      "a": "castle.kurose",
+      "b": "castle.nakamura",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2.5,
+      "name": "予土往還"
+    },
+    {
+      "id": "road.b7-29",
+      "a": "castle.nakamura",
+      "b": "castle.oko",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 4,
+      "name": "土佐往還"
+    },
+    {
+      "id": "road.b7-30",
+      "a": "castle.oko",
+      "b": "castle.shozui",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 4,
+      "name": "土佐阿波山道"
+    },
+    {
+      "id": "road.b7-31",
+      "a": "dist.awa-itano-muya",
+      "b": "dist.kii-nagusa",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "紀淡航路"
+    },
+    {
+      "id": "road.b7-32",
+      "a": "dist.iyo-ochi-kurushima",
+      "b": "dist.aki-sato",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "瀨戶內航路"
+    },
+    {
+      "id": "road.b7-33",
+      "a": "dist.sanuki-kagawa",
+      "b": "dist.bizen-kojima",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "瀨戶內航路"
+    },
+    {
+      "id": "road.b8-1",
+      "a": "castle.funai",
+      "b": "dist.bungo-oita",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-2",
+      "a": "castle.funai",
+      "b": "dist.bungo-hayami",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-3",
+      "a": "castle.funai",
+      "b": "dist.bungo-kusu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-4",
+      "a": "castle.usuki",
+      "b": "dist.bungo-amabe-saganoseki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-5",
+      "a": "castle.usuki",
+      "b": "dist.bungo-amabe-usuki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-6",
+      "a": "castle.usuki",
+      "b": "dist.bungo-ono",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-7",
+      "a": "castle.kokura",
+      "b": "dist.buzen-kiku-moji",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-8",
+      "a": "castle.kokura",
+      "b": "dist.buzen-kiku",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-9",
+      "a": "castle.kokura",
+      "b": "dist.buzen-miyako",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-10",
+      "a": "castle.tachibanayama",
+      "b": "dist.chikuzen-kasuya",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-11",
+      "a": "castle.tachibanayama",
+      "b": "dist.chikuzen-naka-hakata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-12",
+      "a": "castle.tachibanayama",
+      "b": "dist.chikuzen-munakata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-13",
+      "a": "castle.kumamoto",
+      "b": "dist.higo-akita",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-14",
+      "a": "castle.kumamoto",
+      "b": "dist.higo-tamana",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-15",
+      "a": "castle.kumamoto",
+      "b": "dist.higo-uto",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-16",
+      "a": "castle.yanagawa",
+      "b": "dist.chikugo-yamato",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-17",
+      "a": "castle.yanagawa",
+      "b": "dist.chikugo-mii",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-18",
+      "a": "castle.yanagawa",
+      "b": "dist.chikugo-mizuma",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-19",
+      "a": "castle.uchijo",
+      "b": "dist.satsuma-kagoshima",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-20",
+      "a": "castle.uchijo",
+      "b": "dist.satsuma-hioki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-21",
+      "a": "castle.uchijo",
+      "b": "dist.satsuma-izumi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-22",
+      "a": "castle.kaseda",
+      "b": "dist.satsuma-kawabe",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-23",
+      "a": "castle.kaseda",
+      "b": "dist.satsuma-ibusuki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-24",
+      "a": "castle.shimizu",
+      "b": "dist.osumi-so",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-25",
+      "a": "castle.shimizu",
+      "b": "dist.osumi-kimotsuki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-26",
+      "a": "castle.muranaka",
+      "b": "dist.hizen-saga",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-27",
+      "a": "castle.muranaka",
+      "b": "dist.hizen-ogi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-28",
+      "a": "castle.muranaka",
+      "b": "dist.hizen-matsuura",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-29",
+      "a": "castle.hasuike",
+      "b": "dist.hizen-kanzaki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-30",
+      "a": "castle.hasuike",
+      "b": "dist.hizen-kishima",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-31",
+      "a": "castle.hasuike",
+      "b": "dist.hizen-fujitsu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-32",
+      "a": "castle.tonokori",
+      "b": "dist.hyuga-koyu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-33",
+      "a": "castle.tonokori",
+      "b": "dist.hyuga-naka",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-34",
+      "a": "castle.tonokori",
+      "b": "dist.hyuga-usuki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-35",
+      "a": "castle.sadowara",
+      "b": "dist.hyuga-miyazaki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-36",
+      "a": "castle.sadowara",
+      "b": "dist.hyuga-morokata",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-37",
+      "a": "castle.sadowara",
+      "b": "dist.hyuga-naka-sadowara",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-38",
+      "a": "castle.hitoyoshi",
+      "b": "dist.higo-kuma",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-39",
+      "a": "castle.hitoyoshi",
+      "b": "dist.higo-ashikita",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-40",
+      "a": "castle.hitoyoshi",
+      "b": "dist.higo-yatsushiro",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b8-41",
+      "a": "castle.kokura",
+      "b": "castle.tachibanayama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "筑前往還"
+    },
+    {
+      "id": "road.b8-42",
+      "a": "castle.tachibanayama",
+      "b": "castle.yanagawa",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1.5,
+      "name": "筑後往還"
+    },
+    {
+      "id": "road.b8-43",
+      "a": "castle.yanagawa",
+      "b": "castle.muranaka",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "長崎街道"
+    },
+    {
+      "id": "road.b8-44",
+      "a": "castle.muranaka",
+      "b": "castle.hasuike",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "肥前往還"
+    },
+    {
+      "id": "road.b8-45",
+      "a": "castle.yanagawa",
+      "b": "castle.kumamoto",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1.5,
+      "name": "薩摩街道"
+    },
+    {
+      "id": "road.b8-46",
+      "a": "castle.kokura",
+      "b": "castle.funai",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 4,
+      "name": "豐前豐後往還"
+    },
+    {
+      "id": "road.b8-47",
+      "a": "castle.funai",
+      "b": "castle.kumamoto",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 4,
+      "name": "豐後街道"
+    },
+    {
+      "id": "road.b8-48",
+      "a": "castle.funai",
+      "b": "castle.usuki",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "豐後往還"
+    },
+    {
+      "id": "road.b8-49",
+      "a": "castle.usuki",
+      "b": "castle.tonokori",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 5,
+      "name": "日向往還"
+    },
+    {
+      "id": "road.b8-50",
+      "a": "castle.tonokori",
+      "b": "castle.sadowara",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "日向往還"
+    },
+    {
+      "id": "road.b8-51",
+      "a": "castle.sadowara",
+      "b": "castle.shimizu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2.5,
+      "name": "日向大隅山道"
+    },
+    {
+      "id": "road.b8-52",
+      "a": "castle.shimizu",
+      "b": "castle.uchijo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "薩隅往還"
+    },
+    {
+      "id": "road.b8-53",
+      "a": "castle.uchijo",
+      "b": "castle.kaseda",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "薩摩街道"
+    },
+    {
+      "id": "road.b8-54",
+      "a": "castle.kumamoto",
+      "b": "castle.hitoyoshi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2.5,
+      "name": "球磨往還"
+    },
+    {
+      "id": "road.b8-55",
+      "a": "castle.hitoyoshi",
+      "b": "castle.uchijo",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 3,
+      "name": "薩摩街道"
+    },
+    {
+      "id": "road.b8-56",
+      "a": "dist.nagato-toyoura",
+      "b": "dist.buzen-kiku-moji",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "關門海峽"
+    },
+    {
+      "id": "road.b8-57",
+      "a": "dist.bungo-amabe-saganoseki",
+      "b": "dist.iyo-uwa-sadamisaki",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "豐後水道航路"
+    },
+    {
+      "id": "road.b8-58",
+      "a": "dist.suo-kumage-kaminoseki",
+      "b": "dist.buzen-kiku-moji",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "周防灘航路"
+    },
+    {
+      "id": "road.b8-59",
+      "a": "dist.buzen-kiku-moji",
+      "b": "dist.chikuzen-naka-hakata",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "北九州航路"
+    },
+    {
+      "id": "road.b9-1",
+      "a": "castle.yonezawa",
+      "b": "dist.uzen-okitama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-2",
+      "a": "castle.yonezawa",
+      "b": "dist.uzen-okitama-east",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-3",
+      "a": "castle.yonezawa",
+      "b": "dist.uzen-okitama-west",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-4",
+      "a": "castle.koori-nishiyama",
+      "b": "dist.iwashiro-shinobu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-5",
+      "a": "castle.koori-nishiyama",
+      "b": "dist.iwashiro-date",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-6",
+      "a": "castle.koori-nishiyama",
+      "b": "dist.iwashiro-adachi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-7",
+      "a": "castle.namo",
+      "b": "dist.rikuzen-shida",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-8",
+      "a": "castle.namo",
+      "b": "dist.rikuzen-tamazukuri",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-9",
+      "a": "castle.namo",
+      "b": "dist.rikuzen-miyagi",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-10",
+      "a": "castle.kurokawa",
+      "b": "dist.iwashiro-aizu",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-11",
+      "a": "castle.kurokawa",
+      "b": "dist.iwashiro-yama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-12",
+      "a": "castle.kurokawa",
+      "b": "dist.iwashiro-onuma",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-13",
+      "a": "castle.naganuma",
+      "b": "dist.iwashiro-iwase",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-14",
+      "a": "castle.naganuma",
+      "b": "dist.iwashiro-asaka",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-15",
+      "a": "castle.naganuma",
+      "b": "dist.iwashiro-iwase-west",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-16",
+      "a": "castle.shirakawa",
+      "b": "dist.iwashiro-shirakawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-17",
+      "a": "castle.shirakawa",
+      "b": "dist.iwashiro-shirakawa-east",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-18",
+      "a": "castle.shirakawa",
+      "b": "dist.iwashiro-iwaki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-19",
+      "a": "castle.yamagata",
+      "b": "dist.uzen-murayama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-20",
+      "a": "castle.yamagata",
+      "b": "dist.uzen-mogami",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-21",
+      "a": "castle.yamagata",
+      "b": "dist.uzen-tagawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-22",
+      "a": "castle.kaminoyama",
+      "b": "dist.uzen-murayama-south",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-23",
+      "a": "castle.kaminoyama",
+      "b": "dist.uzen-murayama-east",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-24",
+      "a": "castle.sannohe",
+      "b": "dist.mutsu-sannohe",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-25",
+      "a": "castle.sannohe",
+      "b": "dist.mutsu-tsugaru-tosaminato",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-26",
+      "a": "castle.sannohe",
+      "b": "dist.mutsu-kamikita",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-27",
+      "a": "castle.kunohe",
+      "b": "dist.mutsu-ninohe",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-28",
+      "a": "castle.kunohe",
+      "b": "dist.mutsu-sannohe-east",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-29",
+      "a": "castle.kunohe",
+      "b": "dist.mutsu-ninohe-west",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-30",
+      "a": "castle.kozukata",
+      "b": "dist.rikuchu-iwate",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-31",
+      "a": "castle.kozukata",
+      "b": "dist.rikuchu-shiwa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-32",
+      "a": "castle.kozukata",
+      "b": "dist.rikuchu-hei",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-33",
+      "a": "castle.hanamaki",
+      "b": "dist.rikuchu-hienuki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-34",
+      "a": "castle.hanamaki",
+      "b": "dist.rikuchu-waga",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-35",
+      "a": "castle.hanamaki",
+      "b": "dist.rikuchu-isawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-36",
+      "a": "castle.hiyama",
+      "b": "dist.ugo-yamamoto-hiyama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-37",
+      "a": "castle.hiyama",
+      "b": "dist.ugo-yamamoto",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-38",
+      "a": "castle.hiyama",
+      "b": "dist.ugo-kitaakita",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-39",
+      "a": "castle.minato",
+      "b": "dist.ugo-akita-tsuchizaki",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-40",
+      "a": "castle.minato",
+      "b": "dist.ugo-akita",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 0.5,
+      "name": "領內往還"
+    },
+    {
+      "id": "road.b9-41",
+      "a": "castle.shirakawa",
+      "b": "castle.naganuma",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "奧州街道"
+    },
+    {
+      "id": "road.b9-42",
+      "a": "castle.naganuma",
+      "b": "castle.koori-nishiyama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 2,
+      "name": "奧州街道"
+    },
+    {
+      "id": "road.b9-43",
+      "a": "castle.koori-nishiyama",
+      "b": "castle.namo",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 2.5,
+      "name": "奧州街道"
+    },
+    {
+      "id": "road.b9-44",
+      "a": "castle.namo",
+      "b": "castle.hanamaki",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 2.5,
+      "name": "奧州街道"
+    },
+    {
+      "id": "road.b9-45",
+      "a": "castle.hanamaki",
+      "b": "castle.kozukata",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "奧州街道"
+    },
+    {
+      "id": "road.b9-46",
+      "a": "castle.kozukata",
+      "b": "castle.kunohe",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1.5,
+      "name": "奧州街道"
+    },
+    {
+      "id": "road.b9-47",
+      "a": "castle.kunohe",
+      "b": "castle.sannohe",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "奧州街道"
+    },
+    {
+      "id": "road.b9-48",
+      "a": "castle.kurokawa",
+      "b": "castle.naganuma",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "會津往還"
+    },
+    {
+      "id": "road.b9-49",
+      "a": "castle.kurokawa",
+      "b": "castle.yonezawa",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2,
+      "name": "米澤街道"
+    },
+    {
+      "id": "road.b9-50",
+      "a": "castle.yonezawa",
+      "b": "castle.koori-nishiyama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 1.5,
+      "name": "米澤街道"
+    },
+    {
+      "id": "road.b9-51",
+      "a": "castle.yonezawa",
+      "b": "castle.kaminoyama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "羽州街道"
+    },
+    {
+      "id": "road.b9-52",
+      "a": "castle.kaminoyama",
+      "b": "castle.yamagata",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 0.5,
+      "name": "羽州街道"
+    },
+    {
+      "id": "road.b9-53",
+      "a": "castle.yamagata",
+      "b": "castle.minato",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 7,
+      "name": "羽州街道"
+    },
+    {
+      "id": "road.b9-54",
+      "a": "castle.minato",
+      "b": "castle.hiyama",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "羽州街道"
+    },
+    {
+      "id": "road.b9-55",
+      "a": "castle.hiyama",
+      "b": "castle.sannohe",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 4.5,
+      "name": "北奧山道"
+    },
+    {
+      "id": "road.b9-56",
+      "a": "dist.shimotsuke-kawachi",
+      "b": "dist.iwashiro-shirakawa",
+      "type": "land",
+      "grade": 2,
+      "baseDays": 1,
+      "name": "奧州街道"
+    },
+    {
+      "id": "road.b9-57",
+      "a": "dist.echigo-iwafune",
+      "b": "dist.uzen-okitama",
+      "type": "land",
+      "grade": 1,
+      "baseDays": 2.5,
+      "name": "米澤街道"
+    },
+    {
+      "id": "road.b9-58",
+      "a": "dist.echigo-kubiki-naoetsu",
+      "b": "dist.ugo-akita-tsuchizaki",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 4,
+      "name": "日本海北航路"
+    },
+    {
+      "id": "road.b9-59",
+      "a": "dist.ugo-akita-tsuchizaki",
+      "b": "dist.mutsu-tsugaru-tosaminato",
+      "type": "sea",
+      "grade": 1,
+      "baseDays": 3,
+      "name": "日本海北航路"
     }
   ]
 }

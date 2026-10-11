@@ -1,0 +1,58 @@
+.root {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--battlefield-surface);
+}
+.canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.canvas canvas {
+  display: block;
+}
+.node,
+.unit {
+  position: absolute;
+  min-width: 32px;
+  min-height: 32px;
+  border: 0;
+  background: transparent;
+  color: var(--battlefield-ink);
+  cursor: pointer;
+}
+.node {
+  padding: 0;
+}
+.unit {
+  padding: 0;
+  font-size: var(--font-size-xs);
+}
+.node:focus-visible,
+.unit:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--radius-sm);
+}
+.node:disabled,
+.unit:disabled {
+  cursor: default;
+}
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.error {
+  position: absolute;
+  inset: 0 0 auto;
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--battlefield-ink);
+}

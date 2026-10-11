@@ -11,6 +11,27 @@ import { useMapEvents, type MapEventHandlers } from './interaction';
 import type { MapRendererEvent } from './mapViewTypes';
 
 describe('useMapEvents（04 §3.12.2）', () => {
+  it('routes distinct army hover and native hover-end to the latest handlers', () => {
+    const onArmyHover = vi.fn();
+    const onHoverEnd = vi.fn();
+    const { result, rerender } = renderHook(
+      (handlers: MapEventHandlers) => useMapEvents(handlers),
+      { initialProps: { onArmyHover, onHoverEnd } },
+    );
+    const event: MapRendererEvent = {
+      type: 'armyHover',
+      id: 'army.000001',
+      screenX: 12,
+      screenY: 34,
+    };
+    result.current(event);
+    expect(onArmyHover).toHaveBeenCalledWith(event);
+    const next = vi.fn();
+    rerender({ onArmyHover, onHoverEnd: next });
+    result.current({ type: 'hoverEnd' });
+    expect(onHoverEnd).not.toHaveBeenCalled();
+    expect(next).toHaveBeenCalledTimes(1);
+  });
   it('回傳的 callback 在重render間保持穩定參考（useCallback([])）', () => {
     const { result, rerender } = renderHook(
       (handlers: MapEventHandlers) => useMapEvents(handlers),

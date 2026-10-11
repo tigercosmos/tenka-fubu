@@ -17,6 +17,7 @@ import {
 import type { ScenarioBundleData } from '@data/schemas';
 import type { GameState } from '@core/state/gameState';
 import type { ClanId } from '@core/state/ids';
+import styles from './DaimyoSelect.module.css';
 
 export interface DaimyoSelectProps {
   /** ScenarioSelectScreen 已載入之劇本資料束。 */
@@ -24,6 +25,8 @@ export interface DaimyoSelectProps {
   onBack: () => void;
   /** 「開始遊戲」建局完成後呼叫，交由呼叫端 `setGame` 並轉場至 MainScreen。 */
   onStart: (game: GameState) => void;
+  /** Existing debug URL seed; omitted for ordinary random-seed new games. */
+  seed?: number;
   /** 供測試替換（預設走 `src/app/boot.ts` 的真實建局，含隨機種子）。 */
   buildNewGameState?: (bundle: ScenarioBundleData, opts: NewGameOptions) => GameState;
 }
@@ -32,34 +35,27 @@ export function DaimyoSelect({
   bundle,
   onBack,
   onStart,
+  seed,
   buildNewGameState = buildNewGameStateReal,
 }: DaimyoSelectProps): ReactElement {
   const summaries = useMemo(() => summarizeClans(bundle), [bundle]);
   const [selectedClanId, setSelectedClanId] = useState<ClanId | null>(null);
+  const selected = summaries.find((clan) => clan.clanId === selectedClanId);
 
   const handleStart = (): void => {
     if (selectedClanId === null) return;
-    const game = buildNewGameState(bundle, { playerClanId: selectedClanId, difficulty: 'normal' });
+    const game = buildNewGameState(bundle, {
+      playerClanId: selectedClanId,
+      difficulty: 'normal',
+      ...(seed === undefined ? {} : { seed }),
+    });
     onStart(game);
   };
 
   return (
-    <div
-      data-testid="screen-daimyo-select"
-      style={{
-        position: 'fixed',
-        inset: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 'var(--space-6)',
-        padding: 'var(--space-8)',
-        background: 'var(--ink-900)',
-        color: 'var(--washi-100)',
-        overflowY: 'auto',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h1 style={{ fontSize: 'var(--font-size-lg)', margin: 0 }}>
+    <div data-testid="screen-daimyo-select" className={styles.screen}>
+      <header className={styles.header}>
+        <h1>
           {t('ui.daimyo.title')}
           {'　'}
           {getScenarioTitle(bundle.id)}
@@ -67,57 +63,68 @@ export function DaimyoSelect({
         <button type="button" data-testid="daimyo-back" onClick={onBack}>
           {t('ui.newGame.back')}
         </button>
-      </div>
+      </header>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(14rem, 1fr))',
-          gap: 'var(--space-4)',
-        }}
-      >
-        {summaries.map((s) => (
+      <div className={styles.body}>
+        <div className={styles.roster}>
+          {summaries.map((s) => (
+            <button
+              key={s.clanId}
+              type="button"
+              data-testid={`clan-pick-${s.clanId}`}
+              aria-pressed={selectedClanId === s.clanId}
+              onClick={() => setSelectedClanId(s.clanId)}
+              className={styles.clan}
+            >
+              <strong className={styles.clanName}>{s.name}</strong>
+              <span>
+                {t('ui.daimyo.leader')}：{s.leaderName}
+              </span>
+              <span>
+                {t('ui.daimyo.kokudaka')}：{formatNumber(s.kokudaka)}石
+              </span>
+              <span>
+                {t('ui.daimyo.castles')}：{s.castleCount}
+                {'　'}
+                {t('ui.daimyo.officers')}：{s.officerCount}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        <aside className={styles.selection} aria-live="polite">
+          <div className={styles.selectionHeading}>
+            <span className={styles.eyebrow}>{t('ui.daimyo.leader')}</span>
+            <h2>{selected?.name ?? t('ui.common.select')}</h2>
+            {selected && <p>{selected.leaderName}</p>}
+          </div>
+          {selected && (
+            <dl className={styles.metrics}>
+              <div>
+                <dt>{t('ui.daimyo.kokudaka')}</dt>
+                <dd>{formatNumber(selected.kokudaka)}石</dd>
+              </div>
+              <div>
+                <dt>{t('ui.daimyo.castles')}</dt>
+                <dd>{selected.castleCount}</dd>
+              </div>
+              <div>
+                <dt>{t('ui.daimyo.officers')}</dt>
+                <dd>{selected.officerCount}</dd>
+              </div>
+            </dl>
+          )}
           <button
-            key={s.clanId}
             type="button"
-            data-testid={`clan-pick-${s.clanId}`}
-            aria-pressed={selectedClanId === s.clanId}
-            onClick={() => setSelectedClanId(s.clanId)}
-            style={{
-              textAlign: 'left',
-              padding: 'var(--space-4)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--space-1)',
-              border:
-                selectedClanId === s.clanId ? '2px solid var(--accent-gold)' : 'var(--border-thin)',
-            }}
+            data-testid="newgame-start"
+            disabled={selectedClanId === null}
+            onClick={handleStart}
+            className={styles.start}
           >
-            <span style={{ fontSize: 'var(--font-size-md)' }}>{s.name}</span>
-            <span>
-              {t('ui.daimyo.leader')}：{s.leaderName}
-            </span>
-            <span>
-              {t('ui.daimyo.kokudaka')}：{formatNumber(s.kokudaka)}石
-            </span>
-            <span>
-              {t('ui.daimyo.castles')}：{s.castleCount}
-              {'　'}
-              {t('ui.daimyo.officers')}：{s.officerCount}
-            </span>
+            {t('ui.newGame.start')}
           </button>
-        ))}
+        </aside>
       </div>
-
-      <button
-        type="button"
-        data-testid="newgame-start"
-        disabled={selectedClanId === null}
-        onClick={handleStart}
-        style={{ alignSelf: 'flex-end', padding: 'var(--space-3) var(--space-6)' }}
-      >
-        {t('ui.newGame.start')}
-      </button>
     </div>
   );
 }

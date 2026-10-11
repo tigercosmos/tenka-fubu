@@ -1,94 +1,186 @@
-// 鍵盤快捷鍵（空白鍵暫停⇄繼續、1/2/3 變速；反引號開除錯面板留待 M1-22）。
-// 規格：plan/01-architecture.md §3.3、§6.3（互動細節）。M1-16（01-A7）實作空白鍵／數字鍵；
-// 反引號（除錯面板）以 `onToggleDebugPanel` 參數預留擴充點，M1-22（01-A11）掛上時不必修改本檔簽章。
-
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { store } from '@app/store';
 import type { GameLoopController } from '@app/gameLoop';
-import type { MapAnalysisMode } from '@app/store';
+import {
+  classifyHotkey,
+  isMapBackgroundTarget,
+  isNativeControlTarget,
+  isTypingTarget,
+} from '@app/hotkeys';
 import { uiStore } from './uiStore';
+import { useViewportBlocked } from '@ui/viewport';
 
-/** 輸入框／可編輯元素聚焦時停用快捷鍵（01 §6.3）。 */
-function isTypingTarget(target: EventTarget | null): boolean {
-  return (
-    target instanceof HTMLElement &&
-    (target.tagName === 'INPUT' ||
-      target.tagName === 'TEXTAREA' ||
-      target.tagName === 'SELECT' ||
-      target.isContentEditable ||
-      target.closest('[contenteditable="true"]') !== null)
-  );
+export interface MainHotkeyHandlers {
+  openDomestic?: () => void;
+  openMarch?: () => void;
+  focusHome?: () => void;
+  toggleMiniMap?: () => void;
+  pan?: (x: number, y: number) => void;
+  zoom?: (direction: -1 | 1) => void;
 }
 
-/**
- * 全域鍵盤快捷鍵（01 §6.3）：
- * - 空白鍵：暫停⇄繼續（`resume()` / `requestPause('user')`）。
- * - 數字鍵 1／2／3：切換 ×1／×2／×5。
- * - 反引號｀：呼叫 `onToggleDebugPanel`（僅 debug 模式下由呼叫端傳入；未傳入則不動作）。
- */
-export function useHotkeys(loop: GameLoopController, onToggleDebugPanel?: () => void): void {
+/** Canonical11 routing; callbacks only affect UI/camera, never core or its command queue. */
+export function useHotkeys(
+  loop: GameLoopController,
+  onToggleDebugPanel?: () => void,
+  handlers: MainHotkeyHandlers = {},
+): void {
+  const viewportBlocked = useViewportBlocked();
+  const callbacks = useRef(handlers);
+  callbacks.current = handlers;
   useEffect(() => {
-    function onKeyDown(e: KeyboardEvent): void {
-      if (isTypingTarget(e.target)) return;
-      if (e.ctrlKey || e.metaKey) return;
+    const held = new Map<string, { x: number; y: number }>();
+    let frame: number | null = null;
+    const clearHeld = () => {
+      held.clear();
+      if (frame !== null) cancelAnimationFrame(frame);
+      frame = null;
+    };
+    const canPan = () => {
       const ui = uiStore.getState();
-      const mapTarget =
-        e.target === document.body ||
-        (e.target instanceof HTMLElement &&
-          (e.target.tagName === 'CANVAS' || e.target.dataset.testid === 'map-canvas-host'));
-      const themeKeys: Record<string, MapAnalysisMode> = {
-        '1': 'faction',
-        '2': 'supply',
-        '3': 'roadCapacity',
-        '4': 'terrainAdvantage',
-        '5': 'castleDefense',
-      };
-      const theme =
-        e.key === 'Tab' && !e.shiftKey && !e.altKey && mapTarget
-          ? 'faction'
-          : e.altKey
-            ? themeKeys[e.key]
-            : undefined;
-      if (theme !== undefined) {
-        if (ui.screen !== 'main' || ui.modal !== null || ui.panelStack.length > 0) return;
-        e.preventDefault();
-        if (!e.repeat) ui.actions.setAnalysisMode(ui.analysisMode === theme ? 'none' : theme);
+      return (
+        ui.screen === 'main' &&
+        !viewportBlocked &&
+        !store.getState().session.viewportBlocked &&
+        ui.modal === null &&
+        document.querySelector('[data-ui-dialog]') === null &&
+        isMapBackgroundTarget(document.activeElement)
+      );
+    };
+    const panFrame = () => {
+      frame = null;
+      if (!canPan()) {
+        clearHeld();
         return;
       }
-      if (e.altKey) return;
-      switch (e.key) {
-        case ' ':
-        case 'Spacebar': {
-          if (
-            e.target instanceof HTMLElement &&
-            e.target.closest('button, summary, a[href], [role="button"], [role="link"]') !== null
-          )
-            return;
+      let x = 0;
+      let y = 0;
+      for (const direction of held.values()) {
+        x += direction.x;
+        y += direction.y;
+      }
+      if (held.size > 0) {
+        callbacks.current.pan?.(Math.sign(x), Math.sign(y));
+        frame = requestAnimationFrame(panFrame);
+      }
+    };
+    function onKeyDown(e: KeyboardEvent): void {
+      const target = e.target instanceof HTMLElement ? e.target : document.activeElement;
+      const ui = uiStore.getState();
+      const action = classifyHotkey(e, {
+        screen: ui.screen,
+        typing: isTypingTarget(target),
+        nativeControl: isNativeControlTarget(target),
+        mapBackground: isMapBackgroundTarget(target),
+        hasDialog: document.querySelector('[data-ui-dialog]') !== null,
+        hasModal: ui.modal !== null,
+        // Open panels do not disable a background map; focused panel content does.
+        panelFocused: ui.panelStack.length > 0 && !isMapBackgroundTarget(target),
+        viewportBlocked: viewportBlocked || store.getState().session.viewportBlocked,
+      });
+      if (action === null) {
+        // Held F5 must not fall through to browser reload after its initial policy action.
+        if (
+          e.repeat &&
+          /^F[1-7]$/.test(e.key) &&
+          ui.screen === 'main' &&
+          !viewportBlocked &&
+          !store.getState().session.viewportBlocked &&
+          !e.ctrlKey &&
+          !e.metaKey &&
+          !e.altKey &&
+          !e.isComposing &&
+          !isTypingTarget(target) &&
+          document.querySelector('[data-ui-dialog]') === null &&
+          ui.modal === null
+        )
           e.preventDefault();
-          if (store.getState().session.speed === 'paused') {
-            loop.resume();
-          } else {
-            loop.requestPause('user');
+        return;
+      }
+      // March target-picking owns Escape back to composition.
+      if (action.kind === 'escape' && ui.marchDraft?.phase === 'pickTarget') return;
+      e.preventDefault();
+      switch (action.kind) {
+        case 'blur':
+          if (target instanceof HTMLElement) target.blur();
+          break;
+        case 'escape':
+          clearHeld();
+          ui.actions.onEsc();
+          break;
+        case 'pause':
+          if (store.getState().session.speed === 'paused') loop.resume();
+          else loop.requestPause('user');
+          break;
+        case 'speed':
+          loop.setSpeed(action.speed);
+          break;
+        case 'reports':
+          clearHeld();
+          ui.actions.openPanel('reports');
+          break;
+        case 'debug':
+          onToggleDebugPanel?.();
+          break;
+        case 'home':
+          callbacks.current.focusHome?.();
+          break;
+        case 'minimap':
+          callbacks.current.toggleMiniMap?.();
+          break;
+        case 'zoom':
+          callbacks.current.zoom?.(action.direction);
+          break;
+        case 'pan':
+          if (!e.repeat && !held.has(e.key.toLowerCase())) {
+            held.set(e.key.toLowerCase(), action);
+            callbacks.current.pan?.(action.x, action.y);
+            if (frame === null) frame = requestAnimationFrame(panFrame);
+          }
+          break;
+        case 'theme':
+          ui.actions.setAnalysisMode(ui.analysisMode === action.mode ? 'none' : action.mode);
+          break;
+        case 'rail': {
+          clearHeld();
+          if (action.index === 1) callbacks.current.openDomestic?.();
+          else if (action.index === 2) callbacks.current.openMarch?.();
+          else {
+            const panels = {
+              3: 'diplomacy',
+              4: 'officers',
+              5: 'policy',
+              6: 'corps',
+              7: 'taimei',
+            } as const;
+            ui.actions.openPanel(panels[action.index]);
           }
           break;
         }
-        case '1':
-          loop.setSpeed('x1');
-          break;
-        case '2':
-          loop.setSpeed('x2');
-          break;
-        case '3':
-          loop.setSpeed('x5');
-          break;
-        case '`':
-          onToggleDebugPanel?.();
-          break;
-        default:
-          break;
       }
     }
+    const onKeyUp = (e: KeyboardEvent) => {
+      held.delete(e.key.toLowerCase());
+      if (held.size === 0) clearHeld();
+    };
+    const onFocus = () => {
+      if (!canPan()) clearHeld();
+    };
+    const onVisibility = () => {
+      if (document.hidden) clearHeld();
+    };
     window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [loop, onToggleDebugPanel]);
+    window.addEventListener('keyup', onKeyUp);
+    window.addEventListener('blur', clearHeld);
+    document.addEventListener('focusin', onFocus);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      clearHeld();
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
+      window.removeEventListener('blur', clearHeld);
+      document.removeEventListener('focusin', onFocus);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [loop, onToggleDebugPanel, viewportBlocked]);
 }

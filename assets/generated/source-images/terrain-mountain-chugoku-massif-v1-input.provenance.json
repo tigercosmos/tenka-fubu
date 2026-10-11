@@ -1,0 +1,30 @@
+{
+  "license": "project-original",
+  "asset": "assets/generated/source-images/terrain-mountain-chugoku-massif-v1-input.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sha256": "aa3414cc295d38276b01d52117b97096cc129f2f7f7ae6c242c5e5c18ebf3652",
+  "dimensions": {
+    "width": 2012,
+    "height": 781
+  },
+  "bytes": 1094265,
+  "alphaInspection": {
+    "zeroAlphaPixels": 1161906,
+    "partialAlphaPixels": 409352,
+    "opaquePixels": 114,
+    "centerAlpha": 253
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 0,
+    "y": 216,
+    "width": 2011,
+    "height": 368
+  },
+  "qualification": "Original generated edit input retained byte-for-byte. Its overly flat silhouette and edge contact exclude it from runtime adoption.",
+  "prompt": "Use case: stylized-concept\nAsset type: transparent raster terrain sprite for an original Japanese Sengoku 2.5D strategy game.\nPrimary request: one original Chugoku-inspired east-west wooded mountain massif, a connected chain of lower eroded crests with irregular saddles, short lateral spurs and rounded forested foothills. Make a distinctive continuous natural landform, not a row of repeated cone icons. Moderate exposed warm gray-brown rock on upper ridges, predominantly muted sage and olive woodland shoulders.\nComposition/framing: landscape canvas with generous transparent space above and below. The visible massif silhouette is very wide and low, approximately 3.5:1 width-to-height, running horizontally left to right. Oblique overhead strategic-map viewpoint showing ridge relief and sloping faces; entire landform visible, feathered transparent perimeter. No horizon or background scene. Broad linked ridge structure with an asymmetrical higher section and several lower saddles, no towering twin peaks. It must read as one elongated terrain unit at small map scale.\nStyle/medium: polished original painterly realistic 2.5D game terrain, nuanced woodland canopy and stone planes, restrained detail, not photoreal aerial photography and not cartoon or polygon cones.\nLighting/mood: fixed soft daylight from upper-left/northwest, restrained shaded southeast slopes. Subtle local contact shadow only inside the silhouette.\nConstraints: genuinely transparent alpha background; no opaque ground rectangle, no detached trees or terrain islands, no bright outline, no snow, no rivers, no roads, no settlements, no buildings, no people, no labels, no text, no logos or watermark. Do not reproduce any existing commercial game's artwork. Preserve natural irregular form and a legible connected silhouette."
+}

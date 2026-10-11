@@ -158,6 +158,9 @@ SaveFile {
 **快速存檔／快速讀檔**：
 
 - `Ctrl+S`：立即覆蓋 `quick:1`（`event.preventDefault()` 阻止瀏覽器「另存網頁」）。成功後顯示 toast `ui.save.quickSaved`。
+- 存檔成功通知須等槽位刷新完成及原操作鎖釋放後才發布，不能在仍拒絕 F9 時顯示成功。
+  發布前重新確認原操作代次（epoch）、遊戲與准入檢查（admission）；換局、重設介面或卸載後不得發布舊通知。
+  寫入或刷新失敗仍走既有錯誤流程，不發布成功通知。
 - `F9`：讀取 `quick:1`。若目前有未存檔進度（dirty，§3.10），先彈確認 `ui.load.quickLoadConfirm`；槽為空則 toast `ui.load.quickEmpty`。
 - 兩者僅在遊戲進行中（非標題畫面、非合戰 modal 進行中）有效；合戰 modal 內停用（合戰是子迴圈，狀態不在 tick 邊界）。
 
@@ -701,6 +704,7 @@ findLatestSave(): Promise<SaveSlotView | null>
 | `ui.save.slotAuto` | `自動 {n}` |
 | `ui.save.slotQuick` | `快速存檔` |
 | `ui.save.empty` | `（空）` |
+| `ui.save.battleUnavailable` | `合戰進行中無法存讀檔，請結束合戰後再操作。` |
 | `ui.save.corrupt` | `（損壞的存檔）` |
 | `ui.save.summary` | `{castles}城・{officers}將・{koku}石` |
 | `ui.save.playtime` | `遊玩 {hours}時{minutes}分` |
@@ -867,3 +871,34 @@ findLatestSave(): Promise<SaveSlotView | null>
   **依據**：`plan/02-data-model.md` §8「2026-07-11 六輪裁決 4」（`save.autosaveFailed` 不收錄 §4.19、
   改判 app 層 UI 通知）＋03 §3.4.3／§3.5.4（Report／golden hash 決定論邊界）＋12 §3.2.13（`ReportStack`
   / `ToastItem` 元件）。
+- **D15（2026-10-08，M8 儲存與舊檔相容介面）**：新建信封的摘要完整包含 §4.1 欄位；
+  既有 format 3 的 MVP 摘要仍可讀，新增欄位在舊檔型別中可省略，不升版或改寫原 blob。
+  app 以 context 注入遊玩秒數、版本文字及槽位標籤，core 不取真實時間。
+  adapter 的 blob／摘要批次必須原子寫入；自動存檔另將輪替游標納入同一批次。
+  同 adapter 實例共用逐槽序列化；此保證不涵蓋跨分頁或不同 adapter wrapper。
+  每 tick 的指令上限不是存檔 pending 總數上限，待結算 FIFO 可跨 tick 保存。
+  成功存檔只標記捕捉時的進度；後續 tick／指令、失敗寫入及換局後的舊回呼不得清除新進度。
+- **D16（2026-10-08，輸送實體邊的讀檔界線）**：decode 沿用 02 INV-12，拒絕缺少方向終點的 entered leg。
+  輸送 cursor 為整數，returning 為 boolean，progress／cost 為有限 number，不能靠型別轉換通過範圍檢查。
+  既有部分撤回的零 progress／正 cost 正常保存及載入，不清零進度或改成節點位置。
+  不升 SaveFile version、不新增欄位或遷移正常舊檔；錯誤位置回既有 corrupt，不補造完成事件。
+  路徑節點與起訖城引用必須存在，但 fallback 首節點不必等於原來源。
+  可載入的實體節點位置若未抵達目的城，由正常 daily 從該節點尋路，不以讀檔補入庫。
+
+- **D17（2026-10-08，部隊實體反向邊保存）**：`Army.reversingEdgeEndNodeId` 是可選的原未抵達端點。
+  缺省／null 沿用舊檔正向語意；新檔保留反向端點、已走進度、有效成本與新尾路。
+  decode 沿用 02 INV-12 拒絕非法反向邊，不補造端點或把路徑長度 1 當作入城。
+  不升 SaveFile version，不新增遷移流程；載入後由正常軍事 tick 完成實際歸還及入庫。
+
+- **D18（2026-10-09，褒賞月支出與格式 4）**：新檔保存 Clan.rewardGoldSpentThisMonth 的已知總額或 null。
+  v1、v2、v3 經連續遷移升至 v4；信封與 state.meta.saveVersion 皆為 4。
+  舊版未記錄完整月支出，所有勢力一律補 null，不採信舊版的同名額外欄位。
+  v4 缺少欄位或提供負數、非安全整數、非數值時回 corrupt，不補造零。
+  下月由正常 Step 2 歸零；存讀本身不重置已知總額、不改日期、不消費亂數。
+
+- **D19（2026-10-09，標題繼續存檔摘要）**：§3.9 的摘要與繼續讀取共用最新可載入槽位選擇。
+  原生損壞存檔不列候選；可用 legacy 備份較新時優先，同時刻則優先持久槽位。
+  展示模型只保留家名、當主、遊戲日期及真實時刻，不持有遊戲狀態或待結算指令。
+  按下繼續時重新選擇最新可載入版本，再由原版本及局所有權護欄讀取；不取消存讀保護。
+  刪除全部存檔後清除摘要並停用繼續，不更改信封版本或遷移規則。
+  F9 只擷取指定快速槽位的版本，不選擇最新存檔或發布標題摘要，維持一次擷取限制。

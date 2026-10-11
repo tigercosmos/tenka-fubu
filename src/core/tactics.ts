@@ -2,7 +2,9 @@
 // Spec: plan/07-military.md §3.8 and §5.4; plan/06-officers.md §2 and §3.3.
 
 import { BAL } from './balance';
+import { getBattleOfficerStat } from './battleStats';
 import { CoreError } from './errors';
+import { traitModifier } from './traits';
 import type { ActiveTactic, BattleState, BattleUnit, GameState } from './state/gameState';
 import type { OfficerId, TacticId, TraitId } from './state/ids';
 import type { TacticEntryData } from '../data/schemas/tactic';
@@ -278,8 +280,16 @@ export function getAvailableTacticIds(
   state: Readonly<GameState>,
   unit: Readonly<BattleUnit>,
 ): readonly TacticId[] {
+  return getOfficerTacticIds(state, unitOfficerIds(state, unit));
+}
+
+/** Preview the existing trait union for a selected roster, without fabricating a battle unit. */
+export function getOfficerTacticIds(
+  state: Readonly<GameState>,
+  officerIds: readonly OfficerId[],
+): readonly TacticId[] {
   const traits = new Set<TraitId>();
-  for (const officerId of unitOfficerIds(state, unit)) {
+  for (const officerId of officerIds) {
     for (const id of state.officers[officerId]?.traits ?? []) traits.add(id);
   }
   return TACTIC_IDS.filter((id) => {
@@ -397,8 +407,8 @@ function addDebuff(target: BattleUnit, def: TacticDef, sourceUnitId: string): vo
 
 function defaultTacticAttackPower(state: Readonly<GameState>, actor: Readonly<BattleUnit>): number {
   const general = state.officers[actor.generalId];
-  const val = general ? general.val + general.statGrowth.val : 0;
-  const ldr = general ? general.ldr + general.statGrowth.ldr : 0;
+  const val = general ? getBattleOfficerStat(general, 'val') : 0;
+  const ldr = general ? getBattleOfficerStat(general, 'ldr') : 0;
   const moraleFactor = BAL.moraleFactorBase + actor.morale / BAL.moraleFactorDivisor;
   return (
     actor.troops *
@@ -459,9 +469,18 @@ export function applyBattleTactic(
 
   if (def.effect.type === 'volley') {
     const attackPower = options.attackPower ?? defaultTacticAttackPower(state, actor);
+    const general = state.officers[actor.generalId];
+    const rangedAttackMult = general ? traitModifier(general, 'battle.rangedAttackMult').mult : 1;
+    const rangedTacticMult = general ? traitModifier(general, 'battle.tacticPowerRanged').mult : 1;
     const perHit = Math.max(
       0,
-      Math.round(attackPower * BAL.battleTickDamageRate * def.effect.damageMult),
+      Math.round(
+        attackPower *
+          BAL.battleTickDamageRate *
+          def.effect.damageMult *
+          rangedAttackMult *
+          rangedTacticMult,
+      ),
     );
     let damageDealt = 0;
     for (let hit = 0; hit < def.effect.hits; hit += 1) {

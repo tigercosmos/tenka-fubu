@@ -1,0 +1,102 @@
+.card {
+  display: grid;
+  grid-auto-rows: max-content;
+  align-content: start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--stroke-subtle);
+  border-top: 3px solid var(--accent-brass);
+  border-radius: var(--radius-panel);
+  background: var(--surface-panel);
+  color: var(--text-primary);
+  font-size: max(12px, var(--font-size-sm));
+  overflow-wrap: anywhere;
+}
+
+.card h3 {
+  margin: 0;
+  font-family: var(--font-family-display);
+  font-size: max(12px, var(--font-size-md));
+}
+
+.card p {
+  margin: 0;
+}
+
+.badge {
+  justify-self: start;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--stroke-subtle);
+  border-radius: var(--radius-control);
+  background: var(--surface-raised);
+  color: var(--text-secondary);
+  font-size: max(12px, var(--font-size-sm));
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--stroke-subtle);
+}
+
+.actions button,
+.rejectAll {
+  min-width: 32px;
+  min-height: 32px;
+  padding: var(--space-2) var(--space-3);
+  font-size: max(12px, var(--font-size-sm));
+  white-space: normal;
+  overflow-wrap: anywhere;
+  border: 1px solid var(--stroke-strong);
+  border-radius: var(--radius-control);
+  box-shadow: none;
+}
+
+.actions > :first-child button,
+.rejectAll {
+  background: var(--surface-panel);
+  color: var(--text-primary);
+  box-shadow: none;
+}
+
+.actions > :last-child button {
+  background: var(--surface-command);
+  color: var(--text-inverse);
+  border-color: var(--surface-command);
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.actions > :first-child button:hover:not(:disabled),
+.rejectAll:hover:not(:disabled) {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+  box-shadow: none;
+}
+
+.actions > :last-child button:hover:not(:disabled) {
+  background: var(--surface-command-raised);
+  color: var(--text-inverse);
+  box-shadow: none;
+}
+
+.actions button:disabled {
+  opacity: 1;
+  background: var(--surface-raised);
+  color: var(--text-secondary);
+  border-color: var(--stroke-subtle);
+}
+
+.actions small {
+  color: var(--text-secondary);
+  font-size: max(12px, var(--font-size-sm));
+}
+
+.actions button:focus-visible,
+.rejectAll:focus-visible {
+  outline: 2px solid var(--brand-gold);
+  outline-offset: 2px;
+}

@@ -1,0 +1,98 @@
+{
+  "scope": "Staged B8 Kyushu geography only. Production activation, roster closure and full-world runtime gates remain separate.",
+  "coordinateMethod": "Castle coordinates approximate the named historical site to two decimal degrees. They are authored reference pins, not survey measurements or modern reconstructed-tower corrections. District markers retain county direction but fit the unchanged outline at 40–180 world units from their parent. Castle pins remain unchanged even where nearby historical sites are less than 24 world units apart.",
+  "districtMethod": "Nine provinces, fourteen prescribed castles and forty named counties or explicit county subdivisions total 1800000 koku. Plan14 weights determine resource values; they are gameplay abstractions, not historical tax estimates. County-to-castle assignments aggregate wider territories rather than claim exact jurisdiction.",
+  "ownershipMethod": "Plan14 prescribes six Otomo, three Shimazu, two Ryuzoji, two Ito and one Sagara castle. Otomo assignments aggregate independent local houses, notably Kamachi at Yanagawa and Jo at Kumamoto. Usuki is explicitly brought forward from its documented 1562–1563 construction. Kokura models the prescribed regional stronghold. Its1560 Otomo placement is an abstraction, not the documented1569 Mori castle or1602 Hosokawa construction.",
+  "shimizuDecision": "Shimizu denotes Kokubu's Osumi castle, not Kagoshima's earlier Satsuma residence. Kirishima municipal history describes the 1548 conquest and appointment of Shimazu Tadamasa. This site supplies the prescribed Osumi province without moving Kagoshima's namesake.",
+  "closeSiteBoundary": "Plan14 section3.4 gives advisory 24 world-unit spacing. Plan14 D18 clarifies V13 requires unique coordinates, not minimum separation. Tonokori and Sadowara, and Muranaka and Hasuike, are historically nearby sites. The audit reports their close rounded pins rather than moving castles or changing acceptance constants.",
+  "routeMethod": "Land costs use projected distance divided by90, rounded to0.5days; mountain edges multiply distance by1.5 before rounding. Sea seams retain canonical fixed costs. No direct Hitoyoshi–Hyuga edge exists. The network abstracts corridors and does not claim contemporary road survey accuracy.",
+  "sources": [
+    {
+      "castleId": "castle.funai",
+      "url": "https://www.city.oita.oita.jp/o204/bunkasports/rekishi/1118118836045.html",
+      "classification": "municipal-archaeology",
+      "supports": "Otomo mansion remains in Kentokumachi. The pin models the medieval mansion, not later Funai castle."
+    },
+    {
+      "castleId": "castle.usuki",
+      "url": "https://www.city.usuki.oita.jp/docs/2014013100402/",
+      "classification": "municipal-history",
+      "supports": "Niu island castle construction is dated approximately1562–1563. Its1560 presence is a prescribed scenario abstraction."
+    },
+    {
+      "castleId": "castle.kokura",
+      "url": "https://www.city.kitakyushu.lg.jp/page/dayori/260415/special/special.html",
+      "classification": "municipal-history",
+      "supports": "Hosokawa built the displayed early-modern castle in1602. The scenario's1560 Otomo branch is not proof of that construction or direct ownership.",
+      "medievalSiteUrl": "https://kokura-castle.jp/history/",
+      "medievalSiteClassification": "institutional-castle-history",
+      "medievalSiteBoundary": "The castle operator dates Mori's first castle on this site to1569. The earlier scenario pin represents the prescribed Kokura regional node, not verified1560 fortification."
+    },
+    {
+      "castleId": "castle.tachibanayama",
+      "url": "https://bunkazai.city.fukuoka.lg.jp/cultural_properties/detail/item_id%3A101595",
+      "classification": "municipal-cultural-property",
+      "supports": "Medieval Tachibana castle was an Otomo base founded by the Otomo/Tachibana branch."
+    },
+    {
+      "castleId": "castle.kumamoto",
+      "url": "https://www.city.kumamoto.jp/kiji0031928/index.html",
+      "classification": "municipal-history",
+      "supports": "Kanokogi moved to the old-castle site and called it Kumamoto. The pin denotes that medieval site, not Kato's later expanded castle."
+    },
+    {
+      "castleId": "castle.yanagawa",
+      "url": "https://www.city.yanagawa.fukuoka.jp/rekishibunka/bunkazai/yanagawabunkazai_yanagawajyo.html",
+      "classification": "municipal-cultural-property",
+      "supports": "Yanagawa's Kamachi construction is traditionally Eiroku1558–1569. Otomo scenario ownership aggregates Kamachi rather than prove direct control."
+    },
+    {
+      "castleId": "castle.uchijo",
+      "url": "https://www.library.pref.kagoshima.jp/announcements/announcements/view/667/e89ab646697581abdf1163afbfdab915",
+      "classification": "prefectural-library-history",
+      "supports": "Shimazu residence moved to Uchijo in1550 at present Dairyu. The pin does not denote later Tsurumaru castle."
+    },
+    {
+      "castleId": "castle.kaseda",
+      "url": "https://www.kagoshima-kankou.com/guide/10840",
+      "classification": "prefectural-tourism-history",
+      "supports": "Beppu castle is also called Kaseda castle, at Kaseda Takeda. Its reconstructed site geometry is not a precise medieval boundary."
+    },
+    {
+      "castleId": "castle.shimizu",
+      "url": "https://www.city-kirishima.jp/kyoudoshi/e4_kokubu_jyou_03_tyuusei.pdf",
+      "classification": "municipal-edited-history",
+      "supports": "Printedpage332 discusses Kokubu Shimizu,1548 conquest and Shimazu Tadamasa appointment. The Xavier meeting interpretation remains disputed; it is not used as settled evidence."
+    },
+    {
+      "castleId": "castle.muranaka",
+      "url": "https://www.city.saga.lg.jp/material/files/group/63/s26052_20101216041834.pdf",
+      "classification": "municipal-history",
+      "supports": "Saga municipal history locates Ryuzoji's Muranaka stronghold near Saga Nishi High School, distinct from Mizugae and later expanded Saga castle."
+    },
+    {
+      "castleId": "castle.hasuike",
+      "url": "https://www.city.saga.lg.jp/kenko-fukushi/kenkozukuri/2/1/2520.html",
+      "classification": "municipal-site-description",
+      "supports": "Hasuike park occupies the castle site. This page proves site identity, not exact1560 Ryuzoji control; the assignment follows prescribed scenario aggregation."
+    },
+    {
+      "castleId": "castle.tonokori",
+      "url": "https://online.bunka.go.jp/heritages/detail/173805",
+      "classification": "national-cultural-property",
+      "supports": "Ito headquarters at Tonokori and territorial expansion across Hyuga counties. The rounded pin does not claim surveyed castle boundaries."
+    },
+    {
+      "castleId": "castle.sadowara",
+      "url": "https://online.bunka.go.jp/heritages/detail/212050",
+      "classification": "national-cultural-property",
+      "supports": "Ito Yoshisuke's1536 castle development and later Ito/Shimazu succession distinguish the medieval site from its later domain residence."
+    },
+    {
+      "castleId": "castle.hitoyoshi",
+      "url": "https://www.city.hitoyoshi.lg.jp/shisei/yokoso_hitoyoshi/gaiyo_access/20003",
+      "classification": "municipal-history",
+      "supports": "Hitoyoshi's Sagara government and surviving castle heritage. The authored pin represents the castle site, not municipal city-center coordinates."
+    }
+  ]
+}

@@ -9,16 +9,17 @@
 import type { GameState } from '../state/gameState';
 import type { EvtCommandRejected } from '../state/events';
 import type { Command, CommandEnvelope, ValidationResult } from './types';
-import type { EmitFn } from './registry';
+import type { EmitFn, CommandContext } from './registry';
 import { validateCommand } from './validate';
 import { applyCommand } from './apply';
 import { BAL } from '../balance';
+import { envelopeAuthority, type ExecutionAuthority } from './authority';
 
 /**
  * 提交佇列（§3.3.1）：指派全域單調遞增 `seq`、FIFO 暫存、依上限分批 `drain`。
  * app 層每局持有一個實例；讀檔後以 `new CommandQueue(state.meta.lastAppliedCmdSeq + 1)` 續接 seq
  *（§3.3.3 冪等防線與 §3.3.1「隨存檔保存於 lastAppliedCmdSeq 之後接續」）。未套用的 pending 為
- * transient（不入存檔），讀檔後遺失可接受（尚未套用、不影響已結算狀態）。
+ * 由 app 存入 SaveFile.pendingCommands；讀檔時重新指派連續 seq（16 §8 D3）。
  */
 export class CommandQueue {
   private nextSeq: number;
@@ -29,8 +30,10 @@ export class CommandQueue {
   }
 
   /** 入列並指派 seq；`issuedDay`＝提交當下 absoluteDay（state.time.day）。回傳包裝後信封。 */
-  enqueue(command: Command, issuedDay: number): CommandEnvelope {
-    const envelope: CommandEnvelope = { seq: this.nextSeq, issuedDay, command };
+  enqueue(command: Command, issuedDay: number, authority?: ExecutionAuthority): CommandEnvelope {
+    const envelope: CommandEnvelope = authority
+      ? ({ seq: this.nextSeq, issuedDay, command, authority } as CommandEnvelope)
+      : { seq: this.nextSeq, issuedDay, command };
     this.nextSeq += 1;
     this.pending.push(envelope);
     return envelope;
@@ -54,6 +57,24 @@ export class CommandQueue {
   get nextSequence(): number {
     return this.nextSeq;
   }
+
+  /** 玩家待結算快照；可信 AI 指令保存在 state.ai.pendingOrders，不混入玩家信封。 */
+  snapshotPlayerCommands(): Command[] {
+    return JSON.parse(
+      JSON.stringify(
+        this.pending
+          .filter((entry) => envelopeAuthority(entry).kind === 'player')
+          .map((entry) => entry.command),
+      ),
+    ) as Command[];
+  }
+}
+
+/** Move only this tick's capacity; the remainder stays serializable across save/load. */
+export function enqueuePendingAiOrders(state: GameState, queue: CommandQueue): void {
+  const capacity = Math.max(0, BAL.maxCommandsPerTick - queue.size);
+  for (const order of state.ai.pendingOrders.splice(0, capacity))
+    queue.enqueue(order.command, state.time.day, order.authority);
 }
 
 /** 將失敗的 ValidationResult 包成 command.rejected 事件（03 §5.1；payload 見 events.ts EvtCommandRejected）。 */
@@ -84,6 +105,7 @@ export function applyCommands(
   state: GameState,
   queue: readonly CommandEnvelope[],
   emit: EmitFn,
+  context: CommandContext = {},
 ): CommandEnvelope[] {
   let processed = 0;
   const applied: CommandEnvelope[] = [];
@@ -94,9 +116,10 @@ export function applyCommands(
     if (envelope.seq <= state.meta.lastAppliedCmdSeq) {
       continue; // 冪等：已套用（或已消費）之 seq
     }
-    const result = validateCommand(state, envelope.command);
+    const authority = envelopeAuthority(envelope);
+    const result = validateCommand(state, envelope.command, authority, context);
     if (result.ok) {
-      applyCommand(state, envelope.command, emit);
+      applyCommand(state, envelope.command, emit, authority, context);
       applied.push(envelope);
     } else {
       emit(makeRejectedEvent(state, envelope.command, result));

@@ -64,8 +64,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'var(--ink-900)',
-          color: 'var(--washi-100)',
+          background: 'var(--surface-base)',
+          color: 'var(--text-primary)',
           padding: 'var(--space-8)',
         }}
       >
@@ -73,7 +73,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           style={{
             maxWidth: '32rem',
             width: '100%',
-            background: 'var(--ink-700)',
+            background: 'var(--surface-raised)',
             borderRadius: 'var(--radius-md)',
             padding: 'var(--space-8)',
             boxShadow: 'var(--shadow-2)',

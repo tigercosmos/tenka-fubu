@@ -63,7 +63,7 @@
 | `officers/tokai.json` 等 9 檔 | 具名武將（含未元服者與具名浪人） | ~625 |
 | `events.json` | 史實事件 | 15 |
 | `traits.json` | 特性清單（manifest，§8-D1） | 37 |
-| `policies.json` | 政策清單（manifest） | 13 |
+| `policies.json` | 政策清單（manifest） | 12 |
 | `tactics.json` | 戰法清單（manifest） | 12 |
 | `personas.json` | AI persona 五軸 | 41＋`persona.default` |
 
@@ -158,7 +158,7 @@ publicOrder   = 60（預設）；一向宗根據地 45；大湊 65
 | `clan.satomi` | 里見家 | 里見義堯 | 久留里城 | 2 | 10 | 8 | 關東 |
 | `clan.satake` | 佐竹家 | 佐竹義昭 | 太田城 | 2 | 12 | 16 | 關東 |
 | `clan.utsunomiya` | 宇都宮家 | 宇都宮廣綱 | 宇都宮城 | 2 | 8 | 4 | 關東 |
-| `clan.yuki` | 結城家 | 結城晴朝 | 結城城 | 1 | 8 | 28 | 關東 |
+| `clan.yuki` | 結城家 | 結城晴朝 | 結城城 | 1 | 8 | 34 | 關東 |
 | `clan.date` | 伊達家 | 伊達晴宗 | 米澤城 | 3 | 25 | 38 | 東北 |
 | `clan.ashina` | 蘆名家 | 蘆名盛氏 | 黑川城 | 3 | 12 | 11 | 東北 |
 | `clan.mogami` | 最上家 | 最上義守 | 山形城 | 2 | 10 | 19 | 東北 |
@@ -174,14 +174,14 @@ publicOrder   = 60（預設）；一向宗根據地 45；大湊 65
 | `clan.saionji` | 西園寺家 | 西園寺實充 | 黑瀨城 | 1 | 6 | 32 | 四國 |
 | `clan.ichijo` | 一條家 | 一條兼定 | 中村御所 | 1 | 8 | 36 | 四國 |
 | `clan.shimazu` | 島津家 | 島津貴久 | 內城 | 3 | 25 | 27 | 九州 |
-| `clan.otomo` | 大友家 | 大友義鎮 | 府內館 | 6 | 25 | 34 | 九州 |
+| `clan.otomo` | 大友家 | 大友義鎮 | 府內館 | 6 | 25 | 28 | 九州 |
 | `clan.ryuzoji` | 龍造寺家 | 龍造寺隆信 | 村中城 | 2 | 12 | 10 | 九州 |
 | `clan.ito` | 伊東家 | 伊東義祐 | 都於郡城 | 2 | 8 | 39 | 九州 |
 | `clan.sagara` | 相良家 | 相良義陽 | 人吉城 | 1 | 6 | 2 | 九州 |
 | `clan.ashikaga` | 足利將軍家 | 足利義輝 | 二條御所 | 1 | 6 | 16 | 近畿 |
 
 城數合計 121；武將數合計 610（另＋具名浪人 15 = 625）。城數欄含跨地方領有
-（長尾：越後 4＋信濃 1＋上野 2；三好：近畿 6＋阿波讚岐 3；本願寺：攝津 1＋紀伊 1＋伊勢 1＋加賀 2；
+（長尾：越後 3＋信濃 1＋上野 2；三好：近畿 6＋阿波讚岐 3；本願寺：攝津 1＋紀伊 1＋伊勢 1＋加賀 2；
 山名：但馬 2＋因幡 1；大友：豐後 2＋豐前 1＋筑前 1＋筑後 1＋肥後 1）。
 41 家用 40 色，唯一重複：`clan.ashikaga` 與 `clan.satake` 共用 16（山城／常陸不相鄰；§8-D6）。
 
@@ -473,7 +473,7 @@ publicOrder   = 60（預設）；一向宗根據地 45；大湊 65
 - 大名：毛利（吉田郡山・佐東銀山・櫻尾・高嶺・勝山・松山・神邊）、
   尼子（月山富田・白鹿・山吹・米子）、山名因幡領（鳥取）、浦上（天神山・三石）、赤松（置鹽・龍野）。
 - 核心武將：毛利＝元就・毛利隆元・吉川元春・小早川隆景・毛利輝元(1553)・口羽通良・福原貞俊・
-  桂元澄・志道廣良・熊谷信直・宍戶隆家・村上武吉（`trait.kaizoku`）・清水宗治；
+  桂元澄・志道元保（§8-D25）・熊谷信直・宍戶隆家・村上武吉（`trait.kaizoku`）・清水宗治；
   尼子＝晴久（卒年 1561）・尼子義久・尼子倫久・宇山久兼・龜井秀綱・山中幸盛(1545)・立原久綱・
   本城常光・牛尾幸清；浦上＝宗景・明石行雄・宇喜多直家（`trait.boshin`）；
   赤松＝晴政・赤松義祐・別所安治；山名＝祐豐・垣屋續成・武田高信。
@@ -501,7 +501,7 @@ publicOrder   = 60（預設）；一向宗根據地 45；大湊 65
   田原親賢・佐伯惟教・高橋鑑種・一萬田鑑實・角隈石宗・吉弘鎮信(1544)；
   島津＝貴久・島津義久(1533)・島津義弘(1535，`trait.gunshin`)・島津歲久(1537)・島津家久(1547)・
   島津忠良・伊集院忠朗・伊集院忠倉・樺山善久・種子島時堯（`trait.teppo`）・新納忠元・川上久朗；
-  龍造寺＝隆信・鍋島直茂・納富信景・小河信安・龍造寺長信・百武賢兼；
+  龍造寺＝隆信・鍋島直茂・納富信景・小河信俊（信安排除理由見 §8-D29）・龍造寺長信・百武賢兼；
   伊東＝義祐・伊東義益(1546)・伊東祐安・落合兼朝；相良＝義陽・赤池長任・深水長智・犬童賴安。
 - 郡例：薩摩（鹿兒島・川邊・出水）、大隅（肝屬・囎唹）、日向（宮崎・兒湯）、肥後（飽田・球磨・玉名）、
   肥前（佐嘉・神埼・松浦）、筑前（那珂〔博多〕・糟屋）、筑後（御井・山門）、豐前（企救・京都）、豐後（大分・海部）。
@@ -895,15 +895,15 @@ export const zTacticsFile = z.object({ version: z.literal(1), tactics: z.array(z
 ### 4.10 `policies.json`（manifest）
 
 ```ts
-/** 政策清單 = 05 §3.7.2 十三筆（效果與特殊解鎖條件實作於 core，數值見 05/15）。 */
+/** 政策清單 = 05 §3.7.2 十二筆（效果與特殊解鎖條件實作於 core，數值見 05/15）。 */
 export const zPolicyEntry = z.object({
   id: id(RE.pol),
   name: zName,                                     // '樂市樂座'
   prestigeReq: int0,                               // 威信門檻
-  costGold: int0,                                  // 施行費（貫）
+  costGold: int0,                                  // 採用時預扣首月維持費（貫；05 §3.7.1）
   exclusiveWith: z.array(id(RE.pol)).default([]),  // 互斥政策
 });
-export const zPoliciesFile = z.object({ version: z.literal(1), policies: z.array(zPolicyEntry).length(13) });
+export const zPoliciesFile = z.object({ version: z.literal(1), policies: z.array(zPolicyEntry).length(12) });
 ```
 
 ### 4.11 `personas.json`
@@ -956,7 +956,7 @@ export const zRoadsFile = z.object({ version: z.literal(1), edges: z.array(zRoad
 | V5 | ERROR | 街道圖（含海路）為**單一連通分量**；無重複無向邊；`a ≠ b`；海路兩端 `isPort=true`；waypoints 偶數長度 |
 | V6 | ERROR | 每城轄郡數 ∈ [`BAL.dataDistrictsPerCastleMin`, `BAL.dataDistrictsPerCastleMax`]（2..4） |
 | V7 | ERROR | 全國總石高 ∈ [`BAL.dataTotalKokudakaMin`, `BAL.dataTotalKokudakaMax`]；城／郡／武將／勢力總數 ∈ 對應區間（§3.2 表） |
-| V8 | ERROR | `deathYear > birthYear`；`birthYear ≤ 1570`；當主 `birthYear ≤ 1545`（開局已元服）且 `deathYear ≥ 1561` |
+| V8 | ERROR | `deathYear > birthYear`；`birthYear ≤ 1570`；當主 `birthYear ≤ 1545`（開局已元服）且 `deathYear ≥ 1561`；國親的具名開局在世例外見 §8-D27 |
 | V9 | ERROR | 武將 `locationCastleId`：serving 者必為本家城；浪人任意城；同名武將（`name` 重複）必以生年後綴消歧（00 §8） |
 | V10 | ERROR | 簡體字與日文新字體掃描：全部 JSON 的 `name`／`text`／`label` 值逐字比對黑名單（黑名單字元集＝17 §5.4 L1~L3，須涵蓋 19 §3.12 全部誤字形；本規則不內嵌任何誤字形示例以免掃描器自傷，見 19 §3.13 E-72；「砲」為正字不列入黑名單，見 19 §3.13 E-52） |
 | V11 | ERROR | 戰法解鎖：officer.tactics 中 `unlockTraitId ≠ null` 者，其 `traits` 必含該特性（07 §3.8） |
@@ -1007,8 +1007,8 @@ buildInitialState(s1560, seed):
   castle.facilities → FacilitySlot[]：已列 typeId 填入前段 slot（buildRemainingDays 0），其餘 {typeId:null, 0}
   district.ownerClanId = castles[district.castleId].ownerClanId    // §8-D7
   officer.status = clanId ? 'serving' : 'ronin'
-  officer.hasComeOfAge = (1560 − birthYear) ≥ 15
   officer.debutYear = data.debutYear ?? (birthYear + BAL.comingOfAgeAge)      // 02 §4.4，五輪裁決 E
+  officer.hasComeOfAge = (scenarioStartYear − birthYear ≥ BAL.comingOfAgeAge) && (officer.debutYear ≤ scenarioStartYear)
   officer.debutClanId = ('debutClanId' in data) ? data.debutClanId : clanId  // 缺欄位→clanId；資料明示 null＝直接為浪人（≠缺值）
   officer.debutCastleId = data.debutCastleId ?? locationCastleId
   officer.merit = 0
@@ -1091,12 +1091,21 @@ buildInitialState(s1560, seed):
 
 - [ ] **T5 `events.json`**：15 事件全量（數值以 10 定案為準）。
       驗收：zod 通過；`evt.okehazama` 於 golden fixture 觸發一次（17 EV1）。
-- [ ] **T6 型錄檔**：traits（37）／tactics（12）／policies（13）／personas（42 筆含 default）。
+- [ ] **T6 型錄檔**：traits（37）／tactics（12）／policies（12）／personas（42 筆含 default）。
       驗收：V14 雙向相等通過。
 - [ ] **T7 `index.ts` 彙整**＋動態載入接線（01）。
       驗收：`npm run build` 後主 bundle 不含劇本 JSON；標題畫面可載入 s1560。
 
 ## 8. 設計決策記錄
+
+- **D24（M8-25 政策型錄）｜政策數採 12；採用費等於首月維持費**：05 §3.7.2 與
+  `core/policies.ts` 定義 12 項政策。本文件原有 13 筆之宣告失效；schema、manifest 與載入器採 12 筆。
+  05 §3.7.1 規定採用時預扣首月維持費。manifest 的 `costGold` 對應 `PolicyDef.upkeepGold`，
+  不另收施行費。V14 比對政策 ID 集合、威信門檻、首月維持費與互斥設定。
+  城兵力上限重用 `castleMaxSoldiers`；資料檔不得以超編兵力通過驗收。
+
+  啟用上限檢查時，B1/B2 既有 8 城駐兵超編。僅將這 8 筆駐兵降至現行上限，
+  不改郡人口、施設、兵糧或 BAL；全圖開局駐兵減少 1,695 人。
 
 - **D1｜型錄採「JSON manifest＋core 常數表」雙層**：06/07/05 已規定效果本體以 TS 常數
   實作於 core（引用 BAL），資料層只需 id／名稱／門檻等 manifest 欄位供劇本引用完整性
@@ -1264,4 +1273,58 @@ buildInitialState(s1560, seed):
   `--regions` 時自動批次、全 9 地方到位後全量」（其字面命令 `tsx tools/validate.ts s1560` 不變，行為隨資料
   涵蓋範圍演進）。
 
+- **D24（2026-10-08，B5 跨地方駐在）｜批次武將保留本城分檔、按實際載入引用再過濾**：
+  本願寺加賀坊官依 D11 留在近畿檔。僅載入東海與近畿時，尾山御坊與大聖寺不在城集合中。
+  `filterWorldByRegions` 因此先按檔案地方取武將群，再排除勢力或駐在城未載入的武將。
+  這與 builder 的二次過濾相同；不移檔、不複製武將，也不保留指向未載入城的懸空引用。
+  地方武將配額統計採該次實際載入群；五地方累積驗證仍納入全部近畿坊官。
+  只有原始資料中已知且未載入的端點可被排除；真正不存在的城或勢力引用仍保留交由 V3 報錯。
+  全國模式不做此白名單過濾，原始來源缺失仍由 V3 報錯。
 
+- **D25（2026-10-08，B6 人物年表）｜志道廣良不作 1560 年在世家臣，改收不同身分的志道元保**：
+  §3.6 原清單收志道廣良，但廣島市文化財團資料記他於 1547 年已八十餘歲。
+  此年齡推得生年早於 schema 的 1470 下限；不改生年或放寬 schema 以填具名配額。
+  二手人物資料另列 1467–1557，原始製作來源保留其二手等級；文化財團 PDF 並未證明精確卒年。
+  同一 PDF 第四頁年表記志道元保於 1553 年寄進宮崎八幡宮神田，支持該人物身分。
+
+  B6 收志道元保，不以其 ID 或姓名假冒廣良；其未確定生卒及 1560 駐在仍須標示設計值。
+  毛利配額維持三十五名不同人物，不將排除人物計入在世名單；排除理由保留於製作 metadata。
+  來源：[廣島市文化財團《安藝的戰國再發現》](https://www.mogurin.or.jp/museum/library/event/h22_akinosengoku.pdf)。
+
+- **D26（2026-10-08，延後登場的成年武將）｜初始可用性同時檢查年齡與登場年**：
+  06 §3.10 以 `debutYear` 控制登場；§5.11 排除尚未登場者的名單與死亡以外判定。
+  §5.3 原先只按年齡初始化，會使成年但延後登場的人物立即可用，且年度 hook 永遠跳過他們。
+  初始 `hasComeOfAge` 因此同時要求年齡達元服下限與登場年不晚於劇本開局年。
+  未指定登場年者仍取生年加元服年齡；明示的未來登場年不由年齡覆蓋。
+  此修正不改死亡排程、亂數、繼承規則或存檔格式；年度登場仍依 06 §3.10 結算。
+
+- **D27（2026-10-08，國親卒年與開局在世）｜保留 1560 史實卒年，只限定具名 V8 例外**：
+  02 §4.4 定義 `deathYear` 為卒年基準；06 §3.9.1 另將自然死亡排程限制在開局年之後。
+  高知市記元親於 1560 年五月初陣，國親於翌月去世，支持國親在本劇本年初仍在世。
+  §3.6 因此保留國親卒年 1560，不改成 1561，也不新增精確六月死亡事件。
+
+  V8 僅對 `s1560` 的國親例外：本人所屬及當主為長宗我部，本城與駐在均為岡豐。
+  岡豐必為本家本城，城主亦為國親，且卒年恰為 1560；其他早卒當主仍報錯。
+  不以任意 metadata 放行，不擴成所有當主的同年例外；未知卒月仍沿用既有決定論排程。
+  D20 的義元自然卒年基準與桶狹間事件不變；本裁決不改死亡、繼承、亂數或存檔機制。
+  來源：[高知市《長宗我部元親》](https://www.city.kochi.kochi.jp/site/kanko/motochika.html)。
+
+- **D28（2026-10-08，豐後水道接縫）｜大友與結城交換色盤索引，保留既有色盤及環距門檻**：
+  §3.7 要求豐後海部至伊予宇和的海路；實際端點分屬大友與西園寺。
+  舊索引 34 與 32 的環距為 2，不符合 15 的 `dataClanColorMinRing = 4`。
+  依優先序保留較高層的環距要求及必備海路，修正 §3.3 的資料指派。
+
+  大友由 34 改為 28，結城由 28 改為 34；西園寺與其餘勢力不變。
+  八地方實際合併的 436 條邊驗證交換後無相鄰色衝突；東北新增邊仍須另驗。
+  四十色集合與足利／佐竹唯一共用色不變，未新增重複色、改道路或放寬驗證器。
+  此為劇本初始指派修正，不改存檔內的既有色值；凍結截圖與門檻不變。
+
+- **D29（2026-10-08，B8 人物年表）｜小河信安不作 1560 年在世家臣，改收不同身分的小河信俊**：
+  佐賀市公開市史第 576–578 頁記弘治三年（1557）攻城及信安戰死，並另述繼任者。
+  第 578 頁記鍋島清房第三子繼承小河家，先後名信友、信貫、信俊；這不是信安的別名。
+  二手資料另見卒年 1558，兩種記載均早於開局；來源差異保留於製作 metadata。
+
+  02 的開局在世邊界優先於 §3.6 原具名清單；不延後信安卒年或改寫生年以填配額。
+  B8 收小河信俊，不以其 ID 或姓名假冒信安；未確定生卒、能力與駐在仍標示設計值。
+  此裁決只修正人物清單，不改自然死亡排程、元服年齡、繼承規則或存檔格式。
+  來源：[佐賀市公開市史〈戰國時代與佐賀地方〉](https://www.city.saga.lg.jp/material/files/group/2/s34623_20130321113942.pdf)。

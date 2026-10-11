@@ -27,7 +27,7 @@
 //   `clanColorIndex`（非 04 §5.5 逐字之 `clanColors`）。
 
 import type { MapGraph } from '@core/state/mapGraph';
-import type { JapanOutlineFile } from '@data/schemas/outline';
+import type { OutlineGeometry } from './displayCoast';
 import { clanDyeNum } from '@ui/styles/tokens';
 import { MAPVIEW, WORLD_SIZE } from './mapViewConfig';
 
@@ -181,9 +181,9 @@ function buildBuckets(seeds: readonly DistrictSeed[]): Array<DistrictSeed[] | un
 }
 
 /**
- * 由 (px,py) 所在桶向外環狀擴張搜尋最近郡 seed（04 §5.5）。窮舉搜尋至 `MAX_SEARCH_RING`
- * （已涵蓋 `territoryMaxDist` 所需桶環數＋1 圈餘裕，見常數註解），故不需「找到即停」的提前終止
- * 判斷——避免邊界情形下提前停止漏掉真正最近點（較 04 §5.5 pseudocode 之簡化提前終止更保守正確）。
+ * 由 (px,py) 所在桶向外環狀擴張搜尋最近郡 seed（04 §5.5）。保留原環／桶／seed 次序與
+ * Math.hypot 比較；僅當最佳距離嚴格小於所有未搜尋桶的距離下界時提早停止，保留等距先到者。
+ * 否則仍窮舉至 `MAX_SEARCH_RING`，不採用「找到即停」的邊界不安全捷徑。
  */
 function findNearestDistrict(
   px: number,
@@ -214,6 +214,20 @@ function findNearestDistrict(
         }
       }
     }
+    // The searched square's remaining sides bound every unvisited bucket.
+    // Ignore a side only once the corresponding outermost bucket is included:
+    // edge buckets may contain clamped seeds outside the nominal world extent.
+    const left = bx0 - ring;
+    const right = bx0 + ring;
+    const top = by0 - ring;
+    const bottom = by0 + ring;
+    const unsearchedDistance = Math.min(
+      left > 0 ? px - left * BUCKET_SIZE : Infinity,
+      right < BUCKETS_PER_SIDE - 1 ? (right + 1) * BUCKET_SIZE - px : Infinity,
+      top > 0 ? py - top * BUCKET_SIZE : Infinity,
+      bottom < BUCKETS_PER_SIDE - 1 ? (bottom + 1) * BUCKET_SIZE - py : Infinity,
+    );
+    if (bestDist < unsearchedDistance) break;
   }
   return best === null ? null : { seed: best, dist: bestDist };
 }
@@ -230,7 +244,7 @@ function makeImageData(width: number, height: number): ImageData {
  * （均勻網格桶加速），cell 中心不在任何陸地 polygon 內、或最近郡距離 > `territoryMaxDist` 者
  * 標記 `SEA_OR_FAR`。`imageData` 初始為全透明（首次 `recolorTerritory` 前的預設值）。
  */
-export function buildTerritoryGrid(graph: MapGraph, outline: JapanOutlineFile): TerritoryGrid {
+export function buildTerritoryGrid(graph: MapGraph, outline: OutlineGeometry): TerritoryGrid {
   const size = MAPVIEW.territoryGridSize;
   const cellW = WORLD_SIZE / size; // 04 §5.5：cellW ← 4096 / 1024
 

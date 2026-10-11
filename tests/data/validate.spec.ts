@@ -6,6 +6,8 @@
 // 違規，斷言該 Vk 違規被偵測（且基準未觸發該 Vk）。另測 `--regions` 過濾、parseScenario（V1 zod）、
 // 與 validateScenario 空資料提示。
 import { describe, expect, it } from 'vitest';
+import policiesJson from '../../src/data/scenarios/s1560/policies.json';
+import { zPoliciesFile } from '../../src/data/schemas';
 import {
   checkWorld,
   scanForbiddenChars,
@@ -251,7 +253,7 @@ function base(): ScenarioWorld {
     events: [],
     traits: TRAITS,
     tactics: TACTICS,
-    policies: [],
+    policies: zPoliciesFile.parse(policiesJson).policies,
     personas: PERSONAS,
     outline: null,
   };
@@ -541,6 +543,25 @@ describe('每條檢查各一違規 fixture 被偵測（14-T2）', () => {
     expect(scanForbiddenChars(bad).length).toBeGreaterThan(0);
   });
 
+  it('V10 preserves attested proper names but rejects interior-location mistranscription', () => {
+    const world = base();
+    const named: ScenarioWorld = {
+      ...world,
+      castles: world.castles.map((castle, index) => ({
+        ...castle,
+        name: index === 0 ? '久留里城／七里賴周／江里口信常' : '大里郡',
+      })),
+    };
+    expect(scanForbiddenChars(named)).toEqual([]);
+    const bad: ScenarioWorld = {
+      ...world,
+      castles: world.castles.map((castle) => ({ ...castle, name: '這\u91cc' })),
+    };
+    expect(scanForbiddenChars(bad)).toEqual([
+      expect.objectContaining({ check: 'V10', severity: 'ERROR' }),
+    ]);
+  });
+
   it('V11：戰法缺解鎖特性', () => {
     const w = base();
     const bad: ScenarioWorld = {
@@ -611,6 +632,83 @@ describe('每條檢查各一違規 fixture 被偵測（14-T2）', () => {
     expect(checkWorld(bad).some((v) => v.check === 'V14' && v.ids.includes('castle.branch'))).toBe(
       true,
     );
+  });
+
+  it('V14：政策型錄雙向比對，不容許缺漏或額外 ID', () => {
+    const initial = base();
+    const missing = { ...initial, policies: initial.policies.slice(1) };
+    expect(checkWorld(missing)).toContainEqual(
+      expect.objectContaining({
+        check: 'V14',
+        severity: 'ERROR',
+        ids: ['pol.rakuichi'],
+      }),
+    );
+    const extra = {
+      ...initial,
+      policies: [...initial.policies, { ...initial.policies[0]!, id: 'pol.unknown' }],
+    };
+    expect(checkWorld(extra)).toContainEqual(
+      expect.objectContaining({
+        check: 'V14',
+        severity: 'ERROR',
+        ids: ['pol.unknown'],
+      }),
+    );
+  });
+
+  it.each(['prestigeReq', 'costGold', 'exclusiveWith'] as const)(
+    'V14：偵測政策 %s 與 core 漂移',
+    (field) => {
+      const initial = base();
+      const policy = initial.policies[0]!;
+      const bad = {
+        ...initial,
+        policies: [
+          { ...policy, [field]: field === 'exclusiveWith' ? ['pol.kenchi'] : policy[field] + 1 },
+          ...initial.policies.slice(1),
+        ],
+      };
+      expect(checkWorld(bad)).toContainEqual(
+        expect.objectContaining({
+          check: 'V14',
+          severity: 'ERROR',
+          ids: ['pol.rakuichi'],
+        }),
+      );
+    },
+  );
+
+  it('V14：共用城兵力上限公式，邊界通過、超額拒絕、兵舍容量生效', () => {
+    let world = base();
+    const cap = 1650; // 1000 本城基礎 + 2 × 13000 郡人口 × 0.025（目前 BAL）。
+    world = {
+      ...world,
+      castles: world.castles.map((castle, index) =>
+        index === 0 ? { ...castle, soldiers: cap } : castle,
+      ),
+    };
+    expect(checkWorld(world).filter((v) => v.check === 'V14')).toEqual([]);
+    world = {
+      ...world,
+      castles: world.castles.map((castle, index) =>
+        index === 0 ? { ...castle, soldiers: cap + 1 } : castle,
+      ),
+    };
+    expect(checkWorld(world)).toContainEqual(
+      expect.objectContaining({
+        check: 'V14',
+        severity: 'ERROR',
+        ids: ['castle.kiyosu'],
+      }),
+    );
+    world = {
+      ...world,
+      castles: world.castles.map((castle, index) =>
+        index === 0 ? { ...castle, facilities: ['fac.heisha'] } : castle,
+      ),
+    };
+    expect(checkWorld(world).filter((v) => v.check === 'V14')).toEqual([]);
   });
 
   it('V15（WARN）：地方配額偏差 > 10%（基準即觸發）', () => {
@@ -702,6 +800,63 @@ describe('--regions 白名單批次模式', () => {
     expect(filtered.roads.some((r) => r.a === 'castle.nijo' || r.b === 'castle.nijo')).toBe(false);
     // tokai 內容保留。
     expect(filtered.castles.some((c) => c.id === 'castle.kiyosu')).toBe(true);
+  });
+
+  it('keeps clan-home roster groups but excludes officers stationed in unloaded territory', () => {
+    const full = twoRegionWorld();
+    const officer = mkOfficer({
+      id: 'off.cross-region-retainer',
+      clanId: 'clan.oda',
+      locationCastleId: 'castle.nijo',
+    });
+    const world = {
+      ...full,
+      castles: full.castles.map((castle) =>
+        castle.id === 'castle.nijo' ? { ...castle, ownerClanId: 'clan.oda', lordId: null } : castle,
+      ),
+      officerGroups: full.officerGroups.map((group) =>
+        group.fileRegion === 'tokai' ? { ...group, officers: [...group.officers, officer] } : group,
+      ),
+    };
+    const partial = filterWorldByRegions(world, ['tokai']);
+    expect(partial.officerGroups.find((group) => group.fileRegion === 'tokai')).toBeDefined();
+    expect(
+      partial.officerGroups.flatMap((group) => group.officers).some(({ id }) => id === officer.id),
+    ).toBe(false);
+    const combined = filterWorldByRegions(world, ['tokai', 'kinki']);
+    expect(
+      combined.officerGroups
+        .flatMap((group) => group.officers)
+        .filter(({ id }) => id === officer.id),
+    ).toEqual([officer]);
+    expect(
+      checkWorld(partial, { regions: ['tokai'] }).filter(({ check }) => check === 'V3'),
+    ).toEqual([]);
+  });
+
+  it('does not hide genuinely missing officer references behind regional filtering', () => {
+    const world = base();
+    const officer = mkOfficer({
+      id: 'off.broken-location',
+      clanId: 'clan.unknown',
+      locationCastleId: 'castle.unknown',
+    });
+    const broken = {
+      ...world,
+      officerGroups: world.officerGroups.map((group) => ({
+        ...group,
+        officers: [...group.officers, officer],
+      })),
+    };
+    const partial = filterWorldByRegions(broken, ['tokai']);
+    expect(partial.officerGroups.flatMap((group) => group.officers)).toContainEqual(officer);
+    const violations = checkWorld(partial, { regions: ['tokai'] });
+    expect(
+      violations.some(({ check, message }) => check === 'V3' && message.includes('castle.unknown')),
+    ).toBe(true);
+    expect(
+      violations.some(({ check, message }) => check === 'V3' && message.includes('clan.unknown')),
+    ).toBe(true);
   });
 
   it('批次模式 V7 用配額縮放；過濾後不因 kinki 節點誤報 V5/V3', () => {

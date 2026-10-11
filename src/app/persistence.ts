@@ -7,7 +7,14 @@
 // - 寫入失敗（QuotaExceededError 等）依 16 §3.10 精神降級：回傳 false、console.warn，不中斷遊戲。
 
 import type { GameState } from '@core/state/gameState';
-import { decodeSave, encodeSave, type SaveDecodeError, type SaveMeta } from '@core/save/serialize';
+import type { Command } from '@core/commands/types';
+import {
+  decodeSave,
+  encodeSave,
+  type SaveDecodeError,
+  type SaveMeta,
+  type SaveMetadataContext,
+} from '@core/save/serialize';
 
 /** MVP 支援的槽位（16 §3.3 子集）。 */
 export type SaveSlotId = 'auto:1' | 'quick:1';
@@ -32,11 +39,16 @@ function storageAvailable(): boolean {
 }
 
 /** 寫入槽位（tick 邊界呼叫；16 §5.2 精簡版）。成功回 true；配額或環境失敗回 false。 */
-export function saveToSlot(slot: SaveSlotId, state: GameState): boolean {
+export function saveToSlot(
+  slot: SaveSlotId,
+  state: GameState,
+  pendingCommands: Command[] = [],
+  context: SaveMetadataContext = {},
+): boolean {
   if (!storageAvailable()) return false;
   const timestamp = Date.now();
   try {
-    const raw = encodeSave(state, timestamp);
+    const raw = encodeSave(state, timestamp, pendingCommands, context);
     window.localStorage.setItem(blobKey(slot), raw);
     const parsed = JSON.parse(raw) as { meta: SaveMeta };
     window.localStorage.setItem(
@@ -53,13 +65,20 @@ export function saveToSlot(slot: SaveSlotId, state: GameState): boolean {
 /** 讀取槽位（16 §5.4 精簡版）：空槽回 empty；解碼失敗回對應錯誤碼。 */
 export function loadFromSlot(
   slot: SaveSlotId,
-): { ok: true; state: GameState } | { ok: false; code: SaveDecodeError | 'empty' } {
+):
+  | { ok: true; state: GameState; pendingCommands: Command[]; meta: SaveMeta }
+  | { ok: false; code: SaveDecodeError | 'empty' } {
   if (!storageAvailable()) return { ok: false, code: 'empty' };
   const raw = window.localStorage.getItem(blobKey(slot));
   if (raw === null) return { ok: false, code: 'empty' };
   const decoded = decodeSave(raw);
   if (!decoded.ok) return { ok: false, code: decoded.code };
-  return { ok: true, state: decoded.saveFile.state };
+  return {
+    ok: true,
+    state: decoded.saveFile.state,
+    pendingCommands: decoded.saveFile.pendingCommands,
+    meta: decoded.saveFile.meta,
+  };
 }
 
 /** 槽位 meta 一覽（只讀 meta 鍵，不解碼 blob；16 §3.3 第 3 點）。 */
@@ -93,8 +112,8 @@ export function hasAnySave(): boolean {
 }
 
 /** 月結自動存檔（03 §3.9.1 autosaveDue hook 的處理端；bridge 於 tick 邊界呼叫）。 */
-export function autosave(state: GameState): boolean {
-  return saveToSlot('auto:1', state);
+export function autosave(state: GameState, pendingCommands: Command[] = []): boolean {
+  return saveToSlot('auto:1', state, pendingCommands);
 }
 
 /** 測試專用：清空全部槽位。 */

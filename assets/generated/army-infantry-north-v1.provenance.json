@@ -1,0 +1,46 @@
+{
+  "asset": "public/assets/textures/army-infantry-north-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-09",
+  "license": "project-original",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [
+    "public/assets/textures/army-infantry-east-v1.png",
+    "public/assets/textures/castle-main-plain-v1.png"
+  ],
+  "referenceOriginalPaths": [
+    "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-e7e18042-ec48-4536-b998-d1f5cf819937.png",
+    "/Users/tigercosmos/tenka-fubu/public/assets/textures/castle-main-plain-v1.png"
+  ],
+  "sha256": "c2822c588f9430d1462a076b27e76d872c5b03e3dac5160f7f54ebfc1063145b",
+  "dimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "bytes": 1029215,
+  "alphaInspection": {
+    "zeroAlphaPixels": 1204594,
+    "partialAlphaPixels": 367437,
+    "opaquePixels": 485,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 318,
+    "y": 88,
+    "width": 652,
+    "height": 1097
+  },
+  "groundAnchor": {
+    "x": 644,
+    "y": 1184,
+    "method": "authored foremost-foot baseline selected after visual inspection; not a gameplay coordinate"
+  },
+  "qualityInspection": {
+    "redDominantPixelsAlphaAbove8": 4324,
+    "redDominanceRatio": 1.7,
+    "limitation": "Colored edge fringes remain. A built-in cleanup variant increased this heuristic count and was rejected; this artwork is not visual acceptance."
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: original transparent 2.5D infantry formation sprite for a Japanese grand-strategy map.\nInput images: Image 1 is the ORIGINAL east-facing infantry formation, a character/material/scale reference ONLY. Image 2 is an ORIGINAL castle miniature, painted material reference only. Create a NEW north-facing view of the same generic infantry, do not rotate or mirror either bitmap. Do not draw a castle.\nPrimary request: one compact formation of generic Japanese spear infantry marching UP THE SCREEN, AWAY FROM THE VIEWER (north). Every soldier's body and head clearly faces away from the viewer toward the top of the screen; show backs, helmet neck guards and rear armor, with NO faces on the backs of heads. Staggered ranks create miniature depth, with all complete feet visible.\nStyle/medium: same believable finely hand-painted miniature soldiers as Image 1, muted charcoal and blue-grey lamellar armor, simple iron helmets with neck guards, olive-grey clothing, small natural skin tones and worn wood spear shafts. Refined tiny military formation, not flat vector, chibi, toy or low-poly. Generic original fictional troops, no exact historic clan identity or named heroes.\nComposition: one centered compact unit on a square genuinely transparent canvas, same high oblique overhead camera around 55 degrees. Compact staggered formation, feet form a shallow oval near lower middle; short controlled gaps between soldiers. Spears mostly upright and entirely visible. Entire group has transparent margins. Cohesive readable broad masses that remain legible at a small map scale.\nLighting: fixed soft NORTHWEST light from image upper left, darker lower-right material planes, tiny contact shadows beneath feet. Repaint the view with this fixed lighting; do not rotate lighting with marching direction.\nConstraints: infantry only, no horses, guns, flags, banners, poles without spearheads, insignia, text, UI, numbers, watermark, castle, ground tile, baseplate, landscape, sky or background. No large shadow blob. Exactly one north-facing formation, not a sheet or multiple views. Compact square sprite below 2048 pixels per side."
+}

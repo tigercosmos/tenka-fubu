@@ -7,10 +7,12 @@
 // Container/Graphics/BitmapText，無需 WebGL/DOM，17 §3.2）。
 
 import { describe, expect, it, vi } from 'vitest';
-import { Graphics } from 'pixi.js';
+import { BitmapText, Container, Graphics, Texture } from 'pixi.js';
+import { ARMY_BODY_ART } from '@ui/map/sceneParts/armyBodyArt';
 import { TOKENS_NUM } from '@ui/styles/tokens';
 import {
   abbreviateTroops,
+  ARMY_FORMATION_PALETTE,
   ARMY_CHIP_GEOMETRY,
   type ArmyChipProps,
   armyChipDrawEqual,
@@ -22,6 +24,10 @@ import {
   supplyLevel,
   topBadge,
 } from '@ui/map/sceneParts/armyChip';
+
+function armyGroup(part: ReturnType<typeof createArmyChip>, name: string): Container {
+  return part.container.children.find((child) => child.label === name) as Container;
+}
 
 function props(overrides: Partial<ArmyChipProps> = {}): ArmyChipProps {
   return {
@@ -40,6 +46,147 @@ function props(overrides: Partial<ArmyChipProps> = {}): ArmyChipProps {
     ...overrides,
   };
 }
+
+describe('painted banner-only presentation offset', () => {
+  const art = { east: { texture: Texture.EMPTY, spec: ARMY_BODY_ART.east } };
+  it('moves actual flag bounds without moving heading, infantry, plate or picking anchors', () => {
+    const part = createArmyChip();
+    part.setBodyArt(art);
+    part.update(props({ heading: { x: 1, y: 0 }, status: 'marching', corps: true, morale: 20 }));
+    const set = Reflect.get(part, 'setSignalOffset') as
+      ((p: { x: number; y: number }) => boolean) | undefined;
+    expect(set).toBeTypeOf('function');
+    if (!set) throw new Error('Missing banner-only offset API');
+    const body = armyGroup(part, 'armyBody');
+    const heading = body.children.find((c) => c.label === 'armyHeading')!;
+    const banner = body.children.find((c) => c.label === 'armySignals')!;
+    const headingBefore = heading.getLocalBounds();
+    const soldierBefore = part.getSoldierBounds(),
+      plateBefore = part.getPlateBounds(),
+      hit = part.container.hitArea;
+    const before = part.getPaintedProfile().signalBounds!;
+    const clear = vi.spyOn(body.children[0] as Graphics, 'clear');
+    const tether = body.children[0]!.children.find(
+      (c) => c.label === 'armySignalTether',
+    ) as Graphics;
+    const from = vi.spyOn(tether, 'moveTo'),
+      to = vi.spyOn(tether, 'lineTo');
+    expect(set({ x: 8, y: -6 })).toBe(true);
+    expect(set({ x: 8, y: -6 })).toBe(false);
+    expect(banner.position.x).toBe(8);
+    expect(banner.position.y).toBe(-6);
+    expect(part.getPaintedProfile().signalBounds).toEqual({
+      ...before,
+      x: before.x + 8,
+      y: before.y - 6,
+    });
+    expect(heading.position.x).toBe(0);
+    expect(heading.position.y).toBe(0);
+    expect(heading.getLocalBounds()).toEqual(headingBefore);
+    expect(part.getSoldierBounds()).toEqual(soldierBefore);
+    expect(part.getPlateBounds()).toEqual(plateBefore);
+    expect(part.container.hitArea).toBe(hit);
+    expect([part.container.x, part.container.y]).toEqual([10, 20]);
+    expect(clear).not.toHaveBeenCalled();
+    expect(tether.visible).toBe(true);
+    expect(tether.getLocalBounds().containsPoint(0, 0)).toBe(true);
+    expect(from).toHaveBeenLastCalledWith(0, 0);
+    expect(to).toHaveBeenLastCalledWith(8, -6);
+    part.update(props({ heading: { x: 1, y: 0 }, status: 'marching', corps: true, morale: 21 }));
+    expect(part.getSignalOffset()).toEqual({ x: 8, y: -6 });
+    part.setBodyArt({ ...art });
+    expect(part.getSignalOffset()).toEqual({ x: 8, y: -6 });
+    expect(part.getPaintedProfile().signalBaselineBounds).toEqual(before);
+    const resources = [tether, heading as Graphics, banner.children[0] as Graphics];
+    const destroys = resources.map((g) => vi.spyOn(g, 'destroy'));
+    const contexts = resources.map((g) => vi.spyOn(g.context, 'destroy'));
+    part.destroy();
+    part.destroy();
+    for (const destroy of [...destroys, ...contexts]) expect(destroy).toHaveBeenCalledTimes(1);
+    expect(Texture.EMPTY.destroyed).toBe(false);
+  });
+  it('rejects invalid offsets and resets them when far or missing art falls back', () => {
+    const part = createArmyChip();
+    part.setBodyArt(art);
+    part.update(props());
+    const set = Reflect.get(part, 'setSignalOffset') as
+      ((p: { x: number; y: number }) => boolean) | undefined;
+    expect(set).toBeTypeOf('function');
+    if (!set) throw new Error('Missing banner-only offset API');
+    expect(set({ x: NaN, y: 0 })).toBe(false);
+    expect(set({ x: 4, y: 5 })).toBe(true);
+    part.update(props({ stage: 'far' }));
+    expect(set({ x: 4, y: 5 })).toBe(false);
+    part.update(props());
+    const profile = part.getPaintedProfile();
+    expect(Reflect.get(profile, 'signalBaselineBounds')).toEqual(profile.signalBounds);
+    expect(set({ x: -4, y: 2 })).toBe(true);
+    part.setBodyArt({});
+    expect(set({ x: 4, y: 5 })).toBe(false);
+    part.setBodyArt(art);
+    const fresh = part.getPaintedProfile();
+    expect(Reflect.get(fresh, 'signalBaselineBounds')).toEqual(fresh.signalBounds);
+    part.destroy();
+    expect(set({ x: 2, y: 3 })).toBe(false);
+  });
+});
+
+describe('directional infantry draw commands (not native screenshot evidence)', () => {
+  function infantry(heading: ArmyChipProps['heading'] | undefined) {
+    const spy = spyGfx();
+    const input = props();
+    // Runtime compatibility boundary: older consumers may omit the nullable heading.
+    if (heading === undefined) Reflect.deleteProperty(input, 'heading');
+    else input.heading = heading;
+    drawArmyChip(spy.g, input);
+    const colors = new Set<number>(Object.values(ARMY_FORMATION_PALETTE));
+    return spy.fill.mock.calls.flatMap(([style], index) => {
+      if (
+        typeof style !== 'object' ||
+        style === null ||
+        !('color' in style) ||
+        !colors.has(Number(style.color))
+      )
+        return [];
+      const order = spy.fill.mock.invocationCallOrder[index]!;
+      let polygonIndex = -1;
+      for (let i = 0; i < spy.poly.mock.invocationCallOrder.length; i++) {
+        if (spy.poly.mock.invocationCallOrder[i]! < order) polygonIndex = i;
+      }
+      return polygonIndex < 0
+        ? []
+        : [{ color: style.color, polygon: spy.poly.mock.calls[polygonIndex]![0] }];
+    });
+  }
+  it('opposite and perpendicular headings change the actual armor/face geometry', () => {
+    const east = infantry({ x: 1, y: 0 });
+    expect(infantry({ x: -1, y: 0 })).not.toEqual(east);
+    expect(infantry({ x: 0, y: 1 })).not.toEqual(east);
+    expect(infantry({ x: 0, y: -1 })).not.toEqual(infantry({ x: 0, y: 1 }));
+    expect(infantry(null)).toEqual(east);
+    expect(infantry(undefined)).toEqual(east);
+    expect(infantry({ x: 0, y: 0 })).toEqual(east);
+    expect(infantry({ x: 4, y: 0 })).toEqual(east);
+  });
+  it('direction changes preserve the actual container world anchor, rotation and picking area', () => {
+    const chip = createArmyChip();
+    const hitArea = chip.container.hitArea;
+    for (const heading of [
+      { x: 1, y: 0 },
+      { x: -1, y: 0 },
+      { x: 0, y: 1 },
+    ]) {
+      const input = props({ heading });
+      const before = structuredClone(input);
+      chip.update(input);
+      expect([chip.container.x, chip.container.y]).toEqual([10, 20]);
+      expect(chip.container.rotation).toBe(0);
+      expect(chip.container.hitArea).toBe(hitArea);
+      expect(input).toEqual(before);
+    }
+    chip.container.destroy({ children: true });
+  });
+});
 
 describe('armyChipDrawEqual（M6-V4 §3.4 ＋ M6-V8 §4.2：pos 除外的冪等比較器）', () => {
   it('全部繪製欄位相同（pos 不同）→ true', () => {
@@ -143,6 +290,7 @@ function spyGfx() {
     g,
     poly: vi.spyOn(g, 'poly'),
     circle: vi.spyOn(g, 'circle'),
+    ellipse: vi.spyOn(g, 'ellipse'),
     stroke: vi.spyOn(g, 'stroke'),
     fill: vi.spyOn(g, 'fill'),
     moveTo: vi.spyOn(g, 'moveTo'),
@@ -151,13 +299,47 @@ function spyGfx() {
 }
 
 describe('drawArmyChip 幾何（M6-V8 §4.2）', () => {
-  it('friendly → 兩個 relation circle（indigo 雙環）', () => {
+  it.each(['near', 'mid'] as const)(
+    '%s draws both ground double channels before any infantry face, with compact vertical extent',
+    (stage) => {
+      const s = spyGfx();
+      drawArmyChip(s.g, props({ stage, selected: true, relation: 'friendly', morale: 50 }));
+      expect(s.ellipse.mock.calls).toEqual([
+        [11, -1, 15, 3.5],
+        [11, -1, ARMY_CHIP_GEOMETRY.relationRingOuter, 3.6],
+        [11, -1, ARMY_CHIP_GEOMETRY.relationRingInner, 2.4],
+        [11, -1, ARMY_CHIP_GEOMETRY.selectRingOuter, 5],
+        [11, -1, ARMY_CHIP_GEOMETRY.selectRingInner, 3.7],
+      ]);
+      const firstFace = s.fill.mock.calls.findIndex(
+        (call) => (call[0] as { color?: number })?.color === ARMY_FORMATION_PALETTE.face,
+      );
+      expect(firstFace).toBeGreaterThanOrEqual(0);
+      for (const order of s.ellipse.mock.invocationCallOrder)
+        expect(order).toBeLessThan(s.fill.mock.invocationCallOrder[firstFace]!);
+      const strokes = s.stroke.mock.calls.map(
+        (call) => call[0] as { color?: number; alpha?: number },
+      );
+      expect(
+        strokes
+          .filter((stroke) => stroke.color === TOKENS_NUM.accentIndigo)
+          .map((stroke) => stroke.alpha),
+      ).toEqual([0.55, 0.45]);
+      expect(
+        strokes
+          .filter((stroke) => stroke.color === TOKENS_NUM.accentGold)
+          .map((stroke) => stroke.alpha),
+      ).toEqual([0.85, 0.75]);
+    },
+  );
+  it('friendly mid → subdued ground-plane indigo double ellipse, not a circle across the troops', () => {
     const s = spyGfx();
     drawArmyChip(s.g, props({ relation: 'friendly', selected: false, stage: 'mid', morale: 50 }));
     // relation 雙環半徑
-    const radii = s.circle.mock.calls.map((c) => c[2]);
+    const radii = s.ellipse.mock.calls.map((c) => c[2]);
     expect(radii).toContain(ARMY_CHIP_GEOMETRY.relationRingOuter);
     expect(radii).toContain(ARMY_CHIP_GEOMETRY.relationRingInner);
+    expect(s.circle.mock.calls).toEqual([]);
   });
 
   it('enemy → 旗尾尖角 poly（vermilion），且無交叉刀（#5）', () => {
@@ -343,14 +525,19 @@ describe('drawArmyChip 幾何（M6-V8 §4.2）', () => {
     }
   });
 
-  it('selected → 金色雙環（far 外環半徑 > base）', () => {
+  it('selected mid → ground gold double ellipse; far preserves flag circles', () => {
     const base = spyGfx();
     drawArmyChip(base.g, props({ selected: true, stage: 'mid', relation: 'neutral', morale: 50 }));
     const farS = spyGfx();
     drawArmyChip(farS.g, props({ selected: true, stage: 'far', relation: 'neutral', morale: 50 }));
-    const baseRadii = base.circle.mock.calls.map((c) => c[2]);
+    const baseRadii = base.ellipse.mock.calls.map((c) => c[2]);
     const farRadii = farS.circle.mock.calls.map((c) => c[2]);
     expect(baseRadii).toContain(ARMY_CHIP_GEOMETRY.selectRingOuter);
+    expect(base.circle.mock.calls.map((call) => call[2])).toEqual([
+      ARMY_CHIP_GEOMETRY.moraleRadius,
+      ARMY_CHIP_GEOMETRY.moraleRadius,
+      ARMY_CHIP_GEOMETRY.moraleRadius,
+    ]);
     expect(farRadii).toContain(ARMY_CHIP_GEOMETRY.selectRingOuterFar);
     expect(ARMY_CHIP_GEOMETRY.selectRingOuterFar).toBeGreaterThan(
       ARMY_CHIP_GEOMETRY.selectRingOuter,
@@ -359,16 +546,199 @@ describe('drawArmyChip 幾何（M6-V8 §4.2）', () => {
 });
 
 describe('createArmyChip（M6-V4 §3.4 ＋ M6-V8 V8D14 底板）', () => {
-  it('container 內建 Graphics＋plate＋label 三個子物件', () => {
+  it('runtime update draws original layered infantry at near/mid, but far retains only contact shadow and banner', () => {
+    const part = createArmyChip();
+    const gfx = armyGroup(part, 'armyBody').children[0] as Graphics;
+    const fill = vi.spyOn(gfx, 'fill');
+    const ellipse = vi.spyOn(gfx, 'ellipse');
+    const poly = vi.spyOn(gfx, 'poly');
+    const palette = ARMY_FORMATION_PALETTE;
+    const counts = (color: number) =>
+      fill.mock.calls.filter((call) => (call[0] as { color?: number })?.color === color).length;
+    part.update(props({ stage: 'near' }));
+    expect(counts(palette.helmetLight)).toBe(5);
+    expect(counts(palette.face)).toBe(5);
+    expect(counts(palette.armor)).toBeGreaterThanOrEqual(10);
+    expect(counts(palette.armorShade)).toBeGreaterThanOrEqual(15);
+    expect(ellipse).toHaveBeenCalledWith(11, -1, 15, 3.5);
+    // The miniature stays inside the original fixed picking rectangle; label plate starts at y1.
+    const infantry = poly.mock.calls.map((call) => call[0] as number[]).slice(1, 41);
+    for (const points of infantry)
+      for (let i = 0; i < points.length; i += 2) {
+        expect(points[i]!).toBeGreaterThanOrEqual(-ARMY_CHIP_GEOMETRY.hitPadding);
+        expect(points[i]!).toBeLessThanOrEqual(
+          ARMY_CHIP_GEOMETRY.flagWidthLarge + ARMY_CHIP_GEOMETRY.hitPadding,
+        );
+        expect(points[i + 1]!).toBeLessThanOrEqual(0);
+        expect(points[i + 1]!).toBeGreaterThanOrEqual(
+          -ARMY_CHIP_GEOMETRY.poleHeight - ARMY_CHIP_GEOMETRY.hitPadding,
+        );
+      }
+    fill.mockClear();
+    poly.mockClear();
+    part.update(props({ stage: 'mid' }));
+    expect(counts(palette.helmetLight)).toBe(3);
+    for (const points of poly.mock.calls.map((call) => call[0] as number[]).slice(1, 25))
+      for (let i = 0; i < points.length; i += 2) {
+        expect(points[i]!).toBeGreaterThanOrEqual(-ARMY_CHIP_GEOMETRY.hitPadding);
+        expect(points[i]!).toBeLessThanOrEqual(
+          ARMY_CHIP_GEOMETRY.flagWidthLarge + ARMY_CHIP_GEOMETRY.hitPadding,
+        );
+        expect(points[i + 1]!).toBeLessThanOrEqual(0);
+      }
+    fill.mockClear();
+    part.update(props({ stage: 'far' }));
+    expect(counts(palette.helmetLight)).toBe(0);
+    expect(counts(palette.armor)).toBe(0);
+    expect(counts(palette.shadow)).toBe(1);
+    expect(ellipse).toHaveBeenLastCalledWith(11, -1, 11, 3.5);
+  });
+  it('container orders leader below body and movable plate with text and morale pips', () => {
     const part = createArmyChip();
     expect(part.container.children).toHaveLength(3);
+    expect(part.container.children.map((child) => child.label)).toEqual([
+      'armyPlateLeader',
+      'armyBody',
+      'armyPlate',
+    ]);
     expect(part.container.children[0]).toBeInstanceOf(Graphics);
-    expect(part.container.children[1]).toBeInstanceOf(Graphics);
+    expect(armyGroup(part, 'armyBody').children[0]).toBeInstanceOf(Graphics);
+    expect(armyGroup(part, 'armyPlate').children[0]).toBeInstanceOf(Graphics);
+    const plateChildren = armyGroup(part, 'armyPlate').children;
+    expect(plateChildren).toHaveLength(6);
+    expect(plateChildren[1]).toBeInstanceOf(BitmapText);
+    expect(plateChildren[2]).toBeInstanceOf(Graphics);
+    expect(plateChildren.slice(3).map((child) => child.label)).toEqual([
+      'armyAnnotationRelation',
+      'armyAnnotationState',
+      'armyAnnotationSupply',
+    ]);
+    expect(plateChildren[3]).toBeInstanceOf(Graphics);
+    expect(plateChildren[4]).toBeInstanceOf(BitmapText);
+    expect(plateChildren[5]).toBeInstanceOf(BitmapText);
+  });
+
+  it('reports actual emitted plate leader endpoints through scale, reset, hiding and redraw', () => {
+    const part = createArmyChip();
+    const leader = part.container.children[0] as Graphics;
+    const move = vi.spyOn(leader, 'moveTo');
+    const line = vi.spyOn(leader, 'lineTo');
+    const hidden = { start: { x: 0, y: 0 }, end: { x: 0, y: 0 }, visible: false };
+    expect(part.getPlateLeader()).toEqual(hidden);
+    part.update(props({ selected: true }));
+    part.setPlateScale(2);
+    part.setPlateOffset({ x: -100, y: 10 });
+    const bounds = part.getPlateBounds()!;
+    const expected = {
+      start: { x: 0, y: 0 },
+      end: {
+        x: Math.max(-100 + bounds.x, Math.min(0, -100 + bounds.x + bounds.width)),
+        y: Math.max(10 + bounds.y, Math.min(0, 10 + bounds.y + bounds.height)),
+      },
+      visible: true,
+    };
+    expect(part.getPlateLeader()).toEqual(expected);
+    expect(expected.end).toEqual({ x: 0, y: 11 });
+    expect(move).toHaveBeenLastCalledWith(expected.start.x, expected.start.y);
+    expect(line).toHaveBeenLastCalledWith(expected.end.x, expected.end.y);
+    const copy = part.getPlateLeader();
+    copy.end.x = 999;
+    expect(part.getPlateLeader()).toEqual(expected);
+    const calls = line.mock.calls.length;
+    expect(part.setPlateOffset({ x: -100, y: 10 })).toBe(false);
+    expect(line).toHaveBeenCalledTimes(calls);
+    part.update(props({ selected: true, soldiers: 1 }));
+    const changed = part.getPlateLeader();
+    expect(line).toHaveBeenLastCalledWith(changed.end.x, changed.end.y);
+    expect(changed.end.x).toBeLessThan(expected.end.x);
+    expect(changed.end).toEqual({ x: -33, y: 11 });
+    part.setPlateOffset({ x: 0, y: 0 });
+    expect(part.getPlateLeader()).toEqual(hidden);
+    part.setPlateOffset({ x: 20, y: 20 });
+    part.update(props({ stage: 'far', selected: false }));
+    const farBounds = part.getPlateBounds()!;
+    expect(part.getPlateLeader()).toEqual({
+      start: { x: 0, y: 0 },
+      end: { x: 20 + farBounds.x, y: 20 + farBounds.y },
+      visible: true,
+    });
+    expect(leader.visible).toBe(true);
+    expect(armyGroup(part, 'armyPlate').children[1]!.visible).toBe(false);
+    part.update(props({ stage: 'near', selected: true }));
+    expect(part.getPlateLeader().visible).toBe(true);
+    part.destroy();
+    expect(part.getPlateLeader()).toEqual(hidden);
+  });
+
+  it('scales plate typography and pips independently of offset, body and hit anchors', () => {
+    const part = createArmyChip();
+    part.update(props({ selected: true }));
+    const baseline = part.getPlateBounds()!;
+    const group = armyGroup(part, 'armyPlate');
+    const body = armyGroup(part, 'armyBody');
+    const clear = vi.spyOn(body.children[0] as Graphics, 'clear');
+    const hit = part.container.hitArea;
+    part.setPlateOffset({ x: -20, y: 10 });
+    const line = vi.spyOn(part.container.children[0] as Graphics, 'lineTo');
+    expect(part.getPlateTypography()).toEqual({ fontSize: 12, scale: 1 });
+    expect(part.setPlateScale(2)).toBe(true);
+    expect(part.getPlateBounds()).toEqual({
+      x: baseline.x * 2,
+      y: baseline.y * 2,
+      width: baseline.width * 2,
+      height: baseline.height * 2,
+    });
+    expect(group.scale.x).toBe(2);
+    expect(group.scale.y).toBe(2);
+    expect(group.position).toMatchObject({ x: -20, y: 10 });
+    expect(line).toHaveBeenLastCalledWith(0, 10 + baseline.y * 2);
+    expect(clear).not.toHaveBeenCalled();
+    expect(body.scale).toMatchObject({ x: 1, y: 1 });
+    expect(part.container.position).toMatchObject({ x: 10, y: 20 });
+    expect(part.container.hitArea).toBe(hit);
+    expect(part.setPlateScale(2)).toBe(false);
+    for (const invalid of [0, -1, NaN, Infinity]) expect(part.setPlateScale(invalid)).toBe(false);
+    expect(part.getPlateTypography()).toEqual({ fontSize: 12, scale: 2 });
+    part.destroy();
+    expect(part.setPlateScale(1)).toBe(false);
+  });
+
+  it('supports fourteen CSS-pixel typography across camera/far scales and preserves scale on redraw', () => {
+    const part = createArmyChip();
+    for (const [camera, parent] of [
+      [1.25, 1],
+      [1.5, 1],
+      [0.3, 0.55],
+    ] as const) {
+      part.container.scale.set(parent);
+      part.update(props({ stage: parent === 1 ? 'near' : 'far', selected: true }));
+      const scale = 14 / (12 * camera * parent);
+      part.setPlateScale(scale);
+      const actual = part.getPlateTypography();
+      expect(actual.fontSize * actual.scale * camera * parent).toBeCloseTo(14);
+      part.setPlateOffset({ x: 7, y: -9 });
+      part.update(props({ stage: 'near', selected: true, soldiers: 1, morale: 30 }));
+      part.setBodyArt({ east: { texture: Texture.EMPTY, spec: ARMY_BODY_ART.east } });
+      part.setBodyArt({ east: { texture: Texture.WHITE, spec: ARMY_BODY_ART.east } });
+      expect(part.getPlateTypography().scale).toBe(scale);
+      expect(armyGroup(part, 'armyPlate').position).toMatchObject({ x: 7, y: -9 });
+      expect(part.getPlateBounds()!.width).toBeGreaterThanOrEqual(21 * scale);
+    }
+    part.update(props({ stage: 'far', selected: false }));
+    const scale = part.getPlateTypography().scale;
+    expect(part.getPlateBounds()).toEqual({
+      x: -0.5 * scale,
+      y: 0.5 * scale,
+      width: 13 * scale,
+      height: 16 * scale,
+    });
+    expect(armyGroup(part, 'armyPlate').children[1]!.visible).toBe(false);
+    part.destroy();
   });
 
   it('首繪必重繪（回傳 true）、container.position 依 pos 設定', () => {
     const part = createArmyChip();
-    const gfx = part.container.children[0] as Graphics;
+    const gfx = armyGroup(part, 'armyBody').children[0] as Graphics;
     const clearSpy = vi.spyOn(gfx, 'clear');
 
     const redrew = part.update(props({ pos: { x: 42, y: 84 } }));
@@ -380,7 +750,7 @@ describe('createArmyChip（M6-V4 §3.4 ＋ M6-V8 V8D14 底板）', () => {
 
   it('DoD③：只 pos 變更 → 不重繪（回傳 false、clear 不遞增），container.position 仍更新', () => {
     const part = createArmyChip();
-    const gfx = part.container.children[0] as Graphics;
+    const gfx = armyGroup(part, 'armyBody').children[0] as Graphics;
     const clearSpy = vi.spyOn(gfx, 'clear');
 
     const p = props({ pos: { x: 0, y: 0 } });
@@ -395,7 +765,7 @@ describe('createArmyChip（M6-V4 §3.4 ＋ M6-V8 V8D14 底板）', () => {
 
   it('props（除 pos 外）不變的新物件 → 冪等不重繪', () => {
     const part = createArmyChip();
-    const gfx = part.container.children[0] as Graphics;
+    const gfx = armyGroup(part, 'armyBody').children[0] as Graphics;
     const clearSpy = vi.spyOn(gfx, 'clear');
 
     const p = props();
@@ -408,7 +778,7 @@ describe('createArmyChip（M6-V4 §3.4 ＋ M6-V8 V8D14 底板）', () => {
 
   it('heading 常數（同邊）＋其餘同 → 冪等不重繪；stage 變 → 重繪', () => {
     const part = createArmyChip();
-    const gfx = part.container.children[0] as Graphics;
+    const gfx = armyGroup(part, 'armyBody').children[0] as Graphics;
     const clearSpy = vi.spyOn(gfx, 'clear');
 
     const p = props({ heading: { x: 0.6, y: -0.8 }, stage: 'mid' });
@@ -422,7 +792,7 @@ describe('createArmyChip（M6-V4 §3.4 ＋ M6-V8 V8D14 底板）', () => {
 
   it('繪製欄位真正變更 → 重繪（回傳 true、clear 遞增）', () => {
     const part = createArmyChip();
-    const gfx = part.container.children[0] as Graphics;
+    const gfx = armyGroup(part, 'armyBody').children[0] as Graphics;
     const clearSpy = vi.spyOn(gfx, 'clear');
 
     const p = props();
@@ -433,7 +803,10 @@ describe('createArmyChip（M6-V4 §3.4 ＋ M6-V8 V8D14 底板）', () => {
 
   it('label 文字：collapsedCount>0→"+n"（任何 stage）；mid→縮寫；near→精確', () => {
     const part = createArmyChip();
-    const label = part.container.children[2] as unknown as { text: string; visible: boolean };
+    const label = armyGroup(part, 'armyPlate').children[1] as unknown as {
+      text: string;
+      visible: boolean;
+    };
     part.update(props({ soldiers: 12_500, stage: 'near' }));
     expect(label.text).toBe('12,500');
     part.update(props({ soldiers: 12_500, stage: 'mid' }));
@@ -442,14 +815,14 @@ describe('createArmyChip（M6-V4 §3.4 ＋ M6-V8 V8D14 底板）', () => {
     expect(label.text).toBe('+3');
   });
 
-  it('label/plate 可見性：far 非 selected/非 collapsed → 隱藏；selected 或 collapsed → 顯示', () => {
+  it('far 普通部隊隱藏數字但保留關係底板；selected 或 collapsed 顯示數字', () => {
     const part = createArmyChip();
-    const plate = part.container.children[1] as unknown as { visible: boolean };
-    const label = part.container.children[2] as unknown as { visible: boolean };
+    const plate = armyGroup(part, 'armyPlate').children[0] as unknown as { visible: boolean };
+    const label = armyGroup(part, 'armyPlate').children[1] as unknown as { visible: boolean };
 
     part.update(props({ stage: 'far', selected: false, soldiers: 100 }));
     expect(label.visible).toBe(false);
-    expect(plate.visible).toBe(false);
+    expect(plate.visible).toBe(true);
 
     part.update(props({ stage: 'far', selected: true, soldiers: 100 }));
     expect(label.visible).toBe(true);
@@ -466,7 +839,7 @@ describe('createArmyChip（M6-V4 §3.4 ＋ M6-V8 V8D14 底板）', () => {
 
   it('washi100 底板：可見時 plateGfx 有 roundRect＋washi100 fill＋ink700 stroke', () => {
     const part = createArmyChip();
-    const plate = part.container.children[1] as Graphics;
+    const plate = armyGroup(part, 'armyPlate').children[0] as Graphics;
     const roundRect = vi.spyOn(plate, 'roundRect');
     const fill = vi.spyOn(plate, 'fill');
     const stroke = vi.spyOn(plate, 'stroke');
@@ -479,12 +852,16 @@ describe('createArmyChip（M6-V4 §3.4 ＋ M6-V8 V8D14 底板）', () => {
   it('labelStagger：底板/label 本地 y 隨 stagger 遞增（世界座標不變，V8D14）', () => {
     const step = ARMY_CHIP_GEOMETRY.plateHeight + ARMY_CHIP_GEOMETRY.platePadY;
     const part0 = createArmyChip();
-    const label0 = part0.container.children[2] as unknown as { position: { y: number } };
+    const label0 = armyGroup(part0, 'armyPlate').children[1] as unknown as {
+      position: { y: number };
+    };
     part0.update(props({ stage: 'near', labelStagger: 0 }));
     const y0 = label0.position.y;
 
     const part1 = createArmyChip();
-    const label1 = part1.container.children[2] as unknown as { position: { y: number } };
+    const label1 = armyGroup(part1, 'armyPlate').children[1] as unknown as {
+      position: { y: number };
+    };
     part1.update(props({ stage: 'near', labelStagger: 1 }));
     const y1 = label1.position.y;
 

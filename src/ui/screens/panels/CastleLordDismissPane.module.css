@@ -1,0 +1,15 @@
+.root {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.4rem;
+  justify-items: start;
+  color: var(--text-primary);
+}
+.root > button {
+  min-width: 32px;
+  min-height: max(32px, 2rem);
+  color: var(--status-danger);
+}
+.root small {
+  color: var(--text-secondary);
+}

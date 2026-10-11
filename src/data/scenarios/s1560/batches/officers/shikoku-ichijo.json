@@ -1,0 +1,210 @@
+{
+  "version": 1,
+  "region": "shikoku",
+  "_authoring": {
+    "status": "staged; not imported by production",
+    "scope": "Eight prescribed or municipally named Ichijo identities; no deceased predecessors or juvenile quota filler",
+    "sources": {
+      "ehime": "https://www.i-manabi.jp/system/regionals/regionals/ecode:2/57/view/7495",
+      "guardian": "https://www.city.sukumo.kochi.jp/sisi/013601.html",
+      "elders": "https://www.city.sukumo.kochi.jp/sisi/013001.html",
+      "coup": "https://www.city.sukumo.kochi.jp/sisi/014001.html",
+      "castles": "https://www.city.sukumo.kochi.jp/sisi/022101.html"
+    },
+    "sourceBoundaries": "Institutional secondary histories, including retrospective chronicle accounts, not independent contemporary verification of all names or lifespan years. All stats/ranks/traits are scenario design; no story-derived negative trait.",
+    "affiliationBoundaries": "1560 service at Nakamura is an explicit prescribed one-castle scenario aggregation. Later1573/1574 activity does not establish1560 direct service or garrison placement.",
+    "identityExclusions": [
+      "No Fusamoto/Fusaie/Fusafuyu (deceased predecessors)",
+      "No juvenile Naomasa or other future child used to pad the active roster",
+      "No inferred kin for the uncertain guardian; no fabricated personal names behind honorifics"
+    ]
+  },
+  "officers": [
+    {
+      "id": "off.ichijo-kanesada",
+      "name": "一條兼定",
+      "clanId": "clan.ichijo",
+      "locationCastleId": "castle.nakamura",
+      "ldr": 61,
+      "val": 48,
+      "int": 62,
+      "pol": 70,
+      "traits": [],
+      "tactics": [],
+      "rank": "shukuro",
+      "isKin": false,
+      "birthYear": 1543,
+      "deathYear": 1585
+    },
+    {
+      "id": "off.minamoto-yasumasa",
+      "name": "源康政",
+      "clanId": "clan.ichijo",
+      "locationCastleId": "castle.nakamura",
+      "ldr": 55,
+      "val": 42,
+      "int": 77,
+      "pol": 82,
+      "traits": [],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": false,
+      "birthYear": 1510,
+      "deathYear": 1580
+    },
+    {
+      "id": "off.habu-kenmotsu",
+      "name": "羽生監物",
+      "clanId": "clan.ichijo",
+      "locationCastleId": "castle.nakamura",
+      "ldr": 62,
+      "val": 55,
+      "int": 61,
+      "pol": 65,
+      "traits": [],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": false,
+      "birthYear": 1520,
+      "deathYear": 1574
+    },
+    {
+      "id": "off.doi-sosan",
+      "name": "土居宗珊",
+      "clanId": "clan.ichijo",
+      "locationCastleId": "castle.nakamura",
+      "ldr": 66,
+      "val": 52,
+      "int": 72,
+      "pol": 75,
+      "traits": [],
+      "tactics": [],
+      "rank": "karo",
+      "isKin": false,
+      "birthYear": 1500,
+      "deathYear": 1573
+    },
+    {
+      "id": "off.tamematsu-wakasa",
+      "name": "為松若狹守",
+      "clanId": "clan.ichijo",
+      "locationCastleId": "castle.nakamura",
+      "ldr": 59,
+      "val": 57,
+      "int": 57,
+      "pol": 58,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1520,
+      "deathYear": 1574
+    },
+    {
+      "id": "off.yasunami-izumi",
+      "name": "安並和泉守",
+      "clanId": "clan.ichijo",
+      "locationCastleId": "castle.nakamura",
+      "ldr": 62,
+      "val": 56,
+      "int": 58,
+      "pol": 60,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1518,
+      "deathYear": 1574
+    },
+    {
+      "id": "off.kagumi-saemon",
+      "name": "加久見左衛門尉",
+      "clanId": "clan.ichijo",
+      "locationCastleId": "castle.nakamura",
+      "ldr": 66,
+      "val": 64,
+      "int": 53,
+      "pol": 49,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1525,
+      "deathYear": 1580
+    },
+    {
+      "id": "off.eguchi-genba",
+      "name": "江口玄蕃",
+      "clanId": "clan.ichijo",
+      "locationCastleId": "castle.nakamura",
+      "ldr": 58,
+      "val": 63,
+      "int": 48,
+      "pol": 45,
+      "traits": [],
+      "tactics": [],
+      "rank": "busho",
+      "isKin": false,
+      "birthYear": 1530,
+      "deathYear": 1585
+    }
+  ],
+  "_provenance": {
+    "off.ichijo-kanesada": {
+      "birthYear": "verified",
+      "deathYear": "verified",
+      "identity": "institutional-secondary",
+      "sources": ["ehime"],
+      "note": "愛媛縣史核對1543–1585；當主與中村配置依plan14。能力、階級與1558登場均為設計值，不等同幼年承繼史實。"
+    },
+    "off.minamoto-yasumasa": {
+      "birthYear": "authored",
+      "deathYear": "authored",
+      "identity": "source-qualified",
+      "sources": ["guardian"],
+      "note": "源康政為plan14指定情境標籤；市史僅稱叔父（康政か），全名、姓氏及血緣未獨立證實。生卒、1560仕官及中村配置均為設計值，不設一門。"
+    },
+    "off.habu-kenmotsu": {
+      "birthYear": "authored",
+      "deathYear": "authored",
+      "identity": "source-qualified",
+      "sources": ["elders", "coup"],
+      "note": "羽生姓見市史家老敘述，監物依plan14核心名；不增補諱。生卒、1560仕官及中村配置均為設計值；後來政變敘述不證明1560職位。"
+    },
+    "off.doi-sosan": {
+      "birthYear": "authored",
+      "deathYear": "authored",
+      "identity": "institutional-secondary",
+      "sources": ["guardian", "coup"],
+      "note": "市史記作土居宗算；宗珊為情境通用表記，視為同一人物而非另造一人。市史質疑軍記情節；生卒、1560仕官及中村配置均為設計值，不按逸話賦予特性。"
+    },
+    "off.tamematsu-wakasa": {
+      "birthYear": "authored",
+      "deathYear": "authored",
+      "identity": "institutional-secondary",
+      "sources": ["castles", "coup"],
+      "note": "市史具名為松若狹守及較晚活動；保留官途名，不補個人諱。生卒、1560仕官及中村配置均為設計值。"
+    },
+    "off.yasunami-izumi": {
+      "birthYear": "authored",
+      "deathYear": "authored",
+      "identity": "institutional-secondary",
+      "sources": ["castles", "coup"],
+      "note": "市史具名安並和泉守及較晚活動；保留官途名，不補個人諱。生卒、1560仕官及中村配置均為設計值。"
+    },
+    "off.kagumi-saemon": {
+      "birthYear": "authored",
+      "deathYear": "authored",
+      "identity": "institutional-secondary",
+      "sources": ["coup"],
+      "note": "市史記1574起兵者加久見左衛門尉；不等同早代宗孝，不補個人諱。生卒、1560仕官及中村配置均為設計值，後期活動非1560直接仕官證據。"
+    },
+    "off.eguchi-genba": {
+      "birthYear": "authored",
+      "deathYear": "authored",
+      "identity": "institutional-secondary",
+      "sources": ["coup"],
+      "note": "市史記1574起兵者江口玄蕃；保留官途名，不補個人諱。生卒、1560仕官及中村配置均為設計值，後期活動非1560直接仕官證據。"
+    }
+  }
+}

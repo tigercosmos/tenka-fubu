@@ -3,6 +3,7 @@ import type { MapGraph, MapGraphNode } from '@core/state/mapGraph';
 import type { CastleId, DistrictId, MapNodeId, RoadEdgeId } from '@core/state/ids';
 import { SpatialCullIndex, lodModeForScale, shouldShowDetailLabels } from '@ui/map/lod';
 import {
+  ARMY_FORMATION_PALETTE,
   drawArmyChip,
   formatArmyTroops,
   layoutArmyStacks,
@@ -13,6 +14,11 @@ import { siegeRotation } from '@ui/map/sceneParts/siegeMarker';
 import { makeRec } from './sceneParts/recordingGraphics';
 
 describe('M4 map helpers', () => {
+  it('錄製 ellipse 的真實 Pixi 參數並保留 fluent chaining', () => {
+    const { rec, g } = makeRec();
+    expect(g.ellipse(11, -1, 12, 3.6)).toBe(g);
+    expect(rec.argsOf('ellipse')).toEqual([[11, -1, 12, 3.6]]);
+  });
   it('部隊旗標格式化萬位兵數並將士氣映射成三段燈號', () => {
     expect(formatArmyTroops(9_999)).toBe('9,999');
     expect(formatArmyTroops(12_500)).toBe('12,500');
@@ -28,7 +34,7 @@ describe('M4 map helpers', () => {
       morale: 80,
       corps: false,
       // M6-V8：drawArmyChip 契約擴充（ArmyChipProps 新增必填欄位）。此處以最小組合驗證旗面＋士氣：
-      // friendly 於 near 時＝旗面(1 poly) ＋ 友軍靛藍雙環(2 circle) ＋ 三點士氣 pip(3 circle)。
+      // near 保留旗面與三點士氣；友軍雙環位於步兵之前的地面平面。
       status: 'holding',
       foodDays: 20,
       relation: 'friendly',
@@ -37,8 +43,21 @@ describe('M4 map helpers', () => {
       stage: 'near',
       labelStagger: 0,
     });
-    expect(rec.countOf('circle')).toBe(5); // 友軍雙環 2 ＋ 士氣 pip 3
-    expect(rec.countOf('poly')).toBe(1); // 旗面（corps false → 無腰帶；friendly → 無菱形/尾角）
+    expect(rec.countOf('circle')).toBe(3); // 三點士氣 pip，不以步兵取代士氣通道
+    expect(rec.countOf('poly')).toBe(41); // 旗面 1 ＋ 五名步兵各 8 個面
+    expect(rec.argsOf('ellipse')).toEqual([
+      [11, -1, 15, 3.5], // 地面陰影
+      [11, -1, 12, 3.6], // 友軍外環
+      [11, -1, 9, 2.4], // 友軍內環
+    ]);
+    const firstFace = rec.calls.findIndex(
+      (call) =>
+        call[0] === 'fill' && (call[1] as { color?: number }).color === ARMY_FORMATION_PALETTE.face,
+    );
+    expect(firstFace).toBeGreaterThan(0);
+    for (const [index, call] of rec.calls.entries()) {
+      if (call[0] === 'ellipse') expect(index).toBeLessThan(firstFace);
+    }
   });
 
   it('路徑區分陸路、敵境與海路', () => {

@@ -74,6 +74,7 @@ test.describe('M6-V11 visual quality gates', () => {
         'territory',
         'roads',
         'nodeMarkers',
+        'actorBodies',
         'armies',
         // V9 moved castle labels into nameplates: province labels are overview-only.
         // docs/design/m6-v9-hud-readability.md §2.3; m6-v9b-map-plates.md §2.7.

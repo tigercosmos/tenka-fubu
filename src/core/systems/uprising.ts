@@ -4,6 +4,8 @@ import { hasFacility, hasPolicy } from '../domestic';
 import type { District, GameState } from '../state/gameState';
 import type { GameEvent } from '../state/events';
 import { traitModifier } from '../traits';
+import { getStance } from './pathfinding';
+import { armyPhysicalLeg } from './armyReroute';
 
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
@@ -18,29 +20,41 @@ function administratorInt(state: Readonly<GameState>, district: Readonly<Distric
 function monthlySecurityDelta(state: Readonly<GameState>, district: Readonly<District>): number {
   const castle = state.castles[district.castleId];
   if (!castle) return 0;
-  let delta = BAL.conscriptSecurityDelta[castle.conscriptPolicy];
+  let conscription = BAL.conscriptSecurityDelta[castle.conscriptPolicy];
   if (castle.conscriptPolicy === 'high' && hasPolicy(state, district.ownerClanId, 'pol.heinobunri'))
-    delta = 0;
-  delta += Math.floor(administratorInt(state, district) / BAL.securityIntDivisor);
-  if (hasFacility(castle, 'fac.jisha')) delta += BAL.facTempleSecurity;
-  if (hasPolicy(state, district.ownerClanId, 'pol.jishahogo')) delta += BAL.polJishahogoSecurityAdd;
+    conscription = 0;
+  const contributions: number[] = [
+    conscription,
+    Math.floor(administratorInt(state, district) / BAL.securityIntDivisor),
+  ];
+  if (hasFacility(castle, 'fac.jisha')) contributions.push(BAL.facTempleSecurity);
+  if (hasPolicy(state, district.ownerClanId, 'pol.jishahogo'))
+    contributions.push(BAL.polJishahogoSecurityAdd);
   if (hasPolicy(state, district.ownerClanId, 'pol.meyasubako'))
-    delta += BAL.polMeyasubakoSecurityAdd;
-  if (hasPolicy(state, district.ownerClanId, 'pol.goningumi')) delta += BAL.polGoningumiSecurityAdd;
+    contributions.push(BAL.polMeyasubakoSecurityAdd);
+  if (hasPolicy(state, district.ownerClanId, 'pol.goningumi'))
+    contributions.push(BAL.polGoningumiSecurityAdd);
   const administratorId = district.stewardId ?? castle.lordId;
   const administrator = administratorId === null ? undefined : state.officers[administratorId];
-  if (administrator) delta += traitModifier(administrator, 'dev.securityAdd').add;
+  if (administrator) contributions.push(traitModifier(administrator, 'dev.securityAdd').add);
   if (
     Object.values(state.armies).some(
-      (army) => army.posNodeId === district.id && army.clanId !== district.ownerClanId,
+      (army) =>
+        army.posNodeId === district.id &&
+        armyPhysicalLeg(army) === null &&
+        getStance(state, army.clanId, district.ownerClanId) === 'war',
     )
   )
-    delta -= BAL.securityEnemyArmyDelta;
+    contributions.push(-BAL.securityEnemyArmyDelta);
   if (Object.values(state.sieges).some((siege) => siege.castleId === district.castleId))
-    delta -= BAL.securitySiegeDelta;
-  return district.publicOrder > BAL.securityHighOrderThreshold && delta > 0
-    ? Math.floor(delta / BAL.securityHighOrderDampDivisor)
-    : delta;
+    contributions.push(-BAL.securitySiegeDelta);
+  const positive = contributions.reduce((sum, value) => sum + Math.max(0, value), 0);
+  const negative = contributions.reduce((sum, value) => sum + Math.min(0, value), 0);
+  return (
+    negative +
+    positive /
+      (district.publicOrder > BAL.securityHighOrderThreshold ? BAL.securityHighOrderDampDivisor : 1)
+  );
 }
 
 export function monthlyUprising(state: GameState): GameEvent[] {
@@ -65,7 +79,7 @@ export function monthlyUprising(state: GameState): GameEvent[] {
       continue;
     }
     district.publicOrder = clamp(
-      district.publicOrder + monthlySecurityDelta(state, district),
+      Math.round(district.publicOrder + monthlySecurityDelta(state, district)),
       0,
       100,
     );

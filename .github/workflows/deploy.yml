@@ -1,38 +1,52 @@
 # 部署 workflow（規格：plan/01-architecture.md §3.8.2、01-A5）。
-# push main 後 build 產物部署至 GitHub Pages；VITE_BASE 由 repo 名動態注入，改 repo 名不需改本檔。
+# 僅同 repo main push 的 CI 成功後部署其已驗證 SHA（17 §3.11.1）。
+# workflow_run 可能帶寫入權限；拒絕 PR／fork，build 不持有 Pages／OIDC 權限。
+# VITE_BASE 由 repo 名動態注入，改 repo 名不需改本檔。
 name: Deploy
 
 on:
-  push:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
     branches: [main]
-  workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
 
 jobs:
   build:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci
       - run: npm run build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
+      - run: npm run validate:bundle
       - uses: actions/upload-pages-artifact@v3
         with: { path: dist }
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    # Failed/skipped upstream CI must not cancel an eligible Pages deployment.
+    concurrency:
+      group: pages
+      cancel-in-progress: true
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

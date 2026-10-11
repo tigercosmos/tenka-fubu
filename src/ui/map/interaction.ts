@@ -264,8 +264,7 @@ export class MapInteraction {
 
   /**
    * pointermove（世界座標＋原始螢幕座標）：發 `nodeHover`（含 `screenX`/`screenY` 供 React tooltip
-   * 定位，§6.1「跟隨游標右下 16px」由 React 端套用偏移）。命中部隊時尚無專屬 hover 事件（04 §4.3
-   * 僅定義 `armyClick`，見檔頭 army 分支說明），比照「移出」處理（`nodeKind`/`id` 皆為 `null`）。
+   * 定位，§6.1「跟隨游標右下 16px」由 React 端套用偏移）。idle 部隊命中另發 `armyHover`。
    */
   handleMove(worldX: number, worldY: number, screenX: number, screenY: number): void {
     const hit = this.hitTest(worldX, worldY, this.mode === 'idle');
@@ -274,7 +273,11 @@ export class MapInteraction {
       if (id === this.lastMarchHoverId) return;
       this.lastMarchHoverId = id;
     }
-    if (hit === null || hit.kind === 'army') {
+    if (hit?.kind === 'army') {
+      this.opts.emit({ type: 'armyHover', id: hit.id, screenX, screenY });
+      return;
+    }
+    if (hit === null) {
       this.opts.emit({ type: 'nodeHover', nodeKind: null, id: null, screenX, screenY });
       return;
     }
@@ -304,6 +307,8 @@ export class MapInteraction {
  * `useMapEvents` 訂閱」）。省略的 handler 該事件即無操作。
  */
 export interface MapEventHandlers {
+  onArmyHover?: (e: Extract<MapRendererEvent, { type: 'armyHover' }>) => void;
+  onHoverEnd?: () => void;
   onNodeHover?: (e: Extract<MapRendererEvent, { type: 'nodeHover' }>) => void;
   onNodeClick?: (e: Extract<MapRendererEvent, { type: 'nodeClick' }>) => void;
   onArmyClick?: (e: Extract<MapRendererEvent, { type: 'armyClick' }>) => void;
@@ -327,6 +332,12 @@ export function useMapEvents(handlers: MapEventHandlers): MapEventHandler {
   return useCallback<MapEventHandler>((event) => {
     const h = handlersRef.current;
     switch (event.type) {
+      case 'armyHover':
+        h.onArmyHover?.(event);
+        break;
+      case 'hoverEnd':
+        h.onHoverEnd?.();
+        break;
       case 'nodeHover':
         h.onNodeHover?.(event);
         break;

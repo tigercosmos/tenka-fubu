@@ -13,7 +13,7 @@ import { REJECT_REASONS } from '../../src/core/commands/reasons';
 import type { Command, CommandEnvelope } from '../../src/core/commands/types';
 import { validateCommand } from '../../src/core/commands/validate';
 import type { EvtCommandRejected, GameEvent } from '../../src/core/state/events';
-import type { CastleId } from '../../src/core/state/ids';
+import type { BattleId, CastleId } from '../../src/core/state/ids';
 import { makeLoopTestState, TEST_CASTLE, TEST_CLAN } from '../helpers/loopState';
 
 function grantGold(gold: number): Command {
@@ -31,9 +31,15 @@ function grantFood(food: number, castleId: string): Command {
 function skipDays(days: number): Command {
   return { type: 'debugSkipDays', clanId: TEST_CLAN, days };
 }
-/** 未登錄 handler 之佇列指令（僅供拒絕路徑測試；validateCommand 於讀取欄位前即拒，故形狀不需完整）。 */
+/** Battle subloop commands never have strategy-queue handlers (03 §3.3.4). */
 function unregisteredCmd(): Command {
-  return { type: 'createCorps', clanId: TEST_CLAN } as unknown as Command;
+  return {
+    type: 'battleDelegate',
+    clanId: TEST_CLAN,
+    battleId: 'battle.unregistered' as BattleId,
+    unitId: 'all',
+    enabled: true,
+  };
 }
 function env(seq: number, command: Command, issuedDay = 0): CommandEnvelope {
   return { seq, issuedDay, command };

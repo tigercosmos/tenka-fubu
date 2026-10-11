@@ -36,7 +36,7 @@ export function castleMaxSoldiers(state: Readonly<GameState>, castle: Readonly<C
     : 1;
   const base = castle.tier === 'main' ? BAL.castleBaseSoldiersMain : BAL.castleBaseSoldiersBranch;
   const barracks = hasFacility(castle, 'fac.heisha') ? BAL.facBarracksSoldierCap : 0;
-  return base + Math.floor(population * BAL.soldiersPerPop * policyMult) + barracks;
+  return base + Math.floor(population * BAL.soldiersPerPop) * policyMult + barracks;
 }
 
 export function fiefTaxRate(state: Readonly<GameState>, clanId: ClanId): number {
@@ -74,11 +74,12 @@ export function policyUpkeep(state: Readonly<GameState>, clanId: ClanId): number
 export function castleCommerceMultiplier(
   state: Readonly<GameState>,
   castle: Readonly<Castle>,
+  incomeClanId: ClanId = castle.ownerClanId,
 ): number {
   let multiplier = 1;
   if (hasFacility(castle, 'fac.ichi')) multiplier *= 1 + BAL.facMarketIncomeBonus;
   if (hasFacility(castle, 'fac.minato')) multiplier *= 1 + BAL.facPortIncomeBonus;
-  if (hasPolicy(state, castle.ownerClanId, 'pol.rakuichi')) multiplier *= BAL.polRakuichiIncomeMult;
+  if (hasPolicy(state, incomeClanId, 'pol.rakuichi')) multiplier *= BAL.polRakuichiIncomeMult;
   return multiplier;
 }
 
@@ -89,7 +90,7 @@ export function monthlyGoldIncome(state: Readonly<GameState>, clanId: ClanId): n
     const castle = state.castles[district.castleId];
     if (!castle) continue;
     const tax = district.stewardId === null ? 1 : fiefTaxRate(state, clanId);
-    commerce += district.commerce * tax * castleCommerceMultiplier(state, castle);
+    commerce += district.commerce * tax * castleCommerceMultiplier(state, castle, clanId);
   }
   let fixed = 0;
   for (const castle of Object.values<Castle>(state.castles)) {
@@ -102,6 +103,33 @@ export function monthlyGoldIncome(state: Readonly<GameState>, clanId: ClanId): n
     }
   }
   if (hasPolicy(state, clanId, 'pol.nanban')) fixed += BAL.polNanbanGold;
+  return Math.floor(commerce * BAL.goldPerCommerce + fixed);
+}
+
+/** Regional income excludes the clan-wide flat policy grant; shared by corps accounting and reserves. */
+export function monthlyGoldIncomeForCastles(
+  state: Readonly<GameState>,
+  castleIds: readonly CastleId[],
+): number {
+  const included = new Set(castleIds);
+  let commerce = 0;
+  let fixed = 0;
+  for (const district of Object.values<District>(state.districts)) {
+    if (!included.has(district.castleId) || district.uprising !== null) continue;
+    const castle = state.castles[district.castleId];
+    if (!castle || district.ownerClanId !== castle.ownerClanId) continue;
+    const tax = district.stewardId === null ? 1 : fiefTaxRate(state, castle.ownerClanId);
+    commerce += district.commerce * tax * castleCommerceMultiplier(state, castle);
+  }
+  for (const id of included) {
+    const castle = state.castles[id];
+    if (
+      castle &&
+      facilityIsActive(state, castle, 'fac.nanbanji') &&
+      hasPolicy(state, castle.ownerClanId, 'pol.nanban')
+    )
+      fixed += BAL.facNanbanGold;
+  }
   return Math.floor(commerce * BAL.goldPerCommerce + fixed);
 }
 

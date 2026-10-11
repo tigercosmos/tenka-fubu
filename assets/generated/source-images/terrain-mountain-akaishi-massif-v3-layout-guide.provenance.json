@@ -1,0 +1,23 @@
+{
+  "license": "project-original",
+  "asset": "assets/generated/source-images/terrain-mountain-akaishi-massif-v3-layout-guide.png",
+  "generator": "playwright.chromium",
+  "mode": "headless-render",
+  "purpose": "spatial-layout-reference-not-generated-art",
+  "capturedDate": "2026-10-11",
+  "sha256": "83545db94b8019f83550c855afc0e98e5f308ba5009cb362459c210097ef010f",
+  "dimensions": {
+    "width": 228,
+    "height": 413
+  },
+  "bytes": 187998,
+  "referencedImages": [],
+  "sourceScreenshot": "/tmp/tenka-akaishi-oi-contact-before-native-20261011/terrain-akaishi-layout-Aka-0da73--roads-and-static-resources-chromium/akaishi-close-mass.png",
+  "captureTest": "e2e/terrain-akaishi-layout.spec.ts",
+  "sourceAsset": "public/assets/textures/terrain-mountain-akaishi-massif-v2.png",
+  "scenario": "s1560",
+  "clan": "clan.oda",
+  "seed": 15600519,
+  "camera": "close",
+  "prompt": "Actual direct Playwright headless Chromium screenshot of the accepted Akaishi V2 terrain at the close camera. Spatial-layout reference only: the internal blue Oi river indicates the required valley floor; no labels, roads, castle, water paint or HUD may be copied into generated art."
+}

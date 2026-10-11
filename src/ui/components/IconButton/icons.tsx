@@ -26,7 +26,19 @@ export type IconName =
   | 'handshake'
   | 'search'
   | 'pin'
-  | 'book';
+  | 'book'
+  | 'army'
+  | 'road'
+  | 'bridge'
+  | 'terrain'
+  | 'layer'
+  | 'supply'
+  | 'morale'
+  | 'siege'
+  | 'warning'
+  | 'blocked'
+  | 'eye'
+  | 'eye-off';
 
 const paths: Record<IconName, React.ReactNode> = {
   close: <path d="M5 5l14 14M19 5L5 19" />,
@@ -88,9 +100,60 @@ const paths: Record<IconName, React.ReactNode> = {
   ),
   pin: <path d="M12 22s7-7 7-13a7 7 0 10-14 0c0 6 7 13 7 13z" />,
   book: <path d="M3 5c4-2 7-1 9 1v15c-2-2-5-3-9-1zm18 0c-4-2-7-1-9 1v15c2-2 5-3 9-1z" />,
+  // Original geometry: military glyphs use pointed standards and grouped shields,
+  // map glyphs use open terrain contours, status glyphs retain recognizable outlines.
+  army: (
+    <>
+      <path d="M12 3v8m0-7h7l-2 3h-5M3 13h5v4l-2.5 3L3 17zm6 0h6v5l-3 3-3-3zm7 0h5v4l-2.5 3-2.5-3z" />
+    </>
+  ),
+  road: <path d="M4 21C3 14 12 14 9 3m11 18c-1-7-10-7-7-18M12 19v-2m0-6V9m-1-4V3" />,
+  bridge: (
+    <path d="M3 9h18M4 9V5m5 4V5m6 4V5m5 4V5M4 9v11m16-11v11M4 16c4-8 12-8 16 0M3 21h4m10 0h4" />
+  ),
+  terrain: <path d="M3 20l7-14 4 8 3-5 4 11zM8 10l2 2 2-2M14 20l-3-6" />,
+  layer: <path d="M3 8l9-5 9 5-9 5zM3 12l9 5 9-5M3 16l9 5 9-5" />,
+  supply: (
+    <>
+      <path d="M4 6h13v11H4zM8 6v11m5-11v11M3 17h18l-2-7h-2" />
+      <circle cx="7" cy="20" r="1" />
+      <circle cx="18" cy="20" r="1" />
+    </>
+  ),
+  morale: <path d="M6 21V4m0 1l8-2 5 5-5 5-8-2M13 18v-5m-3 3l3-3 3 3" />,
+  siege: <path d="M3 21V9h3V6h3v3h3V6h3v3h3v12M3 21h15M8 21v-5h5v5M21 4v11m-3-8l3-3M18 14l3 3" />,
+  warning: <path d="M12 3L3 21h18zM12 9v5m0 3v1" />,
+  blocked: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M6 6l12 12" />
+    </>
+  ),
+  eye: (
+    <>
+      <path d="M3 12c4-9 14-9 18 0-4 9-14 9-18 0z" />
+      <circle cx="12" cy="12" r="3" />
+    </>
+  ),
+  'eye-off': (
+    <path d="M3 3l18 18M8 6c5-2 9 0 13 6l-3 4M15 18c-5 1-8-1-12-6l3-4M10 10a3 3 0 004 4" />
+  ),
+};
+
+/** Reduced detail for explicit 16px consumers; no shared IDs or external sprite state. */
+const compactPaths: Partial<Record<IconName, React.ReactNode>> = {
+  army: <path d="M12 3v8m0-7h7l-2 3h-5M3 13h7v5l-3.5 3L3 18zm11 0h7v5l-3.5 3-3.5-3z" />,
+  road: <path d="M4 21C3 14 12 14 9 3m11 18c-1-7-10-7-7-18" />,
+  terrain: <path d="M3 20l7-14 4 8 3-5 4 11z" />,
+  supply: <path d="M4 5h13v12H4zM10 5v12M3 17h18l-2-7h-2M6 20h2m9 0h2" />,
 };
 
 export function Icon({ name, ...props }: { name: IconName } & SVGProps<SVGSVGElement>) {
+  const compact =
+    props.width === 16 ||
+    props.width === '16' ||
+    props.style?.width === 16 ||
+    props.style?.width === '16px';
   return (
     <svg
       viewBox="0 0 24 24"
@@ -102,7 +165,7 @@ export function Icon({ name, ...props }: { name: IconName } & SVGProps<SVGSVGEle
       aria-hidden="true"
       {...props}
     >
-      {paths[name]}
+      {compact ? (compactPaths[name] ?? paths[name]) : paths[name]}
     </svg>
   );
 }

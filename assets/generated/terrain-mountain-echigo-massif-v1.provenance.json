@@ -1,0 +1,35 @@
+{
+  "license": "project-original",
+  "asset": "public/assets/textures/terrain-mountain-echigo-massif-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sourceImage": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-3c849b82-9258-4b3a-aa71-f6f265c3c2d4.png",
+  "sourceImageSha256": "74089743b3a29285d258c4a668fc8406fa6272b8990cf67f66ffbea6635f588c",
+  "sha256": "74089743b3a29285d258c4a668fc8406fa6272b8990cf67f66ffbea6635f588c",
+  "dimensions": { "width": 1091, "height": 1442 },
+  "bytes": 2211750,
+  "alphaInspection": {
+    "zeroAlphaPixels": 774707,
+    "partialAlphaPixels": 798414,
+    "opaquePixels": 101,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 26,
+    "y": 20,
+    "width": 1047,
+    "height": 1407
+  },
+  "processing": "Copied final built-in output byte-for-byte; no raster edit, resize, crop, stretch or rotation.",
+  "generationHistory": {
+    "initialOutputAdopted": false,
+    "portraitEditNumLastImagesToInclude": 1,
+    "referenceRole": "The preceding original generated landscape was the edit target; it is not adopted or referenced by runtime.",
+    "initialPrompt": "Use case: stylized-concept. Asset type: ORIGINAL transparent 2.5D mountain massif cutout for a Japanese Sengoku strategy game map. Create a single connected Echigo-inspired wooded mountain landform, not a scene or backdrop. Camera high oblique bird's-eye strategic map view, orthographic-like, no horizon. Mountain painted silhouette height to width around 4:3, broad continuous irregular wooded shoulders (NOT a narrow upright strip), predominant diagonal ridge runs from upper-left northwest to lower-right southeast. Several unequal connected rocky peaks, two distinct lower saddles, asymmetric side ridges merging into rounded forested foothills. Subtle muted moss/olive foliage, gray-brown exposed stone, warm northwest highlights and cool southeast shadows. Fine realistic painterly terrain texture, restrained saturation, coherent relief readable at small map scale. Entire landform contained with transparent margins, soft natural scattered-tree edge blending without large ground rectangle or oval pedestal. Actual alpha transparency outside landform. No castle, road, river, buildings, soldiers, text, labels, interface, symbols, snow field, dramatic clouds, sky, checkerboard, drop-shadow disc. One integrated ORIGINAL geological mountain mass, no repeated identical cones, no copying existing commercial artwork."
+  },
+  "prompt": "Edit the generated original mountain asset. Preserve its realistic painterly gray-brown rock, olive wooded foothills, connected asymmetrical peaks, northwest highlights, transparent alpha and no extra objects. Change ONLY the landform composition to a TALL PORTRAIT connected massif: visible mountain silhouette WIDTH divided by HEIGHT approximately0.75 (three units wide and four units tall). This is crucial for an authored167-by221 mountain footprint. The principal chain runs steeply diagonally from upper-left to lower-right, slope about1.5 vertically per1 horizontally, NOT a shallow horizontal mountain chain. Broad continuous wooded shoulders fill the full portrait silhouette, lower saddles and several unequal peaks connected naturally. All peaks and foothills contained with transparent margin. No stretching or rotating the previous raster; recompose a plausible original geological mountain system in the requested portrait silhouette. No ground disc/rectangle, horizon, clouds, text, symbols, roads, river or buildings. Actual transparent background. Portrait canvas."
+}

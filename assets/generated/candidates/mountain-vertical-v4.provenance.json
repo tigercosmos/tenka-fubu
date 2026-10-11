@@ -1,0 +1,28 @@
+{
+  "asset": "assets/generated/candidates/mountain-vertical-v4.png",
+  "status": "candidate-not-adopted",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-09",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "bytes": 1609834,
+  "sha256": "76219a2156e5a9785c93112fc4deb05592c59eefe31e1d06f911caa33be3cb8c",
+  "dimensions": {
+    "width": 1024,
+    "height": 1536
+  },
+  "alphaInspection": {
+    "zeroAlphaPixels": 1255621,
+    "partialAlphaPixels": 317243,
+    "opaquePixels": 0
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 359,
+    "y": 48,
+    "width": 339,
+    "height": 1381
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: original transparent 2.5D woodland mountain ridge for a Japanese historical grand-strategy map.\nSubject: one connected natural mountain system, with five irregular rounded rocky summits at different heights, broad low wooded shoulders, two subtle side spurs and shallow valleys. The ridge gently bends in an S, not a straight row of identical peaks. Broad-leaf forest canopy blankets lower slopes as continuous tiny irregular foliage, NOT ranks of tall triangular fir trees. Bare olive-gray rock only near higher summit crests.\nStyle: finely painted realistic miniature terrain, believable erosion and irregular contours, subdued sage/olive foliage, gray-brown stone. Fixed high oblique overhead camera around55degrees, upper-left/northwest soft daylight, southeast shadow. Coherent soft low foothills fade to truly transparent margins. No floating island or flat base plate. Entire terrain visible with generous transparent margin.\nAvoid: serrated sawtooth comb, identical conical mountains, huge pine trees, repeating tree rows, polygon slabs, snow, dramatic dark rim, red/green edge fringe, scenic background, sky, horizon, water, roads, castle, people, UI, text, logos, watermark. New fictional terrain, no copied existing game art.\nComposition: SQUARE transparent canvas. One VERY SLENDER north-south ridge, its visible footprint 3.6 to 4 times TALLER than wide. The ridge runs down the CENTER COLUMN, occupying only the central 22 percent of canvas width and 88 percent of canvas height. Keep the leftmost 35 percent and rightmost 35 percent of the entire image EMPTY TRANSPARENT. Six unequal rounded rocky crests connect lengthwise down this slender chain, gentle bends, low densely wooded slopes. No broad sideways spurs, no diagonal drift across the canvas. Same northwest lighting, high overhead camera. Generous empty margins, no cropping."
+}

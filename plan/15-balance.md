@@ -46,7 +46,7 @@
 
 ### 3.1 主表的組織與讀法
 
-- §5.1 主表依**機制擁有文件（00 §7）**分成 15 個子表，便於閱讀；每子表內按常數名字母序。
+- §5.1 主表依**機制擁有文件（00 §7）**分成 14 個子表，便於閱讀；每子表內按常數名字母序。
 - 每列欄位：`常數名`｜`定案值`｜`單位`｜`語意`｜`出處`｜`備註`。`備註` 欄的 `⚠` 表示存在跨文件衝突/重名，
   其裁決見 §5.2 並標注對應 19 §3.13 的 E 編號。
 - **物件／表格型常數**（`rankTroopCap`、`courtRankTable`…）以父名列一列，逐階值見 §5.5 或擁有文件正文。
@@ -157,11 +157,11 @@ export type BalConfig = typeof BAL;
 
 ## 5. 演算法與公式
 
-### 5.1 BAL 常數主表（542 項模擬層常數，依擁有文件分子表）
+### 5.1 BAL 常數主表（614 項登錄，依擁有文件分子表）
 
 > 定案值即最終值。備註 `⚠` 者見 §5.2 裁決（標注 19 §3.13 的 E 編號）。物件/表格常數逐階值見 §5.5。
 
-#### 經濟・郡開發・知行・施設・徵兵・政策・治安一揆（05）（58）
+#### 經濟・郡開發・知行・施設・徵兵・政策・治安一揆（05）（88）
 
 | 常數 `BAL.*` | 定案值 | 單位 | 語意 | 出處 | 備註 |
 |---|---|---|---|---|---|
@@ -174,6 +174,7 @@ export type BalConfig = typeof BAL;
 | `castleBaseSoldiersMain` | 1000 | 人 | 本城最大兵力的城格基礎值 | 05 §3.5 |  |
 | `castleFoodCapBranch` | 30000 | 石 | 支城兵糧容量基準(未含藏加成) | 05 §3.1.2 |  |
 | `castleFoodCapMain` | 60000 | 石 | 本城兵糧容量基準(未含藏加成) | 05 §3.1.2 |  |
+| `castleStarveMoraleDaily` | 2 | 點/日(士氣) | 非圍城糧盡時城士氣的每日扣值 | 05 §3.1.3；15 §5.2 表 C | 與圍城糧盡路徑互斥 |
 | `conscriptPolicyFactor` | 低0.5/中1.0/高1.8 | 係數(無量綱) | 徵兵方針對徵兵量的乘數 | 05 §3.5 |  |
 | `conscriptPopFactor` | 低1.1/中1.0/高0.5 | 係數(無量綱) | 徵兵方針對人口自然成長的係數 | 05 §3.2.4 |  |
 | `conscriptRate` | 0.005 | 比率(/月) | 每月可徵兵量對郡有效人口的基準比例 | 05 §3.5 |  |
@@ -185,11 +186,13 @@ export type BalConfig = typeof BAL;
 | `devScalePop` | 3.0 | 係數(無量綱) | 人口屬性的開發尺度係數(石高 1.0) | 05 §3.2.3 |  |
 | `directDevFactor` | 0.8 | 係數(無量綱) | 直轄郡的開發管理係數 | 05 §3.2.3 | ⚠ E-（17）17 §3.4.2 之 0.6 須改為 0.8 |
 | `facBarracksConscriptBonus` | 0.25 | 係數(徵兵加成) | 兵舍施設:該城每月徵兵量 ×(1+此值) | 05 §3.4.2 |  |
+| `facDiplomacyWorkGainMult` | 1.1 | 係數(無量綱) | 評定所:本勢力外交工作信用及朝廷／幕府友好度月增益乘數 | 05 §3.4.2；08 §5.2 | 已落成且啟用；全勢力至多一座生效；不改費用 |
 | `facBarracksSoldierCap` | 500 | 人 | 兵舍施設:城最大兵力加值 | 05 §3.4.2 |  |
 | `facFortDurability` | 300 | 點(耐久) | 砦:城耐久上限加值 | 05 §3.4.2 |  |
 | `facMarketIncomeBonus` | 0.15 | 係數(收入加成) | 市:該城轄郡商業收入 ×(1+此值) | 05 §3.4.2 |  |
 | `facNanbanGold` | 80 | 貫/月 | 南蠻寺:每月固定金錢收入 | 05 §3.4.2 |  |
 | `facPortIncomeBonus` | 0.20 | 係數(收入加成) | 湊:該城轄郡商業收入 ×(1+此值) | 05 §3.4.2 |  |
+| `facPortSeaTransportDaysMult` | 0.5 | 係數(無量綱) | 行經海路且起訖任一城有湊時，輸送隊邊日數乘數 | 05 §3.4.2、§3.6 | 速度 ×2 的倒數；非海路不套用 |
 | `facRangeGunAtkBonus` | 0.10 | 係數(攻擊加成) | 射擊場:該城鐵砲隊攻擊 ×(1+此值) | 05 §3.4.2 |  |
 | `facRiceHarvestBonus` | 0.10 | 係數(秋收加成) | 米問屋:該城秋收 ×(1+此值) | 05 §3.4.2 |  |
 | `facSmithyAtkBonus` | 0.05 | 係數(攻擊加成) | 鍛冶場:該城部隊攻擊 ×(1+此值)(套用點見07) | 05 §3.4.2 |  |
@@ -205,16 +208,41 @@ export type BalConfig = typeof BAL;
 | `harvestRate` | 0.3 | 比率(入庫比例) | 秋收時石高年產額轉為城兵糧入庫的比例 | 05 §3.1.2 | ⚠ 17 §3.4.1 之 0.8 須改為 0.3 |
 | `mainCastleSlots` | 6 | slot(數量) | 本城的城下施設可用 slot 數 | 05 §3.4.1 | ⚠ E-39：名依 05；02.facilitySlotsMain 別名（值一致） |
 | `noLordDevPol` | 30 | 政務點 | 城主缺任時直轄郡開發採用的政務基準值 | 05 §3.2.3 |  |
+| `polGoningumiSecurityAdd` | 2 | 點/月(治安) | 五人組：全郡治安月加值 | 05 §3.7.2、§3.8.1 |  |
+| `polEnkokinkoWorkGainMult` | 1.25 | 係數(無量綱) | 遠交近攻：已付外交工作信用及朝廷／幕府友好度月增益乘數 | 05 §3.7.2；08 §3.2、§5.2 | 工作勢力的當前政策；在既有上限前乘一次；不改費用 |
+| `polGoningumiUprisingChanceMult` | 0.3 | 係數(機率乘數) | 五人組：一揆判定機率乘數 | 05 §3.7.2、§3.8.2 | 乘既有治安差額機率，非固定機率 |
+| `polHeinobunriFoodMult` | 1.1 | 係數(無量綱) | 兵農分離：城駐兵維持糧乘數 | 05 §3.1.3、§3.7.2 | 不作為野戰部隊糧耗乘數 |
+| `polJishahogoSecurityAdd` | 1 | 點/月(治安) | 寺社保護：全郡治安月加值 | 05 §3.7.2、§3.8.1 |  |
+| `polJishahogoUprisingChanceMult` | 0.5 | 係數(機率乘數) | 寺社保護：一揆判定機率乘數 | 05 §3.7.2、§3.8.2 | 乘既有治安差額機率，非固定機率 |
+| `polJokashujuConscriptMult` | 1.2 | 係數(無量綱) | 城下集住：每月可徵量乘數 | 05 §3.5、§3.7.2 | 實徵量仍受城最大兵力限制 |
+| `polJokashujuPopGrowthMult` | 0.9 | 係數(無量綱) | 城下集住：人口自然成長乘數 | 05 §3.2.4、§3.7.2 | 不是當前人口的直接乘數 |
+| `polJokashujuSoldierMult` | 1.1 | 係數(無量綱) | 城下集住：城最大兵力公式的政策乘數 | 05 §3.5、§3.7.2 | 只乘人口項取 floor 後的值；城格基礎與兵舍加成不乘 |
+| `polKenchiDirectDevMult` | 1.2 | 係數(無量綱) | 檢地：直轄郡三屬性開發成長乘數 | 05 §3.2.3、§3.7.2 | 受封郡不套用此乘數 |
+| `polKenchiHarvestMult` | 1.1 | 係數(無量綱) | 檢地：秋收乘數 | 05 §3.1.2、§3.7.2 | 與受封郡上繳率加值分別套用 |
+| `polKenchiTaxBonus` | 0.05 | 比率加值(無量綱) | 檢地：受封郡上繳率加值，由 0.7 增至 0.75 | 05 §3.1.1、§3.7.2 | 加值，不是 ×1.05 |
+| `polMeyasubakoSecurityAdd` | 1 | 點/月(治安) | 目安箱：全郡治安月加值 | 05 §3.7.2、§3.8.1 | 不取代武將忠誠效果 |
+| `polRakuichiCommerceDevMult` | 1.3 | 係數(無量綱) | 樂市樂座：商業開發成長乘數 | 05 §3.2.3、§3.7.2 | 不限直轄郡；balance.ts 註解的「直轄」不作為規則 |
+| `polRakuichiIncomeMult` | 1.25 | 係數(無量綱) | 樂市樂座：全勢力商業收入乘數 | 05 §3.7.2 | 不乘政策及施設固定收入 |
+| `polSekishoCommerceDevMult` | 1.2 | 係數(無量綱) | 關所撤廢：商業開發成長乘數 | 05 §3.7.2 |  |
+| `polSekishoPopGrowthMult` | 1.5 | 係數(無量綱) | 關所撤廢：人口自然成長乘數 | 05 §3.2.4、§3.7.2 | 不是當前人口的直接乘數 |
+| `polTenmaseiTransportDaysMult` | 2/3 | 係數(無量綱) | 傳馬制：輸送隊邊日數乘數 | 05 §3.6、§3.7.2 | 速度 ×1.5 的倒數；不是速度乘數 |
+| `polTenmaseiMarchSpeedMult` | 1.1 | 係數(無量綱) | 傳馬制：陸路部隊每日行軍速度乘數 | 05 §3.7.2、04 §5.3 | 依部隊勢力的當前政策，於速度封頂前乘；海路起步不套用 |
 | `policyReadoptCooldownMonths` | 6 | 月 | 政策廢止後再次採用的冷卻月數 | 05 §3.7.1 |  |
 | `policySlotMax` | 6 | 格(數量上限) | 同時生效政策數的硬上限 | 05 §3.7.1 | ⚠ E-38：為硬上限；生效數＝min(6,1+floor(威信/300)) 動態（05）；02.maxActivePolicies=4 固定制廢 |
 | `policySlotPrestige` | 300 | 威信/格 | 每增加一政策格所需的威信量 | 05 §3.7.1 |  |
 | `polNanbanGold` | 200 | 貫/月 | 南蠻貿易政策:每月固定金錢收入 | 05 §3.7.2 |  |
 | `popGrowthBase` | 0.002 | 比率(/月) | 人口每月自然成長的基準率(再乘治安、方針等係數) | 05 §3.2.4 |  |
+| `popGrowthOrderFloor` | 0.5 | 加值(無量綱) | 人口自然成長治安因子中的基底：0.5 + publicOrder/100 | 05 §3.2.4 | 不是 clamp 的最低成長率，也不是治安門檻 |
 | `riceBuyRate` | 0.04 | 貫/石 | 米問屋買米單價(金換石) | 05 §3.4.2 |  |
 | `riceSellRate` | 0.02 | 貫/石 | 米問屋賣米單價(石換金) | 05 §3.4.2 |  |
 | `riceTradeCapMonthly` | 10000 | 石/月/城 | 每城每月米買賣交易量上限 | 05 §3.4.2 |  |
 | `securityAfterSuppress` | 45 | 點(治安) | 一揆被鎮壓後治安直接設定的值 | 05 §3.8.1 |  |
+| `securityEnemyArmyDelta` | 2 | 點/月(治安扣值) | 郡節點有敵對部隊停留時的月治安扣值 | 05 §3.8.1 | 表存正值，套用時扣除；敵對依 04 §3.9 的交戰狀態，途中部隊不計 |
+| `securityHighOrderDampDivisor` | 2 | 除數(無量綱) | 高治安時正向修正合計的減半除數 | 05 §3.8.1 | 正向合計除二，負向保留；最終治安依 02 整數寫入規則 Math.round，再夾限 |
+| `securityHighOrderThreshold` | 80 | 點(治安門檻) | 高治安正向修正減半的門檻 | 05 §3.8.1 | 條件為 publicOrder > 80，不含等於 |
+| `securityIntDivisor` | 40 | 除數(知略點) | 領主或城主知略對月治安加值的除數：floor(int/40) | 05 §3.8.1 | 受封郡取領主；直轄郡取城主 |
 | `securityOnSubjugated` | 20 | 點(治安) | 郡被制壓翻轉歸屬時的一次性治安扣減 | 05 §3.8.1 |  |
+| `securitySiegeDelta` | 3 | 點/月(治安扣值) | 所屬城被包圍時的月治安扣值 | 05 §3.8.1 | 表存正值，套用時扣除 |
 | `soldiersPerPop` | 0.025 | 兵/人口(係數) | 人口換算為城最大兵力的係數 | 05 §3.2.1 |  |
 | `starveDesertRate` | 0.01 | 機率(每日逃兵率) | 糧盡時城駐兵每日逃散比例 | 05 §3.1.3 |  |
 | `stewardMeritPerDistrict` | 6 | 功績點/郡/月 | 受封領主每月每郡累積的功績 | 05 §3.3.2 |  |
@@ -222,6 +250,9 @@ export type BalConfig = typeof BAL;
 | `uprisingArmyRate` | 0.05 | 比率(人口比例) | 一揆爆發時一揆軍兵力對郡人口的比例 | 05 §3.8.3 |  |
 | `uprisingAutoEndMonths` | 6 | 月 | 一揆自然平息所需持續月數 | 05 §3.8.3 |  |
 | `uprisingChancePerPoint` | 0.02 | 機率/點/月 | 低於門檻每差 1 點治安增加的每月一揆爆發機率 | 05 §3.8.2 |  |
+| `uprisingEndPopMult` | 0.95 | 係數(一次性) | 一揆自然平息時的額外人口乘數 | 05 §3.8.3 | 額外人口 −5%，不每月重複套用 |
+| `uprisingEndPublicOrder` | 40 | 點(治安) | 一揆自然平息後直接設定的治安值 | 05 §3.8.3 | 不用於鎮壓；鎮壓使用 securityAfterSuppress=45 |
+| `uprisingPopDecayMonthly` | 0.99 | 係數(/月) | 一揆持續期間的郡人口月乘數 | 05 §3.2.4、§3.8.3 | 對應每月人口 −1%，不是自然成長乘數 |
 | `uprisingThreshold` | 30 | 點(治安門檻) | 觸發一揆判定的治安門檻(低於此值才判定) | 05 §3.8.2 | ⚠ 05 治安擁有者；02.uprisingOrderThreshold/11.securityRiotThreshold 別名 |
 
 #### 武將能力・特性・身分功績・忠誠・登用褒賞・壽命・具申（06）（107）
@@ -431,7 +462,7 @@ export type BalConfig = typeof BAL;
 | `traitCombatMultCap` | 1.5 | 乘數上限(無量綱) | 野戰參戰武將特性乘數聚合後的上限 | 07 §3.3 |  |
 | `valBattleFactor` | 0.008 | 係數(無量綱) | 合戰大將武勇對攻擊力的係數 | 07 §3.7 |  |
 
-#### 外交工作信用・協定・朝廷官位・幕府役職・調略（08）（122）
+#### 外交工作信用・協定・朝廷官位・幕府役職・調略（08）（146）
 
 | 常數 `BAL.*` | 定案值 | 單位 | 語意 | 出處 | 備註 |
 |---|---|---|---|---|---|
@@ -445,6 +476,7 @@ export type BalConfig = typeof BAL;
 | `ceasefireMonths` | 12 | 月 | 停戰協定期限 | 08 §3.4.1 |  |
 | `ceasefireWinningPenalty` | -30 | 分(接受度) | B佔優時停戰提案接受度懲罰 | 08 §5.6.2 |  |
 | `ceasefireWinningRatio` | 1.5 | 比例(無量綱) | 判定B佔優的國力比門檻(clanPower(B)/clanPower(A)) | 08 §5.6.2 |  |
+| `courtAllianceBonus` | 5 | 點(接受度) | 從二位解鎖的同盟接受度加成 | 08 §3.5.2；15 §5.5 表 G | 提取既有官位表效果；不改階序 |
 | `courtFavorDecayMonthly` | 1 | 點/月 | 當月無獻金工作時朝廷友好度每月衰減(下限0) | 08 §3.5.1 |  |
 | `courtFavorGainBase` | 2 | 點/月 | 朝廷友好度月增益基礎 | 08 §3.5.1 |  |
 | `courtFavorGainPolDivisor` | 40 | 除數(無量綱) | 朝廷友好度增益的政務除數 | 08 §3.5.1 |  |
@@ -454,9 +486,13 @@ export type BalConfig = typeof BAL;
 | `courtMediationFailBase` | 0.1 | 機率 | 停戰斡旋失敗率基礎 | 08 §3.5.3 |  |
 | `courtMediationFailMax` | 0.8 | 機率 | 停戰斡旋失敗率上限 | 08 §3.5.3 |  |
 | `courtMediationFailPerRank` | 0.2 | 機率/階 | 對方官位每高我方一階增加的斡旋失敗率 | 08 §3.5.3 |  |
+| `courtMediationFailureRefundRate` | 0.5 | 比率(退款率) | 停戰斡旋失敗時退還金錢成本的比例 | 08 §3.5.3／§5.4.2 | 友好度不退款；500 貫退還 250 貫 |
 | `courtMediationFavorCost` | 40 | 點(朝廷友好度) | 停戰斡旋朝廷友好度成本(第6階持有者×0.75) | 08 §3.5.3 |  |
+| `courtMediationFavorDiscount` | 0.75 | 係數(無量綱) | 正三位解鎖的停戰斡旋友好度成本乘數 | 08 §3.5.2／§3.5.3；15 §5.5 表 G | 費用四捨五入；不套用於金錢成本 |
 | `courtMediationGoldCost` | 500 | 貫 | 停戰斡旋金錢成本(失敗退還半額250) | 08 §3.5.3 |  |
 | `courtRankTable` | 從五位下(友20/獻300/威+50)/從五位上(30/500/+80,信用×1.1)/從四位下(40/800/+120,解鎖停戰斡旋)/從四位上(50/1200/+170,政策槽+1)/從三位(60/1800/+230,從屬勸告+10)/正三位(70/2500/+300,斡旋成本×0.75)/從二位(85/3500/+400,同盟+5)/正二位(95/5000/+550,政策槽+1) | 表(八階) | 官位八階定義表(友好度需求/獻金/威信加成/解鎖效果) | 08 §3.5.2 |  |
+| `courtTrustGainMult` | 1.1 | 係數(無量綱) | 從五位上解鎖的外交工作信用增益乘數 | 08 §3.5.2／§5.2.1；15 §5.5 表 G | 提取既有官位表效果 |
+| `courtVassalDemandBonus` | 10 | 點(接受度) | 從三位解鎖的從屬勸告接受度加成 | 08 §3.5.2；15 §5.5 表 G | 僅作用於從屬勸告 |
 | `courtWorkMonthlyCost` | 50 | 貫/月 | 對朝廷獻金工作月費 | 08 §3.2 |  |
 | `dipAcceptThreshold` | 60 | 分(接受度門檻) | AI接受提案的分數門檻(≥60接受) | 08 §5.6.2 |  |
 | `dipBaseAlliance` | 0 | 分(接受度基礎) | 同盟提案基礎分 | 08 §5.6.2 |  |
@@ -467,6 +503,10 @@ export type BalConfig = typeof BAL;
 | `dipBaseVassalOffer` | 30 | 分(接受度基礎) | 從屬提案基礎分 | 08 §5.6.2 |  |
 | `dipCommonEnemyBonus` | 20 | 分(接受度) | 共同敵人時同盟提案接受度加成 | 08 §5.6.2 |  |
 | `dipCommonThreatBonus` | 15 | 分(接受度) | 存在接壤雙方且強大的第三勢力威脅時同盟接受度加成 | 08 §5.6.2 |  |
+| `dipCommonThreatPowerRatio` | 1.5 | 係數(國力比) | 同盟共同威脅加成所需的第三勢力國力倍率 | 08 §5.6.2 | 第三勢力接壤雙方，且國力大於雙方各自國力乘此值 |
+| `dipMarriageRenewMonths` | 12 | 月 | 婚姻提案續盟加成的同盟剩餘期限門檻 | 08 §5.6.2 | 剩餘期限嚴格小於此值才加成 |
+| `dipRejectedScore` | -999 | 分(拒絕標記) | 從屬提案因感情低於門檻而直接拒絕時的評分 | 08 §5.6.2 | 提取規格拒絕標記；其他實作用途不新增規格拒絕規則 |
+| `dipVassalDemandPowerScale` | 30 | 權重(分/國力比) | 從屬勸告國力項超出需求國力比後的評分係數 | 08 §5.6.2 | `(P−vassalDemandPowerRatio)×此值`；不套一般國力項上限 |
 | `diplomacyWorkMaxConcurrent` | 6 | 件 | 全勢力同時進行的外交工作上限 | 08 §3.2 |  |
 | `diplomacyWorkMonthlyCost` | 20 | 貫/月 | 對勢力外交工作月費 | 08 §3.2 |  |
 | `dipMarriageRenewBonus` | +15 | 分(接受度) | 同盟剩餘期限<12月時婚姻續盟接受度加成 | 08 §5.6.2 |  |
@@ -490,14 +530,17 @@ export type BalConfig = typeof BAL;
 | `plotBetrayalGoldDivisor` | 4000 | 除數(無量綱) | 內應成功率的一次性投入金錢除數 | 08 §3.7.3 |  |
 | `plotBetrayalImmunityMonths` | 12 | 月 | 內應敗露後該城的內應免疫期 | 08 §3.7.3 |  |
 | `plotBetrayalIntDivisor` | 400 | 除數(無量綱) | 內應成功率的知略除數 | 08 §3.7.3 |  |
+| `plotBetrayalInvestGoldOptions` | [500,1000,2000] | 貫(三檔) | 內應下達時的一次性投入金錢選項 | 08 §3.7.3 | 原規格明定三檔；下達即扣款，不退款 |
 | `plotBetrayalLoyaltyDivisor` | 250 | 除數(無量綱) | 內應成功率的城主忠誠除數(100-忠誠) | 08 §3.7.3 |  |
 | `plotBetrayalLoyaltyThreshold` | 70 | 點(忠誠) | 內應目標城主忠誠上限門檻(需<70) | 08 §3.7.3 |  |
 | `plotBetrayalMarkMonths` | 12 | 月 | 內應成功後可發動標記的有效期 | 08 §3.7.3 |  |
 | `plotBetrayalMinInvestGold` | 500 | 貫 | 內應最低一次性投入金錢(500/1000/2000三檔) | 08 §3.7.3 |  |
 | `plotBetrayalMoraleFloor` | 5 | 點(士氣) | 內應發動後城士氣立即降至的下限值 | 08 §3.7.3 |  |
 | `plotBetrayalPMax` | 0.60 | 機率 | 內應成功率上限 | 08 §3.7.3 |  |
+| `plotBetrayalPMin` | 0.05 | 機率 | 內應基礎成功率夾限的下限 | 08 §3.7.3 | 提取成功率公式的既有字面值 |
 | `plotBetrayalProgressBase` | 12 | 點/月(進度) | 內應每月進度基礎 | 08 §3.7.3 |  |
 | `plotBetrayalProgressIntDivisor` | 6 | 除數(無量綱) | 內應進度增量的知略除數 | 08 §3.7.3 |  |
+| `plotCounterIntFallback` | 50 | 知略點 | 流言目標所在城城主空缺時的反制知略 | 08 §3.7.2 | 武將模式與城模式同用 |
 | `plotExposeChanceBetrayal` | 0.6 | 機率 | 內應失敗時的敗露率 | 08 §3.7.3 |  |
 | `plotExposeChancePoach` | 0.5 | 機率 | 引拔失敗時的敗露率 | 08 §3.7.1 |  |
 | `plotExposeChanceRumor` | 0.3 | 機率 | 流言失敗時的敗露率 | 08 §3.7.2 |  |
@@ -507,7 +550,9 @@ export type BalConfig = typeof BAL;
 | `plotPoachExposeLoyaltyGain` | +10 | 點(忠誠) | 引拔敗露時目標武將忠誠回升(警覺) | 08 §3.7.1 |  |
 | `plotPoachExposeSentimentHit` | -15 | 點(感情) | 引拔敗露時目標勢力對我感情下降 | 08 §3.7.1 |  |
 | `plotPoachGoldDivisor` | 2500 | 除數(無量綱) | 引拔成功率的一次性投入金錢除數 | 08 §3.7.1 |  |
+| `plotPoachIntBaseline` | 50 | 知略點 | 引拔成功率公式的執行者知略基準 | 08 §3.7.1 | 知略項為 `(知略−此值)/plotPoachIntDivisor` |
 | `plotPoachIntDivisor` | 300 | 除數(無量綱) | 引拔成功率的知略除數(知略-50) | 08 §3.7.1 |  |
+| `plotPoachInvestGoldOptions` | [0,200,500,1000] | 貫(四檔) | 引拔下達時的一次性投入金錢選項 | 08 §3.7.1 | 原規格明定四選一；下達即扣款，不退款 |
 | `plotPoachLoyaltyDivisor` | 200 | 除數(無量綱) | 引拔成功率的目標忠誠除數(100-忠誠) | 08 §3.7.1 |  |
 | `plotPoachLoyaltyThreshold` | 75 | 點(忠誠) | 引拔目標武將忠誠上限門檻(需<75) | 08 §3.7.1 |  |
 | `plotPoachPMax` | 0.85 | 機率 | 引拔成功率上限 | 08 §3.7.1 |  |
@@ -515,12 +560,16 @@ export type BalConfig = typeof BAL;
 | `plotPoachProgressBase` | 25 | 點/月(進度) | 引拔每月進度基礎(知略100→50/月) | 08 §3.7.1 |  |
 | `plotPoachProgressIntDivisor` | 4 | 除數(無量綱) | 引拔進度增量的知略除數 | 08 §3.7.1 |  |
 | `plotPoachSuccessSentimentHit` | -20 | 點(感情) | 引拔成功時原主對我感情下降 | 08 §3.7.1 |  |
+| `plotProgressMax` | 100 | 點(進度) | 調略完成判定的進度門檻與狀態上限 | 08 §3.7／§5.5.1；02 §4.11 Plot | 滿此值才判成敗；02 定義進度 0..100 |
 | `plotRumorBase` | 0.55 | 機率 | 流言成功率基礎 | 08 §3.7.2 |  |
 | `plotRumorExposeSentimentHit` | -8 | 點(感情) | 流言敗露時目標勢力對我感情下降 | 08 §3.7.2 |  |
 | `plotRumorIntDivisor` | 250 | 除數(無量綱) | 流言成功率的我方與反制知略差除數 | 08 §3.7.2 |  |
 | `plotRumorLoyaltyHit` | 12 | 點(忠誠) | 流言(武將模式)成功時目標武將忠誠下降 | 08 §3.7.2 |  |
 | `plotRumorMoraleHit` | 15 | 點(士氣) | 流言(城模式)成功時城士氣下降 | 08 §3.7.2 |  |
+| `plotRumorPMax` | 0.90 | 機率 | 流言基礎成功率夾限的上限 | 08 §3.7.2 | 提取成功率公式的既有字面值 |
+| `plotRumorPMin` | 0.25 | 機率 | 流言基礎成功率夾限的下限 | 08 §3.7.2 | 提取成功率公式的既有字面值 |
 | `plotRumorProgressBase` | 30 | 點/月(進度) | 流言每月進度基礎 | 08 §3.7.2 |  |
+| `plotRumorProgressIntDivisor` | 4 | 除數(無量綱) | 流言月進度中執行者知略的除數 | 08 §3.7.2 | 月進度為 `plotRumorProgressBase＋知略/此值` |
 | `powerKokudakaWeight` | 0.001 | 權重(無量綱) | 勢力國力公式中所轄郡石高的權重 | 08 §5.6.1 |  |
 | `powerPrestigeWeight` | 0.1 | 權重(無量綱) | 勢力國力公式中威信的權重 | 08 §5.6.1 |  |
 | `powerTroopsWeight` | 0.01 | 權重(無量綱) | 勢力國力公式中所轄城現有兵力的權重 | 08 §5.6.1 |  |
@@ -534,10 +583,14 @@ export type BalConfig = typeof BAL;
 | `sentimentPactSignedCeasefire` | +5 | 點 | 成立停戰一次性感情加成 | 08 §3.3 |  |
 | `sentimentPactSignedMarriage` | +30 | 點 | 締結婚姻同盟一次性感情加成 | 08 §3.3 |  |
 | `sentimentPactSignedNonAggression` | +10 | 點 | 締結不可侵條約一次性感情加成 | 08 §3.3 | ⚠ E-23：不可侵條約降為 v1.1 擴充，v1.0 不實作（08 §1／§3.4.1）；本常數 v1.0 不進 `balance.ts` |
+| `shogunateAcceptanceAura` | 10 | 點(接受度) | 副將軍持有者的外交接受度加成 | 08 §3.6.2；15 §5.5 表 H | 提取既有役職表效果；只在持有效役職時作用 |
 | `shogunateFavorDecayMonthly` | 1 | 點/月 | 當月無獻金工作時幕府友好度每月衰減 | 08 §3.6.2 |  |
 | `shogunateFavorGainBase` | 2 | 點/月 | 幕府友好度月增益基礎 | 08 §3.6.2 |  |
 | `shogunateFavorGainPolDivisor` | 40 | 除數(無量綱) | 幕府友好度增益的政務除數 | 08 §3.6.2 |  |
+| `shogunateFavorMax` | 100 | 點(友好度) | 各勢力對幕府友好度的上限 | 02 §4.12；08 §3.6.2／§5.2.2 | 02 明定 0..100；幕府工作使用獨立上限 |
 | `shogunateTitleTable` | 奉公眾(威150/友30/獻500/威+60,事件選項)/御供眾(350/50/1000/+120,工作費用×0.8)/相伴眾(600/70/2000/+200,從屬勸告+15)/管領(900/85/3500/+300,政策槽+1)/副將軍(1200/90/5000/+400,外交接受度+10) | 表(五階) | 幕府役職五階定義表(威信/友好度門檻/獻金/威信加成/效果) | 08 §3.6.2 |  |
+| `shogunateVassalDemandBonus` | 15 | 點(接受度) | 相伴眾持有者的從屬勸告接受度加成 | 08 §3.6.2；15 §5.5 表 H | 僅作用於從屬勸告 |
+| `shogunateWorkCostMult` | 0.8 | 係數(無量綱) | 御供眾持有者的外交與獻金工作月費乘數 | 08 §3.6.2；15 §5.5 表 H | 提取既有役職表效果 |
 | `shogunateWorkMonthlyCost` | 50 | 貫/月 | 對幕府獻金工作月費 | 08 §3.2 |  |
 | `shogunNominateFavorMin` | 50 | 點(幕府友好度) | 擁立將軍的最低幕府友好度門檻 | 08 §3.6.3 |  |
 | `shogunNominatePrestigeGain` | 300 | 點(威信) | 擁立將軍一次性威信加成 | 08 §3.6.3 |  |
@@ -553,25 +606,34 @@ export type BalConfig = typeof BAL;
 | `trustGainPolDivisor` | 25 | 除數(無量綱) | 信用月增益的政務除數 | 08 §5.2.1 |  |
 | `trustGainSentimentDivisor` | 200 | 除數(無量綱) | 信用月增益的感情倍率除數(sentM=clamp(1+感情/200,0.5,1.5)) | 08 §5.2.1 |  |
 | `trustMax` | 100 | 點 | 信用上限 | 08 §3.2 |  |
+| `trustSentimentMultMax` | 1.5 | 係數(無量綱) | 外交工作信用增益感情乘數的上限 | 08 §3.2／§5.2.1 | 感情乘數為 `clamp(1＋感情/trustGainSentimentDivisor,下限,此值)` |
+| `trustSentimentMultMin` | 0.5 | 係數(無量綱) | 外交工作信用增益感情乘數的下限 | 08 §3.2／§5.2.1 | 感情乘數為 `clamp(1＋感情/trustGainSentimentDivisor,此值,上限)` |
 | `vassalDemandPowerRatio` | 3.0 | 比例(無量綱) | 從屬勸告(強→弱)的國力比門檻(我/目標≥3.0) | 08 §3.4.1 |  |
 | `vassalOfferPowerRatio` | 2.0 | 比例(無量綱) | 從屬提案(弱→強)的國力比門檻(目標/我≥2.0) | 08 §3.4.1 |  |
 | `vassalTributeRate` | 0.15 | 比例(無量綱) | 從屬方每月上繳宗主的金錢收入比例 | 08 §3.4.1 | ⚠ 17 §3.4.6 之 0.1 須改為 0.15 |
 | `warStateMonths` | 6 | 月 | 交戰狀態判定窗(最近敵對行為在此月數內視為atWar) | 08 §3.1 |  |
 
-#### AI 決策・委任 AI・具申生成・難易度（09）（55）
+#### AI 決策・委任 AI・具申生成・難易度（09）（68）
 
 | 常數 `BAL.*` | 定案值 | 單位 | 語意 | 出處 | 備註 |
 |---|---|---|---|---|---|
 | `aiAdvanceAbortRatio` | 0.8 | 係數(戰力比) | 進軍(advance)中我方兵力÷(目標守兵+沿途敵野戰)低於此值即撤退 | 09 §3.4.3 |  |
+| `aiAidMarriageFactor` | 1.2 | 係數(無量綱) | 婚姻同盟對援軍響應分的乘數 | 09 §5.6 | `diplomacyEval.ts:45`、`ai/reactive.ts:221`；一般同盟係數為 1。 |
+| `aiAidSafetyBase` | 1.5 | 係數(無量綱) | 援軍安全係數的截距；安全係數為 clamp(此值−總威脅/除數,0,1) | 09 §5.6 | `diplomacyEval.ts:48`、`ai/reactive.ts:230`。 |
 | `aiAidScoreMin` | 0.5 | 分數(援助分) | 響應同盟援軍請求出兵所需的最低aidScore | 09 §3.4.5 |  |
+| `aiAidThreatDivisor` | 2 | 威脅分 | 援軍安全係數內總威脅的除數 | 09 §5.6 | 與 `aiAidSafetyBase` 配套；diplomacyEval.ts 與 ai/reactive.ts 讀取。 |
+| `aiAidTroopRatio` | 0.6 | 比例(可出兵力) | 出援規模為可出兵力×min(響應分,1)×此值 | 09 §5.6 | `ai/reactive.ts:258`。 |
+| `aiAssaultDurabilityRatio` | 0.5 | 比例(城最大耐久) | AI 強攻條件的耐久上限；城耐久須不高於最大耐久×此值 | 09 §3.4.3 | `ai/attackPlan.ts:471`；同時須滿足 `aiAssaultRatio` 兵力門檻及指令合法性。 |
 | `aiAssaultRatio` | 3.0 | 係數(兵力比) | 圍城時兵力≥守兵×此值且城耐久≤半時選擇強攻的門檻 | 09 §3.4.3 |  |
 | `aiAttackPowerRatioAggrBonus` | 0.6 | 係數(無量綱) | aggression對開戰所需戰力比門檻的最大減免幅度 | 09 §5.1 |  |
 | `aiAttackPowerRatioBase` | 1.8 | 係數(戰力比) | 開戰所需戰力比(requiredRatio)的基準值 | 09 §5.1 |  |
 | `aiBetrayLoyaltyMax` | 40 | 義理值(0..100) | 義理≥此值的勢力永不主動破棄協定 | 09 §3.4.5 |  |
+| `aiBorderNodeRange` | 2 | 節點距離 | 威脅評估計入邊界附近城與野戰部隊的鄰域距離 | 09 §5.2 | `ai/threat.ts:64`；與 threatenedCastleIds 的 1 節點判定不同。 |
 | `aiBuildBudgetRatio` | 0.5 | 比例(超額金錢) | 超出儲備部分用於施設建造的預算比例 | 09 §3.4.4 |  |
 | `aiConscriptSecurityMin` | 50 | 治安值(0..100) | 下達徵兵Command所需的最低所轄郡治安 | 09 §3.4.4 |  |
 | `aiConsolidateDays` | 45 | 日 | 落城後鞏固(consolidate)期天數,期間佔用一個計畫槽 | 09 §3.4.3 |  |
 | `aiConsolidateGarrisonRatio` | 0.5 | 比例(攻方兵力) | 落城後留駐新城的兵力比例(不超過新城最大兵力) | 09 §3.4.3 |  |
+| `aiConsolidateSafeThreat` | 0.8 | 威脅分 | 新城威脅低於此值時可提早結束鞏固計畫 | 09 §5.4 | `ai/attackPlan.ts:500`；另保留 `aiConsolidateDays` 期滿條件。 |
 | `aiCouncilMaxPerTick` | 4 | 個(階段/tick) | 每tick最多執行的評定階段數,用於削峰;超出者順延 | 09 §3.10 |  |
 | `aiCouncilPhaseCount` | 4 | 個(階段) | 單一勢力每次評定攤平成的階段數(每tick執行一階段) | 09 §3.3 |  |
 | `aiCouncilSpreadTicks` | 30 | tick(日) | 評定排程攤平的tick數,各勢力councilOffset對其取模 | 09 §3.3 |  |
@@ -587,14 +649,20 @@ export type BalConfig = typeof BAL;
 | `aiHomeGarrisonRatio` | 0.3 | 比例(現有兵力) | 出兵城守備底線的現有兵力比例(與底線取max) | 09 §3.4.3 |  |
 | `aiIntentLogSize` | 1024 | 筆(環形緩衝容量) | AI決策紀錄intentLog環形緩衝的容量 | 09 §3.11 |  |
 | `aiInterceptRatioMin` | 1.1 | 係數(戰力比) | 敵軍入侵時出城攔截所需的最低戰力比(我÷敵) | 09 §3.5 |  |
+| `aiKassenDefenderMult` | 1.1 | 係數(估算戰力) | 合戰預測勝率對守方估算戰力施加的地利乘數 | 09 §5.5 | `ai/reactive.ts:193,198`；抽出原文 1+0.1，不改 07 實際戰鬥公式。 |
 | `aiKassenWinRateMin` | 0.65 | 機率 | AI主動發動合戰所需的預測勝率門檻 | 09 §3.5 |  |
+| `aiMusterReadyRatio` | 0.8 | 比例(計畫兵力) | 集結完成判定的 plannedTroops 比例門檻 | 09 §5.4 | 兵力達此比例或估算戰力足夠即可；仍須到齊或超時重檢及指令合法 |
 | `aiMusterTimeoutDays` | 30 | 日 | 攻略計畫集結(muster)階段的逾時天數,逾時以已到兵力重檢 | 09 §3.4.3 |  |
+| `aiNeighborAidRatio` | 0.5 | 比例(兵力) | 擴張評分的鄰城可援兵力比例；解圍比較中的城內守軍折算比例 | 09 §5.3、§3.6 | 同值服務兩個既有公式；解圍比較採原始守兵數，不換為估算戰力 |
 | `aiPersonaDefault` | 50 | 點(五軸值) | 未列於persona表的勢力其五軸性格預設值(五軸皆50) | 09 §3.2 |  |
 | `aiPlanPerCastles` | 8 | 座(城數) | 每N座城增加一個攻略計畫槽(maxPlans上限3) | 09 §3.4.3 |  |
 | `aiPowerLdrDivisor` | 240 | 除數(無量綱) | estPower估值中統率(ldr)加成的除數(ldr120→估值×1.5) | 09 §5.2 |  |
 | `aiRecallThreat` | 2.0 | 威脅分(總和) | 總威脅≥此值時中止muster/advance攻略、召回部隊回防 | 09 §3.4.2 |  |
 | `aiReinforceMaxDays` | 6 | 日 | 可作為增援來源之安全城的最大行軍天數 | 09 §3.4.2 |  |
 | `aiReinforceRatio` | 0.5 | 比例(現有兵力) | 單座安全城最大可抽調的增援兵力比例 | 09 §3.4.2 |  |
+| `aiReliefApproachNodes` | 3 | 節點距離 | 攻方開始處理解圍軍的接近距離上限 | 09 §3.6 | `ai/attackPlan.ts:388`；與己方解圍出兵的行軍日數限制不同。 |
+| `aiReliefFightRatio` | 1 | 係數(兵力比) | 圍城軍對解圍軍與折算守兵的比值達此值時分兵迎擊，否則撤圍 | 09 §3.6 | 採目標城實際圍城部隊的原始兵數；等於門檻不撤圍，分兵仍須合法且留足守兵 |
+| `aiReliefRetainRatio` | 1.5 | 係數(守兵比) | 分兵迎擊後最低留圍兵力為城內守兵×此值 | 09 §3.6 | `ai/attackPlan.ts:424`；不能為滿足此比值而分裂既有部隊。 |
 | `aiRewardBudgetRatio` | 0.3 | 比例(可用金錢) | 當月褒賞總支出占可用金錢(扣儲備後)的預算比例上限 | 09 §3.4.4 |  |
 | `aiRewardLoyaltyThreshold` | 40 | 忠誠值(0..100) | 觸發褒賞維穩的家臣忠誠門檻(忠誠<此值) | 09 §3.4.4 |  |
 | `aiSiegeFoodAbortDays` | 15 | 日 | 圍城時攜行兵糧將於此天數內耗盡且無法補給則撤退 | 09 §3.4.3 |  |
@@ -618,7 +686,7 @@ export type BalConfig = typeof BAL;
 | `proposalStatThreshold` | 70 | 能力值(0..100) | 生成具申候選所需的最高四維能力門檻 | 09 §3.8 |  |
 | `proposalTopK` | 3 | 件/月 | 全勢力具申評分排序後每月送達玩家的件數 | 09 §3.8 |  |
 
-#### 事件引擎・史實事件・大命・勝敗（10）（52）
+#### 事件引擎・史實事件・大命・勝敗（10）（53）
 
 | 常數 `BAL.*` | 定案值 | 單位 | 語意 | 出處 | 備註 |
 |---|---|---|---|---|---|
@@ -662,6 +730,7 @@ export type BalConfig = typeof BAL;
 | `taimeiShippuPrestige` | 100 | 點 | 大命「疾風迅雷」的發動威信成本 | 10 §3.7.3 |  |
 | `taimeiShippuSpeedBonus` | 0.30 | 係數(無量綱) | 疾風迅雷期間我方部隊行軍日速的加成（×(1+0.30)） | 10 §3.7.3 |  |
 | `taimeiShogunateDiscount` | 200 | 點 | 幕府高位（管領/副將軍/將軍）對大命解鎖門檻的威信折抵 | 10 §3.7.2 |  |
+| `taimeiUnlockPrestige` | 200/250/400/300/450/350/300/600 | 點 | 八種大命解鎖門檻，依 10 §3.7.3 表列順序；實作以完整大命 ID 為 key | 10 §3.7.3 |  |
 | `taimeiSodoinCostMult` | 0.5 | 係數(無量綱) | 總動員期間徵兵金錢成本的乘數 | 10 §3.7.3 |  |
 | `taimeiSodoinDays` | 90 | 日 | 總動員的持續日數 | 10 §3.7.3 |  |
 | `taimeiSodoinMaxBonus` | 0.25 | 係數(無量綱) | 總動員期間單次徵兵上限的加成（×1.25） | 10 §3.7.3 |  |
@@ -675,11 +744,12 @@ export type BalConfig = typeof BAL;
 | `victoryKokudakaSharePct` | 50 | % | 天下人勝利條件：玩家支配圈石高占全國比門檻 | 10 §3.8.1 |  |
 | `victoryTenkabitoMonths` | 12 | 月 | 天下人勝利條件須連續成立的月數 | 10 §3.8.1 |  |
 
-#### 地圖・尋路・行軍・制壓・遭遇（04）（14）
+#### 地圖・尋路・行軍・制壓・遭遇（04）（15）
 
 | 常數 `BAL.*` | 定案值 | 單位 | 語意 | 出處 | 備註 |
 |---|---|---|---|---|---|
 | `armyDisbandSoldiers` | 100 | 人 | 兵力低於此值時部隊就地解散 | 04 §5.8 | ⚠ 廢除：潰走解散模型定案採 07 §3.4（抵我方城→併入城駐兵；全地圖無我方城→立即解散），非兵力門檻判定（四輪裁決 E-20，07 全勝） |
+| `dataQuotaDeviationMax` | 0.1 | 比率(配額偏差) | 地方城、郡、石高與武將配額的允許偏差上限 | 14 §3.2、§5.4 V15 | 超過 ±10% 為 WARN；不更改配額 |
 | `marchLowMoraleFactor` | 0.8 | 係數(無量綱) | 低士氣時套用的行軍速度乘數 | 04 §5.8 |  |
 | `marchLowMoraleThreshold` | 40 | 士氣點 | 士氣低於此值時行軍減速的門檻 | 04 §5.8 |  |
 | `marchSpeedMax` | 2.0 | 係數(無量綱) | 每日行軍速度係數(speedFactor)的上限夾限 | 04 §5.8 |  |
@@ -712,24 +782,18 @@ export type BalConfig = typeof BAL;
 |---|---|---|---|---|---|
 | `abilityMax` | 120 | 點（能力值） | 武將四維能力（統率/武勇/知略/政務）上限 | 02 §5.7 |  |
 | `commerceMaxAbs` | 2000 | 點（商業） | 商業絕對上限（郡 commerceCap 不得超過此值） | 02 §5.7 |  |
-| `devInvariantCheckEveryDays` | 30 | 日（tick） | dev build 每 N tick 執行一次不變量檢查 | 02 §5.7 |  |
+| `devInvariantCheckEveryDays` | 30 | 日（tick） | dev build 每 N tick 執行一次不變量檢查 | 02 §5.7 | BAL 位置依較高優先序 02 的明定例外；正式 build 不跑（D23）。 |
 | `durabilityBranch` | 1000 | 點（耐久） | 支城耐久上限基準值 | 02 §5.7 |  |
 | `durabilityMain` | 3000 | 點（耐久） | 本城耐久上限基準值 | 02 §5.7 |  |
 | `fiefMaxByRank` | [0,1,1,2,3,4] | 郡數 | 各身分階級可受封知行郡數上限（查表） | 02 §5.7 | ⚠ E-03：名依 02 fiefMaxByRank；值採 06 序列 [0,1,1,2,3,4]；05/06 別名須改 |
-| `kassenFieldH` | 16 | 格 | 合戰戰術戰場格高 | 02 §5.7 |  |
-| `kassenFieldW` | 24 | 格 | 合戰戰術戰場格寬 | 02 §5.7 |  |
-| `kassenMaxRounds` | 60 | 回合 | 合戰強制結束回合數 | 02 §5.7 |  |
+| `kassenFieldH` | 16 | 格 | 合戰戰術戰場格高 | 02 §5.7 | ⚠ 廢除：依 02 §5.7 E-18／§8 DDR-12，改採陣（Jin）節點圖。 |
+| `kassenFieldW` | 24 | 格 | 合戰戰術戰場格寬 | 02 §5.7 | ⚠ 廢除：依 02 §5.7 E-18／§8 DDR-12，改採陣（Jin）節點圖。 |
+| `kassenMaxRounds` | 60 | 回合 | 合戰強制結束回合數 | 02 §5.7 | ⚠ 廢除：依 02 §8 DDR-12／E-19，改用 kassenMaxTicks＝120。 |
 | `maxDeputies` | 2 | 人 | 每支部隊副將數上限 | 02 §5.7 |  |
 | `moraleBreakThreshold` | 30 | 點（士氣） | 部隊士氣 ≤ 此值時潰走（值定義於 07） | 02 §4.8 | ⚠ E-16：名依 02 moraleBreakThreshold；07.routThreshold/04&17.routMoraleThreshold 別名，值 30 |
 | `prestigeMax` | 2000 | 點（威信） | 勢力威信上限 | 02 §5.7 |  |
 | `proposalExpireDays` | 60 | 日 | 具申逾期作廢日數 | 02 §5.7 |  |
 | `reportMaxKept` | 500 | 筆 | 報告（通知）保留數量上限 | 02 §5.7 | ⚠ E-31：名依 02 reportMaxKept；03.reportMaxEntries(500)/02(600) 統一為 500 |
-
-#### 存檔・遷移・設定（16）（1）
-
-| 常數 `BAL.*` | 定案值 | 單位 | 語意 | 出處 | 備註 |
-|---|---|---|---|---|---|
-| `importFileMaxBytes` | 50_000_000 | 位元組(bytes) | 匯入存檔檔案大小上限，超過報 error.load.fileTooLarge | 16 §3.5 |  |
 
 #### 劇本資料製作與驗證（14）（17）
 
@@ -758,17 +822,17 @@ export type BalConfig = typeof BAL;
 | 常數 `BAL.*` | 定案值 | 單位 | 語意 | 出處 | 備註 |
 |---|---|---|---|---|---|
 | `aiLowGoldThreshold` | 100 | 貫 | AI 勢力轉為保守決策的低金錢門檻 | 17 §3.4.8 |  |
-| `allianceTrustMin` | 60 | 信用點 | 提出並被接受同盟所需的最低信用 | 17 §3.4.6 |  |
+| `allianceTrustMin` | 60 | 信用點 | 舊測試的同盟最低信用別名 | 17 §3.4.6 | ⚠ 廢除：依 08 §3.4.1 的信用至少達成本規則，提案及成立均使用 trustCostAlliance＝60；完整接受度另判，不新增同值別名。 |
 | `betrayalTrustPenaltyOthers` | 20 | 信用點 | 破約後其他所有勢力對背叛者的信用扣減 | 17 §3.4.6 |  |
-| `trustPerWorkMonth` | 3 | 信用點/月 | 外交工作每月累積的信用 | 17 §3.4.6 |  |
-| `vassalPrestigeGap` | 500 | 威信點 | 小勢力接受從屬所需的威信差 | 17 §3.4.6 |  |
+| `trustPerWorkMonth` | 3 | 信用點/月 | 舊測試的固定信用月增益 | 17 §3.4.6 | ⚠ 廢除：02 §8 D16 要求政務 100 時每月 6.0；改用 trustGainBase／trustGainPolDivisor／感情倍率公式，不進 BAL |
+| `vassalPrestigeGap` | 500 | 威信點 | 宗主威信減從屬威信的接受門檻；不替代提案國力比 | 08 §3.4.1；17 §3.4.6 | AI 評估及最終成立重驗；Clan.prestige 已含獲授的官位／役職增益 |
 
 #### UI 畫面相關（11，多屬非模擬層）（2）
 
 | 常數 `BAL.*` | 定案值 | 單位 | 語意 | 出處 | 備註 |
 |---|---|---|---|---|---|
-| `armyMaxSubOfficers` | 2 | 個(槽) | 部隊副將槽位數（建議初值；正式定義見 plan/07） | 11 §3.6 |  |
-| `battleSaihaiMax` | 100 | 點(采配) | 合戰采配上限（回復速率見 plan/07） | 11 §3.11.1 |  |
+| `armyMaxSubOfficers` | 2 | 個(槽) | 部隊副將槽位數（建議初值；正式定義見 plan/07） | 11 §3.6 | ⚠ 廢除：舊 UI 別名；依較高優先序 02 §4.8／INV-06／§5.7，使用 maxDeputies＝2。 |
+| `battleSaihaiMax` | 100 | 點(采配) | 合戰采配上限（回復速率見 plan/07） | 11 §3.11.1 | ⚠ 廢除：舊 UI 別名；依 02 §4.9、07 §3.7／§5.8 及本表現行 saihaiMax＝20。 |
 
 #### 基石（00）（1）
 
@@ -883,7 +947,7 @@ export type BalConfig = typeof BAL;
 | 城最大兵力 | 05 `maxSoldiers`（城格基礎 本1000/支500 + floor(Σpop×`soldiersPerPop` 0.025)×政策係數，含兵舍 +500） vs 02 §5.1 selector `castleMaxSoldiers` 用 `garrisonPopRatio`(0.08) | 採 05 `maxSoldiers` 為唯一公式（0.025 由 00 §6 校準；0.08 給每萬人 800 兵違反目標）；`garrisonPopRatio` 刪，02 selector 改引 05 公式 | 02 §5.1/§5.7 |
 | 17 專屬不存在機制常數 | 17 §3.4 之 `upkeepGoldPerSoldierMonth`(每兵金錢維持費)、`deficitMoralePenalty`(赤字扣城士氣)、`siegeReliefMoraleBonus`(解圍士氣加成)、`devDailyBase/devCap/stewardPolWeight/lowSecurityThreshold/lowSecurityDevFactor`(替代開發模型) 在 05/07 正文皆無對應機制 | 一律刪除（見表 B）：金錢支出僅俸祿+政策（05 §3.1.4）、赤字僅扣忠誠、解圍為停止下降（07 T12）、開發採 05 §3.2.3 三屬性＋02 developmentPct 衍生 | 17 §3.4.1/2/3/5 |
 
-#### 表 D — 非模擬層常數（35 項；文件以 `BAL.*` 書寫，實作**不進** `balance.ts`）
+#### 表 D — 非模擬層常數（36 項；文件以 `BAL.*` 書寫，實作**不進** `balance.ts`）
 
 | 常數（文件中以 `BAL.*` 標示，實際不入 `balance.ts`） | 值 | 單位 | 語意 | 出處 |
 |---|---|---|---|---|
@@ -915,6 +979,7 @@ export type BalConfig = typeof BAL;
 | `autoSaveIntervalMonths` | 3 | 月 | 自動存檔間隔（每季首日，3/1、6/1、9/1、12/1） | 16 §3.4 |
 | `autoSaveRetryMax` | 1 | 次 | 自動存檔遇配額錯誤時的重試次數上限 | 16 §3.10 |
 | `autoSaveSlots` | 3 | 個(槽) | 自動存檔槽數（auto:1…auto:3，輪替用） | 16 §3.3 |
+| `importFileMaxBytes` | 50_000_000 | 位元組(bytes) | 匯入前的檔案大小上限；實作為 SAVECFG.importFileMaxBytes | 16 §3.5／§8 D12；E-56 |
 | `manualSaveSlots` | 10 | 個(槽) | 手動存檔槽數（manual:1…manual:10） | 16 §3.3 |
 | `quickSaveSlots` | 1 | 個(槽) | 快速存檔槽數（quick:1） | 16 §3.3 |
 | `saveCompressedMaxBytes` | 15_000_000 | 位元組(bytes) | 單檔壓縮後拒存門檻，超過則拒絕寫入並報 error.save.tooLarge | 16 §3.2 |
@@ -1059,34 +1124,60 @@ export type BalConfig = typeof BAL;
 
 ### 5.6 平衡驗證方法：`tools/simulate.ts`
 
-無頭跑核心狀態機 N 年，輸出各家石高曲線 CSV。**只依賴 `src/core/`**（不載 React/Pixi）。
+無頭跑核心狀態機 N 年，輸出各家石高曲線 CSV。
+工具載入 core 與劇本資料，不載 React／Pixi；量測不新增玩家指令或消耗亂數。
 
 ```typescript
-// tools/simulate.ts — 用法：tsx tools/simulate.ts --years=20 --seed=42 --out=sim.csv [--difficulty=normal] [--nPlayers=0]
-// 1. 以 s1560 劇本 + 種子建 GameState；nPlayers=0 表全 AI 託管（含原玩家勢力）。
-// 2. 迴圈 core.advanceDay() 共 years×360 次；不下任何玩家 Command（純 AI 演化）。
+// tools/simulate.ts — 單次：tsx tools/simulate.ts --years=20 --seed=42 --out=sim.csv --output=summary.json
+// 多次：--seeds=20；與 --seed 互斥。--difficulty=easy|normal|hard；預設 normal。
+// --verify-repeat=true 以相同 seed／difficulty 建立獨立狀態與事件引擎重跑；預設不重跑。
+// --continue-on-error=true 保留失敗 seed 並嘗試後續 seed；必須明定 --output，任何失敗仍退出一。
+// 1. 以 s1560 劇本 + 種子建 GameState；固定全 AI 託管，含原玩家勢力。
+// 2. 以正式史實事件引擎跑 years×360 tick；不下玩家 Command，統一後仍觀測完整時窗。
 // 3. 每月 1 日抽樣：每家 clanId、總石高、城數、兵力、金錢、威信、存亡。
-// 4. 輸出寬表 CSV（row=年月，col=各家石高）＋ summary.json。
-interface SimOptions { years: number; seed: number; out: string; difficulty: 'easy'|'normal'|'hard'; nPlayers: 0|1; sampleEveryDays: number; }
+// 4. --out 或 --csv-output 指定寬表 CSV；--monthly-output 另輸出逐家完整月資料。
+// --output 指定 JSON；未指定時沿用 tests/perf/simulate-report.json。
+// 實際 CLI 不提供玩家 Command 或自訂抽樣頻率；完整月資料含初始月初快照。
 interface SimSummary {
   seed: number; years: number;
   survivingClans: number;                 // 期末存活勢力數
   maxClanKokudaka: number;                // 期末最大勢力石高
-  yearOfFirst2MKoku: number | null;       // 首度有勢力達 200 萬石之年（null=未達）
-  odaSurvivedYears: number;               // 織田存活年數（0=開局即亡）
+  yearOfFirst2MKoku: number | null;       // 首度達 200 萬石的曆年，未達為 null
+  first2MKokuDay: number | null;          // 首次達標的絕對日，逐日觀測
+  elapsedYearsToFirst2MKoku: number | null; // 自開局至達標的遊戲年數，用於收斂判讀
+  survivalAtYear20: Record<string, boolean>; // 二十年當日存活觀測；未到達時為空物件
+  odaSurvivedYears: number | null;        // 織田存活年數；無織田的測試世界為 null
   top3: { clanId: string; kokudaka: number }[];
 }
 ```
 
 **判讀準則**（跑 ≥ 20 個種子取分布）：
 
-1. **收斂性**：20 遊戲年內應有 AI 勢力達 ≈ 200 萬石（`yearOfFirst2MKoku` 中位數 12–20 年）；普遍 > 25 年 → 擴張太慢（`subjugateDaysBase`↓ 或 `fieldCombatDailyLossRate`↑ 或 AI 積極度↑）；< 10 年 → 太快。
+1. **收斂性**：20 遊戲年內應有 AI 勢力達 ≈ 200 萬石。
+   `elapsedYearsToFirst2MKoku` 中位數須為 12–20 年，不以 1560 起算的曆年直接比較。
+   普遍 > 25 年表示擴張太慢；< 10 年表示太快。
+   校準來源仍是 `subjugateDaysBase`、`fieldCombatDailyLossRate` 或 AI 積極度，不因量測改值。
 2. **織田非必亡**：全 AI 演化下織田 20 年存活率 > 40%；接近 0 → 開局今川壓力過大，回查例算二/四常數。
 3. **多極性**：期末 `survivingClans` 中位數 ≥ 3；常態剩 1 或 > 15 皆失衡。
 4. **無爆量/歸零**：石高、金錢不得 NaN/負值/單月暴增 >2×（抓量綱錯誤）。
 5. **決定論**：同 `(seed, difficulty)` 兩次跑出的 CSV 逐格相同（呼應 17 golden test）。
 
-CI 於 M9 跑固定 5 種子 `simulate` 冒煙，斷言準則 4、5 與 `yearOfFirst2MKoku ≤ 25`。
+CI 於 M9 跑固定 5 種子 `simulate` 冒煙，斷言準則 4、5 與 `elapsedYearsToFirst2MKoku ≤ 25`。
+
+`tools/ci/balance-acceptance.ts` 讀取實際 run 與月初觀測，產生 JSON 的 `balanceAcceptance`。
+此欄只判定本節；18 §5.4 的結果仍另存 `acceptance`，不互相替代。
+`--verify-repeat=true` 的獨立第二輪存於 `repeatRuns`；未要求重跑時為 null，決定論證據不完整。
+第二輪不量測 tick 時間；原始第一輪時間也不代替隔離效能 gate。
+CSV 相同比對只證明本節寬表石高曲線，不宣稱所有月資料欄位或完整事件軌跡相同。
+
+少於二十種子、觀測不足或缺少資料時回報 incomplete，不外推未觀測的存活狀態。
+未達二百萬石的種子保留為收斂時間的右設限值，不從中位數分母剔除。
+
+預設遇到模擬例外即停止，不寫入報告。明定 `--continue-on-error=true` 時，
+JSON 的 `requestedSeeds` 與 `failedRuns` 保留原始需求與失敗 seed、primary／repeat 階段、觀測日及錯誤。
+狀態建立前失敗的觀測日為 null；失敗狀態不當作完成 run，也不寫入月資料 CSV。
+任一失敗令兩個 acceptance 都為 incomplete，即使其餘完成種子已達二十個，也不能忽略失敗後宣稱通過。
+完成數為零時統一率與歷史事件中位數為 null，CSV 僅保留標頭；失敗報告不代替有效平衡分布。
 
 ---
 
@@ -1098,12 +1189,12 @@ CI 於 M9 跑固定 5 種子 `simulate` 冒煙，斷言準則 4、5 與 `yearOfF
 
 ## 7. 實作任務清單
 
-- [ ] **T1 建立 `src/core/balance.ts`**：依 §4.1 結構，把 §5.1 主表全部 542 項模擬層常數寫入單一 `readonly` `BAL`（`as const`）。
+- [ ] **T1 建立 `src/core/balance.ts`**：依 §4.1 結構，將 §5.1 主表 614 項登錄中的 v1.0 有效模擬層常數寫入單一 `readonly` `BAL`（`as const`）。
   - 驗收：§5.1 每列在 `BAL` 有對應鍵、值一致；`tsc` 通過；core 內無魔術數字（grep）。
 - [ ] **T2 落實表 B/C 的併入與改名**：依 19 §3.13 刪除 60 項別名，全 core 引用改為定案名。
   - 驗收：全 repo grep 不到表 B 左欄別名；`rankTroopBonus`/`loyaltyFiefBonus`/`salaryByRank` 等已移除。
 - [ ] **T3 新增 `castleStarveMoraleDaily=2`**（表 C）並將 05 §3.1.3「城士氣每日−2」改為引用。
-- [ ] **T4 非模擬常數歸位**（§4.3、表 D）：35 項 UI/效能/節奏/存檔常數移出 `balance.ts`（存檔改 16 `SAVECFG.*`）。
+- [ ] **T4 非模擬常數歸位**（§4.3、表 D）：36 項 UI/效能/節奏/存檔常數移出 `balance.ts`（存檔改 16 `SAVECFG.*`）。
   - 驗收：`balance.ts` 不含表 D 任一常數；速度節奏由 01 統一，03 不再重複。
 - [ ] **T5 建立 `tools/simulate.ts`**（§5.6）並跑 20 種子基準；五項判讀準則全過；決定論重放一致。
 - [ ] **T6 回寫來源文件 §8**：表 A/B/C 每項在被改文件 §8 記錄；與 19 §3.13 對應之 E 編號並存；不得改 00。
@@ -1208,3 +1299,106 @@ CI 於 M9 跑固定 5 種子 `simulate` 冒煙，斷言準則 4、5 與 `yearOfF
   本則實際遞增為 541→542；既有 541 項定案值一律不動，僅新增登錄。
 
 *本文件依 00 §13 撰寫；繁體中文（台灣慣用語）；無 TBD。定案值即實作值，唯一寫入 `src/core/balance.ts`；命名依 19 §3.13。*
+
+- **D22（2026-10-09，既有公式常數登錄核對）**：補登 66 個已有規格數值的常數，不更改實作值或公式。
+  經濟 28、外交與調略 24、AI 13、資料驗證 1；主表實際 546 列增至 612 列。
+  同步修正主表與子表列數；歷史 D10、D18–D21 的計數不回寫。
+  登錄包含來源明列的分數與陣列，值稽核仍須逐項比較，不以名稱相符代替數值證明。
+  原有排除裁決不變；M9-1 尚未通過，公式差異另列 WIP 審查。
+
+- **D23（2026-10-09，常數消費端與 dev 診斷邊界）**：Table D 四個非模擬設定移出 BAL。
+  合戰時鐘、DPR 上限與報告分頁改由 UI 持有，AI 診斷預算改由 PERFCFG 持有，數值不變。
+  城下施設 slot 名依 E-39 使用 mainCastleSlots／branchCastleSlots，不另保留 BAL 別名；六／三不變。
+  商業 cap 使用主表 commerceMaxAbs 二千，runtime commerce 仍允許合法小數。
+  devInvariantCheckEveryDays 三十依較高優先序 02 §5.2／§5.7 的明定 BAL 位置實作，正式 build 不跑。
+  此一明定診斷例外不擴大為任意非模擬設定登錄；不修改 BAL hash 契約或 frozen baseline。
+
+- **D24（2026-10-09，存檔匯入門檻歸位）**：importFileMaxBytes 依既有 E-56 與 16 §8 D12 移至表 D。
+  值仍五千萬 bytes，消費端仍 SAVECFG；未新增 BAL key 或修改匯入行為。
+  主表實際 612 至 611 列、14 個子表，表 D 35 至 36 項；歷史計數不回寫。
+  真實 UTF-8 File 邊界測試驗證恰好上限可讀入，多一 byte 在讀取前拒絕。
+
+- **D25（2026-10-09，高治安月修正核對）**：依 05 §3.8.1，正向修正合計減半，而非只減半淨正變化。
+  負向修正保留，高徵兵在兵農分離下先歸零；治安門檻仍嚴格大於八十。
+  最終 publicOrder 依較高優先序 02 §3.4／District 整數欄位規則 Math.round，再夾限零至一百。
+  不修改 BAL、敵軍實際停駐判定或 RNG 抽取次序；重放差異另實跑並保留，不更新 baseline。
+
+- **D26（2026-10-09，城兵力容量與整數寫入）**：依 02 §5.1／05 §3.5，人口項先 floor，再乘城下集住係數。
+  城格基礎與兵舍加成不乘政策；派生容量可以含小數，不在 selector 全域取整。
+  依 02 §3.4，徵兵、輸送、事件與大命的整數兵力在寫入處 Math.round；大命扣除人口使用實際整數增兵量。
+  AI 留駐指令採可合法存入的整數下界，保留既有 raw 容量驗證及超額駐軍耗糧規則。
+  BAL 值、主表列數、存檔欄位與 frozen 基準不變；此公式修正不代表 M9 驗收通過。
+
+- **D27（2026-10-09，淘汰 M7 前最小大名 AI 常數）**：09 完整評定已取代先行最小 AI，runtime 不再呼叫舊模組。
+  移除僅由舊模組與舊單測使用的 aiMaxConcurrentArmies、aiGarrisonFloorTroops、aiAttackRatioBase、
+  aiAttackRatioAggressionSpan、aiAttackMaxTravelDays、aiCarryDays、aiFoodReserveRatio；現行 M7 tick 整合測試完整保留。
+  不新增主表列或排除規則，也不修改其他 BAL 值；歷史計數不回寫。
+  本次稽核：主表 611 列、實作 585 項、名稱交集與數值比較各 584 項；唯一主表外 key 為 featureKassenEnabled。
+  明定排除 11 項、主表未實作名稱 27 項、未解決問題 18 項；稽核仍未通過，不代表 M9-1 完成。
+  實際 BAL hash 由 d6498cebd1d29580 改為 ffcddcf109acd701；不使用別名、hash 補丁或 baseline 更新掩蓋此變更。
+
+- **D28（2026-10-09，舊合戰方格與回合主表註記對齊）**：依 02 §5.7 E-18／§8 DDR-12、E-19，
+  主表 kassenFieldH、kassenFieldW、kassenMaxRounds 補註「⚠ 廢除」；既有 kassenMaxTicks＝120 為現行時限。
+  保留三列歷史值及全部 611 列，不新增 parser 排除規則；重新加入廢除 key 仍須報 excluded-implemented。
+  合併既有 featureKassenEnabled 移除後，實作 584 項，名稱交集與數值比較各 584 項，主表外 key 為零。
+  明定排除 14 項、主表未實作名稱 27 項、未解決問題 14 項；稽核仍未通過，不代表 M9-1 完成。
+  D27 及更早計數保留為各次核對的歷史記錄；本則不更新 frozen baseline。
+
+- **D29（2026-10-09，副將與采配的舊 UI 別名對齊）**：副將上限依較高優先序 02 §4.8／INV-06／§5.7，
+  使用 maxDeputies＝2；采配上限依 02 §4.9 與 07 §3.7／§5.8，使用主表現行 saihaiMax＝20。
+  armyMaxSubOfficers 與 battleSaihaiMax 補註「⚠ 廢除」；保留兩列歷史值 2／100 及全部 611 列。
+  此為既有權威欄位與主表的優先序對齊，不新增 parser 例外，也不更改 runtime 上限或 BAL hash。
+  實際稽核：實作、名稱交集與數值比較各 584 項，主表外 key 為零；明定排除 16 項、未實作名稱 27 項。
+  未解決問題仍有 12 項，稽核未通過；重新加入舊別名須報 excluded-implemented，刪除廢除註記須報 missing。
+  歷史計數與 frozen baseline 不回寫；本則不代表其他 17 驗收常數已獲退休裁決。
+
+- **D30（2026-10-09，低金錢的新出陣限制）**：實作 aiLowGoldThreshold＝100，依 17 A4 的 AI 勢力金錢判定。
+  月評定不建立新攻勢計畫，共用攻勢派令也拒絕新 march；既有集結計畫的每日出陣同樣受限。
+  防守輸送、已出陣軍勢的移動與撤回不因低金錢停用；軍團預算與既有指令驗證不變。
+  09 D19 已改用徵兵方針；低金錢是否限制方針提高仍待裁決，不宣稱 A4 全項通過。
+  真實稽核為 611 列，實作、交集與數值比較各 585 項，主表外 key 為零；未實作名稱 26 項。
+  明定排除 16 項、未解決問題 11 項；稽核仍未通過，frozen baseline 不回寫。
+
+- **D31（2026-10-09，獨立平衡分布判定）**：新增本節專用 balanceAcceptance，不以 18 §5.4 統一判定替代。
+  依實際 requested tick 數核對月初序列與期末；二十年存活使用同日 checkpoint，不以滅亡曆年推估。
+  收斂判讀保留未達標種子的右設限值；判定中位數，不新增每個種子必在二十年達標的條件。
+  數值 NaN／Infinity、負值與單月大於兩倍為失敗；缺少資料或獨立重跑為證據不足。
+  判定器不修改 BAL、runtime、CSV 值或 frozen baseline；增加工具不代表二十種子長跑已通過。
+
+- **D32（2026-10-09，長跑失敗留存）**：CLI 可明定 continue-on-error 並指定輸出路徑，嘗試全部 requested seed。
+  primary／repeat 失敗分列原始錯誤與觀測日，不把部分失敗狀態當作有效完成 run。
+  零完成數使用 null 統計與空資料 CSV；任何失敗保留非零退出與兩項 incomplete，不因其他種子成功而過關。
+  預設仍 fail-fast；本次不改模擬狀態、不變量、領地繼承規則、BAL 或 frozen baseline。
+
+- **D33（2026-10-09，信用工作公式的高優先序對齊）**：02 §8 D16 明定政務 100 時每月信用增益 6.0。
+  退役舊測試固定 trustPerWorkMonth＝3，保留既有基礎、政務、感情及武將修正公式。
+  17 DP1 改用公式與工作方向驗證，不以缺席名稱新增無效 BAL 別名。
+
+- **D34（2026-10-09，破約的第三方信用懲罰）**：落實主表 betrayalTrustPenaltyOthers＝20。
+  存續第三勢力對指名破約者扣信用，最低為零；既有感情 −10 與直接對象處置不變。
+  中立劇本取消協定不指派破約責任；新增常數由實際破約消費端使用，不更新 frozen baseline。
+
+- **D35（2026-10-09，從屬接受威信差）**：新增既有主表 vassalPrestigeGap＝500 的實際消費端。
+  門檻是宗主減從屬的原始 Clan.prestige，不是 clanPower 比值或另一個官位加成推導值。
+  提案仍依原有國力比；接受及成立時另外重驗威信差，保留所有 failed golden／replay 證據。
+
+- **D36（2026-10-09，評定所外交工作月增益）**：將 05 既定倍率 1.1 命名為 facDiplomacyWorkGainMult。
+  08 的外交工作包含對勢力、朝廷與幕府；倍率作用於三者已付月費的增益，不改月費或調略。
+  已落成且啟用的本勢力評定所至多一座生效；不逐月捨入，不更動既有上限。
+  主表新增一列至 612 列；保留歷史稽核計數與 frozen baseline，不宣稱整體平衡稽核通過。
+
+- **D37（2026-10-09，同盟最低信用的重複別名）**：08 §3.4.1 明定信用至少達同盟成本，使用 trustCostAlliance＝60。
+  既有 Command 驗證與成立重驗共用此值；17 DP2 改引用該常數，完整接受度門檻仍獨立判斷。
+  allianceTrustMin 保留六十點的歷史列並標示廢除，不新增同值 BAL key 或降低信用門檻。
+  稽核保留 612 列、588 項比較及零值差異；十八項明示排除，七項問題仍未解決。
+  真正佇列的五十九／六十點測試、重加別名及 canonical 值篡改檢查共同驗證，不修改 frozen 基準。
+
+- **D38（2026-10-09，傳馬制的部隊陸路速度）**：將 05 §3.7.2 既定＋10％命名為 polTenmaseiMarchSpeedMult＝1.1。
+  本勢力當前政策於每日陸路速度封頂前相乘，不代用輸送日數倍率 2／3。
+  海路起步不套用；04 的一次日預算與已付跨邊餘量保留，不新增逐邊時間模型。
+  主表新增一列至 613 列；新增模擬常數使 BAL hash 改變，保留 frozen 基準及所有失敗紀錄。
+
+- **D39（2026-10-09，遠交近攻的已付外交工作增益）**：將 05 §3.7.2 的既定倍率命名為 polEnkokinkoWorkGainMult＝1.25。
+  08 §3.2 的工作含勢力、朝廷及幕府三種目標，倍率只作用於成功扣費的月增益，與既有倍率合成一次。
+  主表新增一列至 614 列；保留小數、原上限及費用，非鄰接信用＋2 不併入此倍率。
+  新增常數使 BAL hash 改變，保留 frozen 基準；外交早於政策月費，後續自動廢止不回溯當日增益。

@@ -24,6 +24,23 @@ export function clanPower(state: Readonly<GameState>, clanId: ClanId): number {
     (state.clans[clanId]?.prestige ?? 0) * BAL.powerPrestigeWeight
   );
 }
+
+/** Acceptance-only requirement; legal proposals still use the existing power-ratio preconditions. */
+export function meetsVassalPrestigeGap(
+  state: Readonly<GameState>,
+  from: ClanId,
+  to: ClanId,
+  kind: DiplomacyActionKind,
+): boolean {
+  if (kind !== 'demandVassal' && kind !== 'offerVassal') return true;
+  const stronger = state.clans[kind === 'demandVassal' ? from : to];
+  const weaker = state.clans[kind === 'demandVassal' ? to : from];
+  return Boolean(
+    stronger?.alive &&
+    weaker?.alive &&
+    stronger.prestige - weaker.prestige >= BAL.vassalPrestigeGap,
+  );
+}
 export function hasCommonEnemy(state: Readonly<GameState>, a: ClanId, b: ClanId): boolean {
   return Object.values(state.clans).some(
     (clan) =>
@@ -58,6 +75,7 @@ export function evaluateProposal(
 ): number {
   if (!state.clans[from]?.alive || !state.clans[to]?.alive || from === to)
     return BAL.dipRejectedScore;
+  if (!meetsVassalPrestigeGap(state, from, to, kind)) return BAL.dipRejectedScore;
   if (kind === 'requestReinforce')
     return reinforcementAidScore(state, from, to) >= BAL.aiAidScoreMin
       ? BAL.dipAcceptThreshold

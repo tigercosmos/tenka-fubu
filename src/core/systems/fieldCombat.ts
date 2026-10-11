@@ -1,19 +1,21 @@
 import { BAL } from '../balance';
+import { getEffectiveOfficerStat } from '../battleStats';
 import { traitModifier } from '../traits';
 import { defaultDiplomacyRow, pairKey } from '../state/serialize';
 import type { Army, FieldCombat, FieldCombatSide, GameState } from '../state/gameState';
-import type { ArmyId, CastleId, ClanId, MapNodeId } from '../state/ids';
+import type { ArmyId, CastleId, ClanId, MapNodeId, OfficerId } from '../state/ids';
 import type { GameEvent } from '../state/events';
 import { applyAwe } from './awe';
 import { createRngStream } from '../rng';
-import { dieOfficer } from './officers';
+import { dieOfficer, gainMerit } from './officers';
 import { nearestOwnedCastleByHops, nearestOwnedCastleByTravelTime } from './castleSelection';
+import { detachArmyFromSiege } from './siege';
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
 export function computeArmyPower(state: Readonly<GameState>, army: Readonly<Army>): number {
   const leader = state.officers[army.leaderId];
-  const ldr = leader ? leader.ldr + leader.statGrowth.ldr : 0;
+  const ldr = leader ? getEffectiveOfficerStat(leader, 'ldr') : 0;
   return (
     army.soldiers *
     (1 + ldr * BAL.ldrCombatFactor) *
@@ -29,12 +31,63 @@ function markHostile(state: GameState, a: ClanId, b: ClanId): void {
 }
 
 function side(armies: readonly Army[]): FieldCombatSide {
-  return {
+  const result: FieldCombatSide = {
     clanIds: [...new Set(armies.map((army) => army.clanId))].sort(),
     armyIds: armies.map((army) => army.id).sort(),
     initialTroops: armies.reduce((sum, army) => sum + army.soldiers, 0),
     cumulativeLosses: 0,
+    participation: { complete: true, participants: [] },
   };
+  for (const army of armies) recordFieldCombatParticipation(result, army);
+  return result;
+}
+
+/** Record only an observed roster; absence of earlier history must never become complete. */
+export function recordFieldCombatParticipation(
+  sideValue: FieldCombatSide,
+  army: Readonly<Army>,
+): void {
+  const history = (sideValue.participation ??= { complete: false, participants: [] });
+  const snapshot = {
+    armyId: army.id,
+    clanId: army.clanId,
+    leaderId: army.leaderId,
+    deputyIds: [...army.deputyIds].sort(),
+  };
+  const rosterKey = (participant: typeof snapshot) =>
+    JSON.stringify([
+      participant.armyId,
+      participant.clanId,
+      participant.leaderId,
+      participant.deputyIds,
+    ]);
+  const key = rosterKey(snapshot);
+  if (history.participants.some((participant) => rosterKey(participant) === key)) return;
+  history.participants.push(snapshot);
+  history.participants.sort((a, b) => rosterKey(a).localeCompare(rosterKey(b)));
+}
+
+function awardFieldMerit(
+  state: GameState,
+  sideValue: Readonly<FieldCombatSide>,
+  base: number,
+): void {
+  if (sideValue.participation?.complete !== true) return;
+  const recipients = new Map<OfficerId, number>();
+  for (const participant of sideValue.participation.participants) {
+    for (const officerId of [participant.leaderId, ...participant.deputyIds]) {
+      const officer = state.officers[officerId];
+      // Same settlement-time eligibility as tactical merit: serving in original clan.
+      if (officer?.status !== 'serving' || officer.clanId !== participant.clanId) continue;
+      const amount = Math.round(
+        base * (officerId === participant.leaderId ? BAL.meritCommanderMult : 1),
+      );
+      recipients.set(officerId, Math.max(recipients.get(officerId) ?? 0, amount));
+    }
+  }
+  for (const [officerId, amount] of [...recipients].sort(([a], [b]) => a.localeCompare(b))) {
+    gainMerit(state.officers[officerId]!, amount, ['ldr', 'val']);
+  }
 }
 
 export function startFieldCombat(
@@ -74,18 +127,15 @@ export function startFieldCombat(
     },
   ];
   if (
-    BAL.featureKassenEnabled &&
-    (combat.sideA.clanIds.includes(state.meta.playerClanId) ||
-      combat.sideB.clanIds.includes(state.meta.playerClanId))
+    [...combat.sideA.clanIds, ...combat.sideB.clanIds].includes(state.meta.playerClanId) &&
+    combat.sideA.initialTroops + combat.sideB.initialTroops >= BAL.kassenMinTroops
   ) {
-    if (combat.sideA.initialTroops + combat.sideB.initialTroops >= BAL.kassenMinTroops) {
-      events.push({
-        type: 'battle.kassenAvailable',
-        day: state.time.day,
-        clanIds: [...combat.sideA.clanIds, ...combat.sideB.clanIds],
-        battleId: id,
-      });
-    }
+    events.push({
+      type: 'battle.kassenAvailable',
+      day: state.time.day,
+      clanIds: [...combat.sideA.clanIds, ...combat.sideB.clanIds],
+      battleId: id,
+    });
   }
   return events;
 }
@@ -139,7 +189,7 @@ function routeArmy(state: GameState, army: Army, events: GameEvent[]): void {
   }
   army.status = 'routed';
   army.mission = 'return';
-  army.siegeId = null;
+  events.push(...detachArmyFromSiege(state, army.id));
   army.battleId = null;
   const choice = nearestOwnedCastleByHops(state, army.clanId, army.posNodeId);
   if (choice) {
@@ -148,6 +198,7 @@ function routeArmy(state: GameState, army: Army, events: GameEvent[]): void {
     army.pathCursor = 0;
     army.edgeProgressDays = 0;
     army.edgeCostDays = 0;
+    delete army.reversingEdgeEndNodeId;
   } else {
     for (const officerId of [army.leaderId, ...army.deputyIds]) {
       const officer = state.officers[officerId];
@@ -241,13 +292,18 @@ export function pursueRoutedArmies(
     routed.filter((army) => army.status === 'routed'),
     events,
   );
-  removeDestroyedArmies(state, routed);
+  removeDestroyedArmies(state, routed, events);
   return events;
 }
 
-function removeDestroyedArmies(state: GameState, armies: readonly Army[]): void {
+function removeDestroyedArmies(
+  state: GameState,
+  armies: readonly Army[],
+  events: GameEvent[],
+): void {
   for (const army of armies) {
     if (army.soldiers > 0 || !state.armies[army.id]) continue;
+    events.push(...detachArmyFromSiege(state, army.id));
     const castle =
       nearestOwnedCastleByTravelTime(state, army.clanId, army.posNodeId)?.castle ??
       Object.values(state.castles)
@@ -272,8 +328,14 @@ export function fieldCombatSystem(state: GameState): GameEvent[] {
   for (const id of Object.keys(state.fieldCombats).sort()) {
     const combat = state.fieldCombats[id];
     if (!combat || combat.interrupted) continue;
+    const exhaustedAtStart = [...combat.sideA.armyIds, ...combat.sideB.armyIds]
+      .map((armyId) => state.armies[armyId])
+      .filter((army): army is Army => !!army && army.soldiers <= 0)
+      .sort((first, second) => first.id.localeCompare(second.id));
     const a = combatArmies(state, combat.sideA);
     const b = combatArmies(state, combat.sideB);
+    for (const army of a) recordFieldCombatParticipation(combat.sideA, army);
+    for (const army of b) recordFieldCombatParticipation(combat.sideB, army);
     const aStart = a.reduce((sum, army) => sum + army.soldiers, 0);
     const bStart = b.reduce((sum, army) => sum + army.soldiers, 0);
     const owner = nodeOwner(state, combat.nodeId);
@@ -308,10 +370,16 @@ export function fieldCombatSystem(state: GameState): GameEvent[] {
         army.morale = clamp(army.morale + BAL.fieldMoraleDailyWin, 0, 100);
     }
     checkRouts(state, [...a, ...b], events);
-    removeDestroyedArmies(state, [...a, ...b]);
+    removeDestroyedArmies(state, [...a, ...b, ...exhaustedAtStart], events);
     const remainingA = combatArmies(state, combat.sideA);
     const remainingB = combatArmies(state, combat.sideB);
-    if (remainingA.length > 0 && remainingB.length > 0) continue;
+    if (remainingA.length > 0 && remainingB.length > 0) {
+      // A routed or destroyed contingent leaves the ongoing battle even when
+      // allied contingents still fight. Keep casualty totals, not stale army links.
+      combat.sideA.armyIds = remainingA.map((army) => army.id);
+      combat.sideB.armyIds = remainingB.map((army) => army.id);
+      continue;
+    }
     if (remainingA.length === 0 && remainingB.length === 0) {
       const siege = Object.values(state.sieges).find(
         (candidate) => candidate.castleId === combat.nodeId && candidate.interrupted,
@@ -366,7 +434,12 @@ export function fieldCombatSystem(state: GameState): GameEvent[] {
       losers.filter((army) => state.armies[army.id]?.status === 'routed').map((army) => army.id),
     );
     pursue(state, winners, losers, events);
-    removeDestroyedArmies(state, losers);
+    removeDestroyedArmies(state, losers, events);
+    // Pursuit may kill or transfer participants; eligibility is checked only now.
+    if (aStart > 0 && bStart > 0) {
+      awardFieldMerit(state, winningSide, BAL.meritFieldWin);
+      awardFieldMerit(state, losingSide, BAL.meritFieldLose);
+    }
     const aweLevel =
       losingSide.cumulativeLosses > losingSide.initialTroops * BAL.fieldAweKillRatio
         ? 'small'

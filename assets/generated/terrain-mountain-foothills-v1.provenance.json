@@ -1,0 +1,25 @@
+{
+  "asset": "public/assets/textures/terrain-mountain-foothills-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "bytes": 2373320,
+  "sha256": "fef9ae90008f179d902dd9727f7b83f65aef7dfa0e576c61de8cd3894e642b22",
+  "dimensions": { "width": 951, "height": 1653 },
+  "alphaInspection": {
+    "zeroAlphaPixels": 664535,
+    "partialAlphaPixels": 907196,
+    "opaquePixels": 272,
+    "centerAlpha": 253
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 57,
+    "y": 49,
+    "width": 851,
+    "height": 1554
+  },
+  "prompt": "Use case: stylized-concept. Asset type: transparent production terrain sprite for a Japanese Sengoku 2.5D strategy map, not a concept screenshot. Primary request: one ORIGINAL north-south woodland mountain MASS with a continuous but irregular chain of six low ridges, alternating broad foothill lobes and shallow saddle valleys. High oblique orthographic view about 55 degrees down, no horizon. Entire connected landform visible, taller than wide, containing several asymmetric rocky crests rather than one straight repeated spine. Broad grassy ochre-olive foothills transition to quiet muted evergreen canopy, sparse warm gray rocky faces. Clear large value planes and coherent north-west daylight, soft south-east terrain shadows, polished restrained historical strategy-game miniature rendering readable when downsampled to 100 by 240 pixels. Small trees subordinate to slopes; avoid dense high-frequency sparkling/noisy pixels. Genuine transparent alpha outside the irregular footprint, clean organic silhouette, no white halo, no pedestal, no rectangular ground tile, no detached islands. No castles, roads, soldiers, banners, labels, text, UI, logos or watermark. Preserve original creative authorship; do not reproduce any existing commercial game asset. Composition: centered connected mountain mass fills about 80 percent of a portrait canvas; varying width and lateral spurs along length, natural foothill perimeter, not a thin cigar-shaped strip."
+}

@@ -9,7 +9,24 @@ export interface SiegeMarkerProps {
   reducedMotion?: boolean;
 }
 
-export const SIEGE_MARKER_GEOMETRY = { radius: 24, arcDegrees: 70, width: 3 } as const;
+export const SIEGE_MARKER_GEOMETRY = {
+  radius: 24,
+  arcDegrees: 70,
+  width: 1.6,
+  groundY: 4,
+  groundAspect: 0.36,
+  arcSteps: 18,
+} as const;
+
+function groundArc(g: Graphics, start: number, end: number): void {
+  const { radius, groundY, groundAspect, arcSteps, width } = SIEGE_MARKER_GEOMETRY;
+  g.moveTo(Math.cos(start) * radius, groundY + Math.sin(start) * radius * groundAspect);
+  for (let step = 1; step <= arcSteps; step += 1) {
+    const angle = start + ((end - start) * step) / arcSteps;
+    g.lineTo(Math.cos(angle) * radius, groundY + Math.sin(angle) * radius * groundAspect);
+  }
+  g.stroke({ width, color: TOKENS_NUM.accentVermilionBright, alpha: 0.8 });
+}
 
 export function siegeRotation(mode: SiegeMode, elapsedMs: number, reducedMotion = false): number {
   if (reducedMotion) return 0;
@@ -24,20 +41,11 @@ export function drawSiegeMarker(g: Graphics, props: SiegeMarkerProps): void {
   for (let index = 0; index < 3; index += 1) {
     const start = rotation + (index * Math.PI * 2) / 3;
     if (props.mode === 'assault') {
-      g.arc(0, 0, SIEGE_MARKER_GEOMETRY.radius, start, start + sweep).stroke({
-        width: SIEGE_MARKER_GEOMETRY.width,
-        color: TOKENS_NUM.accentVermilionBright,
-      });
+      groundArc(g, start, start + sweep);
     } else {
       const mid = start + sweep * 0.45;
-      g.arc(0, 0, SIEGE_MARKER_GEOMETRY.radius, start, mid).stroke({
-        width: SIEGE_MARKER_GEOMETRY.width,
-        color: TOKENS_NUM.accentVermilionBright,
-      });
-      g.arc(0, 0, SIEGE_MARKER_GEOMETRY.radius, mid + sweep * 0.18, start + sweep).stroke({
-        width: SIEGE_MARKER_GEOMETRY.width,
-        color: TOKENS_NUM.accentVermilionBright,
-      });
+      groundArc(g, start, mid);
+      groundArc(g, mid + sweep * 0.18, start + sweep);
     }
   }
 }
@@ -47,6 +55,7 @@ export function createSiegeMarker(): {
   update: (props: SiegeMarkerProps) => void;
 } {
   const container = new Container();
+  container.label = 'siegeGround';
   const graphics = new Graphics();
   container.addChild(graphics);
   return {

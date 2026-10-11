@@ -1,0 +1,44 @@
+{
+  "license": "project-original",
+  "asset": "public/assets/textures/terrain-mountain-kii-massif-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sourceImage": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-26b963c7-1e36-44ec-a0cf-61aacce1c6e4.png",
+  "sourceImageSha256": "108752be5518f5385cd3e7be31fb4df9566264169435120656599a86734515b4",
+  "sha256": "108752be5518f5385cd3e7be31fb4df9566264169435120656599a86734515b4",
+  "dimensions": {
+    "width": 1902,
+    "height": 827
+  },
+  "bytes": 1869014,
+  "alphaInspection": {
+    "zeroAlphaPixels": 905703,
+    "partialAlphaPixels": 667176,
+    "opaquePixels": 75,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 43,
+    "y": 100,
+    "width": 1827,
+    "height": 677
+  },
+  "processing": "Copied built-in output byte-for-byte; no raster edit, resize, crop, stretch or rotation.",
+  "compositionQualification": {
+    "requestedVisibleAspectRange": [2.3, 2.5],
+    "actualVisibleAspect": 2.6986706056129983,
+    "requestedTransparentMarginPercent": 5,
+    "actualMarginsPixels": {
+      "left": 43,
+      "top": 100,
+      "right": 32,
+      "bottom": 50
+    },
+    "qualification": "The visible aspect is wider than requested. Left and right margins miss five percent; alpha above eight does not touch any canvas edge. Uniform fit preserves aspect; native Kumano river visibility and complete footprint review remain required."
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: transparent raster mountain terrain sprite for an original Japanese Sengoku 2.5D strategy game.\nPrimary request: one distinctive original Kii-peninsula-inspired wooded mountain massif, a single connected low-to-medium height east-west landform, dense ancient temperate forest with branching eroded rocky ridges. Two irregular related west-to-east ridges gradually bend southeast toward the right; asymmetric saddles and short foothill spurs rather than repeated peaks. Show occasional warm gray-brown rock outcrops above muted olive woodland, no alpine snow.\nComposition/framing: oblique overhead strategic-map camera with visible relief faces and no horizon. Actual visible landform approximately 2.4:1 width-to-height, target 2.3-2.5. Broad horizontal composition with real foothill depth, keep the whole subject inside a generous transparent border of at least five percent on all sides. Irregular feathered woodland perimeter, never a rectangular forest carpet, no detached terrain islands.\nStyle/medium: polished original painterly realistic 2.5D game terrain, fine forest canopy and believable connected rock planes that remain legible at small map scale. Not a photograph, not cartoon, not low-poly.\nLighting/mood: fixed soft upper-left/northwest daylight, restrained southeast-facing slope shadows and internal contact shade only, natural earthy greens and warm stone.\nConstraints: genuinely transparent alpha background. No opaque ground tile, plinth, bright border, snow, water, coastline, roads, bridges, settlements, buildings, people, labels, text, logo or watermark. Do not reproduce artwork from any existing commercial game."
+}

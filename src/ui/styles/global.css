@@ -18,13 +18,101 @@ body,
 
 body {
   margin: 0;
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-ui);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-body);
-  color: var(--ink-900);
-  background: var(--washi-200);
+  color: var(--text-primary);
+  background: var(--surface-base);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A smaller user scale must not shrink controls below the physical hit-area baseline. */
+button,
+[role='button'],
+select,
+input:not([type='hidden']) {
+  min-width: 32px;
+  min-height: 32px;
+}
+
+button,
+select,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button,
+select {
+  border: 1px solid var(--stroke-strong);
+  border-radius: var(--radius-control);
+  background: var(--surface-panel);
+  padding: 0.5rem 0.875rem;
+  font-weight: 600;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 45%);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+:where(button:not(:disabled):hover) {
+  border-color: var(--brand-red);
+  background: var(--accent-soft);
+  box-shadow: inset 0 -2px 0 var(--brand-red);
+}
+
+button:not(:disabled):active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+input,
+textarea {
+  accent-color: var(--brand-green);
+}
+
+input:not([type='checkbox']):not([type='radio']):not([type='range']),
+textarea {
+  background: var(--surface-panel);
+  border: 1px solid var(--stroke-subtle);
+  border-radius: var(--radius-control);
+  padding: 0.55rem 0.75rem;
+  box-shadow: inset 0 1px 2px rgb(32 47 41 / 3%);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-family-display);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: var(--line-height-tight);
+}
+
+small {
+  line-height: 1.5;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--stroke-strong) var(--surface-base);
+}
+
+::selection {
+  background: var(--brand-gold);
+  color: var(--surface-base);
 }
 
 /* 數字欄位（資源、兵力、表格）等寬對齊工具類（12 §3.1.4）；由各元件視需要套用，非全域強制。 */
@@ -43,8 +131,8 @@ body {
 
 /* ── 焦點可見基線（12 §3.5 第 1 點：禁止 outline: none 而無替代） ── */
 :focus-visible {
-  outline: none;
-  box-shadow: var(--shadow-focus);
+  outline: 2px solid var(--brand-gold);
+  outline-offset: 3px;
 }
 
 /* ── reduce-motion 強制規則（12 §3.4「reduce-motion 規則（強制）」第 1 點） ──
@@ -52,11 +140,20 @@ body {
    由該元件在自己的 tween 元素上加 `.motion-preserve` 類別退出本覆蓋。 */
 @media (prefers-reduced-motion: reduce) {
   *:not(.motion-preserve),
-  *::before:not(.motion-preserve),
-  *::after:not(.motion-preserve) {
-    animation-duration: 0.01ms !important;
+  *:not(.motion-preserve)::before,
+  *:not(.motion-preserve)::after {
+    animation-duration: 0ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+:root[data-reduced-motion='true'] *:not(.motion-preserve),
+:root[data-reduced-motion='true'] *:not(.motion-preserve)::before,
+:root[data-reduced-motion='true'] *:not(.motion-preserve)::after {
+  animation-duration: 0ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0ms !important;
+  scroll-behavior: auto !important;
 }

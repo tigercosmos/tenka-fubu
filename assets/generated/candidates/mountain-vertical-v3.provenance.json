@@ -1,0 +1,25 @@
+{
+  "asset": "assets/generated/candidates/mountain-vertical-v3.png",
+  "status": "candidate-not-adopted",
+  "generationTool": "image_gen",
+  "prompt": "Use case: stylized-concept\nAsset type: original transparent 2.5D woodland mountain ridge for a Japanese historical grand-strategy map.\nSubject: one connected natural mountain system, with five irregular rounded rocky summits at different heights, broad low wooded shoulders, two subtle side spurs and shallow valleys. The ridge gently bends in an S, not a straight row of identical peaks. Broad-leaf forest canopy blankets lower slopes as continuous tiny irregular foliage, NOT ranks of tall triangular fir trees. Bare olive-gray rock only near higher summit crests.\nStyle: finely painted realistic miniature terrain, believable erosion and irregular contours, subdued sage/olive foliage, gray-brown stone. Fixed high oblique overhead camera around55degrees, upper-left/northwest soft daylight, southeast shadow. Coherent soft low foothills fade to truly transparent margins. No floating island or flat base plate. Entire terrain visible with generous transparent margin.\nAvoid: serrated sawtooth comb, identical conical mountains, huge pine trees, repeating tree rows, polygon slabs, snow, dramatic dark rim, red/green edge fringe, scenic background, sky, horizon, water, roads, castle, people, UI, text, logos, watermark. New fictional terrain, no copied existing game art.\nComposition: elongated mostly top-to-bottom connected ridge in map/world axes, gently curved in the shallow S. Its visible footprint is about THREE times taller than wide, within a square transparent canvas. Viewed from the same northwest camera; not a rotated horizontal image. Do not rotate lighting.",
+  "referenceImages": [],
+  "axis": "vertical",
+  "bytes": 1457618,
+  "sha256": "89ff9216497c6564df999bbc7186a7c30c95f69a491216881c7223212a389027",
+  "dimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "alpha": {
+    "zero": 1055137,
+    "partial": 517352,
+    "opaque": 27
+  },
+  "visibleContentBounds": {
+    "x": 296,
+    "y": 40,
+    "width": 729,
+    "height": 1179
+  }
+}

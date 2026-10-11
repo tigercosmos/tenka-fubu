@@ -23,12 +23,21 @@ function props(overrides: Partial<SelectionRingProps> = {}): SelectionRingProps 
 }
 
 describe('drawSelectionRing（M6-V7 CD5 金色雙環）', () => {
+  it('uses two shallow ground ellipses rather than roof-crossing circles', () => {
+    const { rec, g } = makeRec();
+    drawSelectionRing(g, props({ targetHitRadius: 20 }));
+    expect(rec.countOf('circle')).toBe(0);
+    expect(rec.argsOf('ellipse')).toEqual([
+      [0, 4, 24, 8.64],
+      [0, 4, 21, 7.56],
+    ]);
+  });
   it('先 clear；雙同心環：外環=命中半徑+6、內環=命中半徑+2，皆 gold', () => {
     const { rec, g } = makeRec();
     drawSelectionRing(g, props({ targetHitRadius: 20 }));
     expect(rec.calls[0]?.[0]).toBe('clear');
 
-    const circles = rec.argsOf('circle') as number[][]; // circle(x,y,radius)
+    const circles = rec.argsOf('ellipse') as number[][];
     expect(circles).toHaveLength(2);
     const radii = circles.map((c) => c[2]);
     expect(radii).toContain(20 + SELECTION_RING_GEOMETRY.paddingRadius); // 外環 26
@@ -46,16 +55,14 @@ describe('drawSelectionRing（M6-V7 CD5 金色雙環）', () => {
     const { rec, g } = makeRec();
     drawSelectionRing(g, props({ primary: true }));
     const strokes = rec.argsOf('stroke').map((a) => a[0] as { width: number });
-    for (const s of strokes) expect(s.width).toBe(SELECTION_RING_GEOMETRY.strokeWidthPrimary);
-    expect(SELECTION_RING_GEOMETRY.strokeWidthPrimary).toBe(3);
+    expect(strokes.map((s) => s.width)).toEqual([1.25, 1.25 * 0.65]);
   });
 
   it('primary=false（多選時非主選對象）雙環線寬為 2px', () => {
     const { rec, g } = makeRec();
     drawSelectionRing(g, props({ primary: false }));
     const strokes = rec.argsOf('stroke').map((a) => a[0] as { width: number });
-    for (const s of strokes) expect(s.width).toBe(SELECTION_RING_GEOMETRY.strokeWidthNormal);
-    expect(SELECTION_RING_GEOMETRY.strokeWidthNormal).toBe(2);
+    expect(strokes.map((s) => s.width)).toEqual([0.8, 0.8 * 0.65]);
   });
 
   it('雙環半徑隨不同節點種類的命中半徑而異（城/郡/部隊）', () => {
@@ -66,7 +73,7 @@ describe('drawSelectionRing（M6-V7 CD5 金色雙環）', () => {
     ]) {
       const { rec, g } = makeRec();
       drawSelectionRing(g, props({ targetHitRadius: r }));
-      const radii = (rec.argsOf('circle') as number[][]).map((c) => c[2]);
+      const radii = (rec.argsOf('ellipse') as number[][]).map((c) => c[2]);
       expect(radii).toContain(r + SELECTION_RING_GEOMETRY.paddingRadius);
       expect(radii).toContain(
         r + SELECTION_RING_GEOMETRY.paddingRadius - SELECTION_RING_GEOMETRY.innerGap,

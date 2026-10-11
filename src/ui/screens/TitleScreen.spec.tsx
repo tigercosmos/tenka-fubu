@@ -8,6 +8,14 @@ afterEach(() => {
 });
 
 describe('TitleScreen（11 §3.2.1 縮減版）', () => {
+  it('keeps the explicit load-list entry available without any saved game', () => {
+    const onLoadGame = vi.fn();
+    render(<TitleScreen onNewGame={() => {}} hasSave={false} onLoadGame={onLoadGame} />);
+    expect(screen.getByTestId('title-loadgame')).toHaveProperty('disabled', true);
+    expect(screen.getByTestId('title-save-list')).toHaveProperty('disabled', false);
+    fireEvent.click(screen.getByTestId('title-save-list'));
+    expect(onLoadGame).toHaveBeenCalledOnce();
+  });
   it('畫面根節點 data-testid="screen-title"，且畫面含「天下布武」（18-roadmap M1-20 驗收）', () => {
     render(<TitleScreen onNewGame={() => {}} />);
     expect(screen.getByTestId('screen-title')).toBeTruthy();

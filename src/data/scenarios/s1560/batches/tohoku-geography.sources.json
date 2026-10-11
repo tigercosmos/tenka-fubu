@@ -1,0 +1,110 @@
+{
+  "scope": "Staged B9 geography only. No production activation, roster closure or full-world runtime proof.",
+  "coordinateMethod": "Castle pins use approximate named-site coordinates and the unchanged projection. District markers fit the unchanged outline within 40–180 world units of their parent.",
+  "districtMethod": "Six prescribed province divisions and forty counties or explicit subdivisions total 2100000 koku. Resources and county assignments are gameplay design, not historical taxes or jurisdiction.",
+  "ownershipMethod": "The fourteen prescribed castles aggregate Date, Ashina, Mogami, Nanbu and Ando spheres. Osaki, Yuki and Hienuki local identities remain distinct historical facts.",
+  "chronologyBoundary": "Hanamaki models medieval Toyagasaki. Kozukata models the medieval earthen castle, not the 1597 Morioka construction. Later castle names do not prove 1560 buildings.",
+  "portBoundary": "Tsuchizaki and Tosaminato represent canonical shipping nodes. Tosaminato's municipal archaeology dates its principal port remains to the 13th–15th centuries. Their shipping chain follows Naoetsu–Tsuchizaki–Tosaminato, not a direct Naoetsu–Tosaminato edge. Tosaminato's district marker fits the prescribed Sannohe aggregate, not the distant harbor's exact coordinates.",
+  "portSource": "https://www.city.goshogawara.lg.jp/kyouiku/bunka/tosaminatoiseki.html",
+  "routeMethod": "Land costs use projected distance divided by 90, rounded to 0.5 days; mountain corridors multiply by 1.5. Required grades and sea costs follow plan/14.",
+  "sources": [
+    {
+      "castleId": "castle.yonezawa",
+      "url": "https://www.town.koori.fukushima.jp/site/kanko/1064.html",
+      "classification": "municipal-history",
+      "supports": "The town dates Harumune's move from Koori to Yonezawa to 1548.",
+      "boundary": "The pin represents the medieval residence, not later Uesugi stonework."
+    },
+    {
+      "castleId": "castle.koori-nishiyama",
+      "url": "https://www.town.koori.fukushima.jp/site/kanko/1064.html",
+      "classification": "municipal-archaeology",
+      "supports": "Nishiyama was the Date headquarters until Harumune moved to Yonezawa in 1548.",
+      "boundary": "Its branch role follows the prescribed scenario, not uninterrupted headquarters status."
+    },
+    {
+      "castleId": "castle.namo",
+      "url": "https://www.pref.miyagi.jp/soshiki/bunkazai/kuni-siseki25.html",
+      "classification": "prefectural-cultural-property",
+      "supports": "The prefecture identifies Namo as the medieval Osaki headquarters in present Osaki city.",
+      "boundary": "Date ownership aggregates Osaki territory. It does not assert direct 1560 Date control."
+    },
+    {
+      "castleId": "castle.kurokawa",
+      "url": "https://www.city.aizuwakamatsu.fukushima.jp/docs/2023042400018/file_contents/05ni1.pdf",
+      "classification": "municipal-edited-history",
+      "supports": "The city describes the Ashina medieval Kurokawa residence before Gamo's 1592 reconstruction.",
+      "boundary": "The pin represents medieval Kurokawa, not the later reconstructed Tsuruga tower."
+    },
+    {
+      "castleId": "castle.naganuma",
+      "url": "https://www.city.sukagawa.fukushima.jp/bunka_sports/bunka_geijyutsu/1013435/bunkazai/1-1/4217.html",
+      "classification": "municipal-cultural-property",
+      "supports": "The city identifies the medieval hilltop Naganuma site. Its claimed 1260 founding remains uncertain.",
+      "boundary": "Ashina ownership is prescribed regional aggregation, not proof of direct 1560 ownership."
+    },
+    {
+      "castleId": "castle.shirakawa",
+      "url": "https://www.city.shirakawa.fukushima.jp/page/page001390.html",
+      "classification": "municipal-cultural-property",
+      "supports": "The city identifies medieval Yuki/Komine origins before Niwa's 1627 rebuilding.",
+      "boundary": "The Shirakawa pin models Komine. Ashina ownership is prescribed aggregation, not verified 1560 ownership."
+    },
+    {
+      "castleId": "castle.yamagata",
+      "url": "https://www.city.yamagata-yamagata.lg.jp/kakuka/machizukuri/koen/sogo/yamagatajo/",
+      "classification": "municipal-castle-history",
+      "supports": "The city describes Shiba/Mogami origins and later Mogami Yoshiaki expansion.",
+      "boundary": "The rounded pin does not project the later expanded castle footprint into 1560."
+    },
+    {
+      "castleId": "castle.kaminoyama",
+      "url": "https://yamagatakanko.com/attractions/detail_2533.html",
+      "classification": "prefectural-tourism-history",
+      "supports": "The prefectural site describes traditional 1535 construction and a southern Mogami stronghold.",
+      "boundary": "The modern 1982 replica tower is not the scenario's medieval fortification."
+    },
+    {
+      "castleId": "castle.sannohe",
+      "url": "https://www.town.sannohe.aomori.jp/soshiki/kyouikuiinkaijimukyoku/3674.html",
+      "classification": "municipal-cultural-property",
+      "supports": "The town discusses the traditional 1539 relocation and Sannohe Nanbu castle.",
+      "boundary": "The rounded hill-site pin does not settle all disputed construction chronology."
+    },
+    {
+      "castleId": "castle.kunohe",
+      "url": "https://www.city.ninohe.lg.jp/Info/335",
+      "classification": "municipal-archaeology",
+      "supports": "The city identifies the Kunohe site and distinguishes later Fukuoka straight-line modifications.",
+      "boundary": "Nanbu ownership aggregates the Kunohe branch. It does not erase later intra-family conflict."
+    },
+    {
+      "castleId": "castle.kozukata",
+      "url": "https://www.city.morioka.iwate.jp/kanko_sports_bunka/rkeishi_bunkazai/moriokajo/1009472.html",
+      "classification": "municipal-archaeology",
+      "supports": "The city distinguishes medieval earthen Kozukata phases from later stone-built Morioka.",
+      "boundary": "Nanbu ownership is scenario aggregation. The pin does not claim the 1597 Morioka castle already existed."
+    },
+    {
+      "castleId": "castle.hanamaki",
+      "url": "https://www.city.hanamaki.iwate.jp/bunkasports/bunka/1019886/bunkazai/1025184.html",
+      "classification": "municipal-archaeology",
+      "supports": "Excavation identifies medieval Hienuki Toyagasaki remains beneath later Nanbu Hanamaki.",
+      "boundary": "Nanbu ownership and the Hanamaki label are prescribed abstraction, not direct 1560 control or completed later construction."
+    },
+    {
+      "castleId": "castle.hiyama",
+      "url": "https://www.city.noshiro.lg.jp/res/rekishi/hiyamajyou/27106",
+      "classification": "municipal-archaeology",
+      "supports": "The city identifies Hiyama Ando castle and the family's relocation after displacement from Tsugaru.",
+      "boundary": "The pin is approximate. Regional control is not a surveyed 1560 boundary."
+    },
+    {
+      "castleId": "castle.minato",
+      "url": "https://www.city.akita.akita.jp/city/pl/pb/koho/htm/20020125/1-25-14.html",
+      "classification": "municipal-history",
+      "supports": "The city describes Ando's medieval Minato stronghold at Tsuchizaki and later Satake occupancy.",
+      "boundary": "The unified Ando clan is prescribed abstraction, not proof that the Hiyama and Minato branches were already unified."
+    }
+  ]
+}

@@ -4,7 +4,8 @@
   z-index: var(--z-modal-backdrop);
   display: grid;
   place-items: center;
-  background: rgba(20, 18, 14, 0.55);
+  background: rgb(12 22 29 / 65%);
+  backdrop-filter: blur(4px);
   animation: fade var(--duration-fast) var(--ease-out);
 }
 .dialog {
@@ -12,44 +13,79 @@
   max-height: 80vh;
   display: flex;
   flex-direction: column;
-  border: var(--border-strong);
-  border-radius: var(--radius-md);
-  background: var(--washi-100);
-  box-shadow: var(--shadow-2);
+  border: 1px solid var(--stroke-subtle);
+  border-radius: var(--radius-panel);
+  color: var(--text-primary);
+  background: var(--surface-panel);
+  box-shadow: var(--shadow-dialog);
   animation: rise var(--duration-fast) var(--ease-out);
 }
 .sm {
-  width: min(360px, calc(100vw - 32px));
+  width: min(22.5rem, calc(100vw - 2rem));
 }
 .md {
-  width: min(560px, calc(100vw - 32px));
+  width: min(35rem, calc(100vw - 2rem));
 }
 .lg {
-  width: min(800px, calc(100vw - 32px));
+  width: min(50rem, calc(100vw - 2rem));
 }
 .dialog header {
-  height: 44px;
+  height: auto;
+  min-height: 3.5rem;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--space-3);
-  border-bottom: var(--border-thin);
+  padding: var(--space-2) var(--space-6);
+  border-bottom: 1px solid var(--stroke-subtle);
+  background: var(--surface-command);
+  color: var(--text-inverse);
+  border-top: 2px solid var(--command-gold);
+  border-radius: var(--radius-panel) var(--radius-panel) 0 0;
 }
 .dialog h2 {
+  min-width: 0;
+  overflow-wrap: anywhere;
   margin: 0;
-  font-size: var(--font-size-xl);
-  font-weight: 400;
+  font-size: max(18px, var(--font-size-xl));
+  letter-spacing: 0.1em;
+  line-height: 1.25;
+  font-weight: 600;
+  color: var(--text-inverse);
+}
+.dialog header button {
+  flex-shrink: 0;
+  min-width: 32px;
+  min-height: 32px;
+  margin-left: var(--space-2);
+  color: var(--command-muted);
+  background: transparent;
+  border-color: transparent;
+}
+.dialog header button:hover:not(:disabled) {
+  color: var(--text-inverse);
+  background: var(--surface-command-raised);
+  border-color: var(--command-gold);
+}
+.dialog header button:focus-visible {
+  outline: 2px solid var(--command-gold);
+  outline-offset: -2px;
 }
 .body {
+  min-height: 0;
   overflow: auto;
-  padding: var(--space-4);
+  padding: var(--space-6);
 }
 .dialog footer {
+  flex-shrink: 0;
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
   gap: var(--space-2);
-  padding: var(--space-3);
-  border-top: var(--border-thin);
+  padding: var(--space-4) var(--space-6);
+  background: var(--surface-base);
+  border-top: 1px solid var(--stroke-subtle);
+  border-radius: 0 0 var(--radius-panel) var(--radius-panel);
 }
 @keyframes fade {
   from {

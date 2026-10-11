@@ -1,0 +1,33 @@
+{
+  "asset": "public/assets/textures/castle-main-plain-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-09",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sha256": "63f67a163d63c8bf4c505ec3ab345ba034a5fe86cce0a2124537cc1fc4c62fd5",
+  "dimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "bytes": 2162878,
+  "alphaInspection": {
+    "zeroAlphaPixels": 837158,
+    "partialAlphaPixels": 735067,
+    "opaquePixels": 291,
+    "centerAlpha": 253
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 5,
+    "y": 95,
+    "width": 1244,
+    "height": 1064
+  },
+  "groundAnchor": {
+    "x": 627,
+    "y": 875,
+    "method": "authored footprint center selected after visual inspection; not a gameplay coordinate"
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: original transparent 2.5D castle map sprite for a historical Japanese grand-strategy game.\nPrimary request: one refined Japanese plains castle miniature, with a compact three-tier white plaster and dark timber keep, elegant charcoal grey tiled roofs with softly curved eaves, small corner turrets, a complete weathered sloping stone rampart enclosure and a discreet narrow moat at ground level.\nStyle/medium: detailed hand-painted realistic miniature architecture, natural grey stone block texture and restrained white plaster, believable roof tiles and soft shading. Match finely painted realistic woodland terrain, not a toy, low-poly icon or cartoon. Original fictional castle design, no copied existing game artwork or famous castle replica.\nComposition: square transparent canvas with entire castle centered, seen at a fixed high oblique overhead view about 55 degrees. Compact footprint, all roofs, stone foundations and moat entirely visible with transparent margins. The stone foundation footprint center is clearly identifiable near the lower middle. No rectangular plate, no floating island, no surrounding town or landscape.\nLighting: soft northwest daylight from upper left, coherent southeast shaded walls and gentle small ground contact shadow, no dramatic large cast shadow.\nColor palette: warm ivory plaster, charcoal slate roofs, weathered olive-grey stone, muted sage accents, low-saturation narrow moat.\nConstraints: one isolated castle only, genuinely transparent background. No flags or banners (owner flag is drawn dynamically in the game), people, roads, trees, snow, mountains, horizon, sky, UI, text, letters, labels, logos, borders or watermark. A square compact sprite under 2048 pixels per side, not a sprite sheet."
+}

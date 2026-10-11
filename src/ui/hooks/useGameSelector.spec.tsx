@@ -5,7 +5,13 @@
 import { act, type ReactElement } from 'react';
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { useCachedGameSelector, useGameSelector, makeCachedSelector } from './useGameSelector';
+import {
+  useCachedGameSelector,
+  useGameSelector,
+  makeCachedSelector,
+  GameSelectorProvider,
+} from './useGameSelector';
+import { createIsolatedGameStore } from '@app/dev/createIsolatedGameStore';
 import { bumpTickSeq, resetGameStoreForTests, store } from '../../app/store';
 import type { GameState } from '../../core/state/gameState';
 import { makeLoopTestState, TEST_CLAN } from '../../../tests/helpers/loopState';
@@ -46,6 +52,33 @@ describe('useGameSelector — 輸出未變時不重渲染（useShallow 淺比較
 });
 
 describe('makeCachedSelector／useCachedGameSelector（01 §5.3）', () => {
+  it('provider reads only isolated game identity and local tick versions, preserving the default live store', () => {
+    const localGame = makeLoopTestState({ gold: 250 });
+    const local = createIsolatedGameStore(localGame, 7);
+    const cached = makeCachedSelector((game) => game.clans[TEST_CLAN]!.gold);
+    function LocalGold() {
+      return <span data-testid="local-gold">{useCachedGameSelector(cached)}</span>;
+    }
+    render(
+      <>
+        <GoldDisplay onRender={() => {}} />
+        <GameSelectorProvider value={local}>
+          <LocalGold />
+        </GameSelectorProvider>
+      </>,
+    );
+    expect(screen.getByTestId('gold').textContent).toBe('100');
+    expect(screen.getByTestId('local-gold').textContent).toBe('250');
+    act(() => {
+      localGame.clans[TEST_CLAN]!.gold = 300;
+      local.setState({ tickSeq: 8 });
+    });
+    expect(screen.getByTestId('local-gold').textContent).toBe('300');
+    expect(store.getState().tickSeq).toBe(0);
+    expect(store.getState().game!.clans[TEST_CLAN]!.gold).toBe(100);
+    act(() => bumpTickSeq());
+    expect(screen.getByTestId('local-gold').textContent).toBe('300');
+  });
   it('同一 tickSeq 內重複呼叫回傳快取值，compute 只呼叫一次', () => {
     let computeCalls = 0;
     const cached = makeCachedSelector((g: GameState) => {

@@ -28,7 +28,8 @@ export function validateStartPlot(
     return reject();
   if (executor?.status !== 'serving' || !executor.hasComeOfAge) return reject();
   if (executor.clanId !== clan.id) return reject(REJECT_REASONS.notOwner);
-  if (isOfficerBusy(state, executor.id)) return reject(REJECT_REASONS.officerBusy);
+  if (isOfficerBusy(state, executor.id))
+    return { ok: false, reasonKey: REJECT_REASONS.officerBusy, params: { name: executor.name } };
   const plots = state.diplomacy.plots.filter((plot) => plot.ownerClanId === clan.id);
   if (plots.length >= BAL.plotMaxConcurrent) return reject(REJECT_REASONS.alreadyActive);
   if (

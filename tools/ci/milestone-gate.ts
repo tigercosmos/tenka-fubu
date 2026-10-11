@@ -1,9 +1,10 @@
 // CI 里程碑門檻判定腳本（規格：plan/18-roadmap.md §4.1、plan/17-testing.md §3.11.2）。
 //
 // 讀取 repo 根目錄 milestone.json 的 current，對照 17 §3.11.2「里程碑品質門檻」表，
-// 判定其中「先以 ○（僅報告）產出、之後才轉 ✓（阻斷）」的兩項門檻目前是否應以阻斷模式執行：
+// 判定其中「先以 ○（僅報告）產出、之後才轉 ✓（阻斷）」的門檻目前是否應以阻斷模式執行：
 //   - golden-s1560（M8-28 以 ○ 產出、M9-6 轉 ✓ 阻斷）
 //   - AI 合法性 A2／全國（M7-14 以 ○ 產出、M8-29 轉 ✓ 阻斷）
+//   - perf gate／core 覆蓋率 80/70（M9 起阻斷）
 // 其餘檢查項（tsc/eslint/prettier、簡體字掃描、typecheck、基礎 unit、golden-mini、
 // Playwright P1–P3/P5/P4、AI 合法性 A1、replay 回歸庫……）在各自產出的當個里程碑即恆為阻斷，
 // 不受本腳本控制（其判斷方式＝檔案是否存在，由 .github/workflows/ci.yml 的存在性檢查處理）。
@@ -44,6 +45,8 @@ interface MilestoneConfig {
 const BLOCKING_FROM = {
   goldenS1560Blocking: 'M9',
   aiLegalityA2Blocking: 'M8',
+  perfGateBlocking: 'M9',
+  coreCoverageBlocking: 'M9',
 } as const satisfies Record<string, MilestoneId>;
 
 function isMilestoneId(value: unknown): value is MilestoneId {

@@ -221,6 +221,7 @@ describe('M3 內政 core', () => {
 
   it('輸送隊在當前節點遭劫，敵軍兵糧受攜行上限截斷', () => {
     const state = buildTinyState();
+    const carryCap = Math.floor(100 * BAL.fieldFoodPerSoldierDaily * BAL.maxCarryDays);
     state.diplomacy.rows['clan.alpha|clan.beta' as never] = {
       key: 'clan.alpha|clan.beta' as never,
       a: CLAN_ALPHA,
@@ -243,7 +244,7 @@ describe('M3 內政 core', () => {
       deputyIds: [],
       soldiers: 100,
       initialTroops: 100,
-      food: 119,
+      food: carryCap - 1,
       morale: 80,
       status: 'holding',
       mission: 'march',
@@ -270,7 +271,7 @@ describe('M3 內政 core', () => {
       food: 100,
     });
     expect(transportDaily(state)[0]?.type).toBe('transport.looted');
-    expect(state.armies[enemyArmyId].food).toBe(120);
+    expect(state.armies[enemyArmyId].food).toBe(carryCap);
     expect(Object.keys(state.transports)).toHaveLength(0);
   });
 

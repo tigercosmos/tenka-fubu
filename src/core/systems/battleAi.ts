@@ -1,4 +1,5 @@
 import { BAL } from '../balance';
+import { getBattleOfficerStat } from '../battleStats';
 import { getAvailableTacticDefs } from '../tactics';
 import type { BattleCommand } from './battle';
 import type { BattleSide, BattleState, BattleUnit, GameState, Jin } from '../state/gameState';
@@ -33,8 +34,8 @@ function isAdjacentOrSame(
 
 function unitPower(state: Readonly<GameState>, unit: Readonly<BattleUnit>): number {
   const general = state.officers[unit.generalId];
-  const val = general === undefined ? 0 : general.val + general.statGrowth.val;
-  const ldr = general === undefined ? 0 : general.ldr + general.statGrowth.ldr;
+  const val = general === undefined ? 0 : getBattleOfficerStat(general, 'val');
+  const ldr = general === undefined ? 0 : getBattleOfficerStat(general, 'ldr');
   return (
     unit.troops *
     (1 + val * BAL.valBattleFactor + ldr * BAL.ldrBattleFactor) *

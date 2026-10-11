@@ -8,6 +8,8 @@
 // 呈現原則（§2.2）：ink900（省名 ink700）墨字＋washi100 halo 描邊（Pixi v8 BitmapText 吃
 // TextStyle 動態生成含 stroke 字集）；修掉舊「白字無 halo」不可讀問題。
 
+import { TextStyle } from 'pixi.js';
+import type { BitmapText } from 'pixi.js';
 import { TOKENS_NUM } from '../styles/tokens';
 import { MAPVIEW } from './mapViewConfig';
 
@@ -21,7 +23,7 @@ export interface LabelStyleSpec {
   readonly halo: number;
   /** halo 描邊寬（px）。 */
   readonly haloW: number;
-  /** 整體透明度（省名 0.85，不壓過主城/軍隊）。 */
+  /** 整體透明度（地理標籤從屬於城名/軍隊）。 */
   readonly alpha?: number;
   /** 字距（省名大字 3）。 */
   readonly letterSpacing?: number;
@@ -34,12 +36,12 @@ export interface LabelStyleSpec {
 /** M6-V9 §2.4 定稿表：province／mainCastle／branchCastle／district／road 五類。 */
 export const LABEL_STYLE = {
   province: {
-    size: 20,
+    size: 18,
     fill: TOKENS_NUM.ink700,
-    halo: TOKENS_NUM.washi100,
-    haloW: 3,
-    alpha: 0.85,
-    letterSpacing: 3,
+    halo: TOKENS_NUM.washi300,
+    haloW: 1.5,
+    alpha: 1,
+    letterSpacing: 2,
   },
   mainCastle: { size: 15, fill: TOKENS_NUM.ink900, halo: TOKENS_NUM.washi100, haloW: 3, gap: 20 },
   branchCastle: {
@@ -49,12 +51,20 @@ export const LABEL_STYLE = {
     haloW: 3,
     gap: 16,
   },
-  district: { size: 12, fill: TOKENS_NUM.ink900, halo: TOKENS_NUM.washi100, haloW: 3, gap: 14 },
+  district: {
+    size: 12,
+    fill: TOKENS_NUM.ink900,
+    halo: TOKENS_NUM.washi200,
+    haloW: 1.5,
+    alpha: 1,
+    gap: 14,
+  },
   road: {
     size: 12,
     fill: TOKENS_NUM.ink900,
-    halo: TOKENS_NUM.washi100,
-    haloW: 2.5,
+    halo: TOKENS_NUM.washi300,
+    haloW: 1.5,
+    alpha: 1,
     offset: MAPVIEW.roadLabelOffset,
   },
 } as const satisfies Record<string, LabelStyleSpec>;
@@ -80,4 +90,28 @@ export function labelTextStyle(spec: LabelStyleSpec): {
     stroke: { color: spec.halo, width: spec.haloW, join: 'round' },
     ...(spec.letterSpacing === undefined ? {} : { letterSpacing: spec.letterSpacing }),
   };
+}
+
+const sharedStyles = new Map<string, TextStyle>();
+
+/** Shared map-owned styles: callers must neither mutate nor destroy them. */
+export function sharedLabelTextStyle(spec: LabelStyleSpec): TextStyle {
+  const options = labelTextStyle(spec);
+  const key = JSON.stringify(options);
+  let style = sharedStyles.get(key);
+  if (!style) {
+    style = new TextStyle(options);
+    sharedStyles.set(key, style);
+  }
+  return style;
+}
+
+/** Pixi 8.19 AbstractText.destroy does not remove its shared style listener. */
+export function bindSharedLabelStyleLifecycle(label: BitmapText): void {
+  const style = label.style;
+  label.on('destroyed', () => {
+    // EventEmitter requires the original method identity plus its explicit context.
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    style.off('update', label.onViewUpdate, label);
+  });
 }

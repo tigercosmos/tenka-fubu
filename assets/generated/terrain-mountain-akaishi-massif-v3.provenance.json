@@ -1,0 +1,32 @@
+{
+  "license": "project-original",
+  "asset": "public/assets/textures/terrain-mountain-akaishi-massif-v3.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [
+    "assets/generated/source-images/terrain-mountain-akaishi-massif-v3-input.png",
+    "assets/generated/source-images/terrain-mountain-akaishi-massif-v3-layout-guide.png"
+  ],
+  "sha256": "b2eb8a4c72513e82391045620d3fbcf764ff3b23e951552995fda8e8480154a3",
+  "dimensions": {
+    "width": 1024,
+    "height": 1536
+  },
+  "bytes": 2728303,
+  "alphaInspection": {
+    "zeroAlphaPixels": 757397,
+    "partialAlphaPixels": 815467,
+    "opaquePixels": 0,
+    "centerAlpha": 253
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 142,
+    "y": 23,
+    "width": 787,
+    "height": 1495
+  },
+  "prompt": "Use case: precise-object-edit. Asset type: original transparent 2.5D strategy terrain sprite. Image 1 is the edit target and appearance reference; image 2 is ONLY a layout guide from the actual game, not a texture to copy. In image 2, two blue rivers appear: ignore the river at the far left. The narrow blue river running THROUGH the mountain mass is the exact required internal valley alignment. Recompose image 1's internal terrain so this river lies on one continuous valley FLOOR, never on a mountain face. The current floor bends too far right around the large lower foreground summit. Move that summit and its descending shoulders LEFT of the required valley, while preserving the connected overall silhouette. In a 1024x1536 output, valley center must pass near (543,451), (510,780), (485,1030), (470,1300), (456,1500): an almost straight gently leftward descent, not an S bend. Build natural asymmetric wooded V shoulders and tributary gullies around a muted earthy floor, variable 50-95 px width, solid painted land. Preserve three unequal main summit groups, gray-brown rock, olive woodland, northwest lighting, high-oblique orthographic camera, canvas and approximately alpha-visible x142 y23 width796 height1500. Genuine transparent background. Do NOT paint any water or blue alignment line; the game renders water separately. Do NOT copy labels, castles, roads, armies, HUD or background from image 2. No text, snow, halo, groundplate or watermark; do not stretch, translate, rotate or crop the whole sprite."
+}

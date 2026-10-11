@@ -18,15 +18,21 @@ import { timeSystem } from './time';
 import { reportsSystem } from './reports';
 import { developmentSystem } from './development';
 import { economySystem } from './economy';
+import type { MonthOpeningSettlement } from './monthOpeningSettlement';
 import { officersSystem } from './officers';
 import { militaryMovementSystem } from './military';
 import { fieldCombatSystem } from './fieldCombat';
 import { siegeSystem } from './siege';
 import { victorySystem } from './victory';
-import { enrollMonthlyCouncils, runCouncilTick } from './ai/scheduler';
-import { runDaimyoCouncil } from './ai/daimyo';
+import { runAiSystems, warmAiCaches } from './ai';
+import type { AiSignal } from './ai/types';
 import { diplomacySystem } from './diplomacy';
-import { proposalsSystem } from './proposals';
+import { proposalsSystem, submitProposal } from './proposals';
+import { generateProposalCandidates } from './ai/proposalGen';
+import type { EventEngine } from './events/engine';
+import { collectEventHooks } from './events';
+import { expireTaimei } from './events/taimei';
+import type { ClanId } from '../state/ids';
 
 // ═══════════════════════════════════════════════════════════════════
 // 迴圈機制型別（03 §4.1 canonical）
@@ -48,7 +54,9 @@ export interface TickResult {
   appliedCommands: CommandEnvelope[]; // 本 tick 成功套用者；供 state 外側 command log 記錄（17 §3.10）
   autoPauseReasons: AutoPauseReason[]; // 去重後的自動暫停原因（Step 13 reports 產生；可空）
   autosaveDue: 'monthly' | null; // 驅動器據此呼叫 onAutosave（§3.9.1）
-  perf: { totalMs: number; stepMs: number[] }; // 各步耗時取樣（core 無 Date.now，恆 0；正式版可全 0，§4.1）
+  /** Actual Step 6 opening gold settlement, not a previous-month ledger or end-of-tick balance. */
+  monthOpeningSettlement?: MonthOpeningSettlement;
+  perf: { totalMs: number; stepMs: number[] }; // 無注入時鐘時為 0；app 可提供單調時鐘，量測不入狀態。
 }
 
 /**
@@ -58,10 +66,13 @@ export interface TickResult {
  * - `autoPauseReasons`：Step 13 reports 寫入（M1-8 已實作，見 systems/reports.ts）。
  */
 export interface TickContext {
+  eventEngine?: EventEngine;
+  aiSignals: AiSignal[];
   queue: readonly CommandEnvelope[];
   appliedCommands: CommandEnvelope[];
   events: GameEvent[];
   autoPauseReasons: AutoPauseReason[];
+  monthOpeningSettlement?: MonthOpeningSettlement;
 }
 
 /** 單一步驟函式簽名（(state, ctx) → 該步發出的事件；就地修改 state）。 */
@@ -98,7 +109,7 @@ function stepApplyCommands(state: GameState, ctx: TickContext): GameEvent[] {
   const emit: EmitFn = (e) => {
     events.push(e);
   };
-  ctx.appliedCommands.push(...applyCommands(state, ctx.queue, emit));
+  ctx.appliedCommands.push(...applyCommands(state, ctx.queue, emit, ctx));
   return events;
 }
 
@@ -117,26 +128,39 @@ function stepTime(state: GameState): GameEvent[] {
     emit(deferred);
   }
   state.meta.deferredEvents = [];
-  timeSystem(state, emit);
+  let monthStarted = false;
+  timeSystem(state, (event) => {
+    emit(event);
+    if (event.type === 'time.monthStart') monthStarted = true;
+  });
+  if (monthStarted) {
+    for (const clan of Object.values(state.clans)) clan.rewardGoldSpentThisMonth = 0;
+  }
   return events;
 }
 
 // Step 3–12：空殼佔位（回傳 []）。各步的讀寫區塊、發出事件與內部演算法見 §3.2.3「詳見」欄；
 // 由對應系統里程碑替換為實作。骨架期不讀寫 state（無副作用），確保空劇本連跑無例外。
-function stepEvents(): GameEvent[] {
-  return []; // 歷史/汎用事件引擎（10；M8）
+function stepEvents(state: GameState, ctx: TickContext): GameEvent[] {
+  const events: GameEvent[] = [];
+  if (ctx.eventEngine) ctx.eventEngine.run(state, (event) => events.push(event));
+  else expireTaimei(state, (event) => events.push(event));
+  return events;
 }
-function stepDiplomacy(state: GameState): GameEvent[] {
+function stepDiplomacy(state: GameState, ctx: TickContext): GameEvent[] {
+  warmAiCaches(state, ctx.events);
   return diplomacySystem(state);
 }
 function stepDevelopment(state: GameState): GameEvent[] {
   return developmentSystem(state);
 }
-function stepEconomy(state: GameState): GameEvent[] {
-  return economySystem(state);
+function stepEconomy(state: GameState, ctx: TickContext): GameEvent[] {
+  return economySystem(state, (settlement) => {
+    ctx.monthOpeningSettlement = settlement;
+  });
 }
-function stepMilitaryMovement(state: GameState): GameEvent[] {
-  return militaryMovementSystem(state);
+function stepMilitaryMovement(state: GameState, ctx: TickContext): GameEvent[] {
+  return militaryMovementSystem(state, (signal) => ctx.aiSignals.push(signal));
 }
 function stepMilitaryCombat(state: GameState): GameEvent[] {
   return [...fieldCombatSystem(state), ...siegeSystem(state)];
@@ -153,36 +177,35 @@ function stepOfficers(state: GameState, ctx: TickContext): GameEvent[] {
   return officersSystem(state, unpaidPayeeIds);
 }
 function stepProposals(state: GameState): GameEvent[] {
-  return proposalsSystem(state);
-}
-function stepAi(state: GameState): GameEvent[] {
-  // AI 評定入列/消化（03 §3.8.2 排程器＋最小大名 AI 評定本體；MVP 先行，M7 擴充為 09 §3.4 四階段）。
-  // 入列對象＝存活的非玩家勢力；消化每 tick 至多 BAL.aiCouncilsPerTick 家（字典序，決定論）。
-  const events: GameEvent[] = [];
-  const emit: EmitFn = (e) => {
-    events.push(e);
-  };
-  const aiClanIds = Object.values(state.clans)
-    .filter((clan) => clan.alive && clan.id !== state.meta.playerClanId)
-    .map((clan) => clan.id);
-  if (state.time.dayOfMonth === 1) {
-    enrollMonthlyCouncils(state.ai, aiClanIds, state.time.day);
+  const events = proposalsSystem(state);
+  if (state.time.dayOfMonth === 1 && state.meta.gameOver === null && !state.ai.allAi) {
+    for (const candidate of generateProposalCandidates(state)) {
+      const event = submitProposal(state, candidate);
+      if (event) events.push(event);
+    }
   }
-  const aiSet = new Set(aiClanIds);
-  runCouncilTick(state.ai, state.time.day, (clanId) => {
-    if (aiSet.has(clanId)) runDaimyoCouncil(state, clanId, emit);
-  });
   return events;
+}
+function stepAi(state: GameState, ctx: TickContext): GameEvent[] {
+  const result = runAiSystems(state, [...ctx.events, ...ctx.aiSignals]);
+  state.ai.pendingOrders.push(...result.orders);
+  return [];
 }
 function stepVictory(state: GameState, ctx: TickContext): GameEvent[] {
   // 勝敗檢查（10 §5.6；MVP 先行實作，見 systems/victory.ts 檔頭）：
   // ctx.events 傳入本 tick 至本步的事件全集，供結局統計消費 battle.ended（M8-3 前過渡）。
-  return victorySystem(state, ctx.events);
+  return victorySystem(state, ctx.events, { battleStatsFromHooks: ctx.eventEngine !== undefined });
 }
 function stepReports(state: GameState, ctx: TickContext): GameEvent[] {
   // Step 13 reports（M1-8；src/core/systems/reports.ts）：消費 ctx.events（本 tick 全集）→
   // 追加 Report、修剪、計算 autoPauseReasons 併入 ctx（本步為事件終端消費者、不發事件，§3.2.3）。
-  const reasons = reportsSystem(state, ctx.events);
+  const reasons = reportsSystem(
+    state,
+    ctx.events,
+    ctx.eventEngine
+      ? { isHistoricalEvent: (id) => ctx.eventEngine!.getDef(id)?.kind === 'historical' }
+      : {},
+  );
   ctx.autoPauseReasons.push(...reasons);
   return [];
 }
@@ -221,18 +244,38 @@ export const STEP_SEQUENCE: readonly StepName[] = STEP_ORDER.map((s) => s.name);
  * 月結 hook（§3.9.1）：Step 2 推進後若為每月 1 日（dayOfMonth===1），autosaveDue='monthly'
  *（BAL.autosaveEveryMonths=1，每月月初存檔；驅動器讀旗標後呼叫 onAutosave，debug 跳轉期抑制）。
  */
-export function advanceDay(state: GameState, queue: readonly CommandEnvelope[]): TickResult {
+export function advanceDay(
+  state: GameState,
+  queue: readonly CommandEnvelope[],
+  options: { now?: () => number; eventEngine?: EventEngine } = {},
+): TickResult {
+  const now = options.now;
+  const started = now?.() ?? 0;
+  const stepMs: number[] = [];
+  const leaders = options.eventEngine
+    ? new Map(Object.values(state.clans).map((clan) => [clan.id, clan.leaderId] as const))
+    : new Map<ClanId, OfficerId>();
   const events: GameEvent[] = [];
-  const ctx: TickContext = { queue, appliedCommands: [], events, autoPauseReasons: [] };
+  const ctx: TickContext = {
+    ...(options.eventEngine ? { eventEngine: options.eventEngine } : {}),
+    queue,
+    appliedCommands: [],
+    events,
+    autoPauseReasons: [],
+    aiSignals: [],
+  };
 
   for (const step of STEP_ORDER) {
+    const stepStarted = now?.() ?? 0;
     const stepEvents = step.run(state, ctx);
+    stepMs.push(now ? Math.max(0, now() - stepStarted) : 0);
     for (const e of stepEvents) {
       events.push(e);
     }
   }
 
   const autosaveDue: 'monthly' | null = state.time.dayOfMonth === 1 ? 'monthly' : null;
+  if (options.eventEngine) collectEventHooks(state, events, leaders);
 
   state.meta.territoryChangedToday = false; // §3.2.4：重置每日髒標記（Step 12 消費後）
   state.meta.stateVersion += 1; // §3.1／§3.2.4：UI 訂閱重繪依據
@@ -243,6 +286,7 @@ export function advanceDay(state: GameState, queue: readonly CommandEnvelope[]):
     appliedCommands: ctx.appliedCommands,
     autoPauseReasons: ctx.autoPauseReasons,
     autosaveDue,
-    perf: { totalMs: 0, stepMs: STEP_ORDER.map(() => 0) },
+    ...(ctx.monthOpeningSettlement ? { monthOpeningSettlement: ctx.monthOpeningSettlement } : {}),
+    perf: { totalMs: now ? Math.max(0, now() - started) : 0, stepMs },
   };
 }

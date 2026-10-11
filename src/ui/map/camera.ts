@@ -35,6 +35,12 @@ export interface WorldPoint {
   readonly y: number;
 }
 
+/** Canonical world ↔ presentation scene. Inverse is owned by the shared surface. */
+export interface PresentationProjection {
+  project(world: WorldPoint): WorldPoint;
+  unproject(scene: WorldPoint): WorldPoint;
+}
+
 /** 螢幕座標點。 */
 export interface ScreenPoint {
   readonly x: number;
@@ -95,13 +101,34 @@ const ZERO_VELOCITY: Velocity = { vx: 0, vy: 0 };
 export class Camera {
   private state: CameraState;
   private readonly bounds: CameraBounds;
+  private projection: PresentationProjection | null;
 
   private dragging = false;
   private velocity: Velocity = { ...ZERO_VELOCITY };
   private inertiaActive = false;
   private focusAnim: FocusAnim | null = null;
+  private reducedMotion = false;
 
-  constructor(initial?: Partial<CameraState>, bounds?: Partial<CameraBounds>) {
+  /** Runtime presentation flag: finish a focus at its target and stop inertial drift immediately. */
+  setReducedMotion(reduced: boolean): void {
+    this.reducedMotion = reduced;
+    if (!reduced) return;
+    const focus = this.focusAnim;
+    if (focus !== null) {
+      this.focusAnim = null;
+      this.state = focus.to;
+      focus.resolve();
+    }
+    this.inertiaActive = false;
+    this.velocity = { ...ZERO_VELOCITY };
+  }
+
+  constructor(
+    initial?: Partial<CameraState>,
+    bounds?: Partial<CameraBounds>,
+    projection?: PresentationProjection | null,
+  ) {
+    this.projection = projection ?? null;
     const padding = MAPVIEW.panBoundsPadding;
     this.bounds = {
       minX: bounds?.minX ?? -padding,
@@ -121,6 +148,14 @@ export class Camera {
     return this.state;
   }
 
+  /** Change presentation only; canonical center and zoom are retained. */
+  setPresentationProjection(projection: PresentationProjection | null): void {
+    if (projection === this.projection) return;
+    this.cancelAutomatedMotion();
+    this.velocity = { ...ZERO_VELOCITY };
+    this.projection = projection;
+  }
+
   /** 是否有 `focusOn` 動畫進行中。 */
   isAnimating(): boolean {
     return this.focusAnim !== null;
@@ -133,6 +168,9 @@ export class Camera {
 
   /** 螢幕座標 → 世界座標（依目前鏡頭狀態）。 */
   screenToWorld(screen: ScreenPoint, viewport: CameraViewport): WorldPoint {
+    if (this.projection !== null) {
+      return this.projection.unproject(this.screenToScene(screen, viewport));
+    }
     return {
       x: (screen.x - viewport.width / 2) / this.state.scale + this.state.x,
       y: (screen.y - viewport.height / 2) / this.state.scale + this.state.y,
@@ -141,18 +179,40 @@ export class Camera {
 
   /** 世界座標 → 螢幕座標（依目前鏡頭狀態）。 */
   worldToScreen(world: WorldPoint, viewport: CameraViewport): ScreenPoint {
+    if (this.projection !== null) {
+      return this.sceneToScreen(this.projection.project(world), viewport);
+    }
     return {
       x: (world.x - this.state.x) * this.state.scale + viewport.width / 2,
       y: (world.y - this.state.y) * this.state.scale + viewport.height / 2,
     };
   }
 
+  /** Affine-only path for geometry that has already been projected into scene space. */
+  sceneToScreen(scene: WorldPoint, viewport: CameraViewport): ScreenPoint {
+    const center = this.projection?.project(this.state) ?? this.state;
+    return {
+      x: (scene.x - center.x) * this.state.scale + viewport.width / 2,
+      y: (scene.y - center.y) * this.state.scale + viewport.height / 2,
+    };
+  }
+
+  /** Affine inverse only; callers must not mistake this result for canonical ground. */
+  screenToScene(screen: ScreenPoint, viewport: CameraViewport): WorldPoint {
+    const center = this.projection?.project(this.state) ?? this.state;
+    return {
+      x: (screen.x - viewport.width / 2) / this.state.scale + center.x,
+      y: (screen.y - viewport.height / 2) / this.state.scale + center.y,
+    };
+  }
+
   /** 供套用至 Pixi `world` 容器 `scale.set(t.scale)`／`position.set(t.x, t.y)`。 */
   getWorldTransform(viewport: CameraViewport): WorldTransform {
+    const center = this.projection?.project(this.state) ?? this.state;
     return {
       scale: this.state.scale,
-      x: viewport.width / 2 - this.state.x * this.state.scale,
-      y: viewport.height / 2 - this.state.y * this.state.scale,
+      x: viewport.width / 2 - center.x * this.state.scale,
+      y: viewport.height / 2 - center.y * this.state.scale,
     };
   }
 
@@ -169,6 +229,14 @@ export class Camera {
       MAPVIEW.minScale,
       MAPVIEW.maxScale,
     );
+    if (this.projection !== null) {
+      const scene = this.screenToScene(cursor, viewport);
+      this.state = { ...this.state, scale: s1 };
+      const next = this.screenToScene(cursor, viewport);
+      if (scene.x === next.x && scene.y === next.y) return;
+      this.shiftSceneCenter(scene.x - next.x, scene.y - next.y);
+      return;
+    }
     const w = this.screenToWorld(cursor, viewport); // 縮放前游標世界座標
     this.state = { ...this.state, scale: s1 };
     const w2 = this.screenToWorld(cursor, viewport); // 縮放後（中心未變）游標世界座標
@@ -190,7 +258,7 @@ export class Camera {
     this.cancelAutomatedMotion();
     const vx = -dxScreen / this.state.scale;
     const vy = -dyScreen / this.state.scale;
-    this.state = { ...this.state, x: this.state.x + vx, y: this.state.y + vy };
+    this.shiftSceneCenter(vx, vy);
     this.clampPosition();
     this.velocity = { vx, vy };
   }
@@ -199,7 +267,7 @@ export class Camera {
   endDrag(): void {
     this.dragging = false;
     const { vx, vy } = this.velocity;
-    if (Math.hypot(vx, vy) >= MAPVIEW.inertiaMinSpeed) {
+    if (!this.reducedMotion && Math.hypot(vx, vy) >= MAPVIEW.inertiaMinSpeed) {
       this.inertiaActive = true;
     } else {
       this.velocity = { ...ZERO_VELOCITY };
@@ -218,7 +286,7 @@ export class Camera {
   panByKeyboard(dirX: number, dirY: number): void {
     this.cancelAutomatedMotion();
     const step = 600 / this.state.scale;
-    this.state = { ...this.state, x: this.state.x + dirX * step, y: this.state.y + dirY * step };
+    this.shiftSceneCenter(dirX * step, dirY * step);
     this.clampPosition();
   }
 
@@ -230,7 +298,7 @@ export class Camera {
    */
   focusOn(target: WorldPoint, opts?: FocusOnOptions): Promise<void> {
     this.cancelAutomatedMotion();
-    const durationMs = opts?.durationMs ?? MAPVIEW.focusDurationMs;
+    const durationMs = this.reducedMotion ? 0 : (opts?.durationMs ?? MAPVIEW.focusDurationMs);
     const targetScale = clamp(
       opts?.scale ?? MAPVIEW.focusScale,
       MAPVIEW.minScale,
@@ -270,11 +338,7 @@ export class Camera {
       return;
     }
     if (this.inertiaActive) {
-      this.state = {
-        ...this.state,
-        x: this.state.x + this.velocity.vx,
-        y: this.state.y + this.velocity.vy,
-      };
+      this.shiftSceneCenter(this.velocity.vx, this.velocity.vy);
       this.clampPosition();
       this.velocity = {
         vx: this.velocity.vx * MAPVIEW.inertiaDamping,
@@ -285,6 +349,17 @@ export class Camera {
         this.velocity = { ...ZERO_VELOCITY };
       }
     }
+  }
+
+  /** Pixel motion is linear in scene space; stored state always remains canonical. */
+  private shiftSceneCenter(dx: number, dy: number): void {
+    if (this.projection === null) {
+      this.state = { ...this.state, x: this.state.x + dx, y: this.state.y + dy };
+      return;
+    }
+    const center = this.projection.project(this.state);
+    const world = this.projection.unproject({ x: center.x + dx, y: center.y + dy });
+    this.state = { ...this.state, x: world.x, y: world.y };
   }
 
   /** 中心點依世界邊界外擴 `panBoundsPadding` 夾限（§3.11；僅平移操作使用，見類別頂端說明）。 */

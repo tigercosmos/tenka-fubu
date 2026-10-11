@@ -92,4 +92,59 @@ describe('perfMonitor', () => {
     expect(snap2.systemBreakdownMs).toEqual({});
     expect(snap2.entityCounts.castles).toBe(0);
   });
+
+  it('measures elapsed-weighted scheduler FPS, not the average of reciprocal intervals', () => {
+    perfMonitor.recordFrame(0);
+    expect(perfMonitor.getSnapshot().fps).toBe(0);
+    perfMonitor.recordFrame(10);
+    perfMonitor.recordFrame(40);
+    expect(perfMonitor.getSnapshot().fps).toBe(50);
+  });
+
+  it('retains only the latest 120 positive intervals through repeated ring wraps', () => {
+    let now = 0;
+    perfMonitor.recordFrame(now);
+    for (let delta = 1; delta <= 300; delta += 1) {
+      now += delta;
+      perfMonitor.recordFrame(now);
+    }
+    expect(perfMonitor.getSnapshot().fps).toBeCloseTo(1000 / ((181 + 300) / 2), 10);
+  });
+
+  it('ignores invalid, duplicate and regressing timestamps without changing the last valid anchor', () => {
+    for (const now of [NaN, Infinity, -1, 100, 100, 90, NaN, 120]) {
+      perfMonitor.recordFrame(now);
+    }
+    expect(perfMonitor.getSnapshot().fps).toBe(50);
+  });
+
+  it('resets frame history alone and distinguishes measured zero-duration ticks', () => {
+    expect(perfMonitor.hasTickSamples()).toBe(false);
+    perfMonitor.recordTick(0);
+    perfMonitor.recordSystems({ ai: 2 });
+    perfMonitor.recordFrame(10);
+    perfMonitor.recordFrame(20);
+    perfMonitor.resetFrames();
+    expect(perfMonitor.getSnapshot()).toMatchObject({ fps: 0, systemBreakdownMs: { ai: 2 } });
+    expect(perfMonitor.hasTickSamples()).toBe(true);
+    perfMonitor.recordFrame(10000);
+    expect(perfMonitor.getSnapshot().fps).toBe(0);
+    perfMonitor.recordFrame(10020);
+    expect(perfMonitor.getSnapshot().fps).toBe(50);
+    perfMonitor.reset();
+    expect(perfMonitor.hasTickSamples()).toBe(false);
+    expect(perfMonitor.getSnapshot().fps).toBe(0);
+  });
+
+  it('keeps reported FPS finite for extreme positive timestamps', () => {
+    perfMonitor.recordFrame(0);
+    perfMonitor.recordFrame(Number.MIN_VALUE);
+    expect(Number.isFinite(perfMonitor.getSnapshot().fps)).toBe(true);
+    perfMonitor.resetFrames();
+    perfMonitor.recordFrame(0);
+    perfMonitor.recordFrame(Number.MAX_VALUE / 2);
+    perfMonitor.recordFrame(Number.MAX_VALUE);
+    expect(perfMonitor.getSnapshot().fps).toBeGreaterThan(0);
+    expect(Number.isFinite(perfMonitor.getSnapshot().fps)).toBe(true);
+  });
 });

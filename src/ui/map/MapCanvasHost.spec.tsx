@@ -21,10 +21,13 @@ const hoisted = vi.hoisted(() => {
   return { apps, bufferSources, textures };
 });
 
-vi.mock('pixi.js', () => {
+vi.mock('pixi.js', async (importOriginal) => {
+  const { TextStyle } = await importOriginal<typeof import('pixi.js')>();
+  const { PixiMockRenderRunner } = await import('../../../tests/helpers/pixiMock');
   class Container {
     label = '';
     children: Container[] = [];
+    parent: Container | null = null;
     visible = true;
     eventMode = 'auto';
     hitArea: unknown = null;
@@ -45,17 +48,30 @@ vi.mock('pixi.js', () => {
       },
     };
     private handlers: Record<string, ((...a: unknown[]) => void)[]> = {};
-    addChild<T extends Container>(c: T): T {
-      this.children.push(c);
-      return c;
+    addChild<T extends Container>(...children: T[]): T {
+      for (const child of children) {
+        child.parent?.removeChild(child);
+        this.children.push(child);
+        child.parent = this;
+      }
+      return children[0]!;
+    }
+    addChildAt<T extends Container>(child: T, index: number): T {
+      if (index < 0 || index > this.children.length) throw new Error('Invalid child index');
+      child.parent?.removeChild(child);
+      this.children.splice(index, 0, child);
+      child.parent = this;
+      return child;
     }
     removeChildren(): Container[] {
       const c = this.children;
+      for (const child of c) child.parent = null;
       this.children = [];
       return c;
     }
     removeChild<T extends Container>(c: T): T {
       this.children = this.children.filter((x) => x !== c);
+      c.parent = null;
       return c;
     }
     on(e: string, cb: (...a: unknown[]) => void): this {
@@ -88,6 +104,9 @@ vi.mock('pixi.js', () => {
     circle(): this {
       return this;
     }
+    ellipse(): this {
+      return this;
+    }
     arc(): this {
       return this;
     }
@@ -106,6 +125,7 @@ vi.mock('pixi.js', () => {
   }
   class BitmapText extends Container {
     text: string;
+    style: InstanceType<typeof TextStyle>;
     alpha = 1;
     // M6-V9（§2.1）：標籤 pixel-lock 之 `anchor.set(0.5, 0)` 於 mock 不 throw（真 pixi v8 具 anchor）。
     anchor = {
@@ -116,9 +136,19 @@ vi.mock('pixi.js', () => {
         this.y = y;
       },
     };
-    constructor(options: { text: string }) {
+    constructor(options: {
+      text: string;
+      style?: InstanceType<typeof TextStyle> | ConstructorParameters<typeof TextStyle>[0];
+    }) {
       super();
       this.text = options.text;
+      this.style =
+        options.style instanceof TextStyle ? options.style : new TextStyle(options.style);
+      this.style.on('update', this.onViewUpdate, this);
+    }
+    onViewUpdate(this: void): void {}
+    override destroy(): void {
+      this.emit('destroyed');
     }
   }
   class Rectangle {
@@ -168,20 +198,50 @@ vi.mock('pixi.js', () => {
       this.source = (options?.source as { scaleMode: string }) ?? { scaleMode: 'linear' };
       hoisted.textures.push(this);
     }
-    // 呼叫端 `destroy(true)` 之布林實參於 mock 忽略。
+    destroy(destroySource = false): void {
+      if (this.destroyed) return;
+      this.destroyed = true;
+      if (destroySource) (this.source as { destroy?: () => void }).destroy?.();
+    }
+  }
+  class MeshGeometry {
+    destroyed = false;
+    indexBuffer: { data: Uint32Array };
+    constructor(
+      public options: { positions: Float32Array; uvs: Float32Array; indices: Uint32Array },
+    ) {
+      this.indexBuffer = { data: options.indices };
+    }
     destroy(): void {
       this.destroyed = true;
     }
   }
+  class Mesh extends Container {
+    geometry: MeshGeometry;
+    texture: Texture;
+    constructor(options: { geometry: MeshGeometry; texture: Texture }) {
+      super();
+      this.geometry = options.geometry;
+      this.texture = options.texture;
+    }
+  }
+  const assetTextures = new Map<string, Texture>();
   const Assets = {
     add(): void {},
-    load(): Promise<unknown> {
-      return Promise.resolve(new Texture());
+    load(alias: string): Promise<unknown> {
+      let texture = assetTextures.get(alias);
+      if (!texture) {
+        texture = new Texture();
+        assetTextures.set(alias, texture);
+      }
+      return Promise.resolve(texture);
     },
-    get(): unknown {
-      return new Texture();
+    get(alias: string): unknown {
+      return assetTextures.get(alias);
     },
-    unload(): Promise<void> {
+    unload(alias: string): Promise<void> {
+      assetTextures.get(alias)?.destroy();
+      assetTextures.delete(alias);
       return Promise.resolve();
     },
   };
@@ -195,6 +255,15 @@ vi.mock('pixi.js', () => {
       on(): void {},
       off(): void {},
       resize(): void {},
+      runners: {
+        prerender: new PixiMockRenderRunner('prerender'),
+        postrender: new PixiMockRenderRunner('postrender'),
+      },
+      render: (options?: { container?: Container }): void => {
+        if (options?.container?.visible === false) return;
+        this.renderer.runners.prerender.emit(options);
+        this.renderer.runners.postrender.emit(options);
+      },
     };
     ticker = {
       deltaMS: 16,
@@ -206,8 +275,9 @@ vi.mock('pixi.js', () => {
         this.callbacks = this.callbacks.filter((f) => f !== cb);
       },
       /** 測試專用：手動推進一幀（M6-V2：`waitForIdleFrames` 驗證）。 */
-      tick(): void {
-        for (const cb of this.callbacks) cb();
+      tick: (): void => {
+        for (const cb of this.ticker.callbacks) cb();
+        this.render();
       },
     };
     initOpts: unknown = null;
@@ -222,12 +292,22 @@ vi.mock('pixi.js', () => {
     }
     destroy(): void {
       this.record.destroyed = true;
+      this.ticker.callbacks = [];
+      this.renderer.runners.prerender.destroy();
+      this.renderer.runners.postrender.destroy();
+    }
+    render(): void {
+      this.renderer.render({ container: this.stage });
     }
   }
   return {
     Application,
+    TextStyle,
+    RendererType: { WEBGL: 1, WEBGPU: 2, CANVAS: 4 },
     Container,
     Graphics,
+    Mesh,
+    MeshGeometry,
     BitmapText,
     Rectangle,
     Sprite,
@@ -239,9 +319,10 @@ vi.mock('pixi.js', () => {
 
 // mock 生效後才 import 受測模組（vitest 會 hoist vi.mock 到 import 之上，但顯式順序更清楚）。
 import { MapCanvasHost } from './MapCanvasHost';
+import type { BitmapText } from 'pixi.js';
 import { MapRenderer } from './MapRenderer';
 import { LAYER_ORDER } from './mapViewTypes';
-import type { MapEventHandler, MapViewState } from './mapViewTypes';
+import type { MapEventHandler, MapStaticData, MapViewState } from './mapViewTypes';
 import { buildMapGraph } from '@core/state/mapGraph';
 import type { CastleId } from '@core/state/ids';
 import { getDebugMapRenderer, resetDebugMapRendererForTests } from './debugMapBridge';
@@ -273,6 +354,111 @@ beforeEach(() => {
 });
 
 describe('MapCanvasHost 生命週期（01-A10）', () => {
+  const bootData = (): MapStaticData => ({
+    graph: soloGraph(),
+    clanColorIndex: {},
+    outline: {
+      version: 1,
+      source: 'handcrafted',
+      polygons: [{ id: 'island', points: [0, 0, 100, 0, 100, 100, 0, 100] }],
+    },
+  });
+  it.each([false, true])(
+    'builds initial static roads and owned terrain buffers exactly once (StrictMode=%s)',
+    async (strict) => {
+      const data = bootData();
+      const host = <MapCanvasHost onMapEvent={vi.fn()} staticData={data} />;
+      const { unmount } = render(strict ? <StrictMode>{host}</StrictMode> : host);
+      try {
+        await flush();
+        const renderer = getDebugMapRenderer()!;
+        expect(renderer.getRebuildCounts().roads).toBe(1);
+        expect(hoisted.bufferSources).toHaveLength(3); // Sea surface, coast atlas and territory upload.
+        renderer.setMapData(data); // Explicit renderer reload remains supported even for the same object.
+        expect(renderer.getRebuildCounts().roads).toBe(2);
+        expect(hoisted.bufferSources).toHaveLength(6);
+      } finally {
+        unmount();
+      }
+    },
+  );
+  it.each([false, true])(
+    'forwards latest data during font waiting, including null=%s',
+    async (clear) => {
+      const original = Object.getOwnPropertyDescriptor(document, 'fonts');
+      let release!: () => void;
+      Object.defineProperty(document, 'fonts', {
+        configurable: true,
+        value: {
+          load: () =>
+            new Promise<void>((resolve) => {
+              release = resolve;
+            }),
+          ready: Promise.resolve(),
+        },
+      });
+      const first = bootData(),
+        second = bootData();
+      const set = vi.spyOn(MapRenderer.prototype, 'setMapData');
+      const { rerender, unmount } = render(
+        <MapCanvasHost onMapEvent={vi.fn()} staticData={first} />,
+      );
+      try {
+        rerender(<MapCanvasHost onMapEvent={vi.fn()} staticData={second} />);
+        if (clear) rerender(<MapCanvasHost onMapEvent={vi.fn()} staticData={null} />);
+        await act(async () => {
+          release();
+          await Promise.resolve();
+        });
+        await flush();
+        expect(set.mock.calls.map(([data]) => data)).toEqual(
+          clear ? [first, second, null] : [first, second],
+        );
+        expect(getDebugMapRenderer()!.getRebuildCounts().roads).toBe(clear ? 0 : 1);
+        expect(hoisted.bufferSources).toHaveLength(clear ? 0 : 3);
+      } finally {
+        unmount();
+        set.mockRestore();
+        if (original) Object.defineProperty(document, 'fonts', original);
+        else Reflect.deleteProperty(document, 'fonts');
+      }
+    },
+  );
+  it('forwards changed props during real renderer initialization without a redundant completion reload', async () => {
+    let release!: () => void;
+    const gate = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    const original: MapRenderer['init'] = Reflect.get(MapRenderer.prototype, 'init');
+    const init = vi.spyOn(MapRenderer.prototype, 'init').mockImplementation(async function (
+      this: MapRenderer,
+      ...args
+    ) {
+      await gate;
+      await original.apply(this, args);
+    });
+    const set = vi.spyOn(MapRenderer.prototype, 'setMapData');
+    const first = bootData(),
+      second = bootData();
+    const { rerender, unmount } = render(<MapCanvasHost onMapEvent={vi.fn()} staticData={first} />);
+    try {
+      await flush();
+      expect(init).toHaveBeenCalledTimes(1);
+      rerender(<MapCanvasHost onMapEvent={vi.fn()} staticData={second} />);
+      await act(async () => {
+        release();
+        await gate;
+      });
+      await flush();
+      expect(set.mock.calls.map(([data]) => data)).toEqual([first, second]);
+      expect(getDebugMapRenderer()!.getRebuildCounts().roads).toBe(1);
+      expect(hoisted.bufferSources).toHaveLength(3);
+    } finally {
+      unmount();
+      init.mockRestore();
+      set.mockRestore();
+    }
+  });
   it('does not create a renderer application before the font loads or after unmount during loading', async () => {
     const originalFonts = Object.getOwnPropertyDescriptor(document, 'fonts');
     let finish!: () => void;
@@ -302,6 +488,36 @@ describe('MapCanvasHost 生命週期（01-A10）', () => {
       else Reflect.deleteProperty(document, 'fonts');
     }
   });
+  it('forwards latest individual screen occlusions after initialization and clears omitted props', async () => {
+    let finish: () => void = () => {};
+    const init = vi.spyOn(MapRenderer.prototype, 'init').mockImplementation(
+      () =>
+        new Promise<void>((resolve) => {
+          finish = resolve;
+        }),
+    );
+    const send = vi.spyOn(MapRenderer.prototype, 'setScreenOcclusions');
+    const focus = vi.spyOn(MapRenderer.prototype, 'focusNode');
+    const first = [{ x: 0, y: 0, width: 100, height: 40 }];
+    const latest = [{ x: 900, y: 510, width: 192, height: 192 }];
+    const view = render(<MapCanvasHost onMapEvent={vi.fn()} screenOcclusions={first} />);
+    await flush();
+    view.rerender(<MapCanvasHost onMapEvent={vi.fn()} screenOcclusions={latest} />);
+    send.mockClear();
+    await act(async () => {
+      finish();
+      await Promise.resolve();
+    });
+    expect(send).toHaveBeenLastCalledWith(latest);
+    view.rerender(<MapCanvasHost onMapEvent={vi.fn()} />);
+    expect(send).toHaveBeenLastCalledWith([]);
+    expect(focus).not.toHaveBeenCalled();
+    view.unmount();
+    init.mockRestore();
+    send.mockRestore();
+    focus.mockRestore();
+  });
+
   it('reapplies latest presentation props after delayed initialization without remounting', async () => {
     let finish: () => void = () => {};
     const init = vi.spyOn(MapRenderer.prototype, 'init').mockImplementation(
@@ -312,9 +528,13 @@ describe('MapCanvasHost 生命週期（01-A10）', () => {
     );
     const update = vi.spyOn(MapRenderer.prototype, 'update').mockImplementation(() => {});
     const setMode = vi.spyOn(MapRenderer.prototype, 'setMode').mockImplementation(() => {});
+    const presentation = vi
+      .spyOn(MapRenderer.prototype, 'setPresentationSettings')
+      .mockImplementation(() => {});
     const setTarget = vi
       .spyOn(MapRenderer.prototype, 'setMarchTarget')
       .mockImplementation(() => {});
+    const setFocusViewport = vi.spyOn(MapRenderer.prototype, 'setFocusViewport');
     const view = {
       day: 0,
       castles: [],
@@ -336,26 +556,39 @@ describe('MapCanvasHost 生命週期（01-A10）', () => {
         viewState={view}
         analysisMode="supply"
         analysisOpacity={0.8}
+        mapLabelDensity="low"
+        effectsEnabled={false}
+        reducedMotion
         interactionMode="orderMarch"
         marchTargetId="castle.solo"
+        focusViewport={{ x: 80, y: 60, width: 500, height: 400 }}
       />,
     );
     update.mockClear();
     setMode.mockClear();
     setTarget.mockClear();
+    setFocusViewport.mockClear();
     await act(async () => {
       finish();
       await Promise.resolve();
     });
     expect(init).toHaveBeenCalledTimes(1);
     expect(update).toHaveBeenLastCalledWith(view, { analysisMode: 'supply', analysisOpacity: 0.8 });
+    expect(presentation).toHaveBeenLastCalledWith({
+      mapLabelDensity: 'low',
+      effectsEnabled: false,
+      reducedMotion: true,
+    });
     expect(setMode).toHaveBeenLastCalledWith('orderMarch');
     expect(setTarget).toHaveBeenLastCalledWith('castle.solo');
+    expect(setFocusViewport).toHaveBeenLastCalledWith({ x: 80, y: 60, width: 500, height: 400 });
     unmount();
     init.mockRestore();
     update.mockRestore();
     setMode.mockRestore();
+    presentation.mockRestore();
     setTarget.mockRestore();
+    setFocusViewport.mockRestore();
   });
   it('mount→unmount：建立的 Application 全數 destroy（無洩漏）', async () => {
     const { unmount } = render(<MapCanvasHost onMapEvent={vi.fn()} />);
@@ -492,15 +725,15 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
       provinceLabelPos: { 'province.test': { x: 10, y: 20 } },
     });
     expect(layers?.roads.children.length).toBe(1);
-    expect(layers?.nodeMarkers.children.length).toBe(1); // 一個 castleNode container 取代裸 Graphics
+    expect(layers?.nodeMarkers.children.length).toBe(2); // ground status then castle body
     // M6-V9b（§2.9）：城名移出 labelParts → labels 只剩省名；城名改建 nameplates 層和紙綬帶名牌。
     expect(layers?.labels.children.length).toBe(1); // 試國（省）
     expect(layers?.labels.children[0]?.visible).toBe(true); // 省名 far 顯（!nearish）
     expect(layers?.nameplates.children.length).toBe(1); // 試城名牌
     expect(layers?.nameplates.children[0]?.visible).toBe(false); // far 名牌全隱（剪影 ensign 獨撐）
     // M6-V7（#3）：far 本城 ×1.4 移至 bodyGfx（container.children[0]）；container.scale 恆 1。
-    expect(layers?.nodeMarkers.children[0]?.scale.x).toBe(1); // container 不放大
-    const bodyGfx = layers?.nodeMarkers.children[0]?.children[0];
+    expect(layers?.nodeMarkers.children[1]?.scale.x).toBe(1); // container 不放大
+    const bodyGfx = layers?.actorBodies.children[0];
     expect(bodyGfx?.scale.x).toBe(1.4); // initial fit is far LOD；本城剪影 bodyGfx ×1.4
     r.updateView({
       day: 2,
@@ -527,16 +760,16 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
     // 城下聚落：本城建一組 → settlements 層掛上單一 container。
     expect(layers.settlements.children.length).toBe(1);
 
-    // LOD 顯隱：near 顯、mid/far 隱。
+    // Purposeful town presentation revision: mid volumes/near detail; far remains hidden.
     r.setCameraPose({ x: 10, y: 20 }, 1.25); // near
     expect(layers.settlements.visible).toBe(true);
     r.setCameraPose({ x: 10, y: 20 }, 0.75); // mid
-    expect(layers.settlements.visible).toBe(false);
+    expect(layers.settlements.visible).toBe(true);
     r.setCameraPose({ x: 10, y: 20 }, 0.25); // far
     expect(layers.settlements.visible).toBe(false);
 
     // 選取環：selectionAndPath 之 [roadHighlight, selectionRing, pathPreview]（index 1＝選取環）。
-    const selectionRing = layers.selectionAndPath.children[1]!;
+    const selectionRing = layers.nodeMarkers.children[0]!.children[0]!;
     expect(selectionRing.visible).toBe(false); // 初始未選節點
     r.updateView({
       day: 1,
@@ -599,11 +832,13 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
     const layers = r.getLayers()!;
     expect(layers.armies.children).toHaveLength(5);
     expect(layers.armies.children.filter((child) => child.visible)).toHaveLength(4);
-    // M6-V8（V8D14）：chip container 現為 3 子節點 [graphics, plateGfx, label]；兵數（含「+N」）
-    // 承載於 label＝children[2]（原 children[1] 已改為 washi100 底板 plateGfx）。
-    const collapseChip = layers.armies.children[3] as unknown as { children: { text?: string }[] };
-    expect(collapseChip.children[2]?.text).toBe('+2');
-    expect(layers.effects.children).toHaveLength(1);
+    // The movable plate group retains the original aggregate label contract.
+    const collapseChip = layers.armies.children[3]!;
+    const plate = collapseChip.children.find((child) => child.label === 'armyPlate')!;
+    expect((plate.children[1] as BitmapText).text).toBe('+2');
+    expect(
+      layers.nodeMarkers.children[0]!.children.filter((child) => child.label === 'siegeGround'),
+    ).toHaveLength(1);
     r.destroy();
   });
 });

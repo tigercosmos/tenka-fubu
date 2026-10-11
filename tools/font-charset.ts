@@ -1,6 +1,6 @@
 // 全案「應顯示用字」收集（供 tools/subset-font.ts 產生子集、tools/check-font-coverage.ts 涵蓋率比對共用）。
 // 規格：plan/01-architecture.md §3.9.3、A13——
-//   掃描 src/i18n/zh-TW.ts 全字串＋ src/data/scenarios/**/*.json 全 name 欄位＋數字標點集。
+//   掃描 i18n 全字串、劇本 JSON name 與事件敘事／選項文字、數字標點集。
 // M6-V2 起加掃 src/core/debugVisual.ts：視覺 fixture 的城／郡／武將名以 BitmapText 直接上圖
 // （17 §3.9.3 截圖 baseline），不在 i18n 與劇本 JSON 掃描範圍內，缺字會靜默烘成 tofu。
 //
@@ -32,7 +32,10 @@ const DEFAULT_SCENARIOS_DIR = path.join(REPO_ROOT, 'src/data/scenarios');
 const DEFAULT_DEBUG_FIXTURE_FILES = [
   path.join(REPO_ROOT, 'src/core/debugVisual.ts'),
   path.join(REPO_ROOT, 'src/core/debugM6.ts'),
+  path.join(REPO_ROOT, 'src/ui/dev/ComponentGallery.tsx'),
+  path.join(REPO_ROOT, 'src/ui/dev/galleryFixture.ts'),
 ];
+const DEFAULT_CATALOG_FILES = [path.join(REPO_ROOT, 'src/core/systems/events/taimeiCatalog.ts')];
 
 /** 將字串拆成 Unicode code point（非 UTF-16 code unit）的集合，正確處理 surrogate pair。 */
 function toCharSet(text: string): Set<string> {
@@ -49,6 +52,8 @@ export function extractStringLiteralTexts(sourceText: string, fileName = 'source
 
   function visit(node: ts.Node): void {
     if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) {
+      texts.push(node.text);
+    } else if (ts.isJsxText(node)) {
       texts.push(node.text);
     } else if (ts.isTemplateExpression(node)) {
       texts.push(node.head.text);
@@ -92,6 +97,50 @@ function collectNameFieldChars(value: unknown, chars: Set<string>): void {
   }
 }
 
+/** Canonical cutscene fields and legacy EventData.text; never scan the event DSL. */
+export function extractScenarioEventTexts(value: unknown): string[] {
+  const texts: string[] = [];
+  function visit(current: unknown): void {
+    if (Array.isArray(current)) {
+      for (const item of current) visit(item);
+      return;
+    }
+    if (current === null || typeof current !== 'object') return;
+    const record = current as Record<string, unknown>;
+    if (
+      typeof record.id === 'string' &&
+      record.id.startsWith('evt.') &&
+      (Array.isArray(record.choices) || record.choices === undefined)
+    ) {
+      const cutscene = record.cutscene;
+      let narrative = false;
+      if (cutscene !== null && typeof cutscene === 'object' && !Array.isArray(cutscene)) {
+        const fields = cutscene as Record<string, unknown>;
+        if (typeof fields.title === 'string' && typeof fields.body === 'string') {
+          texts.push(fields.title, fields.body);
+          narrative = true;
+        }
+      } else if (typeof record.text === 'string') {
+        // Legacy schema: name is collected separately; text and labels are narrative.
+        texts.push(record.text);
+        narrative = true;
+      }
+      if (narrative) {
+        for (const choice of record.choices ?? []) {
+          if (choice !== null && typeof choice === 'object' && !Array.isArray(choice)) {
+            const label = (choice as Record<string, unknown>).label;
+            if (typeof label === 'string') texts.push(label);
+          }
+        }
+        return;
+      }
+    }
+    for (const child of Object.values(record)) visit(child);
+  }
+  visit(value);
+  return texts;
+}
+
 /** 遞迴列出目錄下全部 `.json` 檔案的絕對路徑；目錄不存在時回傳空陣列。 */
 function listJsonFilesRecursive(dir: string): string[] {
   if (!existsSync(dir)) return [];
@@ -109,7 +158,7 @@ function listJsonFilesRecursive(dir: string): string[] {
       }
     }
   }
-  return result;
+  return result.sort();
 }
 
 /** 掃描 `src/data/scenarios/**\/*.json`（或指定目錄）全部 `name` 欄位，回傳用字集合。 */
@@ -123,6 +172,23 @@ export function collectScenarioNameChars(
       collectNameFieldChars(json, chars);
     } catch {
       // 壞掉的劇本 JSON 由 tools/validate.ts（zod）把關，本工具只管用字收集，跳過解析失敗的檔案。
+    }
+  }
+  return chars;
+}
+
+/** Scenario event narratives are rendered by EventModal, outside i18n/name fields. */
+export function collectScenarioTextChars(
+  scenariosDir: string = DEFAULT_SCENARIOS_DIR,
+): Set<string> {
+  const chars = new Set<string>();
+  for (const file of listJsonFilesRecursive(scenariosDir)) {
+    try {
+      const json: unknown = JSON.parse(readFileSync(file, 'utf-8'));
+      for (const text of extractScenarioEventTexts(json))
+        for (const char of toCharSet(text)) chars.add(char);
+    } catch {
+      // Match the existing name scanner: validation owns malformed JSON failures.
     }
   }
   return chars;
@@ -143,10 +209,18 @@ export function collectDebugFixtureChars(
   return chars;
 }
 
+/** Static code catalog names and descriptions use the same literal-safe scanner as i18n. */
+export function collectCatalogChars(files: readonly string[] = DEFAULT_CATALOG_FILES): Set<string> {
+  const chars = new Set<string>();
+  for (const file of files) for (const char of collectI18nChars(file)) chars.add(char);
+  return chars;
+}
+
 export interface RequiredCharsOptions {
   readonly i18nFilePath?: string;
   readonly scenariosDir?: string;
   readonly debugFixtureFiles?: readonly string[];
+  readonly catalogFiles?: readonly string[];
 }
 
 export interface RequiredCharsResult {
@@ -157,22 +231,28 @@ export interface RequiredCharsResult {
     readonly baseline: number;
     readonly i18n: number;
     readonly scenarioNames: number;
+    readonly scenarioText: number;
     readonly debugFixtures: number;
+    readonly catalogs: number;
   };
 }
 
-/** 彙整全案應顯示用字：基準字集 ∪ i18n 全字串 ∪ 劇本 name 欄位 ∪ debug fixture 顯示字串。 */
+/** 彙整顯示用字：基準 ∪ i18n ∪ 劇本名稱 ∪ 事件敘事 ∪ debug fixture。 */
 export function collectRequiredChars(options: RequiredCharsOptions = {}): RequiredCharsResult {
   const baseline = toCharSet(BASELINE_CHARS);
   const i18n = collectI18nChars(options.i18nFilePath);
   const scenarioNames = collectScenarioNameChars(options.scenariosDir);
+  const scenarioText = collectScenarioTextChars(options.scenariosDir);
   const debugFixtures = collectDebugFixtureChars(options.debugFixtureFiles);
+  const catalogs = collectCatalogChars(options.catalogFiles);
 
   const chars = new Set<string>();
   for (const ch of baseline) chars.add(ch);
   for (const ch of i18n) chars.add(ch);
   for (const ch of scenarioNames) chars.add(ch);
+  for (const ch of scenarioText) chars.add(ch);
   for (const ch of debugFixtures) chars.add(ch);
+  for (const ch of catalogs) chars.add(ch);
 
   return {
     chars,
@@ -180,7 +260,9 @@ export function collectRequiredChars(options: RequiredCharsOptions = {}): Requir
       baseline: baseline.size,
       i18n: i18n.size,
       scenarioNames: scenarioNames.size,
+      scenarioText: scenarioText.size,
       debugFixtures: debugFixtures.size,
+      catalogs: catalogs.size,
     },
   };
 }

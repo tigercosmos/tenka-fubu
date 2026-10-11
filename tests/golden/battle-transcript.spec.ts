@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import type { TacticId } from '../../src/core/state/ids';
 import { replayBattleTranscript, type BattleTranscriptFile } from './battleTranscript';
+import { executeCurrentBattleTranscript } from './battleTranscriptCurrent';
 
 const CASES_DIR = fileURLToPath(new URL('./battle-cases', import.meta.url));
 const cases = readdirSync(CASES_DIR)
@@ -40,7 +41,9 @@ describe('battle-subloop transcript replay', () => {
   it('detects BAL drift independently from otherwise identical replay execution', () => {
     const transcript = cases[0]?.transcript;
     expect(transcript).toBeDefined();
-    const changed = { ...transcript!, balanceHash: '0000000000000000' };
+    const current = executeCurrentBattleTranscript(transcript!).transcript;
+    expect(replayBattleTranscript(current).match).toBe(true);
+    const changed = { ...current, balanceHash: '0000000000000000' };
     const result = replayBattleTranscript(changed);
     expect(result.balanceMismatch).toBe(true);
     expect(result.initialMatch).toBe(true);
@@ -49,17 +52,19 @@ describe('battle-subloop transcript replay', () => {
   });
 
   it('detects layout identity and battle-order tampering', () => {
-    const transcript = cases[0]?.transcript;
-    expect(transcript).toBeDefined();
+    const source = cases[0]?.transcript;
+    expect(source).toBeDefined();
+    const transcript = executeCurrentBattleTranscript(source!).transcript;
+    expect(replayBattleTranscript(transcript).match).toBe(true);
 
-    const changedLayout = structuredClone(transcript!);
+    const changedLayout = structuredClone(transcript);
     changedLayout.initial.stateHash = '0000000000000000';
     expect(replayBattleTranscript(changedLayout)).toMatchObject({
       initialMatch: false,
       match: false,
     });
 
-    const changedOrder = structuredClone(transcript!);
+    const changedOrder = structuredClone(transcript);
     const firstOrder = changedOrder.entries[0]?.order;
     if (!firstOrder || firstOrder.kind !== 'tactic') {
       throw new Error('M5 battle transcript must begin with a tactic order');

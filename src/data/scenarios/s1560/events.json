@@ -1,0 +1,1838 @@
+{
+  "version": 1,
+  "events": [
+    {
+      "id": "evt.okehazama",
+      "kind": "historical",
+      "priority": 100,
+      "trigger": {
+        "from": {
+          "year": 1560,
+          "month": 5,
+          "day": 1
+        },
+        "to": {
+          "year": 1560,
+          "month": 5,
+          "day": 30
+        },
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          {
+            "kind": "clanAlive",
+            "clanId": "clan.oda"
+          },
+          {
+            "kind": "clanAlive",
+            "clanId": "clan.imagawa"
+          },
+          {
+            "kind": "officerIsLeader",
+            "officerId": "off.imagawa-yoshimoto",
+            "clanId": "clan.imagawa"
+          },
+          {
+            "kind": "officerIsLeader",
+            "officerId": "off.oda-nobunaga",
+            "clanId": "clan.oda"
+          },
+          {
+            "kind": "not",
+            "cond": {
+              "kind": "pactExists",
+              "a": "clan.oda",
+              "b": "clan.imagawa",
+              "pact": "ceasefire"
+            }
+          },
+          {
+            "kind": "not",
+            "cond": {
+              "kind": "pactExists",
+              "a": "clan.oda",
+              "b": "clan.imagawa",
+              "pact": "alliance"
+            }
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": ["clan.oda"],
+      "target": "fixed",
+      "cutscene": {
+        "title": "永祿三年五月　桶狹間",
+        "body": "今川治部大輔義元，親率大軍二萬五千，自駿府踏上上洛之途。沓掛、丸根、鷲津諸砦相繼陷落，尾張危如累卵。清洲城內，眾臣或言籠城、或言請和，議論紛紛。信長獨坐良久，忽而起身，舞《敦盛》一曲——『人間五十年，與化天相較，如夢又似幻。』天將破曉，暴雨驟至。斥候來報：義元本陣，正在田樂狹間歇馬。",
+        "monClanId": "clan.oda"
+      },
+      "choices": [
+        {
+          "label": "乘雨奇襲田樂狹間！",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "killOfficer",
+              "officerId": "off.imagawa-yoshimoto",
+              "cause": "battle"
+            },
+            {
+              "op": "reduceClanSoldiersPct",
+              "clanId": "clan.imagawa",
+              "pct": 20
+            },
+            {
+              "op": "addClanCastlesMorale",
+              "clanId": "clan.imagawa",
+              "amount": -30
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "clan.oda",
+              "amount": 200
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "clan.imagawa",
+              "amount": -150
+            },
+            {
+              "op": "addMerit",
+              "officerId": "off.shibata-katsuie",
+              "amount": 150
+            },
+            {
+              "op": "addMerit",
+              "officerId": "off.kinoshita-tokichiro",
+              "amount": 100
+            },
+            {
+              "op": "setFlag",
+              "key": "okehazama-win",
+              "value": 1
+            }
+          ],
+          "aiWeight": 1
+        },
+        {
+          "label": "憑清洲之固，靜觀其變",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "addClanCastlesMorale",
+              "clanId": "clan.oda",
+              "amount": -10
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "clan.oda",
+              "amount": -50
+            }
+          ],
+          "aiWeight": 0
+        }
+      ],
+      "effects": [
+        {
+          "op": "declareWar",
+          "a": "clan.oda",
+          "b": "clan.imagawa"
+        }
+      ]
+    },
+    {
+      "id": "evt.kawanakajima4",
+      "kind": "historical",
+      "priority": 90,
+      "trigger": {
+        "from": {
+          "year": 1561,
+          "month": 9,
+          "day": 1
+        },
+        "to": {
+          "year": 1561,
+          "month": 10,
+          "day": 30
+        },
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          {
+            "kind": "officerIsLeader",
+            "officerId": "off.takeda-shingen",
+            "clanId": "clan.takeda"
+          },
+          {
+            "kind": "officerIsLeader",
+            "officerId": "off.nagao-kagetora",
+            "clanId": "clan.nagao"
+          },
+          {
+            "kind": "not",
+            "cond": {
+              "kind": "pactExists",
+              "a": "clan.takeda",
+              "b": "clan.nagao",
+              "pact": "alliance"
+            }
+          },
+          {
+            "kind": "not",
+            "cond": {
+              "kind": "pactExists",
+              "a": "clan.takeda",
+              "b": "clan.nagao",
+              "pact": "ceasefire"
+            }
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": ["clan.takeda", "clan.nagao"],
+      "target": "fixed",
+      "cutscene": {
+        "title": "永祿四年九月　川中島",
+        "body": "千曲川畔，霧鎖八幡原。長尾景虎盡起越後精兵，布車懸之陣；武田信玄倚啄木鳥之計，分軍夜襲妻女山。豈料霧散之際，越軍已臨眼前——單騎白袍，直取本陣，三太刀斬向信玄，信玄舉軍配相格。龍虎相搏，血染秋水。此一戰，將決定信濃的歸屬，亦將耗盡兩雄的歲月。",
+        "monClanId": "clan.takeda"
+      },
+      "choices": [
+        {
+          "label": "決戰八幡原！",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "killOfficer",
+              "officerId": "off.takeda-nobushige",
+              "cause": "battle"
+            },
+            {
+              "op": "killOfficer",
+              "officerId": "off.yamamoto-kansuke",
+              "cause": "battle"
+            },
+            {
+              "op": "reduceClanSoldiersPct",
+              "clanId": "clan.takeda",
+              "pct": 15
+            },
+            {
+              "op": "reduceClanSoldiersPct",
+              "clanId": "clan.nagao",
+              "pct": 15
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "clan.takeda",
+              "amount": 100
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "clan.nagao",
+              "amount": 100
+            },
+            {
+              "op": "addSentiment",
+              "from": "clan.takeda",
+              "to": "clan.nagao",
+              "amount": -30
+            },
+            {
+              "op": "addSentiment",
+              "from": "clan.nagao",
+              "to": "clan.takeda",
+              "amount": -30
+            }
+          ],
+          "aiWeight": 1
+        },
+        {
+          "label": "按兵不動，避其鋒芒",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "addPrestige",
+              "clanId": "$clan",
+              "amount": -50
+            },
+            {
+              "op": "addSentiment",
+              "from": "clan.takeda",
+              "to": "clan.nagao",
+              "amount": -10
+            },
+            {
+              "op": "addSentiment",
+              "from": "clan.nagao",
+              "to": "clan.takeda",
+              "amount": -10
+            }
+          ],
+          "aiWeight": 0
+        }
+      ],
+      "effects": [
+        {
+          "op": "declareWar",
+          "a": "clan.takeda",
+          "b": "clan.nagao"
+        },
+        {
+          "op": "renameOfficer",
+          "officerId": "off.nagao-kagetora",
+          "name": "上杉謙信"
+        },
+        {
+          "op": "renameClan",
+          "clanId": "clan.nagao",
+          "name": "上杉家"
+        }
+      ]
+    },
+    {
+      "id": "evt.kiyosu-domei",
+      "kind": "historical",
+      "priority": 90,
+      "trigger": {
+        "from": {
+          "year": 1562,
+          "month": 1,
+          "day": 1
+        },
+        "to": {
+          "year": 1563,
+          "month": 12,
+          "day": 30
+        },
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          {
+            "kind": "eventFired",
+            "eventId": "evt.okehazama"
+          },
+          {
+            "kind": "flag",
+            "key": "okehazama-win",
+            "min": 1
+          },
+          {
+            "kind": "clanAlive",
+            "clanId": "clan.oda"
+          },
+          {
+            "kind": "officerIsLeader",
+            "officerId": "off.matsudaira-motoyasu",
+            "clanId": "clan.matsudaira"
+          },
+          {
+            "kind": "pactExists",
+            "a": "clan.matsudaira",
+            "b": "clan.imagawa",
+            "pact": "vassal"
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": ["clan.oda", "clan.matsudaira"],
+      "target": "fixed",
+      "cutscene": {
+        "title": "永祿五年正月　清洲城",
+        "body": "桶狹間一戰，義元橫死，今川的威望隨之崩解。岡崎城的松平元康趁勢收復三河舊領，不再對駿府俯首。此時，織田家的使者石川數正往來清洲與岡崎之間，攜來信長的口信：『與其相爭於尾三之境，不如攜手共望天下。』昔日人質歲月的舊識，今日兩國之主——元康立於清洲城下，天下的棋局悄然改變。",
+        "monClanId": "clan.matsudaira"
+      },
+      "choices": [
+        {
+          "label": "締結清洲同盟",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "breakPact",
+              "a": "clan.matsudaira",
+              "b": "clan.imagawa",
+              "pact": "vassal"
+            },
+            {
+              "op": "declareWar",
+              "a": "clan.matsudaira",
+              "b": "clan.imagawa"
+            },
+            {
+              "op": "signPact",
+              "a": "clan.oda",
+              "b": "clan.matsudaira",
+              "pact": "alliance",
+              "months": 240,
+              "vassalClanId": null
+            },
+            {
+              "op": "addSentiment",
+              "from": "clan.oda",
+              "to": "clan.matsudaira",
+              "amount": 30
+            },
+            {
+              "op": "addSentiment",
+              "from": "clan.matsudaira",
+              "to": "clan.oda",
+              "amount": 30
+            },
+            {
+              "op": "addTrust",
+              "from": "clan.oda",
+              "to": "clan.matsudaira",
+              "amount": 30
+            },
+            {
+              "op": "addTrust",
+              "from": "clan.matsudaira",
+              "to": "clan.oda",
+              "amount": 30
+            },
+            {
+              "op": "renameOfficer",
+              "officerId": "off.matsudaira-motoyasu",
+              "name": "德川家康"
+            },
+            {
+              "op": "renameClan",
+              "clanId": "clan.matsudaira",
+              "name": "德川家"
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "clan.oda",
+              "amount": 50
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "clan.matsudaira",
+              "amount": 80
+            }
+          ],
+          "aiWeight": 1
+        },
+        {
+          "label": "各行其道",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "addSentiment",
+              "from": "clan.oda",
+              "to": "clan.matsudaira",
+              "amount": -10
+            },
+            {
+              "op": "addSentiment",
+              "from": "clan.matsudaira",
+              "to": "clan.oda",
+              "amount": -10
+            }
+          ],
+          "aiWeight": 0
+        }
+      ],
+      "effects": []
+    },
+    {
+      "id": "evt.yoshiteru-shi",
+      "kind": "historical",
+      "priority": 80,
+      "trigger": {
+        "from": {
+          "year": 1565,
+          "month": 5,
+          "day": 1
+        },
+        "to": {
+          "year": 1565,
+          "month": 6,
+          "day": 30
+        },
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          {
+            "kind": "shogunateExists",
+            "value": true
+          },
+          {
+            "kind": "officerIsLeader",
+            "officerId": "off.ashikaga-yoshiteru",
+            "clanId": "clan.ashikaga"
+          },
+          {
+            "kind": "clanAlive",
+            "clanId": "clan.miyoshi"
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": [],
+      "target": "fixed",
+      "cutscene": {
+        "title": "永祿八年五月　二條御所",
+        "body": "京都二條御所，喊殺聲驟起。三好三人眾與松永久通率兵萬餘，白晝闖入將軍御所。第十三代將軍足利義輝，人稱『劍豪將軍』，將愛刀一字排開插於榻榻米上，換刀而戰，斬敵無數，終究寡不敵眾，血濺御所。幕府的權威，隨著這位將軍的殞落而墜入谷底。其弟一乘院覺慶（後之義昭）倉皇出奔，流轉諸國，尋求上洛復仇之機。",
+        "monClanId": "clan.ashikaga"
+      },
+      "choices": [],
+      "effects": [
+        {
+          "op": "killOfficer",
+          "officerId": "off.ashikaga-yoshiteru",
+          "cause": "battle"
+        },
+        {
+          "op": "addPrestige",
+          "clanId": "clan.miyoshi",
+          "amount": -100
+        },
+        {
+          "op": "addCourtFavor",
+          "clanId": "clan.miyoshi",
+          "amount": -20
+        },
+        {
+          "op": "addSentiment",
+          "from": "clan.ashikaga",
+          "to": "clan.miyoshi",
+          "amount": -40
+        },
+        {
+          "op": "setFlag",
+          "key": "yoshiteru-dead",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "evt.mino-koryaku",
+      "kind": "historical",
+      "priority": 80,
+      "trigger": {
+        "from": {
+          "year": 1560,
+          "month": 1,
+          "day": 1
+        },
+        "to": {
+          "year": 1599,
+          "month": 12,
+          "day": 30
+        },
+        "check": "hook",
+        "hooks": ["castleFallen"],
+        "conditions": [
+          {
+            "kind": "castleOwner",
+            "castleId": "castle.inabayama",
+            "clanId": "clan.oda"
+          },
+          {
+            "kind": "officerIsLeader",
+            "officerId": "off.oda-nobunaga",
+            "clanId": "clan.oda"
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": [],
+      "target": "fixed",
+      "cutscene": {
+        "title": "稻葉山落城　天下布武",
+        "body": "金華山頂的稻葉山城，龍興治下的美濃齋藤氏在此終結。信長入主此城，將其更名為『岐阜』——取周文王起於岐山、一統天下之典故。自此，信長開始使用一方新印：『天下布武』。以武家之政權布於天下，這四個字，是宣言，亦是野望。尾張的大傻瓜，如今立於美濃之巔，眺望的已是京都的方向。",
+        "monClanId": "clan.oda"
+      },
+      "choices": [],
+      "effects": [
+        {
+          "op": "renameCastle",
+          "castleId": "castle.inabayama",
+          "name": "岐阜城"
+        },
+        {
+          "op": "addPrestige",
+          "clanId": "clan.oda",
+          "amount": 150
+        },
+        {
+          "op": "addClanLoyalty",
+          "clanId": "clan.oda",
+          "amount": 5
+        },
+        {
+          "op": "setFlag",
+          "key": "tenka-fubu",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "evt.joraku",
+      "kind": "historical",
+      "priority": 85,
+      "trigger": {
+        "from": {
+          "year": 1568,
+          "month": 9,
+          "day": 1
+        },
+        "to": {
+          "year": 1572,
+          "month": 12,
+          "day": 30
+        },
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          {
+            "kind": "eventFired",
+            "eventId": "evt.mino-koryaku"
+          },
+          {
+            "kind": "flag",
+            "key": "yoshiteru-dead",
+            "min": 1
+          },
+          {
+            "kind": "shogunateExists",
+            "value": true
+          },
+          {
+            "kind": "officerAlive",
+            "officerId": "off.ashikaga-yoshiaki"
+          },
+          {
+            "kind": "clanAlive",
+            "clanId": "clan.oda"
+          },
+          {
+            "kind": "castleCountAtLeast",
+            "clanId": "clan.oda",
+            "count": 8
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": ["clan.oda"],
+      "target": "fixed",
+      "cutscene": {
+        "title": "永祿十一年九月　上洛",
+        "body": "流亡的足利義昭，輾轉越前、美濃，終於來到岐阜城下，向信長泣訴：『助我上洛，重興幕府！』奉將軍家之名上洛，既是大義名分，亦是號令天下的鑰匙。六萬大軍集結於岐阜，沿途南近江的六角氏聞風而逃，三好勢望風退出京都。九月末，信長奉義昭入洛，擁立其為第十五代征夷大將軍。將軍感激涕零，欲授信長副將軍或管領之位——",
+        "monClanId": "clan.oda"
+      },
+      "choices": [
+        {
+          "label": "辭謝官位，唯取實利",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "addPrestige",
+              "clanId": "clan.oda",
+              "amount": 300
+            },
+            {
+              "op": "addCourtFavor",
+              "clanId": "clan.oda",
+              "amount": 20
+            },
+            {
+              "op": "addSentiment",
+              "from": "clan.ashikaga",
+              "to": "clan.oda",
+              "amount": 30
+            },
+            {
+              "op": "addTrust",
+              "from": "clan.oda",
+              "to": "clan.ashikaga",
+              "amount": 40
+            },
+            {
+              "op": "declareWar",
+              "a": "clan.oda",
+              "b": "clan.miyoshi"
+            },
+            {
+              "op": "setFlag",
+              "key": "joraku-done",
+              "value": 1
+            }
+          ],
+          "aiWeight": 2
+        },
+        {
+          "label": "拜領副將軍之職",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "grantShogunateTitle",
+              "clanId": "clan.oda",
+              "title": "fukushogun"
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "clan.oda",
+              "amount": 200
+            },
+            {
+              "op": "addSentiment",
+              "from": "clan.ashikaga",
+              "to": "clan.oda",
+              "amount": 20
+            },
+            {
+              "op": "declareWar",
+              "a": "clan.oda",
+              "b": "clan.miyoshi"
+            },
+            {
+              "op": "setFlag",
+              "key": "joraku-done",
+              "value": 1
+            }
+          ],
+          "aiWeight": 1
+        }
+      ],
+      "effects": []
+    },
+    {
+      "id": "evt.kanegasaki",
+      "kind": "historical",
+      "priority": 80,
+      "trigger": {
+        "from": {
+          "year": 1570,
+          "month": 4,
+          "day": 1
+        },
+        "to": {
+          "year": 1571,
+          "month": 12,
+          "day": 30
+        },
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          {
+            "kind": "flag",
+            "key": "joraku-done",
+            "min": 1
+          },
+          {
+            "kind": "atWar",
+            "a": "clan.oda",
+            "b": "clan.asakura"
+          },
+          {
+            "kind": "any",
+            "conds": [
+              {
+                "kind": "pactExists",
+                "a": "clan.oda",
+                "b": "clan.azai",
+                "pact": "alliance"
+              },
+              {
+                "kind": "pactExists",
+                "a": "clan.oda",
+                "b": "clan.azai",
+                "pact": "marriage"
+              }
+            ]
+          },
+          {
+            "kind": "clanAlive",
+            "clanId": "clan.azai"
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": ["clan.oda"],
+      "target": "fixed",
+      "cutscene": {
+        "title": "元龜元年四月　金崎",
+        "body": "討伐朝倉的軍勢正順利北進，金崎城已然攻落。就在此時，一份急報送抵本陣——『北近江的淺井長政，舉兵反了。』妹婿背盟，織田軍瞬間陷入朝倉、淺井南北夾擊的死地。『阿市的夫君，竟然……』信長臉色鐵青。此刻唯有捨棄輜重，火速撤離敦賀。殿軍——最凶險的任務，木下藤吉郎挺身而出：『請主公先行，殿後之事，交給藤吉郎！』",
+        "monClanId": "clan.azai"
+      },
+      "choices": [
+        {
+          "label": "命藤吉郎殿後，本隊速退",
+          "conditions": [
+            {
+              "kind": "officerServes",
+              "officerId": "off.kinoshita-tokichiro",
+              "clanId": "clan.oda"
+            }
+          ],
+          "effects": [
+            {
+              "op": "reduceClanSoldiersPct",
+              "clanId": "clan.oda",
+              "pct": 3
+            },
+            {
+              "op": "addMerit",
+              "officerId": "off.kinoshita-tokichiro",
+              "amount": 300
+            },
+            {
+              "op": "addLoyalty",
+              "officerId": "off.kinoshita-tokichiro",
+              "amount": 10
+            }
+          ],
+          "aiWeight": 1
+        },
+        {
+          "label": "全軍強行撤退",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "reduceClanSoldiersPct",
+              "clanId": "clan.oda",
+              "pct": 8
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "clan.oda",
+              "amount": -50
+            }
+          ],
+          "aiWeight": 1
+        }
+      ],
+      "effects": [
+        {
+          "op": "breakPact",
+          "a": "clan.oda",
+          "b": "clan.azai",
+          "pact": "alliance"
+        },
+        {
+          "op": "breakPact",
+          "a": "clan.oda",
+          "b": "clan.azai",
+          "pact": "marriage"
+        },
+        {
+          "op": "declareWar",
+          "a": "clan.azai",
+          "b": "clan.oda"
+        },
+        {
+          "op": "addSentiment",
+          "from": "clan.oda",
+          "to": "clan.azai",
+          "amount": -40
+        }
+      ]
+    },
+    {
+      "id": "evt.anegawa",
+      "kind": "historical",
+      "priority": 79,
+      "trigger": {
+        "from": {
+          "year": 1570,
+          "month": 6,
+          "day": 1
+        },
+        "to": {
+          "year": 1571,
+          "month": 12,
+          "day": 30
+        },
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          {
+            "kind": "eventFired",
+            "eventId": "evt.kanegasaki"
+          },
+          {
+            "kind": "atWar",
+            "a": "clan.oda",
+            "b": "clan.azai"
+          },
+          {
+            "kind": "clanAlive",
+            "clanId": "clan.azai"
+          },
+          {
+            "kind": "clanAlive",
+            "clanId": "clan.asakura"
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": ["clan.oda"],
+      "target": "fixed",
+      "cutscene": {
+        "title": "元龜元年六月　姉川",
+        "body": "為雪金崎之恥，信長親率大軍直指北近江，德川家康亦引兵來援。姉川淺灘之上，織德聯軍與淺井、朝倉兩軍隔川對峙。六月二十八日拂曉，戰端開啟——淺井猛將磯野員昌連破織田十一段陣勢，戰況一度危殆；然德川勢自側翼擊潰朝倉軍，戰局逆轉。川原屍橫遍野，姉川之水為之染赤。",
+        "monClanId": "clan.oda"
+      },
+      "choices": [
+        {
+          "label": "與家康並肩，決戰姉川",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "reduceClanSoldiersPct",
+              "clanId": "clan.azai",
+              "pct": 25
+            },
+            {
+              "op": "reduceClanSoldiersPct",
+              "clanId": "clan.asakura",
+              "pct": 25
+            },
+            {
+              "op": "reduceClanSoldiersPct",
+              "clanId": "clan.oda",
+              "pct": 10
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "clan.oda",
+              "amount": 100
+            },
+            {
+              "op": "addClanCastlesMorale",
+              "clanId": "clan.azai",
+              "amount": -15
+            },
+            {
+              "op": "addClanCastlesMorale",
+              "clanId": "clan.asakura",
+              "amount": -15
+            },
+            {
+              "op": "addSentiment",
+              "from": "clan.oda",
+              "to": "clan.matsudaira",
+              "amount": 10
+            },
+            {
+              "op": "addSentiment",
+              "from": "clan.matsudaira",
+              "to": "clan.oda",
+              "amount": 10
+            }
+          ],
+          "aiWeight": 1
+        },
+        {
+          "label": "時機未熟，暫且退兵",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "addPrestige",
+              "clanId": "clan.oda",
+              "amount": -30
+            }
+          ],
+          "aiWeight": 0
+        }
+      ],
+      "effects": []
+    },
+    {
+      "id": "evt.hieizan",
+      "kind": "historical",
+      "priority": 78,
+      "trigger": {
+        "from": {
+          "year": 1571,
+          "month": 9,
+          "day": 1
+        },
+        "to": {
+          "year": 1572,
+          "month": 12,
+          "day": 30
+        },
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          {
+            "kind": "eventFired",
+            "eventId": "evt.anegawa"
+          },
+          {
+            "kind": "any",
+            "conds": [
+              {
+                "kind": "atWar",
+                "a": "clan.oda",
+                "b": "clan.azai"
+              },
+              {
+                "kind": "atWar",
+                "a": "clan.oda",
+                "b": "clan.asakura"
+              }
+            ]
+          },
+          {
+            "kind": "clanAlive",
+            "clanId": "clan.oda"
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": ["clan.oda"],
+      "target": "fixed",
+      "cutscene": {
+        "title": "元龜二年九月　比叡山",
+        "body": "比叡山延曆寺——鎮護國家八百年的佛法聖地，如今卻庇護淺井、朝倉的敗軍，僧兵挾持佛威，屢拒信長的最後通牒。九月十二日，織田軍包圍全山。『山上之人，僧俗不論，盡數斬殺。』軍令冷冽如霜。諸將面面相覷——燒討聖山，是要與千年的佛法為敵；然若縱容，叡山永遠是插在京都後背的一把刀。火把已經點燃，只待主公一聲令下。",
+        "monClanId": "clan.oda"
+      },
+      "choices": [
+        {
+          "label": "燒討！佛敵之名，信長一身當之",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "addPrestige",
+              "clanId": "clan.oda",
+              "amount": 100
+            },
+            {
+              "op": "addCourtFavor",
+              "clanId": "clan.oda",
+              "amount": -20
+            },
+            {
+              "op": "addClanOrder",
+              "clanId": "clan.oda",
+              "amount": -5
+            },
+            {
+              "op": "addClanCastlesMorale",
+              "clanId": "clan.azai",
+              "amount": -10
+            },
+            {
+              "op": "addClanCastlesMorale",
+              "clanId": "clan.asakura",
+              "amount": -10
+            },
+            {
+              "op": "addSentiment",
+              "from": "clan.azai",
+              "to": "clan.oda",
+              "amount": -20
+            },
+            {
+              "op": "addSentiment",
+              "from": "clan.asakura",
+              "to": "clan.oda",
+              "amount": -20
+            },
+            {
+              "op": "setFlag",
+              "key": "hieizan-burned",
+              "value": 1
+            }
+          ],
+          "aiWeight": 2
+        },
+        {
+          "label": "圍而不攻，斷其糧道",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "addPrestige",
+              "clanId": "clan.oda",
+              "amount": -30
+            },
+            {
+              "op": "addCourtFavor",
+              "clanId": "clan.oda",
+              "amount": 10
+            }
+          ],
+          "aiWeight": 1
+        }
+      ],
+      "effects": []
+    },
+    {
+      "id": "evt.muromachi-metsubo",
+      "kind": "historical",
+      "priority": 85,
+      "trigger": {
+        "from": {
+          "year": 1573,
+          "month": 4,
+          "day": 1
+        },
+        "to": {
+          "year": 1580,
+          "month": 12,
+          "day": 30
+        },
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          {
+            "kind": "flag",
+            "key": "joraku-done",
+            "min": 1
+          },
+          {
+            "kind": "shogunateExists",
+            "value": true
+          },
+          {
+            "kind": "ownsProvince",
+            "clanId": "clan.oda",
+            "provinceId": "prov.yamashiro"
+          },
+          {
+            "kind": "clanAlive",
+            "clanId": "clan.oda"
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": ["clan.oda"],
+      "target": "fixed",
+      "cutscene": {
+        "title": "天正元年七月　幕府終焉",
+        "body": "將軍義昭終究與信長反目。他暗結武田、朝倉、本願寺，編織『信長包圍網』，甚至親自舉兵，據二條御所與槙島城相抗。然而天下已非將軍的天下——槙島城旋即陷落。義昭手捧太刀請降，城下眾人皆以為將軍人頭落地之日已至。信長卻只是揮了揮手。足利尊氏以來二百三十七年，室町幕府的命運，繫於信長一念之間。",
+        "monClanId": "clan.ashikaga"
+      },
+      "choices": [
+        {
+          "label": "放逐義昭——幕府，到此為止",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "endShogunate"
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "clan.oda",
+              "amount": 200
+            },
+            {
+              "op": "setFlag",
+              "key": "muromachi-ended",
+              "value": 1
+            }
+          ],
+          "aiWeight": 2
+        },
+        {
+          "label": "留將軍為傀儡",
+          "conditions": [
+            {
+              "kind": "shogunateTitleAtLeast",
+              "clanId": "clan.oda",
+              "title": "otomoshu"
+            }
+          ],
+          "effects": [
+            {
+              "op": "addPrestige",
+              "clanId": "clan.oda",
+              "amount": 80
+            },
+            {
+              "op": "addCourtFavor",
+              "clanId": "clan.oda",
+              "amount": 10
+            },
+            {
+              "op": "grantShogunateTitle",
+              "clanId": "clan.oda",
+              "title": "kanrei"
+            },
+            {
+              "op": "addSentiment",
+              "from": "clan.ashikaga",
+              "to": "clan.oda",
+              "amount": -30
+            }
+          ],
+          "aiWeight": 1
+        }
+      ],
+      "effects": []
+    },
+    {
+      "id": "evt.nagashino",
+      "kind": "historical",
+      "priority": 80,
+      "trigger": {
+        "from": {
+          "year": 1575,
+          "month": 5,
+          "day": 1
+        },
+        "to": {
+          "year": 1576,
+          "month": 12,
+          "day": 30
+        },
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          {
+            "kind": "officerIsLeader",
+            "officerId": "off.takeda-katsuyori",
+            "clanId": "clan.takeda"
+          },
+          {
+            "kind": "pactExists",
+            "a": "clan.oda",
+            "b": "clan.matsudaira",
+            "pact": "alliance"
+          },
+          {
+            "kind": "any",
+            "conds": [
+              {
+                "kind": "atWar",
+                "a": "clan.takeda",
+                "b": "clan.matsudaira"
+              },
+              {
+                "kind": "atWar",
+                "a": "clan.takeda",
+                "b": "clan.oda"
+              }
+            ]
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": ["clan.oda", "clan.matsudaira"],
+      "target": "fixed",
+      "cutscene": {
+        "title": "天正三年五月　設樂原",
+        "body": "武田勝賴挾信玄遺威，猛攻三河長篠城。城將奧平信昌死守待援，足輕鳥居強右衛門捨命突圍報信——援軍將至，而他自己被磔於城下。織田、德川聯軍三萬八千進抵設樂原，連夜設起三重馬防柵，柵後，是三千挺鐵砲。『武田的騎馬軍團天下無雙——所以，不能讓他們跑起來。』五月二十一日黎明，山縣昌景的赤備隊率先發起突擊，蹄聲如雷，直撲柵線。",
+        "monClanId": "clan.takeda"
+      },
+      "choices": [
+        {
+          "label": "三段擊！讓鐵砲終結騎馬的時代",
+          "conditions": [
+            {
+              "kind": "clanGoldAtLeast",
+              "clanId": "$clan",
+              "value": 800
+            }
+          ],
+          "effects": [
+            {
+              "op": "addGold",
+              "clanId": "$clan",
+              "amount": -800
+            },
+            {
+              "op": "reduceClanSoldiersPct",
+              "clanId": "clan.takeda",
+              "pct": 30
+            },
+            {
+              "op": "killOfficer",
+              "officerId": "off.yamagata-masakage",
+              "cause": "battle"
+            },
+            {
+              "op": "killOfficer",
+              "officerId": "off.baba-nobuharu",
+              "cause": "battle"
+            },
+            {
+              "op": "killOfficer",
+              "officerId": "off.naito-masatoyo",
+              "cause": "battle"
+            },
+            {
+              "op": "addClanCastlesMorale",
+              "clanId": "clan.takeda",
+              "amount": -20
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "$clan",
+              "amount": 150
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "clan.takeda",
+              "amount": -150
+            }
+          ],
+          "aiWeight": 3
+        },
+        {
+          "label": "依托柵線，持久對峙",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "reduceClanSoldiersPct",
+              "clanId": "clan.takeda",
+              "pct": 5
+            },
+            {
+              "op": "reduceClanSoldiersPct",
+              "clanId": "$clan",
+              "pct": 5
+            }
+          ],
+          "aiWeight": 1
+        }
+      ],
+      "effects": []
+    },
+    {
+      "id": "evt.honnoji",
+      "kind": "historical",
+      "priority": 100,
+      "trigger": {
+        "from": {
+          "year": 1582,
+          "month": 6,
+          "day": 1
+        },
+        "to": {
+          "year": 1590,
+          "month": 12,
+          "day": 30
+        },
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          {
+            "kind": "castleCountAtLeast",
+            "clanId": "clan.oda",
+            "count": 25
+          },
+          {
+            "kind": "officerIsLeader",
+            "officerId": "off.oda-nobunaga",
+            "clanId": "clan.oda"
+          },
+          {
+            "kind": "officerServes",
+            "officerId": "off.akechi-mitsuhide",
+            "clanId": "clan.oda"
+          },
+          {
+            "kind": "officerInProvinces",
+            "officerId": "off.oda-nobunaga",
+            "provinceIds": [
+              "prov.yamashiro",
+              "prov.yamato",
+              "prov.kawachi",
+              "prov.izumi",
+              "prov.settsu"
+            ]
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": ["clan.oda"],
+      "target": "fixed",
+      "cutscene": {
+        "title": "天正十年六月二日　本能寺",
+        "body": "『敵在本能寺！』夜半，京都的天空被火光映紅。明智日向守光秀，率一萬三千大軍反戈相向，將信長下榻的本能寺圍得水洩不通。近侍森蘭丸疾呼：『是明智軍的水色桔梗旗！』信長放下手中的茶碗，沉默片刻，只說了一句：『……是非に及ばず（事已至此，多言無益）。』弓弦已斷、槍桿已折，堂內火勢蔓延。天下布武之夢，是要在這裡化為灰燼，還是殺出一條血路？",
+        "monClanId": "clan.oda"
+      },
+      "choices": [
+        {
+          "label": "人間五十年——縱身火海（史實）",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "killOfficer",
+              "officerId": "off.oda-nobunaga",
+              "cause": "battle"
+            },
+            {
+              "op": "killOfficer",
+              "officerId": "off.oda-nobutada",
+              "cause": "battle"
+            },
+            {
+              "op": "makeRonin",
+              "officerId": "off.akechi-mitsuhide"
+            },
+            {
+              "op": "addClanLoyalty",
+              "clanId": "clan.oda",
+              "amount": -15
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "clan.oda",
+              "amount": -300
+            },
+            {
+              "op": "addClanCastlesMorale",
+              "clanId": "clan.oda",
+              "amount": -20
+            }
+          ],
+          "aiWeight": 1
+        },
+        {
+          "label": "殺出重圍！",
+          "conditions": [],
+          "effects": [
+            {
+              "op": "makeRonin",
+              "officerId": "off.akechi-mitsuhide"
+            },
+            {
+              "op": "addClanLoyalty",
+              "clanId": "clan.oda",
+              "amount": -10
+            },
+            {
+              "op": "addPrestige",
+              "clanId": "clan.oda",
+              "amount": -200
+            },
+            {
+              "op": "addClanCastlesMorale",
+              "clanId": "clan.oda",
+              "amount": -20
+            }
+          ],
+          "aiWeight": 0
+        }
+      ],
+      "effects": []
+    },
+    {
+      "id": "evt.takamoto-soshi",
+      "kind": "historical",
+      "priority": 60,
+      "trigger": {
+        "from": {
+          "year": 1563,
+          "month": 8,
+          "day": 1
+        },
+        "to": {
+          "year": 1563,
+          "month": 9,
+          "day": 30
+        },
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          {
+            "kind": "officerServes",
+            "officerId": "off.mori-takamoto",
+            "clanId": "clan.mori"
+          },
+          {
+            "kind": "officerAlive",
+            "officerId": "off.mori-takamoto"
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": [],
+      "target": "fixed",
+      "cutscene": {
+        "title": "永祿六年八月　安藝吉田",
+        "body": "出雲遠征軍中忽傳噩耗——毛利家當主隆元，於備後和智氏的宴席之後暴斃，得年四十一。元就聞訊，悲慟逾恆：三子之中，隆元仁厚，最得人心，『三矢之訓』的長矢竟先折斷。老臣們連夜擁立隆元之子幸鶴丸（輝元）——然主少國疑，西國的重擔，再度落回年邁的元就肩上。",
+        "monClanId": "clan.mori"
+      },
+      "choices": [],
+      "effects": [
+        {
+          "op": "killOfficer",
+          "officerId": "off.mori-takamoto",
+          "cause": "age"
+        },
+        {
+          "op": "addClanLoyalty",
+          "clanId": "clan.mori",
+          "amount": -5
+        }
+      ]
+    },
+    {
+      "id": "evt.shingen-byoshi",
+      "kind": "historical",
+      "priority": 60,
+      "trigger": {
+        "from": {
+          "year": 1573,
+          "month": 4,
+          "day": 1
+        },
+        "to": {
+          "year": 1573,
+          "month": 5,
+          "day": 30
+        },
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          {
+            "kind": "officerAlive",
+            "officerId": "off.takeda-shingen"
+          },
+          {
+            "kind": "officerServes",
+            "officerId": "off.takeda-shingen",
+            "clanId": "clan.takeda"
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": [],
+      "target": "fixed",
+      "cutscene": {
+        "title": "元龜四年四月　信州駒場",
+        "body": "西上途中的武田軍，忽然停止了前進。三方原大破德川的甲斐之虎，此刻臥於陣中，氣若游絲。『我死之後，三年秘喪。瀨田之橋，立我風林火山之旗——』遺言未竟，一代軍神溘然長逝，享年五十三。大軍靜靜掉頭，退回甲斐的群山。上洛之夢，就此埋葬於信濃的春雪之中。",
+        "monClanId": "clan.takeda"
+      },
+      "choices": [],
+      "effects": [
+        {
+          "op": "killOfficer",
+          "officerId": "off.takeda-shingen",
+          "cause": "age"
+        },
+        {
+          "op": "addClanCastlesMorale",
+          "clanId": "clan.takeda",
+          "amount": -10
+        },
+        {
+          "op": "addClanLoyalty",
+          "clanId": "clan.takeda",
+          "amount": -5
+        }
+      ]
+    },
+    {
+      "id": "evt.kenshin-byoshi",
+      "kind": "historical",
+      "priority": 60,
+      "trigger": {
+        "from": {
+          "year": 1578,
+          "month": 3,
+          "day": 1
+        },
+        "to": {
+          "year": 1578,
+          "month": 4,
+          "day": 30
+        },
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          {
+            "kind": "officerAlive",
+            "officerId": "off.nagao-kagetora"
+          },
+          {
+            "kind": "officerServes",
+            "officerId": "off.nagao-kagetora",
+            "clanId": "clan.nagao"
+          }
+        ],
+        "probability": 1,
+        "once": true,
+        "cooldownDays": 0,
+        "cooldownKey": null
+      },
+      "ownerCandidates": [],
+      "target": "fixed",
+      "cutscene": {
+        "title": "天正六年三月　春日山城",
+        "body": "春日山城的廁間，軍神倒下了。關東遠征在即，四十九年的生涯，四十餘度出陣，自詡毘沙門天化身的越後之龍，最終敗給了自己的身體。『四十九年一睡夢，一期榮華一杯酒。』辭世之句猶在耳畔。謙信未曾明立繼嗣，景勝與景虎二子之間，暗流已然湧動——越後的雪，今年格外地冷。",
+        "monClanId": "clan.nagao"
+      },
+      "choices": [],
+      "effects": [
+        {
+          "op": "killOfficer",
+          "officerId": "off.nagao-kagetora",
+          "cause": "age"
+        },
+        {
+          "op": "addClanCastlesMorale",
+          "clanId": "clan.nagao",
+          "amount": -10
+        },
+        {
+          "op": "addClanLoyalty",
+          "clanId": "clan.nagao",
+          "amount": -10
+        }
+      ]
+    },
+    {
+      "id": "evt.gen-hosaku",
+      "kind": "generic",
+      "priority": 20,
+      "trigger": {
+        "from": null,
+        "to": null,
+        "check": "harvest",
+        "hooks": [],
+        "conditions": [{ "kind": "clanAlive", "clanId": "$clan" }],
+        "probability": 0.1,
+        "once": false,
+        "cooldownDays": 300,
+        "cooldownKey": "gen.harvest"
+      },
+      "ownerCandidates": [],
+      "target": "eachClan",
+      "cutscene": {
+        "title": "五穀豐登",
+        "body": "今年風調雨順，{clanName}領內稻穗垂金，農人笑逐顏開。秋收可期大熟。",
+        "monClanId": null
+      },
+      "choices": [],
+      "effects": [
+        {
+          "op": "setFlag",
+          "key": { "prefix": "harvest", "clanId": "$clan", "year": "current" },
+          "value": 120
+        }
+      ]
+    },
+    {
+      "id": "evt.gen-kyosaku",
+      "kind": "generic",
+      "priority": 19,
+      "trigger": {
+        "from": null,
+        "to": null,
+        "check": "harvest",
+        "hooks": [],
+        "conditions": [{ "kind": "clanAlive", "clanId": "$clan" }],
+        "probability": 0.1,
+        "once": false,
+        "cooldownDays": 300,
+        "cooldownKey": "gen.harvest"
+      },
+      "ownerCandidates": [],
+      "target": "eachClan",
+      "cutscene": {
+        "title": "凶年",
+        "body": "夏日冷雨連綿，{clanName}領內稻作歉收，米價騰貴，百姓面有菜色。今秋恐難足額入倉。",
+        "monClanId": null
+      },
+      "choices": [],
+      "effects": [
+        {
+          "op": "setFlag",
+          "key": { "prefix": "harvest", "clanId": "$clan", "year": "current" },
+          "value": 70
+        },
+        { "op": "addClanOrder", "clanId": "$clan", "amount": -3 }
+      ]
+    },
+    {
+      "id": "evt.gen-jishin",
+      "kind": "generic",
+      "priority": 18,
+      "trigger": {
+        "from": null,
+        "to": null,
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [],
+        "probability": 0.01,
+        "once": false,
+        "cooldownDays": 720,
+        "cooldownKey": "gen.jishin"
+      },
+      "ownerCandidates": [],
+      "target": "randomRegionClan",
+      "cutscene": {
+        "title": "大地震",
+        "body": "{regionName}地方發生大地震！城郭石垣崩塌，屋舍傾頹，領民流離。",
+        "monClanId": null
+      },
+      "choices": [],
+      "effects": [
+        {
+          "op": "affectRegion",
+          "region": "$region",
+          "effects": [
+            { "op": "scaleCastleDurability", "pct": 20 },
+            { "op": "addDistrictOrder", "amount": -10 },
+            { "op": "scalePopulation", "pct": 2 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt.gen-ekibyo",
+      "kind": "generic",
+      "priority": 17,
+      "trigger": {
+        "from": null,
+        "to": null,
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [
+          { "kind": "districtPopulationAtLeast", "districtId": "$district", "value": 5000 }
+        ],
+        "probability": 0.008,
+        "once": false,
+        "cooldownDays": 360,
+        "cooldownKey": "gen.ekibyo"
+      },
+      "ownerCandidates": [],
+      "target": "randomDistrict",
+      "cutscene": {
+        "title": "疫病流行",
+        "body": "{districtName}爆發疫病，十室九病，村落間炊煙漸稀。",
+        "monClanId": null
+      },
+      "choices": [],
+      "effects": [
+        { "op": "scalePopulation", "districtId": "$district", "pct": 8 },
+        { "op": "addDistrictOrder", "districtId": "$district", "amount": -8 },
+        { "op": "loseCastleSoldiersPct", "castleId": "$castle", "pct": 10 }
+      ]
+    },
+    {
+      "id": "evt.nanban-visit",
+      "kind": "generic",
+      "priority": 16,
+      "trigger": {
+        "from": null,
+        "to": null,
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [{ "kind": "clanOwnsCoastalCastle", "clanId": "$clan" }],
+        "probability": 0.05,
+        "once": false,
+        "cooldownDays": 360,
+        "cooldownKey": "gen.nanban"
+      },
+      "ownerCandidates": ["$clan"],
+      "target": "eachClan",
+      "cutscene": {
+        "title": "南蠻船入港",
+        "body": "一艘掛著異國帆影的黑船駛入{clanName}領內的港灣。紅毛商人獻上玻璃器與天鵝絨，請求通商之許。",
+        "monClanId": null
+      },
+      "choices": [
+        {
+          "label": "允其通商",
+          "conditions": [],
+          "effects": [
+            { "op": "addGold", "clanId": "$clan", "amount": 300 },
+            {
+              "op": "setFlag",
+              "key": { "prefix": "unlock.pol.nanban", "clanId": "$clan" },
+              "value": 1
+            }
+          ],
+          "aiWeight": 3
+        },
+        {
+          "label": "異教之物，逐之",
+          "conditions": [],
+          "effects": [{ "op": "addCourtFavor", "clanId": "$clan", "amount": 5 }],
+          "aiWeight": 1
+        }
+      ],
+      "effects": []
+    },
+    {
+      "id": "evt.teppo-denrai",
+      "kind": "generic",
+      "priority": 15,
+      "trigger": {
+        "from": null,
+        "to": null,
+        "check": "monthStart",
+        "hooks": [],
+        "conditions": [{ "kind": "clanGoldAtLeast", "clanId": "$clan", "value": 500 }],
+        "probability": 0.04,
+        "once": false,
+        "cooldownDays": 540,
+        "cooldownKey": "gen.teppo"
+      },
+      "ownerCandidates": ["$clan"],
+      "target": "eachClan",
+      "cutscene": {
+        "title": "種子島的商人",
+        "body": "堺的商人攜來數十挺鐵砲——『此物一放，百年武藝灰飛煙滅。』開價{cost}貫，是笑談，還是天下的新聲？",
+        "monClanId": null
+      },
+      "choices": [
+        {
+          "label": "重金購下",
+          "conditions": [{ "kind": "clanGoldAtLeast", "clanId": "$clan", "value": 500 }],
+          "effects": [
+            { "op": "addGold", "clanId": "$clan", "amount": -500 },
+            {
+              "op": "setFlag",
+              "key": { "prefix": "unlock.pol.kakishuchu", "clanId": "$clan" },
+              "value": 1
+            },
+            { "op": "addPrestige", "clanId": "$clan", "amount": 30 }
+          ],
+          "aiWeight": 2
+        },
+        { "label": "送客", "conditions": [], "effects": [], "aiWeight": 1 }
+      ],
+      "effects": []
+    }
+  ]
+}

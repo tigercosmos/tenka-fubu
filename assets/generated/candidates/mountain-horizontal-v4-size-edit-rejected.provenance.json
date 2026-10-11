@@ -1,0 +1,29 @@
+{
+  "asset": "assets/generated/candidates/mountain-horizontal-v4-size-edit-rejected.png",
+  "status": "rejected-size-limit-and-redrawn-not-runtime",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-10",
+  "transparentBackgroundRequested": true,
+  "referencedImages": ["assets/generated/candidates/mountain-horizontal-v4.png"],
+  "bytes": 1434393,
+  "sha256": "ed50042e5bfda89f43582e247b67369af19b515017319ca607a03069b7200c07",
+  "dimensions": {
+    "width": 2058,
+    "height": 764
+  },
+  "alphaInspection": {
+    "zeroAlphaPixels": 1052148,
+    "partialAlphaPixels": 519669,
+    "opaquePixels": 495,
+    "centerAlpha": 253
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 9,
+    "y": 155,
+    "width": 2010,
+    "height": 450
+  },
+  "prompt": "Edit the attached original transparent mountain terrain sprite only to meet a maximum canvas dimension of 2048 pixels. Preserve exactly the same asymmetric mountain clusters, palette, lighting, oblique camera, transparent margins and transparent background; do not add or remove terrain or redraw a new scene. Output a landscape transparent PNG with canvas width 1792 pixels (at most 2048), proportional height approximately 664 pixels. Uniformly scale the complete original image to fit, no cropping, no stretch, no outlines, no text, no background."
+}

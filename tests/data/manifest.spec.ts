@@ -84,11 +84,11 @@ describe('VISUAL_ASSET_MANIFEST — 資料健全性（12 §3.7）', () => {
     }
   });
 
-  it('本交付全為 project-original／非衍生，sourceUrl 可為 null', () => {
+  it('本交付全為 project-original／非衍生，來源可省略或具名記錄', () => {
     for (const entry of VISUAL_ASSET_MANIFEST) {
       expect(entry.license).toBe('project-original');
       expect(entry.derivative).toBe(false);
-      expect(entry.sourceUrl).toBeNull();
+      expect(entry.sourceUrl === null || entry.sourceUrl.trim().length > 0).toBe(true);
     }
   });
 

@@ -47,7 +47,15 @@ export function reconcilePeace(state: GameState): GameEvent[] {
   }
   for (const army of Object.values(state.armies).sort((a, b) => a.id.localeCompare(b.id))) {
     const district = state.districts[army.posNodeId as keyof typeof state.districts];
-    if (army.status === 'subjugating' && district && peaceful(army.clanId, district.ownerClanId))
+    // A second same-clan formation can finish this district earlier in the
+    // previous movement step. That is completed work, not a diplomatic retreat:
+    // military's subjugation/route/auto-return logic owns its continuation.
+    if (
+      army.status === 'subjugating' &&
+      district &&
+      district.ownerClanId !== army.clanId &&
+      peaceful(army.clanId, district.ownerClanId)
+    )
       setReturning(state, army, false, events);
   }
   return events;

@@ -5,7 +5,7 @@
 // 2. tools/check-font-coverage.ts 的涵蓋率比對純函式（缺字／超出預算／缺席降級／通過四種狀態），
 //    比照 tools/scan-simplified.ts 的慣例，以 mkdtempSync 建立隔離 fixture，不動到真實
 //    public/fonts 與 src/i18n/zh-TW.ts。
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
@@ -17,10 +17,13 @@ import {
   collectI18nChars,
   collectRequiredChars,
   collectScenarioNameChars,
+  collectScenarioTextChars,
+  extractScenarioEventTexts,
   extractStringLiteralTexts,
 } from '../../tools/font-charset';
 import { checkFontCoverage } from '../../tools/check-font-coverage';
 import type { FontManifest } from '../../tools/font-paths';
+import { zCanonicalEventsFile } from '../../src/data/schemas/eventDefinitions';
 
 // 本檔位於 tests/data/，回推兩層即 repo 根目錄。
 const REPO_ROOT = path.resolve(fileURLToPath(new URL('../../', import.meta.url)));
@@ -111,6 +114,99 @@ describe('collectRequiredChars — 基準字集 ∪ i18n ∪ 劇本 name', () =>
     const { chars, breakdown } = collectRequiredChars();
     for (const ch of BASELINE_CHARS) expect(chars.has(ch)).toBe(true);
     expect(breakdown.baseline).toBe(new Set(BASELINE_CHARS).size);
+  });
+});
+
+describe('scenario narrative font characters', () => {
+  let tempRoot: string | undefined;
+  afterEach(() => {
+    if (tempRoot !== undefined) rmSync(tempRoot, { recursive: true, force: true });
+    tempRoot = undefined;
+  });
+
+  it('extracts only event-shaped narrative paths, including legacy text and labels', () => {
+    const texts = extractScenarioEventTexts({
+      events: [
+        {
+          id: 'evt.龘',
+          cutscene: { title: '標題𠮷', body: '敘事𠀀', monClanId: 'clan.饕' },
+          choices: [{ label: '選擇𩸽', conditions: [{ key: '鑿' }], effects: [{ op: '鬱' }] }],
+          trigger: { conditions: [{ kind: '鱻' }] },
+        },
+        { id: 'evt.legacy', name: '舊名稱', text: '舊敘事', choices: [{ label: '舊選項' }] },
+        { id: 'evt.legacy-empty', name: '舊名稱', text: '無選項敘事' },
+        { id: 'castle.a', text: '魑', choices: [{ label: '魅' }] },
+      ],
+      unrelated: { title: '魍', body: '魎', label: '齉' },
+    });
+    expect(texts).toEqual(['標題𠮷', '敘事𠀀', '選擇𩸽', '舊敘事', '舊選項', '無選項敘事']);
+    expect(extractScenarioEventTexts(null)).toEqual([]);
+  });
+
+  it('feeds supplementary codepoints through shared collection and coverage, preserving name counts', () => {
+    tempRoot = mkdtempSync(path.join(tmpdir(), 'tenka-font-narrative-'));
+    writeFileSync(
+      path.join(tempRoot, 'events.json'),
+      JSON.stringify({
+        events: [
+          {
+            id: 'evt.龘',
+            name: '名',
+            cutscene: { title: '𠮷', body: '𠀀' },
+            choices: [{ label: '𩸽', effects: [{ op: '鬱' }], conditions: [{ key: '鑿' }] }],
+          },
+        ],
+      }),
+    );
+    const collected = collectRequiredChars({
+      scenariosDir: tempRoot,
+      i18nFilePath: path.join(tempRoot, 'missing.ts'),
+      debugFixtureFiles: [],
+      catalogFiles: [],
+    });
+    expect(collected.breakdown.scenarioNames).toBe(1);
+    expect(collected.breakdown.scenarioText).toBe(3);
+    for (const char of ['𠮷', '𠀀', '𩸽']) expect(collected.chars.has(char)).toBe(true);
+    for (const char of ['龘', '鬱', '鑿']) expect(collected.chars.has(char)).toBe(false);
+    expect(charsToSortedString(collectScenarioTextChars(tempRoot))).toBe('𠀀𠮷𩸽');
+    const woff2Path = path.join(tempRoot, 'fixture.woff2');
+    const manifestPath = path.join(tempRoot, 'fixture.manifest.json');
+    writeFileSync(woff2Path, Buffer.from([0]));
+    writeFileSync(manifestPath, JSON.stringify({ chars: BASELINE_CHARS + '名', sizeBytes: 1 }));
+    expect(
+      checkFontCoverage({ manifestPath, woff2Path, requiredChars: collected.chars }),
+    ).toMatchObject({ status: 'missing-chars', missingChars: ['𠮷', '𠀀', '𩸽'] });
+  });
+
+  it('covers every literal narrative in all fifteen current historical definitions', () => {
+    const data = zCanonicalEventsFile.parse(
+      JSON.parse(
+        readFileSync(path.join(REPO_ROOT, 'src/data/scenarios/s1560/events.json'), 'utf8'),
+      ),
+    );
+    const historical = data.events.filter((event) => event.kind === 'historical');
+    expect(historical).toHaveLength(15);
+    const scenarioChars = collectScenarioTextChars();
+    const required = collectRequiredChars().chars;
+    for (const event of historical) {
+      for (const text of [
+        event.cutscene.title,
+        event.cutscene.body,
+        ...event.choices.map((choice) => choice.label),
+      ]) {
+        for (const char of text) {
+          expect(scenarioChars.has(char), `${event.id}: ${char}`).toBe(true);
+          expect(required.has(char), `${event.id}: ${char}`).toBe(true);
+        }
+      }
+    }
+  });
+
+  it('ignores broken JSON and absent directories consistently with the name scanner', () => {
+    tempRoot = mkdtempSync(path.join(tmpdir(), 'tenka-font-narrative-bad-'));
+    writeFileSync(path.join(tempRoot, 'bad.json'), '{ invalid');
+    expect(collectScenarioTextChars(tempRoot).size).toBe(0);
+    expect(collectScenarioTextChars(path.join(tempRoot, 'missing')).size).toBe(0);
   });
 });
 
@@ -216,11 +312,14 @@ describe('checkFontCoverage — 對目前 repo 實際成品的健康檢查（18 
   });
 
   it('CLI（npm run font:subset 同源檢查）對目前 repo exit code 為 0', () => {
-    const tsxBin = path.join(REPO_ROOT, 'node_modules', '.bin', 'tsx');
-    const result = spawnSync(tsxBin, ['tools/check-font-coverage.ts'], {
-      cwd: REPO_ROOT,
-      encoding: 'utf8',
-    });
+    const result = spawnSync(
+      process.execPath,
+      ['--import', 'tsx', 'tools/check-font-coverage.ts'],
+      {
+        cwd: REPO_ROOT,
+        encoding: 'utf8',
+      },
+    );
     expect(result.status).toBe(0);
   });
 });

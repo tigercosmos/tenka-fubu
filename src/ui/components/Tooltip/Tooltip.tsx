@@ -12,6 +12,9 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { UI } from '@ui/uiConstants';
+import { useUIStore } from '../../hooks/uiStore';
+import { logicalPxToRem, scaledUiPixels } from '../../layout/sizing';
+import { claimTooltip, releaseTooltip } from './ownership';
 import styles from './Tooltip.module.css';
 export interface TooltipProps {
   content: ReactNode;
@@ -21,7 +24,6 @@ export interface TooltipProps {
   disabled?: boolean;
   children: ReactElement;
 }
-let activeHide: (() => void) | null = null;
 export function Tooltip({
   content,
   delayMs = UI.tooltipDelayMs,
@@ -30,6 +32,7 @@ export function Tooltip({
   disabled = false,
   children,
 }: TooltipProps) {
+  const uiScale = useUIStore((state) => state.uiScale);
   const id = useId();
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const trigger = useRef<HTMLElement | null>(null);
@@ -41,12 +44,11 @@ export function Tooltip({
     if (timer.current !== null) clearTimeout(timer.current);
     timer.current = null;
     setVisible(false);
-    if (activeHide === hide) activeHide = null;
+    releaseTooltip(hide);
   }, []);
   const show = (immediate = false) => {
     if (disabled) return;
-    activeHide?.();
-    activeHide = hide;
+    claimTooltip(hide);
     if (immediate) setVisible(true);
     else timer.current = setTimeout(() => setVisible(true), delayMs);
   };
@@ -55,15 +57,18 @@ export function Tooltip({
     if (!visible || tip.current === null || trigger.current === null) return;
     const rect = trigger.current.getBoundingClientRect();
     const box = tip.current.getBoundingClientRect();
-    let x = follow ? point.x + UI.tooltipFollowOffsetX : rect.left + (rect.width - box.width) / 2;
-    let y = follow ? point.y + UI.tooltipFollowOffsetY : rect.top - box.height - 8;
-    if (x + box.width > innerWidth - 8)
-      x = follow ? point.x - box.width - UI.tooltipFollowOffsetX : innerWidth - box.width - 8;
-    x = Math.max(8, x);
-    if (y < 8 || y + box.height > innerHeight - 8)
-      y = follow ? point.y + UI.tooltipFollowOffsetY : rect.bottom + 8;
+    const inset = scaledUiPixels(8, uiScale);
+    const offsetX = scaledUiPixels(UI.tooltipFollowOffsetX, uiScale);
+    const offsetY = scaledUiPixels(UI.tooltipFollowOffsetY, uiScale);
+    let x = follow ? point.x + offsetX : rect.left + (rect.width - box.width) / 2;
+    let y = follow ? point.y + offsetY : rect.top - box.height - inset;
+    if (x + box.width > innerWidth - inset)
+      x = follow ? point.x - box.width - offsetX : innerWidth - box.width - inset;
+    x = Math.max(inset, x);
+    if (y < inset || y + box.height > innerHeight - inset)
+      y = follow ? point.y + offsetY : rect.bottom + inset;
     setPos({ x, y });
-  }, [visible, follow, point]);
+  }, [visible, follow, point, maxWidth, uiScale]);
   if (!isValidElement(children)) return children;
   const child = cloneElement(children as ReactElement<Record<string, unknown>>, {
     ref: (node: HTMLElement | null) => {
@@ -93,7 +98,7 @@ export function Tooltip({
             id={id}
             role="tooltip"
             className={styles.tip}
-            style={{ left: pos.x, top: pos.y, maxWidth }}
+            style={{ left: pos.x, top: pos.y, maxWidth: logicalPxToRem(maxWidth) }}
           >
             {content}
           </div>,

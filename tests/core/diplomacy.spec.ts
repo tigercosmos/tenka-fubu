@@ -339,10 +339,13 @@ describe('M6 diplomacy settlement and directional relationships', () => {
     officer.birthYear = state.time.year - 25;
     adjustTrust(state, CLAN_ALPHA, CLAN_BETA, -100);
     applyStartDiploWork(state, work());
-    expect(validateStartDiploWork(state, { ...work(), target: 'court' })).toMatchObject({
+    const beforeBusyValidation = structuredClone(state);
+    expect(validateStartDiploWork(state, { ...work(), target: 'court' })).toEqual({
       ok: false,
       reasonKey: 'cmd.reject.officerBusy',
+      params: { name: officer.name },
     });
+    expect(state).toEqual(beforeBusyValidation);
     const gold = state.clans[CLAN_ALPHA]!.gold;
     for (let month = 0; month < 10; month++) {
       state.time.dayOfMonth = 1;

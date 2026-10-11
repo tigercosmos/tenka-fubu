@@ -200,7 +200,8 @@ export interface RoadEdgeData {
 #### 3.4.4 連通性與資料驗證（`tools/validate.ts`）
 
 - 全圖（含海路）必須是單一連通分量。
-- 每條邊的 `a`、`b` 必須是存在的節點且 `a !== b`；無重複邊（同端點對最多 1 條同型邊）。
+- 每條邊的 `a`、`b` 必須是存在的節點且 `a !== b`；無向端點對全域唯一，不因 land／sea 型別不同允許平行邊。
+  此處依 02 RoadEdge／INV-11 收斂原「同型邊」措辭；04 不建立第二套不同的唯一性規則。
 - 海路邊端點必須皆為 `isPort` 郡。
 - `baseDays ∈ [0.5, 8]`、為 0.5 的倍數。
 
@@ -237,6 +238,12 @@ export interface RoadEdgeData {
 - 節點數 ~500、邊數 ~700，單次 Dijkstra < 1ms，無需 A*／快取（決策見 §8）。
 - 路徑預覽 API 見 §4.3 `computePath`；回傳含逐節點 ETA（抵達日）與制壓標記，供 UI 畫日數刻度。
 
+途中改令使用 `src/core/systems/armyReroute.ts` 的純函式 `planArmyReroute`。
+它比較「當前邊剩餘正向距離＋B 的合法尾路」與「已走距離＋A 的合法尾路」，平手選正向。
+正向方案保留已走進度；反向方案保留進度與有效成本，另記原未抵達端點 B。
+尋路不把邊上位置偽造成已抵達的節點，也不在改令時重新收取當前邊成本。
+歸還優先選仍屬本家的原出陣城且須可達；否則選實體位置可達的最近我方城，平手按城 ID 排序。
+
 ### 3.7 行軍模擬（每日 tick，`military.movement`）
 
 - `Army` 的行軍欄位（`status`／`path`／`pathCursor`／`edgeProgressDays`／`edgeCostDays`／`posNodeId`，
@@ -245,6 +252,9 @@ export interface RoadEdgeData {
   當 `edgeProgressDays ≥ edgeCostDays` 時抵達下一節點，**餘量結轉**到下一條邊
   （同一日可跨多個短邊）。渲染層以 `edgeProgressDays / edgeCostDays` 線性內插畫部隊位置，
   core 不儲存連續座標。
+- 反向時 `posNodeId` 仍是最近實際抵達的 A，未抵達 B 取自 `reversingEdgeEndNodeId`。
+  每日從 `edgeProgressDays` 扣除當日速度；抵達 A 才清零及清除反向端點。
+  剩餘當日預算可繼續新尾路。渲染仍以 A→B 的進度比例內插，不能顯示已抵達 B。
 - 抵達節點時依序處理：宣戰判定（參見 08）→ 若為敵郡 → 進入制壓（§3.8）；
   若為敵城且是終點 → 轉入攻城（參見 07）；若為終點我方城 → 部隊入城解散回兵力兵糧
   （入城結算參見 07 兵站）；否則繼續下一條邊。
@@ -325,7 +335,7 @@ subjugateDays = clamp(
 #### 3.10.1 圖層順序（由下而上，各為一個 `Container`）
 
 M2 交付的 8 層骨架是生命週期與互動基線；M6-V 在不改 `MapRenderer` 對外生命週期契約下擴為下列
-13 層。新增層不是把所有內容永久打開，而是讓每一類 visual domain 可獨立排序、dirty、LOD、隱藏與測試。
+15 層（包括城名牌與共用模型層）。各類 visual domain 可獨立排序、dirty、LOD、隱藏與測試。
 
 | # | 圖層 key | 內容 | 更新時機 |
 |---|---|---|---|
@@ -336,12 +346,25 @@ M2 交付的 8 層骨架是生命週期與互動基線；M6-V 在不改 `MapRend
 | 4 | `analysisOverlay` | 補給、道路通行、地形優勢、控制範圍等互斥主題覆蓋 | mode／selection dirty |
 | 5 | `roads` | 街道 casing＋內線、waypoints、多道級、海路、橋面、阻斷狀態；主幹道 far LOD 保留 | road data／road state dirty |
 | 6 | `settlements` | 城下町、農田、港口等低對比地景；只作空間語意，不蓋過城池／道路 | init／castle level dirty |
-| 7 | `nodeMarkers` | 正式 `CastleNode`／`DistrictNode`、關隘、耐久、警戒與歸屬；不得再使用幾何占位 marker | castle／district dirty |
-| 8 | `armies` | `ArmyChip`／sprite、兵力、士氣、補給、狀態與行進方向 | 每幀只更新移動或狀態變更部隊 |
+| 7 | `nodeMarkers` | 節點命中容器、郡標記及城堡地面選取／攻城標記 | castle／district dirty |
+| 7.2 | `actorBodies` | 城堡建築與士兵模型；依世界腳點 Y、再依 `kind:id` 排序 | 模型位置／LOD／能見度變更 |
+| 7.5 | `nameplates` | 城名綬帶；保留獨立避讓與 LOD | camera／castle dirty |
+| 8 | `armies` | 軍隊旗幟／兵力／士氣／補給／方向 | 每幀只更新移動或狀態變更部隊 |
 | 9 | `selectionAndPath` | 選取光圈、命令、行軍路徑、每日刻度、目的地與制壓節點 | interaction dirty |
-| 10 | `effects` | 威風擴散環、野戰交鋒、攻城、低成本塵土／煙火；event driven 且可 reduce-motion | event driven |
+| 10 | `effects` | 城堡旗幟／耐久／警戒、威風擴散環、野戰交鋒、低成本塵土／煙火 | castle dirty／event driven |
 | 11 | `labels` | 城名、郡名、國名、勢力名、道路名、ETA／警告；獨立避讓與 LOD | camera／locale／model dirty |
 | 12 | `debug` | 圖層邊界、命中區、視錐桶、dirty domain 與 FPS／texture 統計 | DEV only |
+
+2026-10-10 的城堡狀態重設在 `nodeMarkers` 的首個子容器掛載節點選取與攻城地面標記。
+共用 `actorBodies` 位於其上，並位於城名牌與資訊旗幟下方。
+模型按世界腳點 Y 由小到大排序；同 Y 使用 `kind:id` 的字典序，選取不改模型深度。
+城堡腳點為原錨點，士兵腳點為原錨點的局部 Y = -1；此呈現偏移不改遊戲位置。
+
+旗幟、耐久、警戒與數字牌保持前景資訊通道；軍隊地面環位於模型後方。
+城堡資訊容器掛載於既有 `effects`；軍隊資訊容器保留於 `armies`。
+本調整增加一個頂層模型層，不改世界錨點、命中範圍或 GameState。
+耐久底槽與警戒徽記的呈現契約見 [art-bible §6.4.1](../docs/visual/art-bible.md#641-模型優先的狀態呈現2026-10-10)。
+成功載入的城郭與軍旗比例見 [art-bible §6.4.3](../docs/visual/art-bible.md#643-城堡與軍隊的模型比例2026-10-10)；向量替代與遠景規則不變。
 
 #### 3.10.2 勢力色郡域渲染：柵格化 Voronoi（選定方案，細節見 §5.5）
 
@@ -377,6 +400,7 @@ M2 交付的 8 層骨架是生命週期與互動基線；M6-V 在不改 `MapRend
 
 - 對 `settlements`／`nodeMarkers`／`armies`／`labels` 四層做剔除；`terrainBase`、`waterFeatures`、
   `territory` 為少量批次／sprite，不逐物件剔除；`roads` 依道級分批，overview 只保留主幹批次。
+- 共用模型沿用城堡與軍隊的剔除結果；`actorBodies` 與分離的城堡資訊容器同步其擁有者能見度。
 - 建立**空間雜湊網格**：桶邊長 256 world unit（16×16 桶）。每個 display object 依世界座標入桶
   （部隊每日移動後更新所屬桶）。
 - 鏡頭變化時（含慣性）計算可視世界矩形，外擴 `MAPVIEW.cullMargin = 256`，
@@ -396,10 +420,15 @@ M2 交付的 8 層骨架是生命週期與互動基線；M6-V 在不改 `MapRend
 - **慣性**：放開拖曳後以最後速度續滑，每幀速度 ×`MAPVIEW.inertiaDamping (0.92)`，
   低於 `MAPVIEW.inertiaMinSpeed (0.02 world unit/幀)` 停止。任何新輸入立即取消慣性。
 - **聚焦動畫 API**：`focusOn(nodeId, opts?)` → 以 easeInOutCubic 在
-  `opts.durationMs ?? MAPVIEW.focusDurationMs (600)` 內同時動畫中心到節點座標、
+  `opts.durationMs ?? MAPVIEW.focusDurationMs (600)` 內同時動畫目標到可見地圖區中央、
   scale 到 `opts.scale ?? MAPVIEW.focusScale (1.5)`；回傳 `Promise<void>`；
   動畫中任何使用者鏡頭輸入立即中止動畫（Promise 仍 resolve）。
   用途：點報告跳轉、合戰結束回焦、`focusOn(castleId)` 開場聚焦玩家本城。
+- **HUD 安全聚焦**：明確導覽依實測 HUD 邊界保留可見地圖區，再換算鏡頭中心。
+  顯示攻城檢視欄時，其左側停靠占位與導覽列共同決定左界，保留 12 CSS px 間距。
+  未提供有效邊界時，目標仍位於整張畫布中央。底層 `Camera.focusOn` 保留原始世界座標契約。
+  版面或日數更新不自動移動鏡頭；手動平移、游標縮放錨點與命中座標不變。
+  此契約不保證手動拖曳後的所有部隊都避開 HUD。
 
 ### 3.12 命中測試與互動協定
 
@@ -464,7 +493,8 @@ export interface MapRendererApi {
 - 內容：海色底 → 直接把 `TerritoryGrid` 的 RGBA `ImageData` 以 `drawImage` 縮放繪入
   （陸地形狀已隱含其中，勢力色即全局概覽）→ 疊主鏡頭可視範圍白框（1px）。
 - 更新時機：郡歸屬 dirty 時重繪底圖；`cameraChanged`（節流 100ms）時只重繪白框。
-- 互動：點擊或拖曳迷你地圖 → 主鏡頭中心跳至對應世界座標（無動畫）。
+- 互動：點擊或拖曳迷你地圖 → 對應世界座標移至 HUD 安全聚焦區中央，沿用現有聚焦動畫。
+  點擊座標仍依實際 canvas 邊界換算；只調整主鏡頭的畫面構圖，不修改世界目標。
 
 #### 3.13.2 勢力圖模式（faction map mode）
 
@@ -543,10 +573,11 @@ export type ArmyStatus =              // 型別最終歸屬 02 §3.3；採 02 �
 |---|---|
 | `status: ArmyStatus` | 行軍/制壓/戰鬥活動層狀態機（見上 `ArmyStatus`）。 |
 | `path: MapNodeId[]` | 完整路徑節點序列（含起點與終點）。`holding` 且無路徑時為長度 1。 |
-| `pathCursor: number` | 目前所在 `path` 索引：位於 `path[pathCursor]`，或行進於 `path[pathCursor]→path[pathCursor+1]` 邊上。 |
+| `pathCursor: number` | 最近實際抵達的 `path` 索引；反向時實體邊端點另取可選欄位。 |
 | `posNodeId: MapNodeId` | 最近抵達節點，恆等於 `path[pathCursor]`。 |
 | `edgeProgressDays: number` | 當前邊已累積的進度（日）。位於節點上時為 0。 |
 | `edgeCostDays: number` | 當前邊的有效日數快取（進入邊時計算）。 |
+| `reversingEdgeEndNodeId?: MapNodeId \| null` | 反向時的原未抵達端點；缺省／null 表示正向。 |
 | `mission: ArmyMission` | 意圖層任務目標（march/conquer/return，02 §3.3，二輪裁決 B）；與 `status` 正交，07 出陣/自動轉移邏輯依此判斷（07 §3.1／§3.11／§3.13）；04 movement 不依此分支，僅列出供對照。 |
 
 制壓狀態（02 §4.6 canonical；四輪裁決 D-14／DDR-9 回寫——**Army 側已不再持有任何制壓擴充欄位**，
@@ -738,6 +769,11 @@ speedFactor(army) = clamp(
 
 ### 5.4 每日行軍 tick（`src/core/systems/military.ts`，於 00 §5.4 第 7 步）
 
+傳馬制的陸路 `policyFactor` 為 `BAL.polTenmaseiMarchSpeedMult`（1.1），依部隊勢力的當前政策查詢。
+每日速度依起步時實際邊決定，包含反向當前邊；海路起步不套用傳馬制乘數。
+§3.7 的已支付餘量仍跨邊結轉，同一天不在新邊再次套用速度；不是逐邊重新換算時鐘時間。
+因此陸路起步後帶入海路的餘量可能增加，這是陸路取得的已付預算，不是海路另乘 1.1。
+
 ```
 movementSystem(state):
   // 相 1：移動（依 armyId 字典序）
@@ -748,6 +784,8 @@ movementSystem(state):
     if army.status == 'holding': continue
     if not validateNextStep(army): army.status='holding'; emit army.blocked(armyId, clanId, nodeId=army.posNodeId); continue  // 02 §4.19，四輪裁決 C-6
     budget ← speedFactor(army)                                         // 海路邊改為 1.0
+    若有 reversingEdgeEndNodeId：先扣當前進度直到實際回到 posNodeId
+      未抵達 → 本日移動結束；已抵達 → 清除反向端點及邊快取，處理到達，再用餘量走尾路
     while budget > 0 且未到路徑終點:
       需要登船（下一邊為海路且當前邊為陸路/起步）→ 先扣 BAL.seaEmbarkDays 的 budget（不足則停）
       step ← min(budget, edgeCostDays − edgeProgressDays)
@@ -1318,3 +1356,13 @@ focusOn(nodeId, opts): 每幀 t∈[0,1]，easeInOutCubic(t) 內插 (x,y,scale)�
   地形分析僅顯示既有城池地形，通行分析僅顯示道級與海路。圖例明示這些邊界。
   勢力模式保留選取與危急軍隊棋子，避免簡化色點抹去警告與敵我第二辨識通道。
   V8／V9b 補審同時修正收合區選取軍隊的命中登記，以及無有效路徑時的出陣目標確認。
+- **2026-10-09（海路的一般行軍倍率）**：依 §3.4.3／§5.3，低士氣及 returning／routed 倍率限於陸路。
+  海路不使用這兩個倍率；陸路既有乘算順序與上限不變，不更動登船成本或路徑預覽。
+  06 的海賊海路加速與本文件的特性禁用條文仍有歧異；本次保留既有海賊行為，未宣稱該歧異已解決。
+- **2026-10-09（傳馬制與每日已付預算）**：補入 05 §3.7.2 的陸路行軍乘數 1.1，依當前部隊勢力政策查詢。
+  採用／廢止及月費不足的自動廢止均在當日移動前生效；不保存出發時快照或依端點擁有者查政策。
+  維持 §3.7／§5.4 的一次日預算與跨邊餘量，包含反向當前邊；不重新縮放海陸交界的已付進度。
+  速度於原封頂前乘入，不新增捨入、改登船費、重設成本或改變路徑預覽的速度 1 基準。
+- **2026-10-09（制壓的一般有效統率）**：§3.8 的實際大將門檻採 02 §4.4 的一般有效能力。
+  統率為 `min(BAL.abilityMax, ldr + statGrowth.ldr)`，79＋1 與 80＋0 均取得原一日加速。
+  不套用合戰專用能力特性；原日數上下限、郡規模、制壓特性及無大將的路徑預覽不變。

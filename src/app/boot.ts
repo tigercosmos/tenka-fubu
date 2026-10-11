@@ -1,6 +1,6 @@
 // 劇本 JSON dynamic import → zod 驗證 → buildGameState。
 // 規格：plan/01-architecture.md §3.7.2、§3.9.3；plan/18-roadmap.md M2-19（新遊戲流程最小版：
-// ScenarioSelectScreen → DaimyoSelectScreen → `buildGameState(regions=[tokai,kinki])` →
+// ScenarioSelectScreen → DaimyoSelectScreen → `buildGameState(regions=NEW_GAME_REGIONS)` →
 // MainScreen）。M2-8（`src/core/state/builder.ts`）已備妥 `loadScenarioBundle`／`deriveScenarioInput`／
 // `buildGameStateFromScenario`；本檔是唯一呼叫端（app 層負責「劇本 id → 動態 import → 建局」的
 // 選擇與組裝，core 不知道有幾個劇本、也不知道檔案在哪）。
@@ -8,10 +8,8 @@
 // v1.0 僅 s1560 一個劇本（11 §3.2.2「v1.0 僅 s1560 一個項目」），`SUPPORTED_SCENARIO_IDS` 仍以
 // 一個小型 dispatch table 表達（非 if/else 單例），供日後多劇本時只需在表中增列。
 //
-// 【M2 現況：`regions` 白名單】s1560 資料僅 B1 東海／B2 近畿兩批落地（M2-9／M2-10；其餘 7 地方
-// 待 M8-26 全國批次），`NEW_GAME_REGIONS` 固定為這兩個地方——並非玩家可選項，而是「目前資料涵蓋
-// 範圍」，全部 9 地方批次到位後（M8-26）此常數改為省略 `regions`（等同 `REGION_VALUES` 全部，
-// `deriveScenarioInput` 之預設值，18 §8-D5）。
+// 地方白名單表示資料範圍，不是玩家選項；九地方共用輕量 meta 常數。
+// 全國資料載入不代表長期、平衡、效能及發版驗收通過。
 
 import type { ClanId, CastleId } from '@core/state/ids';
 import type { Difficulty, Region } from '@core/state/enums';
@@ -116,7 +114,7 @@ export interface NewGameOptions {
 const APP_VERSION = '0.0.0';
 
 /**
- * 由已載入的劇本資料束＋玩家選擇建立初始 `GameState`（buildGameState(regions=[tokai,kinki])，
+ * 由已載入的劇本資料束＋玩家選擇建立初始 `GameState`（buildGameState(regions=NEW_GAME_REGIONS)，
  * 18-roadmap M2-19）。開局日固定 1560 年 1 月 1 日（`startDay` 省略＝0＝`EPOCH_YEAR`，02 §5.6）。
  */
 export function buildNewGameState(bundle: ScenarioBundleData, opts: NewGameOptions): GameState {

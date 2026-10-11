@@ -2,6 +2,13 @@
 // 規格：plan/07-military.md §3.5～§3.7、§5.3～§5.4；plan/03-game-loop.md §3.7.2。
 
 import { BAL } from '../balance';
+import { traitModifier } from '../traits';
+import { getBattleOfficerStat, getEffectiveOfficerStat } from '../battleStats';
+import {
+  PLAYER_AUTHORITY,
+  validateExecutionAuthority,
+  type ExecutionAuthority,
+} from '../commands/authority';
 import type { CmdStartKassen, ValidationResult } from '../commands/types';
 import { REJECT_REASONS } from '../commands/reasons';
 import { CoreError } from '../errors';
@@ -33,7 +40,7 @@ import type { GameEvent } from '../state/events';
 import { applyAwe, judgeBattleAwe } from './awe';
 import { createDelegatedBattleOrders } from './battleAi';
 import { nearestOwnedCastleByHops } from './castleSelection';
-import { appointClanSuccessor, dieOfficer, releaseOfficerAssignments } from './officers';
+import { appointClanSuccessor, dieOfficer, gainMerit, releaseOfficerAssignments } from './officers';
 import {
   applyBattleTactic,
   decrementTacticTimers,
@@ -57,10 +64,87 @@ export type BattleCommand =
     }
   | { readonly kind: 'toggleDelegate'; readonly unitId: string; readonly enabled: boolean };
 
+type BattleTickEventPayload =
+  | { readonly type: 'move.accepted'; readonly unitId: string; readonly targetJinId: string }
+  | { readonly type: 'attack.accepted'; readonly unitId: string; readonly targetUnitId: string }
+  | { readonly type: 'delegation.changed'; readonly unitId: string; readonly enabled: boolean }
+  | {
+      readonly type: 'tactic.accepted';
+      readonly unitId: string;
+      readonly tacticId: TacticId;
+      readonly targetUnitId: string | null;
+      readonly damageDealt: number;
+      readonly troopsHealed: number;
+      readonly moraleGained: number;
+    }
+  | {
+      readonly type: 'unit.changed';
+      readonly unitId: string;
+      readonly source: 'tactic' | 'combat' | 'pursuit';
+      readonly troopsBefore: number;
+      readonly troopsAfter: number;
+      readonly moraleBefore: number;
+      readonly moraleAfter: number;
+    }
+  | {
+      readonly type: 'unit.arrived';
+      readonly unitId: string;
+      readonly fromJinId: string;
+      readonly toJinId: string;
+      readonly reason: 'move' | 'retreat';
+    }
+  | { readonly type: 'unit.routed'; readonly unitId: string }
+  | { readonly type: 'unit.exited'; readonly unitId: string }
+  | {
+      readonly type: 'flag.damaged';
+      readonly jinId: string;
+      readonly source: 'fireArrow' | 'occupation';
+      readonly amount: number;
+      readonly flagPowerBefore: number;
+      readonly flagPowerAfter: number;
+    }
+  | {
+      readonly type: 'jin.captured';
+      readonly jinId: string;
+      readonly ownerBefore: Jin['owner'];
+      readonly ownerAfter: Jin['owner'];
+      readonly flagPower: number;
+    }
+  | {
+      readonly type: 'battle.resolved';
+      readonly winnerSide: BattleSide;
+      readonly attackerLosses: number;
+      readonly defenderLosses: number;
+      readonly aweLevel: BattleResult['aweLevel'];
+    };
+
+/** Detached executing-stage facts; not persisted GameEvents or queued command intentions. */
+export type BattleTickEvent = BattleTickEventPayload & { readonly sequence: number };
+
 export interface BattleTickResult {
   battleId: BattleId;
   tick: number;
   resolved: boolean;
+  readonly events: readonly BattleTickEvent[];
+}
+
+function recordUnitChange(
+  events: BattleTickEventPayload[],
+  unit: BattleUnit,
+  source: 'tactic' | 'combat' | 'pursuit',
+  troopsBefore: number,
+  moraleBefore: number,
+): void {
+  if (unit.troops !== troopsBefore || unit.morale !== moraleBefore)
+    events.push({
+      type: 'unit.changed',
+      unitId: unit.id,
+      source,
+      troopsBefore,
+      troopsAfter: unit.troops,
+      moraleBefore,
+      moraleAfter: unit.morale,
+    });
 }
 
 export interface KassenParticipants {
@@ -159,11 +243,15 @@ export function gatherKassenParticipants(
 export function validateStartKassen(
   state: Readonly<GameState>,
   cmd: CmdStartKassen,
+  authority: ExecutionAuthority = PLAYER_AUTHORITY,
 ): ValidationResult {
-  if (!BAL.featureKassenEnabled) return reject(REJECT_REASONS.notImplemented);
   const combat = state.fieldCombats[cmd.fieldCombatId];
   if (!combat) return reject(REJECT_REASONS.invalidTarget);
-  if (cmd.clanId !== state.meta.playerClanId || !sideForClan(combat, cmd.clanId)) {
+  const trustedAi =
+    (authority.kind === 'clan' || authority.kind === 'corps') &&
+    authority.clanId === cmd.clanId &&
+    validateExecutionAuthority(state, cmd, authority).ok;
+  if ((cmd.clanId !== state.meta.playerClanId && !trustedAi) || !sideForClan(combat, cmd.clanId)) {
     return reject(REJECT_REASONS.notOwner);
   }
   if (combat.kassenUsed || combat.interrupted) return reject(REJECT_REASONS.alreadyActive);
@@ -425,6 +513,15 @@ export function applyStartKassen(
 ): void {
   void _emit;
   const combat = state.fieldCombats[cmd.fieldCombatId]!;
+  const involvesPlayer =
+    !state.ai.allAi &&
+    [...combat.sideA.clanIds, ...combat.sideB.clanIds].includes(state.meta.playerClanId);
+  if (!involvesPlayer) {
+    // 09 D12: NPC-only encounters stay in strategic field resolution, without a tactical UI.
+    // The spec supplies no numeric prediction modifier, so no invented combat bonus is applied.
+    combat.kassenUsed = true;
+    return;
+  }
   const defenderClanId = opposingSide(combat, cmd.clanId)!.clanIds[0]!;
   const participants = gatherKassenParticipants(state, combat, cmd.clanId, defenderClanId);
   const battle = generateBattlefield(state, combat, cmd.clanId, defenderClanId, participants);
@@ -444,8 +541,81 @@ function activeUnit(unit: Readonly<BattleUnit>): boolean {
   return unit.troops > 0 && !unit.routed && !unit.exited;
 }
 
-function unitsAreAdjacent(battle: Readonly<BattleState>, a: BattleUnit, b: BattleUnit): boolean {
+function unitsAreAdjacent(
+  battle: Readonly<BattleState>,
+  a: Readonly<BattleUnit>,
+  b: Readonly<BattleUnit>,
+): boolean {
   return a.jinId === b.jinId || jinEdge(battle, a.jinId, b.jinId) !== undefined;
+}
+
+/** Detached current facts, not a prediction of damage or next-tick movement outcomes. */
+export interface BattleUnitActivity {
+  readonly unitId: string;
+  readonly active: boolean;
+  readonly depleted: boolean;
+  readonly routed: boolean;
+  readonly exited: boolean;
+  readonly contactEnemyUnitIds: readonly string[];
+  readonly moveTargetJinId: string | null;
+  readonly moving: boolean;
+  readonly movementBlockedReason: 'inactive' | 'immobile' | 'missingEdge' | null;
+  readonly moveCost: number | null;
+  readonly destinationAtCapacity: boolean;
+}
+
+export function queryBattleUnitActivity(
+  battle: Readonly<BattleState>,
+  unitId: string,
+): BattleUnitActivity | null {
+  const unit = battle.units.find((candidate) => candidate.id === unitId);
+  if (!unit) return null;
+  const active = activeUnit(unit);
+  const target = unit.moveTargetJinId;
+  const edge = target === null ? undefined : jinEdge(battle, unit.jinId, target);
+  // Match advanceMovement's gate order: inactive, no intent, immobile, then missing edge.
+  const movementBlockedReason =
+    target === null
+      ? null
+      : !active
+        ? 'inactive'
+        : isTacticImmobile(unit)
+          ? 'immobile'
+          : !edge
+            ? 'missingEdge'
+            : null;
+  return {
+    unitId: unit.id,
+    active,
+    depleted: unit.troops <= 0,
+    routed: unit.routed,
+    exited: unit.exited,
+    contactEnemyUnitIds: active
+      ? battle.units
+          .filter(
+            (other) =>
+              other.side !== unit.side &&
+              activeUnit(other) &&
+              unitsAreAdjacent(battle, unit, other),
+          )
+          .map((other) => other.id)
+          .sort()
+      : [],
+    moveTargetJinId: target,
+    moving: target !== null && movementBlockedReason === null,
+    movementBlockedReason,
+    moveCost: edge?.moveCost ?? null,
+    // Capacity is checked only at arrival, after preceding movers may have changed occupancy.
+    destinationAtCapacity:
+      target !== null &&
+      battle.units.filter(
+        (other) =>
+          other.id !== unit.id &&
+          other.side === unit.side &&
+          activeUnit(other) &&
+          other.jinId === target,
+      ).length >= BAL.jinStackLimit,
+  };
 }
 
 /** Canonical M5-2 attack-power formula; tactic multipliers are supplied by M5-3 integration. */
@@ -455,8 +625,8 @@ export function computeBattleUnitAttackPower(
   tacticAtkMult = 1,
 ): number {
   const general = state.officers[unit.generalId];
-  const val = general ? general.val + general.statGrowth.val : 0;
-  const ldr = general ? general.ldr + general.statGrowth.ldr : 0;
+  const val = general ? getBattleOfficerStat(general, 'val') : 0;
+  const ldr = general ? getBattleOfficerStat(general, 'ldr') : 0;
   const moraleFactor = BAL.moraleFactorBase + unit.morale / BAL.moraleFactorDivisor;
   return (
     unit.troops *
@@ -466,14 +636,26 @@ export function computeBattleUnitAttackPower(
   );
 }
 
-function processOrders(battle: BattleState, orders: readonly BattleCommand[]): void {
+function processOrders(
+  battle: BattleState,
+  orders: readonly BattleCommand[],
+  events: BattleTickEventPayload[],
+): void {
   for (const order of orders) {
     if (order.kind === 'toggleDelegate') {
       if (order.unitId === 'all') {
-        for (const unit of battle.units) unit.delegated = order.enabled;
+        for (const unit of battle.units) {
+          if (unit.delegated !== order.enabled)
+            events.push({ type: 'delegation.changed', unitId: unit.id, enabled: order.enabled });
+          unit.delegated = order.enabled;
+        }
       } else {
         const unit = battle.units.find((candidate) => candidate.id === order.unitId);
-        if (unit) unit.delegated = order.enabled;
+        if (unit) {
+          if (unit.delegated !== order.enabled)
+            events.push({ type: 'delegation.changed', unitId: unit.id, enabled: order.enabled });
+          unit.delegated = order.enabled;
+        }
       }
       continue;
     }
@@ -483,6 +665,7 @@ function processOrders(battle: BattleState, orders: readonly BattleCommand[]): v
       if (!isTacticImmobile(unit) && jinEdge(battle, unit.jinId, order.targetJinId)) {
         unit.moveTargetJinId = order.targetJinId;
         unit.moveProgress = 0;
+        events.push({ type: 'move.accepted', unitId: unit.id, targetJinId: order.targetJinId });
       }
     } else if (order.kind === 'attack') {
       const target = battle.units.find((candidate) => candidate.id === order.targetUnitId);
@@ -493,6 +676,7 @@ function processOrders(battle: BattleState, orders: readonly BattleCommand[]): v
         unitsAreAdjacent(battle, unit, target)
       ) {
         unit.attackTargetUnitId = target.id;
+        events.push({ type: 'attack.accepted', unitId: unit.id, targetUnitId: target.id });
       }
     }
   }
@@ -502,6 +686,7 @@ function applyTacticOrders(
   state: Readonly<GameState>,
   battle: BattleState,
   orders: readonly BattleCommand[],
+  events: BattleTickEventPayload[],
 ): void {
   for (const order of orders) {
     if (order.kind !== 'tactic') continue;
@@ -509,11 +694,30 @@ function applyTacticOrders(
     const attackPower = actor
       ? computeBattleUnitAttackPower(state, actor, tacticAttackMultiplier(actor))
       : undefined;
-    applyBattleTactic(state, battle, order, attackPower === undefined ? {} : { attackPower });
+    const before = battle.units.map((unit) => ({ unit, troops: unit.troops, morale: unit.morale }));
+    const result = applyBattleTactic(
+      state,
+      battle,
+      order,
+      attackPower === undefined ? {} : { attackPower },
+    );
+    if (result.applied) {
+      events.push({
+        type: 'tactic.accepted',
+        unitId: order.unitId,
+        tacticId: order.tacticId,
+        targetUnitId: order.targetUnitId,
+        damageDealt: result.damageDealt,
+        troopsHealed: result.troopsHealed,
+        moraleGained: result.moraleGained,
+      });
+      for (const snapshot of before)
+        recordUnitChange(events, snapshot.unit, 'tactic', snapshot.troops, snapshot.morale);
+    }
   }
 }
 
-function advanceMovement(battle: BattleState): Set<string> {
+function advanceMovement(battle: BattleState, events: BattleTickEventPayload[]): Set<string> {
   const moved = new Set<string>();
   for (const unit of [...battle.units].sort((a, b) => a.id.localeCompare(b.id))) {
     if (!activeUnit(unit) || unit.moveTargetJinId === null || isTacticImmobile(unit)) continue;
@@ -533,7 +737,18 @@ function advanceMovement(battle: BattleState): Set<string> {
         candidate.jinId === unit.moveTargetJinId &&
         activeUnit(candidate),
     ).length;
-    if (occupants < BAL.jinStackLimit) unit.jinId = unit.moveTargetJinId;
+    if (occupants < BAL.jinStackLimit) {
+      const fromJinId = unit.jinId;
+      unit.jinId = unit.moveTargetJinId;
+      if (unit.jinId !== fromJinId)
+        events.push({
+          type: 'unit.arrived',
+          unitId: unit.id,
+          fromJinId,
+          toJinId: unit.jinId,
+          reason: 'move',
+        });
+    }
     unit.moveTargetJinId = null;
     unit.moveProgress = 0;
   }
@@ -567,6 +782,7 @@ function resolveDamage(
   state: Readonly<GameState>,
   battle: BattleState,
   moved: ReadonlySet<string>,
+  events: BattleTickEventPayload[],
 ): void {
   const damageByTarget = new Map<string, number>();
   const causedDamage = new Set<string>();
@@ -590,6 +806,7 @@ function resolveDamage(
     damageByTarget.set(target.id, (damageByTarget.get(target.id) ?? 0) + damage);
   }
   for (const unit of battle.units) {
+    const moraleBefore = unit.morale;
     const received = Math.min(unit.troops, damageByTarget.get(unit.id) ?? 0);
     unit.troops -= received;
     const before = troopsBefore.get(unit.id) ?? 0;
@@ -599,15 +816,21 @@ function resolveDamage(
     unit.morale = clamp(unit.morale, 0, 100);
     const moraleFloor = tacticMoraleFloor(unit);
     if (moraleFloor !== null) unit.morale = Math.max(unit.morale, moraleFloor);
+    recordUnitChange(events, unit, 'combat', before, moraleBefore);
+    const general = state.officers[unit.generalId];
+    const routThreshold =
+      BAL.moraleBreakThreshold +
+      (general ? traitModifier(general, 'battle.routThresholdAdd').add : 0);
     if (
       !unit.routed &&
       (unit.troops <= 0 ||
-        unit.morale <= BAL.moraleBreakThreshold ||
+        unit.morale <= routThreshold ||
         unit.troops < unit.battleInitialTroops * BAL.routTroopRatio)
     ) {
       unit.routed = true;
       unit.moveTargetJinId = null;
       unit.moveProgress = 0;
+      events.push({ type: 'unit.routed', unitId: unit.id });
     }
   }
 }
@@ -642,25 +865,40 @@ function nextJinToward(
   return undefined;
 }
 
-function retreatRoutedUnits(state: Readonly<GameState>, battle: BattleState): void {
+function retreatRoutedUnits(
+  state: Readonly<GameState>,
+  battle: BattleState,
+  events: BattleTickEventPayload[],
+): void {
   for (const unit of battle.units
     .filter((candidate) => candidate.routed && !candidate.exited)
     .sort((a, b) => a.id.localeCompare(b.id))) {
     if (unit.troops <= 0) {
       unit.exited = true;
+      events.push({ type: 'unit.exited', unitId: unit.id });
       continue;
     }
     const honjin = ownHonjin(battle, unit.side);
     if (unit.jinId === honjin.id) {
       unit.exited = true;
+      events.push({ type: 'unit.exited', unitId: unit.id });
       continue;
     }
     const next = nextJinToward(battle, unit.jinId, honjin.id);
     if (!next) {
       unit.exited = true;
+      events.push({ type: 'unit.exited', unitId: unit.id });
       continue;
     }
+    const fromJinId = unit.jinId;
     unit.jinId = next;
+    events.push({
+      type: 'unit.arrived',
+      unitId: unit.id,
+      fromJinId,
+      toJinId: next,
+      reason: 'retreat',
+    });
     const pursuers = battle.units.filter(
       (candidate) =>
         candidate.side !== unit.side && activeUnit(candidate) && candidate.jinId === next,
@@ -674,28 +912,53 @@ function retreatRoutedUnits(state: Readonly<GameState>, battle: BattleState): vo
           BAL.pursuitDamageRate *
           0.5,
       );
+      const troopsBefore = unit.troops;
       unit.troops = Math.max(0, unit.troops - pursuit);
-      if (unit.troops === 0) unit.exited = true;
+      recordUnitChange(events, unit, 'pursuit', troopsBefore, unit.morale);
+      if (unit.troops === 0) {
+        unit.exited = true;
+        events.push({ type: 'unit.exited', unitId: unit.id });
+      }
     }
   }
 }
 
-function captureJins(battle: BattleState): BattleSide | undefined {
+function captureJins(
+  battle: BattleState,
+  events: BattleTickEventPayload[],
+): BattleSide | undefined {
   for (const unit of battle.units.filter(activeUnit).sort((a, b) => a.id.localeCompare(b.id))) {
     const targetUnitId = fireArrowTargetUnitId(unit);
     if (targetUnitId === null) continue;
     const target = battle.units.find((candidate) => candidate.id === targetUnitId);
     const targetJin = target ? battle.jins.find((jin) => jin.id === target.jinId) : undefined;
     if (!targetJin || targetJin.owner === unit.side) continue;
+    const flagPowerBefore = targetJin.flagPower;
     targetJin.flagPower -= BAL.tacFireFlagDamage;
+    events.push({
+      type: 'flag.damaged',
+      jinId: targetJin.id,
+      source: 'fireArrow',
+      amount: BAL.tacFireFlagDamage,
+      flagPowerBefore,
+      flagPowerAfter: targetJin.flagPower,
+    });
     if (targetJin.flagPower > 0) continue;
     const fallenSide = targetJin.isHonjin
       ? targetJin.col === 0
         ? 'attacker'
         : 'defender'
       : undefined;
+    const ownerBefore = targetJin.owner;
     targetJin.owner = unit.side;
     targetJin.flagPower = targetJin.flagPowerMax * BAL.flagResetRatio;
+    events.push({
+      type: 'jin.captured',
+      jinId: targetJin.id,
+      ownerBefore,
+      ownerAfter: targetJin.owner,
+      flagPower: targetJin.flagPower,
+    });
     if (fallenSide) {
       battle.honjinFallenTick = battle.tick;
       return fallenSide === 'attacker' ? 'defender' : 'attacker';
@@ -707,11 +970,29 @@ function captureJins(battle: BattleState): BattleSide | undefined {
     if (sides.size !== 1) continue;
     const side = occupants[0]!.side;
     if (jin.owner === side) continue;
-    jin.flagPower -= occupants.reduce((sum, unit) => sum + unit.troops, 0) * BAL.flagCaptureRate;
+    const flagPowerBefore = jin.flagPower;
+    const amount = occupants.reduce((sum, unit) => sum + unit.troops, 0) * BAL.flagCaptureRate;
+    jin.flagPower -= amount;
+    events.push({
+      type: 'flag.damaged',
+      jinId: jin.id,
+      source: 'occupation',
+      amount,
+      flagPowerBefore,
+      flagPowerAfter: jin.flagPower,
+    });
     if (jin.flagPower > 0) continue;
     const fallenSide = jin.isHonjin ? (jin.col === 0 ? 'attacker' : 'defender') : undefined;
+    const ownerBefore = jin.owner;
     jin.owner = side;
     jin.flagPower = jin.flagPowerMax * BAL.flagResetRatio;
+    events.push({
+      type: 'jin.captured',
+      jinId: jin.id,
+      ownerBefore,
+      ownerAfter: jin.owner,
+      flagPower: jin.flagPower,
+    });
     if (fallenSide) {
       battle.honjinFallenTick = battle.tick;
       return fallenSide === 'attacker' ? 'defender' : 'attacker';
@@ -726,7 +1007,7 @@ function accumulateSaihai(state: Readonly<GameState>, battle: BattleState): void
       .filter((unit) => unit.side === side)
       .reduce((max, unit) => {
         const officer = state.officers[unit.generalId];
-        return Math.max(max, officer ? officer.ldr + officer.statGrowth.ldr : 0);
+        return Math.max(max, officer ? getEffectiveOfficerStat(officer, 'ldr') : 0);
       }, 0);
     battle.saihai[side] = Math.min(
       BAL.saihaiMax,
@@ -787,6 +1068,7 @@ function routeStrategyArmy(state: GameState, army: Army, deferred: GameEvent[]):
   army.pathCursor = 0;
   army.edgeProgressDays = 0;
   army.edgeCostDays = 0;
+  delete army.reversingEdgeEndNodeId;
   deferred.push({
     type: 'army.routed',
     day: state.time.day,
@@ -808,6 +1090,7 @@ function retreatStrategyArmyOneHop(state: GameState, army: Army): void {
   army.pathCursor = 0;
   army.edgeProgressDays = 0;
   army.edgeCostDays = 0;
+  delete army.reversingEdgeEndNodeId;
 }
 
 function battlePrisonCastle(
@@ -888,7 +1171,7 @@ function captureDefeatedGeneral(
       army.deputyIds = army.deputyIds.filter((candidate) => candidate !== officer.id);
     }
   }
-  releaseOfficerAssignments(state, officer.id);
+  deferred.push(...releaseOfficerAssignments(state, officer.id));
   officer.status = 'captive';
   officer.armyId = null;
   officer.locationCastleId = prisonCastleId;
@@ -956,6 +1239,24 @@ function resolveBattle(state: GameState, battle: BattleState, winnerSide: Battle
     .filter((unit) => unit.side === 'defender')
     .reduce((sum, unit) => sum + Math.max(0, unit.battleInitialTroops - unit.troops), 0);
   const aweLevel = judgeBattleAwe(battle, winnerSide);
+  // Winner participation includes routed/exited/depleted contingents. Snapshot
+  // their actual Army rosters before strategic writeback can delete assignments.
+  // 06 §3.5/§5.7: commander rounding precedes the shared trait/experience award.
+  const meritRecipients = new Map<OfficerId, number>();
+  // judgeBattleAwe guarantees at least small for every tactical victory (07 §3.10).
+  const victoryMerit = BAL.meritBattleWin + BAL.meritBattleAweBonus;
+  for (const unit of battle.units) {
+    if (unit.side !== winnerSide) continue;
+    const army = armies.get(unit.armyId)!;
+    for (const officerId of [army.leaderId, ...army.deputyIds]) {
+      const officer = state.officers[officerId];
+      if (officer?.status !== 'serving' || officer.clanId !== army.clanId) continue;
+      meritRecipients.set(
+        officerId,
+        Math.round(victoryMerit * (officerId === army.leaderId ? BAL.meritCommanderMult : 1)),
+      );
+    }
+  }
   const result: BattleResult = {
     winnerSide,
     endTick: battle.tick,
@@ -997,6 +1298,10 @@ function resolveBattle(state: GameState, battle: BattleState, winnerSide: Battle
 
   resolveDefeatedGenerals(state, battle, winnerSide, deferred);
 
+  for (const [officerId, amount] of meritRecipients) {
+    gainMerit(state.officers[officerId]!, amount, ['ldr', 'val']);
+  }
+
   deferred.push(...applyAwe(state, aweLevel, battle.nodeId, winnerClanId, loserClanId, battle.id), {
     type: 'battle.ended',
     day: state.time.day,
@@ -1028,23 +1333,39 @@ export function advanceBattleTick(
   }
 
   battle.tick += 1;
+  const events: BattleTickEventPayload[] = [];
   const delegationOrders = orders.filter((order) => order.kind === 'toggleDelegate');
-  processOrders(battle, delegationOrders);
+  processOrders(battle, delegationOrders, events);
   const delegatedOrders = createDelegatedBattleOrders(state, battle);
   const tickOrders = [
     ...orders.filter((order) => order.kind !== 'toggleDelegate'),
     ...delegatedOrders,
   ];
-  processOrders(battle, tickOrders);
-  applyTacticOrders(state, battle, tickOrders);
-  const moved = advanceMovement(battle);
-  resolveDamage(state, battle, moved);
-  retreatRoutedUnits(state, battle);
-  const honjinWinner = captureJins(battle);
+  processOrders(battle, tickOrders, events);
+  applyTacticOrders(state, battle, tickOrders, events);
+  const moved = advanceMovement(battle, events);
+  resolveDamage(state, battle, moved, events);
+  retreatRoutedUnits(state, battle, events);
+  const honjinWinner = captureJins(battle, events);
   accumulateSaihai(state, battle);
   const winner = checkWinner(state, battle, honjinWinner);
-  if (winner) resolveBattle(state, battle, winner);
-  return { battleId, tick: battle.tick, resolved: battle.result !== null };
+  if (winner) {
+    resolveBattle(state, battle, winner);
+    const result = battle.result!;
+    events.push({
+      type: 'battle.resolved',
+      winnerSide: result.winnerSide,
+      attackerLosses: result.attackerLosses,
+      defenderLosses: result.defenderLosses,
+      aweLevel: result.aweLevel,
+    });
+  }
+  return {
+    battleId,
+    tick: battle.tick,
+    resolved: battle.result !== null,
+    events: events.map((event, index) => ({ ...event, sequence: index + 1 })),
+  };
 }
 
 /** Result modal acknowledgement: resolved battles remain serializable until the UI explicitly closes them. */

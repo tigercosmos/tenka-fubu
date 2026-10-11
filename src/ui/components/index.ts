@@ -6,6 +6,7 @@ export * from './DataTable/DataTable';
 export * from './Dialog/Dialog';
 export * from './EmptyState/EmptyState';
 export * from './IconButton/IconButton';
+export * from './KamonIcon';
 export * from './MenuList/MenuList';
 export * from './NumberSlider/NumberSlider';
 export * from './OfficerCard/OfficerCard';

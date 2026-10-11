@@ -1,14 +1,42 @@
 import {
   advanceBattleTick,
   closeResolvedBattle,
+  queryBattleUnitActivity,
   type BattleCommand,
+  type BattleTickEvent,
   type BattleTickResult,
+  type BattleUnitActivity,
 } from '@core/systems/battle';
 import { getAvailableTacticDefs } from '@core/tactics';
+import type { BattleState } from '@core/state/gameState';
 import type { BattleId, TacticId } from '@core/state/ids';
 import { store, bumpTickSeq } from './store';
 
 const pendingOrders = new Map<BattleId, BattleCommand[]>();
+let pendingOrdersGame: object | null = null;
+
+export interface PendingBattleOrders {
+  readonly battleId: BattleId;
+  readonly orders: readonly BattleCommand[];
+}
+
+function ownOrders(game: object): void {
+  if (pendingOrdersGame === game) return;
+  pendingOrders.clear();
+  pendingOrdersGame = game;
+}
+
+/** Notify app progress subscribers; queue edits are not core ticks. */
+function publishOrders(): void {
+  store.setState({});
+}
+
+export function snapshotPendingBattleOrders(): PendingBattleOrders[] {
+  if (pendingOrdersGame !== store.getState().game) return [];
+  return [...pendingOrders.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([battleId, orders]) => ({ battleId, orders: structuredClone(orders) }));
+}
 
 export type BattleOrderDispatchResult =
   | { ok: true }
@@ -23,7 +51,15 @@ export interface BattleTacticOption {
   readonly needsTarget: boolean;
 }
 
-export type { BattleCommand, BattleTickResult };
+export type { BattleCommand, BattleTickEvent, BattleTickResult, BattleUnitActivity };
+
+/** Read-only tactical facts; also supports isolated presentation fixtures without a live session. */
+export function getBattleUnitActivity(
+  battle: Readonly<BattleState>,
+  unitId: string,
+): BattleUnitActivity | null {
+  return queryBattleUnitActivity(battle, unitId);
+}
 
 /** 合戰操作不進策略 CommandQueue；驗證最小歸屬後排入下一個 battle tick。 */
 export function dispatchBattleOrder(
@@ -38,15 +74,18 @@ export function dispatchBattleOrder(
   if (!battle.units.some((unit) => unit.id === order.unitId)) {
     return { ok: false, reason: 'unitMissing' };
   }
+  ownOrders(game);
   const orders = pendingOrders.get(battleId) ?? [];
   orders.push(structuredClone(order));
   pendingOrders.set(battleId, orders);
+  publishOrders();
   return { ok: true };
 }
 
 export function runBattleTick(battleId: BattleId): BattleTickResult {
   const game = store.getState().game;
   if (game === null) throw new Error('runBattleTick: game 尚未初始化');
+  ownOrders(game);
   const orders = pendingOrders.get(battleId) ?? [];
   pendingOrders.delete(battleId);
   const result = advanceBattleTick(game, battleId, orders);
@@ -84,13 +123,21 @@ export function acknowledgeBattleResult(battleId: BattleId): BattleResultAcknowl
 }
 
 export function clearBattleOrders(battleId: BattleId): void {
-  pendingOrders.delete(battleId);
+  if (pendingOrders.delete(battleId)) publishOrders();
+}
+
+/** New/load/title lifecycle cleanup; never applies queued tactical commands. */
+export function clearAllBattleOrders(): void {
+  const changed = pendingOrders.size > 0;
+  pendingOrders.clear();
+  pendingOrdersGame = null;
+  if (changed) publishOrders();
 }
 
 export function resetBattleBridgeForTests(): void {
-  pendingOrders.clear();
+  clearAllBattleOrders();
 }
 
 export function getPendingBattleOrdersForTests(battleId: BattleId): readonly BattleCommand[] {
-  return structuredClone(pendingOrders.get(battleId) ?? []);
+  return snapshotPendingBattleOrders().find((entry) => entry.battleId === battleId)?.orders ?? [];
 }

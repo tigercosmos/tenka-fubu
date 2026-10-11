@@ -12,6 +12,7 @@
 // cache（無跨 tick 失效疑慮、或計算成本低；見 derivedCache.ts 檔頭）。
 
 import { BAL } from '../balance';
+import { armyFoodDays } from '../armyFood';
 import {
   castleHarvest,
   garrisonFoodMonthly,
@@ -372,7 +373,7 @@ function miniMapNodePos(state: GameState, nodeId: MapNodeId): { x: number; y: nu
  */
 function armyWorldPos(state: GameState, army: Army): { x: number; y: number } {
   const from = miniMapNodePos(state, army.posNodeId) ?? { x: 0, y: 0 };
-  const nextId = army.path[army.pathCursor + 1];
+  const nextId = army.reversingEdgeEndNodeId ?? army.path[army.pathCursor + 1];
   if (nextId === undefined || army.edgeCostDays <= 0) return from;
   const to = miniMapNodePos(state, nextId);
   if (to === null) return from;
@@ -690,15 +691,11 @@ export function selectMapViewModel(state: GameState): MapViewModel {
   // 4. armies[]（依 id 字典序）——座標無關，只給 renderer 端內插參數（D6）。
   const armies: MapArmyViewModel[] = (Object.keys(state.armies).sort() as ArmyId[]).map((id) => {
     const a = state.armies[id] as Army;
-    const toNode = a.path[a.pathCursor + 1] ?? null;
+    const physicalEnd = a.reversingEdgeEndNodeId ?? a.path[a.pathCursor + 1] ?? null;
     const edgeT =
       a.edgeCostDays <= 0 ? 0 : Math.min(1, Math.max(0, a.edgeProgressDays / a.edgeCostDays));
-    // foodDays：與 military.ts autoReturn 判定（L745-747）同一公式；BAL.fieldFoodPerSoldierDaily
-    // 沿用既有常數，不新增 BAL（硬約束③）。此為顯示值，V4 不消費，不影響 golden。
-    const foodDays =
-      a.soldiers > 0
-        ? a.food / Math.max(1, Math.ceil(a.soldiers * BAL.fieldFoodPerSoldierDaily))
-        : 0;
+    // Use the same actual daily consumption as automatic return; keep zero-troop display at zero.
+    const foodDays = a.soldiers > 0 ? armyFoodDays(state, a) : 0;
     return {
       id: a.id,
       clanId: a.clanId,
@@ -707,9 +704,9 @@ export function selectMapViewModel(state: GameState): MapViewModel {
       morale: a.morale,
       foodDays,
       mission: a.mission,
-      fromNode: a.posNodeId,
-      toNode,
-      edgeT,
+      fromNode: a.reversingEdgeEndNodeId != null ? a.reversingEdgeEndNodeId : a.posNodeId,
+      toNode: a.reversingEdgeEndNodeId != null ? a.posNodeId : physicalEnd,
+      edgeT: a.reversingEdgeEndNodeId != null ? 1 - edgeT : edgeT,
       corps: a.corpsId !== null,
     };
   });

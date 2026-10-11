@@ -26,6 +26,9 @@ import path from 'node:path';
 import { z } from 'zod';
 
 import { BAL } from '../src/core/balance';
+import { POLICY_DEFS } from '../src/core/policies';
+import { castleMaxSoldiers } from '../src/core/domestic';
+import type { Castle, GameState } from '../src/core/state/gameState';
 import { REGION_VALUES, RANK_VALUES } from '../src/core/state/enums';
 import type { Region } from '../src/core/state/enums';
 import {
@@ -54,6 +57,8 @@ import {
   zPoliciesFile,
   zPersonasFile,
 } from '../src/data/schemas';
+import { zCanonicalEventsFile } from '../src/data/schemas/eventDefinitions';
+import type { EventDef } from '../src/core/systems/events/types';
 import type {
   ProvinceData,
   CastleData,
@@ -116,7 +121,7 @@ export interface ScenarioWorld {
   readonly clans: readonly ClanData[];
   readonly diplomacy: DiplomacyData;
   readonly officerGroups: readonly OfficerGroup[];
-  readonly events: readonly EventData[];
+  readonly events: readonly (EventData | EventDef)[];
   readonly traits: readonly TraitEntryData[];
   readonly tactics: readonly TacticEntryData[];
   readonly policies: readonly PolicyEntryData[];
@@ -796,7 +801,23 @@ function checkYears(world: ScenarioWorld, idx: WorldIndex): Violation[] {
       if (o.birthYear > 1545) {
         v.push(err('V8', `當主 ${o.id} birthYear ${o.birthYear} > 1545（開局須已元服）`, [o.id]));
       }
-      if (o.deathYear < 1561) {
+      // 14 D27: Kunichika died after the May1560 battle, so he is alive at s1560 start.
+      // 02/06 keep historical deathYear while natural scheduledDeath is clamped to startYear+1.
+      // This is not a general same-year exemption or a caller-supplied metadata bypass.
+      const clan = o.clanId === null ? undefined : idx.clanById.get(o.clanId);
+      const home = clan === undefined ? undefined : idx.castleById.get(clan.homeCastleId);
+      const documentedAliveAtStart =
+        world.id === 's1560' &&
+        o.id === 'off.chosokabe-kunichika' &&
+        o.deathYear === 1560 &&
+        clan?.id === 'clan.chosokabe' &&
+        clan.leaderId === o.id &&
+        clan.homeCastleId === 'castle.oko' &&
+        o.locationCastleId === clan.homeCastleId &&
+        home?.tier === 'main' &&
+        home.ownerClanId === clan.id &&
+        home.lordId === o.id;
+      if (o.deathYear < 1561 && !documentedAliveAtStart) {
         v.push(err('V8', `當主 ${o.id} deathYear ${o.deathYear} < 1561（開局須在世）`, [o.id]));
       }
     }
@@ -989,14 +1010,53 @@ function checkAnchors(world: ScenarioWorld): Violation[] {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// V14：型錄一致（本階段：城 facilities.length ≤ slot 數）
-// 型錄 id 集合與 core 常數表（TRAITS/TACTICS/政策/persona）雙向相等之檢查，待 core 型錄常數
-// 落地（M3-5／M8-25）後接上；此處先把關 slot 數（BAL.facilitySlotsMain/Branch）。
+// V14：政策 manifest 與 core 雙向一致；城施設格數與開局兵力上限。
 // ═══════════════════════════════════════════════════════════════════
 function checkCatalogs(world: ScenarioWorld): Violation[] {
   const v: Violation[] = [];
+  const expected = new Map(POLICY_DEFS.map((policy) => [String(policy.id), policy]));
+  const actual = new Map(world.policies.map((policy) => [policy.id, policy]));
+  for (const id of expected.keys())
+    if (!actual.has(id)) v.push(err('V14', `政策 manifest 缺少 core 政策 ${id}`, [id]));
+  for (const policy of world.policies) {
+    const definition = expected.get(policy.id);
+    if (!definition) {
+      v.push(err('V14', `政策 manifest 含 core 未定義政策 ${policy.id}`, [policy.id]));
+      continue;
+    }
+    const exclusives = definition.exclusiveWith === null ? [] : [definition.exclusiveWith];
+    if (
+      policy.prestigeReq !== definition.unlockPrestige ||
+      policy.costGold !== definition.upkeepGold ||
+      JSON.stringify([...policy.exclusiveWith].sort()) !== JSON.stringify(exclusives)
+    )
+      v.push(err('V14', `政策 ${policy.id} 的門檻、首月維持費或互斥設定與 core 不符`, [policy.id]));
+  }
+  // Project only the fields the shared capacity selector reads. Scenario starts with no active policies.
+  const castleById = new Map(world.castles.map((castle) => [castle.id, castle]));
+  const capacityState = {
+    districts: Object.fromEntries(
+      world.districts.map((district) => [
+        district.id,
+        {
+          ...district,
+          ownerClanId: castleById.get(district.castleId)?.ownerClanId,
+        },
+      ]),
+    ),
+    policies: {},
+  } as unknown as GameState;
   for (const c of world.castles) {
-    const slots = c.tier === 'main' ? BAL.facilitySlotsMain : BAL.facilitySlotsBranch;
+    const capacityCastle = {
+      ...c,
+      districtIds: world.districts
+        .filter((district) => district.castleId === c.id)
+        .map((district) => district.id),
+    } as unknown as Castle;
+    const maximum = castleMaxSoldiers(capacityState, capacityCastle);
+    if (c.soldiers > maximum)
+      v.push(err('V14', `城 ${c.id} 兵力 ${c.soldiers} 超過上限 ${maximum}`, [c.id]));
+    const slots = c.tier === 'main' ? BAL.mainCastleSlots : BAL.branchCastleSlots;
     if (c.facilities.length > slots) {
       v.push(
         err(
@@ -1263,7 +1323,7 @@ export function parseScenario(raw: RawScenarioInputs): {
     } else v1Fail('clans.json', r.error);
   }
   if (raw.events !== undefined) {
-    const r = zEventsFile.safeParse(raw.events);
+    const r = zEventsFile.or(zCanonicalEventsFile).safeParse(raw.events);
     if (r.success) mutable.events = r.data.events;
     else v1Fail('events.json', r.error);
   }
@@ -1342,7 +1402,24 @@ export function filterWorldByRegions(
   const ownerClanIds = new Set(castles.map((c) => c.ownerClanId));
   const clans = world.clans.filter((c) => ownerClanIds.has(c.id));
   const clanIds = new Set(clans.map((c) => c.id));
-  const officerGroups = world.officerGroups.filter((g) => wl.has(g.fileRegion));
+  const sourceCastleIds = new Set(world.castles.map((castle) => castle.id));
+  const sourceClanIds = new Set(world.clans.map((clan) => clan.id));
+  const officerGroups = world.officerGroups
+    .filter((group) => wl.has(group.fileRegion))
+    .map((group) => ({
+      ...group,
+      // Clan-home roster files can contain officers stationed across region seams.
+      // Keep genuinely unknown source references visible for V3; only exclude
+      // valid endpoints that belong to unloaded territory or a known unloaded clan.
+      officers: group.officers.filter(
+        (officer) =>
+          (officer.clanId === null ||
+            clanIds.has(officer.clanId) ||
+            !sourceClanIds.has(officer.clanId)) &&
+          (castleIds.has(officer.locationCastleId) ||
+            !sourceCastleIds.has(officer.locationCastleId)),
+      ),
+    }));
   const roads = world.roads.filter((r) => nodeIds.has(r.a) && nodeIds.has(r.b));
   const diplomacy: DiplomacyData = {
     pacts: world.diplomacy.pacts.filter(

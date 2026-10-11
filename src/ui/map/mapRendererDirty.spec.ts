@@ -37,9 +37,26 @@ import type { CastleId, DistrictId, RoadEdgeId } from '@core/state/ids';
 import type { RoadEdge } from '@core/state/gameState';
 import type { JapanOutlineFile } from '@data/schemas/outline';
 import { MapRenderer } from './MapRenderer';
+import type { CastleNodePart } from './sceneParts/castleNode';
+import { MapAssetLoader } from '@ui/assets/loader';
+import {
+  Assets,
+  BitmapText,
+  Container,
+  Geometry,
+  Graphics,
+  Mesh,
+  RendererType,
+  Sprite,
+  Texture,
+} from 'pixi.js';
+import type { createTerrainElevatedSurface } from './terrain/terrainElevatedSurface';
 import type { MapStaticData, MapViewState } from './mapViewTypes';
-import { MAPVIEW } from './mapViewConfig';
+import { MAPVIEW, TERRAIN_RELIEF } from './mapViewConfig';
 import { TOKENS_NUM } from '@ui/styles/tokens';
+import nationalCastles from '@data/scenarios/s1560/castles.json';
+import nationalRoads from '@data/scenarios/s1560/roads.json';
+import { edgeVisualPolyline } from './roads/roadGeometry';
 import {
   ANALYSIS_COLORS,
   analysisSignature,
@@ -47,6 +64,13 @@ import {
   buildFactionPixels,
 } from './analysisOverlay/analysisModel';
 import type { TerritoryGrid } from './territoryGrid';
+import { buildTerritoryGrid } from './territoryGrid';
+import { buildDisplayCoast } from './displayCoast';
+import { MapInteraction } from './interaction';
+import * as terrainRaster from './terrain/terrainRaster';
+import * as plateLayout from './armyPlateLayout';
+import * as geographyLayout from './geographicLabelLayout';
+import { PixiMockRenderRunner } from '../../../tests/helpers/pixiMock';
 
 /**
  * 環繞 fixture 節點（100–300 世界座標）之小型合成 outline（M6-V5，Minor 6／§5.5）：使
@@ -96,6 +120,143 @@ function staticData(overrides: Partial<MapStaticData> = {}): MapStaticData {
     ...overrides,
   };
 }
+
+/** Typed synthetic moving view; reversing the edge really selects the west artwork. */
+function paintedArmy(reverse = false): MapViewState['armies'][number] {
+  return {
+    id: 'army.art',
+    clanId: 'clan.oda',
+    soldiers: 2000,
+    status: 'marching',
+    morale: 80,
+    foodDays: 20,
+    mission: 'march',
+    corps: false,
+    selected: false,
+    relation: 'friendly',
+    fromNode: reverse ? ('dist.x' as DistrictId) : ('castle.a' as CastleId),
+    toNode: reverse ? ('castle.a' as CastleId) : ('dist.x' as DistrictId),
+    edgeT: 0.5,
+  };
+}
+
+describe('pre-paint screen-layout coalescing', () => {
+  it('models actual object runners, duplicate registration and exact observer removal', () => {
+    const runner = new PixiMockRenderRunner('prerender');
+    const a = {
+      calls: 0,
+      prerender() {
+        this.calls++;
+      },
+    };
+    const b = { prerender: vi.fn() };
+    const options = { container: 'scene' };
+    runner.add(a).add(a).add(b).emit(options);
+    expect(a.calls).toBe(1);
+    expect(b.prerender).toHaveBeenCalledWith(options);
+    runner.remove(a).emit(options);
+    expect(runner.contains(a)).toBe(false);
+    expect(a.calls).toBe(1);
+    expect(b.prerender).toHaveBeenCalledTimes(2);
+    runner.destroy();
+    expect(runner.items).toEqual([]);
+  });
+  it('solves only the latest unpainted army/camera state once before the actual render boundary', async () => {
+    const r = await makeRenderer();
+    const plates = vi.spyOn(plateLayout, 'layoutArmyPlates');
+    const geography = vi.spyOn(geographyLayout, 'layoutGeographicLabels');
+    const armies = [paintedArmy(), { ...paintedArmy(), id: 'army.second', edgeT: 0.55 }];
+    try {
+      r.setMapData(nameplateStaticData());
+      r.setCameraPose({ x: 200, y: 100 }, 1.25);
+      r.updateView(baseView({ armies }));
+      r.getDiagnostics(); // Public observation settles the initial state.
+      plates.mockClear();
+      geography.mockClear();
+      const latest = baseView({ armies: armies.map((a) => ({ ...a, edgeT: 0.6 })) });
+      r.updateView(latest);
+      r.setCameraPose({ x: 210, y: 100 }, 1.5);
+      expect(plates).not.toHaveBeenCalled();
+      expect(geography).not.toHaveBeenCalled();
+      r.getApp()!.render();
+      expect(plates).toHaveBeenCalledTimes(1);
+      expect(geography).toHaveBeenCalledTimes(1);
+      const observed = r.getDiagnostics();
+      for (const plate of observed.armyPlateLayout.plates)
+        expect(plate.fontSizeCss).toBeCloseTo(14);
+      r.getApp()!.render();
+      expect(plates).toHaveBeenCalledTimes(1);
+      expect(geography).toHaveBeenCalledTimes(1);
+    } finally {
+      r.destroy();
+      plates.mockRestore();
+      geography.mockRestore();
+    }
+  });
+  it('synchronously flushes public observations and preserves unchanged-day caching', async () => {
+    const r = await makeRenderer();
+    const solve = vi.spyOn(plateLayout, 'layoutArmyPlates');
+    try {
+      r.setMapData(nameplateStaticData());
+      r.setCameraPose({ x: 200, y: 100 }, 1.25);
+      const view = baseView({ armies: [paintedArmy()] });
+      r.updateView(view);
+      r.getDiagnostics();
+      solve.mockClear();
+      r.updateView({ ...view, armies: [{ ...paintedArmy(), edgeT: 0.65 }] });
+      expect(solve).not.toHaveBeenCalled();
+      r.getArmyRenderObservation();
+      expect(solve).toHaveBeenCalledTimes(1);
+      r.getDiagnostics();
+      expect(solve).toHaveBeenCalledTimes(1);
+      r.setCameraPose({ x: 200, y: 100 }, 1.5);
+      expect(solve).toHaveBeenCalledTimes(1);
+      r.getLayers();
+      expect(solve).toHaveBeenCalledTimes(2);
+      r.updateView({ ...view, day: 2, armies: [{ ...paintedArmy(), edgeT: 0.65 }] });
+      r.getApp()!.render();
+      expect(solve).toHaveBeenCalledTimes(2);
+    } finally {
+      r.destroy();
+      solve.mockRestore();
+    }
+  });
+  it('discards pending old-map work and removes only its own renderer observer on teardown', async () => {
+    const first = await makeRenderer();
+    const second = await makeRenderer();
+    const solve = vi.spyOn(plateLayout, 'layoutArmyPlates');
+    try {
+      first.setMapData(nameplateStaticData());
+      first.updateView(baseView({ armies: [paintedArmy()] }));
+      first.setMapData(null);
+      first.getApp()!.render();
+      expect(first.getDiagnostics().armyPlateLayout.plates).toEqual([]);
+      second.setMapData(nameplateStaticData());
+      second.setCameraPose({ x: 200, y: 100 }, 1.25);
+      second.updateView(baseView({ armies: [paintedArmy()] }));
+      second.getDiagnostics();
+      const oldApp = first.getApp()!;
+      first.updateView(baseView({ armies: [paintedArmy()] }));
+      first.destroy();
+      expect(oldApp.renderer.runners.prerender.items).toHaveLength(0);
+      expect(first.getDiagnostics().resources.eventListeners).toBe(0);
+      solve.mockClear();
+      oldApp.renderer.runners.prerender.emit({ container: oldApp.stage });
+      expect(solve).not.toHaveBeenCalled();
+      second.updateView(baseView({ armies: [{ ...paintedArmy(), edgeT: 0.65 }] }));
+      const afterPaint = vi.fn();
+      second.getApp()!.renderer.runners.postrender.add({ postrender: afterPaint });
+      second.getApp()!.render();
+      expect(solve).toHaveBeenCalledTimes(1);
+      expect(afterPaint).toHaveBeenCalledTimes(1);
+      expect(second.getDiagnostics().armyPlateLayout.plates).toHaveLength(1);
+    } finally {
+      first.destroy();
+      second.destroy();
+      solve.mockRestore();
+    }
+  });
+});
 
 /** M6-V5：帶 terrain pack（relief/forest asset id＋一河一湖）的 staticData——正向存在斷言用。 */
 function staticDataWithTerrain(overrides: Partial<MapStaticData> = {}): MapStaticData {
@@ -175,6 +336,585 @@ async function makeRenderer(): Promise<MapRenderer> {
   return r;
 }
 
+function armyBodyGroup(chip: Container): Container {
+  const body = chip.children.find((child) => child.label === 'armyBody');
+  if (!body) throw new Error('Missing army body group');
+  return body;
+}
+
+/** Logical paint content after the intentional ground-only masking partition.
+ * The dedicated consumer tests above assert the physical wrapper/clip hierarchy. */
+function terrainPaintChildren(renderer: MapRenderer): Container[] {
+  return renderer
+    .getLayers()!
+    .terrainBase.children.flatMap((child) =>
+      child.label === 'terrain-ground-surface' ? child.children[0]!.children[0]!.children : [child],
+    );
+}
+
+function sharedElevatedSurface(renderer: MapRenderer) {
+  const surface = (
+    renderer as unknown as {
+      elevatedSurface: ReturnType<typeof createTerrainElevatedSurface> | null;
+    }
+  ).elevatedSurface;
+  if (!surface) throw new Error('Missing actual owned elevated terrain surface');
+  expect(surface.mesh).toBeInstanceOf(Mesh);
+  expect(surface.geometry).toBeInstanceOf(Geometry);
+  expect(surface.mesh.geometry).toBe(surface.geometry);
+  expect(surface.mesh.shader).toBe(surface.shader);
+  expect(surface.geometry.getBuffer('aPosition').data).toBe(surface.buffers.vertices);
+  expect(surface.geometry.getBuffer('aUV').data).toBe(surface.buffers.vertices);
+  expect(surface.geometry.indexBuffer.data).toBe(surface.buffers.indices);
+  // Four emitted vertices per cell preserve independent 256-world tile seams.
+  expect(surface.buffers.vertices.length).toBe(128 * 128 * 4 * 6);
+  expect(surface.buffers.indices.length).toBe(128 * 128 * 6);
+  expect(surface.getDiagnostics()).toMatchObject({
+    ownedMeshes: 1,
+    ownedGeometries: 1,
+    ownedBuffers: 2,
+    ownedShaders: 1,
+    ownedPrograms: 1,
+    ownedTextures: 0,
+    ownedSources: 0,
+    ownedMasks: 0,
+    ownedFilters: 0,
+    bufferBytes: 1966080,
+  });
+  return surface;
+}
+
+/** A valid coast remains on a map without a terrain pack; no stale terrain is admitted. */
+function expectBankOnlyGround(renderer: MapRenderer): void {
+  const children = renderer.getLayers()!.terrainBase.children;
+  expect(children).toHaveLength(1);
+  expect(children[0]!.label).toBe('terrain-ground-surface');
+  const content = children[0]!.children[0]!;
+  expect(content.children).toHaveLength(2);
+  expect(content.children[0]!.children).toHaveLength(0);
+  expect(content.children[1]!.label).toBe('coast-bank-slope');
+  expect(content.children[1]!.children).toHaveLength(1);
+  expect(terrainPaintChildren(renderer)).toHaveLength(0);
+}
+
+describe('mountain material input-task yield and generation admission', () => {
+  it('uses an immutable same-generation emitted Tenryu contact snapshot, not authored river chords', async () => {
+    const shared = new Texture();
+    const acquire = vi.spyOn(MapAssetLoader.prototype, 'acquire').mockResolvedValue(shared);
+    const factory = vi.spyOn(terrainRaster, 'createMountainRasterVariants');
+    const renderer = await makeRenderer();
+    try {
+      const data = staticDataWithTerrain();
+      if (!data.terrain) throw new Error('Missing terrain');
+      data.terrain.mountainArtAssetId = 'test.peak';
+      data.terrain.mountains = [
+        {
+          id: 'mt.kiso',
+          tier: 1,
+          mass: [
+            { x: 100, y: 100 },
+            { x: 200, y: 100 },
+            { x: 200, y: 200 },
+            { x: 100, y: 200 },
+          ],
+          ridges: [
+            [
+              { x: 120, y: 150 },
+              { x: 180, y: 150 },
+            ],
+          ],
+        },
+      ];
+      data.terrain.rivers = [
+        {
+          id: 'rv.tenryu',
+          widthClass: 3,
+          points: [
+            { x: 120, y: 110 },
+            { x: 150, y: 150 },
+            { x: 180, y: 190 },
+          ],
+        },
+        {
+          id: 'rv.other',
+          widthClass: 3,
+          points: [
+            { x: 110, y: 120 },
+            { x: 190, y: 120 },
+          ],
+        },
+      ];
+      const original = JSON.stringify(data.terrain);
+      renderer.setMapData(data);
+      const water = Reflect.get(renderer, 'waterFeatures') as NonNullable<
+        ReturnType<typeof import('./terrain/terrainDraw').createWaterFeatures>
+      >;
+      const emitted = water
+        .getRiverMaterialDiagnostics()
+        .rivers.find((river) => river.id === 'rv.tenryu')!;
+      const expected = emitted.displaySegments.map((segment) => ({
+        id: 'rv.tenryu',
+        a: { ...segment.a },
+        b: { ...segment.b },
+        radius: segment.width / 2,
+      }));
+      for (let i = 0; i < 30; i++) await Promise.resolve();
+      expect(factory).toHaveBeenCalledTimes(1);
+      const contacts = Reflect.get(factory.mock.calls[0]!, '4') as typeof expected;
+      expect(contacts).toEqual(expected);
+      expect(Object.isFrozen(contacts)).toBe(true);
+      for (const contact of contacts) {
+        expect(Object.isFrozen(contact)).toBe(true);
+        expect(Object.isFrozen(contact.a)).toBe(true);
+        expect(Object.isFrozen(contact.b)).toBe(true);
+      }
+      expect(contacts[0]!.a).not.toBe(emitted.displaySegments[0]!.a);
+      expect(JSON.stringify(data.terrain)).toBe(original);
+      renderer.updateView(baseView({ day: 2 }));
+      expect(factory).toHaveBeenCalledTimes(1);
+    } finally {
+      renderer.destroy();
+      factory.mockRestore();
+      acquire.mockRestore();
+    }
+  });
+
+  it.each(['current', 'swap', 'dispose'] as const)(
+    'yields before mountain mask allocation and handles %s during the boundary',
+    async (mode) => {
+      const shared = new Texture();
+      const sharedDestroy = vi.spyOn(shared, 'destroy');
+      const acquire = vi.spyOn(MapAssetLoader.prototype, 'acquire').mockResolvedValue(shared);
+      const renderer = await makeRenderer();
+      const realSet = globalThis.setTimeout;
+      const tasks: Array<() => void> = [];
+      const timer = vi
+        .spyOn(globalThis, 'setTimeout')
+        .mockImplementation((callback, delay, ...args) => {
+          if (delay === 0 && typeof callback === 'function') {
+            tasks.push(() => callback(...args));
+            return 0 as unknown as ReturnType<typeof setTimeout>;
+          }
+          return realSet(callback, delay, ...args);
+        });
+      const order: string[] = [];
+      const originalFactory = terrainRaster.createMountainRasterVariants;
+      const factory = vi
+        .spyOn(terrainRaster, 'createMountainRasterVariants')
+        .mockImplementation((...args) => {
+          order.push('mountain-masks');
+          return originalFactory(...args);
+        });
+      try {
+        const data = staticDataWithTerrain();
+        if (!data.terrain) throw new Error('Missing terrain');
+        data.terrain.mountainArtAssetId = 'test.peak';
+        data.terrain.mountainMaterialAssetId = 'test.woodland';
+        data.terrain.mountains = [
+          {
+            id: 'woodland',
+            tier: 1,
+            mass: [
+              { x: 100, y: 100 },
+              { x: 200, y: 100 },
+              { x: 200, y: 200 },
+              { x: 100, y: 200 },
+            ],
+            ridges: [
+              [
+                { x: 120, y: 150 },
+                { x: 180, y: 150 },
+              ],
+            ],
+          },
+        ];
+        setTimeout(() => order.push('already-ready-input'), 0);
+        renderer.setMapData(data);
+        for (let i = 0; i < 30; i++) await Promise.resolve();
+        expect(factory).not.toHaveBeenCalled();
+        expect(tasks).toHaveLength(2);
+        expect(Reflect.get(renderer, 'terrainTexturesPending')).toBe(true);
+        tasks.shift()!();
+        expect(order).toEqual(['already-ready-input']);
+        const oldLayers = renderer.getLayers()!;
+        if (mode === 'swap') renderer.setMapData(staticData());
+        else if (mode === 'dispose') renderer.destroy();
+        const allocated = hoisted.bufferSources.length;
+        const attach = vi.spyOn(oldLayers.terrainBase, 'addChild');
+        tasks.shift()!();
+        for (let i = 0; i < 30; i++) await Promise.resolve();
+        if (mode === 'current') {
+          expect(order).toEqual(['already-ready-input', 'mountain-masks']);
+          expect(factory).toHaveBeenCalledTimes(1);
+          expect(
+            terrainPaintChildren(renderer).some(
+              (child) => child.label === 'mountain-woodland-materials',
+            ),
+          ).toBe(true);
+          expect(hoisted.bufferSources.length).toBeGreaterThan(allocated);
+          expect(Reflect.get(renderer, 'terrainTexturesPending')).toBe(false);
+        } else {
+          expect(factory).not.toHaveBeenCalled();
+          expect(hoisted.bufferSources).toHaveLength(allocated);
+          expect(attach).not.toHaveBeenCalled();
+          if (mode === 'swap') expectBankOnlyGround(renderer);
+        }
+        expect(sharedDestroy).not.toHaveBeenCalled();
+      } finally {
+        factory.mockRestore();
+        timer.mockRestore();
+        renderer.destroy();
+        acquire.mockRestore();
+      }
+    },
+  );
+});
+
+describe('DisplayCoast consumer integration, not native GPU clipping proof', () => {
+  it('shares display geometry for sea and the owned elevated surface clip while preserving canonical interaction and projected territory', async () => {
+    const data = staticDataWithTerrain();
+    Object.assign(data.terrain!, {
+      rivers: [],
+      groundArtAssetId: 'test.ground',
+      fieldMaterialAssetId: 'test.field',
+      mountainArtAssetId: 'test.peak',
+      mountainMaterialAssetId: 'test.woodland',
+      forestArtAssetId: 'test.canopy',
+      mountains: [
+        {
+          id: 'm',
+          tier: 1,
+          mass: [
+            { x: 100, y: 100 },
+            { x: 130, y: 100 },
+            { x: 120, y: 130 },
+          ],
+          ridges: [],
+        },
+      ],
+      forests: [
+        {
+          id: 'f',
+          polygon: [
+            { x: 200, y: 200 },
+            { x: 230, y: 200 },
+            { x: 220, y: 230 },
+          ],
+        },
+      ],
+    });
+    const before = JSON.stringify(data.outline);
+    const shared = new Map<string, Texture>();
+    const acquire = vi.spyOn(MapAssetLoader.prototype, 'acquire').mockImplementation((id) => {
+      if (!shared.has(id)) shared.set(id, new Texture());
+      return Promise.resolve(shared.get(id)!);
+    });
+    const rawInteraction = vi.spyOn(MapInteraction.prototype, 'setStaticData');
+    const polys = vi.spyOn(Graphics.prototype, 'poly');
+    const r = await makeRenderer();
+    try {
+      r.setMapData(data);
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      const layers = r.getLayers()!;
+      const surface = layers.terrainBase.children.find((c) => c.label === 'terrain-ground-surface');
+      expect(surface).toBeDefined();
+      if (!surface) throw new Error('Missing ground-only display clip');
+      const content = surface.children[0]!;
+      const paint = content.children[0]!;
+      const clip = surface.children[1]!;
+      expect(content.mask).toBe(clip);
+      const elevated = sharedElevatedSurface(r);
+      const foothill = (
+        r as unknown as {
+          foothillCanopy: {
+            mesh: Mesh;
+            geometry: Geometry;
+            buffers: { vertices: Float32Array; indices: Uint32Array };
+            getDiagnostics(): Record<string, number>;
+          } | null;
+        }
+      ).foothillCanopy;
+      expect(foothill).not.toBeNull();
+      if (!foothill) throw new Error('Missing continuous borrowed-canopy owner');
+      // This fixture admits no authored forest patch, but its elevated field still
+      // owns continuous coverage independently of the authored forest count.
+      expect(paint.children).toEqual([elevated.mesh, foothill.mesh]);
+      expect(foothill.mesh).toBeInstanceOf(Mesh);
+      expect(foothill.mesh.geometry).toBe(foothill.geometry);
+      expect(foothill.mesh.texture).toBe(shared.get('test.canopy'));
+      expect(foothill.geometry.getBuffer('aPosition').data).toBe(foothill.buffers.vertices);
+      expect(foothill.geometry.getBuffer('aWorld').data).toBe(foothill.buffers.vertices);
+      expect(foothill.geometry.getBuffer('aCanopy').data).toBe(foothill.buffers.vertices);
+      expect(foothill.geometry.getBuffer('aLight').data).toBe(foothill.buffers.vertices);
+      expect(foothill.geometry.attributes.aLight).toMatchObject({ stride: 24, offset: 20 });
+      expect(foothill.geometry.indexBuffer.data).toBe(foothill.buffers.indices);
+      expect(foothill.buffers.vertices).toHaveLength(129 * 129 * 6);
+      expect(foothill.buffers.indices).toHaveLength(128 * 128 * 6);
+      expect(foothill.getDiagnostics()).toMatchObject({
+        ownedMeshes: 1,
+        ownedGeometries: 1,
+        ownedBuffers: 2,
+        ownedShaders: 1,
+        ownedPrograms: 1,
+        ownedTextures: 0,
+        ownedSources: 0,
+        ownedMasks: 0,
+        ownedFilters: 0,
+        ownedFramebuffers: 0,
+        bufferBytes: 792600,
+      });
+      expect(elevated.mesh.texture).toBe(shared.get('test.ground'));
+      expect(elevated.mesh.mask ?? null).toBeNull();
+      const rasters = r as unknown as {
+        mountainRaster: unknown;
+        forestRaster: unknown;
+        fieldMaterial: unknown;
+      };
+      expect(rasters.mountainRaster).toBeNull();
+      expect(rasters.forestRaster).toBeNull();
+      expect(rasters.fieldMaterial).toBeNull();
+      expect(r.getDiagnostics().elevationRendering.territory).toMatchObject({
+        ownedMeshes: 1,
+        ownedGeometries: 1,
+        ownedBuffers: 3,
+        ownedTextures: 0,
+      });
+      const display = buildDisplayCoast(data.outline!, data.graph, data.terrain!.rivers);
+      expect(display.polygons[0]!.points).not.toEqual(data.outline!.polygons[0]!.points);
+      for (const target of [layers.seaBackground.children.at(-1), clip]) {
+        const calls = polys.mock.calls.filter((_, i) => polys.mock.contexts[i] === target);
+        expect(
+          calls.some(
+            (args) => JSON.stringify(args[0]) === JSON.stringify(display.polygons[0]!.points),
+          ),
+        ).toBe(true);
+      }
+      expect(rawInteraction).toHaveBeenLastCalledWith(data);
+      const identity = [...layers.terrainBase.children];
+      r.updateView(baseView({ day: 2 }));
+      expect(layers.terrainBase.children).toEqual(identity);
+      expect(JSON.stringify(data.outline)).toBe(before);
+      const destroy = vi.spyOn(surface, 'destroy');
+      const destroyGeometry = vi.spyOn(elevated.geometry, 'destroy');
+      const destroyFoothillGeometry = vi.spyOn(foothill.geometry, 'destroy');
+      r.setMapData(null);
+      expect(destroy).toHaveBeenCalledTimes(1);
+      expect(destroyGeometry).toHaveBeenCalledTimes(1);
+      expect(destroyGeometry).toHaveBeenCalledWith(false);
+      expect(destroyFoothillGeometry).toHaveBeenCalledTimes(1);
+      expect(destroyFoothillGeometry).toHaveBeenCalledWith(false);
+      expect(foothill.getDiagnostics()).toMatchObject({
+        ownedMeshes: 0,
+        ownedBuffers: 0,
+        bufferBytes: 0,
+      });
+      expect(elevated.getDiagnostics()).toMatchObject({
+        ownedMeshes: 0,
+        ownedBuffers: 0,
+        bufferBytes: 0,
+      });
+      expect(layers.terrainBase.children).toHaveLength(0);
+      expect([...shared.values()].every((t) => !t.destroyed)).toBe(true);
+    } finally {
+      r.destroy();
+      acquire.mockRestore();
+      rawInteraction.mockRestore();
+      polys.mockRestore();
+    }
+  });
+
+  it('territory uses the same display coast, changing only a narrow coast band, not canonical geography', async () => {
+    const data = staticData();
+    const before = JSON.stringify(data.outline);
+    const raw = buildTerritoryGrid(data.graph, data.outline!);
+    const display = buildDisplayCoast(data.outline!, data.graph);
+    const expected = buildTerritoryGrid(data.graph, display);
+    const r = await makeRenderer();
+    try {
+      r.setMapData(data);
+      const actual = (r as unknown as { territoryGrid: TerritoryGrid }).territoryGrid;
+      let differences = 0,
+        wrong = 0,
+        outsideBand = 0;
+      const size = raw.size,
+        cell = 4096 / size;
+      for (let i = 0; i < raw.nearestDistrict.length; i++) {
+        if (actual.nearestDistrict[i] !== expected.nearestDistrict[i]) wrong++;
+        if (actual.nearestDistrict[i] === raw.nearestDistrict[i]) continue;
+        differences++;
+        const x = ((i % size) + 0.5) * cell,
+          y = (Math.floor(i / size) + 0.5) * cell;
+        // Independent distance to the four original fixture rectangle sides.
+        const boundaryDistance = Math.min(
+          Math.abs(x - 50),
+          Math.abs(x - 350),
+          Math.abs(y - 50),
+          Math.abs(y - 350),
+        );
+        if (boundaryDistance > 8) outsideBand++;
+      }
+      expect(differences).toBeGreaterThan(0);
+      expect(wrong).toBe(0);
+      expect(outsideBand).toBe(0);
+      expect(JSON.stringify(data.outline)).toBe(before);
+    } finally {
+      r.destroy();
+    }
+  });
+});
+
+it('shared Pixi harness inserts variadic children and reparents indexed children without duplicates', () => {
+  const a = new Container();
+  const b = new Container();
+  const first = new Container();
+  const second = new Container();
+  expect(a.addChild(first, second)).toBe(first);
+  expect(a.children).toEqual([first, second]);
+  expect(first.parent).toBe(a);
+  expect(second.parent).toBe(a);
+  expect(b.addChildAt(second, 0)).toBe(second);
+  expect(a.children).toEqual([first]);
+  expect(b.children).toEqual([second]);
+  expect(second.parent).toBe(b);
+  b.addChildAt(first, 0);
+  expect(a.children).toEqual([]);
+  expect(b.children).toEqual([first, second]);
+  b.addChildAt(second, 0);
+  expect(b.children).toEqual([second, first]);
+  expect(() => b.addChildAt(new Container(), 3)).toThrow();
+});
+
+describe('live combat effects (synthetic map views, not gameplay outcome fixtures)', () => {
+  function tick(r: MapRenderer, deltaMS: number): void {
+    const ticker = r.getApp()!.ticker as unknown as { deltaMS: number; tick(): void };
+    ticker.deltaMS = deltaMS;
+    ticker.tick();
+  }
+  it('mounts field icons at nodes/edge midpoints and emits bounded live particles without mutating the view', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    const view = baseView({
+      battles: [
+        { kind: 'field', nodeOrEdgeId: 'castle.a' },
+        { kind: 'field', nodeOrEdgeId: 'road.x-b' },
+        { kind: 'field', nodeOrEdgeId: 'missing' },
+      ],
+    });
+    const before = JSON.stringify(view);
+    r.updateView(view);
+    expect(r.getDiagnostics().effects).toEqual({
+      fieldContacts: 2,
+      assaultEmitters: 0,
+      activeParticles: 16,
+      particleCapacity: 128,
+      motionBlocked: false,
+    });
+    const icons = r.getLayers()!.effects.children.filter((c) => c.label === 'battleSpark');
+    const disposals = icons.map((icon) => vi.spyOn(icon, 'destroy'));
+    expect(icons.map((c) => [c.position.x, c.position.y])).toEqual([
+      [100, 100],
+      [250, 100],
+    ]);
+    tick(r, 400);
+    expect(r.getDiagnostics().effects.activeParticles).toBe(0);
+    tick(r, 499);
+    expect(r.getDiagnostics().effects.activeParticles).toBe(0);
+    tick(r, 1);
+    expect(r.getDiagnostics().effects.activeParticles).toBe(16);
+    expect(JSON.stringify(view)).toBe(before);
+    r.updateView(baseView());
+    expect(r.getDiagnostics().effects.activeParticles).toBe(0);
+    expect(disposals.every((spy) => spy.mock.calls.length === 1)).toBe(true);
+    expect(icons.every((c) => c.parent === null)).toBe(true);
+    r.destroy();
+  });
+  it.each([true, false])(
+    'clears active particles immediately on %s OS-reduce/settings-disable and resumes without backlog',
+    async (osReduce) => {
+      const r = await makeRenderer();
+      r.setMapData(staticData());
+      r.updateView(
+        baseView({
+          battles: [{ kind: 'field', nodeOrEdgeId: 'castle.a' }],
+          sieges: [
+            { id: 'siege.assault', pos: { x: 300, y: 100 }, mode: 'assault' },
+            { id: 'siege.encircle', pos: { x: 200, y: 100 }, mode: 'encircle' },
+          ],
+        }),
+      );
+      expect(r.getDiagnostics().effects).toMatchObject({
+        fieldContacts: 1,
+        assaultEmitters: 1,
+        activeParticles: 16,
+      });
+      r.setPresentationSettings({
+        mapLabelDensity: 'medium',
+        effectsEnabled: osReduce,
+        reducedMotion: osReduce,
+      });
+      expect(r.getDiagnostics().effects).toMatchObject({ motionBlocked: true, activeParticles: 0 });
+      const icons = r.getLayers()!.effects.children.filter((c) => c.label === 'battleSpark');
+      expect(icons).toHaveLength(2);
+      expect(icons[0]!.children[0]!.visible).toBe(true);
+      expect(icons[1]!.children[0]!.visible).toBe(false);
+      tick(r, 60_000);
+      expect(r.getDiagnostics().effects.activeParticles).toBe(0);
+      r.setPresentationSettings({
+        mapLabelDensity: 'medium',
+        effectsEnabled: true,
+        reducedMotion: false,
+      });
+      expect(r.getDiagnostics().effects.activeParticles).toBe(16);
+      tick(r, 900);
+      expect(r.getDiagnostics().effects.activeParticles).toBe(8);
+      tick(r, 300);
+      expect(r.getDiagnostics().effects.activeParticles).toBe(16);
+      r.destroy();
+    },
+  );
+  it('caps combined contacts at 128 and owns cleanup across map replacement/destroy/remount', async () => {
+    const r = await makeRenderer();
+    const graph = fixtureGraph();
+    const nodes = new Map(graph.nodes);
+    for (let i = 0; i < 20; i++)
+      nodes.set(`test.${i}` as never, {
+        ...graph.nodes.get('castle.a' as never)!,
+        id: `test.${i}` as never,
+      });
+    const data = staticData({ graph: { ...graph, nodes } });
+    r.setMapData(data);
+    r.updateView(
+      baseView({
+        battles: Array.from({ length: 20 }, (_, i) => ({
+          kind: 'field',
+          nodeOrEdgeId: `test.${i}`,
+        })),
+      }),
+    );
+    expect(r.getDiagnostics().effects.activeParticles).toBe(128);
+    const owned = [...r.getLayers()!.effects.children];
+    const disposals = owned.map((part) => vi.spyOn(part, 'destroy'));
+    r.setMapData(null);
+    expect(r.getDiagnostics().effects).toMatchObject({
+      fieldContacts: 0,
+      particleCapacity: 0,
+      activeParticles: 0,
+    });
+    expect(disposals.every((spy) => spy.mock.calls.length === 1)).toBe(true);
+    expect(owned.every((c) => c.parent === null)).toBe(true);
+    const ticker = r.getApp()!.ticker as unknown as { callbacks: unknown[] };
+    r.destroy();
+    expect(ticker.callbacks).toHaveLength(0);
+    const remount = await makeRenderer();
+    remount.setMapData(staticData());
+    remount.updateView(baseView());
+    expect(remount.getDiagnostics().effects.activeParticles).toBe(0);
+    remount.destroy();
+  });
+});
+
 beforeEach(() => {
   hoisted.apps.length = 0;
   hoisted.bufferSources.length = 0;
@@ -182,6 +922,17 @@ beforeEach(() => {
 });
 
 describe('M6-V10 analysis overlay', () => {
+  it('shared Assets mock preserves alias identity until loader-owned unload', async () => {
+    const first = await Assets.load<Texture>('test.castle.shared-alias');
+    expect(await Assets.load('test.castle.shared-alias')).toBe(first);
+    expect(Assets.get('test.castle.shared-alias')).toBe(first);
+    await Assets.unload('test.castle.shared-alias');
+    expect(first.destroyed).toBe(true);
+    expect(Assets.get('test.castle.shared-alias')).toBeUndefined();
+    const next = await Assets.load<Texture>('test.castle.shared-alias');
+    expect(next).not.toBe(first);
+    await Assets.unload('test.castle.shared-alias');
+  });
   function analysisArmy(
     overrides: Partial<MapViewState['armies'][number]> = {},
   ): MapViewState['armies'][number] {
@@ -284,6 +1035,8 @@ describe('M6-V10 analysis overlay', () => {
     expect(annotations.children.length).toBe(2);
     r.destroy();
     expect(hoisted.bufferSources.every((s) => s.destroyed)).toBe(true);
+    // Shared lazy castle textures unload through the asynchronous Assets owner.
+    for (let i = 0; i < 20; i++) await Promise.resolve();
     expect(hoisted.textures.every((t) => t.destroyed)).toBe(true);
   });
 
@@ -364,6 +1117,68 @@ describe('M6-V10 analysis overlay', () => {
 });
 
 describe('MapRenderer dirty-update（M6-V4 §7 DoD①：無變更 tick 不重建）', () => {
+  it('long province labels reserve their text bounds across adjacent screen cells', async () => {
+    const r = await makeRenderer();
+    r.setMapData(
+      staticData({
+        names: { 'prov.a': '甲乙丙丁戊己庚辛壬癸甲乙丙丁戊己庚辛壬癸', 'prov.b': '第二個地理標籤' },
+        provinceLabelPos: { 'prov.a': { x: 0, y: 100 }, 'prov.b': { x: 300, y: 100 } },
+      }),
+    );
+    r.updateView(baseView());
+    const labels = r.getLayers()!.labels.children;
+    // Controlled text-height model; horizontal width comes from the shared BitmapText mock.
+    for (const label of labels) Object.defineProperty(label.children[0]!, 'height', { value: 18 });
+    r.setCameraPose({ x: 200, y: 100 }, 0.25);
+    expect(labels[0]!.visible).toBe(true);
+    expect(labels[1]!.visible).toBe(false);
+    r.destroy();
+  });
+
+  it('wires static dimensional terrain above baked ground and destroys it on map replacement', async () => {
+    const r = await makeRenderer();
+    const data = staticDataWithTerrain();
+    r.setMapData({
+      ...data,
+      terrain: {
+        ...data.terrain!,
+        mountains: [
+          {
+            id: 'ridge',
+            tier: 2,
+            mass: [
+              { x: 100, y: 100 },
+              { x: 120, y: 100 },
+              { x: 120, y: 120 },
+            ],
+            ridges: [
+              [
+                { x: 105, y: 105 },
+                { x: 115, y: 115 },
+              ],
+            ],
+          },
+        ],
+      },
+    });
+    r.updateView(baseView());
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const children = terrainPaintChildren(r);
+    expect(children).toHaveLength(3);
+    expect(children[0]).toMatchObject({
+      alpha: TERRAIN_RELIEF.bakedReliefAlpha,
+      tint: TERRAIN_RELIEF.groundTint,
+    });
+    const relief = children[2]!;
+    expect(relief.label).toBe('atlas-relief-2.5d');
+    expect(relief.children).toHaveLength(1);
+    const destroy = vi.spyOn(relief, 'destroy');
+    r.setMapData(staticData());
+    expect(destroy).toHaveBeenCalledWith({ children: true });
+    expectBankOnlyGround(r);
+    r.destroy();
+  });
+
   it('setMapData 後首次 updateView 全 node 首繪；僅 day 不同的後續 updateView 計數零增量', async () => {
     const r = await makeRenderer();
     r.setMapData(staticData());
@@ -430,8 +1245,19 @@ describe('MapRenderer dirty-update（M6-V4 §7 DoD②：owner 變更只更新受
     // M6-V7（#M1）：nodeMarkers.children 為 castleNode/districtNode Container（無 clear）；改對其
     // children[0]（castle＝bodyGfx／district＝gfx，皆 Graphics）spy clear。依 id 字典序建立：
     // castle.a(0) < castle.b(1) < dist.x(2)。
-    const containers = r.getLayers()!.nodeMarkers.children as unknown as MockGfx[];
-    const bodySpies = containers.map((c) => vi.spyOn(c.children[0]!, 'clear'));
+    const containers = r.getLayers()!.nodeMarkers.children.slice(1) as unknown as MockGfx[];
+    const bodySpies = containers.map((c, index) =>
+      vi.spyOn(
+        index < 2
+          ? (r
+              .getLayers()!
+              .actorBodies.children.find(
+                (body) => body.label === `castle:castle.${index === 0 ? 'a' : 'b'}`,
+              )!.children[0]! as unknown as MockGfx)
+          : c.children[0]!,
+        'clear',
+      ),
+    );
 
     const view2 = baseView({
       castles: baseView().castles.map((c) =>
@@ -538,7 +1364,7 @@ describe('城池/郡 元件（M6-V7 §8.2）：不再呼叫占位 marker、簽�
     const r = await makeRenderer();
     r.setMapData(staticData());
     r.updateView(baseView());
-    const containers = r.getLayers()!.nodeMarkers.children as unknown as NodeContainer[];
+    const containers = r.getLayers()!.nodeMarkers.children.slice(1) as unknown as NodeContainer[];
     const labels = containers.map((c) => c.label).sort();
     expect(labels).toEqual(['castleNode', 'castleNode', 'districtNode']); // castle.a/castle.b/dist.x
     r.destroy();
@@ -551,13 +1377,12 @@ describe('城池/郡 元件（M6-V7 §8.2）：不再呼叫占位 marker、簽�
       baseView({ castles: castlesWith({ warning: 'critical' }, { warning: 'threatened' }) }),
     );
 
-    expect(r.getLayers()!.nodeMarkers.children.length).toBe(3);
+    expect(r.getLayers()!.nodeMarkers.children.length).toBe(4);
     expect(r.getRebuildCounts().nodeMarkers).toBe(3); // 首繪：全 3 node 簽章 dirty 各計數一次
 
-    const containers = r.getLayers()!.nodeMarkers.children as unknown as NodeContainer[];
-    // id 字典序：castle.a(0, critical)／castle.b(1, threatened)／dist.x(2)。warnGfx＝children[2]。
-    expect(containers[0]!.children[2]!.visible).toBe(true); // critical → warnGfx 顯
-    expect(containers[1]!.children[2]!.visible).toBe(true); // threatened → warnGfx 顯
+    // Original warning Graphics remain mounted independently of model culling.
+    expect(r.getLayers()!.effects.children[0]!.children[1]!.visible).toBe(true);
+    expect(r.getLayers()!.effects.children[1]!.children[1]!.visible).toBe(true);
     r.destroy();
   });
 
@@ -630,8 +1455,8 @@ describe('城池/郡 元件（M6-V7 §8.2）：不再呼叫占位 marker、簽�
     const baseline = r.getRebuildCounts();
 
     const selPath = r.getLayers()!.selectionAndPath.children as unknown as MockGfx[];
-    expect(selPath.length).toBe(3); // [roadHighlight, selectionRing, pathPreview]
-    const ringContainer = selPath[1] as unknown as { label: string; visible: boolean };
+    expect(selPath.length).toBe(2); // [roadHighlight, pathPreview]
+    const ringContainer = r.getLayers()!.nodeMarkers.children[0]!.children[0]!;
     expect(ringContainer.label).toBe('selectionRing'); // z-order 中層（壓道路高亮上、march 預覽下）
     const highlightGfx = selPath[0]!.children[0]!;
     const strokeSpy = vi.spyOn(highlightGfx, 'stroke');
@@ -672,7 +1497,7 @@ describe('城池/郡 元件（M6-V7 §8.2）：不再呼叫占位 marker、簽�
     const r1 = await makeRenderer();
     r1.setMapData(staticData());
     r1.updateView(baseView());
-    expect(r1.getLayers()!.nodeMarkers.children.length).toBe(3);
+    expect(r1.getLayers()!.nodeMarkers.children.length).toBe(4);
     expect(r1.getLayers()!.settlements.children.length).toBe(1);
     r1.destroy();
     expect(r1.getLayers()).toBeNull(); // 圖層清空、無殘留參考
@@ -680,8 +1505,8 @@ describe('城池/郡 元件（M6-V7 §8.2）：不再呼叫占位 marker、簽�
     const r2 = await makeRenderer();
     r2.setMapData(staticData());
     r2.updateView(baseView());
-    expect(r2.getLayers()!.nodeMarkers.children.length).toBe(3);
-    expect(r2.getLayers()!.selectionAndPath.children.length).toBe(3);
+    expect(r2.getLayers()!.nodeMarkers.children.length).toBe(4);
+    expect(r2.getLayers()!.selectionAndPath.children.length).toBe(2);
     r2.destroy();
   });
 });
@@ -720,27 +1545,31 @@ describe('MapRenderer dirty-update（M6-V4 §7 DoD③：移動只更新相關 Ar
     ] as unknown as MapViewState['armies'];
   }
 
-  it('A 前進（edgeT 變）只 reposition、armyChips 計數不增；B 的 soldiers 變 → +1', async () => {
-    const r = await makeRenderer();
-    r.setMapData(staticData());
-    r.updateView(baseView({ armies: marchingArmies(0.2, 2_000) }));
-    const baseline = r.getRebuildCounts();
-    expect(baseline.armyChips).toBe(2); // 首繪兩支
+  it.each([false, true])(
+    'motionReduced=%s: army movement remains positional and numeric changes redraw',
+    async (reducedMotion) => {
+      const r = await makeRenderer();
+      r.setPresentationSettings({ mapLabelDensity: 'medium', effectsEnabled: true, reducedMotion });
+      r.setMapData(staticData());
+      r.updateView(baseView({ armies: marchingArmies(0.2, 2_000) }));
+      const baseline = r.getRebuildCounts();
+      expect(baseline.armyChips).toBe(2); // 首繪兩支
 
-    const armyContainers = r.getLayers()!.armies.children;
-    const posAAfterFirst = { x: armyContainers[0]!.position.x, y: armyContainers[0]!.position.y };
-    expect(posAAfterFirst).toEqual({ x: 120, y: 100 }); // from(100,100)+((200,100)-(100,100))*0.2
+      const armyContainers = r.getLayers()!.armies.children;
+      const posAAfterFirst = { x: armyContainers[0]!.position.x, y: armyContainers[0]!.position.y };
+      expect(posAAfterFirst).toEqual({ x: 120, y: 100 }); // from(100,100)+((200,100)-(100,100))*0.2
 
-    r.updateView(baseView({ armies: marchingArmies(0.6, 2_000) })); // 只 A 的 edgeT 前進
-    expect(r.getRebuildCounts().armyChips).toBe(baseline.armyChips); // 不增：只 reposition
-    expect(r.getRebuildCounts().nodeMarkers).toBe(baseline.nodeMarkers); // owner 未變，node 不重畫
-    expect(armyContainers[0]!.position.x).toBeCloseTo(160, 5); // 100+100*0.6
+      r.updateView(baseView({ armies: marchingArmies(0.6, 2_000) })); // 只 A 的 edgeT 前進
+      expect(r.getRebuildCounts().armyChips).toBe(baseline.armyChips); // 不增：只 reposition
+      expect(r.getRebuildCounts().nodeMarkers).toBe(baseline.nodeMarkers); // owner 未變，node 不重畫
+      expect(armyContainers[0]!.position.x).toBeCloseTo(160, 5); // 100+100*0.6
 
-    r.updateView(baseView({ armies: marchingArmies(0.6, 1_900) })); // B 的 soldiers 變
-    expect(r.getRebuildCounts().armyChips).toBe(baseline.armyChips + 1);
+      r.updateView(baseView({ armies: marchingArmies(0.6, 1_900) })); // B 的 soldiers 變
+      expect(r.getRebuildCounts().armyChips).toBe(baseline.armyChips + 1);
 
-    r.destroy();
-  });
+      r.destroy();
+    },
+  );
 });
 
 // ── M6-V8：軍隊棋子整合（heading／armyChipStage restage／far 放大／被選取置頂／relation） ──────
@@ -752,30 +1581,30 @@ interface SpyableGfx {
   poly: (...a: unknown[]) => unknown;
 }
 
-describe('軍隊 V8（M6-V8 §8.3）：heading／stage restage／far 放大／置頂／relation', () => {
-  /** V8 軍隊字面量（含必填 relation）；`over` 覆寫任意欄位。以 cast 餵入 MapViewState['armies']。 */
-  function v8Army(over: Record<string, unknown> = {}): Record<string, unknown> {
-    return {
-      id: 'army.x',
-      clanId: 'clan.oda',
-      soldiers: 2_000,
-      status: 'holding',
-      morale: 70,
-      foodDays: 10,
-      mission: 'march',
-      fromNode: 'castle.a',
-      toNode: null,
-      edgeT: 0,
-      corps: false,
-      selected: false,
-      relation: 'friendly',
-      ...over,
-    };
-  }
-  function armiesView(list: Record<string, unknown>[]): MapViewState['armies'] {
-    return list as unknown as MapViewState['armies'];
-  }
+/** V8 軍隊字面量（含必填 relation）；`over` 覆寫任意欄位。以 cast 餵入 MapViewState['armies']。 */
+function v8Army(over: Record<string, unknown> = {}): Record<string, unknown> {
+  return {
+    id: 'army.x',
+    clanId: 'clan.oda',
+    soldiers: 2_000,
+    status: 'holding',
+    morale: 70,
+    foodDays: 10,
+    mission: 'march',
+    fromNode: 'castle.a',
+    toNode: null,
+    edgeT: 0,
+    corps: false,
+    selected: false,
+    relation: 'friendly',
+    ...over,
+  };
+}
+function armiesView(list: Record<string, unknown>[]): MapViewState['armies'] {
+  return list as unknown as MapViewState['armies'];
+}
 
+describe('軍隊 V8（M6-V8 §8.3）：heading／stage restage／far 放大／置頂／relation', () => {
   it('heading 接線：marching 軍畫方向箭頭（額外 poly），holding 軍無', async () => {
     const r = await makeRenderer();
     r.setMapData(staticData());
@@ -794,9 +1623,11 @@ describe('軍隊 V8（M6-V8 §8.3）：heading／stage restage／far 放大／�
       }),
     );
     const children = r.getLayers()!.armies.children as unknown as MockGfx[];
-    // id 序：army.1（marching）在前、army.2（holding）在後；container.children[0]＝graphics。
-    const gfxMarching = children[0]!.children[0]! as unknown as SpyableGfx;
-    const gfxHolding = children[1]!.children[0]! as unknown as SpyableGfx;
+    // id 序不變；named bodyGroup 的 child0 是 rear/vector Graphics。
+    const gfxMarching = armyBodyGroup(children[0]! as unknown as Container)
+      .children[0]! as unknown as SpyableGfx;
+    const gfxHolding = armyBodyGroup(children[1]! as unknown as Container)
+      .children[0]! as unknown as SpyableGfx;
     const polyMarching = vi.spyOn(gfxMarching, 'poly');
     const polyHolding = vi.spyOn(gfxHolding, 'poly');
     // 改 soldiers 觸發兩軍重繪（drawEqual false）。
@@ -825,6 +1656,124 @@ describe('軍隊 V8（M6-V8 §8.3）：heading／stage restage／far 放大／�
     // marching 多畫一個方向箭頭 poly（旗面 poly 兩軍皆有；箭頭僅 heading!==null）。
     expect(polyMarching.mock.calls.length).toBeGreaterThan(polyHolding.mock.calls.length);
     r.destroy();
+  });
+
+  it('painted army heading follows the actual authored road segment, including return direction', async () => {
+    const art = new Map<string, Texture>();
+    const acquire = vi.spyOn(MapAssetLoader.prototype, 'acquire').mockImplementation((id) => {
+      const texture = new Texture();
+      art.set(id, texture);
+      return Promise.resolve(texture);
+    });
+    const r = await makeRenderer();
+    try {
+      const graph = fixtureGraph();
+      const edges = new Map(graph.edges);
+      const id = 'road.a-x' as RoadEdgeId;
+      edges.set(id, { ...edges.get(id)!, waypoints: [100, 200, 200, 200] });
+      r.setMapData(staticData({ graph: { ...graph, edges } }));
+      r.setCameraPose({ x: 200, y: 100 }, 1.25);
+      r.updateView(baseView({ armies: [{ ...paintedArmy(), edgeT: 0.25 }] }));
+      for (let i = 0; i < 20; i++) await Promise.resolve();
+      const sprite = r.getLayers()!.actorBodies.children.find((c) => c.label.startsWith('army:'))!
+        .children[1] as unknown as {
+        texture: Texture;
+      };
+      expect(sprite.texture).toBe(art.get('texture.army.infantry-south-v1'));
+      r.updateView(baseView({ day: 2, armies: [{ ...paintedArmy(), edgeT: 0.75 }] }));
+      expect(sprite.texture).toBe(art.get('texture.army.infantry-north-v1'));
+      r.updateView(baseView({ day: 3, armies: [{ ...paintedArmy(true), edgeT: 0.75 }] }));
+      expect(sprite.texture).toBe(art.get('texture.army.infantry-north-v1'));
+    } finally {
+      r.destroy();
+      acquire.mockRestore();
+    }
+  });
+
+  it('actual Sunpu curved corner drives the painted Sprite and arrow along the flattened local tangent', async () => {
+    const art = new Map<string, Texture>();
+    const acquire = vi.spyOn(MapAssetLoader.prototype, 'acquire').mockImplementation((id) => {
+      const texture = new Texture();
+      art.set(id, texture);
+      return Promise.resolve(texture);
+    });
+    const r = await makeRenderer();
+    try {
+      const road = nationalRoads.edges.find((e) => e.id === 'road.sunpu-kokokuji-01')!;
+      const castles = nationalCastles.filter((c) => c.id === road.a || c.id === road.b);
+      const graph = buildMapGraph(
+        Object.fromEntries(castles.map((c) => [c.id, { id: c.id as CastleId, pos: c.pos }])),
+        {},
+        {
+          [road.id]: {
+            ...road,
+            id: road.id as RoadEdgeId,
+            a: road.a as CastleId,
+            b: road.b as CastleId,
+            type: 'land' as const,
+            grade: 3 as const,
+          },
+        },
+        { [road.id]: road },
+      );
+      const edge = graph.edges.get(road.id as RoadEdgeId)!;
+      const points = edgeVisualPolyline(edge, graph)!;
+      // Independent arc walk and local unit vector, not production tangentAtPolyline.
+      const lengths = points
+        .slice(1)
+        .map((p, i) => Math.hypot(p.x - points[i]!.x, p.y - points[i]!.y));
+      const total = lengths.reduce((sum, length) => sum + length, 0);
+      expect(road.waypoints).toBeDefined();
+      const index = points.findIndex(
+        (p, i) => i > 0 && p.y !== points[i - 1]!.y && p.x > road.waypoints![0]!,
+      );
+      expect(index).toBeGreaterThan(0);
+      const a = points[index - 1]!,
+        b = points[index]!,
+        length = lengths[index - 1]!;
+      const ratio =
+        (lengths.slice(0, index - 1).reduce((sum, n) => sum + n, 0) + length / 2) / total;
+      const hx = (b.x - a.x) / length,
+        hy = (b.y - a.y) / length;
+      r.setMapData(staticData({ graph }));
+      r.setCameraPose(a, 1.25);
+      const army = { ...paintedArmy(), fromNode: edge.a, toNode: edge.b, edgeT: ratio };
+      r.updateView(baseView({ armies: [army] }));
+      for (let i = 0; i < 20; i++) await Promise.resolve();
+      const group = armyBodyGroup(r.getLayers()!.armies.children[0]!);
+      const sprite = r.getLayers()!.actorBodies.children.find((c) => c.label.startsWith('army:'))!
+        .children[1] as unknown as { texture: Texture };
+      expect(sprite.texture).toBe(
+        art.get(
+          `texture.army.infantry-${Math.abs(hx) >= Math.abs(hy) ? (hx < 0 ? 'west' : 'east') : hy < 0 ? 'north' : 'south'}-v1`,
+        ),
+      );
+      const front = group.children.find((child) => child.label === 'armyHeading')! as unknown as {
+        lineTo(x: number, y: number): unknown;
+      };
+      const line = vi.spyOn(front, 'lineTo');
+      r.updateView(baseView({ day: 2, armies: [{ ...army, soldiers: army.soldiers + 1 }] }));
+      expect(
+        line.mock.calls.some(
+          ([x, y]) => Math.abs(x - hx * 15) < 1e-10 && Math.abs(y - hy * 15) < 1e-10,
+        ),
+      ).toBe(true);
+      line.mockClear();
+      r.updateView(
+        baseView({
+          day: 3,
+          armies: [{ ...army, fromNode: edge.b, toNode: edge.a, edgeT: 1 - ratio }],
+        }),
+      );
+      expect(
+        line.mock.calls.some(
+          ([x, y]) => Math.abs(x + hx * 15) < 1e-10 && Math.abs(y + hy * 15) < 1e-10,
+        ),
+      ).toBe(true);
+    } finally {
+      r.destroy();
+      acquire.mockRestore();
+    }
   });
 
   it('LOD restage Δ 遞增（BLOCKER1 守門）：far→near 落差觸發 syncArmyChips 重繪', async () => {
@@ -1043,6 +1992,200 @@ describe('軍隊 V8（M6-V8 §8.3）：heading／stage restage／far 放大／�
 });
 
 describe('MapRenderer.panTo（決策 D10；MiniMap onNavigate 用）', () => {
+  it('reorders a moving soldier across a castle foot while flags and selected plates remain foreground', async () => {
+    const r = await makeRenderer();
+    const original = fixtureGraph();
+    const graph = {
+      ...original,
+      nodes: new Map(
+        [...original.nodes].map(([id, node]) => [
+          id,
+          {
+            ...node,
+            pos: { ...node.pos, y: id === 'castle.a' ? 80 : id === 'castle.b' ? 110 : 140 },
+          },
+        ]),
+      ),
+    };
+    r.setMapData(staticData({ graph }));
+    r.setCameraPose({ x: 200, y: 110 }, 1.25);
+    const moving = { ...paintedArmy(), selected: true, edgeT: 0.2 };
+    r.updateView(baseView({ armies: [moving] }));
+    const layer = r.getLayers()!.actorBodies;
+    const army = layer.children.find((body) => body.label === 'army:army.art')!;
+    const castle = layer.children.find((body) => body.label === 'castle:castle.b')!;
+    const semantic = r.getLayers()!.armies.children[0]!;
+    const hit = semantic.hitArea;
+    expect(layer.children.indexOf(army)).toBeLessThan(layer.children.indexOf(castle));
+    const redraw = r.getRebuildCounts().armyChips;
+    r.updateView(baseView({ armies: [{ ...moving, edgeT: 0.8 }] }));
+    expect(layer.children.indexOf(army)).toBeGreaterThan(layer.children.indexOf(castle));
+    expect(r.getRebuildCounts().armyChips).toBe(redraw);
+    expect(semantic.hitArea).toBe(hit);
+    expect(army.position.y).toBe(semantic.position.y);
+    r.updateView(baseView({ armies: [{ ...moving, edgeT: 31 / 60 }] }));
+    // Exact foot tie: army:army.art sorts before castle:castle.b, regardless of selection.
+    expect(army.position.y - army.scale.y).toBe(castle.position.y);
+    expect(layer.children.indexOf(army)).toBeLessThan(layer.children.indexOf(castle));
+    const stable = layer.children.slice();
+    r.updateView(baseView({ day: 2, armies: [{ ...moving, edgeT: 31 / 60 }] }));
+    expect(layer.children).toEqual(stable);
+    const diagnostics = r.getDiagnostics();
+    expect(diagnostics.actorDepth.semanticLayerOrders.army).toBeGreaterThan(
+      diagnostics.actorDepth.modelLayerOrder,
+    );
+    expect(diagnostics.actorDepth.semanticLayerOrders.castle).toBeGreaterThan(
+      diagnostics.actorDepth.modelLayerOrder,
+    );
+    r.setCameraPose({ x: 200, y: 110 }, 0.3);
+    expect(
+      r.getDiagnostics().actorDepth.bodies.find((body) => body.id === 'army.art')!.visible,
+    ).toBe(false);
+    const destroyArmy = vi.spyOn(army, 'destroy');
+    const destroyCastle = vi.spyOn(castle, 'destroy');
+    r.destroy();
+    expect(destroyArmy).toHaveBeenCalledTimes(1);
+    expect(destroyCastle).toHaveBeenCalledTimes(1);
+    expect(army.parent).toBeNull();
+    expect(castle.parent).toBeNull();
+  });
+  it('shares castle and soldier bodies in foot-depth order without lifting a selected body', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(
+      baseView({
+        armies: armiesView([
+          v8Army({ id: 'army.back', fromNode: 'castle.a', toNode: null, selected: true }),
+          v8Army({ id: 'army.front', fromNode: 'castle.b', toNode: null }),
+        ]),
+      }),
+    );
+    const bodies = r.getLayers()!.world.children.find((c) => c.label === 'actorBodies');
+    expect(bodies).toBeDefined();
+    expect(bodies!.children.map((c) => c.label)).toContain('army:army.back');
+    expect(bodies!.children.map((c) => c.label)).toContain('castle:castle.a');
+    const ordered = bodies!.children;
+    for (let i = 1; i < ordered.length; i++) {
+      expect(ordered[i]!.position.y).toBeGreaterThanOrEqual(ordered[i - 1]!.position.y - 1);
+    }
+    const selected = r.getLayers()!.armies.children.at(-1)!;
+    expect(selected.position.x).toBe(ordered.find((c) => c.label === 'army:army.back')!.position.x);
+    const first = ordered.slice();
+    r.updateView(
+      baseView({
+        armies: armiesView([
+          v8Army({ id: 'army.front', fromNode: 'castle.b', toNode: null }),
+          v8Army({ id: 'army.back', fromNode: 'castle.a', toNode: null, selected: true }),
+        ]),
+      }),
+    );
+    expect(bodies!.children).toEqual(first);
+    r.setMapData(null);
+    expect(bodies!.children).toHaveLength(0);
+    r.destroy();
+  });
+  it('keeps selection and siege status behind castle bodies through map clear and restore', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    const ground = r.getLayers()!.nodeMarkers.children[0]!;
+    expect(ground.label).toBe('castleGroundStatus');
+    expect(ground.children.some((c) => c.label === 'selectionRing')).toBe(true);
+    r.setMapData(null);
+    expect(r.getLayers()!.nodeMarkers.children).toContain(ground);
+    r.setMapData(staticData());
+    expect(r.getLayers()!.nodeMarkers.children[0]).toBe(ground);
+    r.destroy();
+  });
+  it('frames explicit navigation in a measured CSS viewport without resizing or keyboard autopan', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.setPresentationSettings({ mapLabelDensity: 'medium', effectsEnabled: false });
+    r.setCameraPose({ x: 0, y: 0 }, 1);
+    r.setFocusViewport({ x: 80, y: 60, width: 500, height: 400 });
+    expect(r.getLayers()!.world.position.x).toBe(400);
+    r.panToWorld(321, 654);
+    const world = r.getLayers()!.world;
+    expect(321 * world.scale.x + world.position.x).toBeCloseTo(330);
+    expect(654 * world.scale.y + world.position.y).toBeCloseTo(260);
+    const before = { x: world.position.x, y: world.position.y };
+    r.setFocusViewport({ x: 90, y: 70, width: 450, height: 380 });
+    expect(world.position.x).toBe(before.x);
+    expect(world.position.y).toBe(before.y);
+    r.panByKeyboard(1, 0);
+    expect(world.position.x).toBeCloseTo(before.x - 600);
+    r.focusNode('castle.a');
+    expect(100 * world.scale.x + world.position.x).toBeCloseTo(315);
+    expect(100 * world.scale.y + world.position.y).toBeCloseTo(260);
+    r.panToWorld(321, 654, { x: 100, y: 80, width: 400, height: 300 });
+    expect(321 * world.scale.x + world.position.x).toBeCloseTo(300);
+    expect(654 * world.scale.y + world.position.y).toBeCloseTo(230);
+    r.update(baseView({ day: 2 }));
+    expect(321 * world.scale.x + world.position.x).toBeCloseTo(300);
+    expect(654 * world.scale.y + world.position.y).toBeCloseTo(230);
+    const app = r.getApp();
+    if (app === null) throw new Error('Expected initialized renderer');
+    const centerBeforeResize = (400 - world.position.x) / world.scale.x;
+    app.screen.width = 640;
+    app.screen.height = 480;
+    r.resize(640, 480);
+    expect((320 - world.position.x) / world.scale.x).toBeCloseTo(centerBeforeResize);
+    r.panToWorld(321, 654, { x: 80, y: 50, width: 400, height: 300 });
+    expect(321 * world.scale.x + world.position.x).toBeCloseTo(280);
+    expect(654 * world.scale.y + world.position.y).toBeCloseTo(200);
+    r.setFocusViewport({ x: -1, y: 0, width: 100, height: 100 });
+    r.panToWorld(321, 654);
+    expect(321 * world.scale.x + world.position.x).toBeCloseTo(320);
+    expect(654 * world.scale.y + world.position.y).toBeCloseTo(240);
+    r.destroy();
+  });
+  it('honors pre-init motion settings without reading browser media itself', async () => {
+    const r = new MapRenderer();
+    r.setPresentationSettings({ mapLabelDensity: 'medium', effectsEnabled: false });
+    await r.init(document.createElement('div'), vi.fn());
+    r.setMapData(staticData());
+    r.focusNode('castle.a');
+    expect(r.getLayers()!.world.scale.x).toBe(MAPVIEW.focusScale);
+    expect(r.getLayers()!.world.position.x).toBeCloseTo(400 - 100 * MAPVIEW.focusScale);
+    r.destroy();
+  });
+  it('runtime reduced motion completes an active focus immediately and restores ordinary motion later', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.setCameraPose({ x: 0, y: 0 }, 1);
+    r.panToWorld(321, 654);
+    expect(r.getLayers()!.world.scale.x).toBe(1);
+    r.setPresentationSettings({
+      mapLabelDensity: 'medium',
+      effectsEnabled: true,
+      reducedMotion: true,
+    });
+    const layers = r.getLayers()!;
+    expect(layers.world.scale.x).toBe(MAPVIEW.focusScale);
+    expect(layers.world.position.x).toBeCloseTo(400 - 321 * MAPVIEW.focusScale);
+    expect(layers.world.position.y).toBeCloseTo(300 - 654 * MAPVIEW.focusScale);
+    r.focusNode('castle.a');
+    expect(layers.world.position.x).toBeCloseTo(400 - 100 * MAPVIEW.focusScale);
+    const snapshot = { x: layers.world.position.x, y: layers.world.position.y };
+    (r.getApp()!.ticker as unknown as { tick: () => void }).tick();
+    expect(layers.world.position.x).toBe(snapshot.x);
+    expect(layers.world.position.y).toBe(snapshot.y);
+    r.zoomByKeyboard(1);
+    expect(layers.world.scale.x).toBeCloseTo(MAPVIEW.focusScale * MAPVIEW.wheelZoomStep);
+    const before = layers.world.position.x;
+    r.panByKeyboard(1, 0);
+    expect(layers.world.position.x).toBeCloseTo(before - 600);
+    r.setPresentationSettings({
+      mapLabelDensity: 'medium',
+      effectsEnabled: true,
+      reducedMotion: false,
+    });
+    const resumed = layers.world.position.x;
+    r.panToWorld(800, 800);
+    expect(layers.world.position.x).toBe(resumed);
+    (r.getApp()!.ticker as unknown as { tick: () => void }).tick();
+    expect(layers.world.position.x).not.toBe(resumed);
+    r.destroy();
+  });
   it('瞬移中心至指定世界座標、維持現 scale；與 setCameraPose({x,y},scale) 效果一致（黑箱驗證）', async () => {
     const r1 = await makeRenderer();
     r1.setCameraPose({ x: 0, y: 0 }, 2);
@@ -1067,6 +2210,938 @@ describe('MapRenderer.panTo（決策 D10；MiniMap onNavigate 用）', () => {
 });
 
 describe('territory sprite dirty（M6-V5 §8.2；VD4 首幀著色＋owner 翻轉）', () => {
+  it('owns one shared elevated ground mesh with stable day/camera identity and explicit missing-ground admission failure', async () => {
+    const data = staticDataWithTerrain();
+    if (!data.terrain) throw new Error('Missing terrain');
+    data.terrain.groundArtAssetId = 'test.ground';
+    const groundTexture = new Texture();
+    const acquire = vi.spyOn(MapAssetLoader.prototype, 'acquire').mockResolvedValue(groundTexture);
+    const renderer = await makeRenderer();
+    renderer.setMapData(data);
+    for (let i = 0; i < 30; i++) await Promise.resolve();
+    const layers = renderer.getLayers()!;
+    const elevated = sharedElevatedSurface(renderer);
+    expect(terrainPaintChildren(renderer)).toEqual([elevated.mesh]);
+    expect(elevated.mesh.texture).toBe(groundTexture);
+    const attribute = elevated.geometry.getBuffer('aPosition');
+    const index = elevated.geometry.indexBuffer;
+    const destroyAttribute = vi.spyOn(attribute, 'destroy');
+    const destroyIndex = vi.spyOn(index, 'destroy');
+    const destroyProgram = vi.spyOn(elevated.shader.glProgram, 'destroy');
+    const original = terrainPaintChildren(renderer);
+    renderer.updateView(baseView({ day: 2 }));
+    renderer.setCameraPose({ x: 200, y: 100 }, 0.5);
+    (renderer.getApp()!.ticker as unknown as { tick: () => void }).tick();
+    expect(terrainPaintChildren(renderer)).toEqual(original);
+    expect(sharedElevatedSurface(renderer)).toBe(elevated);
+    acquire.mockImplementation((id) =>
+      id === 'test.ground' ? Promise.reject(new Error('missing')) : Promise.resolve(new Texture()),
+    );
+    renderer.setMapData(data);
+    for (let i = 0; i < 30; i++) await Promise.resolve();
+    expect(renderer.getDiagnostics().elevationRendering).toMatchObject({
+      active: true,
+      error: 'Elevated terrain ground texture unavailable',
+      surface: null,
+    });
+    expect(terrainPaintChildren(renderer)).toHaveLength(0);
+    expect(destroyAttribute).toHaveBeenCalledTimes(1);
+    expect(destroyIndex).toHaveBeenCalledTimes(1);
+    expect(destroyProgram).toHaveBeenCalledTimes(1);
+    expect(elevated.getDiagnostics()).toMatchObject({
+      ownedMeshes: 0,
+      ownedBuffers: 0,
+      bufferBytes: 0,
+    });
+    expect(groundTexture.destroyed).toBe(false);
+    expect(layers.terrainBase.children.some((c) => c.label === 'terrain-ground-surface')).toBe(
+      true,
+    );
+    renderer.destroy();
+    acquire.mockRestore();
+  });
+  it('late terrain acquisition cannot attach after map swap or renderer destruction', async () => {
+    const waits: Array<(texture: Texture) => void> = [];
+    const acquire = vi
+      .spyOn(MapAssetLoader.prototype, 'acquire')
+      .mockImplementation(() => new Promise<Texture>((resolve) => waits.push(resolve)));
+    const renderer = await makeRenderer();
+    renderer.setMapData(staticDataWithTerrain());
+    const layers = renderer.getLayers()!;
+    renderer.setMapData(staticData());
+    waits.splice(0).forEach((resolve) => resolve(new Texture()));
+    for (let i = 0; i < 10; i++) await Promise.resolve();
+    expectBankOnlyGround(renderer);
+    renderer.setMapData(staticDataWithTerrain());
+    renderer.destroy();
+    waits.splice(0).forEach((resolve) => resolve(new Texture()));
+    for (let i = 0; i < 10; i++) await Promise.resolve();
+    expect(layers.terrainBase.children).toHaveLength(0);
+    acquire.mockRestore();
+  });
+
+  it('castle art binds only the current map generation, fails independently, and never attaches after destroy', async () => {
+    const waits: Array<{
+      id: string;
+      resolve: (texture: Texture) => void;
+      reject: (error: Error) => void;
+    }> = [];
+    const acquire = vi
+      .spyOn(MapAssetLoader.prototype, 'acquire')
+      .mockImplementation(
+        (id) => new Promise<Texture>((resolve, reject) => waits.push({ id, resolve, reject })),
+      );
+    const renderer = await makeRenderer();
+    try {
+      renderer.setMapData(staticData());
+      renderer.updateView(baseView());
+      renderer.setCameraPose({ x: 200, y: 100 }, 1.25);
+      const layers = renderer.getLayers()!;
+      const body = layers.actorBodies.children.find((c) => c.label === 'castle:castle.a')!;
+      renderer.setMapData(staticData());
+      renderer.updateView(baseView());
+      const oldCastle = waits.splice(0, 4);
+      expect(oldCastle).toHaveLength(4);
+      oldCastle.forEach((wait) => wait.resolve(new Texture()));
+      for (let i = 0; i < 10; i++) await Promise.resolve();
+      expect(body.children).toHaveLength(1); // stale generation did not attach
+      const current = waits.splice(0);
+      expect(current).toHaveLength(4);
+      current.forEach((wait) =>
+        wait.id.includes('plain')
+          ? wait.resolve(new Texture())
+          : wait.reject(new Error('unavailable')),
+      );
+      for (let i = 0; i < 10; i++) await Promise.resolve();
+      expect(body.children).toHaveLength(3); // fallback, contact shadow and raster; flag is foreground
+      expect(body.children[0]!.visible).toBe(false);
+      expect(body.children[1]).toBeInstanceOf(Graphics);
+      expect(body.children[2]).toBeInstanceOf(Sprite);
+      renderer.updateView({
+        ...baseView(),
+        castles: baseView().castles.map((castle) =>
+          castle.id === 'castle.b' ? { ...castle, tier: 'branch', terrainKind: 'plain' } : castle,
+        ),
+      });
+      const branchBody = layers.actorBodies.children.find((c) => c.label === 'castle:castle.b')!;
+      expect(branchBody.children).toHaveLength(3);
+      expect(branchBody.children[0]!.visible).toBe(false);
+      expect(branchBody.children[1]).toBeInstanceOf(Graphics);
+      expect(branchBody.children[2]).toBeInstanceOf(Sprite);
+      renderer.updateView({
+        ...baseView(),
+        castles: baseView().castles.map((castle) =>
+          castle.id === 'castle.b'
+            ? { ...castle, tier: 'branch', terrainKind: 'mountain' }
+            : castle,
+        ),
+      });
+      const missingBody = layers.actorBodies.children.find((c) => c.label === 'castle:castle.b')!;
+      expect(missingBody.children[0]!.visible).toBe(true);
+      expect(body.children[0]!.visible).toBe(false);
+      const children = [...body.children];
+      renderer.updateView({ ...baseView(), day: 2 });
+      expect(body.children).toEqual(children);
+      renderer.setMapData(staticData());
+      renderer.updateView(baseView());
+      const attach = vi.spyOn(body, 'addChild');
+      renderer.destroy();
+      waits.splice(0).forEach((wait) => wait.resolve(new Texture()));
+      for (let i = 0; i < 10; i++) await Promise.resolve();
+      expect(attach).not.toHaveBeenCalled();
+      const originalRaster = children.find((child) => child instanceof Sprite);
+      expect(originalRaster).toBeDefined();
+      expect(body.children).not.toContain(originalRaster); // original raster detached before app teardown
+    } finally {
+      renderer.destroy();
+      acquire.mockRestore();
+    }
+  });
+
+  it('army art admits four views only on the first army, shares daily updates, and falls back per failed direction', async () => {
+    const acquire = vi
+      .spyOn(MapAssetLoader.prototype, 'acquire')
+      .mockImplementation((id) =>
+        id.includes('infantry-west')
+          ? Promise.reject(new Error('missing west'))
+          : Promise.resolve(new Texture()),
+      );
+    const renderer = await makeRenderer();
+    renderer.setMapData(staticData());
+    renderer.updateView(baseView());
+    const armyCalls = () => acquire.mock.calls.filter(([id]) => id.startsWith('texture.army.'));
+    expect(armyCalls()).toHaveLength(0);
+    const view = baseView({
+      armies: [paintedArmy()],
+    });
+    renderer.updateView(view);
+    renderer.setCameraPose({ x: 200, y: 100 }, 1.25);
+    expect(armyCalls()).toHaveLength(4);
+    for (let i = 0; i < 12; i++) await Promise.resolve();
+    const group = renderer
+      .getLayers()!
+      .actorBodies.children.find((c) => c.label.startsWith('army:'))!;
+    expect(group.children).toHaveLength(2); // fallback infantry and painted soldiers; signals stay foreground
+    const sprite = group.children[1]!;
+    expect(sprite.visible).toBe(true);
+    renderer.updateView({ ...view, day: 2 });
+    expect(group.children[1]).toBe(sprite);
+    expect(armyCalls()).toHaveLength(4);
+    renderer.updateView(
+      baseView({
+        armies: [paintedArmy(true)],
+      }),
+    );
+    expect(sprite.visible).toBe(false); // west unavailable: vector remains
+    renderer.updateView(baseView());
+    expect(group.children).not.toContain(sprite);
+    renderer.updateView(view);
+    expect(armyCalls()).toHaveLength(4); // no per-day/per-army retry after failure
+    renderer.destroy();
+    acquire.mockRestore();
+  });
+
+  it('actual delayed army promises cannot paint a swapped map or attach after renderer destruction', async () => {
+    const waits: Array<{
+      id: string;
+      resolve: (texture: Texture) => void;
+      reject: (error: Error) => void;
+    }> = [];
+    const acquire = vi
+      .spyOn(MapAssetLoader.prototype, 'acquire')
+      .mockImplementation((id) =>
+        id.startsWith('texture.army.')
+          ? new Promise<Texture>((resolve, reject) => waits.push({ id, resolve, reject }))
+          : Promise.resolve(new Texture()),
+      );
+    const renderer = await makeRenderer();
+    renderer.setMapData(staticData());
+    const view = baseView({
+      armies: [paintedArmy()],
+    });
+    renderer.updateView(view);
+    renderer.setCameraPose({ x: 200, y: 100 }, 1.25);
+    const group = renderer
+      .getLayers()!
+      .actorBodies.children.find((c) => c.label.startsWith('army:'))!;
+    const old = waits.splice(0);
+    expect(old).toHaveLength(4);
+    renderer.setMapData(staticData());
+    renderer.updateView(view);
+    old.forEach((wait) => wait.resolve(new Texture()));
+    for (let i = 0; i < 12; i++) await Promise.resolve();
+    expect(group.children).toHaveLength(1);
+    waits
+      .splice(0)
+      .forEach((wait) =>
+        wait.id.includes('infantry-east')
+          ? wait.resolve(new Texture())
+          : wait.reject(new Error('unavailable')),
+      );
+    for (let i = 0; i < 12; i++) await Promise.resolve();
+    expect(group.children).toHaveLength(2);
+    const sprite = group.children[1]!;
+    renderer.setMapData(staticData());
+    renderer.updateView(view);
+    const attach = vi.spyOn(group, 'addChild');
+    renderer.destroy();
+    waits.splice(0).forEach((wait) => wait.resolve(new Texture()));
+    for (let i = 0; i < 12; i++) await Promise.resolve();
+    expect(attach).not.toHaveBeenCalled();
+    expect(group.children).not.toContain(sprite);
+    acquire.mockRestore();
+  });
+
+  it('deduplicates per-ID mountain art and retains axis fallback admission even when all patches override it', async () => {
+    const acquire = vi.spyOn(MapAssetLoader.prototype, 'acquire').mockResolvedValue(new Texture());
+    const renderer = await makeRenderer();
+    try {
+      const data = staticDataWithTerrain();
+      if (!data.terrain) throw new Error('Missing terrain fixture');
+      data.terrain.mountainArtAssetId = 'test.base';
+      data.terrain.mountainArtVariants = {
+        horizontal: 'test.horizontal',
+        vertical: 'test.vertical',
+      };
+      data.terrain.mountainArtById = { first: 'test.override', second: 'test.override' };
+      data.terrain.mountains = ['first', 'second'].map((id) => ({
+        id,
+        tier: 1,
+        mass: [
+          { x: 100, y: 100 },
+          { x: 160, y: 100 },
+          { x: 160, y: 200 },
+          { x: 100, y: 200 },
+        ],
+        ridges: [
+          [
+            { x: 130, y: 110 },
+            { x: 130, y: 190 },
+          ],
+        ],
+      }));
+      renderer.setMapData(data);
+      for (let i = 0; i < 30; i++) await Promise.resolve();
+      for (const id of ['test.override', 'test.vertical', 'test.base'])
+        expect(acquire.mock.calls.filter(([requested]) => requested === id)).toHaveLength(1);
+      expect(acquire.mock.calls.some(([id]) => id === 'test.horizontal')).toBe(false);
+      const children = terrainPaintChildren(renderer);
+      renderer.updateView(baseView());
+      renderer.updateView(baseView({ day: 2 }));
+      expect(terrainPaintChildren(renderer)).toEqual(children);
+      expect(acquire.mock.calls.filter(([id]) => id === 'test.override')).toHaveLength(1);
+    } finally {
+      renderer.destroy();
+      acquire.mockRestore();
+    }
+  });
+
+  it.each(['swap', 'dispose'] as const)(
+    'cannot attach a delayed per-ID mountain override after %s',
+    async (mode) => {
+      let resolveVariant: ((texture: Texture) => void) | undefined;
+      const acquire = vi.spyOn(MapAssetLoader.prototype, 'acquire').mockImplementation((id) =>
+        id === 'test.override'
+          ? new Promise<Texture>((resolve) => {
+              resolveVariant = resolve;
+            })
+          : Promise.resolve(new Texture()),
+      );
+      const renderer = await makeRenderer();
+      try {
+        const data = staticDataWithTerrain();
+        if (!data.terrain) throw new Error('Missing terrain fixture');
+        data.terrain.mountainArtAssetId = 'test.base';
+        data.terrain.mountainArtVariants = {
+          horizontal: 'test.horizontal',
+          vertical: 'test.vertical',
+        };
+        data.terrain.mountainArtById = { first: 'test.override' };
+        data.terrain.mountains = [
+          {
+            id: 'first',
+            tier: 1,
+            mass: [
+              { x: 100, y: 100 },
+              { x: 160, y: 100 },
+              { x: 160, y: 200 },
+              { x: 100, y: 200 },
+            ],
+            ridges: [
+              [
+                { x: 130, y: 110 },
+                { x: 130, y: 190 },
+              ],
+            ],
+          },
+        ];
+        renderer.setMapData(data);
+        const layers = renderer.getLayers()!;
+        if (mode === 'swap') renderer.setMapData(staticData());
+        else renderer.destroy();
+        const attach = vi.spyOn(layers.terrainBase, 'addChild');
+        if (!resolveVariant) throw new Error('Per-ID art was not acquired');
+        resolveVariant(new Texture());
+        for (let i = 0; i < 30; i++) await Promise.resolve();
+        expect(attach).not.toHaveBeenCalled();
+        if (mode === 'swap') expectBankOnlyGround(renderer);
+      } finally {
+        renderer.destroy();
+        acquire.mockRestore();
+      }
+    },
+  );
+
+  it('acquires optional field input once without a duplicate unprojected layer, retaining shared mesh identity and ownership', async () => {
+    const fields = new Texture();
+    const grass = new Texture();
+    const destroyFields = vi.spyOn(fields, 'destroy');
+    const acquire = vi
+      .spyOn(MapAssetLoader.prototype, 'acquire')
+      .mockImplementation((id) =>
+        Promise.resolve(
+          id === 'test.fields' ? fields : id === 'test.grass' ? grass : new Texture(),
+        ),
+      );
+    const renderer = await makeRenderer();
+    try {
+      const data = staticDataWithTerrain();
+      if (!data.terrain) throw new Error('Missing fixture terrain');
+      data.terrain.groundArtAssetId = 'test.grass';
+      data.terrain.fieldMaterialAssetId = 'test.fields';
+      renderer.setMapData(data);
+      for (let i = 0; i < 30; i++) await Promise.resolve();
+      expect(acquire.mock.calls.filter(([id]) => id === 'test.fields')).toHaveLength(1);
+      const children = terrainPaintChildren(renderer);
+      const elevated = sharedElevatedSurface(renderer);
+      expect(children).toEqual([elevated.mesh]);
+      expect(elevated.mesh.texture).toBe(grass);
+      expect((elevated.shader.resources as unknown as { uTexture: unknown }).uTexture).toBe(
+        grass.source,
+      );
+      expect(renderer.getDiagnostics().elevationRendering.error).toBeNull();
+      const destroyGeometry = vi.spyOn(elevated.geometry, 'destroy');
+      const destroyAttribute = vi.spyOn(elevated.geometry.getBuffer('aPosition'), 'destroy');
+      const destroyIndex = vi.spyOn(elevated.geometry.indexBuffer, 'destroy');
+      const destroyShader = vi.spyOn(elevated.shader, 'destroy');
+      renderer.updateView(baseView({ day: 2 }));
+      expect(terrainPaintChildren(renderer)).toEqual(children);
+      expect(acquire.mock.calls.filter(([id]) => id === 'test.fields')).toHaveLength(1);
+      renderer.setMapData(staticData());
+      expectBankOnlyGround(renderer);
+      expect(destroyGeometry).toHaveBeenCalledTimes(1);
+      expect(destroyGeometry).toHaveBeenCalledWith(false);
+      expect(destroyAttribute).toHaveBeenCalledTimes(1);
+      expect(destroyIndex).toHaveBeenCalledTimes(1);
+      expect(destroyShader).toHaveBeenCalledTimes(1);
+      expect(destroyShader).toHaveBeenCalledWith(true);
+      expect(elevated.getDiagnostics()).toMatchObject({
+        ownedMeshes: 0,
+        ownedBuffers: 0,
+        bufferBytes: 0,
+      });
+      expect(destroyFields).not.toHaveBeenCalled();
+      expect(grass.destroyed).toBe(false);
+    } finally {
+      renderer.destroy();
+      acquire.mockRestore();
+    }
+  });
+
+  it('optional field rejection preserves the independently loaded shared ground mesh and projected territory', async () => {
+    const grass = new Texture();
+    const acquire = vi
+      .spyOn(MapAssetLoader.prototype, 'acquire')
+      .mockImplementation((id) =>
+        id === 'test.fields'
+          ? Promise.reject(new Error('Unavailable fields'))
+          : Promise.resolve(id === 'test.grass' ? grass : new Texture()),
+      );
+    const renderer = await makeRenderer();
+    try {
+      const data = staticDataWithTerrain();
+      if (!data.terrain) throw new Error('Missing fixture terrain');
+      data.terrain.groundArtAssetId = 'test.grass';
+      data.terrain.fieldMaterialAssetId = 'test.fields';
+      renderer.setMapData(data);
+      for (let i = 0; i < 30; i++) await Promise.resolve();
+      const children = terrainPaintChildren(renderer);
+      const elevated = sharedElevatedSurface(renderer);
+      expect(children).toEqual([elevated.mesh]);
+      expect(elevated.mesh.texture).toBe(grass);
+      expect(renderer.getDiagnostics().elevationRendering).toMatchObject({
+        error: null,
+        territory: { ownedMeshes: 1, ownedGeometries: 1, ownedBuffers: 3, ownedTextures: 0 },
+      });
+      expect(children.every((child) => child.label !== 'terrain-field-material')).toBe(true);
+      renderer.updateView(baseView({ day: 2 }));
+      expect(sharedElevatedSurface(renderer)).toBe(elevated);
+      expect(grass.destroyed).toBe(false);
+    } finally {
+      renderer.destroy();
+      acquire.mockRestore();
+    }
+  });
+
+  it('actual delayed field Promise cannot attach after map replacement or renderer destruction', async () => {
+    const waits: Array<(texture: Texture) => void> = [];
+    const acquire = vi
+      .spyOn(MapAssetLoader.prototype, 'acquire')
+      .mockImplementation((id) =>
+        id === 'test.fields'
+          ? new Promise<Texture>((resolve) => waits.push(resolve))
+          : Promise.resolve(new Texture()),
+      );
+    const data = staticDataWithTerrain();
+    if (!data.terrain) throw new Error('Missing fixture terrain');
+    data.terrain.fieldMaterialAssetId = 'test.fields';
+    const renderer = await makeRenderer();
+    try {
+      renderer.setMapData(data);
+      const layers = renderer.getLayers()!;
+      renderer.setMapData(staticData());
+      const attach = vi.spyOn(layers.terrainBase, 'addChild');
+      expect(waits).toHaveLength(1);
+      waits.shift()!(new Texture());
+      for (let i = 0; i < 30; i++) await Promise.resolve();
+      expect(attach).not.toHaveBeenCalled();
+      expectBankOnlyGround(renderer);
+      renderer.setMapData(data);
+      expect(waits).toHaveLength(1);
+      renderer.destroy();
+      attach.mockClear();
+      waits.shift()!(new Texture());
+      for (let i = 0; i < 30; i++) await Promise.resolve();
+      expect(attach).not.toHaveBeenCalled();
+    } finally {
+      renderer.destroy();
+      acquire.mockRestore();
+    }
+  });
+
+  it('omits unsupported field Sprite masks only for an explicit Canvas renderer type', async () => {
+    const acquire = vi.spyOn(MapAssetLoader.prototype, 'acquire').mockResolvedValue(new Texture());
+    const renderer = await makeRenderer();
+    try {
+      const app = renderer.getApp();
+      if (!app) throw new Error('Missing renderer');
+      Object.assign(app.renderer, { type: RendererType.CANVAS });
+      const data = staticDataWithTerrain();
+      if (!data.terrain) throw new Error('Missing fixture terrain');
+      data.terrain.fieldMaterialAssetId = 'test.fields';
+      renderer.setMapData(data);
+      for (let i = 0; i < 30; i++) await Promise.resolve();
+      expect(acquire.mock.calls.some(([id]) => id === 'test.fields')).toBe(false);
+      expect(terrainPaintChildren(renderer)).toHaveLength(2);
+    } finally {
+      renderer.destroy();
+      acquire.mockRestore();
+    }
+  });
+
+  it.each(['swap', 'dispose'] as const)(
+    'yields before new forest masks and rejects %s during that yield',
+    async (mode) => {
+      const acquire = vi
+        .spyOn(MapAssetLoader.prototype, 'acquire')
+        .mockResolvedValue(new Texture());
+      const renderer = await makeRenderer();
+      const realSet = globalThis.setTimeout;
+      const yields: Array<() => void> = [];
+      const timer = vi
+        .spyOn(globalThis, 'setTimeout')
+        .mockImplementation((callback, delay, ...args) => {
+          if (delay === 0 && typeof callback === 'function') {
+            yields.push(() => callback(...args));
+            return 0 as unknown as ReturnType<typeof setTimeout>;
+          }
+          return realSet(callback, delay, ...args);
+        });
+      try {
+        const data = staticDataWithTerrain();
+        if (!data.terrain) throw new Error('Missing terrain');
+        data.terrain.mountainMaterialAssetId = 'test.woodland';
+        data.terrain.forestArtAssetId = 'test.canopy';
+        data.terrain.forests = [
+          {
+            id: 'forest',
+            polygon: [
+              { x: 100, y: 100 },
+              { x: 200, y: 100 },
+              { x: 100, y: 200 },
+            ],
+          },
+        ];
+        renderer.setMapData(data);
+        for (let i = 0; i < 30; i++) await Promise.resolve();
+        expect(yields).toHaveLength(1);
+        const layers = renderer.getLayers()!;
+        if (mode === 'swap') renderer.setMapData(staticData());
+        else renderer.destroy();
+        const attach = vi.spyOn(layers.terrainBase, 'addChild');
+        yields.shift()!();
+        for (let i = 0; i < 30; i++) await Promise.resolve();
+        expect(attach).not.toHaveBeenCalled();
+        if (mode === 'swap') expectBankOnlyGround(renderer);
+      } finally {
+        timer.mockRestore();
+        renderer.destroy();
+        acquire.mockRestore();
+      }
+    },
+  );
+
+  it.each(['missing', 'canvas', 'empty'] as const)(
+    'forest %s retains canopy without unsupported material masks',
+    async (mode) => {
+      const acquire = vi
+        .spyOn(MapAssetLoader.prototype, 'acquire')
+        .mockImplementation((id) =>
+          id === 'test.woodland' && mode === 'missing'
+            ? Promise.reject(new Error('missing optional woodland'))
+            : Promise.resolve(new Texture()),
+        );
+      const renderer = await makeRenderer();
+      const timer = vi.spyOn(globalThis, 'setTimeout');
+      try {
+        if (mode === 'canvas') {
+          const app = renderer.getApp();
+          if (!app) throw new Error('Missing renderer');
+          Object.assign(app.renderer, { type: RendererType.CANVAS });
+        }
+        const data = staticDataWithTerrain();
+        if (!data.terrain) throw new Error('Missing terrain');
+        data.terrain.mountainMaterialAssetId = 'test.woodland';
+        data.terrain.forestArtAssetId = 'test.canopy';
+        data.terrain.forests = [
+          {
+            id: 'forest',
+            polygon: [
+              { x: 100, y: 100 },
+              { x: 200, y: 100 },
+              { x: 100, y: 200 },
+            ],
+          },
+        ];
+        if (mode === 'empty') data.terrain.forests = [];
+        renderer.setMapData(data);
+        for (let i = 0; i < 30; i++) await Promise.resolve();
+        const raster = renderer.getLayers()!.terrainBase.children.at(-1)!;
+        expect(raster.children).toHaveLength(mode === 'empty' ? 0 : 2);
+        expect(raster.children.every((child) => child.label !== 'forest-woodland-materials')).toBe(
+          true,
+        );
+        if (mode !== 'empty') expect(raster.children[0]).toBeInstanceOf(Sprite);
+        expect(timer.mock.calls.some(([, delay]) => delay === 0)).toBe(false);
+      } finally {
+        timer.mockRestore();
+        renderer.destroy();
+        acquire.mockRestore();
+      }
+    },
+  );
+
+  it('late shared woodland cannot attach forest masks after terrain swap or disposal', async () => {
+    const waits: Array<(texture: Texture) => void> = [];
+    const acquire = vi
+      .spyOn(MapAssetLoader.prototype, 'acquire')
+      .mockImplementation((id) =>
+        id === 'test.woodland'
+          ? new Promise<Texture>((resolve) => waits.push(resolve))
+          : Promise.resolve(new Texture()),
+      );
+    const renderer = await makeRenderer();
+    const data = staticDataWithTerrain();
+    if (!data.terrain) throw new Error('Missing terrain');
+    data.terrain.mountainMaterialAssetId = 'test.woodland';
+    data.terrain.forestArtAssetId = 'test.canopy';
+    data.terrain.forests = [
+      {
+        id: 'forest',
+        polygon: [
+          { x: 100, y: 100 },
+          { x: 200, y: 100 },
+          { x: 100, y: 200 },
+        ],
+      },
+    ];
+    try {
+      renderer.setMapData(data);
+      const layers = renderer.getLayers()!;
+      renderer.setMapData(staticData());
+      const attach = vi.spyOn(layers.terrainBase, 'addChild');
+      waits.shift()!(new Texture());
+      for (let i = 0; i < 30; i++) await Promise.resolve();
+      expect(attach).not.toHaveBeenCalled();
+      renderer.setMapData(data);
+      renderer.destroy();
+      attach.mockClear();
+      waits.shift()!(new Texture());
+      for (let i = 0; i < 30; i++) await Promise.resolve();
+      expect(attach).not.toHaveBeenCalled();
+    } finally {
+      renderer.destroy();
+      acquire.mockRestore();
+    }
+  });
+
+  it('shares woodland admission with forest coverage below canopy without daily rebuilds', async () => {
+    const woodland = new Texture();
+    const acquire = vi
+      .spyOn(MapAssetLoader.prototype, 'acquire')
+      .mockImplementation((id) =>
+        Promise.resolve(id === 'test.woodland' ? woodland : new Texture()),
+      );
+    const renderer = await makeRenderer();
+    try {
+      const data = staticDataWithTerrain();
+      if (!data.terrain) throw new Error('Missing terrain');
+      data.terrain.mountainMaterialAssetId = 'test.woodland';
+      data.terrain.forestArtAssetId = 'test.canopy';
+      data.terrain.forests = [
+        {
+          id: 'forest',
+          polygon: [
+            { x: 100, y: 100 },
+            { x: 200, y: 100 },
+            { x: 100, y: 200 },
+          ],
+        },
+      ];
+      renderer.setMapData(data);
+      for (let i = 0; i < 30; i++) await Promise.resolve();
+      await new Promise<void>((resolve) => setTimeout(resolve, 0));
+      const raster = renderer.getLayers()!.terrainBase.children.at(-1)!;
+      const forestMaterial = terrainPaintChildren(renderer).find(
+        (child) => child.label === 'forest-woodland-materials',
+      );
+      expect(forestMaterial).toBeDefined();
+      expect(acquire.mock.calls.filter(([id]) => id === 'test.woodland')).toHaveLength(1);
+      const materialGroup = forestMaterial!.children[0]!.children[0]!;
+      const tile = materialGroup.children[0] as Sprite;
+      const softMask = materialGroup.children[1] as Sprite;
+      expect(tile.texture).toBe(woodland);
+      const maskDestroy = vi.spyOn(softMask.texture, 'destroy');
+      const sharedDestroy = vi.spyOn(woodland, 'destroy');
+      renderer.updateView(baseView({ day: 2 }));
+      expect(renderer.getLayers()!.terrainBase.children.at(-1)).toBe(raster);
+      renderer.setMapData(staticData());
+      expect(maskDestroy).toHaveBeenCalledTimes(1);
+      expect(maskDestroy).toHaveBeenCalledWith(true);
+      renderer.destroy();
+      expect(maskDestroy).toHaveBeenCalledTimes(1);
+      expect(sharedDestroy).not.toHaveBeenCalled();
+    } finally {
+      renderer.destroy();
+      acquire.mockRestore();
+    }
+  });
+
+  it('acquires woodland material once and keeps it below peak art without day-only rebuilds', async () => {
+    const material = new Texture();
+    const peak = new Texture();
+    const destroyMaterial = vi.spyOn(material, 'destroy');
+    const destroyPeak = vi.spyOn(peak, 'destroy');
+    const acquire = vi
+      .spyOn(MapAssetLoader.prototype, 'acquire')
+      .mockImplementation((id) =>
+        Promise.resolve(
+          id === 'test.woodland' ? material : id === 'test.peak' ? peak : new Texture(),
+        ),
+      );
+    const renderer = await makeRenderer();
+    try {
+      const data = staticDataWithTerrain();
+      if (!data.terrain) throw new Error('Missing fixture terrain');
+      data.terrain.mountainArtAssetId = 'test.peak';
+      data.terrain.mountainMaterialAssetId = 'test.woodland';
+      data.terrain.mountains = [
+        {
+          id: 'woodland',
+          tier: 1,
+          mass: [
+            { x: 100, y: 100 },
+            { x: 200, y: 100 },
+            { x: 200, y: 200 },
+            { x: 100, y: 200 },
+          ],
+          ridges: [
+            [
+              { x: 120, y: 150 },
+              { x: 180, y: 150 },
+            ],
+          ],
+        },
+      ];
+      renderer.setMapData(data);
+      for (let i = 0; i < 30; i++) await Promise.resolve();
+      expect(acquire.mock.calls.filter(([id]) => id === 'test.woodland')).toHaveLength(1);
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      const raster = renderer.getLayers()!.terrainBase.children.at(-1)!;
+      // Material now belongs to the coast-clipped ground partition; peak remains outside it.
+      expect(raster.children).toHaveLength(2);
+      const materialLayer = terrainPaintChildren(renderer).find(
+        (child) => child.label === 'mountain-woodland-materials',
+      );
+      expect(materialLayer).toBeDefined();
+      const materialGroup = materialLayer!.children[0]!.children[0]!;
+      const tile = materialGroup.children[0]!;
+      const materialMask = materialGroup.children[1]!;
+      const peakSprite = raster.children[0]!.children[0]!;
+      expect(tile).toBeInstanceOf(Sprite);
+      expect(peakSprite).toBeInstanceOf(Sprite);
+      expect(materialMask).toBeInstanceOf(Sprite);
+      expect((tile as Sprite).texture).toBe(material);
+      expect((peakSprite as Sprite).texture).toBe(peak);
+      const destroyMask = vi.spyOn((materialMask as Sprite).texture, 'destroy');
+      const children = [...raster.children];
+      renderer.updateView(baseView({ day: 2 }));
+      expect(raster.children).toEqual(children);
+      expect(acquire.mock.calls.filter(([id]) => id === 'test.woodland')).toHaveLength(1);
+      renderer.destroy();
+      expect(destroyMaterial).not.toHaveBeenCalled(); // caller-owned shared artwork survives
+      expect(destroyPeak).not.toHaveBeenCalled();
+      expect(destroyMask).toHaveBeenCalledWith(true);
+    } finally {
+      renderer.destroy();
+      acquire.mockRestore();
+    }
+  });
+
+  it.each(['material', 'peak'])(
+    'woodland %s failure retains the other assets and original peak fallback contract',
+    async (failed) => {
+      const acquire = vi
+        .spyOn(MapAssetLoader.prototype, 'acquire')
+        .mockImplementation((id) =>
+          id === `test.${failed}`
+            ? Promise.reject(new Error('Unavailable'))
+            : Promise.resolve(new Texture()),
+        );
+      const renderer = await makeRenderer();
+      try {
+        const data = staticDataWithTerrain();
+        if (!data.terrain) throw new Error('Missing fixture terrain');
+        data.terrain.mountainArtAssetId = 'test.peak';
+        data.terrain.mountainMaterialAssetId = 'test.material';
+        data.terrain.mountains = [
+          {
+            id: 'woodland',
+            tier: 1,
+            mass: [
+              { x: 100, y: 100 },
+              { x: 200, y: 100 },
+              { x: 200, y: 200 },
+            ],
+            ridges: [
+              [
+                { x: 110, y: 110 },
+                { x: 180, y: 160 },
+              ],
+            ],
+          },
+        ];
+        renderer.setMapData(data);
+        for (let i = 0; i < 30; i++) await Promise.resolve();
+        const children = terrainPaintChildren(renderer);
+        expect(children).toHaveLength(failed === 'material' ? 4 : 3);
+        if (failed === 'material') expect(children.at(-1)!.children).toHaveLength(2);
+        else expect(children.at(-1)!.children).toHaveLength(1); // procedural Graphics, no raster
+      } finally {
+        renderer.destroy();
+        acquire.mockRestore();
+      }
+    },
+  );
+
+  it('actual late woodland promises cannot attach to replaced or destroyed map generations', async () => {
+    const waits: Array<(texture: Texture) => void> = [];
+    const acquire = vi
+      .spyOn(MapAssetLoader.prototype, 'acquire')
+      .mockImplementation((id) =>
+        id === 'test.material'
+          ? new Promise<Texture>((resolve) => waits.push(resolve))
+          : Promise.resolve(new Texture()),
+      );
+    const renderer = await makeRenderer();
+    const data = staticDataWithTerrain();
+    if (!data.terrain) throw new Error('Missing fixture terrain');
+    data.terrain.mountainArtAssetId = 'test.peak';
+    data.terrain.mountainMaterialAssetId = 'test.material';
+    data.terrain.mountains = [
+      {
+        id: 'woodland',
+        tier: 1,
+        mass: [
+          { x: 100, y: 100 },
+          { x: 200, y: 100 },
+          { x: 200, y: 200 },
+        ],
+        ridges: [
+          [
+            { x: 110, y: 110 },
+            { x: 180, y: 160 },
+          ],
+        ],
+      },
+    ];
+    try {
+      renderer.setMapData(data);
+      const layers = renderer.getLayers()!;
+      renderer.setMapData(staticData()); // real map replacement removes the old terrain
+      const attach = vi.spyOn(layers.terrainBase, 'addChild');
+      waits.shift()!(new Texture());
+      for (let i = 0; i < 30; i++) await Promise.resolve();
+      expect(attach).not.toHaveBeenCalled();
+      expectBankOnlyGround(renderer);
+      renderer.setMapData(data);
+      renderer.destroy();
+      attach.mockClear();
+      waits.shift()!(new Texture());
+      for (let i = 0; i < 30; i++) await Promise.resolve();
+      expect(attach).not.toHaveBeenCalled();
+    } finally {
+      renderer.destroy();
+      acquire.mockRestore();
+    }
+  });
+
+  it('optional raster failure preserves the static vector and both independent ground assets', async () => {
+    const acquire = vi
+      .spyOn(MapAssetLoader.prototype, 'acquire')
+      .mockImplementation((id) =>
+        id === 'texture.terrain.missing-art'
+          ? Promise.reject(new Error('Controlled absent raster'))
+          : Promise.resolve(new Texture()),
+      );
+    const data = staticDataWithTerrain();
+    if (!data.terrain) throw new Error('Missing fixture terrain');
+    data.terrain.mountainArtAssetId = 'texture.terrain.missing-art';
+    data.terrain.mountains = [
+      {
+        id: 'test',
+        tier: 1,
+        mass: [
+          { x: 100, y: 100 },
+          { x: 200, y: 100 },
+          { x: 200, y: 200 },
+        ],
+        ridges: [],
+      },
+    ];
+    const renderer = await makeRenderer();
+    renderer.setMapData(data);
+    for (let i = 0; i < 30; i++) await Promise.resolve();
+    expect(terrainPaintChildren(renderer)).toHaveLength(3);
+    renderer.destroy();
+    acquire.mockRestore();
+  });
+
+  it.each(['mountain', 'forest'])(
+    'a failed %s artwork does not suppress the other raster',
+    async (failed) => {
+      const acquire = vi.spyOn(MapAssetLoader.prototype, 'acquire').mockImplementation((id) => {
+        if (id === `test.${failed}`) return Promise.reject(new Error('Artwork unavailable'));
+        return Promise.resolve(new Texture());
+      });
+      const data = staticDataWithTerrain();
+      if (!data.terrain) throw new Error('Missing fixture terrain');
+      data.terrain.mountainArtAssetId = 'test.mountain';
+      data.terrain.forestArtAssetId = 'test.forest';
+      data.terrain.mountains = [
+        {
+          id: 'mountain',
+          tier: 1,
+          mass: [
+            { x: 100, y: 100 },
+            { x: 200, y: 100 },
+            { x: 200, y: 200 },
+          ],
+          ridges: [],
+        },
+      ];
+      data.terrain.forests = [
+        {
+          id: 'forest',
+          polygon: [
+            { x: 100, y: 100 },
+            { x: 200, y: 100 },
+            { x: 200, y: 200 },
+          ],
+        },
+      ];
+      const renderer = await makeRenderer();
+      renderer.setMapData(data);
+      for (let i = 0; i < 30; i++) await Promise.resolve();
+      const children = terrainPaintChildren(renderer);
+      expect(children).toHaveLength(4);
+      expect(children.at(-1)?.children).toHaveLength(2);
+      renderer.updateView(baseView({ day: 2 }));
+      expect(terrainPaintChildren(renderer)).toEqual(children);
+      renderer.destroy();
+      acquire.mockRestore();
+    },
+  );
   /** territory 為最後建立之 BufferImageSource（每次 buildTerritoryLayer 建新 source）。 */
   const currentSource = (): { updateCalls: number; destroyed: boolean } => {
     const src = hoisted.bufferSources.at(-1);
@@ -1127,7 +3202,8 @@ describe('territory sprite dirty（M6-V5 §8.2；VD4 首幀著色＋owner 翻轉
     const layers = r.getLayers()!;
     expect(layers.territory.children.length).toBe(1); // territory 與 terrain pack 無關
     expect(layers.waterFeatures.children.length).toBe(0); // 無 river/lake → 無 container
-    expect(layers.terrainBase.children.length).toBe(0); // 無 terrain → relief/forest 不載入
+    expect(terrainPaintChildren(r)).toHaveLength(0); // Coast bank remains; no terrain paint is loaded.
+    expect(r.getDiagnostics().resources.ownedCoastTextures).toBe(1);
 
     r.destroy();
   });
@@ -1142,7 +3218,7 @@ describe('地形/水系正向存在（M6-V5 §8.2，M2 處置）——堵靜默�
     await new Promise((res) => setTimeout(res, 0));
 
     const layers = r.getLayers()!;
-    expect(layers.terrainBase.children.length).toBe(2); // relief + forest 皆掛上
+    expect(terrainPaintChildren(r).length).toBe(2); // relief + forest remain inside display clip
     expect(layers.waterFeatures.children.length).toBe(1); // waterFeatures container
     expect(layers.waterFeatures.children[0]!.children.length).toBe(4); // lake + river×3 class Graphics
 
@@ -1186,7 +3262,7 @@ describe('地形載入失敗與 teardown（M6-V5 §5.1 VD6 優雅退回／§8.2 
     });
   }
 
-  it('relief acquire reject：優雅退回平面（terrainBase 空）、不丟例外、idle gate 於 finally 重置', async () => {
+  it('relief acquire reject：仍保留獨立 forest，不丟例外、idle gate 於 finally 重置', async () => {
     const r = await makeRenderer();
     r.setMapData(terrainWithBadRelief());
     r.updateView(baseView());
@@ -1195,7 +3271,7 @@ describe('地形載入失敗與 teardown（M6-V5 §5.1 VD6 優雅退回／§8.2 
 
     const layers = r.getLayers()!;
     // (b) 退回平面：relief/forest 皆未掛（seaBackground fallback 生效）；renderer 仍可用。
-    expect(layers.terrainBase.children.length).toBe(0);
+    expect(layers.terrainBase.children.length).toBe(1);
     expect(layers.territory.children.length).toBe(1); // territory 與 terrain 無關，照常建
 
     // (c) idle gate 已於 finally 重置（terrainTexturesPending=false）：註冊 waiter＋推進一幀應 resolve；
@@ -1218,11 +3294,12 @@ describe('地形載入失敗與 teardown（M6-V5 §5.1 VD6 優雅退回／§8.2 
     await new Promise((res) => setTimeout(res, 0)); // relief/forest attach
 
     const layers = r.getLayers()!;
-    expect(layers.terrainBase.children.length).toBe(2); // 前置：relief+forest 已掛
+    expect(terrainPaintChildren(r).length).toBe(2); // 前置：relief+forest 已掛
     expect(layers.waterFeatures.children.length).toBe(1);
     expect(layers.territory.children.length).toBe(1);
 
-    const territorySource = hoisted.bufferSources.at(-1)!; // territory 自持 BufferImageSource（唯一）
+    // Identify the actual territory Sprite's owner, not the last buffer allocation (lakes also own buffers).
+    const territorySource = (layers.territory.children[0] as Sprite).texture.source;
     expect(territorySource.destroyed).toBe(false);
     const destroyedTexturesBefore = hoisted.textures.filter((t) => t.destroyed).length;
 
@@ -1290,7 +3367,7 @@ function arterialGraph(): ReturnType<typeof buildMapGraph> {
   return buildMapGraph(castles, districts, roads, roadDisplay);
 }
 
-/** RoadsLayer container 之 5 具名 tier（addChild 序：sea/path/bridge/minor/arterial）。 */
+/** RoadsLayer container 之 5 具名 tier（addChild 序：sea/path/minor/arterial/bridge）。 */
 function roadsTiers(r: MapRenderer): {
   container: MockGfx;
   sea: MockGfx;
@@ -1305,9 +3382,9 @@ function roadsTiers(r: MapRenderer): {
     container,
     sea: c[0]!,
     path: c[1]!,
-    bridge: c[2]!,
-    minor: c[3]!,
-    arterial: c[4]!,
+    bridge: c[4]!,
+    minor: c[2]!,
+    arterial: c[3]!,
   };
 }
 
@@ -1371,7 +3448,7 @@ describe('roads／道路名／橋樑／選取高亮（M6-V6，設計 §8.2）', 
     r.destroy();
   });
 
-  it('道路名標籤：fill=ink900（V6D5／eng-F2 HARD DoD）＋near-only LOD（04 §3.10.3）', async () => {
+  it('道路名標籤：深墨色與薄暖描邊的次層級＋near-only LOD（04 §3.10.3）', async () => {
     const r = await makeRenderer();
     r.setMapData(staticData({ graph: arterialGraph() }));
     r.updateView(baseView({ day: 1 }));
@@ -1379,12 +3456,19 @@ describe('roads／道路名／橋樑／選取高亮（M6-V6，設計 §8.2）', 
     // M6-V9（§2.1）：labels.children 為 per-label container；顯隱切於 container、字樣式在 children[0]。
     const labels = r.getLayers()!.labels.children as unknown as {
       visible: boolean;
-      children: { text?: string; style?: { fill?: number } }[];
+      children: {
+        text?: string;
+        style?: { fill?: number; stroke?: { color: number; width: number } };
+      }[];
     }[];
     const roadLabel = labels.find((c) => c.children[0]?.text === '東海道');
     expect(roadLabel).toBeDefined();
-    // V6D5／eng-F2（HARD）：道路名以 ink900 填色（warm base 上白字不可讀＝DoD 失敗）。
+    // Redesign preserves dark ink, not white glyph fill, and narrows the warm halo.
     expect(roadLabel!.children[0]!.style?.fill).toBe(TOKENS_NUM.ink900);
+    expect(roadLabel!.children[0]!.style?.stroke).toMatchObject({
+      color: TOKENS_NUM.washi300,
+      width: 1.5,
+    });
 
     // near-only（04 §3.10.3）：near 顯、mid／far 隱（label 位於 (150,110) 附近，三 pose 皆在視域內，
     // 差異純由 LOD detail 閘控，非 culling）。setCameraPose 以 lodStageForScale 決定論設段。
@@ -1457,10 +3541,733 @@ function nameplateStaticData(): MapStaticData {
   });
 }
 
+it('caches emitted town world extrema once and retains exact projected goals across lifecycle changes', async () => {
+  const r = await makeRenderer();
+  const h = r as unknown as {
+    settlements: {
+      container: Container;
+      getGeometry(): {
+        houses: { roofs: { x: number; y: number }[][]; walls: { x: number; y: number }[][] }[];
+      };
+    } | null;
+    settlementModelBounds: readonly { minX: number; minY: number; maxX: number; maxY: number }[];
+    castleRibbonInputs(): {
+      townContent: { x: number; y: number; width: number; height: number }[];
+    };
+  };
+  try {
+    r.setMapData(nameplateStaticData());
+    r.setCameraPose({ x: 200, y: 100 }, 1.25);
+    const owner = h.settlements!;
+    const houses = owner.getGeometry().houses;
+    expect(houses.length).toBeGreaterThan(0);
+    const extrema = houses.map((house) => {
+      const points = [...house.roofs.flat(), ...house.walls.flat()];
+      return {
+        minX: Math.min(...points.map((p) => p.x)),
+        minY: Math.min(...points.map((p) => p.y)),
+        maxX: Math.max(...points.map((p) => p.x)),
+        maxY: Math.max(...points.map((p) => p.y)),
+      };
+    });
+    expect(h.settlementModelBounds).toEqual(extrema);
+    expect(Object.isFrozen(h.settlementModelBounds)).toBe(true);
+    expect(h.settlementModelBounds.every(Object.isFrozen)).toBe(true);
+    const read = vi.spyOn(owner, 'getGeometry');
+    const before = h.castleRibbonInputs().townContent;
+    expect(before.length).toBeGreaterThan(0);
+    for (const rect of before)
+      expect(
+        extrema.some(
+          (b) =>
+            rect.x === b.minX * 1.25 &&
+            rect.y === b.minY * 1.25 &&
+            rect.width === b.maxX * 1.25 - b.minX * 1.25 &&
+            rect.height === b.maxY * 1.25 - b.minY * 1.25,
+        ),
+      ).toBe(true);
+    expect(h.castleRibbonInputs().townContent).toEqual(before);
+    expect(read).not.toHaveBeenCalled();
+    const cache = h.settlementModelBounds;
+    r.setMapData(nameplateStaticData());
+    expect(h.settlementModelBounds).not.toBe(cache);
+    expect(h.settlementModelBounds).toEqual(extrema);
+    r.setMapData(null);
+    expect(h.settlementModelBounds).toEqual([]);
+    expect(h.castleRibbonInputs().townContent).toEqual([]);
+    r.setMapData(nameplateStaticData());
+    expect(h.settlementModelBounds.length).toBeGreaterThan(0);
+    r.destroy();
+    expect(h.settlementModelBounds).toEqual([]);
+  } finally {
+    r.destroy();
+  }
+});
+
+it('retains one original layout across contained paint and full-detail interaction modes', async () => {
+  const r = await makeRenderer();
+  const h = r as unknown as {
+    castleRibbonSeedOffsets: Map<string, { x: number; y: number }>;
+    emit(event: { type: 'nodeHover'; id: string } | { type: 'hoverEnd' }): void;
+    nameplateParts: Map<
+      string,
+      {
+        part: {
+          getPaintBounds(): { x: number; y: number; width: number; height: number };
+          getOriginalPresentationGeometry(): {
+            paint: { x: number; y: number; width: number; height: number };
+          };
+          container: Container;
+        };
+      }
+    >;
+  };
+  try {
+    r.setMapData(nameplateStaticData());
+    r.setCameraPose({ x: 200, y: 100 }, 1.25);
+    r.updateView(baseView({ analysisMode: 'castleDefense' }));
+    const full = r.getDiagnostics();
+    const originalOffsets = full.castleRibbonLayout.ribbons.map(({ id, offset, leader }) => ({
+      id,
+      offset,
+      leader,
+    }));
+    const seeds = [...h.castleRibbonSeedOffsets];
+    const originalCastleProxies = full.armyPlateLayout.castles.map(({ id, rect }) => ({
+      id,
+      rect,
+    }));
+    const counts = r.getRebuildCounts();
+    r.updateView(baseView());
+    const compact = r.getDiagnostics();
+    expect(
+      compact.castleRibbonLayout.ribbons.map(({ id, offset, leader }) => ({ id, offset, leader })),
+    ).toEqual(originalOffsets);
+    expect([...h.castleRibbonSeedOffsets]).toEqual(seeds);
+    expect(compact.armyPlateLayout.castles.map(({ id, rect }) => ({ id, rect }))).toEqual(
+      originalCastleProxies,
+    );
+    for (const ribbon of compact.castleRibbonLayout.ribbons) {
+      const before = full.castleRibbonLayout.ribbons.find(({ id }) => id === ribbon.id)!;
+      expect(ribbon.rect.x).toBeGreaterThanOrEqual(before.rect.x);
+      expect(ribbon.rect.y).toBeGreaterThanOrEqual(before.rect.y);
+      expect(ribbon.rect.x + ribbon.rect.width).toBeLessThanOrEqual(
+        before.rect.x + before.rect.width,
+      );
+      expect(ribbon.rect.y + ribbon.rect.height).toBeLessThanOrEqual(
+        before.rect.y + before.rect.height,
+      );
+    }
+    const a = h.nameplateParts.get('castle.a')!.part;
+    expect(a.getPaintBounds().width).toBeLessThan(a.getOriginalPresentationGeometry().paint.width);
+    h.emit({ type: 'nodeHover', id: 'castle.a' });
+    r.getDiagnostics();
+    expect(a.getPaintBounds()).toEqual(a.getOriginalPresentationGeometry().paint);
+    h.emit({ type: 'hoverEnd' });
+    r.getDiagnostics();
+    expect(a.getPaintBounds().width).toBeLessThan(a.getOriginalPresentationGeometry().paint.width);
+    for (const analysisMode of ['supply', 'faction', 'castleDefense'] as const) {
+      r.updateView(baseView({ analysisMode }));
+      r.getDiagnostics();
+      for (const { part } of h.nameplateParts.values())
+        expect(part.getPaintBounds()).toEqual(part.getOriginalPresentationGeometry().paint);
+    }
+    r.updateView(baseView());
+    const normal = r.getDiagnostics();
+    r.updateView(baseView({ day: 2 }));
+    expect(r.getDiagnostics().castleRibbonLayout).toEqual(normal.castleRibbonLayout);
+    expect(r.getRebuildCounts()).toEqual(counts);
+  } finally {
+    r.destroy();
+  }
+});
+
+it('collects one fresh army snapshot per ribbon pass without changing observer signature shape', async () => {
+  const r = await makeRenderer();
+  const h = r as unknown as {
+    armyPlateInputs(): unknown;
+    castleRibbonInputs(snapshot?: unknown): unknown;
+    castleRibbonLayoutSignature: string | null;
+    placeCastleRibbons(): void;
+  };
+  try {
+    r.setMapData(nameplateStaticData());
+    r.setCameraPose({ x: 200, y: 100 }, 1.25);
+    const snapshot = h.armyPlateInputs();
+    const signature = JSON.stringify(h.castleRibbonInputs());
+    expect(JSON.stringify(h.castleRibbonInputs(snapshot))).toBe(signature);
+    const reads = vi.spyOn(h, 'armyPlateInputs');
+    h.castleRibbonLayoutSignature = null;
+    h.placeCastleRibbons();
+    expect(reads).toHaveBeenCalledTimes(1);
+    expect(h.castleRibbonLayoutSignature).toBe(signature);
+    reads.mockClear();
+    h.placeCastleRibbons();
+    expect(reads).toHaveBeenCalledTimes(1);
+    expect(h.castleRibbonLayoutSignature).toBe(signature);
+    reads.mockClear();
+    h.castleRibbonInputs();
+    expect(reads).toHaveBeenCalledTimes(1);
+    r.setCameraPose({ x: 240, y: 120 }, 1.5);
+    const changed = JSON.stringify(h.castleRibbonInputs());
+    expect(changed).not.toBe(signature);
+    reads.mockClear();
+    h.castleRibbonLayoutSignature = null;
+    h.placeCastleRibbons();
+    expect(reads).toHaveBeenCalledTimes(1);
+    expect(h.castleRibbonLayoutSignature).toBe(changed);
+    r.setMapData(null);
+    expect(h.castleRibbonInputs()).not.toEqual(JSON.parse(signature));
+  } finally {
+    r.destroy();
+  }
+});
+
 /** 第 index 座名牌之繪製 Graphics（children[0]＝gfx；clear spy＝重繪觀測錨點）。 */
 function nameplateGfx(r: MapRenderer, index: number): MockGfx {
   return (r.getLayers()!.nameplates.children[index] as unknown as MockGfx).children[0]!;
 }
+
+it('places visible geographic text around measured body bounds without drifting anchors or repeating idle work', async () => {
+  const r = await makeRenderer();
+  try {
+    r.setMapData(nameplateStaticData());
+    r.setCameraPose({ x: 200, y: 100 }, 1.25);
+    const label = r.getLayers()!.labels.children.find((c) => c.label === 'label:district')!;
+    const text = label.children[0]!;
+    Object.defineProperty(text, 'getLocalBounds', {
+      value: () => ({ x: -14, y: 0, width: 28, height: 14 }),
+    });
+    const view = baseView({
+      armies: [{ ...paintedArmy(), id: 'army.geo', edgeT: 1 }],
+    });
+    r.updateView(view);
+    const body = r.getLayers()!.armies.children[0]!.children.find((c) => c.label === 'armyBody')!;
+    Object.defineProperty(body, 'getLocalBounds', {
+      value: () => ({ x: -18, y: 0, width: 36, height: 35 }),
+    });
+    r.updateView({ ...view, day: 2 });
+    const observed = r.getDiagnostics().geographicLabelLayout;
+    expect(observed.labels).toHaveLength(1);
+    const placed = observed.labels[0]!;
+    const obstacle = observed.obstacles.find((o) => o.kind === 'armyBody')!;
+    const overlap = (a: typeof placed.rect, b: typeof placed.rect) =>
+      Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x)) *
+      Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y));
+    expect(overlap(placed.baseline, obstacle.rect)).toBeGreaterThan(0);
+    expect(overlap(placed.rect, obstacle.rect)).toBe(0);
+    expect(Math.hypot(placed.offset.x, placed.offset.y)).toBeLessThanOrEqual(48);
+    expect(label.position).toMatchObject({ x: 200, y: 100 });
+    expect(text.position).toMatchObject({ x: placed.offset.x, y: 14 + placed.offset.y });
+    const rebuilds = r.getRebuildCounts();
+    r.updateView({ ...view, day: 3 });
+    expect(r.getDiagnostics().geographicLabelLayout).toEqual(observed);
+    expect(r.getRebuildCounts()).toEqual(rebuilds);
+    r.panTo(210, 100);
+    expect(r.getDiagnostics().geographicLabelLayout.runs).toBe(observed.runs);
+    r.setCameraPose({ x: 210, y: 100 }, 1.5);
+    expect(r.getDiagnostics().geographicLabelLayout.runs).toBeGreaterThan(observed.runs);
+  } finally {
+    r.destroy();
+  }
+});
+
+it('reserves individual measured HUD and canvas edges without moving anchors or hiding labels', async () => {
+  const r = await makeRenderer();
+  try {
+    r.setMapData(nameplateStaticData());
+    r.setCameraPose({ x: 200, y: 100 }, 1.25);
+    const label = r.getLayers()!.labels.children.find((part) => part.label === 'label:district')!;
+    Object.defineProperty(label.children[0]!, 'getLocalBounds', {
+      value: () => ({ x: -14, y: 0, width: 28, height: 14 }),
+    });
+    const view = baseView({ armies: [{ ...paintedArmy(), id: 'army.hud-geo', edgeT: 1 }] });
+    r.updateView(view);
+    const initial = r.getDiagnostics().geographicLabelLayout;
+    const rects = [{ ...initial.labels[0]!.rect }, { x: 650, y: 450, width: 120, height: 120 }];
+    const saved = structuredClone(rects);
+    r.setScreenOcclusions(rects);
+    const placed = r.getDiagnostics().geographicLabelLayout;
+    expect(placed.labels.map((part) => part.id)).toEqual(initial.labels.map((part) => part.id));
+    expect(placed.obstacles.filter((part) => part.kind === 'hud').map((part) => part.rect)).toEqual(
+      saved,
+    );
+    expect(placed.obstacles.filter((part) => part.kind === 'canvasEdge')).toHaveLength(4);
+    const area = (a: (typeof rects)[number], b: (typeof rects)[number]) =>
+      Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x)) *
+      Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y));
+    for (const obstacle of placed.obstacles.filter(
+      (part) => part.kind === 'hud' || part.kind === 'canvasEdge',
+    ))
+      expect(area(placed.labels[0]!.rect, obstacle.rect)).toBeLessThanOrEqual(
+        area(placed.labels[0]!.baseline, obstacle.rect),
+      );
+    expect(placed.labels[0]!.anchor).toEqual(initial.labels[0]!.anchor);
+    expect(label.position).toMatchObject({ x: 200, y: 100 });
+    expect(label.visible).toBe(true);
+    const runs = placed.runs;
+    r.setScreenOcclusions([...saved].reverse());
+    r.updateView({ ...view, day: 2 });
+    expect(r.getDiagnostics().geographicLabelLayout.runs).toBe(runs);
+    rects[0]!.x = -999;
+    expect(
+      r
+        .getDiagnostics()
+        .geographicLabelLayout.obstacles.filter((part) => part.kind === 'hud')
+        .map((part) => part.rect),
+    ).toEqual(saved);
+    r.panTo(210, 100);
+    expect(r.getDiagnostics().geographicLabelLayout.runs).toBeGreaterThan(runs);
+    expect(
+      r
+        .getDiagnostics()
+        .geographicLabelLayout.obstacles.filter((part) => part.kind === 'hud')
+        .map((part) => part.rect),
+    ).toEqual(saved);
+    r.setScreenOcclusions([]);
+    expect(
+      r
+        .getDiagnostics()
+        .geographicLabelLayout.obstacles.some(
+          (part) => part.kind === 'hud' || part.kind === 'canvasEdge',
+        ),
+    ).toBe(false);
+    for (const rect of [
+      { x: NaN, y: 0, width: 1, height: 1 },
+      { x: 0, y: 0, width: -1, height: 1 },
+    ])
+      expect(() => r.setScreenOcclusions([rect])).toThrow(RangeError);
+  } finally {
+    r.destroy();
+  }
+});
+
+describe('geographic castle-component reservation: mocked bounds, not native pixel proof', () => {
+  for (const kind of ['castleBody', 'castleDurability', 'castleWarning'] as const) {
+    it(`reserves visible ${kind} without moving anchors, and omits hidden component layers`, async () => {
+      const r = await makeRenderer();
+      try {
+        r.setMapData(nameplateStaticData());
+        r.setCameraPose({ x: 200, y: 100 }, 1.25);
+        const label = r.getLayers()!.labels.children.find((c) => c.label === 'label:district')!;
+        Object.defineProperty(label.children[0]!, 'getLocalBounds', {
+          value: () => ({ x: -14, y: 0, width: 28, height: 14 }),
+        });
+        const harness = r as unknown as {
+          nodeParts: Map<string, { part: CastleNodePart }>;
+        };
+        const castle = harness.nodeParts.get('castle.a')!.part;
+        const clear = { x: -10, y: -100, width: 20, height: 3 };
+        const collision = { x: 90, y: 14, width: 20, height: 10 };
+        vi.spyOn(castle, 'getPresentationGeometry').mockReturnValue({
+          painted: true,
+          body: kind === 'castleBody' ? collision : clear,
+          durability: kind === 'castleDurability' ? collision : clear,
+          warning: kind === 'castleWarning' ? collision : null,
+        });
+        vi.spyOn(castle, 'durabilityVisible', 'get').mockReturnValue(true);
+        vi.spyOn(castle, 'warningVisible', 'get').mockReturnValue(kind === 'castleWarning');
+        const view = baseView();
+        r.updateView(view);
+        const observed = r.getDiagnostics().geographicLabelLayout;
+        const component = observed.obstacles.find(
+          (o) => String(o.kind) === kind && o.id === 'castle.a',
+        );
+        expect(
+          component,
+          'actual castle component must enter geographic reservation',
+        ).toBeDefined();
+        const placed = observed.labels[0]!;
+        const area = (a: typeof placed.rect, b: typeof placed.rect) =>
+          Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x)) *
+          Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y));
+        expect(area(placed.baseline, component!.rect)).toBeGreaterThan(0);
+        expect(area(placed.rect, component!.rect)).toBe(0);
+        expect(label.position).toMatchObject({ x: 200, y: 100 });
+        expect(Math.hypot(placed.offset.x, placed.offset.y)).toBeLessThanOrEqual(48);
+        r.updateView({ ...view, day: 2 });
+        expect(r.getDiagnostics().geographicLabelLayout).toEqual(observed);
+        const layer = kind === 'castleBody' ? r.getLayers()!.actorBodies : r.getLayers()!.effects;
+        layer.visible = false;
+        r.updateView({ ...view, day: 3 });
+        expect(
+          r.getDiagnostics().geographicLabelLayout.obstacles.some((o) => String(o.kind) === kind),
+        ).toBe(false);
+      } finally {
+        r.destroy();
+      }
+    });
+  }
+});
+
+describe('army signal input-cap admission: mocked Pixi, not native pixel proof', () => {
+  for (const [name, count, obstacleCount] of [
+    ['257 painted candidates', 257, 0],
+    ['1025 fixed obstacles', 1, 1025],
+  ] as const) {
+    it(`retains every banner at baseline without throwing for ${name}`, async () => {
+      const r = await makeRenderer();
+      const bounds = { x: 0, y: -24, width: 12, height: 24 };
+      const parts = new Map(
+        Array.from({ length: count }, (_, index) => {
+          const id = `army.cap-${index}`;
+          return [
+            id,
+            {
+              container: {
+                visible: true,
+                position: { x: index * 40, y: 100 },
+                scale: { x: 1, y: 1 },
+              },
+              getPaintedProfile: () => ({ painted: true, signalBaselineBounds: bounds }),
+              setSignalOffset: vi.fn<(offset: { x: number; y: number }) => void>(),
+            },
+          ] as const;
+        }),
+      );
+      // Isolate renderer admission from stack/culling rules. These are finite measured
+      // visible parts, not an injected core state or a native workload claim.
+      const harness = r as unknown as {
+        armyParts: typeof parts;
+        view: MapViewState;
+        armyPlateInputs(): {
+          scale: number;
+          candidates: [];
+          castles: { rect: typeof bounds }[];
+          castleBodies: [];
+          foregroundBodies: [];
+        };
+        placeArmySignals(): void;
+      };
+      const originalParts = harness.armyParts;
+      const originalView = harness.view;
+      const inputs = vi.spyOn(harness, 'armyPlateInputs').mockReturnValue({
+        scale: 1,
+        candidates: [],
+        castles: Array.from({ length: obstacleCount }, () => ({ rect: { ...bounds } })),
+        castleBodies: [],
+        foregroundBodies: [],
+      });
+      try {
+        harness.armyParts = parts;
+        harness.view = baseView({
+          armies: [...parts.keys()].map((id) => ({ ...paintedArmy(), id, selected: false })),
+        });
+        expect(() => harness.placeArmySignals()).not.toThrow();
+        for (const part of parts.values()) {
+          expect(part.setSignalOffset).toHaveBeenCalledTimes(1);
+          expect(part.setSignalOffset).toHaveBeenCalledWith({ x: 0, y: 0 });
+        }
+        expect(() => harness.placeArmySignals()).not.toThrow();
+        for (const part of parts.values()) expect(part.setSignalOffset).toHaveBeenCalledTimes(1);
+      } finally {
+        harness.armyParts = originalParts;
+        harness.view = originalView;
+        inputs.mockRestore();
+        r.destroy();
+      }
+    });
+  }
+});
+
+describe('army plate placement consumer: mocked Pixi, not native pixel proof', () => {
+  function armyPair(): MapViewState['armies'] {
+    return ['army.plate-a', 'army.plate-b'].map((id, index) => ({
+      ...paintedArmy(),
+      id,
+      selected: index === 0,
+      fromNode: 'castle.a' as CastleId,
+      toNode: null,
+      edgeT: 0,
+    }));
+  }
+  function overlap(
+    a: { x: number; y: number; width: number; height: number },
+    b: { x: number; y: number; width: number; height: number },
+  ): number {
+    return (
+      Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x)) *
+      Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y))
+    );
+  }
+  it('consumes measured signal bounds with camera scale, preserves anchors and reuses idle placement', async () => {
+    const r = await makeRenderer();
+    try {
+      r.setMapData(nameplateStaticData());
+      r.setCameraPose({ x: 200, y: 100 }, 1.25);
+      const view = baseView({ armies: armyPair() });
+      r.updateView(view);
+      const chip = r.getLayers()!.armies.children.at(-1)!; // selected army re-appends its semantic container
+      const signals = chip.children.find((child) => child.label === 'armyBody')!.children[0]!;
+      Object.defineProperty(signals, 'getLocalBounds', {
+        value: () => ({ x: 8, y: -4, width: 18, height: 20 }),
+      });
+      const anchor = { x: chip.position.x, y: chip.position.y };
+      const hit = chip.hitArea;
+      r.updateView({ ...view, day: 2 });
+      const observed = r.getDiagnostics().armyPlateLayout;
+      const signal = r
+        .getDiagnostics()
+        .armyRendering.signals.find((entry) => entry.id === 'army.plate-a')!;
+      expect(
+        observed.foregroundBodies.find(
+          (entry) => entry.id === 'army.plate-a' && entry.kind === 'signal',
+        )?.rect,
+      ).toEqual(signal.rect);
+      expect(signal.rect?.width).toBeCloseTo(18 * 1.25);
+      expect(signal.rect?.height).toBeCloseTo(20 * 1.25);
+      for (const plate of observed.plates) {
+        const area = (rect: typeof plate.rect, bodies: typeof observed.foregroundBodies) =>
+          bodies.reduce((sum, body) => sum + overlap(rect, body.rect), 0);
+        const castleArea = (rect: typeof plate.rect) =>
+          observed.castleBodies.reduce((sum, body) => sum + overlap(rect, body.rect), 0);
+        expect(castleArea(plate.rect)).toBeLessThanOrEqual(castleArea(plate.baseline));
+        if (castleArea(plate.rect) === castleArea(plate.baseline))
+          expect(area(plate.rect, observed.foregroundBodies)).toBeLessThanOrEqual(
+            area(plate.baseline, observed.foregroundBodies),
+          );
+        expect(Math.hypot(plate.offset.x, plate.offset.y)).toBeLessThanOrEqual(48);
+      }
+      expect(chip.position).toMatchObject(anchor);
+      expect(chip.hitArea).toBe(hit);
+      r.updateView({ ...view, day: 3 });
+      expect(r.getDiagnostics().armyPlateLayout).toEqual(observed);
+      r.panTo(210, 100);
+      expect(r.getDiagnostics().armyPlateLayout.runs).toBe(observed.runs);
+      r.updateView(baseView());
+      expect(r.getDiagnostics().armyPlateLayout.foregroundBodies).toEqual([]);
+    } finally {
+      r.destroy();
+    }
+  });
+  it('protects final independent army seed slots from displaced ribbons without day-only churn', async () => {
+    const r = await makeRenderer();
+    const hit = vi.spyOn(MapInteraction.prototype, 'setArmies');
+    try {
+      r.setMapData(nameplateStaticData());
+      r.setCameraPose({ x: 200, y: 100 }, 1.25);
+      const view = baseView({ armies: armyPair() });
+      const input = JSON.stringify(view);
+      r.updateView(view);
+      const observed = r.getDiagnostics();
+      const seeds = observed.castleRibbonLayout.obstacles.filter(
+        (obstacle) => obstacle.kind === 'armyPlateSeed',
+      );
+      expect(seeds).toHaveLength(2);
+      expect(seeds.map(({ id, rect }) => ({ id, rect }))).toEqual(
+        observed.armyPlateLayout.plates.map(({ id, rect }) => ({ id, rect })),
+      );
+      for (const ribbon of observed.castleRibbonLayout.ribbons)
+        for (const seed of seeds)
+          expect(overlap(ribbon.rect, seed.rect)).toBeLessThanOrEqual(
+            overlap(ribbon.baseline, seed.rect),
+          );
+      const hitAnchors = hit.mock.calls.at(-1)![0];
+      expect(hitAnchors).toEqual([
+        { id: 'army.plate-a', pos: { x: 100, y: 100 } },
+        { id: 'army.plate-b', pos: { x: 114, y: 100 } },
+      ]);
+      r.updateView({ ...view, day: view.day + 1 });
+      const repeated = r.getDiagnostics();
+      expect(repeated.castleRibbonLayout).toEqual(observed.castleRibbonLayout);
+      expect(repeated.armyPlateLayout).toEqual(observed.armyPlateLayout);
+      expect(repeated.armyRendering.signals).toEqual(observed.armyRendering.signals);
+      expect(hit.mock.calls.at(-1)![0]).toEqual(hitAnchors);
+      expect(JSON.stringify(view)).toBe(input);
+    } finally {
+      hit.mockRestore();
+      r.destroy();
+    }
+  });
+  it('reserves displaced castle ribbons and preserves army hit anchors', async () => {
+    const r = await makeRenderer();
+    const hit = vi.spyOn(MapInteraction.prototype, 'setArmies');
+    try {
+      r.setMapData(nameplateStaticData());
+      r.setCameraPose({ x: 200, y: 100 }, 1.25);
+      const view = baseView({ armies: armyPair() });
+      const original = JSON.stringify(view);
+      r.updateView(view);
+      const diagnostics = r.getDiagnostics();
+      const { plates, castles } = diagnostics.armyPlateLayout;
+      const originalCastles = castles.map((castle) => {
+        const ribbon = diagnostics.castleRibbonLayout.ribbons.find(
+          (entry) => entry.id === castle.id,
+        )!;
+        expect(ribbon).toBeDefined();
+        return {
+          ...castle.rect,
+          x: castle.rect.x - ribbon.offset.x,
+          y: castle.rect.y - ribbon.offset.y,
+        };
+      });
+      expect(plates).toHaveLength(2);
+      expect(castles.length).toBeGreaterThan(0);
+      const before = plates.reduce(
+        (sum, p) => sum + originalCastles.reduce((s, c) => s + overlap(p.baseline, c), 0),
+        0,
+      );
+      const after = plates.reduce(
+        (sum, p) => sum + castles.reduce((s, c) => s + overlap(p.rect, c.rect), 0),
+        0,
+      );
+      expect(before).toBeGreaterThan(0);
+      expect(after).toBe(0);
+      const displaced = diagnostics.castleRibbonLayout.ribbons.filter(
+        (ribbon) => Math.hypot(ribbon.offset.x, ribbon.offset.y) > 0,
+      );
+      expect(displaced.length).toBeGreaterThan(0);
+      for (const ribbon of displaced) {
+        expect(ribbon.rect.x).toBeCloseTo(ribbon.baseline.x + ribbon.offset.x);
+        expect(ribbon.rect.y).toBeCloseTo(ribbon.baseline.y + ribbon.offset.y);
+      }
+      expect(hit.mock.calls.at(-1)![0]).toEqual([
+        { id: 'army.plate-a', pos: { x: 100, y: 100 } },
+        { id: 'army.plate-b', pos: { x: 114, y: 100 } },
+      ]);
+      for (const p of plates) expect(Math.hypot(p.offset.x, p.offset.y)).toBeLessThanOrEqual(48);
+      expect(JSON.stringify(view)).toBe(original);
+    } finally {
+      r.destroy();
+      hit.mockRestore();
+    }
+  });
+  it('reuses a placement on day-only ticks and pan, recomputes changed scale and ribbon width', async () => {
+    const r = await makeRenderer();
+    try {
+      r.setMapData(nameplateStaticData());
+      r.setCameraPose({ x: 200, y: 100 }, 1.25);
+      const view = baseView({ armies: armyPair() });
+      r.updateView(view);
+      const before = r.getDiagnostics().armyPlateLayout;
+      const redraw = r.getRebuildCounts().armyChips;
+      r.updateView({ ...view, day: 2 });
+      expect(r.getDiagnostics().armyPlateLayout).toEqual(before);
+      expect(r.getRebuildCounts().armyChips).toBe(redraw);
+      r.panTo(210, 100);
+      expect(r.getDiagnostics().armyPlateLayout.runs).toBe(before.runs);
+      r.setCameraPose({ x: 210, y: 100 }, 1.5);
+      const scaled = r.getDiagnostics().armyPlateLayout;
+      expect(scaled.runs).toBeGreaterThan(before.runs);
+      r.updateView({ ...view, castles: view.castles.map((c) => ({ ...c, soldiers: 99999999 })) });
+      expect(r.getDiagnostics().armyPlateLayout.runs).toBeGreaterThan(scaled.runs);
+    } finally {
+      r.destroy();
+    }
+  });
+  it('pixel-locks only number plates across real camera scales without rebuilding army bodies', async () => {
+    const r = await makeRenderer();
+    try {
+      r.setMapData(nameplateStaticData());
+      r.setCameraPose({ x: 200, y: 100 }, 1.25);
+      r.updateView(baseView({ armies: armyPair() }));
+      const before = r.getDiagnostics().armyPlateLayout;
+      const redraw = r.getRebuildCounts().armyChips;
+      for (const plate of before.plates) expect(plate.fontSizeCss).toBeCloseTo(14);
+      r.setCameraPose({ x: 200, y: 100 }, 1.5);
+      const after = r.getDiagnostics().armyPlateLayout;
+      expect(after.plates.map((plate) => plate.id)).toEqual(before.plates.map((plate) => plate.id));
+      for (const plate of after.plates) {
+        const original = before.plates.find((entry) => entry.id === plate.id)!;
+        expect(plate.fontSizeCss).toBeCloseTo(14);
+        expect(plate.baseline.width).toBeCloseTo(original.baseline.width);
+        expect(plate.baseline.height).toBeCloseTo(original.baseline.height);
+        expect(Math.hypot(plate.offset.x, plate.offset.y)).toBeLessThanOrEqual(48);
+      }
+      expect(r.getRebuildCounts().armyChips).toBe(redraw);
+    } finally {
+      r.destroy();
+    }
+  });
+  it('opts into bounded plate reflow with actual canvas-local HUD, preserving day-only cache and world anchors', async () => {
+    const r = await makeRenderer();
+    const layout = vi.spyOn(plateLayout, 'layoutArmyPlates');
+    try {
+      r.setMapData(nameplateStaticData());
+      r.setCameraPose({ x: 200, y: 100 }, 1.25);
+      const view = baseView({ armies: armyPair() });
+      r.updateView(view);
+      const before = r.getDiagnostics().armyPlateLayout;
+      const hud = [{ x: 650, y: 450, width: 120, height: 120 }];
+      r.setScreenOcclusions(hud);
+      const after = r.getDiagnostics().armyPlateLayout;
+      expect(after.runs).toBeGreaterThan(before.runs);
+      const options = layout.mock.calls.at(-1)?.[4];
+      expect(options?.maxOffset).toBe(80);
+      expect(options?.canvas).toBeDefined();
+      for (const candidate of layout.mock.calls.at(-1)![0]) {
+        const plate = after.plates.find((p) => p.id === candidate.id)!;
+        expect(candidate.anchor?.x).toBeCloseTo(plate.anchor.x + options!.canvas!.x);
+        expect(candidate.anchor?.y).toBeCloseTo(plate.anchor.y + options!.canvas!.y);
+      }
+      expect(options?.screenOcclusions?.[0]).toMatchObject({
+        x: 650 + options!.canvas!.x,
+        y: 450 + options!.canvas!.y,
+        width: 120,
+        height: 120,
+      });
+      expect(after.plates.map((p) => p.anchor)).toEqual(before.plates.map((p) => p.anchor));
+      for (const p of after.plates) {
+        expect(p.fontSizeCss).toBeCloseTo(14);
+        expect(Math.hypot(p.offset.x, p.offset.y)).toBeLessThanOrEqual(80 + 1e-8);
+        expect(p.leader.start).toEqual(p.anchor);
+      }
+      r.updateView({ ...view, day: 2 });
+      r.setScreenOcclusions(hud);
+      expect(r.getDiagnostics().armyPlateLayout.runs).toBe(after.runs);
+      r.panTo(210, 100);
+      expect(r.getDiagnostics().armyPlateLayout.runs).toBeGreaterThan(after.runs);
+      r.setScreenOcclusions([]);
+      r.getDiagnostics(); // Explicit observation flushes the pending public presentation change.
+      expect(layout.mock.calls.at(-1)?.[4]).toBeUndefined();
+      expect(view).toEqual(baseView({ armies: armyPair() }));
+    } finally {
+      layout.mockRestore();
+      r.destroy();
+    }
+  });
+  it('keeps selected and aggregate far plates, resets after removal and retains local-to-CSS scale', async () => {
+    const r = await makeRenderer();
+    try {
+      r.setMapData(nameplateStaticData());
+      r.setCameraPose({ x: 200, y: 100 }, 0.3);
+      const pair = armyPair();
+      const armies = Array.from({ length: 6 }, (_, i) => ({
+        ...pair[0]!,
+        id: `army.far-${i}`,
+        selected: i === 5,
+      }));
+      r.updateView(baseView({ armies }));
+      const observation = r.getDiagnostics().armyPlateLayout;
+      expect(observation.plates.some((p) => p.id === 'army.far-5' && p.selected)).toBe(true);
+      expect(observation.plates.some((p) => p.collapsed)).toBe(true);
+      for (const p of observation.plates) {
+        const factor = 0.3 * MAPVIEW.armyFarChipScale;
+        // Relation cell 12 + numeral (selected 41 / aggregate 20 / ordinary 0) + stroke 1.
+        expect(p.baseline.width).toBeCloseTo((p.selected ? 54 : p.collapsed ? 33 : 13) * (14 / 12));
+        expect(p.fontSizeCss).toBeCloseTo(14);
+        expect(Math.hypot(p.offset.x, p.offset.y)).toBeLessThanOrEqual(48);
+        const chip = r.getLayers()!.armies.children[Number(p.id.slice(-1))]!;
+        expect(chip.scale.x).toBe(MAPVIEW.armyFarChipScale);
+        const plate = chip.children.find((c) => c.label === 'armyPlate')!;
+        const number = plate.children[1]! as BitmapText;
+        expect(number.visible).toBe(p.selected || p.collapsed);
+        expect(number.text).toBe(p.collapsed ? '+3' : '2,000');
+        expect(plate.scale.x * factor * 12).toBeCloseTo(14);
+        expect(plate.position.x * factor).toBeCloseTo(p.offset.x);
+        expect(plate.position.y * factor).toBeCloseTo(p.offset.y);
+      }
+      r.updateView(baseView());
+      expect(r.getDiagnostics().armyPlateLayout.plates).toEqual([]);
+      r.updateView(baseView({ armies }));
+      expect(r.getDiagnostics().armyPlateLayout.plates.map((p) => [p.id, p.rect])).toEqual(
+        observation.plates.map((p) => [p.id, p.rect]),
+      );
+    } finally {
+      r.destroy();
+    }
+  });
+});
 
 describe('城名牌（M6-V9b §7-S1）：獨立簽章 diff／只兵數變／LOD／pixel-lock／目標高亮', () => {
   it('正向存在：2 城名牌建於 nameplates 層、labels 只剩郡/省、城名/兵數（千分位）已填', async () => {
@@ -1474,7 +4281,7 @@ describe('城名牌（M6-V9b §7-S1）：獨立簽章 diff／只兵數變／LOD�
     const plateA = layers.nameplates.children[0] as unknown as {
       children: { text?: string }[];
     };
-    expect(plateA.children.length).toBe(4); // [gfx, nameText, troopsText, highlightGfx]
+    expect(plateA.children.length).toBe(5); // First four unchanged; fifth is presentation leader.
     expect(plateA.children[1]!.text).toBe('甲城');
     expect(plateA.children[2]!.text).toBe('2,000'); // formatSoldierChip：千分位、不縮寫（§2.10）
     r.destroy();
@@ -1544,7 +4351,7 @@ describe('城名牌（M6-V9b §7-S1）：獨立簽章 diff／只兵數變／LOD�
     r.destroy();
   });
 
-  it('目標高亮（§3.4）：setMarchTarget 只切金框 visible（不重繪、不進計數）；null 清除', async () => {
+  it('目標高亮（§3.4）：compact numeric detail restores once; identical targets reuse paint and layout', async () => {
     const r = await makeRenderer();
     r.setMapData(nameplateStaticData());
     r.updateView(baseView());
@@ -1553,15 +4360,52 @@ describe('城名牌（M6-V9b §7-S1）：獨立簽章 diff／只兵數變／LOD�
     const plateA = r.getLayers()!.nameplates.children[0] as unknown as MockGfx;
     const highlight = plateA.children[3]!; // [gfx, nameText, troopsText, highlightGfx]
     const clearA = vi.spyOn(plateA.children[0]!, 'clear');
+    const troops = plateA.children[2] as unknown as { visible: boolean; text: string };
+    const part = (
+      r as unknown as {
+        nameplateParts: Map<
+          string,
+          {
+            part: {
+              getRibbonSize(): { w: number; h: number };
+              getOriginalPresentationGeometry(): { ribbon: { w: number; h: number } };
+            };
+          }
+        >;
+      }
+    ).nameplateParts.get('castle.a')!.part;
+    const originalWidth = part.getOriginalPresentationGeometry().ribbon.w;
+    expect(part.getRibbonSize().w).toBeLessThan(originalWidth);
+    expect(troops.visible).toBe(false);
+    expect(troops.text).toBe('2,000');
     expect(highlight.visible).toBe(false);
 
     r.setMarchTarget('castle.a');
     expect(highlight.visible).toBe(true); // 金框開（既繪子物件，只切 visible）
-    expect(clearA).not.toHaveBeenCalled(); // 不重繪名牌本體
+    expect(clearA).toHaveBeenCalledTimes(1); // one real compact→full numeric repaint
+    expect(troops.visible).toBe(true);
+    expect(troops.text).toBe('2,000');
+    expect(part.getRibbonSize().w).toBe(originalWidth);
     expect(r.getRebuildCounts()).toEqual(baseline); // 不進任何計數
+    const targetLayout = r.getDiagnostics().castleRibbonLayout.runs;
+    clearA.mockClear();
+    r.setMarchTarget('castle.a');
+    expect(clearA).not.toHaveBeenCalled();
+    expect(r.getDiagnostics().castleRibbonLayout.runs).toBe(targetLayout);
+    expect(r.getRebuildCounts()).toEqual(baseline);
 
     r.setMarchTarget(null);
     expect(highlight.visible).toBe(false);
+    r.getDiagnostics();
+    expect(clearA.mock.calls.length).toBeLessThanOrEqual(1);
+    expect(part.getRibbonSize().w).toBeLessThan(originalWidth);
+    expect(troops.visible).toBe(false);
+    const clearedLayout = r.getDiagnostics().castleRibbonLayout.runs;
+    clearA.mockClear();
+    r.setMarchTarget(null);
+    expect(clearA).not.toHaveBeenCalled();
+    expect(r.getDiagnostics().castleRibbonLayout.runs).toBe(clearedLayout);
+    expect(r.getRebuildCounts()).toEqual(baseline);
     r.destroy();
   });
 

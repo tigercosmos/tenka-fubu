@@ -1,0 +1,99 @@
+.gallery {
+  min-height: 100vh;
+  background: var(--washi-200);
+  color: var(--ink-900);
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 220px;
+  padding: var(--space-4);
+  overflow: auto;
+  background: var(--washi-100);
+  border-right: var(--border-thin);
+}
+.sidebar h1 {
+  font-size: var(--font-size-lg);
+}
+.sidebar a {
+  display: block;
+  min-height: 32px;
+  color: var(--accent-indigo);
+  padding: var(--space-1);
+}
+.content {
+  margin-left: 220px;
+  padding: var(--space-6);
+}
+.section {
+  scroll-margin-top: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+.section h2 {
+  font-size: var(--font-size-xl);
+}
+.examples {
+  display: grid;
+  gap: var(--space-4);
+}
+.example {
+  border: var(--border-thin);
+  padding: var(--space-4);
+  background: var(--washi-100);
+  min-width: 0;
+}
+.example h3 {
+  font-size: var(--font-size-md);
+  margin: 0 0 var(--space-3);
+}
+.example button,
+.example input,
+.example select {
+  min-height: 32px;
+}
+.gallery button:focus-visible,
+.gallery a:focus-visible,
+.gallery input:focus-visible {
+  box-shadow: var(--shadow-focus);
+}
+.iconGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+.iconGrid > div {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border: var(--border-thin);
+}
+.iconGrid span {
+  min-width: 100px;
+}
+.toastStage {
+  height: 540px;
+  position: relative;
+  transform: translateZ(0);
+}
+.contextStage {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+.contextStage > div {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+@media (max-width: 800px) {
+  .sidebar {
+    width: 160px;
+  }
+  .content {
+    margin-left: 160px;
+    padding: var(--space-3);
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "formatVersion": 1,
+  "scenarioId": "mini-ai",
+  "seed": 42,
+  "ticks": 360,
+  "balanceHash": "7634217400759e66",
+  "checkpoints": [
+    {
+      "day": 30,
+      "hash": "2ea01d73890b273e"
+    },
+    {
+      "day": 60,
+      "hash": "5cfdb1e79fc63028"
+    },
+    {
+      "day": 90,
+      "hash": "b29ef89b87a2966c"
+    },
+    {
+      "day": 120,
+      "hash": "29b733d0e07d26ec"
+    },
+    {
+      "day": 150,
+      "hash": "38a8b822e20a0118"
+    },
+    {
+      "day": 180,
+      "hash": "c317b584557b895b"
+    },
+    {
+      "day": 210,
+      "hash": "5444ce44aaeaaa71"
+    },
+    {
+      "day": 240,
+      "hash": "d05bbb58cc6d8b02"
+    },
+    {
+      "day": 270,
+      "hash": "7c9bbc7f88ca7699"
+    },
+    {
+      "day": 300,
+      "hash": "b6a764c078c27e84"
+    },
+    {
+      "day": 330,
+      "hash": "321dd80a383df33e"
+    },
+    {
+      "day": 360,
+      "hash": "70028ed2a42ce402"
+    }
+  ],
+  "appliedCommands": {
+    "march": 8,
+    "buildFacility": 10,
+    "enactPolicy": 2,
+    "setDevelopFocus": 8,
+    "returnArmyToCastle": 2,
+    "setConscriptPolicy": 11,
+    "startDiploWork": 2,
+    "transport": 1,
+    "proposePact": 2
+  },
+  "eventCounts": {
+    "army.departed": 8,
+    "policy.enacted": 2,
+    "army.arrived": 11,
+    "army.returned": 8,
+    "district.subjugated": 3,
+    "siege.started": 3,
+    "siege.ended": 3,
+    "time.monthStart": 12,
+    "economy.income": 24,
+    "conscript.completed": 26,
+    "time.seasonStart": 4,
+    "facility.completed": 8,
+    "transport.arrived": 1,
+    "economy.harvest": 2,
+    "army.routed": 1,
+    "diplo.refused": 2
+  },
+  "intentCounts": {
+    "threat.compute": 24,
+    "expand.select": 5,
+    "facility.build": 10,
+    "decision.ineligible": 282,
+    "policy.enact": 2,
+    "develop.focus": 8,
+    "domestic.evaluated": 24,
+    "diplo.evaluated": 24,
+    "plan.advance": 3,
+    "defense.hold": 9,
+    "plan.siege": 3,
+    "siege.hold": 24,
+    "plan.abort": 5,
+    "conscript.policy": 11,
+    "diplo.work": 2,
+    "expand.none": 8,
+    "food.transport": 1,
+    "diplo.requestPeace": 2
+  }
+}

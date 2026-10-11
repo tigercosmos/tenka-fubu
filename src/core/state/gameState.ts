@@ -7,6 +7,7 @@
 // （02 內部不一致）。依 00 > 02 與 §7/§3.4 規範裁定：改為非 optional——scalar → `| null`（null=未設）、
 // cooldown 映射 → 必填 `Partial<Record<...>>`（比照 §4.14 cooldownUntil；缺鍵=預設）。語意（未設=預設）不變。
 
+import type { EventBinding, EventHookSignal } from '../systems/events/types';
 import type {
   AiPersonaId,
   ArmyId,
@@ -147,6 +148,7 @@ export interface Clan {
   leaderId: OfficerId; // 當主；INV-08：必為本家 serving 武將
   homeCastleId: CastleId; // 本城（居城）；INV-09：須為本家 tier='main' 之城
   gold: number; // 金錢（貫），整數 ≥0（勢力層級資源，00 §4）
+  rewardGoldSpentThisMonth: number | null; // 本月褒賞實付金額；舊存檔未知值保留 null 至下月
   prestige: number; // 威信，整數 0..BAL.prestigeMax（2000）
   courtRank: CourtRank; // 當主現任朝廷官位（v1.0 官位掛在勢力當主，見 §8 DDR-6）
   shogunateTitle: ShogunateTitle; // 幕府役職
@@ -324,6 +326,8 @@ export interface Army {
   posNodeId: MapNodeId; // 最近抵達節點（= path[pathCursor]）
   edgeProgressDays: number; // 往 path[pathCursor+1] 之當前邊已累積行軍日數（日，浮點 ≥0）；位於節點上／已抵終點為 0（勘誤 E-11；04 §5）
   edgeCostDays: number; // 當前邊有效日數（日）＝edge.baseDays / BAL.roadGradeSpeedMult[grade]（海路固定＝baseDays）；抵達判定 edgeProgressDays ≥ edgeCostDays（勘誤 E-11；04 §3.4.2／§5）
+  /** Optional legacy-forward seam: original unvisited endpoint while progress decreases back to posNodeId. */
+  reversingEdgeEndNodeId?: MapNodeId | null;
   battleId: BattleId | null; // 進入合戰（BattleState）時所屬合戰；否則 null。野戰 engaged 歸屬由 FieldCombat.sideX.armyIds 反查（勘誤 E-18，INV-13）
   siegeId: SiegeId | null; // status='sieging' 時所屬攻城戰；否則 null（INV-13）
   autoReturn: boolean; // 自動歸還開關（預設 true）；糧將盡／任務完成時自動轉 returning（CmdSetAutoReturn 切換，勘誤 E-32；07 §3.13）
@@ -353,6 +357,18 @@ export interface FieldCombatSide {
   armyIds: ArmyId[]; // 同側部隊
   initialTroops: number; // 交戰開始時總兵數（威風判定用）
   cumulativeLosses: number; // 累計損失兵數
+  participation?: {
+    complete: boolean; // false or absent: legacy participation history is unknown
+    participants: FieldCombatParticipant[];
+  };
+}
+
+/** Detached actual-participation roster snapshots; historical armies may no longer exist. */
+export interface FieldCombatParticipant {
+  armyId: ArmyId;
+  clanId: ClanId;
+  leaderId: OfficerId;
+  deputyIds: OfficerId[];
 }
 
 /** 合戰（戰術戰場）——策略時間暫停期間的獨立狀態機（07 §3.5～§3.9；02 §4.9） */
@@ -560,10 +576,10 @@ export interface TransportOrder {
   gold: number; // 押運金錢（貫），整數 ≥0
   food: number; // 押運兵糧（石），整數 ≥0（三者不得同時為 0）
   path: MapNodeId[]; // 全路徑節點序列（04 尋路產出，含起訖）
-  pathCursor: number; // 目前所在節點在 path 的索引（與 Army 同語意＝04 MarchState.nodeIndex；勘誤 E-11）
-  edgeProgressDays: number; // 往 path[pathCursor+1] 之當前邊已累積行軍日數（日，浮點 ≥0）；位於節點上為 0（勘誤 E-11；04 §5）
-  edgeCostDays: number; // 當前邊（輸送隊調整後）有效日數（日）；完整公式歸 05 §3.6／§5.4（速度係數採除以慣例，四輪 D-15）；抵達判定 edgeProgressDays ≥ edgeCostDays
-  returning: boolean; // 是否已被撤回折返中
+  pathCursor: number; // 方向邊的起點索引；部分撤回時可為未抵達的前方節點（02 §4.13 補充）
+  edgeProgressDays: number; // 沿 returning 方向已走日數，有限數值 ≥0；節點狀態為 0
+  edgeCostDays: number; // 已進入邊的有效日數，有限數值 ≥0；完整成本公式歸 05 §3.6／§5.4
+  returning: boolean; // true 時下一節點為 path[pathCursor-1]；false 時為 path[pathCursor+1]
 }
 // 輸送隊為非戰鬥單位，不需武將帶隊、不佔兵力（05 §3.6）。
 
@@ -602,6 +618,8 @@ export interface EventsState {
   fired: Record<EventId, number>; // 已觸發史實/條件事件 → 觸發絕對日（每事件一生一次）
   cooldownUntil: Record<string, number>; // 汎用事件群組 key → 冷卻到期絕對日（群組定義見 10）
   pendingChoiceEventId: EventId | null; // 等待玩家選擇的事件（modal 開啟中）；核心暫停推進（03）
+  pendingChoiceBinding: EventBinding | null; // 待選事件的已具體化綁定（10 §4.3）
+  hookSignals: EventHookSignal[]; // 次 tick Step3 消費的事實訊號（10 §3.1.3／§4.3）
   flags: Record<string, number>; // 事件旗標（布林以 0/1；含 unlock.* / harvest.* / defeat.*，勘誤 E-55；10 §4.3）
   tenkabitoStreakMonths: number; // 天下人條件連續成立月數，整數 ≥0（勘誤 E-55）
   stats: VictoryStats; // 結局統計（供 EndingScreen；勘誤 E-55；10 §3.8.5）
@@ -630,10 +648,23 @@ export interface Report {
 // 4.20 AiState（AI 狀態分支）（勘誤 E-60；型別語意與行為見 09）
 // ═══════════════════════════════════════════════════════════════════
 export interface AiState {
+  allAi: boolean; // Explicit simulation mode; player clan also participates in AI councils.
+  pendingOrders: Array<{
+    command: import('../commands/types').Command;
+    authority: import('../commands/authority').ExecutionAuthority;
+  }>;
   personas: Record<AiPersonaId, AiPersona>; // persona 登錄表（持久化）；有效 persona = personas[clan 的 AiClanState.personaId]（勘誤 E-60；09 §4）
   clans: Record<ClanId, AiClanState>; // 以 clanId 為 key（AI 與玩家勢力皆持有）
   intentLog: AiIntent[]; // 環形緩衝決策紀錄（容量 BAL.aiIntentLogSize；transient，不序列化亦不入雜湊，剔除機制見 §3.4 第 6 點）
   deferredPhases: Array<{ clanId: ClanId; phase: CouncilPhase }>; // 本 tick 溢出而順延的評定階段
+  /** Persistent fair FIFO; one in-flight council per clan/corps, monthly requests coalesce. */
+  councilJobs: Array<{
+    clanId: ClanId;
+    corpsId: CorpsId | null;
+    phases: CouncilPhase[];
+    enrolledDay: number;
+  }>;
+  lastCouncilEnrollment: Record<string, number>; // owner key -> most recent due day, including coalesced requests
 }
 
 /** AI 性格參數。所有軸 0..100 整數（09 §3.2；02 §4.20）。 */
@@ -650,9 +681,13 @@ export type AttackPlanStage = 'muster' | 'advance' | 'siege' | 'consolidate'; //
 
 /** 攻略計畫（大名 AI 與軍團 AI 共用；02 §4.20）。 */
 export interface AttackPlan {
+  abortReason: string | null; // 已決定撤退但仍須等待交戰部隊可合法接令；跨存檔保留
   id: string; // 'plan.{clanId去前綴}-{遞增序號}'（序號存於 AiClanState.nextPlanSeq）
   ownerCorpsId: CorpsId | null; // 發起者：null=大名評定；否則軍團
   targetCastleId: CastleId; // 目標敵城
+  targetClanId: ClanId; // 建案時目標所屬家；判別第三方先佔，不隨易主更新
+  sourceLeaderIds: Record<CastleId, OfficerId>; // 下一 tick 出陣後以原城與主將辨識本計畫新部隊
+  stagingRetainedTroops: number; // 建案時集結城守備底線，不把到達的遠征兵重新列為守備
   stagingCastleId: CastleId; // 集結城
   sourceCastleIds: CastleId[]; // 協同出兵城（含集結城），長度 ≤ BAL.diffAiCoopMaxCastles
   stage: AttackPlanStage;

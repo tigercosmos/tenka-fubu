@@ -11,6 +11,8 @@ import type { MapStaticData, MapViewState } from '../mapViewTypes';
 import type { TerritoryGrid } from '../territoryGrid';
 import { MAPVIEW, WORLD_SIZE } from '../mapViewConfig';
 import { armyWorldPos } from '../dirty';
+import { projectPolyline, type PointProjection } from '../roads/projectPolyline';
+import { createProjectedTerrainOverlay } from '../terrain/terrainProjectedOverlay';
 import { clanColorNum, TOKENS_NUM } from '@ui/styles/tokens';
 import { LABEL_STYLE, labelTextStyle } from '../labelStyle';
 import {
@@ -43,11 +45,28 @@ function destroyFactionLabel(label: BitmapText): void {
   label.destroy({ style: true });
 }
 
-export function drawAnalysisMarks(graphics: Graphics, marks: readonly AnalysisMark[]): void {
+export function drawAnalysisMarks(
+  graphics: Graphics,
+  marks: readonly AnalysisMark[],
+  project?: PointProjection,
+): void {
   graphics.clear();
   for (const mark of marks) {
-    const x = mark.points[0] ?? 0;
-    const y = mark.points[1] ?? 0;
+    const sourcePoints = project
+      ? Array.from({ length: Math.floor(mark.points.length / 2) }, (_, index) => ({
+          x: mark.points[index * 2]!,
+          y: mark.points[index * 2 + 1]!,
+        }))
+      : null;
+    const points =
+      sourcePoints && project && !mark.dashed
+        ? (mark.radius === undefined
+            ? projectPolyline(sourcePoints, project).points
+            : sourcePoints.map(project)
+          ).flatMap((point) => [point.x, point.y])
+        : mark.points;
+    const x = points[0] ?? 0;
+    const y = points[1] ?? 0;
     if (mark.radius !== undefined) {
       graphics
         .circle(x, y, mark.radius)
@@ -56,12 +75,36 @@ export function drawAnalysisMarks(graphics: Graphics, marks: readonly AnalysisMa
       if (mark.double)
         graphics.circle(x, y, mark.radius + 7).stroke({ color: mark.color, width: 2 });
     } else {
+      if (mark.dashed && sourcePoints && project) {
+        for (let i = 0; i + 1 < sourcePoints.length; i++) {
+          const a = sourcePoints[i]!,
+            b = sourcePoints[i + 1]!;
+          const length = Math.hypot(b.x - a.x, b.y - a.y);
+          for (let start = 0; start < length; start += 20) {
+            const end = Math.min(length, start + 12);
+            const dash = projectPolyline(
+              [
+                {
+                  x: a.x + ((b.x - a.x) * start) / length,
+                  y: a.y + ((b.y - a.y) * start) / length,
+                },
+                { x: a.x + ((b.x - a.x) * end) / length, y: a.y + ((b.y - a.y) * end) / length },
+              ],
+              project,
+            ).points;
+            graphics.moveTo(dash[0]!.x, dash[0]!.y);
+            for (const point of dash.slice(1)) graphics.lineTo(point.x, point.y);
+          }
+        }
+        graphics.stroke({ color: mark.color, width: mark.width });
+        continue;
+      }
       if (mark.dashed) {
-        for (let i = 0; i + 3 < mark.points.length; i += 2) {
-          const ax = mark.points[i] ?? 0;
-          const ay = mark.points[i + 1] ?? 0;
-          const bx = mark.points[i + 2] ?? 0;
-          const by = mark.points[i + 3] ?? 0;
+        for (let i = 0; i + 3 < points.length; i += 2) {
+          const ax = points[i] ?? 0;
+          const ay = points[i + 1] ?? 0;
+          const bx = points[i + 2] ?? 0;
+          const by = points[i + 3] ?? 0;
           const length = Math.hypot(bx - ax, by - ay);
           for (let start = 0; start < length; start += 20) {
             const end = Math.min(length, start + 12);
@@ -73,14 +116,18 @@ export function drawAnalysisMarks(graphics: Graphics, marks: readonly AnalysisMa
         continue;
       }
       graphics.moveTo(x, y);
-      for (let i = 2; i + 1 < mark.points.length; i += 2)
-        graphics.lineTo(mark.points[i] ?? 0, mark.points[i + 1] ?? 0);
+      for (let i = 2; i + 1 < points.length; i += 2)
+        graphics.lineTo(points[i] ?? 0, points[i + 1] ?? 0);
       graphics.stroke({ color: mark.color, width: mark.width });
     }
   }
 }
 
-export function createAnalysisOverlay(data: MapStaticData, grid: TerritoryGrid) {
+export function createAnalysisOverlay(
+  data: MapStaticData,
+  grid: TerritoryGrid,
+  field?: Parameters<typeof createProjectedTerrainOverlay>[1],
+) {
   const container = new Container();
   container.label = 'analysisTheme';
   container.eventMode = 'none';
@@ -90,7 +137,8 @@ export function createAnalysisOverlay(data: MapStaticData, grid: TerritoryGrid) 
   annotations.visible = false;
   const graphics = new Graphics();
   container.addChild(graphics);
-  let sprite: Sprite | null = null;
+  let projectedRaster: ReturnType<typeof createProjectedTerrainOverlay> | null = null;
+  let sprite: Sprite | ReturnType<typeof createProjectedTerrainOverlay>['mesh'] | null = null;
   let source: BufferImageSource | null = null;
   let texture: Texture | null = null;
   let rasterBuffer: Uint8Array | null = null;
@@ -129,7 +177,9 @@ export function createAnalysisOverlay(data: MapStaticData, grid: TerritoryGrid) 
           ),
         });
         label.anchor.set(0.5, 0.5);
-        label.position.set(group.x / group.count, group.y / group.count);
+        const canonical = { x: group.x / group.count, y: group.y / group.count };
+        const scene = field?.project(canonical) ?? canonical;
+        label.position.set(scene.x, scene.y);
         label.scale.set(1 / scale);
         annotations.addChild(label);
         labels.push(label);
@@ -167,7 +217,8 @@ export function createAnalysisOverlay(data: MapStaticData, grid: TerritoryGrid) 
           dot.circle(0, 0, 1.5).stroke({ color: TOKENS_NUM.ink900, width: 0.7 });
         entry.signature = nextSignature;
       }
-      dot.position.set(pos.x, pos.y);
+      const scene = field?.project(pos) ?? pos;
+      dot.position.set(scene.x, scene.y);
       dot.scale.set(1 / scale);
       liveDots.add(army.id);
     }
@@ -190,7 +241,10 @@ export function createAnalysisOverlay(data: MapStaticData, grid: TerritoryGrid) 
       return redraws;
     },
     get ownedTextures(): number {
-      return texture === null ? 0 : 1;
+      return disposed || texture === null ? 0 : 1;
+    },
+    getProjectionDiagnostics() {
+      return projectedRaster?.getDiagnostics() ?? null;
     },
     update(view: MapViewState, mode: MapAnalysisMode, opacity: number): void {
       if (disposed) return;
@@ -217,16 +271,21 @@ export function createAnalysisOverlay(data: MapStaticData, grid: TerritoryGrid) 
             label: 'analysisFaction',
           });
           texture = new Texture({ source });
-          sprite = new Sprite(texture);
-          sprite.width = WORLD_SIZE;
-          sprite.height = WORLD_SIZE;
+          if (field) {
+            projectedRaster = createProjectedTerrainOverlay(texture, field);
+            sprite = projectedRaster.mesh;
+          } else {
+            sprite = new Sprite(texture);
+            sprite.width = WORLD_SIZE;
+            sprite.height = WORLD_SIZE;
+          }
           container.addChild(sprite);
         } else {
           // Keep the same resource allocation and update its contents in place.
           rasterBuffer?.set(pixels);
           source.update();
         }
-      } else drawAnalysisMarks(graphics, buildAnalysisMarks(data, view, mode));
+      } else drawAnalysisMarks(graphics, buildAnalysisMarks(data, view, mode), field?.project);
       redraws += 1;
     },
     destroy(): void {
@@ -235,7 +294,8 @@ export function createAnalysisOverlay(data: MapStaticData, grid: TerritoryGrid) 
       container.parent?.removeChild(container);
       if (sprite !== null) {
         container.removeChild(sprite);
-        sprite.destroy({ texture: false });
+        if (projectedRaster) projectedRaster.destroy();
+        else sprite.destroy({ texture: false });
       }
       texture?.destroy(false);
       source?.destroy();

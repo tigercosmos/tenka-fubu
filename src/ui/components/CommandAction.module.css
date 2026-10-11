@@ -1,11 +1,25 @@
 .action button {
   min-height: 32px;
-  padding: 0.4rem 0.8rem;
+  padding: 0.55rem 1.1rem;
+  font-weight: 600;
+  color: var(--text-inverse);
+  background: var(--brand-red);
+  border: 1px solid var(--brand-red);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.08),
+    0 2px 4px rgba(16, 27, 36, 0.12);
+}
+.action button:not(:disabled):hover {
+  color: var(--text-inverse);
+  background: var(--surface-command-raised);
+  border-color: var(--surface-command-raised);
 }
 .action small {
   display: block;
+  margin-top: 0.25rem;
+  color: var(--text-secondary);
 }
 .action button:focus-visible {
-  outline: 2px solid var(--ink-900);
+  outline: 2px solid var(--text-primary);
   outline-offset: 2px;
 }

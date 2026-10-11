@@ -4,10 +4,18 @@
 
 import { bumpTickSeq, setGame, store } from './store';
 import type { GameSpeed } from './store';
-import { dispatchCommand, exportCommandLog, type CommandDispatchResult } from './bridge';
+import {
+  dispatchCommand,
+  exportCommandLog,
+  getQueuedPlayerCommands,
+  getSessionEventEngine,
+  initializeBridgeSession,
+  type CommandDispatchResult,
+} from './bridge';
 import { gameLoop } from './gameLoop';
 import { perfMonitor, type PerfSnapshot } from './perfMonitor';
 import { buildNewGameState, loadScenario } from './boot';
+import { loadScenarioEventEngine } from './events/scenarioEventEngine';
 import type { Command } from '@core/commands/types';
 import type { GameState } from '@core/state/gameState';
 import {
@@ -22,10 +30,21 @@ import { DEBUG_M6_FLOW_IDS, DEBUG_M6_FLOW_SEED, prepareM6FlowState } from '@core
 import { uiStore } from '@ui/hooks/uiStore';
 import { startNewDemoGame } from './newGame';
 import { MAPVIEW } from '@ui/map/mapViewConfig';
+import { buildTerrainPack } from '@ui/map/terrain/terrainPack';
+import { probeRiverSurfaceBoundsPair } from '@ui/map/terrain/riverSurfaceMaterial';
 import { getDebugMapRenderer } from '@ui/map/debugMapBridge';
 import type { MapRenderer } from '@ui/map/MapRenderer';
 import { selectMapViewModel } from '@core/state/selectors';
 import { composeMapViewState } from '@ui/map/composeMapView';
+import { measureNationalMapFrames, prepareNationalMapFrameState } from './mapFrameMeasurement';
+import { createLiveMapWorkload, prepareLiveMapWorkload } from './liveMapWorkload';
+import { registerDebugLiveArmyDriver } from './bridge';
+import { measureLiveNationalMapFrames } from './liveMapFrameMeasurement';
+import { armyPhysicalLeg } from '@core/systems/armyReroute';
+
+let liveMapWorkload: ReturnType<typeof createLiveMapWorkload> | null = null;
+let disposeLiveMapWorkload: (() => void) | null = null;
+let liveMapGame: GameState | null = null;
 
 /**
  * URL 參數解析結果（01 §4.5 逐字；boot 前產生，執行期唯讀）。
@@ -91,6 +110,32 @@ export function parseDebugFlags(search: string): DebugFlags {
 
 /** console 除錯 API（01 §3.11.4 `TenkaDebugApi` 逐字）；僅 `debugFlags.enabled` 時安裝。 */
 export interface TenkaDebugApi {
+  prepareLiveNationalMapWorkload(): {
+    count: number;
+    commands: number;
+    geographyRegions: readonly string[];
+    armyRegions: readonly string[];
+    initialCommands: ReturnType<typeof prepareLiveMapWorkload>['commands'];
+    initialEvents: ReturnType<typeof prepareLiveMapWorkload>['events'];
+  };
+  getLiveNationalMapWorkload(): ReturnType<
+    ReturnType<typeof createLiveMapWorkload>['getSnapshot']
+  > | null;
+  stopLiveNationalMapWorkload(): void;
+  measureLiveNationalMapFrames(
+    durationMs?: number,
+  ): ReturnType<typeof measureLiveNationalMapFrames>;
+  /** Fresh national clone; actual validated march commands, no synthetic army records. */
+  spawnArmies(count: number): {
+    count: number;
+    commands: number;
+    scope: string;
+    armyRegions: ReturnType<typeof prepareNationalMapFrameState>['armyRegions'];
+  };
+  measureNationalMapFrames(
+    preset: 'overview' | 'operational' | 'close',
+    durationMs?: number,
+  ): ReturnType<typeof measureNationalMapFrames>;
   startM6Flow(): Promise<void>;
   startBattle(layoutId: string): void;
   getState(): GameState; // 直接參考（唯讀約定，僅供檢查）
@@ -111,6 +156,19 @@ export interface TenkaDebugApi {
   /** 等待地圖 renderer 連續 `frames`（預設 2）個 ticker frame，供截圖前確保畫面已靜止（17 §3.9.3）。 */
   waitMapIdle(frames?: number): Promise<void>;
   getMapDiagnostics(): ReturnType<MapRenderer['getDiagnostics']>;
+  setMapRoadPaintVisible(visible: boolean): boolean;
+  setMapWaterPaintVisible(visible: boolean): boolean;
+  setMapMountainHeroVisible(visible: boolean): boolean;
+  getRiverPureBoundsProbe(
+    firstId: string,
+    secondId: string,
+  ): ReturnType<MapRenderer['getRiverPureBoundsProbe']>;
+  getRiverRuntimeIdentityProbe(
+    firstId: string,
+    secondId: string,
+    order: 'retained-first' | 'canonical-first',
+    inspectionTiming?: 'before' | 'after',
+  ): ReturnType<MapRenderer['getRiverRuntimeIdentityProbe']>;
   remountMap(): Promise<void>;
   measureMapFrames(durationMs?: number): Promise<{
     durationMs: number;
@@ -178,12 +236,16 @@ async function replayCommandLog(log: CommandLogFile): Promise<ReplayResult> {
     throw new Error(`replayCommandLog: 無效的 playerClanId「${playerClanId}」`);
   }
   const bundle = await loadScenario(log.scenarioId);
-  return replayCoreCommandLog(log, () =>
-    buildNewGameState(bundle, {
-      playerClanId,
-      difficulty: 'normal',
-      seed: log.seed,
-    }),
+  const eventEngine = await loadScenarioEventEngine(log.scenarioId);
+  return replayCoreCommandLog(
+    log,
+    () =>
+      buildNewGameState(bundle, {
+        playerClanId,
+        difficulty: 'normal',
+        seed: log.seed,
+      }),
+    { eventEngine },
   );
 }
 
@@ -196,6 +258,138 @@ export function installDebugApi(flags: DebugFlags): void {
     return;
   }
   const api: TenkaDebugApi = {
+    prepareLiveNationalMapWorkload() {
+      const original = requireGame();
+      const eventEngine = getSessionEventEngine();
+      if (
+        store.getState().session.speed !== 'paused' ||
+        getQueuedPlayerCommands(original).length ||
+        !eventEngine
+      )
+        throw new Error(
+          'Live preparation requires paused fresh session, empty player queue and canonical event engine',
+        );
+      const prepared = prepareLiveMapWorkload(original);
+      disposeLiveMapWorkload?.();
+      setGame(prepared.game);
+      initializeBridgeSession(prepared.game, [], { loaded: true, eventEngine });
+      liveMapWorkload = createLiveMapWorkload(prepared.slots);
+      liveMapGame = prepared.game;
+      const owner = liveMapWorkload;
+      const recordDisposal = owner.driver.dispose.bind(owner.driver);
+      owner.driver.dispose = (reason) => {
+        recordDisposal(reason);
+        if (liveMapWorkload === owner) {
+          liveMapGame = null;
+          disposeLiveMapWorkload = null;
+        }
+      };
+      disposeLiveMapWorkload = registerDebugLiveArmyDriver(prepared.game, liveMapWorkload.driver);
+      bumpTickSeq();
+      return {
+        count: prepared.slots.length,
+        commands: prepared.commands.length,
+        geographyRegions: prepared.geographyRegions,
+        armyRegions: prepared.armyRegions,
+        initialCommands: structuredClone(prepared.commands),
+        initialEvents: structuredClone(prepared.events),
+      };
+    },
+    getLiveNationalMapWorkload() {
+      return liveMapWorkload?.getSnapshot() ?? null;
+    },
+    stopLiveNationalMapWorkload() {
+      disposeLiveMapWorkload?.();
+      disposeLiveMapWorkload = null;
+    },
+    measureLiveNationalMapFrames(durationMs) {
+      const renderer = requireMapRenderer();
+      const expectedGame = liveMapGame;
+      const workload = liveMapWorkload;
+      if (!expectedGame || !workload) throw new Error('No live workload prepared');
+      const cohortArmyIds = workload.driver.slots.map((slot) => slot.armyId);
+      return measureLiveNationalMapFrames({
+        renderer: {
+          subscribeRenderedFrames: (listener) => renderer.subscribeRenderedFrames(listener),
+          getDiagnostics: () => renderer.getDiagnostics(),
+          getArmyRenderObservation: () => renderer.getArmyRenderObservation(cohortArmyIds),
+          isReady: () => renderer.isReady(),
+        },
+        ...(durationMs === undefined ? {} : { durationMs }),
+        sample: () => {
+          const { game, session } = store.getState();
+          const snapshot = workload.getSnapshot();
+          const armies = workload.driver.slots.map((slot) => expectedGame.armies[slot.armyId]);
+          const blockingReasons = [];
+          if (session.viewportBlocked) blockingReasons.push('viewport');
+          if (session.fatalError) blockingReasons.push('fatal');
+          if (session.debug.jumping !== null) blockingReasons.push('debug-jump');
+          if (session.screen !== 'main') blockingReasons.push('screen');
+          if (expectedGame.meta.gameOver !== null) blockingReasons.push('game-over');
+          if (expectedGame.events.pendingChoiceEventId !== null)
+            blockingReasons.push('pending-choice');
+          if (uiStore.getState().modal !== null) blockingReasons.push('modal');
+          return {
+            day: expectedGame.time.day,
+            speed: session.speed,
+            marchingCount: armies.filter(
+              (a) =>
+                a &&
+                a.status === 'marching' &&
+                a.soldiers > 0 &&
+                (armyPhysicalLeg(a) !== null || a.pathCursor < a.path.length - 1),
+            ).length,
+            paidLegs: armies.filter((a) => a && armyPhysicalLeg(a) !== null).length,
+            cohortCount: workload.driver.slots.length,
+            gameIdentityMatches: game === expectedGame,
+            workloadActive: liveMapWorkload === workload && !snapshot.disposed,
+            rendererIdentityMatches: getDebugMapRenderer() === renderer,
+            visible: document.visibilityState !== 'hidden',
+            blockingReasons,
+            failure: snapshot.failure,
+          };
+        },
+        subscribeSessionChanges(listener) {
+          const unsubscribeGame = store.subscribe(listener);
+          const unsubscribeUi = uiStore.subscribe(listener);
+          document.addEventListener('visibilitychange', listener);
+          return () => {
+            unsubscribeGame();
+            unsubscribeUi();
+            document.removeEventListener('visibilitychange', listener);
+          };
+        },
+      });
+    },
+    spawnArmies(count) {
+      const original = requireGame();
+      if (store.getState().session.speed !== 'paused' || getQueuedPlayerCommands(original).length)
+        throw new Error(
+          'National army preparation requires paused strategy and no pending commands',
+        );
+      const { game, commands, armyRegions } = prepareNationalMapFrameState(original, count);
+      const eventEngine = getSessionEventEngine();
+      setGame(game);
+      initializeBridgeSession(game, [], { loaded: true, ...(eventEngine ? { eventEngine } : {}) });
+      bumpTickSeq();
+      return {
+        count: Object.keys(game.armies).length,
+        commands: commands.length,
+        armyRegions,
+        scope: 'cloned-national-state/validated-march-commands',
+      };
+    },
+    async measureNationalMapFrames(preset, durationMs) {
+      if (store.getState().session.speed !== 'paused')
+        throw new Error('National render-only prerequisite requires paused strategy');
+      const game = requireGame();
+      return measureNationalMapFrames(
+        game,
+        requireMapRenderer(),
+        resolveCameraPresetPose(game, preset),
+        durationMs,
+      );
+    },
     async startM6Flow() {
       const bundle = await loadScenario('s1560');
       const game = prepareM6FlowState(
@@ -232,7 +426,7 @@ export function installDebugApi(flags: DebugFlags): void {
       return game === null ? (flags.seed ?? 0) : game.meta.seed;
     },
     getPerf() {
-      return perfMonitor.getSnapshot();
+      return perfMonitor.getSnapshot(store.getState().game);
     },
     exportCommandLog,
     replayCommandLog,
@@ -247,6 +441,28 @@ export function installDebugApi(flags: DebugFlags): void {
     },
     getMapDiagnostics() {
       return requireMapRenderer().getDiagnostics();
+    },
+    setMapRoadPaintVisible(visible) {
+      return requireMapRenderer().setRoadPaintVisibilityForDiagnostics(visible);
+    },
+    setMapWaterPaintVisible(visible) {
+      return requireMapRenderer().setWaterPaintVisibilityForDiagnostics(visible);
+    },
+    setMapMountainHeroVisible(visible) {
+      return requireMapRenderer().setMountainHeroVisibilityForDiagnostics(visible);
+    },
+    getRiverPureBoundsProbe(firstId, secondId) {
+      return requireMapRenderer().getRiverPureBoundsProbe(firstId, secondId);
+    },
+    getRiverRuntimeIdentityProbe(firstId, secondId, order, inspectionTiming) {
+      return requireMapRenderer().getRiverRuntimeIdentityProbe(
+        firstId,
+        secondId,
+        order,
+        buildTerrainPack().rivers,
+        probeRiverSurfaceBoundsPair,
+        inspectionTiming,
+      );
     },
     async remountMap() {
       const oldRenderer = requireMapRenderer();

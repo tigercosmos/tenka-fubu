@@ -5,6 +5,9 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import {
   dispatchCommand,
+  captureSaveSnapshot,
+  getBridgeProgressMark,
+  initializeBridgeSession,
   exportCommandLog,
   onAutoPauseReasons,
   resetBridgeForTests,
@@ -12,8 +15,17 @@ import {
 } from '../../src/app/bridge';
 import { resetGameStoreForTests, store } from '../../src/app/store';
 import { CoreError } from '../../src/core/errors';
-import type { Command } from '../../src/core/commands/types';
+import type { Command, CmdMarch } from '../../src/core/commands/types';
 import { makeLoopTestState, TEST_CLAN } from '../helpers/loopState';
+import {
+  buildTinyState,
+  CLAN_ALPHA,
+  CLAN_BETA,
+  CASTLE_A1,
+  CASTLE_A2,
+  OFF_ALPHA_LORD,
+  OFF_ALPHA_BUSHO,
+} from '../fixtures/tiny';
 
 function grantGold(gold: number): Command {
   return { type: 'debugGrant', clanId: TEST_CLAN, gold, food: null, castleId: null };
@@ -47,6 +59,69 @@ describe('dispatchCommand — 已 boot', () => {
     dispatchCommand(grantGold(1));
     dispatchCommand(grantGold(2));
     expect(store.getState().session.pendingCommandCount).toBe(2);
+  });
+
+  it.each([NaN, Infinity, -Infinity])(
+    'rejects malformed debug grant %s before normalization, without changing the queue',
+    (gold) => {
+      dispatchCommand(grantGold(7));
+      expect(() => dispatchCommand(grantGold(gold))).toThrow(CoreError);
+      expect(() => dispatchCommand(grantGold(gold))).toThrow('invalid command shape');
+      expect(captureSaveSnapshot(123).pendingCommands).toEqual([grantGold(7)]);
+      expect(store.getState().session.pendingCommandCount).toBe(1);
+    },
+  );
+
+  it('rejects nonplayer debug intents even when the other clan exists', () => {
+    const game = buildTinyState();
+    game.meta.debugMode = true;
+    resetGameStoreForTests(game);
+    expect(
+      dispatchCommand({
+        type: 'debugGrant',
+        clanId: CLAN_BETA,
+        gold: 1,
+        food: null,
+        castleId: null,
+      }),
+    ).toEqual({ ok: false, reason: 'cmd.reject.notOwner' });
+    expect(captureSaveSnapshot(123).pendingCommands).toEqual([]);
+    expect(store.getState().session.pendingCommandCount).toBe(0);
+  });
+
+  it('captures accepted command values instead of retaining caller references', () => {
+    const command = grantGold(7);
+    expect(dispatchCommand(command).ok).toBe(true);
+    if (command.type !== 'debugGrant') throw new Error('wrong command fixture');
+    command.gold = 999;
+    expect(captureSaveSnapshot(123).pendingCommands).toEqual([grantGold(7)]);
+    runOneDay();
+    expect(store.getState().game!.clans[TEST_CLAN]!.gold).toBe(7);
+  });
+
+  it('copies march deputy arrays as well as scalar fields', () => {
+    const game = buildTinyState();
+    resetGameStoreForTests(game);
+    const command: CmdMarch = {
+      type: 'march',
+      clanId: CLAN_ALPHA,
+      originCastleId: CASTLE_A1,
+      leaderId: OFF_ALPHA_LORD,
+      deputyIds: [OFF_ALPHA_BUSHO],
+      soldiers: 500,
+      food: 100,
+      targetNodeId: CASTLE_A2,
+    };
+    expect(dispatchCommand(command)).toEqual({ ok: true });
+    command.deputyIds.length = 0;
+    command.soldiers = 1;
+    expect(captureSaveSnapshot(123).pendingCommands).toEqual([
+      {
+        ...command,
+        deputyIds: [OFF_ALPHA_BUSHO],
+        soldiers: 500,
+      },
+    ]);
   });
 
   it('非法 Command（debugMode=false）：回傳 ok:false 且不入列（pendingCommandCount 不變）', () => {
@@ -86,6 +161,122 @@ describe('dispatchCommand — 已 boot', () => {
 describe('runOneDay — game 未 boot', () => {
   it('拋出 CoreError（DATA_INTEGRITY）', () => {
     expect(() => runOneDay()).toThrow(CoreError);
+  });
+});
+
+describe('M8 待結算指令存檔續接', () => {
+  it('explicitly loaded day-zero saves retain incomplete provenance with restored pending commands', () => {
+    const game = makeLoopTestState({ debugMode: true, gold: 123 });
+    resetGameStoreForTests(game);
+    initializeBridgeSession(game, [grantGold(7)], { loaded: true });
+    expect(exportCommandLog()).toMatchObject({
+      finalDay: 0,
+      truncated: true,
+      incompleteReasons: ['loadedGame'],
+    });
+    expect(captureSaveSnapshot(100).pendingCommands).toEqual([grantGold(7)]);
+    runOneDay();
+    expect(game.clans[TEST_CLAN]!.gold).toBe(130);
+    expect(exportCommandLog()).toMatchObject({
+      finalDay: 1,
+      truncated: true,
+      incompleteReasons: ['loadedGame'],
+    });
+  });
+
+  it.each([undefined, false])(
+    'fresh day-zero session keeps complete provenance (loaded=%s)',
+    (loaded) => {
+      const game = makeLoopTestState({ debugMode: true });
+      resetGameStoreForTests(game);
+      initializeBridgeSession(game, [], loaded === undefined ? {} : { loaded });
+      expect(exportCommandLog()).toMatchObject({
+        finalDay: 0,
+        truncated: false,
+      });
+      expect(exportCommandLog().incompleteReasons).toBeUndefined();
+      dispatchCommand(grantGold(7));
+      runOneDay();
+      expect(exportCommandLog()).toMatchObject({
+        finalDay: 1,
+        truncated: false,
+      });
+      expect(exportCommandLog().incompleteReasons).toBeUndefined();
+    },
+  );
+  it('returns detached progress marks for pending and consumed commands, and null without a game', () => {
+    expect(getBridgeProgressMark()).toBeNull();
+    const game = makeLoopTestState({ debugMode: true });
+    resetGameStoreForTests(game);
+    expect(getBridgeProgressMark()).toEqual({
+      tick: 0,
+      lastAppliedCmdSeq: 0,
+      pendingCommands: [],
+      tickSeq: 0,
+      pendingBattleOrders: [],
+    });
+    dispatchCommand(grantGold(7));
+    const progress = getBridgeProgressMark()!;
+    expect(progress).toEqual({
+      tick: 0,
+      lastAppliedCmdSeq: 0,
+      pendingCommands: [grantGold(7)],
+      tickSeq: 0,
+      pendingBattleOrders: [],
+    });
+    progress.pendingCommands.length = 0;
+    expect(getBridgeProgressMark()!.pendingCommands).toEqual([grantGold(7)]);
+    runOneDay();
+    expect(getBridgeProgressMark()).toEqual({
+      tick: 1,
+      lastAppliedCmdSeq: 1,
+      pendingCommands: [],
+      tickSeq: 1,
+      pendingBattleOrders: [],
+    });
+  });
+  it('暫停時快照保留順序，無 drain／seq 副作用且與活佇列解耦', () => {
+    const game = makeLoopTestState({ debugMode: true, gold: 100 });
+    resetGameStoreForTests(game);
+    dispatchCommand(grantGold(3));
+    dispatchCommand(grantGold(4));
+    const save = captureSaveSnapshot(123);
+    expect(save.pendingCommands).toEqual([grantGold(3), grantGold(4)]);
+    expect(store.getState().session.pendingCommandCount).toBe(2);
+    expect(game.meta.lastAppliedCmdSeq).toBe(0);
+    save.pendingCommands[0] = grantGold(999);
+    expect(captureSaveSnapshot(124).pendingCommands[0]).toEqual(grantGold(3));
+    runOneDay();
+    expect(game.clans[TEST_CLAN]?.gold).toBe(107);
+    expect(game.meta.lastAppliedCmdSeq).toBe(2);
+  });
+
+  it('顯式恢復後首次 dispatch/tick 不丟失 pending，依 lastAppliedCmdSeq 續接且不重複套用', () => {
+    const game = makeLoopTestState({ debugMode: true, gold: 100, lastAppliedCmdSeq: 41 });
+    game.meta.stateVersion = 41;
+    resetGameStoreForTests(game);
+    const commands = [grantGold(3), grantGold(4)];
+    initializeBridgeSession(game, commands);
+    commands[0] = grantGold(999);
+    dispatchCommand(grantGold(5));
+    expect(store.getState().session.pendingCommandCount).toBe(3);
+    runOneDay();
+    expect(game.clans[TEST_CLAN]?.gold).toBe(112);
+    expect(game.meta.lastAppliedCmdSeq).toBe(44);
+    runOneDay();
+    expect(game.clans[TEST_CLAN]?.gold).toBe(112);
+    expect(exportCommandLog().truncated).toBe(true);
+  });
+
+  it('初始化拒絕錯誤 session／畸形指令，不覆蓋既有待結算佇列', () => {
+    const game = makeLoopTestState({ debugMode: true, gold: 100 });
+    resetGameStoreForTests(game);
+    dispatchCommand(grantGold(7));
+    expect(() => initializeBridgeSession(makeLoopTestState())).toThrow(CoreError);
+    expect(() =>
+      initializeBridgeSession(game, [{ ...grantGold(1), authority: {} } as unknown as Command]),
+    ).toThrow(CoreError);
+    expect(captureSaveSnapshot(123).pendingCommands).toEqual([grantGold(7)]);
   });
 });
 

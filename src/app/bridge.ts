@@ -11,34 +11,358 @@
 // `runOneDay` 每 tick 結束呼叫該回呼並傳入 `TickResult.autoPauseReasons`，行為與 01 §5.2
 // 步驟 9 等價，只是改由 autoPause.ts 主動訂閱而非本檔主動 import。
 
-import { advanceDay } from '@core/systems/index';
+import { advanceDay, STEP_SEQUENCE } from '@core/systems/index';
 import type { AutoPauseReason, TickResult } from '@core/systems/index';
 import { validateCommand } from '@core/commands/validate';
-import { CommandQueue } from '@core/commands/queue';
-import type { Command } from '@core/commands/types';
+import { CommandQueue, enqueuePendingAiOrders } from '@core/commands/queue';
+import type { Command, CmdResolveEventChoice } from '@core/commands/types';
 import type { GameEvent } from '@core/state/events';
 import type { GameState } from '@core/state/gameState';
+import type { ClanId, TransportId } from '@core/state/ids';
 import { CommandLogRecorder, type CommandLogFile } from '@core/replay/commandLog';
 import { CoreError } from '@core/errors';
 import { store } from './store';
+import { uiStore } from '../ui/hooks/uiStore';
+import { snapshotPendingBattleOrders, type PendingBattleOrders } from './battleBridge';
 import { captureFatalError } from './errors';
 import { perfMonitor } from './perfMonitor';
+import { checkDevInvariantsAfterTick, isDevInvariantTick } from './devInvariants';
+import { publishMonthSummary, resetMonthSummaries } from './monthSummaryFlow';
+import { publishCapturedOfficers, resetCapturedOfficerPresentations } from './captivePresentation';
 import { autosave } from './persistence';
+import { buildSaveFile, type SaveFile, type SaveMetadataContext } from '@core/save/serialize';
+import { isCommandShape, validateSavedPendingCommands } from '@core/save/validatePendingCommands';
+import type { EventEngine } from '@core/systems/events/engine';
+import type { CommandContext } from '@core/commands/registry';
+import { BAL } from '@core/balance';
+import type { LiveArmySlot } from './liveMapWorkload';
+import type { CmdSetArmyTarget } from '@core/commands/types';
+import type { ExecutionAuthority } from '@core/commands/authority';
+import { buildEventModalVM } from './events/eventViewModel';
+import { getEventPresentationOptions } from './events/presentationMetadata';
+import {
+  enqueueEventPresentation,
+  enqueuePendingEventPresentation,
+  synchronizePendingEventPresentations,
+  resetEventPresentations,
+} from './events/eventPresentationQueue';
 
 let commandQueue = new CommandQueue();
 let commandLogGame: GameState | null = null;
+let sessionEventEngine: EventEngine | null = null;
+let unsubscribeEventPresentations: (() => void) | null = null;
+let deferredTickPresentations: { game: GameState; publish: (() => void)[] } | null = null;
 const commandLogRecorder = new CommandLogRecorder();
 
-function prepareCommandLog(game: GameState): void {
+export interface DebugLiveArmyDriver {
+  readonly slots: readonly LiveArmySlot[];
+  beforeDay(game: Readonly<GameState>): readonly CmdSetArmyTarget[];
+  afterDay(game: Readonly<GameState>, result: Readonly<TickResult>): void;
+  dispose(reason: string): void;
+}
+let liveDriver: {
+  game: GameState;
+  driver: DebugLiveArmyDriver;
+  unsubscribe: () => void;
+  bindings: Map<string, { clanId: ClanId; authority: ExecutionAuthority }>;
+} | null = null;
+function clearLiveDriver(reason: string): void {
+  const previous = liveDriver;
+  liveDriver = null;
+  previous?.unsubscribe();
+  try {
+    previous?.driver.dispose(reason);
+  } catch {
+    /* Debug observer cannot change strategy rules. */
+  }
+}
+/** Debug-only scoped command source. Cleanup cannot remove a newer registration. */
+export function registerDebugLiveArmyDriver(
+  game: GameState,
+  driver: DebugLiveArmyDriver,
+): () => void {
+  if (store.getState().game !== game || commandLogGame !== game)
+    throw new Error('Live driver requires initialized current session');
+  const bindings = new Map<string, { clanId: ClanId; authority: ExecutionAuthority }>();
+  for (const slot of driver.slots) {
+    const army = game.armies[slot.armyId];
+    if (
+      !army ||
+      bindings.has(slot.armyId) ||
+      army.originCastleId !== slot.castleId ||
+      game.castles[slot.castleId]?.ownerClanId !== army.clanId
+    )
+      throw new Error('Live driver requires unique existing source-owned armies');
+    bindings.set(slot.armyId, {
+      clanId: army.clanId,
+      authority:
+        army.clanId === game.meta.playerClanId
+          ? { kind: 'player' }
+          : { kind: 'clan', clanId: army.clanId },
+    });
+  }
+  if (bindings.size !== 40) throw new Error('Live driver requires exactly forty armies');
+  clearLiveDriver('replaced');
+  const registration = { game, driver, bindings, unsubscribe: () => {} };
+  liveDriver = registration;
+  registration.unsubscribe = store.subscribe((state) => {
+    if (liveDriver !== registration) return;
+    if (state.game !== game) clearLiveDriver('session-replaced');
+    else if (
+      state.session.screen === 'title' ||
+      state.session.screen === 'ending' ||
+      state.session.fatalError !== null ||
+      game.meta.gameOver !== null
+    )
+      clearLiveDriver('session-ended');
+  });
+  return () => {
+    if (liveDriver === registration) clearLiveDriver('disposed');
+  };
+}
+
+function enqueueLiveArmyTargets(game: GameState): void {
+  const registration = liveDriver;
+  const session = store.getState().session;
+  if (
+    !registration ||
+    registration.game !== game ||
+    session.screen !== 'main' ||
+    session.viewportBlocked ||
+    session.fatalError !== null ||
+    session.debug.jumping !== null ||
+    game.meta.gameOver !== null ||
+    (session.speed === 'paused' && !hasQueuedEventChoiceResolution())
+  )
+    return;
+  try {
+    const expectedQueue = commandQueue;
+    const commands = registration.driver.beforeDay(game);
+    if (
+      liveDriver !== registration ||
+      commandQueue !== expectedQueue ||
+      store.getState().game !== game
+    )
+      return;
+    const seen = new Set<string>();
+    const intents = commands.map((command) => {
+      const binding = registration.bindings.get(command.armyId);
+      const army = game.armies[command.armyId];
+      if (
+        !isCommandShape(command) ||
+        command.type !== 'setArmyTarget' ||
+        !binding ||
+        !army ||
+        seen.has(command.armyId) ||
+        army.clanId !== command.clanId ||
+        binding.clanId !== command.clanId ||
+        !validateCommand(game, command, binding.authority, commandContext()).ok
+      )
+        throw new Error(`Live driver command rejected: ${command.armyId}`);
+      seen.add(command.armyId);
+      return { command, authority: binding.authority };
+    });
+    if (
+      liveDriver !== registration ||
+      store.getState().game !== game ||
+      commandLogGame !== game ||
+      commandQueue !== expectedQueue
+    )
+      return;
+    for (const intent of intents)
+      commandQueue.enqueue(structuredClone(intent.command), game.time.day, intent.authority);
+  } catch (error) {
+    if (liveDriver === registration)
+      clearLiveDriver(error instanceof Error ? error.message : 'live-driver-failure');
+  }
+}
+
+function prepareCommandLog(game: GameState, loaded = false): void {
   if (commandLogGame === game) return;
+  clearLiveDriver('session-initialized');
+  unsubscribeEventPresentations?.();
+  unsubscribeEventPresentations = null;
+  resetEventPresentations(game);
+  resetCapturedOfficerPresentations();
+  resetMonthSummaries(game);
   commandLogGame = game;
+  sessionEventEngine = null;
   // 讀檔／換局時必須同步清掉前一局 pending，並從存檔的已消耗 seq 後續接。
   commandQueue = new CommandQueue(game.meta.lastAppliedCmdSeq + 1);
   store.getState().actions.setPendingCommandCount(0);
   // 從進度中存檔開始無法由劇本初始狀態完整重放，明確標記為 truncated。
   commandLogRecorder.reset({
-    ...(game.meta.stateVersion !== 0 ? { incompleteReason: 'loadedGame' as const } : {}),
+    ...(loaded || game.meta.stateVersion !== 0 ? { incompleteReason: 'loadedGame' as const } : {}),
   });
+}
+
+/** 恢復原待結算指令，不提前套用或剔除；即時驗證僅決定已提交同意的 UI 隱藏資格。 */
+export function initializeBridgeSession(
+  game: GameState,
+  pendingCommands: readonly Command[] = [],
+  options: { loaded?: boolean; eventEngine?: EventEngine } = {},
+): void {
+  if (
+    store.getState().game !== game ||
+    !validateSavedPendingCommands(pendingCommands, game.meta.playerClanId)
+  )
+    throw new CoreError(
+      'INVALID_COMMAND_SHAPE',
+      'initializeBridgeSession: invalid session or pending commands',
+    );
+  // 同一物件也必須重設：明確初始化與懶初始化不同，不沿用上一局的佇列。
+  commandLogGame = null;
+  prepareCommandLog(game, options.loaded === true);
+  sessionEventEngine = options.eventEngine ?? null;
+  const engine = sessionEventEngine;
+  if (engine)
+    unsubscribeEventPresentations = engine.subscribeFired((notice, state) => {
+      const publish = () => {
+        if (
+          state === commandLogGame &&
+          state === store.getState().game &&
+          state.events.pendingChoiceEventId === notice.def.id
+        ) {
+          enqueuePendingEventPresentation(state, notice.def.id);
+          return;
+        }
+        if (
+          state !== commandLogGame ||
+          state !== store.getState().game ||
+          state.events.pendingChoiceEventId === notice.def.id ||
+          (notice.def.kind !== 'historical' &&
+            !notice.clanIds.includes(state.meta.playerClanId) &&
+            !notice.def.ownerCandidates.includes(state.meta.playerClanId))
+        )
+          return;
+        enqueueEventPresentation(
+          state,
+          buildEventModalVM(state, notice.def, notice.binding, engine, {
+            ...getEventPresentationOptions(notice.def.id, notice.binding),
+            resolved: true,
+          }),
+        );
+      };
+      if (deferredTickPresentations?.game === state)
+        deferredTickPresentations.publish.push(publish);
+      else publish();
+    });
+  const restored = JSON.parse(JSON.stringify(pendingCommands)) as Command[];
+  const restoredQueue = commandQueue;
+  const ownsRestoredSession = () =>
+    store.getState().game === game && commandLogGame === game && commandQueue === restoredQueue;
+  for (const command of restored) commandQueue.enqueue(command, game.time.day);
+  store.getState().actions.setPendingCommandCount(commandQueue.size);
+  if (!ownsRestoredSession()) return;
+  // Core subjects remain pending until the normal tick. The native queue, not
+  // transient dialog state, proves that their player consent was already submitted.
+  const queuedDecisionIds = restored.flatMap((command) =>
+    (command.type === 'resolveProposal' ||
+      command.type === 'respondPact' ||
+      command.type === 'handleCaptive') &&
+    command.clanId === game.meta.playerClanId &&
+    validateCommand(game, command).ok
+      ? [command.type === 'handleCaptive' ? command.officerId : command.proposalId]
+      : [],
+  );
+  uiStore.setState({ queuedDecisionIds: [...new Set(queuedDecisionIds)] });
+  if (!ownsRestoredSession()) return;
+  synchronizePendingEventPresentations(game);
+}
+
+/** 不 drain、不更動 seq 的 tick 邊界存檔快照；同步捕捉 state 與尚未結算的玩家指令。 */
+export function captureSaveSnapshot(
+  timestamp: number,
+  context: SaveMetadataContext = {},
+): SaveFile {
+  const game = store.getState().game;
+  if (game === null) throw new CoreError('DATA_INTEGRITY', 'captureSaveSnapshot: game 尚未初始化');
+  prepareCommandLog(game);
+  const pending = commandQueue.snapshotPlayerCommands();
+  if (!validateSavedPendingCommands(pending, game.meta.playerClanId))
+    throw new CoreError('INVALID_COMMAND_SHAPE', 'captureSaveSnapshot: invalid pending commands');
+  return buildSaveFile(game, timestamp, pending, context);
+}
+
+/** App progress mark without copying GameState or consuming pending commands. */
+export function getBridgeProgressMark(): {
+  tick: number;
+  lastAppliedCmdSeq: number;
+  pendingCommands: Command[];
+  tickSeq: number;
+  pendingBattleOrders: PendingBattleOrders[];
+} | null {
+  const game = store.getState().game;
+  if (game === null) return null;
+  prepareCommandLog(game);
+  return {
+    tick: game.meta.stateVersion,
+    lastAppliedCmdSeq: game.meta.lastAppliedCmdSeq,
+    pendingCommands: commandQueue.snapshotPlayerCommands(),
+    tickSeq: store.getState().tickSeq,
+    pendingBattleOrders: snapshotPendingBattleOrders(),
+  };
+}
+
+/** Detached, identity-scoped presentation snapshot; never initializes or drains the queue. */
+export function getQueuedPlayerCommands(expectedGame: GameState): readonly Command[] {
+  return store.getState().game === expectedGame && commandLogGame === expectedGame
+    ? commandQueue.snapshotPlayerCommands()
+    : [];
+}
+
+/** Presentation-only duplicate guard; never initializes or drains the command queue. */
+export function hasQueuedTaimeiInvocation(clanId: ClanId): boolean {
+  const game = store.getState().game;
+  return (
+    game !== null &&
+    commandLogGame === game &&
+    commandQueue
+      .snapshotPlayerCommands()
+      .some((cmd) => cmd.type === 'invokeTaimei' && cmd.clanId === clanId)
+  );
+}
+
+/** Presentation-only recall guard; never initializes or drains the command queue. */
+export function hasQueuedTransportRecall(clanId: ClanId, transportId: TransportId): boolean {
+  const game = store.getState().game;
+  return (
+    game !== null &&
+    commandLogGame === game &&
+    commandQueue
+      .snapshotPlayerCommands()
+      .some(
+        (cmd) =>
+          cmd.type === 'recallTransport' &&
+          cmd.clanId === clanId &&
+          cmd.transportId === transportId,
+      )
+  );
+}
+
+/** Read-only thaw gate: only a currently valid player decision can enter normal Step 1. */
+export function hasQueuedEventChoiceResolution(): boolean {
+  const game = store.getState().game;
+  if (game === null || commandLogGame !== game || game.events.pendingChoiceEventId === null)
+    return false;
+  return commandQueue
+    .snapshotPlayerCommands()
+    .some(
+      (command) =>
+        isCommandShape(command) &&
+        command.type === 'resolveEventChoice' &&
+        command.clanId === game.meta.playerClanId &&
+        command.eventId === game.events.pendingChoiceEventId &&
+        validateCommand(game, command, undefined, commandContext()).ok,
+    );
+}
+
+function commandContext(): CommandContext {
+  return sessionEventEngine ? { eventEngine: sessionEventEngine } : {};
+}
+
+export function getSessionEventEngine(): EventEngine | null {
+  return commandLogGame === store.getState().game ? sessionEventEngine : null;
 }
 
 /** dispatchCommand 的同步預檢結果（01 §4.5）。
@@ -52,25 +376,101 @@ export type CommandDispatchResult =
 
 /** UI 對遊戲狀態的唯一寫入路徑（01 §3.4.3）。 */
 export function dispatchCommand(cmd: Command): CommandDispatchResult {
+  if (!isCommandShape(cmd))
+    throw new CoreError('INVALID_COMMAND_SHAPE', 'dispatchCommand: invalid command shape');
   const game = store.getState().game;
   if (game === null) {
     return { ok: false, reason: 'cmd.reject.notBooted' };
   }
+  if (cmd.clanId !== game.meta.playerClanId) return { ok: false, reason: 'cmd.reject.notOwner' };
   prepareCommandLog(game);
-  const verdict = validateCommand(game, cmd); // 同步預檢，立即回饋 UI（軟驗證；Step 1 仍會再硬驗證一次）
+  const verdict = validateCommand(game, cmd, undefined, commandContext());
   if (!verdict.ok) {
     // exactOptionalPropertyTypes：verdict.params 為 undefined 時不得顯式帶入該 key。
     return verdict.params === undefined
       ? { ok: false, reason: verdict.reasonKey }
       : { ok: false, reason: verdict.reasonKey, params: verdict.params };
   }
-  commandQueue.enqueue(cmd, game.time.day);
+  // Copy the accepted intent before its caller can mutate fields or nested ID arrays.
+  commandQueue.enqueue(JSON.parse(JSON.stringify(cmd)) as Command, game.time.day);
   store.getState().actions.setPendingCommandCount(commandQueue.size);
   return { ok: true };
 }
 
+/**
+ * Mandatory choice exception to the paused app driver (10 §5.3/D7).
+ * Submit normally, then run bounded FIFO tick batches without changing pause ownership/speed.
+ * Success means this decision was consumed and its pending event cleared or changed; a rejected,
+ * aborted, or still-pending decision returns failure. UI always re-reads the actual pending event.
+ */
+export async function resolvePendingEventChoice(
+  cmd: CmdResolveEventChoice,
+): Promise<CommandDispatchResult> {
+  if (!isCommandShape(cmd))
+    throw new CoreError(
+      'INVALID_COMMAND_SHAPE',
+      'resolvePendingEventChoice: invalid command shape',
+    );
+  const game = store.getState().game;
+  if (game === null) return { ok: false, reason: 'cmd.reject.notBooted' };
+  if (game.meta.gameOver !== null) return { ok: false, reason: 'cmd.reject.gameOver' };
+  const eventId = cmd.eventId;
+  const invalid = (): CommandDispatchResult => ({ ok: false, reason: 'cmd.reject.invalidTarget' });
+  const battleActive = (): boolean =>
+    Object.values(game.battles).some(
+      (battle) =>
+        battle.result === null &&
+        (battle.attackerClanId === game.meta.playerClanId ||
+          battle.defenderClanId === game.meta.playerClanId),
+    );
+  if (
+    cmd.type !== 'resolveEventChoice' ||
+    game.events.pendingChoiceEventId !== eventId ||
+    store.getState().session.fatalError !== null ||
+    store.getState().session.viewportBlocked ||
+    battleActive()
+  )
+    return invalid();
+  prepareCommandLog(game);
+  // Lazy initialization publishes pendingCount; a synchronous subscriber can replace this session.
+  if (store.getState().game !== game || commandLogGame !== game) return invalid();
+  const submittedQueue = commandQueue;
+  const submittedSeq = submittedQueue.nextSequence;
+  const result = dispatchCommand(cmd);
+  if (!result.ok) return result;
+  const maxBatches = Math.ceil(submittedQueue.size / BAL.maxCommandsPerTick);
+  const current = (): boolean =>
+    store.getState().game === game &&
+    commandQueue === submittedQueue &&
+    game.meta.gameOver === null &&
+    store.getState().session.fatalError === null &&
+    !store.getState().session.viewportBlocked &&
+    !battleActive();
+  const finished = (): CommandDispatchResult =>
+    game.events.pendingChoiceEventId !== eventId ? { ok: true } : invalid();
+  for (let batch = 0; batch < maxBatches; batch += 1) {
+    if (!current()) return invalid();
+    if (game.meta.lastAppliedCmdSeq >= submittedSeq) return finished();
+    runOneDay();
+    if (!current()) return invalid();
+    if (game.meta.lastAppliedCmdSeq >= submittedSeq) return finished();
+    if (batch + 1 < maxBatches) await new Promise<void>((resolve) => setTimeout(resolve, 0));
+  }
+  return invalid();
+}
+
 type AutoPauseHandler = (reasons: readonly AutoPauseReason[]) => void;
 let autoPauseHandler: AutoPauseHandler | null = null;
+let seasonalAutosave: { handler: () => void } | null = null;
+
+/** App owns synchronous snapshot capture; the bridge signals canonical time.seasonStart ticks. */
+export function registerSeasonalAutosave(handler: () => void): () => void {
+  const registration = { handler };
+  seasonalAutosave = registration;
+  return () => {
+    if (seasonalAutosave === registration) seasonalAutosave = null;
+  };
+}
 
 /** autoPause.ts 安裝掛鉤用（01 §8 D17）；傳 null 解除安裝。 */
 export function onAutoPauseReasons(handler: AutoPauseHandler | null): void {
@@ -89,36 +489,152 @@ export function onAutoPauseReasons(handler: AutoPauseHandler | null): void {
  * `runOneDay()` 後檢查 `session.fatalError`，非 null 時代為停止迴圈。
  */
 export function runOneDay(): GameEvent[] {
+  if (store.getState().session.viewportBlocked) return [];
   const game = store.getState().game;
   if (game === null) {
     throw new CoreError('DATA_INTEGRITY', 'runOneDay: game 尚未初始化');
   }
   prepareCommandLog(game);
+  if (store.getState().session.viewportBlocked) return [];
+  const beforeDriverQueue = commandQueue;
+  enqueueLiveArmyTargets(game);
+  if (
+    store.getState().game !== game ||
+    commandLogGame !== game ||
+    commandQueue !== beforeDriverQueue
+  )
+    return [];
+  enqueuePendingAiOrders(game, commandQueue);
+  const submittedQueue = commandQueue;
+  const tickLiveDriver = liveDriver;
   const queue = commandQueue.drain();
+  const startingSpeed = store.getState().session.speed;
+  const startingDebugJumping = store.getState().session.debug.jumping;
+  const beforeVersion = game.meta.stateVersion;
+  const pendingPresentations = isDevInvariantTick(beforeVersion + 1)
+    ? { game, publish: [] as (() => void)[] }
+    : null;
+  deferredTickPresentations = pendingPresentations;
   const t0 = performance.now(); // §3.9.4／M1-23：tick 耗時取樣（perfMonitor 環形緩衝）
   let result: TickResult;
   try {
-    result = advanceDay(game, queue); // core：就地變異 game（§8-D1）
+    result = advanceDay(game, queue, { now: () => performance.now(), ...commandContext() });
   } catch (err) {
+    if (deferredTickPresentations === pendingPresentations) deferredTickPresentations = null;
+    if (
+      store.getState().game !== game ||
+      commandLogGame !== game ||
+      commandQueue !== submittedQueue
+    )
+      return [];
+    clearLiveDriver('tick-failed');
+    if (
+      store.getState().game !== game ||
+      commandLogGame !== game ||
+      commandQueue !== submittedQueue
+    )
+      return [];
     perfMonitor.recordTick(performance.now() - t0);
     store.getState().actions.setFatalError(captureFatalError(err));
     return [];
   }
-  perfMonitor.recordTick(performance.now() - t0);
+  if (deferredTickPresentations === pendingPresentations) deferredTickPresentations = null;
+  const elapsed = performance.now() - t0;
+  if (store.getState().game !== game || commandLogGame !== game || commandQueue !== submittedQueue)
+    return [];
+  perfMonitor.recordTick(elapsed);
+  perfMonitor.recordSystems(
+    Object.fromEntries(
+      STEP_SEQUENCE.map((name, index) => [
+        name === 'ai' ? 'ai' : name,
+        result.perf.stepMs[index] ?? 0,
+      ]),
+    ),
+  );
   commandLogRecorder.recordTick(result.appliedCommands, {
     ...(result.appliedCommands.length === queue.length
       ? {}
       : { incompleteReason: 'hardRejection' as const }),
   });
-  // dev/debugFlags 條件式 invariant 檢查（01 §3.4.4 步驟 7）留待 M1-22（debugFlags 落地）再接線，
-  // 避免在尚無 URL 旗標可用時對每個 tick 的最小測試 fixture 強加 25 條不變量。
+  try {
+    checkDevInvariantsAfterTick(game, beforeVersion);
+  } catch (err) {
+    if (
+      store.getState().game !== game ||
+      commandLogGame !== game ||
+      commandQueue !== submittedQueue
+    )
+      return [];
+    clearLiveDriver('tick-failed');
+    if (
+      store.getState().game !== game ||
+      commandLogGame !== game ||
+      commandQueue !== submittedQueue
+    )
+      return [];
+    store.getState().actions.setFatalError(captureFatalError(err));
+    return [];
+  }
+  for (const publish of pendingPresentations?.publish ?? []) {
+    if (
+      store.getState().game !== game ||
+      commandLogGame !== game ||
+      commandQueue !== submittedQueue
+    )
+      return [];
+    publish();
+  }
+  if (store.getState().game !== game || commandLogGame !== game || commandQueue !== submittedQueue)
+    return [];
+  if (game.meta.gameOver !== null) resetEventPresentations(game);
+  else synchronizePendingEventPresentations(game);
+  if (startingDebugJumping === null) {
+    publishCapturedOfficers(
+      game,
+      result.events,
+      () =>
+        store.getState().game === game &&
+        commandLogGame === game &&
+        commandQueue === submittedQueue,
+    );
+  }
+  if (store.getState().game !== game || commandLogGame !== game || commandQueue !== submittedQueue)
+    return result.events;
+  publishMonthSummary(game, result, startingSpeed === 'paused' ? null : startingSpeed, {
+    eventTitle: (id) => sessionEventEngine?.getDef(id)?.cutscene.title,
+  });
+  if (store.getState().game !== game || commandLogGame !== game || commandQueue !== submittedQueue)
+    return result.events;
   store.setState((s) => ({ tickSeq: s.tickSeq + 1 }));
+  if (store.getState().game !== game || commandLogGame !== game || commandQueue !== submittedQueue)
+    return result.events;
   store.getState().actions.setPendingCommandCount(commandQueue.size);
+  if (store.getState().game !== game || commandLogGame !== game || commandQueue !== submittedQueue)
+    return result.events;
   // 月結自動存檔（03 §3.9.1：驅動器讀 autosaveDue 旗標；debug 時間跳轉期間抑制）。
-  if (result.autosaveDue === 'monthly' && store.getState().session.debug.jumping === null) {
-    autosave(game);
+  if (result.autosaveDue === 'monthly' && startingDebugJumping === null) {
+    if (seasonalAutosave !== null) {
+      if (result.events.some((event) => event.type === 'time.seasonStart'))
+        seasonalAutosave.handler();
+    } else {
+      autosave(game, commandQueue.snapshotPlayerCommands());
+    }
   }
   autoPauseHandler?.(result.autoPauseReasons);
+  if (
+    tickLiveDriver &&
+    liveDriver === tickLiveDriver &&
+    commandQueue === submittedQueue &&
+    tickLiveDriver.game === game &&
+    store.getState().game === game
+  ) {
+    try {
+      tickLiveDriver.driver.afterDay(game, result);
+    } catch (error) {
+      if (liveDriver === tickLiveDriver)
+        clearLiveDriver(error instanceof Error ? error.message : 'live-observer-failure');
+    }
+  }
   return result.events;
 }
 
@@ -134,10 +650,19 @@ export function exportCommandLog(): CommandLogFile {
 
 /** 供測試重置模組私有佇列與回呼（非產品程式碼路徑）。 */
 export function resetBridgeForTests(): void {
+  deferredTickPresentations = null;
+  clearLiveDriver('test-reset');
+  unsubscribeEventPresentations?.();
+  unsubscribeEventPresentations = null;
+  resetEventPresentations(null);
+  resetCapturedOfficerPresentations();
+  resetMonthSummaries(null);
+  sessionEventEngine = null;
   commandQueue = new CommandQueue();
   commandLogGame = null;
   commandLogRecorder.reset();
   autoPauseHandler = null;
+  seasonalAutosave = null;
 }
 
 /** 供測試直接觸發已註冊的自動暫停回呼（非產品程式碼路徑）：M1 骨架期 `advanceDay` 的

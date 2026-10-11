@@ -17,7 +17,7 @@ export function Badge({ clanId = null, label, size = 'sm' }: BadgeProps) {
       : `var(--clan-${String(colorIndex).padStart(2, '0')}-bright)`;
   return (
     <span
-      className={`${styles.badge} ${styles[size]} ${label === undefined ? styles.swatch : ''}`}
+      className={`${styles.badge} ${styles[size]} ${colorIndex === null ? styles.neutral : ''} ${label === undefined ? styles.swatch : ''}`}
       style={{ backgroundColor: color }}
     >
       {label}

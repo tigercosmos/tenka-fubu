@@ -1,14 +1,21 @@
 // 迴圈測試用最小 GameState 建構器（M1-6／M1-7）。
 // 非 M1-13 官方 tiny 劇本 fixture——本檔僅供 commands／advance-day 單元測試建立可跑 advanceDay 的
-// 最小狀態（1 勢力 1 城，其餘實體空）。欄位型別依 plan/02-data-model.md §4（逐字對齊 gameState.ts）。
+// 最小狀態（1 勢力、1 城、1 位當主，其餘實體空）。欄位型別依 plan/02-data-model.md §4。
 // 名稱刻意用無簡體變體之字（本家／本城），避開 validate:data 簡體掃描。
 
-import type { Castle, Clan, GameOverState, GameState } from '../../src/core/state/gameState';
+import type {
+  Castle,
+  Clan,
+  GameOverState,
+  GameState,
+  Officer,
+} from '../../src/core/state/gameState';
 import type { CastleId, ClanId, OfficerId, ProvinceId } from '../../src/core/state/ids';
 import { dayToCalendar } from '../../src/core/systems/time';
 
 export const TEST_CLAN = 'clan.test' as ClanId;
 export const TEST_CASTLE = 'castle.test' as CastleId;
+export const TEST_LEADER = 'off.test' as OfficerId;
 
 export interface LoopStateOpts {
   day?: number; // 初始絕對日（預設 0＝1560/1/1）
@@ -19,7 +26,7 @@ export interface LoopStateOpts {
   gameOver?: GameOverState | null; // 結局狀態（預設 null）
 }
 
-/** 建立僅含 1 勢力（clan.test）＋1 城（castle.test）的最小 GameState，供迴圈測試。 */
+/** 建立 1 勢力、1 城與其合法當主的最小 GameState，供迴圈測試。 */
 export function makeLoopTestState(opts: LoopStateOpts = {}): GameState {
   const {
     day = 0,
@@ -34,9 +41,10 @@ export function makeLoopTestState(opts: LoopStateOpts = {}): GameState {
   const clan: Clan = {
     id: TEST_CLAN,
     name: '本家',
-    leaderId: 'officer.test' as OfficerId,
+    leaderId: TEST_LEADER,
     homeCastleId: TEST_CASTLE,
     gold,
+    rewardGoldSpentThisMonth: 0,
     prestige: 0,
     courtRank: 'none',
     shogunateTitle: 'none',
@@ -75,6 +83,39 @@ export function makeLoopTestState(opts: LoopStateOpts = {}): GameState {
     districtIds: [],
   };
 
+  const leader: Officer = {
+    id: TEST_LEADER,
+    name: '當主',
+    clanId: TEST_CLAN,
+    status: 'serving',
+    ldr: 50,
+    val: 50,
+    int: 50,
+    pol: 50,
+    statExp: { ldr: 0, val: 0, int: 0, pol: 0 },
+    statGrowth: { ldr: 0, val: 0, int: 0, pol: 0 },
+    traits: [],
+    rank: 'kumigashira',
+    merit: 0,
+    loyalty: 100,
+    kinship: 'fudai',
+    spouseId: null,
+    birthYear: 1530,
+    deathYear: 1600,
+    hasComeOfAge: true,
+    debutYear: 1545,
+    debutClanId: TEST_CLAN,
+    debutCastleId: TEST_CASTLE,
+    locationCastleId: TEST_CASTLE,
+    armyId: null,
+    capturedByClanId: null,
+    scheduledDeath: { year: 1600, month: 1 },
+    captiveRetryOn: null,
+    recruitRetryOn: null,
+    rewardGiftsThisYear: 0,
+    stalledPromotionMonths: 0,
+  };
+
   return {
     meta: {
       saveVersion: 1,
@@ -103,7 +144,7 @@ export function makeLoopTestState(opts: LoopStateOpts = {}): GameState {
     time: { day, year: cal.year, month: cal.month, dayOfMonth: cal.dayOfMonth },
     rng: { battle: 1, dev: 2, ai: 3, event: 4, misc: 5 },
     clans: { [TEST_CLAN]: clan },
-    officers: {},
+    officers: { [TEST_LEADER]: leader },
     castles: { [TEST_CASTLE]: castle },
     districts: {},
     provinces: {},
@@ -129,11 +170,22 @@ export function makeLoopTestState(opts: LoopStateOpts = {}): GameState {
       fired: {},
       cooldownUntil: {},
       pendingChoiceEventId: null,
+      pendingChoiceBinding: null,
+      hookSignals: [],
       flags: {},
       tenkabitoStreakMonths: 0,
       stats: { battlesFought: 0, battlesWon: 0, maxCastles: 0, maxKokudaka: 0 },
     },
-    ai: { personas: {}, clans: {}, intentLog: [], deferredPhases: [] },
+    ai: {
+      personas: {},
+      clans: {},
+      intentLog: [],
+      deferredPhases: [],
+      pendingOrders: [],
+      allAi: false,
+      councilJobs: [],
+      lastCouncilEnrollment: {},
+    },
     reports: [],
   };
 }

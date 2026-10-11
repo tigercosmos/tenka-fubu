@@ -1,0 +1,37 @@
+{
+  "license": "project-original",
+  "asset": "public/assets/textures/terrain-mountain-kiso-massif-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": ["assets/generated/source-images/terrain-mountain-kiso-massif-v1-input.png"],
+  "sourceImage": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-6e492ffd-1c1b-442a-8a65-109e04ff1252.png",
+  "sourceImageSha256": "b77c046310079a85eaf11546aa1915557e3bf70a643a258b2e933244bc8375b2",
+  "sha256": "b77c046310079a85eaf11546aa1915557e3bf70a643a258b2e933244bc8375b2",
+  "bytes": 1408725,
+  "dimensions": { "width": 974, "height": 1615 },
+  "alphaInspection": {
+    "zeroAlphaPixels": 1065077,
+    "partialAlphaPixels": 507746,
+    "opaquePixels": 187,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 205,
+    "y": 34,
+    "width": 598,
+    "height": 1557
+  },
+  "processing": "Copied built-in output byte-for-byte; no raster edit, resize, crop, stretch or rotation.",
+  "compositionQualification": {
+    "requestedVisibleAspectRange": [0.35, 0.39],
+    "actualVisibleAspect": 0.3840719332048812,
+    "requestedVerticalMarginFraction": 0.06,
+    "actualMarginsPixels": { "left": 205, "top": 34, "right": 171, "bottom": 24 },
+    "qualification": "Visible aspect meets the request. Vertical margins do not meet six percent, but the complete alpha silhouette is inside the image. No stretch or crop is applied.",
+    "visualReviewStatus": "Native scene review is required; generated shape alone does not prove geographic or river registration."
+  },
+  "prompt": "Use case: precise-object-edit. Input image is EDIT TARGET: original connected Japanese Kiso massif terrain sprite. Change only natural footprint proportions and canvas framing, redraw rather than stretch. Preserve its genuinely connected irregular mountain topology, two unequal broad main rocky summits, rounded subordinate shoulders, deeply wooded saddles, gentle right-bending north-south chain, naturalistic miniature orthographic aerial camera and soft northwest lighting, subdued olive trees and gray-brown rocks. The target game mountain footprint is narrow and tall: require ACTUAL visible alpha silhouette width/height about0.37 (range0.35–0.39), not the current0.505. Naturally remove excessive side-bulging forest spurs and give the connected range a longer slim northern/southern shoulder; no affine squeezing/stretching, no returning to repeated triangular ladder peaks. Subject must fit fully inside a portrait canvas with at least6% genuinely transparent margin above and below and generous transparent side margins. Asymmetric natural forest-cluster edge, no haze/cloud halo around trees. Keep entire connected massif including lower shoulders visible, no clipping. No surrounding ground tile, rectangular/oval base, exterior cast shadow, sky, roads, rivers, buildings, soldiers, snow, text, logo or watermark. Preserve high-quality natural forest patches, no tiled individually repeated trees. Original production sprite, truly transparent background."
+}

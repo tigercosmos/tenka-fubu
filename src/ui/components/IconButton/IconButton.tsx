@@ -35,7 +35,11 @@ export function IconButton({
       title={title}
       onClick={onClick}
     >
-      <Icon name={icon} />
+      <Icon
+        name={icon}
+        width={size === 'sm' ? 16 : size === 'md' ? 24 : 42}
+        height={size === 'sm' ? 16 : size === 'md' ? 24 : 42}
+      />
     </button>
   );
 }

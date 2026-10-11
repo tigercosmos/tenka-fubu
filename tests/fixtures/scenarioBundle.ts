@@ -1,7 +1,7 @@
 // 測試用 `ScenarioBundleData`（14 zod 劇本形狀）小型雙地方（tokai／kinki）夾具。
 // 規格：plan/18-roadmap.md M2-8（builder 資料側：補值規則＋浪人生成＋regions 白名單載入）。
 //
-// 本檔不經 `zScenario.parse()`（保持夾具精簡，免於 37 特性／12 戰法／13 政策／41 persona 等
+// 本檔不經 `zScenario.parse()`（保持夾具精簡，免於 37 特性／12 戰法／12 政策／41 persona 等
 // zod 長度限制——那些限制屬 M2-9 起實際劇本資料的驗收範圍，非本檔測試 `deriveScenarioInput`
 // 補值邏輯所需）；`loadScenarioBundle`（zod 解析本身）另有獨立最小樣本測試涵蓋。
 //

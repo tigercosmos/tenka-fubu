@@ -1,6 +1,7 @@
 import type { GameEvent } from '@core/state/events';
 import type { GameState } from '@core/state/gameState';
-import type { ArmyId, CastleId, ClanId, MapNodeId, OfficerId } from '@core/state/ids';
+import type { ArmyId, CastleId, ClanId, EventId, MapNodeId, OfficerId } from '@core/state/ids';
+import { dayToCalendar, getTaimeiDef } from '@core/index';
 import { t } from '@i18n/zh-TW';
 
 function clanName(game: GameState, id: ClanId): string {
@@ -34,22 +35,28 @@ function battlePlace(game: GameState, id: string): string {
   return nodeId === undefined ? '戰場' : nodeName(game, nodeId);
 }
 
-/** Raw military GameEvent → localized, player-perspective report title. */
+export interface ReportPresentationOptions {
+  /** Session catalog lookup; raw events deliberately do not snapshot narrative text. */
+  eventTitle?: (id: EventId) => string | undefined;
+}
+
+/** Raw GameEvent → localized report. Suppression follows plan13 §3.7, not milestone age. */
 export function renderReport(
   event: GameEvent,
   game: GameState,
   player: ClanId = game.meta.playerClanId,
+  options: ReportPresentationOptions = {},
 ): string | null {
   switch (event.type) {
     case 'economy.income':
       return t('report.economy.income', {
-        month: (Math.floor(event.day / 30) % 12) + 1,
+        month: dayToCalendar(event.day).month,
         gold: event.gold,
       });
     case 'economy.harvest':
       return t('report.economy.harvest', { food: event.totalFood });
     case 'economy.upkeepUnpaid':
-      return t('report.economy.salaryUnpaid');
+      return t('report.economy.upkeepUnpaid');
     case 'economy.foodShortage':
       return t('report.economy.castleStarving', { castle: nodeName(game, event.castleId) });
     case 'economy.granaryOverflow':
@@ -90,6 +97,208 @@ export function renderReport(
       });
     case 'officer.loyaltyLow':
       return t('report.officer.loyaltyLow', { name: officerName(game, event.officerId) });
+    case 'officer.died':
+      return event.cause === 'battle'
+        ? t('report.officer.killedInAction', {
+            name: officerName(game, event.officerId),
+            place: event.nodeId === null ? '戰場' : nodeName(game, event.nodeId),
+          })
+        : t('report.officer.death', {
+            name: officerName(game, event.officerId),
+            age:
+              game.officers[event.officerId] === undefined
+                ? t('ui.common.none')
+                : dayToCalendar(event.day).year - game.officers[event.officerId]!.birthYear,
+          });
+    case 'officer.comingOfAge':
+      return t(
+        event.clanId === null ? 'report.officer.comingOfAgeRonin' : 'report.officer.comingOfAge',
+        {
+          name: officerName(game, event.officerId),
+          ...(event.clanId === null ? {} : { clan: clanName(game, event.clanId) }),
+        },
+      );
+    case 'officer.defected':
+      return t('report.officer.defect', { name: officerName(game, event.officerId) });
+    case 'officer.recruited':
+      return event.source === 'poach'
+        ? null
+        : t(event.source === 'captive' ? 'report.captive.recruited' : 'report.officer.recruited', {
+            name: officerName(game, event.officerId),
+          });
+    case 'officer.recruitFailed':
+      return t('report.officer.recruitFailed', { name: officerName(game, event.officerId) });
+    case 'officer.captured':
+      return t('report.officer.captured', {
+        name: officerName(game, event.officerId),
+        clan: clanName(game, event.byClanId),
+      });
+    case 'officer.released':
+    case 'officer.executed':
+      return t(
+        event.type === 'officer.released' ? 'report.captive.released' : 'report.captive.executed',
+        { name: officerName(game, event.officerId) },
+      );
+    case 'pact.signed':
+      return t('report.diplomacy.pactSigned', {
+        a: clanName(game, event.aClanId),
+        b: clanName(game, event.bClanId),
+        pact: t(`term.pact.${event.kind}`),
+      });
+    case 'pact.expired':
+      return t('report.diplomacy.pactExpired', {
+        clan: clanName(game, event.aClanId === player ? event.bClanId : event.aClanId),
+        pact: t(`term.pact.${event.kind}`),
+      });
+    case 'pact.broken':
+      if (event.breakerClanId === null)
+        return t('report.diplomacy.pactEndedByEvent', {
+          a: clanName(game, event.aClanId),
+          b: clanName(game, event.bClanId),
+          pact: t(`term.pact.${event.kind}`),
+        });
+      return t('report.diplomacy.pactBroken', {
+        clan: clanName(game, event.breakerClanId),
+        pact: t(`term.pact.${event.kind}`),
+      });
+    case 'diplo.refused':
+      return t('report.diplomacy.proposalRejected', {
+        clan: clanName(game, event.toClanId),
+        proposal: t(`cmd.diplomacy.${event.kind}`),
+      });
+    case 'diplo.envoyArrived':
+      return t('report.diplomacy.envoyArrived', {
+        clan: clanName(game, event.fromClanId),
+        proposal: t(`cmd.diplomacy.${event.kind}`),
+      });
+    case 'diplo.reinforceAgreed':
+      return t('report.diplomacy.reinforceAgreed', {
+        clan: clanName(game, event.toClanId),
+        enemy: clanName(game, event.againstClanId),
+      });
+    case 'diplo.workStopped':
+      return t('report.diplomacy.workStopped', {
+        target:
+          event.target === 'court'
+            ? t('ui.court.title')
+            : event.target === 'shogunate'
+              ? t('ui.shogunate.title')
+              : clanName(game, event.target),
+      });
+    case 'court.rankGranted':
+      return t('report.court.rankGranted', {
+        clan: clanName(game, event.clanId),
+        rank: t(`term.crank.${event.newCourtRank}`),
+      });
+    case 'court.mediationResult': {
+      const role =
+        event.clanId === player ? 'actor' : event.targetClanId === player ? 'target' : 'other';
+      const key =
+        role === 'actor'
+          ? event.success
+            ? 'report.court.mediationSuccess'
+            : 'report.court.mediationFailed'
+          : role === 'target'
+            ? event.success
+              ? 'report.court.mediationImposed'
+              : 'report.court.mediationEvaded'
+            : event.success
+              ? 'report.court.mediationSuccessOther'
+              : 'report.court.mediationFailedOther';
+      return t(
+        key,
+        role === 'other'
+          ? {
+              a: clanName(game, event.clanId),
+              b: clanName(game, event.targetClanId),
+              months: event.ceasefireMonths,
+            }
+          : {
+              clan: clanName(game, role === 'actor' ? event.targetClanId : event.clanId),
+              months: event.ceasefireMonths,
+            },
+      );
+    }
+    case 'shogunate.titleGranted':
+      return t('report.shogunate.titleGranted', {
+        clan: clanName(game, event.clanId),
+        title: t(`term.stitle.${event.title}`),
+      });
+    case 'shogunate.nominated':
+      return t('report.shogunate.nominated', { clan: clanName(game, event.clanId) });
+    case 'shogunate.patronLost':
+      return event.clanIds.includes(player) ? t('report.shogunate.patronLost') : null;
+    case 'shogunate.collapsed':
+      return t('report.shogunate.collapsed');
+    case 'plot.succeeded':
+      if (event.kind === 'poach') {
+        if (event.actorClanId === player)
+          return t('report.plot.poachSuccess', {
+            officer:
+              event.targetOfficerId === null ? '武將' : officerName(game, event.targetOfficerId),
+            clan: clanName(game, event.targetClanId),
+          });
+        return event.targetClanId === player
+          ? t('report.officer.poached', {
+              name:
+                event.targetOfficerId === null ? '武將' : officerName(game, event.targetOfficerId),
+              clan: clanName(game, event.actorClanId),
+            })
+          : null;
+      }
+      if (event.actorClanId !== player) return null;
+      return event.kind === 'rumor'
+        ? t('report.plot.rumorSuccess', {
+            target:
+              event.targetOfficerId !== null
+                ? officerName(game, event.targetOfficerId)
+                : event.targetCastleId !== null
+                  ? nodeName(game, event.targetCastleId)
+                  : '目標',
+          })
+        : t('report.plot.betrayalReady', {
+            castle: event.targetCastleId === null ? '城' : nodeName(game, event.targetCastleId),
+          });
+    case 'plot.failed':
+      return event.actorClanId === player
+        ? t('report.plot.failed', {
+            clan: clanName(game, event.targetClanId),
+            plot: t(`term.plot.${event.kind}`),
+          })
+        : null;
+    case 'plot.exposed':
+      if (event.actorClanId === player)
+        return t('report.plot.exposed', {
+          clan: clanName(game, event.targetClanId),
+          plot: t(`term.plot.${event.kind}`),
+        });
+      return event.targetClanId === player
+        ? t('report.plot.exposedByEnemy', {
+            clan: clanName(game, event.actorClanId),
+            plot: t(`term.plot.${event.kind}`),
+          })
+        : null;
+    case 'plot.betrayalActivated':
+      return t('report.plot.betrayalActivated', { castle: nodeName(game, event.castleId) });
+    case 'proposal.submitted':
+      return t('report.proposal.submitted', { name: officerName(game, event.officerId) });
+    case 'proposal.expired':
+      return t(event.reason === 'timeout' ? 'report.proposal.expired' : 'report.proposal.invalid', {
+        name: officerName(game, event.officerId),
+      });
+    case 'event.fired':
+      return t('report.event.fired', {
+        title: options.eventTitle?.(event.eventId) ?? event.eventId,
+      });
+    case 'taimei.invoked':
+      return t('report.taimei.invoked', {
+        clanName: clanName(game, event.clanId),
+        name: getTaimeiDef(event.taimeiId)?.name ?? event.taimeiId,
+      });
+    case 'taimei.expired':
+      return t('report.taimei.expired', {
+        name: getTaimeiDef(event.taimeiId)?.name ?? event.taimeiId,
+      });
     case 'clan.succession':
       return t(
         game.officers[event.deceasedId]?.status === 'captive'
@@ -202,7 +411,7 @@ export function renderReport(
     case 'game.defeat':
       return null;
     default:
-      // Domains scheduled after M4 remain intentionally absent instead of leaking internal event names.
-      return null;
+      // Exhaustive union check: a new retained fact must receive an explicit rendering decision.
+      return event satisfies never;
   }
 }

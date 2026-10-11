@@ -1,13 +1,14 @@
 // DebugPanel 元件測試（M1-22／01-A11／03-T11 縮減版）。
 // 規格：18-roadmap.md M1-22 驗收：「?debug=1&seed=42 開局後面板可開；『+30日』快進正常；
 // debug.addGold 使 HUD 金錢 +10,000貫」。
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { DebugPanel } from './DebugPanel';
 import { resetGameStoreForTests, store } from '../../app/store';
-import { resetBridgeForTests, runOneDay } from '../../app/bridge';
+import { getQueuedPlayerCommands, resetBridgeForTests, runOneDay } from '../../app/bridge';
 import { BAL } from '../../core/balance';
 import { stateHash } from '../../core/state/serialize';
+import * as serialization from '../../core/state/serialize';
 import { formatNumber } from '../../i18n/zh-TW';
 import { makeLoopTestState } from '../../../tests/helpers/loopState';
 
@@ -17,6 +18,7 @@ beforeEach(() => {
 
 afterEach(() => {
   cleanup();
+  vi.restoreAllMocks();
 });
 
 describe('DebugPanel — session.debug.panelOpen 開關', () => {
@@ -96,15 +98,70 @@ describe('DebugPanel — 資源作弊（debug.addGold）', () => {
 });
 
 describe('DebugPanel — 狀態區塊（種子與 stateHash，供 03-T11 人工核對）', () => {
+  it('real queued commands remain intact while browsing, live tick refreshes values and replacement resets the tree', () => {
+    const game = makeLoopTestState({ day: 0, debugMode: true });
+    resetGameStoreForTests(game);
+    store.getState().actions.setDebugPanelOpen(true);
+    render(<DebugPanel />);
+    fireEvent.click(screen.getByTestId('debug-add-gold'));
+    const before = JSON.stringify(game);
+    const pending = getQueuedPlayerCommands(game);
+    expect(pending).toHaveLength(1);
+    const node = (path: string[]) =>
+      screen
+        .getAllByTestId('state-viewer-node')
+        .find((item) => item.dataset.path === JSON.stringify(path))!;
+    const expand = (item: HTMLElement) => {
+      const details = item.querySelector('details')!;
+      details.open = true;
+      fireEvent(details, new Event('toggle'));
+    };
+    expand(node([]));
+    expand(node(['time']));
+    expect(node(['time', 'day']).textContent).toContain('day 0');
+    expect(JSON.stringify(game)).toBe(before);
+    expect(getQueuedPlayerCommands(game)).toEqual(pending);
+    act(() => {
+      runOneDay();
+    });
+    expect(node(['time', 'day']).textContent).toContain('day 1');
+    expect(getQueuedPlayerCommands(game)).toHaveLength(0);
+    act(() => {
+      resetGameStoreForTests(makeLoopTestState({ day: 7, debugMode: true }));
+      store.getState().actions.setDebugPanelOpen(true);
+    });
+    expect(screen.getAllByTestId('state-viewer-node')).toHaveLength(1);
+    expect(node([]).querySelector('details')!.open).toBe(false);
+  });
+
   it('顯示種子與 stateHash；stateHash 與 core/state/serialize.ts 的 stateHash(state) 一致', () => {
     const game = makeLoopTestState({ day: 0, debugMode: true });
     resetGameStoreForTests(game);
     store.getState().actions.setDebugPanelOpen(true);
     render(<DebugPanel />);
     expect(screen.getByTestId('debug-seed').textContent).toContain(String(game.meta.seed));
+    fireEvent.click(screen.getByTestId('debug-calculate-hash'));
     expect(screen.getByTestId('debug-state-hash').textContent).toBe(
       `狀態雜湊：${stateHash(store.getState().game!)}`,
     );
+  });
+
+  it('opening, browsing and publication never calculate the whole-state hash without its explicit button', () => {
+    const game = makeLoopTestState({ debugMode: true });
+    resetGameStoreForTests(game);
+    store.getState().actions.setDebugPanelOpen(true);
+    const hash = vi.spyOn(serialization, 'stateHash');
+    render(<DebugPanel />);
+    expect(hash).not.toHaveBeenCalled();
+    expect(screen.getByTestId('debug-state-hash').textContent).toContain('尚未計算或已過期');
+    fireEvent.click(screen.getByTestId('debug-calculate-hash'));
+    expect(hash).toHaveBeenCalledTimes(1);
+    act(() => store.setState({ tickSeq: store.getState().tickSeq + 1 }));
+    expect(hash).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId('debug-state-hash').textContent).toContain('尚未計算或已過期');
+    act(() => store.getState().actions.setDebugPanelOpen(false));
+    act(() => store.getState().actions.setDebugPanelOpen(true));
+    expect(hash).toHaveBeenCalledTimes(1);
   });
 
   it('跳轉 360 日（12 次「+30日」）與逐日呼叫 runOneDay() 360 次的最終 stateHash 一致（03-T11 核心驗收）', () => {
@@ -118,11 +175,11 @@ describe('DebugPanel — 狀態區塊（種子與 stateHash，供 03-T11 人工�
     expect(store.getState().game!.time.day).toBe(360);
     const hashViaJump = stateHash(store.getState().game!);
 
-    resetBridgeForTests();
-    resetGameStoreForTests(makeLoopTestState({ day: 0, debugMode: true }));
-    for (let i = 0; i < 360; i += 1) {
-      runOneDay();
-    }
+    act(() => {
+      resetBridgeForTests();
+      resetGameStoreForTests(makeLoopTestState({ day: 0, debugMode: true }));
+      for (let i = 0; i < 360; i += 1) runOneDay();
+    });
     expect(store.getState().game!.time.day).toBe(360);
     const hashViaPlain = stateHash(store.getState().game!);
 

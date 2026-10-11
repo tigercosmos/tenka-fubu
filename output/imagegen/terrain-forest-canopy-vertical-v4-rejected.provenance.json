@@ -1,0 +1,14 @@
+{
+  "status": "rejected-candidate-not-production",
+  "mode": "built-in-image-gen",
+  "source": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-43b83585-82b3-411b-9e8d-a08814346e99.png",
+  "sha256": "09a58aff61849f9e4facedb469725996dc98f6639a7edea06598703e7b459b97",
+  "width": 1024,
+  "height": 1536,
+  "encodedBytes": 2119769,
+  "decodedRgbaBytes": 6291456,
+  "alphaZeroPixels": 937657,
+  "alphaMaximum": 254,
+  "rejection": "Fresh generation still produces a broad olive halo outside the foliage. Not integrated into the game; no further halo-preserving edit is planned.",
+  "prompt": "Use case: stylized-concept. Asset type: original transparent game terrain sprite. Create ONE connected north-south elongated forest canopy mass for a realistic high-oblique orthographic Japanese Sengoku 2.5D strategy map. Portrait canvas. Broad overlapping rounded deciduous crowns merge into a quiet woodland silhouette, shallow miniature height, muted moss and olive greens, large soft northwest-facing light planes and darker southeast crown faces. Detail is restrained, readable at tiny map scale: no individual leaf noise, no conifer spires. The complete forest occupies only the central 70 percent of both canvas dimensions, entirely away from every edge. Render ONLY trees and small internal dark gaps between crowns; nothing beneath or around them. Outside the actual outermost foliage silhouette there must be pure alpha-zero transparency. Absolutely NO ground plane, understory stain, cast shadow outside the foliage, fog, glow, diffuse green halo, vignette, backdrop or checkerboard. No mountains, buildings, roads, water, people, flags, lettering or logos. Original artwork, not extracted from any commercial game."
+}

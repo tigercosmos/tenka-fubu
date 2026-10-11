@@ -1441,6 +1441,44 @@
       "isKin": false,
       "birthYear": 1520,
       "deathYear": 1580
+    },
+    {
+      "id": "off.oda-nobutada",
+      "name": "織田信忠",
+      "clanId": "clan.oda",
+      "locationCastleId": "castle.kiyosu",
+      "ldr": 86,
+      "val": 80,
+      "int": 72,
+      "pol": 70,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": true,
+      "birthYear": 1557,
+      "deathYear": 1582,
+      "debutYear": 1572,
+      "debutClanId": "clan.oda",
+      "debutCastleId": "castle.kiyosu"
     }
-  ]
+  ],
+  "_eventOfficerAuthoring": {
+    "status": "Integrated event reference closure; juvenile Nobutada is not available at1560 boot",
+    "sources": {
+      "ndlNobutada": "https://id.ndl.go.jp/auth/ndlna/001330562",
+      "kenkunNobutada": "https://kenkun-jinja.org/history/",
+      "kariyaNobutada": "https://www.city.kariya.lg.jp/_res/projects/default_project/_page_/001/007/728/kariya-rekihaku-kiyo1.pdf"
+    },
+    "sourceBoundaries": "NDL attests1557–1582. Kenkun shrine identifies Nobunaga's eldest son, Kiyosu birth and1572 comingofage; Kariya museum research printedpage39 instead says Genki4/1573. Scenario selects1572 with explicit disagreement, not unanimous chronology. InitialKiyosu placement is a childhood/gameplay abstraction, not laterGifu lordship. No early eligible heir. Stats/rank/default debut rank are design; no traits/tactics inferred."
+  },
+  "_provenance": {
+    "off.oda-nobutada": {
+      "birthYear": "verified",
+      "deathYear": "verified",
+      "debutYear": "source-qualified",
+      "isKin": "verified",
+      "sources": ["ndlNobutada", "kenkunNobutada", "kariyaNobutada"],
+      "note": "NDL記1557–1582；建勳神社記信長嫡男、清洲出生及1572元服，刈谷市博物館研究紀要第39頁則記元龜四年1573。劇本選1572，保留年表分歧，不推定1560已元服。四維、身分及清洲童年駐在為設計，不將後期岐阜領有提前。"
+    }
+  }
 }

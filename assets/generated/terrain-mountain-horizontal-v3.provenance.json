@@ -1,0 +1,28 @@
+{
+  "asset": "public/assets/textures/terrain-mountain-horizontal-v3.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-09",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sha256": "cc944df5eb88852f9fdc93f6e1cca91590ee869291ec5565ddeb154ae7afb5af",
+  "dimensions": {
+    "width": 1774,
+    "height": 887
+  },
+  "bytes": 1406252,
+  "alphaInspection": {
+    "zeroAlphaPixels": 1059058,
+    "partialAlphaPixels": 514476,
+    "opaquePixels": 4,
+    "centerAlpha": 253
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 12,
+    "y": 213,
+    "width": 1752,
+    "height": 480
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: original transparent 2.5D woodland mountain ridge for a Japanese historical grand-strategy map.\nSubject: one connected natural mountain system, with five irregular rounded rocky summits at different heights, broad low wooded shoulders, two subtle side spurs and shallow valleys. The ridge gently bends in an S, not a straight row of identical peaks. Broad-leaf forest canopy blankets lower slopes as continuous tiny irregular foliage, NOT ranks of tall triangular fir trees. Bare olive-gray rock only near higher summit crests.\nStyle: finely painted realistic miniature terrain, believable erosion and irregular contours, subdued sage/olive foliage, gray-brown stone. Fixed high oblique overhead camera around55degrees, upper-left/northwest soft daylight, southeast shadow. Coherent soft low foothills fade to truly transparent margins. No floating island or flat base plate. Entire terrain visible with generous transparent margin.\nAvoid: serrated sawtooth comb, identical conical mountains, huge pine trees, repeating tree rows, polygon slabs, snow, dramatic dark rim, red/green edge fringe, scenic background, sky, horizon, water, roads, castle, people, UI, text, logos, watermark. New fictional terrain, no copied existing game art.\nComposition: elongated mostly left-to-right connected ridge, gently curved in the shallow S. Its visible footprint is about FOUR times wider than tall, within a square transparent canvas. Slopes spread horizontally, without a tall triangular middle peak. Do not rotate lighting."
+}

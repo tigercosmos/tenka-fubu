@@ -1,0 +1,21 @@
+{
+  "asset": "public/assets/textures/terrain-ground-grass-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-09",
+  "transparentBackgroundRequested": false,
+  "referencedImages": [],
+  "sha256": "c941f9f218751b22f5928b2ed157cbfb5df53a5f1e26e4bbc135cc2a9be769a1",
+  "dimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "bytes": 3759553,
+  "alphaInspection": {
+    "zeroAlphaPixels": 0,
+    "partialAlphaPixels": 0,
+    "opaquePixels": 1572516,
+    "centerAlpha": 255
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: original seamless tileable ground material for a Japanese historical 2.5D grand-strategy map.\nPrimary request: overhead painted natural grassland and earthy ground texture with very subtle irregular dry-earth field paths and tiny cultivated patches. This is a low-contrast surface MATERIAL, not a landscape scene or terrain relief. Sage and muted olive vegetation, softly mottled tan soil, fine brush-painted texture. All details small, no focal object, no large field-grid or sharp checkerboard.\nComposition: completely flat top-down orthographic texture, square canvas around 1024x1024, no margin, uniformly detailed across the whole image, edges tile seamlessly in both axes. No horizon, perspective, mountains, trees, buildings, castles, people, roads, water, map outline, text, labels, logos, borders or watermark.\nLighting: neutral soft even daylight, no directional cast shadows or highlight gradient so it can sit under separately northwest-lit mountains and castles. No black corners or edge vignetting.\nConstraints: opaque seamless square ground texture under 2048 pixels per side. Restrained natural colors, no noisy bright green, no low-poly facets, original artwork only, not copied game assets."
+}

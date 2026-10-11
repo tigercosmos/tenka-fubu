@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import type { MapAnalysisMode } from '@app/store';
 import { t } from '@i18n/zh-TW';
 import { useUIStore } from '../hooks/uiStore';
@@ -47,6 +47,7 @@ const swatches = {
 
 /** Mutually exclusive presentation controls; changes never enter the command queue. */
 export function LayerControl(): ReactElement {
+  const [expanded, setExpanded] = useState(false);
   const mode = useUIStore((state) => state.analysisMode);
   const opacity = useUIStore((state) => state.analysisOpacity);
   const actions = useUIStore((state) => state.actions);
@@ -55,8 +56,9 @@ export function LayerControl(): ReactElement {
       className={styles.root}
       aria-label={t('ui.map.layers.title')}
       data-testid="layer-control"
+      data-compact={!expanded && mode === 'none'}
     >
-      <details>
+      <details onToggle={(event) => setExpanded(event.currentTarget.open)}>
         <summary>
           {t('ui.map.layers.title')} · {t(`ui.map.mode.${mode}`)}
         </summary>

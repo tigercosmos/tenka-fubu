@@ -1,0 +1,43 @@
+{
+  "formatVersion": 1,
+  "appVersion": "0.0.0-mini",
+  "scenarioId": "mini",
+  "seed": 42,
+  "playerClanId": "clan.alpha",
+  "balanceHash": "824f87bf28bccf9a",
+  "truncated": false,
+  "finalDay": 31,
+  "finalHash": "62a9eae3c8df99a2",
+  "entries": [
+    {
+      "day": 29,
+      "seq": 0,
+      "command": {
+        "type": "rewardOfficer",
+        "clanId": "clan.alpha",
+        "officerId": "off.alpha-taisho-b",
+        "tier": "small"
+      }
+    },
+    {
+      "day": 30,
+      "seq": 0,
+      "command": {
+        "type": "rewardOfficer",
+        "clanId": "clan.alpha",
+        "officerId": "off.alpha-taisho-b",
+        "tier": "small"
+      }
+    },
+    {
+      "day": 31,
+      "seq": 0,
+      "command": {
+        "type": "rewardOfficer",
+        "clanId": "clan.alpha",
+        "officerId": "off.alpha-taisho-b",
+        "tier": "small"
+      }
+    }
+  ]
+}

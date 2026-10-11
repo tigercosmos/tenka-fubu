@@ -292,7 +292,7 @@ export interface EvtPactBroken extends GameEventBase {
   aClanId: ClanId;
   bClanId: ClanId;
   kind: PactKind;
-  breakerClanId: ClanId; // 毀約（另有毀約方）
+  breakerClanId: ClanId | null; // null＝無歸責方的劇本解約
 }
 export interface EvtDiploRefused extends GameEventBase {
   type: 'diplo.refused';

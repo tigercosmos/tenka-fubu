@@ -1,0 +1,28 @@
+{
+  "asset": "public/assets/textures/terrain-mountain-vertical-v5.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-10",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "bytes": 1356005,
+  "sha256": "d39179a0dd2c68db4060f86ac139993208ea960ae14f0146c8df246c5163ca60",
+  "dimensions": {
+    "width": 967,
+    "height": 1626
+  },
+  "alphaInspection": {
+    "zeroAlphaPixels": 1099236,
+    "partialAlphaPixels": 473084,
+    "opaquePixels": 22,
+    "centerAlpha": 253
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 248,
+    "y": 29,
+    "width": 482,
+    "height": 1570
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: original transparent 2.5D woodland mountain ridge variant for a Japanese Sengoku historical grand-strategy map, not a full scene.\nPrimary request: one connected north-south mountain system with three asymmetric groups of low rounded rocky crests, broad gentle wooded saddles between them and a subtle shallow S-bend. Different summit heights and spacings, no evenly repeated peaks. Dense tiny irregular broad-leaf canopy blends into olive-gray rock near the crests. Lower slopes are soft wooded shoulders, not rows of tall trees.\nStyle/medium: finely painted realistic miniature terrain, eroded natural slopes, understated sage and olive foliage, gray-brown stone; fixed high oblique overhead camera around 55 degrees. Soft upper-left/northwest daylight, southeast shadow; coherent restrained contrast, no dramatic mountain panorama.\nComposition/framing: portrait transparent canvas. One slender CENTERED north-south ridge, visible footprint about 3.1 times taller than wide; occupy roughly central 28 percent of canvas width and 88 percent of height. Leave generous completely transparent margins. Every summit and wooded foot visible, no cropping. No broad side spurs or diagonal drift; naturally taper ends.\nConstraints: actual transparent background and fine soft transparent foothill fringe; entirely original fictional terrain illustration, no copied commercial game art. No flat base plate, floating island, horizon, sky, clouds, scene background, water, roads, settlements, castles, people, UI, text, logos or watermark.\nAvoid: sawtooth comb, identical conical mountains, tall triangular fir trees, regular tree rows, hard polygon slabs, snow, blue rim, giant isolated rock cliffs, black outline or giant cast shadow."
+}

@@ -1,0 +1,29 @@
+{
+  "asset": "assets/generated/candidates/woodland-canopy-material-v1.png",
+  "status": "candidate-not-adopted",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-09",
+  "transparentBackgroundRequested": false,
+  "referencedImages": [],
+  "bytes": 3910425,
+  "sha256": "707bde9420f070a5e1865d497a77276b7ac321b867722464e49cdc78dff9ab33",
+  "dimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "alphaInspection": {
+    "zeroAlphaPixels": 0,
+    "partialAlphaPixels": 0,
+    "opaquePixels": 1572516,
+    "centerAlpha": 255
+  },
+  "edgeRms": {
+    "wrapX": 26.36250478790255,
+    "adjacentX": 15.648238168829437,
+    "wrapY": 33.38640511920422,
+    "adjacentY": 14.478530917278672
+  },
+  "seamStatus": "Requested tileability, but opposite pixel edges do not match; actual world-tile preview is required.",
+  "prompt": "Use case: stylized-concept\nAsset type: original tileable woodland-canopy material for the lower slopes of a Japanese historical 2.5D strategy map.\nPrimary request: a SQUARE opaque seamless repeating texture, densely covered edge-to-edge in hundreds of SMALL irregular broad-leaf tree crowns and low woodland vegetation. View from a fixed high oblique overhead camera around 60 degrees, miniature realistic hand-painted terrain. Individual crowns are tiny round asymmetrical foliage forms, about 15 to 30 pixels across on a 1024-pixel tile; no tall vertical tree silhouettes. Moderate muted sage, olive and gray-green tones, warm earthy shadow between crowns. Consistent soft daylight from upper-left/northwest on each tiny crown, no large cast shadows.\nComposition: UNIFORM continuous woodland surface with no focal point, no clearing, no island outline or forest-clump silhouette. All four edges covered fully; matching color and canopy density across left/right and top/bottom for inconspicuous tiling. No edge fade, vignette, border, transparency, horizon, fog or scenic background. Fine grain and many small crowns, not an aerial photo of one enormous forest.\nConstraints: original fictional material, no copied game artwork. No text, logos, watermark, buildings, roads, people, water, rocks, mountains, snow, grass clearings, rows of triangular pine trees, dark rectangular bands or dramatic lighting."
+}

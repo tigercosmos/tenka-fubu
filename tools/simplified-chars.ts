@@ -57,7 +57,11 @@ const TRADITIONAL_FOR_L3: string =
 export const CONTEXT_L2: ReadonlyArray<{ char: string; allow: RegExp; suggestion: string }> = [
   { char: '后', allow: /[皇太王]后|后妃|后土/u, suggestion: '後' },
   { char: '干', allow: /干支|天干|干戈|若干|干擾/u, suggestion: '幹/乾' },
-  { char: '里', allow: /[公海]里|里程|鄉里|里山|里見/u, suggestion: '裡' },
+  {
+    char: '里',
+    allow: /[公海]里|里程|鄉里|里山|里見|久留里|大里郡|七里賴周|江里口信常/u,
+    suggestion: '裡',
+  },
 ];
 
 /**

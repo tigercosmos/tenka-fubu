@@ -1,0 +1,102 @@
+.frame {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-4);
+  color: var(--text-primary);
+  font-size: max(12px, var(--font-size-sm));
+  line-height: 1.6;
+}
+
+.frame > * {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.frame h3 {
+  margin: 0;
+  font-family: var(--font-family-display);
+  font-size: max(12px, var(--font-size-lg));
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.frame p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.introduction {
+  color: var(--text-primary);
+}
+
+.terms {
+  padding: var(--space-3) var(--space-4);
+  border-inline-start: 2px solid var(--brand-gold);
+  background: var(--surface-raised);
+}
+
+.frame .metric {
+  grid-column: auto;
+  padding-block: var(--space-2);
+  border-block: 1px solid var(--stroke-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.effects {
+  color: var(--text-secondary);
+}
+
+.decisions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding-block-start: var(--space-3);
+  border-block-start: 1px solid var(--stroke-subtle);
+}
+
+.decisions button {
+  min-height: max(32px, 2rem);
+  padding: var(--space-2) var(--space-4);
+  font-size: max(12px, var(--font-size-sm));
+  line-height: 1.5;
+}
+
+.decisions > :first-child button {
+  background: var(--surface-panel);
+  color: var(--text-primary);
+  border-color: var(--stroke-strong);
+}
+
+.decisions > :last-child button {
+  background: var(--surface-command);
+  color: var(--text-inverse);
+  border-color: var(--command-muted);
+}
+
+.decisions > :first-child button:hover:not(:disabled) {
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  border-color: var(--stroke-strong);
+}
+
+.decisions button:disabled {
+  opacity: 1;
+  background: var(--surface-panel);
+  color: var(--text-secondary);
+  border-color: var(--stroke-subtle);
+}
+
+.decisions small,
+.decisions p {
+  font-size: max(12px, var(--font-size-xs));
+  line-height: 1.6;
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  .frame .metric {
+    grid-column: 1 / -1;
+  }
+}

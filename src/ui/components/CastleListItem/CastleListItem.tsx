@@ -52,7 +52,12 @@ export function CastleListItem({
         </span>
       )}
       <span className={styles.progress}>
-        <ProgressBar value={castle.durability} max={castle.maxDurability} height={4} />
+        <ProgressBar
+          value={castle.durability}
+          max={castle.maxDurability}
+          height={4}
+          ariaLabel={`${castle.name} ${t('ui.castle.durability')}`}
+        />
       </span>
     </button>
   );

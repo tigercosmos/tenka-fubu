@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "_provenance": {
+    "identityAndPalette": "plan/14-scenario-data.md §3.3; canonical scenario choices, not a claim of simultaneous historical control",
+    "diplomacy": "plan/14-scenario-data.md §3.3; joint B3/B4 additions to existing B1/B2 diplomacy",
+    "prestigeAndTitles": "Authored initial prestige; no court or shogunate title asserted without a scenario requirement",
+    "gold": "Authored treasury calibrated from joint district kokudaka: round(clanKokudaka / 200 / 100) * 100, plan/14 §3.2",
+    "status": "Staged authoring batch; not imported by the production scenario loader"
+  },
+  "clans": [
+    {
+      "id": "clan.hojo",
+      "name": "北條家",
+      "leaderId": "off.hojo-ujiyasu",
+      "homeCastleId": "castle.odawara",
+      "gold": 6100,
+      "prestige": 450,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.hojo",
+      "colorIndex": 20
+    },
+    {
+      "id": "clan.satomi",
+      "name": "里見家",
+      "leaderId": "off.satomi-yoshitaka",
+      "homeCastleId": "castle.kururi",
+      "gold": 1900,
+      "prestige": 200,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.satomi",
+      "colorIndex": 8
+    },
+    {
+      "id": "clan.satake",
+      "name": "佐竹家",
+      "leaderId": "off.satake-yoshiaki",
+      "homeCastleId": "castle.ota",
+      "gold": 1700,
+      "prestige": 250,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.satake",
+      "colorIndex": 16
+    },
+    {
+      "id": "clan.utsunomiya",
+      "name": "宇都宮家",
+      "leaderId": "off.utsunomiya-hirotsuna",
+      "homeCastleId": "castle.utsunomiya",
+      "gold": 1600,
+      "prestige": 150,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.utsunomiya",
+      "colorIndex": 4
+    },
+    {
+      "id": "clan.yuki",
+      "name": "結城家",
+      "leaderId": "off.yuki-harutomo",
+      "homeCastleId": "castle.yuki",
+      "gold": 1000,
+      "prestige": 150,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.yuki",
+      "colorIndex": 34
+    },
+    {
+      "id": "clan.takeda",
+      "name": "武田家",
+      "leaderId": "off.takeda-shingen",
+      "homeCastleId": "castle.tsutsujigasaki",
+      "gold": 4300,
+      "prestige": 500,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.takeda",
+      "colorIndex": 0
+    },
+    {
+      "id": "clan.nagao",
+      "name": "長尾家",
+      "leaderId": "off.nagao-kagetora",
+      "homeCastleId": "castle.kasugayama",
+      "gold": 4900,
+      "prestige": 500,
+      "courtRank": "none",
+      "shogunateTitle": "none",
+      "personaId": "persona.nagao",
+      "colorIndex": 24
+    }
+  ],
+  "diplomacy": {
+    "pacts": [
+      { "a": "clan.takeda", "b": "clan.imagawa", "kind": "alliance", "months": 48 },
+      { "a": "clan.takeda", "b": "clan.imagawa", "kind": "marriage", "months": null },
+      { "a": "clan.takeda", "b": "clan.hojo", "kind": "alliance", "months": 48 },
+      { "a": "clan.takeda", "b": "clan.hojo", "kind": "marriage", "months": null },
+      { "a": "clan.imagawa", "b": "clan.hojo", "kind": "alliance", "months": 48 },
+      { "a": "clan.imagawa", "b": "clan.hojo", "kind": "marriage", "months": null },
+      { "a": "clan.takeda", "b": "clan.honganji", "kind": "marriage", "months": null }
+    ],
+    "wars": [
+      { "a": "clan.nagao", "b": "clan.takeda" },
+      { "a": "clan.nagao", "b": "clan.hojo" },
+      { "a": "clan.satomi", "b": "clan.hojo" }
+    ],
+    "sentiments": [{ "a": "clan.takeda", "b": "clan.nagao", "aToB": 15, "bToA": 15 }]
+  }
+}

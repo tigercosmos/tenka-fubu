@@ -289,13 +289,13 @@ function fixedRng(sequence: number[]): RngStream;
 
 | # | 案例 | 輸入 | 期望 |
 |---|---|---|---|
-| DP1 | 外交工作累積信用 | alpha 對 beta 執行外交工作 3 個月（月費 `BAL.diplomacyWorkMonthlyCost`(20) 貫） | beta 對 alpha 信用 +3 × `BAL.trustPerWorkMonth`(3)；金錢同步扣款；信用上限 100 |
-| DP2 | 同盟接受度 | 信用 ≥ `BAL.allianceTrustMin`(60) 且非交戰 → 提案；信用 40 → 提案 | 前者接受、後者拒絕（完整接受度公式見 08，測試以邊界兩側取值） |
+| DP1 | 外交工作累積信用 | alpha 對 beta 執行外交工作 3 個月（月費 `BAL.diplomacyWorkMonthlyCost`(20) 貫）；政務 100、感情 0、無額外修正 | alpha 對 beta 信用依 08 §5.2.1 公式增加 18；金錢同步扣款；信用上限 100；另核對十個月增加 60（02 §8 D16） |
+| DP2 | 同盟接受度 | 信用 ≥ `BAL.trustCostAlliance`(60)、非交戰且完整接受度 ≥60 → 提案；信用 59 → 提案；信用 60 但完整接受度 <60 → 提案 | 首例接受並扣信用成本；第二例被 Command 驗證器拒絕；第三例提案合法但結算拒絕（前置與完整接受度公式見 08） |
 | DP3 | 停戰效力 | 交戰中締結停戰 | `BAL.ceasefireMonths`(12，＝360 日) 內對該勢力的出陣 Command 被驗證器拒絕；期滿次日恢復合法 |
 | DP4 | 破約懲罰 | 同盟存續中對盟友宣戰 | 對象信用歸 0、alpha 威信 −`BAL.betrayalPrestigeHit`(150)、其他所有勢力對 alpha 信用 −`BAL.betrayalTrustPenaltyOthers`(20) |
 | DP5 | 協定到期 | 同盟自然到期（`BAL.allianceMonths`(60，＝1800 日)） | 到期日自動解除、雙方收到報告、不觸發破約懲罰 |
 | DP6 | 重複提案非法 | 已有婚姻同盟，再送婚姻提案 | Command 驗證器拒絕，狀態不變 |
-| DP7 | 從屬與上貢 | 威信差 ≥ `BAL.vassalPrestigeGap`(500) 的小勢力接受從屬 | 每月上貢 = 其月收入 × `BAL.vassalTributeRate`(0.15)（歸主家）；從屬期間主家對其出陣非法 |
+| DP7 | 從屬與上貢 | 宗主威信減從屬威信 ≥ `BAL.vassalPrestigeGap`(500)，且原提案國力比合法 | 接受時與成立時重驗，玩家接受不跳過；每月上貢 = 其月收入 × `BAL.vassalTributeRate`(0.15)；從屬期間主家對其出陣非法 |
 | DP8 | 信用範圍 | 任意操作序列後 | 全部信用值恆在 0..100（不變量檢查） |
 
 #### 3.4.7 officers（`src/core/systems/officers.spec.ts`）
@@ -325,6 +325,10 @@ AI 測試的核心是**合法性 property test**：AI 永遠只能產生驗證�
 | A5 | 軍團權限邊界 | 設一軍團轄 `castle.b2` | 軍團 AI 產生的 Command 涉及的城／部隊全部屬於該軍團轄下 |
 | A6 | 難易度只影響 AI | 初級 vs 上級各模擬 3 個月 | 玩家勢力（非 allAi）收入逐 tick 相同；AI 勢力收入依難易度乘數不同（00 §11） |
 | A7 | AI 決策確定性 | 同種子同狀態跑兩次月初評定 | 產生的 Command 序列完全相同（`rng.ai` 流） |
+
+A4 的新出陣限制另測既有集結計畫每日派令，並以金錢 99／100 驗證門檻；
+已出陣軍勢移動與撤回不受此限制。徵兵已依 09 D19 改用方針指令，
+低金錢是否禁止方針提高仍待裁決；本次出陣測試不代表 A4 全項通過。
 
 #### 3.4.9 events（`src/core/systems/events.spec.ts`）
 
@@ -465,6 +469,10 @@ M4 階段的 golden-mini 依第 19 條實作裁決改用固定軍事 Command 排
 設定：僅 chromium；`baseURL` 指向 `vite preview`；每條逾時 60 秒、全套 < 5 分鐘；
 共用前置：監聽 `console` 的 `error` 與 `pageerror`，出現即該條失敗。
 所有選取器使用 `data-testid`（一覽見 §6.2）。
+
+瀏覽器預設為 headless，HTML 報告不自動開啟；測試不使用 Chrome 外掛。
+macOS 預設使用完整 Chromium 的 headless 模式與 Metal，無須 `VISUAL_GPU` 才能初始化原生地圖。
+`VISUAL_GPU=1` 仍啟用選配像素檢查，`VISUAL_PERF=1` 啟用選配效能檢查；預設渲染器不代表這些 gate 已通過。
 
 | # | 名稱 | 步驟 | 斷言 |
 |---|---|---|---|
@@ -839,7 +847,7 @@ export const SHINJITAI_L3: string = '抜戦国斎滝沢辺桜塩発対図気済�
 export const CONTEXT_L2: ReadonlyArray<{ char: string; allow: RegExp; suggestion: string }> = [
   { char: '后', allow: /[皇太王]后|后妃|后土/u, suggestion: '後' },
   { char: '干', allow: /干支|天干|干戈|若干|干擾/u, suggestion: '幹/乾' },
-  { char: '里', allow: /[公海]里|里程|鄉里|里山|里見/u, suggestion: '裡' },
+  { char: '里', allow: /[公海]里|里程|鄉里|里山|里見|久留里|大里郡|七里賴周|江里口信常/u, suggestion: '裡' },
 ];
 ```
 
@@ -1161,3 +1169,26 @@ perfGate():
     覆蓋 lazy analysis texture；核對 texture、listener 與 post-GC heap，不以資源計數不變推論無 heap 洩漏。
     ⑤ 使用者要求所有後續瀏覽器測試 headless，不開新視窗；已完成的硬體量測保留，未完成 gate 不預先宣告通過。
     ⑥ 一般 overview 沿用 V9 的國名標籤；勢力名屬 V10 faction 主題，不以一般模式的國名冒充勢力名。
+24. **（2026-10-08；B3 地名）保留久留里與大里郡的正字**：
+    L2 的地名例外增列 `久留里`、`大里郡`；不把合法專有名詞改為指室內位置的字形。
+    君津市城址頁與熊谷市歷史頁支持這兩個名稱。
+    檔案掃描與 V10 共用同一規則；回歸測試同時保留非地名誤植的拒絕案例。
+    來源：[君津市久留里城](https://www.city.kimitsu.lg.jp/site/kanko/491.html)、
+    [熊谷市原始與古代](https://www.city.kumagaya.lg.jp/kanko/rekisi/itutunorekisi/gensikodai.html)。
+25. **（2026-10-08；B5 人名）保留七里賴周的姓名正字**：
+    L2 僅增加完整姓名 `七里賴周` 的例外，不開放一般位置詞。
+    石川縣立圖書館人物目錄及金澤市所刊文書支持具名人物；遊戲文字採繁體正字。
+    檔案掃描與 V10 共用規則，並保留一般誤植的拒絕測試。
+    來源：[石川縣立圖書館人物目錄](https://www.library.pref.ishikawa.lg.jp/shosho/furucolle/list/prsn16339)。
+26. **（2026-10-08；B8 人名）保留江里口信常的姓名正字**：
+    佐賀市公開市史第 642–643 頁列江里口信常；不把姓名改為室內位置詞的字形。
+    L2 僅新增完整姓名例外；檔案掃描與 V10 共用規則，一般誤植仍須報錯。
+    來源：[佐賀市公開市史〈戰國時代與佐賀地方〉](https://www.city.saga.lg.jp/material/files/group/2/s34623_20130321113942.pdf)。
+27. **（2026-10-09；DP1 信用公式）依 02 §8 D16 保留公式增益**：
+    政務 100、感情 0 且無額外修正時，每月增加 6.0，十個月增加 60。
+    工作累積 alpha 對 beta 的信用，不把方向改為 beta 對 alpha。
+    舊固定 trustPerWorkMonth＝3 退役；不更改已實作的信用公式。
+28. **（2026-10-09；DP2 同盟信用門檻）使用既有成本常數**：
+    依 08 §3.4.1 與 15 D37，提案及成立時的信用至少達 trustCostAlliance＝60。
+    五十九點拒絕、六十點允許提案；完整接受度不足時仍拒絕成立，不混用兩種門檻。
+    舊 allianceTrustMin 為重複別名；不新增 BAL key、不更改行為或回寫 frozen 基準。

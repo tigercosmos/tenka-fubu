@@ -86,8 +86,13 @@ vi.mock('./generated', () => ({
 // mock 生效後才 import 受測模組（vitest 會 hoist vi.mock 到 import 之上；顯式順序更清楚，比照
 // MapCanvasHost.spec.tsx 慣例）。`Assets` 僅取其（已被 mock 取代的）執行期物件供 `vi.mocked()`
 // 操作 mockImplementationOnce；不 import 真實 `Texture` 型別以免與 mock 內部類別的型別衝突。
-import { Assets } from 'pixi.js';
+import { Assets, Texture } from 'pixi.js';
 import { MapAssetLoader, getAssetLoaderStats, resolveRuntimeUrl } from './loader';
+
+// eslint-disable-next-line @typescript-eslint/unbound-method -- mock API.
+const defaultLoad = vi.mocked(Assets.load).getMockImplementation()!;
+// eslint-disable-next-line @typescript-eslint/unbound-method -- mock API.
+const defaultUnload = vi.mocked(Assets.unload).getMockImplementation()!;
 
 interface MockTexture {
   destroyed: boolean;
@@ -95,6 +100,10 @@ interface MockTexture {
 }
 
 beforeEach(() => {
+  // eslint-disable-next-line @typescript-eslint/unbound-method -- mock API.
+  vi.mocked(Assets.load).mockImplementation(defaultLoad);
+  // eslint-disable-next-line @typescript-eslint/unbound-method -- mock API.
+  vi.mocked(Assets.unload).mockImplementation(defaultUnload);
   hoisted.loadCalls.length = 0;
   hoisted.unloadCalls.length = 0;
   hoisted.loadedTextures.clear();
@@ -233,5 +242,282 @@ describe('resolveRuntimeUrl（補遺 AD9）', () => {
   it('以 BASE_URL 前綴組出 URL，無雙斜線', () => {
     vi.stubEnv('BASE_URL', '/sub/');
     expect(resolveRuntimeUrl('assets/textures/a.png')).toBe('/sub/assets/textures/a.png');
+  });
+});
+
+/** Model Pixi's shared pending load plus an asynchronous unload that destroys
+ * the cached resource only on completion. No loader-global state is cleared. */
+function deferredAssets() {
+  const loads = new Map<
+    string,
+    { resolve: () => void; reject: () => void; promise: Promise<Texture> }
+  >();
+  const unloads = new Map<string, { resolve: () => void; reject: (reason: unknown) => void }>();
+  // Narrow the mocked overload to the loader's actual single-alias calls, without
+  // pretending this fixture implements Pixi's unrelated batch-load API.
+  // eslint-disable-next-line @typescript-eslint/unbound-method -- mock API, not an instance method.
+  const singleAssetLoad: (key: string) => Promise<Texture> = Assets.load<Texture>;
+  vi.mocked(singleAssetLoad).mockImplementation((key) => {
+    hoisted.loadCalls.push(key);
+    const cached = hoisted.loadedTextures.get(key) as Texture | undefined;
+    if (cached !== undefined) return Promise.resolve(cached);
+    const pending = loads.get(key);
+    if (pending !== undefined) return pending.promise;
+    let resolve!: (texture: Texture) => void;
+    let reject!: (error: Error) => void;
+    const promise = new Promise<Texture>((yes, no) => {
+      resolve = yes;
+      reject = no;
+    });
+    loads.set(key, {
+      promise,
+      resolve: () => {
+        const texture = new Texture();
+        hoisted.loadedTextures.set(key, texture);
+        loads.delete(key);
+        resolve(texture);
+      },
+      reject: () => {
+        loads.delete(key);
+        reject(new Error('load failed'));
+      },
+    });
+    return promise;
+  });
+  // eslint-disable-next-line @typescript-eslint/unbound-method -- mock API, not an instance method.
+  vi.mocked(Assets.unload).mockImplementation((urls) => {
+    if (typeof urls !== 'string') throw new Error('fixture expects an asset alias');
+    const key = urls;
+    hoisted.unloadCalls.push(key);
+    return new Promise<void>((resolve, reject) => {
+      unloads.set(key, {
+        resolve: () => {
+          (hoisted.loadedTextures.get(key) as Texture | undefined)?.destroy();
+          hoisted.loadedTextures.delete(key);
+          unloads.delete(key);
+          resolve();
+        },
+        reject: (reason) => {
+          unloads.delete(key);
+          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors -- deliberately test arbitrary JavaScript rejection reasons.
+          reject(reason);
+        },
+      });
+    });
+  });
+  return {
+    resolve: (key: string) => loads.get(key)?.resolve(),
+    reject: (key: string) => loads.get(key)?.reject(),
+    finishUnloads: () => {
+      for (const finish of [...unloads.values()]) finish.resolve();
+    },
+    rejectUnload: (key: string, reason: unknown) => unloads.get(key)?.reject(reason),
+  };
+}
+
+describe('MapAssetLoader asynchronous ownership', () => {
+  it.each([
+    ['tex.a', 'tex.a'],
+    ['atlas.a', '__atlas_page_0'],
+  ])('coalesces same-owner pending %s acquisitions into one hold', async (id, key) => {
+    const assets = deferredAssets();
+    const loader = new MapAssetLoader();
+    try {
+      const first = loader.acquire(id);
+      const second = loader.acquire(id);
+      assets.resolve(key);
+      const [a, b] = await Promise.all([first, second]);
+      expect(a).toBe(b);
+      expect(getAssetLoaderStats(loader).globalRefcounts[key]).toBe(1);
+      expect(hoisted.loadCalls).toEqual([key]);
+    } finally {
+      loader.dispose();
+      assets.finishUnloads();
+    }
+  });
+
+  it.each([
+    ['tex.a', 'tex.a', 'tex.a'],
+    ['atlas.a', 'atlas.b', '__atlas_page_0'],
+  ])(
+    'preserves a live owner when disposed %s shares the pending load',
+    async (firstId, secondId, key) => {
+      const assets = deferredAssets();
+      const first = new MapAssetLoader();
+      const second = new MapAssetLoader();
+      try {
+        const cancelled = first.acquire(firstId);
+        const rejected = expect(cancelled).rejects.toThrow('dispose');
+        const live = second.acquire(secondId);
+        first.dispose();
+        assets.resolve(key);
+        await rejected;
+        const texture = await live;
+        expect(texture).toBeDefined();
+        expect(hoisted.unloadCalls).toEqual([]);
+        expect(getAssetLoaderStats(second).globalRefcounts[key]).toBe(1);
+        assets.finishUnloads();
+        expect((texture as unknown as MockTexture).destroyed).toBe(false);
+      } finally {
+        first.dispose();
+        second.dispose();
+        assets.finishUnloads();
+      }
+    },
+  );
+
+  it.each([
+    ['tex.a', 'tex.a'],
+    ['atlas.a', '__atlas_page_0'],
+  ])('waits for last-release unload before reacquiring %s', async (id, key) => {
+    const assets = deferredAssets();
+    const first = new MapAssetLoader();
+    const second = new MapAssetLoader();
+    try {
+      const initial = first.acquire(id);
+      assets.resolve(key);
+      const old = await initial;
+      first.dispose();
+      let settled = false;
+      const pending = second.acquire(id).then((texture) => {
+        settled = true;
+        return texture;
+      });
+      await Promise.resolve();
+      await Promise.resolve();
+      expect(hoisted.loadCalls).toEqual([key]);
+      expect(settled).toBe(false);
+      assets.finishUnloads();
+      // Unload continuation may cross multiple asynchronous loader frames.
+      for (let i = 0; i < 8; i++) await Promise.resolve();
+      assets.resolve(key);
+      const fresh = await pending;
+      expect(fresh).not.toBe(old);
+      expect((old as unknown as MockTexture).destroyed).toBe(true);
+      expect((fresh as unknown as MockTexture).destroyed).toBe(false);
+      expect(getAssetLoaderStats(second).globalRefcounts[key]).toBe(1);
+    } finally {
+      first.dispose();
+      second.dispose();
+      assets.finishUnloads();
+    }
+  });
+
+  it.each([
+    ['tex.a', 'tex.a'],
+    ['atlas.a', '__atlas_page_0'],
+  ])('allows %s failure then same-owner retry without retaining a failed hold', async (id, key) => {
+    const assets = deferredAssets();
+    const loader = new MapAssetLoader();
+    try {
+      const pending = loader.acquire(id);
+      const rejected = expect(pending).rejects.toThrow('load failed');
+      assets.reject(key);
+      await rejected;
+      expect(getAssetLoaderStats(loader).instanceHeld).toEqual([]);
+      expect(getAssetLoaderStats(loader).globalRefcounts).toEqual({});
+      const retry = loader.acquire(id);
+      assets.resolve(key);
+      expect(await retry).toBeDefined();
+      expect(getAssetLoaderStats(loader).globalRefcounts[key]).toBe(1);
+    } finally {
+      loader.dispose();
+      assets.finishUnloads();
+    }
+  });
+
+  it('rejects acquisition after disposal without adding or loading an asset', async () => {
+    deferredAssets();
+    const loader = new MapAssetLoader();
+    loader.dispose();
+    await expect(loader.acquire('tex.a')).rejects.toThrow('dispose');
+    expect(hoisted.loadCalls).toEqual([]);
+    // eslint-disable-next-line @typescript-eslint/unbound-method -- mock API.
+    expect(Assets.add).not.toHaveBeenCalled();
+  });
+
+  it('reacquires a fresh lease when a committed hold is released before the outer acquire settles', async () => {
+    const assets = deferredAssets();
+    const loader = new MapAssetLoader();
+    try {
+      const original = loader.acquire('tex.a');
+      assets.resolve('tex.a');
+      // Observe actual promise scheduling, not a private callback or state edit.
+      for (let i = 0; i < 12 && !loader.isHeld('tex.a'); i++) await Promise.resolve();
+      expect(loader.isHeld('tex.a')).toBe(true);
+      loader.release('tex.a');
+      const reacquired = loader.acquire('tex.a');
+      assets.finishUnloads();
+      for (let i = 0; i < 12; i++) await Promise.resolve();
+      assets.resolve('tex.a');
+      const [old, fresh] = await Promise.all([original, reacquired]);
+      expect(fresh).not.toBe(old);
+      expect((fresh as unknown as MockTexture).destroyed).toBe(false);
+      expect(loader.isHeld('tex.a')).toBe(true);
+      expect(getAssetLoaderStats(loader).globalRefcounts['tex.a']).toBe(1);
+    } finally {
+      loader.dispose();
+      assets.finishUnloads();
+    }
+  });
+
+  it.each([
+    ['error', new Error('unload failed')],
+    ['null', null],
+    ['undefined', undefined],
+  ] as const)(
+    'surfaces a failed unload and fails closed without new holds (%s)',
+    async (label, reason) => {
+      const key = `tex.unload-${label}`;
+      hoisted.manifestEntries[key] = { kind: 'texture', runtimePath: `assets/${key}.png` };
+      const assets = deferredAssets();
+      const first = new MapAssetLoader();
+      const next = new MapAssetLoader();
+      try {
+        const initial = first.acquire(key);
+        assets.resolve(key);
+        await initial;
+        first.dispose();
+        const pending = next.acquire(key);
+        const rejected = expect(pending).rejects.toBe(reason);
+        assets.rejectUnload(key, reason);
+        await rejected;
+        expect(getAssetLoaderStats(next).globalRefcounts).toEqual({});
+        expect(getAssetLoaderStats(next).instanceHeld).toEqual([]);
+        expect(getAssetLoaderStats().unloadErrors[key]).toBe(String(reason));
+        await expect(next.acquire(key)).rejects.toBe(reason);
+        expect(hoisted.loadCalls).toEqual([key]);
+      } finally {
+        first.dispose();
+        next.dispose();
+        assets.finishUnloads();
+      }
+    },
+  );
+
+  it('surfaces a synchronous unload throw without retaining a committed owner', async () => {
+    const key = 'tex.unload-sync';
+    hoisted.manifestEntries[key] = { kind: 'texture', runtimePath: 'assets/sync.png' };
+    const assets = deferredAssets();
+    const loader = new MapAssetLoader();
+    const next = new MapAssetLoader();
+    const reason = new Error('synchronous unload failed');
+    try {
+      const initial = loader.acquire(key);
+      assets.resolve(key);
+      await initial;
+      // eslint-disable-next-line @typescript-eslint/unbound-method -- mock API.
+      vi.mocked(Assets.unload).mockImplementation(() => {
+        throw reason;
+      });
+      loader.dispose();
+      await expect(next.acquire(key)).rejects.toBe(reason);
+      expect(getAssetLoaderStats().globalRefcounts).toEqual({});
+      expect(getAssetLoaderStats().unloadErrors[key]).toBe(String(reason));
+      expect(hoisted.loadCalls).toEqual([key]);
+    } finally {
+      loader.dispose();
+      next.dispose();
+    }
   });
 });

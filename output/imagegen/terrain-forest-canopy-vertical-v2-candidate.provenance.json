@@ -1,0 +1,16 @@
+{
+  "status": "rejected-candidate-not-production",
+  "mode": "built-in-image-gen",
+  "source": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-a42ba723-4f80-4504-9a33-fbbaa815149e.png",
+  "reference": "output/imagegen/terrain-forest-canopy-v2-candidate.png",
+  "sha256": "b21121ffeb0bad2b9c91fc9b3584c10dc67d631bb1fcb5c78f7a4ad43b89fdda",
+  "width": 1024,
+  "height": 1536,
+  "encodedBytes": 2259348,
+  "decodedRgbaBytes": 6291456,
+  "alpha": { "zero": 889092, "partial": 683772, "opaque": 0, "maximum": 254 },
+  "nonzeroAlphaBounds": { "x": 0, "y": 20, "width": 1020, "height": 1495 },
+  "nonzeroBoundaryPixels": { "top": 0, "bottom": 0, "left": 47, "right": 0 },
+  "rejection": "Broad olive halo extends far beyond actual canopy and reaches the left canvas edge. Not suitable for presentation adoption without a targeted edit and in-game validation.",
+  "prompt": "Use case: style-transfer, a portrait orientation variant of the original forest-canopy game asset. Image 1 is the existing original canopy style reference and edit target. Create a NORTH-SOUTH elongated connected low woodland group for tall forest polygons on the same Japanese Sengoku 2.5D strategy map. Change only the forest group composition from wide horizontal to a gently winding vertically elongated woodland footprint. Keep the original muted moss/olive palette, realistic rounded overlapping canopy lobes, shallow high-oblique orthographic miniature perspective, fixed northwest daylight and soft southeast understory shade. Broad connected canopy masses and quiet large light planes, sparse small leaf/crown detail; no narrow conifer spires, no high-contrast speckled noise. Portrait canvas with a complete forest group occupying at most 75 percent of BOTH canvas dimensions; leave a substantial genuinely transparent margin on ALL FOUR sides, and keep EVERY leaf and soft contact shade away from the image edges. The forest ground footprint must be longer north-south than east-west, not a rotated horizontal bitmap; northwestern light direction must stay fixed. Do not add mountains, rocks, buildings, roads, rivers, people, flags, UI, letters, logos or watermarks. Genuine alpha transparency, no painted checkerboard or solid backdrop. Original asset, no commercial game artwork."
+}

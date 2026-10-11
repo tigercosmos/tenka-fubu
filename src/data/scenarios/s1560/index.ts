@@ -6,23 +6,15 @@
 // §7-T7（`index.ts` 彙整＋動態載入接線）；plan/18-roadmap.md M2-9（B1 東海）／M2-10（B2 近畿）／
 // M2-19（本檔自殼轉實作，接上新遊戲流程）。
 //
-// 【現況（M2-19）】`src/data/scenarios/s1560/*.json` 已有 B1 東海＋B2 近畿兩批實資料（M2-9／M2-10），
-// 但尚缺兩個型錄：
-//   - `policies.json`（05-T5-1／18-roadmap M3-5 才落地，`zScenario.catalogs.policies` 要求恰 13 筆）；
-//   - `events.json`（劇本腳本事件，晚於本批）。
-// 依 `tools/validate.ts` 既有「增量建置」慣例（`loadRawScenario`：檔案缺席即以空陣列處理、不視為
-// 違規，見該檔檔頭），本檔比照辦理：不對整份資料呼叫 `zScenario.parse`（該 aggregate schema 對
-// `catalogs.policies` 有 `.length(13)` 硬性要求，缺資料時必定丟出，等同讓「尚有型錄未到位」阻擋
-// 「已到位批次可玩」，兩者優先序上限縮的是後者，不合理）——改為對「已存在」的每個檔案個別以其
-// 專屬 zod schema（與 `tools/validate.ts`/`src/core/state/builder.ts` 共用同一份 `src/data/schemas`）
-// 解析，缺席型錄以空陣列補上。這對 `buildGameState` 管線無副作用：`deriveScenarioInput`
-//（`src/core/state/builder.ts`）只消費 `bundle.catalogs.traits`（篩 common 稀有度供浪人生成）與
-// `bundle.catalogs.personas`（AI persona 表），完全不讀 `catalogs.policies`／`catalogs.tactics`／
-// `bundle.events`——留空不影響任何既有建局路徑。待 M3-5 補上 `policies.json`、劇本事件腳本就緒後，
-// 本檔可改回單純 `zScenario.parse(rawBundle)` 一次到位（回寫本節）。
+// 【M8 型錄】政策 manifest 收錄 05 §3.7.2 的 12 項政策；效果仍由 core 定義。
+// 各資料檔以共用 schema 解析，再以 zScenario 驗證完整彙整契約。
+// events.json 由 loadS1560EventCatalog 解析為 canonical 定義；舊資料束的 events 不承載該格式。
 //
-// 9 地方 `officers` 陣列（§3.1 `officers/{region}.json`，順序＝`REGION_VALUES`）：本階段僅
-// `tokai`（索引 0）／`kinki`（索引 1）兩檔存在，其餘 7 地方留空陣列，待 M8-26 全國批次逐批補上。
+// 官員按勢力本城地方分檔；B3 關東與 B4 甲信越共同載入，保留長尾跨地方領地。
+// 北陸包含本願寺加賀領；加賀坊官仍按本城地方留在近畿檔。
+// 中國包含山名因幡領；山名武將仍按本城地方留在近畿檔。
+// 四國包含三好阿波與讚岐領；三好武將仍按本城地方留在近畿檔。
+// 九州接入關門與豐後水道航路；東北接入日本海航路，九地方資料已載入。
 //
 // 【`S1560_SCENARIO_ID`／`S1560_LOADED_REGIONS` 定義於 `./meta.ts`，本檔轉出】見該檔檔頭：
 // `src/app/boot.ts` 需要這兩個常數在模組載入當下即可用，若直接對本檔（同時含 JSON 靜態 import）
@@ -37,8 +29,17 @@ import clansJson from './clans.json';
 import personasJson from './personas.json';
 import traitsJson from './traits.json';
 import tacticsJson from './tactics.json';
+import policiesJson from './policies.json';
+import eventsJson from './events.json';
 import tokaiOfficersJson from './officers/tokai.json';
 import kinkiOfficersJson from './officers/kinki.json';
+import kantoOfficersJson from './officers/kanto.json';
+import koshinetsuOfficersJson from './officers/koshinetsu.json';
+import hokurikuOfficersJson from './officers/hokuriku.json';
+import chugokuOfficersJson from './officers/chugoku.json';
+import shikokuOfficersJson from './officers/shikoku.json';
+import kyushuOfficersJson from './officers/kyushu.json';
+import tohokuOfficersJson from './officers/tohoku.json';
 
 import {
   zProvincesFile,
@@ -50,21 +51,43 @@ import {
   zTraitsFile,
   zTacticsFile,
   zOfficersFile,
+  zPoliciesFile,
+  zScenario,
 } from '../../schemas';
 import type { ScenarioBundleData } from '../../schemas';
+import { zCanonicalEventsFile } from '../../schemas/eventDefinitions';
+import type { EventDef } from '../../../core/systems/events/types';
 import { REGION_VALUES } from '../../../core/state/enums';
 import { S1560_SCENARIO_ID, S1560_LOADED_REGIONS } from './meta';
 
 export { S1560_SCENARIO_ID, S1560_LOADED_REGIONS };
 
-/** 9 地方索引官員陣列（§3.1；本階段僅 tokai／kinki 有資料，其餘為空陣列）。 */
+export function loadS1560EventCatalog(): readonly EventDef[] {
+  return zCanonicalEventsFile.parse(eventsJson).events;
+}
+
+/** 九地方索引；各地方資料解析為獨立物件。 */
 function buildOfficersByRegion(): ScenarioBundleData['officers'] {
   const tokaiOfficers = zOfficersFile.parse(tokaiOfficersJson).officers;
   const kinkiOfficers = zOfficersFile.parse(kinkiOfficersJson).officers;
+  const kantoOfficers = zOfficersFile.parse(kantoOfficersJson).officers;
+  const koshinetsuOfficers = zOfficersFile.parse(koshinetsuOfficersJson).officers;
+  const hokurikuOfficers = zOfficersFile.parse(hokurikuOfficersJson).officers;
+  const chugokuOfficers = zOfficersFile.parse(chugokuOfficersJson).officers;
+  const shikokuOfficers = zOfficersFile.parse(shikokuOfficersJson).officers;
+  const kyushuOfficers = zOfficersFile.parse(kyushuOfficersJson).officers;
+  const tohokuOfficers = zOfficersFile.parse(tohokuOfficersJson).officers;
 
   return REGION_VALUES.map((region) => {
     if (region === 'tokai') return tokaiOfficers;
     if (region === 'kinki') return kinkiOfficers;
+    if (region === 'kanto') return kantoOfficers;
+    if (region === 'koshinetsu') return koshinetsuOfficers;
+    if (region === 'hokuriku') return hokurikuOfficers;
+    if (region === 'chugoku') return chugokuOfficers;
+    if (region === 'shikoku') return shikokuOfficers;
+    if (region === 'kyushu') return kyushuOfficers;
+    if (region === 'tohoku') return tohokuOfficers;
     return [];
   });
 }
@@ -73,9 +96,8 @@ function buildOfficersByRegion(): ScenarioBundleData['officers'] {
  * 動態載入 s1560 劇本資料束（01 §3.9.3）；`await import('@data/scenarios/s1560/index.ts')`
  * 觸發本模組（含其內部靜態 import 之全部 JSON）整體載入，達成主 bundle 不含劇本資料之目標。
  *
- * 每檔各自以其專屬 zod schema 解析（見本檔檔頭決策，與 `tools/validate.ts`/`src/core/state/
- * builder.ts` 共用同一份 `src/data/schemas`）；任一檔案解析失敗即拋出含檔名與欄位路徑的
- * `ZodError`（不靜默吞下資料錯誤）。`catalogs.policies`／`events` 為尚未落地之型錄，固定回傳空陣列。
+ * 個別資料檔與彙整契約共用 schema；解析失敗拋出 ZodError，不吞下資料錯誤。
+ * canonical 事件由獨立型錄載入；舊資料束的 events 保持空陣列。
  */
 export function loadS1560Scenario(): Promise<ScenarioBundleData> {
   const clansFile = zClansFile.parse(clansJson);
@@ -92,10 +114,10 @@ export function loadS1560Scenario(): Promise<ScenarioBundleData> {
     officers: buildOfficersByRegion(),
     catalogs: {
       traits: zTraitsFile.parse(traitsJson).traits,
-      policies: [],
+      policies: zPoliciesFile.parse(policiesJson).policies,
       tactics: zTacticsFile.parse(tacticsJson).tactics,
       personas: zPersonasFile.parse(personasJson).personas,
     },
   };
-  return Promise.resolve(bundle);
+  return Promise.resolve(zScenario.parse(bundle));
 }

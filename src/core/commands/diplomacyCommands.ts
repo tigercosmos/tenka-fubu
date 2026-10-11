@@ -13,7 +13,7 @@ import {
   isAtWar,
   isOfficerBusy,
 } from '../systems/diplomacyCommon';
-import { clanPower } from '../systems/diplomacyEval';
+import { clanPower, meetsVassalPrestigeGap } from '../systems/diplomacyEval';
 import { DAYS_PER_MONTH } from '../systems/time';
 import { REJECT_REASONS, type RejectReasonKey } from './reasons';
 import type { CommandByType, EmitFn } from './registry';
@@ -42,7 +42,8 @@ export function validateStartDiploWork(
     officer.clanId !== cmd.clanId
   )
     return reject(REJECT_REASONS.notOwner);
-  if (isOfficerBusy(state, officer.id)) return reject(REJECT_REASONS.officerBusy);
+  if (isOfficerBusy(state, officer.id))
+    return { ok: false, reasonKey: REJECT_REASONS.officerBusy, params: { name: officer.name } };
   const missions = state.diplomacy.missions.filter((mission) => mission.fromClanId === cmd.clanId);
   if (
     missions.length >= BAL.diplomacyWorkMaxConcurrent ||
@@ -283,7 +284,10 @@ export function settleDiplomacyProposal(
     refused();
     return;
   }
-  if (!validatePactTerms(state, from, to, kind, proposal.reinforceAgainstClanId).ok) {
+  if (
+    !validatePactTerms(state, from, to, kind, proposal.reinforceAgainstClanId).ok ||
+    !meetsVassalPrestigeGap(state, from, to, kind)
+  ) {
     refused();
     return;
   }
@@ -330,12 +334,20 @@ export function settleDiplomacyProposal(
         ? state.time.day + BAL.ceasefireMonths * DAYS_PER_MONTH
         : null;
   if (pactKind === 'alliance') row.pacts = row.pacts.filter((p) => p.kind !== 'ceasefire');
+  const vassalClanId = pactKind === 'vassal' ? (kind === 'offerVassal' ? from : to) : null;
+  const playerDominionGrows =
+    vassalClanId !== null &&
+    vassalClanId !== state.meta.playerClanId &&
+    (from === state.meta.playerClanId || to === state.meta.playerClanId) &&
+    !row.pacts.some((pact) => pact.kind === 'vassal' && pact.vassalClanId === vassalClanId);
   row.pacts.push({
     kind: pactKind,
     startDay: state.time.day,
     endDay,
-    vassalClanId: pactKind === 'vassal' ? (kind === 'offerVassal' ? from : to) : null,
+    vassalClanId,
   });
+  // This flag invalidates Step 12's dominion check, not only physical castle ownership.
+  if (playerDominionGrows) state.meta.territoryChangedToday = true;
   const sentiment =
     pactKind === 'alliance'
       ? BAL.sentimentPactSignedAlliance
@@ -412,8 +424,10 @@ export function applyBreakPact(
     state.clans[cmd.clanId]!.prestige - BAL.betrayalPrestigeHit,
   );
   for (const clan of Object.values(state.clans).sort((a, b) => a.id.localeCompare(b.id)))
-    if (clan.alive && clan.id !== cmd.clanId && clan.id !== cmd.targetClanId)
+    if (clan.alive && clan.id !== cmd.clanId && clan.id !== cmd.targetClanId) {
+      adjustTrust(state, clan.id, cmd.clanId, -BAL.betrayalTrustPenaltyOthers);
       adjustSentiment(state, clan.id, cmd.clanId, BAL.betrayalGlobalSentimentHit);
+    }
   emit({
     type: 'pact.broken',
     day: state.time.day,

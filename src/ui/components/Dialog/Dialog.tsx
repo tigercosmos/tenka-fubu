@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useLayoutEffect,
   useId,
   useRef,
   type KeyboardEvent,
@@ -8,7 +9,9 @@ import {
   type RefObject,
 } from 'react';
 import { createPortal } from 'react-dom';
+import { isTypingTarget } from '@app/hotkeys';
 import { IconButton } from '../IconButton/IconButton';
+import { acquireFocus, focusables, recordOwnedFocus, restoreFocus } from './focus';
 import styles from './Dialog.module.css';
 export interface DialogProps {
   open: boolean;
@@ -19,25 +22,12 @@ export interface DialogProps {
   dismissible?: boolean;
   footer?: ReactNode;
   initialFocusRef?: RefObject<HTMLElement>;
+  /** Stable subview identity; re-focus replaced content without remounting or changing pause ownership. */
+  focusScopeKey?: string | number;
   children: ReactNode;
 }
 let openDialogs = 0;
 let originalBodyOverflow = '';
-function focusables(root: HTMLElement): HTMLElement[] {
-  return Array.from(
-    root.querySelectorAll<HTMLElement>(
-      'button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])',
-    ),
-  ).filter((el) => {
-    const style = getComputedStyle(el);
-    return (
-      !el.hasAttribute('disabled') &&
-      !el.hidden &&
-      style.display !== 'none' &&
-      style.visibility !== 'hidden'
-    );
-  });
-}
 export function Dialog({
   open,
   title,
@@ -47,28 +37,42 @@ export function Dialog({
   dismissible = true,
   footer,
   initialFocusRef,
+  focusScopeKey,
   children,
 }: DialogProps) {
   const titleId = useId();
   const dialog = useRef<HTMLDivElement>(null);
   const prior = useRef<HTMLElement | null>(null);
+  const priorScope = useRef(focusScopeKey);
+  const latestInitialFocus = useRef(initialFocusRef);
+  useLayoutEffect(() => {
+    latestInitialFocus.current = initialFocusRef;
+  }, [initialFocusRef]);
   useEffect(() => {
     if (!open) return;
     prior.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     if (openDialogs === 0) originalBodyOverflow = document.body.style.overflow;
     openDialogs++;
     document.body.style.overflow = 'hidden';
+    const openingRoot = dialog.current;
     const frame = requestAnimationFrame(() => {
       const root = dialog.current;
-      if (root) (initialFocusRef?.current ?? focusables(root)[0] ?? root).focus();
+      if (root) acquireFocus(root, latestInitialFocus.current?.current);
     });
     return () => {
       cancelAnimationFrame(frame);
       openDialogs--;
       if (openDialogs === 0) document.body.style.overflow = originalBodyOverflow;
-      prior.current?.focus();
+      restoreFocus(openingRoot, prior.current);
     };
-  }, [open, initialFocusRef]);
+  }, [open]);
+  useEffect(() => {
+    const changed = priorScope.current !== focusScopeKey;
+    priorScope.current = focusScopeKey;
+    if (!open || !changed) return;
+    const root = dialog.current;
+    if (root) acquireFocus(root, initialFocusRef?.current);
+  }, [open, focusScopeKey, initialFocusRef]);
   if (!open) return null;
   const isTop = () => {
     const nodes = Array.from(document.querySelectorAll('[data-ui-dialog]'));
@@ -76,8 +80,58 @@ export function Dialog({
   };
   const key = (e: KeyboardEvent<HTMLDivElement>) => {
     if (!isTop()) return;
+    if (
+      e.key === 'Enter' &&
+      !e.defaultPrevented &&
+      !e.repeat &&
+      !e.nativeEvent.isComposing &&
+      !e.ctrlKey &&
+      !e.metaKey &&
+      !e.altKey
+    ) {
+      // Native controls retain Enter (including cancel-first confirmations and multiline input).
+      const target = e.target;
+      if (
+        target instanceof HTMLElement &&
+        target.closest(
+          'button,a[href],input,select,textarea,[contenteditable="true"],[role="button"]',
+        )
+      )
+        return;
+      const primary = dialog.current?.querySelector<HTMLButtonElement>(
+        'button[data-dialog-primary="true"]',
+      );
+      if (primary && !primary.disabled && primary.getAttribute('aria-disabled') !== 'true') {
+        e.preventDefault();
+        e.stopPropagation();
+        primary.click();
+      }
+      return;
+    }
     if (e.key === 'Escape') {
       e.stopPropagation();
+      if (
+        e.defaultPrevented ||
+        e.repeat ||
+        e.nativeEvent.isComposing ||
+        e.nativeEvent.keyCode === 229 ||
+        e.ctrlKey ||
+        e.metaKey ||
+        e.altKey ||
+        e.shiftKey
+      )
+        return;
+      const active = document.activeElement;
+      if (
+        active instanceof HTMLElement &&
+        dialog.current?.contains(active) &&
+        isTypingTarget(active)
+      ) {
+        e.preventDefault();
+        active.blur();
+        dialog.current.focus();
+        return;
+      }
       if (dismissible) onClose();
       return;
     }
@@ -90,7 +144,10 @@ export function Dialog({
     }
     const first = nodes[0];
     const last = nodes.at(-1);
-    if (e.shiftKey && document.activeElement === first) {
+    if (document.activeElement === dialog.current) {
+      e.preventDefault();
+      (e.shiftKey ? last : first)?.focus();
+    } else if (e.shiftKey && document.activeElement === first) {
       e.preventDefault();
       last?.focus();
     } else if (!e.shiftKey && document.activeElement === last) {
@@ -99,7 +156,9 @@ export function Dialog({
     }
   };
   const backdrop = (e: MouseEvent<HTMLDivElement>) => {
-    if (dismissible && closeOnBackdrop && e.target === e.currentTarget && isTop()) onClose();
+    if (e.target !== e.currentTarget || !isTop()) return;
+    if (dismissible && closeOnBackdrop) onClose();
+    else e.preventDefault(); // A retained backdrop must not move native focus outside its Dialog.
   };
   const portal = document.getElementById('modal-root') ?? document.body;
   return createPortal(
@@ -113,6 +172,10 @@ export function Dialog({
         aria-labelledby={titleId}
         tabIndex={-1}
         onKeyDown={key}
+        onFocusCapture={(event) => {
+          const root = dialog.current;
+          if (root) recordOwnedFocus(root, event.target);
+        }}
       >
         <header>
           <h2 id={titleId}>{title}</h2>

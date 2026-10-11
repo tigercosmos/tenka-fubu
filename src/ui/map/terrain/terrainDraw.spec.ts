@@ -13,9 +13,15 @@
 // 執行，故其回傳值在 `vi.mock` 工廠執行當下已可用。
 
 import { describe, expect, it, vi } from 'vitest';
+import { createRequire } from 'node:module';
 import type { LodStage } from '../lod';
 import { MAP_PALETTE_NUM } from '@ui/styles/tokens';
-import { RIVER_TAPER_HEAD, RIVER_WIDTH, TERRAIN_SPRITE_WORLD } from '../mapViewConfig';
+import {
+  LAKE_SURFACE,
+  RIVER_TAPER_HEAD,
+  RIVER_WIDTH,
+  TERRAIN_SPRITE_WORLD,
+} from '../mapViewConfig';
 
 const hoisted = vi.hoisted(() => {
   // 沿用 tests/ui/mapDraw.spec.ts 的 RecordingGraphics 慣例：每個繪製指令記錄
@@ -95,17 +101,37 @@ const hoisted = vi.hoisted(() => {
   class MockTexture {
     constructor(public source?: unknown) {}
   }
-  return { MockDisplayObject, MockContainer, RecordingGraphics, MockSprite, MockTexture };
+  class MockGradient {
+    constructor(public options: unknown) {}
+    destroy(): void {}
+  }
+  return {
+    MockDisplayObject,
+    MockContainer,
+    RecordingGraphics,
+    MockSprite,
+    MockTexture,
+    MockGradient,
+  };
 });
 
-vi.mock('pixi.js', () => ({
-  Container: hoisted.MockContainer,
-  Graphics: hoisted.RecordingGraphics,
-  Sprite: hoisted.MockSprite,
-  Texture: hoisted.MockTexture,
-}));
+vi.mock('pixi.js', async () => {
+  const { Matrix } = await vi.importActual<typeof import('pixi.js')>('pixi.js');
+  const { createPixiMockClasses } = await import('../../../../tests/helpers/pixiMock');
+  const { Texture, BufferImageSource } = createPixiMockClasses([]);
+  return {
+    Container: hoisted.MockContainer,
+    Graphics: hoisted.RecordingGraphics,
+    Sprite: hoisted.MockSprite,
+    Texture,
+    BufferImageSource,
+    Matrix,
+    FillGradient: hoisted.MockGradient,
+  };
+});
 
 import { createTerrainSprite, createWaterFeatures } from './terrainDraw';
+import { buildTerrainPack } from './terrainPack';
 
 type RecordingGraphics = InstanceType<typeof hoisted.RecordingGraphics>;
 type MockDisplayObject = InstanceType<typeof hoisted.MockDisplayObject>;
@@ -145,22 +171,110 @@ describe('createTerrainSprite（§4.4）', () => {
 });
 
 describe('createWaterFeatures — 湖（恆顯，多邊形 fill＋stroke）', () => {
-  it('每湖一次 poly+fill、一次 poly+stroke；色取 MAP_PALETTE_NUM', () => {
+  it('installed Pixi alignment=1 generates inward lake vertices for both polygon windings', () => {
+    // Exercise the installed CPU stroke tessellator, not the recording mock.
+    const runtime = createRequire(`${process.cwd()}/package.json`)(
+      './node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildLine.js',
+    ) as {
+      buildLine: (
+        points: number[],
+        style: { width: number; alignment: number; cap: string; join: string; miterLimit: number },
+        flip: boolean,
+        closed: boolean,
+        vertices: number[],
+        indices: number[],
+      ) => void;
+    };
+    for (const lake of buildTerrainPack().lakes ?? []) {
+      for (const { points, width } of [lake.polygon, [...lake.polygon].reverse()].flatMap(
+        (points) =>
+          [2, LAKE_SURFACE.innerDark.width, LAKE_SURFACE.innerLight.width].map((width) => ({
+            points,
+            width,
+          })),
+      )) {
+        const vertices: number[] = [],
+          indices: number[] = [];
+        const original = points.flatMap((p) => [p.x, p.y]);
+        const before = [...original];
+        runtime.buildLine(
+          original,
+          { width, alignment: 1, cap: 'round', join: 'round', miterLimit: 10 },
+          false,
+          true,
+          vertices,
+          indices,
+        );
+        expect(vertices.length).toBeGreaterThan(0);
+        expect(indices.length).toBeGreaterThan(0);
+        const xs = points.map((p) => p.x),
+          ys = points.map((p) => p.y);
+        for (let i = 0; i < vertices.length; i += 2) {
+          expect(vertices[i]!).toBeGreaterThanOrEqual(Math.min(...xs) - 1e-7);
+          expect(vertices[i]!).toBeLessThanOrEqual(Math.max(...xs) + 1e-7);
+          expect(vertices[i + 1]!).toBeGreaterThanOrEqual(Math.min(...ys) - 1e-7);
+          expect(vertices[i + 1]!).toBeLessThanOrEqual(Math.max(...ys) + 1e-7);
+        }
+        expect(original).toEqual(before);
+      }
+    }
+  });
+
+  it('adds restrained shore shading strictly inside the unchanged lake polygon', () => {
+    const lake = triLake('lk.material', 10, 20);
+    const before = structuredClone(lake);
+    const wf = createWaterFeatures([], [lake]);
+    const g = wf.container.children[0] as unknown as RecordingGraphics;
+    const strokes = g
+      .argsOf('stroke')
+      .map((args) => args[0] as { alignment?: number; color: number; alpha: number });
+    expect(strokes.filter((stroke) => stroke.alignment === 1)).toEqual([
+      { ...LAKE_SURFACE.innerDark, alignment: 1, join: 'round' },
+      { ...LAKE_SURFACE.innerLight, alignment: 1, join: 'round' },
+    ]);
+    for (const args of g.argsOf('poly'))
+      expect(args[0]).toEqual(lake.polygon.flatMap((p) => [p.x, p.y]));
+    expect(g.countOf('stroke')).toBe(3);
+    expect(lake).toEqual(before);
+    const calls = g.calls.map((call) => [...call]);
+    wf.setStage('far');
+    wf.setStage('near');
+    expect(g.calls).toEqual(calls);
+  });
+
+  it('owns separate configured local lake surfaces and preserves three exact quiet shore strokes per polygon', () => {
     const lakes = [triLake('lk.a', 0, 0), triLake('lk.b', 100, 100)];
     const wf = createWaterFeatures([], lakes);
     const lakeGfx = wf.container.children[0] as unknown as RecordingGraphics;
-    expect(lakeGfx.countOf('poly')).toBe(2 * lakes.length); // fill 一次 poly + stroke 一次 poly
+    expect(lakeGfx.countOf('poly')).toBe(4 * lakes.length); // fill + outline + two inward shore tones.
     expect(lakeGfx.countOf('fill')).toBe(lakes.length);
-    expect(lakeGfx.countOf('stroke')).toBe(lakes.length);
-    const fillColors = lakeGfx.argsOf('fill').map((a) => (a[0] as { color: number }).color);
-    expect(fillColors.every((c) => c === MAP_PALETTE_NUM.waterRiver)).toBe(true);
+    expect(lakeGfx.countOf('stroke')).toBe(3 * lakes.length);
+    const fills = lakeGfx
+      .argsOf('fill')
+      .map((a) => a[0] as { texture: unknown; textureSpace: string });
+    expect(fills[0]!.texture).not.toBe(fills[1]!.texture);
+    for (const fill of fills) {
+      expect(fill.textureSpace).toBe('local');
+    }
+    expect(wf.getMaterialDiagnostics().lakes.map(({ width, height }) => [width, height])).toEqual([
+      [128, 128],
+      [128, 128],
+    ]);
     const strokeArgs = lakeGfx
       .argsOf('stroke')
       .map((a) => a[0] as { width: number; color: number; alpha: number });
-    for (const s of strokeArgs) {
-      expect(s.width).toBe(1);
-      expect(s.color).toBe(MAP_PALETTE_NUM.reliefInk);
-      expect(s.alpha).toBe(0.4);
+    for (let i = 0; i < lakes.length; i++) {
+      expect(strokeArgs[i * 3]).toEqual(LAKE_SURFACE.outline);
+      expect(strokeArgs[i * 3 + 1]).toEqual({
+        ...LAKE_SURFACE.innerDark,
+        alignment: 1,
+        join: 'round',
+      });
+      expect(strokeArgs[i * 3 + 2]).toEqual({
+        ...LAKE_SURFACE.innerLight,
+        alignment: 1,
+        join: 'round',
+      });
     }
   });
 
@@ -174,6 +288,76 @@ describe('createWaterFeatures — 湖（恆顯，多邊形 fill＋stroke）', ()
 });
 
 describe('createWaterFeatures — 河（widthClass 分派＋taper）', () => {
+  it('clips real curved river paint with exactly the original tapered round-capsule union', () => {
+    const input = river('rv.corner', 3, [
+      { x: 0, y: 0 },
+      { x: 80, y: 0 },
+      { x: 80, y: 80 },
+    ]);
+    const wf = createWaterFeatures([input], []);
+    try {
+      const bucket = wf.container.children[1]!;
+      expect(bucket.children).toHaveLength(1);
+      const group = bucket.children[0]!;
+      const paint = group.children[0] as unknown as RecordingGraphics;
+      const mask = group.children[1] as unknown as RecordingGraphics;
+      expect(Reflect.get(group, 'mask')).toBe(mask);
+      expect(mask.argsOf('moveTo')).toEqual([
+        [0, 0],
+        [80, 0],
+      ]);
+      expect(mask.argsOf('lineTo')).toEqual([
+        [80, 0],
+        [80, 80],
+      ]);
+      const maskStyles = mask.argsOf('stroke').map((args) => args[0] as { width: number });
+      expect(maskStyles).toHaveLength(2);
+      expect(maskStyles[0]!.width).toBeCloseTo(2.8, 12);
+      expect(maskStyles[1]!.width).toBe(7);
+      for (const style of maskStyles)
+        expect(style).toMatchObject({ color: 0xffffff, cap: 'round', join: 'round' });
+      expect(paint.argsOf('stroke').length).toBeGreaterThan(2);
+    } finally {
+      wf.destroy();
+    }
+  });
+  it('retains coherent exact original tapered paint when the bridge collector fails closed', () => {
+    const r = river('rv.material', 3, [
+      { x: 10, y: 20 },
+      { x: 30, y: 40 },
+      { x: 50, y: 45 },
+    ]);
+    const before = structuredClone(r);
+    const wf = createWaterFeatures([r], [], null);
+    const bucket = wf.container.children[1]!;
+    const g = (bucket.children.length
+      ? bucket.children[0]!.children[0]
+      : bucket) as unknown as RecordingGraphics;
+    const strokes = g.argsOf('stroke').map(
+      (args) =>
+        args[0] as {
+          width: number;
+          texture: unknown;
+          textureSpace: string;
+          matrix: unknown;
+          cap: string;
+          join: string;
+        },
+    );
+    expect(strokes).toHaveLength(2);
+    for (let i = 0; i < 2; i++) {
+      expect(strokes[i]).toMatchObject({ textureSpace: 'global', cap: 'round', join: 'round' });
+      expect(strokes[i]!.texture).toBeDefined();
+      expect(strokes[i]!.texture).toBe(strokes[0]!.texture);
+      expect(strokes[i]!.matrix).toBeDefined();
+      expect(strokes[i]!.matrix).toBe(strokes[0]!.matrix);
+      expect(strokes[i]!.width).toBeCloseTo(RIVER_WIDTH[3] * (i === 0 ? RIVER_TAPER_HEAD : 1));
+      expect(g.argsOf('moveTo')[i]).toEqual([r.points[i]!.x, r.points[i]!.y]);
+      expect(g.argsOf('lineTo')[i]).toEqual([r.points[i + 1]!.x, r.points[i + 1]!.y]);
+    }
+    expect(r).toEqual(before);
+  });
+
   it('依 widthClass 分派到對應 Graphics（3/2/1），互不混雜', () => {
     const r3 = river('rv.c3', 3, [
       { x: 0, y: 0 },
@@ -239,7 +423,7 @@ describe('createWaterFeatures — 河（widthClass 分派＋taper）', () => {
     expect(moveToXs).toEqual([111, 999]);
   });
 
-  it('河色取 MAP_PALETTE_NUM.waterRiver', () => {
+  it('uses untinted white for a textured river and the canonical water color for solid fallback', () => {
     const r = river('rv.color', 2, [
       { x: 0, y: 0 },
       { x: 10, y: 0 },
@@ -247,7 +431,104 @@ describe('createWaterFeatures — 河（widthClass 分派＋taper）', () => {
     const wf = createWaterFeatures([r], []);
     const gfx2 = wf.container.children[2] as unknown as RecordingGraphics;
     const color = (gfx2.argsOf('stroke')[0]![0] as { color: number }).color;
-    expect(color).toBe(MAP_PALETTE_NUM.waterRiver);
+    expect(color).toBe(0xffffff);
+    const fallback = createWaterFeatures(
+      [
+        river('rv.invalid', 2, [
+          { x: 0, y: 0 },
+          { x: 0, y: 0 },
+        ]),
+      ],
+      [],
+    );
+    const fallbackGfx = fallback.container.children[2] as unknown as RecordingGraphics;
+    expect((fallbackGfx.argsOf('stroke')[0]![0] as { color: number }).color).toBe(
+      MAP_PALETTE_NUM.waterRiver,
+    );
+  });
+
+  it('owns one material per river, keeps LOD resources stable, and releases them once', () => {
+    const original = river('rv.owner', 3, [
+      { x: 10, y: 20 },
+      { x: 30, y: 40 },
+      { x: 50, y: 45 },
+    ]);
+    const before = structuredClone(original);
+    const wf = createWaterFeatures([original], []);
+    const initial = wf.getRiverMaterialDiagnostics();
+    expect(initial).toMatchObject({ ownedTextures: 1, ownedSources: 1, ownedStyleListeners: 1 });
+    expect(wf.getMaterialDiagnostics()).toMatchObject({ ownedTextures: 0, rgbaBytes: 0 });
+    expect(initial.rivers[0]).toMatchObject({
+      id: original.id,
+      widthClass: 3,
+      points: original.points,
+      kind: 'bankReflection',
+    });
+    expect(initial.rivers[0]!.segments.map((s) => ({ a: s.a, b: s.b, width: s.width }))).toEqual([
+      { a: original.points[0], b: original.points[1], width: RIVER_WIDTH[3] * RIVER_TAPER_HEAD },
+      { a: original.points[1], b: original.points[2], width: RIVER_WIDTH[3] },
+    ]);
+    expect(initial.rgbaBytes).toBe(initial.rivers[0]!.width * initial.rivers[0]!.height * 4);
+    const bucket = wf.container.children[1]!;
+    const g = (bucket.children.length
+      ? bucket.children[0]!.children[0]
+      : bucket) as unknown as RecordingGraphics;
+    const texture = (
+      g.argsOf('stroke')[0]![0] as {
+        texture: {
+          destroy: (source: boolean) => void;
+          source: { destroy: () => void; style: { off: (name: string, fn: unknown) => void } };
+        };
+      }
+    ).texture;
+    const destroyTexture = vi.spyOn(texture, 'destroy');
+    const destroySource = vi.spyOn(texture.source, 'destroy');
+    const removeListener = vi.spyOn(texture.source.style, 'off');
+    const paintStrokeCount = g.countOf('stroke');
+    expect(paintStrokeCount).toBe(initial.rivers[0]!.displaySegments.length);
+    expect(paintStrokeCount).toBeGreaterThan(2);
+    for (const stage of ['far', 'mid', 'near', 'far'] as const) {
+      wf.setStage(stage);
+      expect(wf.getRiverMaterialDiagnostics()).toEqual(initial);
+      expect((g.argsOf('stroke')[0]![0] as { texture: unknown }).texture).toBe(texture);
+      expect(g.countOf('stroke')).toBe(paintStrokeCount);
+    }
+    wf.destroy();
+    wf.destroy();
+    expect(destroyTexture).toHaveBeenCalledTimes(1);
+    expect(destroyTexture).toHaveBeenCalledWith(true);
+    expect(destroySource).toHaveBeenCalledTimes(1);
+    expect(removeListener).toHaveBeenCalledTimes(1);
+    expect(wf.getRiverMaterialDiagnostics()).toMatchObject({
+      ownedTextures: 0,
+      ownedSources: 0,
+      ownedStyleListeners: 0,
+      rgbaBytes: 0,
+    });
+    expect(original).toEqual(before);
+  });
+
+  it('caps allocated river materials at 32 while retaining every river leg and fallback', () => {
+    const rivers = Array.from({ length: 33 }, (_, i) =>
+      river(`rv.${String(i).padStart(2, '0')}`, 3, [
+        { x: i * 20, y: 0 },
+        { x: i * 20 + 10, y: 0 },
+      ]),
+    );
+    const wf = createWaterFeatures(rivers, []);
+    const stats = wf.getRiverMaterialDiagnostics();
+    expect(stats.ownedTextures).toBe(32);
+    expect(stats.ownedSources).toBe(32);
+    expect(stats.ownedStyleListeners).toBe(32);
+    expect(stats.rivers).toHaveLength(33);
+    expect(stats.rivers.filter((r) => r.kind === 'solidFallback').map((r) => r.id)).toEqual([
+      'rv.32',
+    ]);
+    expect(stats.rgbaBytes).toBeLessThanOrEqual(32 * 32768 * 4);
+    const g = wf.container.children[1] as unknown as RecordingGraphics;
+    expect(g.countOf('stroke')).toBe(33);
+    expect(g.argsOf('moveTo').map((a) => a[0])).toEqual(rivers.map((r) => r.points[0]!.x));
+    wf.destroy();
   });
 });
 

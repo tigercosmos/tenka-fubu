@@ -1,0 +1,30 @@
+import { File as NodeFile } from 'node:buffer';
+import { expect, it, vi } from 'vitest';
+import { BAL } from '../../src/core/balance';
+import { buildSaveFile } from '../../src/core/save/serialize';
+import { importSave } from '../../src/app/persistence/exportImport';
+import { SAVECFG } from '../../src/app/persistence/saveStore';
+import { buildTinyState } from '../fixtures/tiny';
+
+it('accepts the real UTF-8 byte limit and rejects one extra byte before reading', async () => {
+  const state = buildTinyState();
+  const before = structuredClone(state);
+  const save = buildSaveFile(state, 123);
+  const raw = JSON.stringify(save);
+  const rawBytes = new TextEncoder().encode(raw).byteLength;
+  expect(rawBytes).toBeGreaterThan(raw.length);
+  expect(SAVECFG.importFileMaxBytes).toBe(50_000_000);
+  expect(Object.hasOwn(BAL, 'importFileMaxBytes')).toBe(false);
+  const padding = ' '.repeat(SAVECFG.importFileMaxBytes - rawBytes);
+  const exact = new NodeFile([raw, padding], 'exact.tenkafubu.json');
+  const readExact = vi.spyOn(exact, 'text');
+  expect(exact.size).toBe(SAVECFG.importFileMaxBytes);
+  expect(await importSave(exact)).toEqual({ ok: true, save, migratedFrom: null });
+  expect(readExact).toHaveBeenCalledTimes(1);
+  const oversized = new NodeFile([raw, padding, ' '], 'oversized.tenkafubu.json');
+  const readOversized = vi.spyOn(oversized, 'text');
+  expect(oversized.size).toBe(SAVECFG.importFileMaxBytes + 1);
+  expect(await importSave(oversized)).toEqual({ ok: false, error: 'file-too-large' });
+  expect(readOversized).not.toHaveBeenCalled();
+  expect(state).toEqual(before);
+});

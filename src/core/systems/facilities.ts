@@ -3,12 +3,13 @@ import { BAL } from '../balance';
 import { hasPolicy } from '../domestic';
 import type { Castle, GameState } from '../state/gameState';
 import type { GameEvent } from '../state/events';
+import { taimeiEffects } from './events/taimei';
 
 function queuedOrderStillValid(state: Readonly<GameState>, castle: Readonly<Castle>): boolean {
   const order = castle.buildQueue[0];
   const def = order ? FACILITIES[order.facilityTypeId] : undefined;
   if (!def) return false;
-  const slots = castle.tier === 'main' ? BAL.facilitySlotsMain : BAL.facilitySlotsBranch;
+  const slots = castle.tier === 'main' ? BAL.mainCastleSlots : BAL.branchCastleSlots;
   return (
     castle.facilities.length < slots &&
     !castle.facilities.includes(def.id) &&
@@ -37,7 +38,7 @@ export function facilitiesDaily(state: GameState): GameEvent[] {
     const castle: Castle | undefined = state.castles[id as keyof typeof state.castles];
     const current = castle?.buildQueue[0];
     if (!castle || !current) continue;
-    current.daysLeft -= 1;
+    current.daysLeft -= taimeiEffects(state, castle.ownerClanId).buildStepPerDay;
     if (current.daysLeft > 0) continue;
     castle.buildQueue.shift();
     if (!castle.facilities.includes(current.facilityTypeId) && FACILITIES[current.facilityTypeId]) {

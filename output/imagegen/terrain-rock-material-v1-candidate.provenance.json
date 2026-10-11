@@ -1,0 +1,15 @@
+{
+  "mode": "built-in image_gen",
+  "intent": "generate",
+  "status": "isolated-material-candidate; no canonical binding or art acceptance",
+  "prompt": "Use case: stylized-concept\nAsset type: seamless opaque rock-surface albedo tile for an original Japanese Sengoku strategy game's continuous 2.5D mountain heightfield\nPrimary request: a square tileable weathered warm-gray limestone and slate rock surface, with clearly readable fine strata, angular fractures and irregular worn stone planes. This is ONLY surface material, NOT a mountain picture.\nStyle/medium: detailed restrained realistic hand-painted terrain material, natural mineral variation, legible at small game scale.\nComposition/framing: orthographic flat material scan filling every pixel edge to edge, uniform detail density, seamless opposite edges, no center focal object.\nLighting/mood: diffuse neutral flat illumination, subtle local crevice shading only, no directional cast shadows or specular highlights; terrain code supplies macro slope lighting.\nColor palette: muted warm gray stone, taupe, earthy gray brown, tiny sparse olive moss flecks; moderate value contrast to show sharp fractures without white rims.\nConstraints: opaque square 1024x1024; original artwork; no hills, peaks, summit silhouettes, forests, trees, roads, sky, snow, white border, base plate, horizon, text, logos, watermark or recognizable existing game assets. No repeated miniature mountain stamps. No transparent pixels.",
+  "sourcePath": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-3faf40b1-b500-457c-a434-24fff7a8107c.png",
+  "workspacePath": "output/imagegen/terrain-rock-material-v1-candidate.png",
+  "sha256": "c465235b78a73ffcf1176a78cfbf43471962c5f9a924fd38b5eaff2d9ac489df",
+  "requestedSize": [1024, 1024],
+  "actualSize": [1254, 1254],
+  "rgbaBytes": 6290064,
+  "opaquePixels": 1572516,
+  "totalPixels": 1572516,
+  "inspection": "Rock strata and fractures visible; no summit silhouettes, sky, tree forest, base plate or border. Seamlessness and in-game readability not yet accepted."
+}

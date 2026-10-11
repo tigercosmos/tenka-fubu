@@ -18,6 +18,8 @@ import type { GameEvent } from '../state/events';
 import type { Clan, GameState } from '../state/gameState';
 import type { ClanId, ProvinceId } from '../state/ids';
 import { releaseOrphanedCaptives } from './officers';
+import { dissolveCorps } from './corps';
+import { clearExtinctClanWork, collapseExtinctClanCourt } from './clanExtinction';
 
 /** 天下人條件之「京都所在國」（10 §3.8.1；山城國須玩家本家直接持有，§8 D13）。 */
 export const TENKABITO_PROVINCE_ID = 'prov.yamashiro' as ProvinceId;
@@ -126,7 +128,7 @@ export function destroyClanRemnants(state: GameState, clan: Clan, events: GameEv
   }
   // 4) 軍團移除（§3.8.3-4）
   for (const corps of Object.values(state.corps)) {
-    if (corps.clanId === clanId) delete state.corps[corps.id];
+    if (corps.clanId === clanId) dissolveCorps(state, corps.id);
   }
   // 5) 武將：serving → 浪人（就地寄寓）；被本勢力關押者由孤兒捕虜清掃釋放（§3.8.3-1/2）
   for (const officer of Object.values(state.officers)) {
@@ -138,31 +140,9 @@ export function destroyClanRemnants(state: GameState, clan: Clan, events: GameEv
     }
   }
   // 6) 外交：pacts 消滅（不發毀約懲罰）、進行中工作／調略／外交提案移除（§3.8.3-4/5）
-  for (const row of Object.values(state.diplomacy.rows)) {
-    if ((row.a === clanId || row.b === clanId) && row.pacts.length > 0) row.pacts = [];
-  }
-  state.diplomacy.missions = state.diplomacy.missions.filter((m) => m.fromClanId !== clanId);
-  state.diplomacy.plots = state.diplomacy.plots.filter(
-    (p) => p.ownerClanId !== clanId && p.targetClanId !== clanId,
-  );
-  state.diplomacy.pendingProposals = state.diplomacy.pendingProposals.filter(
-    (p) => p.fromClanId !== clanId && p.toClanId !== clanId,
-  );
-  // 7) 具申作廢（§3.8.3-4）
-  for (const proposal of Object.values(state.proposals)) {
-    if (proposal.clanId === clanId && proposal.status === 'pending') proposal.status = 'expired';
-  }
-  // 8) 大命歸零（§3.8.3-6）
-  clan.taimei.activeTaimeiId = null;
-  clan.taimei.activeUntilDay = 0;
+  clearExtinctClanWork(state, clanId);
   // 9) 幕府將軍家滅亡 → 幕府全套失效（§3.8.3 末段；等同 endShogunate）
-  if (state.court.shogunClanId === clanId) {
-    state.court.shogunateExists = false;
-    state.court.shogunClanId = null;
-    state.court.patronClanId = null;
-    for (const other of Object.values(state.clans)) other.shogunateTitle = 'none';
-    events.push({ type: 'shogunate.collapsed', day: state.time.day, clanIds: [] });
-  }
+  collapseExtinctClanCourt(state, clanId, (event) => events.push(event));
   clan.alive = false;
   clan.destroyedDay = state.time.day;
   events.push(...releaseOrphanedCaptives(state)); // 捕獲方滅亡／關押城易主 → 就地釋放（INV-18）
@@ -181,14 +161,18 @@ export function destroyClanRemnants(state: GameState, clan: Clan, events: GameEv
  * `tickEvents`：本 tick 至本步為止的事件全集（advanceDay ctx.events），供結局統計消費
  * battle.ended（檔頭說明之 M8 前過渡措施）。
  */
-export function victorySystem(state: GameState, tickEvents: readonly GameEvent[]): GameEvent[] {
+export function victorySystem(
+  state: GameState,
+  tickEvents: readonly GameEvent[],
+  options: { battleStatsFromHooks?: boolean } = {},
+): GameEvent[] {
   const events: GameEvent[] = [];
   if (state.meta.gameOver !== null) return events;
   const playerClanId = state.meta.playerClanId;
   const stats = state.events.stats;
 
   // 結局統計：玩家參與的野戰／合戰場數與勝場（10 §3.8.5；battle.ended 於 Step 8 發出）
-  for (const event of tickEvents) {
+  for (const event of options.battleStatsFromHooks ? [] : tickEvents) {
     if (event.type !== 'battle.ended' || !event.clanIds.includes(playerClanId)) continue;
     stats.battlesFought += 1;
     if (event.winnerClanId === playerClanId) stats.battlesWon += 1;
@@ -204,6 +188,9 @@ export function victorySystem(state: GameState, tickEvents: readonly GameEvent[]
       }
     }
   }
+
+  // All-AI validation/simulation has no human player's defeat or ending modal.
+  if (state.ai.allAi) return events;
 
   // (2) 玩家敗北（10 §3.8.2）
   if (state.events.flags['defeat.no-heir'] === 1) {

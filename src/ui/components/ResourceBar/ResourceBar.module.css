@@ -1,28 +1,90 @@
 .root {
-  height: 44px;
+  height: 100%;
   display: flex;
   align-items: center;
-  gap: var(--space-6);
-  padding: 0 var(--space-4);
-  background: var(--ink-900);
-  color: var(--washi-100);
+  gap: 0.625rem;
+  padding: 0 var(--space-3);
+  background: var(--surface-command);
+  color: var(--text-inverse);
   font-variant-numeric: tabular-nums;
+  line-height: 1.1;
 }
 .item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  min-width: 4.5rem;
+  padding-right: var(--space-3);
+  border-right: 1px solid rgb(223 198 149 / 18%);
+  white-space: nowrap;
+}
+.item svg {
+  width: max(12px, 0.875rem);
+  height: max(12px, 0.875rem);
+  color: var(--command-gold);
+}
+.item strong {
+  font-weight: 600;
+  font-size: max(12px, var(--font-size-md));
+  color: var(--text-inverse);
+}
+.item > span {
+  color: var(--command-muted);
+}
+.itemHeading,
+.itemValue {
   display: flex;
   align-items: center;
   gap: var(--space-1);
 }
-.item svg {
-  width: 18px;
-  height: 18px;
+.itemValue {
+  line-height: 1.05;
 }
-.item strong {
-  font-weight: 400;
+.itemHeading {
+  font-size: max(12px, var(--font-size-sm));
+  color: var(--command-muted);
+  line-height: 1;
+  letter-spacing: 0.055em;
+}
+.root > time {
+  color: var(--command-gold);
+  font-size: max(12px, var(--font-size-sm));
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  padding-inline: 0.375rem 0.625rem;
+  border-right: 1px solid rgb(223 198 149 / 32%);
+  background: var(--surface-command-raised);
+  font-family: var(--font-family-display);
+}
+.foodValues {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.foodCoverage {
+  font-size: max(12px, var(--font-size-xs));
+  white-space: nowrap;
+  color: var(--command-muted);
+  line-height: 1;
+}
+.foodCoverage strong {
+  font-size: inherit;
+  line-height: inherit;
+}
+.foodCoverage .foodWarning {
+  color: var(--command-gold);
+  text-decoration: underline;
+  text-decoration-color: var(--command-gold);
+  text-underline-offset: 2px;
 }
 .delta {
   display: flex;
-  min-width: 180px;
+  min-width: 11.25rem;
   flex-direction: column;
   gap: var(--space-1);
 }
@@ -32,32 +94,73 @@
   gap: var(--space-4);
 }
 .positive {
-  color: var(--accent-moss-bright);
+  color: var(--status-success);
 }
 .negative {
-  color: var(--accent-vermilion-bright);
+  color: var(--status-danger);
 }
 .clanIdentity {
   display: flex;
   align-items: center;
   gap: var(--space-2);
   padding-right: var(--space-2);
-  border-right: 1px solid var(--ink-500);
+  align-self: stretch;
+  border-right: 0;
 }
 .clanChip {
-  width: 14px;
-  height: 14px;
+  width: 0.875rem;
+  height: 0.875rem;
   border-radius: 2px;
-  border: 1px solid var(--ink-900);
-  box-shadow: 0 0 0 1px var(--washi-300);
+  border: 1px solid var(--stroke-strong);
+  box-shadow: 0 0 0 1px var(--surface-base);
   flex: none;
 }
 .clanName {
-  font-size: 15px;
+  font-size: 0.9375rem;
   letter-spacing: 0.08em;
   white-space: nowrap;
+  font-family: var(--font-family-display);
+  color: var(--text-inverse);
 }
 @media (max-width: 1440px) {
+  .root {
+    gap: 0.5rem;
+    padding-inline: 0.5rem;
+  }
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+    padding-right: 0.5rem;
+    line-height: 1.05;
+    min-width: 3.25rem;
+  }
+  .itemHeading {
+    gap: 0.25rem;
+    font-size: max(12px, var(--font-size-xs));
+    line-height: 1;
+  }
+  .itemHeading svg {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+  .itemValue {
+    gap: 0.125rem;
+    line-height: 1.05;
+  }
+  .foodValues {
+    line-height: 1;
+  }
+  .foodCoverage {
+    line-height: 1;
+  }
+  .foodCoverage strong {
+    font-size: inherit;
+  }
+  .clanIdentity {
+    padding-right: 0.5rem;
+  }
   .clanName {
     display: none; /* M6-V9b §4.1：窄版面只留色章 */
   }

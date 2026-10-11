@@ -5,12 +5,17 @@ button {
 .danger {
   border: 0;
   padding: var(--space-2) var(--space-4);
-  color: var(--washi-100);
+  color: var(--text-inverse);
   cursor: pointer;
 }
 .confirm {
-  background: var(--accent-indigo);
+  background: var(--surface-command);
 }
 .danger {
-  background: var(--accent-vermilion);
+  background: var(--status-danger);
+}
+.confirm:hover:not(:disabled),
+.danger:hover:not(:disabled) {
+  color: var(--text-inverse);
+  background: var(--surface-inverse);
 }

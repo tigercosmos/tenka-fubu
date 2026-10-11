@@ -1,0 +1,33 @@
+{
+  "asset": "public/assets/textures/castle-main-mountain-v1.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-09",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sha256": "e46b0eb5fbbcd10aeeec3fae946152e9cc3003073e9132ab53aa499360d728a4",
+  "dimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "bytes": 2216094,
+  "alphaInspection": {
+    "zeroAlphaPixels": 813741,
+    "partialAlphaPixels": 758342,
+    "opaquePixels": 433,
+    "centerAlpha": 253
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 47,
+    "y": 74,
+    "width": 1180,
+    "height": 1115
+  },
+  "groundAnchor": {
+    "x": 627,
+    "y": 910,
+    "method": "authored footprint center selected after visual inspection; not a gameplay coordinate"
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: original transparent 2.5D mountain-castle sprite for a historical Japanese grand-strategy map.\nPrimary request: one compact Japanese mountain fortress miniature, a three-tier ivory-white plaster and weathered dark timber keep, charcoal tiled roofs with graceful curved eaves, small corner turrets and an irregular terraced grey stone rampart enclosure built into a low natural rocky knoll. The stone foundation follows the rock rather than a perfect geometric square. Subtle sage grass at the foot of the stonework only, no trees or broad terrain scene.\nStyle/medium: refined hand-painted realistic miniature architecture, detailed roof tiles, believable irregular masonry and soft natural rock strata, cohesive with painted realistic cedar mountains. Original fictional castle, not a replica of any famous castle or existing game artwork. Not a toy or low-poly icon.\nComposition: square transparent canvas, fixed high-oblique overhead view around 55 degrees. Entire complete fortress, rocky footing and roof ornaments clearly inside frame with transparent margins. Compact ground footprint around the lower middle, not a floating island or rectangular ground plate. Keep the terrain knoll low and secondary to the castle.\nLighting: soft northwest daylight from upper left, consistent shaded southeast walls and a small soft contact shadow.\nColor palette: warm ivory plaster, charcoal slate roofs, olive-grey stone and sage grass, restrained natural tones.\nConstraints: one isolated fortress, genuinely transparent background. No flags or banners (owner flag is dynamic in the game), people, roads, bridges, water or moat, trees, snow, horizon, sky, mountain landscape, UI, text, labels, logos, borders or watermark. Compact square sprite under 2048 pixels per side, not a sprite sheet."
+}

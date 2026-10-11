@@ -33,7 +33,16 @@ function makeAiState(clanIds: readonly ClanId[]): AiState {
   for (const clanId of clanIds) {
     clans[clanId] = makeAiClanState(clanId);
   }
-  return { personas: {}, clans, intentLog: [], deferredPhases: [] };
+  return {
+    personas: {},
+    clans,
+    intentLog: [],
+    deferredPhases: [],
+    councilJobs: [],
+    lastCouncilEnrollment: {},
+    pendingOrders: [],
+    allAi: false,
+  };
 }
 
 const CLAN_IDS: ClanId[] = Array.from({ length: CLAN_COUNT }, (_, i) => clanIdAt(i));

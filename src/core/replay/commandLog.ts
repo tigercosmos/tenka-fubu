@@ -4,6 +4,9 @@ import type { Command, CommandEnvelope } from '../commands/types';
 import type { GameState } from '../state/gameState';
 import { balanceHash, stateHash } from '../state/serialize';
 import { advanceDay } from '../systems';
+import { envelopeAuthority, type ExecutionAuthority } from '../commands/authority';
+import { canonicalStringify } from '../state/serialize';
+import type { EventEngine } from '../systems/events/engine';
 
 export const COMMAND_LOG_FORMAT_VERSION = 1 as const;
 export const COMMAND_LOG_CAPACITY = 50_000;
@@ -14,6 +17,7 @@ export interface CommandLogEntry {
   day: number;
   seq: number;
   command: Command;
+  authority?: ExecutionAuthority;
 }
 
 export interface CommandLogFile {
@@ -86,6 +90,9 @@ export class CommandLogRecorder {
         day: this.elapsedDays,
         seq,
         command: cloneCommand(envelope.command),
+        ...(envelopeAuthority(envelope).kind === 'player'
+          ? {}
+          : { authority: structuredClone(envelopeAuthority(envelope)) }),
       });
     }
     if (this.entries.length > this.capacity) {
@@ -111,6 +118,7 @@ export class CommandLogRecorder {
         day: entry.day,
         seq: entry.seq,
         command: cloneCommand(entry.command),
+        ...(entry.authority ? { authority: structuredClone(entry.authority) } : {}),
       })),
     };
   }
@@ -150,6 +158,7 @@ function assertReplayOrdering(log: Readonly<CommandLogFile>): void {
 export function replayCommandLog(
   log: Readonly<CommandLogFile>,
   buildInitialState: ReplayInitialStateFactory,
+  options: { eventEngine?: EventEngine } = {},
 ): ReplayResult {
   assertReplayOrdering(log);
   const state = buildInitialState(log);
@@ -171,11 +180,20 @@ export function replayCommandLog(
         seq: envelopeSeq,
         issuedDay: state.time.day,
         command: cloneCommand(entry.command),
+        ...(entry.authority ? { authority: structuredClone(entry.authority) } : {}),
       });
+      if (entry.authority) {
+        const index = state.ai.pendingOrders.findIndex(
+          (order) =>
+            canonicalStringify(order.command) === canonicalStringify(entry.command) &&
+            canonicalStringify(order.authority) === canonicalStringify(entry.authority),
+        );
+        if (index >= 0) state.ai.pendingOrders.splice(index, 1);
+      }
       envelopeSeq += 1;
       entryIndex += 1;
     }
-    advanceDay(state, queue);
+    advanceDay(state, queue, options);
   }
 
   const actualHash = stateHash(state);

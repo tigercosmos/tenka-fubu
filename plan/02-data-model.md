@@ -306,6 +306,7 @@ export interface Clan {
   leaderId: OfficerId;        // 當主；INV-08：必為本家 serving 武將
   homeCastleId: CastleId;     // 本城（居城）；INV-09：須為本家 tier='main' 之城
   gold: number;               // 金錢（貫），整數 ≥0（勢力層級資源，00 §4）
+  rewardGoldSpentThisMonth: number | null; // 本月褒賞實付金額；舊檔未知為 null
   prestige: number;           // 威信，整數 0..BAL.prestigeMax（2000）
   courtRank: CourtRank;       // 當主現任朝廷官位（v1.0 官位掛在勢力當主，見 §8 DDR-6）
   shogunateTitle: ShogunateTitle; // 幕府役職
@@ -486,8 +487,9 @@ export interface Army {
   path: MapNodeId[];           // 尋路結果節點序列（含起點與終點）；重尋路時整條替換
   pathCursor: number;          // 已抵達之 path 索引（＝04 §4.2 MarchState.nodeIndex 語意），整數 0..path.length-1
   posNodeId: MapNodeId;        // 最近抵達節點（= path[pathCursor]）
-  edgeProgressDays: number;    // 往 path[pathCursor+1] 之當前邊已累積行軍日數（日，浮點 ≥0）；位於節點上／已抵終點為 0（勘誤 E-11；日數累加模型見 04 §5）
-  edgeCostDays: number;        // 當前邊有效日數（日）＝edge.baseDays / BAL.roadGradeSpeedMult[grade]（海路固定＝baseDays）；抵達判定 edgeProgressDays ≥ edgeCostDays（勘誤 E-11；04 §3.4.2／§5）；位於終點節點時為 0
+  edgeProgressDays: number;    // 從最近實際抵達節點累積的當前邊進度；反向時逐日減少，實際回到該節點才歸零（04 §3.7）
+  edgeCostDays: number;        // 進入當前邊時計算的有效日數快取；途中改令保留，實際抵達端點才清零（04 §3.4.2／§5）
+  reversingEdgeEndNodeId?: MapNodeId | null; // 反向行軍時原未抵達的邊端點；缺省／null 表示沿既有 path 正向行軍
   battleId: BattleId | null;   // 進入合戰（BattleState）時所屬合戰；否則 null。野戰 engaged 的歸屬改由 FieldCombat.sideX.armyIds 反查（勘誤 E-18，INV-13）
   siegeId: SiegeId | null;     // status='sieging' 時所屬攻城戰；否則 null（INV-13）
   autoReturn: boolean;         // 自動歸還開關（預設 true）；糧將盡／任務完成時自動轉 returning（CmdSetAutoReturn 切換，勘誤 E-32；07 §3.13）（二輪裁決 B）
@@ -497,6 +499,10 @@ export interface Army {
 ```
 
 狀態機合法轉移（詳細觸發條件見 04/07）：
+
+途中改令不改寫 `posNodeId` 的實際抵達事實。反向時 `path[pathCursor]` 仍是原抵達端點 A，
+`reversingEdgeEndNodeId` 保留未抵達端點 B，進度仍以 A→B 度量。新路徑可只有 A 一個節點，
+但正進度表示部隊仍在邊上；不能因此入庫、補糧或解散。反向抵達 A 後才清除可選欄位及當前邊快取。
 
 ```
 marching ──遭遇敵軍──▶ engaged ──野戰/合戰勝──▶ marching│holding│returning
@@ -533,6 +539,17 @@ export interface FieldCombatSide {
   armyIds: ArmyId[];           // 同側部隊
   initialTroops: number;       // 交戰開始時總兵數（威風判定用）
   cumulativeLosses: number;    // 累計損失兵數
+  participation?: {
+    complete: boolean;        // 新遭遇為 true；舊檔缺少歷史時不推測完整性
+    participants: FieldCombatParticipant[]; // 分離的歷史編成快照，不隨 active armyIds 剪除
+  };
+}
+
+export interface FieldCombatParticipant {
+  armyId: ArmyId;              // 歷史部隊可已不存在，不是存續部隊引用
+  clanId: ClanId;              // 實際參戰時所屬勢力
+  leaderId: OfficerId;         // 該次編成的主將
+  deputyIds: OfficerId[];      // 分離、排序且不重複的副將清單
 }
 
 /** 合戰（戰術戰場）——策略時間暫停期間的獨立狀態機（07 §3.5～§3.9） */
@@ -741,13 +758,18 @@ export interface TransportOrder {
   gold: number;                // 押運金錢（貫），整數 ≥0
   food: number;                // 押運兵糧（石），整數 ≥0（三者不得同時為 0）
   path: MapNodeId[];           // 全路徑節點序列（04 尋路產出，含起訖）
-  pathCursor: number;          // 目前所在節點在 path 的索引（與 Army 同語意＝04 MarchState.nodeIndex；勘誤 E-11）
-  edgeProgressDays: number;    // 往 path[pathCursor+1] 之當前邊已累積行軍日數（日，浮點 ≥0）；位於節點上為 0（勘誤 E-11；04 §5）
-  edgeCostDays: number;        // 當前邊（**輸送隊調整後**）有效日數（日）；**完整公式歸 05 §3.6／§5.4**（roadGradeSpeedMult 與 transportSpeedFactor 皆為速度係數、對日數採**除以**慣例；消除與 05 之公式矛盾，四輪裁決 D-15／五輪裁決殘留修正）；抵達判定 edgeProgressDays ≥ edgeCostDays（勘誤 E-11；04 §3.4.2）
-  returning: boolean;          // 是否已被撤回折返中
+  pathCursor: number;          // 目前方向邊的起點索引；節點狀態時才代表實際占據節點（補充見下）
+  edgeProgressDays: number;    // 目前方向邊已走日數，有限數值 ≥0；位於節點上為 0（E-11；04 §5）
+  edgeCostDays: number;        // 已進入邊的有效日數，有限數值 ≥0；完整輸送成本公式歸 05 §3.6／§5.4
+  returning: boolean;          // 折返時下一節點為 path[pathCursor-1]；否則為 path[pathCursor+1]
 }
 // 輸送隊為非戰鬥單位，不需武將帶隊、不佔兵力（05 §3.6）。
 ```
+
+**輸送位置補充（2026-10-08）**：edgeCostDays=0 是節點狀態；正值表示已進入有方向的移動邊。
+部分邊撤回時，cursor 暫指原前方節點，cost 改為已走距離，progress 從 0 開始沿反向累加。
+此 cursor 不表示已抵達前方節點；抵達真正節點後才清零邊欄位、檢查被劫及重尋路。
+公式仍依速度係數採除法；此補充不新增位置或存檔欄位，也不更改完整邊的輸送政策係數。
 
 ### 4.14 ClanPolicyState（政策狀態）
 
@@ -789,6 +811,8 @@ export interface EventsState {
   fired: Record<EventId, number>;      // 已觸發史實/條件事件 → 觸發絕對日（每事件一生一次）
   cooldownUntil: Record<string, number>; // 汎用事件群組 key → 冷卻到期絕對日（群組定義見 10）
   pendingChoiceEventId: EventId | null;  // 等待玩家選擇的事件（modal 開啟中）；核心暫停推進（03）
+  pendingChoiceBinding: EventBinding | null; // 待選事件的具體綁定；型別見 10 §4.1
+  hookSignals: EventHookSignal[];       // 次一 tick 消費的事實訊號；型別見 10 §4.1
   flags: Record<string, number>;       // 事件旗標（布林以 0/1；含 unlock.* / harvest.* / defeat.*，勘誤 E-55；10 §4.3）
   tenkabitoStreakMonths: number;       // 天下人條件連續成立月數，整數 ≥0（勘誤 E-55）
   stats: VictoryStats;                 // 結局統計（供 EndingScreen；勘誤 E-55；10 §3.8.5）
@@ -1073,7 +1097,7 @@ export type GameEventType = GameEvent['type'];
 | `officer.captured` | `officerId, byClanId` | 戰敗被俘 | 07 |
 | `officer.released` / `officer.executed` | `officerId, byClanId` | 捕虜處置 | 06 |
 | `pact.signed` | `aClanId, bClanId, kind: PactKind, endDay: number \| null` | 協定成立 | 08 |
-| `pact.expired` / `pact.broken` | `aClanId, bClanId, kind: PactKind`（broken 另有 `breakerClanId`） | 到期/毀約 | 08 |
+| `pact.expired` / `pact.broken` | `aClanId, bClanId, kind: PactKind`（broken 另有 `breakerClanId: ClanId \| null`；事件強制解約為 null） | 到期/毀約 | 08／10 |
 | `diplo.refused` | `fromClanId, toClanId, kind: DiplomacyActionKind` | 提案被拒（含逾期；kind 由 PactKind 改 DiplomacyActionKind 以涵蓋 demand/offerVassal/requestReinforce，四輪裁決 C-1） | 08 |
 | `diplo.reinforceAgreed` | `fromClanId, toClanId, againstClanId: ClanId` | 援軍請求（requestReinforce）獲接受——不建立 Pact，故不發 pact.signed（四輪裁決 D-21；備忘錄交 08 發、13 接報告） | 08 |
 | `diplo.envoyArrived` | `fromClanId, proposalId: ProposalId, kind: DiplomacyActionKind` | 外交提案送達玩家勢力（觸發來使 modal 自動暫停；勘誤 E-32；`kind` 由 08 emit 端持有〔Proposal.kind〕、供 13 `{proposal}` 於渲染時取提案型別——Proposal 屆時已 transient 不可反查 proposalId，六輪裁決 2） | 08 |
@@ -1265,6 +1289,17 @@ export interface AiIntent {
 | INV-24 | `time.year/month/dayOfMonth` 與 `time.day` 換算一致（§5.6）；`rng` 各流 ∈ [0, 2^32)。 |
 | INV-25 | 全樹無 `undefined`/`NaN`/`Infinity`/函式/class instance；`reports.length ≤ BAL.reportMaxKept`。 |
 
+**INV-12 輸送邊界補充（2026-10-08）**：pathCursor 必須為範圍內整數，returning 必須為 boolean。
+progress／cost 都是有限 number，且 0≤progress≤cost；有 entered cost 時，該方向下一節點必須存在。
+部分撤回的 cost>0／progress=0 合法，不能把它當作終點節點或讀檔時清零。
+正向終點或反向 cursor=0 的無下一節點狀態，只允許 cost=0；不接受免費結算未完成邊的存檔。
+路徑中每個節點及起訖城引用必須存在；重尋路後的首節點可不同於原來源，不能因此拒絕合法 fallback。
+
+**INV-12 部隊反向邊補充（2026-10-08）**：progress／cost 必須有限，且 0≤progress≤cost。
+非 null 的 `reversingEdgeEndNodeId` 必須與 `posNodeId` 不同，兩端存在實際 RoadEdge，
+且 progress／cost 都大於零。`path[pathCursor] = posNodeId` 仍成立；反向路徑長度 1 不代表已抵達。
+缺省／null 沿用舊檔的正向語意；decode 不補造反向端點，也不清零有效途中進度。
+
 驗證器骨架：
 
 ```
@@ -1329,7 +1364,7 @@ calendarToDay(y,m,d) = (y-1560)*360 + (m-1)*30 + (d-1)
 | `BAL.maxDeputies` | 2 | 部隊副將數上限 |
 | ~~`BAL.garrisonPopRatio`~~ | 廢除 | 【廢除，勘誤 E-61】城最大兵力改採 05 `maxSoldiers` 公式（`BAL.soldiersPerPop`=0.025），見 §5.1／15 §5.2 表 C |
 | `BAL.durabilityMain` / `BAL.durabilityBranch` | 3000 / 1000 | 本城/支城耐久上限基準 |
-| `BAL.facilitySlotsMain` / `BAL.facilitySlotsBranch` | 6 / 3 | 城下施設 slot 數 |
+| `BAL.mainCastleSlots` / `BAL.branchCastleSlots` | 6 / 3 | 城下施設 slot 數（名依 15 E-39） |
 | `BAL.fiefMaxByRank` | [0,1,1,2,3,4] | 各身分知行郡數上限（§5.1 表；值定案見 15 §5.2，勘誤 E-03） |
 | `BAL.policySlotMax` | 6 | 同時生效政策數「硬上限」；實際格數為動態 min(6, 1+floor(威信/300))（勘誤 E-38；05） |
 | `BAL.proposalExpireDays` | 60 | 具申逾期日數 |
@@ -1717,3 +1752,39 @@ calendarToDay(y,m,d) = (y-1560)*360 + (m-1)*30 + (d-1)
 - 招募的每勢力冷卻、具申的月底清理期限使用既有 `events.cooldownUntil` 字典保存。
   key 分別為 `officer.recruit:<officerId>:<clanId>`、`proposal.terminal:<proposalId>`。
   不新增 transient cache 至存檔。
+
+**2026-10-08（M8・事件待選綁定與 hook 訊號）**：
+
+- §4.16 收錄 `pendingChoiceBinding` 與 `hookSignals`，對齊 10 §4.3／D11。
+  選項結算使用保存的綁定；下一 tick 的 Step 3 消費事實訊號。
+- 初始值分別為 `null` 與 `[]`。存檔解碼只為缺少欄位的舊檔補中性值，不推測綁定。
+  已提供的欄位仍須通過結構驗證；無待選事件時，綁定必須為 `null`。
+  格式 3 不升版；新增持久化欄位改變 `stateHash`，不改變既有模擬結果或亂數消費。
+
+**2026-10-08（M8・無歸責的事件解約）**：
+
+- `pact.broken.breakerClanId` 可為 `null`，表示 10 強制解約沒有指定毀約者。
+  玩家毀約仍保存實際玩家勢力；不以協定端點順序猜測史實事件的行為者。
+  此欄屬結算事件，不新增持久化欄位或提高存檔版本。
+
+**2026-10-09（野戰參戰歷史與相容性）**：
+
+- FieldCombatSide.participation 保留實際編成；新遭遇完整，舊檔缺席仍代表未知，不從殘存部隊推測。
+  援軍與實際參戰日可新增分離的編成快照；同部隊角色變更不覆寫較早參戰事實。
+  歷史部隊不必存續；有提供歷史時須驗證 boolean、陣列及編成 ID 結構，不接受損壞欄位。
+  歷史勢力與武將仍須有保留紀錄，勢力須屬該側；不要求武將目前仍屬歷史勢力。
+- 普通勝敗僅在當日開始雙方皆有正兵數時，依完整歷史與 06 計算功績。
+  舊檔不完整歷史不新增推測獎勵，保留既有相容行為。
+  平手與外部非戰鬥關閉不指派勝者；合戰接管不另授野戰功績，相關完整政策仍需驗收。
+  格式 3 不升版；原生 codec 保存已知歷史，未知缺席不遷移成完整紀錄。
+
+**2026-10-09（褒賞月支出與存檔 v4）**：
+
+- Clan.rewardGoldSpentThisMonth 是必填欄位；INV-16 接受 null 或非負安全整數。
+  新局為零；只有成功賞賜的實際扣款加入已知總額，未知總額仍為 null。
+
+- Step 1 的指令屬舊日期；Step 2 推進日期後，月首將所有勢力的月支出歸零。
+  月底賞賜不計入新月；年次數仍由既有年度規則處理。
+
+- 存檔格式升至 4；v1 至 v3 逐版遷移，所有勢力的當月支出設為 null。
+  不從金庫、年次數或暫存指令紀錄推測歷史。新增欄位及版本改變 stateHash，不重寫凍結快照。

@@ -3,247 +3,247 @@
   "scenarioId": "mini-diplomacy",
   "seed": 42,
   "ticks": 1800,
-  "balanceHash": "26f8938846912a86",
+  "balanceHash": "7634217400759e66",
   "checkpoints": [
     {
       "day": 30,
-      "hash": "3adae0a780099047"
+      "hash": "7fd14084a5a62bb2"
     },
     {
       "day": 60,
-      "hash": "9264e3b670acd64e"
+      "hash": "3c00249bcf5fde3c"
     },
     {
       "day": 90,
-      "hash": "6646a44e5d4188a9"
+      "hash": "91560a7747fa9640"
     },
     {
       "day": 120,
-      "hash": "a501cca6209b27c9"
+      "hash": "c25decb8e5cd6a8e"
     },
     {
       "day": 150,
-      "hash": "49f1bc8651eaec9a"
+      "hash": "b13c8722e8626679"
     },
     {
       "day": 180,
-      "hash": "a60d7626aab62409"
+      "hash": "ec99e8b5a2edde05"
     },
     {
       "day": 210,
-      "hash": "d3f6940f43a272ce"
+      "hash": "363fdfc48c9dc0c6"
     },
     {
       "day": 240,
-      "hash": "c68bf98b94ae85f1"
+      "hash": "b4272b60241ec2fc"
     },
     {
       "day": 270,
-      "hash": "6411760e439097cb"
+      "hash": "60b78a1d33d039ed"
     },
     {
       "day": 300,
-      "hash": "9c2d676af3ca6411"
+      "hash": "94a2da16051a5226"
     },
     {
       "day": 330,
-      "hash": "975caa0717d161d9"
+      "hash": "b4d2936c22d36c98"
     },
     {
       "day": 360,
-      "hash": "81cddaa77efd92d3"
+      "hash": "9de93de05e985de2"
     },
     {
       "day": 390,
-      "hash": "a290a7ef65ecc280"
+      "hash": "ef96db0c2c95e5ba"
     },
     {
       "day": 420,
-      "hash": "4200700549467cb9"
+      "hash": "7b6dd2d5584a45ca"
     },
     {
       "day": 450,
-      "hash": "008fdd6946a28614"
+      "hash": "440c14bd90f6c37d"
     },
     {
       "day": 480,
-      "hash": "e9323411f8d82e98"
+      "hash": "7c20d43cb8d0e331"
     },
     {
       "day": 510,
-      "hash": "12ec3811f3415fc8"
+      "hash": "4d64ed7a09c83e95"
     },
     {
       "day": 540,
-      "hash": "5c1c9f6185d4c552"
+      "hash": "ef58be96e923e8f6"
     },
     {
       "day": 570,
-      "hash": "8c6e8a6c6f4d679b"
+      "hash": "facd628e4020f800"
     },
     {
       "day": 600,
-      "hash": "1c0a24fcd21ffe08"
+      "hash": "9b0f69f545c70211"
     },
     {
       "day": 630,
-      "hash": "fb2372a553b1d45e"
+      "hash": "1b6aebbe47f50c97"
     },
     {
       "day": 660,
-      "hash": "4a9dc526ab10b172"
+      "hash": "6ce01f17dce0b051"
     },
     {
       "day": 690,
-      "hash": "41c746a662fc5296"
+      "hash": "46b3dbef18eeaa87"
     },
     {
       "day": 720,
-      "hash": "52da3bc3c63a0cda"
+      "hash": "db7fb70ea6f91d6a"
     },
     {
       "day": 750,
-      "hash": "742e3b92c9a46442"
+      "hash": "8011b7ef7f0ca95e"
     },
     {
       "day": 780,
-      "hash": "1971e077be8e7a6c"
+      "hash": "f3552f84fc61ff74"
     },
     {
       "day": 810,
-      "hash": "6f9ecf4b6831044e"
+      "hash": "dc18146fe5633e12"
     },
     {
       "day": 840,
-      "hash": "0a13e4e2b38e3df9"
+      "hash": "e78248529c9ebc17"
     },
     {
       "day": 870,
-      "hash": "716a13258aa29188"
+      "hash": "bec212ceddd2c5ab"
     },
     {
       "day": 900,
-      "hash": "ae4935e55e1ae083"
+      "hash": "e98913a9c5a28ffb"
     },
     {
       "day": 930,
-      "hash": "82f2d9b6998e451a"
+      "hash": "ee2d6fd07cef80da"
     },
     {
       "day": 960,
-      "hash": "32d02fe7146a1f51"
+      "hash": "2b640c124e4cef75"
     },
     {
       "day": 990,
-      "hash": "e724d6af833514b7"
+      "hash": "da787226f94be21b"
     },
     {
       "day": 1020,
-      "hash": "a83e8933e9d2ef05"
+      "hash": "ded4532f3e0207ef"
     },
     {
       "day": 1050,
-      "hash": "4dc23d5e780f8362"
+      "hash": "54e9fcb70f1457ce"
     },
     {
       "day": 1080,
-      "hash": "483cdcbd9c75b237"
+      "hash": "8401273855700059"
     },
     {
       "day": 1110,
-      "hash": "46dc1e4f4a7b8455"
+      "hash": "308c67e7caeef2c8"
     },
     {
       "day": 1140,
-      "hash": "969927a6d5b3225d"
+      "hash": "d73055510beab9e3"
     },
     {
       "day": 1170,
-      "hash": "1358570d4a8d803b"
+      "hash": "e7948efd88ce86bf"
     },
     {
       "day": 1200,
-      "hash": "e7037dbe66dcc47d"
+      "hash": "f98a30e3e1c953b2"
     },
     {
       "day": 1230,
-      "hash": "d9cd9512f4407617"
+      "hash": "c4aab08fbbd259b9"
     },
     {
       "day": 1260,
-      "hash": "074543e85a22c21b"
+      "hash": "7ab5493f570d4153"
     },
     {
       "day": 1290,
-      "hash": "596f55e622e05773"
+      "hash": "b7243bc62288d359"
     },
     {
       "day": 1320,
-      "hash": "d53238f4473c4446"
+      "hash": "8acb352dd3f166e5"
     },
     {
       "day": 1350,
-      "hash": "b34b20223335c213"
+      "hash": "1c3aa8090e6e9c53"
     },
     {
       "day": 1380,
-      "hash": "5caf4a3436518758"
+      "hash": "62ca75dd68499f70"
     },
     {
       "day": 1410,
-      "hash": "9e57aafdba978175"
+      "hash": "65acc64fdea1cab2"
     },
     {
       "day": 1440,
-      "hash": "bfb95ae8dc49ee3b"
+      "hash": "4e8df6d7862a60f6"
     },
     {
       "day": 1470,
-      "hash": "246aa774764ff0c9"
+      "hash": "f6ba257d7a99d5e7"
     },
     {
       "day": 1500,
-      "hash": "a88a7227d670a4dc"
+      "hash": "b069d541d9767da4"
     },
     {
       "day": 1530,
-      "hash": "2e711e234f24a712"
+      "hash": "02e8c69531adf22c"
     },
     {
       "day": 1560,
-      "hash": "13e00eb4f4ab6717"
+      "hash": "5f8374a868f8ccb5"
     },
     {
       "day": 1590,
-      "hash": "ddefd4e275de35f4"
+      "hash": "1ca296f66cb9dd4d"
     },
     {
       "day": 1620,
-      "hash": "cfb41b7df080a4f8"
+      "hash": "aab4609f22fe6f5e"
     },
     {
       "day": 1650,
-      "hash": "8e5d9abc17a2680a"
+      "hash": "0fcbc2670ab0d3a2"
     },
     {
       "day": 1680,
-      "hash": "c6ac41f8f2a0be6d"
+      "hash": "d9bc8fec9985ac1d"
     },
     {
       "day": 1710,
-      "hash": "50dc2c8ef1d8e343"
+      "hash": "75b036b950cbbd45"
     },
     {
       "day": 1740,
-      "hash": "0d179e7db8adde4c"
+      "hash": "ac672159a19ca82b"
     },
     {
       "day": 1770,
-      "hash": "7a928eb755ebc661"
+      "hash": "b394189047f953e8"
     },
     {
       "day": 1800,
-      "hash": "88161b41bee6a86b"
+      "hash": "f75f0aa6b8f7cb66"
     }
   ],
   "appliedCommands": {
@@ -262,7 +262,9 @@
     "time.seasonStart": 20,
     "plot.failed": 1,
     "plot.exposed": 1,
+    "proposal.submitted": 5,
     "plot.succeeded": 1,
+    "proposal.expired": 5,
     "economy.harvest": 15,
     "pact.signed": 3,
     "court.mediationResult": 1,

@@ -9,6 +9,9 @@ import { describe, expect, it } from 'vitest';
 import { buildMapGraph } from '@core/state/mapGraph';
 import type { CastleId, DistrictId, RoadEdgeId } from '@core/state/ids';
 import type { RoadEdge } from '@core/state/gameState';
+import { selectMapStaticModel } from '@core/state/selectors';
+import { edgeVisualPolyline, edgePolyline, type RoadPoint } from '@ui/map/roads/roadGeometry';
+import { buildFullState } from '../helpers/fullState';
 import {
   armyStackKey,
   armyWorldPos,
@@ -49,6 +52,54 @@ function fixtureGraph(): ReturnType<typeof buildMapGraph> {
   } as unknown as Parameters<typeof buildMapGraph>[2];
   return buildMapGraph(castles, districts, roads);
 }
+
+it('army display follows the approved actual Sunpu curve by independent arc length in both directions', async () => {
+  const game = await buildFullState();
+  const graph = selectMapStaticModel(game).graph;
+  const edge = graph.edges.get('road.sunpu-kokokuji-01' as RoadEdgeId)!;
+  const visual = edgeVisualPolyline(edge, graph)!,
+    raw = edgePolyline(edge, graph)!;
+  const before = structuredClone(game),
+    original = JSON.stringify([...graph.edges]);
+  expect(visual.length).toBeGreaterThan(raw.length);
+  for (const anchor of raw) expect(visual).toContainEqual(anchor);
+  // Test oracle does not call the production point/tangent samplers.
+  const sample = (points: readonly RoadPoint[], ratio: number) => {
+    const lengths = points
+      .slice(1)
+      .map((to, index) => Math.hypot(to.x - points[index]!.x, to.y - points[index]!.y));
+    let remaining = lengths.reduce((sum, length) => sum + length, 0) * ratio;
+    for (let index = 0; index < lengths.length; index++) {
+      const length = lengths[index]!;
+      if (length > 0 && remaining <= length) {
+        const from = points[index]!,
+          to = points[index + 1]!;
+        return {
+          x: from.x + ((to.x - from.x) * remaining) / length,
+          y: from.y + ((to.y - from.y) * remaining) / length,
+        };
+      }
+      remaining -= length;
+    }
+    return points.at(-1)!;
+  };
+  let differsFromRaw = false;
+  for (let step = 1; step < 32; step++) {
+    const ratio = step / 32,
+      expected = sample(visual, ratio),
+      old = sample(raw, ratio);
+    differsFromRaw ||= Math.hypot(expected.x - old.x, expected.y - old.y) > 1e-4;
+    const actual = armyWorldPos({ fromNode: edge.a, toNode: edge.b, edgeT: ratio }, graph);
+    expect(actual.x).toBeCloseTo(expected.x, 8);
+    expect(actual.y).toBeCloseTo(expected.y, 8);
+    const reverse = armyWorldPos({ fromNode: edge.b, toNode: edge.a, edgeT: 1 - ratio }, graph);
+    expect(reverse.x).toBeCloseTo(expected.x, 8);
+    expect(reverse.y).toBeCloseTo(expected.y, 8);
+  }
+  expect(differsFromRaw).toBe(true);
+  expect(JSON.stringify([...graph.edges])).toBe(original);
+  expect(game).toEqual(before);
+});
 
 describe('buildOwnerByNode（M6-V4 §3.3.3）', () => {
   it('併入 castles[] 與 districtOwner 兩張表；district 缺主(undefined)視為 null', () => {
@@ -133,6 +184,71 @@ describe('armyWorldPos（M6-V4 §3.2／補遺 AD-V4-4：逐字等價改前 MainS
       graph,
     );
     expect(pos).toEqual({ x: 100, y: 100 });
+  });
+});
+
+describe('armyWorldPos follows the authored display road', () => {
+  function bentGraph(waypoints = [100, 200, 200, 200]) {
+    const base = fixtureGraph();
+    const edges = new Map(base.edges);
+    const edge = edges.get('road.aa-xx' as RoadEdgeId)!;
+    edges.set(edge.id, { ...edge, waypoints });
+    return { ...base, edges };
+  }
+
+  it.each([
+    [0.25, { x: 100, y: 175 }],
+    [0.5, { x: 150, y: 200 }],
+    [0.75, { x: 200, y: 175 }],
+  ])('uses cumulative road length at progress %s, not the endpoint chord', (edgeT, expected) => {
+    expect(armyWorldPos({ fromNode: 'castle.aa', toNode: 'dist.xx', edgeT }, bentGraph())).toEqual(
+      expected,
+    );
+  });
+
+  it('follows the same physical road in reverse, including a retreat reversal', () => {
+    const graph = bentGraph();
+    for (const edgeT of [0.125, 0.25, 0.375, 0.5, 0.75]) {
+      expect(armyWorldPos({ fromNode: 'dist.xx', toNode: 'castle.aa', edgeT }, graph)).toEqual(
+        armyWorldPos({ fromNode: 'castle.aa', toNode: 'dist.xx', edgeT: 1 - edgeT }, graph),
+      );
+    }
+    expect(armyWorldPos({ fromNode: 'dist.xx', toNode: 'castle.aa', edgeT: 0.25 }, graph)).toEqual({
+      x: 200,
+      y: 175,
+    });
+  });
+
+  it('ignores zero-length waypoint segments without mutating the graph', () => {
+    const graph = bentGraph([100, 100, 100, 200, 100, 200, 200, 200]);
+    const before = JSON.stringify([...graph.edges]);
+    expect(armyWorldPos({ fromNode: 'castle.aa', toNode: 'dist.xx', edgeT: 0.5 }, graph)).toEqual({
+      x: 150,
+      y: 200,
+    });
+    expect(JSON.stringify([...graph.edges])).toBe(before);
+  });
+
+  it('keeps stationary, endpoint and missing-edge fallbacks', () => {
+    const graph = bentGraph();
+    expect(armyWorldPos({ fromNode: 'castle.aa', toNode: 'dist.xx', edgeT: 0 }, graph)).toEqual({
+      x: 100,
+      y: 100,
+    });
+    expect(armyWorldPos({ fromNode: 'castle.aa', toNode: 'dist.xx', edgeT: 1 }, graph)).toEqual({
+      x: 200,
+      y: 100,
+    });
+    expect(armyWorldPos({ fromNode: 'castle.aa', toNode: null, edgeT: 0.5 }, graph)).toEqual({
+      x: 100,
+      y: 100,
+    });
+    expect(armyWorldPos({ fromNode: 'castle.aa', toNode: 'castle.bb', edgeT: 0.5 }, graph)).toEqual(
+      {
+        x: 200,
+        y: 200,
+      },
+    );
   });
 });
 

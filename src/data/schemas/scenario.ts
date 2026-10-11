@@ -36,7 +36,7 @@ export const zScenario = z.object({
   officers: z.array(z.array(zOfficer)).length(REGION_VALUES.length),
   catalogs: z.object({
     traits: z.array(zTraitEntry).length(37),
-    policies: z.array(zPolicyEntry).length(13),
+    policies: z.array(zPolicyEntry).length(12),
     tactics: z.array(zTacticEntry).length(12),
     personas: z.array(zPersonaEntry).min(41),
   }),

@@ -10,6 +10,10 @@ import type { OfficerStat } from '../state/officerTypes';
 import { traitModifier } from '../traits';
 import { nearestOwnedCastleByTravelTime } from './castleSelection';
 import { createRngStream } from '../rng';
+import { dissolveCorps } from './corps';
+import { clearExtinctClanWork, collapseExtinctClanCourt } from './clanExtinction';
+import { detachArmyFromSiege } from './siegeMembership';
+import { clearSpouseOnDeath } from './marriage';
 
 const clamp = (value: number, min: number, max: number): number =>
   Math.max(min, Math.min(max, value));
@@ -20,9 +24,10 @@ const sortedOfficers = (state: GameState): Officer[] =>
 type OfficerEmit = (event: GameEvent) => void;
 
 /** Release offices and work when an officer dies or changes allegiance. */
-export function releaseOfficerAssignments(state: GameState, officerId: OfficerId): void {
+export function releaseOfficerAssignments(state: GameState, officerId: OfficerId): GameEvent[] {
   const officer = state.officers[officerId];
-  if (!officer) return;
+  if (!officer) return [];
+  const events: GameEvent[] = [];
   for (const castle of Object.values(state.castles)) {
     if (castle.lordId === officerId) {
       castle.lordId =
@@ -35,6 +40,11 @@ export function releaseOfficerAssignments(state: GameState, officerId: OfficerId
               candidate.clanId === castle.ownerClanId &&
               candidate.locationCastleId === castle.id &&
               candidate.armyId === null &&
+              // Returning armies can relocate a lord without ending their existing office.
+              // A replacement must not acquire a second castle (INV-04).
+              !Object.values(state.castles).some(
+                (other) => other.id !== castle.id && other.lordId === candidate.id,
+              ) &&
               rankIndex(candidate.rank) >= rankIndex('samurai-taisho'),
           )
           .sort(successorOrder)[0]?.id ?? null;
@@ -51,11 +61,7 @@ export function releaseOfficerAssignments(state: GameState, officerId: OfficerId
   }
   for (const corps of Object.values(state.corps)) {
     if (corps.corpsLeaderId !== officerId) continue;
-    for (const castle of Object.values(state.castles))
-      if (castle.corpsId === corps.id) castle.corpsId = null;
-    for (const army of Object.values(state.armies))
-      if (army.corpsId === corps.id) army.corpsId = null;
-    delete state.corps[corps.id];
+    dissolveCorps(state, corps.id);
   }
   const army = officer.armyId === null ? undefined : state.armies[officer.armyId];
   if (army) {
@@ -80,6 +86,7 @@ export function releaseOfficerAssignments(state: GameState, officerId: OfficerId
           deputy.armyId = null;
           deputy.locationCastleId = refuge?.id ?? deputy.debutCastleId;
         }
+        events.push(...detachArmyFromSiege(state, army.id));
         delete state.armies[army.id];
         for (const combat of Object.values(state.fieldCombats)) {
           combat.sideA.armyIds = combat.sideA.armyIds.filter((id) => id !== army.id);
@@ -98,10 +105,6 @@ export function releaseOfficerAssignments(state: GameState, officerId: OfficerId
             delete state.fieldCombats[combat.id];
           }
         }
-        for (const siege of Object.values(state.sieges)) {
-          siege.attackerArmyIds = siege.attackerArmyIds.filter((id) => id !== army.id);
-          if (siege.attackerArmyIds.length === 0) delete state.sieges[siege.id];
-        }
         for (const battle of Object.values(state.battles))
           battle.units = battle.units.filter((unit) => unit.armyId !== army.id);
         for (const other of Object.values(state.armies)) {
@@ -119,6 +122,7 @@ export function releaseOfficerAssignments(state: GameState, officerId: OfficerId
   state.diplomacy.plots = state.diplomacy.plots.filter(
     (plot) => plot.officerId !== officerId && plot.targetOfficerId !== officerId,
   );
+  return events;
 }
 
 export interface OfficerTransfer {
@@ -143,7 +147,7 @@ export function transferOfficer(
   ) {
     throw new Error('transferOfficer requires a live receiving clan and an owned castle');
   }
-  releaseOfficerAssignments(state, officerId);
+  releaseOfficerAssignments(state, officerId).forEach(emit);
   officer.clanId = target.clanId;
   officer.status = 'serving';
   officer.locationCastleId = target.castleId;
@@ -195,7 +199,7 @@ export function checkDefections(state: GameState, emit: OfficerEmit): void {
     if (!rng.chance((BAL.defectionThreshold - officer.loyalty) * BAL.defectionChancePerPoint))
       continue;
     const fromClanId = officer.clanId;
-    releaseOfficerAssignments(state, officer.id);
+    releaseOfficerAssignments(state, officer.id).forEach(emit);
     officer.status = 'ronin';
     officer.clanId = null;
     emit({
@@ -216,8 +220,9 @@ export function comingOfAge(state: GameState): GameEvent[] {
       continue;
     officer.hasComeOfAge = true;
     if (officer.scheduledDeath.year < officer.debutYear) {
-      releaseOfficerAssignments(state, officer.id);
+      events.push(...releaseOfficerAssignments(state, officer.id));
       officer.status = 'dead';
+      clearSpouseOnDeath(state, officer.id);
       officer.clanId = null;
       officer.locationCastleId = null;
       officer.armyId = null;
@@ -529,6 +534,7 @@ export function paySalaryForClan(state: GameState, clanId: ClanId): SalarySettle
  * 立即抹平，符 §3.6.2）。`unpaidPayeeIds` 來自本 tick economy 步驟發出的
  * `economy.upkeepUnpaid.payeeIds`（05 觸發、06 定值），固定為 Step 6 結算當下的實際支薪對象；
  * Step 9 直接消費該快照，不因其間的行軍、戰死或俘虜而改變受懲罰對象。
+ * 唯一身分例外：Step 8 新任當主不扣忠誠（06 §3.4.3 當主忠誠恆為 100）。
  */
 export function applyUnpaidSalaryPenalty(
   state: GameState,
@@ -536,7 +542,9 @@ export function applyUnpaidSalaryPenalty(
 ): void {
   for (const officerId of [...unpaidPayeeIds].sort()) {
     const officer = state.officers[officerId];
-    if (officer && officer.status !== 'dead') {
+    const isCurrentLeader =
+      officer?.clanId != null && state.clans[officer.clanId]?.leaderId === officer.id;
+    if (officer && officer.status !== 'dead' && !isCurrentLeader) {
       adjustLoyalty(officer, -BAL.unpaidSalaryLoyaltyPenalty);
     }
   }
@@ -614,7 +622,7 @@ export function loyaltyTarget(state: GameState, officer: Officer): number {
     treatment +
     (heldFiefs > 0 ? BAL.fiefLoyaltyBonus + BAL.fiefLoyaltyPerDistrict * heldFiefs : 0) +
     kinshipBonus +
-    Math.floor((leader?.pol ?? 0) / BAL.loyaltyLeaderPolDivisor) +
+    Math.floor((leader ? effectiveStat(leader, 'pol') : 0) / BAL.loyaltyLeaderPolDivisor) +
     Math.floor(clan.prestige / BAL.loyaltyPrestigeDivisor) +
     traitModifier(officer, 'officer.loyaltySelfAdd').add +
     aura -
@@ -703,47 +711,47 @@ export function dieOfficer(
   const clanId = officer.clanId;
   // Shared release must see the original commander/army so it can reconcile
   // siege, field-combat and tactical-unit references before mutating ownership.
-  releaseOfficerAssignments(state, officer.id);
+  const events = releaseOfficerAssignments(state, officer.id);
   officer.status = 'dead';
+  clearSpouseOnDeath(state, officer.id);
   officer.clanId = null;
   officer.locationCastleId = null;
   officer.armyId = null;
   officer.capturedByClanId = null;
-  const events: GameEvent[] = [
-    {
-      type: 'officer.died',
-      day: state.time.day,
-      clanIds: clanId === null ? [] : [clanId],
-      officerId: officer.id,
-      clanId,
-      cause,
-      nodeId,
-    },
-  ];
+  events.push({
+    type: 'officer.died',
+    day: state.time.day,
+    clanIds: clanId === null ? [] : [clanId],
+    officerId: officer.id,
+    clanId,
+    cause,
+    nodeId,
+  });
   const clan = clanId === null ? undefined : state.clans[clanId];
   if (!deferSuccession && clan?.alive && clan.leaderId === officer.id) {
     const succession = appointClanSuccessor(state, clan.id, officer.id);
     if (succession) {
       events.push(succession);
-    } else if (clan.id === state.meta.playerClanId) {
+    } else if (clan.id === state.meta.playerClanId && !state.ai.allAi) {
       // The victory/event system owns the eventual defeat resolution (10 §3.8.2).
       state.events.flags['defeat.no-heir'] = 1;
     } else {
       clan.alive = false;
       clan.destroyedDay = state.time.day;
+      clearExtinctClanWork(state, clan.id);
       for (const other of Object.values(state.armies)) {
-        if (other.clanId === clan.id) delete state.armies[other.id];
+        if (other.clanId === clan.id) {
+          events.push(...detachArmyFromSiege(state, other.id));
+          delete state.armies[other.id];
+        }
       }
       for (const corps of Object.values(state.corps)) {
         if (corps.clanId !== clan.id) continue;
-        for (const castle of Object.values(state.castles)) {
-          if (castle.corpsId === corps.id) castle.corpsId = null;
-        }
-        delete state.corps[corps.id];
+        dissolveCorps(state, corps.id);
       }
       for (const member of Object.values(state.officers)) {
         if (member.status !== 'serving' || member.clanId !== clan.id) continue;
-        releaseOfficerAssignments(state, member.id);
+        events.push(...releaseOfficerAssignments(state, member.id));
         member.status = 'ronin';
         member.clanId = null;
         member.armyId = null;
@@ -759,6 +767,7 @@ export function dieOfficer(
         castle.betrayalReadyTargetLordId = null;
       }
       events.push(...releaseOrphanedCaptives(state)); // 捕獲方滅亡 → 捕虜就地釋放（INV-18）
+      collapseExtinctClanCourt(state, clan.id, (event) => events.push(event));
       events.push({
         type: 'clan.destroyed',
         day: state.time.day,

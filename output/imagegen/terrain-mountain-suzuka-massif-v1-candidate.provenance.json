@@ -1,0 +1,24 @@
+{
+  "asset": "terrain-mountain-suzuka-massif-v1-candidate.png",
+  "status": "rejected-for-production",
+  "mode": "built-in-imagegen",
+  "useCase": "stylized-concept",
+  "source": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-e144fc39-69be-425b-8b43-274d813cb6d7.png",
+  "prompt": "Use case: stylized-concept\nAsset type: transparent 2.5D strategy-map terrain sprite for an original Sengoku Japan game.\nPrimary request: ONE connected Suzuka-style wooded mountain massif with broad continuous foothills, not a row of separate pointed mountain icons.\nSubject: a narrow north-south gently bending mountain chain, with two overlapping natural ridgelines, unequal rounded crags and valleys joined into a single landform. The tallest crag is in the upper-middle, smaller shoulders taper southward. Subtle dark olive forest patches belong to its lower slopes rather than detached tree stamps.\nStyle/medium: polished hand-painted miniature terrain relief viewed from a high oblique strategy-map camera, restrained matte 2.5D rendering, muted grey-brown stone and moss-olive forest; no black outlines. Natural slopes and continuous low foothills must read at small game-map size.\nComposition/framing: portrait canvas around 1024x1536 pixels, maximum edge 2048. The entire opaque connected massif silhouette occupies roughly 42% of its height in width (about 480px wide by 1150px tall), centered with generous fully transparent margins on every edge. No clipping, no perspective horizon, no scenery outside the landform.\nLighting: soft upper-left light with short lower-right self-shadows confined to the massif; no outer drop shadow, no glow, no fog and no halo.\nConstraints: genuinely transparent background, exact zero-alpha outside mountain and attached wooded foothills. No ground rectangle, no beige underlay, no diffuse olive aura, no repeated evenly spaced peaks, no detached islands, no snow or volcano, no buildings, roads, water, labels, logo, watermark, or copied game art.",
+  "sha256": "c43298279c3bd7f6375e8ee6705c71fe7a00481f0ec391c1d88cf1b2948754ac",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 2040665,
+  "decodedRgbaBytes": 6291456,
+  "alpha": {
+    "zero": 1010645,
+    "opaque": 0,
+    "contentBounds": {
+      "x": 0,
+      "y": 8,
+      "width": 1008,
+      "height": 1528
+    }
+  },
+  "rejection": "Broad olive halo outside physical rock/tree silhouettes violates no-halo constraint and gives an unsuitable measured content aspect. Connected massif is not native visual acceptance. Not bound in manifest, terrainPack or public assets."
+}

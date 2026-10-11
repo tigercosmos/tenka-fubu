@@ -278,6 +278,7 @@ const clans: Clan[] = [
     leaderId: OFF_ODA_NOBUNAGA,
     homeCastleId: CASTLE_KIYOSU,
     gold: 3000,
+    rewardGoldSpentThisMonth: 0,
     prestige: 300,
     courtRank: 'none',
     shogunateTitle: 'none',
@@ -292,6 +293,7 @@ const clans: Clan[] = [
     leaderId: OFF_IMAGAWA_YOSHIMOTO,
     homeCastleId: CASTLE_SUNPU,
     gold: 3500,
+    rewardGoldSpentThisMonth: 0,
     prestige: 400,
     courtRank: 'none',
     shogunateTitle: 'none',
@@ -306,6 +308,7 @@ const clans: Clan[] = [
     leaderId: OFF_SAITO_DOSAN,
     homeCastleId: CASTLE_GIFU,
     gold: 1500,
+    rewardGoldSpentThisMonth: 0,
     prestige: 200,
     courtRank: 'none',
     shogunateTitle: 'none',
@@ -796,6 +799,7 @@ function collapseToHolding(state: GameState, armyId: ArmyId, atNodeId: MapNodeId
   army.pathCursor = 0;
   army.edgeProgressDays = 0;
   army.edgeCostDays = 0;
+  delete army.reversingEdgeEndNodeId;
   army.status = 'holding';
 }
 
@@ -823,6 +827,7 @@ function collapseToMidTransit(
   army.posNodeId = cursorNode;
   army.edgeCostDays = edgeCostDays;
   army.edgeProgressDays = edgeCostDays * progressFraction;
+  delete army.reversingEdgeEndNodeId;
 }
 
 // ═══════════════════════════════════════════════════════════════════

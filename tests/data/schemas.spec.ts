@@ -1464,7 +1464,7 @@ describe('每個 schema 各一非法樣本被拒（14-T1）', () => {
     expect(result.success).toBe(false);
   });
 
-  it('zPoliciesFile：長度不等於 13 被拒', () => {
+  it('zPoliciesFile：長度不等於 12 被拒', () => {
     expect(zPoliciesFile.safeParse({ version: 1, policies: [] }).success).toBe(false);
   });
 
@@ -1552,7 +1552,7 @@ describe('zScenario：東海子集彙整後可通過總 schema（§3.1 s1560 sha
       name: `戰法${i}`,
       unlockTraitId: null,
     }));
-    const policies = Array.from({ length: 13 }, (_, i) => ({
+    const policies = Array.from({ length: 12 }, (_, i) => ({
       id: `pol.p${String(i).padStart(2, '0')}`,
       name: `政策${i}`,
       prestigeReq: 0,

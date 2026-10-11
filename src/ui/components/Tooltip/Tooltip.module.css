@@ -1,11 +1,21 @@
 .tip {
+  --text-primary: var(--text-inverse);
+  --text-secondary: #d5d4c6;
+  --text-muted: #b7bfb3;
+  --status-success: var(--inverse-success);
+  --status-danger: var(--inverse-danger);
+  --status-warning: #dfbe7b;
+  --status-info: #a5c5d2;
+  --brand-gold: #dfbe7b;
   position: fixed;
   z-index: var(--z-tooltip);
   padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
-  background: var(--ink-900);
-  color: var(--washi-100);
-  box-shadow: var(--shadow-2);
+  border-radius: var(--radius-control);
+  border: 1px solid color-mix(in srgb, var(--command-gold) 45%, transparent);
+  background: var(--surface-inverse);
+  color: var(--text-inverse);
+  box-shadow: var(--shadow-dialog);
   font-size: var(--font-size-xs);
   pointer-events: none;
+  line-height: 1.6;
 }

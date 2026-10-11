@@ -32,8 +32,10 @@ import {
 } from 'react';
 import { selectMiniMapModel } from '@core/state/selectors';
 import { t } from '@i18n/zh-TW';
-import { TOKENS } from '@ui/styles/tokens';
+import styles from './MiniMap.module.css';
 import { UI } from '../uiConstants';
+import { canvasLogicalPoint } from '../layout/sizing';
+import { miniMapLayout } from './miniMapLayout';
 import { makeCachedSelector, useCachedGameSelector } from '../hooks/useGameSelector';
 import {
   drawMiniMapBase,
@@ -62,9 +64,9 @@ export interface MiniMapProps {
 }
 
 /** canvas 元素相對版面的本地座標（小地圖座標系，左上為原點）。 */
-function localPoint(e: ReactPointerEvent<HTMLCanvasElement>): Point2D {
+function localPoint(e: ReactPointerEvent<HTMLCanvasElement>, size: number): Point2D {
   const rect = e.currentTarget.getBoundingClientRect();
-  return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  return canvasLogicalPoint(e.clientX, e.clientY, rect, size);
 }
 
 /** 模組級快取（見檔頭說明）：同一 `tickSeq` 內重複呼叫回傳同一參考，避免無限重渲染。 */
@@ -126,7 +128,7 @@ export function MiniMap({
   }, [viewport, size]);
 
   function navigate(e: ReactPointerEvent<HTMLCanvasElement>): void {
-    const world = miniToWorld(localPoint(e), size);
+    const world = miniToWorld(localPoint(e, size), size);
     onNavigate(world.x, world.y);
   }
 
@@ -147,19 +149,27 @@ export function MiniMap({
     e.currentTarget.releasePointerCapture?.(e.pointerId);
   }
 
-  const canvasStyle = { position: 'absolute' as const, inset: 0, width: size, height: size };
+  // Keep the preferred size where it fits; reserve the HUD and lower panel in smaller viewports.
+  const { bottom, side } = miniMapLayout(size, bottomOffset);
+  const canvasStyle = {
+    position: 'absolute' as const,
+    inset: 0,
+    width: '100%',
+    height: '100%',
+  };
 
   return (
     <div
       data-testid="minimap"
+      className={styles.frame}
       role="img"
       aria-label={t('ui.minimap.ariaLabel')}
       style={{
         position: 'fixed',
-        right: TOKENS.space.space3,
-        bottom: bottomOffset ?? TOKENS.space.space3,
-        width: size,
-        height: size,
+        right: 'var(--space-3)',
+        bottom,
+        width: side,
+        height: side,
         zIndex: 'var(--z-hud)',
         transition: 'bottom var(--duration-normal) var(--ease-out)',
       }}

@@ -1,0 +1,28 @@
+{
+  "asset": "public/assets/textures/terrain-mountain-vertical-v2.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-09",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sha256": "5756001678b6462a9abd907451ed4ccc1b411f8458c98c15f2d204f8c74f36f1",
+  "dimensions": {
+    "width": 1024,
+    "height": 1536
+  },
+  "bytes": 2283679,
+  "alphaInspection": {
+    "zeroAlphaPixels": 988105,
+    "partialAlphaPixels": 584759,
+    "opaquePixels": 0,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 235,
+    "y": 27,
+    "width": 576,
+    "height": 1498
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: original transparent 2.5D terrain sprite for a Japanese historical grand-strategy map.\nPrimary request: a very long slender NORTH-SOUTH Japanese mountain range running vertically from top to bottom, approximately FOUR times taller than wide. One continuous winding chain of many low connected summits, dense cedar foothills, weathered grey rocky ridges and softly shaded valleys, not a single isolated steep peak.\nStyle/medium: refined hand-painted realistic miniature terrain, natural detailed textures, clear readable game-map art. Original artwork, no copied existing game assets. No low-poly facets or geometric tree cones.\nComposition/framing: fixed high-oblique overhead camera around 60 degrees, no horizon. Vertical ridge chain occupies approximately 90 percent of canvas height and 65 percent of width; gentle organic bends, narrow overall footprint, all terrain inside frame. Small genuinely transparent margin. Foothills fade smoothly into actual transparent alpha; no rectangular ground base, no floating island, no backdrop scene.\nLighting/mood: soft northwest daylight from upper left, southeast slopes consistently shadowed; no large detached cast shadow.\nColor palette: muted olive and sage woodland, cool grey rock and restrained warm sunlit ridges, compatible with a sage-green map.\nConstraints: mountains and trees only. No castles, buildings, people, roads, rivers, ocean, snow, labels, UI, text, logos, watermark or opaque background. One continuous vertical mountain range, not a sprite sheet. Genuinely transparent background."
+}

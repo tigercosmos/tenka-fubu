@@ -1,11 +1,35 @@
 .root {
   display: flex;
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm);
+  border: 1px solid rgb(223 198 149 / 40%);
+  border-radius: 4px;
+  background: var(--surface-command);
+  color: var(--text-inverse);
+  padding: 2px;
 }
 .paused {
-  border-color: var(--accent-vermilion);
-  animation: pulse 1.5s ease-in-out infinite;
+  border-color: var(--command-gold);
+}
+.root button {
+  color: var(--text-inverse);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 2px;
+}
+.root button:hover:not(:disabled) {
+  color: var(--command-gold);
+  background: var(--surface-command-raised);
+}
+.root button[aria-pressed='true'],
+.root button[aria-pressed='true']:hover {
+  color: var(--text-inverse);
+  background: var(--brand-red);
+  border-color: var(--brand-red);
+}
+.root button:focus-visible {
+  outline-color: var(--command-gold);
 }
 @keyframes pulse {
   50% {

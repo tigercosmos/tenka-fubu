@@ -1,8 +1,9 @@
 .scrim {
   position: fixed;
-  inset: 48px 0 0 72px;
+  inset: 3rem 0 0 4.5rem;
   z-index: var(--z-panel);
-  background: rgb(18 18 18 / 60%);
+  background: color-mix(in srgb, var(--surface-inverse) 34%, transparent);
+  backdrop-filter: blur(3px);
   display: grid;
   place-items: center;
   padding: 1rem;
@@ -11,22 +12,39 @@
   width: min(90vw, 90rem);
   max-height: calc(100vh - 5rem);
   overflow: auto;
-  background: var(--washi-100);
-  color: var(--ink-900);
-  border: var(--border-thin);
-  box-shadow: var(--shadow-2);
+  background: var(--surface-panel);
+  color: var(--text-primary);
+  border: 1px solid var(--stroke-strong);
+  border-top: 1px solid var(--stroke-strong);
+  box-shadow: var(--shadow-dialog);
+  border-radius: 4px;
 }
 .panel button,
 .panel select,
 .panel input {
-  min-height: 2rem;
+  min-height: max(32px, 2rem);
 }
 .panel button {
   padding: 0.4rem 0.8rem;
 }
 .panel small {
   display: block;
-  color: var(--ink-700);
+  color: var(--text-secondary);
+}
+.panel h2,
+.panel h3 {
+  font-family: var(--font-family-display);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.panel input,
+.panel select {
+  padding: var(--space-2) var(--space-3);
+  background: color-mix(in srgb, var(--surface-base) 50%, var(--surface-panel));
+  color: var(--text-primary);
+  border: 1px solid var(--stroke-subtle);
+  border-radius: 4px;
+  font: inherit;
 }
 .panel h3 {
   margin: 1rem 0 0.5rem;
@@ -34,7 +52,7 @@
 .columns {
   display: grid;
   grid-template-columns: minmax(12rem, 1fr) minmax(18rem, 2fr);
-  gap: 1.5rem;
+  gap: 1.75rem;
 }
 .list {
   display: flex;
@@ -63,27 +81,70 @@
 .table th,
 .table td {
   text-align: left;
-  padding: 0.5rem;
-  border-bottom: var(--border-thin);
+  padding: 0.625rem;
+  border-bottom: 1px solid var(--stroke-subtle);
+}
+.table th {
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  background: var(--surface-raised);
+}
+.table tbody tr:hover {
+  background: var(--surface-hover);
 }
 .card {
-  padding: 1rem;
-  border: var(--border-thin);
-  background: var(--washi-200);
+  padding: 1.25rem;
+  border: 1px solid var(--stroke-subtle);
+  border-top: 2px solid var(--brand-gold);
+  background: var(--surface-panel);
+  border-radius: 4px;
+  box-shadow: none;
 }
 .danger {
-  color: var(--accent-vermilion);
+  color: var(--status-danger);
 }
 .badge {
   padding: 0.2rem 0.5rem;
-  border: var(--border-thin);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--brand-gold) 30%, transparent);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: var(--font-size-xs);
 }
 @media (max-width: 800px) {
   .columns {
     grid-template-columns: 1fr;
   }
   .scrim {
-    inset: 48px 0 0;
+    inset: 3rem 0 0;
     padding: 0.5rem;
   }
+}
+
+.panel > header,
+.panel > section > header {
+  background: var(--surface-command);
+  color: var(--text-inverse);
+  border-bottom: 2px solid var(--command-gold);
+}
+.panel > header h2,
+.panel > section > header h2 {
+  color: var(--text-inverse);
+}
+.panel > header button,
+.panel > section > header button {
+  background: transparent;
+  color: var(--text-inverse);
+  border-color: var(--command-muted);
+}
+.panel > header button:hover:not(:disabled),
+.panel > section > header button:hover:not(:disabled) {
+  background: var(--surface-command-raised);
+  color: var(--command-gold);
+  border-color: var(--command-gold);
+}
+.panel > header button:focus-visible,
+.panel > section > header button:focus-visible {
+  outline-color: var(--command-gold);
 }

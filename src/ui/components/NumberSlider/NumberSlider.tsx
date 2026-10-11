@@ -28,14 +28,19 @@ export function NumberSlider({
   const [text, setText] = useState(String(value));
   useEffect(() => setText(String(value)), [value]);
   const commit = (v: number) => onChange(snap(v, min, max, step));
+  const rangeStep =
+    Number.isInteger((max - min) / step) && Number.isInteger((value - min) / step) ? step : 'any';
   const key = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Home' || e.key === 'End') {
+      e.preventDefault();
+      onChange(e.key === 'Home' ? min : max);
+      return;
+    }
     let v: number | undefined;
     if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') v = value - step;
     if (e.key === 'ArrowRight' || e.key === 'ArrowUp') v = value + step;
     if (e.key === 'PageDown') v = value - step * 10;
     if (e.key === 'PageUp') v = value + step * 10;
-    if (e.key === 'Home') v = min;
-    if (e.key === 'End') v = max;
     if (v !== undefined) {
       e.preventDefault();
       commit(v);
@@ -59,15 +64,20 @@ export function NumberSlider({
           type="range"
           min={min}
           max={max}
-          step={step}
+          step={rangeStep}
           value={value}
-          onChange={(e) => commit(Number(e.currentTarget.value))}
+          onChange={(e) => {
+            const next = Number(e.currentTarget.value);
+            if (next === min || next === max) onChange(next);
+            else commit(next);
+          }}
           onKeyDown={key}
           aria-label={label}
         />
         <span className={styles.value}>
           <input
             type="number"
+            aria-label={label}
             value={text}
             min={min}
             max={max}
@@ -83,7 +93,9 @@ export function NumberSlider({
                 setText(String(value));
                 return;
               }
-              commit(n);
+              const normalized = snap(n, min, max, step);
+              setText(String(normalized));
+              onChange(normalized);
             }}
           />
           {unit}
@@ -91,7 +103,14 @@ export function NumberSlider({
       </div>
       <div className={styles.quick}>
         {quickRatios.map((r) => (
-          <button type="button" key={r} onClick={() => commit(min + (max - min) * r)}>
+          <button
+            type="button"
+            key={r}
+            onClick={() => {
+              if (r === 0 || r === 1) onChange(r === 0 ? min : max);
+              else commit(min + (max - min) * r);
+            }}
+          >
             {quickLabel(r)}
           </button>
         ))}

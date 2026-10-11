@@ -1,0 +1,113 @@
+{
+  "scope": "Staged B6 geography only; no production activation or officer/clan closure.",
+  "coordinateMethod": "Castle anchors use approximate named-site longitude/latitude rounded to two decimals. Institutional links establish site identities, not surveyed precision. Gassan-Toda133.19/35.36 fits its actual Hirose mountain site and lies within16world units of the canonical anchor. District markers fit the coarse outline and parent40–180radius; they are not historical county centroids.",
+  "districtMethod": "Named counties and named subdivisions are authored gameplay allocations. Bizen includes Mimasaka per plan14. Koku/population/commerce/garrison/routes are canonical scenario abstractions, not historical measurements.",
+  "ownershipMethod": "Owners follow plan14 prescribed7Mori/4Amago/1existingYamana/2Uragami/2Akamatsu. Mori Matsuyama1560 advances the municipal1561conquest chronology. Country-lord/branch allegiance is simplified; no fabricated1560branch lord is assigned. Upper-seki belongs to historical Kumage, not Tsuno; its named port node retains that correct county.",
+  "sources": [
+    {
+      "castleId": "castle.yoshida-koriyama",
+      "url": "https://www.akitakata.jp/ja/shisei/section/kyouiku/shisekibunkazai/cultural_asset/siseki_kuni/mourisisiroato/kouriyamajyouato/",
+      "supports": "Medieval Yoshida-Koriyama mountain castle."
+    },
+    {
+      "castleId": "castle.sato-kanayama",
+      "url": "https://www.city.hiroshima.lg.jp/asaminamiku/machi/1027731/1007519.html",
+      "supports": "Mori possession explicitly dated1554; Takeda-yama site."
+    },
+    {
+      "castleId": "castle.sakurao",
+      "url": "https://hatsu-navi.jp/nature-camp/sakuraojyo/",
+      "supports": "Local institutional tourism chronology records Mori conquest and Katsura Motozumi appointment1554."
+    },
+    {
+      "castleId": "castle.konomine",
+      "url": "https://yamaguchi-city.jp/signqr/details/tw/21.html",
+      "supports": "Construction1556–57 under Ouchi; later Mori ownership."
+    },
+    {
+      "castleId": "castle.katsuyama",
+      "url": "https://www.city.shimonoseki.lg.jp/soshiki/32/4388.html",
+      "supports": "Medieval Katsuyama hill fort, not1863Katsuyama palace."
+    },
+    {
+      "castleId": "castle.bitchu-matsuyama",
+      "url": "https://www.city.takahashi.lg.jp/site/bichu-matsuyama/enkaku.html",
+      "supports": "Mori-backed Mimura conquest1561; Mori1560 is prescribed scenario abstraction."
+    },
+    {
+      "castleId": "castle.kannabe",
+      "url": "https://www.city.fukuyama.hiroshima.jp/site/kannabe-rekishiminzoku/3147.html",
+      "supports": "Kannabe castle on Koyo mountain;1566Sugihara evidence does not establish1560lord."
+    },
+    {
+      "castleId": "castle.gassan-toda",
+      "url": "https://www.city.yasugi.shimane.jp/kurashi/bunka/bunkazai/sisekikouen.html",
+      "supports": "Amago headquarters on Gassan above Hirose."
+    },
+    {
+      "castleId": "castle.shiraga",
+      "url": "https://www.city.matsue.lg.jp/material/files/group/32/hokki_matiarukimap.pdf",
+      "supports": "White Deer mountain castle; local Matsuda affiliation simplified to Amago."
+    },
+    {
+      "castleId": "castle.yamabuki",
+      "url": "https://www.kankou-shimane.com/destination/21493",
+      "supports": "Yamabuki castle and Iwami silver-mine geography; exact Honjo chronology not asserted."
+    },
+    {
+      "castleId": "castle.yonago",
+      "url": "https://www.city.yonago.lg.jp/4438.htm",
+      "supports": "Medieval Iinoyama fort, not Minatoyama stone castle begun1591."
+    },
+    {
+      "castleId": "castle.tottori",
+      "url": "https://www.city.tottori.lg.jp/page/1105.html",
+      "supports": "Hisamatsuyama fort existed1540s;1573headquarters move not backdated."
+    },
+    {
+      "castleId": "castle.tenjinyama",
+      "url": "https://www.pref.okayama.jp/site/kodai/628749.html",
+      "supports": "Bizen Tenjinyama medieval castle; disputed construction date not asserted."
+    },
+    {
+      "castleId": "castle.mitsuishi",
+      "url": "https://www.pref.okayama.jp/site/kodai/628754.html",
+      "supports": "Mitsuishi medieval Uragami castle; Masamune/Munekage branches collapsed by scenario."
+    },
+    {
+      "castleId": "castle.okishio",
+      "url": "https://www.city.himeji.lg.jp/kanko/0000001839.html",
+      "supports": "Medieval Akamatsu Okishio mountain castle."
+    },
+    {
+      "castleId": "castle.tatsuno",
+      "url": "https://www.city.tatsuno.lg.jp/soshiki/1026/gyomu/2/1/2831.html",
+      "supports": "Medieval Keirozan castle, not reconstructed lowland castle."
+    },
+    {
+      "castleId": "castle.katsuyama",
+      "url": "https://geoshape.ex.nii.ac.jp/nrct-poi/resource/36/360000161600.html",
+      "supports": "NII/ROIS Japan Historical Place-name Dictionary dataset gives34.032588,130.970142. Rounded anchor130.97,34.03."
+    },
+    {
+      "castleId": "castle.gassan-toda",
+      "url": "https://gosenzo.net/yamajiro/2022/01/08/%E3%80%90%E5%B3%B6%E6%A0%B9%E7%9C%8C%E3%80%91%E5%AF%8C%E7%94%B0%E5%9F%8E%E3%80%90%E5%AE%89%E6%9D%A5%E5%B8%82%E5%BA%83%E7%80%AC%E7%94%BA%E5%AF%8C%E7%94%B0%E3%80%91/",
+      "supports": "Secondary field-site coordinate reference35.360237,133.186045; institutional identity corroborated separately. Not claimed as institutional survey."
+    },
+    {
+      "districtId": "dist.iwami-nima-yunotsu",
+      "url": "https://ginzan.city.oda.lg.jp/highlights/historic_buildings/",
+      "supports": "Medieval external port of Iwami silver mine."
+    },
+    {
+      "districtId": "dist.suo-kumage-kaminoseki",
+      "url": "https://bunkazai.pref.yamaguchi.lg.jp/sp/bunkazai/summary.asp?mid=110044",
+      "supports": "Medieval maritime gateway in Kumage; port schedule and game sea edge are authored."
+    },
+    {
+      "districtId": "dist.bizen-kojima",
+      "url": "https://www.city.okayama.jp/kurashi/0000084019.html",
+      "supports": "Historic Kojima bay coastline differs from later reclaimed land. Named coastal representative only."
+    }
+  ]
+}

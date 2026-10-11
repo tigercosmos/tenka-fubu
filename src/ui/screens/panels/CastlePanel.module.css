@@ -1,39 +1,108 @@
 .anchor {
   position: fixed;
   z-index: var(--z-panel);
-  left: 84px;
-  top: 60px;
-  width: 480px;
-  height: 840px;
+  left: 5.25rem;
+  top: 3.75rem;
+  width: min(30rem, calc(100vw - 6rem));
+  height: auto;
+  max-height: calc(100dvh - 4.5rem);
 }
 .anchor > section {
-  height: 100%;
+  height: auto;
+  max-height: calc(100dvh - 4.5rem);
   overflow: auto;
+  scroll-padding-block-start: 3rem;
+  border-color: var(--stroke-strong);
+  box-shadow: var(--shadow-panel);
+  background-color: var(--surface-base);
+  background-image: none;
 }
 .page {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-4);
   padding-top: var(--space-3);
 }
 .page h3 {
   margin: 0 0 var(--space-2);
-  padding-bottom: var(--space-1);
-  border-bottom: var(--border-thin);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid color-mix(in srgb, var(--brand-gold) 35%, var(--stroke-subtle));
   font-size: var(--font-size-md);
+  font-family: var(--font-family-display);
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.06em;
 }
 .page p {
   margin: var(--space-1) 0;
+}
+.anchor [role='tab'] {
+  font-size: max(12px, var(--font-size-sm));
+}
+.militaryActive [role='tabpanel']:not([hidden]) {
+  font-size: max(12px, var(--font-size-sm));
+}
+.transportActive [role='tabpanel']:not([hidden]),
+.transportActive [role='tab'] {
+  font-size: max(12px, var(--font-size-md));
+}
+.transportActive [role='tabpanel']:not([hidden]) .primary:disabled {
+  opacity: 1;
+  color: var(--text-secondary);
+  background: var(--surface-raised);
+  border-color: var(--stroke-subtle);
+}
+.domesticPage {
+  gap: var(--space-2);
+  padding-top: var(--space-1);
+  font-size: max(12px, var(--font-size-sm));
+}
+.domesticPage > section > h3 {
+  margin-bottom: var(--space-1);
+  padding-bottom: var(--space-1);
+}
+.roninSummary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--space-2);
+  row-gap: var(--space-1);
+}
+.domesticPage > .roninSummary > h3 {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+  padding: 0;
+  border-bottom: 0;
+  line-height: 1.25;
+}
+.roninSummary > p {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: 0;
+  font-size: max(12px, var(--font-size-md));
+  line-height: 1.4;
+}
+.roninSummary > button {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0.25rem 0.5rem;
+  font-size: max(12px, var(--font-size-md));
+  line-height: 1.25;
 }
 .meter {
   display: grid;
   grid-template-columns: 4rem 1fr auto;
   align-items: center;
   gap: var(--space-2);
+  padding: 0.375rem 0;
+  border-bottom: 1px solid var(--stroke-subtle);
 }
 .meter progress {
   width: 100%;
-  accent-color: var(--accent-gold);
+  accent-color: var(--brand-gold);
 }
 .meter strong {
   min-width: 8.5rem;
@@ -53,58 +122,156 @@
   gap: var(--space-2);
   width: 100%;
   padding: var(--space-2);
-  border: 0;
-  border-bottom: var(--border-thin);
-  background: transparent;
+  border: 1px solid var(--stroke-subtle);
+  border-radius: 4px;
+  background: var(--surface-panel);
+  color: var(--text-primary);
   text-align: left;
   cursor: pointer;
 }
 .slots {
   display: grid;
-  grid-template-columns: repeat(3, 128px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-2);
 }
 .slots button {
-  height: 96px;
+  min-width: 32px;
+  min-height: max(48px, 3rem);
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: var(--space-1);
-  border: var(--border-thin);
-  background: var(--washi-200);
-  color: var(--ink-900);
+  padding: 0.375rem 0.5rem;
+  border: 1px solid var(--stroke-subtle);
+  background: var(--surface-panel);
+  color: var(--text-primary);
+  font-size: max(12px, var(--font-size-sm));
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  border-radius: 4px;
+  box-shadow: inset 0 3px color-mix(in srgb, var(--brand-gold) 45%, transparent);
+}
+.slots button:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: var(--brand-gold);
 }
 .slots button:disabled {
   opacity: 1;
 }
 .slots strong {
-  font-size: var(--font-size-xl);
+  font-size: max(16px, var(--font-size-lg));
+  font-family: var(--font-family-display);
+  color: var(--text-muted);
+}
+.slots small {
+  font-size: max(12px, var(--font-size-xs));
+  line-height: 1.25;
+  color: var(--text-secondary);
+}
+.slots button:has(> strong) {
+  flex-direction: row;
+  box-shadow: none;
+  background: var(--surface-base);
+  border-style: dashed;
+}
+.slots button:focus-visible {
+  outline: 2px solid var(--brand-gold);
+  outline-offset: 2px;
 }
 .policyRow {
   display: flex;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
-/* M6-V9 §5：--accent-red／--danger 為未定義 var（tokens 無此二名），改 vermilion 家族
-   （art-bible §9 錯誤/危險語意）；出陣鈕實心朱底＋washi 字，並補 hover/active 互動回饋。 */
+/* Primary departure keeps danger semantics and its original target geometry. */
 .primary {
-  min-height: 56px;
-  border: var(--border-strong);
-  background: var(--accent-vermilion);
-  color: var(--washi-100);
+  min-height: 3.5rem;
+  border: 1px solid var(--stroke-strong);
+  background: var(--brand-red);
+  color: var(--text-inverse);
+  border-radius: 4px;
   font: inherit;
   font-weight: 700;
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 12px rgb(49 91 74 / 16%);
   cursor: pointer;
 }
 .primary:hover:not(:disabled),
 .primary:active:not(:disabled) {
-  background: var(--accent-vermilion-bright);
+  background: color-mix(in srgb, var(--brand-red) 88%, var(--surface-inverse));
+  color: var(--text-inverse);
 }
 .primary:disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }
 .error {
-  color: var(--accent-vermilion-bright);
+  color: var(--status-danger);
   font-weight: 700;
+}
+.transportOrders {
+  display: grid;
+  gap: var(--space-2);
+}
+.transportOrder {
+  border: 1px solid var(--stroke-subtle);
+  border-left: 3px solid var(--brand-gold);
+  border-radius: 4px;
+  background: var(--surface-panel);
+  padding: var(--space-3);
+  overflow-wrap: anywhere;
+}
+.list button:hover:not(:disabled),
+.buildList button:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: var(--stroke-strong);
+}
+.list button:focus-visible,
+.buildList button:focus-visible {
+  outline: 2px solid var(--brand-gold);
+  outline-offset: 2px;
+}
+.transportOrder button {
+  min-height: 32px;
+  font: inherit;
+}
+.transportOrder button:focus-visible {
+  outline: 2px solid var(--brand-gold);
+  outline-offset: 2px;
+}
+.marchOfficer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: var(--space-1) 0;
+}
+
+.marchOfficer strong {
+  color: var(--brand-gold);
+  margin-left: auto;
+}
+
+.anchor > section > header {
+  background: var(--surface-command);
+  color: var(--text-inverse);
+  border-bottom: 1px solid var(--stroke-strong);
+}
+.anchor > section > header h2 {
+  color: var(--text-inverse);
+}
+.anchor > section > header button {
+  background: transparent;
+  color: var(--text-inverse);
+  border-color: var(--command-muted);
+}
+.anchor > section > header button:hover:not(:disabled) {
+  background: var(--surface-command-raised);
+  color: var(--command-gold);
+  border-color: var(--command-gold);
+}
+.anchor > section > header button:focus-visible {
+  outline-color: var(--command-gold);
 }

@@ -119,6 +119,7 @@ export type EventCondition =
   | { kind: 'ownsProvince';     clanId: ClanRef; provinceId: ProvinceId } // 持有該國全部城
   // ── 城／郡 ──
   | { kind: 'castleOwner';      castleId: CastleId; clanId: ClanRef }   // 城歸屬
+  | { kind: 'districtPopulationAtLeast'; districtId: DistrictId | '$district'; value: number }
   // ── 武將 ──
   | { kind: 'officerAlive';     officerId: OfficerId }                  // status ≠ 'dead'
   | { kind: 'officerServes';    officerId: OfficerId; clanId: ClanRef } // 在世且仕於該勢力
@@ -133,7 +134,7 @@ export type EventCondition =
     // 依 02 §3.3 列舉順序比較（none < hokoshu < otomoshu < shobanshu < kanrei < fukushogun < shogun）
   | { kind: 'courtRankAtLeast'; clanId: ClanRef; rank: CourtRank }
   // ── 事件狀態 ──
-  | { kind: 'flag';             key: string; min: number }              // flags[key] ?? 0 ≥ min
+  | { kind: 'flag';             key: EventFlagKey; min: number }        // flags[key] ?? 0 ≥ min
   | { kind: 'eventFired';       eventId: EventId }                      // 該事件已觸發
   // ── 組合子 ──
   | { kind: 'not';              cond: EventCondition }
@@ -141,6 +142,7 @@ export type EventCondition =
 
 /** ClanRef：具體 ClanId，或綁定符（僅汎用事件可用；§3.2.3） */
 export type ClanRef = ClanId | '$clan';
+export type EventFlagKey = string | { prefix: string; clanId: ClanRef; year?: 'current' };
 ```
 
 #### 3.2.1 語意細則（邊界條件）
@@ -166,7 +168,7 @@ export type ClanRef = ClanId | '$clan';
 2. `target='player'` → 綁定玩家勢力；`target='eachClan'` → 依字典序逐勢力各自檢查與擲骰
    （每勢力獨立冷卻，冷卻 key 加 `.<clanId>` 後綴）；`target='randomDistrict'` 等 →
    以 `rng.event.pick` 自候選抽一。
-3. 綁定結果 `EventBinding { clanId, castleId | null, districtId | null }` 供條件求值、
+3. 綁定結果 `EventBinding { clanId, castleId | null, districtId | null, region? }` 供條件求值、
    效果套用與文本插值（§6.1）使用；玩家待選事件將綁定存於 `pendingChoiceBinding`。
 
 史實事件一律使用具體 ID，綁定恆為 `{ clanId: ownerClanId, castleId: null, districtId: null }`。
@@ -184,6 +186,8 @@ export type EffectOp =
   | { op: 'addGold';     clanId: ClanRef; amount: number }   // 貫，可負；clamp ≥0
   | { op: 'addFood';     castleId: CastleId; amount: number }// 石，可負；clamp 0..castleFoodCap
   | { op: 'addSoldiers'; castleId: CastleId; amount: number }// 人，可負；clamp 0..castleMaxSoldiers
+  | { op: 'loseCastleSoldiersPct'; castleId: CastleId | '$castle'; pct: number }
+    // 疫病：兵力減去 floor(現有兵力 × pct / 100)，不對剩餘兵力再次取整
   | { op: 'reduceClanSoldiersPct'; clanId: ClanRef; pct: number }
     // 該勢力全部城與部隊兵力 ×(1−pct/100) 取整（劇本式戰損；pct 0..100）
   | { op: 'addPrestige'; clanId: ClanRef; amount: number }   // 威信，可負；clamp 0..BAL.prestigeMax
@@ -196,11 +200,13 @@ export type EffectOp =
     //（出陣中則兵歸建原勢力最近我城、武將移籍）；忠誠設 BAL.evtTransferLoyalty(=60)
   | { op: 'makeRonin';       officerId: OfficerId }
     // 出奔成浪人：解除全部職務與所屬，status='ronin'、clanId=null、寄寓於原所在城
+    // 現任當主依 02 當主不變量與 06 出奔保護規則略過；不虛構死亡或繼承。
+    // 出陣武將若無可達的原勢力歸建城，整項略過；保留部隊與全部職務。
   | { op: 'killOfficer';     officerId: OfficerId; cause: 'age' | 'battle' | 'execution' }
     // 一律經由 06 的 die(officerId, cause) 結算（含解職、家督繼承、officer.died 事件）
   | { op: 'renameOfficer';   officerId: OfficerId; name: string }    // 僅改顯示名，id 不變
   // ── 外交 ──
-  | { op: 'addSentiment'; from: ClanRef; to: ClanRef; amount: number } // 感情，clamp 0..100
+  | { op: 'addSentiment'; from: ClanRef; to: ClanRef; amount: number } // 感情，clamp -100..100（08；D16）
   | { op: 'addTrust';     from: ClanRef; to: ClanRef; amount: number } // 信用，clamp 0..100
   | { op: 'declareWar';   a: ClanRef; b: ClanRef }
     // 宣戰：materialize 外交列、雙方 lastHostileDay=今日（進入 atWar，08 §3）、
@@ -208,8 +214,10 @@ export type EffectOp =
   | { op: 'signPact';     a: ClanRef; b: ClanRef; pact: PactKind; months: number | null;
       vassalClanId: ClanId | null }
     // 締結協定（事件強制成立，不消耗信用）；months=null 僅 marriage/vassal（02 INV-17）
+    // 同種有限期協定刷新至今日起算的指定期限，不重複增加締約感情；同盟與從屬衝突時略過。
   | { op: 'breakPact';    a: ClanRef; b: ClanRef; pact: PactKind }
     // 事件解約：協定消滅，不施加 08 §3.4 的毀約信用/威信懲罰（史實劇本效果）
+    // 未指定毀約者：pact.broken 的 breakerClanId=null；報告使用中性解約文字。
   // ── 城與領土 ──
   | { op: 'transferCastle'; castleId: CastleId; toClanId: ClanId }
     // 城歸屬轉移：城與其全部轄郡 ownerClanId=目標；駐兵/兵糧/施設隨城；城主與轄郡領主解職
@@ -224,15 +232,24 @@ export type EffectOp =
   | { op: 'addDistrictOrder';   districtId: DistrictId; amount: number } // 治安 clamp 0..100
   | { op: 'addClanOrder';       clanId: ClanRef; amount: number }        // 該勢力全郡治安
   | { op: 'scalePopulation';    districtId: DistrictId; pct: number }    // 人口 ×(1−pct/100)
+  | { op: 'affectRegion'; region: Region | '$region'; effects: RegionEffect[] }
+    // 依地方展開城／郡效果；RegionEffect 僅含無 ID 的耐久縮減、郡治安及人口縮減
   // ── 朝廷與幕府 ──
   | { op: 'addCourtFavor'; clanId: ClanRef; amount: number }             // clamp 0..100
   | { op: 'grantCourtRank'; clanId: ClanRef; rank: CourtRank }           // 直授（不經獻金流程）
   | { op: 'grantShogunateTitle'; clanId: ClanRef; title: ShogunateTitle }
+    // 直授，不付獻金；依 08 累計役職加成補足或收回新舊差額，另列威信效果獨立結算。
+    // 幕府不存在或役職未變時略過，不改朝廷好感、信用或庇護者。
   | { op: 'endShogunate' }
     // 幕府滅亡：shogunateExists=false、shogunClanId=null、全勢力 shogunateTitle='none'、
     // 依 08 §3.6.4 收回役職威信加成
   // ── 事件狀態 ──
-  | { op: 'setFlag'; key: string; value: number };                       // flags[key]=value（整數）
+  | { op: 'setFlag'; key: EventFlagKey; value: number };                 // flags[key]=value（整數）
+
+export type RegionEffect =
+  | { op: 'scaleCastleDurability'; pct: number }
+  | { op: 'addDistrictOrder'; amount: number }
+  | { op: 'scalePopulation'; pct: number };
 ```
 
 **效果操作不含**：建立新勢力、生成部隊、直接開啟合戰——這三者實作與驗證成本過高，
@@ -826,6 +843,9 @@ export interface TaimeiEffects {
 `vassalClanId ≠ 玩家` 的另一方為玩家者……即玩家為宗主）。石高與城數皆以支配圈合計；
 唯山城國須**本家直接持有**（京都須親自掌握，§8 D13）。
 
+玩家新增從屬勢力時，協定結算同時設 `territoryChangedToday`，讓當日 Step 12 重查完整支配圈。
+此髒標記不限實體城歸屬變動；玩家成為從屬、非玩家協定及普通同盟不擴張玩家支配圈。
+
 `tenkabito` 的連續月數存於 `state.events.tenkabitoStreakMonths`：每月 1 日 Step 12 檢查，
 成立 → `+1`，不成立 → 歸 0；達 12 → 勝利。
 
@@ -929,7 +949,7 @@ export interface EventDef {
   kind: 'historical' | 'generic';    // §3.1.1
   priority: number;                  // 檢查順位（降冪），整數 0..100
   trigger: EventTrigger;
-  ownerCandidates: ClanId[];         // 選擇權候選（§3.4.2）；[] = 純敘事
+  ownerCandidates: ClanRef[];        // 選擇權候選（§3.4.2）；汎用可用 '$clan'
   target: EventTargetKind;           // 綁定方式（§3.2.3）；historical 一律 'fixed'
   cutscene: EventCutscene;
   choices: EventChoice[];            // [] = 無選項（UI 顯示［繼續］）
@@ -939,8 +959,8 @@ export interface EventDef {
 export type EventTargetKind = 'fixed' | 'player' | 'eachClan' | 'randomDistrict' | 'randomRegionClan';
 
 export interface EventTrigger {
-  from: ScenarioDate;                // 日期窗起（含）
-  to: ScenarioDate;                  // 日期窗迄（含）
+  from: ScenarioDate | null;         // 日期窗起（含）；汎用 null = 無下界
+  to: ScenarioDate | null;           // 日期窗迄（含）；汎用 null = 無上界
   check: 'monthStart' | 'harvest' | 'hook';  // §3.1.2
   hooks: EventHookKind[];            // check='hook' 時訂閱的訊號；其他為 []
   conditions: EventCondition[];      // AND（§3.2）
@@ -981,6 +1001,7 @@ export interface EventBinding {
   clanId: ClanId | null;             // '$clan' 的具體值
   castleId: CastleId | null;         // '$castle'
   districtId: DistrictId | null;     // '$district'
+  region?: Region | null;            // 地震抽中的地方；舊三欄存檔可省略
 }
 ```
 
@@ -1351,6 +1372,8 @@ export function buildEventModalVM(state: GameState, eventId: EventId): EventModa
 - [ ] **T6　s1560 史實事件資料 15 筆**：§3.5 全部欄位落入 `events.json`＋zod schema（14）。
   驗收：`tools/validate.ts` 通過；文本經簡體字黑名單掃描（17）；全 AI 觀戰模擬
   1560–1585 中位數觸發 ≥ 8 件（跑 20 種子統計）。
+  實作端由 `tools/ci/historical-event-acceptance.ts` 判定完整報告，CLI 另列 `historicalAcceptance`。
+  失敗或缺失樣本回傳 incomplete，不用完成的倖存樣本代替完整觀測；合成對照不證明實際模擬通過。
 - [ ] **T7　汎用事件 6 筆＋掛鉤**：§3.6 資料、`eventHarvestMultiplier` 接入 05 秋收、
   `unlock.*` 旗標接入 05 政策驗證器。驗收：豐凶同年互斥；冷卻期間不重複；
   南蠻旗標使 `pol.nanban` 免威信門檻可施行。
@@ -1425,6 +1448,48 @@ export function buildEventModalVM(state: GameState, eventId: EventId): EventModa
   惟未指名任何 `report.*` key、亦未宣稱 core 繞過 `event.fired`（該事件本身即 02 §4.19
   canonical、§5.1 `fireEvent` 已 emit）直接產生報告，核實後判定非直發 `report.*` 違例、
   維持原文不改。
+- **D16｜2026-10-08｜事件感情效果沿用外交的有號範圍**：§3.2 `addSentiment` 的
+  `0..100` 註解與 08 的感情範圍、既有 `adjustSentiment` 及本文件的負向事件效果不符。
+  定案沿用 `-100..100`，事件效果重用外交 helper，不建立第二套截斷規則。
+  此修正不改效果的 amount、信賴範圍或 BAL。
+- **D17｜2026-10-08｜汎用表的宣告式表示**：§3.6 的年／勢力旗標使用結構化
+  `EventFlagKey {prefix, clanId, year?}`，依序串成 `prefix[.year].clanId`。
+  字串 key 維持字面值，不執行 JavaScript 或插值；未綁定、未知及滅亡勢力的結構 key 略過。
+  地震採可省略的 `region` 綁定及 `affectRegion`，依 ID 排序展開該地方的城／郡。
+  疫病採人口門檻謂詞及 `loseCastleSoldiersPct`，保留 §3.6 的損失先取整公式。
+  六筆汎用事件的日期窗為 null／null，未添加表中不存在的到期日；史實事件仍須兩端日期。
+  以上補充資料表示，不改機率、冷卻、文本、效果數值或史實表。
+- **D18｜2026-10-08｜呈現保留實際觸發綁定**：`subscribeFired` 在共同效果及 AI 選擇結算後
+  提供實際 def／binding 與收件勢力；玩家待選先寫入 pending，再通知外殼。
+  外殼以純 VM builder 複製呈現資料，不從重複事件 ID 猜測郡或地方，也不偽造 pending。
+  無選項及 AI 已解決事件沿用既有 modalQueue，僅在啟用該 modal 時取得暫停所有權。
+  呈現確認不發 Command 或推進 tick；換局移除本佇列的 descriptor 並解除舊訂閱。
+  observer 必須唯讀且不消費 RNG；例外隔離不是任意 callback 副作用的回滾機制。
+
+  待選事件亦以 owned descriptor 排入同一 FIFO，僅保存事件識別，VM 依當前 core 重建。
+  讀檔在 UI 重設後還原 descriptor；Host 僅顯示啟用的 owned modal，不搶先或疊加其他 Dialog。
+
+- **D19｜2026-10-08｜大命徵兵成本與 AI 邊界**：05 §3.5 與 15 的徵兵公式沒有金錢成本。
+  總動員的 `conscriptCostMult` 保留 15 定案的 0.5，但目前免費徵兵仍免費，不改扣守軍維持費。
+  商業、信用、建設、徵兵量、陸路行軍及攻城公式套用各自乘數；海路沿用 04 的獨立日速公式。
+  09 §3.7 禁止委任 AI 動用大命，既有 authority 閘門沿用此限制。
+  09 沒有大名 AI 的發動時機或八種大命選擇規則，因此不添加自主發動政策。
+
+- **D20｜2026-10-08｜正式型錄的強制效果邊界**：事件解約不指定毀約者，
+  `pact.broken.breakerClanId` 為 `null`，報告不歸罪任一端點，也不套玩家毀約懲罰。
+  同種有限期協定刷新期限，不重複增加締約感情；同盟與從屬衝突時保留原協定。
+  直授役職依 08 累計加成結算新舊差額，使幕府滅亡的收回規則一致，不付獻金。
+  當主依較高優先的 02 不變量與 06 出奔保護略過 `makeRonin`，不虛構死亡或繼承。
+  無可達歸建城的出陣武將亦略過該項，保留原部隊、職務及資源；其他同批效果照序結算。
+
+  正式 s1560 外殼在發布新局、讀檔或匯入前建立完整 canonical 型錄的獨立引擎。
+  legacy `ScenarioBundleData.events` 不承載 canonical 定義；不得刪除型錄效果來通過啟動檢查。
+  引擎不寫入存檔；讀檔與命令重播依 scenarioId 重建同一型錄，不推測待選綁定。
+
+- **D21｜2026-10-09｜從屬成立的統一重查**：§3.8.1 的支配圈包含玩家的從屬勢力。
+  新增玩家所屬協定中的其他從屬者，亦設定既有 Step 12 髒標記，當日重查天下統一。
+  拒絕、同盟、非玩家從屬及玩家向他家從屬不設定此標記；不改勝利條件或指派領地。
+  已有同一從屬者不重複標記；事件、亂數及原生續算沿用原管線。
 
 ---
 

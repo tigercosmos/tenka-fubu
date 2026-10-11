@@ -593,6 +593,10 @@ Step 11 ai        : 排程器繼續消化評定佇列＋每日反應式決策
 
 AI 對 AI 的野戰／合戰一律在 Step 8 內自動解算，**永不**開 modal、永不凍結時間。
 
+app 的 `session.screen === 'battle'` 另保留合戰畫面的策略時間所有權，包含結果成立至玩家確認返回的階段。
+此閘不修改 core `BattleState.result` 或策略速度設定；每幀清空累加器，確認返回後不補跑積欠時間。
+debug 日跳轉在入口及每批執行前檢查同一畫面所有權，不在結果畫面先多跑一天再停止。
+
 #### 3.7.2 Battle 子狀態機與自有 tick
 
 `Battle` 實體欄位見 02/07；本節定義迴圈契約。子狀態機：
@@ -615,7 +619,7 @@ function advanceBattleTick(state: GameState, battleId: BattleId): BattleTickResu
 
 > **勘誤（M1-26 落地時發現，2026-07-11；見 §8-D18）**：上列簽名省略了下一點所述的 `orders`
 > 參數，且 `BattleTickResult`／`BattleCommand` 兩型別未見於既有規格（僅型別名，無欄位）。
-> canonical 簽名、`BattleTickResult` 欄位、`BattleCommand` 最小 shape 依 §8-D18 定案，
+> canonical 簽名與 `BattleCommand` 最小 shape 依 §8-D18 定案；暫態 outcome 欄位依 §8-D20 擴充，
 > 不得照抄本簽名（缺參數）。
 
 - `advanceBattleTick` 是 core 函式：只讀寫 `state.battles[battleId]` 內部欄位與
@@ -780,6 +784,7 @@ interface TickResult {
   events: GameEvent[];               // 本 tick 全部事件（依發出順序）
   autoPauseReasons: AutoPauseReason[]; // 去重後的自動暫停原因（可空）
   autosaveDue: 'monthly' | null;     // 驅動器據此呼叫 onAutosave（§3.9.1）
+  monthOpeningSettlement?: MonthOpeningSettlement; // Step 6 實際月初金錢結算；純輸出，不持久化。
   perf: { totalMs: number; stepMs: number[] }; // 各步耗時取樣（debug 用；正式版可全 0）
 }
 
@@ -789,6 +794,32 @@ type AutoPauseReason =
 
 type GameSpeed = 'paused' | 'x1' | 'x2' | 'x5'; // 毫秒對應 BAL.tickMsX1/X2/X5
 ```
+
+#### 4.1.1 月初金錢結算快照（2026-10-08）
+
+`monthOpeningSettlement` 只在新日期為每月 1 日的 tick 回傳；其他日期省略此欄位。
+它是 Step 6 內收入、進貢、俸祿與政策維持費的實際結算輸出，不是前一個月的完整帳本。
+日期使用結算當日的 `day/year/month/dayOfMonth`；各勢力列依識別碼排序，只包含結算時仍存活的勢力。
+
+每列包含 `clanId`、`goldBefore`、`goldAfter`、`incomeGold`、`retainedCorpsGold`、
+`tributePaid`、`tributeReceived`、`salaryDue`、`salaryPaid` 與 `policyPaid`。
+`incomeGold` 是扣除軍團自留份額後，實際入勢力金庫的收入，包含既有公式中的設施與政策加成。
+此數值未拆分商業與其他收入；軍團份額另列，不能再次加進金庫收入。
+進貢收支分開記錄，俸祿應付與實付也分開記錄；維持費取自政策自動廢止後的實際扣款。
+
+金庫結算須符合下式：
+
+```text
+goldAfter = goldBefore + incomeGold + tributeReceived
+  - tributePaid - salaryPaid - policyPaid
+```
+
+欠俸時的 `salaryPaid` 是實際耗去的金庫金額，不使用應付額代替。
+快照邊界緊貼收入與維持費函式，不含同一步其他結算，也不代表 Step 13 結束後的金庫餘額。
+
+型別來源是 `src/core/systems/monthOpeningSettlement.ts`。所有欄位都是脫離 GameState 的唯讀數值或識別碼；
+此輸出不新增 GameEvent、Report、GameState 或存檔欄位，也不改變既有結算公式、亂數與系統順序。
+兵糧、整月支出、處理具申數與跨讀檔保留摘要不屬於此快照；完整月初 modal 流程另行實作。
 
 ### 4.2 Command
 
@@ -1373,7 +1404,8 @@ trimReports(reports):
      orders: readonly BattleCommand[]): BattleTickResult`（調和 (a)(b)(c)：讀寫邊界仍限
      `state.battles[battleId]`／`state.rng.battle`，`orders` 為額外輸入而非讀寫範圍擴張）。
   2. **`BattleTickResult`** 新增 canonical 定義（既有規格未給欄位，語意依「回傳值僅供驅動器判斷
-     本次呼叫是否已 resolved」推導）：`{ battleId: BattleId; tick: number; resolved: boolean }`；
+     本次呼叫是否已 resolved」推導）：原定 `{ battleId: BattleId; tick: number; resolved: boolean }`，
+     後依 D20 新增唯讀 `events: readonly BattleTickEvent[]`；
      完整合戰狀態一律讀 `state.battles[battleId]`，不透過此回傳值鏡射（避免與 `BattleState`/
      `BattleResult` 重複定義兩份真相）。
   3. **`BattleCommand`** 於 M1-26 僅定義最小 shape（`{ kind: 'move'|'tactic'|'toggleDelegate';
@@ -1554,3 +1586,24 @@ trimReports(reports):
   `command.rejected` 例外，符合既有「本 union 為 03 步驟發出／消費之子集」定位；`debug*` 為 `CommandType`
   成員、非本 `GameEventType` union 範疇，不適用本次比對）。02 不可改、19 未動、未 git commit；全文繁中、
   無簡體字殘留、無 TBD/needsReview。依據：02 §8「2026-07-11 七輪裁決」1／2／4，13 §3.7。
+- **D19｜合戰結果的策略時間所有權（2026-10-08）**：依 00 §5.3 與 11 §3.11.1，BattleScreen 保留策略時間凍結。
+  core 結果成立不解除畫面所有權；明確確認返回前，rAF 與 debug 日跳轉均不得推進策略日。
+  原有 active player Battle 與歷史事件閘仍適用；新增畫面閘不改 core schema、RNG、速度偏好或勝敗罰則。
+  每幀歸零累加器，返回後只累加新時間；survivor 寫回仍只在 core resolve 執行，確認不再寫回一次。
+- **D20｜合戰 tick 的暫態 outcome（2026-10-08）**：`BattleTickResult.events` 只回傳本次實際執行的事實。
+  每項包含從 1 起的 tick 內 `sequence`；順序沿用既有 stage 與同 stage 的執行順序，不增加 RNG 消費。
+  命令接受、委任變更及戰法成功由執行點記錄，不把待執行或被拒命令當作成功。
+  兵數／士氣變化記錄 affected unit 的前後值與 tactic／combat／pursuit stage，不推測攻擊者。
+  到陣、潰走、離場、旗力損失、陣歸屬及結果均採實際變化；無 outcome 的 tick 回傳空陣列。
+
+  payload 只含分離的 id、數值與列舉，不持有可變 BattleState 引用，也不鏡射完整合戰狀態。
+  這些項目不是策略 `GameEvent`，不寫入 SaveFile、deferredEvents 或持久化日誌。
+
+- **D21｜除錯快進的原局工作所有權（2026-10-09）**：每次快進綁定原遊戲與原進度物件。
+  每日結算前後及延後批次前檢查所有權；換局、取消或 stop 後，不推進替代遊戲。
+  stop 取消自己的排程與進度，不清除替代工作的進度；原本三十日批次及正常日結算不變。
+
+- **D22｜日結算發布後的原局副作用（2026-10-09）**：月報、tick 計數與指令數的同步發布各自保留原局及原佇列檢查。
+  換局後不推進新局計數、不發布舊局指令數，也不觸發新局的季節存檔或自動暫停。
+  原日結算已完成的結果與指令不回滾；存檔抑制採日結算開始時的 debug 狀態，不因同日 stop 而失效。
+  狀態與結果仍以 `state.battles[battleId]` 為真相；UI 只把 outcome 轉為本地戰況文字。

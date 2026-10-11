@@ -1,0 +1,29 @@
+{
+  "license": "project-original",
+  "asset": "assets/generated/source-images/terrain-mountain-akaishi-massif-v1-input.png",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-11",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "sha256": "3881d9c7311517a69a6b39c464a812e6a3ebe6e9f7aaa9f44aca273405f87939",
+  "dimensions": {
+    "width": 1024,
+    "height": 1536
+  },
+  "bytes": 2900558,
+  "alphaInspection": {
+    "zeroAlphaPixels": 620277,
+    "partialAlphaPixels": 952587,
+    "opaquePixels": 0,
+    "centerAlpha": 252
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 45,
+    "y": 4,
+    "width": 954,
+    "height": 1524
+  },
+  "prompt": "Use case: stylized-concept. Asset type: ORIGINAL production transparent mountain massif sprite for a Japanese Sengoku 2.5D strategy game map. Primary request: a naturally connected north-south mountain chain with three unequal principal crests, broad branching wooded foothills, irregular lateral spurs and two broad saddle valleys, substantially different from a repeated thin jagged spine. View: high oblique orthographic about 55 degrees downward, no horizon, not a flat satellite texture. Entire mountain mass visible. Composition: portrait 1024 by 1536 canvas if supported; mountain's visible footprint about 60 percent canvas width and 90 percent height, yielding visible-content width/height about 0.42 to 0.45. Terrain relief is the subject, not individual trees. Large readable asymmetric slope planes, restrained muted olive woodland, warmer ochre-green low slopes and sparse warm-gray exposed rock on a few crests; no snow. Fixed coherent light from northwest/top-left, soft southeast self-shadow, subtle high-quality miniature geological realism like a premium historical strategy game's terrain, with no copied commercial asset. Gentle low foothill transitions and soft genuine-alpha fringes; irregular organic footprint with no rectangle, no pedestal, no ground plate, no detached islands. Designed to remain legible at 85 by 210 map pixels: quiet texture, large shapes, no sparkling canopy noise, no stippled sawtooth outline. No castles, rivers, roads, soldiers, flags, labels, UI, letters, logos, watermark or border. GENUINELY TRANSPARENT BACKGROUND outside the connected landform, preserve clean alpha, no checkerboard painted into image, no white halo. Original authorship; not a reconstruction of exact real geography."
+}

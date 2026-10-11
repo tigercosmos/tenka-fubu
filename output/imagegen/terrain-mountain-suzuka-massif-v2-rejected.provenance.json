@@ -1,0 +1,25 @@
+{
+  "asset": "terrain-mountain-suzuka-massif-v2-rejected.png",
+  "status": "rejected-for-production",
+  "mode": "built-in-imagegen",
+  "useCase": "background-extraction",
+  "source": "/Users/tigercosmos/.codex/generated_images/01a11830-d07d-78c3-a239-4290f3a612ac/exec-35952cb4-b758-4542-916e-d99ba9df343d.png",
+  "editTarget": "output/imagegen/terrain-mountain-suzuka-massif-v1-candidate.png",
+  "prompt": "Use case: background-extraction\nInput image: Image 1 is the edit target, the original Suzuka mountain sprite.\nChange ONLY the background/outer halo: completely remove every diffuse olive, grey or black aura outside the actual rock and individual tree silhouettes. Pixels beyond those hard physical silhouettes must have alpha exactly zero. Keep natural one-pixel antialiased object edges, but no broad translucent fade, fog, shadow or ground wash. In particular the large olive hazy field along the left edge and above/below the chain must be removed, NOT darkened or softened.\nPreserve the entire connected mountain shape, rocks, attached trees, camera angle, positions, sizes, colours, texture details and upper-left light exactly. Preserve the portrait canvas and all current subject pixels; do not crop, zoom, restyle or redraw the massif. No added elements, text or marks. Deliver an actual transparent cutout of only the physical mountain and trees, not the surrounding atmosphere.",
+  "sha256": "57384f4d743385fa4b4754d88ae33e95af2c1b242c8520848a6548c2d9e0501e",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 2341502,
+  "decodedRgbaBytes": 6291456,
+  "alpha": {
+    "zero": 919524,
+    "opaque": 0,
+    "contentBounds": {
+      "x": 0,
+      "y": 47,
+      "width": 1008,
+      "height": 1489
+    }
+  },
+  "rejection": "Single targeted extraction still retains a broad olive halo and visibly redraws the massif/tree details despite preservation constraints. Not bound in manifest, terrainPack or public assets. No further halo-preserving edit planned."
+}

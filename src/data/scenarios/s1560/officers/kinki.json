@@ -984,7 +984,7 @@
       "id": "off.sugiura-gennin",
       "name": "杉浦玄任",
       "clanId": "clan.honganji",
-      "locationCastleId": "castle.ishiyama",
+      "locationCastleId": "castle.daishoji",
       "ldr": 70,
       "val": 68,
       "int": 66,
@@ -1366,6 +1366,25 @@
       "deathYear": 1565
     },
     {
+      "id": "off.ashikaga-yoshiaki",
+      "name": "足利義昭",
+      "clanId": null,
+      "locationCastleId": "castle.nijo",
+      "ldr": 40,
+      "val": 30,
+      "int": 78,
+      "pol": 65,
+      "traits": [],
+      "tactics": [],
+      "rank": "kumigashira",
+      "isKin": true,
+      "birthYear": 1537,
+      "deathYear": 1597,
+      "debutYear": 1566,
+      "debutClanId": "clan.ashikaga",
+      "debutCastleId": "castle.nijo"
+    },
+    {
       "id": "off.hosokawa-fujitaka",
       "name": "細川藤孝",
       "clanId": "clan.ashikaga",
@@ -1439,6 +1458,94 @@
       "rank": "karo",
       "birthYear": 1500,
       "deathYear": 1565
+    },
+    {
+      "id": "off.shichiri-yorichika",
+      "name": "七里賴周",
+      "clanId": "clan.honganji",
+      "locationCastleId": "castle.oyama-gobo",
+      "ldr": 74,
+      "val": 56,
+      "int": 78,
+      "pol": 69,
+      "traits": ["trait.shosai"],
+      "tactics": [],
+      "rank": "busho",
+      "birthYear": 1517,
+      "deathYear": 1580
+    },
+    {
+      "id": "off.takeda-takanobu",
+      "name": "武田高信",
+      "clanId": "clan.yamana",
+      "locationCastleId": "castle.tottori",
+      "ldr": 77,
+      "val": 74,
+      "int": 72,
+      "pol": 59,
+      "traits": [],
+      "tactics": [],
+      "rank": "samurai-taisho",
+      "birthYear": 1529,
+      "deathYear": 1578
     }
-  ]
+  ],
+  "_b5Authoring": {
+    "status": "Integrated production Honganji Kaga additions; authoring metadata is not loaded into game state",
+    "scope": "Honganji Kaga additions remain in the Kinki roster by clan-home rule (14 D11); compose only with joint B5 geography.",
+    "sources": {
+      "shichiriLife": "https://www.library.pref.ishikawa.lg.jp/shosho/furucolle/list/prsn16339",
+      "shichiriDispatch": "https://www2.lib.kanazawa.ishikawa.jp/reference/komonjo.htm",
+      "shichiri1577": "https://www2.lib.kanazawa.ishikawa.jp/reference/komonjo/komonjo_330.pdf",
+      "sugiuraIdentity": "https://www.library.pref.ishikawa.lg.jp/shosho/furucolle/list/prsn16329",
+      "sugiuraKaga": "https://www.library-archives.pref.fukui.lg.jp/fukui/07/kenshi/T2/T2-4-01-05-02-04.htm",
+      "sugiuraLetter": "https://jpsearch.go.jp/item/tpada_kenmei-0000068454"
+    },
+    "chronologyBoundary": "Shichiri birth1517 is institutionally catalogued, not independently contemporary confirmed. SHOSHO death1576 conflicts with1577 municipal published document; death1580 is an explicit authored estimate compatible with known1577 activity. Exact historical1560 service and fortress placement are not proved. Default age15 debut is scenario manufacture, not a dated service claim. Sugiura existing lifespan/stat/tactic/rank values remain untouched."
+  },
+  "_provenance": {
+    "off.ashikaga-yoshiaki": {
+      "birthYear": "verified",
+      "deathYear": "verified",
+      "debutYear": "source-qualified",
+      "isKin": "verified",
+      "sources": ["ndlYoshiaki", "fukuiYoshiaki", "keioYoshiaki"],
+      "note": "NDL記1537–1597；福井縣史記義輝之弟、1565仍為興福寺一乘院覺慶。慶應圖錄第61頁以1566文書說明其還俗為義秋後活動，據此選1566年度登場；一月登場是年度粒度抽象，非精確還俗日。二條駐在、四維及職階是設計代理，不宣稱1560居二條或提前成為可用繼承人。"
+    },
+    "off.shichiri-yorichika": {
+      "birthYear": "source-qualified",
+      "deathYear": "authored",
+      "sources": ["shichiriLife", "shichiriDispatch", "shichiri1577"],
+      "note": "石川縣立圖書館記本願寺坊官、加賀大將及1517生年，記1576卒年；金澤市所刊1577文書仍見其活動，故1580卒年明示設計估值。1571派遣加賀有文書目錄，1560尾山御坊駐在及預設15歲登場是劇本抽象，非確證任官年。四維、特性、身分為設計。"
+    },
+    "off.sugiura-gennin": {
+      "sources": ["sugiuraIdentity", "sugiuraKaga", "sugiuraLetter"],
+      "note": "石川縣立圖書館及富山檔案支持具名本願寺僧官；福井縣史記其加賀交戰活動。大聖寺具體1560駐在未證實，此移動是B5加賀配置抽象，不宣稱歷史城主。僅改駐在，保留既有1515／1580生卒、四維、特性、戰法、身分，不推定新登場年份。"
+    },
+    "off.takeda-takanobu": {
+      "birthYear": "authored",
+      "deathYear": "source-qualified",
+      "sources": ["takanobuResearch", "takanobuTemple", "takanobuChronology"],
+      "note": "鳥取縣文獻研究具名山名重臣、鳥取城守備及1563衝突；鳥取市大義寺頁記1578遇害傳承，縣研究未定精確卒年。不將此人物合併甲斐武田族人或加血親旗標。1529生年、四維、職階與1560城配置為設計，1578卒年是有來源但未定論的取值。"
+    }
+  },
+  "_b6Authoring": {
+    "status": "Integrated production Yamana Inaba addition; authoring metadata is not loaded into game state",
+    "scope": "Required Inaba Takeda Takanobu remains in the Kinki Yamana roster under D11/D22; compose only with B6 Tottori geography.",
+    "sources": {
+      "takanobuResearch": "https://www.pref.tottori.lg.jp/223206.htm",
+      "takanobuTemple": "https://www.city.tottori.lg.jp/page/7440.html",
+      "takanobuChronology": "https://www.pref.tottori.lg.jp/secure/1223930/inabatyuusei.pdf"
+    },
+    "chronologyBoundary": "Prefectural research attests the named Yamana retainer guarding Tottori before the1563 conflict, not a verified birth year. Municipal temple tradition gives1578 killing whereas prefectural research cautions the chronology; death1578 is source-qualified, not a conclusively established death date. Initial Tottori location is a scenario approximation; no new clan or lord assignment."
+  },
+  "_eventOfficerAuthoring": {
+    "status": "Integrated event reference closure; adult monk Yoshiaki remains unavailable until1566 debut",
+    "sources": {
+      "ndlYoshiaki": "https://id.ndl.go.jp/auth/ndlna/00624954",
+      "fukuiYoshiaki": "https://www.library-archives.pref.fukui.lg.jp/fukui/07/kenshi/T2/T2-4-01-04-04-01.htm",
+      "keioYoshiaki": "https://iiif.lib.keio.ac.jp/EXH/29/pdf/29_keio-library_exhibition.pdf"
+    },
+    "sourceBoundaries": "NDL attests1537–1597. Fukui prefectural history identifies Yoshiteru's younger brother, monk Kakukei atKofukuji in1565. Keio exhibitioncatalog printedpage61 interprets a1566 document after secular restoration under the name 義秋, later changed to 義昭. Selected1566 Januaryhook is annual granularity, not exact secularrestoration date. Nijo surrogate is gameplay placement, not aKofukuji historical location assertion. InitialclanId null is inactive approximation, not active ronin or serving heir. Stats/rank are design."
+  }
 }

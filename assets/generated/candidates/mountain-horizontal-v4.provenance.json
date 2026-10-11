@@ -1,0 +1,29 @@
+{
+  "asset": "assets/generated/candidates/mountain-horizontal-v4.png",
+  "status": "candidate-not-adopted",
+  "generator": "image_gen.imagegen",
+  "mode": "built-in",
+  "generatedDate": "2026-10-10",
+  "transparentBackgroundRequested": true,
+  "referencedImages": [],
+  "bytes": 1553550,
+  "sha256": "4b4badeb2555146053f80252eaab7e8562d5616d834c6c73cc88a1515343542c",
+  "dimensions": {
+    "width": 2061,
+    "height": 763
+  },
+  "alphaInspection": {
+    "zeroAlphaPixels": 1001907,
+    "partialAlphaPixels": 570621,
+    "opaquePixels": 15,
+    "centerAlpha": 251
+  },
+  "visibleContentBounds": {
+    "alphaThresholdExclusive": 8,
+    "x": 6,
+    "y": 142,
+    "width": 2051,
+    "height": 463
+  },
+  "prompt": "Use case: stylized-concept\nAsset type: original transparent 2.5D low wooded mountain range variant for a Japanese Sengoku historical grand-strategy map, not a full scene.\nPrimary request: one continuous east-west mountain range, with two asymmetric groups of three different-height rounded rocky crests separated by a broad low wooded saddle. The western cluster is slightly taller, the eastern cluster blends gradually into low forested hills. Believable eroded slopes, irregular valleys, tiny irregular broad-leaf foliage; not a line of identical peaks or evenly spaced trees.\nStyle/medium: finely painted realistic miniature terrain with sage/olive woodland, gray-brown rock only near crests, fixed high oblique overhead camera around55degrees. Same soft upper-left/northwest daylight and southeast shadow, restrained earthy contrast. Soft lower foothills fade to actual transparency.\nComposition/framing: landscape transparent canvas; the visible mountain footprint is about2.7 times wider than tall, runs horizontally through center, occupying about90percent of image width and60percent height with generous empty transparent margins. The WHOLE connected range is visible, no cropping, no scenic perspective, no diagonal drift.\nConstraints: genuine transparent background, entirely original fictional terrain illustration, no copied commercial game art. No baseplate, floating island, sky, horizon, clouds, scene background, water, road, settlement, castle, people, UI, text, logos or watermark.\nAvoid: sawtooth comb, conical mountains, huge tall fir trees, repeating rows, polygon slabs, snow, dark edge outline, gigantic cliffs, colored fringe or huge cast shadow."
+}

@@ -134,20 +134,23 @@ export const TOKENS_NUM = {
   traitCommon: hexToNum(TOKENS.color.traitCommon),
 } as const;
 
-/** 地圖色票（art-bible §3.2 十色，M6-V5 落為具名常數）：地形/水系/領地繪製一律引用本表，
+/** 地圖基礎色票及湖面反射色：地形/水系/領地繪製一律引用本表，
  *  不得散落 hex 魔術數字。**不進 `TOKENS.color`**——地圖色非 CSS 用途，且併入會牽動
  *  `TOKENS_NUM` 一一對應斷言與 CSS 變數表（VD7，見 plan/04-map-and-movement.md §8）。 */
 export const MAP_PALETTE_HEX = {
-  seaDeep: '#27303d',
-  landBase: '#cfc6ae',
-  plainLight: '#d8cfb8',
-  reliefInk: '#776a55',
-  forestMoss: '#4f6448',
-  waterRiver: '#5f8190',
-  roadCasing: '#302a22',
-  roadArterial: '#b89b64',
-  roadMinor: '#86745a',
-  neutral: '#8a8578',
+  seaDeep: '#182936',
+  landBase: '#d9d2bd',
+  plainLight: '#e6dfcc',
+  reliefInk: '#8a806b',
+  forestMoss: '#71806a',
+  waterRiver: '#77939b',
+  lakeReflectionLight: '#739497',
+  lakeReflectionMid: '#65888d',
+  lakeReflectionDark: '#587880',
+  roadCasing: '#81765f',
+  roadArterial: '#c5a56c',
+  roadMinor: '#b0a48b',
+  neutral: '#a29d8b',
 } as const;
 
 /** `MAP_PALETTE_HEX` 的 Pixi 數值色版本（繪製程式一律引用本表，見 VD7）。 */
@@ -158,6 +161,9 @@ export const MAP_PALETTE_NUM = {
   reliefInk: hexToNum(MAP_PALETTE_HEX.reliefInk),
   forestMoss: hexToNum(MAP_PALETTE_HEX.forestMoss),
   waterRiver: hexToNum(MAP_PALETTE_HEX.waterRiver),
+  lakeReflectionLight: hexToNum(MAP_PALETTE_HEX.lakeReflectionLight),
+  lakeReflectionMid: hexToNum(MAP_PALETTE_HEX.lakeReflectionMid),
+  lakeReflectionDark: hexToNum(MAP_PALETTE_HEX.lakeReflectionDark),
   roadCasing: hexToNum(MAP_PALETTE_HEX.roadCasing),
   roadArterial: hexToNum(MAP_PALETTE_HEX.roadArterial),
   roadMinor: hexToNum(MAP_PALETTE_HEX.roadMinor),
@@ -335,12 +341,54 @@ function buildClanCssVarEntries(): ReadonlyArray<readonly [string, string]> {
 
 /** 啟動時（main.tsx，React mount 前）呼叫一次：將 TOKENS 全部展平成 `:root` 的 CSS custom
  *  properties，並生成 40 個勢力色 `--clan-00`..`--clan-39`（含 `-bright` 變體，共 80 個，公式見 §5.1）。 */
+export const UI_THEME = {
+  '--surface-base': '#f4f0e5',
+  '--surface-panel': '#fbf8f0',
+  '--surface-raised': '#eee8db',
+  '--surface-hover': '#ebe5d8',
+  '--surface-command': '#17252c',
+  '--surface-command-raised': '#293b43',
+  '--command-muted': '#c2cdd0',
+  '--command-gold': '#dfc695',
+  '--surface-inverse': '#17252c',
+  '--text-inverse': '#fbf8f0',
+  '--inverse-success': '#9ec2a5',
+  '--inverse-danger': '#f0a094',
+  '--accent-soft': '#efe4d8',
+  '--text-primary': '#202c31',
+  '--text-secondary': '#4d5658',
+  '--text-muted': '#585d5c',
+  '--stroke-subtle': '#d8d0be',
+  '--stroke-strong': '#9c9585',
+  '--brand-green': '#254b4a',
+  '--accent-brass': '#a47f49',
+  '--radius-panel': '4px',
+  '--radius-control': '3px',
+  '--brand-gold': '#755623',
+  '--brand-red': '#a63a32',
+  '--status-success': '#376247',
+  '--status-info': '#365d76',
+  '--status-warning': '#79581f',
+  '--status-danger': '#a7372d',
+  '--font-family-ui':
+    "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif",
+  '--font-family-display': TOKENS.font.familySerif,
+  '--shadow-panel': '0 8px 24px rgba(23, 37, 44, 0.16), 0 1px 3px rgba(23, 37, 44, 0.1)',
+  '--shadow-dialog': '0 24px 80px rgba(23, 37, 44, 0.35), 0 4px 16px rgba(23, 37, 44, 0.16)',
+  '--map-sea': MAP_PALETTE_HEX.seaDeep,
+  '--battlefield-surface': MAP_PALETTE_HEX.plainLight,
+  '--battlefield-ink': TOKENS.color.ink900,
+} as const;
+
 export function injectCssVariables(): void {
   const root = document.documentElement;
   for (const [name, value] of buildBaseCssVarEntries()) {
     root.style.setProperty(name, value);
   }
   for (const [name, value] of buildClanCssVarEntries()) {
+    root.style.setProperty(name, value);
+  }
+  for (const [name, value] of Object.entries(UI_THEME)) {
     root.style.setProperty(name, value);
   }
 }

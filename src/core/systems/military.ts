@@ -1,15 +1,25 @@
 import { BAL } from '../balance';
+import { getEffectiveOfficerStat } from '../battleStats';
+import { armyDailyFoodUse, armyFoodDays } from '../armyFood';
+import { hasPolicy } from '../domestic';
 import { traitModifier } from '../traits';
 import { buildMapGraph } from '../state/mapGraph';
 import type { Army, GameState, RoadEdge } from '../state/gameState';
 import type { ArmyId, CastleId, ClanId, DistrictId, MapNodeId } from '../state/ids';
 import type { GameEvent } from '../state/events';
 import { computePath, getStance } from './pathfinding';
-import { pursueRoutedArmies, startFieldCombat } from './fieldCombat';
+import {
+  pursueRoutedArmies,
+  recordFieldCombatParticipation,
+  startFieldCombat,
+} from './fieldCombat';
 import { beginSiege, detachArmyFromSiege } from './siege';
-import { releaseOrphanedCaptives } from './officers';
+import { releaseOfficerAssignments, releaseOrphanedCaptives } from './officers';
+import { clearExtinctClanWork, collapseExtinctClanCourt } from './clanExtinction';
 import { defaultDiplomacyRow, pairKey } from '../state/serialize';
 import { nearestOwnedCastleByHops, nearestOwnedCastleByTravelTime } from './castleSelection';
+import { taimeiEffects } from './events/taimei';
+import { applyArmyReroute, armyPhysicalLeg, planArmyReroute, planArmyReturn } from './armyReroute';
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
@@ -64,14 +74,7 @@ function markHostile(state: GameState, a: ClanId, b: ClanId): void {
 }
 
 function nearestOwnedCastle(state: GameState, army: Army) {
-  return nearestOwnedCastleByTravelTime(
-    state,
-    army.clanId,
-    army.posNodeId,
-    state.castles[army.originCastleId]?.ownerClanId === army.clanId
-      ? army.originCastleId
-      : undefined,
-  );
+  return planArmyReturn(state, army);
 }
 
 function disbandArmy(state: GameState, army: Army, events: GameEvent[]): void {
@@ -86,22 +89,30 @@ function disbandArmy(state: GameState, army: Army, events: GameEvent[]): void {
     officer.armyId = null;
     officer.locationCastleId = refuge?.id ?? officer.debutCastleId;
   }
+  events.push(...detachArmyFromSiege(state, army.id));
   delete state.armies[army.id];
   if (ownedCastles.length > 0) return;
   const clan = state.clans[army.clanId];
   if (clan?.alive) {
     clan.alive = false;
     clan.destroyedDay = state.time.day;
-    for (const other of Object.values(state.armies))
-      if (other.clanId === army.clanId) delete state.armies[other.id];
+    clearExtinctClanWork(state, clan.id);
+    for (const other of Object.values(state.armies)) {
+      if (other.clanId === army.clanId) {
+        events.push(...detachArmyFromSiege(state, other.id));
+        delete state.armies[other.id];
+      }
+    }
     for (const officer of Object.values(state.officers)) {
       if (officer.status !== 'serving' || officer.clanId !== army.clanId) continue;
+      events.push(...releaseOfficerAssignments(state, officer.id));
       officer.status = 'ronin';
       officer.clanId = null;
       officer.armyId = null;
       officer.locationCastleId ??= officer.debutCastleId;
     }
     events.push(...releaseOrphanedCaptives(state)); // 捕獲方滅亡 → 捕虜就地釋放（INV-18）
+    collapseExtinctClanCourt(state, clan.id, (event) => events.push(event));
     events.push({
       type: 'clan.destroyed',
       day: state.time.day,
@@ -142,10 +153,21 @@ export function setReturning(
   army.mission = 'return';
   army.status = routed ? 'routed' : 'returning';
   army.targetNodeId = target.castle.id;
-  army.path = target.path.nodes;
-  army.pathCursor = 0;
-  army.edgeProgressDays = 0;
-  army.edgeCostDays = 0;
+  const route =
+    armyPhysicalLeg(army) !== null
+      ? planArmyReroute(state, army, target.castle.id)
+      : {
+          nodes: target.path.nodes,
+          progress: 0,
+          cost: 0,
+          reversingEnd: null,
+          totalDays: target.path.totalDays,
+        };
+  if (route === null) {
+    army.status = 'holding';
+    return;
+  }
+  applyArmyReroute(army, route);
   if (routed)
     events.push({
       type: 'army.routed',
@@ -192,14 +214,11 @@ function returnIntoCastle(
 
 function supply(state: GameState, army: Army, events: GameEvent[]): void {
   const leader = state.officers[army.leaderId];
-  const useMult = leader ? traitModifier(leader, 'army.foodUseMult').mult : 1;
+  const moraleLossMult = leader ? traitModifier(leader, 'battle.moraleLossMult').mult : 1;
   const previous = army.food;
-  army.food = Math.max(
-    0,
-    army.food - Math.ceil(army.soldiers * BAL.fieldFoodPerSoldierDaily * useMult),
-  );
+  army.food = Math.max(0, army.food - armyDailyFoodUse(state, army));
   const castle = state.castles[army.posNodeId as CastleId];
-  if (castle) {
+  if (castle && armyPhysicalLeg(army) === null && army.reversingEdgeEndNodeId == null) {
     const stance = getStance(state, army.clanId, castle.ownerClanId);
     if (stance === 'own' || stance === 'friendly') {
       const target = Math.ceil(army.soldiers * BAL.fieldFoodPerSoldierDaily * BAL.defaultCarryDays);
@@ -219,13 +238,13 @@ function supply(state: GameState, army: Army, events: GameEvent[]): void {
         leaderId: army.leaderId,
       });
     if (army.status === 'routed') return;
-    army.morale = Math.max(0, army.morale - BAL.noFoodMoraleDaily);
+    army.morale = Math.round(Math.max(0, army.morale - BAL.noFoodMoraleDaily * moraleLossMult));
     army.soldiers = Math.max(0, army.soldiers - Math.ceil(army.soldiers * BAL.noFoodDesertionRate));
   }
   if (army.status === 'routed') return;
   const owner = nodeOwner(state, army.posNodeId);
   if (owner && isHostile(state, army.clanId, owner))
-    army.morale = Math.max(0, army.morale - BAL.moraleEnemyLandDaily);
+    army.morale = Math.round(Math.max(0, army.morale - BAL.moraleEnemyLandDaily * moraleLossMult));
   if (
     army.morale <= BAL.moraleBreakThreshold ||
     army.soldiers < army.initialTroops * BAL.routTroopRatio
@@ -243,7 +262,9 @@ function subjugate(state: GameState, army: Army, events: GameEvent[], skipProgre
   const base =
     BAL.subjugateDaysBase +
     Math.floor(district.kokudaka / BAL.subjugateKokuPerExtraDay) -
-    ((leader?.ldr ?? 0) >= BAL.subjugateLdrBonusThreshold ? 1 : 0);
+    ((leader ? getEffectiveOfficerStat(leader, 'ldr') : 0) >= BAL.subjugateLdrBonusThreshold
+      ? 1
+      : 0);
   const traitMult = leader ? traitModifier(leader, 'march.subjugateTimeMult').mult : 1;
   const daysRequired = clamp(
     Math.ceil(base * traitMult),
@@ -347,6 +368,8 @@ interface MovementTrace {
   armyId: ArmyId;
   from: MapNodeId;
   to: MapNodeId;
+  startT: number;
+  endT: number;
 }
 
 function movementSpeed(
@@ -358,8 +381,14 @@ function movementSpeed(
   let speed = leader
     ? traitModifier(leader, edge.type === 'sea' ? 'march.seaSpeedMult' : 'march.landSpeedMult').mult
     : 1;
-  if (army.morale < BAL.marchLowMoraleThreshold) speed *= BAL.marchLowMoraleFactor;
-  if (army.status === 'returning' || army.status === 'routed') speed *= BAL.retreatSpeedFactor;
+  // Ordinary morale, retreat and taimei modifiers belong only to land edges (04 §5.3).
+  // Preserve the separate, explicitly sea-specific primary-general trait hook.
+  if (edge.type === 'land') {
+    if (army.morale < BAL.marchLowMoraleThreshold) speed *= BAL.marchLowMoraleFactor;
+    if (army.status === 'returning' || army.status === 'routed') speed *= BAL.retreatSpeedFactor;
+    speed *= taimeiEffects(state, army.clanId).marchSpeedMult;
+    if (hasPolicy(state, army.clanId, 'pol.tenmasei')) speed *= BAL.polTenmaseiMarchSpeedMult;
+  }
   return clamp(speed, BAL.marchSpeedMin, BAL.marchSpeedMax);
 }
 
@@ -383,6 +412,7 @@ function moveArmy(
   events: GameEvent[],
   arrivedToday: Set<ArmyId>,
   traces: MovementTrace[],
+  onEnter?: (signal: import('./ai/types').AiSignal) => void,
 ): void {
   if (!['marching', 'returning', 'routed'].includes(army.status)) return;
   if (army.status === 'routed')
@@ -390,6 +420,68 @@ function moveArmy(
   if (army.soldiers <= 0) {
     disbandArmy(state, army, events);
     return;
+  }
+  let remainingReverseBudget: number | null = null;
+  let reverseArrivedViaSea: boolean | undefined;
+  const reverseEnd = army.reversingEdgeEndNodeId;
+  if (reverseEnd != null) {
+    const reverseEdge = edgeBetween(state, army.posNodeId, reverseEnd);
+    if (!reverseEdge) {
+      army.status = 'holding';
+      return;
+    }
+    if (
+      !canEnterNode(
+        state,
+        army.clanId,
+        army.posNodeId,
+        army.posNodeId === army.targetNodeId,
+        reverseEdge.type === 'sea',
+      ) ||
+      (army.targetNodeId !== null && !canEnterNode(state, army.clanId, army.targetNodeId, true))
+    ) {
+      army.status = 'holding';
+      events.push({
+        type: 'army.blocked',
+        day: state.time.day,
+        clanIds: [army.clanId],
+        armyId: army.id,
+        clanId: army.clanId,
+        nodeId: army.posNodeId,
+        leaderId: army.leaderId,
+      });
+      return;
+    }
+    const speed = movementSpeed(state, army, reverseEdge);
+    const before = army.edgeProgressDays;
+    if (before > speed) {
+      army.edgeProgressDays -= speed;
+      traces.push({
+        armyId: army.id,
+        from: army.posNodeId,
+        to: reverseEnd,
+        startT: before / army.edgeCostDays,
+        endT: army.edgeProgressDays / army.edgeCostDays,
+      });
+      return;
+    }
+    remainingReverseBudget = speed - before;
+    traces.push({
+      armyId: army.id,
+      from: army.posNodeId,
+      to: reverseEnd,
+      startT: before / army.edgeCostDays,
+      endT: 0,
+    });
+    reverseArrivedViaSea = reverseEdge.type === 'sea';
+    army.edgeProgressDays = 0;
+    army.edgeCostDays = 0;
+    delete army.reversingEdgeEndNodeId;
+    arrivedToday.add(army.id);
+    // This is an actual arrival BACK at the last-arrived node, not at the unvisited endpoint.
+    onArrive(state, army, events);
+    if (!state.armies[army.id] || !['marching', 'returning', 'routed'].includes(army.status))
+      return;
   }
   if (army.pathCursor >= army.path.length - 1) {
     onArrive(state, army, events);
@@ -403,8 +495,9 @@ function moveArmy(
   }
   const oldPreviousNode = army.pathCursor > 0 ? army.path[army.pathCursor - 1] : undefined;
   const arrivedViaSea =
-    oldPreviousNode !== undefined &&
-    edgeBetween(state, oldPreviousNode, army.posNodeId)?.type === 'sea';
+    reverseArrivedViaSea ??
+    (oldPreviousNode !== undefined &&
+      edgeBetween(state, oldPreviousNode, army.posNodeId)?.type === 'sea');
   const nextLegal = canEnterNode(
     state,
     army.clanId,
@@ -427,15 +520,28 @@ function moveArmy(
     });
     return;
   }
-  const speed = movementSpeed(state, army, edge);
-  army.edgeCostDays = effectiveEdgeCost(state, army, edge, arrivedViaSea);
+  const speed = remainingReverseBudget ?? movementSpeed(state, army, edge);
+  if (army.edgeCostDays <= 0)
+    army.edgeCostDays = effectiveEdgeCost(state, army, edge, arrivedViaSea);
+  let startT = army.edgeProgressDays / army.edgeCostDays;
   army.edgeProgressDays += speed;
   while (army.edgeProgressDays >= army.edgeCostDays) {
     const from = army.posNodeId;
     army.edgeProgressDays -= army.edgeCostDays;
     army.pathCursor += 1;
     army.posNodeId = next;
-    traces.push({ armyId: army.id, from, to: next });
+    const ownerClanId =
+      state.castles[next as CastleId]?.ownerClanId ??
+      state.districts[next as DistrictId]?.ownerClanId;
+    if (ownerClanId)
+      onEnter?.({
+        type: 'army.enteredTerritory',
+        armyId: army.id,
+        nodeId: next,
+        clanId: army.clanId,
+        ownerClanId,
+      });
+    traces.push({ armyId: army.id, from, to: next, startT, endT: 1 });
     arrivedToday.add(army.id);
     onArrive(state, army, events);
     if (!state.armies[army.id] || !['marching', 'returning', 'routed'].includes(army.status)) {
@@ -454,6 +560,7 @@ function moveArmy(
       return;
     }
     army.edgeCostDays = effectiveEdgeCost(state, army, edge);
+    startT = 0;
   }
 }
 
@@ -473,12 +580,16 @@ function relocateForEncounter(state: GameState, army: Army, nodeId: MapNodeId): 
   army.pathCursor = 0;
   army.edgeProgressDays = 0;
   army.edgeCostDays = 0;
+  delete army.reversingEdgeEndNodeId;
 }
 
 function detectEncounters(
   state: GameState,
   traces: readonly MovementTrace[],
-  initialProgress: ReadonlyMap<ArmyId, number>,
+  initialLegs: ReadonlyMap<
+    ArmyId,
+    { from: MapNodeId; end: MapNodeId | undefined; progress: number; cost: number }
+  >,
   arrivedToday: ReadonlySet<ArmyId>,
 ): GameEvent[] {
   const events: GameEvent[] = [];
@@ -490,7 +601,10 @@ function detectEncounters(
     const castleOwnerId = state.castles[siege.castleId]!.ownerClanId;
     const relief = Object.values(state.armies)
       .filter(
-        (army) => army.posNodeId === siege.castleId && !siege.attackerArmyIds.includes(army.id),
+        (army) =>
+          army.posNodeId === siege.castleId &&
+          armyPhysicalLeg(army) === null &&
+          !siege.attackerArmyIds.includes(army.id),
       )
       .filter((army) => army.status !== 'routed' && army.status !== 'engaged')
       .filter((army) => {
@@ -542,7 +656,10 @@ function detectEncounters(
     const candidates = Object.values(state.armies)
       .filter(
         (army) =>
-          army.posNodeId === combat.nodeId && army.status !== 'engaged' && army.status !== 'routed',
+          army.posNodeId === combat.nodeId &&
+          armyPhysicalLeg(army) === null &&
+          army.status !== 'engaged' &&
+          army.status !== 'routed',
       )
       .sort((a, b) => a.id.localeCompare(b.id));
     for (const army of candidates) {
@@ -555,6 +672,7 @@ function detectEncounters(
       const joinsB = joins(combat.sideB.clanIds, combat.sideA.clanIds);
       if (joinsA === joinsB) continue;
       const side = joinsA ? combat.sideA : combat.sideB;
+      recordFieldCombatParticipation(side, army);
       side.armyIds.push(army.id);
       side.armyIds.sort();
       if (!side.clanIds.includes(army.clanId)) side.clanIds.push(army.clanId);
@@ -565,7 +683,7 @@ function detectEncounters(
   const byNode = new Map<MapNodeId, Army[]>();
   for (const army of Object.values(state.armies)) {
     if (army.status === 'routed' || army.status === 'engaged') continue;
-    if (army.pathCursor < army.path.length - 1 && army.edgeProgressDays > 0) continue;
+    if (armyPhysicalLeg(army) !== null) continue;
     const bucket = byNode.get(army.posNodeId) ?? [];
     bucket.push(army);
     byNode.set(army.posNodeId, bucket);
@@ -630,7 +748,7 @@ function detectEncounters(
       (army) =>
         army.status !== 'routed' &&
         army.status !== 'engaged' &&
-        army.pathCursor < army.path.length - 1,
+        (army.pathCursor < army.path.length - 1 || army.reversingEdgeEndNodeId != null),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
   for (let i = 0; i < edgeArmies.length; i += 1)
@@ -638,20 +756,57 @@ function detectEncounters(
       const a = edgeArmies[i]!;
       const b = edgeArmies[j]!;
       if (!isHostile(state, a.clanId, b.clanId)) continue;
-      const aNext = a.path[a.pathCursor + 1]!;
-      const bNext = b.path[b.pathCursor + 1]!;
+      const aNext = a.reversingEdgeEndNodeId ?? a.path[a.pathCursor + 1]!;
+      const bNext = b.reversingEdgeEndNodeId ?? b.path[b.pathCursor + 1]!;
+      const sameEdge =
+        (a.posNodeId === b.posNodeId && aNext === bNext) ||
+        (a.posNodeId === bNext && b.posNodeId === aNext);
+      if (!sameEdge || a.edgeCostDays <= 0 || b.edgeCostDays <= 0) continue;
+      const canonicalFrom = a.posNodeId < aNext ? a.posNodeId : aNext;
+      const position = (army: Army, progress: number) =>
+        army.posNodeId === canonicalFrom
+          ? progress / army.edgeCostDays
+          : 1 - progress / army.edgeCostDays;
+      const direction = (army: Army) =>
+        (army.posNodeId === canonicalFrom ? 1 : -1) *
+        (army.reversingEdgeEndNodeId != null ? -1 : 1);
+      const initialPosition = (army: Army) => {
+        const initial = initialLegs.get(army.id);
+        const endpoint = army.reversingEdgeEndNodeId ?? army.path[army.pathCursor + 1];
+        if (
+          !initial ||
+          initial.cost <= 0 ||
+          !(
+            (initial.from === army.posNodeId && initial.end === endpoint) ||
+            (initial.end === army.posNodeId && initial.from === endpoint)
+          )
+        )
+          return position(army, 0);
+        return initial.from === canonicalFrom
+          ? initial.progress / initial.cost
+          : 1 - initial.progress / initial.cost;
+      };
+      const aStart = initialPosition(a),
+        bStart = initialPosition(b);
+      const aEnd = position(a, a.edgeProgressDays),
+        bEnd = position(b, b.edgeProgressDays);
       const opposite =
-        a.posNodeId === bNext &&
-        b.posNodeId === aNext &&
-        a.edgeProgressDays + b.edgeProgressDays >= Math.max(a.edgeCostDays, b.edgeCostDays);
-      const sameDirection = a.posNodeId === b.posNodeId && aNext === bNext;
-      const aBefore = initialProgress.get(a.id) ?? a.edgeProgressDays;
-      const bBefore = initialProgress.get(b.id) ?? b.edgeProgressDays;
+        direction(a) !== direction(b) &&
+        ((aStart <= bStart && aEnd >= bEnd) || (bStart <= aStart && bEnd >= aEnd));
+      const sameDirection = direction(a) === direction(b);
       const rear =
-        sameDirection && aBefore < bBefore ? a : sameDirection && bBefore < aBefore ? b : null;
+        sameDirection && (aStart - bStart) * direction(a) < 0
+          ? a
+          : sameDirection && (bStart - aStart) * direction(a) < 0
+            ? b
+            : null;
       const front = rear === a ? b : rear === b ? a : null;
       const caught =
-        rear !== null && front !== null && rear.edgeProgressDays >= front.edgeProgressDays;
+        rear !== null &&
+        front !== null &&
+        (position(rear, rear.edgeProgressDays) - position(front, front.edgeProgressDays)) *
+          direction(rear) >=
+          0;
       if (!opposite && !caught) continue;
       const battleNode = a.posNodeId < b.posNodeId ? a.posNodeId : b.posNodeId;
       events.push(...detachArmyFromSiege(state, a.id), ...detachArmyFromSiege(state, b.id));
@@ -670,7 +825,20 @@ function detectEncounters(
       const aTrace = sortedTraces[i]!;
       const bTrace = sortedTraces[j]!;
       if (handled.has(aTrace.armyId) || handled.has(bTrace.armyId)) continue;
-      if (aTrace.from !== bTrace.to || aTrace.to !== bTrace.from) continue;
+      const sameTraceEdge =
+        (aTrace.from === bTrace.to && aTrace.to === bTrace.from) ||
+        (aTrace.from === bTrace.from && aTrace.to === bTrace.to);
+      if (!sameTraceEdge) continue;
+      const aStart = aTrace.startT,
+        aEnd = aTrace.endT;
+      const bStart = aTrace.from === bTrace.from ? bTrace.startT : 1 - bTrace.startT;
+      const bEnd = aTrace.from === bTrace.from ? bTrace.endT : 1 - bTrace.endT;
+      if (
+        (aEnd - aStart) * (bEnd - bStart) >= 0 ||
+        Math.max(Math.min(aStart, aEnd), Math.min(bStart, bEnd)) >
+          Math.min(Math.max(aStart, aEnd), Math.max(bStart, bEnd))
+      )
+        continue;
       const a = state.armies[aTrace.armyId];
       const b = state.armies[bTrace.armyId];
       if (
@@ -696,7 +864,7 @@ function detectEncounters(
     }
   const routedByNode = new Map<MapNodeId, Army[]>();
   for (const army of Object.values(state.armies)) {
-    if (army.status !== 'routed') continue;
+    if (army.status !== 'routed' || armyPhysicalLeg(army) !== null) continue;
     const bucket = routedByNode.get(army.posNodeId) ?? [];
     bucket.push(army);
     routedByNode.set(army.posNodeId, bucket);
@@ -706,6 +874,7 @@ function detectEncounters(
       .filter(
         (army) =>
           army.posNodeId === nodeId &&
+          armyPhysicalLeg(army) === null &&
           army.status !== 'routed' &&
           army.status !== 'engaged' &&
           arrivedToday.has(army.id),
@@ -735,12 +904,23 @@ function lowFoodAutoReturnAllowed(state: Readonly<GameState>, army: Readonly<Arm
   );
 }
 
-export function militaryMovementSystem(state: GameState): GameEvent[] {
+export function militaryMovementSystem(
+  state: GameState,
+  onEnter?: (signal: import('./ai/types').AiSignal) => void,
+): GameEvent[] {
   const events: GameEvent[] = [];
   const arrivedToday = new Set<ArmyId>();
   const traces: MovementTrace[] = [];
-  const initialProgress = new Map(
-    Object.values(state.armies).map((army) => [army.id, army.edgeProgressDays]),
+  const initialLegs = new Map(
+    Object.values(state.armies).map((army) => [
+      army.id,
+      {
+        from: army.posNodeId,
+        end: army.reversingEdgeEndNodeId ?? army.path[army.pathCursor + 1],
+        progress: army.edgeProgressDays,
+        cost: army.edgeCostDays,
+      },
+    ]),
   );
   const progressedSubjugations = new Set<DistrictId>();
   for (const id of Object.keys(state.armies).sort()) {
@@ -751,11 +931,11 @@ export function militaryMovementSystem(state: GameState): GameEvent[] {
     const missionComplete =
       army.status === 'holding' &&
       army.targetNodeId !== null &&
+      army.posNodeId === army.targetNodeId &&
+      armyPhysicalLeg(army) === null &&
       (state.castles[army.targetNodeId as CastleId]?.ownerClanId === army.clanId ||
         state.districts[army.targetNodeId as DistrictId]?.ownerClanId === army.clanId);
-    const lowFood =
-      army.food / Math.max(1, Math.ceil(army.soldiers * BAL.fieldFoodPerSoldierDaily)) <=
-      BAL.autoReturnFoodDays;
+    const lowFood = armyFoodDays(state, army) <= BAL.autoReturnFoodDays;
     if (
       army.autoReturn &&
       army.status !== 'routed' &&
@@ -768,10 +948,10 @@ export function militaryMovementSystem(state: GameState): GameEvent[] {
       subjugate(state, army, events, progressedSubjugations.has(districtId));
       progressedSubjugations.add(districtId);
     } else {
-      moveArmy(state, army, events, arrivedToday, traces);
+      moveArmy(state, army, events, arrivedToday, traces, onEnter);
       if (state.armies[army.id]?.status === 'subjugating') subjugate(state, army, events, true);
     }
   }
-  events.push(...detectEncounters(state, traces, initialProgress, arrivedToday));
+  events.push(...detectEncounters(state, traces, initialLegs, arrivedToday));
   return events;
 }

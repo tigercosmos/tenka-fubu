@@ -680,7 +680,7 @@ CI 內以一段 node 腳本讀取 `current`，對照 17 §3.11.2 決定 `golden-
 /** 單一種子一局模擬的結果摘要。 */
 export interface SimulateRunSummary {
   seed: number;                    // 種子（0..2^32-1）
-  yearsSimulated: number;          // 實際模擬年數（年；達成統一時提前結束）
+  yearsSimulated: number;          // 實際觀測年數；M9 CLI 統一後仍觀測至期限
   unifiedByClanId: string | null;  // 統一勢力 ClanId；期限內無人統一為 null
   unifiedYear: number | null;      // 統一達成的西曆年；null 同上
   clanStats: Array<{
@@ -694,14 +694,22 @@ export interface SimulateRunSummary {
   totalBattles: number;            // 野戰＋合戰場次
   totalSieges: number;             // 攻城戰場次
   avgTickMs: number;               // advanceDay 平均毫秒（效能趨勢觀測用）
+  survivalAtYear10: Record<string, boolean>; // 已觀測的十年存活 checkpoint；未到十年不推估
+  survivalAtYear20: Record<string, boolean>; // 15 §5.6 的獨立二十年 checkpoint
 }
 
 /** 多種子彙總（CLI 以 JSON 輸出到 stdout 與 tests/perf/simulate-report.json）。 */
 export interface SimulateSummary {
   runs: SimulateRunSummary[];
-  unificationRate: number;         // 期限內統一比例 0..1
+  unificationRate: number | null;  // 完成 run 的統一比例；零完成數為 null
   medianUnifiedYear: number | null;// 統一年中位數（僅計統一的局）
   survivalRateByClan: Record<string, number>; // 各勢力存活率 0..1
+  survivalRateAtYear10: Record<string, number | null>; // 缺少完整觀測時為 null
+  acceptance: SimulationAcceptance; // 本文件 §5.4 的判定；不代表其他驗收通過
+  balanceAcceptance: BalanceAcceptance; // 15 §5.6 的獨立判定
+  repeatRuns: SimulateRunSummary[] | null; // --verify-repeat=true 的第二輪；未要求時為 null
+  requestedSeeds: number[];        // 原始請求的完整 seed 集合
+  failedRuns: SimulationRunFailure[]; // --continue-on-error=true 留存的 primary／repeat 失敗
 }
 ```
 
@@ -763,6 +771,12 @@ pass(summary: SimulateSummary):
 ```
 
 未達則調整 `balance.ts`（一次只動一組相關常數，重跑 20 種子），並依 §5.3 更新 golden。
+
+`tools/ci/simulation-acceptance.ts` 自 `runs` 重算上述統計，不信任報告的彙總值。
+完整 workload 至少包含二十個不同的合法種子，每局觀測二十五年。
+CLI 統一後仍繼續觀測；短跑或缺少存活 checkpoint 的報告標記 `incomplete`，不推估未來存活率。
+判定結果只涵蓋本節，不替代 15 §5.6、指令合法性、golden、隔離效能測試或全遊戲驗收。
+CLI 保留一般報告用途；`incomplete` 本身不改變 CLI exit code。
 
 ---
 
@@ -878,5 +892,20 @@ pass(summary: SimulateSummary):
   素材來源與授權由 manifest 阻斷。技術與視覺細節仍回歸 04／11／12／17，本文件只裁定優先序與 DoD。
 
 ---
+
+- **D20｜M9 統計判定的觀測界線（2026-10-09）**：§4.3 增列十年 checkpoint 與 §5.4 判定結果。
+  CLI 統一後仍觀測至期限；判定器要求二十個不同種子及完整二十五年，缺少觀測時不外推存活率。
+  判定器拒絕互相矛盾的存活資料；滅亡年恰為 1570 時，只有年份不足以判定十年 checkpoint 的先後。
+  門檻、BAL、其他驗收與里程碑狀態不變；新增判定器不代表二十五年實跑通過。
+
+- **D21｜15 與 18 的平衡判定分離（2026-10-09）**：§4.3 增列 balanceAcceptance 與 repeatRuns。
+  原 acceptance 仍只判本文件 §5.4；新增欄位不改原門檻或里程碑狀態。
+  CLI 的 --verify-repeat=true 以相同 seed／difficulty 的獨立初始狀態及事件引擎重跑，保留兩輪原始觀測。
+  第二輪時鐘固定零，不冒稱額外效能量測；缺少完整期限或實際 repeat 時不宣稱 15 通過。
+
+- **D22｜失敗種子不從驗收剔除（2026-10-09）**：CLI 的明定 continue-on-error 模式保留 failedRuns 與 requestedSeeds。
+  完成 primary 與成功 repeat 仍各自留存；失敗不偽裝為完整期末或存活觀測。
+  任一失敗令 15／18 判定都 incomplete，即使完成數已滿二十；輸出診斷後仍退出一。
+  零完成數的統一率與歷史事件中位數為 null；預設 fail-fast 與全部原驗收門檻不變。
 
 *本文件由 Fable 5 設計定稿；依 00 §0.5，實作期若有里程碑歸屬變更，回寫本文件並於本節註記原因。*

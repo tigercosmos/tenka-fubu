@@ -22,7 +22,7 @@
 // 由 app 層驅動器（M1-16 起）依使用者設定過濾。已回寫 plan/03-game-loop.md §8。
 
 import { BAL } from '../balance';
-import type { ClanId } from '../state/ids';
+import type { ClanId, EventId } from '../state/ids';
 import type { GameEvent, GameEventType } from '../state/events';
 import type { GameState, Report } from '../state/gameState';
 import { nextId } from '../state/serialize';
@@ -174,7 +174,7 @@ function autoPauseReasonFor(event: GameEvent, playerClanId: ClanId): AutoPauseRe
         ? 'siegeOnPlayer'
         : null;
     case 'battle.kassenAvailable':
-      return BAL.featureKassenEnabled ? 'battleAvailable' : null;
+      return event.clanIds.includes(playerClanId) ? 'battleAvailable' : null;
     case 'proposal.submitted':
       return 'proposalArrived';
     case 'diplo.envoyArrived':
@@ -237,13 +237,21 @@ function trimReports(state: GameState): void {
  * 追加 `Report`（新→舊插入，見檔頭裁決）、修剪保留期與總量、回傳去重排序後的 AutoPauseReason 陣列。
  * 就地修改 `state.reports`；不發出任何 GameEvent（本步為事件的終端消費者）。
  */
-export function reportsSystem(state: GameState, events: readonly GameEvent[]): AutoPauseReason[] {
+export function reportsSystem(
+  state: GameState,
+  events: readonly GameEvent[],
+  options: { isHistoricalEvent?: (id: EventId) => boolean } = {},
+): AutoPauseReason[] {
   const playerClanId = state.meta.playerClanId;
 
   for (const event of events) {
     if (NOT_REPORTED.has(event.type)) continue; // 13 §3.7(5) 權威登錄之排除集
     const sev = severityOf(event, playerClanId);
-    if (isPlayerRelevant(event, playerClanId) || sev !== 'info') {
+    // Plan10 §6.1 retains historical narratives for catalog-aware presentation;
+    // the plan03 severity, relevance, exclusion and auto-pause rules stay unchanged.
+    const historical =
+      event.type === 'event.fired' && options.isHistoricalEvent?.(event.eventId) === true;
+    if (isPlayerRelevant(event, playerClanId) || sev !== 'info' || historical) {
       // 逐筆 unshift（而非蒐集後批次插入）：確保同 tick 內較晚發出者位於陣列較前端，
       // 與跨 tick 之「新→舊」不變量（02 §4.17）在語意上一致（較晚發生＝較新）。
       state.reports.unshift({

@@ -9,6 +9,7 @@ import {
   type CommandLogFile,
 } from '../../src/core/replay/commandLog';
 import { advanceDay } from '../../src/core/systems';
+import { validateState } from '../../src/core/state/invariants';
 import { buildMiniState, CASTLE_A1, CASTLE_B2, CLAN_ALPHA, CLAN_BETA } from '../fixtures/mini';
 const CASES_DIR = fileURLToPath(new URL('./cases', import.meta.url));
 const replayCases = readdirSync(CASES_DIR)
@@ -18,6 +19,35 @@ const replayCases = readdirSync(CASES_DIR)
     name,
     log: JSON.parse(readFileSync(`${CASES_DIR}/${name}`, 'utf8')) as CommandLogFile,
   }));
+
+/** Record the retained command sequence against current rules, without replacing its frozen oracle. */
+function recordCurrentCase(source: Readonly<CommandLogFile>): CommandLogFile {
+  const state = buildMiniState({ seed: source.seed });
+  const recorder = new CommandLogRecorder();
+  let sequence = state.meta.lastAppliedCmdSeq + 1;
+  expect(validateState(state)).toEqual([]);
+  for (let day = 1; day <= source.finalDay; day += 1) {
+    const queue: CommandEnvelope[] = source.entries
+      .filter((entry) => entry.day === day)
+      .map((entry) => ({
+        seq: sequence++,
+        issuedDay: state.time.day,
+        command: structuredClone(entry.command),
+        ...(entry.authority ? { authority: structuredClone(entry.authority) } : {}),
+      }));
+    const result = advanceDay(state, queue);
+    expect(result.appliedCommands, `current recording rejected a command on day ${day}`).toEqual(
+      queue,
+    );
+    expect(result.events.some((event) => event.type === 'command.rejected')).toBe(false);
+    expect(validateState(state), `current recording invariant failure on day ${day}`).toEqual([]);
+    recorder.recordTick(result.appliedCommands);
+  }
+  const recorded = recorder.export(state);
+  expect(recorded.truncated).toBe(false);
+  expect(recorded.entries).toEqual(source.entries);
+  return recorded;
+}
 
 function policyEnvelope(seq: number, clanId = CLAN_ALPHA): CommandEnvelope {
   return {
@@ -138,12 +168,15 @@ describe('command log replay cases', () => {
   it('reports BAL drift independently from replay execution', () => {
     const replayCase = replayCases[0]?.log;
     expect(replayCase).toBeDefined();
-    const changed = { ...replayCase, balanceHash: '0000000000000000' };
-    const result = replayCommandLog(changed as CommandLogFile, (log) =>
-      buildMiniState({ seed: log.seed }),
-    );
+    const current = recordCurrentCase(replayCase!);
+    const baseline = replayCommandLog(current, (log) => buildMiniState({ seed: log.seed }));
+    expect(baseline).toMatchObject({ balanceMismatch: false, match: true });
+    const changed = { ...current, balanceHash: '0000000000000000' };
+    const result = replayCommandLog(changed, (log) => buildMiniState({ seed: log.seed }));
     expect(result.balanceMismatch).toBe(true);
     expect(result.match).toBe(true);
+    expect(result.actualHash).toBe(baseline.actualHash);
+    expect(result.expectedHash).toBe(baseline.expectedHash);
   });
 
   it('reports a mismatch when a recorded command is tampered with', () => {
@@ -151,16 +184,27 @@ describe('command log replay cases', () => {
       ({ name }) => name === 'ten-command-policy-cycle.tfulog.json',
     )?.log;
     expect(replayCase).toBeDefined();
-    const tampered = structuredClone(replayCase as CommandLogFile);
+    const current = recordCurrentCase(replayCase!);
+    expect(replayCommandLog(current, (log) => buildMiniState({ seed: log.seed }))).toMatchObject({
+      balanceMismatch: false,
+      match: true,
+    });
+    const tampered = structuredClone(current);
     const lastEntry = tampered.entries.at(-1);
     if (!lastEntry || lastEntry.command.type !== 'setConscriptPolicy') {
       throw new Error('測試案例最後一筆必須是 setConscriptPolicy');
     }
+    expect(lastEntry.command.policy).toBe('low');
     lastEntry.command.policy = 'high';
+    expect(tampered.entries.slice(0, -1)).toEqual(current.entries.slice(0, -1));
+    expect({ ...tampered, entries: current.entries }).toEqual(current);
 
-    const result = replayCommandLog(tampered, (log) => buildMiniState({ seed: log.seed }));
+    const rebuilt = buildMiniState({ seed: current.seed });
+    const result = replayCommandLog(tampered, () => rebuilt);
     expect(result.balanceMismatch).toBe(false);
     expect(result.match).toBe(false);
+    expect(result.expectedHash).toBe(current.finalHash);
+    expect(validateState(rebuilt)).toEqual([]);
     expect(result).not.toHaveProperty('divergedDay');
   });
 });

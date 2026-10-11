@@ -1,0 +1,31 @@
+.body {
+  display: grid;
+  gap: var(--space-3);
+  max-height: min(30rem, calc(80dvh - 8rem));
+  overflow-y: auto;
+  overflow-wrap: anywhere;
+}
+.body p,
+.body h3 {
+  margin: 0;
+}
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+.field select {
+  min-height: 32px;
+  width: 100%;
+  color: var(--text-primary);
+  background: var(--surface-panel);
+}
+.field select:focus-visible {
+  outline: 2px solid var(--brand-gold);
+  outline-offset: 2px;
+}
+.route {
+  overflow-wrap: anywhere;
+}
+.help {
+  font-size: var(--font-size-sm);
+}

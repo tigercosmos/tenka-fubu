@@ -1,0 +1,167 @@
+.screen > div {
+  grid-template-columns: minmax(0, 1fr);
+}
+.screen [data-testid='corps-panel'] {
+  max-width: 100%;
+  border-color: var(--command-gold);
+}
+.screen [data-testid='corps-panel'] > section > header {
+  justify-content: flex-start;
+  gap: var(--space-4);
+}
+.frame {
+  color: var(--text-primary);
+  background: var(--surface-panel);
+  font-size: max(12px, var(--font-size-sm));
+}
+.frame button,
+.frame select,
+.frame input {
+  min-width: 32px;
+  min-height: max(32px, 2rem);
+  font-size: max(12px, var(--font-size-sm));
+}
+.frame label,
+.frame legend,
+.frame small,
+.frame p {
+  font-size: max(12px, var(--font-size-sm));
+}
+.frame button:disabled {
+  opacity: 1;
+  color: var(--text-secondary);
+  background: var(--surface-base);
+  border-color: var(--stroke-subtle);
+}
+.columns {
+  grid-template-columns: minmax(12rem, 1fr) minmax(0, 2.5fr);
+  align-items: start;
+  gap: var(--space-4);
+}
+.roster {
+  min-width: 0;
+  max-height: calc(100vh - 14rem);
+  overflow-y: auto;
+  gap: var(--space-2);
+  scrollbar-gutter: stable;
+}
+.roster button {
+  flex-shrink: 0;
+  text-align: left;
+  padding: var(--space-3);
+  color: var(--text-primary);
+  background: var(--surface-base);
+  border-color: var(--stroke-subtle);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.roster button:first-child,
+.roster button[aria-pressed='true'] {
+  color: var(--text-inverse);
+  background: var(--surface-command);
+  border-color: var(--command-gold);
+  font-weight: 700;
+}
+.editor {
+  min-width: 0;
+  gap: var(--space-3);
+}
+.editor .leader {
+  gap: var(--space-2);
+  font-weight: 600;
+}
+.editor select {
+  width: 100%;
+  min-width: 0;
+  font-weight: 400;
+}
+.editor fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--stroke-subtle);
+  background: var(--surface-base);
+}
+.editor legend {
+  padding: 0 var(--space-2);
+  color: var(--text-primary);
+  font-weight: 700;
+  font-family: var(--font-family-display);
+}
+.directive {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+.frame .editor .directiveOption {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  min-height: max(32px, 2rem);
+  padding: var(--space-2);
+  background: var(--surface-panel);
+  border: 1px solid var(--stroke-subtle);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.directiveOption:has(input:checked) {
+  border-color: var(--brand-gold);
+  background: var(--surface-raised);
+}
+.frame .editor input[type='radio'],
+.frame .editor input[type='checkbox'] {
+  flex-shrink: 0;
+  margin: 0;
+}
+.effect {
+  grid-column: 1 / -1;
+  margin: var(--space-2) 0 0;
+  line-height: var(--line-height-body);
+  overflow-wrap: anywhere;
+}
+.castles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+.frame .editor .castleRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  min-width: 0;
+  min-height: max(32px, 2rem);
+  padding: var(--space-2);
+  background: var(--surface-panel);
+  border: 1px solid var(--stroke-subtle);
+  overflow-wrap: anywhere;
+}
+.castleRow > div {
+  margin-left: auto;
+}
+.tithe {
+  margin: 0;
+  padding: var(--space-3);
+  border-left: 2px solid var(--brand-gold);
+  background: var(--surface-raised);
+  line-height: var(--line-height-body);
+  overflow-wrap: anywhere;
+}
+@media (max-width: 900px) {
+  .columns {
+    grid-template-columns: minmax(10rem, 1fr) minmax(0, 2.5fr);
+  }
+}
+@media (max-width: 600px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .roster {
+    max-height: 10rem;
+  }
+  .directive,
+  .castles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

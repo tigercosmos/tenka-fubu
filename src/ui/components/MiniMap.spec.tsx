@@ -24,7 +24,29 @@ vi.mock('./miniMapDraw', async (importOriginal) => {
 });
 
 import { MiniMap } from './MiniMap';
+import { miniMapLayout } from './miniMapLayout';
 import { drawMiniMapBase, drawMiniMapViewportFrame } from './miniMapDraw';
+
+describe('shared right overlay CSS geometry', () => {
+  it('reserves the same capped minimap size at 720px and UI scale 1.5', () => {
+    const layout = miniMapLayout(176, 124);
+    expect(layout.bottom).toBe('7.75rem');
+    expect(layout.side).toBe(
+      'max(32px, min(192px, 11rem, calc(100dvh - 3rem - 7.75rem - var(--space-3))))',
+    );
+    expect(layout.reservedBottom).toBe(`calc(${layout.bottom} + ${layout.side} + var(--space-3))`);
+    const rem = 24,
+      viewportHeight = 720;
+    const bottom = 7.75 * rem,
+      gap = 0.75 * rem;
+    const side = Math.max(32, Math.min(192, 11 * rem, viewportHeight - 3 * rem - bottom - gap));
+    const reportsBottom = bottom + side + gap;
+    expect(viewportHeight - reportsBottom).toBeLessThan(viewportHeight - bottom - side);
+    expect(side).toBe(192);
+    expect(viewportHeight - reportsBottom - 3.75 * rem).toBe(234);
+    expect(Math.min(192, 176)).toBe(176);
+  });
+});
 
 const drawBaseMock = vi.mocked(drawMiniMapBase);
 const drawFrameMock = vi.mocked(drawMiniMapViewportFrame);
@@ -100,6 +122,52 @@ describe('MiniMap 版面（E-69 正方；12 §3.2.12）', () => {
 });
 
 describe('MiniMap 座標換算：點擊／拖曳導航（12 §5.5；12-T9 驗收）', () => {
+  it.each([0.8, 1, 1.5])(
+    'normalizes CSSscaled pointer navigation at scale=%s without changing canvas buffers',
+    (scale) => {
+      const onNavigate = vi.fn();
+      render(<MiniMap size={224} viewport={VIEWPORT} onNavigate={onNavigate} bottomOffset={260} />);
+      const frame = screen.getByTestId<HTMLCanvasElement>('minimap-frame');
+      const displayedSide = Math.min(192, 224 * scale);
+      vi.spyOn(frame, 'getBoundingClientRect').mockReturnValue({
+        left: 100,
+        top: 200,
+        width: displayedSide,
+        height: displayedSide,
+        right: 100 + displayedSide,
+        bottom: 200 + displayedSide,
+        x: 100,
+        y: 200,
+        toJSON: () => ({}),
+      });
+      firePointer('pointerdown', frame, {
+        clientX: 100 + displayedSide / 2,
+        clientY: 200 + displayedSide / 4,
+      });
+      expect(onNavigate.mock.lastCall?.[0]).toBeCloseTo(WORLD_SIZE / 2, 10);
+      expect(onNavigate.mock.lastCall?.[1]).toBeCloseTo(WORLD_SIZE / 4, 10);
+      expect(frame.width).toBe(224);
+      expect(frame.height).toBe(224);
+      expect(frame.style.width).toBe('100%');
+      expect(frame.style.height).toBe('100%');
+      const mini = screen.getByTestId('minimap');
+      expect(mini.style.width).toBe(mini.style.height);
+      // jsdom cssstyle inserts multiplication markers around min/max commas; browser layout is
+      // verified separately. Retain all authored bounds and the shared root-scaled space token.
+      expect(mini.style.width).toContain('192px');
+      expect(mini.style.width).toContain('14rem');
+      expect(mini.style.width).toContain('calc(100dvh - 3rem - 16.25rem - var(--space-3))');
+      expect(mini.style.width).toContain('max(32px');
+      expect(mini.style.right).toBe('var(--space-3)');
+      expect(screen.getByTestId('minimap').style.bottom).toBe('16.25rem');
+      firePointer('pointermove', frame, {
+        clientX: 100 + displayedSide,
+        clientY: 200 + displayedSide,
+      });
+      expect(onNavigate.mock.lastCall?.[0]).toBeCloseTo(WORLD_SIZE, 10);
+      expect(onNavigate.mock.lastCall?.[1]).toBeCloseTo(WORLD_SIZE, 10);
+    },
+  );
   it('點擊（pointerdown）→ onNavigate 收到 mini→world 換算後的世界座標', () => {
     const onNavigate = vi.fn<(worldX: number, worldY: number) => void>();
     render(<MiniMap viewport={VIEWPORT} onNavigate={onNavigate} />);

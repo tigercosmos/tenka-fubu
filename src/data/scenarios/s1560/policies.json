@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "policies": [
+    {
+      "id": "pol.rakuichi",
+      "name": "樂市樂座",
+      "prestigeReq": 100,
+      "costGold": 50,
+      "exclusiveWith": []
+    },
+    {
+      "id": "pol.kenchi",
+      "name": "檢地",
+      "prestigeReq": 300,
+      "costGold": 100,
+      "exclusiveWith": []
+    },
+    {
+      "id": "pol.tenmasei",
+      "name": "傳馬制",
+      "prestigeReq": 200,
+      "costGold": 60,
+      "exclusiveWith": []
+    },
+    {
+      "id": "pol.jishahogo",
+      "name": "寺社保護",
+      "prestigeReq": 150,
+      "costGold": 40,
+      "exclusiveWith": ["pol.nanban"]
+    },
+    {
+      "id": "pol.nanban",
+      "name": "南蠻貿易",
+      "prestigeReq": 400,
+      "costGold": 120,
+      "exclusiveWith": ["pol.jishahogo"]
+    },
+    {
+      "id": "pol.sekisho",
+      "name": "關所撤廢",
+      "prestigeReq": 250,
+      "costGold": 80,
+      "exclusiveWith": []
+    },
+    {
+      "id": "pol.jokashuju",
+      "name": "城下集住",
+      "prestigeReq": 500,
+      "costGold": 100,
+      "exclusiveWith": []
+    },
+    {
+      "id": "pol.meyasubako",
+      "name": "目安箱",
+      "prestigeReq": 100,
+      "costGold": 30,
+      "exclusiveWith": []
+    },
+    {
+      "id": "pol.heinobunri",
+      "name": "兵農分離",
+      "prestigeReq": 600,
+      "costGold": 150,
+      "exclusiveWith": ["pol.goningumi"]
+    },
+    {
+      "id": "pol.goningumi",
+      "name": "五人組",
+      "prestigeReq": 350,
+      "costGold": 70,
+      "exclusiveWith": ["pol.heinobunri"]
+    },
+    {
+      "id": "pol.kakishuchu",
+      "name": "火器集中",
+      "prestigeReq": 700,
+      "costGold": 200,
+      "exclusiveWith": []
+    },
+    {
+      "id": "pol.enkokinko",
+      "name": "遠交近攻",
+      "prestigeReq": 450,
+      "costGold": 90,
+      "exclusiveWith": []
+    }
+  ]
+}

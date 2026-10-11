@@ -3,9 +3,9 @@ import { hasPolicy } from '../domestic';
 import type { District, GameState, Officer } from '../state/gameState';
 import type { GameEvent } from '../state/events';
 import { monthlyUprising } from './uprising';
-import { updateStewardFocuses } from './ai/stewardAi';
 import { gainMerit } from './officers';
 import { traitModifier } from '../traits';
+import { taimeiEffects } from './events/taimei';
 
 type Attribute = 'kokudaka' | 'commerce' | 'population';
 
@@ -82,7 +82,8 @@ export function developDistrictDaily(state: GameState, district: District): void
       diminish *
       (district.stewardId === null ? BAL.directDevFactor : BAL.fiefDevBonus) *
       developmentPolicyMultiplier(state, district, attr) *
-      traitMult;
+      traitMult *
+      (attr === 'commerce' ? taimeiEffects(state, district.ownerClanId).commerceGrowthMult : 1);
     district[attr] = Math.min(cap, district[attr] + monthly / 30);
   }
 }
@@ -149,7 +150,6 @@ export function developmentSystem(state: GameState): GameEvent[] {
       const district = state.districts[id as keyof typeof state.districts];
       if (district) monthlyPopulation(state, district);
     }
-    updateStewardFocuses(state);
     monthlyStewardMerit(state);
   }
   return events;

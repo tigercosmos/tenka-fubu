@@ -258,11 +258,14 @@ describe('computeScenarioStats — 合成多地方資料（覆蓋 tiny 未觸及
 
 describe('tools/stats.ts CLI（尚無劇本資料時的行為）', () => {
   it('對不存在的劇本 id 印出提示並以 exit code 0 結束', () => {
-    const tsxBin = path.join(REPO_ROOT, 'node_modules', '.bin', 'tsx');
-    const result = spawnSync(tsxBin, ['tools/stats.ts', 'no-such-scenario'], {
-      cwd: REPO_ROOT,
-      encoding: 'utf8',
-    });
+    const result = spawnSync(
+      process.execPath,
+      ['--import', 'tsx', 'tools/stats.ts', 'no-such-scenario'],
+      {
+        cwd: REPO_ROOT,
+        encoding: 'utf8',
+      },
+    );
     expect(result.status).toBe(0);
     expect(result.stdout).toContain('尚無劇本資料');
   });

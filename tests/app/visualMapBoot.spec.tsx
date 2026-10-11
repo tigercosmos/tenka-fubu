@@ -35,6 +35,14 @@ afterEach(() => {
 });
 
 describe('bootVisualMapGame()（純函式；M6-V2）', () => {
+  it('先完成換局 reset，再佈置視覺選取與預覽', () => {
+    const mounted = vi.fn(() => uiStore.getState().actions.reset());
+    const game = bootVisualMapGame(mounted);
+    expect(mounted).toHaveBeenCalledTimes(1);
+    expect(mounted).toHaveBeenCalledWith(game);
+    expect(uiStore.getState().selection).toEqual({ kind: 'castle', id: VISUAL_SELECTED_CASTLE_ID });
+    expect(uiStore.getState().marchDraft?.previewPath?.result.found).toBe(true);
+  });
   it('回傳固定 debugVisual fixture（debugMode=true）並選取視覺錨點本城（駿府）、佈置路徑預覽', () => {
     const game = bootVisualMapGame();
     expect(game.meta.scenarioId).toBe(DEBUG_VISUAL_MAP_ID);
@@ -83,6 +91,8 @@ describe('App：?debug=visual-map（M6-V2）', () => {
     const game = store.getState().game;
     expect(game?.meta.scenarioId).toBe(DEBUG_VISUAL_MAP_ID);
     expect(screen.getByTestId('hud-date').textContent).toContain('1561年');
+    expect(uiStore.getState().selection).toEqual({ kind: 'castle', id: VISUAL_SELECTED_CASTLE_ID });
+    expect(uiStore.getState().marchDraft?.previewPath?.result.found).toBe(true);
   });
 
   it('window.__TENKA_DEBUG__ 已安裝（?debug=visual-map 隱含 enabled=true）', () => {

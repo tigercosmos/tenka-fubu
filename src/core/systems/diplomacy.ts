@@ -1,4 +1,5 @@
 import { BAL } from '../balance';
+import { facilityIsActive, hasPolicy } from '../domestic';
 import { traitModifier } from '../traits';
 import type { GameState } from '../state/gameState';
 import type { GameEvent } from '../state/events';
@@ -10,7 +11,7 @@ import {
   courtFavorGainMonthly,
   courtMonthlyForClan,
   courtUnlocks,
-  workCostMultiplier,
+  monthlyDiplomacyWorkCost,
 } from './court';
 import {
   adjustSentiment,
@@ -18,14 +19,24 @@ import {
   buildAdjacency,
   ensureDiplomacyRow,
   getSentiment,
+  getTrust,
   isAtWar,
 } from './diplomacyCommon';
 import { evaluateProposal, hasCommonEnemy } from './diplomacyEval';
-import { effectiveStat } from './officers';
+import { effectiveStat, gainMerit } from './officers';
 import { betrayalDailyTick, plotsMonthlyForClan } from './plots';
 import { reconcilePeace } from './diplomacyPeace';
+import { taimeiEffects } from './events/taimei';
 
 function missionsMonthlyForClan(state: GameState, clanId: ClanId, emit: EmitFn): void {
+  const facilityGainMult = Object.values(state.castles).some(
+    (castle) => castle.ownerClanId === clanId && facilityIsActive(state, castle, 'fac.hyojosho'),
+  )
+    ? BAL.facDiplomacyWorkGainMult
+    : 1;
+  const policyGainMult = hasPolicy(state, clanId, 'pol.enkokinko')
+    ? BAL.polEnkokinkoWorkGainMult
+    : 1;
   const missions = state.diplomacy.missions
     .filter((mission) => mission.fromClanId === clanId)
     .sort((a, b) => a.target.localeCompare(b.target) || a.officerId.localeCompare(b.officerId));
@@ -40,13 +51,7 @@ function missionsMonthlyForClan(state: GameState, clanId: ClanId, emit: EmitFn):
         (mission.target === 'shogunate'
           ? state.court.shogunateExists
           : state.clans[mission.target]?.alive));
-    const cost = Math.round(
-      (mission.target === 'court'
-        ? BAL.courtWorkMonthlyCost
-        : mission.target === 'shogunate'
-          ? BAL.shogunateWorkMonthlyCost
-          : BAL.diplomacyWorkMonthlyCost) * workCostMultiplier(state, clanId),
-    );
+    const cost = monthlyDiplomacyWorkCost(state, mission);
     if (!valid || clan.gold < cost) {
       state.diplomacy.missions = state.diplomacy.missions.filter((entry) => entry !== mission);
       emit({
@@ -63,9 +68,11 @@ function missionsMonthlyForClan(state: GameState, clanId: ClanId, emit: EmitFn):
       const favor =
         mission.target === 'court' ? state.court.courtFavor : state.court.shogunateFavor;
       favor[clanId] = Math.min(
-        BAL.courtFavorMax,
+        mission.target === 'court' ? BAL.courtFavorMax : BAL.shogunateFavorMax,
         (favor[clanId] ?? 0) +
-          courtFavorGainMonthly(officer, mission.target === 'court' ? 'court' : 'shogunate'),
+          courtFavorGainMonthly(officer, mission.target === 'court' ? 'court' : 'shogunate') *
+            facilityGainMult *
+            policyGainMult,
       );
     } else {
       const sentimentMult = Math.max(
@@ -78,6 +85,7 @@ function missionsMonthlyForClan(state: GameState, clanId: ClanId, emit: EmitFn):
       const rankMult = courtUnlocks(clan.courtRank).includes('trustGainBonus')
         ? BAL.courtTrustGainMult
         : 1;
+      const trustBefore = getTrust(state, clanId, mission.target);
       adjustTrust(
         state,
         clanId,
@@ -85,8 +93,16 @@ function missionsMonthlyForClan(state: GameState, clanId: ClanId, emit: EmitFn):
         (BAL.trustGainBase + effectiveStat(officer, 'pol') / BAL.trustGainPolDivisor) *
           traitModifier(officer, 'diplo.trustGainMult').mult *
           sentimentMult *
-          rankMult,
+          rankMult *
+          taimeiEffects(state, clanId).trustGainMult *
+          facilityGainMult *
+          policyGainMult,
       );
+      // 06 §3.5: completing this paid work, not merely staying at the cap.
+      // A later credit spend and genuine re-crossing is a new completion.
+      if (trustBefore < BAL.trustMax && getTrust(state, clanId, mission.target) === BAL.trustMax) {
+        gainMerit(officer, BAL.meritDiplomacy, ['pol']);
+      }
     }
   }
 }
@@ -150,7 +166,7 @@ export function diplomacySystem(state: GameState): GameEvent[] {
     a.id.localeCompare(b.id),
   )) {
     if (state.time.day > proposal.expiresDay) settleDiplomacyProposal(state, proposal, false, emit);
-    else if (proposal.toClanId !== state.meta.playerClanId)
+    else if (proposal.toClanId !== state.meta.playerClanId || state.ai.allAi)
       settleDiplomacyProposal(
         state,
         proposal,

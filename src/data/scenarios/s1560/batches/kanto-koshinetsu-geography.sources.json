@@ -1,0 +1,123 @@
+{
+  "status": "integrated-production-four-regions",
+  "spec": "plan/14-scenario-data.md §§3.2–3.4,3.6,3.7,3.9",
+  "coordinateMethod": "城址所在地參照地方政府及管理機關資料，經緯度為製作時選取的約略位置，精度為小數二位，再套用既有 lonLatToWorld；不是官方測量座標。",
+  "districtMethod": "郡名採規格所列及舊國郡地名。多摩八王子、芳賀益子、都留大月等名稱明示為以具名地點細分的遊戲領地，不主張它們是獨立史實郡。以代表地點投影方向放置節點，距母城不足40或超過180世界單位時沿同方向移至41或179，以遵循14§3.4。節點是遊戲示意位置，不是史實疆界、郡治或城址所在地的重建。",
+  "districtPlacementExceptions": [
+    {
+      "id": "dist.echigo-kubiki-naoetsu",
+      "pos": { "x": 2322, "y": 2311 },
+      "reason": "直江津港郡的徑向示意點落在既有粗略海岸線外；改用內陸側領地標記，維持母城40–180距離，不改城址座標或放寬outline容差。這不是港口測量點。"
+    }
+  ],
+  "resourceMethod": "石高按規格地方配額及地形權重分配，人口與上限依14§3.4衍生；駐兵依既有BAL容量與製作比例計算。這些是遊戲開局數值，不是1560年實測統計。",
+  "roadMethod": "街道名稱與接縫遵循14§3.7；圖邊是遊戲連通抽象，不是史實道路線形。節點距離除90、山地乘1.5、取半日，型別與道級使用既有schema。",
+  "ownershipMethod": "城主勢力按14§3.6固定清單。箕輪、廄橋代表長尾方國眾，不宣稱1560年初已由長尾直轄。分郡所屬城也是遊戲領地抽象。",
+  "unresolvedIntegration": [
+    "個別具名武將生卒年的剩餘史料查證；未確定欄位已有明示設計值",
+    "全國其餘五地方接縫與長期平衡驗收"
+  ],
+  "siteSources": [
+    {
+      "castle": "castle.odawara",
+      "url": "https://www.city.odawara.kanagawa.jp/field/lifelong/property/cultural/historic/s-odawarazyou.html"
+    },
+    {
+      "castle": "castle.tamanawa",
+      "url": "https://www.city.kamakura.kanagawa.jp/keikan/100sen/sizen/06.html"
+    },
+    {
+      "castle": "castle.nirayama",
+      "url": "https://www.city.izunokuni.shizuoka.jp/bunka_bunkazai/manabi/bunkazai/documents/reigenmokuzi.pdf"
+    },
+    { "castle": "castle.edo", "url": "https://www.env.go.jp/garden/kokyogaien/" },
+    {
+      "castle": "castle.kawagoe",
+      "url": "https://www.city.kawagoe.saitama.jp/kurashi/bunka/1003787/1003798/1003828/1003875/1003876.html"
+    },
+    {
+      "castle": "castle.takiyama",
+      "url": "https://www.city.hachioji.tokyo.jp/kankobunka/003/003/001/001/p005254.html"
+    },
+    {
+      "castle": "castle.matsuyama",
+      "url": "https://www.town.yoshimi.saitama.jp/soshiki/shogaigakushuk/7/431.html"
+    },
+    { "castle": "castle.kururi", "url": "https://www.city.kimitsu.lg.jp/site/kanko/491.html" },
+    { "castle": "castle.sanuki", "url": "https://www.city.futtsu.lg.jp/0000000553.html" },
+    {
+      "castle": "castle.ota",
+      "url": "https://www.city.hitachiota.ibaraki.jp/kyoiku-bunka-sports/kyoiku-iinkai/bunka-geijutsu/museum/page003380.html"
+    },
+    {
+      "castle": "castle.nukada",
+      "url": "https://www.city.naka.lg.jp/edu-board/bunkazai/page011299.html"
+    },
+    {
+      "castle": "castle.utsunomiya",
+      "url": "https://www.city.utsunomiya.lg.jp/kosodate/kosodate/miyakosodate/nenrei/1024242/1024271.html"
+    },
+    {
+      "castle": "castle.moka",
+      "url": "https://www.moka-kankou.org/wordpress/wp-content/uploads/2024/11/concierge_guidetour_20241215.pdf"
+    },
+    {
+      "castle": "castle.yuki",
+      "url": "https://www.city.yuki.lg.jp/kosodate-kyouiku/shougaigakushuu/bunkazai/bunkazai/shishitei/page003220.html"
+    },
+    {
+      "castle": "castle.minowa",
+      "url": "https://www.city.takasaki.gunma.jp/site/cultural-assets/6450.html"
+    },
+    {
+      "castle": "castle.umayabashi",
+      "url": "https://www.city.maebashi.gunma.jp/gyosei/8/2/27742.html"
+    },
+    {
+      "castle": "castle.tsutsujigasaki",
+      "url": "https://www.city.kofu.yamanashi.jp/kids/ima/bunka/takeda.html"
+    },
+    {
+      "castle": "castle.iwadono",
+      "url": "https://www.city.otsuki.yamanashi.jp/15/01/01/04/05.html"
+    },
+    {
+      "castle": "castle.takato",
+      "url": "https://www.inacity.jp/kurashi/shogaigakushu_bunka/bunkazai/takatojyoseki.html"
+    },
+    { "castle": "castle.fukashi", "url": "https://www.matsumoto-castle.jp/about/history" },
+    {
+      "castle": "castle.kaizu",
+      "url": "https://www.city.nagano.nagano.jp/documents/15471/07-02.pdf",
+      "note": "資料稱1560年築城；依規格開局清單收錄，不主張開局日已完成後世城郭。"
+    },
+    {
+      "castle": "castle.kasugayama",
+      "url": "https://www.city.joetsu.niigata.jp/site/cultural-property/cultural-property-jpn002.html"
+    },
+    {
+      "castle": "castle.tochio",
+      "url": "https://www.city.nagaoka.niigata.jp/kankou/rekishi/shiro/tochiojyoato.html"
+    },
+    { "castle": "castle.sakado", "url": "https://www.city.minamiuonuma.niigata.jp/docs/912.html" },
+    {
+      "castle": "castle.iiyama",
+      "url": "https://www.city.iiyama.nagano.jp/soshiki/shimingakusyuusien/bunkazai/sitei_bunkazai/46374",
+      "note": "原為泉氏居城；市資料另稱1564年本格築城。本批依規格收錄前身據點，不把1564年建設提前為史實。"
+    }
+  ],
+  "placeReferences": [
+    {
+      "url": "https://chimei.nabunken.go.jp/?c=reference_gou",
+      "scope": "舊地名核對，年代不同，不等同1560年疆界"
+    },
+    {
+      "url": "https://geoshape.ex.nii.ac.jp/kg/resource/K24.html",
+      "scope": "信濃舊國郡地名；資料為幕末明治邊界，不重建戰國疆界"
+    },
+    {
+      "url": "https://ys.nichibun.ac.jp/kojiruien/index.php?%E5%9C%B0%E9%83%A8%2F%E8%B6%8A%E5%BE%8C%E5%9C%8B=",
+      "scope": "越後頸城、古志、魚沼、蒲原、岩船等舊郡名"
+    }
+  ]
+}

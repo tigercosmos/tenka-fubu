@@ -132,7 +132,7 @@ tenka-fubu/
 │   │   │   ├── gameState.ts        # GameState 與實體型別（▷ 見 plan/02）
 │   │   │   ├── build.ts            # ScenarioData → 初始 GameState builder（▷ 見 plan/02、14）
 │   │   │   ├── selectors.ts        # 純函式查詢（UI／AI 共用，如 getClanArmies(state, clanId)）
-│   │   │   └── invariants.ts       # checkInvariants(state)：dev 模式每 tick 後執行（▷ 不變量清單見 plan/02）
+│   │   │   └── invariants.ts       # validateState(state)：dev 每 N tick 檢查（▷ 頻率與清單見 plan/02）
 │   │   ├── commands/
 │   │   │   ├── types.ts            # Command 聯集（▷ 見 plan/03；debug.* 子集由本文件 §3.11.3 定義）
 │   │   │   ├── validate.ts         # validateCommand(state, cmd) → CommandDispatchResult
@@ -293,7 +293,7 @@ export function runOneDay(): GameEvent[] {
   const t0 = performance.now();
   const events = advanceDay(game, commands);       // core：就地變異 game
   perfMonitor.recordTick(performance.now() - t0);  // §3.9.4
-  if (import.meta.env.DEV || debugFlags.enabled) checkInvariants(game); // §3.10.4
+  // dev-only invariant cadence and fatal handling: §3.10.4; interval: 02 §5.2
   store.setState((s) => ({ tickSeq: s.tickSeq + 1,
     session: { ...s.session, pendingCommandCount: 0 } }));
   evaluateAutoPause(events);                       // §3.5.3
@@ -769,6 +769,8 @@ jobs:
   任何輸入或恢復播放即還原 60。
 - `perfMonitor`（`src/app/` 內建小工具）維護最近 120 幀 fps 與最近 60 tick 耗時的環形緩衝，
   供除錯面板讀取。
+  fps 取自策略 rAF 排程的實際正值時間差，以總間隔計算頻率，不使用模擬 dt clamp。
+  此值不是 Pixi／GPU 實際繪製幀率；renderer 的獨立效能 gate 仍由 17 定義。
 
 ### 3.10 錯誤處理與 log 策略
 
@@ -813,10 +815,14 @@ export function setLogger(l: CoreLogger): void; // app 層於 boot 時注入
 
 #### 3.10.4 不變量檢查（dev 安全網）
 
-`core/state/invariants.ts` 匯出 `checkInvariants(state): void`，違反即擲
-`CoreError('INVARIANT_VIOLATION', ...)`。檢查清單由 `plan/02` 定義（如：金錢／兵糧／兵力非負、
-id 參照皆存在、部隊 path 節點相鄰）。只在 dev 或 `?debug=1` 時於每 tick 後執行（§3.4.4），
-prod 常規遊玩不付此成本。
+`core/state/invariants.ts` 匯出純函式 `validateState(state): Violation[]`，檢查清單由 02 §5.2 定義。
+App 在 dev build 每 `BAL.devInvariantCheckEveryDays` 個完成 tick 呼叫，定案頻率為三十。
+完成 tick 以 `meta.stateVersion` 判定，沒有增加版本的呼叫不檢查。
+正式 build 不執行；`?debug=1` 不繞過此限制，依較高優先序 02 §5.2／§5.7。
+
+若有違例，app 建立 `CoreError('INVARIANT_VIOLATION', ...)`，details 保留全部 inv、message 與 refs。
+實際已套用指令與效能紀錄先保留，違例檢查在事件呈現、月結、tickSeq、存檔與 observer 發布之前執行。
+失敗走 §3.10.2 的 fatal owner 並停止驅動器；不回滾已完成 core tick，不修改 RNG 或遊戲規則。
 
 ### 3.11 開發者除錯工具
 
@@ -824,7 +830,7 @@ prod 常規遊玩不付此成本。
 
 | 參數 | 型別／值 | 效果 |
 |---|---|---|
-| `?debug=1` | boolean | 啟用除錯模式：debug Command 合法化、面板快捷鍵、不變量檢查、效能打點 |
+| `?debug=1` | boolean | 啟用除錯模式：debug Command 合法化、面板快捷鍵、效能打點；不變量檢查只依 dev build cadence（§3.10.4） |
 | `?seed=12345` | number | 覆蓋新局亂數種子（未給則隨機；種子顯示於除錯面板） |
 | `?scenario=s1560` | string | 指定劇本 id（v1.0 只有 s1560） |
 | `?speed=x5` | GameSpeed | 開局預設速度檔位 |
@@ -850,8 +856,16 @@ prod 常規遊玩不付此成本。
      （▷ plan/04）→ `debugOverlay` 畫出路徑折線與總成本標籤；再點一次清除。
   5. **狀態檢視器**：`StateViewer.tsx` 唯讀 JSON 樹（lazy 展開，每節點展開時才讀取，
      避免序列化整棵 state）；附「複製此節點 JSON」。
+     根節點預設收合；展開的節點每次最多增加 `UI.stateViewerPageSize`（50）個可見子節點。
+     未展開的子樹不列舉內部欄位，getter 不執行；explicit copy 只序列化所選節點，根節點 copy 可包含全局。
+     同一 state 的 tickSeq 更新可見值；替換局面重置展開與複製訊息，不沿用舊局的非同步結果。
+     原生 details／summary 保留鍵盤操作，樹內焦點不觸發遊戲速度或功能列快捷鍵。
+
+     狀態雜湊僅按「計算目前狀態雜湊」時呼叫 stateHash；tick 後顯示過期，不在面板 render 自動計算。
   6. **效能**：fps、上一 tick ms、近 60 tick 平均／最大 ms、各系統分項耗時（§3.9.2）、
      實體數（城／郡／武將／部隊）、目前種子與 `tickSeq`。
+     面板開啟時每 500ms 讀取分離快照，關閉或卸載即解除計時器；不新增 rAF 迴圈或派送命令。
+     未量測的時間顯示「尚未量測」，實際零耗時仍顯示 0；實體數直接讀取目前 GameState collections。
 
 #### 3.11.3 debug Command（由本文件定義；納入 plan/03 的 Command 聯集）
 
@@ -905,6 +919,7 @@ export type PauseReason =
   | 'historicalEvent'  // 歷史事件
   | 'monthStart'       // 月初
   | 'windowHidden'     // 頁面失焦（visibilitychange）
+  | 'viewportTooSmall' // 過小 viewport；11-D27 的 app 閘門
   | 'modalOpen'        // 合戰／事件 modal 開啟（00 §5.3）
   | 'fatalError';      // CoreError 捕獲
 
@@ -920,6 +935,7 @@ export interface SessionState {
   speed: GameSpeed;                  // 目前檔位（含 'paused'）
   resumeSpeed: Exclude<GameSpeed, 'paused'>; // 恢復播放時回到的檔位
   lastPauseReason: PauseReason | null;
+  viewportBlocked: boolean;         // 非持久化；11-D27，阻擋兩種時鐘且恢復時不自動繼續
   selection: Selection;
   openModal: ModalDescriptor | null; // modal 種類與參數（▷ plan/11）
   pendingCommandCount: number;       // 佇列中未結算 Command 數（HUD 顯示）
@@ -1022,7 +1038,7 @@ export interface DebugSessionState {
 
 ```ts
 export interface PerfSnapshot {
-  fps: number;                  // 最近 120 幀平均
+  fps: number;                  // 最近 120 個策略 rAF 間隔的頻率，未量測為 0
   lastTickMs: number;           // 上一 tick 耗時
   avgTickMs: number;            // 最近 60 tick 平均
   maxTickMs: number;            // 最近 60 tick 最大
@@ -1081,7 +1097,7 @@ runOneDay():
   4. t0 = performance.now()
   5. events = core.advanceDay(game, commands)        // 00 §5.4 十三步；就地變異
   6. perfMonitor.recordTick(performance.now() - t0)
-  7. if devMode or debugFlags.enabled: checkInvariants(game)
+  7. dev build 每 BAL.devInvariantCheckEveryDays 個完成 tick：validateState(game)，違例走 fatal owner
   8. store.set({ tickSeq: +1, session.pendingCommandCount: 0 })
   9. evaluateAutoPause(events)                       // 命中設定的事件 → loop.requestPause(reason)
                                                      //   並由通知系統顯示（▷ plan/11 通知列）
@@ -1267,7 +1283,15 @@ onDprChange():
 | D18 | **`runOneDay` 捕獲致命錯誤後只寫 `session.fatalError`、不直接呼叫 `loop.stop()`；`gameLoop.ts` 的 `onFrame` 於每次 `runOneDay()` 後輪詢該欄位、非 null 時代為 `stop()`**（2026-07-11，M1-18／01-A9 實作）：§3.10.2 原文敘述為單一直線流程「捕獲 CoreError → loop.stop() → session.fatalError = {...}」，但 `src/app/bridge.ts` 不得 import `src/app/gameLoop.ts`（`gameLoop.ts` 已 import `bridge.ts` 的 `runOneDay`，回頭 import 會形成循環；本檔既有 `onAutoPauseReasons` 回呼掛鉤已是同一顧慮下的既定慣例，見 §3.4.4 段落與 bridge.ts 檔頭）。改為：`runOneDay` 的 try/catch 只呼叫 `captureFatalError`（`src/app/errors.ts`，M1-18）正規化例外並寫入 `store.getState().actions.setFatalError(...)`；`gameLoop.ts` 的 `onFrame` 迴圈條件與迴圈後皆檢查 `session.fatalError !== null`，命中時呼叫（模組內可直接參照的）`controller.stop()`。觀察行為與原文一致（tick 迴圈確實在致命錯誤發生後的下一輪停止），只是「停止」的呼叫方換成消費端而非產生端，對稱於 `ErrorBoundary`（React 渲染例外路徑，`src/app/App.tsx` 的 `onFatalError` callback 亦呼叫 `gameLoop.stop()`）——兩條獨立攔截路徑（渲染例外／`advanceDay` 例外）皆收斂到同一 `session.fatalError` 狀態；畫面呈現上 M1 階段仍以 `ErrorBoundary.tsx` 內部渲染的致命錯誤畫面為主（React 例外分支），`advanceDay` 例外路徑目前只確保迴圈停止與狀態寫入，尚未有獨立元件依 `session.fatalError` 直接渲染同一畫面（無 React 例外發生時）——此為後續里程碑可選的加強項（如抽出獨立 `FatalErrorScreen` 供 `App.tsx` 依 `session.fatalError` 直接渲染），非本輪缺陷，先記錄於此供後續參考。實作見 `src/app/bridge.ts`（`runOneDay`）、`src/app/gameLoop.ts`（`onFrame`）、`src/app/errors.ts`、`src/ui/components/ErrorBoundary.tsx`。 |
 | D19 | **M1-15／M1-16／M1-17（`store.ts`／`bridge.ts`／`gameLoop.ts`／`autoPause.ts`）實作時之五項裁決**（2026-07-11，M1-15/16/17 實作） | ①**`CommandDispatchResult.reason` 沿用 core `reasonKey` 原始值（已含 `cmd.reject.` 前綴），UI 直接 `t(reason)`**：§4.5 註解「UI 以 `t(cmd.reject.${reason})` 顯示」暗示 `reason` 為短尾碼，但 03（`src/core/commands/reasons.ts`，M1-6 已實作）之 `REJECT_REASONS` 值皆為全字串鍵（如 `'cmd.reject.notOwner'`）。依 00>02>15>系統文件，03 為已落地的迴圈機制 canonical，不回頭改動；`bridge.ts` 之 `dispatchCommand` 直接透傳 `verdict.reasonKey`／`verdict.params`，新增之 app 層專屬原因沿用同前綴慣例（如 `'cmd.reject.notBooted'`）。②**`bridge.ts` 的提交佇列改用 03 `CommandQueue`（`core/commands/queue.ts`），非 §3.4.3 示意之裸 `Command[]`**：`advanceDay` 簽章需要帶 `seq` 的 `CommandEnvelope[]`（03 §4.2），03 已提供含 seq 指派／`drain` 的完整佇列類別且檔頭明文「app 層每局持有一個實例」，直接複用；§3.4.3 pseudocode 為簡化示意、非逐字實作範本。③**`autoPause.ts` 與 `bridge.ts` 間比照 D18 之回呼註冊模式，避免三方循環 import**：`gameLoop.ts` 需 import `bridge.ts`（`runOneDay`）與 `autoPause.ts`（`installAutoPause`），若 `autoPause.ts`／`bridge.ts` 任一方回頭 import `gameLoop.ts` 取得 `loop` 單例即成循環；改為 `bridge.ts` 提供 `onAutoPauseReasons(handler)` 供 `autoPause.ts` 於 `installAutoPause(loop)` 時註冊回呼（`loop` 由呼叫端以參數傳入、非 import 取得），`runOneDay` 每 tick 結束呼叫該回呼並傳入 `TickResult.autoPauseReasons`，行為與 §5.2 步驟 9 等價。④**`gameLoop.ts` 新增 `FrameScheduler` 測試注入點（非 01 §4.2 `GameLoopController` 介面之一部分）**：實測 jsdom 之 `requestAnimationFrame` 在 `vi.useFakeTimers()` 下雖同步觸發 callback，但傳入的 `now` 時間戳既非 fake clock 虛擬時間、亦非 `performance.now()`，而是另一個測試 API 無法控制的內部時鐘來源，導致 §5.1 累加器演算法的精確毫秒邊界（如「×1 下 600ms 恰跑 1 tick」）無法在 jsdom 下驅動；`createGameLoopController(scheduler?)` 新增之可選參數僅供測試以手動 fake scheduler 精確控制 `onFrame` 呼叫時機，產品路徑（`export const gameLoop = createGameLoopController()`）不受影響、公開的 `GameLoopController` 介面形狀不變。⑤**自動暫停安裝改與 `start()`/`stop()` 同生命週期，不在模組匯入時就掛上 `document` 監聽器**：若 `installAutoPause(gameLoop)` 於 `gameLoop.ts` 模組頂層即時執行，任何（包含測試）import 本模組都會立即註冊真實 `document.visibilitychange` 監聽器，對共用單例 store 造成無法預期的副作用（M1-16 實作時因此發現一起測試污染案例：其他測試 import `createGameLoopController` 觸發此副作用，其註冊之監聽器在後續測試dispatch `visibilitychange` 事件時意外觸發，污染斷言）。改為 `controller.start()` 內以 `uninstallAutoPause ??= installAutoPause(controller)` 惰性安裝、`controller.stop()` 呼叫其解除函式；語意上「開始驅動迴圈」與「開始監聽自動暫停」同時發生，亦更符合直覺（迴圈未啟動時本不需要監看失焦）。另附帶觀察（非本輪裁決，留供未來里程碑参考）：`ModalDescriptor`（§4.1）於本文件全篇未給出完整形狀定義（僅注「▷ plan/11」），`plan/11-ui-screens.md` §4 對應者實為不同名稱之 `ModalInstance`；`Selection`（§4.1，`kind`含 `'none'`、`id: string \| null`）與 11 §4 同名型別（`kind` 不含 `'none'`、`id: string`，改以 `Selection \| null` 表達無選取）形狀亦不同。M1 範圍（`src/app/store.ts`）比照 `ModalInstance` 形狀提供最小定義、`Selection` 採本文件版本，兩型別與 11 之整合留待 `plan/18-roadmap.md` 排定之 M3-16（`src/ui/hooks/uiStore.ts`，UI 導航 store）依當時實況裁決。實作：`src/app/store.ts`、`src/app/bridge.ts`、`src/app/gameLoop.ts`、`src/app/autoPause.ts`；測試：`tests/app/*.spec.ts`、`src/ui/hooks/useGameSelector.spec.tsx`、`src/ui/hooks/useHotkeys.spec.tsx`。 |
 | D20 | **M6-V 新增 `src/ui/assets/`，素材內容與權利 metadata 歸 12 §3.7**（2026-07-14） | 地圖正式美術需要 manifest、loader 與 atlas frame map；散落在 `public/` 或元件內硬編 URL 無法驗證授權、bundle 預算與 texture 生命週期。目錄層級由本文件記錄，manifest 欄位、允許授權、atlas build／驗證與 cache/dispose 細節由 12 擁有；圖層順序仍由 04 擁有，避免 architecture 文件成為第二份美術規格。 |
+| D22 | **dev 不變量檢查依 02 的 cadence 與 build 限制**（2026-10-09） | 02 §5.2／§5.7 明定 dev 每三十 tick、正式 build 不跑，優先於本文件原有 dev 或 debug 每 tick 敘述。App 保留實際指令紀錄，檢查失敗走既有 fatal owner，停止後續 UI 與存檔發布。 |
 
 ---
+
+- **D21｜效能資料的量測所有權（2026-10-08）**：fps 由現有策略排程記錄，暫停或阻擋策略時間仍量測回呼。
+  最多保留 120 個有效間隔；第一幀、無效或不遞增的時間戳不產生假樣本。
+  loop stop／start 清除 frame 樣本，不把停止期間算作正常幀；同局 tick／system history 不因 restart 清除。
+  GameState 身分更換清除全部樣本，避免新局或讀檔把舊局耗時當成目前資料。
+  `getSnapshot(game)` 每次建立分離的 collection counts；查詢不發布 store、不快取 mutable game 或消耗 RNG。
+  此量測與面板不改模擬 dt、pipeline、GameState 或 SaveFile，也不取代 GPU gate。
 
 *本文件由 Fable 5 設計定稿；依 00 §0.5，實作期若有變更，回寫本節並註記原因。*

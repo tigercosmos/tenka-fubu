@@ -1,0 +1,237 @@
+.screen {
+  position: fixed;
+  inset: 0;
+  background: var(--surface-base);
+  color: var(--text-primary);
+}
+.hud {
+  position: absolute;
+  inset: 0.5rem 0.75rem auto;
+  z-index: var(--z-hud);
+  display: flex;
+  align-items: center;
+  height: max(40px, 3rem);
+  max-width: calc(100vw - 1.5rem);
+  background: var(--surface-command);
+  color: var(--text-inverse);
+  border: 1px solid color-mix(in srgb, var(--command-gold) 24%, var(--surface-command));
+  border-radius: 2px;
+  box-shadow: var(--shadow-1);
+}
+.resourceViewport {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+.resourceViewport > * {
+  flex: 0 0 auto;
+}
+.resourceViewport:focus-visible {
+  outline: 2px solid var(--command-gold);
+  outline-offset: -2px;
+}
+.commandBar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0 0.625rem;
+  border-left: 1px solid rgb(223 198 149 / 28%);
+  background: rgb(10 22 30 / 28%);
+  align-self: stretch;
+}
+.commandBar > [role='status'] {
+  color: var(--command-gold);
+  font-size: max(12px, var(--font-size-sm));
+  white-space: nowrap;
+  max-width: 16rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.crest {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  color: var(--text-inverse);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgb(223 198 149 / 18%);
+  padding: 0.375rem 0;
+  font: inherit;
+  cursor: pointer;
+}
+.crest:hover:not(:disabled) {
+  background: var(--surface-command-raised);
+}
+.crest:disabled {
+  cursor: default;
+  color: var(--command-muted);
+  opacity: 0.5;
+}
+.clanName {
+  font-family: var(--font-family-display);
+  font-size: max(12px, 0.75rem);
+  line-height: max(16px, 1rem);
+  letter-spacing: 0.08em;
+  max-width: 3.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.crest svg {
+  width: max(32px, 2rem);
+  height: max(32px, 2rem);
+  flex-shrink: 0;
+}
+
+.rail {
+  position: fixed;
+  z-index: var(--z-hud);
+  left: 0.5rem;
+  top: 4rem;
+  width: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  background: var(--surface-command);
+  color: var(--text-inverse);
+  border: 1px solid color-mix(in srgb, var(--command-gold) 24%, var(--surface-command));
+  border-radius: 2px;
+  box-shadow: var(--shadow-1);
+  max-height: calc(100dvh - 4.75rem);
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.rail > * {
+  flex-shrink: 0;
+}
+.rail > button {
+  min-width: 32px;
+  min-height: 32px;
+}
+.rail > button.crest {
+  min-height: max(72px, 4.5rem);
+}
+.rail > button:not(.crest) {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.125rem;
+  padding: 0.375rem 0;
+  color: var(--command-muted);
+  background: transparent;
+  border-color: transparent;
+  border-radius: 2px;
+}
+.rail > button:not(.crest) svg {
+  width: max(24px, 1.75rem);
+  height: max(24px, 1.75rem);
+  flex-shrink: 0;
+  opacity: 0.88;
+}
+.rail > button:not(.crest)::after {
+  content: attr(aria-label);
+  font-size: max(12px, var(--font-size-xs));
+  line-height: 1.25;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+.rail > button.realmEntry::after {
+  content: none;
+}
+.realmEntry {
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background var(--duration-fast);
+}
+.realmEntry svg {
+  width: 2.625rem;
+  height: 2.625rem;
+}
+.realmLabel {
+  display: flex;
+  flex-direction: column;
+  font-size: max(12px, var(--font-size-xs));
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+}
+.railSeparator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  min-height: max(16px, 1rem);
+  margin: 0.125rem 0;
+}
+.railSeparator::before,
+.railSeparator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgb(223 198 149 / 18%);
+}
+.railGroupLabel {
+  flex: 0 0 auto;
+  color: var(--command-gold);
+  font-size: max(12px, var(--font-size-xs));
+  line-height: 1.25;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.rail > button:not(.crest):hover:not(:disabled) {
+  color: var(--command-gold);
+  background: var(--surface-command-raised);
+  border-color: rgb(223 198 149 / 40%);
+}
+.rail > button:focus-visible {
+  outline-color: var(--command-gold);
+}
+.rail > button[aria-pressed='true'],
+.rail > button[aria-pressed='true']:hover:not(:disabled) {
+  color: var(--text-inverse);
+  background: var(--surface-command-raised);
+  border-color: rgb(223 198 149 / 40%);
+  box-shadow: inset 3px 0 var(--brand-red);
+}
+.commandBar button {
+  min-width: 32px;
+  min-height: 32px;
+  color: var(--text-inverse);
+  background: var(--surface-command);
+  border-color: rgb(223 198 149 / 28%);
+  border-radius: 2px;
+}
+.commandBar > button {
+  padding: 0;
+  width: max(32px, 2rem);
+  height: max(32px, 2rem);
+}
+.commandBar button:hover:not(:disabled) {
+  color: var(--command-gold);
+  background: var(--surface-command-raised);
+}
+.commandBar button[aria-pressed='true'],
+.commandBar button[aria-pressed='true']:hover:not(:disabled) {
+  color: var(--text-inverse);
+  background: var(--brand-red);
+  border-color: var(--brand-red);
+}

@@ -12,6 +12,7 @@ export interface TabViewProps {
   onChange: (id: string) => void;
   variant?: 'line' | 'contained';
   keepMounted?: boolean;
+  sticky?: boolean;
   children: ReactNode;
 }
 export interface TabPaneProps {
@@ -27,6 +28,7 @@ function TabViewRoot({
   onChange,
   variant = 'line',
   keepMounted = false,
+  sticky = false,
   children,
 }: TabViewProps) {
   const prefix = useId();
@@ -43,14 +45,16 @@ function TabViewRoot({
       const tab = enabled[next];
       if (tab) {
         onChange(tab.id);
-        document.getElementById(`${prefix}-tab-${tab.id}`)?.focus();
+        const target = document.getElementById(`${prefix}-tab-${tab.id}`);
+        if (sticky) target?.focus({ preventScroll: true });
+        else target?.focus();
       }
     }
   };
   const panes = Children.toArray(children).filter(isValidElement<TabPaneProps>);
   return (
     <div className={`${styles.root} ${styles[variant]}`}>
-      <div role="tablist" className={styles.tabs}>
+      <div role="tablist" className={`${styles.tabs}${sticky ? ` ${styles.sticky}` : ''}`}>
         {tabs.map((tab) => (
           <button
             type="button"

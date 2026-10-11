@@ -1,0 +1,232 @@
+{
+  "formatVersion": 1,
+  "appVersion": "0.0.0-mini",
+  "scenarioId": "mini",
+  "seed": 42,
+  "playerClanId": "clan.alpha",
+  "balanceHash": "824f87bf28bccf9a",
+  "truncated": false,
+  "finalDay": 61,
+  "finalHash": "5edcb8d9f97f95b4",
+  "entries": [
+    {
+      "day": 1,
+      "seq": 0,
+      "command": {
+        "type": "setCastleControl",
+        "clanId": "clan.alpha",
+        "castleId": "castle.a2",
+        "directControl": false
+      }
+    },
+    {
+      "day": 24,
+      "seq": 0,
+      "command": {
+        "type": "setConscriptPolicy",
+        "clanId": "clan.beta",
+        "castleId": "castle.b1",
+        "policy": "low"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 1,
+      "command": {
+        "type": "buildFacility",
+        "clanId": "clan.beta",
+        "castleId": "castle.b1",
+        "facilityTypeId": "fac.ichi"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 2,
+      "command": {
+        "type": "enactPolicy",
+        "clanId": "clan.beta",
+        "policyId": "pol.meyasubako"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 3,
+      "command": {
+        "type": "setDevelopFocus",
+        "clanId": "clan.beta",
+        "districtId": "dist.b1y",
+        "focus": "commerce"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 4,
+      "command": {
+        "type": "setDevelopFocus",
+        "clanId": "clan.beta",
+        "districtId": "dist.b1x",
+        "focus": "commerce"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 5,
+      "command": {
+        "type": "setDevelopFocus",
+        "clanId": "clan.beta",
+        "districtId": "dist.b2x",
+        "focus": "commerce"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 24,
+      "seq": 6,
+      "command": {
+        "type": "setDevelopFocus",
+        "clanId": "clan.beta",
+        "districtId": "dist.b2y",
+        "focus": "commerce"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 25,
+      "seq": 0,
+      "command": {
+        "type": "startDiploWork",
+        "clanId": "clan.beta",
+        "target": "clan.alpha",
+        "executorId": "off.beta-lord"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 31,
+      "seq": 0,
+      "command": {
+        "type": "setConscriptPolicy",
+        "clanId": "clan.alpha",
+        "castleId": "castle.a2",
+        "policy": "low"
+      },
+      "authority": {
+        "kind": "castle",
+        "clanId": "clan.alpha",
+        "castleId": "castle.a2"
+      }
+    },
+    {
+      "day": 31,
+      "seq": 1,
+      "command": {
+        "type": "buildFacility",
+        "clanId": "clan.alpha",
+        "castleId": "castle.a2",
+        "facilityTypeId": "fac.ichi"
+      },
+      "authority": {
+        "kind": "castle",
+        "clanId": "clan.alpha",
+        "castleId": "castle.a2"
+      }
+    },
+    {
+      "day": 31,
+      "seq": 2,
+      "command": {
+        "type": "setDevelopFocus",
+        "clanId": "clan.alpha",
+        "districtId": "dist.a2x",
+        "focus": "commerce"
+      },
+      "authority": {
+        "kind": "castle",
+        "clanId": "clan.alpha",
+        "castleId": "castle.a2"
+      }
+    },
+    {
+      "day": 31,
+      "seq": 3,
+      "command": {
+        "type": "setDevelopFocus",
+        "clanId": "clan.alpha",
+        "districtId": "dist.a2y",
+        "focus": "commerce"
+      },
+      "authority": {
+        "kind": "castle",
+        "clanId": "clan.alpha",
+        "castleId": "castle.a2"
+      }
+    },
+    {
+      "day": 32,
+      "seq": 0,
+      "command": {
+        "type": "setCastleControl",
+        "clanId": "clan.alpha",
+        "castleId": "castle.a2",
+        "directControl": true
+      }
+    },
+    {
+      "day": 54,
+      "seq": 0,
+      "command": {
+        "type": "setConscriptPolicy",
+        "clanId": "clan.beta",
+        "castleId": "castle.b2",
+        "policy": "low"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    },
+    {
+      "day": 54,
+      "seq": 1,
+      "command": {
+        "type": "buildFacility",
+        "clanId": "clan.beta",
+        "castleId": "castle.b1",
+        "facilityTypeId": "fac.inkyo"
+      },
+      "authority": {
+        "kind": "clan",
+        "clanId": "clan.beta"
+      }
+    }
+  ]
+}

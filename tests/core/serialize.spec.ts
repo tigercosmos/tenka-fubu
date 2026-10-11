@@ -64,11 +64,22 @@ function buildState(): GameState {
       fired: {},
       cooldownUntil: {},
       pendingChoiceEventId: null,
+      pendingChoiceBinding: null,
+      hookSignals: [],
       flags: {},
       tenkabitoStreakMonths: 0,
       stats: { battlesFought: 0, battlesWon: 0, maxCastles: 0, maxKokudaka: 0 },
     },
-    ai: { personas: {}, clans: {}, intentLog: [], deferredPhases: [] },
+    ai: {
+      personas: {},
+      clans: {},
+      intentLog: [],
+      deferredPhases: [],
+      pendingOrders: [],
+      allAi: false,
+      councilJobs: [],
+      lastCouncilEnrollment: {},
+    },
     reports: [],
   };
 }

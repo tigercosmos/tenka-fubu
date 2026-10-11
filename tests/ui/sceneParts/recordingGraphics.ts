@@ -21,6 +21,9 @@ export class RecordingGraphics {
   circle(...a: unknown[]): this {
     return this.rec('circle', a);
   }
+  ellipse(x: number, y: number, radiusX: number, radiusY: number): this {
+    return this.rec('ellipse', [x, y, radiusX, radiusY]);
+  }
   arc(...a: unknown[]): this {
     return this.rec('arc', a);
   }

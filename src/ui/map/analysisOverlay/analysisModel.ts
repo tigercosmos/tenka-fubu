@@ -1,7 +1,7 @@
 import type { MapStaticData, MapViewState } from '../mapViewTypes';
 import type { TerritoryGrid } from '../territoryGrid';
 import { armyWorldPos } from '../dirty';
-import { edgePolyline } from '../roads/roadsDraw';
+import { edgeVisualPolyline } from '../roads/roadGeometry';
 import { MAPVIEW } from '../mapViewConfig';
 import { clanDyeNum, TOKENS_NUM } from '@ui/styles/tokens';
 
@@ -47,7 +47,7 @@ export function buildAnalysisMarks(
   const marks: AnalysisMark[] = [];
   if (mode === 'roadCapacity') {
     for (const edge of data.graph.edges.values()) {
-      const points = edgePolyline(edge, data.graph);
+      const points = edgeVisualPolyline(edge, data.graph);
       if (points === null) continue;
       marks.push({
         points: points.flatMap((point) => [point.x, point.y]),
