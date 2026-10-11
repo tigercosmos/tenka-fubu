@@ -1,0 +1,80 @@
+{
+  "testCommit": "29da33d7d6ddd7a89f6d9996f606bf2b1351cd60",
+  "applicationPolicyCommit": "2cfb2d6",
+  "pixiVersion": "8.19.0",
+  "vitestVersion": "2.1.9",
+  "localNode": "22.17.0",
+  "sim3Node": "22.23.3",
+  "localGreen": {
+    "exit": 0,
+    "passed": 3
+  },
+  "sim3Green": {
+    "exit": 0,
+    "passed": 3
+  },
+  "sim3DeliberatePreferenceControl": {
+    "exit": 1,
+    "passed": 1,
+    "failed": 2,
+    "mutation": "Replace preferWorkers: false with preferWorkers: true in isolated test copy only.",
+    "failure": "Both main-fetch assertions see zero fetch calls. Worker-route positive control still passes.",
+    "restoration": "Restore exact accepted test bytes before GREEN."
+  },
+  "fullTypecheckExit": 0,
+  "eslintExit": 0,
+  "raw": [
+    {
+      "path": "tenka-pixi-bitmap-red-control.log.gz",
+      "uncompressedBytes": 1653,
+      "uncompressedSha256": "d27eb40a926a0a929eba1e83ea3f49cf452c2b9f6742f5107de6c0a09140079f",
+      "gzipSha256": "0f7071dfcfc840682255b88b248c29b0ad51c26e7e8fcd0c1fb0cdefa3d3d0da"
+    },
+    {
+      "path": "tenka-pixi-bitmap-linux-green.log.gz",
+      "uncompressedBytes": 295,
+      "uncompressedSha256": "d910a189466669297828b0f3cc38d766cf6b2e714a7ac12755a599d273f48fe3",
+      "gzipSha256": "85bbb8f0afe636e9b8f2cd4fbd57c7236af8e697ddf2754837d706cb71ce1888"
+    },
+    {
+      "path": "tenka-pixi-bitmap-green-final.log.gz",
+      "uncompressedBytes": 293,
+      "uncompressedSha256": "e38cee0e4eda38c38f063b1599f7003732c8eb0ac161b00ced03c4c73a89b1c9",
+      "gzipSha256": "df0d502b77b9e6d187b23d8d5b91af4614251ee07e8faf0dcf9716de7c1c35c6"
+    },
+    {
+      "path": "tenka-pixi-bitmap-types-final.log.gz",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    }
+  ],
+  "sources": [
+    {
+      "path": "tests/ci/assetBitmapPreference.spec.ts",
+      "bytes": 5978,
+      "sha256": "e06f330ecdb3f58356d3a0bd037e74d0894aa2d62096a61eb5b98ca7d6020e14"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/assets/Assets.mjs",
+      "bytes": 25895,
+      "sha256": "42bfe5c4da036ab540691e581d891873b43eb56a67e5b44575785b10516275e2"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/assets/loader/parsers/textures/loadTextures.mjs",
+      "bytes": 2822,
+      "sha256": "8f20c4b19f52e0f677c221fce2a77c9f1e35161a65bcd0babb39aeccb7680b5b"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/assets/loader/workers/WorkerManager.mjs",
+      "bytes": 5702,
+      "sha256": "db6264e53585861314af18c866eaf64807759c7bb6447ca4d5afec882a1ca41d"
+    }
+  ],
+  "limitations": [
+    "Decoder is a controlled ImageBitmap stub, not actual browser pixel decoding.",
+    "Real parser, Texture, ImageSource and unload behavior are exercised.",
+    "Deliberate RED is sensitivity control, not a claim that unchanged production source fails.",
+    "No memory, performance or native remount claim derives from this unit test."
+  ]
+}
