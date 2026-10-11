@@ -127,22 +127,51 @@ test.describe('native quiet river surface', () => {
           anchors: diagnostics.castleRendering.nodes.map((node) => ({
             screen: node.anchor,
             world: Object.values(state.castles).find((castle) => castle.id === node.id)!.pos,
+            scene: diagnostics.elevationRendering.nodes.find((entry) => entry.id === node.id)!
+              .scene,
           })),
         };
       });
-      const a = scene.anchors[0]!,
-        b = scene.anchors.find((entry) => entry.world.x !== a.world.x)!;
-      expect(b, 'two actual rendered castle anchors establish projection').toBeDefined();
-      const scale = (b.screen.x - a.screen.x) / (b.world.x - a.world.x);
+      // Water paint stays in protected flat coordinates. Its separately observed
+      // lake vertices determine the camera, without using the river pixels under
+      // test or treating elevated castle anchors as canonical coordinates.
+      const lake = scene.diagnostics.waterRendering.lakes[0]!;
+      expect(lake.worldPoints.length).toBeGreaterThan(1);
+      const reference = lake.worldPoints.findIndex((point) => point.x !== lake.worldPoints[0]!.x);
+      expect(reference).toBeGreaterThan(0);
+      const worldAnchor = lake.worldPoints[0]!;
+      const screenAnchor = lake.points[0]!;
+      const scale =
+        (lake.points[reference]!.x - screenAnchor.x) /
+        (lake.worldPoints[reference]!.x - worldAnchor.x);
       expect(scale).toBeGreaterThan(0);
       const project = (p: Point) => ({
-        x: scene.origin.x + a.screen.x + (p.x - a.world.x) * scale,
-        y: scene.origin.y + a.screen.y + (p.y - a.world.y) * scale,
+        x: scene.origin.x + screenAnchor.x + (p.x - worldAnchor.x) * scale,
+        y: scene.origin.y + screenAnchor.y + (p.y - worldAnchor.y) * scale,
       });
       const unproject = (p: Point) => ({
-        x: a.world.x + (p.x - scene.origin.x - a.screen.x) / scale,
-        y: a.world.y + (p.y - scene.origin.y - a.screen.y) / scale,
+        x: worldAnchor.x + (p.x - scene.origin.x - screenAnchor.x) / scale,
+        y: worldAnchor.y + (p.y - scene.origin.y - screenAnchor.y) / scale,
       });
+      for (const observedLake of scene.diagnostics.waterRendering.lakes) {
+        expect(observedLake.points).toHaveLength(observedLake.worldPoints.length);
+        observedLake.worldPoints.forEach((point, i) => {
+          const mapped = project(point);
+          expect(mapped.x).toBeCloseTo(scene.origin.x + observedLake.points[i]!.x, 6);
+          expect(mapped.y).toBeCloseTo(scene.origin.y + observedLake.points[i]!.y, 6);
+        });
+      }
+      for (const anchor of scene.anchors) {
+        const height = anchor.world.y - anchor.scene.y;
+        expect(height).toBeGreaterThanOrEqual(-1e-8);
+        expect(height).toBeLessThanOrEqual(
+          scene.diagnostics.elevationRendering.field?.maximumHeight ?? 0,
+        );
+        expect(anchor.scene.x).toBeCloseTo(anchor.world.x - 0.18 * height, 8);
+        const mapped = project(anchor.scene);
+        expect(mapped.x).toBeCloseTo(scene.origin.x + anchor.screen.x, 6);
+        expect(mapped.y).toBeCloseTo(scene.origin.y + anchor.screen.y, 6);
+      }
       const roads = scene.roads.map((road) => {
         const display = DEBUG_VISUAL_ROAD_DISPLAY[road.id];
         const flat = display?.waypoints ?? [];
