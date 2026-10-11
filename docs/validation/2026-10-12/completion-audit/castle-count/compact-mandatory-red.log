@@ -1,0 +1,45 @@
+stderr | src/ui/map/sceneParts/castleNameplateContained.spec.ts
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ❯ |ui| src/ui/map/sceneParts/castleNameplateContained.spec.ts (5 tests | 2 failed | 3 skipped) 11ms
+   × actual original-envelope compact presentation > retains the mandatory numeric channel and readable full bounds in compact main labels 9ms
+     → expected false to be true // Object.is equality
+   × actual original-envelope compact presentation > retains the mandatory numeric channel and readable full bounds in compact branch labels 1ms
+     → expected false to be true // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL |ui|  src/ui/map/sceneParts/castleNameplateContained.spec.ts > actual original-envelope compact presentation > retains the mandatory numeric channel and readable full bounds in compact main labels
+ FAIL |ui|  src/ui/map/sceneParts/castleNameplateContained.spec.ts > actual original-envelope compact presentation > retains the mandatory numeric channel and readable full bounds in compact branch labels
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/ui/map/sceneParts/castleNameplateContained.spec.ts:50:30
+     48|       const fonts = [name.style.fontSize, troops.style.fontSize];
+     49|       part.setCompactPresentation(true);
+     50|       expect(troops.visible).toBe(true);
+       |                              ^
+     51|       expect([name.text, troops.text]).toEqual(['駿府城', '3,400']);
+     52|       expect([name.style.fontSize, troops.style.fontSize]).toEqual(fon…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 3 skipped (5)
+   Start at  05:36:29
+   Duration  765ms (transform 33ms, setup 82ms, collect 185ms, tests 11ms, environment 313ms, prepare 32ms)

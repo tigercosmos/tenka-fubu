@@ -1,0 +1,9 @@
+
+Running 4 tests using 1 worker
+
+  ✓  1 [chromium] › e2e/district-material-layout.spec.ts:27:1 › native district seals keep visible owner accents, quiet bodies and physical district picking without gameplay changes (11.6s)
+  ✓  2 [chromium] › e2e/model-hierarchy-layout.spec.ts:163:3 › native original model hierarchy › painted main and branch castle frames have the approved world widths at three UI scales, without covering mandatory channels (4.8s)
+  ✓  3 [chromium] › e2e/model-hierarchy-layout.spec.ts:259:3 › native original model hierarchy › actual native lake polygons preserve canonical anchors, bounds and river banks while rounding the displayed scene (2.2s)
+  ✓  4 [chromium] › e2e/model-hierarchy-layout.spec.ts:367:3 › native original model hierarchy › enlarged artwork leaves occupied-army priority, unoccupied castle picking and far vector profiles intact (2.8s)
+
+  4 passed (22.4s)

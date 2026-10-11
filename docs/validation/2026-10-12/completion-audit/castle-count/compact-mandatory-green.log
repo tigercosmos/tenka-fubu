@@ -1,0 +1,106 @@
+
+ RUN  v2.1.9 /Users/tigercosmos/tenka-fubu
+
+stderr | src/ui/map/sceneParts/castleNameplateContained.spec.ts
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+stderr | src/ui/map/sceneParts/castleNameplateStyle.spec.ts
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+stderr | src/ui/map/sceneParts/castleNameplateOffset.spec.ts
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+stderr | src/ui/map/sceneParts/castleNameplateFloating.spec.ts
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+stderr | src/ui/map/sceneParts/castleNameplateHierarchy.spec.ts
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+stderr | src/ui/map/sceneParts/castleNameplateContent.spec.ts
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |ui| src/ui/map/sceneParts/castleNameplateStyle.spec.ts (2 tests) 9ms
+ ✓ |ui| src/ui/map/sceneParts/castleNameplateHierarchy.spec.ts (4 tests) 11ms
+ ✓ |ui| src/ui/map/sceneParts/castleNameplateOffset.spec.ts (4 tests) 13ms
+ ✓ |ui| src/ui/map/sceneParts/castleNameplateFloating.spec.ts (4 tests) 14ms
+ ✓ |ui| src/ui/map/sceneParts/castleNameplateContained.spec.ts (5 tests) 21ms
+ ✓ |ui| src/ui/map/sceneParts/castleNameplateContent.spec.ts (3 tests) 45ms
+stderr | src/ui/map/mapRendererDirty.spec.ts
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |ui| src/ui/map/mapRendererDirty.spec.ts (123 tests) 4257ms
+
+ Test Files  7 passed (7)
+      Tests  145 passed (145)
+   Start at  05:37:04
+   Duration  5.92s (transform 737ms, setup 977ms, collect 2.92s, tests 4.37s, environment 3.21s, prepare 471ms)

@@ -1,0 +1,54 @@
+
+> tenka-fubu@0.0.0 validate:bundle
+> tsx tools/ci/bundle-budget.ts
+
+{
+  "initial": {
+    "files": [
+      "assets/index-DLKO63wR.js",
+      "assets/vendor-pixi-DK5mTNRz.js",
+      "assets/vendor-react-BdZgHC1P.js"
+    ],
+    "sizes": [
+      {
+        "file": "assets/index-DLKO63wR.js",
+        "rawBytes": 1412066,
+        "gzipBytes": 416078
+      },
+      {
+        "file": "assets/vendor-pixi-DK5mTNRz.js",
+        "rawBytes": 568559,
+        "gzipBytes": 164838
+      },
+      {
+        "file": "assets/vendor-react-BdZgHC1P.js",
+        "rawBytes": 141664,
+        "gzipBytes": 45479
+      }
+    ],
+    "bytes": 626395
+  },
+  "scenario": {
+    "files": [
+      "assets/index-CJ9aA0lK.js"
+    ],
+    "sizes": [
+      {
+        "file": "assets/index-CJ9aA0lK.js",
+        "rawBytes": 588182,
+        "gzipBytes": 100848
+      }
+    ],
+    "bytes": 100848
+  },
+  "font": {
+    "file": "fonts/noto-serif-tc-subset.woff2",
+    "bytes": 355600
+  },
+  "limits": {
+    "initial": 819200,
+    "scenario": 1228800,
+    "font": 2097152
+  },
+  "passed": true
+}

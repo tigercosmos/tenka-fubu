@@ -1,0 +1,10 @@
+
+ RUN  v2.1.9 /tmp/tenka-20261012-sim3-rule-audit-2474139
+
+ ✓ |core| tests/core/tactics.spec.ts (20 tests) 26ms
+ ✓ |core| tests/ci/balanceSpecAudit.spec.ts (57 tests) 185ms
+
+ Test Files  2 passed (2)
+      Tests  77 passed (77)
+   Start at  05:30:43
+   Duration  670ms (transform 217ms, setup 0ms, collect 609ms, tests 211ms, environment 0ms, prepare 89ms)

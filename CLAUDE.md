@@ -1,12 +1,13 @@
 # 天下布武（tenka-fubu）— 給 coding session 的專案說明
 
 瀏覽器單機戰國大戰略遊戲（向《信長之野望·新生》致敬的非商業同人作品）。
-純前端 SPA：TypeScript strict＋React 18＋Vite＋Zustand＋PixiJS 8，部署 GitHub Pages。
+純前端 SPA：TypeScript strict＋React 18＋Vite＋Zustand＋PixiJS 8，搭配 Rust WASM 路徑核心與 Web Worker 模擬，部署 GitHub Pages。
 
 ## 架構鐵律（違反即 CI 紅燈，不得繞過）
 
-1. `src/core/` 是純 TypeScript 狀態機，禁止 import React／Pixi／DOM API；
-   禁止 `Math.random`／`Date.now`（一律用 `src/core/rng.ts` 的五流 mulberry32）。
+1. `src/core/` 是純狀態機，禁止 import React／Pixi／DOM API；
+   Rust 路徑核心位於 `rust/engine/`，經明確 WASM 介面供 core 使用，Worker 的載入與生命週期由 app 層持有。
+   禁止 `Math.random`／`Date.now`（一律用 `src/core/rng.ts` 的五流 mulberry32）；每日十三步結算順序不變。
 2. 一切狀態變更走 Command 管道：UI 只 dispatch Command 與訂閱 selector；
    同（劇本、種子、Command 紀錄）必須重放出 bit-exact 相同狀態（golden test 把關）。
 3. 全部平衡數值命名 `BAL.camelCaseName`，唯一定義於 `src/core/balance.ts`；
@@ -25,6 +26,8 @@
 | `npm test` / `npm run test:core` / `npm run test:ui` | Vitest 全部／core／ui                                 |
 | `npm run validate:data`                              | 劇本資料 zod 驗證＋簡體字掃描＋字型涵蓋率             |
 | `npm run golden:update`                              | 重寫 golden 快照（僅限刻意的數值變更，PR 須說明）     |
+| `npm run wasm:build`                                 | 使用鎖定 Rust 工具鏈重建 WASM 核心與來源 manifest     |
+| `npm run wasm:check`                                 | 驗證來源、WASM 產物與 ABI；dev／build 前自動執行      |
 | `npm run e2e`                                        | build＋Playwright smoke（chromium）                   |
 | `npm run bench` / `npm run simulate`                 | 效能取樣／無頭全 AI 平衡模擬（M7 起）                 |
 
@@ -38,6 +41,8 @@
   **絕對不要修改 `plan/00-foundations.md`。** 不得留下 TBD。
 - 每完成一個任務：commit 訊息帶任務 ID（如 `[M3-8]`，格式見 `plan/18-roadmap.md` §3.13）；
   每完成一個里程碑：執行 `plan/18-roadmap.md` §3.14 checkpoint 程序。
+- 使用者要求的 Rust WASM／Worker 架構裁決見 `plan/01-architecture.md` §8 D22。
+  正式流程不在 WASM 或 Worker 載入失敗時悄悄改用同步後端；TypeScript 路徑實作保留作一致性參考。
 
 ## 目前進度
 

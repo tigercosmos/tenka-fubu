@@ -1,0 +1,34 @@
+
+Running 1 test using 1 worker
+
+  ✘  1 [chromium] › e2e/castle-ribbon-readability.spec.ts:22:1 › loaded castle name and troop text have separate seal space without changing paused core (1.8s)
+
+
+  1) [chromium] › e2e/castle-ribbon-readability.spec.ts:22:1 › loaded castle name and troop text have separate seal space without changing paused core
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      50 |       for (const rect of Object.values(castle.content)) {
+      51 |         expect(Object.values(rect).every(Number.isFinite)).toBe(true);
+    > 52 |         expect(rect.width).toBeGreaterThan(0);
+         |                            ^
+      53 |         expect(rect.height).toBeGreaterThan(0);
+      54 |       }
+      55 |       expect(area(castle.content.seal, castle.content.name), `${castle.id}: seal/name`).toBe(0);
+        at /tmp/tenka-20261012-sim2-browser/e2e/castle-ribbon-readability.spec.ts:52:28
+
+    Error Context: test-results/castle-ribbon-readability--402f1-ithout-changing-paused-core-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/castle-ribbon-readability--402f1-ithout-changing-paused-core-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/castle-ribbon-readability--402f1-ithout-changing-paused-core-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › e2e/castle-ribbon-readability.spec.ts:22:1 › loaded castle name and troop text have separate seal space without changing paused core

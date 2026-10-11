@@ -1,0 +1,14 @@
+
+ RUN  v2.1.9 /Users/tigercosmos/tenka-fubu
+
+ ✓ |core| tests/core/tactics.spec.ts (20 tests) 18ms
+ ✓ |core| tests/core/military.spec.ts (69 tests) 44ms
+ ✓ |core| tests/core/siegeTraitEffects.spec.ts (6 tests) 28ms
+ ✓ |core| tests/core/fieldCombatMerit.spec.ts (20 tests) 60ms
+ ✓ |core| tests/core/siegeMerit.spec.ts (4 tests) 37ms
+ ✓ |core| tests/core/siegeEffectiveStats.spec.ts (4 tests) 45ms
+
+ Test Files  6 passed (6)
+      Tests  123 passed (123)
+   Start at  05:30:08
+   Duration  1.04s (transform 430ms, setup 0ms, collect 1.05s, tests 231ms, environment 1ms, prepare 166ms)

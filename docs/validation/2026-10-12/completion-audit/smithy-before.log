@@ -1,0 +1,93 @@
+
+> tenka-fubu@0.0.0 test
+> vitest run --passWithNoTests --project core tests/core/tactics.spec.ts tests/core/siegeEffectiveStats.spec.ts --minWorkers=2 --maxWorkers=2
+
+
+ RUN  v2.1.9 /tmp/tenka-2474139-sim1-smithy-before
+
+ ❯ |core| tests/core/tactics.spec.ts (20 tests | 3 failed) 25ms
+   × completed origin smithy attack support > strengthens actual field/tactical power while retaining the documented cheap AI approximation 5ms
+     → expected 1530 to be close to 1606.5, received difference is 76.5, but expected 5e-13
+   × completed origin smithy attack support > queries the completed owned origin through construction, capture, recapture and demolition 1ms
+     → expected 1530 to be close to 1606.5, received difference is 76.5, but expected 5e-13
+   × completed origin smithy attack support > applies exactly one smithy factor to default and supplied ranged tactic attack 3ms
+     → expected { Object (applied, damageDealt, ...) } to match object { applied: true, damageDealt: 40 }
+(2 matching properties omitted from actual)
+ ❯ |core| tests/core/siegeEffectiveStats.spec.ts (4 tests | 1 failed) 43ms
+   × completed origin smithy assault support > increases actual assault defender losses once and leaves counterattack losses unchanged 5ms
+     → expected 11 to be 12 // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL |core|  tests/core/siegeEffectiveStats.spec.ts > completed origin smithy assault support > increases actual assault defender losses once and leaves counterattack losses unchanged
+AssertionError: expected 11 to be 12 // Object.is equality
+
+- Expected
++ Received
+
+- 12
++ 11
+
+ ❯ tests/core/siegeEffectiveStats.spec.ts:123:68
+    121|       Math.round(power * BAL.assaultDefenderLossRate),
+    122|     );
+    123|     expect(beforeDefenders - boosted.castles[CASTLE_A2]!.soldiers).toB…
+       |                                                                    ^
+    124|       Math.round(power * 1.05 * BAL.assaultDefenderLossRate),
+    125|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL |core|  tests/core/tactics.spec.ts > completed origin smithy attack support > strengthens actual field/tactical power while retaining the documented cheap AI approximation
+AssertionError: expected 1530 to be close to 1606.5, received difference is 76.5, but expected 5e-13
+ ❯ tests/core/tactics.spec.ts:453:53
+    451|     const before = structuredClone(state);
+    452|     const boosted = evaluate();
+    453|     boosted.forEach((value, index) => expect(value).toBeCloseTo(plain[…
+       |                                                     ^
+    454|     expect([estArmyPower(state, army), estCastlePower(state, castle)])…
+    455|     expect(state).toEqual(before);
+ ❯ tests/core/tactics.spec.ts:453:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL |core|  tests/core/tactics.spec.ts > completed origin smithy attack support > queries the completed owned origin through construction, capture, recapture and demolition
+AssertionError: expected 1530 to be close to 1606.5, received difference is 76.5, but expected 5e-13
+ ❯ tests/core/tactics.spec.ts:481:56
+    479|     castle.buildQueue = [];
+    480|     castle.facilities.push('fac.kajiba' as FacilityTypeId);
+    481|     evaluate().forEach((value, index) => expect(value).toBeCloseTo(pla…
+       |                                                        ^
+    482|     castle.ownerClanId = CLAN_BETA;
+    483|     expect(evaluate()).toEqual(plain);
+ ❯ tests/core/tactics.spec.ts:481:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL |core|  tests/core/tactics.spec.ts > completed origin smithy attack support > applies exactly one smithy factor to default and supplied ranged tactic attack
+AssertionError: expected { Object (applied, damageDealt, ...) } to match object { applied: true, damageDealt: 40 }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  Object {
+    "applied": true,
+-   "damageDealt": 40,
++   "damageDealt": 38,
+  }
+
+ ❯ tests/core/tactics.spec.ts:513:22
+    511|       order('tac.volley', boosted.target.id),
+    512|     );
+    513|     expect(defaults).toMatchObject({ applied: true, damageDealt: expec…
+       |                      ^
+    514|     expect(boosted.state.rng).toEqual(rng);
+    515|     const supplied = structuredClone(prepared);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+ Test Files  2 failed (2)
+      Tests  4 failed | 20 passed (24)
+   Start at  05:30:43
+   Duration  771ms (transform 486ms, setup 0ms, collect 910ms, tests 68ms, environment 0ms, prepare 46ms)

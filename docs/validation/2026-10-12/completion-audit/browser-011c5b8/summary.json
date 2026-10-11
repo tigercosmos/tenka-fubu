@@ -1,0 +1,173 @@
+{
+  "normal-x5-worker-paced-sync-responsiveness.json": {
+    "sha256Uncompressed": "dff5448615b6244ccf186ba82619630822b2f6f390e048cea558ffaf81e56d29",
+    "rows": [
+      {
+        "backend": "worker",
+        "days": 29,
+        "durationMs": 3604.9000000953674,
+        "longTasks": 5,
+        "longTaskTotalMs": 310,
+        "longTaskP95Ms": 85,
+        "longTaskMaxMs": 85,
+        "frameGapP95Ms": 20.90000009536743,
+        "frameGapMaxMs": 107,
+        "coldDurationMs": null,
+        "profilerEnabled": false
+      },
+      {
+        "backend": "sync",
+        "days": 29,
+        "durationMs": 3545,
+        "longTasks": 5,
+        "longTaskTotalMs": 286,
+        "longTaskP95Ms": 68,
+        "longTaskMaxMs": 68,
+        "frameGapP95Ms": 23.199999809265137,
+        "frameGapMaxMs": 130.39999961853027,
+        "coldDurationMs": null,
+        "profilerEnabled": false
+      }
+    ],
+    "stateEqual": true,
+    "logEqual": true
+  },
+  "same-host-60-day-worker-responsiveness.json": {
+    "sha256Uncompressed": "b5d4adae5167bb0e17506bdc12488df52642c6c6a34a2604f92d4771112379fd",
+    "rows": [
+      {
+        "backend": "sync",
+        "days": 60,
+        "durationMs": 517.7000002861023,
+        "longTasks": 1,
+        "longTaskTotalMs": 517,
+        "longTaskP95Ms": 517,
+        "longTaskMaxMs": 517,
+        "frameGapP95Ms": 594.3999996185303,
+        "frameGapMaxMs": 594.3999996185303,
+        "coldDurationMs": 12.799999713897705,
+        "profilerEnabled": false
+      },
+      {
+        "backend": "worker",
+        "days": 60,
+        "durationMs": 1279.5,
+        "longTasks": 2,
+        "longTaskTotalMs": 110,
+        "longTaskP95Ms": 60,
+        "longTaskMaxMs": 60,
+        "frameGapP95Ms": 22.5,
+        "frameGapMaxMs": 119.59999990463257,
+        "coldDurationMs": 32.30000019073486,
+        "profilerEnabled": false
+      }
+    ],
+    "stateEqual": true,
+    "logEqual": true
+  },
+  "same-host-120-day-worker-responsiveness.json": {
+    "sha256Uncompressed": "602039a218774fd97dc5e2f6c64e431cc7cfef029bedaf6b8f064609fcb0ec05",
+    "rows": [
+      {
+        "backend": "sync",
+        "days": 120,
+        "durationMs": 941.4000000953674,
+        "longTasks": 1,
+        "longTaskTotalMs": 941,
+        "longTaskP95Ms": 941,
+        "longTaskMaxMs": 941,
+        "frameGapP95Ms": 1038,
+        "frameGapMaxMs": 1038,
+        "coldDurationMs": 16,
+        "profilerEnabled": false
+      },
+      {
+        "backend": "worker",
+        "days": 120,
+        "durationMs": 2565.1000003814697,
+        "longTasks": 3,
+        "longTaskTotalMs": 176,
+        "longTaskP95Ms": 65,
+        "longTaskMaxMs": 65,
+        "frameGapP95Ms": 21.90000009536743,
+        "frameGapMaxMs": 129.69999980926514,
+        "coldDurationMs": 31.300000190734863,
+        "profilerEnabled": false
+      }
+    ],
+    "stateEqual": true,
+    "logEqual": true
+  },
+  "district": {
+    "samples": 9,
+    "ids": ["dist.gifu-higashi", "dist.kakegawa-nishi", "dist.kiyosu-nishi", "dist.narumi-nishi"],
+    "owners": ["clan.imagawa", "clan.oda", "clan.saito"],
+    "maxBodyError": 32.07495080488516,
+    "maxAccentError": 21.27016109686101,
+    "rows": [
+      {
+        "view": "district-pixels-castle.narumi.json.gz",
+        "id": "dist.gifu-higashi",
+        "owner": "clan.saito",
+        "bodyError": 23.25754888733793,
+        "accentError": 11.237613208207692
+      },
+      {
+        "view": "district-pixels-castle.narumi.json.gz",
+        "id": "dist.kiyosu-nishi",
+        "owner": "clan.oda",
+        "bodyError": 3.8361503336960068,
+        "accentError": 14.101046279366624
+      },
+      {
+        "view": "district-pixels-castle.narumi.json.gz",
+        "id": "dist.narumi-nishi",
+        "owner": "clan.oda",
+        "bodyError": 21.294235004912597,
+        "accentError": 15.659178667580553
+      },
+      {
+        "view": "district-pixels-castle.kiyosu.json.gz",
+        "id": "dist.gifu-higashi",
+        "owner": "clan.saito",
+        "bodyError": 17.419656840605228,
+        "accentError": 11.154360272396609
+      },
+      {
+        "view": "district-pixels-castle.kiyosu.json.gz",
+        "id": "dist.kiyosu-nishi",
+        "owner": "clan.oda",
+        "bodyError": 3.8570122128244,
+        "accentError": 14.101046279366624
+      },
+      {
+        "view": "district-pixels-castle.kiyosu.json.gz",
+        "id": "dist.narumi-nishi",
+        "owner": "clan.oda",
+        "bodyError": 32.07495080488516,
+        "accentError": 14.011018591640955
+      },
+      {
+        "view": "district-pixels-castle.gifu.json.gz",
+        "id": "dist.gifu-higashi",
+        "owner": "clan.saito",
+        "bodyError": 11.822243107750973,
+        "accentError": 11.14993218160186
+      },
+      {
+        "view": "district-pixels-castle.sunpu.json.gz",
+        "id": "dist.kakegawa-nishi",
+        "owner": "clan.imagawa",
+        "bodyError": 5.503085554239926,
+        "accentError": 21.27016109686101
+      },
+      {
+        "view": "district-pixels-castle.kakegawa.json.gz",
+        "id": "dist.kakegawa-nishi",
+        "owner": "clan.imagawa",
+        "bodyError": 5.578840093614758,
+        "accentError": 18.328618922464887
+      }
+    ]
+  }
+}

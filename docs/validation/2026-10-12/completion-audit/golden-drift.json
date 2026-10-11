@@ -1,0 +1,697 @@
+{
+  "commit": "2474139",
+  "rows": [
+    {
+      "name": "golden-mini",
+      "firstDifferences": [
+        {
+          "path": ".checkpoints.0.hash",
+          "expected": "6dff46282bac6060",
+          "actual": "2e6975fb244b8645"
+        },
+        {
+          "path": ".checkpoints.1.hash",
+          "expected": "3364b82bae01430e",
+          "actual": "7d93ce1239505ff1"
+        },
+        {
+          "path": ".balanceHash",
+          "expected": "7634217400759e66",
+          "actual": "824f87bf28bccf9a"
+        }
+      ],
+      "nonCheckpointDifferences": [
+        {
+          "path": ".balanceHash",
+          "expected": "7634217400759e66",
+          "actual": "824f87bf28bccf9a"
+        }
+      ],
+      "actual": {
+        "formatVersion": 1,
+        "scenarioId": "mini",
+        "seed": 42,
+        "ticks": 720,
+        "checkpoints": [
+          {
+            "day": 360,
+            "hash": "2e6975fb244b8645"
+          },
+          {
+            "day": 720,
+            "hash": "7d93ce1239505ff1"
+          }
+        ],
+        "balanceHash": "824f87bf28bccf9a"
+      }
+    },
+    {
+      "name": "golden-ai",
+      "firstDifferences": [
+        {
+          "path": ".balanceHash",
+          "expected": "7634217400759e66",
+          "actual": "824f87bf28bccf9a"
+        },
+        {
+          "path": ".checkpoints.0.hash",
+          "expected": "2ea01d73890b273e",
+          "actual": "58f233fe35aa1e56"
+        },
+        {
+          "path": ".checkpoints.1.hash",
+          "expected": "5cfdb1e79fc63028",
+          "actual": "518d48cb1da447aa"
+        },
+        {
+          "path": ".checkpoints.2.hash",
+          "expected": "b29ef89b87a2966c",
+          "actual": "52c681ad72ffe4e6"
+        },
+        {
+          "path": ".checkpoints.3.hash",
+          "expected": "29b733d0e07d26ec",
+          "actual": "893888aa596de743"
+        },
+        {
+          "path": ".checkpoints.4.hash",
+          "expected": "38a8b822e20a0118",
+          "actual": "4baf728ee1008200"
+        },
+        {
+          "path": ".checkpoints.5.hash",
+          "expected": "c317b584557b895b",
+          "actual": "01c15c1e0250cb40"
+        },
+        {
+          "path": ".checkpoints.6.hash",
+          "expected": "5444ce44aaeaaa71",
+          "actual": "a5c07d761e20efff"
+        },
+        {
+          "path": ".checkpoints.7.hash",
+          "expected": "d05bbb58cc6d8b02",
+          "actual": "33c52b50358fb818"
+        },
+        {
+          "path": ".checkpoints.8.hash",
+          "expected": "7c9bbc7f88ca7699",
+          "actual": "d1b889a49cb652f0"
+        }
+      ],
+      "nonCheckpointDifferences": [
+        {
+          "path": ".balanceHash",
+          "expected": "7634217400759e66",
+          "actual": "824f87bf28bccf9a"
+        },
+        {
+          "path": ".appliedCommands.march",
+          "expected": 8,
+          "actual": 12
+        },
+        {
+          "path": ".appliedCommands.returnArmyToCastle",
+          "expected": 2,
+          "actual": 3
+        },
+        {
+          "path": ".appliedCommands.setConscriptPolicy",
+          "expected": 11,
+          "actual": 9
+        },
+        {
+          "path": ".eventCounts.army.departed",
+          "expected": 8,
+          "actual": 12
+        },
+        {
+          "path": ".eventCounts.army.arrived",
+          "expected": 11,
+          "actual": 17
+        },
+        {
+          "path": ".eventCounts.army.returned",
+          "expected": 8,
+          "actual": 12
+        },
+        {
+          "path": ".eventCounts.district.subjugated",
+          "expected": 3,
+          "actual": 5
+        },
+        {
+          "path": ".eventCounts.siege.started",
+          "expected": 3,
+          "actual": 5
+        },
+        {
+          "path": ".eventCounts.siege.ended",
+          "expected": 3,
+          "actual": 5
+        },
+        {
+          "path": ".eventCounts.conscript.completed",
+          "expected": 26,
+          "actual": 37
+        },
+        {
+          "path": ".eventCounts.army.routed",
+          "expected": 1,
+          "actual": 3
+        },
+        {
+          "path": ".eventCounts.diplo.envoyArrived",
+          "actual": 1
+        },
+        {
+          "path": ".eventCounts.transport.looted",
+          "actual": 1
+        },
+        {
+          "path": ".eventCounts.uprising.started",
+          "actual": 1
+        },
+        {
+          "path": ".eventCounts.transport.arrived",
+          "expected": 1
+        },
+        {
+          "path": ".intentCounts.expand.select",
+          "expected": 5,
+          "actual": 6
+        },
+        {
+          "path": ".intentCounts.decision.ineligible",
+          "expected": 282,
+          "actual": 281
+        },
+        {
+          "path": ".intentCounts.plan.advance",
+          "expected": 3,
+          "actual": 6
+        },
+        {
+          "path": ".intentCounts.defense.hold",
+          "expected": 9,
+          "actual": 15
+        },
+        {
+          "path": ".intentCounts.plan.siege",
+          "expected": 3,
+          "actual": 5
+        },
+        {
+          "path": ".intentCounts.siege.hold",
+          "expected": 24,
+          "actual": 51
+        },
+        {
+          "path": ".intentCounts.plan.abort",
+          "expected": 5,
+          "actual": 6
+        },
+        {
+          "path": ".intentCounts.conscript.policy",
+          "expected": 11,
+          "actual": 9
+        },
+        {
+          "path": ".intentCounts.expand.none",
+          "expected": 8,
+          "actual": 7
+        },
+        {
+          "path": ".intentCounts.defense.reinforce",
+          "actual": 1
+        },
+        {
+          "path": ".intentCounts.food.transport",
+          "expected": 1
+        }
+      ],
+      "actual": {
+        "formatVersion": 1,
+        "scenarioId": "mini-ai",
+        "seed": 42,
+        "ticks": 360,
+        "balanceHash": "824f87bf28bccf9a",
+        "checkpoints": [
+          {
+            "day": 30,
+            "hash": "58f233fe35aa1e56"
+          },
+          {
+            "day": 60,
+            "hash": "518d48cb1da447aa"
+          },
+          {
+            "day": 90,
+            "hash": "52c681ad72ffe4e6"
+          },
+          {
+            "day": 120,
+            "hash": "893888aa596de743"
+          },
+          {
+            "day": 150,
+            "hash": "4baf728ee1008200"
+          },
+          {
+            "day": 180,
+            "hash": "01c15c1e0250cb40"
+          },
+          {
+            "day": 210,
+            "hash": "a5c07d761e20efff"
+          },
+          {
+            "day": 240,
+            "hash": "33c52b50358fb818"
+          },
+          {
+            "day": 270,
+            "hash": "d1b889a49cb652f0"
+          },
+          {
+            "day": 300,
+            "hash": "31d4a56d38343f61"
+          },
+          {
+            "day": 330,
+            "hash": "ca15839a3ad472e7"
+          },
+          {
+            "day": 360,
+            "hash": "351e8d087433b96b"
+          }
+        ],
+        "appliedCommands": {
+          "march": 12,
+          "buildFacility": 10,
+          "enactPolicy": 2,
+          "setDevelopFocus": 8,
+          "returnArmyToCastle": 3,
+          "setConscriptPolicy": 9,
+          "startDiploWork": 2,
+          "proposePact": 2,
+          "transport": 1
+        },
+        "eventCounts": {
+          "army.departed": 12,
+          "policy.enacted": 2,
+          "army.arrived": 17,
+          "army.returned": 12,
+          "district.subjugated": 5,
+          "siege.started": 5,
+          "siege.ended": 5,
+          "time.monthStart": 12,
+          "economy.income": 24,
+          "conscript.completed": 37,
+          "army.routed": 3,
+          "time.seasonStart": 4,
+          "facility.completed": 8,
+          "economy.harvest": 2,
+          "diplo.envoyArrived": 1,
+          "diplo.refused": 2,
+          "transport.looted": 1,
+          "uprising.started": 1
+        },
+        "intentCounts": {
+          "threat.compute": 24,
+          "expand.select": 6,
+          "facility.build": 10,
+          "decision.ineligible": 281,
+          "policy.enact": 2,
+          "develop.focus": 8,
+          "domestic.evaluated": 24,
+          "diplo.evaluated": 24,
+          "plan.advance": 6,
+          "defense.hold": 15,
+          "plan.siege": 5,
+          "siege.hold": 51,
+          "plan.abort": 6,
+          "conscript.policy": 9,
+          "diplo.work": 2,
+          "expand.none": 7,
+          "diplo.requestPeace": 2,
+          "defense.reinforce": 1
+        }
+      }
+    },
+    {
+      "name": "golden-diplomacy",
+      "firstDifferences": [
+        {
+          "path": ".balanceHash",
+          "expected": "7634217400759e66",
+          "actual": "824f87bf28bccf9a"
+        },
+        {
+          "path": ".checkpoints.0.hash",
+          "expected": "7fd14084a5a62bb2",
+          "actual": "863c8cacb9fdd9b6"
+        },
+        {
+          "path": ".checkpoints.1.hash",
+          "expected": "3c00249bcf5fde3c",
+          "actual": "2c855fe6295e3fdc"
+        },
+        {
+          "path": ".checkpoints.2.hash",
+          "expected": "91560a7747fa9640",
+          "actual": "cc96b17335e64df6"
+        },
+        {
+          "path": ".checkpoints.3.hash",
+          "expected": "c25decb8e5cd6a8e",
+          "actual": "aaf19e99a560ba9e"
+        },
+        {
+          "path": ".checkpoints.4.hash",
+          "expected": "b13c8722e8626679",
+          "actual": "25bd6727f18c08cd"
+        },
+        {
+          "path": ".checkpoints.5.hash",
+          "expected": "ec99e8b5a2edde05",
+          "actual": "ac5ecf313704bc27"
+        },
+        {
+          "path": ".checkpoints.6.hash",
+          "expected": "363fdfc48c9dc0c6",
+          "actual": "e577f459a8839dfa"
+        },
+        {
+          "path": ".checkpoints.7.hash",
+          "expected": "b4272b60241ec2fc",
+          "actual": "fd1cc0bd6b7674a4"
+        },
+        {
+          "path": ".checkpoints.8.hash",
+          "expected": "60b78a1d33d039ed",
+          "actual": "834db6708b9efc8d"
+        }
+      ],
+      "nonCheckpointDifferences": [
+        {
+          "path": ".balanceHash",
+          "expected": "7634217400759e66",
+          "actual": "824f87bf28bccf9a"
+        }
+      ],
+      "actual": {
+        "formatVersion": 1,
+        "scenarioId": "mini-diplomacy",
+        "seed": 42,
+        "ticks": 1800,
+        "balanceHash": "824f87bf28bccf9a",
+        "checkpoints": [
+          {
+            "day": 30,
+            "hash": "863c8cacb9fdd9b6"
+          },
+          {
+            "day": 60,
+            "hash": "2c855fe6295e3fdc"
+          },
+          {
+            "day": 90,
+            "hash": "cc96b17335e64df6"
+          },
+          {
+            "day": 120,
+            "hash": "aaf19e99a560ba9e"
+          },
+          {
+            "day": 150,
+            "hash": "25bd6727f18c08cd"
+          },
+          {
+            "day": 180,
+            "hash": "ac5ecf313704bc27"
+          },
+          {
+            "day": 210,
+            "hash": "e577f459a8839dfa"
+          },
+          {
+            "day": 240,
+            "hash": "fd1cc0bd6b7674a4"
+          },
+          {
+            "day": 270,
+            "hash": "834db6708b9efc8d"
+          },
+          {
+            "day": 300,
+            "hash": "46258ed6922575c2"
+          },
+          {
+            "day": 330,
+            "hash": "9c8bea55474fdace"
+          },
+          {
+            "day": 360,
+            "hash": "139be45c4b723924"
+          },
+          {
+            "day": 390,
+            "hash": "735cfd33f0024222"
+          },
+          {
+            "day": 420,
+            "hash": "4265bf095aca7511"
+          },
+          {
+            "day": 450,
+            "hash": "50762989a5be40fe"
+          },
+          {
+            "day": 480,
+            "hash": "c2263f6d0f0f904b"
+          },
+          {
+            "day": 510,
+            "hash": "b23987417c9ebcf6"
+          },
+          {
+            "day": 540,
+            "hash": "db314c7bc30237d3"
+          },
+          {
+            "day": 570,
+            "hash": "1648de5ed8e7a7da"
+          },
+          {
+            "day": 600,
+            "hash": "fe0ca236c2c1ad68"
+          },
+          {
+            "day": 630,
+            "hash": "5dfde4856050738d"
+          },
+          {
+            "day": 660,
+            "hash": "15a03d64a4f1f703"
+          },
+          {
+            "day": 690,
+            "hash": "918d87ad60e31b01"
+          },
+          {
+            "day": 720,
+            "hash": "9241a41170943e4a"
+          },
+          {
+            "day": 750,
+            "hash": "4075f2c105ab8fb9"
+          },
+          {
+            "day": 780,
+            "hash": "1b9c19facdfd6f28"
+          },
+          {
+            "day": 810,
+            "hash": "ec37e12ec3c4554a"
+          },
+          {
+            "day": 840,
+            "hash": "ec00d43c2576ba00"
+          },
+          {
+            "day": 870,
+            "hash": "8f9b68cae9fc3619"
+          },
+          {
+            "day": 900,
+            "hash": "df0bc7bddb635070"
+          },
+          {
+            "day": 930,
+            "hash": "db41781366caca4b"
+          },
+          {
+            "day": 960,
+            "hash": "0fc88f96d294e589"
+          },
+          {
+            "day": 990,
+            "hash": "5322dda88243f01f"
+          },
+          {
+            "day": 1020,
+            "hash": "d842c2eda6290fde"
+          },
+          {
+            "day": 1050,
+            "hash": "139b898fe53cbdce"
+          },
+          {
+            "day": 1080,
+            "hash": "5a5060d32652bd49"
+          },
+          {
+            "day": 1110,
+            "hash": "df553f2d6445c5a5"
+          },
+          {
+            "day": 1140,
+            "hash": "2b5c6d085bbfcad1"
+          },
+          {
+            "day": 1170,
+            "hash": "4cdea13e9393ebfc"
+          },
+          {
+            "day": 1200,
+            "hash": "ee4807d62b9b707e"
+          },
+          {
+            "day": 1230,
+            "hash": "2656614b5ba1d097"
+          },
+          {
+            "day": 1260,
+            "hash": "d8d0a66efcf6b1e2"
+          },
+          {
+            "day": 1290,
+            "hash": "ba72255f0a006fbc"
+          },
+          {
+            "day": 1320,
+            "hash": "e62481a27bfd7e98"
+          },
+          {
+            "day": 1350,
+            "hash": "ffb43d008cc8e9ff"
+          },
+          {
+            "day": 1380,
+            "hash": "bd2bdf84041603d9"
+          },
+          {
+            "day": 1410,
+            "hash": "913d16be3497a2dd"
+          },
+          {
+            "day": 1440,
+            "hash": "68294590aebc20a2"
+          },
+          {
+            "day": 1470,
+            "hash": "d8f55d4ca1585263"
+          },
+          {
+            "day": 1500,
+            "hash": "59b0e5766faeb09a"
+          },
+          {
+            "day": 1530,
+            "hash": "b92cafdd94d16cc3"
+          },
+          {
+            "day": 1560,
+            "hash": "a4be3e17905d9423"
+          },
+          {
+            "day": 1590,
+            "hash": "43e69d56417d9938"
+          },
+          {
+            "day": 1620,
+            "hash": "8c39d3d6d80ccff8"
+          },
+          {
+            "day": 1650,
+            "hash": "e389bdb6eedc0aa0"
+          },
+          {
+            "day": 1680,
+            "hash": "dfb689f6e9479010"
+          },
+          {
+            "day": 1710,
+            "hash": "a883a6451eb43ae5"
+          },
+          {
+            "day": 1740,
+            "hash": "440b68b5a7e7d2c4"
+          },
+          {
+            "day": 1770,
+            "hash": "748087542f123b86"
+          },
+          {
+            "day": 1800,
+            "hash": "59f6e326d0d99000"
+          }
+        ],
+        "appliedCommands": {
+          "startDiploWork": 2,
+          "requestCourtRank": 5,
+          "startPlot": 3,
+          "requestMediation": 1,
+          "proposePact": 2,
+          "breakPact": 1
+        },
+        "eventCounts": {
+          "court.rankGranted": 5,
+          "time.monthStart": 60,
+          "economy.income": 180,
+          "conscript.completed": 120,
+          "time.seasonStart": 20,
+          "plot.failed": 1,
+          "plot.exposed": 1,
+          "proposal.submitted": 5,
+          "plot.succeeded": 1,
+          "proposal.expired": 5,
+          "economy.harvest": 15,
+          "pact.signed": 3,
+          "court.mediationResult": 1,
+          "pact.expired": 1,
+          "economy.granaryOverflow": 3,
+          "pact.broken": 1
+        },
+        "plotResolutions": [
+          {
+            "day": 60,
+            "kind": "rumor",
+            "outcome": "plot.failed"
+          },
+          {
+            "day": 60,
+            "kind": "poach",
+            "outcome": "plot.exposed"
+          },
+          {
+            "day": 120,
+            "kind": "betrayal",
+            "outcome": "plot.succeeded"
+          }
+        ]
+      }
+    }
+  ]
+}

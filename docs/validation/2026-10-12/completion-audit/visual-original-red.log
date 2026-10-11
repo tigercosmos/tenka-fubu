@@ -1,0 +1,102 @@
+
+Running 4 tests using 1 worker
+
+  ✘  1 [chromium] › e2e/district-material-layout.spec.ts:27:1 › native district seals keep visible owner accents, quiet bodies and physical district picking without gameplay changes (2.3s)
+  ✘  2 [chromium] › e2e/model-hierarchy-layout.spec.ts:129:3 › native original model hierarchy › painted main and branch castle frames have the approved world widths at three UI scales, without covering mandatory channels (2.2s)
+  ✓  3 [chromium] › e2e/model-hierarchy-layout.spec.ts:231:3 › native original model hierarchy › actual native lake polygons preserve canonical anchors, bounds and river banks while rounding the displayed scene (2.6s)
+  ✘  4 [chromium] › e2e/model-hierarchy-layout.spec.ts:339:3 › native original model hierarchy › enlarged artwork leaves occupied-army priority, unoccupied castle picking and far vector profiles intact (3.8s)
+
+
+  1) [chromium] › e2e/district-material-layout.spec.ts:27:1 › native district seals keep visible owner accents, quiet bodies and physical district picking without gameplay changes
+
+    Error: dist.kakegawa-nishi: owner accent remains painted
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 35
+    Received:    123.96629370642911
+
+      191 |         distance(d.accent, d.color),
+      192 |         `${d.id}: owner accent remains painted`,
+    > 193 |       ).toBeLessThanOrEqual(35);
+          |         ^
+      194 |       owners.add(d.owner);
+      195 |       districts.add(d.id);
+      196 |       tested++;
+        at /tmp/tenka-20261012-sim2-browser/e2e/district-material-layout.spec.ts:193:9
+
+    Error Context: test-results/district-material-layout-n-14c09-ng-without-gameplay-changes-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/district-material-layout-n-14c09-ng-without-gameplay-changes-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/district-material-layout-n-14c09-ng-without-gameplay-changes-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › e2e/model-hierarchy-layout.spec.ts:129:3 › native original model hierarchy › painted main and branch castle frames have the approved world widths at three UI scales, without covering mandatory channels
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 60.417365851107505
+    Received: 60
+
+    Expected precision:    6
+    Expected difference: < 0.0000005
+    Received difference:   0.4173658511075047
+
+      157 |         expect(node!.painted).toBe(true);
+      158 |         expect(node!.bodyFrameKind).toBe('alphaContentFrame');
+    > 159 |         expect(node!.body.width).toBeCloseTo((castle.tier === 'main' ? 40 : 30) * cameraScale, 6);
+          |                                  ^
+      160 |         expect(node!.selection?.behindBody).toBe(true);
+      161 |         expect(node!.durability).not.toBeNull();
+      162 |         expect(
+        at /tmp/tenka-20261012-sim2-browser/e2e/model-hierarchy-layout.spec.ts:159:34
+
+    Error Context: test-results/model-hierarchy-layout-nat-95d4e-covering-mandatory-channels-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/model-hierarchy-layout-nat-95d4e-covering-mandatory-channels-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/model-hierarchy-layout-nat-95d4e-covering-mandatory-channels-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › e2e/model-hierarchy-layout.spec.ts:339:3 › native original model hierarchy › enlarged artwork leaves occupied-army priority, unoccupied castle picking and far vector profiles intact
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 9.868169755680885
+    Received: 9.799999999999999
+
+    Expected precision:    6
+    Expected difference: < 0.0000005
+    Received difference:   0.06816975568088601
+
+      409 |       Math.hypot(main.anchor.x - reference!.anchor.x, main.anchor.y - reference!.anchor.y) /
+      410 |       Math.hypot(mainState.pos.x - referenceState.pos.x, mainState.pos.y - referenceState.pos.y);
+    > 411 |     expect(main.body.width).toBeCloseTo(28 * 1.4 * cameraScale, 6);
+          |                             ^
+      412 |     expect(
+      413 |       await page.evaluate(() => JSON.stringify((window as DebugWindow).__tenka.debug.getState())),
+      414 |     ).toBe(before);
+        at /tmp/tenka-20261012-sim2-browser/e2e/model-hierarchy-layout.spec.ts:411:29
+
+    Error Context: test-results/model-hierarchy-layout-nat-d33e4--far-vector-profiles-intact-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/model-hierarchy-layout-nat-d33e4--far-vector-profiles-intact-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/model-hierarchy-layout-nat-d33e4--far-vector-profiles-intact-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [chromium] › e2e/district-material-layout.spec.ts:27:1 › native district seals keep visible owner accents, quiet bodies and physical district picking without gameplay changes
+    [chromium] › e2e/model-hierarchy-layout.spec.ts:129:3 › native original model hierarchy › painted main and branch castle frames have the approved world widths at three UI scales, without covering mandatory channels
+    [chromium] › e2e/model-hierarchy-layout.spec.ts:339:3 › native original model hierarchy › enlarged artwork leaves occupied-army priority, unoccupied castle picking and far vector profiles intact
+  1 passed (13.5s)

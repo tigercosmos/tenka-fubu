@@ -1,0 +1,264 @@
+{
+  "sourceCommit": "011c5b8124d3bb9e994de562d62e2349d2f41be2",
+  "mode": "metadata-only migration",
+  "scope": "Only balanceHash changes; commands, finalDay and frozen finalHash stay unchanged.",
+  "limitation": "Exact final-state equality is proved; intermediate historical checkpoints are not recorded by these fixtures.",
+  "from": "824f87bf28bccf9a",
+  "to": "a5f30428e47ab0f4",
+  "files": 11,
+  "rows": [
+    {
+      "file": "tests/replay/cases/m6-castle-delegation-cycle.tfulog.json",
+      "finalDay": 61,
+      "commands": 16,
+      "oldBalanceHash": "824f87bf28bccf9a",
+      "newBalanceHash": "a5f30428e47ab0f4",
+      "frozenFinalHash": "5edcb8d9f97f95b4",
+      "originalReplay": {
+        "match": true,
+        "actualHash": "5edcb8d9f97f95b4",
+        "expectedHash": "5edcb8d9f97f95b4",
+        "balanceMismatch": true
+      },
+      "migratedReplay": {
+        "match": true,
+        "actualHash": "5edcb8d9f97f95b4",
+        "expectedHash": "5edcb8d9f97f95b4",
+        "balanceMismatch": false
+      },
+      "entriesSha256": "e80d84d9270814eec0b69f64ae5b8002b773367516ee279c298ac7d69199652f",
+      "beforeFileSha256": "30def0061fec67549ab6217b301ee26f849ae9ba5178df94cb24511d674a4b6c",
+      "afterFileSha256": "d0246481dddf66fd87925258844712610cbe0213b0fae6df2b89c0d2d414a526"
+    },
+    {
+      "file": "tests/replay/cases/m6-corps-reclaim-wallet.tfulog.json",
+      "finalDay": 61,
+      "commands": 3,
+      "oldBalanceHash": "824f87bf28bccf9a",
+      "newBalanceHash": "a5f30428e47ab0f4",
+      "frozenFinalHash": "ae57531c8777bc71",
+      "originalReplay": {
+        "match": true,
+        "actualHash": "ae57531c8777bc71",
+        "expectedHash": "ae57531c8777bc71",
+        "balanceMismatch": true
+      },
+      "migratedReplay": {
+        "match": true,
+        "actualHash": "ae57531c8777bc71",
+        "expectedHash": "ae57531c8777bc71",
+        "balanceMismatch": false
+      },
+      "entriesSha256": "d21485411a8c9043ed5fe90f1fb479eaf79d0db72c4c27fdc7a87b3b8dedd51c",
+      "beforeFileSha256": "1d3817b14bad024c95a29e287e6765bca04b7233dd4e817564401fecb01f260d",
+      "afterFileSha256": "ebc5c7fc0fe5926a07fe3d9cf07961ec9b457976f39fb302a474ecf1e15e30c5"
+    },
+    {
+      "file": "tests/replay/cases/m6-diplomacy-trust-merit.tfulog.json",
+      "finalDay": 691,
+      "commands": 2,
+      "oldBalanceHash": "824f87bf28bccf9a",
+      "newBalanceHash": "a5f30428e47ab0f4",
+      "frozenFinalHash": "1bbc5ed55c02743f",
+      "originalReplay": {
+        "match": true,
+        "actualHash": "1bbc5ed55c02743f",
+        "expectedHash": "1bbc5ed55c02743f",
+        "balanceMismatch": true
+      },
+      "migratedReplay": {
+        "match": true,
+        "actualHash": "1bbc5ed55c02743f",
+        "expectedHash": "1bbc5ed55c02743f",
+        "balanceMismatch": false
+      },
+      "entriesSha256": "8b5d1d887df77fefb4650077e3b66674c509dd09efd864265995ad7fff3310ac",
+      "beforeFileSha256": "8c0160844db67649b20eda280a1107fdf32ebefcffcea394810fd7d8c99b3751",
+      "afterFileSha256": "2ef35397991887bb40e5c0a921ee3f5cf10eb49c18e695245b0cd68ed7caea37"
+    },
+    {
+      "file": "tests/replay/cases/m6-earned-successor-payroll-recovery.tfulog.json",
+      "finalDay": 120,
+      "commands": 24,
+      "oldBalanceHash": "824f87bf28bccf9a",
+      "newBalanceHash": "a5f30428e47ab0f4",
+      "frozenFinalHash": "96e23560c17f9801",
+      "originalReplay": {
+        "match": true,
+        "actualHash": "96e23560c17f9801",
+        "expectedHash": "96e23560c17f9801",
+        "balanceMismatch": true
+      },
+      "migratedReplay": {
+        "match": true,
+        "actualHash": "96e23560c17f9801",
+        "expectedHash": "96e23560c17f9801",
+        "balanceMismatch": false
+      },
+      "entriesSha256": "2db6cc296202a747ec34e6807a7dc81e7f3ddae9338178843f69923f1deb1225",
+      "beforeFileSha256": "78b864747fb706d8585571a108a95f310f3b446966b4fa93b6da0792ec3f9751",
+      "afterFileSha256": "5eeb8cc9c0e48102314ece90de6a32ebd4764418fb4d9d4029de739af56223ff"
+    },
+    {
+      "file": "tests/replay/cases/m6-payroll-unpaid-recovery.tfulog.json",
+      "finalDay": 60,
+      "commands": 22,
+      "oldBalanceHash": "824f87bf28bccf9a",
+      "newBalanceHash": "a5f30428e47ab0f4",
+      "frozenFinalHash": "9f9136ebc068922a",
+      "originalReplay": {
+        "match": true,
+        "actualHash": "9f9136ebc068922a",
+        "expectedHash": "9f9136ebc068922a",
+        "balanceMismatch": true
+      },
+      "migratedReplay": {
+        "match": true,
+        "actualHash": "9f9136ebc068922a",
+        "expectedHash": "9f9136ebc068922a",
+        "balanceMismatch": false
+      },
+      "entriesSha256": "58d017b498f92f5684ed053cbbd16219bbce275956497771b15de5be361a142b",
+      "beforeFileSha256": "ec214002a5e2ebb56157785b1f93fb1ac37b300167d0fcf1bac45f0e16f465c5",
+      "afterFileSha256": "35763ee5f87b74154f321be865bdbb7984b041b0a0706a467196eef85af53e54"
+    },
+    {
+      "file": "tests/replay/cases/m6-rakuichi-income-ownership.tfulog.json",
+      "finalDay": 31,
+      "commands": 13,
+      "oldBalanceHash": "824f87bf28bccf9a",
+      "newBalanceHash": "a5f30428e47ab0f4",
+      "frozenFinalHash": "f448ba666e2dd981",
+      "originalReplay": {
+        "match": true,
+        "actualHash": "f448ba666e2dd981",
+        "expectedHash": "f448ba666e2dd981",
+        "balanceMismatch": true
+      },
+      "migratedReplay": {
+        "match": true,
+        "actualHash": "f448ba666e2dd981",
+        "expectedHash": "f448ba666e2dd981",
+        "balanceMismatch": false
+      },
+      "entriesSha256": "56131dded718c14f5c909d587b52aac8f3dc4e6afb2a33adf8238ed96aaa0056",
+      "beforeFileSha256": "91d7beb628ba5c5f6bf33ac991bf9bc9f8c01ea9975df4aecac64814603050e6",
+      "afterFileSha256": "ae568256ac009907b284937ff9580dd197adf1b928e2870db9753af1ad150b19"
+    },
+    {
+      "file": "tests/replay/cases/m6-reward-month-boundary-ai.tfulog.json",
+      "finalDay": 31,
+      "commands": 11,
+      "oldBalanceHash": "824f87bf28bccf9a",
+      "newBalanceHash": "a5f30428e47ab0f4",
+      "frozenFinalHash": "54aa90bddcee85aa",
+      "originalReplay": {
+        "match": true,
+        "actualHash": "54aa90bddcee85aa",
+        "expectedHash": "54aa90bddcee85aa",
+        "balanceMismatch": true
+      },
+      "migratedReplay": {
+        "match": true,
+        "actualHash": "54aa90bddcee85aa",
+        "expectedHash": "54aa90bddcee85aa",
+        "balanceMismatch": false
+      },
+      "entriesSha256": "917c8f634aee3ef543236b4e1fa63a75258ac42bed4360929e4435ff6a29fde0",
+      "beforeFileSha256": "cd0450910e06e16ee4f5cbeb33a4c5252448874c9ba91e692f09435f476b9d01",
+      "afterFileSha256": "c99e5069958e2ad88b3af7da628ff94ce8370a75032d5738b924e4324b41efd1"
+    },
+    {
+      "file": "tests/replay/cases/m6-reward-month-boundary.tfulog.json",
+      "finalDay": 31,
+      "commands": 3,
+      "oldBalanceHash": "824f87bf28bccf9a",
+      "newBalanceHash": "a5f30428e47ab0f4",
+      "frozenFinalHash": "62a9eae3c8df99a2",
+      "originalReplay": {
+        "match": true,
+        "actualHash": "62a9eae3c8df99a2",
+        "expectedHash": "62a9eae3c8df99a2",
+        "balanceMismatch": true
+      },
+      "migratedReplay": {
+        "match": true,
+        "actualHash": "62a9eae3c8df99a2",
+        "expectedHash": "62a9eae3c8df99a2",
+        "balanceMismatch": false
+      },
+      "entriesSha256": "bf620aec91c7c1da570da7be7dc1b30714a73a0403fa6dec3b500edb69b316d7",
+      "beforeFileSha256": "8d2997cb59b45f3da0a2d0290079613e1da702a83750bb731e50646f890af614",
+      "afterFileSha256": "c85bddef2cf675205f479dee2cc8374d7f54b226d3c140e4c9aaa029190020b7"
+    },
+    {
+      "file": "tests/replay/cases/m6-successor-corps-eligibility.tfulog.json",
+      "finalDay": 58,
+      "commands": 20,
+      "oldBalanceHash": "824f87bf28bccf9a",
+      "newBalanceHash": "a5f30428e47ab0f4",
+      "frozenFinalHash": "9a94131bc3f94822",
+      "originalReplay": {
+        "match": true,
+        "actualHash": "9a94131bc3f94822",
+        "expectedHash": "9a94131bc3f94822",
+        "balanceMismatch": true
+      },
+      "migratedReplay": {
+        "match": true,
+        "actualHash": "9a94131bc3f94822",
+        "expectedHash": "9a94131bc3f94822",
+        "balanceMismatch": false
+      },
+      "entriesSha256": "282056ac96c1f3fb39f1d22c6b3336ba882308cf1b6d041159521e9ee6d312d2",
+      "beforeFileSha256": "249e2588e04750ffbeb35d98bf28966c886026aae48a997f74bcfa48d6db12de",
+      "afterFileSha256": "24f376029073584e8d08449470a82ebe4e56c9b12be6526c98b88656f4055456"
+    },
+    {
+      "file": "tests/replay/cases/m6-transport-loot-carry-cap.tfulog.json",
+      "finalDay": 70,
+      "commands": 24,
+      "oldBalanceHash": "824f87bf28bccf9a",
+      "newBalanceHash": "a5f30428e47ab0f4",
+      "frozenFinalHash": "3278b8d13b2795a8",
+      "originalReplay": {
+        "match": true,
+        "actualHash": "3278b8d13b2795a8",
+        "expectedHash": "3278b8d13b2795a8",
+        "balanceMismatch": true
+      },
+      "migratedReplay": {
+        "match": true,
+        "actualHash": "3278b8d13b2795a8",
+        "expectedHash": "3278b8d13b2795a8",
+        "balanceMismatch": false
+      },
+      "entriesSha256": "73a2383ed68600cf1df1172188ccd6b75af6ffded2b045b6cbd6e46ddb7f230e",
+      "beforeFileSha256": "1320e8d3084f7e26534e892e2b3b2f9b4d074aaa32d3dfa3d41b0cac0e986682",
+      "afterFileSha256": "69afacb07b2554788265e36f432f092acd209a0a62dac6b8f928ab54421fcb2d"
+    },
+    {
+      "file": "tests/replay/cases/m6-transport-physical-occupancy.tfulog.json",
+      "finalDay": 70,
+      "commands": 24,
+      "oldBalanceHash": "824f87bf28bccf9a",
+      "newBalanceHash": "a5f30428e47ab0f4",
+      "frozenFinalHash": "22d505e71d0a7238",
+      "originalReplay": {
+        "match": true,
+        "actualHash": "22d505e71d0a7238",
+        "expectedHash": "22d505e71d0a7238",
+        "balanceMismatch": true
+      },
+      "migratedReplay": {
+        "match": true,
+        "actualHash": "22d505e71d0a7238",
+        "expectedHash": "22d505e71d0a7238",
+        "balanceMismatch": false
+      },
+      "entriesSha256": "a9db9b0cf91c9558d7b5f190a7c98317316bc17c1573d8145eceec9ed781bd49",
+      "beforeFileSha256": "2b2e6de1f27e7f245a5c397446f12bd6d7e13631ee415ab802eed9077fe3b4f8",
+      "afterFileSha256": "6d4ec9e24c3a44d5c8ebb94e09ac36d943375640d0f7951aa9c2a93c4d719409"
+    }
+  ]
+}

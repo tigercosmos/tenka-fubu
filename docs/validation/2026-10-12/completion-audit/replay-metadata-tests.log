@@ -1,0 +1,51 @@
+
+ RUN  v2.1.9 /Users/tigercosmos/tenka-fubu
+
+ ✓ |core| tests/replay/payrollUnpaidRecovery.spec.ts (3 tests) 191ms
+ ✓ |core| tests/replay/earnedSuccessorPayrollRecovery.spec.ts (3 tests) 301ms
+ ✓ |core| tests/replay/successorCorpsEligibility.spec.ts (4 tests) 219ms
+ ✓ |core| tests/replay/rakuichiIncomeOwnership.spec.ts (3 tests) 167ms
+ ✓ |core| tests/replay/transportPhysicalOccupancy.spec.ts (3 tests) 204ms
+ ✓ |core| tests/replay/corpsReclaimWallet.spec.ts (3 tests) 206ms
+ ❯ |core| tests/replay/replay.spec.ts (19 tests | 2 failed) 887ms
+   × command log replay cases > m4-military-siege-fall.tfulog.json: is complete, BAL-current, and reproduces the final hash 33ms
+     → BAL 已變更，請以目前版本重錄此回歸案例或更新 finalHash。: expected true to be false // Object.is equality
+   ✓ command log replay cases > m6-diplomacy-trust-merit.tfulog.json: is complete, BAL-current, and reproduces the final hash 568ms
+   × command log replay cases > ten-command-policy-cycle.tfulog.json: is complete, BAL-current, and reproduces the final hash 5ms
+     → BAL 已變更，請以目前版本重錄此回歸案例或更新 finalHash。: expected true to be false // Object.is equality
+ ✓ |core| tests/replay/transportLootCarryCap.spec.ts (3 tests) 210ms
+ ✓ |core| tests/replay/rewardMonthBoundaryAi.spec.ts (3 tests) 153ms
+ ✓ |core| tests/replay/castleDelegationCycle.spec.ts (3 tests) 165ms
+ ✓ |core| tests/replay/rewardMonthBoundary.spec.ts (3 tests) 168ms
+ ✓ |core| tests/replay/eventReplay.spec.ts (3 tests) 53ms
+ ✓ |core| tests/replay/diplomacyTrustMerit.spec.ts (3 tests) 7499ms
+   ✓ permanent naturally completed diplomacy merit replay > records unchanged mini seed twice, pays real months and awards only the genuine crossing 3334ms
+   ✓ permanent naturally completed diplomacy merit replay > restores pending START/STOP and ongoing work through native codec with identical persistent state/events/RNG 2461ms
+   ✓ permanent naturally completed diplomacy merit replay > validates every tampered normal-day command and detects the resulting different final state 1703ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL |core|  tests/replay/replay.spec.ts > command log replay cases > m4-military-siege-fall.tfulog.json: is complete, BAL-current, and reproduces the final hash
+ FAIL |core|  tests/replay/replay.spec.ts > command log replay cases > ten-command-policy-cycle.tfulog.json: is complete, BAL-current, and reproduces the final hash
+AssertionError: BAL 已變更，請以目前版本重錄此回歸案例或更新 finalHash。: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/replay/replay.spec.ts:161:9
+    159|         result.balanceMismatch,
+    160|         'BAL 已變更，請以目前版本重錄此回歸案例或更新 finalHash。',
+    161|       ).toBe(false);
+       |         ^
+    162|       expect(result.match, `${name}: 期望 ${result.expectedHash}，實得…
+    163|         true,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ Test Files  1 failed | 12 passed (13)
+      Tests  2 failed | 54 passed (56)
+   Start at  05:36:04
+   Duration  10.19s (transform 410ms, setup 0ms, collect 1.95s, tests 10.42s, environment 1ms, prepare 354ms)

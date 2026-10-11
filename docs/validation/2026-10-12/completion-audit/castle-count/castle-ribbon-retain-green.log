@@ -1,0 +1,8 @@
+
+Running 3 tests using 1 worker
+
+  ✓  1 [chromium] › e2e/castle-placard-material.spec.ts:48:1 › placard material keeps selected critical main and ordinary branch channels at three UI scales (10.8s)
+  ✓  2 [chromium] › e2e/castle-ribbon-obstruction.spec.ts:60:1 › castle text obstruction improves without hiding ribbons, changing bodies, or crossing hard obstacles (10.4s)
+  ✓  3 [chromium] › e2e/castle-ribbon-readability.spec.ts:22:1 › loaded castle name and troop text have separate seal space without changing paused core (1.4s)
+
+  3 passed (23.4s)

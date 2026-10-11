@@ -1,0 +1,15 @@
+
+Running 10 tests using 1 worker
+
+  ✓   1 [chromium] › e2e/district-material-layout.spec.ts:27:1 › native district seals keep visible owner accents, quiet bodies and physical district picking without gameplay changes (11.8s)
+  ✓   2 [chromium] › e2e/model-hierarchy-layout.spec.ts:163:3 › native original model hierarchy › painted main and branch castle frames have the approved world widths at three UI scales, without covering mandatory channels (4.8s)
+  ✓   3 [chromium] › e2e/model-hierarchy-layout.spec.ts:259:3 › native original model hierarchy › actual native lake polygons preserve canonical anchors, bounds and river banks while rounding the displayed scene (2.2s)
+  ✓   4 [chromium] › e2e/model-hierarchy-layout.spec.ts:367:3 › native original model hierarchy › enlarged artwork leaves occupied-army priority, unoccupied castle picking and far vector profiles intact (3.0s)
+  ✓   5 [chromium] › e2e/worker-simulation.spec.ts:123:1 › native seeded full-world worker ticks preserve queued commands, complete state and replay log (3.1s)
+  ✓   6 [chromium] › e2e/worker-simulation.spec.ts:225:1 › native save and browser reload preserve an unconsumed command for the next worker day (5.5s)
+  ✓   7 [chromium] › e2e/worker-simulation.spec.ts:291:3 › same-host full-world 60-day synchronous and Worker measurements preserve complete state (8.1s)
+  ✓   8 [chromium] › e2e/worker-simulation.spec.ts:291:3 › same-host full-world 120-day synchronous and Worker measurements preserve complete state (9.9s)
+  ✓   9 [chromium] › e2e/worker-simulation.spec.ts:428:1 › pausing an already posted native Worker day keeps state and its command for a fresh generation (2.3s)
+  ✓  10 [chromium] › e2e/worker-simulation.spec.ts:477:1 › native x5 Worker flow and a paced synchronous reference retain state with raw main-thread timings (13.0s)
+
+  10 passed (1.1m)

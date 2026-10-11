@@ -1,0 +1,17 @@
+{
+  "baseCommit": "011c5b8124d3bb9e994de562d62e2349d2f41be2",
+  "patchFiles": [
+    "src/ui/map/sceneParts/castleNameplate.ts",
+    "src/ui/map/sceneParts/castleNameplateContained.spec.ts",
+    "src/ui/map/mapRendererDirty.spec.ts"
+  ],
+  "sourceCorrection": "retain embedded troop count, full approved ribbon width, register/divider/glyph, original LOD/fonts/styles/gaps; compact admission keeps exact full geometry instead of hiding mandatory numbers",
+  "spec": ["docs/visual/art-bible.md section10.3", "docs/visual/art-bible.md section10.4"],
+  "nativeCommand": "npx playwright test e2e/castle-ribbon-readability.spec.ts e2e/castle-ribbon-obstruction.spec.ts e2e/castle-placard-material.spec.ts --workers=1",
+  "headless": true,
+  "profile": false,
+  "nativePassed": 3,
+  "focusedPassed": 145,
+  "rawGeometrySHA256": "c7d7bbe8df67ae9f531670c2d80eb481ce77e1f206c03384f7f96ec202fad608",
+  "rawGeometryBytes": 5940
+}

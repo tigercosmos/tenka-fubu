@@ -1,0 +1,86 @@
+[
+  {
+    "file": "district-pixels-castle.sunpu.json.gz",
+    "sha256Uncompressed": "54e717d706b2d7c68d97f802d2a080bb26ab09fb4f0e1224e16ebed9fc99ccc3",
+    "rawBytes": 319,
+    "outcome": "expected"
+  },
+  {
+    "file": "district-pixels-castle.narumi.json.gz",
+    "sha256Uncompressed": "6be4d68a5b55c065e4e1f5da29a74449045a3d7900414c6e6bad6b7c753d78a1",
+    "rawBytes": 797,
+    "outcome": "expected"
+  },
+  {
+    "file": "district-pixels-castle.kiyosu.json.gz",
+    "sha256Uncompressed": "35ec68d3d7a8c560ac5a92f90c179a1a90df732ade7ed6706d8dcc2b72371bdf",
+    "rawBytes": 811,
+    "outcome": "expected"
+  },
+  {
+    "file": "district-pixels-castle.kakegawa.json.gz",
+    "sha256Uncompressed": "cacb305c2100aec800fae462a858ca7ad335f6bab36a84e045fa9896c21a3783",
+    "rawBytes": 295,
+    "outcome": "expected"
+  },
+  {
+    "file": "district-pixels-castle.gifu.json.gz",
+    "sha256Uncompressed": "51668e6960f48ad95f611e4b0e7e6479db155b296cbcf3f2f5b09b88e6937de3",
+    "rawBytes": 291,
+    "outcome": "expected"
+  },
+  {
+    "file": "model-hierarchy-raw-castle.sunpu-0.8.json.gz",
+    "sha256Uncompressed": "446260879f3af1b7f814bfb058c8b54d2838e66d8f868732e2ab667f983d0b84",
+    "rawBytes": 781586,
+    "outcome": "expected"
+  },
+  {
+    "file": "model-hierarchy-raw-castle.narumi-0.8.json.gz",
+    "sha256Uncompressed": "34102c99e3175b340cf14ddc547fcef0bdecb922e5b7d42b84aad8144e5442f3",
+    "rawBytes": 783129,
+    "outcome": "expected"
+  },
+  {
+    "file": "model-hierarchy-raw-castle.sunpu-1.json.gz",
+    "sha256Uncompressed": "7ac137f91fbd18a645ca755a755c35a5bdcc0230e58f5c37f657681a7d337453",
+    "rawBytes": 780045,
+    "outcome": "expected"
+  },
+  {
+    "file": "model-hierarchy-raw-castle.narumi-1.json.gz",
+    "sha256Uncompressed": "206677fc577485fe5dc968e426dc34a403962dca8b98849aae3aae9183d341f0",
+    "rawBytes": 782917,
+    "outcome": "expected"
+  },
+  {
+    "file": "model-hierarchy-raw-castle.sunpu-1.5.json.gz",
+    "sha256Uncompressed": "bc343d09cd4d18afc368d3e20461222aff17969ad0cc4b1d210ded894c00ae6b",
+    "rawBytes": 780076,
+    "outcome": "expected"
+  },
+  {
+    "file": "model-hierarchy-raw-castle.narumi-1.5.json.gz",
+    "sha256Uncompressed": "f9ecf1f48e9d2771d2e03a80e98d630b7aaa7f2cd9970da9c2fd7d3a7bb1f898",
+    "rawBytes": 783003,
+    "outcome": "expected"
+  },
+  {
+    "file": "lake-actual-lk.biwa.json.gz",
+    "sha256Uncompressed": "d27631a20690b9937043649dd7cb2cc3fdc2a28566c8f9fb3b26f2bc4059611c",
+    "rawBytes": 4551,
+    "outcome": "expected"
+  },
+  {
+    "file": "lake-actual-lk.hamana.json.gz",
+    "sha256Uncompressed": "76508b9dea4ab023985234d67fb66fba7cdd8841339d79036ac7fff2ca3c6b1e",
+    "rawBytes": 4936,
+    "outcome": "expected"
+  },
+  {
+    "file": "model-hierarchy-far.json.gz",
+    "sha256Uncompressed": "0ed0d173f277b48f3992e5fdca700eccb85aa093d03a859bf80e30e6c3208b43",
+    "rawBytes": 766590,
+    "outcome": "expected"
+  }
+]

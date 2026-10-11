@@ -1,0 +1,26 @@
+{
+  "sourceCommit": "011c5b8124d3bb9e994de562d62e2349d2f41be2",
+  "host": "sim2 (t2-sim-2)",
+  "remoteDirectory": "/tmp/tenka-20261012-sim2-browser",
+  "node": "22.23.3",
+  "playwrightChromium": "149 / revision1228",
+  "headless": true,
+  "environment": {
+    "CI": "1",
+    "VISUAL_GPU": "1",
+    "SIMULATION_PROFILE": "0"
+  },
+  "command": "npx playwright test e2e/worker-simulation.spec.ts e2e/district-material-layout.spec.ts e2e/model-hierarchy-layout.spec.ts --workers=1",
+  "execution": "serial; no profiler, archive compression or transfers during test execution",
+  "testTimeoutMs": 60000,
+  "globalTimeoutMs": 300000,
+  "exitCode": 0,
+  "passed": 10,
+  "priorRedLogs": [
+    "/tmp/tenka-sim2-visual-evidence/visual-recheck.log",
+    "/tmp/tenka-sim2-visual-evidence/visual-oracle-green.log",
+    "/tmp/tenka-sim2-visual-evidence/district-unselected.log"
+  ],
+  "visualChanges": "test oracles only: use displayed node coordinates for camera reconstruction, independently check canonical positions/lift/transform, clear selected-road overlay before material sample, retain fourth proven unoccluded district; original width/RGB thresholds unchanged",
+  "limitations": "Normal Worker total duration and long-task total/max are not consistently lower. Both clean runs preserved. Frame gaps improve in these bounded pairs; remaining stalls exceed16.7ms."
+}
