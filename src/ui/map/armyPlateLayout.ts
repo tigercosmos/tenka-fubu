@@ -380,6 +380,22 @@ export function layoutArmyPlates(
     (a, b) => a.priority - b.priority || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
   );
   for (const { id, rect } of sorted) {
+    // Every accepted proposal lies within the 48px disk. Keep all rectangles
+    // for edge-derived proposal generation, but only scan possible collisions.
+    // Both padded rectangles extend 2px, requiring 4px beyond the search envelope.
+    const minX = rect.x - LIMIT - GAP;
+    const maxX = rect.x + rect.width + LIMIT + GAP;
+    const minY = rect.y - LIMIT - GAP;
+    const maxY = rect.y + rect.height + LIMIT + GAP;
+    const nearby = (other: PlateRect) =>
+      other.x <= maxX &&
+      other.x + other.width >= minX &&
+      other.y <= maxY &&
+      other.y + other.height >= minY;
+    // Filtering preserves the original summation order, including prior plates.
+    const localReserved = reserved.filter(nearby);
+    const localBodies = bodies.filter(nearby);
+    const localForeground = foreground.filter(nearby);
     const intersecting = reserved.filter((r) => overlap(rect, r) > 0);
     const directions = [
       { x: 0, y: Math.max(0, ...intersecting.map((r) => r.y + r.height + GAP - rect.y)) },
@@ -435,9 +451,12 @@ export function layoutArmyPlates(
       const distance = offset.x * offset.x + offset.y * offset.y;
       if (distance > LIMIT * LIMIT) continue;
       const moved = { ...rect, x: rect.x + offset.x, y: rect.y + offset.y };
-      const bodyArea = bodies.reduce((sum, body) => sum + bodyOverlap(moved, body), 0);
-      const foregroundArea = foreground.reduce((sum, actor) => sum + bodyOverlap(moved, actor), 0);
-      const area = reserved.reduce((sum, r) => sum + overlap(moved, r), 0);
+      const bodyArea = localBodies.reduce((sum, body) => sum + bodyOverlap(moved, body), 0);
+      const foregroundArea = localForeground.reduce(
+        (sum, actor) => sum + bodyOverlap(moved, actor),
+        0,
+      );
+      const area = localReserved.reduce((sum, r) => sum + overlap(moved, r), 0);
       if (
         bodyArea < bestBodyArea ||
         (bodyArea === bestBodyArea &&
