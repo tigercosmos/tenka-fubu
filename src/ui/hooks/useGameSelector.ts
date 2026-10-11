@@ -12,6 +12,10 @@ import type { GameState } from '@core/state/gameState';
 
 const selectorStoreContext = createContext<StoreApi<GameStore> | null>(null);
 
+export function useGameSelectorStore(): StoreApi<GameStore> {
+  return useContext(selectorStoreContext) ?? store;
+}
+
 /** Isolated presentation fixtures; omitted in production, where the live store remains the default. */
 export function GameSelectorProvider({
   value,
@@ -29,7 +33,7 @@ export function GameSelectorProvider({
  * 不觸發重渲染（`tickSeq` 遞增才會重跑 selector，見 bridge.ts `runOneDay`）。
  */
 export function useGameSelector<T>(select: (game: GameState) => T): T {
-  const selectorStore = useContext(selectorStoreContext) ?? store;
+  const selectorStore = useGameSelectorStore();
   return useStore(
     selectorStore,
     useShallow((s) => {
@@ -83,6 +87,6 @@ export function useCachedGameSelector<Args extends unknown[], R>(
   cachedSelector: (game: GameState, tickSeq: number, ...args: Args) => R,
   ...args: Args
 ): R {
-  const selectorStore = useContext(selectorStoreContext) ?? store;
+  const selectorStore = useGameSelectorStore();
   return useGameSelector((game) => cachedSelector(game, selectorStore.getState().tickSeq, ...args));
 }

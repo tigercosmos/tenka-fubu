@@ -48,6 +48,7 @@ import {
   useGameSelector,
 } from '../hooks/useGameSelector';
 import { useSession } from '../hooks/useSession';
+import { useMapGameSelector } from '../hooks/useMapGameSelector';
 import { useHotkeys } from '../hooks/useHotkeys';
 import { MapCanvasHost, type MapHandle } from '../map/MapCanvasHost';
 import { measuredFocusViewport, type FocusViewport } from '../map/hudFocus';
@@ -462,7 +463,7 @@ export function MainScreen({
   // 動態視圖：[M6-V4] §4.1 兩層參考穩定化。
   // Layer 1（producer 參考穩定）：`gameView` 經 `useCachedGameSelector`（tickSeq 快取）取得，
   // 同一 tickSeq 內重複呼叫回傳同一參考。
-  const gameView = useCachedGameSelector(cachedSelectMapViewModel);
+  const gameView = useMapGameSelector(cachedSelectMapViewModel);
   const playerClanId = useGameSelector((g) => g.meta.playerClanId);
   const currentGame = store.getState().game;
   // Layer 2（UI 邊界組裝）：`composeMapViewState`（純函式，D7）併入目前選取狀態；`useMemo` 確保
@@ -473,7 +474,7 @@ export function MainScreen({
   // 之 stale-closure），並顯式加入 deps（與 `gameView` 每 tick 同步變，無多餘 re-render）。
   // [M6-V9b] §1.3：名牌兵數查表（castleId → 駐軍；core VM 無此欄，UI 端自 game 讀）；
   // tickSeq 快取確保同 tick 參考穩定，名牌只在 buildNameplateSig（含 soldiers）diff 命中時重繪。
-  const soldiersByCastle = useCachedGameSelector(cachedSelectSoldiersByCastle);
+  const soldiersByCastle = useMapGameSelector(cachedSelectSoldiersByCastle);
   const viewState = useMemo(() => {
     const relationOf =
       currentGame === null
