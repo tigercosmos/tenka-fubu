@@ -1,0 +1,110 @@
+[
+  {
+    "file": "error-context.md.gz",
+    "source": "/tmp/tenka-m6-latest-evidence/error-context.md",
+    "compression": "gzip",
+    "rawBytes": 14354,
+    "storedBytes": 4230,
+    "sha256Uncompressed": "f545386f25c90934d4464b9769797295be3bd65efbb005425e8326133ff6383e",
+    "sha256Stored": "d6ff3ced481fca671915a5c26565dba56f390e305cccb5dc8d072a000f6a12fe"
+  },
+  {
+    "file": "external-trace-expected-hashes.log.gz",
+    "source": "/tmp/tenka-m6-latest-evidence/external-trace-expected-hashes.log",
+    "compression": "gzip",
+    "rawBytes": 843,
+    "storedBytes": 337,
+    "sha256Uncompressed": "19b27305c8fb4e59ab4790b532142b379e45286069b32fddea3642419795871d",
+    "sha256Stored": "1b1f926d3720075ee44cdbbcfe310e8b129a611b9821ac21894863172b5ea8d7"
+  },
+  {
+    "file": "strategy-close-actual.png",
+    "source": "/tmp/tenka-m6-latest-evidence/strategy-close-actual.png",
+    "compression": "none",
+    "rawBytes": 818199,
+    "storedBytes": 818199,
+    "sha256Uncompressed": "6c6cdf8c2ea53863fd571ddb23a865bf44e908640a26ea8fee8a7f879f816e5a",
+    "sha256Stored": "6c6cdf8c2ea53863fd571ddb23a865bf44e908640a26ea8fee8a7f879f816e5a"
+  },
+  {
+    "file": "strategy-close-diff.png",
+    "source": "/tmp/tenka-m6-latest-evidence/strategy-close-diff.png",
+    "compression": "none",
+    "rawBytes": 258183,
+    "storedBytes": 258183,
+    "sha256Uncompressed": "cb85b0373b24ae97b36095183e9ff2f33059bf00d208d47206560cda97b812d4",
+    "sha256Stored": "cb85b0373b24ae97b36095183e9ff2f33059bf00d208d47206560cda97b812d4"
+  },
+  {
+    "file": "strategy-operational-actual.png",
+    "source": "/tmp/tenka-m6-latest-evidence/strategy-operational-actual.png",
+    "compression": "none",
+    "rawBytes": 595200,
+    "storedBytes": 595200,
+    "sha256Uncompressed": "ce8ed32f317ca739d427c45b534a920c11c88480d6e0c3f5b3d77df0abbf0eac",
+    "sha256Stored": "ce8ed32f317ca739d427c45b534a920c11c88480d6e0c3f5b3d77df0abbf0eac"
+  },
+  {
+    "file": "strategy-operational-diff.png",
+    "source": "/tmp/tenka-m6-latest-evidence/strategy-operational-diff.png",
+    "compression": "none",
+    "rawBytes": 220361,
+    "storedBytes": 220361,
+    "sha256Uncompressed": "b909274c4417df6a365a140b94550eeb50221ac7a0dceb7b8839708ee38c2124",
+    "sha256Stored": "b909274c4417df6a365a140b94550eeb50221ac7a0dceb7b8839708ee38c2124"
+  },
+  {
+    "file": "strategy-overview-actual.png",
+    "source": "/tmp/tenka-m6-latest-evidence/strategy-overview-actual.png",
+    "compression": "none",
+    "rawBytes": 376176,
+    "storedBytes": 376176,
+    "sha256Uncompressed": "1ec74c838781a8bdb014d757f4a2d5c6efb08efedd691229c501791d9128ceac",
+    "sha256Stored": "1ec74c838781a8bdb014d757f4a2d5c6efb08efedd691229c501791d9128ceac"
+  },
+  {
+    "file": "strategy-overview-diff.png",
+    "source": "/tmp/tenka-m6-latest-evidence/strategy-overview-diff.png",
+    "compression": "none",
+    "rawBytes": 166478,
+    "storedBytes": 166478,
+    "sha256Uncompressed": "bdd689fc921f5dab55adf4c79227d009fe0ef1ca9711c7dfa730f9b2bf7dc3ac",
+    "sha256Stored": "bdd689fc921f5dab55adf4c79227d009fe0ef1ca9711c7dfa730f9b2bf7dc3ac"
+  },
+  {
+    "file": "tenka-m6-latest-build.log.gz",
+    "source": "/tmp/tenka-m6-latest-evidence/tenka-m6-latest-build.log",
+    "compression": "gzip",
+    "rawBytes": 2336,
+    "storedBytes": 933,
+    "sha256Uncompressed": "14739187b29bc5f877846d554ae5fcc15169f3d892d1c37df83b0d017d2fcca2",
+    "sha256Stored": "46eacc1f25c3df0481ad3081d6c3b1d838d0c32eeb7e8ab8e6d01c13130ac995"
+  },
+  {
+    "file": "tenka-m6-latest-source-manifest.json.gz",
+    "source": "/tmp/tenka-m6-latest-evidence/tenka-m6-latest-source-manifest.json",
+    "compression": "gzip",
+    "rawBytes": 253646,
+    "storedBytes": 80036,
+    "sha256Uncompressed": "16705daef73082033fbabf1f8c4ec27a9159b6328933f0b7c7cfcee947405e8d",
+    "sha256Stored": "fa9b51150d81e5f5240ffd00c83bb265f3bd30edf3264f4710ceb320578f3093"
+  },
+  {
+    "file": "tenka-m6-latest-source-verification.json.gz",
+    "source": "/tmp/tenka-m6-latest-evidence/tenka-m6-latest-source-verification.json",
+    "compression": "gzip",
+    "rawBytes": 1347,
+    "storedBytes": 529,
+    "sha256Uncompressed": "fdb670c3639167ecb3d3965053f773181be3e23bd22d2d26a35f22c1cd1bc445",
+    "sha256Stored": "82d11b32d55ec8abc7f0a49bc9aa036e91d24522aed9287b2ffae89bf0ce9d0a"
+  },
+  {
+    "file": "tenka-m6-latest-visual.log.gz",
+    "source": "/tmp/tenka-m6-latest-evidence/tenka-m6-latest-visual.log",
+    "compression": "gzip",
+    "rawBytes": 7387,
+    "storedBytes": 1009,
+    "sha256Uncompressed": "c0f72aa05b12e9a537e119f3e6316186d979ae7edfde061fecde6eec4e0479f2",
+    "sha256Stored": "72bfe38a065eea4ddeeda9fa0beb36466a509bce77cb8d2f33656a04cb1f3ae2"
+  }
+]

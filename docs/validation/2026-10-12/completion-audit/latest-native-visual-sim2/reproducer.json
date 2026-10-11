@@ -1,0 +1,21 @@
+{
+  "command": "npm run build; npx playwright test e2e/visual.spec.ts --grep \"three camera baselines|required renderer layers\" --workers=1",
+  "environment": {
+    "PATH": "$PWD/runtime/node-v22.23.3-linux-x64/bin:$PATH",
+    "PLAYWRIGHT_BROWSERS_PATH": "$PWD/runtime/browsers",
+    "CI": "1",
+    "VISUAL_GPU": "1"
+  },
+  "launchFlags": ["--enable-gpu", "--use-angle=vulkan"],
+  "sourceManifest": "tenka-m6-latest-source-manifest.json.gz",
+  "afterRunVerification": "tenka-m6-latest-source-verification.json.gz",
+  "publicRuntime": "40 exact public files checked before and after build/run",
+  "sourceOverlay": "1444 exact runtime/test/config files copied with SHA; raw tools/assets sources excluded as not build/runtime inputs for this native gate",
+  "rawTraceAndExpected": "external-trace-expected-hashes.log.gz",
+  "remoteResults": "/tmp/tenka-m6-native-latest-2544b30/test-results",
+  "sourceOverlayArchive": {
+    "path": "/tmp/tenka-m6-latest-overlay.tar.gz",
+    "sha256": "a1ed764d1528324206c81909043257b472963666a487f4ba58b52643be574daf"
+  },
+  "noUpdates": "UPDATE_VISUAL not set; no --update-snapshots, baseline refresh, skips or tolerance changes."
+}

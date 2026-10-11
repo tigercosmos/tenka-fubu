@@ -1,0 +1,73 @@
+{
+  "headAtCapture": "2544b30fe81f0a147e728b109c75641d8ed707f1",
+  "scope": "Exact captured working snapshot including current Pixi patch metadata; not a clean HEAD-only checkout.",
+  "isolatedHost": "sim2",
+  "remoteRepo": "/tmp/tenka-m6-native-latest-2544b30",
+  "headless": true,
+  "GPU": "NVIDIA RTX5070Ti",
+  "node": "22.23.3",
+  "chromium": "149.0.7827.55",
+  "profiler": false,
+  "withinHostNativeWorkloadsSerial": true,
+  "build": "PASS",
+  "baselineTest": "FAIL",
+  "layerPresence": "PASS all three LODs",
+  "nativeTests": {
+    "passed": 1,
+    "failed": 1,
+    "seconds": 12.7
+  },
+  "baselineDifferences": {
+    "overview": 186777,
+    "operational": 270334,
+    "close": 291556
+  },
+  "maxDiffPixels": 100,
+  "threshold": 0.15,
+  "timeoutMs": 60000,
+  "globalTimeoutMs": 300000,
+  "sourceVerification": {
+    "verifiedOverlayFiles": 1444,
+    "verifiedPublicFiles": 40,
+    "mismatchesAfterBuildAndNative": [],
+    "protectedPNGFiles": [
+      {
+        "path": "e2e/visual.spec.ts-snapshots/strategy-close-chromium-darwin.png",
+        "bytes": 210320,
+        "sha256": "5c1f04a05725fc8158defe510d142e2440ffc03d274ca96bb49228cf1cc419f6"
+      },
+      {
+        "path": "e2e/visual.spec.ts-snapshots/strategy-close-chromium-linux.png",
+        "bytes": 208011,
+        "sha256": "9655af8d6dac63031be27c3116f3e23bcd84d9d6ce3744d492b38884095eb810"
+      },
+      {
+        "path": "e2e/visual.spec.ts-snapshots/strategy-operational-chromium-darwin.png",
+        "bytes": 128084,
+        "sha256": "c466bb0314a60dd31a910c0fb5392ca03ae32415ecf0aa40b4aaa4e50af33934"
+      },
+      {
+        "path": "e2e/visual.spec.ts-snapshots/strategy-operational-chromium-linux.png",
+        "bytes": 125989,
+        "sha256": "7cbce270f6efad5b5cf6d95500e76010355c6fb777c45b10acbeb5a774bb2ce3"
+      },
+      {
+        "path": "e2e/visual.spec.ts-snapshots/strategy-overview-chromium-darwin.png",
+        "bytes": 108036,
+        "sha256": "5cf68478e90ec79b8e5d3acceccfea27b170aecc2adb9dedcdef12ab00692c19"
+      },
+      {
+        "path": "e2e/visual.spec.ts-snapshots/strategy-overview-chromium-linux.png",
+        "bytes": 106052,
+        "sha256": "250d0493c6184128857060aa90147204fe609ca1652571db8e2e1c13bcf93ddf"
+      }
+    ]
+  },
+  "protectedBaselineFilesChanged": 0,
+  "sourceChanges": false,
+  "testChanges": false,
+  "baselineChanges": false,
+  "visualObservation": "Expected operational image uses flat terrain and light large rail; actual uses textured terrain, compact dark HUD/rail and expanded army labels. This comparison differs broadly from prior11/8corner restoration diagnostics.",
+  "approvalLimit": "Protected baseline replacement would require independent before/after, Art Bible rationale and reviewer approval under17 \u00a73.9.3. No replacement authorized or performed.",
+  "remaining": "M6 fixed-baseline acceptance remains RED; layer presence does not establish human readability, all-label geometry or accepted FPS/heap stability."
+}
