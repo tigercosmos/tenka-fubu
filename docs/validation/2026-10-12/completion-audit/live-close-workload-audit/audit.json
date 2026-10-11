@@ -1,0 +1,267 @@
+{
+  "sourceHead": "ef2f5c179bad169bd8164ebc86ea85d78dfd4ea5",
+  "rawArtifact": "docs/validation/2026-10-12/completion-audit/native-gates-sim2-505d96a/live-national-close.json.gz",
+  "rawSha256": "cddefa8f739f3a22aaef5e8521839778fc2c7ea1c233284bc59ce4e2d1e9177f",
+  "sourceControls": [
+    {
+      "file": "e2e/live-national-map-perf.spec.ts",
+      "frozen505Sha256": "1ff3eff98e825c2deacba2ceab592e2f66cdef785a2eb1854b1bfe2a32360ce2",
+      "currentSha256": "1ff3eff98e825c2deacba2ceab592e2f66cdef785a2eb1854b1bfe2a32360ce2",
+      "same": true
+    },
+    {
+      "file": "src/ui/hooks/useM6Dialogs.ts",
+      "frozen505Sha256": "2c9f2e97afd3e2891c07331764863faea1b6c3586f739be28ce74fad9a0ddaf7",
+      "currentSha256": "2c9f2e97afd3e2891c07331764863faea1b6c3586f739be28ce74fad9a0ddaf7",
+      "same": true
+    },
+    {
+      "file": "src/core/systems/ai/proposalGen.ts",
+      "frozen505Sha256": "c49897b3838a4ce7cce5c91607c9017c2d99dab9c264da267368e5008666c2ac",
+      "currentSha256": "c49897b3838a4ce7cce5c91607c9017c2d99dab9c264da267368e5008666c2ac",
+      "same": true
+    },
+    {
+      "file": "src/core/systems/proposals.ts",
+      "frozen505Sha256": "2ea561dfd0df1e45be382478f948520be3209b437ea6ceb5faec0064e73d249f",
+      "currentSha256": "2ea561dfd0df1e45be382478f948520be3209b437ea6ceb5faec0064e73d249f",
+      "same": true
+    },
+    {
+      "file": "src/app/liveMapFrameMeasurement.ts",
+      "frozen505Sha256": "8e8845889e36aa21d8ade59778b146fe53b83cf5c91d88dc18423ca324fd2201",
+      "currentSha256": "8e8845889e36aa21d8ade59778b146fe53b83cf5c91d88dc18423ca324fd2201",
+      "same": true
+    },
+    {
+      "file": "src/app/liveMapWorkload.ts",
+      "frozen505Sha256": "edba819fe25a7b673b6305b2e806fda63a0d7b5ca83e0c385acf3e5b34845b55",
+      "currentSha256": "edba819fe25a7b673b6305b2e806fda63a0d7b5ca83e0c385acf3e5b34845b55",
+      "same": true
+    }
+  ],
+  "measurement": {
+    "startDay": 121,
+    "endDay": 150,
+    "actualDayDelta": 29,
+    "durationMs": 30000.199999809265,
+    "valid": false,
+    "averageFps": 56.399624002865224,
+    "frameTimeP95": 19.800000190734863,
+    "observationErrors": []
+  },
+  "firstInterruption": {
+    "timestamp": 25423.400000095367,
+    "day": 150,
+    "reasons": ["speed:paused"]
+  },
+  "measurementStartTimestamp": 21856.800000190735,
+  "firstInterruptionElapsedMs": 3566.5999999046326,
+  "pendingAtStart": ["prop.000027", "prop.000028", "prop.000029"],
+  "day150Proposals": [
+    {
+      "proposal": {
+        "clanId": "clan.oda",
+        "officerId": "off.shibata-katsuie",
+        "kind": "march",
+        "command": {
+          "type": "march",
+          "clanId": "clan.oda",
+          "originCastleId": "castle.kiyosu",
+          "leaderId": "off.shibata-katsuie",
+          "deputyIds": [],
+          "soldiers": 1670,
+          "food": 2004,
+          "targetNodeId": "castle.nagashima"
+        },
+        "meritReward": 30,
+        "estimatedCostGold": 0,
+        "summaryKey": "ui.proposal.kind.march",
+        "summaryParams": {},
+        "id": "prop.000033",
+        "createdDay": 150,
+        "expiresDay": 210,
+        "status": "pending"
+      },
+      "officer": {
+        "name": "柴田勝家",
+        "ldr": 92,
+        "val": 95,
+        "int": 62,
+        "pol": 70,
+        "rank": "karo",
+        "armyId": null,
+        "locationCastleId": "castle.kiyosu"
+      },
+      "cooldownUntil": 150
+    },
+    {
+      "proposal": {
+        "clanId": "clan.oda",
+        "officerId": "off.takigawa-kazumasu",
+        "kind": "march",
+        "command": {
+          "type": "march",
+          "clanId": "clan.oda",
+          "originCastleId": "castle.kiyosu",
+          "leaderId": "off.takigawa-kazumasu",
+          "deputyIds": [],
+          "soldiers": 1670,
+          "food": 2004,
+          "targetNodeId": "castle.nagashima"
+        },
+        "meritReward": 30,
+        "estimatedCostGold": 0,
+        "summaryKey": "ui.proposal.kind.march",
+        "summaryParams": {},
+        "id": "prop.000034",
+        "createdDay": 150,
+        "expiresDay": 210,
+        "status": "pending"
+      },
+      "officer": {
+        "name": "瀧川一益",
+        "ldr": 86,
+        "val": 80,
+        "int": 84,
+        "pol": 72,
+        "rank": "samurai-taisho",
+        "armyId": null,
+        "locationCastleId": "castle.kiyosu"
+      },
+      "cooldownUntil": 150
+    },
+    {
+      "proposal": {
+        "clanId": "clan.oda",
+        "officerId": "off.mori-yoshinari",
+        "kind": "march",
+        "command": {
+          "type": "march",
+          "clanId": "clan.oda",
+          "originCastleId": "castle.inuyama",
+          "leaderId": "off.mori-yoshinari",
+          "deputyIds": [],
+          "soldiers": 560,
+          "food": 672,
+          "targetNodeId": "castle.nagashima"
+        },
+        "meritReward": 30,
+        "estimatedCostGold": 0,
+        "summaryKey": "ui.proposal.kind.march",
+        "summaryParams": {},
+        "id": "prop.000035",
+        "createdDay": 150,
+        "expiresDay": 210,
+        "status": "pending"
+      },
+      "officer": {
+        "name": "森可成",
+        "ldr": 80,
+        "val": 82,
+        "int": 64,
+        "pol": 60,
+        "rank": "busho",
+        "armyId": null,
+        "locationCastleId": "castle.inuyama"
+      },
+      "cooldownUntil": 150
+    }
+  ],
+  "warmupDecisions": [
+    {
+      "day": 31,
+      "seq": 0,
+      "command": {
+        "type": "resolveProposal",
+        "clanId": "clan.oda",
+        "proposalId": "prop.000003",
+        "accept": false
+      }
+    },
+    {
+      "day": 31,
+      "seq": 1,
+      "command": {
+        "type": "resolveProposal",
+        "clanId": "clan.oda",
+        "proposalId": "prop.000004",
+        "accept": false
+      }
+    },
+    {
+      "day": 31,
+      "seq": 2,
+      "command": {
+        "type": "resolveProposal",
+        "clanId": "clan.oda",
+        "proposalId": "prop.000005",
+        "accept": false
+      }
+    },
+    {
+      "day": 61,
+      "seq": 0,
+      "command": {
+        "type": "resolveProposal",
+        "clanId": "clan.oda",
+        "proposalId": "prop.000021",
+        "accept": false
+      }
+    },
+    {
+      "day": 61,
+      "seq": 1,
+      "command": {
+        "type": "resolveProposal",
+        "clanId": "clan.oda",
+        "proposalId": "prop.000022",
+        "accept": false
+      }
+    },
+    {
+      "day": 61,
+      "seq": 2,
+      "command": {
+        "type": "resolveProposal",
+        "clanId": "clan.oda",
+        "proposalId": "prop.000023",
+        "accept": false
+      }
+    },
+    {
+      "day": 91,
+      "seq": 0,
+      "command": {
+        "type": "resolveProposal",
+        "clanId": "clan.oda",
+        "proposalId": "prop.000024",
+        "accept": false
+      }
+    },
+    {
+      "day": 91,
+      "seq": 1,
+      "command": {
+        "type": "resolveProposal",
+        "clanId": "clan.oda",
+        "proposalId": "prop.000025",
+        "accept": false
+      }
+    },
+    {
+      "day": 91,
+      "seq": 2,
+      "command": {
+        "type": "resolveProposal",
+        "clanId": "clan.oda",
+        "proposalId": "prop.000026",
+        "accept": false
+      }
+    }
+  ],
+  "nominalMonthMsX5": 3600,
+  "nominal60DayCooldownMsX5": 7200,
+  "boundary": "Read-only source and retained artifact analysis; no new native timing or full future trajectory execution.",
+  "nominalDaysIn30sX5": 250
+}
