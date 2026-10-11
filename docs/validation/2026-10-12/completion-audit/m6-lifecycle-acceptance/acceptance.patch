@@ -1,0 +1,130 @@
+--- a/tests/core/officerLifecycle.spec.ts
++++ b/tests/core/officerLifecycle.spec.ts
+@@ -1,7 +1,10 @@
+ import { describe, expect, it, vi } from 'vitest';
++import { traitModifier } from '../../src/core/traits';
+ import { BAL } from '../../src/core/balance';
+ import { buildGameStateFromScenario } from '../../src/core/state/builder';
+ import { loadS1560Scenario } from '../../src/data/scenarios/s1560';
++import { CommandQueue } from '../../src/core/commands/queue';
++import { validateCommand } from '../../src/core/commands/validate';
+ import { advanceDay } from '../../src/core/systems/index';
+ import { applyMarch } from '../../src/core/commands/march';
+ import { beginSiege } from '../../src/core/systems/siege';
+@@ -564,9 +567,91 @@
+       armyId: null,
+     };
+     const events: GameEvent[] = [];
++    const queue = new CommandQueue(state.meta.lastAppliedCmdSeq + 1);
++    let adopted: Proposal | undefined;
++    let cleanedUp = false;
+     for (let day = 0; day < 720; day++) {
+       if (day < 90) state.clans[clanId]!.gold = 0;
+-      events.push(...advanceDay(state, []).events);
++      // Adopt a real Step 10 candidate. Do not supply a proposal, force its RNG,
++      // or change rank/resources beyond this fixture's existing salary stress.
++      const candidate =
++        adopted === undefined
++          ? Object.values(state.proposals).find(
++              (proposal) =>
++                proposal.status === 'pending' &&
++                proposal.command.type === 'march' &&
++                validateCommand(state, proposal.command).ok,
++            )
++          : undefined;
++      const proposerBefore =
++        candidate === undefined ? undefined : structuredClone(state.officers[candidate.officerId]!);
++      if (candidate !== undefined) {
++        expect(events).toContainEqual(
++          expect.objectContaining({
++            type: 'proposal.submitted',
++            proposalId: candidate.id,
++            officerId: candidate.officerId,
++          }),
++        );
++        adopted = structuredClone(candidate);
++        queue.enqueue(
++          { type: 'resolveProposal', clanId, proposalId: candidate.id, accept: true },
++          state.time.day,
++        );
++      }
++      const pending = queue.drain();
++      const result = advanceDay(state, pending);
++      events.push(...result.events);
++      if (candidate !== undefined) {
++        expect(result.appliedCommands).toEqual(pending);
++        expect(pending).toHaveLength(1);
++        expect(state.proposals[candidate.id]!.status).toBe('accepted');
++        expect(state.proposals[candidate.id]!.command).toEqual(adopted!.command);
++        const payload = candidate.command;
++        expect(payload.type).toBe('march');
++        if (payload.type !== 'march') throw new Error('Expected naturally generated march');
++        const departed = result.events.find(
++          (event) => event.type === 'army.departed' && event.leaderId === payload.leaderId,
++        );
++        expect(departed).toMatchObject({
++          type: 'army.departed',
++          clanId,
++          leaderId: payload.leaderId,
++          originCastleId: payload.originCastleId,
++          targetNodeId: payload.targetNodeId,
++        });
++        if (departed?.type !== 'army.departed') throw new Error('Proposal payload did not execute');
++        expect(state.armies[departed.armyId]!).toMatchObject({
++          clanId,
++          leaderId: payload.leaderId,
++          originCastleId: payload.originCastleId,
++          targetNodeId: payload.targetNodeId,
++          soldiers: payload.soldiers,
++        });
++        const author = state.officers[candidate.officerId]!;
++        const earnedMerit = Math.round(
++          candidate.meritReward * traitModifier(proposerBefore!, 'officer.meritGainMult').mult,
++        );
++        expect(earnedMerit).toBeGreaterThan(0);
++        expect(author.merit).toBe(proposerBefore!.merit + earnedMerit);
++        // This initial natural author has enough experience capacity for the award.
++        expect(proposerBefore!.statExp.ldr + earnedMerit).toBeLessThan(BAL.statExpPerPoint);
++        expect(author.statExp.ldr).toBe(proposerBefore!.statExp.ldr + earnedMerit);
++        expect(author.loyalty).toBe(
++          Math.min(100, proposerBefore!.loyalty + BAL.proposalAdoptLoyalty),
++        );
++        expect(result.events).toContainEqual(
++          expect.objectContaining({
++            type: 'proposal.resolved',
++            proposalId: candidate.id,
++            accepted: true,
++          }),
++        );
++      }
++      if (adopted !== undefined && state.proposals[adopted.id] === undefined) {
++        if (!cleanedUp) expect(state.time.dayOfMonth).toBe(1);
++        cleanedUp = true;
++      }
+       expect(
+         validateState(state),
+         `day=${day} gamo=${JSON.stringify(state.officers['off.gamo-katahide' as OfficerId])}`,
+@@ -598,5 +683,23 @@
+     );
+     expect(state.officers[childId].hasComeOfAge).toBe(true);
+     expect(dying.status).toBe('dead');
++    const unpaid = events.filter(
++      (event) => event.type === 'economy.upkeepUnpaid' && event.clanId === clanId,
++    );
++    expect(unpaid.length).toBeGreaterThan(0);
++    expect(
++      unpaid.some(
++        (event) => event.type === 'economy.upkeepUnpaid' && event.payeeIds.includes(debtor.id),
++      ),
++    ).toBe(true);
++    expect(adopted).toBeDefined();
++    expect(
++      events.filter(
++        (event) =>
++          event.type === 'proposal.resolved' && event.proposalId === adopted!.id && event.accepted,
++      ),
++    ).toHaveLength(1);
++    expect(cleanedUp).toBe(true);
++    expect(state.proposals[adopted!.id]).toBeUndefined();
+   });
+ });

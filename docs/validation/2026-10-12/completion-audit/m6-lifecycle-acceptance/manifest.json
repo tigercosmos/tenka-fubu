@@ -1,0 +1,30 @@
+{
+  "sourceHead": "9dad6a634cdb5914ec653f7fbbdc83c24487c74c",
+  "testCommit": "38d22b0",
+  "sourceArchiveVerifiedGitBlobs": 238,
+  "files": {
+    "README.md": "da9caca277122cc3b13ffaec62c1eaf3929f330703f8328099817c174ea6f0e5",
+    "acceptance.patch": "0bedee918c13b10939f7fa3ec29a59fcf646039fce72b9ed7995ea29ef31a0c8",
+    "accepted-test.spec.ts.gz": "90c11d53cb82829ed9e490a36fa153552dd87d162036072117b2f5279f0a0323",
+    "adopted-lifecycle-observations.json.gz": "204ad334b34b4f864a452f2aa8403fe5e2e2f90e5d4f98da3717f7fce176d7aa",
+    "adopted-observation-run.log.gz": "eecbd3c3702f01052dae8aaf00a315a54b8101043a9ba249caec9dcc389f7ccf",
+    "adopted-observer.spec.ts.gz": "d47c3cdb0a8202fa1ba01083a9c0b977f486d3eabc723e99e45ad8b7356cb38f",
+    "bounded-archive-reproduction.log.gz": "e72e039c8576f18069fcb61ffdf40d10a5268c4ea52eb91b28086917f7fa2ef7",
+    "lifecycle-acceptance-final-green.log.gz": "33ae2a461b3bd8bde434e4a13d88946b5854f4e40322c8c59f452081774bd536",
+    "lifecycle-acceptance-green.log.gz": "f9ac044c72d9447cc368cc14d0ffa47ed7dd9c04afe82197e2bf1c2b701c0f3b",
+    "lifecycle-eslint-final.log.gz": "ade0dec3c2fedf07f10b0bf71278a60f9cc5fd2816b8d2226269e8e54c9ddeca",
+    "lifecycle-eslint.log.gz": "34546c46db0251611d65db439228773804a7ab5699e2c650a705fe47dc90d2a3",
+    "lifecycle-typecheck-final.log.gz": "ea42de39e3759f85cd2fbeb4e5def9fc0ed6681823d5ac9419a7c864826a8156",
+    "lifecycle-typecheck.log.gz": "ee4e58b583a41bb7f6c6df306e53e922184c6abf51b227595c5661d633107928",
+    "matrix-9dad6a6.md": "bdda4f5c418ac9e79262a4e62c547bbcbb3a0d00b8617172005ba516a742d405",
+    "missing-acceptance-red.log.gz": "9f620e87de0b2dfa32cf4fc1c056ef4c9a950b17e333ce1165ee000c8e24245c",
+    "original-observation-run.log.gz": "e9c2bc0580b46a5efa4dbc4c99f4af67380b3df1b25bd1a919718c6cfc73f45f",
+    "original-observations.json.gz": "7b8694cdcc8d93b4f69288b74a8659377af06a9f337b6f0e085143a58312c042",
+    "original-observer.spec.ts.gz": "788bd94a033a8878eb913486b3cffe6c903859d30247405abb2682ed761dd924",
+    "original-required-assertions-red.spec.ts.gz": "6f3d07573d8c2e93c576f832b02986740c9773af209e08b0934d4c590a070e35",
+    "source-9dad6a6.tar.gz": "240f251955d3b9636ed0af6a7e579c8dd751e8fa3b175d6ef106f71e0ebabc67",
+    "source-git-blobs.txt": "926df45c4461c991d760d62285c6e4b21093e34b74f610a6bfc1329e1f877f1f",
+    "summary.json": "2eaf304457de3e2b7bf515f57ce8874ff4405ade5a94b8141b3d60c417a1c698",
+    "summary.json.gz": "8c078e2bbe9c4f7db5727bd77b544a94d87ed9e51d9f449619b967f208464e03"
+  }
+}

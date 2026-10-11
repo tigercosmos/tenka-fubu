@@ -1,0 +1,31 @@
+{
+  "sourceHead": "9dad6a6",
+  "original": {
+    "submitted": 72,
+    "expired": 66,
+    "accepted": 0,
+    "unpaid": 40
+  },
+  "adopted": {
+    "proposalId": "prop.000001",
+    "officerId": "off.takigawa-kazumasu",
+    "generatedDay": 30,
+    "acceptedDay": 31,
+    "removedDay": 60,
+    "finalDay": 720,
+    "merit": [0, 30],
+    "leadershipExp": [0, 30],
+    "loyalty": [52, 54],
+    "submitted": 72,
+    "expired": 65,
+    "accepted": 1,
+    "unpaid": 39
+  },
+  "validation": {
+    "finalTestsPassed": 20,
+    "dailyInvariantChecks": 720,
+    "typecheck": "pass",
+    "eslint": "pass"
+  },
+  "scope": "only tests/core/officerLifecycle.spec.ts; no fixture initialization or core/BAL changes"
+}
