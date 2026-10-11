@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "scenarioId": "mini",
+  "seed": 42,
+  "ticks": 720,
+  "checkpoints": [
+    {
+      "day": 360,
+      "hash": "6dff46282bac6060"
+    },
+    {
+      "day": 720,
+      "hash": "3364b82bae01430e"
+    }
+  ],
+  "balanceHash": "7634217400759e66"
+}

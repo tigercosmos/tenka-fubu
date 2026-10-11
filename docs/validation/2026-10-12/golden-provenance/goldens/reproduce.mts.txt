@@ -1,0 +1,46 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, mkdirSync, cpSync, symlinkSync, mkdtempSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { createHash } from 'node:crypto';
+const oldRoot=process.env.TENKA_HISTORICAL_ROOT, newRoot=process.env.TENKA_CURRENT_ROOT, proofRoot=process.env.TENKA_PROOF_ROOT, depsRoot=process.env.TENKA_DEPENDENCIES_ROOT;
+assert.ok(oldRoot&&newRoot&&proofRoot&&depsRoot,'Set TENKA_HISTORICAL_ROOT, TENKA_CURRENT_ROOT, TENKA_PROOF_ROOT and TENKA_DEPENDENCIES_ROOT');
+const historicalManifest=JSON.parse(readFileSync(proofRoot+'/historical-source-manifest.json','utf8'));
+for(const entry of historicalManifest.files)assert.equal(createHash('sha256').update(readFileSync(oldRoot+'/'+entry.path)).digest('hex'),entry.sha256);
+const scratch=mkdtempSync(join(tmpdir(),'tenka-golden-control-'));
+for(const kind of ['old','ordinary','counterfactual']) {
+ const target=join(scratch,kind);mkdirSync(target);
+ for(const path of ['src/core','src/data','tests/fixtures','tests/golden','tests/config.ts','package.json','tsconfig.json'])cpSync(join(kind==='old'?oldRoot:newRoot,path),join(target,path),{recursive:true});
+ symlinkSync(join(depsRoot,'node_modules'),join(target,'node_modules'),'dir');
+}
+const counter=join(scratch,'counterfactual');const reversePatch=[];
+function change(path, transform) {const full=join(counter,path),before=readFileSync(full,'utf8'),after=transform(before);assert.notEqual(before,after);writeFileSync(full,after);reversePatch.push({path,beforeSha256:createHash('sha256').update(before).digest('hex'),afterSha256:createHash('sha256').update(after).digest('hex'),before,after});}
+change('src/core/systems/siege.ts',s=>{const start=s.indexOf('      castle.durability = Math.round('),end=s.indexOf('      castle.soldiers =',start);assert.ok(start>0&&end>start);const block=s.slice(start,end).replace('castle.durability = Math.round(\n        Math.max(','castle.durability = Math.max(').replace('        ),\n      );','      );');assert.notEqual(block,s.slice(start,end));s=s.slice(0,start)+block+s.slice(end);assert.ok(s.includes("gainMerit(state.officers[officerId]!, amount, ['ldr', 'val']);"));return s.replace("gainMerit(state.officers[officerId]!, amount, ['ldr', 'val']);",'void officerId; void amount;');});
+change('src/core/systems/uprising.ts',s=>{const old=readFileSync(oldRoot+'/src/core/systems/uprising.ts','utf8'),start='function monthlySecurityDelta(',end='export function monthlyUprising(';return s.slice(0,s.indexOf(start))+old.slice(old.indexOf(start),old.indexOf(end))+s.slice(s.indexOf(end));});
+change('src/core/systems/diplomacy.ts',s=>{const old="gainMerit(officer, BAL.meritDiplomacy, ['pol']);";assert.ok(s.includes(old));return s.replace(old,'void officer;');});
+change('src/core/systems/ai/attackPlan.ts',s=>{const old='troops < plan.plannedTroops * BAL.aiMusterReadyRatio &&\n        readyPower / Math.max(estCastlePower(state, target), 1) < required';assert.ok(s.includes(old));return s.replace(old,'readyPower / Math.max(estCastlePower(state, target), 1) < required ||\n        (!timedOut && troops < plan.plannedTroops * BAL.aiMusterReadyRatio)');});
+const diffs=(a,b,path='',out=[])=>{if(Object.is(a,b))return out;if(a&&b&&typeof a==='object'&&typeof b==='object'){for(const key of [...new Set([...Object.keys(a),...Object.keys(b)])].sort())diffs(a[key],b[key],path+'/'+key,out);}else out.push(structuredClone({path,old:a,current:b}));return out;};
+const results=[];
+for(const[file,fn,name]of [['goldenRunner','runGoldenMini','golden-mini'],['aiRunner','runAiGolden','golden-ai'],['diplomacyRunner','runDiplomacyGolden','golden-diplomacy']]){
+ const records=[];let mode='old',index=0;const ordinaryDays=[],counterfactualDays=[];
+ globalThis.__capture=(state,result,queue)=>{
+  if(mode==='old')records.push(JSON.stringify({state,result,queue}));
+  else {const old=JSON.parse(records[index]);if(mode==='counterfactual'){state=structuredClone(state);assert.equal(state.meta.saveVersion,4);state.meta.saveVersion=3;const expectedClans=name==='golden-diplomacy'?['clan.alpha','clan.beta','clan.gamma']:['clan.alpha','clan.beta'];assert.deepEqual(Object.keys(state.clans).sort(),expectedClans);for(const clan of Object.values(state.clans)){assert.equal(clan.rewardGoldSpentThisMonth,0);delete clan.rewardGoldSpentThisMonth;}}
+   const day={day:index+1,stateDifferences:diffs(old.state,state),eventDifferences:diffs(old.result.events,result.events),commandDifferences:diffs(old.queue,queue),appliedDifferences:diffs(old.result.appliedCommands,result.appliedCommands)};
+   if(mode==='counterfactual'){assert.deepEqual(day.stateDifferences,[]);assert.deepEqual(day.eventDifferences,[]);assert.deepEqual(day.commandDifferences,[]);assert.deepEqual(day.appliedDifferences,[]);counterfactualDays.push(day);}else ordinaryDays.push(day);
+  }index++;
+ };
+ const summaries={};
+ for(const kind of ['old','ordinary','counterfactual']){
+  mode=kind;index=0;const dir=join(scratch,kind,'tests/golden'),original=readFileSync(join(dir,file+'.ts'),'utf8');assert.ok(original.includes('import { advanceDay }'));
+  const source=original.replace('import { advanceDay }','import { advanceDay as realAdvanceDay }')+'\nfunction advanceDay(state,queue){const result=realAdvanceDay(state,queue);globalThis.__capture(state,result,queue);return result;}\n';
+  const path=join(dir,file+'.causal.ts');writeFileSync(path,source);const runner=await import(path);summaries[kind]=runner[fn]();
+ }
+ assert.deepEqual(summaries.old,JSON.parse(readFileSync(proofRoot+'/frozen/'+name+'.json','utf8')));
+ assert.deepEqual(summaries.ordinary,JSON.parse(readFileSync(proofRoot+'/current/'+name+'.json','utf8')));
+ for(const key of ['appliedCommands','eventCounts','intentCounts','plotResolutions'])assert.deepEqual(summaries.counterfactual[key],summaries.old[key]);
+ results.push({name,days:records.length,oldSummary:summaries.old,currentSummary:summaries.ordinary,ordinaryDays,counterfactualDays});
+}
+const report={historicalManifestVerified:true,sourceArchiveSha256:historicalManifest.archiveSha256,results};
+if(process.env.TENKA_OUTPUT_ROOT){mkdirSync(process.env.TENKA_OUTPUT_ROOT,{recursive:true});writeFileSync(join(process.env.TENKA_OUTPUT_ROOT,'causal-proof.json'),JSON.stringify(report));writeFileSync(join(process.env.TENKA_OUTPUT_ROOT,'reversepatch.json'),JSON.stringify(reversePatch));}
+console.log(JSON.stringify({scratch,historicalManifestVerified:true,results:results.map(r=>({name:r.name,days:r.days,dailyFullStateEventQueueAppliedParity:true}))}));

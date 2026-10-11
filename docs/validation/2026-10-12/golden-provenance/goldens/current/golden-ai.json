@@ -1,0 +1,108 @@
+{
+  "formatVersion": 1,
+  "scenarioId": "mini-ai",
+  "seed": 42,
+  "ticks": 360,
+  "balanceHash": "a5f30428e47ab0f4",
+  "checkpoints": [
+    {
+      "day": 30,
+      "hash": "58f233fe35aa1e56"
+    },
+    {
+      "day": 60,
+      "hash": "518d48cb1da447aa"
+    },
+    {
+      "day": 90,
+      "hash": "52c681ad72ffe4e6"
+    },
+    {
+      "day": 120,
+      "hash": "893888aa596de743"
+    },
+    {
+      "day": 150,
+      "hash": "4baf728ee1008200"
+    },
+    {
+      "day": 180,
+      "hash": "01c15c1e0250cb40"
+    },
+    {
+      "day": 210,
+      "hash": "a5c07d761e20efff"
+    },
+    {
+      "day": 240,
+      "hash": "33c52b50358fb818"
+    },
+    {
+      "day": 270,
+      "hash": "d1b889a49cb652f0"
+    },
+    {
+      "day": 300,
+      "hash": "31d4a56d38343f61"
+    },
+    {
+      "day": 330,
+      "hash": "ca15839a3ad472e7"
+    },
+    {
+      "day": 360,
+      "hash": "351e8d087433b96b"
+    }
+  ],
+  "appliedCommands": {
+    "march": 12,
+    "buildFacility": 10,
+    "enactPolicy": 2,
+    "setDevelopFocus": 8,
+    "returnArmyToCastle": 3,
+    "setConscriptPolicy": 9,
+    "startDiploWork": 2,
+    "proposePact": 2,
+    "transport": 1
+  },
+  "eventCounts": {
+    "army.departed": 12,
+    "policy.enacted": 2,
+    "army.arrived": 17,
+    "army.returned": 12,
+    "district.subjugated": 5,
+    "siege.started": 5,
+    "siege.ended": 5,
+    "time.monthStart": 12,
+    "economy.income": 24,
+    "conscript.completed": 37,
+    "army.routed": 3,
+    "time.seasonStart": 4,
+    "facility.completed": 8,
+    "economy.harvest": 2,
+    "diplo.envoyArrived": 1,
+    "diplo.refused": 2,
+    "transport.looted": 1,
+    "uprising.started": 1
+  },
+  "intentCounts": {
+    "threat.compute": 24,
+    "expand.select": 6,
+    "facility.build": 10,
+    "decision.ineligible": 281,
+    "policy.enact": 2,
+    "develop.focus": 8,
+    "domestic.evaluated": 24,
+    "diplo.evaluated": 24,
+    "plan.advance": 6,
+    "defense.hold": 15,
+    "plan.siege": 5,
+    "siege.hold": 51,
+    "plan.abort": 6,
+    "conscript.policy": 9,
+    "diplo.work": 2,
+    "expand.none": 7,
+    "diplo.requestPeace": 2,
+    "defense.reinforce": 1
+  }
+}

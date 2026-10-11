@@ -1,0 +1,292 @@
+{
+  "formatVersion": 1,
+  "scenarioId": "mini-diplomacy",
+  "seed": 42,
+  "ticks": 1800,
+  "balanceHash": "a5f30428e47ab0f4",
+  "checkpoints": [
+    {
+      "day": 30,
+      "hash": "863c8cacb9fdd9b6"
+    },
+    {
+      "day": 60,
+      "hash": "2c855fe6295e3fdc"
+    },
+    {
+      "day": 90,
+      "hash": "cc96b17335e64df6"
+    },
+    {
+      "day": 120,
+      "hash": "aaf19e99a560ba9e"
+    },
+    {
+      "day": 150,
+      "hash": "25bd6727f18c08cd"
+    },
+    {
+      "day": 180,
+      "hash": "ac5ecf313704bc27"
+    },
+    {
+      "day": 210,
+      "hash": "e577f459a8839dfa"
+    },
+    {
+      "day": 240,
+      "hash": "fd1cc0bd6b7674a4"
+    },
+    {
+      "day": 270,
+      "hash": "834db6708b9efc8d"
+    },
+    {
+      "day": 300,
+      "hash": "46258ed6922575c2"
+    },
+    {
+      "day": 330,
+      "hash": "9c8bea55474fdace"
+    },
+    {
+      "day": 360,
+      "hash": "139be45c4b723924"
+    },
+    {
+      "day": 390,
+      "hash": "735cfd33f0024222"
+    },
+    {
+      "day": 420,
+      "hash": "4265bf095aca7511"
+    },
+    {
+      "day": 450,
+      "hash": "50762989a5be40fe"
+    },
+    {
+      "day": 480,
+      "hash": "c2263f6d0f0f904b"
+    },
+    {
+      "day": 510,
+      "hash": "b23987417c9ebcf6"
+    },
+    {
+      "day": 540,
+      "hash": "db314c7bc30237d3"
+    },
+    {
+      "day": 570,
+      "hash": "1648de5ed8e7a7da"
+    },
+    {
+      "day": 600,
+      "hash": "fe0ca236c2c1ad68"
+    },
+    {
+      "day": 630,
+      "hash": "5dfde4856050738d"
+    },
+    {
+      "day": 660,
+      "hash": "15a03d64a4f1f703"
+    },
+    {
+      "day": 690,
+      "hash": "918d87ad60e31b01"
+    },
+    {
+      "day": 720,
+      "hash": "9241a41170943e4a"
+    },
+    {
+      "day": 750,
+      "hash": "4075f2c105ab8fb9"
+    },
+    {
+      "day": 780,
+      "hash": "1b9c19facdfd6f28"
+    },
+    {
+      "day": 810,
+      "hash": "ec37e12ec3c4554a"
+    },
+    {
+      "day": 840,
+      "hash": "ec00d43c2576ba00"
+    },
+    {
+      "day": 870,
+      "hash": "8f9b68cae9fc3619"
+    },
+    {
+      "day": 900,
+      "hash": "df0bc7bddb635070"
+    },
+    {
+      "day": 930,
+      "hash": "db41781366caca4b"
+    },
+    {
+      "day": 960,
+      "hash": "0fc88f96d294e589"
+    },
+    {
+      "day": 990,
+      "hash": "5322dda88243f01f"
+    },
+    {
+      "day": 1020,
+      "hash": "d842c2eda6290fde"
+    },
+    {
+      "day": 1050,
+      "hash": "139b898fe53cbdce"
+    },
+    {
+      "day": 1080,
+      "hash": "5a5060d32652bd49"
+    },
+    {
+      "day": 1110,
+      "hash": "df553f2d6445c5a5"
+    },
+    {
+      "day": 1140,
+      "hash": "2b5c6d085bbfcad1"
+    },
+    {
+      "day": 1170,
+      "hash": "4cdea13e9393ebfc"
+    },
+    {
+      "day": 1200,
+      "hash": "ee4807d62b9b707e"
+    },
+    {
+      "day": 1230,
+      "hash": "2656614b5ba1d097"
+    },
+    {
+      "day": 1260,
+      "hash": "d8d0a66efcf6b1e2"
+    },
+    {
+      "day": 1290,
+      "hash": "ba72255f0a006fbc"
+    },
+    {
+      "day": 1320,
+      "hash": "e62481a27bfd7e98"
+    },
+    {
+      "day": 1350,
+      "hash": "ffb43d008cc8e9ff"
+    },
+    {
+      "day": 1380,
+      "hash": "bd2bdf84041603d9"
+    },
+    {
+      "day": 1410,
+      "hash": "913d16be3497a2dd"
+    },
+    {
+      "day": 1440,
+      "hash": "68294590aebc20a2"
+    },
+    {
+      "day": 1470,
+      "hash": "d8f55d4ca1585263"
+    },
+    {
+      "day": 1500,
+      "hash": "59b0e5766faeb09a"
+    },
+    {
+      "day": 1530,
+      "hash": "b92cafdd94d16cc3"
+    },
+    {
+      "day": 1560,
+      "hash": "a4be3e17905d9423"
+    },
+    {
+      "day": 1590,
+      "hash": "43e69d56417d9938"
+    },
+    {
+      "day": 1620,
+      "hash": "8c39d3d6d80ccff8"
+    },
+    {
+      "day": 1650,
+      "hash": "e389bdb6eedc0aa0"
+    },
+    {
+      "day": 1680,
+      "hash": "dfb689f6e9479010"
+    },
+    {
+      "day": 1710,
+      "hash": "a883a6451eb43ae5"
+    },
+    {
+      "day": 1740,
+      "hash": "440b68b5a7e7d2c4"
+    },
+    {
+      "day": 1770,
+      "hash": "748087542f123b86"
+    },
+    {
+      "day": 1800,
+      "hash": "59f6e326d0d99000"
+    }
+  ],
+  "appliedCommands": {
+    "startDiploWork": 2,
+    "requestCourtRank": 5,
+    "startPlot": 3,
+    "requestMediation": 1,
+    "proposePact": 2,
+    "breakPact": 1
+  },
+  "eventCounts": {
+    "court.rankGranted": 5,
+    "time.monthStart": 60,
+    "economy.income": 180,
+    "conscript.completed": 120,
+    "time.seasonStart": 20,
+    "plot.failed": 1,
+    "plot.exposed": 1,
+    "proposal.submitted": 5,
+    "plot.succeeded": 1,
+    "proposal.expired": 5,
+    "economy.harvest": 15,
+    "pact.signed": 3,
+    "court.mediationResult": 1,
+    "pact.expired": 1,
+    "economy.granaryOverflow": 3,
+    "pact.broken": 1
+  },
+  "plotResolutions": [
+    {
+      "day": 60,
+      "kind": "rumor",
+      "outcome": "plot.failed"
+    },
+    {
+      "day": 60,
+      "kind": "poach",
+      "outcome": "plot.exposed"
+    },
+    {
+      "day": 120,
+      "kind": "betrayal",
+      "outcome": "plot.succeeded"
+    }
+  ]
+}
