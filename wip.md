@@ -6384,3 +6384,18 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 下一步 `a381b7d` 已提交固定障礙物 edge-axis 索引；超大有效矩形仍走原 full scan。
   原版 reference、160 隨機 scene／快取轉換、epsilon 邊界及 1e308 cancellation 精確比對通過；33 項關聯測試及 scoped lint／格式通過；初輪型別通過，後輪被平行開發中的 untracked earnedImagawa fixture 型別錯誤阻擋，原失敗保留。
   sim3 原生完整發布比對與相同一百二十部隊 FPS 控制仍在進行，尚未宣稱本步效能收益。
+
+- 平行 fixture 已於 `043b561` 固定提交；其後重新完整 `npm run typecheck` 通過，先前原始型別失敗不改寫。
+
+- 地理索引單次原生 57.59／42.91／24.14 FPS 均失敗，edge-axis self -26.5% 但整體 geo inclusive 僅約 -1%。
+  `8f8319b` 撤回該索引與實驗 reference/spec，保留完整提交與原始證據；目前 runtime 延續道路距離減量版本。
+- `043b561`／`e207b4d` 自然今川引拔 CPU240＋native60 旅程通過，真正表單付 1,000 貫、逐日 persistent state exact、正式仕官與家臣介面可見。
+  未修改忠誠、RNG、日期、BAL 或門檻，其他目標與 gate 仍開啟。
+
+- 城名牌 zero-objective 候選 `6795ed7` 經九份原生 exact 比對通過，但三視圖 59.90／44.20／23.86 FPS 均失敗、close 未改善。
+  `e72bde9` 撤回該候選，保留全部來源與原輪 raw，未以少量 CPU profile 差異宣稱總收益。
+- 最後現行固定 `e72bde9` 全量 6,294 通過／1 失敗／1 跳過（127.49 秒）；1,469 tracked inputs 前後與main來源一致。
+  型別、完整 lint、build、bundle 通過；唯一已知無嗣領地失敗保留，protected baselines、全國120 FPS、整體heap及長跑gate仍未清除。
+  實驗版6795原輪6,300通過證據另存，不冒稱為移除六個實驗測試後的現行全量。
+- 下一輪先以Rust/WASM純數值邊界處理geo cache-miss評分或castle純規劃，JS保留signature／UTF16排序／UI measurement／visibility。
+  render需獨立main-thread WASM instance，保留f64順序／NaN／signed zero／work budget，先驗證ABI打包和整體收益；目前僅唯讀可行性研究，未新增source。

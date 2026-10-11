@@ -1,7 +1,7 @@
 # 後續驗收、重放歸因與記憶體觀察
 
 Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目標仍未完成。
-最新固定來源全量測試為 6,293 通過、1 失敗、1 跳過；120 部隊近景仍未達 60 FPS。
+最新固定來源全量測試為 6,294 通過、1 失敗、1 跳過；120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
 ## 已完成修正
@@ -177,7 +177,7 @@ sim2 的獨立控制將延長掛載失敗定位至 Pixi 圖片 Worker 的 Blob �
 
 `ccdc409` 的原生旅程從正式新局自然產生第 30 日具申，透過實際 UI 採納／拒絕，再於第 31 日正常指令日結出陣及發給既定功績、經驗與忠誠獎賞。故意把採納改為拒絕的反例失敗；完整狀態及指令見 [自然具申](earned-proposal-native/)。
 
-`6430a8b` 與 `fa43b73` 完成三好玩家自然取得對武田信用的 CPU 第 0–300 日、公開 native save 匯入及原生第 301–332 日旅程。原生 UI 成立同盟，隨後合法請求對長尾援軍；武田按既定 AI 拒絕，未派兵。這符合 M6 指定的「武田同盟後請求援軍」互動，不能宣稱成功軍事支援或全程原生第零日重放。codec 省略的 AI 診斷 log 明示核對，其餘匯入狀態精確一致。早期錯誤 selector 及 envoy 日期斷言保留；見 [完整旅程證據](earned-takeda-native/)、[先前路徑診斷](takeda-route-feasibility/)。今川離間／成為家臣的完整自然流程仍未驗收。
+`6430a8b` 與 `fa43b73` 完成三好玩家自然取得對武田信用的 CPU 第 0–300 日、公開 native save 匯入及原生第 301–332 日旅程。原生 UI 成立同盟，隨後合法請求對長尾援軍；武田按既定 AI 拒絕，未派兵。這符合 M6 指定的「武田同盟後請求援軍」互動，不能宣稱成功軍事支援或全程原生第零日重放。codec 省略的 AI 診斷 log 明示核對，其餘匯入狀態精確一致。早期錯誤 selector 及 envoy 日期斷言保留；見 [完整旅程證據](earned-takeda-native/)、[先前路徑診斷](takeda-route-feasibility/)。今川自然引拔流程已由後續 CPU240／native60 旅程補齊，見下方與 [完整證據](earned-imagawa-native/)。
 
 `1575bc8` 修正 dialog 內裝飾 header 的 landmark 語意，保留真正標題、dialog label、modal 及焦點契約。原生 accessibility、既有四項視覺控制與 gallery 控制通過；見 [dialog](accessibility-dialog-sim2/)。空槽文字的獨立原生取樣實際對比為 7.098，完整重現序列無相同 color error；舊 axe 報告仍保留，原因未確認，不將其宣稱為已證實的誤報；見 [對比控制](accessibility-contrast-controls-sim2/)。
 
@@ -190,3 +190,17 @@ sim2 的獨立控制將延長掛載失敗定位至 Pixi 圖片 Worker 的 Blob �
 [固定來源完整紀錄](continuation-6430/) 保留全部原始輸出。[較早整合](continuation-fe37/)、[事件流程逾時及原樣重跑](continuation-8cdd/)、[尚未完成日期 fixture 的混合來源失敗](continuation-dec6-mixed/) 各自保留原輪 verdict，不以後版成功改寫。領地接收、戰術外部收尾、人口校準、完整長跑平衡、整體 heap、120 部隊效能及藝術 gate 仍開啟；未推進 checkpoint 或部署。
 
 `a381b7d` 另提交固定障礙物邊界索引，保留 exact edge arithmetic、Set 最終排序及 placement cache signature；超大有效座標仍 full scan。33 項 reference／cache／邊界測試與 scoped lint／格式通過；初輪型別通過，後輪被平行開發中未提交的 earnedImagawa fixture 型別錯誤阻擋，完整原始失敗保留。sim3 九份原生觀測精確一致，120 部隊 FPS 控制仍進行中，未宣稱新效能收益。見 [本機來源與控制](geographic-edge-index-local/)。
+
+地理邊界索引的後續三視圖觀測為 57.59／42.91／24.14 FPS，均未達門檻，也沒有支持明確整體收益。獨立 close profile 的 edge-axis self 成本下降約 26.5%，整體 geographic layout inclusive 僅下降約 1%。因此 `8f8319b` 撤回 `a381b7d` 的 runtime 索引及實驗測試，完整來源提交及本機／原生證據保留，不以單一熱點數字宣稱遊戲改善。
+
+`043b561` 的自然流言／引拔 CPU 旅程與 `e207b4d` 的原生 UI 尾段通過：三好從正常新局取得第 240 日 checkpoint，公開匯入後，實際調略表單支付 1,000 貫；第 241–300 日完整 persistent state 逐日精確一致。由比的真實引拔敗露仍保留，三浦正俊第 300 日正式移籍並在家臣列表／詳情可見。這補齊指定今川引拔互動，不清除完整長跑、全國結局或其他 M6 gate；完整證據另存。
+
+## 撤回後的現行來源與下一個 Rust 邊界
+
+`e72bde9` 撤回城名牌 zero-objective 實驗；其三視圖為 59.90／44.20／23.86 FPS，全部未達嚴格 60，close 沒有改善。單次 profile 的 normalized castle inclusive 僅下降約 3.35%，不足以支持整體收益；self attribution 變化不被當作實際回歸。完整候選來源、精確觀測及失敗見 [城名牌本機控制](castle-ribbon-zero-local/)、[原生控制](castle-ribbon-zero-objective/native-README.md)。地理索引的撤回與原始計時見 [原生地理索引](geo-edge-index/native-README.md)。
+
+撤回後固定 `e72bde9` 的全量為 680 檔，678 通過、1 失敗、1 跳過；6,294 項通過、1 失敗、1 跳過（127.49 秒）。1,469 個 tracked inputs 在開始前符合 Git blob，測試後完全一致，也與目前 main 的對應來源一致。型別、完整 lint、production build、bundle budget 通過；唯一失敗仍為 day450 無繼承人領地 INV-02／INV-22。來源 manifest 不涵蓋 public、binary outputs 或 installed dependencies，隔離 checkout 使用現有 node_modules symlink。見 [現行固定來源](continuation-e72b/)；實驗版 6,300 通過的完整原輪亦保存於 [固定實驗版](continuation-6795/)，沒有把已移除的六項測試冒稱為現行測試。
+
+Root 另獨立執行 [自然今川證據驗證器](earned-imagawa-native/verify-evidence.py)，CPU／public import／全部六十日 persistent state 與 RNG、真實敗露及正式仕官皆通過。這是自然取得的 CPU prefix 加 native tail，不宣稱全部三百日原生 UI 重放。
+
+下一步只做 Rust 邊界的唯讀分析：geographic cache-miss 評分可先保持 JS 候選順序與 signature，再以 f64 arena 回傳勝出 offset index；castle 完整純規劃則可保留 UI 量測、compact admission 及 visibility 在 JS。現有 WASM 只在 simulation Worker 初始化，render 必須有獨立主執行緒 instance／生命週期，不能假設逐標籤 Worker 訊息免費。必須保留 JS min/max 的 NaN／signed-zero 行為、運算及加總順序、capsule fail-closed、work budget；計入 packing／跨 ABI／整體 render 成本後才採用。尚未實作或宣稱收益。

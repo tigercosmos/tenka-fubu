@@ -1,8 +1,15 @@
 [
   {
     "file": "README.md",
-    "bytes": 1832,
-    "sha256": "35ba6024cbd7bd632ae1c8b125e6d3686881aa63610e588e9211fc2f6062ca5f"
+    "bytes": 2592,
+    "sha256": "1e609b04113525b850ff0ba8a541a7a3074481bcafb9f638b123faddf0d05fd2"
+  },
+  {
+    "file": "after043-types.log.gz",
+    "bytes": 87,
+    "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+    "uncompressedBytes": 84,
+    "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
   },
   {
     "file": "final-focused.log.gz",
