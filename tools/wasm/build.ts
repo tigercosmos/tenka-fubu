@@ -12,16 +12,20 @@ try {
     console.log(`WASM artifact is current: ${manifest.wasmSha256}`);
   } else if (mode === '--build') {
     const crate = join(root, 'rust/engine');
+    const toolchain = readFileSync(join(crate, 'rust-toolchain.toml'), 'utf8').match(
+      /^channel\s*=\s*"([^"]+)"/m,
+    )?.[1];
+    if (!toolchain) throw new Error('Missing pinned Rust toolchain');
+    const target = spawnSync('rustup', ['target', 'add', '--toolchain', toolchain, WASM_TARGET], {
+      cwd: crate,
+      stdio: 'inherit',
+    });
+    if (target.error) throw target.error;
+    if (target.status !== 0)
+      throw new Error(`Rust WASM target setup failed with status ${String(target.status)}`);
     const result = spawnSync(
       'cargo',
-      [
-        `+${readFileSync(join(crate, 'rust-toolchain.toml'), 'utf8').match(/^channel\s*=\s*"([^"]+)"/m)?.[1]}`,
-        'build',
-        '--locked',
-        '--target',
-        WASM_TARGET,
-        `--${WASM_PROFILE}`,
-      ],
+      [`+${toolchain}`, 'build', '--locked', '--target', WASM_TARGET, `--${WASM_PROFILE}`],
       {
         cwd: crate,
         stdio: 'inherit',
