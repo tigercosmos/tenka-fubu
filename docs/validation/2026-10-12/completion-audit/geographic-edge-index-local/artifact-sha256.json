@@ -1,0 +1,82 @@
+[
+  {
+    "file": "README.md",
+    "bytes": 1832,
+    "sha256": "35ba6024cbd7bd632ae1c8b125e6d3686881aa63610e588e9211fc2f6062ca5f"
+  },
+  {
+    "file": "final-focused.log.gz",
+    "bytes": 837,
+    "sha256": "dd4c7fbf25cc346ae922642add554f2580c3881b8a6ea249613c8eed88ba9735",
+    "uncompressedBytes": 2190,
+    "uncompressedSha256": "9958635618cd4145c3762b75632634195ca1cc77a63b5686a6a0022a42b30964"
+  },
+  {
+    "file": "final-lint.log.gz",
+    "bytes": 20,
+    "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "uncompressedBytes": 0,
+    "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "final-types.log.gz",
+    "bytes": 533,
+    "sha256": "d6e6f73be294c07862ba4a2f8b2926e0c1cbe130e9664b678cfaa76b19a48b99",
+    "uncompressedBytes": 1808,
+    "uncompressedSha256": "958bfd68bc2e27df50bc20df0fe8b522e58c66e07d74d91977bf7e9e4d869c4a"
+  },
+  {
+    "file": "focused.log.gz",
+    "bytes": 915,
+    "sha256": "a699da3286cb118f24bf1f0887ccf56138e4685a929293c4c2f63f4b160c67cd",
+    "uncompressedBytes": 2326,
+    "uncompressedSha256": "fcbb47297163897e9f81d8681d302b9454fac391de5e198b5f56156343c85f84"
+  },
+  {
+    "file": "format.log.gz",
+    "bytes": 82,
+    "sha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5",
+    "uncompressedBytes": 66,
+    "uncompressedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+  },
+  {
+    "file": "geographicEdgeIndexParity.spec.ts.txt.gz",
+    "bytes": 1298,
+    "sha256": "679f150c657578ae9644cdd9ed623cc81ae8e926092186bc283b499d342c4e12",
+    "uncompressedBytes": 3899,
+    "uncompressedSha256": "bbe85cca377e5718fb1c7f9f9e4086f085851790574bae4c90e073690afeb4f6"
+  },
+  {
+    "file": "geographicLabelLayout.ts.txt.gz",
+    "bytes": 3652,
+    "sha256": "c6aafaee13813b20c743f6190c7e4503c66649bfa7232d25473cf4daa7757f66",
+    "uncompressedBytes": 11478,
+    "uncompressedSha256": "cb78513986a155fe3a6aa843a89357e5211358e2d607c06310c3ee8262aa136d"
+  },
+  {
+    "file": "geographicLabelLayoutReference.ts.txt.gz",
+    "bytes": 3210,
+    "sha256": "efbe41f6ee32558e57d8c99ef7847ddf44244a5cc37df7c710b99eb90c15c2c9",
+    "uncompressedBytes": 9723,
+    "uncompressedSha256": "0a362ed8783aff848649bf010188944c24e19868997181535f9a97102e58666a"
+  },
+  {
+    "file": "lint.log.gz",
+    "bytes": 20,
+    "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "uncompressedBytes": 0,
+    "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "source-proof.json",
+    "bytes": 799,
+    "sha256": "5d48e6af0ce2ff10554b148c2503d7ebdfa44df4818b584780bfa08f1199b779"
+  },
+  {
+    "file": "types.log.gz",
+    "bytes": 87,
+    "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+    "uncompressedBytes": 84,
+    "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+  }
+]

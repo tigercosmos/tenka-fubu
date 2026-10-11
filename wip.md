@@ -6380,3 +6380,7 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 完整索引見 `docs/validation/2026-10-12/completion-audit/README.md`。
   全專案目標保持 active，未修改 00、BAL、無嗣領地規則、protected baseline 或里程碑；未 push／部署。
   下一輪依 close CPU profile 處理 geographic edge-axis、castle ribbon／army signal 熱點，保留精確輸出。
+
+- 下一步 `a381b7d` 已提交固定障礙物 edge-axis 索引；超大有效矩形仍走原 full scan。
+  原版 reference、160 隨機 scene／快取轉換、epsilon 邊界及 1e308 cancellation 精確比對通過；33 項關聯測試及 scoped lint／格式通過；初輪型別通過，後輪被平行開發中的 untracked earnedImagawa fixture 型別錯誤阻擋，原失敗保留。
+  sim3 原生完整發布比對與相同一百二十部隊 FPS 控制仍在進行，尚未宣稱本步效能收益。

@@ -188,3 +188,5 @@ sim2 的獨立控制將延長掛載失敗定位至 Pixi 圖片 Worker 的 Blob �
 `6430a8b` 的 1,471 個 tracked source／test／tool／spec／config 檔在測試開始前逐一符合 Git blob，結束後 SHA 不變。679 檔中 677 通過、1 失敗、1 跳過；6,293 項通過、1 失敗、1 跳過，耗時 121.28 秒。唯一失敗仍為 day450 無繼承人勢力持有四城十六郡的 INV-02／INV-22。這份 manifest 不涵蓋 public assets、dependency 或稍後新增的 native tail；後者另有自身型別、lint 及原生驗證。
 
 [固定來源完整紀錄](continuation-6430/) 保留全部原始輸出。[較早整合](continuation-fe37/)、[事件流程逾時及原樣重跑](continuation-8cdd/)、[尚未完成日期 fixture 的混合來源失敗](continuation-dec6-mixed/) 各自保留原輪 verdict，不以後版成功改寫。領地接收、戰術外部收尾、人口校準、完整長跑平衡、整體 heap、120 部隊效能及藝術 gate 仍開啟；未推進 checkpoint 或部署。
+
+`a381b7d` 另提交固定障礙物邊界索引，保留 exact edge arithmetic、Set 最終排序及 placement cache signature；超大有效座標仍 full scan。33 項 reference／cache／邊界測試與 scoped lint／格式通過；初輪型別通過，後輪被平行開發中未提交的 earnedImagawa fixture 型別錯誤阻擋，完整原始失敗保留。sim3 九份原生觀測精確一致，120 部隊 FPS 控制仍進行中，未宣稱新效能收益。見 [本機來源與控制](geographic-edge-index-local/)。

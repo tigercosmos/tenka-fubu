@@ -834,6 +834,11 @@
       "sha256": "8735e0305c1f5686a3326252c0b00e1d27deb5c06a286636040703d7a19a5118",
       "uncompressedBytes": 3890,
       "uncompressedSha256": "a63ffba5bc90038068fcedc23980d4f5255df2382ecb95b4ddaf5fd25dfb8232"
+    },
+    {
+      "path": "geographic-edge-index-local/artifact-sha256.json",
+      "bytes": 2974,
+      "sha256": "15ab00e726b5d0caaad1cf3189067d4f6830cec0e4b79e57ff4470abdd156670"
     }
   ]
 }

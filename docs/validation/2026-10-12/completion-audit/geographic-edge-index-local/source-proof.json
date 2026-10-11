@@ -1,0 +1,23 @@
+{
+  "commit": "a381b7d",
+  "referenceCommit": "44ce3bb",
+  "referenceOriginalSha256": "3d7796705fbc82053feb7946f2f2b0c772c00ce01e45a3e06ba108eef9da0fae",
+  "scope": "Three exact source/test Git blobs; not a complete runtime/assets/dependency freeze",
+  "files": [
+    {
+      "path": "src/ui/map/geographicLabelLayout.ts",
+      "bytes": 11478,
+      "sha256": "cb78513986a155fe3a6aa843a89357e5211358e2d607c06310c3ee8262aa136d"
+    },
+    {
+      "path": "tests/helpers/geographicLabelLayoutReference.ts",
+      "bytes": 9723,
+      "sha256": "0a362ed8783aff848649bf010188944c24e19868997181535f9a97102e58666a"
+    },
+    {
+      "path": "tests/ui/geographicEdgeIndexParity.spec.ts",
+      "bytes": 3899,
+      "sha256": "bbe85cca377e5718fb1c7f9f9e4086f085851790574bae4c90e073690afeb4f6"
+    }
+  ]
+}
