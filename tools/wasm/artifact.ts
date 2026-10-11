@@ -33,12 +33,23 @@ export function artifactManifest(root: string, wasm: Uint8Array) {
   if (!toolchain) throw new Error('Rust toolchain must pin an explicit channel');
   const module = new WebAssembly.Module(new Uint8Array(wasm));
   const exports = WebAssembly.Module.exports(module).map((value) => value.name);
-  for (const name of ['memory', 'engine_abi_version', 'engine_alloc', 'engine_free', 'path_solve'])
+  for (const name of [
+    'memory',
+    'engine_abi_version',
+    'engine_alloc',
+    'engine_free',
+    'path_solve',
+    'geographic_abi_version',
+    'geo_score',
+  ])
     if (!exports.includes(name)) throw new Error(`WASM artifact lacks ABI export: ${name}`);
   const instance = new WebAssembly.Instance(module, { env: { path_node_cost: () => 0 } });
   const abi = instance.exports.engine_abi_version as (() => number) | undefined;
   if (typeof abi !== 'function' || abi() !== 1)
     throw new Error('WASM artifact has unsupported ABI');
+  const geographicAbi = instance.exports.geographic_abi_version as (() => number) | undefined;
+  if (typeof geographicAbi !== 'function' || geographicAbi() !== 1)
+    throw new Error('WASM artifact has unsupported geographic ABI');
   return {
     schemaVersion: 1,
     target: WASM_TARGET,

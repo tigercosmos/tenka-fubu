@@ -31,6 +31,16 @@ it('accepts the committed artifact without invoking the Rust compiler', () => {
   const directory = fixture();
   expect(verifyArtifact(directory).wasmSha256).toMatch(/^[a-f0-9]{64}$/);
 });
+it('rejects a real module whose geographic scorer export is missing', () => {
+  const bytes = Buffer.from(readFileSync('public/wasm/tenka_engine.wasm'));
+  const name = Buffer.from('geo_score');
+  const position = bytes.indexOf(name);
+  expect(position).toBeGreaterThan(0);
+  bytes[position + name.length - 1] = 'x'.charCodeAt(0);
+  const changed = new WebAssembly.Module(new Uint8Array(bytes));
+  expect(WebAssembly.Module.exports(changed).map(({ name }) => name)).toContain('geo_scorx');
+  expect(() => artifactManifest(process.cwd(), bytes)).toThrow('lacks ABI export: geo_score');
+});
 it('rejects changed Rust source and newly added build inputs', () => {
   const edited = fixture();
   const source = join(edited, 'rust/engine/src/lib.rs');
