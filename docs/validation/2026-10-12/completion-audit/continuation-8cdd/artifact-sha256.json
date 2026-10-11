@@ -1,0 +1,56 @@
+[
+  {
+    "file": "README.md",
+    "bytes": 1485,
+    "sha256": "e3ac45719b6a2e354e2beb3e3f55d78b664e79e4c93f512d3ab743a0db46b7cf"
+  },
+  {
+    "file": "build.log.gz",
+    "bytes": 847,
+    "sha256": "89b3f60670002b395046fa8de1933c8f237c9f6c5b5d6ee649b42709afc65dcb",
+    "uncompressedBytes": 1678,
+    "uncompressedSha256": "f305a43d28db1346097cc2f05bba4ca23af9387dadb22ce68601a330b84c97c7"
+  },
+  {
+    "file": "bundle.log.gz",
+    "bytes": 400,
+    "sha256": "57a5711673c0050a8b66503720695b85c200beb8674ee401698ff1c80b9cf7b5",
+    "uncompressedBytes": 1057,
+    "uncompressedSha256": "f5b61b6eb339ad0e5f52a4bc493669316a5e4ae3b82c947f3c86fe40dec7d53b"
+  },
+  {
+    "file": "event-rerun.log.gz",
+    "bytes": 791,
+    "sha256": "db85063ff1fdba7df4c3f9bfe846a46a3af37b209979618b51b4315c411ff588",
+    "uncompressedBytes": 1995,
+    "uncompressedSha256": "ae7a1b4f032f18c5461dfe793a90cedaefa1fe838cf06a18d4daa36fcd17ae01"
+  },
+  {
+    "file": "full.log.gz",
+    "bytes": 31541,
+    "sha256": "668d5fa6477d47083a56584bd6787fddfa22320b61fae074fc279242c1375cb0",
+    "uncompressedBytes": 218484,
+    "uncompressedSha256": "c56e42b984b977374c4ed1ef1047d0bda8be8351e9992873948184c8a9fb2572"
+  },
+  {
+    "file": "lint.log.gz",
+    "bytes": 123,
+    "sha256": "a68529dacf305cdbd92f2dc4d54c6184e1eccc45862acae44d4240408dae422b",
+    "uncompressedBytes": 125,
+    "uncompressedSha256": "d0e71f55d6f4fd8f983185091b7cdae86733c29af94431f99d20836fc2109fe1"
+  },
+  {
+    "file": "source-manifest.json.gz",
+    "bytes": 111565,
+    "sha256": "84408c8734d0095bb95c3164dec998287b699ea3d3469c294ebbafddf965b762",
+    "uncompressedBytes": 308249,
+    "uncompressedSha256": "3d660b950ef44a84b15e72d906ca4a5ce94533dc78027b89da2cfafb69b8a477"
+  },
+  {
+    "file": "types.log.gz",
+    "bytes": 87,
+    "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+    "uncompressedBytes": 84,
+    "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+  }
+]

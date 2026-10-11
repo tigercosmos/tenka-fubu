@@ -1,0 +1,7 @@
+# Bind-group cleanup and exact plate broadphase integration
+
+The full current source/test run includes the two GPU lifecycle fixes, committed Dialog accessibility and earned-proposal acceptance, 120-army workloads, and the exact army-plate broadphase (`8cdd7db`). The 1,467 tracked source/test/tool/spec/config files match the frozen Git blobs and have unchanged post-run SHA256. Capture occurred during the run; public assets and installed dependency files are excluded. The exact-version 23-target Pixi patch is checked by its installer and lifecycle regressions, while native proof is preserved separately.
+
+The full suite exits 1: 677 files, 674 passed, two failed and one skipped; 6,288 tests passed,two failed,one skipped (137.48 seconds). The s1560 seed15600519 day450 no-heir territorial INV-02/INV-22 remains. An existing productionEventSession pending-event restore case also reaches its original 5-second timeout. The entire unchanged six-test file is then rerun once and passes (3.718 seconds of tests, 5.97 seconds overall). Both raw results are preserved; the rerun does not rewrite the full-suite verdict or prove the timeout cause. No timeout/invariant changes are made.
+
+Normal/core typecheck, full ESLint/Prettier, production build and bundle budget pass. These checks do not establish national 120-army 60 FPS, whole-heap stability, protected baseline acceptance or full long-run balance. Gzip logs preserve exact original bytes with compressed/uncompressed SHA256.
