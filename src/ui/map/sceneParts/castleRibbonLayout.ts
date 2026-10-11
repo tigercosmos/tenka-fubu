@@ -181,67 +181,54 @@ export function layoutCastleRibbons(
     let bestHardArea = hardBaseline.reduce((sum, area) => sum + area, 0);
     let triedPlacements = 1,
       budgetLimited = false;
-    // Conservative charge includes both score intersections and every guard,
-    // including loops that can reject early. Mandatory baseline/final
-    // diagnostics are separately bounded by the admitted input counts.
-    const proposalWork =
-      hardObstacles.length === 0 && !candidate.leaderObstacles?.length
-        ? scoreReserved.length
-        : scoreReserved.length * 2 + localHard.length + (candidate.leaderObstacles?.length ?? 0);
-    if (bestScore.raw === 0 && bestScore.padded === 0 && bestHardArea === 0) {
-      // Nonnegative objectives cannot improve on zero at distance zero.
-      // Keep the exact original proposals and budget effect for later ribbons.
-      const proposals = unique.length - 1;
-      const admitted =
-        proposalWork === 0
-          ? proposals
-          : Math.min(proposals, Math.floor((WORK_LIMIT - work) / proposalWork));
-      work += admitted * proposalWork;
-      triedPlacements += admitted;
-      budgetLimited = admitted < proposals;
-    } else
-      for (const offset of unique.slice(1)) {
-        if (work + proposalWork > WORK_LIMIT) {
-          budgetLimited = true;
+    for (const offset of unique.slice(1)) {
+      // Conservative charge includes both score intersections and every guard,
+      // including loops that can reject early. Mandatory baseline/final
+      // diagnostics are separately bounded by the admitted input counts.
+      const proposalWork =
+        hardObstacles.length === 0 && !candidate.leaderObstacles?.length
+          ? scoreReserved.length
+          : scoreReserved.length * 2 + localHard.length + (candidate.leaderObstacles?.length ?? 0);
+      if (work + proposalWork > WORK_LIMIT) {
+        budgetLimited = true;
+        break;
+      }
+      work += proposalWork;
+      triedPlacements++;
+      const rect = { ...baseline, x: baseline.x + offset.x, y: baseline.y + offset.y };
+      let hardArea = 0,
+        hardBlocked = false;
+      for (let i = 0; i < localHard.length; i++) {
+        const area = overlap(rect, localHard[i]!);
+        hardArea += area;
+        if (area > hardBaseline[i]!) {
+          hardBlocked = true;
           break;
         }
-        work += proposalWork;
-        triedPlacements++;
-        const rect = { ...baseline, x: baseline.x + offset.x, y: baseline.y + offset.y };
-        let hardArea = 0,
-          hardBlocked = false;
-        for (let i = 0; i < localHard.length; i++) {
-          const area = overlap(rect, localHard[i]!);
-          hardArea += area;
-          if (area > hardBaseline[i]!) {
-            hardBlocked = true;
-            break;
-          }
-        }
-        if (hardBlocked) continue;
-        const end = leaderEnd(candidate.anchor, rect);
-        if (
-          candidate.leaderObstacles?.some((obstacle) =>
-            crossesInterior(candidate.anchor, end, obstacle),
-          )
-        )
-          continue;
-        const next = score(rect, scoreReserved);
-        const distance = offset.x * offset.x + offset.y * offset.y;
-        const bestDistance = best.x * best.x + best.y * best.y;
-        if (
-          next.raw < bestScore.raw ||
-          (next.raw === bestScore.raw &&
-            (next.padded < bestScore.padded ||
-              (next.padded === bestScore.padded &&
-                (hardArea < bestHardArea ||
-                  (hardArea === bestHardArea && distance < bestDistance)))))
-        ) {
-          best = offset;
-          bestScore = next;
-          bestHardArea = hardArea;
-        }
       }
+      if (hardBlocked) continue;
+      const end = leaderEnd(candidate.anchor, rect);
+      if (
+        candidate.leaderObstacles?.some((obstacle) =>
+          crossesInterior(candidate.anchor, end, obstacle),
+        )
+      )
+        continue;
+      const next = score(rect, scoreReserved);
+      const distance = offset.x * offset.x + offset.y * offset.y;
+      const bestDistance = best.x * best.x + best.y * best.y;
+      if (
+        next.raw < bestScore.raw ||
+        (next.raw === bestScore.raw &&
+          (next.padded < bestScore.padded ||
+            (next.padded === bestScore.padded &&
+              (hardArea < bestHardArea || (hardArea === bestHardArea && distance < bestDistance)))))
+      ) {
+        best = offset;
+        bestScore = next;
+        bestHardArea = hardArea;
+      }
+    }
     const rect = { ...baseline, x: baseline.x + best.x, y: baseline.y + best.y };
     placed.push(rect);
     results.set(candidate.id, {
