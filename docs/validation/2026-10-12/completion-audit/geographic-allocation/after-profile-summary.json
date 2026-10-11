@@ -1,0 +1,296 @@
+{
+  "worker": {
+    "durationMs": 3773.913,
+    "samples": 3604,
+    "geographicLayoutSelfMs": 83.55600000000001,
+    "topSelfMs": [
+      {
+        "source": " (idle)",
+        "selfMs": 1830.4210000000155
+      },
+      {
+        "source": " (program)",
+        "selfMs": 229.42699999999994
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.mjs:130:2 break",
+        "selfMs": 204.63800000000006
+      },
+      {
+        "source": "../../src/app/worker/client.ts:134:25 ",
+        "selfMs": 108.96600000000005
+      },
+      {
+        "source": "../../src/app/worker/reconcile.ts:8:9 reconcileValue",
+        "selfMs": 83.25300000000003
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:3058:10 placeGeographicLabels",
+        "selfMs": 72.13800000000003
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2436:10 placeCastleRibbons",
+        "selfMs": 68.564
+      },
+      {
+        "source": "../../src/app/worker/client.ts:61:21 event",
+        "selfMs": 49.53799999999999
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/container/container-mixins/collectRenderablesMixin.mjs:16:2 collectRenderablesSimple",
+        "selfMs": 46.47299999999998
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2013:10 applyLodAndCulling",
+        "selfMs": 45.14699999999999
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2198:10 armyPlateInputs",
+        "selfMs": 44.444
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.mjs:42:2 addRenderable",
+        "selfMs": 41.079999999999984
+      },
+      {
+        "source": "../../src/ui/map/geographicLabelLayout.ts:101:16 layoutGeographicLabels",
+        "selfMs": 33.07399999999999
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2877:10 geographicLabelInputs",
+        "selfMs": 28.59199999999999
+      },
+      {
+        "source": " bufferSubData",
+        "selfMs": 28.551999999999992
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2851:10 forceGeographicLabel",
+        "selfMs": 27.480999999999995
+      },
+      {
+        "source": " (garbage collector)",
+        "selfMs": 25.452999999999996
+      },
+      {
+        "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts:84:16 layoutCastleRibbons",
+        "selfMs": 24.271999999999995
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2305:10 castleRibbonInputs",
+        "selfMs": 22.975
+      },
+      {
+        "source": "../../src/ui/map/geographicLabelLayout.ts:28:9 edgeAxis",
+        "selfMs": 22.743000000000002
+      },
+      {
+        "source": "../../src/ui/map/lod.ts:75:2 query",
+        "selfMs": 20.069000000000003
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/rendering/batcher/shared/BatcherPipe.mjs:45:2 break",
+        "selfMs": 17.946
+      },
+      {
+        "source": "../../src/ui/map/roadLabelCapsules.ts:86:9 segmentRectDistance",
+        "selfMs": 17.878
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.mjs:109:2 _updateBatchesForRenderable",
+        "selfMs": 15.946
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/view/ViewContainer.mjs:112:2 collectRenderablesSimple",
+        "selfMs": 15.863000000000001
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/text-bitmap/AbstractBitmapTextPipe.mjs:26:2 addRenderable",
+        "selfMs": 15.137
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2668:10 placeArmySignals",
+        "selfMs": 14.760000000000002
+      },
+      {
+        "source": "../../src/ui/map/roadLabelCapsules.ts:49:16 nearbyRoadLabelCapsules",
+        "selfMs": 13.799000000000001
+      },
+      {
+        "source": "../../src/ui/map/sceneParts/castleNode.ts:550:4 getPresentationGeometry",
+        "selfMs": 12.733
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/graphics/gl/GlGraphicsAdaptor.mjs:38:2 execute",
+        "selfMs": 12.689999999999998
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.mjs:92:2 _addToBatcher",
+        "selfMs": 11.740000000000002
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/rendering/renderers/shared/blendModes/BlendModePipe.mjs:55:2 setBlendMode",
+        "selfMs": 11.602
+      },
+      {
+        "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts:124:18 values",
+        "selfMs": 11.599999999999998
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/graphics/shared/BatchableGraphics.mjs:25:6 get blendMode",
+        "selfMs": 10.732000000000001
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2756:10 placeArmyPlates",
+        "selfMs": 10.581000000000001
+      }
+    ]
+  },
+  "sync": {
+    "durationMs": 3754.385,
+    "samples": 3647,
+    "geographicLayoutSelfMs": 85.45199999999997,
+    "topSelfMs": [
+      {
+        "source": " (idle)",
+        "selfMs": 1948.2240000000165
+      },
+      {
+        "source": " (program)",
+        "selfMs": 184.14699999999996
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/graphics/shared/BatchableGraphics.mjs:40:6 get transform",
+        "selfMs": 174.19500000000008
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:3058:10 placeGeographicLabels",
+        "selfMs": 74.26500000000001
+      },
+      {
+        "source": "../../src/core/systems/ai/index.ts:148:20 ",
+        "selfMs": 66.99100000000001
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2436:10 placeCastleRibbons",
+        "selfMs": 66.18899999999998
+      },
+      {
+        "source": "../../src/ui/map/geographicLabelLayout.ts:101:16 layoutGeographicLabels",
+        "selfMs": 52.860999999999976
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.mjs:42:2 addRenderable",
+        "selfMs": 40.263
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2013:10 applyLodAndCulling",
+        "selfMs": 38.44000000000001
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/container/container-mixins/collectRenderablesMixin.mjs:16:2 collectRenderablesSimple",
+        "selfMs": 34.31699999999999
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2877:10 geographicLabelInputs",
+        "selfMs": 32.87699999999999
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.mjs:130:2 break",
+        "selfMs": 31.592999999999996
+      },
+      {
+        "source": "../../src/core/state/mapGraph.ts:73:16 buildMapGraph",
+        "selfMs": 30.214
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2198:10 armyPlateInputs",
+        "selfMs": 28.630999999999997
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2851:10 forceGeographicLabel",
+        "selfMs": 28.460999999999995
+      },
+      {
+        "source": " bufferSubData",
+        "selfMs": 26.394
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/container/container-mixins/collectRenderablesMixin.mjs:3:2 collectRenderables",
+        "selfMs": 25.357000000000003
+      },
+      {
+        "source": " (garbage collector)",
+        "selfMs": 21.435000000000002
+      },
+      {
+        "source": "../../src/ui/map/roadLabelCapsules.ts:86:9 segmentRectDistance",
+        "selfMs": 21.016
+      },
+      {
+        "source": "../../src/ui/map/geographicLabelLayout.ts:28:9 edgeAxis",
+        "selfMs": 20.517999999999997
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2305:10 castleRibbonInputs",
+        "selfMs": 19.986999999999995
+      },
+      {
+        "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts:84:16 layoutCastleRibbons",
+        "selfMs": 19.566
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/rendering/batcher/shared/BatcherPipe.mjs:45:2 break",
+        "selfMs": 19.03
+      },
+      {
+        "source": "../../src/ui/map/lod.ts:75:2 query",
+        "selfMs": 17.993000000000002
+      },
+      {
+        "source": "../../src/core/systems/ai/shared.ts:199:16 nodesWithin",
+        "selfMs": 17.485
+      },
+      {
+        "source": "../../src/core/systems/officers.ts:586:16 loyaltyTarget",
+        "selfMs": 16.841
+      },
+      {
+        "source": " bindVertexArray",
+        "selfMs": 12.620999999999999
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:2668:10 placeArmySignals",
+        "selfMs": 11.861
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/view/ViewContainer.mjs:112:2 collectRenderablesSimple",
+        "selfMs": 11.647
+      },
+      {
+        "source": "../../src/ui/map/MapRenderer.ts:3481:10 sortActorBodies",
+        "selfMs": 11.644000000000002
+      },
+      {
+        "source": "../../src/core/domestic.ts:60:16 isSteward",
+        "selfMs": 11.107
+      },
+      {
+        "source": "../../src/core/systems/pathfinding.ts:275:9 computePathInternal",
+        "selfMs": 10.937
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/text-bitmap/AbstractBitmapTextPipe.mjs:26:2 addRenderable",
+        "selfMs": 10.738999999999997
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.mjs:92:2 _addToBatcher",
+        "selfMs": 10.329999999999998
+      },
+      {
+        "source": "../../../../tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/lib/scene/graphics/shared/BatchableGraphics.mjs:31:6 get color",
+        "selfMs": 10.081
+      }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+const fs=require('fs'),path=require('path');const {TraceMap,originalPositionFor}=require(process.cwd()+'/node_modules/@jridgewell/trace-mapping');
+const dir=process.argv[2]||'/tmp/tenka-worker-profile-final';const result={};
+for(const backend of ['worker','sync']){
+ const p=JSON.parse(fs.readFileSync(path.join(dir,`normal-${backend}-main-thread-profile.json`))).profile;const nodes=new Map(p.nodes.map(x=>[x.id,x]));const maps=new Map(), sums=new Map();
+ const label=(node)=>{const c=node.callFrame;let file=c.url.split('/').at(-1)+'.map';const full=path.join(dir,file);if(fs.existsSync(full)){if(!maps.has(file))maps.set(file,new TraceMap(JSON.parse(fs.readFileSync(full))));const loc=originalPositionFor(maps.get(file),{line:c.lineNumber+1,column:c.columnNumber});return `${loc.source}:${loc.line}:${loc.column} ${loc.name||c.functionName}`;}return `${c.url||''} ${c.functionName}`;};
+ for(let i=0;i<p.samples.length;i++){const n=nodes.get(p.samples[i]),s=label(n),dt=p.timeDeltas[i]/1000;sums.set(s,(sums.get(s)||0)+dt);}
+ result[backend]={durationMs:(p.endTime-p.startTime)/1000,samples:p.samples.length,geographicLayoutSelfMs:[...sums].filter(([name])=>name.includes('/src/ui/map/geographicLabelLayout.ts:')).reduce((sum,[name,ms])=>sum+ms,0),topSelfMs:[...sums].sort((a,b)=>b[1]-a[1]).slice(0,35).map(([source,selfMs])=>({source,selfMs}))};
+}
+fs.writeFileSync(path.join(dir,'summary.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));

@@ -115,3 +115,5 @@ sim4 以精確核對的 714 個 source／tools 檔案跑相同十次暖機、二
 凍結候選 `f446e85` 的完整測試為 672 檔、6,263 項通過、1 項失敗、1 項跳過（129.77 秒）。1,453 個來源／測試／設定檔的前後 SHA256 完全一致；typecheck、lint、production build 與 bundle budget 通過。唯一失敗仍為 s1560 第 450 日齋藤無繼承人滅亡後保留四城十六郡的 INV-02／INV-22，不修改不變量或推測領地接收規則。原始紀錄與來源 manifest 見 [final-candidate](final-candidate/)。全專案及長跑平衡驗收仍未完成。
 
 sim4 最新六項 Worker 原生流程測試全部通過（43.3 秒），三組同步／Worker 的完整狀態與日誌一致。120 日批次最長畫面間隔為同步 1,028.1 ms、Worker 124.9 ms，總耗時為 939.9／2,511.1 ms；正常 x5 在實際自動暫停前完成 29 日，最長間隔為 128.4／84.7 ms，總耗時為 3,544.7／3,594.9 ms。互動阻塞縮短，但批次吞吐較慢，未達穩定 60 FPS。冷啟動、60 日批次及全部原始列亦保留；每種情境各一筆，見 [worker-final-sim4](worker-final-sim4/)。
+
+`d619085` 從真實 CPU profile 定位地理標籤 edge-axis 暫存與快取命中前的候選配置；保留精確運算／候選順序後，25 項原版／邊界測試及 sim4 六項原生流程通過。三組前後完整狀態、日誌、地圖發布與每個地理標籤完全一致。正常 x5 Worker 最長間隔 84.7→60.3 ms，這筆後版樣本沒有 long task；120 日間隔 124.9→108.1 ms，仍不宣稱穩定 60 FPS。另有獨立 profiler 歸因與局部診斷，不混作無 profiler 計時；完整原始資料見 [geographic-allocation](geographic-allocation/)。

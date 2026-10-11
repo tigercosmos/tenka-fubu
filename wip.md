@@ -8,6 +8,7 @@
 - sim4 的 `68e96a6` headless GPU 二十次量測 remount 通過資源／快取／context-loss 檢查；主頁 GC 後 heap 增加 1,683,628 bytes，不能認定整體記憶體穩定。`bfa37db` 修正分析器誤拒 V8 有號數值 edge label；12 項測試通過，原始快照可解析，指定舊 renderer／app ID 不再存在，但不證明無其他洩漏。`efe734a` 私有 program 名稱配額修正後，sim4 相同二十次掛載實際字典 14→14 鍵（原 34→74），四項 native 控制通過；整體 Runtime heap 仍增 1,620,724 bytes，不認定整體穩定。
 - `f09c8d1` 道路精確繪圖指令 oracle 跨平台一致，五個真實 producer mutation 都被拒絕；沒有容差或 OS 排除。
 - sim4 最新 Worker 六項原生測試全部通過，三組完整狀態／日誌精確一致。120 日批次最長畫面間隔 1,028.1→124.9 ms，但總耗時 939.9→2,511.1 ms；正常 x5 實際自動暫停前完成 29 日，間隔 128.4→84.7 ms。單筆樣本不宣稱穩定 60 FPS；原始資料見 completion-audit/worker-final-sim4。
+- 後續 `d619085` 減少地理標籤的 edge-axis 暫存及快取命中前候選配置。25 項原版比對／邊界測試與六項 native Worker 流程通過；原生前後完整狀態、日誌、地圖發布及全部地理標籤一致。正常 x5 最長間隔 84.7→60.3 ms，後版此樣本沒有 long task；仍未達穩定 60 FPS。完整前後 profile／source map／原始數據見 completion-audit/geographic-allocation。
 - 分步提交與原始前後資料集中於 `docs/validation/2026-10-12/completion-audit/README.md`。WASM／Worker 架構已提交；全專案、長跑校準及原生藝術驗收仍未完成。人口校準與無繼承人領地處理仍待先前詢問的規則決定，不擅自改變遊戲結果。
 
 > 給下一個接手的 AI／未來 session：本文件描述《天下布武》**實作階段**的當前進度與剩餘工作。

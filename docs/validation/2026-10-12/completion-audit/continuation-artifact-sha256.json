@@ -653,6 +653,11 @@
       "sha256": "952432cd5c31c7727adb4c5bb6bd0fff783e16ffb1e8356adbd0c0727a71b64d",
       "uncompressedBytes": 1030,
       "uncompressedSha256": "ffb68db3c86efdf58a60d03250b82c71cff24553ffe220dec13ec88ea3a91dee"
+    },
+    {
+      "path": "geographic-allocation/artifact-sha256.json",
+      "bytes": 11884,
+      "sha256": "5fc76ed2863c2c38a34f3846bc1c5af33ed24b2ccee0833a090c01395713aec7"
     }
   ]
 }

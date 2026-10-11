@@ -1,0 +1,19 @@
+import { performance } from 'node:perf_hooks';
+import { readFileSync,writeFileSync } from 'node:fs';
+import { gunzipSync } from 'node:zlib';
+import { isDeepStrictEqual } from 'node:util';
+import { createGeographicLabelLayouter as before } from './tenka-geographic-layout-before-resolved.ts';
+import { createGeographicLabelLayouter as after } from '/Users/tigercosmos/tenka-fubu/src/ui/map/geographicLabelLayout.ts';
+const file='/Users/tigercosmos/tenka-fubu/docs/validation/2026-10-12/completion-audit/worker-final-sim4/normal-x5-worker-paced-sync-responsiveness.json.gz';
+const observation=JSON.parse(gunzipSync(readFileSync(file)).toString()).rows[0].mapDiagnostics.geographicLabelLayout;
+// Actual native CSS rectangles; reconstructed generic layout omits road tangent/capsule constraints.
+const labels=observation.labels.map((x:any)=>({id:x.id,kind:x.kind,rect:x.baseline}));
+const obstacles=observation.obstacles.filter((x:any)=>!['hud','canvasEdge'].includes(x.kind)).map((x:any)=>x.rect);
+const hard=observation.obstacles.filter((x:any)=>['castle','castleBody','castleDurability','castleWarning','hud','canvasEdge'].includes(x.kind)).map((x:any)=>x.rect);
+const old=before(),current=after();const expected=old.layout(labels,obstacles,hard);if(!isDeepStrictEqual(expected,current.layout(labels,obstacles,hard)))throw Error('Cold offsets differ');
+for(let i=0;i<10;i++){old.layout(labels,obstacles,hard);current.layout(labels,obstacles,hard);}
+const rows=[];
+for(let pair=0;pair<10;pair++)for(const backend of (pair%2?['after','before']:['before','after'])){
+ const layout=backend==='before'?old:current;const started=performance.now();for(let i=0;i<10;i++)if(!isDeepStrictEqual(expected,layout.layout(labels,obstacles,hard)))throw Error('Cached offsets differ');rows.push({pair,backend,iterations:10,durationMs:performance.now()-started});
+}
+const output={scope:'Local serial diagnostic: native CSS rectangles reconstructed without road constraints, equality assertions included in both timed loops; not native RAF/FPS evidence',labels:labels.length,obstacles:obstacles.length,hard:hard.length,rows,beforeDiagnostics:old.getDiagnostics(),afterDiagnostics:current.getDiagnostics()};writeFileSync('/tmp/tenka-geographic-benchmark.json',JSON.stringify(output,null,2)+'\n');console.log(JSON.stringify(output));

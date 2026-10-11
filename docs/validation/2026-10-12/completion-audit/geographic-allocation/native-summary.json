@@ -1,0 +1,213 @@
+{
+  "before": "505d96a",
+  "afterSourceCommit": "d619085",
+  "onlyChangedSource": "src/ui/map/geographicLabelLayout.ts",
+  "afterSourceSha256": "3d7796705fbc82053feb7946f2f2b0c772c00ce01e45a3e06ba108eef9da0fae",
+  "nativePassed": 6,
+  "nativeSeconds": 41.8,
+  "focusedTestsPassed": 25,
+  "singleSamplePerBackendPerScenario": true,
+  "scenarios": [
+    {
+      "file": "normal-x5-worker-paced-sync-responsiveness.json",
+      "completeStatesAndLogsEqualBeforeAfter": true,
+      "publishedMapAndEveryGeographicLabelEqualBeforeAfter": true,
+      "rows": [
+        {
+          "backend": "worker",
+          "phase": "paced",
+          "before": {
+            "completedDays": 29,
+            "durationMs": 3594.9000000953674,
+            "maxFrameGapMs": 84.7000002861023,
+            "longTasks": 4,
+            "maxLongTaskMs": 60
+          },
+          "after": {
+            "completedDays": 29,
+            "durationMs": 3587.699999809265,
+            "maxFrameGapMs": 60.30000019073486,
+            "longTasks": 0,
+            "maxLongTaskMs": 0
+          }
+        },
+        {
+          "backend": "sync",
+          "phase": "paced",
+          "before": {
+            "completedDays": 29,
+            "durationMs": 3544.699999809265,
+            "maxFrameGapMs": 128.40000009536743,
+            "longTasks": 5,
+            "maxLongTaskMs": 69
+          },
+          "after": {
+            "completedDays": 29,
+            "durationMs": 3541.4000000953674,
+            "maxFrameGapMs": 113.10000038146973,
+            "longTasks": 1,
+            "maxLongTaskMs": 69
+          }
+        }
+      ]
+    },
+    {
+      "file": "same-host-120-day-worker-responsiveness.json",
+      "completeStatesAndLogsEqualBeforeAfter": true,
+      "publishedMapAndEveryGeographicLabelEqualBeforeAfter": true,
+      "rows": [
+        {
+          "backend": "sync",
+          "phase": "cold",
+          "before": {
+            "completedDays": 1,
+            "durationMs": 15.699999809265137,
+            "maxFrameGapMs": 21.59999990463257,
+            "longTasks": 0,
+            "maxLongTaskMs": 0
+          },
+          "after": {
+            "completedDays": 1,
+            "durationMs": 14.900000095367432,
+            "maxFrameGapMs": 25.90000009536743,
+            "longTasks": 0,
+            "maxLongTaskMs": 0
+          }
+        },
+        {
+          "backend": "sync",
+          "phase": "warm",
+          "before": {
+            "completedDays": 120,
+            "durationMs": 939.9000000953674,
+            "maxFrameGapMs": 1028.0999999046326,
+            "longTasks": 1,
+            "maxLongTaskMs": 940
+          },
+          "after": {
+            "completedDays": 120,
+            "durationMs": 927.6000003814697,
+            "maxFrameGapMs": 983.1999998092651,
+            "longTasks": 1,
+            "maxLongTaskMs": 927
+          }
+        },
+        {
+          "backend": "worker",
+          "phase": "cold",
+          "before": {
+            "completedDays": 1,
+            "durationMs": 33.09999990463257,
+            "maxFrameGapMs": 18.899999618530273,
+            "longTasks": 0,
+            "maxLongTaskMs": 0
+          },
+          "after": {
+            "completedDays": 1,
+            "durationMs": 34.700000286102295,
+            "maxFrameGapMs": 49.299999713897705,
+            "longTasks": 0,
+            "maxLongTaskMs": 0
+          }
+        },
+        {
+          "backend": "worker",
+          "phase": "warm",
+          "before": {
+            "completedDays": 120,
+            "durationMs": 2511.0999999046326,
+            "maxFrameGapMs": 124.89999961853027,
+            "longTasks": 2,
+            "maxLongTaskMs": 60
+          },
+          "after": {
+            "completedDays": 120,
+            "durationMs": 2451.199999809265,
+            "maxFrameGapMs": 108.09999990463257,
+            "longTasks": 1,
+            "maxLongTaskMs": 51
+          }
+        }
+      ]
+    },
+    {
+      "file": "same-host-60-day-worker-responsiveness.json",
+      "completeStatesAndLogsEqualBeforeAfter": true,
+      "publishedMapAndEveryGeographicLabelEqualBeforeAfter": true,
+      "rows": [
+        {
+          "backend": "sync",
+          "phase": "cold",
+          "before": {
+            "completedDays": 1,
+            "durationMs": 17.199999809265137,
+            "maxFrameGapMs": 27.299999713897705,
+            "longTasks": 0,
+            "maxLongTaskMs": 0
+          },
+          "after": {
+            "completedDays": 1,
+            "durationMs": 12.799999713897705,
+            "maxFrameGapMs": 23,
+            "longTasks": 0,
+            "maxLongTaskMs": 0
+          }
+        },
+        {
+          "backend": "sync",
+          "phase": "warm",
+          "before": {
+            "completedDays": 60,
+            "durationMs": 522.9000000953674,
+            "maxFrameGapMs": 586.6000003814697,
+            "longTasks": 1,
+            "maxLongTaskMs": 522
+          },
+          "after": {
+            "completedDays": 60,
+            "durationMs": 509.5,
+            "maxFrameGapMs": 564.7999997138977,
+            "longTasks": 1,
+            "maxLongTaskMs": 509
+          }
+        },
+        {
+          "backend": "worker",
+          "phase": "cold",
+          "before": {
+            "completedDays": 1,
+            "durationMs": 47.90000009536743,
+            "maxFrameGapMs": 28.90000009536743,
+            "longTasks": 0,
+            "maxLongTaskMs": 0
+          },
+          "after": {
+            "completedDays": 1,
+            "durationMs": 31.5,
+            "maxFrameGapMs": 44.799999713897705,
+            "longTasks": 0,
+            "maxLongTaskMs": 0
+          }
+        },
+        {
+          "backend": "worker",
+          "phase": "warm",
+          "before": {
+            "completedDays": 60,
+            "durationMs": 1335.8000001907349,
+            "maxFrameGapMs": 117,
+            "longTasks": 1,
+            "maxLongTaskMs": 59
+          },
+          "after": {
+            "completedDays": 60,
+            "durationMs": 1258.4000000953674,
+            "maxFrameGapMs": 87.90000009536743,
+            "longTasks": 0,
+            "maxLongTaskMs": 0
+          }
+        }
+      ]
+    }
+  ]
+}
