@@ -1,0 +1,221 @@
+{
+  "runtimeSource": "e65fbbc8401c5fe96d0f887c78a13e4803e12f02",
+  "sourceManifest": "../earned-proposal-native/source-e65fbbc-sha256.json.gz",
+  "nativeResult": "RED:270-second timeout after8completed paid months. Final capture attempted closed-page read before writing, so no full native final/checkpoint file was saved. Raw stdout/trace survive.",
+  "nativeMonthlyRows": [
+    {
+      "day": 30,
+      "trust": 6.16,
+      "sentiment": 0,
+      "powers": [381.49287542313704, 975.2265199335251],
+      "score": -5.4362420849085265,
+      "aidScore": 0,
+      "gold": 1906,
+      "mission": {
+        "fromClanId": "clan.oda",
+        "target": "clan.takeda",
+        "officerId": "off.oda-nobunaga",
+        "startDay": 0
+      },
+      "charge": 20
+    },
+    {
+      "day": 60,
+      "trust": 12.32,
+      "sentiment": 0,
+      "powers": [382.0968520630312, 1001.4688573247613],
+      "score": -1.884953557741193,
+      "aidScore": 0,
+      "gold": 1814,
+      "mission": {
+        "fromClanId": "clan.oda",
+        "target": "clan.takeda",
+        "officerId": "off.oda-nobunaga",
+        "startDay": 0
+      },
+      "charge": 20
+    },
+    {
+      "day": 90,
+      "trust": 18.48,
+      "sentiment": 0,
+      "powers": [343.4857212109282, 1002.8023258330581],
+      "score": 1.2258877825036567,
+      "aidScore": 0,
+      "gold": 1693,
+      "mission": {
+        "fromClanId": "clan.oda",
+        "target": "clan.takeda",
+        "officerId": "off.oda-nobunaga",
+        "startDay": 0
+      },
+      "charge": 20
+    },
+    {
+      "day": 120,
+      "trust": 24.64,
+      "sentiment": 0,
+      "powers": [338.4810729329762, 988.9257925545367],
+      "score": 4.918071870933275,
+      "aidScore": 0,
+      "gold": 1573,
+      "mission": {
+        "fromClanId": "clan.oda",
+        "target": "clan.takeda",
+        "officerId": "off.oda-nobunaga",
+        "startDay": 0
+      },
+      "charge": 20
+    },
+    {
+      "day": 150,
+      "trust": 30.8,
+      "sentiment": 0,
+      "powers": [359.48626765730586, 1014.1792574892818],
+      "score": 8.796904260306837,
+      "aidScore": 0,
+      "gold": 1454,
+      "mission": {
+        "fromClanId": "clan.oda",
+        "target": "clan.takeda",
+        "officerId": "off.oda-nobunaga",
+        "startDay": 0
+      },
+      "charge": 20
+    },
+    {
+      "day": 180,
+      "trust": 36.96,
+      "sentiment": 0,
+      "powers": [360.5413054842258, 999.0727206373806],
+      "score": 12.589139074414078,
+      "aidScore": 0,
+      "gold": 1337,
+      "mission": {
+        "fromClanId": "clan.oda",
+        "target": "clan.takeda",
+        "officerId": "off.oda-nobunaga",
+        "startDay": 0
+      },
+      "charge": 20
+    },
+    {
+      "day": 210,
+      "trust": 43.120000000000005,
+      "sentiment": 0,
+      "powers": [361.61618651425977, 992.1561819989191],
+      "score": 16.33912593856499,
+      "aidScore": 0,
+      "gold": 1221,
+      "mission": {
+        "fromClanId": "clan.oda",
+        "target": "clan.takeda",
+        "officerId": "off.oda-nobunaga",
+        "startDay": 0
+      },
+      "charge": 20
+    },
+    {
+      "day": 240,
+      "trust": 49.28,
+      "sentiment": 0,
+      "powers": [362.1209108481449, 1005.6296415739849],
+      "score": 19.969405684721504,
+      "aidScore": 0,
+      "gold": 1106,
+      "mission": {
+        "fromClanId": "clan.oda",
+        "target": "clan.takeda",
+        "officerId": "off.oda-nobunaga",
+        "startDay": 0
+      },
+      "charge": 20
+    }
+  ],
+  "CPU_vs_native": [
+    {
+      "day": 30,
+      "fields": ["trust", "sentiment", "powers", "score", "aidScore", "gold", "mission"],
+      "exact": true
+    },
+    {
+      "day": 60,
+      "fields": ["trust", "sentiment", "powers", "score", "aidScore", "gold", "mission"],
+      "exact": true
+    },
+    {
+      "day": 90,
+      "fields": ["trust", "sentiment", "powers", "score", "aidScore", "gold", "mission"],
+      "exact": true
+    },
+    {
+      "day": 120,
+      "fields": ["trust", "sentiment", "powers", "score", "aidScore", "gold", "mission"],
+      "exact": true
+    },
+    {
+      "day": 150,
+      "fields": ["trust", "sentiment", "powers", "score", "aidScore", "gold", "mission"],
+      "exact": true
+    },
+    {
+      "day": 180,
+      "fields": ["trust", "sentiment", "powers", "score", "aidScore", "gold", "mission"],
+      "exact": true
+    },
+    {
+      "day": 210,
+      "fields": ["trust", "sentiment", "powers", "score", "aidScore", "gold", "mission"],
+      "exact": true
+    },
+    {
+      "day": 240,
+      "fields": ["trust", "sentiment", "powers", "score", "aidScore", "gold", "mission"],
+      "exact": true
+    }
+  ],
+  "cpuResult": "2 controls passed; not native earning",
+  "oda": {
+    "days": 300,
+    "finalTrust": 61.599999999999994,
+    "finalScore": 27.56018891710802,
+    "verdict": {
+      "ok": true
+    }
+  },
+  "miyoshi": {
+    "days": 330,
+    "ordinaryInitialCommands": [
+      {
+        "day": 0,
+        "command": {
+          "type": "enactPolicy",
+          "clanId": "clan.miyoshi",
+          "policyId": "pol.enkokinko"
+        }
+      },
+      {
+        "day": 0,
+        "command": {
+          "type": "startDiploWork",
+          "clanId": "clan.miyoshi",
+          "target": "clan.takeda",
+          "executorId": "off.miyoshi-nagayoshi"
+        }
+      }
+    ],
+    "finalTrust": 85.91000000000001,
+    "finalScore": 60.73888233648273,
+    "aidScore": 0,
+    "verdict": {
+      "ok": true
+    }
+  },
+  "remoteTrace": {
+    "path": "/tmp/tenka-sim1-takeda-evidence/eight-month-timeout.trace.zip",
+    "bytes": 242785622,
+    "sha256": "a65409dadd632a3fc90f6c1a079c8f82a6ee23a85ef7ef08a9019f6880cb6e8d",
+    "bundled": false
+  },
+  "nextScope": "Approved separately: CPU-earned Miyoshi day300 save→native codec import→ordinary paid month330→native Takeda alliance and honest aid request/refusal. No new native tail result in this bundle."
+}
