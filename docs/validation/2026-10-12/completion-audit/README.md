@@ -113,3 +113,5 @@ sim4 以精確核對的 714 個 source／tools 檔案跑相同十次暖機、二
 `6254f9d` 與 `59a8de3` 保留 B8 的十項 literal hash、非合戰 RNG 斷言及 transcript 初始／checkpoint／最終 hash 驗證。新增完整狀態與 BattleTickResult 比對：十個 B8 tick 只有既定 schema／參戰名冊五項差異；三十個 tactical tick 的完整結果都相同，終結新增勝利 40＋敬畏 20、主將乘 1.5 的 90 功績及兩項經驗。見 [b8](../golden-provenance/b8/)、[tactical](../golden-provenance/tactical/)。
 
 凍結候選 `f446e85` 的完整測試為 672 檔、6,263 項通過、1 項失敗、1 項跳過（129.77 秒）。1,453 個來源／測試／設定檔的前後 SHA256 完全一致；typecheck、lint、production build 與 bundle budget 通過。唯一失敗仍為 s1560 第 450 日齋藤無繼承人滅亡後保留四城十六郡的 INV-02／INV-22，不修改不變量或推測領地接收規則。原始紀錄與來源 manifest 見 [final-candidate](final-candidate/)。全專案及長跑平衡驗收仍未完成。
+
+sim4 最新六項 Worker 原生流程測試全部通過（43.3 秒），三組同步／Worker 的完整狀態與日誌一致。120 日批次最長畫面間隔為同步 1,028.1 ms、Worker 124.9 ms，總耗時為 939.9／2,511.1 ms；正常 x5 在實際自動暫停前完成 29 日，最長間隔為 128.4／84.7 ms，總耗時為 3,544.7／3,594.9 ms。互動阻塞縮短，但批次吞吐較慢，未達穩定 60 FPS。冷啟動、60 日批次及全部原始列亦保留；每種情境各一筆，見 [worker-final-sim4](worker-final-sim4/)。
