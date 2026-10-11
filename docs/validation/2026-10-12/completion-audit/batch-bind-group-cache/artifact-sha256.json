@@ -1,0 +1,187 @@
+[
+  {
+    "file": "README.md",
+    "bytes": 2619,
+    "sha256": "50591380eff15feb0d9a4f699551ea17c582fd126cd0913a655ee02a0b6aa743"
+  },
+  {
+    "file": "before-fix-group-summary.json.gz",
+    "bytes": 255,
+    "sha256": "ef99eaef11abb0e63f6dec08e9372ec1f74be7ca280880cc7d11e1a2a58fc724",
+    "uncompressedBytes": 835,
+    "uncompressedSha256": "fe3290aee52837e627bcb86f424725d8bbed95c92adcd58d98e795661db05338"
+  },
+  {
+    "file": "getTextureBatchBindGroup.js.original.gz",
+    "bytes": 453,
+    "sha256": "29d14e59384975c1f47d0dbf43e17888fe4d9fd39ac7bcd5e601be635663c15f",
+    "uncompressedBytes": 1088,
+    "uncompressedSha256": "3d130c3d17fed9ad79faeba9537cb86f9fec48ee2e6517a100f9bf120457e670"
+  },
+  {
+    "file": "getTextureBatchBindGroup.js.patched.gz",
+    "bytes": 481,
+    "sha256": "e2907a38d52e869fceef91ec49b9be20e2998e16eaa1ff5a66c630a1ebcc3432",
+    "uncompressedBytes": 1205,
+    "uncompressedSha256": "853df2d3a9b36a16194a07ff8cc4861d6f4732d7b32ad61f0f76764ce74f7869"
+  },
+  {
+    "file": "getTextureBatchBindGroup.mjs.original.gz",
+    "bytes": 438,
+    "sha256": "17d5530b1e409f4bb6be2fc93ffee3dbe7bdeddeee207fe1e1c4b2af6032a3ed",
+    "uncompressedBytes": 1036,
+    "uncompressedSha256": "3429ffe1db24f0987db955ca75926cd12b9d038ec077cdbc786ebdcd5de6d3b0"
+  },
+  {
+    "file": "getTextureBatchBindGroup.mjs.patched.gz",
+    "bytes": 466,
+    "sha256": "4cf12df3d0895ca66f914ba5a0390e146e9fd2dc336ae8275bf0aa766bb4004b",
+    "uncompressedBytes": 1152,
+    "uncompressedSha256": "9d462ac267913e768f15f65aa45721e0430d8768c817d6eb954a05b549ac1fda"
+  },
+  {
+    "file": "group-counts.json.gz",
+    "bytes": 12572,
+    "sha256": "0dbbc3c0196ff407f3ba9419e5ffaa407bf0cbed39ad011b998739bbf6b42ac6",
+    "uncompressedBytes": 499135,
+    "uncompressedSha256": "0150af63463d7f322dc34f8b5b0c60800829c57c87521af101a3a3176cf3001b"
+  },
+  {
+    "file": "groups.py.gz",
+    "bytes": 744,
+    "sha256": "712c38a931c33e31f52ea56d207924c6cf1acc5b2348a08b17b8751def9e6a5c",
+    "uncompressedBytes": 1518,
+    "uncompressedSha256": "feaf0a3537dbbccd1ec0abbd93bd87d6c99de1e82a1eedd6ee4345356678cd6d"
+  },
+  {
+    "file": "native/00-before-remounts.heapsnapshot.gz",
+    "bytes": 6226778,
+    "sha256": "acf47e41598684a9bf82dd0fea72f31c590df4c3a193b3e0343eec4c25ec76aa",
+    "uncompressedBytes": 32633844,
+    "uncompressedSha256": "397c48c6aeb09a39353d706560e9045123bb4592d7d8bf7fd6ddd4462807b80b"
+  },
+  {
+    "file": "native/01-after-remounts.heapsnapshot.gz",
+    "bytes": 6803451,
+    "sha256": "c1e7568d57b5cf3ebe667cc83c8d1415b37f08d41e24f5e0a5a86d994a32a556",
+    "uncompressedBytes": 35102804,
+    "uncompressedSha256": "dff4dd1f5c193955717ea4c6b3ab8e062f180656902faa2b7d4269d63f474ea0"
+  },
+  {
+    "file": "native/02-remount-heap-samples.json.gz",
+    "bytes": 1011,
+    "sha256": "a20a38fb7d627d38bc232637546176f9f8652d93db9be4ea75b9afb4da8149a4",
+    "uncompressedBytes": 3206,
+    "uncompressedSha256": "718689a714b280400a290820737b116f3b025c43de1de729c454701874a3eb18"
+  },
+  {
+    "file": "native/03-tenka-batch-bind-group-native.log.gz",
+    "bytes": 191,
+    "sha256": "b8f901695c9a82b69107cfefaccac38d95f1fca4afa9d5ce502a5986362f1e03",
+    "uncompressedBytes": 221,
+    "uncompressedSha256": "eed361961b1fb4da10b1f7c2a43ac6998b4d80a85f74b560a8d7aa35c504cef9"
+  },
+  {
+    "file": "native/04-tenka-batch-bind-group-build.log.gz",
+    "bytes": 845,
+    "sha256": "494f3a4d379f1544329916487e46ed8d137ad02cc542aa114cc78af05e5793c2",
+    "uncompressedBytes": 1678,
+    "uncompressedSha256": "30398599794b97f66c452ec2eea0c1a82c2e30063edaa220abf64504759ade70"
+  },
+  {
+    "file": "native/05-getTextureBatchBindGroup.mjs.gz",
+    "bytes": 466,
+    "sha256": "ca8e815a2ea8fde8fcca908afa3020908cfa32a497e71fedf85c408b43372ea6",
+    "uncompressedBytes": 1152,
+    "uncompressedSha256": "9d462ac267913e768f15f65aa45721e0430d8768c817d6eb954a05b549ac1fda"
+  },
+  {
+    "file": "native/06-getTextureBatchBindGroup.js.gz",
+    "bytes": 481,
+    "sha256": "66ddff848d05853d44d4958b648c18fe99372218cd10dbba44a79e01ba949186",
+    "uncompressedBytes": 1205,
+    "uncompressedSha256": "853df2d3a9b36a16194a07ff8cc4861d6f4732d7b32ad61f0f76764ce74f7869"
+  },
+  {
+    "file": "native/07-pixi-8.19-patch.json.gz",
+    "bytes": 5076,
+    "sha256": "d29976c5e35b2b13e3df2e021de1ad42c3f13cad82791ae2eec8de380733bdf9",
+    "uncompressedBytes": 24802,
+    "uncompressedSha256": "61616fb34a6ed6d3212bd0bc6ff78929f2f1cfa4214cf12dea7cb946cca81972"
+  },
+  {
+    "file": "native/08-visual.spec.ts.gz",
+    "bytes": 4787,
+    "sha256": "b78997d79cad50502a1818c84e447028fd4a892b6415906b6d3ffb26de7cd74d",
+    "uncompressedBytes": 16545,
+    "uncompressedSha256": "82e8edebcb46935c913e8cd728ac9007df3e988ac3b8ce8f8d61670ff0a6df34"
+  },
+  {
+    "file": "native/analysis-group-counts.json.gz",
+    "bytes": 675,
+    "sha256": "af07f1bd84fe7a92847b2fec50f4e50dbc5bb958fbe42ae4c370a49e8c98f075",
+    "uncompressedBytes": 11966,
+    "uncompressedSha256": "5ba8dca638b88df0ab848999d153a0700a587318f7437005f6d9bab620ebe016"
+  },
+  {
+    "file": "native/analysis-summary.json.gz",
+    "bytes": 239,
+    "sha256": "6bd875999ecb87e970828460029b0a519085fc03af496a538e5c69912f4937d3",
+    "uncompressedBytes": 822,
+    "uncompressedSha256": "6154b60b4c2ffed126b8ca1fb57a9e498adcdc95a547d5e51c4cc94379013af7"
+  },
+  {
+    "file": "native/artifact-sha256.json",
+    "bytes": 3660,
+    "sha256": "4037edc7f2d7f065dd5e6c43d7f837dbb13479e08803134f90bb0e610a67307a"
+  },
+  {
+    "file": "native/tenka-batch-bind-group-visual.log.gz",
+    "bytes": 439,
+    "sha256": "e2f41e74339136322ae72e1229cf361aa4807afa89c6677fef007c86e6d374ab",
+    "uncompressedBytes": 776,
+    "uncompressedSha256": "d5118959114313122fd899bce179ac8454e24a7c9fbf625ebf279ed89d957c74"
+  },
+  {
+    "file": "tenka-batch-bind-group-final.log.gz",
+    "bytes": 261,
+    "sha256": "45c99d8a653ebf3526697f30815522733441cc63ec909da52cdab518ee9e5550",
+    "uncompressedBytes": 362,
+    "uncompressedSha256": "725e691638898c17e1719859f8e3f8f74840974ddcac901e0a008828d38d528a"
+  },
+  {
+    "file": "tenka-batch-bind-group-green.log.gz",
+    "bytes": 338,
+    "sha256": "e718e48c3bfb754090d136b109f6d5872019c53eb84d649521ec55c660f2be6c",
+    "uncompressedBytes": 632,
+    "uncompressedSha256": "285814ba89894554d643d8355b6e13b9cb47e6a7734f9192047248aad6a0a59f"
+  },
+  {
+    "file": "tenka-batch-bind-group-lint.log.gz",
+    "bytes": 20,
+    "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+    "uncompressedBytes": 0,
+    "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "tenka-batch-bind-group-red.log.gz",
+    "bytes": 752,
+    "sha256": "5e88f284a5501c0970ba4bb8e9e7a2f2f6807aa987d0c40b476e17fa77af516e",
+    "uncompressedBytes": 2552,
+    "uncompressedSha256": "3b98eb462185dfb62abef3044ce51421ec3caf0387cf5ddc810d238cd1ad999e"
+  },
+  {
+    "file": "tenka-batch-bind-group-types-final.log.gz",
+    "bytes": 87,
+    "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+    "uncompressedBytes": 84,
+    "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+  },
+  {
+    "file": "tenka-batch-bind-group-types.log.gz",
+    "bytes": 214,
+    "sha256": "f1569b8b3f24fcaf4966618c32d211e46a481b30ab502f7b47a4552584cc280b",
+    "uncompressedBytes": 256,
+    "uncompressedSha256": "06e2662a2556c11cfd8e950c5c169e80a1b3f3b9de7bd0404d1855b70eddd101"
+  }
+]
