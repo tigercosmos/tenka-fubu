@@ -1,0 +1,16 @@
+{
+  "testedSourceCommit": "9a0e242aaedd1e21347a7d75e042051b251c52a1",
+  "changedTestCommit": "38d22b0",
+  "files": 672,
+  "passedFiles": 670,
+  "failedFiles": 1,
+  "skippedFiles": 1,
+  "passedTests": 6264,
+  "failedTests": 1,
+  "skippedTests": 1,
+  "durationSeconds": 123.77,
+  "failure": "s1560 day450 no-heir territory invariants INV-02/INV-22",
+  "manifestFiles": 1355,
+  "capturedDuringRun": true,
+  "changedAfterRun": []
+}
