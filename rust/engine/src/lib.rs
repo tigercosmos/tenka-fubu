@@ -1,6 +1,9 @@
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 
+mod geographic;
+pub use geographic::{geo_score, geographic_abi_version};
+
 #[cfg(target_arch = "wasm32")]
 #[link(wasm_import_module = "env")]
 extern "C" {
