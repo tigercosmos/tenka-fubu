@@ -24,14 +24,70 @@ const DISK_OFFSETS: readonly { x: number; y: number }[] = (() => {
   return offsets;
 })();
 
-/** Preserve exact edge arithmetic and ordering without allocating four values per blocker. */
-function edgeAxis(rect: PlateRect, reserved: readonly PlateRect[], vertical: boolean) {
+interface EdgeIndex {
+  starts: number[];
+  ends: number[];
+}
+
+// Index only bounded coordinates. A one-pixel query margin exceeds rounding
+// error in this range; extreme valid rectangles retain the full original scan.
+function canIndexEdges(rect: PlateRect) {
+  return (
+    Math.abs(rect.x) <= 1e6 &&
+    Math.abs(rect.y) <= 1e6 &&
+    Math.abs(rect.width) <= 1e6 &&
+    Math.abs(rect.height) <= 1e6
+  );
+}
+
+function createEdgeIndex(reserved: readonly PlateRect[], vertical: boolean): EdgeIndex {
+  return {
+    starts: reserved.map((r) => (vertical ? r.y : r.x)).sort((a, b) => a - b),
+    ends: reserved.map((r) => (vertical ? r.y + r.height : r.x + r.width)).sort((a, b) => a - b),
+  };
+}
+
+function visitRange(
+  values: readonly number[],
+  lower: number,
+  upper: number,
+  visit: (value: number) => void,
+) {
+  let left = 0;
+  let right = values.length;
+  while (left < right) {
+    const middle = (left + right) >>> 1;
+    if (values[middle]! < lower) left = middle + 1;
+    else right = middle;
+  }
+  for (let index = left; index < values.length && values[index]! <= upper; index++)
+    visit(values[index]!);
+}
+
+/** Preserve exact edge arithmetic and ordering while querying fixed obstacle edges. */
+function edgeAxis(
+  rect: PlateRect,
+  reserved: readonly PlateRect[],
+  vertical: boolean,
+  index?: EdgeIndex,
+) {
   const values = new Set<number>([0]);
   const add = (value: number) => {
     if (Number.isFinite(value) && Math.abs(value) <= LIMIT) values.add(value);
   };
   const origin = vertical ? rect.y : rect.x;
   const size = vertical ? rect.height : rect.width;
+  if (index) {
+    const margin = LIMIT + GAP + 1;
+    visitRange(index.starts, origin + size - margin, origin + size + margin, (start) => {
+      add(start - origin - size);
+      add(start - origin - size - GAP);
+    });
+    visitRange(index.ends, origin - margin, origin + margin, (end) => {
+      add(end - origin);
+      add(end - origin + GAP);
+    });
+  }
   for (const r of reserved) {
     const start = vertical ? r.y : r.x;
     const extent = vertical ? r.height : r.width;
@@ -128,6 +184,10 @@ export function layoutGeographicLabels(
   const sorted = [...candidates].sort(
     (a, b) => PRIORITY[a.kind] - PRIORITY[b.kind] || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
   );
+  const fixed = [...primary, ...hard];
+  const indexed = fixed.every(canIndexEdges);
+  const xIndex = indexed ? createEdgeIndex(fixed, false) : undefined;
+  const yIndex = indexed ? createEdgeIndex(fixed, true) : undefined;
   for (const { id, rect, roadLine, roadCapsules } of sorted) {
     const reserved = [...primary, ...hard, ...placed];
     // Every eligible placement lies in this envelope. Outside rectangles contribute
@@ -158,8 +218,9 @@ export function layoutGeographicLabels(
         .sort((a, b) => sign * (a - b));
       offsets.push({ x: 0, y: edges[0] ?? sign * LIMIT });
     }
-    const xs = edgeAxis(rect, reserved, false);
-    const ys = edgeAxis(rect, reserved, true);
+    const useIndex = indexed && canIndexEdges(rect);
+    const xs = edgeAxis(rect, useIndex ? placed : reserved, false, useIndex ? xIndex : undefined);
+    const ys = edgeAxis(rect, useIndex ? placed : reserved, true, useIndex ? yIndex : undefined);
     // The seven dynamic directions plus both exact axes fully determine offset order;
     // disk samples are fixed constants. Keep distant edge inputs in these axes.
     const signature = cache
