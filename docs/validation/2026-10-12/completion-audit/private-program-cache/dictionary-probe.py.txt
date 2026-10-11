@@ -1,0 +1,72 @@
+"""Find the actual shader string-ID dictionary by property keys, without fixed IDs."""
+import hashlib
+import json
+import re
+import sys
+from pathlib import Path
+
+FAMILIES = ('terrain-foothill-canopy-private', 'terrain-elevated-private')
+
+
+def inspect(path):
+    raw = Path(path).read_bytes()
+    snapshot = json.loads(raw)
+    meta = snapshot['snapshot']['meta']
+    nf, ef = meta['node_fields'], meta['edge_fields']
+    nw, ew = len(nf), len(ef)
+    ni, nn, nc = (nf.index(key) for key in ('id', 'name', 'edge_count'))
+    nt, ns = (nf.index(key) for key in ('type', 'self_size'))
+    et, en, to = (ef.index(key) for key in ('type', 'name_or_index', 'to_node'))
+    node_types, edge_types = meta['node_types'][nt], meta['edge_types'][et]
+    nodes, edges, strings = snapshot['nodes'], snapshot['edges'], snapshot['strings']
+    starts = {}
+    cursor = 0
+    for offset in range(0, len(nodes), nw):
+        starts[offset] = cursor
+        cursor += nodes[offset + nc] * ew
+    assert cursor == len(edges)
+    candidates = []
+    for offset in starts:
+        if node_types[nodes[offset + nt]] != 'object':
+            continue
+        begin, end = starts[offset], starts[offset] + nodes[offset + nc] * ew
+        backing = [edges[e + to] for e in range(begin, end, ew)
+                   if edge_types[edges[e + et]] == 'internal'
+                   and strings[edges[e + en]] == 'properties']
+        if not backing:
+            continue
+        assert len(backing) == 1
+        prop = backing[0]
+        backing_keys = []
+        for e in range(starts[prop], starts[prop] + nodes[prop + nc] * ew, ew):
+            target = edges[e + to]
+            if node_types[nodes[target + nt]] == 'string':
+                backing_keys.append(strings[nodes[target + nn]])
+        if not all(any(family + '-' in key for key in backing_keys) for family in FAMILIES):
+            continue
+        families = {}
+        for family in FAMILIES:
+            matches = [key for key in backing_keys if re.search(family + r'-\d+', key)]
+            families[family] = {
+                'count': len(matches),
+                'sequences': sorted({int(re.search(family + r'-(\d+)', key).group(1))
+                                     for key in matches}),
+            }
+        candidates.append({
+            'dictionaryOwnerId': nodes[offset + ni],
+            'dictionaryOwnerName': strings[nodes[offset + nn]],
+            'propertyBackingId': nodes[prop + ni],
+            'propertyBackingSelfSize': nodes[prop + ns],
+            'stringKeys': len(backing_keys),
+            'families': families,
+        })
+    assert len(candidates) == 1, f'Expected one dictionary, found {len(candidates)}'
+    return {'path': str(path), 'sha256': hashlib.sha256(raw).hexdigest(), **candidates[0]}
+
+
+if __name__ == '__main__':
+    assert len(sys.argv) == 3, 'Supply before and after snapshots from the same isolate/run'
+    before, after = map(inspect, sys.argv[1:])
+    assert before['dictionaryOwnerId'] == after['dictionaryOwnerId']
+    print(json.dumps({'scope': 'exact observed dictionary keys; not whole-heap acceptance',
+                      'before': before, 'after': after}, indent=2))

@@ -1,0 +1,47 @@
+{
+  "scope": "exact observed dictionary keys; not whole-heap acceptance",
+  "before": {
+    "path": "/tmp/tenka-remount-20261012.1Afqvy/repo/test-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/before-remounts.heapsnapshot",
+    "sha256": "e30d8bb6a2a8b181f12d1c62f52d95974fadd5e90803d7fdeadeaa1dca97917b",
+    "dictionaryOwnerId": 633231,
+    "dictionaryOwnerName": "Object",
+    "propertyBackingId": 621291,
+    "propertyBackingSelfSize": 800,
+    "stringKeys": 34,
+    "families": {
+      "terrain-foothill-canopy-private": {
+        "count": 11,
+        "sequences": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+      },
+      "terrain-elevated-private": {
+        "count": 11,
+        "sequences": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+      }
+    }
+  },
+  "after": {
+    "path": "/tmp/tenka-remount-20261012.1Afqvy/repo/test-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/after-remounts.heapsnapshot",
+    "sha256": "e7814e42f05313a6adf0c550570a2efec241c7d1f5fe62c4104443ce04101b5e",
+    "dictionaryOwnerId": 633231,
+    "dictionaryOwnerName": "Object",
+    "propertyBackingId": 1008779,
+    "propertyBackingSelfSize": 1568,
+    "stringKeys": 74,
+    "families": {
+      "terrain-foothill-canopy-private": {
+        "count": 31,
+        "sequences": [
+          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+          26, 27, 28, 29, 30, 31
+        ]
+      },
+      "terrain-elevated-private": {
+        "count": 31,
+        "sequences": [
+          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+          26, 27, 28, 29, 30, 31
+        ]
+      }
+    }
+  }
+}

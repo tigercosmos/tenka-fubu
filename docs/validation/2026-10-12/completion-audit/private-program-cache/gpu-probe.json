@@ -1,0 +1,9 @@
+{
+  "scope": "separate post-fix native-map probe; not the earlier heap-run isolate",
+  "browserVersion": "149.0.7827.55",
+  "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+  "renderer": "WebKit WebGL",
+  "vendor": "WebKit",
+  "unmaskedRenderer": "ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+  "unmaskedVendor": "Google Inc. (NVIDIA)"
+}

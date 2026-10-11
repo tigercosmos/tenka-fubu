@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "url": "https://github.com/pixijs/pixijs/blob/v8.19.0/src/rendering/renderers/shared/utils/createIdFromString.ts",
+      "mechanism": "Global idHash permanently owns the input string as a property key; there is no deletion path."
+    },
+    {
+      "url": "https://github.com/pixijs/pixijs/blob/v8.19.0/src/rendering/renderers/gl/shader/GlProgram.ts",
+      "mechanism": "Constructor interns JSON of processed vertex/fragment including program name. Constructor creates private object; .from has separate shared-object cache and is deliberately unused."
+    },
+    {
+      "url": "https://github.com/pixijs/pixijs/blob/v8.19.0/src/rendering/renderers/gl/shader/GlShaderSystem.ts",
+      "mechanism": "Compiled _programDataHash is per shader-system/renderer, keyed by source key. destroy/contextChange release compiled data. Source-key reuse does not merge cache maps of different renderers."
+    }
+  ],
+  "dictionary": [
+    {
+      "snapshot": "before",
+      "dictionaryOwnerId": 633231,
+      "propertyBackingId": 621291,
+      "propertyBackingSelfSize": 800,
+      "stringKeys": 34,
+      "families": {
+        "terrain-foothill-canopy-private": {
+          "count": 11,
+          "sequences": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        },
+        "terrain-elevated-private": {
+          "count": 11,
+          "sequences": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        }
+      }
+    },
+    {
+      "snapshot": "after",
+      "dictionaryOwnerId": 633231,
+      "propertyBackingId": 1008779,
+      "propertyBackingSelfSize": 1568,
+      "stringKeys": 74,
+      "families": {
+        "terrain-foothill-canopy-private": {
+          "count": 31,
+          "sequences": [
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+            25, 26, 27, 28, 29, 30, 31
+          ]
+        },
+        "terrain-elevated-private": {
+          "count": 31,
+          "sequences": [
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+            25, 26, 27, 28, 29, 30, 31
+          ]
+        }
+      }
+    }
+  ],
+  "specificRetainer": {
+    "ownerId": 633231,
+    "pathTail": "active renderer app.stop closure context -> parent module context Vo -> Object 633231 -> properties backing -> interned JSON shader-source keys"
+  },
+  "fix": "Per-family private-name leases choose smallest unused slot; fresh GlProgram per owner; release after owned shader/program destruction or construction-failure cleanup; distinct live source keys and bounded interned names at peak concurrent ownership. Existing keys from an old pre-fix page remain until reload; fix prevents further monotonic growth in fresh runtime.",
+  "limits": "Two post-GC snapshots do not establish retained sizes, allocation timestamps, or whole-heap leak absence. Native buffer replacement and JIT code growth are separately reported; this identified dictionary is a reproducible source-backed accumulation."
+}
