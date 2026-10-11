@@ -1,0 +1,7 @@
+
+> tenka-fubu@0.0.0 validate:data
+> tsx tools/validate.ts && tsx tools/scan-simplified.ts && tsx tools/check-font-coverage.ts
+
+劇本 s1560 驗證（全量）：0 個 ERROR、0 個 WARN。
+簡體字／新字體掃描：0 筆命中。
+字型涵蓋率通過（1660 字元，347.3 KB／2048 KB 預算）。

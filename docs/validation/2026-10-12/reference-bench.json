@@ -1,0 +1,39 @@
+{
+  "files": [
+    {
+      "filepath": "/tmp/tenka-audit-20261012.Ok8OR1/repo/tests/perf/advance-day.bench.ts",
+      "groups": [
+        {
+          "fullName": "tests/perf/advance-day.bench.ts > advanceDay reference benchmark",
+          "benchmarks": [
+            {
+              "id": "1748694033_0_0",
+              "name": "loaded s1560 all-AI queued advanceDay (reports mean/p99)",
+              "rank": 1,
+              "rme": 15.899034969962361,
+              "samples": [],
+              "totalTime": 3074.630713999993,
+              "min": 0.8492740000001504,
+              "max": 122.53818899999987,
+              "hz": 117.08723208962284,
+              "period": 8.540640872222204,
+              "mean": 8.540640872222204,
+              "variance": 172.78769381277158,
+              "sd": 13.144873290099513,
+              "sem": 0.6927956525170952,
+              "df": 359,
+              "critical": 1.96,
+              "moe": 1.3578794789335065,
+              "p75": 7.739360999999917,
+              "p99": 78.8304250000001,
+              "p995": 111.76994000000013,
+              "p999": 122.53818899999987,
+              "sampleCount": 360,
+              "median": 6.12827749999974
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

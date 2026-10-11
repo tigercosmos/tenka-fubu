@@ -1,0 +1,6 @@
+
+> tenka-fubu@0.0.0 validate:assets
+> tsx tools/validate-assets.ts
+
+視覺素材各 domain bytes：icons=0.0 KiB map=6.7 KiB textures=63051.2 KiB；首屏合計 944.5 KiB / 預算 8192.0 KiB（12 §3.7）
+素材驗證：0 個 ERROR、0 個 WARN（12 §3.7）

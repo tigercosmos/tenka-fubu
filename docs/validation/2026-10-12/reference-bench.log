@@ -1,0 +1,18 @@
+
+> tenka-fubu@0.0.0 bench
+> vitest bench tests/perf --project core --minWorkers=1 --maxWorkers=1 --reporter ./tools/ci/benchmark-samples-reporter.ts --run --outputJson=/tmp/tenka-audit-20261012.Ok8OR1/reference-bench.json
+
+Benchmarking is an experimental feature.
+Breaking changes might not follow SemVer, please pin Vitest's version when using it.
+
+ RUN  v2.1.9 /tmp/tenka-audit-20261012.Ok8OR1/repo
+
+ ✓ tests/perf/advance-day.bench.ts > advanceDay reference benchmark 3087ms
+     name                                                          hz     min     max    mean     p75      p99    p995    p999      rme  samples
+   · loaded s1560 all-AI queued advanceDay (reports mean/p99)  117.09  0.8493  122.54  8.5406  7.7394  78.8304  111.77  122.54  ±15.90%      360
+
+ BENCH  Summary
+
+  loaded s1560 all-AI queued advanceDay (reports mean/p99) - tests/perf/advance-day.bench.ts > advanceDay reference benchmark
+
+Benchmark report written to /tmp/tenka-audit-20261012.Ok8OR1/reference-bench.json
