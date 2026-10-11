@@ -6399,3 +6399,20 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
   實驗版6795原輪6,300通過證據另存，不冒稱為移除六個實驗測試後的現行全量。
 - 下一輪先以Rust/WASM純數值邊界處理geo cache-miss評分或castle純規劃，JS保留signature／UTF16排序／UI measurement／visibility。
   render需獨立main-thread WASM instance，保留f64順序／NaN／signed zero／work budget，先驗證ABI打包和整體收益；目前僅唯讀可行性研究，未新增source。
+
+## 實際地理 Rust／WASM 整合交接（2026-10-12）
+
+- `7288d16`／`e8693f4`／`fb9fd7f` 已加入並正式接上 Rust 地理評分，不再只是唯讀可行性研究。
+  主頁獨立 WASM 與模擬 Worker 分離；Rust 九項及 19 檔 262 項精確比對／生命週期測試通過。
+  35 個直接 unit constructor 已接實際編譯核心；首次全量找出二十個間接 App／主畫面接點，
+  `9e49cc9` 補齊後 175 項通過，第二版 AST checker 20→0；原有斷言不變。
+- 固定 `9e49cc9` 全量 6,320 通過／1 失敗／1 跳過，683 檔、126.96 秒，1,477 tracked inputs 前後 Git blob／SHA 一致。
+  型別、完整 lint、正式 build、bundle budget 通過；全部檢查後 1,477 inputs 仍不變。
+  唯一失敗仍為 day450 無嗣領地。首次 `fb9fd7f` 6,287／34／1 及 17 未處理錯誤保留，不能當作全綠。
+- sim3 九份完整發布 exact；三個 120 部隊窗口 59.96／43.17／24.47 FPS 均失敗，地理 inclusive 14.70→14.59 ms／render。
+  地理 Rust 邊界保留作為架構擴充，不宣稱明確整體收益或達到 60 FPS。
+- sim1 fresh npm ci／23 Pixi patch、2,814 檔全源驗證及 Mac／Linux 重建 byte-identical；27147-byte WASM SHA 2f4bde5f…263df。
+  原六項 Worker 五通過／一 readiness 失敗，state／log exact 仍通過；暫停重建的新 generation 尚未載入 WASM，原 trace 已保存。
+- 全部已完成 source／evidence 均分步提交，未 push／部署；全專案 goal 保持 active，未改 00、BAL、protected 基準或門檻。
+  下一步：在暫存隔離範圍評估完整城名牌 Rust planner（inclusive 約 8.8 ms／render），以及 epoch-owned 真實 Worker startup ready 握手。
+  此階段尚未接入城名牌新核心或改動 ready 契約；不能將後續草稿當作已通過的正式實作。

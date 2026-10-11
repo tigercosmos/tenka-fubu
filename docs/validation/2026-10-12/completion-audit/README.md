@@ -1,7 +1,7 @@
 # 後續驗收、重放歸因與記憶體觀察
 
 Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目標仍未完成。
-最新固定來源全量測試為 6,294 通過、1 失敗、1 跳過；120 部隊近景仍未達 60 FPS。
+最新固定來源全量測試為 6,320 通過、1 失敗、1 跳過；120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
 ## 已完成修正
@@ -204,3 +204,19 @@ sim2 的獨立控制將延長掛載失敗定位至 Pixi 圖片 Worker 的 Blob �
 Root 另獨立執行 [自然今川證據驗證器](earned-imagawa-native/verify-evidence.py)，CPU／public import／全部六十日 persistent state 與 RNG、真實敗露及正式仕官皆通過。這是自然取得的 CPU prefix 加 native tail，不宣稱全部三百日原生 UI 重放。
 
 下一步只做 Rust 邊界的唯讀分析：geographic cache-miss 評分可先保持 JS 候選順序與 signature，再以 f64 arena 回傳勝出 offset index；castle 完整純規劃則可保留 UI 量測、compact admission 及 visibility 在 JS。現有 WASM 只在 simulation Worker 初始化，render 必須有獨立主執行緒 instance／生命週期，不能假設逐標籤 Worker 訊息免費。必須保留 JS min/max 的 NaN／signed-zero 行為、運算及加總順序、capsule fail-closed、work budget；計入 packing／跨 ABI／整體 render 成本後才採用。尚未實作或宣稱收益。
+
+## 實際 Rust 地理評分與固定來源整合
+
+`7288d16`／`e8693f4`／`fb9fd7f` 加入零第三方依賴的 Rust 地理評分核心，正式 renderer 在快取失效時使用獨立主頁 WASM 實例。JavaScript 保留驗證、排序、候選生成、快取與 UI 量測；模擬 Worker 的 pathfinding 實例與記憶體獨立。初始化失敗會進入既有錯誤邊界，卸載會取消下載並釋放實例 arena；沒有失敗後靜默改回同步核心。這是擴充純數值邊界，尚未證明大幅改善幀率。
+
+Rust 九項、19 檔 262 項關聯測試通過。實際已編譯 WASM 與凍結 JavaScript reference 比對 320 個 seeded 場景、快取轉換、epsilon、signed zero 及十一個有效極端場景，保留完整輸出。兩輪 helper URL／跨 realm ArrayBuffer 失敗修正及初始非法 fixture／clippy 失敗均保留，見 [geographic-wasm-local](geographic-wasm-local/README.md)。該輪 AST checker 的 35→0 僅涵蓋直接建構 renderer 的 unit 接點。
+
+第一輪固定 `fb9fd7f` 全量為 6,287 通過、34 失敗、1 跳過，另有 17 個未處理錯誤。它找出二十個間接建立 MapCanvasHost 的元件 fixture 尚未注入實際 WASM。`9e49cc9` 補齊這二十個接點，不修改原有行為斷言；175 項相關測試通過。第二版 AST checker 的間接接點由 20→0，已知混合註解的控制精確報告一個缺漏。
+
+固定 `9e49cc9` 全量為 683 檔：681 通過、1 失敗、1 跳過；6,320 項通過、1 失敗、1 跳過，126.96 秒。全部 1,477 個 tracked inputs 在前後符合 Git blob 且 byte-identical；scope 不包含公開素材、二進位輸出或安裝依賴，checkout 共用既有 node_modules。型別、完整 lint、正式 build 與 bundle budget 均通過；完成後全部 1,477 個 inputs 仍不變。唯一失敗仍為 day450 齋藤無嗣領地 INV-02／INV-22。原始首次失敗與後輪完整紀錄見 [geographic-wasm-integration](geographic-wasm-integration/)。
+
+[geographic-wasm-native](geographic-wasm-native/native-README.md) 保留相同 sim3 舊依賴群的九份完整發布比對，全部 exact；三個單次 120 部隊、1080p、三十秒窗口為 59.96／43.17／24.47 FPS，P95 17.4／25.3／48.8 ms，全部仍失敗。close 比上輪 23.99 FPS 的單次變化不足以證明穩定收益；獨立 profile 的地理布局 inclusive 約 14.70→14.59 ms／render。V8 export-index 比對確認實際執行 Rust，但不將實際執行視為效能驗收。
+
+[geographic-wasm-worker-sim1](geographic-wasm-worker-sim1/README.md) 使用完整 2,814 檔固定來源、fresh npm ci 及當前 23 個 Pixi patch。Mac／Linux 二進位與 manifest byte-identical：27,147 bytes，WASM SHA256 `2f4bde5fab04903790ccc28e507ef2ccd1dd8df8bc9f8de2a4491ff71ca263df`。原六項 Worker 測試為五通過、一失敗；失敗案例的完整局面、日誌與實際 Rust 回覆先通過，之後當前 generation 的 readiness 為 false。原 trace 證明暫停取消第四個 posted tick 後建立新 Worker；新實例尚未初始化，不能以歷史 Rust 使用紀錄偽裝為當前 ready。此輪不宣稱六項全綠。
+
+地理 Rust 邊界目前保留，後續將評估完整城名牌純布局與實際 Worker 啟動初始化。既有 60 FPS、whole-heap、protected art、長跑及核心領地 gate 均保持開啟。
