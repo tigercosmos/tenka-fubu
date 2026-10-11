@@ -376,6 +376,7 @@ export function runOneDayAsync(): Promise<GameEvent[]> {
     promise: Promise.resolve([] as GameEvent[]),
   };
   pendingDay = transaction;
+  let committed = false;
   transaction.promise = Promise.resolve()
     .then(() => {
       if (pendingDay !== transaction) return null;
@@ -397,6 +398,7 @@ export function runOneDayAsync(): Promise<GameEvent[]> {
       }
       submittedQueue.consumePrefix(commands);
       pendingDay = null;
+      committed = true;
       reconcileSnapshot(game, executed.state);
       executed.result.state = game;
       context.elapsed = executed.computeMs;
@@ -413,8 +415,8 @@ export function runOneDayAsync(): Promise<GameEvent[]> {
       return finishDay(context, executed.result);
     })
     .catch((error) => {
-      if (pendingDay !== transaction) return [];
-      cancelPendingDay('tick-failed');
+      if (pendingDay !== transaction && !committed) return [];
+      if (!committed) cancelPendingDay('tick-failed');
       clearLiveDriver('tick-failed');
       if (store.getState().game === game && commandQueue === submittedQueue)
         store.getState().actions.setFatalError(captureFatalError(error));

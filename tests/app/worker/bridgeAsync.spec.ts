@@ -11,6 +11,7 @@ import {
   exportCommandLog,
   resetBridgeForTests,
   isDayPending,
+  onAutoPauseReasons,
 } from '../../../src/app/bridge';
 import { resetGameStoreForTests, store } from '../../../src/app/store';
 import { makeLoopTestState, TEST_CLAN } from '../../helpers/loopState';
@@ -107,4 +108,19 @@ it('cancelling reserved AI closes sequence gaps while retaining original AI and 
   runOneDay();
   expect(game.meta.lastAppliedCmdSeq).toBe(2);
   expect(game.ai.pendingOrders.every((order) => order.command.type !== 'debugGrant')).toBe(true);
+});
+
+it('reports publication errors after commit without restoring consumed commands', async () => {
+  dispatchCommand(grant(7));
+  onAutoPauseReasons(() => {
+    throw new Error('publication failed');
+  });
+  const pending = runOneDayAsync();
+  await Promise.resolve();
+  complete();
+  await pending;
+  expect(store.getState().game!.meta.stateVersion).toBe(1);
+  expect(store.getState().session.pendingCommandCount).toBe(0);
+  expect(store.getState().session.fatalError).not.toBeNull();
+  expect(cancelled).toBe(0);
 });
