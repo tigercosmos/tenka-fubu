@@ -1,0 +1,101 @@
+{
+  "remoteRoot": "sim4:/tmp/tenka-remount-patched-20261012.VRxkTB/extended-evidence",
+  "artifacts": [
+    {
+      "file": "00-first-.last-run.json.gz",
+      "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/extended-first-red-results/.last-run.json",
+      "bytes": 104,
+      "sha256": "1338a8e04120e8d0ff44c317664df5e96a263f906caa30d368363246bc8b3a99",
+      "uncompressedBytes": 96,
+      "uncompressedSha256": "800ebe36a56e8fa810d5b8b4101fbac893ba79cc56e9d37e9df467ae71c34c6f"
+    },
+    {
+      "file": "01-first-before-remounts.heapsnapshot.gz",
+      "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/extended-first-red-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/before-remounts.heapsnapshot",
+      "bytes": 6246751,
+      "sha256": "a23f7a84e7bd8a1962bfc4e1bc4c1be6056ad40a98436be44135c2e2e2321ca7",
+      "uncompressedBytes": 32881744,
+      "uncompressedSha256": "f8b34c1c328bc09c96b70e5a6eb907b090375ed451bdaf34d247a74d7ee91c8f"
+    },
+    {
+      "file": "02-first-error-context.md.gz",
+      "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/extended-first-red-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/error-context.md",
+      "bytes": 5175,
+      "sha256": "b75dc2261b228c27175dd4079247b7f32eb83432d4457942a140a8c671028210",
+      "uncompressedBytes": 17070,
+      "uncompressedSha256": "09f97b415b402326a05fa8b21530c954d1da9eb558c75db2b8da25530a8de1ce"
+    },
+    {
+      "file": "03-first-trace.zip.gz",
+      "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/extended-first-red-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/trace.zip",
+      "bytes": 35789350,
+      "sha256": "fe2585dc6317d9ad45ae8405a3715a16417461f4ea4768b5f2f7c29b7dfbb1fa",
+      "uncompressedBytes": 35881425,
+      "uncompressedSha256": "3cc46683333d1b829811c11016a02157b38af2cc8cd8c6940f969dff4036514a"
+    },
+    {
+      "file": "04-diagnostic-.last-run.json.gz",
+      "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/.last-run.json",
+      "bytes": 104,
+      "sha256": "1338a8e04120e8d0ff44c317664df5e96a263f906caa30d368363246bc8b3a99",
+      "uncompressedBytes": 96,
+      "uncompressedSha256": "800ebe36a56e8fa810d5b8b4101fbac893ba79cc56e9d37e9df467ae71c34c6f"
+    },
+    {
+      "file": "05-diagnostic-before-remounts.heapsnapshot.gz",
+      "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/before-remounts.heapsnapshot",
+      "bytes": 6264434,
+      "sha256": "d553daea9272272eed510faf5eb8bb47af34f9a6f3d91c1659ce7683940f0b6e",
+      "uncompressedBytes": 32806422,
+      "uncompressedSha256": "9cf12a11e5896da2483266abe753e5a8df77a6aebca2df69103d2e81e4c99240"
+    },
+    {
+      "file": "06-diagnostic-error-context.md.gz",
+      "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/error-context.md",
+      "bytes": 5221,
+      "sha256": "5442ff1f80962d36d6a6152e2de4c1d7c3512c6404d531c9f4c049f88b75648e",
+      "uncompressedBytes": 17298,
+      "uncompressedSha256": "c62a61c33709ec29e99bd1fa8ab76e20c3a09009c319544e0c4a6bcc86eaeb23"
+    },
+    {
+      "file": "07-diagnostic-trace.zip.gz",
+      "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/trace.zip",
+      "bytes": 51020911,
+      "sha256": "d6f8b06505cc6fd2b484c32f8378ef55153bd6be49c91f76453bd694b15806cb",
+      "uncompressedBytes": 51118170,
+      "uncompressedSha256": "b7b7cd86cf7708ac504cd258c3c8f03c6d989b1b76ea35eabccd0822e74346b9"
+    },
+    {
+      "file": "08-diagnostic-cycle-diagnostics.jsonl.gz",
+      "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/cycle-diagnostics.jsonl",
+      "bytes": 6057762,
+      "sha256": "e8fa734f829572f537d421bbec40baae787128097f19eb8b3b9ad78b635e93f1",
+      "uncompressedBytes": 23405605,
+      "uncompressedSha256": "39837c183999b8108aefa79a2791cdd9329362811907932352be22a1fca9cfe2"
+    },
+    {
+      "file": "09-logs-extended-remount-native.log.gz",
+      "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/extended-remount-native.log",
+      "bytes": 1006,
+      "sha256": "41cfdab848c06b9a23820ead4bb80bd0a78ce09b63e724898e1e6574b4d259bd",
+      "uncompressedBytes": 3595,
+      "uncompressedSha256": "fa9695f6b1b35bd8442d1117193905c3a8b4f51e508f28c1b2eedb453fd12630"
+    },
+    {
+      "file": "10-logs-extended-remount-diagnostic.log.gz",
+      "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/extended-remount-diagnostic.log",
+      "bytes": 1007,
+      "sha256": "f085f523c5a3adea5ea0b4027b570d6ab4c60087aaabf34aa66efbcdd4eb29d7",
+      "uncompressedBytes": 3595,
+      "uncompressedSha256": "072809b32fb268ffb8e626b7d6fb556963b82aa34b1bc49c67dbcd4517a226dd"
+    },
+    {
+      "file": "11-logs-extended-remount-build.log.gz",
+      "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/extended-remount-build.log",
+      "bytes": 850,
+      "sha256": "e0d2b6999b48d1bc81a94078ca1e18ef987e375b013695ecc67400bba4e124c7",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "2b83982f7618652c3299f7b05bfb888d02ed67040c67c6fe8abc369d40965c10"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+[
+  {
+    "file": "00-first-.last-run.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/extended-first-red-results/.last-run.json",
+    "bytes": 104,
+    "sha256": "1338a8e04120e8d0ff44c317664df5e96a263f906caa30d368363246bc8b3a99",
+    "uncompressedBytes": 96,
+    "uncompressedSha256": "800ebe36a56e8fa810d5b8b4101fbac893ba79cc56e9d37e9df467ae71c34c6f"
+  },
+  {
+    "file": "02-first-error-context.md.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/extended-first-red-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/error-context.md",
+    "bytes": 5175,
+    "sha256": "b75dc2261b228c27175dd4079247b7f32eb83432d4457942a140a8c671028210",
+    "uncompressedBytes": 17070,
+    "uncompressedSha256": "09f97b415b402326a05fa8b21530c954d1da9eb558c75db2b8da25530a8de1ce"
+  },
+  {
+    "file": "04-diagnostic-.last-run.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/.last-run.json",
+    "bytes": 104,
+    "sha256": "1338a8e04120e8d0ff44c317664df5e96a263f906caa30d368363246bc8b3a99",
+    "uncompressedBytes": 96,
+    "uncompressedSha256": "800ebe36a56e8fa810d5b8b4101fbac893ba79cc56e9d37e9df467ae71c34c6f"
+  },
+  {
+    "file": "06-diagnostic-error-context.md.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/error-context.md",
+    "bytes": 5221,
+    "sha256": "5442ff1f80962d36d6a6152e2de4c1d7c3512c6404d531c9f4c049f88b75648e",
+    "uncompressedBytes": 17298,
+    "uncompressedSha256": "c62a61c33709ec29e99bd1fa8ab76e20c3a09009c319544e0c4a6bcc86eaeb23"
+  },
+  {
+    "file": "08-diagnostic-cycle-diagnostics.jsonl.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/cycle-diagnostics.jsonl",
+    "bytes": 6057762,
+    "sha256": "e8fa734f829572f537d421bbec40baae787128097f19eb8b3b9ad78b635e93f1",
+    "uncompressedBytes": 23405605,
+    "uncompressedSha256": "39837c183999b8108aefa79a2791cdd9329362811907932352be22a1fca9cfe2"
+  },
+  {
+    "file": "09-logs-extended-remount-native.log.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/extended-remount-native.log",
+    "bytes": 1006,
+    "sha256": "41cfdab848c06b9a23820ead4bb80bd0a78ce09b63e724898e1e6574b4d259bd",
+    "uncompressedBytes": 3595,
+    "uncompressedSha256": "fa9695f6b1b35bd8442d1117193905c3a8b4f51e508f28c1b2eedb453fd12630"
+  },
+  {
+    "file": "10-logs-extended-remount-diagnostic.log.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/extended-remount-diagnostic.log",
+    "bytes": 1007,
+    "sha256": "f085f523c5a3adea5ea0b4027b570d6ab4c60087aaabf34aa66efbcdd4eb29d7",
+    "uncompressedBytes": 3595,
+    "uncompressedSha256": "072809b32fb268ffb8e626b7d6fb556963b82aa34b1bc49c67dbcd4517a226dd"
+  },
+  {
+    "file": "11-logs-extended-remount-build.log.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/extended-remount-build.log",
+    "bytes": 850,
+    "sha256": "e0d2b6999b48d1bc81a94078ca1e18ef987e375b013695ecc67400bba4e124c7",
+    "uncompressedBytes": 1678,
+    "uncompressedSha256": "2b83982f7618652c3299f7b05bfb888d02ed67040c67c6fe8abc369d40965c10"
+  },
+  {
+    "file": "tenka-extended-remount-visual.spec.ts.gz",
+    "bytes": 4787,
+    "sha256": "8e8d70ef80b5b90cc191a207838a4d58226243cfcfad73358cb1ad5a7f843ef1",
+    "uncompressedBytes": 16545,
+    "uncompressedSha256": "82e8edebcb46935c913e8cd728ac9007df3e988ac3b8ce8f8d61670ff0a6df34",
+    "source": "/tmp/tenka-extended-remount-visual.spec.ts"
+  },
+  {
+    "file": "tenka-remount-diagnostic.spec.ts.gz",
+    "bytes": 4845,
+    "sha256": "f583ec7a0de4982e642f8af0bc37df0bbcc81f220deae44f37013d6389f80b3d",
+    "uncompressedBytes": 16791,
+    "uncompressedSha256": "9da6930b0bf46fd32da102534f035ddc1adf46aa48e57c5d1351db0168736c92",
+    "source": "/tmp/tenka-remount-diagnostic.spec.ts"
+  },
+  {
+    "file": "failed-network-records.json.gz",
+    "bytes": 1565,
+    "sha256": "de8dead2a3729056c2b2519aed7548e1287f9b5e5f601aec0c29ce96052dad20",
+    "uncompressedBytes": 30366,
+    "uncompressedSha256": "9207692649f375571cfc58d9dc45c28a7bef814e3396c8918dfff48fc70faf26",
+    "source": "/tmp/tenka-extended-remount-red/failed-network-records.json"
+  },
+  {
+    "file": "README.md",
+    "bytes": 2354,
+    "sha256": "1dd71cfbdb25ae2d94f9d288f897374af3cbe006c4033f8c503c0b34244e17a7"
+  },
+  {
+    "file": "production-manifest.json.gz",
+    "bytes": 37642,
+    "sha256": "cb5efb26c01da310e0b97472912259fc33ee9d6f1ee55f33ea67df65caf2db76",
+    "uncompressedBytes": 114848,
+    "uncompressedSha256": "28858ed42bc3c63b51a0daa38b93c3e56376dc0feec3a40f2cc38e16c79c6cad"
+  },
+  {
+    "file": "remote-artifact-sha256.json",
+    "bytes": 5401,
+    "sha256": "a07693b24161516d76593a260f1d6369d217067a6e5da016addc58b6bfa3494b"
+  },
+  {
+    "file": "source-comparison.json",
+    "bytes": 156,
+    "sha256": "ddf09cd6ef9351ef7c7eca43937044b7c1099233dcdc2a8c018862f47d01d9dd"
+  }
+]
