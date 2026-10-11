@@ -1,0 +1,5 @@
+TypeError: Module "file:///tmp/tenka-court-rank-20261012/src/data/map/japan-outline.json" needs an import attribute of "type: json"
+Error: No tests found.
+Make sure that arguments are regular expressions matching test files.
+You may need to escape symbols like "$" or "*" and quote the arguments.
+

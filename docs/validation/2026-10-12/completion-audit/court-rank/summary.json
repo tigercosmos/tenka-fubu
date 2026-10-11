@@ -1,0 +1,94 @@
+{
+  "testCommit": "8c0de41",
+  "productionCommit": "505d96a",
+  "result": "pass",
+  "days": {
+    "earned": 150,
+    "granted": 151,
+    "reloaded": 151,
+    "recordedRafDays": 149,
+    "nativeEventChoiceDays": [
+      [60, 61],
+      [120, 121]
+    ]
+  },
+  "firstRank": {
+    "id": "ju5ge",
+    "requiredFavor": 20,
+    "favorBefore": 23,
+    "favorAfter": 23,
+    "goldBefore": 1604,
+    "goldAfter": 1304,
+    "prestigeBefore": 450,
+    "prestigeAfter": 500
+  },
+  "checks": [
+    "Every recorded scheduler step advances exactly one day",
+    "Every scheduler state satisfies validateState",
+    "Rank request stays queued until ordinary next day",
+    "Current rank and disabled next-rank action display before and after native load",
+    "Full loaded state equals buildSaveFile snapshot; AI intent log omitted by documented codec"
+  ],
+  "rawStates": [
+    {
+      "archivePath": "tenka-court-rank-day61-owner-race-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/earned-court-rank-production-journey.json",
+      "localPath": "tenka-court-rank-day61-owner-race-results.json.gz",
+      "rawSha256": "24bc6b38ad916a71f8b3eb734f9be5259310123a1f1f7c291992bcce12edf47c",
+      "rawBytes": 758026
+    },
+    {
+      "archivePath": "tenka-court-rank-scoped-property-race-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/earned-court-rank-production-journey.json",
+      "localPath": "tenka-court-rank-scoped-property-race-results.json.gz",
+      "rawSha256": "7bf73fe84912ab4fdd370086a788f05f5a3121ecab465daef83af8e4f7578818",
+      "rawBytes": 758031
+    },
+    {
+      "archivePath": "tenka-court-rank-20261012/test-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/earned-court-rank-production-journey.json",
+      "localPath": "success-full-state.json.gz",
+      "rawSha256": "9ef1578e348f2a929d65e8cec58f905b446d288001bd403c16186cf90702205f",
+      "rawBytes": 4916767
+    }
+  ],
+  "largeTraces": [
+    {
+      "host": "sim3",
+      "remotePath": "/tmp/tenka-court-rank-day31-race-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/trace.zip",
+      "sha256": "10a05f46950193010c77d62f018cc6c22fceda176e7dacf5056f42277c679180",
+      "bytes": 23360749
+    },
+    {
+      "host": "sim3",
+      "remotePath": "/tmp/tenka-court-rank-day91-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/trace.zip",
+      "sha256": "fc058d2e2233de6d9c521e885481e7c970db3b36ded62756ddf81cc79ae03093",
+      "bytes": 73948092
+    },
+    {
+      "host": "sim3",
+      "remotePath": "/tmp/tenka-court-rank-day61-owner-race-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/trace.zip",
+      "sha256": "07d5c7dbfd99df593d17f94bad416802cda25eb73a803b732a0f00c39667a72d",
+      "bytes": 44760805
+    },
+    {
+      "host": "sim3",
+      "remotePath": "/tmp/tenka-court-rank-scoped-property-race-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/trace.zip",
+      "sha256": "43973b71ebffcbb6e3e5a47568082f2138a2545d5fcb0762be1b97afcaf494a3",
+      "bytes": 47323153
+    }
+  ],
+  "remoteEvidenceArchive": {
+    "host": "sim3",
+    "path": "/tmp/tenka-court-rank-evidence.tar.gz",
+    "sha256": "996ffced42c60851407ddd911d2ad5dcc3ce15954f5faf4174427aa04210e32f"
+  },
+  "failuresPreserved": [
+    "day31 read before Worker commit",
+    "day91 insufficient RAF alignment after modal resume",
+    "day61 replacement proposal owner observed through global locator",
+    "day60 detached scoped event-button property wait timed out"
+  ],
+  "limitations": [
+    "Frozen complete production bundle505d96a, not rerun of all later production changes",
+    "Passed run has no retained network trace; network excerpts are labeled diagnostic only",
+    "No long-horizon ending, second rank, leader succession, or no-heir policy claim"
+  ]
+}

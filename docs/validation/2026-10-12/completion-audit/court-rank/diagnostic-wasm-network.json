@@ -1,0 +1,426 @@
+[
+  {
+    "diagnosticTraceRemotePath": "/tmp/tenka-court-rank-day31-race-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/trace.zip",
+    "request": {
+      "method": "GET",
+      "url": "http://localhost:4173/wasm/tenka_engine.wasm",
+      "httpVersion": "HTTP/1.1",
+      "cookies": [],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "*/*"
+        },
+        {
+          "name": "Accept-Encoding",
+          "value": "gzip, deflate, br, zstd"
+        },
+        {
+          "name": "Connection",
+          "value": "keep-alive"
+        },
+        {
+          "name": "Host",
+          "value": "localhost:4173"
+        },
+        {
+          "name": "Referer",
+          "value": "http://localhost:4173/assets/simulation.worker-DPlkXV9w.js"
+        },
+        {
+          "name": "Sec-Fetch-Dest",
+          "value": "empty"
+        },
+        {
+          "name": "Sec-Fetch-Mode",
+          "value": "cors"
+        },
+        {
+          "name": "Sec-Fetch-Site",
+          "value": "same-origin"
+        },
+        {
+          "name": "User-Agent",
+          "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36"
+        }
+      ],
+      "queryString": [],
+      "headersSize": 411,
+      "bodySize": 0
+    },
+    "response": {
+      "status": 200,
+      "statusText": "OK",
+      "httpVersion": "HTTP/1.1",
+      "cookies": [],
+      "headers": [
+        {
+          "name": "Cache-Control",
+          "value": "no-cache"
+        },
+        {
+          "name": "Connection",
+          "value": "keep-alive"
+        },
+        {
+          "name": "Content-Length",
+          "value": "20761"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/wasm"
+        },
+        {
+          "name": "Date",
+          "value": "Sun, 11 Oct 2026 21:22:10 GMT"
+        },
+        {
+          "name": "ETag",
+          "value": "W/\"20761-1791753686860\""
+        },
+        {
+          "name": "Keep-Alive",
+          "value": "timeout=5"
+        },
+        {
+          "name": "Last-Modified",
+          "value": "Sun, 11 Oct 2026 21:21:26 GMT"
+        },
+        {
+          "name": "Vary",
+          "value": "Origin"
+        }
+      ],
+      "content": {
+        "size": 20761,
+        "mimeType": "application/wasm",
+        "compression": 0,
+        "_sha1": "fbb2f90fab30bb4e20127af722a8378e981ac7c3.wasm"
+      },
+      "headersSize": 274,
+      "bodySize": 20761,
+      "redirectURL": "",
+      "_transferSize": 21035
+    },
+    "pageref": "page@17fa4fa68528b2a52dc5a5291a924c46",
+    "startedDateTime": "2026-10-11T21:22:10.772Z"
+  },
+  {
+    "diagnosticTraceRemotePath": "/tmp/tenka-court-rank-day91-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/trace.zip",
+    "request": {
+      "method": "GET",
+      "url": "http://localhost:4173/wasm/tenka_engine.wasm",
+      "httpVersion": "HTTP/1.1",
+      "cookies": [],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "*/*"
+        },
+        {
+          "name": "Accept-Encoding",
+          "value": "gzip, deflate, br, zstd"
+        },
+        {
+          "name": "Connection",
+          "value": "keep-alive"
+        },
+        {
+          "name": "Host",
+          "value": "localhost:4173"
+        },
+        {
+          "name": "Referer",
+          "value": "http://localhost:4173/assets/simulation.worker-DPlkXV9w.js"
+        },
+        {
+          "name": "Sec-Fetch-Dest",
+          "value": "empty"
+        },
+        {
+          "name": "Sec-Fetch-Mode",
+          "value": "cors"
+        },
+        {
+          "name": "Sec-Fetch-Site",
+          "value": "same-origin"
+        },
+        {
+          "name": "User-Agent",
+          "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36"
+        }
+      ],
+      "queryString": [],
+      "headersSize": 411,
+      "bodySize": 0
+    },
+    "response": {
+      "status": 200,
+      "statusText": "OK",
+      "httpVersion": "HTTP/1.1",
+      "cookies": [],
+      "headers": [
+        {
+          "name": "Cache-Control",
+          "value": "no-cache"
+        },
+        {
+          "name": "Connection",
+          "value": "keep-alive"
+        },
+        {
+          "name": "Content-Length",
+          "value": "20761"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/wasm"
+        },
+        {
+          "name": "Date",
+          "value": "Sun, 11 Oct 2026 21:23:10 GMT"
+        },
+        {
+          "name": "ETag",
+          "value": "W/\"20761-1791753686860\""
+        },
+        {
+          "name": "Keep-Alive",
+          "value": "timeout=5"
+        },
+        {
+          "name": "Last-Modified",
+          "value": "Sun, 11 Oct 2026 21:21:26 GMT"
+        },
+        {
+          "name": "Vary",
+          "value": "Origin"
+        }
+      ],
+      "content": {
+        "size": 20761,
+        "mimeType": "application/wasm",
+        "compression": 0,
+        "_sha1": "fbb2f90fab30bb4e20127af722a8378e981ac7c3.wasm"
+      },
+      "headersSize": 274,
+      "bodySize": 20761,
+      "redirectURL": "",
+      "_transferSize": 21035
+    },
+    "pageref": "page@a8e505e8d418f3d4f8bcbce3855796f8",
+    "startedDateTime": "2026-10-11T21:23:10.616Z"
+  },
+  {
+    "diagnosticTraceRemotePath": "/tmp/tenka-court-rank-day61-owner-race-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/trace.zip",
+    "request": {
+      "method": "GET",
+      "url": "http://localhost:4173/wasm/tenka_engine.wasm",
+      "httpVersion": "HTTP/1.1",
+      "cookies": [],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "*/*"
+        },
+        {
+          "name": "Accept-Encoding",
+          "value": "gzip, deflate, br, zstd"
+        },
+        {
+          "name": "Connection",
+          "value": "keep-alive"
+        },
+        {
+          "name": "Host",
+          "value": "localhost:4173"
+        },
+        {
+          "name": "Referer",
+          "value": "http://localhost:4173/assets/simulation.worker-DPlkXV9w.js"
+        },
+        {
+          "name": "Sec-Fetch-Dest",
+          "value": "empty"
+        },
+        {
+          "name": "Sec-Fetch-Mode",
+          "value": "cors"
+        },
+        {
+          "name": "Sec-Fetch-Site",
+          "value": "same-origin"
+        },
+        {
+          "name": "User-Agent",
+          "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36"
+        }
+      ],
+      "queryString": [],
+      "headersSize": 411,
+      "bodySize": 0
+    },
+    "response": {
+      "status": 200,
+      "statusText": "OK",
+      "httpVersion": "HTTP/1.1",
+      "cookies": [],
+      "headers": [
+        {
+          "name": "Cache-Control",
+          "value": "no-cache"
+        },
+        {
+          "name": "Connection",
+          "value": "keep-alive"
+        },
+        {
+          "name": "Content-Length",
+          "value": "20761"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/wasm"
+        },
+        {
+          "name": "Date",
+          "value": "Sun, 11 Oct 2026 21:26:02 GMT"
+        },
+        {
+          "name": "ETag",
+          "value": "W/\"20761-1791753686860\""
+        },
+        {
+          "name": "Keep-Alive",
+          "value": "timeout=5"
+        },
+        {
+          "name": "Last-Modified",
+          "value": "Sun, 11 Oct 2026 21:21:26 GMT"
+        },
+        {
+          "name": "Vary",
+          "value": "Origin"
+        }
+      ],
+      "content": {
+        "size": 20761,
+        "mimeType": "application/wasm",
+        "compression": 0,
+        "_sha1": "fbb2f90fab30bb4e20127af722a8378e981ac7c3.wasm"
+      },
+      "headersSize": 274,
+      "bodySize": 20761,
+      "redirectURL": "",
+      "_transferSize": 21035
+    },
+    "pageref": "page@f2d65411208df3bd3cbd9515a7a22a28",
+    "startedDateTime": "2026-10-11T21:26:02.790Z"
+  },
+  {
+    "diagnosticTraceRemotePath": "/tmp/tenka-court-rank-scoped-property-race-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/trace.zip",
+    "request": {
+      "method": "GET",
+      "url": "http://localhost:4173/wasm/tenka_engine.wasm",
+      "httpVersion": "HTTP/1.1",
+      "cookies": [],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "*/*"
+        },
+        {
+          "name": "Accept-Encoding",
+          "value": "gzip, deflate, br, zstd"
+        },
+        {
+          "name": "Connection",
+          "value": "keep-alive"
+        },
+        {
+          "name": "Host",
+          "value": "localhost:4173"
+        },
+        {
+          "name": "Referer",
+          "value": "http://localhost:4173/assets/simulation.worker-DPlkXV9w.js"
+        },
+        {
+          "name": "Sec-Fetch-Dest",
+          "value": "empty"
+        },
+        {
+          "name": "Sec-Fetch-Mode",
+          "value": "cors"
+        },
+        {
+          "name": "Sec-Fetch-Site",
+          "value": "same-origin"
+        },
+        {
+          "name": "User-Agent",
+          "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36"
+        }
+      ],
+      "queryString": [],
+      "headersSize": 411,
+      "bodySize": 0
+    },
+    "response": {
+      "status": 200,
+      "statusText": "OK",
+      "httpVersion": "HTTP/1.1",
+      "cookies": [],
+      "headers": [
+        {
+          "name": "Cache-Control",
+          "value": "no-cache"
+        },
+        {
+          "name": "Connection",
+          "value": "keep-alive"
+        },
+        {
+          "name": "Content-Length",
+          "value": "20761"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/wasm"
+        },
+        {
+          "name": "Date",
+          "value": "Sun, 11 Oct 2026 21:27:59 GMT"
+        },
+        {
+          "name": "ETag",
+          "value": "W/\"20761-1791753686860\""
+        },
+        {
+          "name": "Keep-Alive",
+          "value": "timeout=5"
+        },
+        {
+          "name": "Last-Modified",
+          "value": "Sun, 11 Oct 2026 21:21:26 GMT"
+        },
+        {
+          "name": "Vary",
+          "value": "Origin"
+        }
+      ],
+      "content": {
+        "size": 20761,
+        "mimeType": "application/wasm",
+        "compression": 0,
+        "_sha1": "fbb2f90fab30bb4e20127af722a8378e981ac7c3.wasm"
+      },
+      "headersSize": 274,
+      "bodySize": 20761,
+      "redirectURL": "",
+      "_transferSize": 21035
+    },
+    "pageref": "page@c4246022186e8950b28db477f99e6a70",
+    "startedDateTime": "2026-10-11T21:27:59.304Z"
+  }
+]

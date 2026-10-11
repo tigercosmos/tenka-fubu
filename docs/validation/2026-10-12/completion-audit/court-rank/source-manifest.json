@@ -1,0 +1,106 @@
+{
+  "frozenProductionCommit": "505d96a",
+  "archiveSha256": "307a5614e92df2f2a383ed8237b132c0b5a940bc54ba4ee903d2a5c572e8ff5f",
+  "currentHead": "38d22b0f8d32d4e8fa674c728bc4c92194c20215",
+  "files": [
+    {
+      "path": "src/core/balance.ts",
+      "currentSha256": "05b505dbf0247eacedcd6d33894fda43060ede659e1b30f15efde8cc83af837a",
+      "frozenSha256": "05b505dbf0247eacedcd6d33894fda43060ede659e1b30f15efde8cc83af837a",
+      "unchangedSinceFrozen": true,
+      "remoteSha256": "05b505dbf0247eacedcd6d33894fda43060ede659e1b30f15efde8cc83af837a"
+    },
+    {
+      "path": "src/core/commands/courtCommands.ts",
+      "currentSha256": "249b59a6ca54d0140d8f3f9ae3f1d31d2539e90a844eb29d1541753e6c2f4936",
+      "frozenSha256": "249b59a6ca54d0140d8f3f9ae3f1d31d2539e90a844eb29d1541753e6c2f4936",
+      "unchangedSinceFrozen": true,
+      "remoteSha256": "249b59a6ca54d0140d8f3f9ae3f1d31d2539e90a844eb29d1541753e6c2f4936"
+    },
+    {
+      "path": "src/core/systems/court.ts",
+      "currentSha256": "37697d48b6ce07fb0979fe734302c7df121183d93e90d6af7af6ea1175f0ca63",
+      "frozenSha256": "37697d48b6ce07fb0979fe734302c7df121183d93e90d6af7af6ea1175f0ca63",
+      "unchangedSinceFrozen": true,
+      "remoteSha256": "37697d48b6ce07fb0979fe734302c7df121183d93e90d6af7af6ea1175f0ca63"
+    },
+    {
+      "path": "src/ui/screens/CourtPage.tsx",
+      "currentSha256": "a49c35ff5c1a663ba724da9912ab1abcacffbaf2a58c78caf904985b654e272f",
+      "frozenSha256": "a49c35ff5c1a663ba724da9912ab1abcacffbaf2a58c78caf904985b654e272f",
+      "unchangedSinceFrozen": true,
+      "remoteSha256": "a49c35ff5c1a663ba724da9912ab1abcacffbaf2a58c78caf904985b654e272f"
+    },
+    {
+      "path": "src/ui/screens/EventModal.tsx",
+      "currentSha256": "25ae6c80a4a4f46b9e0d91d13de4a2df3b83bacb0b589dc384e60bffdebebcb3",
+      "frozenSha256": "25ae6c80a4a4f46b9e0d91d13de4a2df3b83bacb0b589dc384e60bffdebebcb3",
+      "unchangedSinceFrozen": true,
+      "remoteSha256": "25ae6c80a4a4f46b9e0d91d13de4a2df3b83bacb0b589dc384e60bffdebebcb3"
+    },
+    {
+      "path": "src/core/save/serialize.ts",
+      "currentSha256": "24e2f544b6e1920120b71e1355ccbccb450683e52319a8fd096f88f6bc06d87e",
+      "frozenSha256": "24e2f544b6e1920120b71e1355ccbccb450683e52319a8fd096f88f6bc06d87e",
+      "unchangedSinceFrozen": true,
+      "remoteSha256": "24e2f544b6e1920120b71e1355ccbccb450683e52319a8fd096f88f6bc06d87e"
+    },
+    {
+      "path": "src/data/scenarios/s1560/clans.json",
+      "currentSha256": "3fa9278ef5f75df04de7911bef02279f1114210daae91957fe55b97289ce81da",
+      "frozenSha256": "3fa9278ef5f75df04de7911bef02279f1114210daae91957fe55b97289ce81da",
+      "unchangedSinceFrozen": true,
+      "remoteSha256": "3fa9278ef5f75df04de7911bef02279f1114210daae91957fe55b97289ce81da"
+    },
+    {
+      "path": "src/data/scenarios/s1560/events.json",
+      "currentSha256": "1138a01f5f1f40f496803e30e0125b39757e788f994b33537068d8b3f3c06fb8",
+      "frozenSha256": "1138a01f5f1f40f496803e30e0125b39757e788f994b33537068d8b3f3c06fb8",
+      "unchangedSinceFrozen": true,
+      "remoteSha256": "1138a01f5f1f40f496803e30e0125b39757e788f994b33537068d8b3f3c06fb8"
+    },
+    {
+      "path": "package-lock.json",
+      "currentSha256": "63f021d39b353a70831accbfc50b714a09767b900ce23157fbf4ecce1dda7be1",
+      "frozenSha256": "63f021d39b353a70831accbfc50b714a09767b900ce23157fbf4ecce1dda7be1",
+      "unchangedSinceFrozen": true,
+      "remoteSha256": "63f021d39b353a70831accbfc50b714a09767b900ce23157fbf4ecce1dda7be1"
+    },
+    {
+      "path": "e2e/court-rank.spec.ts",
+      "currentSha256": "ce37894755da1165e06f26a458cf3991988d2e8527233c8b453b66abd412be13",
+      "frozenSha256": null,
+      "unchangedSinceFrozen": true,
+      "remoteSha256": "ce37894755da1165e06f26a458cf3991988d2e8527233c8b453b66abd412be13"
+    }
+  ],
+  "runtime": {
+    "node": "22.23.3",
+    "playwright": "1.61.1",
+    "browser": "Chrome Headless Shell149.0.7827.55",
+    "workers": 1,
+    "loader": "NODE_OPTIONS=--import=tsx"
+  },
+  "testCommit": "8c0de41",
+  "currentRelevantSourceComparison": [
+    {
+      "path": "src/app/bridge.ts",
+      "frozenSha256": "c9e3046e58a222731d8ebc07597e3bf246a1781a7771350347492fad85110b65",
+      "currentSha256": "c9e3046e58a222731d8ebc07597e3bf246a1781a7771350347492fad85110b65",
+      "equal": true
+    },
+    {
+      "path": "src/app/events/EventModalHost.tsx",
+      "frozenSha256": "97550ee4105d14143933a12d2531935c73c5cb6735020318924da647480d0d0b",
+      "currentSha256": "97550ee4105d14143933a12d2531935c73c5cb6735020318924da647480d0d0b",
+      "equal": true
+    },
+    {
+      "path": "src/core/systems/officers.ts",
+      "frozenSha256": "e670bfbf3fe1045fd96dcd3855fbef19dff846f916d2be7c3d283ff36e0ad070",
+      "currentSha256": "e670bfbf3fe1045fd96dcd3855fbef19dff846f916d2be7c3d283ff36e0ad070",
+      "equal": true
+    }
+  ],
+  "acceptedCommittedTestSha256": "ce37894755da1165e06f26a458cf3991988d2e8527233c8b453b66abd412be13"
+}

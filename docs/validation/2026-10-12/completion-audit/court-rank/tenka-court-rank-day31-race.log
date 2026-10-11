@@ -1,0 +1,35 @@
+
+Running 1 test using 1 worker
+
+  ✘  1 [chromium] › e2e/court-rank.spec.ts:106:1 › Earned court rank: normal donations, queued grant, and native save/reload (41.2s)
+
+
+  1) [chromium] › e2e/court-rank.spec.ts:106:1 › Earned court rank: normal donations, queued grant, and native save/reload 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 31
+    Received: 30
+
+      90 |   }
+      91 |   const after = await state(page);
+    > 92 |   expect(after.time.day).toBe(before + 1);
+         |                          ^
+      93 |   expect(validateState(after), `All invariants after normal day ${after.time.day}`).toEqual([]);
+      94 |   return after;
+      95 | }
+        at normalDay (/tmp/tenka-court-rank-20261012/e2e/court-rank.spec.ts:92:26)
+        at /tmp/tenka-court-rank-20261012/e2e/court-rank.spec.ts:169:16
+
+    Error Context: test-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › e2e/court-rank.spec.ts:106:1 › Earned court rank: normal donations, queued grant, and native save/reload 
