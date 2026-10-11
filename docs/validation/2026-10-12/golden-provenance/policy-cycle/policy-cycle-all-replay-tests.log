@@ -1,0 +1,49 @@
+
+ RUN  v2.1.9 /Users/tigercosmos/tenka-fubu
+
+ ✓ |core| tests/replay/payrollUnpaidRecovery.spec.ts (3 tests) 218ms
+ ✓ |core| tests/replay/earnedSuccessorPayrollRecovery.spec.ts (3 tests) 342ms
+ ✓ |core| tests/replay/successorCorpsEligibility.spec.ts (4 tests) 230ms
+ ✓ |core| tests/replay/rakuichiIncomeOwnership.spec.ts (3 tests) 177ms
+ ✓ |core| tests/replay/transportPhysicalOccupancy.spec.ts (3 tests) 216ms
+ ✓ |core| tests/replay/corpsReclaimWallet.spec.ts (3 tests) 211ms
+ ❯ |core| tests/replay/replay.spec.ts (19 tests | 1 failed) 902ms
+   × command log replay cases > m4-military-siege-fall.tfulog.json: is complete, BAL-current, and reproduces the final hash 35ms
+     → BAL 已變更，請以目前版本重錄此回歸案例或更新 finalHash。: expected true to be false // Object.is equality
+   ✓ command log replay cases > m6-diplomacy-trust-merit.tfulog.json: is complete, BAL-current, and reproduces the final hash 583ms
+ ✓ |core| tests/replay/transportLootCarryCap.spec.ts (3 tests) 207ms
+ ✓ |core| tests/replay/rewardMonthBoundaryAi.spec.ts (3 tests) 156ms
+ ✓ |core| tests/replay/castleDelegationCycle.spec.ts (3 tests) 160ms
+ ✓ |core| tests/replay/rewardMonthBoundary.spec.ts (3 tests) 169ms
+ ✓ |core| tests/replay/eventReplay.spec.ts (3 tests) 51ms
+ ✓ |core| tests/replay/policyCycleSchemaMigration.spec.ts (1 test) 46ms
+ ✓ |core| tests/replay/diplomacyTrustMerit.spec.ts (3 tests) 7839ms
+   ✓ permanent naturally completed diplomacy merit replay > records unchanged mini seed twice, pays real months and awards only the genuine crossing 3448ms
+   ✓ permanent naturally completed diplomacy merit replay > restores pending START/STOP and ongoing work through native codec with identical persistent state/events/RNG 2537ms
+   ✓ permanent naturally completed diplomacy merit replay > validates every tampered normal-day command and detects the resulting different final state 1853ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL |core|  tests/replay/replay.spec.ts > command log replay cases > m4-military-siege-fall.tfulog.json: is complete, BAL-current, and reproduces the final hash
+AssertionError: BAL 已變更，請以目前版本重錄此回歸案例或更新 finalHash。: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/replay/replay.spec.ts:161:9
+    159|         result.balanceMismatch,
+    160|         'BAL 已變更，請以目前版本重錄此回歸案例或更新 finalHash。',
+    161|       ).toBe(false);
+       |         ^
+    162|       expect(result.match, `${name}: 期望 ${result.expectedHash}，實得…
+    163|         true,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 13 passed (14)
+      Tests  1 failed | 56 passed (57)
+   Start at  05:48:13
+   Duration  10.74s (transform 459ms, setup 0ms, collect 2.30s, tests 10.92s, environment 1ms, prepare 401ms)

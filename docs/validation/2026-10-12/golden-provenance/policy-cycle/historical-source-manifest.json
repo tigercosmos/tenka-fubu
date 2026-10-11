@@ -1,0 +1,766 @@
+{
+  "source": "/tmp/tenka-army-audit.YtXEQ3",
+  "archiveSha256": "1b339984b542c5cf36f8d094512932a4533335fd9c83c2b02faee6b0307ead6a",
+  "files": [
+    {
+      "file": "src/core/balance.ts",
+      "sha256": "2ca4b21dfd03ce932b28e78c79e44834526f12e64118f88f8ee9eb4aaba36383"
+    },
+    {
+      "file": "src/core/commands/apply.ts",
+      "sha256": "1f5883b62a155ea5733bd36d01608e454181b205b87234700dd9f9503b0d2d43"
+    },
+    {
+      "file": "src/core/commands/authority.ts",
+      "sha256": "aa98affd0e01a926961eda9c82eb783486f9896384571fd210327eb36e526566"
+    },
+    {
+      "file": "src/core/commands/corpsCommands.ts",
+      "sha256": "8a7740638e0c44a63a669f77f24e16afcd8ad221a2e2bf82d50aedd21c0c2843"
+    },
+    {
+      "file": "src/core/commands/courtCommands.ts",
+      "sha256": "249b59a6ca54d0140d8f3f9ae3f1d31d2539e90a844eb29d1541753e6c2f4936"
+    },
+    {
+      "file": "src/core/commands/debugCommands.ts",
+      "sha256": "0bc3f28cc79c0103f7fc4fcfa183ac9e8da6957a920cc44976e4b0c5a5f55a5f"
+    },
+    {
+      "file": "src/core/commands/diplomacyCommands.ts",
+      "sha256": "073bdf0b5bbdba9be69d74c78a9dab11c58f9b6b5b5a1ccf7bcfd9041c73d9fc"
+    },
+    {
+      "file": "src/core/commands/domesticCommands.ts",
+      "sha256": "451d30d38db4cef269278542b48004eebd2f6cd4c27027caf8fd071228d560d4"
+    },
+    {
+      "file": "src/core/commands/march.ts",
+      "sha256": "6e86341d41190e30bbe8323b57b8f69fe022a8e94701594df5ccd14b8bdc4703"
+    },
+    {
+      "file": "src/core/commands/officerCommands.ts",
+      "sha256": "7c9ed4744c2c7785cedeb7df5dabeee395f6de9a02def16bec3965b0dfd19cf8"
+    },
+    {
+      "file": "src/core/commands/plotCommands.ts",
+      "sha256": "f7e139e37309f9a5cea62eda39a2f04127931516735aa3434b5a9b53618e34ef"
+    },
+    {
+      "file": "src/core/commands/proposalCommands.ts",
+      "sha256": "a3df0979ce8c8e28ede23e1ba981aa600501f7418afeedf49a822a8280e00e40"
+    },
+    {
+      "file": "src/core/commands/queue.ts",
+      "sha256": "58ab225d965d2726f7c1b696d9b57b4ed099b0ec64df8f1adb3d708141090c4e"
+    },
+    {
+      "file": "src/core/commands/reasons.ts",
+      "sha256": "021bdaee7015ce91b025d83e3ad4a7eacc156c1e3bf77ddf7819f757ccad46f7"
+    },
+    {
+      "file": "src/core/commands/registry.ts",
+      "sha256": "d2acc1fd7d533a3c3eeda03d61fd223c82a74ff8de6b0fc4b117b6107d7eb3cf"
+    },
+    {
+      "file": "src/core/commands/taimeiCommands.ts",
+      "sha256": "b52ae5e5b5c0e1d276d5eba05e2acd8aba776de7a6033547b5f43e97914dd41f"
+    },
+    {
+      "file": "src/core/commands/treasury.ts",
+      "sha256": "f043113088be076c1559fc92222951f2b36eb45b35f4dbf1a228576b7f5d1279"
+    },
+    {
+      "file": "src/core/commands/types.ts",
+      "sha256": "f6c37d7674797d27fa0be908ea46581e2c6085136a4385bd64b2f0ecf36f26fb"
+    },
+    {
+      "file": "src/core/commands/validate.ts",
+      "sha256": "3c4303b89eab46f66e0be1498111588f70ef7101dbb50668a224f1e4046b4971"
+    },
+    {
+      "file": "src/core/debugBattle.ts",
+      "sha256": "07f985e07075d9f70a4bf817045ae335142c2e541f8cb25a2f7f466707f1ae74"
+    },
+    {
+      "file": "src/core/debugM6.ts",
+      "sha256": "8a0f27177754d156242487f21e45917177d14b67e0f0f97304e9cf1d5198820d"
+    },
+    {
+      "file": "src/core/debugVisual.ts",
+      "sha256": "80851ca3445ad521f5cae258df9a469367355ec43181a2c65556e4523cf46ddc"
+    },
+    {
+      "file": "src/core/domestic.ts",
+      "sha256": "af14dd2362fff666a449ff675a470671c00e40b61500fcb3c203f1000aa8123b"
+    },
+    {
+      "file": "src/core/errors.ts",
+      "sha256": "8686c8070e2e24c93683d00624ca1500cac849284b0fc1ae6c60336d03fb4682"
+    },
+    {
+      "file": "src/core/facilities.ts",
+      "sha256": "31cee0f65040fb46b30b1eb60adc680f538b32fb04c78965e7b63f8947d2a2ea"
+    },
+    {
+      "file": "src/core/index.ts",
+      "sha256": "b0d54675035469609f6379b0fe8857cea82f61298ed588278d1379a4c1f70b56"
+    },
+    {
+      "file": "src/core/log.ts",
+      "sha256": "41b84b03fd60caca6eda1182ead9ea773b46a4b272ebf4758640dfdd2d2af335"
+    },
+    {
+      "file": "src/core/policies.ts",
+      "sha256": "81abdf3f4b7b2636d9181780fe935a56186953c2d186050d0f58d8d3b135ff14"
+    },
+    {
+      "file": "src/core/replay/commandLog.ts",
+      "sha256": "23acfbd48bd788595ffd0b5645fe746ee986ce0347a439305203779989dc23a9"
+    },
+    {
+      "file": "src/core/rng.ts",
+      "sha256": "b5821288459785da94c055fe7108899c043dfb7da6852bc296dc48dc8046d59e"
+    },
+    {
+      "file": "src/core/save/migrate.ts",
+      "sha256": "731571a9696f3e472804934d769cab60e405ee482a62ad6dfb6b727750f3fe30"
+    },
+    {
+      "file": "src/core/save/serialize.ts",
+      "sha256": "9945911f18bb31e49852602f13fccc074894e8c01461f8700d76f58f96e24440"
+    },
+    {
+      "file": "src/core/save/validateAi.ts",
+      "sha256": "a0e614448c144b9252ba6cab7f51e24a22770114394fa4b54b3f4a772e248884"
+    },
+    {
+      "file": "src/core/save/validateEvents.ts",
+      "sha256": "77cec3a43fd9e84bce60be6cb665813c91578545e6baf6d517f1eed4049e033f"
+    },
+    {
+      "file": "src/core/save/validatePendingCommands.ts",
+      "sha256": "6ebe00fae7be51f070c601ad7b41b79a5ab381c84c4b5b886104baf8f8455c3f"
+    },
+    {
+      "file": "src/core/save/validateTaimei.ts",
+      "sha256": "090157ec5ed46e5c8c52b1998ac55a802c41064a5bf8274ab700c7c2f57787ce"
+    },
+    {
+      "file": "src/core/state/builder.ts",
+      "sha256": "351d2bef06f497cd40ca93f56058932d31d01f43fdd0d3945f8590783fa42eac"
+    },
+    {
+      "file": "src/core/state/debugVisualCastleTerrain.spec.ts",
+      "sha256": "4e3bdc4f69c66b2f02fa92fdc9798ca3f9a871a6e184e9b6e00bb0dbbe396c8f"
+    },
+    {
+      "file": "src/core/state/debugVisualCastleTerrain.ts",
+      "sha256": "b444453fcdb6829305bcde42378a1ef79264239403a49def87c59dbf65aad4f2"
+    },
+    {
+      "file": "src/core/state/debugVisualRoadDisplay.spec.ts",
+      "sha256": "5d8ecfa111fc0c6006a09be517338b23b8cec93530230a0b412b69e32bf1a10d"
+    },
+    {
+      "file": "src/core/state/debugVisualRoadDisplay.ts",
+      "sha256": "a6274594fd790786811b7a6e3b95c48f85f16d9e12dfb333ba2ae4ae8c454ae0"
+    },
+    {
+      "file": "src/core/state/derivedCache.ts",
+      "sha256": "2ece881ba3c71c048c5c0d82cbc56a9ff16e090fe9ed874b29e1c2bc514b98f9"
+    },
+    {
+      "file": "src/core/state/enums.ts",
+      "sha256": "ae18f157e2d2049fb50327047881af8eecb5f4c0d0fefcdcd1f7496fbcc479b5"
+    },
+    {
+      "file": "src/core/state/events.ts",
+      "sha256": "73a48f3fdb71faa9637655d9a8a706110d13fc5dcfe590f7da3168fc0dc9f954"
+    },
+    {
+      "file": "src/core/state/gameState.ts",
+      "sha256": "e60ec5c445d79d56a381f88ab5f1796c1dd3668fbf38124bdc62975db0d2e87d"
+    },
+    {
+      "file": "src/core/state/ids.ts",
+      "sha256": "0f3c9403a9e083798e0b87b472215fa4109f7d7af8246c864bd0aed97f2e16ad"
+    },
+    {
+      "file": "src/core/state/invariants.ts",
+      "sha256": "bfbe6e83f7c2476a227abee47b24df7b3865924cfea645d7bae7a3d8cf97d13a"
+    },
+    {
+      "file": "src/core/state/mapGraph.ts",
+      "sha256": "f1abffd5d66feff9ac40f54de13aea352412be94a9ccb78000a86c1b33040947"
+    },
+    {
+      "file": "src/core/state/officerTypes.ts",
+      "sha256": "dea87fb310936cb3995c5c026d630864d323929d6453d1880f0462b7b1f1a6ef"
+    },
+    {
+      "file": "src/core/state/selectors.ts",
+      "sha256": "afe73a63edf42d56417c2a1ce2efb8a898629531dbda985fc79922036ffdf18f"
+    },
+    {
+      "file": "src/core/state/serialize.ts",
+      "sha256": "4d8243c5b3023d5102f1bd9eba43eb1f76ae6368247f1d54f5043da5e5ba48ca"
+    },
+    {
+      "file": "src/core/systems/ai/attackPlan.ts",
+      "sha256": "c66e10dc5e7d01e4327a54c1fc6cd5e7c31df2a6f423cde16ab0acb74aaf8125"
+    },
+    {
+      "file": "src/core/systems/ai/castleAi.ts",
+      "sha256": "4cd75013d29e74530eeacfaa34533ed184ef664ab7de3643d46fdc4e06762fce"
+    },
+    {
+      "file": "src/core/systems/ai/corps.ts",
+      "sha256": "4e0f7e90a9cc1500ec473e7ae21ba5f7eda0775a9fc7b102fabc5de9f792b712"
+    },
+    {
+      "file": "src/core/systems/ai/council.ts",
+      "sha256": "a96da90abfe8d7c95997ac0f9dd0c7d5f132c71c341e8d946b8dd6a2f1eb6110"
+    },
+    {
+      "file": "src/core/systems/ai/daimyo.ts",
+      "sha256": "d1155a32dc35e894d644f41dff6ca44c21d515132f48c265b54b08f81c66fdd4"
+    },
+    {
+      "file": "src/core/systems/ai/delegation.ts",
+      "sha256": "751dbfd49850d30b341d1ac5c89a84ead209f8a8054d59aa8494bc2acefd5e91"
+    },
+    {
+      "file": "src/core/systems/ai/difficulty.ts",
+      "sha256": "0b9f2d5ea866c6570f58f7c0e6f4a55988b8137585def285baaff0d68d5b6c05"
+    },
+    {
+      "file": "src/core/systems/ai/domesticMetadata.ts",
+      "sha256": "6891263a892ca56d99bab5fdd39d2f4108cd3db6da878aa48bbd260b51735ada"
+    },
+    {
+      "file": "src/core/systems/ai/index.ts",
+      "sha256": "b94f149e5ea4dc699948061944aae255bc2f11650b09ac93c216007e2b8ff6be"
+    },
+    {
+      "file": "src/core/systems/ai/proposalGen.ts",
+      "sha256": "c49897b3838a4ce7cce5c91607c9017c2d99dab9c264da267368e5008666c2ac"
+    },
+    {
+      "file": "src/core/systems/ai/reactive.ts",
+      "sha256": "0e7df09768bb1617ce90dd7d7a02fbba9b59a5c11b8bad6b1559579fad28b9f8"
+    },
+    {
+      "file": "src/core/systems/ai/scheduler.ts",
+      "sha256": "db6068a001220487be9fd935d33b10a183d14f27c922b010244be73163bda0b1"
+    },
+    {
+      "file": "src/core/systems/ai/shared.ts",
+      "sha256": "5c204e5b306c43edb8c6268eeba4e1f5376f427f7f2bf8f706144de6b2d64d39"
+    },
+    {
+      "file": "src/core/systems/ai/simulation.ts",
+      "sha256": "4776e5c4caae8b02a94a8df3b2e4d35a56dc2ee69ea2fc54e3deb555ef09151e"
+    },
+    {
+      "file": "src/core/systems/ai/steward.ts",
+      "sha256": "78e30ca769b7419b02d02842849045d096e1f37675e0ed05c8721ed75829244a"
+    },
+    {
+      "file": "src/core/systems/ai/stewardAi.ts",
+      "sha256": "3ab028d5685771524f672803dcc35d6f8f107093c0cdd950a77047a99cba61d9"
+    },
+    {
+      "file": "src/core/systems/ai/targetScoring.ts",
+      "sha256": "7c79a38166ac96f488110317add19bd435e617e6b7ab5bc4cbbc1fbe6b0e814e"
+    },
+    {
+      "file": "src/core/systems/ai/threat.ts",
+      "sha256": "cf27faa113953d6c238a153a34ed7c93918a2f85956a580e43ca37e8f5c2b922"
+    },
+    {
+      "file": "src/core/systems/ai/types.ts",
+      "sha256": "08391b5d076905298a5cbda4e1240a717bd5ab78b1495e321416f38ee92d9dca"
+    },
+    {
+      "file": "src/core/systems/armyReroute.ts",
+      "sha256": "472be7f9406d7a0570f8451678823b2b8a19241629272850d6c96a44b6a0acb2"
+    },
+    {
+      "file": "src/core/systems/awe.ts",
+      "sha256": "21b0ccb410d4c2303b18622e60554ae41af3d0317077cc3ec96f54ecd19ae045"
+    },
+    {
+      "file": "src/core/systems/battle.ts",
+      "sha256": "7b31188b6748d5205a12e94787439c595b519f535163e64f014ddc7357d27b81"
+    },
+    {
+      "file": "src/core/systems/battleAi.ts",
+      "sha256": "4619ce35ff9cd34f185bc96ced6c024c06ef7be67288e64a8a2f9dc092defcf8"
+    },
+    {
+      "file": "src/core/systems/castleSelection.ts",
+      "sha256": "c1ae73ec2071a5551c876d5dc28c27616ae5d2ed690305e01aa467f2ecabe6ff"
+    },
+    {
+      "file": "src/core/systems/conscription.ts",
+      "sha256": "fc61cc47fc6c8dab7ed86ec048c8836050d64fcc386ad922f779a1ef2bb4025c"
+    },
+    {
+      "file": "src/core/systems/corps.ts",
+      "sha256": "de5bbd8fb055c0d8a1b15b7b88ab627b5e833854869a14d0ad0402319f7ebf01"
+    },
+    {
+      "file": "src/core/systems/court.ts",
+      "sha256": "568587abf4ff1950aca7d6d1fed116f113c1c2c7e621dad0e0e5ec65baef4695"
+    },
+    {
+      "file": "src/core/systems/development.ts",
+      "sha256": "ae81b324f1f7130c9e4114fe1b6772cf9d920b06f2a31d93ae90f88377588379"
+    },
+    {
+      "file": "src/core/systems/diplomacy.ts",
+      "sha256": "d3bdd0ddfa723bcd0c99c5895fe557124f6f2a2a6a6dad54a4b7ae00f6992e3e"
+    },
+    {
+      "file": "src/core/systems/diplomacyCommon.ts",
+      "sha256": "35652e7145f0dae7ac0c6c7816eabd32040d1dd4fec571ea1be2fc501a0bf8ac"
+    },
+    {
+      "file": "src/core/systems/diplomacyEval.ts",
+      "sha256": "d15a48b9429c0e08f06035705f6d1a0141c676b346b652471473a1b5ba64a8ae"
+    },
+    {
+      "file": "src/core/systems/diplomacyPeace.ts",
+      "sha256": "9de895c2675588421b7999aae5ebe6bef327c8043b38ecb9dfbf7a53e8ca3a9b"
+    },
+    {
+      "file": "src/core/systems/economy.ts",
+      "sha256": "6d602e6b0fca0516646e4e8b6d3d4be16958080fc4b79c775fdbfaca9f611298"
+    },
+    {
+      "file": "src/core/systems/events/conditions.ts",
+      "sha256": "61f74f3f178443f5bda63dd9a164bd59eacbe6f9c398a2d523f92f7c2f1ace45"
+    },
+    {
+      "file": "src/core/systems/events/effects.ts",
+      "sha256": "dded6be47e8d42684c84459ff0b74dbf26ef03a795ab08b4956515eaebe73f0e"
+    },
+    {
+      "file": "src/core/systems/events/engine.ts",
+      "sha256": "b6ffbbd4e9558a3d6dce7d4e4a88c29963d669b332cfd75d7c3fb8823480e611"
+    },
+    {
+      "file": "src/core/systems/events/flagKeys.ts",
+      "sha256": "14a799e25bb0099ce54d58b3eeb6d34c1955e5079f505956a1a40d2e61ba1e32"
+    },
+    {
+      "file": "src/core/systems/events/lifecycleEffects.ts",
+      "sha256": "b2bb0f2a6102100b16d1d38438f3f6eca73966907733f78be4d24d29b38e6b42"
+    },
+    {
+      "file": "src/core/systems/events/officerLifecycle.ts",
+      "sha256": "39523e9cd86f190f2e616eb49cb141e9a5f93efe89687372a7605f5e08669dd3"
+    },
+    {
+      "file": "src/core/systems/events/pactEffects.ts",
+      "sha256": "1afdf51ddb23a6291944329cd771c199d5bfa77eb49d677f460b9613dde09a5b"
+    },
+    {
+      "file": "src/core/systems/events/regionEffects.ts",
+      "sha256": "2814a9a13a49e689093ccb7b42ccba1ddc39efbc455571f0a2f9275881d51f49"
+    },
+    {
+      "file": "src/core/systems/events/runtime.ts",
+      "sha256": "90d6d3b4ef133a0b4fdea70dbe43fe5ce65b723e55cdca1d9d958a0d67497c14"
+    },
+    {
+      "file": "src/core/systems/events/scalarEffects.ts",
+      "sha256": "15d0abe4f45168d6088cd2f4cf8586706acff1a57262a3256ba157afd59b110f"
+    },
+    {
+      "file": "src/core/systems/events/taimei.ts",
+      "sha256": "02d9438bbc5d7bd24d02d0f695c0ee56c6b36213eb9f981a7c43eded621e3449"
+    },
+    {
+      "file": "src/core/systems/events/taimeiCatalog.ts",
+      "sha256": "21eb7426b7738b9a13e3aa37cfdec97557c0de06ac72cadc4bf25c32912bb946"
+    },
+    {
+      "file": "src/core/systems/events/triggerEligibility.ts",
+      "sha256": "977f3572b613cf1df9720084f3fa31fbd6a6d66e330ec6288b7e824a83fb21cd"
+    },
+    {
+      "file": "src/core/systems/events/types.ts",
+      "sha256": "b76506c2b7154cbaa8a3f5c9d4b16bc5b4d4ce246bcd87b7dcdcad5ffac2db03"
+    },
+    {
+      "file": "src/core/systems/events.ts",
+      "sha256": "45bad8c405093481bfe93877486eb0671a7603d3e7c2a33faf0ed179aae3e855"
+    },
+    {
+      "file": "src/core/systems/facilities.ts",
+      "sha256": "3f6ef4d0e1018a6ad7c179c1ff2d45ae5747d5bde9f76eef2aeffd6494b40ac1"
+    },
+    {
+      "file": "src/core/systems/fieldCombat.ts",
+      "sha256": "c77cfba44f6d4dda7dc568ef6f8bfe73900a3e578120ddd54f2ce0ae8a6134af"
+    },
+    {
+      "file": "src/core/systems/index.ts",
+      "sha256": "b66cbd25919e56d35b05fbacba25e3882cf47408a840b473755d384b62192071"
+    },
+    {
+      "file": "src/core/systems/military.ts",
+      "sha256": "1e2f503290f4996cc31ee4b95b1ff8739bc546dd98e449ea0ca9158cc47c33ff"
+    },
+    {
+      "file": "src/core/systems/monthOpeningSettlement.ts",
+      "sha256": "b6a9101f4607f8dd2410f3c4021ea0fac17c4ac8b415b67e215383c600fd8382"
+    },
+    {
+      "file": "src/core/systems/officers.ts",
+      "sha256": "25d3335e944156179272fae7f287665b1995fb9b023cde0e7dd1d865e7d218b5"
+    },
+    {
+      "file": "src/core/systems/pathfinding.ts",
+      "sha256": "8a066b73573f674969c0f5a2e389856a84f20aefa2b44e3cc2c2889ece0c2f23"
+    },
+    {
+      "file": "src/core/systems/plots.ts",
+      "sha256": "238d6c7623fa4d7bd577bcf0fc3c534e94d467d91be814bc4c27328ba4041ba8"
+    },
+    {
+      "file": "src/core/systems/proposals.ts",
+      "sha256": "2ea561dfd0df1e45be382478f948520be3209b437ea6ceb5faec0064e73d249f"
+    },
+    {
+      "file": "src/core/systems/reports.ts",
+      "sha256": "d17c59ee3dc6b95de82b83992bd0c3d0ae59f209659426228c4bc3064ed60c1a"
+    },
+    {
+      "file": "src/core/systems/siege.ts",
+      "sha256": "dcd2756de211504f86ffe3048612411b9b0c89b7d975078e6ee345d4151c13d2"
+    },
+    {
+      "file": "src/core/systems/time.ts",
+      "sha256": "7973361d299f33c30b3d7bcba422b27d3eb6ea999d1d3b1a505781e2c39b1cb7"
+    },
+    {
+      "file": "src/core/systems/transport.ts",
+      "sha256": "e9925555a5af126eee20ddf7d53792854435517c6fa209b74724ccfc0750dc6a"
+    },
+    {
+      "file": "src/core/systems/transportMovement.ts",
+      "sha256": "c9e87621b271cf61ddfa37228d5b10a2147be7aadd0959decae5eed8d24365f4"
+    },
+    {
+      "file": "src/core/systems/uprising.ts",
+      "sha256": "82a567ca5cfa60739e5650aa7be65a3c79535df9caec7843708c24f387b33890"
+    },
+    {
+      "file": "src/core/systems/victory.ts",
+      "sha256": "b85b5c09087a0c01cdfe6fde68297be19561282d6e4dfc48dccbfbc68c1bb0d2"
+    },
+    {
+      "file": "src/core/tactics.ts",
+      "sha256": "2fe4ca5432926176aa5b2c441f0de0b51dc2e973e078795bc758cbd8991aeeb3"
+    },
+    {
+      "file": "src/core/traits.ts",
+      "sha256": "f95f9d6895d76f8bb6987cf9af80b96b83b7a881f4ef0a0c2360e1090097f810"
+    },
+    {
+      "file": "src/data/courtMetadata.ts",
+      "sha256": "4ecfc40aedd1ab781690eb1b2f8266a67b7865c33f7b112571ffe178a2a73a3f"
+    },
+    {
+      "file": "src/data/map/japan-outline.json",
+      "sha256": "6b1b004baa20ccd65dd490706bca4435075dddb16bc4523a38fa7e9aded12657"
+    },
+    {
+      "file": "src/data/map/outlineGeometry.ts",
+      "sha256": "0c5153afb43843ee03904bd8b0b8318646e99eacb254beae0765f32ff9fd6dac"
+    },
+    {
+      "file": "src/data/map/projection.ts",
+      "sha256": "cd4fff846123e3cd90149f81658d38d0efa41224e917de59d3487a25e9a5b344"
+    },
+    {
+      "file": "src/data/map/terrain.json",
+      "sha256": "586d0aad187037d99dc1a9bdbf0088d8e38b5329ef02e65b48842c9334ee1604"
+    },
+    {
+      "file": "src/data/scenarios/s1560/castles.json",
+      "sha256": "971c5d21b69ccf6ac3be1bbe08a511cb400f773ed8ba3a866466debbae8955be"
+    },
+    {
+      "file": "src/data/scenarios/s1560/clans.json",
+      "sha256": "5bd571c9827f105f2828aaecaaa485df6aaf729a611c7b01ae3bfa183c50525c"
+    },
+    {
+      "file": "src/data/scenarios/s1560/districts.json",
+      "sha256": "b9773f591f1c6fef4a2d0ab59b8e1fd3ad779e18deeb920c0e2c936a7b2424ce"
+    },
+    {
+      "file": "src/data/scenarios/s1560/events.json",
+      "sha256": "1138a01f5f1f40f496803e30e0125b39757e788f994b33537068d8b3f3c06fb8"
+    },
+    {
+      "file": "src/data/scenarios/s1560/index.ts",
+      "sha256": "b3b85aa74f01c0695dcaca5ef2b2ba1bbd1f1b889cdcfe3633ed3ec07684df4d"
+    },
+    {
+      "file": "src/data/scenarios/s1560/meta.ts",
+      "sha256": "3ffe128d85043e1fc2d03b4795ff66d926c052f3c45f189efe94caec9a652168"
+    },
+    {
+      "file": "src/data/scenarios/s1560/officers/kinki.json",
+      "sha256": "8cc7f5434ebfe7b4eaf5767e0f1c8db7fe435be2f38353a64db27304031a343d"
+    },
+    {
+      "file": "src/data/scenarios/s1560/officers/tokai.json",
+      "sha256": "2ba069b0e546e3b52cce6c8c45d63bc70be6d41165c2f92c09164a30a9485994"
+    },
+    {
+      "file": "src/data/scenarios/s1560/personas.json",
+      "sha256": "e45a435ccce6779337192604d2ad94c3121b01d9e172cacbe03a8a4207f382ca"
+    },
+    {
+      "file": "src/data/scenarios/s1560/policies.json",
+      "sha256": "56c450a68414ebe51807d49dfdcfb83c0c83a48bdf38158fd4182a47050edd42"
+    },
+    {
+      "file": "src/data/scenarios/s1560/provinces.json",
+      "sha256": "f91b0e2a4d4d632dab85e2233cc63c33821ba0d2d1f4f736664d540e8cab86c7"
+    },
+    {
+      "file": "src/data/scenarios/s1560/roads.json",
+      "sha256": "5998ea4955b66f48a2107732d2324f27dab9062d15d68d158c6b1ec29f8a0a5b"
+    },
+    {
+      "file": "src/data/scenarios/s1560/tactics.json",
+      "sha256": "cc25accd8393e03fff74a273f45869712b4f59bf3e1637d23aa9ca0fdd4cf498"
+    },
+    {
+      "file": "src/data/scenarios/s1560/traits.json",
+      "sha256": "bd0c7d750252fd011061d346726afc0fa87a8041e4c9ea935cb9e87d2670f8d9"
+    },
+    {
+      "file": "src/data/schemas/castle.ts",
+      "sha256": "d9f982a2b7045541097ebae7b8d03f5b01650247d3743416c9d3338dd8c4642e"
+    },
+    {
+      "file": "src/data/schemas/clan.ts",
+      "sha256": "5d91d9805f43228bb1b127cef07032dc85c9f9ecd86a8c580c3dcefaa63fa42a"
+    },
+    {
+      "file": "src/data/schemas/common.ts",
+      "sha256": "4663a80b94bf2f55401538117c3aee6efdba20594ac3ec80d038cec8a04a2f65"
+    },
+    {
+      "file": "src/data/schemas/diplomacy.ts",
+      "sha256": "84ecf0dff1b8a5477194f7ef24939208c745b49d24e63566e89f904cb98a9890"
+    },
+    {
+      "file": "src/data/schemas/district.ts",
+      "sha256": "92fb9fb049b8d949bcd2bfd208d6fc53cc5b73aeae294b7835a4e7dff7f573c0"
+    },
+    {
+      "file": "src/data/schemas/event.ts",
+      "sha256": "71164ac1f7d0989a53384398e1361079708a2f4bb42ca01d485356900a2d0790"
+    },
+    {
+      "file": "src/data/schemas/eventConditions.ts",
+      "sha256": "cda1a80159b71d40b3758c173e3703b129cc6b78734b779044b283749a402972"
+    },
+    {
+      "file": "src/data/schemas/eventDefinitions.ts",
+      "sha256": "69b9792a37d50a5a9188347c693c1a4d3b83d11e0cdf3d3c2d04ec0fd988ce18"
+    },
+    {
+      "file": "src/data/schemas/eventEffects.ts",
+      "sha256": "b442feb161e48148dcf1d90a654f9e3f607fae0fc36941720e7df2fc5e7b5749"
+    },
+    {
+      "file": "src/data/schemas/index.ts",
+      "sha256": "68b15c40c61a69c89a940503c95856c3528d98bf7cdfeb2e632029c6115984c0"
+    },
+    {
+      "file": "src/data/schemas/officer.ts",
+      "sha256": "d0fd0f0c5378beb75310548d4a3d9aab401dce246efde0e1dcf3b2434b90607b"
+    },
+    {
+      "file": "src/data/schemas/outline.ts",
+      "sha256": "2b9f2f155c11bcb2a851cfcdc614df61d852b0ae9e099a9271a4336206ffb0c0"
+    },
+    {
+      "file": "src/data/schemas/persona.ts",
+      "sha256": "ab3a6651699804eca457ee3d10cf0438a346a3a5cfda2724901025cf957fc14f"
+    },
+    {
+      "file": "src/data/schemas/policy.ts",
+      "sha256": "5641046b78eece6279ace4cab9b42e69511d2df6f381e1e89bdaced24934e1c2"
+    },
+    {
+      "file": "src/data/schemas/province.ts",
+      "sha256": "d878c7803184b7199d39b6fe84dfcc6ac1b099dd45062fecce011bdfb0ef535b"
+    },
+    {
+      "file": "src/data/schemas/road.ts",
+      "sha256": "e46a17d62ea71f4e13e4814180436d0197bf39d60841401e9c748d7e5be35b67"
+    },
+    {
+      "file": "src/data/schemas/scenario.ts",
+      "sha256": "007f95c25e55e21ca678cc642ddec476cc2c3f1b766465a397e89537130c512b"
+    },
+    {
+      "file": "src/data/schemas/tactic.ts",
+      "sha256": "8bf5a5306aad8b11f6f907bec0403152b637f466fcd2feb4d7bcf54fec21c88d"
+    },
+    {
+      "file": "src/data/schemas/terrain.ts",
+      "sha256": "1dd74764de8fc9ba6ca37d2c4df3bb4dac91e17f07508ddd829d0b3378ce5896"
+    },
+    {
+      "file": "src/data/schemas/trait.ts",
+      "sha256": "3b67f38ca04363eec8607e65b5048ead6a465e8b2f22aa53aea6665db2e8dc4a"
+    },
+    {
+      "file": "tests/fixtures/.gitkeep",
+      "sha256": "e5d308548d5ae71f6e1a5b6afdf929ad4d141d5d3f48eddbb799aab030296597"
+    },
+    {
+      "file": "tests/fixtures/mini/castles.json",
+      "sha256": "e34528764816f0d8dcc7fdfcf36f7e87d1a5da353b2ae8828956d9e1a99c8501"
+    },
+    {
+      "file": "tests/fixtures/mini/clans.json",
+      "sha256": "f9d97d04be84597a1d7019f8adf11140bde5c0e740bb77a00fb880b940bbbbd1"
+    },
+    {
+      "file": "tests/fixtures/mini/districts.json",
+      "sha256": "bdcd0110c575d1ea5ab7c35b0d7f342b30c77f9867d83b8e0ab9878457cafb62"
+    },
+    {
+      "file": "tests/fixtures/mini/index.ts",
+      "sha256": "0080ee1edfa2e3b7f75d681064a7f76b6ecf75707b601bcb1104aa64940ab1d6"
+    },
+    {
+      "file": "tests/fixtures/mini/officers/tokai.json",
+      "sha256": "f4c5a4d64f0fdd4690c96025b7a7cc08313c2608319916befa37a94da5848013"
+    },
+    {
+      "file": "tests/fixtures/mini/provinces.json",
+      "sha256": "b2b00654f1167a11d9ae4e75fa0bcd82f26025278558ccdbea845159fb5d9b5f"
+    },
+    {
+      "file": "tests/fixtures/mini/roads.json",
+      "sha256": "82f190f92a9d8c4f4d729fbcd574b4a4c9a1ece90705fdcc10b7186a961e9ed6"
+    },
+    {
+      "file": "tests/fixtures/rng-mulberry32-seed42.json",
+      "sha256": "dfa30c4ddd53037af59a7c2d83da49166420e31cfa8cd0548333a646e97e632d"
+    },
+    {
+      "file": "tests/fixtures/saves/provenance.json",
+      "sha256": "6fdbdcd612d62139d0cde4e9e5d2b5be18f79ca18ddf138dc85dedcf2493b23e"
+    },
+    {
+      "file": "tests/fixtures/saves/save-v1.tenkafubu.json",
+      "sha256": "7283d0fc1f93cfe897b813c6d33eaddfd764aac4b276ebafb75925442af6c8fa"
+    },
+    {
+      "file": "tests/fixtures/saves/save-v2.tenkafubu.json",
+      "sha256": "092587465dfddb3354bb70925a26e6e9e7679aaefcebf910f9ecbf1246bbcb32"
+    },
+    {
+      "file": "tests/fixtures/saves/save-v3.tenkafubu.json",
+      "sha256": "e2e11a96894378af5e14a2a6735915e7c1afdff9b1a710ddcb8effd4b6a4c730"
+    },
+    {
+      "file": "tests/fixtures/scenarioBundle.ts",
+      "sha256": "ca6dbe7e3778fcfe0d01312bbc7cddb4981f010be4ce3cd736fe8bf22d6f5b2e"
+    },
+    {
+      "file": "tests/fixtures/tiny.ts",
+      "sha256": "0061c54ce0060e7e4543c03dcfd02139c6a7256d111809fc6e0dbf8412b81f3d"
+    },
+    {
+      "file": "tests/golden/ai.spec.ts",
+      "sha256": "5956ae466eac3a4698964eeec9748757f011e57b7c1550255963876e1644c9db"
+    },
+    {
+      "file": "tests/golden/aiRunner.ts",
+      "sha256": "70e6c67cee936b19cdf2e0a8d2eccdb8dd6137f411ad76b76d43aba99a25a868"
+    },
+    {
+      "file": "tests/golden/battle-cases/m5-battle-subloop-v1.tfbattle.json",
+      "sha256": "7241a32e38cf81ac93059df14da4c21372e4497924cc99018f8f6bfe0af9ba9f"
+    },
+    {
+      "file": "tests/golden/battle-transcript.spec.ts",
+      "sha256": "743f27fa32912fa420093b1493ea7d7b9261b55e8fc1754961f95b111bb505c0"
+    },
+    {
+      "file": "tests/golden/battleTranscript.ts",
+      "sha256": "228ec21b7b88eca25d279c040130957fd16bbd77076e8c767252b95509d8ce24"
+    },
+    {
+      "file": "tests/golden/diplomacy.spec.ts",
+      "sha256": "1f10496886262f4407268f21638e69a66a2eac099e0e412f2381853fb770b75d"
+    },
+    {
+      "file": "tests/golden/diplomacyRunner.ts",
+      "sha256": "ae73c570aa43994a6305a37c17bb2c247591410b5c4c7de598b6127bf08dac8a"
+    },
+    {
+      "file": "tests/golden/golden.spec.ts",
+      "sha256": "7588994b875d4112e4f5e25f238b45a21beb6dff619055eb720f970c647e2cd3"
+    },
+    {
+      "file": "tests/golden/goldenRunner.ts",
+      "sha256": "20181274d56664b68456168e5f71f80375e3d0c7e3074de5817e6c759eba1395"
+    },
+    {
+      "file": "tests/golden/snapshots/.gitkeep",
+      "sha256": "1337d4c872433967c0a1676ccb49059356f17ce830c4ca46fe69e7115de4d4ae"
+    },
+    {
+      "file": "tests/golden/snapshots/golden-ai.json",
+      "sha256": "67d058d52d4d7f61adc7093be818ee988c81980ce1a2cec178e35afe4f50fe71"
+    },
+    {
+      "file": "tests/golden/snapshots/golden-diplomacy.json",
+      "sha256": "79ed9aada3c8437d4b30f52610bb94b1ba556062d06e1b1fe249ea103aa8b15d"
+    },
+    {
+      "file": "tests/golden/snapshots/golden-mini.json",
+      "sha256": "e5106bd0528cdbee8db4d50a73a2216270ad3a75f9a138b63845056f5fed65ed"
+    },
+    {
+      "file": "tests/replay/cases/.gitkeep",
+      "sha256": "0901224fd585b75bd93c002380676aaa5996e2b9041236611ab91de2d9dd882d"
+    },
+    {
+      "file": "tests/replay/cases/README.md",
+      "sha256": "4246d4e25bb677a73ddfc234d94ad6b44f6c9554cbfbd85be9fca7bd2a9d68c4"
+    },
+    {
+      "file": "tests/replay/cases/m4-military-siege-fall.tfulog.json",
+      "sha256": "1149346ca87a172a1f9ddfe433f2a14b8e845bdace94f373ecec241b3d1043ad"
+    },
+    {
+      "file": "tests/replay/cases/ten-command-policy-cycle.tfulog.json",
+      "sha256": "e9caf71b3d790efadb85bc18d655e078c61dd689db8361529370d266c269872c"
+    },
+    {
+      "file": "tests/replay/eventReplay.spec.ts",
+      "sha256": "0c852fb6278175edc2c8a63a0095d7847258634668f6403ec8b3b20f926c2bf6"
+    },
+    {
+      "file": "tests/replay/replay.spec.ts",
+      "sha256": "2eda117876fab6064cf662c67ba601e4517de2c4f98de8736e55dca55a9f83b1"
+    }
+  ]
+}

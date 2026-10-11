@@ -1,0 +1,10 @@
+
+ RUN  v2.1.9 /Users/tigercosmos/tenka-fubu
+
+ ✓ |core| tests/replay/replay.spec.ts (19 tests | 18 skipped) 22ms
+ ✓ |core| tests/replay/policyCycleSchemaMigration.spec.ts (1 test) 44ms
+
+ Test Files  2 passed (2)
+      Tests  2 passed | 18 skipped (20)
+   Start at  05:48:24
+   Duration  602ms (transform 326ms, setup 0ms, collect 873ms, tests 66ms, environment 0ms, prepare 58ms)

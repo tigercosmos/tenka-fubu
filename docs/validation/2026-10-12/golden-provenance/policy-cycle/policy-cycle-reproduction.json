@@ -1,0 +1,77 @@
+{
+  "oldFinalHash": "6696ac9f6fc92503",
+  "currentFinalHash": "2cfa89ea001535e8",
+  "currentBalanceHash": "a5f30428e47ab0f4",
+  "days": [
+    {
+      "day": 1,
+      "oldHash": "b481e11da68db41a",
+      "currentHash": "3c9034d7f296eed3",
+      "stateDifferences": 3,
+      "eventDifferences": 0
+    },
+    {
+      "day": 2,
+      "oldHash": "8cf83752753563e4",
+      "currentHash": "e5907f10d01f1939",
+      "stateDifferences": 3,
+      "eventDifferences": 0
+    },
+    {
+      "day": 3,
+      "oldHash": "2b286407d41b5f74",
+      "currentHash": "620e486b1f53a659",
+      "stateDifferences": 3,
+      "eventDifferences": 0
+    },
+    {
+      "day": 4,
+      "oldHash": "3da472d3ac706fd6",
+      "currentHash": "deec3f6e674a5907",
+      "stateDifferences": 3,
+      "eventDifferences": 0
+    },
+    {
+      "day": 5,
+      "oldHash": "582d31eee1fd9c10",
+      "currentHash": "fe5d76984da72e15",
+      "stateDifferences": 3,
+      "eventDifferences": 0
+    },
+    {
+      "day": 6,
+      "oldHash": "dc16ba03e07a049e",
+      "currentHash": "17674168089f0e87",
+      "stateDifferences": 3,
+      "eventDifferences": 0
+    },
+    {
+      "day": 7,
+      "oldHash": "f2967762fac4399a",
+      "currentHash": "e515aae8a4d46d5b",
+      "stateDifferences": 3,
+      "eventDifferences": 0
+    },
+    {
+      "day": 8,
+      "oldHash": "7025d25702782e28",
+      "currentHash": "e8c247a03f78744d",
+      "stateDifferences": 3,
+      "eventDifferences": 0
+    },
+    {
+      "day": 9,
+      "oldHash": "03303476705b6aa9",
+      "currentHash": "4272cd3ae6f4514e",
+      "stateDifferences": 3,
+      "eventDifferences": 0
+    },
+    {
+      "day": 10,
+      "oldHash": "6696ac9f6fc92503",
+      "currentHash": "2cfa89ea001535e8",
+      "stateDifferences": 3,
+      "eventDifferences": 0
+    }
+  ]
+}

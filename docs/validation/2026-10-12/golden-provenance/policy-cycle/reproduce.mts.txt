@@ -1,0 +1,46 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import assert from 'node:assert/strict';
+const oldRoot = process.env.TENKA_HISTORICAL_ROOT;
+const newRoot = process.env.TENKA_CURRENT_ROOT;
+const evidenceRoot = process.env.TENKA_PROOF_ROOT;
+if (!oldRoot || !newRoot || !evidenceRoot) throw Error('Set TENKA_HISTORICAL_ROOT, TENKA_CURRENT_ROOT and TENKA_PROOF_ROOT');
+const manifest = JSON.parse(readFileSync(evidenceRoot + '/historical-source-manifest.json', 'utf8'));
+for (const file of manifest.files) assert.equal(createHash('sha256').update(readFileSync(oldRoot + '/' + file.file)).digest('hex'), file.sha256);
+const frozen = JSON.parse(readFileSync(evidenceRoot + '/frozen-v3.tfulog.json', 'utf8'));
+const oldFixture = await import(oldRoot + '/tests/fixtures/mini/index.ts');
+const newFixture = await import(newRoot + '/tests/fixtures/mini/index.ts');
+const oldCore = await import(oldRoot + '/src/core/systems/index.ts');
+const newCore = await import(newRoot + '/src/core/systems/index.ts');
+const oldHash = await import(oldRoot + '/src/core/state/serialize.ts');
+const newHash = await import(newRoot + '/src/core/state/serialize.ts');
+assert.equal(oldHash.balanceHash(), '7634217400759e66');
+const oldState = oldFixture.buildMiniState({ seed: frozen.seed });
+const state = newFixture.buildMiniState({ seed: frozen.seed });
+function expectedFreshV4(old) {
+  const expected = structuredClone(old);
+  assert.equal(expected.meta.saveVersion, 3);
+  expected.meta.saveVersion = 4;
+  for (const clan of Object.values(expected.clans)) {
+    assert.equal(Object.hasOwn(clan, 'rewardGoldSpentThisMonth'), false);
+    clan.rewardGoldSpentThisMonth = 0;
+  }
+  return expected;
+}
+assert.deepEqual(state, expectedFreshV4(oldState));
+let sequence = state.meta.lastAppliedCmdSeq + 1;
+const days = [];
+for (let day = 1; day <= frozen.finalDay; day++) {
+  const commands = frozen.entries.filter(entry => entry.day === day).map(entry => ({ seq: sequence++, issuedDay: state.time.day, command: structuredClone(entry.command) }));
+  const oldResult = oldCore.advanceDay(oldState, structuredClone(commands));
+  const result = newCore.advanceDay(state, structuredClone(commands));
+  assert.deepEqual(result.events, oldResult.events);
+  assert.deepEqual(result.appliedCommands, oldResult.appliedCommands);
+  assert.deepEqual(state, expectedFreshV4(oldState));
+  days.push({ day, oldHash: oldHash.stateHash(oldState), currentHash: newHash.stateHash(state), stateDifferences: 3, eventDifferences: 0 });
+}
+assert.equal(oldHash.stateHash(oldState), frozen.finalHash);
+assert.equal(newHash.stateHash(state), '2cfa89ea001535e8');
+const result = { oldFinalHash: frozen.finalHash, currentFinalHash: newHash.stateHash(state), currentBalanceHash: newHash.balanceHash(), days };
+if (process.env.TENKA_OUTPUT_FILE) writeFileSync(process.env.TENKA_OUTPUT_FILE, JSON.stringify(result, null, 2));
+console.log(JSON.stringify(result, null, 2));
