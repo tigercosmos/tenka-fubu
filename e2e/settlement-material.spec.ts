@@ -19,6 +19,7 @@ type Town = {
   ownedTextures: number;
   stage: string;
   geometry: { houses: House[]; attempted: number; rejected: number; limited: boolean };
+  sceneGeometry: { houses: House[]; attempted: number; rejected: number; limited: boolean };
   constraints?: {
     obstacles: { id?: string; a: Point; b: Point; radius: number }[];
     crests: { id: string; mass: Point[]; ridges: Point[][] }[];
@@ -168,6 +169,7 @@ test('original town roofs, walls and shadows occupy safe ground without changing
       const image = PNG.sync.read(screenshot);
       const lake = raw.d.waterRendering.lakes[0]!;
       const other = lake.worldPoints.findIndex((p) => p.x !== lake.worldPoints[0]!.x);
+      expect(other).toBeGreaterThan(0);
       const scale =
         (lake.points[other]!.x - lake.points[0]!.x) /
         (lake.worldPoints[other]!.x - lake.worldPoints[0]!.x);
@@ -175,6 +177,52 @@ test('original town roofs, walls and shadows occupy safe ground without changing
         x: raw.canvas.x + lake.points[0]!.x + (p.x - lake.worldPoints[0]!.x) * scale,
         y: raw.canvas.y + lake.points[0]!.y + (p.y - lake.worldPoints[0]!.y) * scale,
       });
+      // The flat lake painter provides a camera independently of town material.
+      // Verify every observed lake vertex and elevated castle anchor before
+      // sampling the emitted (raised) town facets rather than canonical ground.
+      expect(scale).toBeGreaterThan(0);
+      for (const paintedLake of raw.d.waterRendering.lakes) {
+        expect(paintedLake.points).toHaveLength(paintedLake.worldPoints.length);
+        for (const [i, point] of paintedLake.worldPoints.entries()) {
+          const expected = project(point);
+          expect(paintedLake.points[i]!.x + raw.canvas.x).toBeCloseTo(expected.x, 6);
+          expect(paintedLake.points[i]!.y + raw.canvas.y).toBeCloseTo(expected.y, 6);
+        }
+      }
+      for (const node of raw.d.castleRendering.nodes) {
+        const scene = raw.d.elevationRendering.nodes.find((entry) => entry.id === node.id)!;
+        expect(scene).toBeDefined();
+        const expected = project(scene.scene);
+        expect(node.anchor.x + raw.canvas.x).toBeCloseTo(expected.x, 6);
+        expect(node.anchor.y + raw.canvas.y).toBeCloseTo(expected.y, 6);
+      }
+      expect(town).toBeDefined();
+      expect(town!.sceneGeometry.houses).toHaveLength(town!.geometry.houses.length);
+      for (const [i, house] of town!.geometry.houses.entries()) {
+        const painted = town!.sceneGeometry.houses[i]!;
+        expect(painted.castleId).toBe(house.castleId);
+        expect(painted.approachId).toBe(house.approachId);
+        const height = house.center.y - painted.center.y;
+        expect(height).toBeGreaterThanOrEqual(-1e-8);
+        expect(height).toBeLessThanOrEqual(raw.d.elevationRendering.field!.maximumHeight);
+        expect(painted.center.x).toBeCloseTo(house.center.x - 0.18 * height, 8);
+        const canonicalFacets = [house.footprint, house.shadow, ...house.walls, ...house.roofs];
+        const paintedFacets = [
+          painted.footprint,
+          painted.shadow,
+          ...painted.walls,
+          ...painted.roofs,
+        ];
+        expect(paintedFacets).toHaveLength(canonicalFacets.length);
+        for (const [facetIndex, facet] of canonicalFacets.entries()) {
+          const emitted = paintedFacets[facetIndex]!;
+          expect(emitted).toHaveLength(facet.length);
+          for (const [pointIndex, point] of facet.entries()) {
+            expect(emitted[pointIndex]!.x).toBeCloseTo(point.x - 0.18 * height, 8);
+            expect(emitted[pointIndex]!.y).toBeCloseTo(point.y - height, 8);
+          }
+        }
+      }
       const actors = [
         ...raw.d.actorDepth.bodies.flatMap((body) =>
           body.visible && body.rect ? [body.rect] : [],
@@ -189,13 +237,13 @@ test('original town roofs, walls and shadows occupy safe ground without changing
           [node.durability, node.warning].filter((rect): rect is Rect => rect !== null),
         ),
       ];
-      const pixelSamples = (town?.geometry.houses ?? [])
+      const pixelSamples = (town?.sceneGeometry.houses ?? [])
         .filter((h) => h.castleId === castleId)
         .map((house) => {
           const sample = (polygon: readonly Point[], later: readonly (readonly Point[])[]) => {
             const screen = bounds(polygon.map(project));
             const rejected = { outside: 0, facet: 0, later: 0, overlay: 0 };
-            const candidates: { pixel: Point; pixelWorld: Point; margin: number }[] = [];
+            const candidates: { pixel: Point; pixelScene: Point; margin: number }[] = [];
             for (let y = Math.floor(screen.y); y < Math.ceil(screen.y + screen.height); y++) {
               for (let x = Math.floor(screen.x); x < Math.ceil(screen.x + screen.width); x++) {
                 const cell = { x, y, width: 1, height: 1 };
@@ -212,21 +260,21 @@ test('original town roofs, walls and shadows occupy safe ground without changing
                   rejected.outside++;
                   continue;
                 }
-                const pixelWorld = {
+                const pixelScene = {
                   x: lake.worldPoints[0]!.x + (x + 0.5 - raw.canvas.x - lake.points[0]!.x) / scale,
                   y: lake.worldPoints[0]!.y + (y + 0.5 - raw.canvas.y - lake.points[0]!.y) / scale,
                 };
-                if (!inside(pixelWorld, polygon)) {
+                if (!inside(pixelScene, polygon)) {
                   rejected.facet++;
                   continue;
                 }
-                const pixelWorldCell = [
-                  { x: pixelWorld.x - 0.5 / scale, y: pixelWorld.y - 0.5 / scale },
-                  { x: pixelWorld.x + 0.5 / scale, y: pixelWorld.y - 0.5 / scale },
-                  { x: pixelWorld.x + 0.5 / scale, y: pixelWorld.y + 0.5 / scale },
-                  { x: pixelWorld.x - 0.5 / scale, y: pixelWorld.y + 0.5 / scale },
+                const pixelSceneCell = [
+                  { x: pixelScene.x - 0.5 / scale, y: pixelScene.y - 0.5 / scale },
+                  { x: pixelScene.x + 0.5 / scale, y: pixelScene.y - 0.5 / scale },
+                  { x: pixelScene.x + 0.5 / scale, y: pixelScene.y + 0.5 / scale },
+                  { x: pixelScene.x - 0.5 / scale, y: pixelScene.y + 0.5 / scale },
                 ];
-                if (later.some((facet) => touches(pixelWorldCell, facet))) {
+                if (later.some((facet) => touches(pixelSceneCell, facet))) {
                   rejected.later++;
                   continue;
                 }
@@ -246,8 +294,8 @@ test('original town roofs, walls and shadows occupy safe ground without changing
                 }
                 candidates.push({
                   pixel: { x, y },
-                  pixelWorld,
-                  margin: Math.min(...edges(polygon).map(([a, b]) => distance(pixelWorld, a, b))),
+                  pixelScene,
+                  margin: Math.min(...edges(polygon).map(([a, b]) => distance(pixelScene, a, b))),
                 });
               }
             }
