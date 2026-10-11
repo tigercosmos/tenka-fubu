@@ -1,0 +1,22 @@
+{
+  "headAtAssetCapture": "8cdd7db9995f90de757be05a96eebd39dd9b9d4b",
+  "assetInputFiles": 50,
+  "assetsErrors": 0,
+  "assetsWarnings": 0,
+  "assetsNotice": null,
+  "firstScreenBytes": 967199,
+  "firstScreenBudgetBytes": 8388608,
+  "protectedBaselineFiles": 6,
+  "protectedBaselineBytesChanged": 0,
+  "nativeRestorationEvidenceSource": "505d96a",
+  "nativeRestorationStatus": "Prior source RED remains unresolved; no current source rerun in this step.",
+  "nativeRestorationCause": "Unresolved HUD corner raster variation; exact map restoration does not establish a whole-page clipping defect.",
+  "sourceChanges": false,
+  "testChanges": false,
+  "baselineChanges": false,
+  "qualifications": [
+    "Asset validator checks metadata declarations, hashes, runtime paths and production source exclusion; it does not independently prove artistic originality.",
+    "This is a scoped asset validation and acceptance ledger, not a current full native visual acceptance.",
+    "The captured working tree contains unrelated changes, recorded in raw inventory; protected baselines and all50asset-scope files are verified by exact SHA."
+  ]
+}

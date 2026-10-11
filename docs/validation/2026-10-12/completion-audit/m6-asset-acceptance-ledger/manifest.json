@@ -1,0 +1,34 @@
+[
+  {
+    "file": "tenka-m6-assets-current.log.gz",
+    "source": "/tmp/tenka-m6-assets-current.log",
+    "rawBytes": 259,
+    "storedBytes": 235,
+    "sha256Uncompressed": "005e30238f36844004afb10ae259b8a23a7244bd5defdd41dca5d37c23c104f2",
+    "sha256Stored": "e4c3d7f0bcb23a5ccedff58519020642096e9e0a62753ab4c7a14f1f8117b7e0"
+  },
+  {
+    "file": "tenka-m6-assets-current.json.gz",
+    "source": "/tmp/tenka-m6-assets-current.json",
+    "rawBytes": 167,
+    "storedBytes": 140,
+    "sha256Uncompressed": "0061c62552343564c644e07b29bda1f027257e5668ea9fae346da193575b80d6",
+    "sha256Stored": "e444d97dc832d9527d59680289f6f52552150c05c397a8cf3ffacbb8a4df4753"
+  },
+  {
+    "file": "tenka-m6-candidate-asset-scope.json.gz",
+    "source": "/tmp/tenka-m6-candidate-asset-scope.json",
+    "rawBytes": 10730,
+    "storedBytes": 3376,
+    "sha256Uncompressed": "4d0702f6c87ef3324dff2fa551a68a5da5ce929e01084c80559f4c61fe42fb7e",
+    "sha256Stored": "4d66978cc56383d064b9f98df6697aadc021ef8f24ce8f5138b1da8a99e828cf"
+  },
+  {
+    "file": "tenka-m6-assets-runtime.json.gz",
+    "source": "/tmp/tenka-m6-assets-runtime.json",
+    "rawBytes": 177,
+    "storedBytes": 152,
+    "sha256Uncompressed": "905cfd6639ce358b6aaf7088dbd5148048636235c3d85250967395eb7e16d5d4",
+    "sha256Stored": "f6993253f11fcf4756eadac974b2e54cbaa0d8d0d58db333e2d817d9531aacf0"
+  }
+]
