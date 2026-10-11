@@ -1,0 +1,109 @@
+{
+  "sourceCommit": "2cfb2d6",
+  "nativePassed": 6,
+  "nativeSeconds": 42.3,
+  "singleSamplePerBackendScenario": true,
+  "completeStateAndLogParity": true,
+  "rows": [
+    {
+      "file": "01-same-host-120-day-worker-responsiveness.json.gz",
+      "backend": "sync",
+      "phase": "cold",
+      "completedDays": 1,
+      "durationMs": 14.300000190734863,
+      "maxFrameGapMs": 20.899999618530273,
+      "longTasks": 0,
+      "maxLongTaskMs": 0
+    },
+    {
+      "file": "01-same-host-120-day-worker-responsiveness.json.gz",
+      "backend": "sync",
+      "phase": "warm",
+      "completedDays": 120,
+      "durationMs": 926.3000001907349,
+      "maxFrameGapMs": 982.5999999046326,
+      "longTasks": 1,
+      "maxLongTaskMs": 926
+    },
+    {
+      "file": "01-same-host-120-day-worker-responsiveness.json.gz",
+      "backend": "worker",
+      "phase": "cold",
+      "completedDays": 1,
+      "durationMs": 32,
+      "maxFrameGapMs": 19.90000009536743,
+      "longTasks": 0,
+      "maxLongTaskMs": 0
+    },
+    {
+      "file": "01-same-host-120-day-worker-responsiveness.json.gz",
+      "backend": "worker",
+      "phase": "warm",
+      "completedDays": 120,
+      "durationMs": 2469.5,
+      "maxFrameGapMs": 101.09999990463257,
+      "longTasks": 1,
+      "maxLongTaskMs": 52
+    },
+    {
+      "file": "02-same-host-60-day-worker-responsiveness.json.gz",
+      "backend": "sync",
+      "phase": "cold",
+      "completedDays": 1,
+      "durationMs": 14.599999904632568,
+      "maxFrameGapMs": 28.800000190734863,
+      "longTasks": 0,
+      "maxLongTaskMs": 0
+    },
+    {
+      "file": "02-same-host-60-day-worker-responsiveness.json.gz",
+      "backend": "sync",
+      "phase": "warm",
+      "completedDays": 60,
+      "durationMs": 507.69999980926514,
+      "maxFrameGapMs": 553.6999998092651,
+      "longTasks": 1,
+      "maxLongTaskMs": 507
+    },
+    {
+      "file": "02-same-host-60-day-worker-responsiveness.json.gz",
+      "backend": "worker",
+      "phase": "cold",
+      "completedDays": 1,
+      "durationMs": 35.5,
+      "maxFrameGapMs": 19.09999990463257,
+      "longTasks": 0,
+      "maxLongTaskMs": 0
+    },
+    {
+      "file": "02-same-host-60-day-worker-responsiveness.json.gz",
+      "backend": "worker",
+      "phase": "warm",
+      "completedDays": 60,
+      "durationMs": 1250.6000003814697,
+      "maxFrameGapMs": 97.5,
+      "longTasks": 0,
+      "maxLongTaskMs": 0
+    },
+    {
+      "file": "03-normal-x5-worker-paced-sync-responsiveness.json.gz",
+      "backend": "worker",
+      "phase": "paced",
+      "completedDays": 29,
+      "durationMs": 3574.9000000953674,
+      "maxFrameGapMs": 61.60000038146973,
+      "longTasks": 0,
+      "maxLongTaskMs": 0
+    },
+    {
+      "file": "03-normal-x5-worker-paced-sync-responsiveness.json.gz",
+      "backend": "sync",
+      "phase": "paced",
+      "completedDays": 29,
+      "durationMs": 3545.7000002861023,
+      "maxFrameGapMs": 106.7999997138977,
+      "longTasks": 1,
+      "maxLongTaskMs": 69
+    }
+  ]
+}

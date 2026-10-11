@@ -1,0 +1,27 @@
+{
+  "localSourceCommit": "2cfb2d6",
+  "files": 714,
+  "matchingFiles": 712,
+  "differences": [
+    {
+      "path": "src/ui/assets/loader.spec.ts",
+      "remoteSha256": "2aebae8a86b404176f39ab9a7a0a601be0752d9867cc9ff80cb3d5e9320d810f",
+      "localSha256": "e92c9aff7e2874ac547b6cb06613c3881fa6e351271d2d9d5cb2ef1caa1296aa"
+    },
+    {
+      "path": "src/ui/map/MapCanvasHost.spec.tsx",
+      "remoteSha256": "266fe984122ead120bbb0fdc8a0d6267f473c90d01e92b70f0698464f4053cd0",
+      "localSha256": "00e0617dc1243791eb0ac6e974b3e9b897da3a0d05c0aaf81f0f2f870ff46af2"
+    }
+  ],
+  "scope": "714 prior src/tools paths; only two local mock-only spec changes differ; every runtime source matches. Excludes public assets/config/E2E and extra original-loader diagnostic text.",
+  "loaderSourceMaps": [
+    {
+      "map": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/dist/assets/index-BhWfN352.js.map",
+      "source": "../../src/ui/assets/loader.ts",
+      "matchesActualLoader": true,
+      "sourceSha256": "db7caf9f8a7e041d641e19f299bc4a85a7942a0d5de243d9c93ab6819d5f530d",
+      "mapSha256": "eaaf4b5e1bc152f1e904c5bcb1443acc2657ca6f6fdbbde4c7f8251592d8faec"
+    }
+  ]
+}

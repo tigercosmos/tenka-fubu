@@ -1,0 +1,38 @@
+{
+  "sourceCommit": "2cfb2d6",
+  "nativeRemountPassed": true,
+  "totalRemounts": 130,
+  "warmupRemounts": 10,
+  "measuredRemounts": 120,
+  "samples": 121,
+  "pageRuntimeHeapBytes": {
+    "first": 20890576,
+    "last": 25438644,
+    "delta": 4548068
+  },
+  "fontCachesBeforeAndAfter": {
+    "fontAtlasCanvases": 10,
+    "canvas2dContexts": 16,
+    "bitmapTexts": 60
+  },
+  "wholeHeapStable": false,
+  "workerNativePassed": 6,
+  "workerNativeSeconds": 42.3,
+  "visualControlsPassed": 4,
+  "visualControlsSeconds": 27.5,
+  "completeStateAndLogParity": true,
+  "geographicAllocationComparison": "All three complete states, logs, publishedMap and geographic label values match the preceding d619085 native rows; no normalization",
+  "initialTemporaryControl": "Module-import placement passed; only raw build/native logs retained after subsequent Playwright output cleanup. Detailed accepted final branch data is archived; independent sim2 module-control detailed data is preserved separately.",
+  "requiredTwentyArmyGate": {
+    "passed": true,
+    "viewport": [1920, 1080],
+    "armyCount": 20,
+    "durationMs": 30016.5,
+    "frames": 1794,
+    "fpsP95Recorded": 60.24096385542697,
+    "frameTimeP95Ms": 16.799999999999272,
+    "requiredFrameTimeP95MaxMs": 18.181818181818183,
+    "workload": "synthetic renderer-only pan/zoom; no canonical campaign claim",
+    "renderer": "ANGLE NVIDIA RTX5070Ti Vulkan"
+  }
+}

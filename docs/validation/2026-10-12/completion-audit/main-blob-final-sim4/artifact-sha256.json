@@ -1,0 +1,391 @@
+[
+  {
+    "file": "00-.last-run.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/.last-run.json",
+    "bytes": 60,
+    "sha256": "ef94fcdc04da4703dc723d02a781282e4b455e1b3176cc7862e6c14c9851bca9",
+    "uncompressedBytes": 45,
+    "uncompressedSha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+  },
+  {
+    "file": "01-before-remounts.heapsnapshot.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/before-remounts.heapsnapshot",
+    "bytes": 6298395,
+    "sha256": "5ca3ab9b995ce0022e14034e07bd2ffe2a86d0b4b468d7d08b0d1ce51b4e713d",
+    "uncompressedBytes": 32835002,
+    "uncompressedSha256": "879d47d5789a3320b36e35bafbf125c44bc3cf307bddc2c0e7ad1db9447f1fbe"
+  },
+  {
+    "file": "02-remount-heap-samples.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/remount-heap-samples.json",
+    "bytes": 1019,
+    "sha256": "908766a494defaf5d2d947c667a605ea34b1dbe1673f9948c970aa198c639741",
+    "uncompressedBytes": 3206,
+    "uncompressedSha256": "85e9f6068cba0d46367a82387ee780e54ba556f596ea7434696677f2b8df71ff"
+  },
+  {
+    "file": "03-after-remounts.heapsnapshot.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/after-remounts.heapsnapshot",
+    "bytes": 7156641,
+    "sha256": "524df6cfe69f4af9bc25ce9d989738cbcfcb4f0b68be5e86f0168170a33460ed",
+    "uncompressedBytes": 37842786,
+    "uncompressedSha256": "3ef33202f8db4462c162a06f74f485c59e064f5d393c9f7265c78eae6943515c"
+  },
+  {
+    "file": "04-remount-heap-samples-json-c404ec35a1a8d8f2f71ebdce00a855f58eebb48f.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/visual-M6-V11-visual-quali-4d444-counts-without-context-loss-chromium/attachments/remount-heap-samples-json-c404ec35a1a8d8f2f71ebdce00a855f58eebb48f.json",
+    "bytes": 1019,
+    "sha256": "908766a494defaf5d2d947c667a605ea34b1dbe1673f9948c970aa198c639741",
+    "uncompressedBytes": 3206,
+    "uncompressedSha256": "85e9f6068cba0d46367a82387ee780e54ba556f596ea7434696677f2b8df71ff"
+  },
+  {
+    "file": "05-main-blob-final-native.log.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/main-blob-final-native.log",
+    "bytes": 190,
+    "sha256": "5119efb9f84acde11c7ac86307cb06b00b732771fd019ed83fc369c1a200a366",
+    "uncompressedBytes": 221,
+    "uncompressedSha256": "0746654ee33fbda82551e7dafaeec6fad6916d47475ff36e432109650c97c224"
+  },
+  {
+    "file": "06-main-blob-final-build.log.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/main-blob-final-build.log",
+    "bytes": 849,
+    "sha256": "3812f1930477ff0627d1b4307a0c04df945e48d206b58bdc88a3366d2794ea7b",
+    "uncompressedBytes": 1678,
+    "uncompressedSha256": "988a0138546d5d1e27b0ca81815dcdc9f456184d701db9a9d0b8daa80a496d22"
+  },
+  {
+    "file": "07-main-blob-remount-native.log.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/main-blob-remount-native.log",
+    "bytes": 190,
+    "sha256": "5119efb9f84acde11c7ac86307cb06b00b732771fd019ed83fc369c1a200a366",
+    "uncompressedBytes": 221,
+    "uncompressedSha256": "0746654ee33fbda82551e7dafaeec6fad6916d47475ff36e432109650c97c224"
+  },
+  {
+    "file": "08-main-blob-remount-build.log.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/main-blob-remount-build.log",
+    "bytes": 849,
+    "sha256": "0a5f2f54365ab8a0ce38f078efa8e62ee55cc9391c45ecb80eb20dd44b20e278",
+    "uncompressedBytes": 1678,
+    "uncompressedSha256": "f40fe1f8310bcc798a43d525e2cad9c7ba78bfec07de0634f9b44964d3d534fd"
+  },
+  {
+    "file": "09-loader.ts.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/src/ui/assets/loader.ts",
+    "bytes": 4074,
+    "sha256": "7b3f59e8573b2cc552da3cafff65e3f76918e962f41d24073cfe8d6c2898291e",
+    "uncompressedBytes": 11041,
+    "uncompressedSha256": "db7caf9f8a7e041d641e19f299bc4a85a7942a0d5de243d9c93ab6819d5f530d"
+  },
+  {
+    "file": "10-visual.spec.ts.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/e2e/visual.spec.ts",
+    "bytes": 4787,
+    "sha256": "b78997d79cad50502a1818c84e447028fd4a892b6415906b6d3ffb26de7cd74d",
+    "uncompressedBytes": 16545,
+    "uncompressedSha256": "82e8edebcb46935c913e8cd728ac9007df3e988ac3b8ce8f8d61670ff0a6df34"
+  },
+  {
+    "file": "README.md",
+    "bytes": 4164,
+    "sha256": "00c023a63cc78e4f5963610b94497ab2602a42e781acbd03482263d86c4f10dd"
+  },
+  {
+    "file": "production-manifest.json.gz",
+    "bytes": 38025,
+    "sha256": "abe9a40987ce54b083e34a76b2f78f9b294ba0ee1e5c25d0e5eeecf8db0bea65",
+    "uncompressedBytes": 122404,
+    "uncompressedSha256": "68348c09109616b03ac849b1f929e2b1177f7938032ff598f1a1698547fdbca0"
+  },
+  {
+    "file": "source-comparison.json",
+    "bytes": 1172,
+    "sha256": "518d4f6909682f9ede41beb26dc0cb1e07490d4d16d99407fcc8b025d3c48504"
+  },
+  {
+    "file": "summary.json",
+    "bytes": 1409,
+    "sha256": "2a6ffa17b41553a9b31a13c72a6544c94b18650f6331e3ce6c3bbb10ba2af6b5"
+  },
+  {
+    "file": "twenty-army/00-.last-run.json.gz",
+    "bytes": 60,
+    "sha256": "ef94fcdc04da4703dc723d02a781282e4b455e1b3176cc7862e6c14c9851bca9",
+    "uncompressedBytes": 45,
+    "uncompressedSha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+  },
+  {
+    "file": "twenty-army/01-frame-measurement.json.gz",
+    "bytes": 3717,
+    "sha256": "4b2f69403420a4fdfc56130a067afab32b102145239e00782b53d58c9d3f07a1",
+    "uncompressedBytes": 82658,
+    "uncompressedSha256": "19446dd92c3fc4b4d74157cfac7f6c3cb5ef890e61939a58984325ed9e2e417f"
+  },
+  {
+    "file": "twenty-army/02-main-blob-final-twenty-army.log.gz",
+    "bytes": 180,
+    "sha256": "004eff8d4b193ace6f67145405d0ab965f0fef6c2e3f43e4f0c61bf67d3f1dd7",
+    "uncompressedBytes": 198,
+    "uncompressedSha256": "b18dbce83dea80d0876622cc98b0715db838b8b3394aec751f0e01a120f6ef01"
+  },
+  {
+    "file": "twenty-army/artifact-sha256.json",
+    "bytes": 1510,
+    "sha256": "49a11ddb16e46a5932b42f9ca557ddb670f254babfe44197f0c56020bf9f5861"
+  },
+  {
+    "file": "visual/00-.last-run.json.gz",
+    "bytes": 60,
+    "sha256": "ef94fcdc04da4703dc723d02a781282e4b455e1b3176cc7862e6c14c9851bca9",
+    "uncompressedBytes": 45,
+    "uncompressedSha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+  },
+  {
+    "file": "visual/01-strategy-operational-identity-column.png.gz",
+    "bytes": 594392,
+    "sha256": "617056c7a73b5f55bcca309319e1fbea1c5892164e1cba7afebd99cc69a6510e",
+    "uncompressedBytes": 595200,
+    "uncompressedSha256": "1c629faa753577a99514cb4c6e3749a936829ad9a33bc2c792d9e17803f07600"
+  },
+  {
+    "file": "visual/02-castle-content-geometry.json.gz",
+    "bytes": 868,
+    "sha256": "3ad32825a849cb4bee978b091c2354b1b61e73ba2ed2bddc8b96c5e6526cc165",
+    "uncompressedBytes": 5940,
+    "uncompressedSha256": "c7d7bbe8df67ae9f531670c2d80eb481ce77e1f206c03384f7f96ec202fad608"
+  },
+  {
+    "file": "visual/03-strategy-close-identity-column.png.gz",
+    "bytes": 817629,
+    "sha256": "f18d14686fdc265c72ae4508751f43c3e9a1f1293cc8b1a148d4ab0d8086c9fb",
+    "uncompressedBytes": 818200,
+    "uncompressedSha256": "46d476b6909d28a8444ffdd4b49e4f991ea7f550bafcf6dc702e0d800a970148"
+  },
+  {
+    "file": "visual/04-ribbon-castle.sunpu-operational-1.5.png.gz",
+    "bytes": 570573,
+    "sha256": "1509cc76f38e9a847cb93b0f5d6efe981ecea6011ac4177edd72bd6dd62c7496",
+    "uncompressedBytes": 570748,
+    "uncompressedSha256": "9c91e1e2679bfc332b560b97c23d364f078bf530ec0aeea69e94cbcd45d6cca4"
+  },
+  {
+    "file": "visual/05-ribbon-castle.narumi-operational-1.png.gz",
+    "bytes": 1196781,
+    "sha256": "76cb02d902b8eae9c294390e02c37ba3a88633f9d0224111e35bcdb757773b6c",
+    "uncompressedBytes": 1196880,
+    "uncompressedSha256": "6dc5e71b3394ec07583c9da619016b3ff97ca7839fbe7c1b6165242023b72c63"
+  },
+  {
+    "file": "visual/06-ribbon-castle.sunpu-close-1.5.png.gz",
+    "bytes": 723892,
+    "sha256": "6474204785623cb4786178f6b7bda4baf0d9b7d86c1f1808f4c365bc51067421",
+    "uncompressedBytes": 724030,
+    "uncompressedSha256": "220308b69baccbaaa3c2f26abc7340fe367279f89abf4410e5e4abaef0ea478b"
+  },
+  {
+    "file": "visual/07-ribbon-castle.narumi-operational-1.5.png.gz",
+    "bytes": 1114781,
+    "sha256": "72f222d10ece8c57fea780374412c555eb8639d435a515f32711346f8eef3641",
+    "uncompressedBytes": 1114859,
+    "uncompressedSha256": "1778b973f32d4d1501b728387b07ddc87bf6c8de1889046f5684d09fb756f020"
+  },
+  {
+    "file": "visual/08-ribbon-castle.narumi-close-0.8.png.gz",
+    "bytes": 1229537,
+    "sha256": "cfd0e6c07787f76c939e1fde60569c8c457337dac11f9f5233561268caa4aff7",
+    "uncompressedBytes": 1229485,
+    "uncompressedSha256": "0c6b153879b6b81ea3e9b04c0895a3511242e2e10365f825d149c86dc479b7d7"
+  },
+  {
+    "file": "visual/09-ribbon-castle.sunpu-operational-0.8.png.gz",
+    "bytes": 600519,
+    "sha256": "527934b4f1e11d120fb739d7edbd61de6e7cdf11a9d49914d5924b509406ede2",
+    "uncompressedBytes": 600734,
+    "uncompressedSha256": "d1c36b053f200914814c1c96ee62d6b5cfe2ec7243e8c2eb2fedbd4b7692e719"
+  },
+  {
+    "file": "visual/10-ribbon-castle.sunpu-close-1.png.gz",
+    "bytes": 810981,
+    "sha256": "f366b23101b667870964e6b45620001921a30c87ca646336d4371e4549140e43",
+    "uncompressedBytes": 811158,
+    "uncompressedSha256": "4508e1de2f73e8969483be766ad20773c8f854c1992bd609edf1e4373cd3c457"
+  },
+  {
+    "file": "visual/11-ribbon-castle.sunpu-close-0.8.png.gz",
+    "bytes": 843350,
+    "sha256": "914a03b05fafb2dfa554a238d8c79b29c7d09ddc05cc672e066403fffdcda8d4",
+    "uncompressedBytes": 843491,
+    "uncompressedSha256": "e4cb106bf3a43317f85afc9611efd46ff1423ad50206ad05c3a988a8e29404ca"
+  },
+  {
+    "file": "visual/12-ribbon-castle.sunpu-operational-1.png.gz",
+    "bytes": 592258,
+    "sha256": "b4b31e563e5e00a4d19ed4137913462dc1dda8579f6463c3e8f4993b4c64cea7",
+    "uncompressedBytes": 592368,
+    "uncompressedSha256": "13755d1bfc901b595b6b8bffdb8296b79cd53da76f80c4abc0194d8175f6516e"
+  },
+  {
+    "file": "visual/13-placard-castle.narumi-1-observation.json.gz",
+    "bytes": 231149,
+    "sha256": "c2db7c5ad2c6aa5f0773baf6f9a997875f7e3ed86e293635ad3b653aa3fccf0b",
+    "uncompressedBytes": 1825745,
+    "uncompressedSha256": "b94933aac9390352292cc66c60a5c7f6335ca265ed55194e9885b155c6d82e63"
+  },
+  {
+    "file": "visual/14-placard-castle.sunpu-1.5-scene.png.gz",
+    "bytes": 609820,
+    "sha256": "2317957aba0bda60c2049f0c6be1ab30a077377466b21ee54f581a99ca886de2",
+    "uncompressedBytes": 610754,
+    "uncompressedSha256": "ad3a89e5d5681fd690b5d00964388f7ced70e8d53ffb7f3a30ac65262d5be57b"
+  },
+  {
+    "file": "visual/15-placard-castle.sunpu-1-scene.png.gz",
+    "bytes": 756140,
+    "sha256": "7807347edb2dbd7e6ec063c8f55b97bfadf423fa0780ed187eeea6db66a18fdb",
+    "uncompressedBytes": 756783,
+    "uncompressedSha256": "8d7c2ad04e9f401ef0ac50896c75f3396375d0b4441724c89fb5c35c14ff3195"
+  },
+  {
+    "file": "visual/16-placard-castle.sunpu-1.5-observation.json.gz",
+    "bytes": 230991,
+    "sha256": "c6df61a565271af13f4d8456bb968d9f376d70b5198de096051e932fde3c7a55",
+    "uncompressedBytes": 1823203,
+    "uncompressedSha256": "0bc0e63ce301e3b6ec756a4d063f74c46f4be9e96aef2b3bb149a722eeaa02dc"
+  },
+  {
+    "file": "visual/17-placard-castle.narumi-1.5-scene.png.gz",
+    "bytes": 894223,
+    "sha256": "38b2e43a9b1aa8484ae3effc8d6b24319dcd68c1d3615d23d874b73c01341c81",
+    "uncompressedBytes": 895691,
+    "uncompressedSha256": "8f4483adcbcc9b0ebc7aca2483e1bddfa07e02f70d376556b646ca3c4829a4a7"
+  },
+  {
+    "file": "visual/18-placard-castle.sunpu-1-observation.json.gz",
+    "bytes": 230972,
+    "sha256": "e08755d7aaa8b07c97c1b529539bb3112333ce6a12ec9cb8a1132df715c503ce",
+    "uncompressedBytes": 1823196,
+    "uncompressedSha256": "00eb59e878e9318959bcbc74c4e1e0f18654d7aa47ed60e53c204e21b46aff16"
+  },
+  {
+    "file": "visual/19-placard-castle.sunpu-0.8-scene.png.gz",
+    "bytes": 821135,
+    "sha256": "d0ed5ec5974c3ad02e45381481d8756af1f7352a9a8aa878f94fc4943f88fdf7",
+    "uncompressedBytes": 821762,
+    "uncompressedSha256": "8da211e0538455fba7517be52752ac5db6b33f9c919e37cea09b5bac2ae0b6b4"
+  },
+  {
+    "file": "visual/20-placard-castle.narumi-0.8-scene.png.gz",
+    "bytes": 1109456,
+    "sha256": "7d7d664ae621738e3a94d966809b24492f7d0c4e6f1acfe4445f2ef1c1390cbf",
+    "uncompressedBytes": 1110069,
+    "uncompressedSha256": "a3463594dc45d7a8cefef958dace4a687f5d9a523f92f5006309c9eeb6568209"
+  },
+  {
+    "file": "visual/21-placard-castle.narumi-1.5-observation.json.gz",
+    "bytes": 231472,
+    "sha256": "84ebf3a0d1348fd71632df6b4c4ea5ca573e44abb1b59a22f0c830ee662e0f49",
+    "uncompressedBytes": 1825832,
+    "uncompressedSha256": "ef7541af133457aea71c16d8f6969774247989bd70db42227e055f15ba6a0bb4"
+  },
+  {
+    "file": "visual/22-placard-castle.narumi-0.8-observation.json.gz",
+    "bytes": 231368,
+    "sha256": "fde37ed5e1afbec23790f7c033fbb801f5812212b204c78a97a84bfb5ef5756f",
+    "uncompressedBytes": 1825955,
+    "uncompressedSha256": "237c1d18083fd769814190539e3cf51f768d21b05e8a6bcae215521589cef62e"
+  },
+  {
+    "file": "visual/23-placard-castle.sunpu-0.8-observation.json.gz",
+    "bytes": 231183,
+    "sha256": "afd06b30a7c61ccade642a3a3a93b5c90386bfeb40a230df67b236604492bb71",
+    "uncompressedBytes": 1824736,
+    "uncompressedSha256": "0cc663a8211cc2357a3e4584e6cc1130ae6c73640ec5d87d6640509c7a2eab80"
+  },
+  {
+    "file": "visual/24-placard-castle.narumi-1-scene.png.gz",
+    "bytes": 1049873,
+    "sha256": "cf7eeaaa552df665ca8d8d0b4ef86b9e10b217162f2a7f10c1063678317239ff",
+    "uncompressedBytes": 1050980,
+    "uncompressedSha256": "f04510466daca833ed647b90020603e02d7a4633e0edef549b84b707799c2d95"
+  },
+  {
+    "file": "visual/25-river-rv.yodo.png.gz",
+    "bytes": 955199,
+    "sha256": "2af1bfaab54d34d0eb452ec548844878fda2ff002123d3ea0ddbbb1f56818492",
+    "uncompressedBytes": 956116,
+    "uncompressedSha256": "c0a8dddf435139c0f6987150c050759ba5b228383ebee63a0780df9a2b4ab424"
+  },
+  {
+    "file": "visual/26-river-rv.kiso.png.gz",
+    "bytes": 1119297,
+    "sha256": "23957ff8a91a62635c5eacbf9177576c4bd44ffeb926429b65fc68e6be908319",
+    "uncompressedBytes": 1119963,
+    "uncompressedSha256": "237fabccbd565ee650e971b0059889993b37085d85dbf0ce736bd22f90aad0c7"
+  },
+  {
+    "file": "visual/27-main-blob-final-visual-controls.log.gz",
+    "bytes": 438,
+    "sha256": "f5527ae3864e9c7e9175b4e50ebd00e6de60929ad83e10b6adc093c03a06be02",
+    "uncompressedBytes": 776,
+    "uncompressedSha256": "512b01b5e49670645b28f92d1de755436cb7545791940ab72d190d8d65c84563"
+  },
+  {
+    "file": "visual/artifact-sha256.json",
+    "bytes": 14873,
+    "sha256": "7d6e593c4a019e107299c65ae13f12bdd2e433b4621fccbd8a29084796ca0feb"
+  },
+  {
+    "file": "worker/00-.last-run.json.gz",
+    "bytes": 60,
+    "sha256": "ef94fcdc04da4703dc723d02a781282e4b455e1b3176cc7862e6c14c9851bca9",
+    "uncompressedBytes": 45,
+    "uncompressedSha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+  },
+  {
+    "file": "worker/01-same-host-120-day-worker-responsiveness.json.gz",
+    "bytes": 1147922,
+    "sha256": "5189fa75d8a2846ec1303b9c8677d1ac35cf6e3ecf2f5aac933bb145a04c5d3c",
+    "uncompressedBytes": 8141904,
+    "uncompressedSha256": "80776af318fe16cce8c562973d51b87b536d71dc2b88391ae8b7384b95dd5221"
+  },
+  {
+    "file": "worker/02-same-host-60-day-worker-responsiveness.json.gz",
+    "bytes": 1138113,
+    "sha256": "b3d2ff55ac03fd58edfc6b0e7d1f0f8d59b315b210193cf7b4feb3f9eca8c10c",
+    "uncompressedBytes": 8011944,
+    "uncompressedSha256": "53c693a6a589ab3788a222553e2683393849566e808e49a6e269ab1dd891ad6d"
+  },
+  {
+    "file": "worker/03-normal-x5-worker-paced-sync-responsiveness.json.gz",
+    "bytes": 1129239,
+    "sha256": "e678442a1494a17c4a9cf400df41e60364b5828c100eebe799d5f2c88fc68b68",
+    "uncompressedBytes": 7709990,
+    "uncompressedSha256": "938ee73537da805749fef491cd45991d2afa624f429191fdb67db861401ef49a"
+  },
+  {
+    "file": "worker/04-main-blob-final-worker.log.gz",
+    "bytes": 145,
+    "sha256": "735419854c41919664da96cd967d850baeb1d6ef2831ab69206ac8efbae026a4",
+    "uncompressedBytes": 166,
+    "uncompressedSha256": "10430d4abdbd108757550247ef54aa526417db51010e4fcac2d0bf16fe54e830"
+  },
+  {
+    "file": "worker/05-main-blob-final-worker-six.log.gz",
+    "bytes": 420,
+    "sha256": "0829113ae6481c269141e43986081a845ef7c97435a46c8ba79b57280dd598bd",
+    "uncompressedBytes": 1030,
+    "uncompressedSha256": "95e9a6727484971ac1eaee75cd3bc9a913d58b74ac6cb2254ad72e3641dc2554"
+  },
+  {
+    "file": "worker/artifact-sha256.json",
+    "bytes": 3526,
+    "sha256": "e152963b011483e1739e5af4542f008dd02d391936027e04dc01ea7bd4d8e94c"
+  },
+  {
+    "file": "worker/summary.json",
+    "bytes": 2988,
+    "sha256": "e2cb5b90b393d24cda2da390d35b3b90cbad530768e8d70fc54e8366a1e94df9"
+  }
+]

@@ -1,0 +1,31 @@
+[
+  {
+    "file": "00-.last-run.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/.last-run.json",
+    "duplicateSourcePaths": [],
+    "bytes": 60,
+    "sha256": "ef94fcdc04da4703dc723d02a781282e4b455e1b3176cc7862e6c14c9851bca9",
+    "uncompressedBytes": 45,
+    "uncompressedSha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+  },
+  {
+    "file": "01-frame-measurement.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/visual-M6-V11-visual-quali-a2ad1-s-30-second-camera-workload-chromium/frame-measurement.json",
+    "duplicateSourcePaths": [
+      "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/visual-M6-V11-visual-quali-a2ad1-s-30-second-camera-workload-chromium/attachments/frame-measurement-json-b5c2f78d6538b4630ef8f54603c116f22d657e4b.json"
+    ],
+    "bytes": 3717,
+    "sha256": "4b2f69403420a4fdfc56130a067afab32b102145239e00782b53d58c9d3f07a1",
+    "uncompressedBytes": 82658,
+    "uncompressedSha256": "19446dd92c3fc4b4d74157cfac7f6c3cb5ef890e61939a58984325ed9e2e417f"
+  },
+  {
+    "file": "02-main-blob-final-twenty-army.log.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/main-blob-final-twenty-army.log",
+    "duplicateSourcePaths": [],
+    "bytes": 180,
+    "sha256": "004eff8d4b193ace6f67145405d0ab965f0fef6c2e3f43e4f0c61bf67d3f1dd7",
+    "uncompressedBytes": 198,
+    "uncompressedSha256": "b18dbce83dea80d0876622cc98b0715db838b8b3394aec751f0e01a120f6ef01"
+  }
+]
