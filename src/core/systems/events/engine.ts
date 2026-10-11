@@ -322,6 +322,7 @@ export function createEventEngine(
   }
   return {
     getDef: (id: EventId): Readonly<EventDef> | undefined => catalog.get(id),
+    getDefs: (): readonly EventDef[] => [...catalog.values()],
     subscribeFired,
     run,
     resolveChoice,

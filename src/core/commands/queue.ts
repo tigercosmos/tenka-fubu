@@ -48,6 +48,35 @@ export class CommandQueue {
     return this.pending.splice(0, count);
   }
 
+  /** Detached FIFO reservation: pending commands remain available to saves until commit. */
+  snapshotEnvelopes(limit: number = BAL.maxCommandsPerTick): CommandEnvelope[] {
+    return structuredClone(this.pending.slice(0, Math.max(0, limit)));
+  }
+
+  /** A completed speculative tick consumes its exact prefix, leaving later inputs queued. */
+  consumePrefix(expected: readonly CommandEnvelope[]): void {
+    if (expected.some((entry, index) => this.pending[index]?.seq !== entry.seq))
+      throw new Error('Command queue reservation no longer owns its prefix');
+    this.pending.splice(0, expected.length);
+  }
+
+  /** Cancel uncommitted AI reservations and close their sequence gaps before a sync boundary. */
+  cancelReservations(sequences: readonly number[]): void {
+    const removed = new Set(sequences);
+    let shift = 0;
+    for (let index = 0; index < this.pending.length;) {
+      const entry = this.pending[index]!;
+      if (removed.has(entry.seq)) {
+        this.pending.splice(index, 1);
+        shift += 1;
+      } else {
+        entry.seq -= shift;
+        index += 1;
+      }
+    }
+    this.nextSeq -= shift;
+  }
+
   /** 目前待結算筆數。 */
   get size(): number {
     return this.pending.length;
