@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { expectB8MigrationState } from '../helpers/b8MigrationProof';
 import { BAL } from '../../src/core/balance';
 import { applyMarch } from '../../src/core/commands/march';
 import { validateCommand } from '../../src/core/commands/validate';
@@ -507,26 +508,29 @@ describe('M5-2 deterministic battle tick and atomic writeback', () => {
       event: stateA.rng.event,
       misc: stateA.rng.misc,
     };
+    expectB8MigrationState(stateA, 0);
     const hashesA: string[] = [];
     const hashesB: string[] = [];
     for (let tick = 0; tick < 10; tick += 1) {
-      advanceBattleTick(stateA, battleId);
-      advanceBattleTick(stateB, battleId);
+      const resultA = advanceBattleTick(stateA, battleId);
+      const resultB = advanceBattleTick(stateB, battleId);
+      expectB8MigrationState(stateA, tick + 1, resultA);
+      expectB8MigrationState(stateB, tick + 1, resultB);
       hashesA.push(stateHash(stateA));
       hashesB.push(stateHash(stateB));
       if (stateA.battles[battleId]!.result !== null) break;
     }
     expect(hashesA).toEqual([
-      '8fd5eca404decc70',
-      'e10623b0de361eb5',
-      'dd5e750747a9a2a5',
-      'cf08b98088fdc175',
-      'fc092d53c43c26c4',
-      'c75d94425c4b71b5',
-      'b6a22ea0787423c2',
-      '5ffefffc44f5f811',
-      '4a3a53c0954d40a1',
-      '7243d4d6ee381170',
+      '20d9eba176c7b63a',
+      '6fa98ad54037471f',
+      '19606638cd53c9cf',
+      '2ab247f248b73fdf',
+      '58ab16783e320cf6',
+      '84e4a8f1c376821f',
+      'f5c6fd1982f75fcc',
+      'e357d47856d69ba3',
+      'ec1263f522f3e5b3',
+      '8c39a9951426533a',
     ]);
     expect(hashesA).toEqual(hashesB);
     expect({

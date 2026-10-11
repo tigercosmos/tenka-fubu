@@ -1,0 +1,43 @@
+import {readFileSync} from 'node:fs';
+import {gunzipSync} from 'node:zlib';
+import {createHash} from 'node:crypto';
+import assert from 'node:assert/strict';
+const oldRoot=process.env.TENKA_HISTORICAL_ROOT,newRoot=process.env.TENKA_CURRENT_ROOT,proofRoot=process.env.TENKA_PROOF_ROOT;
+assert.ok(oldRoot&&newRoot&&proofRoot);
+const proof=JSON.parse(gunzipSync(readFileSync(proofRoot+'/full-state-proof.json.gz')));
+const manifest=JSON.parse(readFileSync(proofRoot+'/../goldens/historical-source-manifest.json','utf8'));
+for(const file of manifest.files)assert.equal(createHash('sha256').update(readFileSync(oldRoot+'/'+file.path)).digest('hex'),file.sha256);
+async function run(root) {
+  const tiny = await import(`${root}/tests/fixtures/tiny.ts`);
+  const { BAL } = await import(`${root}/src/core/balance.ts`);
+  const { applyMarch } = await import(`${root}/src/core/commands/march.ts`);
+  const { startFieldCombat } = await import(`${root}/src/core/systems/fieldCombat.ts`);
+  const { applyStartKassen, advanceBattleTick } = await import(`${root}/src/core/systems/battle.ts`);
+  const { stateHash } = await import(`${root}/src/core/state/serialize.ts`);
+  const s = tiny.buildTinyState();
+  s.castles[tiny.CASTLE_A2].soldiers = 2500;
+  s.castles[tiny.CASTLE_B1].soldiers = 2500;
+  const deploy = (clan, origin, leader, target) => {
+    const ids = new Set(Object.keys(s.armies));
+    applyMarch(s, { type:'march', clanId:clan, originCastleId:origin, leaderId:leader, deputyIds:[], soldiers:2000, food:Math.ceil(2000*BAL.fieldFoodPerSoldierDaily*30), targetNodeId:target }, () => {});
+    const army = s.armies[Object.keys(s.armies).find(id => !ids.has(id))];
+    Object.assign(army,{posNodeId:tiny.CASTLE_A2,path:[tiny.CASTLE_A2],pathCursor:0,edgeProgressDays:0,edgeCostDays:0,status:'holding'});
+    return army;
+  };
+  const a = deploy(tiny.CLAN_ALPHA,tiny.CASTLE_A2,tiny.OFF_ALPHA_TAISHO,tiny.CASTLE_B1);
+  const b = deploy(tiny.CLAN_BETA,tiny.CASTLE_B1,tiny.OFF_BETA_TAISHO,tiny.CASTLE_A2);
+  startFieldCombat(s,tiny.CASTLE_A2,[a.id],[b.id]);
+  const combat = Object.values(s.fieldCombats)[0];
+  applyStartKassen(s,{type:'startKassen',clanId:tiny.CLAN_ALPHA,fieldCombatId:combat.id},()=>{});
+  const initial = structuredClone(s);
+  const ticks=[];for(let i=0;i<10;i++){const result=advanceBattleTick(s,Object.keys(s.battles)[0]);ticks.push({state:structuredClone(s),hash:stateHash(s),result});}
+  return {initial,ticks};
+}
+
+
+const old=await run(oldRoot),current=await run(newRoot);
+assert.deepEqual(old,proof.historical);
+function upgrade(recorded){const expected=structuredClone(recorded);assert.equal(expected.meta.saveVersion,3);expected.meta.saveVersion=4;for(const clan of Object.values(expected.clans)){assert.equal(Object.hasOwn(clan,'rewardGoldSpentThisMonth'),false);clan.rewardGoldSpentThisMonth=0;}for(const combat of Object.values(expected.fieldCombats)){for(const side of [combat.sideA,combat.sideB]){assert.equal(side.participation,undefined);side.participation={complete:true,participants:side.armyIds.map(id=>{const army=expected.armies[id];return{armyId:army.id,clanId:army.clanId,leaderId:army.leaderId,deputyIds:[...army.deputyIds]};})};}}return expected;}
+assert.deepEqual(current.initial,upgrade(old.initial));
+for(let i=0;i<10;i++){assert.deepEqual(current.ticks[i].state,upgrade(old.ticks[i].state));assert.deepEqual(current.ticks[i].result,old.ticks[i].result);assert.equal(current.ticks[i].hash,proof.currentHashes[i]);}
+console.log(JSON.stringify({ticks:10,fullStateAndResultParityAfterOnlyFiveFields:true,oldHashes:old.ticks.map(t=>t.hash),currentHashes:current.ticks.map(t=>t.hash)}));
