@@ -1,0 +1,488 @@
+{
+  "scope": "same-host renderer-only legal120-army controls; not live campaign acceptance",
+  "sourceCommit": "a381b7dc38325c3f76017a80ea17a238089a5bb7",
+  "transferredOnly": "src/ui/map/geographicLabelLayout.ts",
+  "transferredSha256": "cb78513986a155fe3a6aa843a89357e5211358e2d607c06310c3ee8262aa136d",
+  "replica": "sim3:/tmp/tenka-national120-code-20261012",
+  "sourceProof": {
+    "checkedSources": 754,
+    "sourceDifferences": [],
+    "dependencyDifferences": []
+  },
+  "functionalParity": {
+    "referenceSha256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "optimizedSha256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "byteEqual": true,
+    "snapshots": 9
+  },
+  "fps": [
+    {
+      "camera": "overview",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 57.59282637896321,
+      "frameTimeP95": 17.5,
+      "slowFrameFps": 57.142857142857146,
+      "durationMs": 30021.099999904633,
+      "minMountedArmies": 120,
+      "mean60Pass": false,
+      "p95Frame60Pass": false,
+      "terminalExit": 1
+    },
+    {
+      "camera": "operational",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 42.90674025264408,
+      "frameTimeP95": 25.699999809265137,
+      "slowFrameFps": 38.9105061253537,
+      "durationMs": 30041.900000095367,
+      "minMountedArmies": 120,
+      "mean60Pass": false,
+      "p95Frame60Pass": false,
+      "terminalExit": 1
+    },
+    {
+      "camera": "close",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 24.14374507428392,
+      "frameTimeP95": 50.5,
+      "slowFrameFps": 19.801980198019802,
+      "durationMs": 30069.89999961853,
+      "minMountedArmies": 120,
+      "mean60Pass": false,
+      "p95Frame60Pass": false,
+      "terminalExit": 1
+    }
+  ],
+  "previousCapsuleFps": [
+    {
+      "camera": "overview",
+      "averageFps": 59.86807036247335,
+      "frameTimeP95": 17.59999990463257
+    },
+    {
+      "camera": "operational",
+      "averageFps": 42.81479855047624,
+      "frameTimeP95": 25.5
+    },
+    {
+      "camera": "close",
+      "averageFps": 23.98895376886094,
+      "frameTimeP95": 50.40000009536743
+    }
+  ],
+  "stateResourceProof": [
+    {
+      "camera": "overview",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-national120-geo-overview-results/national120-map-perf-natio-0f189-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "b4e3cc7648ecd052f42340c7beeeeb47e67bd58aed5ca575ed7161d8d1ad061e",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    },
+    {
+      "camera": "operational",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-national120-geo-operational-results/national120-map-perf-natio-a8207-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "3588162ee921795cbcc1143259bdd7a91f7dffe8f98de4bb67514b14e460879b",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    },
+    {
+      "camera": "close",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-national120-geo-close-results/national120-map-perf-natio-9df1b-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "79a4aebe73003ed6b3631cab4a35e205fbc9485aeed8fe9c7d3b6262d85dd9fe",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    }
+  ],
+  "profile": {
+    "scope": "one separate10secondCPUProfile/notAcceptanceFPS",
+    "totalUs": 10324737,
+    "samples": 10299,
+    "canonicalStateByteEqual": true,
+    "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+    "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+    "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+    "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+    "driverTicks": 0,
+    "completedRenders": 240,
+    "layoutSourceRows": [
+      {
+        "function": "layoutCastleRibbons",
+        "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts",
+        "line": 84,
+        "column": 16,
+        "selfUs": 1405676,
+        "inclusiveUs": 2112045,
+        "selfSamples": 1340
+      },
+      {
+        "function": "layoutGeographicLabels",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 157,
+        "column": 16,
+        "selfUs": 824828,
+        "inclusiveUs": 3490792,
+        "selfSamples": 789
+      },
+      {
+        "function": "edgeAxis",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 68,
+        "column": 9,
+        "selfUs": 597408,
+        "inclusiveUs": 759452,
+        "selfSamples": 568
+      }
+    ],
+    "topSelf": [
+      {
+        "function": "layoutCastleRibbons",
+        "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts",
+        "line": 84,
+        "column": 16,
+        "selfUs": 1405676,
+        "inclusiveUs": 2112045,
+        "selfSamples": 1340
+      },
+      {
+        "function": "layoutGeographicLabels",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 157,
+        "column": 16,
+        "selfUs": 824828,
+        "inclusiveUs": 3490792,
+        "selfSamples": 789
+      },
+      {
+        "function": "overlap",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 113,
+        "column": 9,
+        "selfUs": 706918,
+        "inclusiveUs": 706918,
+        "selfSamples": 672
+      },
+      {
+        "function": "edgeAxis",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 68,
+        "column": 9,
+        "selfUs": 597408,
+        "inclusiveUs": 759452,
+        "selfSamples": 568
+      },
+      {
+        "function": "layoutArmySignals",
+        "source": "../../src/ui/map/armySignalLayout.ts",
+        "line": 52,
+        "column": 16,
+        "selfUs": 463663,
+        "inclusiveUs": 1032437,
+        "selfSamples": 971
+      },
+      {
+        "function": "overlap",
+        "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts",
+        "line": 74,
+        "column": 9,
+        "selfUs": 343064,
+        "inclusiveUs": 343064,
+        "selfSamples": 326
+      },
+      {
+        "function": "(garbage collector)",
+        "source": "",
+        "line": 0,
+        "column": -1,
+        "selfUs": 296039,
+        "inclusiveUs": 296039,
+        "selfSamples": 279
+      },
+      {
+        "function": "overlap",
+        "source": "../../src/ui/map/armySignalLayout.ts",
+        "line": 40,
+        "column": 9,
+        "selfUs": 289185,
+        "inclusiveUs": 289185,
+        "selfSamples": 282
+      },
+      {
+        "function": "segmentRectDistance",
+        "source": "../../src/ui/map/roadLabelCapsules.ts",
+        "line": 85,
+        "column": 9,
+        "selfUs": 268824,
+        "inclusiveUs": 410695,
+        "selfSamples": 256
+      },
+      {
+        "function": "break",
+        "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.mjs",
+        "line": 130,
+        "column": 2,
+        "selfUs": 199690,
+        "inclusiveUs": 270935,
+        "selfSamples": 192
+      },
+      {
+        "function": "(program)",
+        "source": "",
+        "line": 0,
+        "column": -1,
+        "selfUs": 198756,
+        "inclusiveUs": 198756,
+        "selfSamples": 60
+      },
+      {
+        "function": "updateTransformAndChildren",
+        "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/scene/container/utils/updateRenderGroupTransforms.mjs",
+        "line": 55,
+        "column": 9,
+        "selfUs": 186781,
+        "inclusiveUs": 186781,
+        "selfSamples": 178
+      }
+    ]
+  },
+  "limitations": [
+    "Exactly one timing window per camera; no uncertainty estimate or repeated speedup claim",
+    "Strict mean60 and frame-timeP95<=1000/60 gates unchanged; all failures preserved",
+    "Strategy paused, driver disabled during timing; not full x5 live-campaign acceptance",
+    "Postrender cadence does not measure physical GPU presentation",
+    "Old frozen Pixi dependency hashes preserved; later root cache fixes not applied",
+    "Only existing named nonvisual run/cache counters excluded from functional parity",
+    "No app, dependency, workload, observer oracle, balance, or threshold changes beyond the single approved layout source transfer"
+  ],
+  "rawFiles": [
+    {
+      "file": "native-build.log.gz",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "9f6e696d0168647a95ec7aa5c71d5a89fec36b190b119ec956b2f0985f5d5dea",
+      "gzipSha256": "4bf0d2cce81f30438300f113226016118fd794221ed0b5f88da82e0747263835"
+    },
+    {
+      "file": "native-canonical-state.raw.json.gz",
+      "uncompressedBytes": 816643,
+      "uncompressedSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "gzipSha256": "2131493e97a0d61568ce79807f50bece03ac03fed840a27862b345a4bd2e1bf2"
+    },
+    {
+      "file": "native-close-profile-analysis.log.gz",
+      "uncompressedBytes": 4121,
+      "uncompressedSha256": "b2cc6468e6eda7bdce6c0d6b816da94a9d4094748b580e72fa51b907b8b8abf1",
+      "gzipSha256": "d8b10985cfc06d00e7967c2387129fbf627172ef52b454170dd93156d0e915d7"
+    },
+    {
+      "file": "native-close-profile-analysis.mjs.gz",
+      "uncompressedBytes": 1971,
+      "uncompressedSha256": "933991782def47ded81345a11dd8e4e78947fc87d17874da719f707c6c166e0e",
+      "gzipSha256": "44f1ded5db66577291e82e065859e28d279a4f2baf6962192cc445138280a4e2"
+    },
+    {
+      "file": "native-close-profile-source-summary.json.gz",
+      "uncompressedBytes": 71658,
+      "uncompressedSha256": "540ce824081d6b89397c8f710d6f4c70840a791b7fa28c79fda7b79a9e51065e",
+      "gzipSha256": "f0ca0f865549bdbc21f295ecadc42f62fe4a558262fc8d9dc7ad232ad40bd8b5"
+    },
+    {
+      "file": "native-close-profile-summary.json.gz",
+      "uncompressedBytes": 114438,
+      "uncompressedSha256": "edec0f7766b567172f6c74a671b50661aee52c3e6f0123d8c84b4281019aae24",
+      "gzipSha256": "144e830f8463dfc8cc37f8360d75386281be330c0058c928da515dfaf39b9928"
+    },
+    {
+      "file": "native-close-profile.log.gz",
+      "uncompressedBytes": 77,
+      "uncompressedSha256": "0b937eefa5b0e5398d1afe856568575e4df0e3305217bd259b54ec9f98a6377a",
+      "gzipSha256": "53ec996fa7fd1a2ea6b53943c9784667b1fbe8ed7033eff2f30601c51b1a7553"
+    },
+    {
+      "file": "native-close-profile.mjs.gz",
+      "uncompressedBytes": 3022,
+      "uncompressedSha256": "c46269cf8702bfa644485ef69e20f660832af884f9cfddffdf1104490c12a5e9",
+      "gzipSha256": "91f4d94a840daed869b14d234bfa0553577ea6f33b2f80479e4edf1bec0e1775"
+    },
+    {
+      "file": "native-close.cpuprofile.gz",
+      "uncompressedBytes": 318951,
+      "uncompressedSha256": "b85238f4103ba146722be63d3fdba75e56d4972c5f3aa98c4e9ba6364e43e8bf",
+      "gzipSha256": "d5ba016e35871d85a785d1a7e1127bd3eae08e947e728488fdd7a6159e9a6453"
+    },
+    {
+      "file": "native-close.log.gz",
+      "uncompressedBytes": 3000,
+      "uncompressedSha256": "f57a7ca336ab53110d063c8afd7085bde4a7dc22fdd8d79aa2f97ecf197d6ba5",
+      "gzipSha256": "1852f771e9c2dae17bfff9c78a99d5d84ad1714d62cce516395a26c0a8fc383b"
+    },
+    {
+      "file": "native-close.raw.json.gz",
+      "uncompressedBytes": 124383,
+      "uncompressedSha256": "0ef3e3c9e2a77219cdff83447f07a695333736df2f58ae768a09d0d4648b9685",
+      "gzipSha256": "840e041bbef4cfe6c50817aca3808d6c32d934216c35df816aea587640998e50"
+    },
+    {
+      "file": "native-dependency-manifest.json.gz",
+      "uncompressedBytes": 938,
+      "uncompressedSha256": "f1f830e577c7ef346199b480839a96655832c78ffa9b7fbd43dc69b95eef9fda",
+      "gzipSha256": "d13cc528b15d6fc6a97c9c4c11b832d26d985a0daebd4f3b4f6538f13c66e76d"
+    },
+    {
+      "file": "native-fps-control.spec.ts.gz",
+      "uncompressedBytes": 4470,
+      "uncompressedSha256": "2d39ba643aa3c0aa7a242d0e93d081806fe54bd64b650f1ab78cbf67d4f567e4",
+      "gzipSha256": "d9831afdd58ba882a7310b7c943d8d6762de07ad2a0b22232e3cad5c12df3d8e"
+    },
+    {
+      "file": "native-geographicLabelLayout.ts.gz",
+      "uncompressedBytes": 11478,
+      "uncompressedSha256": "cb78513986a155fe3a6aa843a89357e5211358e2d607c06310c3ee8262aa136d",
+      "gzipSha256": "c6aafaee13813b20c743f6190c7e4503c66649bfa7232d25473cf4daa7757f66"
+    },
+    {
+      "file": "native-observer.mjs.gz",
+      "uncompressedBytes": 3324,
+      "uncompressedSha256": "3ea424938698621395dbb62c420dc53c9a41d1fb318cf2d58daf2f24ad97d695",
+      "gzipSha256": "33a50ada4e9e05104c01bb49ff00b40f880135dac7dad814f04075de27c64727"
+    },
+    {
+      "file": "native-operational.log.gz",
+      "uncompressedBytes": 3042,
+      "uncompressedSha256": "568ce0e096fac626d26e496fbdb00010c3b2924f1a8166dfc005b38265a873bb",
+      "gzipSha256": "83e585eacae14b711c0cf19fe822d61d371c02f75b14d137460e25789dc92116"
+    },
+    {
+      "file": "native-operational.raw.json.gz",
+      "uncompressedBytes": 137789,
+      "uncompressedSha256": "24e0ed2e2df328a5592e4cbfd455a3df6b4f529e0b3e6781a6b9c4232d38599f",
+      "gzipSha256": "2c9c125d7e0f885e56e35436511d7c636f846e996ec69d35f0fa7ae5e0d81451"
+    },
+    {
+      "file": "native-overview.log.gz",
+      "uncompressedBytes": 3021,
+      "uncompressedSha256": "b4b670609b2b537b08afe548870a29849a397087c41f6129ff5c04f2deb49913",
+      "gzipSha256": "cd3426c0d79823d409e577973807d9ca643f39e3aedecc0c18d549c29f5d4dd6"
+    },
+    {
+      "file": "native-overview.raw.json.gz",
+      "uncompressedBytes": 148134,
+      "uncompressedSha256": "34116cdae47d1317375c917a51702ea77c7a67060d2513443b61029c1e6fa915",
+      "gzipSha256": "8491e9777d4c26eae9ee6dc7492cee6e2c0b3313f28a454f5cf54de339be714f"
+    },
+    {
+      "file": "native-parity-proof.json.gz",
+      "uncompressedBytes": 219,
+      "uncompressedSha256": "7c235d26dcc1e0f35e462692402521c18ae5e8bb3b1265982b969af65d402999",
+      "gzipSha256": "011560daf292e5353f1a910a432efe0f6c89be12414cca5fb491d8ff3213281a"
+    },
+    {
+      "file": "native-published.log.gz",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "afde4a9ad1005b66b5497028fdabf13d442d5a67832e001077c1c254312a4aa2",
+      "gzipSha256": "d65d1b4c20d0fd60e590a1b7546eccabbc4d14bfb9e939f22db7667d34f8dd48"
+    },
+    {
+      "file": "native-source-manifest.json.gz",
+      "uncompressedBytes": 81802,
+      "uncompressedSha256": "83736214c3360d99aebf71952ff970cbc0ebdbefc39e2dea1ea150c9ad80e2ab",
+      "gzipSha256": "f31060271e91c704a5baefaf6052c31d1717fdceb60386bce1702efff9180788"
+    },
+    {
+      "file": "native-source-proof.json.gz",
+      "uncompressedBytes": 85,
+      "uncompressedSha256": "05aa317dff7ba95b82a6094c4d6f4040a633b029ebcdffd86d3d60b8a7b503e9",
+      "gzipSha256": "dd5f4b5dced472fabe0feec8725e5096719b87a923ae9ecb74cb0e31cbdf43fd"
+    },
+    {
+      "file": "native-state-resource-proof.json.gz",
+      "uncompressedBytes": 2802,
+      "uncompressedSha256": "aff8f40940174c2ff2c336047d51470431484bc491b083f9362e939ced9235a7",
+      "gzipSha256": "c439f41634a929610e462c9fdc50af76fd26b5c20c5c0b9adecfe862e0aaa285"
+    },
+    {
+      "file": "native-transfer-manifest.json.gz",
+      "uncompressedBytes": 5773,
+      "uncompressedSha256": "6b32cff3bcb0ea62ff99d5a54747ec4cd7609a85d227daa785cbe79ba87a6405",
+      "gzipSha256": "338f66b73d7540d65d0ef488d105c0f024403938794ed0e1dcb646e78531f90d"
+    }
+  ],
+  "profileComparison": {
+    "referenceEvidence": "../national120-cadence-audit/native-close-profile-source-summary.json.gz",
+    "beforeTotalUs": 10298562,
+    "afterTotalUs": 10324737,
+    "beforeCompletedRenders": 240,
+    "afterCompletedRenders": 240,
+    "rows": [
+      {
+        "function": "layoutGeographicLabels",
+        "metric": "inclusiveUs",
+        "beforeUs": 3527482,
+        "afterUs": 3490792,
+        "beforeMsPerCompletedRender": 14.697841666666667,
+        "afterMsPerCompletedRender": 14.544966666666667,
+        "changePercent": -1.0401187022357594
+      },
+      {
+        "function": "edgeAxis",
+        "metric": "selfUs",
+        "beforeUs": 812408,
+        "afterUs": 597408,
+        "beforeMsPerCompletedRender": 3.3850333333333333,
+        "afterMsPerCompletedRender": 2.4892,
+        "changePercent": -26.464535061200777
+      },
+      {
+        "function": "layoutCastleRibbons",
+        "metric": "inclusiveUs",
+        "beforeUs": 2093915,
+        "afterUs": 2112045,
+        "beforeMsPerCompletedRender": 8.724645833333334,
+        "afterMsPerCompletedRender": 8.8001875,
+        "changePercent": 0.8658422142254985
+      }
+    ],
+    "interpretation": "One sample per version: lower edgeAxis self cost, negligible overall geographic inclusive change, no demonstrated FPS gain"
+  },
+  "transferArchive": {
+    "localPath": "/tmp/tenka-native-geo-transfer.tar.gz",
+    "remotePath": "sim3:/tmp/tenka-native-geo-transfer.tar.gz",
+    "sha256": "eff959e54dbeb47364dc049794f7541c5c96bebfa16570b4d62fbf2843ddfd67"
+  },
+  "disposition": {
+    "decision": "withdraw evaluated candidate from current runtime",
+    "reason": "Lower edgeAxis cost does not establish an overall geo or FPS benefit; added indexing/sorting complexity not justified",
+    "evidencePreservation": "Keep original a381b7d source commit and exact candidate source/raw/native observations unchanged"
+  }
+}
