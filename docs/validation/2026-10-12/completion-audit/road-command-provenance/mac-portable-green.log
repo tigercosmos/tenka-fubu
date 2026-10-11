@@ -1,0 +1,13 @@
+
+ RUN  v2.1.9 /Users/tigercosmos/tenka-fubu
+
+stdout | tests/ui/roadEarthHierarchy.spec.ts > actual packed-earth road hierarchy > retains every non-color soil instruction and all FAR/path/sea/bridge paint
+{"unchangedInstructionHash":"54b5360b7c513104726b01a3d89f09243284cf41934c88e0d6d0ada45d3effaa"}
+
+ ✓ |core| tests/ui/roadEarthHierarchy.spec.ts (3 tests) 15ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  05:54:24
+   Duration  400ms (transform 51ms, setup 0ms, collect 213ms, tests 15ms, environment 0ms, prepare 36ms)
+

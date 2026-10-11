@@ -1,0 +1,13 @@
+
+ RUN  v2.1.9 /tmp/tenka-20261012-sim2-browser
+
+stdout | tests/ui/roadEarthHierarchy.sim2-diagnostic.spec.ts > actual packed-earth road hierarchy > retains every non-color soil instruction and all FAR/path/sea/bridge paint
+{"unchangedInstructionHash":"5a3408597bda08ae1b76cb77bce5589db582edeea961e0428f4182e482635285"}
+
+ ✓ |core| tests/ui/roadEarthHierarchy.sim2-diagnostic.spec.ts (3 tests) 26ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  05:52:04
+   Duration  426ms (transform 91ms, setup 0ms, collect 213ms, tests 26ms, environment 0ms, prepare 71ms)
+

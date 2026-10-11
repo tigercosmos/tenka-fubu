@@ -1,0 +1,9 @@
+{
+  "src/ui/map/roads/roadsDraw.ts": "02e4c5ab3669425158dd41d2ffff327caf313ce6206a6a3f14aab697523a824a",
+  "src/ui/map/roads/roadMaterial.ts": "f63f2af32c088e78eb93a6f27df9f3dc0eb4d90bd67ee7e100ca7491b1c46977",
+  "src/ui/map/roads/roadGeometry.ts": "9575faf3a178c345b261a044336d2033f09500d0be02a1f66e1d36326fbbd238",
+  "src/ui/map/roads/projectPolyline.ts": "c7e66ca9c7868bcbdcbf143297adf2d0c2724f464b293511f1f226c868370b5c",
+  "src/ui/map/mapViewConfig.ts": "7d8ff1fd4dbb06b400c36dabda592a7439f4b91cf0f12c1aeeec9ec3000a9e0b",
+  "node_modules/pixi.js/lib/scene/graphics/shared/buildCommands/buildArc.mjs": "791a17de95868dcb4e4ea5637cc55f4c0a0a835902ffb6044025ad78b59682b3",
+  "tests/ui/roadEarthHierarchy.spec.ts": "8485e6ac528f09d30f9e5bcbe917b6fe53086eaa8dd4aa46c081f67489c838e0"
+}

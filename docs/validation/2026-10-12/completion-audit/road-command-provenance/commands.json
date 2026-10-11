@@ -1,0 +1,9 @@
+{
+  "focused": "npx vitest run tests/ui/roadEarthHierarchy.spec.ts",
+  "originalComparison": "Same test collector copied to temporary diagnostic file, bound to archived roadsDraw.original.ts (only roadMaterial import path rebound to archived roadMaterial.original.ts); retains every test selected; diagnostic collector writes JSON.stringify(unchanged) bytes before hash assertion. Current comparison uses same collector and production roadsDraw. Temporary files removed.",
+  "linuxPrefix": "cd /tmp/tenka-20261012-sim2-browser && export PATH=\"$PWD/runtime/node-v22.23.3-linux-x64/bin:$PATH\"",
+  "mutationProbes": "Private copies of current roadsDraw source with one exact replacement per row in mutation-probes.json; same portable collector selected with -t \"retains every\". All exit1 at hash assertion; private source and diagnostic files removed.",
+  "macWorkingDirectory": "/Users/tigercosmos/tenka-fubu",
+  "predecessorMaterialDifference": "Original roadsDraw differs only by absent colorOverride parameter and absent ROAD_SOIL_MATERIAL.casing override. Original roadMaterial has prior four soil RGBs and no new casing RGB; all five changed RGBs are the existing two omitted paint slots in each non-FAR grade2/3 land tier.",
+  "transformSemantics": "Pixi GraphicsPath.transform bakes transformation directly into the recorded coordinates and control points; per-command matrix data is also serialized. No path instructions or style fields are omitted."
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "file": "mac-original-raw.json.gz",
+    "rawBytes": 225378,
+    "sha256Uncompressed": "4522b68b3028ae21a3559e389ef67a02dc048302e68a64d0a09cea372ad48f94",
+    "source": "/tmp/tenka-road-hash-evidence/mac-original-raw.json"
+  },
+  {
+    "file": "mac-current-raw.json.gz",
+    "rawBytes": 225378,
+    "sha256Uncompressed": "4522b68b3028ae21a3559e389ef67a02dc048302e68a64d0a09cea372ad48f94",
+    "source": "/tmp/tenka-road-hash-evidence/mac-current-raw.json"
+  },
+  {
+    "file": "linux-original-raw.json.gz",
+    "rawBytes": 225375,
+    "sha256Uncompressed": "5a3408597bda08ae1b76cb77bce5589db582edeea961e0428f4182e482635285",
+    "source": "/tmp/tenka-road-hash-evidence/linux-original-raw.json"
+  },
+  {
+    "file": "linux-current-raw.json.gz",
+    "rawBytes": 225375,
+    "sha256Uncompressed": "5a3408597bda08ae1b76cb77bce5589db582edeea961e0428f4182e482635285",
+    "source": "/tmp/tenka-road-hash-evidence/linux-current-raw.json"
+  },
+  {
+    "file": "mac-command-current.json.gz",
+    "rawBytes": 223634,
+    "sha256Uncompressed": "54b5360b7c513104726b01a3d89f09243284cf41934c88e0d6d0ada45d3effaa",
+    "source": "/tmp/tenka-road-hash-evidence/mac-command-current.json"
+  },
+  {
+    "file": "linux-command-current.json.gz",
+    "rawBytes": 223634,
+    "sha256Uncompressed": "54b5360b7c513104726b01a3d89f09243284cf41934c88e0d6d0ada45d3effaa",
+    "source": "/tmp/tenka-road-hash-evidence/linux-command-current.json"
+  },
+  {
+    "file": "linux-command-original.json.gz",
+    "rawBytes": 223634,
+    "sha256Uncompressed": "54b5360b7c513104726b01a3d89f09243284cf41934c88e0d6d0ada45d3effaa",
+    "source": "/tmp/tenka-road-hash-evidence/linux-command-original.json"
+  },
+  {
+    "file": "mac-command-original.json.gz",
+    "rawBytes": 223634,
+    "sha256Uncompressed": "54b5360b7c513104726b01a3d89f09243284cf41934c88e0d6d0ada45d3effaa",
+    "source": "/tmp/tenka-road-hash-evidence/mac-command-original.json"
+  },
+  {
+    "file": "roadsDraw.original.ts.gz",
+    "rawBytes": 23685,
+    "sha256Uncompressed": "4c34ca839a1dc3c82a1a12ea1c828e51a8761138978f9dfb41b13e1dda6c9773",
+    "source": "/tmp/tenka-road-earth-hierarchy-20261011.MohxAw/roadsDraw.original.ts"
+  },
+  {
+    "file": "roadMaterial.original.ts.gz",
+    "rawBytes": 2735,
+    "sha256Uncompressed": "5dd3b46faec3ef260453027a9d6781c695619bae2d06a6e42013ffb6ecf3eb53",
+    "source": "/tmp/tenka-road-earth-hierarchy-20261011.MohxAw/roadMaterial.original.ts"
+  },
+  {
+    "file": "mac-runtime.json.gz",
+    "rawBytes": 529,
+    "sha256Uncompressed": "91530ff4f3a799717a89c52cf4bcea16f5e93b3815a2baa183e32ef1465a932b",
+    "source": "/tmp/tenka-road-hash-evidence/mac-runtime.json"
+  },
+  {
+    "file": "linux-runtime.json.gz",
+    "rawBytes": 515,
+    "sha256Uncompressed": "8278be297fe553a11f1b352603146fdf99163cf7092a60015f02ada8c9e5d8fb",
+    "source": "/tmp/tenka-road-hash-evidence/linux-runtime.json"
+  }
+]

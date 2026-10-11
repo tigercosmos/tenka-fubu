@@ -1,0 +1,33 @@
+
+ RUN  v2.1.9 /Users/tigercosmos/tenka-fubu
+
+stdout | tests/ui/roadEarthHierarchy.sim2-diagnostic.spec.ts > actual packed-earth road hierarchy > retains every non-color soil instruction and all FAR/path/sea/bridge paint
+{"unchangedInstructionHash":"df09e4b506cf57da1eca31b4045eb72c480f7cd71dd9c51f91aae42c0fa80b46"}
+
+ ❯ |core| tests/ui/roadEarthHierarchy.sim2-diagnostic.spec.ts (3 tests | 1 failed | 2 skipped) 16ms
+   × actual packed-earth road hierarchy > retains every non-color soil instruction and all FAR/path/sea/bridge paint 16ms
+     → expected 'df09e4b506cf57da1eca31b4045eb72c480f7…' to be '54b5360b7c513104726b01a3d89f09243284c…' // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL |core|  tests/ui/roadEarthHierarchy.sim2-diagnostic.spec.ts > actual packed-earth road hierarchy > retains every non-color soil instruction and all FAR/path/sea/bridge paint
+AssertionError: expected 'df09e4b506cf57da1eca31b4045eb72c480f7…' to be '54b5360b7c513104726b01a3d89f09243284c…' // Object.is equality
+
+Expected: "54b5360b7c513104726b01a3d89f09243284cf41934c88e0d6d0ada45d3effaa"
+Received: "df09e4b506cf57da1eca31b4045eb72c480f7cd71dd9c51f91aae42c0fa80b46"
+
+ ❯ tests/ui/roadEarthHierarchy.sim2-diagnostic.spec.ts:148:28
+    146|     // docs/validation/2026-10-12/completion-audit/road-command-proven…
+    147|     expect(unchanged).toHaveLength(22);
+    148|     expect(sha(unchanged)).toBe('54b5360b7c513104726b01a3d89f09243284c…
+       |                            ^
+    149|   });
+    150| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 skipped (3)
+   Start at  05:54:43
+   Duration  398ms (transform 51ms, setup 0ms, collect 181ms, tests 16ms, environment 0ms, prepare 40ms)
+

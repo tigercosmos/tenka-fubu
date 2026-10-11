@@ -48,10 +48,9 @@ function record(g: Graphics, omitSoilRgb = false) {
           pixelLine: i.data.style.pixelLine,
         }
       : {}),
-    shapes: i.data.path.shapePath.shapePrimitives.map((p) => ({
-      shape: p.shape,
-      transform: p.transform,
-    })),
+    // Preserve the producer's exact command arguments (including transforms),
+    // before Pixi arc tessellation introduces platform-specific sin/cos rounding.
+    commands: i.data.path.instructions,
   }));
 }
 function sha(value: unknown) {
@@ -142,8 +141,10 @@ describe('actual packed-earth road hierarchy', () => {
       }
     }
     console.info(JSON.stringify({ unchangedInstructionHash: sha(unchanged) }));
-    // Baseline hash is recorded from the actual old producer before the material edit.
+    // Recorded from the actual pre-material producer; exact old/current command
+    // vectors match on Mac and Linux. Raw tessellation and source provenance:
+    // docs/validation/2026-10-12/completion-audit/road-command-provenance/
     expect(unchanged).toHaveLength(22);
-    expect(sha(unchanged)).toBe('5a3408597bda08ae1b76cb77bce5589db582edeea961e0428f4182e482635285');
+    expect(sha(unchanged)).toBe('54b5360b7c513104726b01a3d89f09243284cf41934c88e0d6d0ada45d3effaa');
   });
 });

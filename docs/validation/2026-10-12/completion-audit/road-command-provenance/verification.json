@@ -1,0 +1,16 @@
+{
+  "rawTessellationHashMac": "4522b68b3028ae21a3559e389ef67a02dc048302e68a64d0a09cea372ad48f94",
+  "rawTessellationHashLinux": "5a3408597bda08ae1b76cb77bce5589db582edeea961e0428f4182e482635285",
+  "commandVectorHash": "54b5360b7c513104726b01a3d89f09243284cf41934c88e0d6d0ada45d3effaa",
+  "vectors": 22,
+  "sameHostOldCurrentRawBytesEqual": true,
+  "oldCurrentCommandBytesEqualOnBothHostsAndAcrossHosts": true,
+  "crossHostTessellationDifferences": 6,
+  "differingFields": "near sea-wave polygon y coordinates, instructions4/5, grades1/2/3",
+  "absoluteDelta": 1.4210854715202004e-14,
+  "sourceProducerUnchangedExceptMaterialRGB": true,
+  "originalSourceDirectory": "/tmp/tenka-road-earth-hierarchy-20261011.MohxAw",
+  "portableTestMac": "3 passed",
+  "portableTestLinux": "3 passed",
+  "qualification": "Exact emitted path commands and paint styles are compared; no rounding, numeric tolerance or OS-specific hash exception. Original producer import rebinding executes archived roadsDraw with archived roadMaterial; remaining unchanged dependency modules resolve from current same-host source."
+}

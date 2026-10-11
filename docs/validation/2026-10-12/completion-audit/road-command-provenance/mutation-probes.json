@@ -1,0 +1,42 @@
+[
+  {
+    "mutation": "width",
+    "before": "g.stroke({ width, color, alpha, cap: 'round', join: 'round' });",
+    "after": "g.stroke({ width: width + 0.125, color, alpha, cap: 'round', join: 'round' });",
+    "exitCode": 1,
+    "observedHash": "9fa8e6b557807b81b73f9e97b01e3e14006836520b31370d956acfef5ad38024",
+    "rejectedBy": "unchanged instruction hash assertion"
+  },
+  {
+    "mutation": "alpha",
+    "before": "g.stroke({ width, color, alpha, cap: 'round', join: 'round' });",
+    "after": "g.stroke({ width, color, alpha: alpha * 0.5, cap: 'round', join: 'round' });",
+    "exitCode": 1,
+    "observedHash": "ce9a4ba11968e3982f4f0a0a245cf94231a6076f7919748d4789a3cd85a49bd6",
+    "rejectedBy": "unchanged instruction hash assertion"
+  },
+  {
+    "mutation": "far-geometry",
+    "before": "const offset = ROAD_DEPTH_STYLE.shadowOffset * m;",
+    "after": "const offset = ROAD_DEPTH_STYLE.shadowOffset * m + (stage === 'far' ? 0.5 : 0);",
+    "exitCode": 1,
+    "observedHash": "0b12acdf070ef48f2b3ed3ac004665778a85f495c1f10b9690fbd08bcce35054",
+    "rejectedBy": "unchanged instruction hash assertion"
+  },
+  {
+    "mutation": "sea-arc-radius",
+    "before": "g.arc(cx, cy, radius, angle, angle + Math.PI);",
+    "after": "g.arc(cx, cy, radius + 0.5, angle, angle + Math.PI);",
+    "exitCode": 1,
+    "observedHash": "1320e66a077d61158c75d79143d996e52ff6adf4777dbed8ca4675d91ad21d62",
+    "rejectedBy": "unchanged instruction hash assertion"
+  },
+  {
+    "mutation": "bridge-deck-length",
+    "before": "const hl = (BRIDGE.deckLength * m) / 2;",
+    "after": "const hl = (BRIDGE.deckLength * m) / 2 + 0.5;",
+    "exitCode": 1,
+    "observedHash": "df09e4b506cf57da1eca31b4045eb72c480f7cd71dd9c51f91aae42c0fa80b46",
+    "rejectedBy": "unchanged instruction hash assertion"
+  }
+]
