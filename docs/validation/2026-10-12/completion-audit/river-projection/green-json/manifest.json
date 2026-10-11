@@ -1,0 +1,14 @@
+[
+  {
+    "file": "river-raw-rv.kiso.json.gz",
+    "sha256Uncompressed": "1ec3ef44e58c81c7d46c8145a543273a05446e9712c38cd34b096955b19b718b",
+    "rawBytes": 811269,
+    "outcome": "expected"
+  },
+  {
+    "file": "river-raw-rv.yodo.json.gz",
+    "sha256Uncompressed": "3b0e665377ca7c7d89c1a11e446294f9b409a41ea7b9d0f0ae74226ec271c2fa",
+    "rawBytes": 819478,
+    "outcome": "expected"
+  }
+]

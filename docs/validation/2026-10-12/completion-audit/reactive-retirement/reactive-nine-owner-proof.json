@@ -1,0 +1,193 @@
+{
+  "commit": "68e96a6",
+  "day": 0,
+  "fixture": "production national seed1, nine validated command-built invaders positioned at distinct hostile target nodes",
+  "selected": [
+    {
+      "owner": "clan.akamatsu",
+      "enemy": "clan.uragami",
+      "armyId": "army.000001",
+      "nodeId": "castle.tatsuno"
+    },
+    {
+      "owner": "clan.amago",
+      "enemy": "clan.yamana",
+      "armyId": "army.000002",
+      "nodeId": "castle.yonago"
+    },
+    {
+      "owner": "clan.ando",
+      "enemy": "clan.mogami",
+      "armyId": "army.000003",
+      "nodeId": "castle.minato"
+    },
+    {
+      "owner": "clan.asakura",
+      "enemy": "clan.rokkaku",
+      "armyId": "army.000004",
+      "nodeId": "dist.echizen-tsuruga"
+    },
+    {
+      "owner": "clan.ashikaga",
+      "enemy": "clan.miyoshi",
+      "armyId": "army.000005",
+      "nodeId": "castle.nijo"
+    },
+    {
+      "owner": "clan.ashina",
+      "enemy": "clan.date",
+      "armyId": "army.000006",
+      "nodeId": "castle.naganuma"
+    },
+    {
+      "owner": "clan.azai",
+      "enemy": "clan.saito",
+      "armyId": "army.000007",
+      "nodeId": "dist.omi-sakata"
+    },
+    {
+      "owner": "clan.chosokabe",
+      "enemy": "clan.ichijo",
+      "armyId": "army.000008",
+      "nodeId": "castle.oko"
+    },
+    {
+      "owner": "clan.date",
+      "enemy": "clan.ashina",
+      "armyId": "army.000009",
+      "nodeId": "castle.koori-nishiyama"
+    }
+  ],
+  "responded": [
+    "clan.akamatsu",
+    "clan.amago",
+    "clan.ando",
+    "clan.asakura",
+    "clan.ashikaga",
+    "clan.ashina",
+    "clan.azai",
+    "clan.chosokabe",
+    "clan.date"
+  ],
+  "intents": [
+    {
+      "day": 0,
+      "clanId": "clan.akamatsu",
+      "layer": "reactive",
+      "kind": "defense.hold",
+      "detail": {
+        "armyId": "army.000001",
+        "ratio": 0,
+        "reason": "cacheMissing"
+      },
+      "scores": null,
+      "commands": []
+    },
+    {
+      "day": 0,
+      "clanId": "clan.amago",
+      "layer": "reactive",
+      "kind": "defense.hold",
+      "detail": {
+        "armyId": "army.000002",
+        "ratio": 0,
+        "reason": "cacheMissing"
+      },
+      "scores": null,
+      "commands": []
+    },
+    {
+      "day": 0,
+      "clanId": "clan.ando",
+      "layer": "reactive",
+      "kind": "defense.hold",
+      "detail": {
+        "armyId": "army.000003",
+        "ratio": 0,
+        "reason": "cacheMissing"
+      },
+      "scores": null,
+      "commands": []
+    },
+    {
+      "day": 0,
+      "clanId": "clan.asakura",
+      "layer": "reactive",
+      "kind": "defense.hold",
+      "detail": {
+        "armyId": "army.000004",
+        "ratio": 0,
+        "reason": "cacheMissing"
+      },
+      "scores": null,
+      "commands": []
+    },
+    {
+      "day": 0,
+      "clanId": "clan.ashikaga",
+      "layer": "reactive",
+      "kind": "defense.hold",
+      "detail": {
+        "armyId": "army.000005",
+        "ratio": 0,
+        "reason": "cacheMissing"
+      },
+      "scores": null,
+      "commands": []
+    },
+    {
+      "day": 0,
+      "clanId": "clan.ashina",
+      "layer": "reactive",
+      "kind": "defense.hold",
+      "detail": {
+        "armyId": "army.000006",
+        "ratio": 0,
+        "reason": "cacheMissing"
+      },
+      "scores": null,
+      "commands": []
+    },
+    {
+      "day": 0,
+      "clanId": "clan.azai",
+      "layer": "reactive",
+      "kind": "defense.hold",
+      "detail": {
+        "armyId": "army.000007",
+        "ratio": 0,
+        "reason": "cacheMissing"
+      },
+      "scores": null,
+      "commands": []
+    },
+    {
+      "day": 0,
+      "clanId": "clan.chosokabe",
+      "layer": "reactive",
+      "kind": "defense.hold",
+      "detail": {
+        "armyId": "army.000008",
+        "ratio": 0,
+        "reason": "cacheMissing"
+      },
+      "scores": null,
+      "commands": []
+    },
+    {
+      "day": 0,
+      "clanId": "clan.date",
+      "layer": "reactive",
+      "kind": "defense.hold",
+      "detail": {
+        "armyId": "army.000009",
+        "ratio": 0,
+        "reason": "cacheMissing"
+      },
+      "scores": null,
+      "commands": []
+    }
+  ],
+  "commands": [],
+  "violations": []
+}

@@ -1,0 +1,373 @@
+{
+  "sourceBaseline": "68e96a6",
+  "host": "sim2",
+  "profile": false,
+  "redExitCode": 1,
+  "greenExitCode": 0,
+  "greenTestsPassed": 1,
+  "typecheck": "passed",
+  "lint": "passed",
+  "format": "passed",
+  "rows": [
+    {
+      "phase": "red",
+      "river": "rv.kiso",
+      "ranges": [21, 20.333333333333314, 17],
+      "acceptedRows": 22,
+      "rejected": [
+        {
+          "t": 0.18,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.18936170212765957,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.19872340425531915,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.20808510638297872,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.2174468085106383,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.22680851063829788,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.23617021276595745,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.24553191489361703,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.32978723404255317,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.3391489361702128,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.3485106382978723,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.3578723404255319,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.3672340425531915,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.39531914893617015,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.4327659574468085,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.45148936170212767,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.4795744680851064,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.4889361702127659,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.49829787234042555,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5076595744680852,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5263829787234042,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5357446808510637,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5451063829787234,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5731914893617021,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5919148936170213,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.6106382978723404,
+          "reason": "roundedpixel outside actual .65radius"
+        }
+      ]
+    },
+    {
+      "phase": "red",
+      "river": "rv.yodo",
+      "ranges": [8.666666666666671, 22.666666666666686, 13.333333333333343],
+      "acceptedRows": 33,
+      "rejected": [
+        {
+          "t": 0.2174468085106383,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.28297872340425534,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.311063829787234,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.32978723404255317,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.3485106382978723,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.3672340425531915,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.37659574468085105,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.39531914893617015,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.4608510638297872,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5263829787234042,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5451063829787234,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.554468085106383,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5731914893617021,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5919148936170213,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.6106382978723404,
+          "reason": "roundedpixel outside actual .65radius"
+        }
+      ]
+    },
+    {
+      "phase": "green",
+      "river": "rv.kiso",
+      "ranges": [6.333333333333329, 7, 9],
+      "acceptedRows": 23,
+      "rejected": [
+        {
+          "t": 0.22680851063829788,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.23617021276595745,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.24553191489361703,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.2548936170212766,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.29234042553191486,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.30170212765957444,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.311063829787234,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.3204255319148936,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.3672340425531915,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.37659574468085105,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.38595744680851063,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.39531914893617015,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.4046808510638298,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.41404255319148936,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.4421276595744681,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.4702127659574468,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.4889361702127659,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.49829787234042555,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5170212765957447,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5263829787234042,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5357446808510637,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5638297872340425,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5731914893617021,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.6012765957446808,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.62,
+          "reason": "roundedpixel outside actual .65radius"
+        }
+      ]
+    },
+    {
+      "phase": "green",
+      "river": "rv.yodo",
+      "ranges": [7.333333333333329, 6, 7.666666666666671],
+      "acceptedRows": 32,
+      "rejected": [
+        {
+          "t": 0.18,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.19872340425531915,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.20808510638297872,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.22680851063829788,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.29234042553191486,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.3578723404255319,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.37659574468085105,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.38595744680851063,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.4046808510638298,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.42340425531914894,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.4421276595744681,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.4702127659574468,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5357446808510637,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.5825531914893618,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.6012765957446808,
+          "reason": "roundedpixel outside actual .65radius"
+        },
+        {
+          "t": 0.62,
+          "reason": "roundedpixel outside actual .65radius"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "sourceBaseline": "68e96a6",
+  "profile": false,
+  "originalExitCode": 1,
+  "correctedExitCode": 1,
+  "remainingFailure": "Sunpu CLOSE has no unobscured wall pixel; per-view assertion retained",
+  "rows": [
+    {
+      "phase": "red",
+      "view": "town-castle.kiyosu-mid.json.gz",
+      "visibleWalls": 4,
+      "roofMeans": [
+        [134, 131.33333333333334],
+        [129, 96.66666666666667]
+      ]
+    },
+    {
+      "phase": "red",
+      "view": "town-castle.kiyosu-near.json.gz",
+      "visibleWalls": 4,
+      "roofMeans": [
+        [136.33333333333334, 163.66666666666666],
+        [109, 69.33333333333333]
+      ]
+    },
+    {
+      "phase": "red",
+      "view": "town-castle.sunpu-mid.json.gz",
+      "visibleWalls": 2,
+      "roofMeans": [[95.66666666666667, 121]]
+    },
+    {
+      "phase": "red",
+      "view": "town-castle.sunpu-near.json.gz",
+      "visibleWalls": 0,
+      "roofMeans": [[70.66666666666667, 109]]
+    },
+    {
+      "phase": "corrected",
+      "view": "town-castle.kiyosu-mid.json.gz",
+      "visibleWalls": 4,
+      "roofMeans": [
+        [101.66666666666667, 127],
+        [129, 96.66666666666667]
+      ]
+    },
+    {
+      "phase": "corrected",
+      "view": "town-castle.kiyosu-near.json.gz",
+      "visibleWalls": 4,
+      "roofMeans": [
+        [71.66666666666667, 108.66666666666667],
+        [109, 69.33333333333333]
+      ]
+    },
+    {
+      "phase": "corrected",
+      "view": "town-castle.sunpu-mid.json.gz",
+      "visibleWalls": 2,
+      "roofMeans": [[95.66666666666667, 121]]
+    },
+    {
+      "phase": "corrected",
+      "view": "town-castle.sunpu-near.json.gz",
+      "visibleWalls": 0,
+      "roofMeans": [[70.66666666666667, 109]]
+    }
+  ]
+}

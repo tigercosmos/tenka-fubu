@@ -1,0 +1,44 @@
+{
+  "checkedDate": "2026-10-12",
+  "sources": [
+    {
+      "url": "https://chromium.googlesource.com/v8/v8/+/refs/branch-heads/14.9/src/profiler/heap-snapshot-generator.h",
+      "symbol": "HeapGraphEdge::index",
+      "evidence": "int index() const returns index_; storage is int index_. ELEMENT and HIDDEN are the allowed indexed kinds.",
+      "lines": "83-85;104-107",
+      "excerpt": "int index() const { ... return index_; }"
+    },
+    {
+      "url": "https://chromium.googlesource.com/v8/v8/+/refs/branch-heads/14.9/src/profiler/heap-snapshot-generator.cc",
+      "symbol": "HeapSnapshotJSONSerializer::SerializeEdge",
+      "lines": "3759-3772",
+      "evidence": "ELEMENT/HIDDEN use edge->index(), other kinds GetStringId(edge->name()); numeric label is written with AddNumber independently of to_node_index.",
+      "excerpt": "writer_->AddNumber(edge_name_or_index);"
+    },
+    {
+      "url": "https://chromium.googlesource.com/v8/v8/+/refs/branch-heads/14.9/src/profiler/output-stream-writer.h",
+      "symbol": "OutputStreamWriter::AddNumber",
+      "evidence": "Writes numeric value using std::to_chars; it does not treat it as a string-table or target offset.",
+      "lines": "53-56",
+      "excerpt": "std::to_chars(chunk_.begin() + chunk_pos_, chunk_.end(), n);"
+    },
+    {
+      "url": "https://chromium.googlesource.com/v8/v8/+/main/tools/heap-snapshot-processor.py",
+      "symbol": "main edge decoding",
+      "evidence": "Official V8 processor converts ELEMENT/HIDDEN numeric labels directly to str; other numeric names index strings. Its comment warns documentation for name_or_index is wrong."
+    }
+  ],
+  "validation": {
+    "numericLabels": "signed safe integers for element/hidden",
+    "namedEdges": "nonnegative bounded string-table indexes",
+    "targets": "nonnegative safe integer offsets aligned to node width and bounded by nodes length",
+    "unreachableEdges": "validated too"
+  },
+  "redGreen": {
+    "beforeTests": "2 signed-label regressions fail Invalid heap edge index",
+    "afterTests": "12 pass",
+    "realBeforeAnalyzer": "unchanged original pair fails Invalid heap edge index",
+    "realAfterAnalyzer": "same original pair succeeds"
+  },
+  "limitation": "Post-GC specific identified-before ID absence only; not proof of stable whole heap or absence of other leaks."
+}

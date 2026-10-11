@@ -1,0 +1,26 @@
+[
+  {
+    "file": "town-castle.sunpu-near.json.gz",
+    "sha256Uncompressed": "c0a8f05e690b3efd7269512b37cba23718f048421c966b37feed391685582b2a",
+    "rawBytes": 868045,
+    "outcome": "unexpected"
+  },
+  {
+    "file": "town-castle.sunpu-mid.json.gz",
+    "sha256Uncompressed": "d615f47172e2bc7263c2d914f7bfe86fad012be8508a2da417db06c5e4277ceb",
+    "rawBytes": 864701,
+    "outcome": "unexpected"
+  },
+  {
+    "file": "town-castle.kiyosu-near.json.gz",
+    "sha256Uncompressed": "268b7f5942079c944e03531d3a140a7b706bde32dc702749e905b76d361b05b1",
+    "rawBytes": 900852,
+    "outcome": "unexpected"
+  },
+  {
+    "file": "town-castle.kiyosu-mid.json.gz",
+    "sha256Uncompressed": "855dcd4ed81aa2da0b982607acae33cc4cb518493517420790a91c8caae21dc0",
+    "rawBytes": 874854,
+    "outcome": "unexpected"
+  }
+]

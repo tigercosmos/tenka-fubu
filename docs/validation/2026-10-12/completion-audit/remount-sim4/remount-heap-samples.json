@@ -1,0 +1,60 @@
+{
+  "mode": "faction",
+  "resources": {
+    "ownedTextures": 2,
+    "ownedWaterTextures": 2,
+    "ownedWaterSources": 2,
+    "waterRgbaBytes": 79360,
+    "waterStyleListeners": 2,
+    "ownedRiverTextures": 10,
+    "ownedRiverSources": 10,
+    "riverRgbaBytes": 1078332,
+    "riverStyleListeners": 10,
+    "ownedRiverMaskGraphics": 10,
+    "ownedRiverDisplayGraphics": 10,
+    "ownedSeaTextures": 1,
+    "ownedSeaSources": 1,
+    "seaRgbaBytes": 1048576,
+    "ownedCoastTextures": 1,
+    "ownedCoastSources": 1,
+    "ownedCoastGeometries": 2,
+    "ownedElevatedMeshes": 1,
+    "ownedElevatedGeometries": 1,
+    "ownedElevatedBuffers": 2,
+    "ownedElevatedShaders": 1,
+    "ownedElevatedPrograms": 1,
+    "elevatedBufferBytes": 1966080,
+    "ownedCanopyMeshes": 10,
+    "ownedCanopyGeometries": 10,
+    "ownedCanopyBuffers": 20,
+    "canopyBufferBytes": 50220,
+    "ownedFoothillMeshes": 1,
+    "ownedFoothillGeometries": 1,
+    "ownedFoothillBuffers": 2,
+    "ownedFoothillShaders": 1,
+    "ownedFoothillPrograms": 1,
+    "foothillBufferBytes": 792600,
+    "coastRgbaBytes": 2048,
+    "coastGeometryBytes": 966184,
+    "ownedMountainShadeTextures": 0,
+    "ownedMountainShadeSources": 0,
+    "mountainShadeRgbaBytes": 0,
+    "sharedTerrainSprites": 0,
+    "eventListeners": 13
+  },
+  "cacheBefore": {
+    "fontAtlasCanvases": 10,
+    "canvas2dContexts": 16,
+    "bitmapTexts": 60
+  },
+  "cacheAfter": {
+    "fontAtlasCanvases": 10,
+    "canvas2dContexts": 16,
+    "bitmapTexts": 60
+  },
+  "usedHeapBytes": [
+    20639260, 20990856, 20996960, 20864900, 21271308, 21281932, 21345980, 21418932, 21237884,
+    21326536, 21691636, 21774860, 21901544, 21757372, 21973304, 21820856, 22107864, 21900480,
+    22201608, 22259616, 22322888
+  ]
+}

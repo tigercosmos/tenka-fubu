@@ -1,0 +1,416 @@
+{
+  "mode": "values",
+  "valueProof": false,
+  "passed": false,
+  "counts": {
+    "declared": 614,
+    "rows": 614,
+    "implemented": 591,
+    "shared": 591,
+    "compared": 591
+  },
+  "orphanKeys": [],
+  "missingRows": [
+    {
+      "name": "facRangeGunAtkBonus",
+      "value": "0.10",
+      "line": 196,
+      "source": "05 §3.4.2",
+      "disposition": "deferred",
+      "dispositionEvidence": "係數(攻擊加成) | 射擊場:該城鐵砲隊攻擊 ×(1+此值) | 05 §3.4.2 | ⚠ 延後：02 §8 二輪裁決 B 廢除 v1.0 的 Army.troopType；07 §3.2 禁止 v1 兵種分支。本列保留至 post-v1 兵種 schema 擴充，現行不進 `balance.ts`，不把全體部隊視為鐵砲隊。"
+    },
+    {
+      "name": "defaultDeathAge",
+      "value": "60",
+      "line": 270,
+      "source": "06 §3.9.1",
+      "disposition": "deferred",
+      "dispositionEvidence": "歲 | 無史實卒年者的預設死亡年齡基準 | 06 §3.9.1 | ⚠ 延後：14 §8 D19 已裁定 zOfficer.deathYear 必填且程序生成浪人自行產生卒年，無卒年 fallback 在現行資料契約不可達；待允許省略 deathYear 時與 fallback 一併實作，現行不進 `balance.ts`。"
+    },
+    {
+      "name": "defaultDeathAgeSpread",
+      "value": "8",
+      "line": 271,
+      "source": "06 §3.9.1",
+      "disposition": "deferred",
+      "dispositionEvidence": "歲(±) | 預設死亡年齡的隨機浮動範圍（60±8） | 06 §3.9.1 | ⚠ 延後：14 §8 D19 已裁定 zOfficer.deathYear 必填且程序生成浪人自行產生卒年，無卒年 fallback 在現行資料契約不可達；待允許省略 deathYear 時與 fallback 一併實作，現行不進 `balance.ts`。"
+    },
+    {
+      "name": "loyaltyFiefBonus",
+      "value": "10",
+      "line": 281,
+      "source": "06 §3.6.1",
+      "disposition": "deprecated",
+      "dispositionEvidence": "| 領主知行忠誠加成 | 05 `fiefLoyaltyBonus=5`+`fiefLoyaltyPerDistrict=3` vs 06 `loyaltyFiefBonus=10` | 採 05 分級式（`5+3×受封郡數`），於 06 忠誠管線內計；06 平坦常數廢 | 06 §3.6.1 |"
+    },
+    {
+      "name": "betrayalMoraleHit",
+      "value": "40",
+      "line": 396,
+      "source": "07 §3.11",
+      "disposition": "deprecated",
+      "dispositionEvidence": "點 | 發動內應一次性城士氣扣減 | 07 §3.11 | ⚠ 廢棄：內應效果單一真相改採 08（四輪裁決 B）——城士氣直接降至 `plotBetrayalMoraleFloor`(=5)、城主忠誠歸 0；本一次性−40 模型作廢（02 `CmdUseBetrayal` 註解／08 §3.7.3）"
+    },
+    {
+      "name": "dipBaseNonAggression",
+      "value": "20",
+      "line": 501,
+      "source": "08 §5.6.2",
+      "disposition": "v1.1",
+      "dispositionEvidence": "分(接受度基礎) | 不可侵條約提案基礎分 | 08 §5.6.2 | ⚠ E-23：不可侵條約降為 v1.1 擴充，v1.0 不實作（08 §1／§3.4.1）；本常數 v1.0 不進 `balance.ts`"
+    },
+    {
+      "name": "nonAggressionMonths",
+      "value": "24",
+      "line": 525,
+      "source": "08 §3.4.1",
+      "disposition": "v1.1",
+      "dispositionEvidence": "月 | 不可侵條約期限 | 08 §3.4.1 | ⚠ E-23：不可侵條約降為 v1.1 擴充，v1.0 不實作（08 §1／§3.4.1）；本常數 v1.0 不進 `balance.ts`"
+    },
+    {
+      "name": "sentimentPactSignedNonAggression",
+      "value": "+10",
+      "line": 585,
+      "source": "08 §3.3",
+      "disposition": "v1.1",
+      "dispositionEvidence": "點 | 締結不可侵條約一次性感情加成 | 08 §3.3 | ⚠ E-23：不可侵條約降為 v1.1 擴充，v1.0 不實作（08 §1／§3.4.1）；本常數 v1.0 不進 `balance.ts`"
+    },
+    {
+      "name": "trustCostNonAggression",
+      "value": "30",
+      "line": 603,
+      "source": "08 §3.4.1",
+      "disposition": "v1.1",
+      "dispositionEvidence": "點(信用) | 不可侵條約信用成本 | 08 §3.4.1 | ⚠ E-23：不可侵條約降為 v1.1 擴充，v1.0 不實作（08 §1／§3.4.1）；本常數 v1.0 不進 `balance.ts`"
+    },
+    {
+      "name": "diffAiCoopMaxCastles",
+      "value": "2/3/4",
+      "line": 681,
+      "source": "09 §3.9",
+      "disposition": "difficulty",
+      "dispositionEvidence": "- **難易度不進 `BAL`**：`BAL` 只存中立（玩家）數值；難易度四常數（`diffAi*`，§5.4）經 `getDifficultyMods(state)` 只作用於 AI（09 §3.9）。"
+    },
+    {
+      "name": "diffAiCouncilTimesPerMonth",
+      "value": "1/1/2",
+      "line": 682,
+      "source": "09 §3.9",
+      "disposition": "difficulty",
+      "dispositionEvidence": "- **難易度不進 `BAL`**：`BAL` 只存中立（玩家）數值；難易度四常數（`diffAi*`，§5.4）經 `getDifficultyMods(state)` 只作用於 AI（09 §3.9）。"
+    },
+    {
+      "name": "diffAiIncomeMult",
+      "value": "0.8/1.0/1.2",
+      "line": 683,
+      "source": "09 §3.9",
+      "disposition": "difficulty",
+      "dispositionEvidence": "- **難易度不進 `BAL`**：`BAL` 只存中立（玩家）數值；難易度四常數（`diffAi*`，§5.4）經 `getDifficultyMods(state)` 只作用於 AI（09 §3.9）。"
+    },
+    {
+      "name": "diffAiMoraleBonus",
+      "value": "0/0/10",
+      "line": 684,
+      "source": "09 §3.9",
+      "disposition": "difficulty",
+      "dispositionEvidence": "- **難易度不進 `BAL`**：`BAL` 只存中立（玩家）數值；難易度四常數（`diffAi*`，§5.4）經 `getDifficultyMods(state)` 只作用於 AI（09 §3.9）。"
+    },
+    {
+      "name": "armyDisbandSoldiers",
+      "value": "100",
+      "line": 751,
+      "source": "04 §5.8",
+      "disposition": "deprecated",
+      "dispositionEvidence": "人 | 兵力低於此值時部隊就地解散 | 04 §5.8 | ⚠ 廢除：潰走解散模型定案採 07 §3.4（抵我方城→併入城駐兵；全地圖無我方城→立即解散），非兵力門檻判定（四輪裁決 E-20，07 全勝）"
+    },
+    {
+      "name": "aiReactiveChecksPerTick",
+      "value": "8",
+      "line": 772,
+      "source": "03 §3.8.2、§8 D23",
+      "disposition": "retired",
+      "dispositionEvidence": "家/tick | 舊 AI 背景輪詢的勢力家數（歷史值） | 03 §3.8.2、§8 D23 | ⚠ 廢止：03 §8 D23（2026-10-12 新衝突裁決）依 02 §4.20 的 09 行為委託，保留 09 §3.10／§5.9 的同日事件反應，廢止八家背景輪詢；本列及原值保留供 audit 追溯，現行不進 `balance.ts`。"
+    },
+    {
+      "name": "kassenFieldH",
+      "value": "16",
+      "line": 789,
+      "source": "02 §5.7",
+      "disposition": "deprecated",
+      "dispositionEvidence": "格 | 合戰戰術戰場格高 | 02 §5.7 | ⚠ 廢除：依 02 §5.7 E-18／§8 DDR-12，改採陣（Jin）節點圖。"
+    },
+    {
+      "name": "kassenFieldW",
+      "value": "24",
+      "line": 790,
+      "source": "02 §5.7",
+      "disposition": "deprecated",
+      "dispositionEvidence": "格 | 合戰戰術戰場格寬 | 02 §5.7 | ⚠ 廢除：依 02 §5.7 E-18／§8 DDR-12，改採陣（Jin）節點圖。"
+    },
+    {
+      "name": "kassenMaxRounds",
+      "value": "60",
+      "line": 791,
+      "source": "02 §5.7",
+      "disposition": "deprecated",
+      "dispositionEvidence": "回合 | 合戰強制結束回合數 | 02 §5.7 | ⚠ 廢除：依 02 §8 DDR-12／E-19，改用 kassenMaxTicks＝120。"
+    },
+    {
+      "name": "allianceTrustMin",
+      "value": "60",
+      "line": 825,
+      "source": "17 §3.4.6",
+      "disposition": "deprecated",
+      "dispositionEvidence": "信用點 | 舊測試的同盟最低信用別名 | 17 §3.4.6 | ⚠ 廢除：依 08 §3.4.1 的信用至少達成本規則，提案及成立均使用 trustCostAlliance＝60；完整接受度另判，不新增同值別名。"
+    },
+    {
+      "name": "trustPerWorkMonth",
+      "value": "3",
+      "line": 827,
+      "source": "17 §3.4.6",
+      "disposition": "deprecated",
+      "dispositionEvidence": "信用點/月 | 舊測試的固定信用月增益 | 17 §3.4.6 | ⚠ 廢除：02 §8 D16 要求政務 100 時每月 6.0；改用 trustGainBase／trustGainPolDivisor／感情倍率公式，不進 BAL"
+    },
+    {
+      "name": "armyMaxSubOfficers",
+      "value": "2",
+      "line": 834,
+      "source": "11 §3.6",
+      "disposition": "deprecated",
+      "dispositionEvidence": "個(槽) | 部隊副將槽位數（建議初值；正式定義見 plan/07） | 11 §3.6 | ⚠ 廢除：舊 UI 別名；依較高優先序 02 §4.8／INV-06／§5.7，使用 maxDeputies＝2。"
+    },
+    {
+      "name": "battleSaihaiMax",
+      "value": "100",
+      "line": 835,
+      "source": "11 §3.11.1",
+      "disposition": "deprecated",
+      "dispositionEvidence": "點(采配) | 合戰采配上限（回復速率見 plan/07） | 11 §3.11.1 | ⚠ 廢除：舊 UI 別名；依 02 §4.9、07 §3.7／§5.8 及本表現行 saihaiMax＝20。"
+    },
+    {
+      "name": "soldiersPerKoku",
+      "value": "≈0.025",
+      "line": 841,
+      "source": "00 §6",
+      "disposition": "active",
+      "dispositionEvidence": null
+    }
+  ],
+  "exclusions": [
+    {
+      "name": "facRangeGunAtkBonus",
+      "value": "0.10",
+      "line": 196,
+      "source": "05 §3.4.2",
+      "disposition": "deferred",
+      "dispositionEvidence": "係數(攻擊加成) | 射擊場:該城鐵砲隊攻擊 ×(1+此值) | 05 §3.4.2 | ⚠ 延後：02 §8 二輪裁決 B 廢除 v1.0 的 Army.troopType；07 §3.2 禁止 v1 兵種分支。本列保留至 post-v1 兵種 schema 擴充，現行不進 `balance.ts`，不把全體部隊視為鐵砲隊。"
+    },
+    {
+      "name": "defaultDeathAge",
+      "value": "60",
+      "line": 270,
+      "source": "06 §3.9.1",
+      "disposition": "deferred",
+      "dispositionEvidence": "歲 | 無史實卒年者的預設死亡年齡基準 | 06 §3.9.1 | ⚠ 延後：14 §8 D19 已裁定 zOfficer.deathYear 必填且程序生成浪人自行產生卒年，無卒年 fallback 在現行資料契約不可達；待允許省略 deathYear 時與 fallback 一併實作，現行不進 `balance.ts`。"
+    },
+    {
+      "name": "defaultDeathAgeSpread",
+      "value": "8",
+      "line": 271,
+      "source": "06 §3.9.1",
+      "disposition": "deferred",
+      "dispositionEvidence": "歲(±) | 預設死亡年齡的隨機浮動範圍（60±8） | 06 §3.9.1 | ⚠ 延後：14 §8 D19 已裁定 zOfficer.deathYear 必填且程序生成浪人自行產生卒年，無卒年 fallback 在現行資料契約不可達；待允許省略 deathYear 時與 fallback 一併實作，現行不進 `balance.ts`。"
+    },
+    {
+      "name": "loyaltyFiefBonus",
+      "value": "10",
+      "line": 281,
+      "source": "06 §3.6.1",
+      "disposition": "deprecated",
+      "dispositionEvidence": "| 領主知行忠誠加成 | 05 `fiefLoyaltyBonus=5`+`fiefLoyaltyPerDistrict=3` vs 06 `loyaltyFiefBonus=10` | 採 05 分級式（`5+3×受封郡數`），於 06 忠誠管線內計；06 平坦常數廢 | 06 §3.6.1 |"
+    },
+    {
+      "name": "betrayalMoraleHit",
+      "value": "40",
+      "line": 396,
+      "source": "07 §3.11",
+      "disposition": "deprecated",
+      "dispositionEvidence": "點 | 發動內應一次性城士氣扣減 | 07 §3.11 | ⚠ 廢棄：內應效果單一真相改採 08（四輪裁決 B）——城士氣直接降至 `plotBetrayalMoraleFloor`(=5)、城主忠誠歸 0；本一次性−40 模型作廢（02 `CmdUseBetrayal` 註解／08 §3.7.3）"
+    },
+    {
+      "name": "dipBaseNonAggression",
+      "value": "20",
+      "line": 501,
+      "source": "08 §5.6.2",
+      "disposition": "v1.1",
+      "dispositionEvidence": "分(接受度基礎) | 不可侵條約提案基礎分 | 08 §5.6.2 | ⚠ E-23：不可侵條約降為 v1.1 擴充，v1.0 不實作（08 §1／§3.4.1）；本常數 v1.0 不進 `balance.ts`"
+    },
+    {
+      "name": "nonAggressionMonths",
+      "value": "24",
+      "line": 525,
+      "source": "08 §3.4.1",
+      "disposition": "v1.1",
+      "dispositionEvidence": "月 | 不可侵條約期限 | 08 §3.4.1 | ⚠ E-23：不可侵條約降為 v1.1 擴充，v1.0 不實作（08 §1／§3.4.1）；本常數 v1.0 不進 `balance.ts`"
+    },
+    {
+      "name": "sentimentPactSignedNonAggression",
+      "value": "+10",
+      "line": 585,
+      "source": "08 §3.3",
+      "disposition": "v1.1",
+      "dispositionEvidence": "點 | 締結不可侵條約一次性感情加成 | 08 §3.3 | ⚠ E-23：不可侵條約降為 v1.1 擴充，v1.0 不實作（08 §1／§3.4.1）；本常數 v1.0 不進 `balance.ts`"
+    },
+    {
+      "name": "trustCostNonAggression",
+      "value": "30",
+      "line": 603,
+      "source": "08 §3.4.1",
+      "disposition": "v1.1",
+      "dispositionEvidence": "點(信用) | 不可侵條約信用成本 | 08 §3.4.1 | ⚠ E-23：不可侵條約降為 v1.1 擴充，v1.0 不實作（08 §1／§3.4.1）；本常數 v1.0 不進 `balance.ts`"
+    },
+    {
+      "name": "diffAiCoopMaxCastles",
+      "value": "2/3/4",
+      "line": 681,
+      "source": "09 §3.9",
+      "disposition": "difficulty",
+      "dispositionEvidence": "- **難易度不進 `BAL`**：`BAL` 只存中立（玩家）數值；難易度四常數（`diffAi*`，§5.4）經 `getDifficultyMods(state)` 只作用於 AI（09 §3.9）。"
+    },
+    {
+      "name": "diffAiCouncilTimesPerMonth",
+      "value": "1/1/2",
+      "line": 682,
+      "source": "09 §3.9",
+      "disposition": "difficulty",
+      "dispositionEvidence": "- **難易度不進 `BAL`**：`BAL` 只存中立（玩家）數值；難易度四常數（`diffAi*`，§5.4）經 `getDifficultyMods(state)` 只作用於 AI（09 §3.9）。"
+    },
+    {
+      "name": "diffAiIncomeMult",
+      "value": "0.8/1.0/1.2",
+      "line": 683,
+      "source": "09 §3.9",
+      "disposition": "difficulty",
+      "dispositionEvidence": "- **難易度不進 `BAL`**：`BAL` 只存中立（玩家）數值；難易度四常數（`diffAi*`，§5.4）經 `getDifficultyMods(state)` 只作用於 AI（09 §3.9）。"
+    },
+    {
+      "name": "diffAiMoraleBonus",
+      "value": "0/0/10",
+      "line": 684,
+      "source": "09 §3.9",
+      "disposition": "difficulty",
+      "dispositionEvidence": "- **難易度不進 `BAL`**：`BAL` 只存中立（玩家）數值；難易度四常數（`diffAi*`，§5.4）經 `getDifficultyMods(state)` 只作用於 AI（09 §3.9）。"
+    },
+    {
+      "name": "armyDisbandSoldiers",
+      "value": "100",
+      "line": 751,
+      "source": "04 §5.8",
+      "disposition": "deprecated",
+      "dispositionEvidence": "人 | 兵力低於此值時部隊就地解散 | 04 §5.8 | ⚠ 廢除：潰走解散模型定案採 07 §3.4（抵我方城→併入城駐兵；全地圖無我方城→立即解散），非兵力門檻判定（四輪裁決 E-20，07 全勝）"
+    },
+    {
+      "name": "aiReactiveChecksPerTick",
+      "value": "8",
+      "line": 772,
+      "source": "03 §3.8.2、§8 D23",
+      "disposition": "retired",
+      "dispositionEvidence": "家/tick | 舊 AI 背景輪詢的勢力家數（歷史值） | 03 §3.8.2、§8 D23 | ⚠ 廢止：03 §8 D23（2026-10-12 新衝突裁決）依 02 §4.20 的 09 行為委託，保留 09 §3.10／§5.9 的同日事件反應，廢止八家背景輪詢；本列及原值保留供 audit 追溯，現行不進 `balance.ts`。"
+    },
+    {
+      "name": "kassenFieldH",
+      "value": "16",
+      "line": 789,
+      "source": "02 §5.7",
+      "disposition": "deprecated",
+      "dispositionEvidence": "格 | 合戰戰術戰場格高 | 02 §5.7 | ⚠ 廢除：依 02 §5.7 E-18／§8 DDR-12，改採陣（Jin）節點圖。"
+    },
+    {
+      "name": "kassenFieldW",
+      "value": "24",
+      "line": 790,
+      "source": "02 §5.7",
+      "disposition": "deprecated",
+      "dispositionEvidence": "格 | 合戰戰術戰場格寬 | 02 §5.7 | ⚠ 廢除：依 02 §5.7 E-18／§8 DDR-12，改採陣（Jin）節點圖。"
+    },
+    {
+      "name": "kassenMaxRounds",
+      "value": "60",
+      "line": 791,
+      "source": "02 §5.7",
+      "disposition": "deprecated",
+      "dispositionEvidence": "回合 | 合戰強制結束回合數 | 02 §5.7 | ⚠ 廢除：依 02 §8 DDR-12／E-19，改用 kassenMaxTicks＝120。"
+    },
+    {
+      "name": "allianceTrustMin",
+      "value": "60",
+      "line": 825,
+      "source": "17 §3.4.6",
+      "disposition": "deprecated",
+      "dispositionEvidence": "信用點 | 舊測試的同盟最低信用別名 | 17 §3.4.6 | ⚠ 廢除：依 08 §3.4.1 的信用至少達成本規則，提案及成立均使用 trustCostAlliance＝60；完整接受度另判，不新增同值別名。"
+    },
+    {
+      "name": "trustPerWorkMonth",
+      "value": "3",
+      "line": 827,
+      "source": "17 §3.4.6",
+      "disposition": "deprecated",
+      "dispositionEvidence": "信用點/月 | 舊測試的固定信用月增益 | 17 §3.4.6 | ⚠ 廢除：02 §8 D16 要求政務 100 時每月 6.0；改用 trustGainBase／trustGainPolDivisor／感情倍率公式，不進 BAL"
+    },
+    {
+      "name": "armyMaxSubOfficers",
+      "value": "2",
+      "line": 834,
+      "source": "11 §3.6",
+      "disposition": "deprecated",
+      "dispositionEvidence": "個(槽) | 部隊副將槽位數（建議初值；正式定義見 plan/07） | 11 §3.6 | ⚠ 廢除：舊 UI 別名；依較高優先序 02 §4.8／INV-06／§5.7，使用 maxDeputies＝2。"
+    },
+    {
+      "name": "battleSaihaiMax",
+      "value": "100",
+      "line": 835,
+      "source": "11 §3.11.1",
+      "disposition": "deprecated",
+      "dispositionEvidence": "點(采配) | 合戰采配上限（回復速率見 plan/07） | 11 §3.11.1 | ⚠ 廢除：舊 UI 別名；依 02 §4.9、07 §3.7／§5.8 及本表現行 saihaiMax＝20。"
+    }
+  ],
+  "unsupportedValues": [],
+  "otherCanonicalEvidence": [],
+  "derivedCalibrations": [
+    {
+      "name": "soldiersPerKoku",
+      "line": 841,
+      "declaredApproximateValue": "≈0.025",
+      "basis": {
+        "name": "soldiersPerPop",
+        "line": 246,
+        "expected": 0.025,
+        "actual": 0.025
+      },
+      "evidence": [
+        {
+          "role": "derivation",
+          "line": 79,
+          "text": "1. `soldiersPerKoku ≈ 0.025`：1 萬石 ≈ 250 常備兵。以 `soldiersPerPop = 0.025` 且劇本「郡人口 ≈ 郡石高」達成（05 §3.2.1）。"
+        },
+        {
+          "role": "population-formula",
+          "line": 947,
+          "text": "| 城最大兵力 | 05 `maxSoldiers`（城格基礎 本1000/支500 + floor(Σpop×`soldiersPerPop` 0.025)×政策係數，含兵舍 +500） vs 02 §5.1 selector `castleMaxSoldiers` 用 `garrisonPopRatio`(0.08) | 採 05 `maxSoldiers` 為唯一公式（0.025 由 00 §6 校準；0.08 給每萬人 800 兵違反目標）；`garrisonPopRatio` 刪，02 selector 改引 05 公式 | 02 §5.1/§5.7 |"
+        }
+      ],
+      "assumption": {
+        "text": "郡人口 ≈ 郡石高",
+        "validated": false
+      },
+      "status": "unverified-calibration"
+    }
+  ],
+  "issues": [
+    {
+      "kind": "unverified-calibration",
+      "name": "soldiersPerKoku",
+      "evidence": "Main-table line 841; derivation line 79; population-formula line 947. Scenario population approximately equals kokudaka; scenario data is not validated by this audit."
+    }
+  ]
+}
