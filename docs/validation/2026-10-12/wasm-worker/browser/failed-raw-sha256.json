@@ -1,0 +1,22 @@
+{
+  "tenka-sim2-worker60-raw.json": {
+    "sha256": "619acd0717ed5a6fb4b3a728dec89d6b3ceb69080f67fcede4a303409df22c02",
+    "bytes": 3836813,
+    "accepted": false
+  },
+  "tenka-sim2-worker120-raw.json": {
+    "sha256": "54c4f52679e1e3d5b603e87b7e1af7774762d57a244780fdd6ba8c1c27bde31a",
+    "bytes": 4419177,
+    "accepted": false
+  },
+  "alias-worker60-raw.json": {
+    "sha256": "9eaf1cc22c9199db31228993d7b548700d1104adc40bde61967d6826cec42a77",
+    "bytes": 3837796,
+    "accepted": false
+  },
+  "alias-worker120-raw.json": {
+    "sha256": "4cf2079c54ae532b3114926a78b811ca6a6365d217f1617dafbece922d5e0b12",
+    "bytes": 3954051,
+    "accepted": false
+  }
+}

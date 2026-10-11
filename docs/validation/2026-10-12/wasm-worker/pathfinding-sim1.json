@@ -1,0 +1,251 @@
+{
+  "host": "linux",
+  "arch": "x64",
+  "node": "v22.23.3",
+  "nodes": 465,
+  "edges": 495,
+  "checksum": 562880,
+  "found": 478,
+  "rows": [
+    {
+      "round": 0,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 27.714429999999965
+    },
+    {
+      "round": 0,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.473790999999949
+    },
+    {
+      "round": 1,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.98533500000002
+    },
+    {
+      "round": 1,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 26.949100999999985
+    },
+    {
+      "round": 2,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 26.581927000000007
+    },
+    {
+      "round": 2,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.63623899999999
+    },
+    {
+      "round": 3,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.51542999999998
+    },
+    {
+      "round": 3,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 27.59681999999998
+    },
+    {
+      "round": 4,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 26.61784499999999
+    },
+    {
+      "round": 4,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.459437999999977
+    },
+    {
+      "round": 5,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.46934699999997
+    },
+    {
+      "round": 5,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 26.72824499999996
+    },
+    {
+      "round": 6,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 26.510444000000007
+    },
+    {
+      "round": 6,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.437471000000016
+    },
+    {
+      "round": 7,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.870850000000019
+    },
+    {
+      "round": 7,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 27.613868000000025
+    },
+    {
+      "round": 8,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 27.315803999999957
+    },
+    {
+      "round": 8,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.911184000000048
+    },
+    {
+      "round": 9,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.74813800000004
+    },
+    {
+      "round": 9,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 27.365216000000032
+    },
+    {
+      "round": 10,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 26.912396000000058
+    },
+    {
+      "round": 10,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 15.013569999999959
+    },
+    {
+      "round": 11,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.761676999999963
+    },
+    {
+      "round": 11,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 27.375005999999985
+    },
+    {
+      "round": 12,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 27.290358999999967
+    },
+    {
+      "round": 12,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.836991000000012
+    },
+    {
+      "round": 13,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.943978000000016
+    },
+    {
+      "round": 13,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 27.332834999999932
+    },
+    {
+      "round": 14,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 27.54975300000001
+    },
+    {
+      "round": 14,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 15.033300000000054
+    },
+    {
+      "round": 15,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.963922000000025
+    },
+    {
+      "round": 15,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 30.968265000000088
+    },
+    {
+      "round": 16,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 27.780331000000047
+    },
+    {
+      "round": 16,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 14.9789770000001
+    },
+    {
+      "round": 17,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 15.06255299999998
+    },
+    {
+      "round": 17,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 27.46710699999994
+    },
+    {
+      "round": 18,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 27.122765000000072
+    },
+    {
+      "round": 18,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 13.764864999999872
+    },
+    {
+      "round": 19,
+      "backend": "wasm",
+      "queries": 4096,
+      "ms": 13.889263000000028
+    },
+    {
+      "round": 19,
+      "backend": "js",
+      "queries": 4096,
+      "ms": 27.266230000000178
+    }
+  ]
+}

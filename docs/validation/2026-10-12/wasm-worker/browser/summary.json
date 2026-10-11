@@ -1,0 +1,241 @@
+{
+  "normal-x5-worker-paced-sync-responsiveness.json": {
+    "rows": [
+      {
+        "backend": "worker",
+        "days": 29,
+        "durationMs": 3612.3999996185303,
+        "longTasks": 3,
+        "longTaskTotalMs": 180,
+        "longTaskP95Ms": 67,
+        "longTaskMaxMs": 67,
+        "frameGapP95Ms": 21.199999809265137,
+        "frameGapMaxMs": 82.59999990463257,
+        "cold": null,
+        "profilerEnabled": false,
+        "labelCache": {
+          "computed": 1012,
+          "reused": 817,
+          "entries": 156
+        }
+      },
+      {
+        "backend": "sync",
+        "days": 29,
+        "durationMs": 3546.699999809265,
+        "longTasks": 4,
+        "longTaskTotalMs": 235,
+        "longTaskP95Ms": 68,
+        "longTaskMaxMs": 68,
+        "frameGapP95Ms": 22.800000190734863,
+        "frameGapMaxMs": 129.90000009536743,
+        "cold": null,
+        "profilerEnabled": false,
+        "labelCache": {
+          "computed": 1009,
+          "reused": 817,
+          "entries": 156
+        }
+      }
+    ],
+    "stateEqual": true,
+    "logEqual": true
+  },
+  "same-host-120-day-worker-responsiveness.json": {
+    "rows": [
+      {
+        "backend": "sync",
+        "days": 120,
+        "durationMs": 974.2000002861023,
+        "longTasks": 1,
+        "longTaskTotalMs": 974,
+        "longTaskP95Ms": 974,
+        "longTaskMaxMs": 974,
+        "frameGapP95Ms": 1067.5999999046326,
+        "frameGapMaxMs": 1067.5999999046326,
+        "cold": {
+          "backend": "sync",
+          "requestedDays": 1,
+          "completedDays": 1,
+          "durationMs": 15.5,
+          "started": 2081.300000190735,
+          "ended": 2096.800000190735,
+          "frames": [
+            2041.5, 2058.5, 2076.9000000953674, 2100.2000002861023, 2107.5999999046326, 2125,
+            2144.7000002861023, 2162.2000002861023, 2177.2000002861023
+          ],
+          "frameGapsMs": [
+            17, 18.40000009536743, 23.300000190734863, 7.399999618530273, 17.40000009536743,
+            19.700000286102295, 17.5, 15
+          ],
+          "longTasks": [],
+          "simulation": {
+            "backend": "worker",
+            "workerReady": false,
+            "wasmLoaded": false,
+            "wasmBackend": null,
+            "pathfinderBackend": null,
+            "generation": 3,
+            "pendingTicks": 0,
+            "completedWorkerTicks": 0,
+            "droppedStaleResponses": 0
+          }
+        },
+        "profilerEnabled": false,
+        "labelCache": {
+          "computed": 869,
+          "reused": 149,
+          "entries": 156
+        }
+      },
+      {
+        "backend": "worker",
+        "days": 120,
+        "durationMs": 2595.699999809265,
+        "longTasks": 3,
+        "longTaskTotalMs": 172,
+        "longTaskP95Ms": 67,
+        "longTaskMaxMs": 67,
+        "frameGapP95Ms": 21.199999809265137,
+        "frameGapMaxMs": 129,
+        "cold": {
+          "backend": "worker",
+          "requestedDays": 1,
+          "completedDays": 1,
+          "durationMs": 34.80000019073486,
+          "started": 1980.4000000953674,
+          "ended": 2015.2000002861023,
+          "frames": [
+            1933.5, 1943.5, 1960.5, 1978.8000001907349, 1995.4000000953674, 2018.8000001907349,
+            2026.4000000953674, 2043.9000000953674, 2060.9000000953674, 2078.5, 2094.7000002861023
+          ],
+          "frameGapsMs": [
+            10, 17, 18.300000190734863, 16.59999990463257, 23.40000009536743, 7.599999904632568,
+            17.5, 17, 17.59999990463257, 16.200000286102295
+          ],
+          "longTasks": [],
+          "simulation": {
+            "backend": "worker",
+            "workerReady": true,
+            "wasmLoaded": true,
+            "wasmBackend": "rust-wasm",
+            "pathfinderBackend": "rust-wasm",
+            "generation": 3,
+            "pendingTicks": 0,
+            "completedWorkerTicks": 1,
+            "droppedStaleResponses": 0
+          }
+        },
+        "profilerEnabled": false,
+        "labelCache": {
+          "computed": 1099,
+          "reused": 417,
+          "entries": 156
+        }
+      }
+    ],
+    "stateEqual": true,
+    "logEqual": true
+  },
+  "same-host-60-day-worker-responsiveness.json": {
+    "rows": [
+      {
+        "backend": "sync",
+        "days": 60,
+        "durationMs": 515.7000002861023,
+        "longTasks": 1,
+        "longTaskTotalMs": 515,
+        "longTaskP95Ms": 515,
+        "longTaskMaxMs": 515,
+        "frameGapP95Ms": 589,
+        "frameGapMaxMs": 589,
+        "cold": {
+          "backend": "sync",
+          "requestedDays": 1,
+          "completedDays": 1,
+          "durationMs": 13.300000190734863,
+          "started": 2120.2999997138977,
+          "ended": 2133.5999999046326,
+          "frames": [
+            2085.4000000953674, 2101.5, 2120.0999999046326, 2137.2999997138977, 2151.199999809265,
+            2170.199999809265, 2186.199999809265, 2203.2999997138977, 2222.199999809265
+          ],
+          "frameGapsMs": [
+            16.09999990463257, 18.59999990463257, 17.199999809265137, 13.900000095367432, 19, 16,
+            17.09999990463257, 18.90000009536743
+          ],
+          "longTasks": [],
+          "simulation": {
+            "backend": "worker",
+            "workerReady": false,
+            "wasmLoaded": false,
+            "wasmBackend": null,
+            "pathfinderBackend": null,
+            "generation": 3,
+            "pendingTicks": 0,
+            "completedWorkerTicks": 0,
+            "droppedStaleResponses": 0
+          }
+        },
+        "profilerEnabled": false,
+        "labelCache": {
+          "computed": 875,
+          "reused": 173,
+          "entries": 156
+        }
+      },
+      {
+        "backend": "worker",
+        "days": 60,
+        "durationMs": 1302.4000000953674,
+        "longTasks": 2,
+        "longTaskTotalMs": 114,
+        "longTaskP95Ms": 63,
+        "longTaskMaxMs": 63,
+        "frameGapP95Ms": 21.700000286102295,
+        "frameGapMaxMs": 137.40000009536743,
+        "cold": {
+          "backend": "worker",
+          "requestedDays": 1,
+          "completedDays": 1,
+          "durationMs": 82.09999990463257,
+          "started": 1856.6000003814697,
+          "ended": 1938.7000002861023,
+          "frames": [
+            1856.2000002861023, 1927.6000003814697, 1943.2000002861023, 1948.1000003814697, 1957.5,
+            1974, 1991.5, 2008.7000002861023, 2026
+          ],
+          "frameGapsMs": [
+            71.40000009536743, 15.599999904632568, 4.900000095367432, 9.399999618530273, 16.5, 17.5,
+            17.200000286102295, 17.299999713897705
+          ],
+          "longTasks": [
+            {
+              "startTime": 1858.3000001907349,
+              "duration": 69
+            }
+          ],
+          "simulation": {
+            "backend": "worker",
+            "workerReady": true,
+            "wasmLoaded": true,
+            "wasmBackend": "rust-wasm",
+            "pathfinderBackend": "rust-wasm",
+            "generation": 3,
+            "pendingTicks": 0,
+            "completedWorkerTicks": 1,
+            "droppedStaleResponses": 0
+          }
+        },
+        "profilerEnabled": false,
+        "labelCache": {
+          "computed": 1088,
+          "reused": 166,
+          "entries": 156
+        }
+      }
+    ],
+    "stateEqual": true,
+    "logEqual": true
+  }
+}

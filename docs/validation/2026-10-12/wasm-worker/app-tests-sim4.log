@@ -1,0 +1,688 @@
+
+> tenka-fubu@0.0.0 test:app
+> vitest run --project app --passWithNoTests --minWorkers=2 --maxWorkers=2
+
+
+ RUN  v2.1.9 /tmp/tenka-audit-20261012.Ok8OR1/repo
+
+ ✓ |app| tests/app/saveLoadConsent.spec.tsx (31 tests) 603ms
+ ✓ |app| tests/app/useSaveLoad.spec.tsx (32 tests) 2454ms
+ ✓ |app| tests/app/diplomacyPactConsent.spec.tsx (32 tests) 556ms
+ ✓ |app| tests/app/proposalDescription.spec.tsx (15 tests) 87ms
+ ✓ |app| tests/app/plotCancellationConsent.spec.tsx (32 tests) 490ms
+ ✓ |app| tests/app/monthSummaryFlow.spec.ts (22 tests) 39ms
+stderr | tests/app/AppSessionRestore.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |app| tests/app/eventModalHost.spec.tsx (14 tests) 256ms
+ ✓ |app| tests/app/captiveConsent.spec.tsx (31 tests) 335ms
+ ✓ |app| tests/app/AppSessionRestore.spec.tsx (12 tests) 1443ms
+   ✓ App loaded session routing without a strategy tick > keeps SystemMenu ownership while a real nested delete refreshes its save list 363ms
+ ✓ |app| src/app/worker/worker.spec.ts (13 tests) 39ms
+ ✓ |app| tests/app/earnedCaptiveHandoff.spec.tsx (8 tests) 319ms
+ ✓ |app| tests/app/saveStore.spec.ts (17 tests) 107ms
+ ✓ |app| tests/app/courtNominationConsent.spec.tsx (26 tests) 1670ms
+stderr | tests/app/earnedRegionalEndingJourney.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+stderr | tests/app/debug.spec.ts
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |app| tests/app/debug.spec.ts (27 tests) 201ms
+stderr | tests/app/AppEventIntegration.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |app| tests/app/earnedRegionalEndingJourney.spec.tsx (2 tests) 4462ms
+   ✓ earns actual two-clan s1560 regional unification and exactly repeats native-pending commands, events, RNG and state 3032ms
+   ✓ loads the earned regional ending into actual App and continues without a phantom day or repeated victory 1430ms
+ ✓ |app| tests/app/liveMapWorkload.spec.ts (10 tests) 4239ms
+   ✓ authentic live national map workload > fails closed on unexpected captured endpoints or destinations without changing the canonical game 412ms
+   ✓ authentic live national map workload > reverses the actual alternate physical leg after canonical source arrival spends residual movement 1746ms
+   ✓ authentic live national map workload > prepares real forty marches, then drives paid reversals and actual source arrivals without mutating queries 586ms
+   ✓ authentic live national map workload > accepts forty actual driver orders alongside a paused native catalog choice resolution 391ms
+ ✓ |app| tests/app/AppEventIntegration.spec.tsx (6 tests) 7518ms
+   ✓ real App pending event integration > opens Taimei from the real App rail and applies confirmed consent only at the normal tick 1174ms
+   ✓ real App pending event integration > restores a saved pending choice through the actual App quick-load mount order without losing its owned modal 2081ms
+   ✓ real App pending event integration > shows an actual generic harvest from a real Step3 firing, without inventing a pending choice 1414ms
+   ✓ real App pending event integration > shows a mandatory event and applies exactly one canonical tick while preserving manual pause 973ms
+   ✓ real App pending event integration > rebuilds actual saved district/castle/clan names after codec restoration and session reinitialization 925ms
+   ✓ real App pending event integration > keeps an unavailable engine mandatory and exports current progress without clearing or advancing state 951ms
+ ✓ |app| tests/app/saveSlotConsent.spec.ts (15 tests) 57ms
+ ✓ |app| tests/app/corpsConsentOwnership.spec.tsx (25 tests) 405ms
+ ✓ |app| tests/app/castleRecruitFlow.spec.tsx (22 tests) 151ms
+ ✓ |app| tests/app/systemMenuConsent.spec.tsx (23 tests) 410ms
+ ✓ |app| tests/app/policyDetails.spec.tsx (16 tests) 337ms
+ ✓ |app| tests/app/eventChoiceSession.spec.ts (11 tests) 27ms
+ ✓ |app| tests/app/taimeiConsentOwnership.spec.tsx (25 tests) 408ms
+ ✓ |app| tests/app/gameLoop.spec.ts (17 tests) 21ms
+ ✓ |app| tests/app/bridge.spec.ts (24 tests) 37ms
+stderr | tests/app/quickLoadConsent.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |app| tests/app/rewardRoster.spec.tsx (7 tests) 423ms
+ ✓ |app| tests/app/riceTradePane.spec.tsx (9 tests) 348ms
+ ✓ |app| tests/app/devInvariants.spec.ts (15 tests) 344ms
+   ✓ DEV completed-tick invariants > does not fatal a new session installed by live-driver disposal 302ms
+ ✓ |app| tests/app/proposalDecisionOwnership.spec.tsx (8 tests) 138ms
+ ✓ |app| tests/app/eventViewModel.spec.ts (11 tests) 15ms
+ ✓ |app| tests/app/quickLoadConsent.spec.tsx (13 tests) 2448ms
+   ✓ does not let retained quickload consent load over a same-ID native replacement game 344ms
+   ✓ does not load different quick-slot bytes written after the original consent opened 333ms
+ ✓ |app| tests/app/marchTacticPreview.spec.tsx (6 tests) 108ms
+ ✓ |app| tests/app/castleControlPane.spec.tsx (11 tests) 452ms
+ ✓ |app| tests/app/rewardFiefPane.spec.tsx (10 tests) 125ms
+ ✓ |app| tests/app/kassenOffers.spec.tsx (7 tests) 39ms
+stderr | tests/app/titleContinuePreview.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+stderr | tests/app/earnedMiniEndingJourney.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+stderr | tests/app/titleContinuePreview.spec.tsx > shows the real latest persisted save clan, game date and real time below Continue without changing game or queue
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at draw (/tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:101:42)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:111:7
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:125:41
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:27078:3) undefined
+
+ ✓ |app| tests/app/titleContinuePreview.spec.tsx (5 tests) 836ms
+   ✓ shows the real latest persisted save clan, game date and real time below Continue without changing game or queue 630ms
+ ✓ |app| tests/app/earnedMiniEndingJourney.spec.tsx (3 tests) 786ms
+   ✓ earns unchanged mini42 unification and repeats every event/RNG/state through actual pending native continuation 395ms
+stderr | tests/app/battleResultFlow.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |app| tests/app/mapFrameMeasurement.spec.ts (4 tests) 388ms
+stderr | tests/app/battleResultFlow.spec.tsx > App battle result lifecycle > actual tactical resolution transfers survivors once; explicit return only acknowledges and clears orders
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at draw (/tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:101:42)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:111:7
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:125:41
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:27078:3) undefined
+
+stderr | tests/app/App.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+stderr | tests/app/battleResultFlow.spec.tsx > App battle result lifecycle > 另一場未結束合戰出現時仍保留所選結果，確認後才 close 並返回策略畫面
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at draw (/tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:101:42)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:111:7
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:125:41
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:27078:3) undefined
+
+ ✓ |app| tests/app/battleResultFlow.spec.tsx (3 tests) 1381ms
+   ✓ App battle result lifecycle > actual tactical resolution transfers survivors once; explicit return only acknowledges and clears orders 647ms
+   ✓ App battle result lifecycle > 另一場未結束合戰出現時仍保留所選結果，確認後才 close 並返回策略畫面 720ms
+ ✓ |app| tests/app/envoyDecisionOwnership.spec.tsx (6 tests) 98ms
+ ✓ |app| tests/app/liveMapFrameMeasurement.spec.ts (22 tests) 7ms
+ ✓ |app| tests/app/captiveOwnershipRevival.spec.tsx (6 tests) 176ms
+stderr | tests/app/productionEventCatalog.spec.ts
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+stderr | tests/app/App.spec.tsx > App（新遊戲精靈全流程，M2-19） > 標題→劇本→選織田→開始遊戲：進入 MainScreen（screen-strategy），HUD 顯示 1560年，GameState 已建立
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at draw (/tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:101:42)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:111:7
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:125:41
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:27078:3) undefined
+
+ ✓ |app| tests/app/App.spec.tsx (5 tests) 4271ms
+   ✓ App（新遊戲精靈全流程，M2-19） > restores the main UI screen and F7 after a main-to-main quickload without a tick 2113ms
+   ✓ App（新遊戲精靈全流程，M2-19） > quota quick-save failure exposes current-progress export without core mutations 1141ms
+   ✓ App（新遊戲精靈全流程，M2-19） > 標題→劇本→選織田→開始遊戲：進入 MainScreen（screen-strategy），HUD 顯示 1560年，GameState 已建立 953ms
+ ✓ |app| tests/app/pendingCaptiveConsentReload.spec.ts (10 tests) 244ms
+ ✓ |app| tests/app/districtFiefConsent.spec.tsx (15 tests) 188ms
+ ✓ |app| tests/app/seasonalAutosaveOwnership.spec.ts (5 tests) 38ms
+stdout | tests/app/earnedPlotResolution.spec.tsx > settles actual queued rumor across paid months, releases executor and publishes exactly one natural resolution
+earned rumor observation {"resolution":[{"type":"plot.failed","day":180,"clanIds":["clan.alpha","clan.beta"],"kind":"rumor","actorClanId":"clan.alpha","targetClanId":"clan.beta","targetOfficerId":null,"targetCastleId":"castle.b1"}],"entries":11,"finalHash":"cdff83df771a8ec1"}
+
+stdout | tests/app/earnedPlotResolution.spec.tsx > native pending START and ongoing plot continuation preserve complete state, events and RNG
+ongoing native checkpoint {"day":143,"pendingAi":2}
+
+ ✓ |app| tests/app/earnedPlotResolution.spec.tsx (2 tests) 368ms
+ ✓ |app| tests/app/diploWorkOwnership.spec.tsx (11 tests) 114ms
+ ✓ |app| tests/app/productionEventCatalog.spec.ts (4 tests) 5167ms
+   ✓ ordinary production scenario event catalog > replays a real event-bearing 121-day log through the installed production debug replay loader 2829ms
+   ✓ ordinary production scenario event catalog > reaches a genuine pending historical choice on the real 120-day Oda trajectory 1067ms
+   ✓ ordinary production scenario event catalog > restores genuine pending identity plus queued choice with the production engine before executing exactly once 1253ms
+ ✓ |app| tests/app/sessionProgress.spec.ts (12 tests) 5ms
+stderr | tests/app/productionEventSession.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |app| tests/app/productionEventSession.spec.tsx (6 tests) 3340ms
+   ✓ production event session acquisition > publishes the real wizard only after its complete canonical catalog is available 928ms
+   ✓ production event session acquisition > restores a naturally triggered historical pending choice with a fresh catalog before publication 2143ms
+ ✓ |app| tests/app/ownedModalDismissal.spec.ts (15 tests) 5ms
+ ✓ |app| tests/app/saveSession.spec.ts (8 tests) 36ms
+ ✓ |app| tests/app/viewportGate.spec.ts (9 tests) 20ms
+ ✓ |app| tests/app/pendingConsentReload.spec.ts (10 tests) 4596ms
+ ✓ |app| tests/app/battleBridge.spec.ts (7 tests) 10ms
+ ✓ |app| tests/app/progressTracker.spec.ts (16 tests) 4ms
+ ✓ |app| tests/app/corpsConfirmationFifo.spec.tsx (10 tests) 208ms
+ ✓ |app| tests/app/eventPresentationQueue.spec.ts (6 tests) 9ms
+ ✓ |app| tests/app/monthSummaryRewards.spec.ts (16 tests) 28ms
+ ✓ |app| tests/app/officerFiefConsent.spec.tsx (10 tests) 178ms
+ ✓ |app| tests/app/errors.spec.ts (11 tests) 7ms
+stderr | tests/app/mainCastleMarch.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |app| tests/app/castleMarchSelection.spec.tsx (6 tests) 270ms
+ ✓ |app| tests/app/autoPause.spec.ts (10 tests) 8ms
+ ✓ |app| tests/app/transportPreview.spec.ts (6 tests) 7ms
+ ✓ |app| tests/app/castleRecruitEntry.spec.tsx (14 tests) 265ms
+ ✓ |app| tests/app/autosaveM8.spec.ts (6 tests) 43ms
+ ✓ |app| tests/app/policyCapacity.spec.tsx (8 tests) 150ms
+ ✓ |app| tests/app/castleLordDismiss.spec.tsx (8 tests) 274ms
+ ✓ |app| tests/app/mainCastleMarch.spec.tsx (6 tests) 3399ms
+   ✓ the actual Main castle entry prefills formation and settles a legal queued march 739ms
+   ✓ retained Main castle callback cannot open a draft after load 692ms
+   ✓ retained Main castle callback cannot open a draft after close 672ms
+   ✓ synchronous draft publication cannot enqueue a march modal into a replaced modal owner 633ms
+   ✓ synchronous draft publication cannot enqueue a march modal into a replaced session owner 627ms
+ ✓ |app| src/app/settings/settings.spec.ts (7 tests) 6ms
+stderr | tests/app/districtContextFacts.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |app| tests/app/captiveSummary.spec.tsx (6 tests) 82ms
+ ✓ |app| tests/app/savePanelPortsConsent.spec.tsx (3 tests) 334ms
+ ✓ |app| tests/app/perfMonitor.spec.ts (13 tests) 3ms
+stderr | tests/app/AppEndingCampaign.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |app| tests/app/AppEndingCampaign.spec.tsx (2 tests) 64ms
+ ✓ |app| tests/app/officerRewardPresentation.spec.tsx (6 tests) 110ms
+ ✓ |app| tests/app/districtContextFacts.spec.tsx (4 tests) 2487ms
+   ✓ shows actual district public order, direct administration and current focus without simulation writes 546ms
+   ✓ refreshes actual focus and steward after legally queued commands settle on normal days 679ms
+   ✓ reads fresh same-ID native replacement facts and keeps presentation state and RNG pure 660ms
+   ✓ uses the stored officer ID instead of inventing a name for a missing steward reference 602ms
+ ✓ |app| tests/app/rakuichiIncomeDriver.spec.ts (2 tests) 88ms
+stderr | tests/app/visualMapBoot.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+stderr | tests/app/visualMapBoot.spec.tsx > App：?debug=visual-map（M6-V2） > 略過標題與新遊戲精靈，直接進入 MainScreen；HUD 顯示 1561年；速度維持 paused
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at draw (/tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:101:42)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:111:7
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:125:41
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:27078:3) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at draw (/tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:101:42)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:111:7
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:125:41
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:27078:3) undefined
+
+ ✓ |app| tests/app/earnedRegionalCaptureJourney.spec.ts (3 tests) 2189ms
+   ✓ generates the genuinely earned supported s1560 day35 regional captive checkpoint 572ms
+   ✓ repeats actual capture, natural AI, full events and persistent state through genuinely queued native marches 1031ms
+   ✓ loads the earned regional captive into actual recruitment UI and preserves one release across pending native reload 586ms
+stderr | tests/app/visualMapBoot.spec.tsx > App：?debug=visual-map（M6-V2） > window.__TENKA_DEBUG__ 已安裝（?debug=visual-map 隱含 enabled=true）
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at draw (/tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:101:42)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:111:7
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:125:41
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:27078:3) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at draw (/tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:101:42)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:111:7
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:125:41
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:27078:3) undefined
+
+stderr | tests/app/visualMapBoot.spec.tsx > App：?debug=visual-map（M6-V2） > ?debug=visual-map 優先於 ?skipTitle=1（不落回 tiny fixture 新遊戲）
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at draw (/tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:101:42)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:111:7
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:125:41
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:27078:3) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at draw (/tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:101:42)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:111:7
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/ui/components/MiniMap.tsx:125:41
+    at commitHookEffectListMount (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/react-dom/cjs/react-dom.development.js:27078:3) undefined
+
+ ✓ |app| tests/app/visualMapBoot.spec.tsx (7 tests) 2149ms
+   ✓ App：?debug=visual-map（M6-V2） > 略過標題與新遊戲精靈，直接進入 MainScreen；HUD 顯示 1561年；速度維持 paused 702ms
+   ✓ App：?debug=visual-map（M6-V2） > window.__TENKA_DEBUG__ 已安裝（?debug=visual-map 隱含 enabled=true） 720ms
+   ✓ App：?debug=visual-map（M6-V2） > ?debug=visual-map 優先於 ?skipTitle=1（不落回 tiny fixture 新遊戲） 713ms
+ ✓ |app| tests/app/eventChoiceDriver.spec.ts (12 tests) 7ms
+stderr | tests/app/AppBattleSaveError.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |app| tests/app/castleTransportGold.spec.tsx (4 tests) 173ms
+ ✓ |app| tests/app/ProposalPresentation.spec.tsx (4 tests) 67ms
+ ✓ |app| tests/app/captivePostDispatchOwnership.spec.tsx (2 tests) 84ms
+ ✓ |app| tests/app/captiveStrictMode.spec.tsx (3 tests) 157ms
+stderr | tests/app/worker/bridgeAsync.spec.ts > reports publication errors after commit without restoring consumed commands
+[fatal] Error: publication failed
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/tests/app/worker/bridgeAsync.spec.ts:122:11
+    at finishDay (/tmp/tenka-audit-20261012.Ok8OR1/repo/src/app/bridge.ts:836:3)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/src/app/bridge.ts:419:14
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at /tmp/tenka-audit-20261012.Ok8OR1/repo/tests/app/worker/bridgeAsync.spec.ts:127:3
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/@vitest/runner/dist/index.js:533:5
+    at runTest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/@vitest/runner/dist/index.js:1056:11)
+    at runSuite (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/@vitest/runner/dist/index.js:1205:15)
+    at runFiles (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/@vitest/runner/dist/index.js:1262:5)
+    at startTests (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/@vitest/runner/dist/index.js:1271:3)
+
+ ✓ |app| tests/app/worker/bridgeAsync.spec.ts (6 tests) 17ms
+ ✓ |app| tests/app/AppBattleSaveError.spec.tsx (2 tests) 2268ms
+   ✓ App save error export boundary > retains current-state export for a failed strategy quicksave 1143ms
+   ✓ App save error export boundary > async strategy save failure arriving in the same battle session cannot export unsaved tactical orders 1124ms
+ ✓ |app| tests/app/captiveRecruitPostDispatch.spec.tsx (2 tests) 78ms
+ ✓ |app| tests/app/diplomacyPactIndicators.spec.tsx (9 tests) 179ms
+ ✓ |app| tests/app/eventPresentation.spec.ts (9 tests) 9ms
+ ✓ |app| tests/app/officerGrowthProgress.spec.tsx (2 tests) 88ms
+stderr | tests/app/AppViewport.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |app| tests/app/AppViewport.spec.tsx (2 tests) 1465ms
+   ✓ App viewport ownership > blocks initial undersized boot and debug advancement, then recovers paused without changing scale 630ms
+   ✓ App viewport ownership > keeps a shared settings dialog mounted and preserves a manual pause through resize 835ms
+ ✓ |app| tests/app/officerTacticPreview.spec.tsx (3 tests) 85ms
+ ✓ |app| tests/app/transportOrders.spec.ts (4 tests) 8ms
+stderr | tests/app/armyFoodContext.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |app| tests/app/armyFoodContext.spec.tsx (1 test) 575ms
+   ✓ shows eleven actual remaining food days in MainScreen after a queued Heitan march and fourteen normal days 574ms
+ ✓ |app| tests/app/store.spec.ts (9 tests) 3ms
+ ✓ |app| tests/app/saveContinueConsent.spec.tsx (2 tests) 144ms
+ ✓ |app| tests/app/boot.spec.ts (7 tests) 111ms
+ ✓ |app| src/app/hotkeys.spec.ts (4 tests) 9ms
+ ✓ |app| tests/app/exportImport.spec.ts (4 tests) 13ms
+ ✓ |app| tests/app/debugJumpOwnership.spec.ts (4 tests) 15ms
+ ✓ |app| tests/app/bridgeSeasonalAutosave.spec.ts (16 tests) 14ms
+ ✓ |app| tests/app/grantFiefFeedback.spec.tsx (3 tests) 40ms
+ ✓ |app| tests/app/worker/gameLoopAsync.spec.ts (3 tests) 4ms
+ ✓ |app| tests/app/proposalMarchLeaderPreview.spec.tsx (1 test) 37ms
+ ✓ |app| tests/app/galleryContrast.spec.tsx (3 tests) 17ms
+ ✓ |app| tests/app/perfTelemetry.spec.ts (3 tests) 3ms
+ ✓ |app| tests/app/castleDelegationDriver.spec.ts (1 test) 82ms
+stderr | tests/app/AppHotkeyFocus.spec.tsx
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///tmp/tenka-audit-20261012.Ok8OR1/repo/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |app| tests/app/AppHotkeyFocus.spec.tsx (1 test) 1164ms
+   ✓ actual App quicksave/load ignore select and nested contenteditable while CtrlS still prevents browser save 1164ms
+ ✓ |app| tests/app/payrollRecoveryBridge.spec.ts (1 test) 59ms
+ ✓ |app| tests/app/easternProductionEvents.spec.ts (2 tests) 14939ms
+   ✓ eastern historical events on the actual production trajectory > clan.takeda reaches Kawanakajima and restores its genuine pending choice 9076ms
+   ✓ eastern historical events on the actual production trajectory > clan.nagao reaches Kawanakajima and restores its genuine pending choice 5862ms
+ ✓ |app| tests/app/castleDismissLifecycle.spec.tsx (2 tests) 65ms
+ ✓ |app| tests/app/recruitFeedback.spec.tsx (1 test) 34ms
+ ✓ |app| tests/app/rulerCorpsEntry.spec.tsx (1 test) 66ms
+ ✓ |app| tests/app/transportQueueRead.spec.ts (2 tests) 5ms
+ ✓ |app| tests/app/persistence.spec.ts (5 tests) 9ms
+ ✓ |app| tests/app/rewardMonthlyAiBridge.spec.ts (1 test) 44ms
+ ✓ |app| tests/app/policyPresentation.spec.ts (2 tests) 4ms
+ ✓ |app| tests/app/plotBusyFeedback.spec.tsx (1 test) 40ms
+ ✓ |app| tests/app/taimeiQueueRead.spec.ts (2 tests) 4ms
+ ✓ |app| tests/app/importByteBoundary.spec.ts (1 test) 191ms
+ ✓ |app| tests/app/earnedAzaiAllianceJourney.spec.ts (2 tests) 10711ms
+   ✓ generates the genuinely earned full-world day270 Azai alliance checkpoint 4229ms
+   ✓ repeats earned payments, natural AI commands, events, RNG and full persistent state through real pending native continuation 6482ms
+
+ Test Files  123 passed (123)
+      Tests  1108 passed (1108)
+   Start at  05:16:10
+   Duration  78.00s (transform 3.35s, setup 4.67s, collect 20.31s, tests 98.64s, environment 18.52s, prepare 2.90s)

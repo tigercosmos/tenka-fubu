@@ -1,0 +1,11 @@
+
+Running 6 tests using 1 worker
+
+  ✓  1 [chromium] › e2e/worker-simulation.spec.ts:123:1 › native seeded full-world worker ticks preserve queued commands, complete state and replay log (3.5s)
+  ✓  2 [chromium] › e2e/worker-simulation.spec.ts:225:1 › native save and browser reload preserve an unconsumed command for the next worker day (5.6s)
+  ✓  3 [chromium] › e2e/worker-simulation.spec.ts:291:3 › same-host full-world 60-day synchronous and Worker measurements preserve complete state (8.2s)
+  ✓  4 [chromium] › e2e/worker-simulation.spec.ts:291:3 › same-host full-world 120-day synchronous and Worker measurements preserve complete state (10.0s)
+  ✓  5 [chromium] › e2e/worker-simulation.spec.ts:428:1 › pausing an already posted native Worker day keeps state and its command for a fresh generation (2.4s)
+  ✓  6 [chromium] › e2e/worker-simulation.spec.ts:477:1 › native x5 Worker flow and a paced synchronous reference retain state with raw main-thread timings (13.0s)
+
+  6 passed (43.6s)

@@ -1,0 +1,8 @@
+
+> tenka-fubu@0.0.0 wasm:build
+> tsx tools/wasm/build.ts --build
+
+info: downloading component rust-std
+   Compiling tenka-engine v0.1.0 (/tmp/tenka-20261012-sim3-build/rust/engine)
+    Finished `release` profile [optimized] target(s) in 0.11s
+Built Rust WASM: f23ee98cd1dc438463882d97fe648c5c0e8d8907191db6e986fd90d7b370d801

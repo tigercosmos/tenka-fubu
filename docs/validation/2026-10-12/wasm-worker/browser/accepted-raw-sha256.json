@@ -1,0 +1,17 @@
+{
+  "same-host-60-day-worker-responsiveness.json": {
+    "sha256": "0faf034e59cf74fed5cdeea4820e65be36f31d4db4421da06a4d9fc0c2f0e324",
+    "bytes": 8014941,
+    "accepted": true
+  },
+  "same-host-120-day-worker-responsiveness.json": {
+    "sha256": "af8481c0b6d13b7b9ce783b0b320e405f06a99ba7f77434dc6c1c26913cb4b15",
+    "bytes": 8146139,
+    "accepted": true
+  },
+  "normal-x5-worker-paced-sync-responsiveness.json": {
+    "sha256": "bc7ef0077d844c9d385b522983e1024876dcc6ba3419d2c666e3d9a121ccc814",
+    "bytes": 7707063,
+    "accepted": true
+  }
+}

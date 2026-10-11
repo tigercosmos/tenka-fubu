@@ -1,0 +1,206 @@
+{
+  "worker": [
+    {
+      "source": "(idle)",
+      "selfMs": 1563.0370000000069
+    },
+    {
+      "source": "../../src/ui/map/geographicLabelLayout.ts:30:9 overlap",
+      "selfMs": 639.4909999999996
+    },
+    {
+      "source": "(program)",
+      "selfMs": 227.43599999999998
+    },
+    {
+      "source": "../../node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.mjs:130:2 break",
+      "selfMs": 203.50500000000014
+    },
+    {
+      "source": "../../src/ui/map/geographicLabelLayout.ts:46:16 layoutGeographicLabels",
+      "selfMs": 131.93300000000022
+    },
+    {
+      "source": "../../src/app/worker/client.ts:134:25 ",
+      "selfMs": 111.47100000000009
+    },
+    {
+      "source": "../../src/ui/map/geographicLabelLayout.ts:99:18 values",
+      "selfMs": 108.28100000000009
+    },
+    {
+      "source": "../../src/ui/map/MapRenderer.ts:3054:10 placeGeographicLabels",
+      "selfMs": 90.71100000000007
+    },
+    {
+      "source": "../../src/app/worker/reconcile.ts:8:9 reconcileValue",
+      "selfMs": 77.99700000000001
+    },
+    {
+      "source": "../../src/ui/map/roadLabelCapsules.ts:86:9 segmentRectDistance",
+      "selfMs": 70.42199999999997
+    },
+    {
+      "source": "../../src/ui/map/MapRenderer.ts:2432:10 placeCastleRibbons",
+      "selfMs": 65.407
+    },
+    {
+      "source": "../../node_modules/pixi.js/lib/scene/container/container-mixins/collectRenderablesMixin.mjs:16:2 collectRenderablesSimple",
+      "selfMs": 56.57899999999999
+    },
+    {
+      "source": "../../node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.mjs:42:2 addRenderable",
+      "selfMs": 46.504999999999995
+    },
+    {
+      "source": "../../src/ui/map/geographicLabelLayout.ts:145:41 ",
+      "selfMs": 43.13599999999999
+    },
+    {
+      "source": "../../src/app/worker/client.ts:61:21 event",
+      "selfMs": 43.06099999999999
+    },
+    {
+      "source": "../../src/ui/map/MapRenderer.ts:2009:10 applyLodAndCulling",
+      "selfMs": 40.671
+    },
+    {
+      "source": "../../src/ui/map/MapRenderer.ts:2194:10 armyPlateInputs",
+      "selfMs": 34.105
+    },
+    {
+      "source": "bufferSubData",
+      "selfMs": 29.592999999999996
+    },
+    {
+      "source": "../../src/ui/map/MapRenderer.ts:2301:10 castleRibbonInputs",
+      "selfMs": 27.26899999999999
+    },
+    {
+      "source": "../../src/ui/map/MapRenderer.ts:2873:10 geographicLabelInputs",
+      "selfMs": 26.564999999999998
+    },
+    {
+      "source": "../../src/ui/map/MapRenderer.ts:2847:10 forceGeographicLabel",
+      "selfMs": 25.395
+    },
+    {
+      "source": "../../src/ui/map/geographicLabelLayout.ts:142:20 ",
+      "selfMs": 25.251999999999992
+    },
+    {
+      "source": "(garbage collector)",
+      "selfMs": 23.843999999999998
+    },
+    {
+      "source": "../../node_modules/pixi.js/lib/rendering/batcher/shared/BatcherPipe.mjs:45:2 break",
+      "selfMs": 20.075999999999997
+    },
+    {
+      "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts:84:16 layoutCastleRibbons",
+      "selfMs": 18.008
+    }
+  ],
+  "sync": [
+    {
+      "source": "(idle)",
+      "selfMs": 1621.5710000000101
+    },
+    {
+      "source": "../../src/ui/map/geographicLabelLayout.ts:46:16 layoutGeographicLabels",
+      "selfMs": 600.6979999999943
+    },
+    {
+      "source": "../../src/ui/map/geographicLabelLayout.ts:30:9 overlap",
+      "selfMs": 268.14100000000013
+    },
+    {
+      "source": "(program)",
+      "selfMs": 226.73400000000004
+    },
+    {
+      "source": "../../src/ui/map/MapRenderer.ts:3054:10 placeGeographicLabels",
+      "selfMs": 209.00999999999974
+    },
+    {
+      "source": "../../node_modules/pixi.js/lib/scene/graphics/shared/BatchableGraphics.mjs:40:6 get transform",
+      "selfMs": 194.30800000000008
+    },
+    {
+      "source": "../../src/ui/map/geographicLabelLayout.ts:142:20 ",
+      "selfMs": 110.03600000000012
+    },
+    {
+      "source": "../../src/ui/map/geographicLabelLayout.ts:99:18 values",
+      "selfMs": 108.06100000000002
+    },
+    {
+      "source": "../../src/ui/map/roadLabelCapsules.ts:86:9 segmentRectDistance",
+      "selfMs": 103.04099999999995
+    },
+    {
+      "source": "../../src/ui/map/MapRenderer.ts:2432:10 placeCastleRibbons",
+      "selfMs": 67.275
+    },
+    {
+      "source": "../../src/core/systems/ai/index.ts:148:20 ",
+      "selfMs": 65.40899999999999
+    },
+    {
+      "source": "../../src/ui/map/geographicLabelLayout.ts:147:44 ",
+      "selfMs": 40.952999999999996
+    },
+    {
+      "source": "../../src/ui/map/MapRenderer.ts:2009:10 applyLodAndCulling",
+      "selfMs": 39.402
+    },
+    {
+      "source": "../../node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.mjs:42:2 addRenderable",
+      "selfMs": 38.34100000000001
+    },
+    {
+      "source": "../../node_modules/pixi.js/lib/scene/container/container-mixins/collectRenderablesMixin.mjs:16:2 collectRenderablesSimple",
+      "selfMs": 34.991
+    },
+    {
+      "source": "(garbage collector)",
+      "selfMs": 31.391999999999996
+    },
+    {
+      "source": "../../src/ui/map/MapRenderer.ts:2194:10 armyPlateInputs",
+      "selfMs": 30.534999999999997
+    },
+    {
+      "source": "../../src/core/state/mapGraph.ts:73:16 buildMapGraph",
+      "selfMs": 28.942999999999998
+    },
+    {
+      "source": "bufferSubData",
+      "selfMs": 26.433999999999997
+    },
+    {
+      "source": "../../node_modules/pixi.js/lib/scene/container/container-mixins/collectRenderablesMixin.mjs:3:2 collectRenderables",
+      "selfMs": 26.362
+    },
+    {
+      "source": "../../src/ui/map/MapRenderer.ts:2873:10 geographicLabelInputs",
+      "selfMs": 25.029000000000007
+    },
+    {
+      "source": "../../node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.mjs:130:2 break",
+      "selfMs": 23.613
+    },
+    {
+      "source": "../../src/ui/map/lod.ts:75:2 query",
+      "selfMs": 23.297
+    },
+    {
+      "source": "../../src/ui/map/MapRenderer.ts:2847:10 forceGeographicLabel",
+      "selfMs": 22.233000000000004
+    },
+    {
+      "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts:84:16 layoutCastleRibbons",
+      "selfMs": 17.815999999999995
+    }
+  ]
+}

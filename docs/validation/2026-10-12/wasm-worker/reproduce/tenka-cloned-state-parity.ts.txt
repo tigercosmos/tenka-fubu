@@ -1,0 +1,9 @@
+import {writeFileSync,readFileSync} from 'node:fs';
+import {buildFullState} from '/Users/tigercosmos/tenka-fubu/tests/helpers/fullState.ts';
+import {advanceDay} from '/Users/tigercosmos/tenka-fubu/src/core/systems/index.ts';
+import {CommandQueue,enqueuePendingAiOrders} from '/Users/tigercosmos/tenka-fubu/src/core/commands/queue.ts';
+import {createRuntimeEventEngine} from '/Users/tigercosmos/tenka-fubu/src/core/systems/events/runtime.ts';
+import {loadS1560EventCatalog} from '/Users/tigercosmos/tenka-fubu/src/data/scenarios/s1560/index.ts';
+import {stateHash} from '/Users/tigercosmos/tenka-fubu/src/core/state/serialize.ts';
+import {installRustPathfinding,rustPathfindingImports,clearRustPathfinding} from '/Users/tigercosmos/tenka-fubu/src/core/acceleration/pathfindingKernel.ts';
+async function main(){const initial=await buildFullState({seed:1,allAi:false});const run=(clone:boolean)=>{let state=structuredClone(initial);const engine=createRuntimeEventEngine(loadS1560EventCatalog());const queue=new CommandQueue(state.meta.lastAppliedCmdSeq+1);const hashes=[];for(let day=1;day<=120;day++){if(clone)state=structuredClone(state);enqueuePendingAiOrders(state,queue);advanceDay(state,queue.drain(),{eventEngine:engine});hashes.push(stateHash(state));}return{state,hashes};};const baseline=run(false);const{instance}=await WebAssembly.instantiate(readFileSync('/Users/tigercosmos/tenka-fubu/public/wasm/tenka_engine.wasm'),rustPathfindingImports());installRustPathfinding(instance.exports);const stableRust=run(false);const clonedRust=run(true);const first=(a:string[],b:string[])=>a.findIndex((v,i)=>v!==b[i])+1;const out={stableFirstDiff:first(baseline.hashes,stableRust.hashes),cloneFirstDiff:first(baseline.hashes,clonedRust.hashes)};writeFileSync('/tmp/tenka-sim1-artifacts-20261012/cloned-state-parity.json',JSON.stringify(out));console.log(out);clearRustPathfinding();}void main();

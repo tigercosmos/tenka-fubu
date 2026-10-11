@@ -1,0 +1,11 @@
+
+ RUN  v2.1.9 /tmp/tenka-20261012-sim1-core
+
+ ✓ |core| tests/core/pathfindingHeapParity.spec.ts (3 tests) 81ms
+ ✓ |core| tests/core/pathfinding.spec.ts (8 tests) 4ms
+ ✓ |core| tests/core/rustPathfinding.spec.ts (4 tests) 109ms
+
+ Test Files  3 passed (3)
+      Tests  15 passed (15)
+   Start at  05:05:34
+   Duration  843ms (transform 227ms, setup 0ms, collect 373ms, tests 193ms, environment 0ms, prepare 74ms)

@@ -1,0 +1,9 @@
+import {Session} from 'node:inspector';
+import {writeFileSync} from 'node:fs';
+import {parentPort} from 'node:worker_threads';
+import {readFileSync} from 'node:fs';
+import {createWorkerExecutor} from '/Users/tigercosmos/tenka-fubu/src/app/worker/simulation.worker.ts';
+import {installRustPathfinding,rustPathfindingImports,rustPathfindingTopologyBuildCount,rustPathfindingQueryCount} from '/Users/tigercosmos/tenka-fubu/src/core/acceleration/pathfindingKernel.ts';
+const execute=createWorkerExecutor(async()=>{const {instance}=await WebAssembly.instantiate(readFileSync(process.env.TENKA_WASM_FILE!),rustPathfindingImports());installRustPathfinding(instance.exports);});
+const inspector=new Session();inspector.connect();let profiling=false;
+parentPort!.on('message',async(request)=>{if(!profiling){await new Promise<void>(r=>inspector.post('Profiler.enable',()=>r()));await new Promise<void>(r=>inspector.post('Profiler.start',()=>r()));profiling=true;}const reply=await execute(request);if(request.requestId===60){await new Promise<void>(r=>inspector.post('Profiler.stop',(error,data)=>{if(error)throw error;writeFileSync(process.env.TENKA_PROFILE_FILE!,JSON.stringify(data.profile));r();}));}parentPort!.postMessage({...reply,topologyBuilds:rustPathfindingTopologyBuildCount(),pathQueries:rustPathfindingQueryCount()});});

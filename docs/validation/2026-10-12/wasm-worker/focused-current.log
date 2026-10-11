@@ -1,0 +1,26 @@
+
+ RUN  v2.1.9 /Users/tigercosmos/tenka-fubu
+
+ ✓ |app| src/app/worker/worker.spec.ts (13 tests) 38ms
+ ✓ |core| tests/core/pathfinding.spec.ts (8 tests) 4ms
+stderr | tests/app/worker/bridgeAsync.spec.ts > reports publication errors after commit without restoring consumed commands
+[fatal] Error: publication failed
+    at /Users/tigercosmos/tenka-fubu/tests/app/worker/bridgeAsync.spec.ts:122:11
+    at finishDay (/Users/tigercosmos/tenka-fubu/src/app/bridge.ts:836:3)
+    at /Users/tigercosmos/tenka-fubu/src/app/bridge.ts:419:14
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at /Users/tigercosmos/tenka-fubu/tests/app/worker/bridgeAsync.spec.ts:127:3
+    at file:///Users/tigercosmos/tenka-fubu/node_modules/@vitest/runner/dist/index.js:533:5
+    at runTest (file:///Users/tigercosmos/tenka-fubu/node_modules/@vitest/runner/dist/index.js:1056:11)
+    at runSuite (file:///Users/tigercosmos/tenka-fubu/node_modules/@vitest/runner/dist/index.js:1205:15)
+    at runFiles (file:///Users/tigercosmos/tenka-fubu/node_modules/@vitest/runner/dist/index.js:1262:5)
+    at startTests (file:///Users/tigercosmos/tenka-fubu/node_modules/@vitest/runner/dist/index.js:1271:3)
+
+ ✓ |app| tests/app/worker/bridgeAsync.spec.ts (6 tests) 16ms
+ ✓ |core| tests/core/wasm-artifact.spec.ts (4 tests) 37ms
+ ✓ |core| tests/core/rustPathfinding.spec.ts (6 tests) 115ms
+
+ Test Files  5 passed (5)
+      Tests  37 passed (37)
+   Start at  05:14:57
+   Duration  1.35s (transform 641ms, setup 106ms, collect 1.18s, tests 210ms, environment 346ms, prepare 130ms)

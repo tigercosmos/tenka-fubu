@@ -1,0 +1,35 @@
+
+> tenka-fubu@0.0.0 prebuild
+> node tools/dependencies/pixi-8.19-patch.mjs && npm run wasm:check
+
+{"version":"8.19.0","validated":19,"written":0}
+
+> tenka-fubu@0.0.0 wasm:check
+> tsx tools/wasm/build.ts --check
+
+WASM artifact is current: f23ee98cd1dc438463882d97fe648c5c0e8d8907191db6e986fd90d7b370d801
+
+> tenka-fubu@0.0.0 build
+> vite build
+
+[36mvite v6.4.3 [32mbuilding for production...[36m[39m
+transforming...
+[32m✓[39m 1217 modules transformed.
+rendering chunks...
+computing gzip size...
+[2mdist/[22m[32mindex.html                            [39m[1m[2m    0.65 kB[22m[1m[22m[2m │ gzip:   0.37 kB[22m
+[2mdist/[22m[32m.vite/manifest.json                   [39m[1m[2m    1.77 kB[22m[1m[22m[2m │ gzip:   0.41 kB[22m
+[2mdist/[22m[2massets/[22m[32msimulation.worker-CWh5nic1.js  [39m[1m[2m  253.70 kB[22m[1m[22m
+[2mdist/[22m[2massets/[22m[35mindex-CKipN-0H.css             [39m[1m[2m  127.00 kB[22m[1m[22m[2m │ gzip:  19.67 kB[22m
+[2mdist/[22m[2massets/[22m[36mwebworkerAll-B3C7sa6R.js       [39m[1m[2m    0.13 kB[22m[1m[22m[2m │ gzip:   0.14 kB[22m[2m │ map:     0.65 kB[22m
+[2mdist/[22m[2massets/[22m[36mbrowserAll-CLWqc4Cj.js         [39m[1m[2m    0.23 kB[22m[1m[22m[2m │ gzip:   0.19 kB[22m[2m │ map:     1.64 kB[22m
+[2mdist/[22m[2massets/[22m[36mvendor-react-BdZgHC1P.js       [39m[1m[2m  141.66 kB[22m[1m[22m[2m │ gzip:  45.48 kB[22m[2m │ map:   344.92 kB[22m
+[2mdist/[22m[2massets/[22m[36mvendor-pixi-DK5mTNRz.js        [39m[1m[33m  568.56 kB[39m[22m[2m │ gzip: 164.84 kB[22m[2m │ map: 2,518.86 kB[22m
+[2mdist/[22m[2massets/[22m[36mindex-3Jbqw0M_.js              [39m[1m[33m  588.18 kB[39m[22m[2m │ gzip: 100.85 kB[22m[2m │ map:    32.15 kB[22m
+[2mdist/[22m[2massets/[22m[36mindex-DaercXPu.js              [39m[1m[33m1,411.95 kB[39m[22m[2m │ gzip: 416.02 kB[22m[2m │ map: 5,120.21 kB[22m
+[33m
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+[32m✓ built in 3.90s[39m

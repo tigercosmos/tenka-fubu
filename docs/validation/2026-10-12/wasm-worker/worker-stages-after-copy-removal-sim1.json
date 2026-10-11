@@ -1,0 +1,913 @@
+{
+  "host": "linux",
+  "arch": "x64",
+  "node": "v22.23.3",
+  "seed": 1,
+  "days": 60,
+  "nodes": 465,
+  "transport": "Node native Worker structured clone; no browser redraw included",
+  "native": [
+    {
+      "day": 1,
+      "ms": 16.324562
+    },
+    {
+      "day": 2,
+      "ms": 2.0959569999999985
+    },
+    {
+      "day": 3,
+      "ms": 8.534025000000014
+    },
+    {
+      "day": 4,
+      "ms": 4.319481999999994
+    },
+    {
+      "day": 5,
+      "ms": 5.147064999999998
+    },
+    {
+      "day": 6,
+      "ms": 4.610580000000027
+    },
+    {
+      "day": 7,
+      "ms": 5.796081999999956
+    },
+    {
+      "day": 8,
+      "ms": 5.02345600000001
+    },
+    {
+      "day": 9,
+      "ms": 6.004184000000009
+    },
+    {
+      "day": 10,
+      "ms": 6.7187209999999595
+    },
+    {
+      "day": 11,
+      "ms": 4.234000000000037
+    },
+    {
+      "day": 12,
+      "ms": 4.954300999999987
+    },
+    {
+      "day": 13,
+      "ms": 5.329332000000022
+    },
+    {
+      "day": 14,
+      "ms": 6.649048000000107
+    },
+    {
+      "day": 15,
+      "ms": 6.786825000000022
+    },
+    {
+      "day": 16,
+      "ms": 1.7243730000000141
+    },
+    {
+      "day": 17,
+      "ms": 1.9856240000000298
+    },
+    {
+      "day": 18,
+      "ms": 10.18474900000001
+    },
+    {
+      "day": 19,
+      "ms": 5.815821000000028
+    },
+    {
+      "day": 20,
+      "ms": 5.3715779999999995
+    },
+    {
+      "day": 21,
+      "ms": 4.494949000000133
+    },
+    {
+      "day": 22,
+      "ms": 2.983504000000039
+    },
+    {
+      "day": 23,
+      "ms": 5.275023000000147
+    },
+    {
+      "day": 24,
+      "ms": 6.069876999999906
+    },
+    {
+      "day": 25,
+      "ms": 10.654487999999901
+    },
+    {
+      "day": 26,
+      "ms": 6.969071999999869
+    },
+    {
+      "day": 27,
+      "ms": 15.595573000000059
+    },
+    {
+      "day": 28,
+      "ms": 8.798533000000134
+    },
+    {
+      "day": 29,
+      "ms": 8.441311999999925
+    },
+    {
+      "day": 30,
+      "ms": 40.214313000000175
+    },
+    {
+      "day": 31,
+      "ms": 6.835559000000103
+    },
+    {
+      "day": 32,
+      "ms": 5.589144000000033
+    },
+    {
+      "day": 33,
+      "ms": 20.740076000000045
+    },
+    {
+      "day": 34,
+      "ms": 17.325092999999924
+    },
+    {
+      "day": 35,
+      "ms": 7.246163999999908
+    },
+    {
+      "day": 36,
+      "ms": 6.594033999999965
+    },
+    {
+      "day": 37,
+      "ms": 5.6245960000001105
+    },
+    {
+      "day": 38,
+      "ms": 6.102177999999867
+    },
+    {
+      "day": 39,
+      "ms": 5.838910999999825
+    },
+    {
+      "day": 40,
+      "ms": 6.588711000000103
+    },
+    {
+      "day": 41,
+      "ms": 6.0681509999999435
+    },
+    {
+      "day": 42,
+      "ms": 1.3316620000000512
+    },
+    {
+      "day": 43,
+      "ms": 5.0559449999996104
+    },
+    {
+      "day": 44,
+      "ms": 4.943117999999686
+    },
+    {
+      "day": 45,
+      "ms": 5.223899000000074
+    },
+    {
+      "day": 46,
+      "ms": 5.072760000000017
+    },
+    {
+      "day": 47,
+      "ms": 5.533132000000023
+    },
+    {
+      "day": 48,
+      "ms": 5.938489000000118
+    },
+    {
+      "day": 49,
+      "ms": 4.901789999999892
+    },
+    {
+      "day": 50,
+      "ms": 5.199900000000071
+    },
+    {
+      "day": 51,
+      "ms": 1.7147890000001098
+    },
+    {
+      "day": 52,
+      "ms": 8.198673999999755
+    },
+    {
+      "day": 53,
+      "ms": 4.960719000000154
+    },
+    {
+      "day": 54,
+      "ms": 5.363442000000305
+    },
+    {
+      "day": 55,
+      "ms": 4.2407570000000305
+    },
+    {
+      "day": 56,
+      "ms": 6.740488999999798
+    },
+    {
+      "day": 57,
+      "ms": 1.7637249999997948
+    },
+    {
+      "day": 58,
+      "ms": 6.234492000000046
+    },
+    {
+      "day": 59,
+      "ms": 3.330887999999959
+    },
+    {
+      "day": 60,
+      "ms": 34.018121000000065
+    }
+  ],
+  "rows": [
+    {
+      "day": 1,
+      "snapshotMs": 0,
+      "postMs": 1.128186000000369,
+      "roundTripMs": 45.47505500000034,
+      "computeMs": 13.770234999999957,
+      "reconcileMs": 6.522805000000062,
+      "mainBusyMs": 7.650991000000431,
+      "topologyBuilds": 1,
+      "pathQueries": 92
+    },
+    {
+      "day": 2,
+      "snapshotMs": 0,
+      "postMs": 1.1962679999996908,
+      "roundTripMs": 16.82283499999994,
+      "computeMs": 3.266797000000224,
+      "reconcileMs": 4.585149999999885,
+      "mainBusyMs": 5.781417999999576,
+      "topologyBuilds": 1,
+      "pathQueries": 108
+    },
+    {
+      "day": 3,
+      "snapshotMs": 0,
+      "postMs": 1.2263050000001385,
+      "roundTripMs": 20.676340999999866,
+      "computeMs": 9.22559799999999,
+      "reconcileMs": 4.602497999999741,
+      "mainBusyMs": 5.82880299999988,
+      "topologyBuilds": 1,
+      "pathQueries": 113
+    },
+    {
+      "day": 4,
+      "snapshotMs": 0,
+      "postMs": 1.3109349999999722,
+      "roundTripMs": 17.644180999999662,
+      "computeMs": 4.437793000000056,
+      "reconcileMs": 2.877962999999909,
+      "mainBusyMs": 4.188897999999881,
+      "topologyBuilds": 1,
+      "pathQueries": 246
+    },
+    {
+      "day": 5,
+      "snapshotMs": 0,
+      "postMs": 1.23814799999991,
+      "roundTripMs": 14.67186700000002,
+      "computeMs": 5.305707999999868,
+      "reconcileMs": 2.893188999999893,
+      "mainBusyMs": 4.131336999999803,
+      "topologyBuilds": 1,
+      "pathQueries": 246
+    },
+    {
+      "day": 6,
+      "snapshotMs": 0,
+      "postMs": 1.294474000000264,
+      "roundTripMs": 17.990800000000036,
+      "computeMs": 6.397064000000228,
+      "reconcileMs": 2.8029099999998834,
+      "mainBusyMs": 4.097384000000147,
+      "topologyBuilds": 1,
+      "pathQueries": 246
+    },
+    {
+      "day": 7,
+      "snapshotMs": 0,
+      "postMs": 1.3320130000001882,
+      "roundTripMs": 16.061736999999994,
+      "computeMs": 6.2199030000001585,
+      "reconcileMs": 2.835736999999881,
+      "mainBusyMs": 4.167750000000069,
+      "topologyBuilds": 1,
+      "pathQueries": 278
+    },
+    {
+      "day": 8,
+      "snapshotMs": 0,
+      "postMs": 1.3622980000000098,
+      "roundTripMs": 17.23792000000003,
+      "computeMs": 6.498074000000088,
+      "reconcileMs": 2.941653999999744,
+      "mainBusyMs": 4.303951999999754,
+      "topologyBuilds": 1,
+      "pathQueries": 278
+    },
+    {
+      "day": 9,
+      "snapshotMs": 0,
+      "postMs": 1.2926179999999476,
+      "roundTripMs": 16.02583400000003,
+      "computeMs": 6.1481049999997595,
+      "reconcileMs": 2.8633740000000216,
+      "mainBusyMs": 4.155991999999969,
+      "topologyBuilds": 1,
+      "pathQueries": 278
+    },
+    {
+      "day": 10,
+      "snapshotMs": 0,
+      "postMs": 1.3161310000000412,
+      "roundTripMs": 21.13988500000005,
+      "computeMs": 7.905514999999923,
+      "reconcileMs": 3.114430000000084,
+      "mainBusyMs": 4.430561000000125,
+      "topologyBuilds": 1,
+      "pathQueries": 314
+    },
+    {
+      "day": 11,
+      "snapshotMs": 0,
+      "postMs": 1.363144999999804,
+      "roundTripMs": 13.927012999999988,
+      "computeMs": 3.8442559999998593,
+      "reconcileMs": 2.8660290000002533,
+      "mainBusyMs": 4.229174000000057,
+      "topologyBuilds": 1,
+      "pathQueries": 314
+    },
+    {
+      "day": 12,
+      "snapshotMs": 0,
+      "postMs": 1.3292919999998958,
+      "roundTripMs": 15.938747000000149,
+      "computeMs": 6.050960999999916,
+      "reconcileMs": 2.945299999999861,
+      "mainBusyMs": 4.274591999999757,
+      "topologyBuilds": 1,
+      "pathQueries": 318
+    },
+    {
+      "day": 13,
+      "snapshotMs": 0,
+      "postMs": 1.3287970000001224,
+      "roundTripMs": 14.872213999999985,
+      "computeMs": 4.8031370000003335,
+      "reconcileMs": 2.942751000000044,
+      "mainBusyMs": 4.271548000000166,
+      "topologyBuilds": 1,
+      "pathQueries": 382
+    },
+    {
+      "day": 14,
+      "snapshotMs": 0,
+      "postMs": 1.3302850000000035,
+      "roundTripMs": 20.083566000000246,
+      "computeMs": 7.4649389999999585,
+      "reconcileMs": 2.9133050000000367,
+      "mainBusyMs": 4.24359000000004,
+      "topologyBuilds": 1,
+      "pathQueries": 388
+    },
+    {
+      "day": 15,
+      "snapshotMs": 0,
+      "postMs": 1.3967149999998583,
+      "roundTripMs": 18.778151999999864,
+      "computeMs": 8.658816999999999,
+      "reconcileMs": 2.9367310000002362,
+      "mainBusyMs": 4.3334460000000945,
+      "topologyBuilds": 1,
+      "pathQueries": 410
+    },
+    {
+      "day": 16,
+      "snapshotMs": 0,
+      "postMs": 1.4013700000000426,
+      "roundTripMs": 11.737159999999676,
+      "computeMs": 1.5891639999999825,
+      "reconcileMs": 2.951154000000315,
+      "mainBusyMs": 4.352524000000358,
+      "topologyBuilds": 1,
+      "pathQueries": 440
+    },
+    {
+      "day": 17,
+      "snapshotMs": 0,
+      "postMs": 1.3701529999998456,
+      "roundTripMs": 13.271130999999968,
+      "computeMs": 3.1984630000001744,
+      "reconcileMs": 2.934654000000137,
+      "mainBusyMs": 4.3048069999999825,
+      "topologyBuilds": 1,
+      "pathQueries": 458
+    },
+    {
+      "day": 18,
+      "snapshotMs": 0,
+      "postMs": 1.3262190000000373,
+      "roundTripMs": 20.576810000000023,
+      "computeMs": 9.188130999999885,
+      "reconcileMs": 3.093104999999923,
+      "mainBusyMs": 4.4193239999999605,
+      "topologyBuilds": 1,
+      "pathQueries": 774
+    },
+    {
+      "day": 19,
+      "snapshotMs": 0,
+      "postMs": 1.475720000000365,
+      "roundTripMs": 16.273353000000043,
+      "computeMs": 5.641751000000113,
+      "reconcileMs": 3.10898300000008,
+      "mainBusyMs": 4.584703000000445,
+      "topologyBuilds": 1,
+      "pathQueries": 776
+    },
+    {
+      "day": 20,
+      "snapshotMs": 0,
+      "postMs": 1.4124979999996867,
+      "roundTripMs": 16.26870599999984,
+      "computeMs": 5.858335999999326,
+      "reconcileMs": 3.039589999999407,
+      "mainBusyMs": 4.452087999999094,
+      "topologyBuilds": 1,
+      "pathQueries": 1129
+    },
+    {
+      "day": 21,
+      "snapshotMs": 0,
+      "postMs": 1.388307000000168,
+      "roundTripMs": 15.11223500000051,
+      "computeMs": 4.446458000000348,
+      "reconcileMs": 3.1577830000005633,
+      "mainBusyMs": 4.546090000000731,
+      "topologyBuilds": 1,
+      "pathQueries": 1129
+    },
+    {
+      "day": 22,
+      "snapshotMs": 0,
+      "postMs": 1.4183490000004895,
+      "roundTripMs": 14.461725000000115,
+      "computeMs": 3.199217000000317,
+      "reconcileMs": 2.9796269999997094,
+      "mainBusyMs": 4.397976000000199,
+      "topologyBuilds": 1,
+      "pathQueries": 1288
+    },
+    {
+      "day": 23,
+      "snapshotMs": 0,
+      "postMs": 1.4574389999997948,
+      "roundTripMs": 16.805380999999215,
+      "computeMs": 6.377653999999893,
+      "reconcileMs": 3.0160029999997278,
+      "mainBusyMs": 4.4734419999995225,
+      "topologyBuilds": 1,
+      "pathQueries": 1352
+    },
+    {
+      "day": 24,
+      "snapshotMs": 0,
+      "postMs": 1.4596540000002278,
+      "roundTripMs": 16.82259400000021,
+      "computeMs": 6.387079000000085,
+      "reconcileMs": 3.0460830000001806,
+      "mainBusyMs": 4.505737000000408,
+      "topologyBuilds": 1,
+      "pathQueries": 1371
+    },
+    {
+      "day": 25,
+      "snapshotMs": 0,
+      "postMs": 1.429269000000204,
+      "roundTripMs": 23.61874700000044,
+      "computeMs": 11.226188999999977,
+      "reconcileMs": 4.265271999999641,
+      "mainBusyMs": 5.694540999999845,
+      "topologyBuilds": 1,
+      "pathQueries": 1523
+    },
+    {
+      "day": 26,
+      "snapshotMs": 0,
+      "postMs": 1.4856949999993958,
+      "roundTripMs": 19.510621999999785,
+      "computeMs": 8.359814999999799,
+      "reconcileMs": 3.0845719999997527,
+      "mainBusyMs": 4.5702669999991485,
+      "topologyBuilds": 1,
+      "pathQueries": 1531
+    },
+    {
+      "day": 27,
+      "snapshotMs": 0,
+      "postMs": 1.559704000000238,
+      "roundTripMs": 24.584053000000495,
+      "computeMs": 13.479071000000658,
+      "reconcileMs": 3.011692000000039,
+      "mainBusyMs": 4.571396000000277,
+      "topologyBuilds": 3,
+      "pathQueries": 1897
+    },
+    {
+      "day": 28,
+      "snapshotMs": 0,
+      "postMs": 1.4261880000003657,
+      "roundTripMs": 21.983718999999837,
+      "computeMs": 9.876764999999978,
+      "reconcileMs": 3.063108000000284,
+      "mainBusyMs": 4.48929600000065,
+      "topologyBuilds": 3,
+      "pathQueries": 1912
+    },
+    {
+      "day": 29,
+      "snapshotMs": 0,
+      "postMs": 1.4946499999996377,
+      "roundTripMs": 19.9025359999996,
+      "computeMs": 8.763393000000178,
+      "reconcileMs": 3.1063130000002275,
+      "mainBusyMs": 4.600962999999865,
+      "topologyBuilds": 3,
+      "pathQueries": 1918
+    },
+    {
+      "day": 30,
+      "snapshotMs": 0,
+      "postMs": 1.5622719999992114,
+      "roundTripMs": 53.2007679999997,
+      "computeMs": 41.27804500000002,
+      "reconcileMs": 3.181712000000516,
+      "mainBusyMs": 4.7439839999997275,
+      "topologyBuilds": 3,
+      "pathQueries": 1983
+    },
+    {
+      "day": 31,
+      "snapshotMs": 0,
+      "postMs": 1.587891000000127,
+      "roundTripMs": 18.917733999999655,
+      "computeMs": 7.096107999999731,
+      "reconcileMs": 3.10412499999984,
+      "mainBusyMs": 4.692015999999967,
+      "topologyBuilds": 3,
+      "pathQueries": 1985
+    },
+    {
+      "day": 32,
+      "snapshotMs": 0,
+      "postMs": 1.5478159999993295,
+      "roundTripMs": 18.403912999999193,
+      "computeMs": 6.61985999999979,
+      "reconcileMs": 3.2769939999998314,
+      "mainBusyMs": 4.824809999999161,
+      "topologyBuilds": 3,
+      "pathQueries": 1985
+    },
+    {
+      "day": 33,
+      "snapshotMs": 0,
+      "postMs": 1.573020999999244,
+      "roundTripMs": 34.017759999999726,
+      "computeMs": 22.269514999999956,
+      "reconcileMs": 3.2646370000002207,
+      "mainBusyMs": 4.837657999999465,
+      "topologyBuilds": 11,
+      "pathQueries": 2215
+    },
+    {
+      "day": 34,
+      "snapshotMs": 0,
+      "postMs": 1.620147000000543,
+      "roundTripMs": 24.561260000000402,
+      "computeMs": 11.950358000000051,
+      "reconcileMs": 3.310529999999744,
+      "mainBusyMs": 4.930677000000287,
+      "topologyBuilds": 11,
+      "pathQueries": 2251
+    },
+    {
+      "day": 35,
+      "snapshotMs": 0,
+      "postMs": 1.664372999999614,
+      "roundTripMs": 19.902469999999994,
+      "computeMs": 8.054741000000831,
+      "reconcileMs": 3.439115999999558,
+      "mainBusyMs": 5.103488999999172,
+      "topologyBuilds": 11,
+      "pathQueries": 2301
+    },
+    {
+      "day": 36,
+      "snapshotMs": 0,
+      "postMs": 1.6910430000007182,
+      "roundTripMs": 19.835557000000335,
+      "computeMs": 7.73651400000017,
+      "reconcileMs": 3.4716060000000653,
+      "mainBusyMs": 5.162649000000783,
+      "topologyBuilds": 11,
+      "pathQueries": 2393
+    },
+    {
+      "day": 37,
+      "snapshotMs": 0,
+      "postMs": 1.6363410000003569,
+      "roundTripMs": 17.084789999999884,
+      "computeMs": 5.45022599999993,
+      "reconcileMs": 3.339802000000418,
+      "mainBusyMs": 4.976143000000775,
+      "topologyBuilds": 11,
+      "pathQueries": 2414
+    },
+    {
+      "day": 38,
+      "snapshotMs": 0,
+      "postMs": 1.65643799999998,
+      "roundTripMs": 20.34618599999976,
+      "computeMs": 6.179169000000002,
+      "reconcileMs": 3.3717139999998835,
+      "mainBusyMs": 5.028151999999864,
+      "topologyBuilds": 11,
+      "pathQueries": 2414
+    },
+    {
+      "day": 39,
+      "snapshotMs": 0,
+      "postMs": 1.7353009999997084,
+      "roundTripMs": 19.399059000000307,
+      "computeMs": 6.454874999999447,
+      "reconcileMs": 3.481772000000092,
+      "mainBusyMs": 5.2170729999998,
+      "topologyBuilds": 11,
+      "pathQueries": 2545
+    },
+    {
+      "day": 40,
+      "snapshotMs": 0,
+      "postMs": 1.6723710000005667,
+      "roundTripMs": 19.228798000000097,
+      "computeMs": 6.833843999999772,
+      "reconcileMs": 3.366095999999743,
+      "mainBusyMs": 5.03846700000031,
+      "topologyBuilds": 11,
+      "pathQueries": 2554
+    },
+    {
+      "day": 41,
+      "snapshotMs": 0,
+      "postMs": 1.7077719999997498,
+      "roundTripMs": 20.261333999999806,
+      "computeMs": 7.5227420000001075,
+      "reconcileMs": 3.4384310000004916,
+      "mainBusyMs": 5.1462030000002414,
+      "topologyBuilds": 11,
+      "pathQueries": 2584
+    },
+    {
+      "day": 42,
+      "snapshotMs": 0,
+      "postMs": 1.678117000000384,
+      "roundTripMs": 15.643613999999616,
+      "computeMs": 1.6725759999999354,
+      "reconcileMs": 3.396651999999449,
+      "mainBusyMs": 5.074768999999833,
+      "topologyBuilds": 11,
+      "pathQueries": 2588
+    },
+    {
+      "day": 43,
+      "snapshotMs": 0,
+      "postMs": 1.7098880000003192,
+      "roundTripMs": 17.006420000000617,
+      "computeMs": 4.703477000000021,
+      "reconcileMs": 3.3189009999996415,
+      "mainBusyMs": 5.028788999999961,
+      "topologyBuilds": 11,
+      "pathQueries": 2590
+    },
+    {
+      "day": 44,
+      "snapshotMs": 0,
+      "postMs": 1.6869349999997212,
+      "roundTripMs": 18.896386999999777,
+      "computeMs": 6.28712700000051,
+      "reconcileMs": 3.4916119999998045,
+      "mainBusyMs": 5.178546999999526,
+      "topologyBuilds": 11,
+      "pathQueries": 2626
+    },
+    {
+      "day": 45,
+      "snapshotMs": 0,
+      "postMs": 1.6977770000003147,
+      "roundTripMs": 17.89622700000018,
+      "computeMs": 5.255202000000281,
+      "reconcileMs": 3.5907420000003185,
+      "mainBusyMs": 5.288519000000633,
+      "topologyBuilds": 11,
+      "pathQueries": 2626
+    },
+    {
+      "day": 46,
+      "snapshotMs": 0,
+      "postMs": 1.7418959999995423,
+      "roundTripMs": 18.257606999999552,
+      "computeMs": 5.001632999999856,
+      "reconcileMs": 3.462600000000748,
+      "mainBusyMs": 5.20449600000029,
+      "topologyBuilds": 11,
+      "pathQueries": 2626
+    },
+    {
+      "day": 47,
+      "snapshotMs": 0,
+      "postMs": 1.8049410000003263,
+      "roundTripMs": 19.31840800000009,
+      "computeMs": 6.461733000000095,
+      "reconcileMs": 3.4482749999997395,
+      "mainBusyMs": 5.253216000000066,
+      "topologyBuilds": 11,
+      "pathQueries": 2630
+    },
+    {
+      "day": 48,
+      "snapshotMs": 0,
+      "postMs": 1.7052100000000792,
+      "roundTripMs": 18.634723000000122,
+      "computeMs": 5.857490999999754,
+      "reconcileMs": 3.572809000000234,
+      "mainBusyMs": 5.278019000000313,
+      "topologyBuilds": 11,
+      "pathQueries": 2694
+    },
+    {
+      "day": 49,
+      "snapshotMs": 0,
+      "postMs": 1.7667860000001383,
+      "roundTripMs": 18.109651000000667,
+      "computeMs": 5.23508799999945,
+      "reconcileMs": 3.49411500000042,
+      "mainBusyMs": 5.260901000000558,
+      "topologyBuilds": 11,
+      "pathQueries": 2712
+    },
+    {
+      "day": 50,
+      "snapshotMs": 0,
+      "postMs": 1.735410000000229,
+      "roundTripMs": 19.75319000000036,
+      "computeMs": 5.39754400000038,
+      "reconcileMs": 3.5940049999999246,
+      "mainBusyMs": 5.329415000000154,
+      "topologyBuilds": 11,
+      "pathQueries": 2742
+    },
+    {
+      "day": 51,
+      "snapshotMs": 0,
+      "postMs": 1.8282060000001366,
+      "roundTripMs": 15.136183999999957,
+      "computeMs": 2.0473489999994854,
+      "reconcileMs": 3.4409029999997074,
+      "mainBusyMs": 5.269108999999844,
+      "topologyBuilds": 11,
+      "pathQueries": 2758
+    },
+    {
+      "day": 52,
+      "snapshotMs": 0,
+      "postMs": 1.7679619999998977,
+      "roundTripMs": 21.977326000000176,
+      "computeMs": 8.868585000000166,
+      "reconcileMs": 3.565150000000358,
+      "mainBusyMs": 5.333112000000256,
+      "topologyBuilds": 11,
+      "pathQueries": 3071
+    },
+    {
+      "day": 53,
+      "snapshotMs": 0,
+      "postMs": 1.7507379999997283,
+      "roundTripMs": 17.470177999999578,
+      "computeMs": 4.566800999999941,
+      "reconcileMs": 3.6010299999998097,
+      "mainBusyMs": 5.351767999999538,
+      "topologyBuilds": 11,
+      "pathQueries": 3071
+    },
+    {
+      "day": 54,
+      "snapshotMs": 0,
+      "postMs": 1.777458999999908,
+      "roundTripMs": 17.724285000000236,
+      "computeMs": 4.382045000000289,
+      "reconcileMs": 3.5666909999999916,
+      "mainBusyMs": 5.3441499999999,
+      "topologyBuilds": 11,
+      "pathQueries": 3426
+    },
+    {
+      "day": 55,
+      "snapshotMs": 0,
+      "postMs": 1.8915459999998347,
+      "roundTripMs": 17.414322999999968,
+      "computeMs": 4.497753000000557,
+      "reconcileMs": 3.5042999999996027,
+      "mainBusyMs": 5.3958459999994375,
+      "topologyBuilds": 11,
+      "pathQueries": 3426
+    },
+    {
+      "day": 56,
+      "snapshotMs": 0,
+      "postMs": 1.745762000000468,
+      "roundTripMs": 20.141798000000563,
+      "computeMs": 7.041594999999688,
+      "reconcileMs": 3.720223999999689,
+      "mainBusyMs": 5.465986000000157,
+      "topologyBuilds": 11,
+      "pathQueries": 3585
+    },
+    {
+      "day": 57,
+      "snapshotMs": 0,
+      "postMs": 1.8546040000001085,
+      "roundTripMs": 14.915789000000586,
+      "computeMs": 1.7551359999997658,
+      "reconcileMs": 3.5312299999995957,
+      "mainBusyMs": 5.385833999999704,
+      "topologyBuilds": 11,
+      "pathQueries": 3649
+    },
+    {
+      "day": 58,
+      "snapshotMs": 0,
+      "postMs": 1.8795819999995729,
+      "roundTripMs": 20.77527099999952,
+      "computeMs": 6.442685999999412,
+      "reconcileMs": 3.7150190000002112,
+      "mainBusyMs": 5.594600999999784,
+      "topologyBuilds": 11,
+      "pathQueries": 3668
+    },
+    {
+      "day": 59,
+      "snapshotMs": 0,
+      "postMs": 2.032854999999472,
+      "roundTripMs": 17.280565999999453,
+      "computeMs": 4.051988000000165,
+      "reconcileMs": 3.8187159999997675,
+      "mainBusyMs": 5.85157099999924,
+      "topologyBuilds": 11,
+      "pathQueries": 3818
+    },
+    {
+      "day": 60,
+      "snapshotMs": 0,
+      "postMs": 1.9984889999996085,
+      "roundTripMs": 47.82155599999987,
+      "computeMs": 34.25985500000024,
+      "reconcileMs": 3.849301999999625,
+      "mainBusyMs": 5.8477909999992335,
+      "topologyBuilds": 11,
+      "pathQueries": 3873
+    }
+  ]
+}

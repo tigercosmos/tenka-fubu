@@ -1,0 +1,6 @@
+{
+  "tenka-sim2-worker60-raw.json": "FAILED complete-state parity before persistent worker state; timings are not accepted benchmark rows.",
+  "tenka-sim2-worker120-raw.json": "FAILED complete-state parity before persistent worker state; timings are not accepted benchmark rows.",
+  "alias-worker60-raw.json": "FAILED complete-state parity after alias-only reconciler. Concurrent archive compression also invalidates timings. Not accepted.",
+  "alias-worker120-raw.json": "FAILED complete-state parity after alias-only reconciler. Concurrent archive compression also invalidates timings. Not accepted."
+}
