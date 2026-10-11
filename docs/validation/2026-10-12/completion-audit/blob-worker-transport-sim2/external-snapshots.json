@@ -1,0 +1,38 @@
+[
+  {
+    "source": "/tmp/tenka-remount-discriminator/native/before-remounts.heapsnapshot.gz",
+    "remoteSource": "/tmp/tenka-remount-mainblob-20261012/evidence/before-remounts.heapsnapshot.gz",
+    "bytes": 32872667,
+    "storedBytes": 6484551,
+    "sha256Uncompressed": "cc4f1a58dab5dad55782b11244328ae2fbf2f2ad4d76d33418d53fc8c77c269b",
+    "sha256Stored": "0d745dd692feb3b0a34a1e0b042c51944db189f14a436d1fde7d7f79c029e2c2",
+    "qualification": "Full original module-preference GREEN snapshot retained externally; excluded from bounded commit."
+  },
+  {
+    "source": "/tmp/tenka-remount-discriminator/native/after-remounts.heapsnapshot.gz",
+    "remoteSource": "/tmp/tenka-remount-mainblob-20261012/evidence/after-remounts.heapsnapshot.gz",
+    "bytes": 37816313,
+    "storedBytes": 7425881,
+    "sha256Uncompressed": "fc8c9a3d8f7200d66c0a0212a04e6113a22a9e3c6a34ae621320654ed420c4e1",
+    "sha256Stored": "dde58baedc677d02eca22b50f3cf8eb6188de1e335eb71f78e6da8ee0aa036b0",
+    "qualification": "Full original module-preference GREEN snapshot retained externally; excluded from bounded commit."
+  },
+  {
+    "source": "/tmp/tenka-remount-discriminator/native/automatic-gc-before.heapsnapshot.gz",
+    "remoteSource": "/tmp/tenka-remount-mainblob-20261012/evidence/automatic-gc-before.heapsnapshot.gz",
+    "bytes": 32857888,
+    "storedBytes": 6453799,
+    "sha256Uncompressed": "9c2db21d964195159aceb63ee30b26f7957f6c1c6bb659fea563de8b41322172",
+    "sha256Stored": "9d997330fa93105a069a59594d2f6b67809a00def5f96649475e6a704df397dc",
+    "qualification": "Formal 2cfb2d6 automatic-GC GREEN boundary snapshot retained externally; excluded from bounded commit."
+  },
+  {
+    "source": "/tmp/tenka-remount-discriminator/native/automatic-gc-after.heapsnapshot.gz",
+    "remoteSource": "/tmp/tenka-remount-mainblob-20261012/evidence/automatic-gc-after.heapsnapshot.gz",
+    "bytes": 37985122,
+    "storedBytes": 7379392,
+    "sha256Uncompressed": "e4f615949be2270e9a27fa4be79eea867db5f52edfdcf424fa1617286b823194",
+    "sha256Stored": "177a8a381b81088cc9b0085c71bf3a3be2619de12fa50e2d99cfad66aaec244f",
+    "qualification": "Formal 2cfb2d6 automatic-GC GREEN boundary snapshot retained externally; excluded from bounded commit."
+  }
+]

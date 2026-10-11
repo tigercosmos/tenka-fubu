@@ -1,0 +1,6 @@
+{
+  "source": "/tmp/tenka-extended-remount-red/trace.zip",
+  "bytes": 35881425,
+  "sha256": "3cc46683333d1b829811c11016a02157b38af2cc8cd8c6940f969dff4036514a",
+  "qualification": "Original 41-remount RED trace retained externally; 12 parsed failed records included in bounded commit."
+}

@@ -1,0 +1,32 @@
+{
+  "sourceArchive": {
+    "path": "/tmp/tenka-remount-discriminator/production-source.tar.gz",
+    "sha256": "be7f88e36878abc4035b7389d5d13b08c4e884134d4a35012541c31100b0f9ee",
+    "origin": "Frozen sim4 /tmp/tenka-remount-patched-20261012.VRxkTB/repo before preferences patch"
+  },
+  "nativeReplica": "/tmp/tenka-remount-mainblob-20261012",
+  "transportReplica": "/tmp/tenka-20261012-sim2-browser",
+  "originalSourceHashes": "native-module-patch-hashes.log.gz",
+  "formalLoader": "formal-loader.ts.gz",
+  "formalLoaderSha256": "db7caf9f8a7e041d641e19f299bc4a85a7942a0d5de243d9c93ab6819d5f530d",
+  "automaticGCPatch": "automatic-gc-test.patch.gz",
+  "env": {
+    "PATH": "$PWD/runtime/node-v22.23.3-linux-x64/bin:$PATH",
+    "PLAYWRIGHT_BROWSERS_PATH": "$PWD/runtime/browsers",
+    "CI": "1",
+    "VISUAL_GPU": "1",
+    "VISUAL_HEAP": "1"
+  },
+  "nativeCommand": "npm run build; npx playwright test e2e/visual.spec.ts --grep \"zoom cycles and renderer remount\" --workers=1",
+  "testChanges": [
+    "measurement 20 → 120 in both controls",
+    "automatic-GC control removes only sampleHeap collectGarbage call"
+  ],
+  "originalAssertions": "Resource equality, one canvas, font/canvas/bitmap cache equality, zero context losses, and boundary snapshots remain unchanged.",
+  "transportCommand": "node /tmp/tenka-remount-discriminator/blob-matrix.mjs",
+  "transportControls": "Fresh full Chromium process per condition; 28 persistent image Workers; 70 waves; cache-off uses fetch cache:no-store.",
+  "rawTraces": "/tmp/tenka-remount-discriminator/blob-matrix-trace-true-cache-{true,false}.zip; hashes archived.",
+  "moduleDetailedResults": "/tmp/tenka-remount-mainblob-20261012/evidence/module-preference-results",
+  "formalAutomaticDetailedResults": "/tmp/tenka-remount-mainblob-20261012/test-results",
+  "largeArtifactPolicy": "Full snapshots are retained externally with both SHA forms; no large HTML/trace archives are included."
+}

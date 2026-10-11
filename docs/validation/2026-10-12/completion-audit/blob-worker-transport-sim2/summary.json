@@ -1,0 +1,83 @@
+{
+  "requirement": "M6-V11 remount resource lifetime",
+  "host": "sim2/t2-sim-2",
+  "GPU": "NVIDIA RTX5070Ti",
+  "node": "22.23.3",
+  "chromium": "149.0.7827.55",
+  "headless": true,
+  "profilerEnabled": false,
+  "withinHostWorkloadsSerial": true,
+  "originalFailure": {
+    "remountCalls": 41,
+    "failedRequests": 12,
+    "error": "Elevated terrain ground texture unavailable",
+    "resourcesLost": ["elevated", "foothill", "projected canopy"],
+    "originalTrace": "/tmp/tenka-extended-remount-red/trace.zip",
+    "parsedFailedRecords": "original-failed-network-records.json.gz"
+  },
+  "acceptedCausalControls": {
+    "validBlobTraceCacheMatrix": "Four conditions, 70 waves×28 original PNGs each; every condition first fails at wave 40. No bitmaps are created.",
+    "workerGC": "28 explicit worker HeapProfiler.collectGarbage targets; 70×28 Blob reads, zero failures.",
+    "arrayBufferOnly": "70×28 reads, zero failures; does not decode images or constitute a production fix.",
+    "mainThread": "120×28 fetch/blob/createImageBitmap operations plus bitmap.close and page GC;zero failures."
+  },
+  "quotaQualification": "The first 39 complete waves read 2, 127, 473, 361 encoded bytes. Current Chromium documents a 2 GB x64 Blob memory limit. Runtime quota attribution is an inference; browser Blob internals and disk paging were not observed.",
+  "excludedCauses": {
+    "FDs": "Chromium limit 1, 048, 576; browser 128, renderer 42, network 38 FDs near wave 40. No FD exhaustion.",
+    "bitmapClose": "855 failures; explicit ImageBitmap.close does not cure worker Blob retention.",
+    "arrayBufferBlobBitmap": "842 failures, including temporary recovery; not a reliable fix.",
+    "HTMLImageDecode": "248 EncodingError failures, zero network failure events; different from pinned onload branch."
+  },
+  "nativeControls": [
+    {
+      "control": "module preference",
+      "outcome": "PASS",
+      "warmupRemounts": 10,
+      "measurementRemounts": 120,
+      "explicitPerCycleGC": true,
+      "boundaryHeapSnapshotsRetained": true,
+      "resourceAssertionsUnchanged": true,
+      "cacheBefore": {
+        "fontAtlasCanvases": 10,
+        "canvas2dContexts": 16,
+        "bitmapTexts": 60
+      },
+      "cacheAfter": {
+        "fontAtlasCanvases": 10,
+        "canvas2dContexts": 16,
+        "bitmapTexts": 60
+      },
+      "heapSamples": 121,
+      "firstHeapBytes": 20746244,
+      "lastHeapBytes": 25265636,
+      "timeoutMs": 180000,
+      "qualification": "Heap bytes are observations, not a full-heap stability assertion."
+    },
+    {
+      "control": "formal 2cfb2d6 automatic GC",
+      "outcome": "PASS",
+      "warmupRemounts": 10,
+      "measurementRemounts": 120,
+      "explicitPerCycleGC": false,
+      "boundaryHeapSnapshotsRetained": true,
+      "resourceAssertionsUnchanged": true,
+      "cacheBefore": {
+        "fontAtlasCanvases": 10,
+        "canvas2dContexts": 16,
+        "bitmapTexts": 60
+      },
+      "cacheAfter": {
+        "fontAtlasCanvases": 10,
+        "canvas2dContexts": 16,
+        "bitmapTexts": 60
+      },
+      "heapSamples": 121,
+      "firstHeapBytes": 21855588,
+      "lastHeapBytes": 30889264,
+      "timeoutMs": 180000,
+      "qualification": "Heap bytes are observations, not a full-heap stability assertion."
+    }
+  ],
+  "acceptanceLimit": "Resource counts, font/canvas/bitmap cache counters and context-loss assertions pass in bounded native controls. No whole-heap stability, FPS or universal runtime improvement claim.",
+  "rootSourceAdoption": "2cfb2d6 owns the formal shared loadResource preference branch. This evidence commit changes no source or tests."
+}
