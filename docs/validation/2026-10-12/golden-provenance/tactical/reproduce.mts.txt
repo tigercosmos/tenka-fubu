@@ -1,0 +1,21 @@
+import {readFileSync} from 'node:fs';
+import {gunzipSync} from 'node:zlib';
+import {createHash} from 'node:crypto';
+import assert from 'node:assert/strict';
+const oldRoot=process.env.TENKA_HISTORICAL_ROOT,newRoot=process.env.TENKA_CURRENT_ROOT,proofRoot=process.env.TENKA_PROOF_ROOT;
+assert.ok(oldRoot&&newRoot&&proofRoot);
+const manifest=JSON.parse(readFileSync(proofRoot+'/../goldens/historical-source-manifest.json','utf8'));
+for(const file of manifest.files)assert.equal(createHash('sha256').update(readFileSync(oldRoot+'/'+file.path)).digest('hex'),file.sha256);
+const proof=JSON.parse(gunzipSync(readFileSync(proofRoot+'/full-state-proof.json.gz')));
+const log=JSON.parse(readFileSync(proofRoot+'/frozen-v3.tfbattle.json','utf8'));
+const currentLog=JSON.parse(readFileSync(newRoot+'/tests/golden/battle-cases/m5-battle-subloop-v1.tfbattle.json','utf8'));
+assert.deepEqual(currentLog.entries,log.entries);assert.equal(currentLog.finalTick,log.finalTick);
+const oldHarness=await import(oldRoot+'/tests/golden/battleTranscript.ts'),newHarness=await import(newRoot+'/tests/golden/battleTranscript.ts');
+const oldBattle=await import(oldRoot+'/src/core/systems/battle.ts'),newBattle=await import(newRoot+'/src/core/systems/battle.ts');
+const oldHash=await import(oldRoot+'/src/core/state/serialize.ts'),newHash=await import(newRoot+'/src/core/state/serialize.ts');
+const old=oldHarness.buildBattleTranscriptInitialState(log.seed,log.initial.layoutId),current=newHarness.buildBattleTranscriptInitialState(log.seed,log.initial.layoutId);
+function upgrade(recorded){const expected=structuredClone(recorded);assert.equal(expected.meta.saveVersion,3);expected.meta.saveVersion=4;for(const clan of Object.values(expected.clans)){assert.equal(Object.hasOwn(clan,'rewardGoldSpentThisMonth'),false);clan.rewardGoldSpentThisMonth=0;}for(const combat of Object.values(expected.fieldCombats)){for(const side of [combat.sideA,combat.sideB]){assert.equal(side.participation,undefined);side.participation={complete:true,participants:side.armyIds.map(id=>{const army=expected.armies[id];return{armyId:army.id,clanId:army.clanId,leaderId:army.leaderId,deputyIds:[...army.deputyIds]};})};}}const battle=Object.values(expected.battles)[0];if(battle.result){assert.equal(battle.tick,30);assert.equal(battle.result.winnerSide,'attacker');assert.equal(battle.result.aweLevel,'large');const commander=expected.officers['off.alpha-lord'];assert.equal(commander.merit,0);commander.merit=90;commander.statExp.ldr=90;commander.statExp.val=90;}return expected;}
+assert.deepEqual(old.state,proof.initial.old);assert.deepEqual(current.state,upgrade(old.state));assert.equal(oldHash.stateHash(old.state),log.initial.stateHash);assert.equal(newHash.stateHash(current.state),currentLog.initial.stateHash);
+for(let tick=1;tick<=30;tick++){const orders=log.entries.filter(e=>e.tick===tick).map(e=>structuredClone(e.order));const oldResult=oldBattle.advanceBattleTick(old.state,old.battleId,structuredClone(orders)),result=newBattle.advanceBattleTick(current.state,current.battleId,structuredClone(orders));assert.deepEqual(old.state,proof.ticks[tick-1].oldState);assert.deepEqual(oldResult,proof.ticks[tick-1].oldResult);assert.deepEqual(result,oldResult);assert.deepEqual(current.state,upgrade(old.state));const checkpoint=log.checkpoints.find(c=>c.tick===tick),currentCheckpoint=currentLog.checkpoints.find(c=>c.tick===tick);if(checkpoint)assert.equal(oldHash.stateHash(old.state),checkpoint.hash);if(currentCheckpoint)assert.equal(newHash.stateHash(current.state),currentCheckpoint.hash);}
+assert.equal(oldHash.stateHash(old.state),log.finalHash);assert.equal(newHash.stateHash(current.state),currentLog.finalHash);
+console.log(JSON.stringify({ticks:30,fullStateAndResultParityAfterExplicitSchemaRosterAndMerit:true,oldInitialHash:log.initial.stateHash,currentInitialHash:currentLog.initial.stateHash,oldFinalHash:log.finalHash,currentFinalHash:currentLog.finalHash}));
