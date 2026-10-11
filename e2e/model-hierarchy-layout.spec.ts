@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
+import type { GameState } from '../src/core/state/gameState';
 import type { TenkaDebugApi } from '../src/app/debug';
 import { test, expect } from './fixtures';
 
@@ -95,6 +96,39 @@ async function selectCastle(page: Page, id: string) {
 async function data(page: Page) {
   return page.evaluate(() => (window as DebugWindow).__tenka.debug.getMapDiagnostics());
 }
+function renderedCameraScale(
+  diagnostics: Awaited<ReturnType<typeof data>>,
+  game: GameState,
+  firstId: string,
+  secondId: string,
+) {
+  const anchor = (id: string) => {
+    const rendered = diagnostics.elevationRendering.nodes.find((node) => node.id === id)!;
+    const canonical = Object.values(game.castles).find((castle) => castle.id === id)!.pos;
+    expect(rendered.canonical).toEqual(canonical);
+    const height = canonical.y - rendered.scene.y;
+    expect(height).toBeGreaterThanOrEqual(-1e-8);
+    expect(height).toBeLessThanOrEqual(20);
+    expect(rendered.scene.x).toBeCloseTo(canonical.x - 0.18 * height, 8);
+    return rendered.scene;
+  };
+  const first = diagnostics.castleRendering.nodes.find((node) => node.id === firstId)!;
+  const second = diagnostics.castleRendering.nodes.find((node) => node.id === secondId)!;
+  const a = anchor(firstId),
+    b = anchor(secondId);
+  // Separate scene containers determine the camera transform, not the body width
+  // under test. Elevation moves the display point while core coordinates remain fixed.
+  const scale =
+    Math.hypot(first.anchor.x - second.anchor.x, first.anchor.y - second.anchor.y) /
+    Math.hypot(a.x - b.x, a.y - b.y);
+  expect(scale).toBeGreaterThan(0);
+  for (const node of diagnostics.castleRendering.nodes) {
+    const point = anchor(node.id);
+    expect(node.anchor.x).toBeCloseTo(first.anchor.x + (point.x - a.x) * scale, 6);
+    expect(node.anchor.y).toBeCloseTo(first.anchor.y + (point.y - a.y) * scale, 6);
+  }
+  return scale;
+}
 function depthOrder(diagnostics: Awaited<ReturnType<typeof data>>) {
   const bodies = diagnostics.actorDepth.bodies.filter(
     (entry) => entry.visible && entry.rect !== null,
@@ -142,13 +176,7 @@ test.describe('native original model hierarchy', () => {
         expect(node).toBeDefined();
         expect(reference).toBeDefined();
         const castle = Object.values(game.castles).find((entry) => entry.id === id)!;
-        const other = Object.values(game.castles).find((entry) => entry.id === reference!.id)!;
-        // Uniform camera scale reconstructed from two actual screen anchors and
-        // unchanged world coordinates. Never infer scale from the body width
-        // being tested, or import the production placement helper.
-        const cameraScale =
-          Math.hypot(node!.anchor.x - reference!.anchor.x, node!.anchor.y - reference!.anchor.y) /
-          Math.hypot(castle.pos.x - other.pos.x, castle.pos.y - other.pos.y);
+        const cameraScale = renderedCameraScale(current, game, id, reference!.id);
         await info.attach(`model-hierarchy-raw-${id}-${scale}`, {
           body: JSON.stringify({ current, id, scale, cameraScale }),
           contentType: 'application/json',
@@ -403,11 +431,7 @@ test.describe('native original model hierarchy', () => {
         ),
     );
     expect(reference).toBeDefined();
-    const mainState = Object.values(game.castles).find((entry) => entry.id === main.id)!;
-    const referenceState = Object.values(game.castles).find((entry) => entry.id === reference!.id)!;
-    const cameraScale =
-      Math.hypot(main.anchor.x - reference!.anchor.x, main.anchor.y - reference!.anchor.y) /
-      Math.hypot(mainState.pos.x - referenceState.pos.x, mainState.pos.y - referenceState.pos.y);
+    const cameraScale = renderedCameraScale(far, game, main.id, reference!.id);
     expect(main.body.width).toBeCloseTo(28 * 1.4 * cameraScale, 6);
     expect(
       await page.evaluate(() => JSON.stringify((window as DebugWindow).__tenka.debug.getState())),

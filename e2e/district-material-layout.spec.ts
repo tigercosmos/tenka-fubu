@@ -71,6 +71,20 @@ test('native district seals keep visible owner accents, quiet bodies and physica
         if (stable < 6) throw new Error('Minimap camera projection did not settle');
       });
     }
+    // Native minimap focusing can leave a castle selected. Its adjacent-road
+    // highlight crosses nearby seals, so clear that separate selection state
+    // before measuring the unselected material (picking is checked below).
+    const selectedContext = page.locator(
+      '[data-testid="screen-strategy"] > div[aria-hidden="false"]',
+    );
+    if (await selectedContext.isVisible()) {
+      await selectedContext.getByRole('button').first().click();
+      await expect(selectedContext).toHaveCount(0);
+    }
+    await page.evaluate(() => window.__tenka.debug.waitMapIdle(3));
+    expect(
+      await page.evaluate(() => window.__tenka.debug.getMapPublishedViewSnapshot().selection),
+    ).toBeNull();
     // Real native wheel input makes the small owner stroke independently measurable.
     await page.mouse.move(640, 350);
     for (let step = 0; step < 8; step++) await page.mouse.wheel(0, -100);
@@ -87,10 +101,12 @@ test('native district seals keep visible owner accents, quiet bodies and physica
         anchors: d.castleRendering.nodes.map((n) => ({
           world: Object.values(state.castles).find((c) => c.id === n.id)!.pos,
           screen: n.anchor,
+          scene: d.elevationRendering.nodes.find((node) => node.id === n.id)!.scene,
         })),
         armyAnchors: d.armyPlateLayout.plates.map((p) => p.anchor),
         districts: Object.values(state.districts).map((district) => ({
           ...district,
+          rendered: d.elevationRendering.nodes.find((node) => node.id === district.id)!,
           ownerColor: style
             .getPropertyValue(
               `--clan-${String(state.clans[district.ownerClanId]!.colorIndex).padStart(2, '0')}`,
@@ -115,19 +131,35 @@ test('native district seals keep visible owner accents, quiet bodies and physica
       };
     });
     const a = scene.anchors[0]!,
-      b = scene.anchors.find((p) => p.world.x !== a.world.x)!;
+      b = scene.anchors.find((p) => p.scene.x !== a.scene.x)!;
     expect(b).toBeDefined();
-    const scale = (b.screen.x - a.screen.x) / (b.world.x - a.world.x);
+    // Camera scaling acts on displayed terrain coordinates. Reconstruct it
+    // from separate node containers, never from the seal/body bounds sampled below.
+    const scale = (b.screen.x - a.screen.x) / (b.scene.x - a.scene.x);
     expect(scale).toBeGreaterThanOrEqual(2);
     const project = (p: Point) => ({
-      x: scene.origin.x + a.screen.x + (p.x - a.world.x) * scale,
-      y: scene.origin.y + a.screen.y + (p.y - a.world.y) * scale,
+      x: scene.origin.x + a.screen.x + (p.x - a.scene.x) * scale,
+      y: scene.origin.y + a.screen.y + (p.y - a.scene.y) * scale,
     });
+    for (const anchor of scene.anchors) {
+      const height = anchor.world.y - anchor.scene.y;
+      expect(height).toBeGreaterThanOrEqual(-1e-8);
+      expect(height).toBeLessThanOrEqual(20);
+      expect(anchor.scene.x).toBeCloseTo(anchor.world.x - 0.18 * height, 8);
+      const mapped = project(anchor.scene);
+      expect(mapped.x).toBeCloseTo(scene.origin.x + anchor.screen.x, 6);
+      expect(mapped.y).toBeCloseTo(scene.origin.y + anchor.screen.y, 6);
+    }
     const observed = scene.districts
       .map((d) => {
         expect(d.ownerColor).toMatch(/^#[a-f\d]{6}$/i);
         const color: RGB = [1, 3, 5].map((i) => parseInt(d.ownerColor.slice(i, i + 2), 16)) as RGB;
-        const point = project(d.pos),
+        expect(d.rendered.canonical).toEqual(d.pos);
+        const height = d.pos.y - d.rendered.scene.y;
+        expect(height).toBeGreaterThanOrEqual(-1e-8);
+        expect(height).toBeLessThanOrEqual(20);
+        expect(d.rendered.scene.x).toBeCloseTo(d.pos.x - 0.18 * height, 8);
+        const point = project(d.rendered.scene),
           box = {
             x: point.x - 6 * scale,
             y: point.y - 4 * scale,
@@ -209,8 +241,9 @@ test('native district seals keep visible owner accents, quiet bodies and physica
     }
   }
   expect(tested).toBeGreaterThanOrEqual(4);
-  // The other fixed-fixture districts share troop/paint bounds and are not safe pixel probes.
+  // Scene projection and cleared selection expose four independently unobstructed seals.
   expect([...districts].sort()).toEqual([
+    'dist.gifu-higashi',
     'dist.kakegawa-nishi',
     'dist.kiyosu-nishi',
     'dist.narumi-nishi',
