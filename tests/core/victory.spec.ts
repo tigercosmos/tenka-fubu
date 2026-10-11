@@ -9,13 +9,16 @@ import {
   TENKABITO_PROVINCE_ID,
   victorySystem,
 } from '../../src/core/systems/victory';
+import { applyMarch } from '../../src/core/commands/march';
+import { startFieldCombat } from '../../src/core/systems/fieldCombat';
+import { applyStartKassen } from '../../src/core/systems/battle';
 import { advanceDay } from '../../src/core/systems/index';
 import { buildEndingVM } from '../../src/core/state/selectors';
 import { validateState } from '../../src/core/state/invariants';
 import { defaultDiplomacyRow, pairKey } from '../../src/core/state/serialize';
 import type { GameEvent } from '../../src/core/state/events';
 import type { GameState } from '../../src/core/state/gameState';
-import type { ArmyId, BattleId, OfficerId } from '../../src/core/state/ids';
+import type { OfficerId } from '../../src/core/state/ids';
 import {
   buildTinyState,
   CASTLE_A2,
@@ -23,6 +26,8 @@ import {
   CLAN_ALPHA,
   CLAN_BETA,
   OFF_ALPHA_BUSHO,
+  OFF_ALPHA_TAISHO,
+  OFF_BETA_TAISHO,
   OFF_BETA_BUSHO,
   OFF_BETA_LORD,
   PROV_OWARI,
@@ -45,6 +50,59 @@ function stripBetaHoldings(state: GameState): void {
     }
   }
   state.meta.territoryChangedToday = true;
+}
+
+/** Valid armies and engagement; territory changes are applied only after validation. */
+function engagedFixture(tactical = false): GameState {
+  const state = buildTinyState();
+  state.castles[CASTLE_A2]!.soldiers = 2500;
+  state.castles[CASTLE_B1]!.soldiers = 2500;
+  const armies = [];
+  for (const [clanId, originCastleId, leaderId, targetNodeId] of [
+    [CLAN_ALPHA, CASTLE_A2, OFF_ALPHA_TAISHO, CASTLE_B1],
+    [CLAN_BETA, CASTLE_B1, OFF_BETA_TAISHO, CASTLE_A2],
+  ] as const) {
+    const previous = new Set(Object.keys(state.armies));
+    applyMarch(
+      state,
+      {
+        type: 'march',
+        clanId,
+        originCastleId,
+        leaderId,
+        targetNodeId,
+        deputyIds: clanId === CLAN_BETA ? [OFF_BETA_BUSHO] : [],
+        soldiers: 2000,
+        food: 1200,
+      },
+      () => {},
+    );
+    const army = Object.values(state.armies).find((a) => !previous.has(a.id))!;
+    Object.assign(army, {
+      posNodeId: CASTLE_A2,
+      path: [CASTLE_A2],
+      pathCursor: 0,
+      edgeProgressDays: 0,
+      edgeCostDays: 0,
+      status: 'holding',
+    });
+    armies.push(army);
+  }
+  startFieldCombat(state, CASTLE_A2, [armies[0]!.id], [armies[1]!.id]);
+  armies[0]!.pursuitEligibleArmyIds = [armies[1]!.id];
+  if (tactical) {
+    applyStartKassen(
+      state,
+      {
+        type: 'startKassen',
+        clanId: CLAN_ALPHA,
+        fieldCombatId: Object.values(state.fieldCombats)[0]!.id,
+      },
+      () => {},
+    );
+  }
+  expect(validateState(state)).toEqual([]);
+  return state;
 }
 
 /** alpha（玩家）全部持分轉予 beta（模擬玩家覆滅）。 */
@@ -124,41 +182,47 @@ describe('victorySystem（10 §5.6）', () => {
     expect(state.clans[CLAN_BETA]!.alive).toBe(true); // 滅亡收尾也不執行
   });
 
-  it('交戰中部隊守門：合戰中的 0 城勢力延後收尾', () => {
-    const state = buildTinyState();
+  it('zero-castle field participants exit without combat rewards before unification', () => {
+    const state = engagedFixture();
+    const rng = structuredClone(state.rng);
+    const alphaBefore = structuredClone(state.officers[OFF_ALPHA_TAISHO]!);
     stripBetaHoldings(state);
-    // 佈置一支 beta 殘軍在合戰中（僅需 battleId 非 null 觸發守門）
-    const armyId = 'army.000900' as ArmyId;
-    state.armies[armyId] = {
-      id: armyId,
-      clanId: CLAN_BETA,
-      leaderId: OFF_BETA_BUSHO,
-      deputyIds: [],
-      soldiers: 500,
-      morale: 80,
-      food: 100,
-      status: 'engaged',
-      mission: 'march',
-      originCastleId: CASTLE_B1,
-      targetNodeId: null,
-      path: [CASTLE_B1],
-      pathCursor: 0,
-      posNodeId: CASTLE_B1,
-      edgeProgressDays: 0,
-      embarkDelayDays: 0,
-      battleId: 'battle.000901' as BattleId,
-      siegeId: null,
-      autoReturnDays: null,
-      corpsId: null,
-      pursuitEligibleArmyIds: [],
-    } as never;
-    state.officers[OFF_BETA_BUSHO]!.armyId = armyId;
     const events = victorySystem(state, []);
-    expect(state.clans[CLAN_BETA]!.alive).toBe(true); // 守門：本 tick 不結算
-    expect(eventTypes(events)).not.toContain('clan.destroyed');
-    // 統一判定同樣不成立（beta 仍存活且持城為 0——支配圈未含 beta 城？城已全歸 alpha，
-    // 但滅亡收尾未跑不影響「持有全部城」判定 → 仍應勝利）
-    expect(state.meta.gameOver).toEqual({ kind: 'victory', endingId: 'unification' });
+    expect(state.clans[CLAN_BETA]!.alive).toBe(false);
+    expect(Object.values(state.armies).every((a) => a.clanId !== CLAN_BETA)).toBe(true);
+    expect(state.fieldCombats).toEqual({});
+    const survivor = Object.values(state.armies)[0]!;
+    expect(survivor.status).toBe('holding');
+    expect(survivor.pursuitEligibleArmyIds).toEqual([]);
+    expect(state.officers[OFF_BETA_TAISHO]!).toMatchObject({
+      status: 'ronin',
+      clanId: null,
+      armyId: null,
+    });
+    expect(state.officers[OFF_BETA_BUSHO]!).toMatchObject({
+      status: 'ronin',
+      clanId: null,
+      armyId: null,
+    });
+    expect(state.officers[OFF_ALPHA_TAISHO]!).toEqual(alphaBefore);
+    expect(state.rng).toEqual(rng);
+    expect(eventTypes(events)).toEqual(['clan.destroyed', 'game.victory']);
+    expect(state.meta.gameOver).toEqual({
+      kind: 'victory',
+      endingId: 'unification',
+    });
+    expect(validateState(state)).toEqual([]);
+  });
+
+  it('policy-limited tactical guard preserves active battle pending external closure rules', () => {
+    const state = engagedFixture(true);
+    state.ai.allAi = true;
+    stripBetaHoldings(state);
+    const before = structuredClone(state);
+    expect(victorySystem(state, [])).toEqual([]);
+    expect(state).toEqual(before);
+    // This guard does not satisfy 10 §3.8.3 extinction; the valid failing
+    // requirement reproducer is retained separately in validation evidence.
   });
 
   it('天下人：條件連續 12 個月成立 → game.victory(tenkabito)；第 6 個月起發進度事件', () => {

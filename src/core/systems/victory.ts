@@ -2,8 +2,8 @@
 // MVP 先行實作（原屬 M8-9／M8-10；依使用者 2026-07-22「先完成可通關 MVP」指示提前）：
 // - §5.6 (1) 滅亡結算：既有征服路徑（siege.ts absorbDefeatedClan／military.ts disbandArmy／
 //   officers.ts 繼承失敗）已於事發點自清並發 clan.destroyed，本步為規格要求的收尾保險，
-//   僅處理「存活但持城數 0」的殘餘勢力（destroyClanRemnants；交戰中部隊存在時延後一日，
-//   讓 07 的參戰者退出規則先收束，避免懸掛參照）。
+//   僅處理「存活但持城數 0」的殘餘勢力（destroyClanRemnants；未結束合戰的外部退場政策尚未定義，
+//   該情境暫留守門；野戰部隊立即解除參戰引用）。
 // - §5.6 (2) 玩家敗北：no-heir（旗標由 officers/siege 設定）→ no-castle。
 // - §5.6 (3) 天下統一：領土變動日檢查支配圈是否持有全部城。
 // - §5.6 (4) 天下人＋結局統計：每月 1 日檢查石高占比與山城國，連續達標
@@ -17,7 +17,7 @@ import { BAL } from '../balance';
 import type { GameEvent } from '../state/events';
 import type { Clan, GameState } from '../state/gameState';
 import type { ClanId, ProvinceId } from '../state/ids';
-import { releaseOrphanedCaptives } from './officers';
+import { releaseOfficerAssignments, releaseOrphanedCaptives } from './officers';
 import { dissolveCorps } from './corps';
 import { clearExtinctClanWork, collapseExtinctClanCourt } from './clanExtinction';
 
@@ -82,19 +82,16 @@ export function ownsProvinceAll(
 
 /**
  * 滅亡收尾（10 §3.8.3 destroyClan；安全網版）：清除 0 城存活勢力的一切殘餘持分。
- * 前置守門：該勢力尚有部隊在合戰／野戰中 → 本 tick 不結算（07 參戰者退出規則先收束，
- * 次一個領土變動日重試）；攻城中部隊直接解圍撤除（附屬 Siege 一併結束）。
+ * 野戰依既有職務解除流程退出，不授予非戰鬥功績（07 D49）。
+ * 未結束合戰的外部非戰鬥收束尚無結果模型；保留此缺口的守門，不假造勝利。
  */
 export function destroyClanRemnants(state: GameState, clan: Clan, events: GameEvent[]): boolean {
   const clanId = clan.id;
-  const inFieldCombat = new Set<string>();
-  for (const fc of Object.values(state.fieldCombats)) {
-    for (const armyId of [...fc.sideA.armyIds, ...fc.sideB.armyIds]) inFieldCombat.add(armyId);
+  if (
+    Object.values(state.armies).some((army) => army.clanId === clanId && army.battleId !== null)
+  ) {
+    return false;
   }
-  const engaged = Object.values(state.armies).some(
-    (army) => army.clanId === clanId && (army.battleId !== null || inFieldCombat.has(army.id)),
-  );
-  if (engaged) return false;
 
   // 1) 攻城戰退場（該勢力為攻方的 Siege 全數結束；§3.8.3-3 部隊移除的前置）
   for (const siege of Object.values(state.sieges)) {
@@ -109,6 +106,13 @@ export function destroyClanRemnants(state: GameState, clan: Clan, events: GameEv
       fallen: false,
       newOwnerClanId: null,
     });
+  }
+  // 在刪除 Army 前解除職務：既有流程清除野戰／追擊引用，恢復對方部隊狀態。
+  // 全員解除也涵蓋副將接任後的殘軍，不能先刪部隊再失去參戰者上下文。
+  for (const officer of Object.values(state.officers).sort((a, b) => a.id.localeCompare(b.id))) {
+    if (officer.status === 'serving' && officer.clanId === clanId) {
+      events.push(...releaseOfficerAssignments(state, officer.id));
+    }
   }
   // 2) 部隊全滅（兵潰散、攜行糧散失；§3.8.3-3）＋輸送隊移除
   for (const army of Object.values(state.armies)) {
