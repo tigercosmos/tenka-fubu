@@ -116,7 +116,10 @@ import {
   layoutArmySignals,
   type ArmySignalCandidate,
 } from './armySignalLayout';
-import { layoutGeographicLabels, type GeographicLabelCandidate } from './geographicLabelLayout';
+import {
+  createGeographicLabelLayouter,
+  type GeographicLabelCandidate,
+} from './geographicLabelLayout';
 import {
   prioritizeGeographicLabels,
   type GeographicPriorityDecision,
@@ -249,6 +252,7 @@ export interface MapRebuildCounts {
 }
 
 export class MapRenderer {
+  private readonly geographicLayouter = createGeographicLabelLayouter();
   private app: Application | null = null;
   private onEvent: MapEventHandler | null = null;
   private layers: MapLayers | null = null;
@@ -3065,7 +3069,7 @@ export class MapRenderer {
     const signature = JSON.stringify(inputs);
     if (signature !== this.geographicLabelLayoutSignature) {
       this.geographicLabelLayoutSignature = signature;
-      this.geographicLabelOffsets = layoutGeographicLabels(
+      this.geographicLabelOffsets = this.geographicLayouter.layout(
         inputs.candidates,
         inputs.obstacles
           .filter(({ kind }) => kind !== 'hud' && kind !== 'canvasEdge')
@@ -3134,6 +3138,7 @@ export class MapRenderer {
     });
     return {
       runs: this.geographicLabelLayoutRuns,
+      placementCache: this.geographicLayouter.getDiagnostics(),
       labels: (inputs?.candidates ?? []).map(({ id, kind, rect, roadCapsules }) => {
         const part = this.labelParts.get(id)!;
         const bounds = part.text.getLocalBounds();
@@ -3980,6 +3985,11 @@ export class MapRenderer {
       }
     }
     this.redrawMilitaryObjects();
+  }
+
+  /** Detached published view for read-only semantic checks; excludes the live core state. */
+  getPublishedViewSnapshot(): MapViewState {
+    return structuredClone(this.view);
   }
 
   /** UI-only theme controls; neither the input view nor GameState is mutated. */

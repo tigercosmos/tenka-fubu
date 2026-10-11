@@ -42,11 +42,44 @@ function overlap(a: PlateRect, b: PlateRect, padding: number) {
   );
 }
 
+interface CachedPlacement {
+  signature: string;
+  offset: { x: number; y: number };
+}
+
+/** One most recent placement per admitted label; changing geometry invalidates exactly. */
+export function createGeographicLabelLayouter() {
+  const placements = new Map<string, CachedPlacement>();
+  let computed = 0;
+  let reused = 0;
+  return {
+    layout(
+      candidates: readonly GeographicLabelCandidate[],
+      obstacles: readonly PlateRect[],
+      hardObstacles: readonly PlateRect[] = [],
+    ) {
+      const ids = new Set(candidates.map(({ id }) => id));
+      for (const id of placements.keys()) if (!ids.has(id)) placements.delete(id);
+      return layoutGeographicLabels(candidates, obstacles, hardObstacles, {
+        placements,
+        computed: () => computed++,
+        reused: () => reused++,
+      });
+    },
+    getDiagnostics: () => ({ computed, reused, entries: placements.size }),
+  };
+}
+
 /** Moves visible geography text only. Callers retain world anchors and visibility policy. */
 export function layoutGeographicLabels(
   candidates: readonly GeographicLabelCandidate[],
   obstacles: readonly PlateRect[],
   hardObstacles: readonly PlateRect[] = [],
+  cache?: {
+    placements: Map<string, CachedPlacement>;
+    computed: () => void;
+    reused: () => void;
+  },
 ): Map<string, { x: number; y: number }> {
   obstacles.forEach(validate);
   hardObstacles.forEach(validate);
@@ -70,8 +103,18 @@ export function layoutGeographicLabels(
   );
   for (const { id, rect, roadLine, roadCapsules } of sorted) {
     const reserved = [...primary, ...hard, ...placed];
-    const baselinePrimary = primary.reduce((sum, r) => sum + overlap(rect, r, 0), 0);
-    const hardBaseline = hard.map((r) => overlap(rect, r, 0));
+    // Every eligible placement lies in this envelope. Outside rectangles contribute
+    // zero overlap even with the existing two-pixel scoring padding on both sides.
+    const near = (r: PlateRect) =>
+      r.x < rect.x + rect.width + LIMIT + 4 &&
+      r.x + r.width > rect.x - LIMIT - 4 &&
+      r.y < rect.y + rect.height + LIMIT + 4 &&
+      r.y + r.height > rect.y - LIMIT - 4;
+    const nearPrimary = primary.filter(near);
+    const nearHard = hard.filter(near);
+    const nearReserved = reserved.filter(near);
+    const baselinePrimary = nearPrimary.reduce((sum, r) => sum + overlap(rect, r, 0), 0);
+    const hardBaseline = nearHard.map((r) => overlap(rect, r, 0));
     const intersecting = reserved.filter((r) => overlap(rect, r, 2) > 0);
     const directions = [
       { x: 0, y: Math.max(0, ...intersecting.map((r) => r.y + r.height + GAP - rect.y)) },
@@ -119,6 +162,30 @@ export function layoutGeographicLabels(
     );
     for (const y of ys)
       for (const x of xs) if (x * x + y * y <= LIMIT * LIMIT) offsets.push({ x, y });
+    // The seven dynamic directions plus both exact axes fully determine offset order;
+    // disk samples are fixed constants. Keep distant edge inputs in these axes.
+    const signature = cache
+      ? JSON.stringify([
+          rect,
+          roadLine,
+          roadCapsules === undefined,
+          roadCapsules,
+          offsets.slice(0, 7),
+          xs,
+          ys,
+          nearPrimary,
+          nearHard,
+          nearReserved,
+        ])
+      : null;
+    const cached = cache?.placements.get(id);
+    if (cached && cached.signature === signature) {
+      cache?.reused();
+      result.set(id, { ...cached.offset });
+      placed.push({ ...rect, x: rect.x + cached.offset.x, y: rect.y + cached.offset.y });
+      continue;
+    }
+    cache?.computed();
     let best = { x: 0, y: 0 },
       bestPrimary = Infinity,
       bestSecondary = Infinity,
@@ -139,12 +206,12 @@ export function layoutGeographicLabels(
       // A clearer ordinary cluster cannot pay for a new collision with any
       // protected castle channel. Zero offset is always eligible, even if a
       // constrained label already overlaps a channel at its original anchor.
-      if (hard.some((r, index) => overlap(moved, r, 0) > hardBaseline[index]!)) continue;
+      if (nearHard.some((r, index) => overlap(moved, r, 0) > hardBaseline[index]!)) continue;
       // Primary bodies, plates and castle ribbons always outrank geographic clearance.
       // Including the baseline prevents an accepted offset from increasing this area.
-      const primaryArea = primary.reduce((sum, r) => sum + overlap(moved, r, 0), 0);
+      const primaryArea = nearPrimary.reduce((sum, r) => sum + overlap(moved, r, 0), 0);
       if (primaryArea > baselinePrimary) continue;
-      const secondaryArea = reserved.reduce((sum, r) => sum + overlap(moved, r, 2), 0);
+      const secondaryArea = nearReserved.reduce((sum, r) => sum + overlap(moved, r, 2), 0);
       if (
         primaryArea < bestPrimary ||
         (primaryArea === bestPrimary &&
@@ -159,6 +226,7 @@ export function layoutGeographicLabels(
       if (primaryArea === 0 && secondaryArea === 0 && distance === 0) break;
     }
     result.set(id, { ...best });
+    if (signature !== null) cache?.placements.set(id, { signature, offset: { ...best } });
     placed.push({ ...rect, x: rect.x + best.x, y: rect.y + best.y });
   }
   return result;

@@ -127,7 +127,12 @@ describe('canonical national map performance prerequisites', () => {
             castleBodies: [],
             foregroundBodies: [],
           },
-          geographicLabelLayout: { runs: 0, labels: [], obstacles: [] },
+          geographicLabelLayout: {
+            runs: 0,
+            placementCache: { computed: 0, reused: 0, entries: 0 },
+            labels: [],
+            obstacles: [],
+          },
           castleRibbonLayout: { runs: 0, limited: false, ribbons: [], obstacles: [] },
           castleRendering: { groundOrder: 0, nodes: [] },
           waterRendering: {

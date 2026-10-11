@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import {
   layoutGeographicLabels,
+  createGeographicLabelLayouter,
   type GeographicLabelCandidate,
 } from '../../src/ui/map/geographicLabelLayout';
 import type { PlateRect } from '../../src/ui/map/armyPlateLayout';
+import { layoutGeographicLabels as referenceLayout } from '../helpers/geographicLabelReference';
 
 const label = (
   id: string,
@@ -17,6 +19,81 @@ const separated = (a: PlateRect, b: PlateRect) =>
   b.y + b.height + 4 <= a.y;
 
 describe('geographic text CSS placement', () => {
+  it('matches the exhaustive original scoring across deterministic scenes and padding boundaries', () => {
+    let seed = 0xabc123;
+    const random = () => {
+      seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+      return seed / 0x100000000;
+    };
+    const cached = createGeographicLabelLayouter();
+    for (let scene = 0; scene < 120; scene++) {
+      const candidates = Array.from({ length: 5 }, (_, index): GeographicLabelCandidate => ({
+        id: `label.${index}`,
+        kind: index === 0 ? 'province' : index % 2 ? 'road' : 'district',
+        rect: { x: random() * 600, y: random() * 400, width: 10 + random() * 90, height: 16 },
+        ...(index % 2
+          ? {
+              roadLine: { normal: { x: 0, y: -1 }, slack: random() * 30 },
+              roadCapsules: [{ a: { x: 0, y: 200 }, b: { x: 600, y: 200 }, radius: 5 }],
+            }
+          : {}),
+      }));
+      const obstacles = Array.from({ length: 50 }, (): PlateRect => ({
+        x: random() * 1200 - 300,
+        y: random() * 800 - 200,
+        width: random() * 200,
+        height: random() * 80,
+      }));
+      const hard = obstacles.filter((_, index) => index % 4 === 0);
+      const expected = referenceLayout(candidates, obstacles, hard);
+      expect(layoutGeographicLabels(candidates, obstacles, hard)).toEqual(expected);
+      expect(cached.layout(candidates, obstacles, hard)).toEqual(expected);
+      expect(
+        cached.layout(
+          structuredClone(candidates),
+          structuredClone(obstacles),
+          structuredClone(hard),
+        ),
+      ).toEqual(expected);
+    }
+    for (const edge of [-52, -48, -44, 44, 48, 52]) {
+      for (const epsilon of [-1e-10, 0, 1e-10]) {
+        const candidates = [label('edge')];
+        const obstacles = [
+          { x: 660 + edge + epsilon, y: 390, width: 0, height: 16 },
+          { x: 600, y: 406 + edge + epsilon, width: 60, height: 0 },
+        ];
+        expect(cached.layout(candidates, obstacles, obstacles)).toEqual(
+          referenceLayout(candidates, obstacles, obstacles),
+        );
+      }
+    }
+  });
+  it('reuses exact placements and invalidates changed blockers, road protection and text geometry', () => {
+    const cache = createGeographicLabelLayouter();
+    const candidates = [label('cached')];
+    const obstacles = [{ x: 600, y: 390, width: 60, height: 16 }];
+    cache.layout(candidates, obstacles);
+    const expectReference = () =>
+      expect(cache.layout(candidates, obstacles)).toEqual(referenceLayout(candidates, obstacles));
+    expectReference();
+    expect(cache.getDiagnostics()).toEqual({ computed: 1, reused: 1, entries: 1 });
+    candidates[0]!.rect.width++;
+    expectReference();
+    obstacles[0]!.x++;
+    expectReference();
+    candidates[0]!.roadLine = { normal: { x: 0, y: -1 }, slack: 0 };
+    expectReference();
+    expect(cache.getDiagnostics().computed).toBe(4);
+    candidates[0]!.roadCapsules = null;
+    expectReference();
+    expect(cache.getDiagnostics().computed).toBe(5);
+    delete candidates[0]!.roadCapsules;
+    expectReference();
+    expect(cache.getDiagnostics().computed).toBe(6);
+    cache.layout([], obstacles);
+    expect(cache.getDiagnostics().entries).toBe(0);
+  });
   it('retains an unresolved road baseline rather than paying for road clearance with a new army overlap', () => {
     const candidate: GeographicLabelCandidate = {
       id: 'road:between-armies',

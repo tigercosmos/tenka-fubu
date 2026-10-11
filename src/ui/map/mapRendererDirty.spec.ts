@@ -69,7 +69,6 @@ import { buildDisplayCoast } from './displayCoast';
 import { MapInteraction } from './interaction';
 import * as terrainRaster from './terrain/terrainRaster';
 import * as plateLayout from './armyPlateLayout';
-import * as geographyLayout from './geographicLabelLayout';
 import { PixiMockRenderRunner } from '../../../tests/helpers/pixiMock';
 
 /**
@@ -141,6 +140,21 @@ function paintedArmy(reverse = false): MapViewState['armies'][number] {
 }
 
 describe('pre-paint screen-layout coalescing', () => {
+  it('exposes the latest published map view as a detached read-only snapshot', async () => {
+    const renderer = await makeRenderer();
+    try {
+      const view = baseView({ day: 60, armies: [paintedArmy()] });
+      renderer.updateView(view);
+      const snapshot = renderer.getPublishedViewSnapshot();
+      expect(snapshot).toEqual(view);
+      expect(snapshot).not.toBe(view);
+      expect(snapshot.armies).not.toBe(view.armies);
+      snapshot.armies[0]!.soldiers = 1;
+      expect(renderer.getPublishedViewSnapshot().armies[0]!.soldiers).toBe(2000);
+    } finally {
+      renderer.destroy();
+    }
+  });
   it('models actual object runners, duplicate registration and exact observer removal', () => {
     const runner = new PixiMockRenderRunner('prerender');
     const a = {
@@ -164,33 +178,31 @@ describe('pre-paint screen-layout coalescing', () => {
   it('solves only the latest unpainted army/camera state once before the actual render boundary', async () => {
     const r = await makeRenderer();
     const plates = vi.spyOn(plateLayout, 'layoutArmyPlates');
-    const geography = vi.spyOn(geographyLayout, 'layoutGeographicLabels');
     const armies = [paintedArmy(), { ...paintedArmy(), id: 'army.second', edgeT: 0.55 }];
     try {
       r.setMapData(nameplateStaticData());
       r.setCameraPose({ x: 200, y: 100 }, 1.25);
       r.updateView(baseView({ armies }));
-      r.getDiagnostics(); // Public observation settles the initial state.
+      const initial = r.getDiagnostics(); // Public observation settles the initial state.
       plates.mockClear();
-      geography.mockClear();
       const latest = baseView({ armies: armies.map((a) => ({ ...a, edgeT: 0.6 })) });
       r.updateView(latest);
       r.setCameraPose({ x: 210, y: 100 }, 1.5);
       expect(plates).not.toHaveBeenCalled();
-      expect(geography).not.toHaveBeenCalled();
       r.getApp()!.render();
       expect(plates).toHaveBeenCalledTimes(1);
-      expect(geography).toHaveBeenCalledTimes(1);
       const observed = r.getDiagnostics();
+      expect(observed.geographicLabelLayout.runs).toBe(initial.geographicLabelLayout.runs + 1);
       for (const plate of observed.armyPlateLayout.plates)
         expect(plate.fontSizeCss).toBeCloseTo(14);
       r.getApp()!.render();
       expect(plates).toHaveBeenCalledTimes(1);
-      expect(geography).toHaveBeenCalledTimes(1);
+      expect(r.getDiagnostics().geographicLabelLayout.runs).toBe(
+        observed.geographicLabelLayout.runs,
+      );
     } finally {
       r.destroy();
       plates.mockRestore();
-      geography.mockRestore();
     }
   });
   it('synchronously flushes public observations and preserves unchanged-day caching', async () => {

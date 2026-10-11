@@ -164,6 +164,7 @@ export interface TenkaDebugApi {
   /** 等待地圖 renderer 連續 `frames`（預設 2）個 ticker frame，供截圖前確保畫面已靜止（17 §3.9.3）。 */
   waitMapIdle(frames?: number): Promise<void>;
   getMapDiagnostics(): ReturnType<MapRenderer['getDiagnostics']>;
+  getMapPublishedViewSnapshot(): ReturnType<MapRenderer['getPublishedViewSnapshot']>;
   setMapRoadPaintVisible(visible: boolean): boolean;
   setMapWaterPaintVisible(visible: boolean): boolean;
   setMapMountainHeroVisible(visible: boolean): boolean;
@@ -493,6 +494,9 @@ export function installDebugApi(flags: DebugFlags): void {
     },
     async waitMapIdle(frames = 2) {
       await requireMapRenderer().waitForIdleFrames(frames);
+    },
+    getMapPublishedViewSnapshot() {
+      return requireMapRenderer().getPublishedViewSnapshot();
     },
     getMapDiagnostics() {
       return requireMapRenderer().getDiagnostics();
