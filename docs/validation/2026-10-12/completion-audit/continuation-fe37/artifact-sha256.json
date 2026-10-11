@@ -1,0 +1,49 @@
+[
+  {
+    "file": "README.md",
+    "bytes": 1299,
+    "sha256": "74e4283764b4ee5e941c2e305e804e7804a27bd7d0e19679f86daee537bfc727"
+  },
+  {
+    "file": "build.log.gz",
+    "bytes": 843,
+    "sha256": "a2a53cdf9e42a1416ac4ee08c560b715b202277405e1647271a0db22b57fe364",
+    "uncompressedBytes": 1679,
+    "uncompressedSha256": "d2fd25f40f5d323515f134c28814cdb3e19c21acd4f90c9200e6c005ae42a25d"
+  },
+  {
+    "file": "bundle.log.gz",
+    "bytes": 394,
+    "sha256": "bd93b6fbf4a43001042e4e415eabfd9fb93ab4103bc81bb56a33d8626a0fd3c6",
+    "uncompressedBytes": 1057,
+    "uncompressedSha256": "99088d5a942b39bda6563f1f8b5728d45468c70c14fad362eded738001510ac9"
+  },
+  {
+    "file": "full.log.gz",
+    "bytes": 30747,
+    "sha256": "f442ab389731a37e834d63539abce9416396085de5ffb68ceb39d0d60ee17e9c",
+    "uncompressedBytes": 217158,
+    "uncompressedSha256": "132c01ced931683e0d7659ae022a7bdfea338af3b4cca13c2d60e4d4e708dc77"
+  },
+  {
+    "file": "lint.log.gz",
+    "bytes": 123,
+    "sha256": "a68529dacf305cdbd92f2dc4d54c6184e1eccc45862acae44d4240408dae422b",
+    "uncompressedBytes": 125,
+    "uncompressedSha256": "d0e71f55d6f4fd8f983185091b7cdae86733c29af94431f99d20836fc2109fe1"
+  },
+  {
+    "file": "source-manifest.json.gz",
+    "bytes": 72906,
+    "sha256": "0d4949353b535c44396a9694a3c5b9c95dba93e682a1cfd91603a1919e4af686",
+    "uncompressedBytes": 218421,
+    "uncompressedSha256": "d927d701e16102e8a670015162ce09d90191e2fca76a0f70f7c4844b7b6d89fd"
+  },
+  {
+    "file": "types.log.gz",
+    "bytes": 87,
+    "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+    "uncompressedBytes": 84,
+    "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+  }
+]
