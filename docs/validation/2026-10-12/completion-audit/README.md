@@ -1,7 +1,7 @@
-# 後續驗收與人口校準觀察
+# 後續驗收、重放歸因與記憶體觀察
 
 候選版本 `2474139` 的 WASM／Worker 工作已提交，完整專案目標仍未完成。
-目前繼續處理核心加成與原生視覺驗收；不更新凍結 golden 或放寬視覺門檻。
+目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
 ## 已完成修正
 
@@ -92,4 +92,24 @@ heap 由 20,639,260 增至 22,322,888 bytes（+1,683,628）；測試沒有 heap 
 
 typecheck、production build 與 bundle budget 通過。第一次 lint 只失敗於四個新增證據 JSON 的格式；原始 bytes 另存 gzip 後已格式化，最終 lint 另行驗證。這些結果不清除核心、藝術或長期平衡 gate。
 
-`ce7cced` 的 M4 重放更新亦保存可重現原始 finalHash 的 harvest 歷史來源。61 個逐日完整狀態的事件及指令一致；首次實際結算差異是第十日的城防整數寫入（07 D54／02），最終六個不同欄位為既定格式／獎賞記帳遷移，以及攻城勝利 30×主將 1.5＝45 的功績與兩項經驗（06 §3.5）。新增測試從原始傷害重新推導整數寫入，並核對完整狀態其餘欄位一致；沒有任意替換記錄的狀態。最終重放 15 檔、58 項全部通過，finalHash 驗證維持原樣。原來源 archive、190 檔 SHA256 及重現指令見 [m4-siege](../golden-provenance/m4-siege/)。其他三項 golden、合戰 transcript、B8 及全國繼承不變量仍未清除。
+`ce7cced` 的 M4 重放更新亦保存可重現原始 finalHash 的 harvest 歷史來源。61 個逐日完整狀態的事件及指令一致；首次實際結算差異是第十日的城防整數寫入（07 D54／02），最終六個不同欄位為既定格式／獎賞記帳遷移，以及攻城勝利 30×主將 1.5＝45 的功績與兩項經驗（06 §3.5）。新增測試從原始傷害重新推導整數寫入，並核對完整狀態其餘欄位一致；沒有任意替換記錄的狀態。最終重放 15 檔、58 項全部通過，finalHash 驗證維持原樣。原來源 archive、190 檔 SHA256 及重現指令見 [m4-siege](../golden-provenance/m4-siege/)。當時其他三項 golden、合戰 transcript、B8 及全國繼承不變量仍未清除；後續結果見下方。
+
+## shader 快取修正與原生驗證
+
+`efe734a` 修正私有地形 shader 名稱的永久字串快取成長。新租借配額只在自有 program 銷毀後重用名稱；同時存活者保持不同 program 物件及 key，建構失敗也歸還配額。七個新回歸在原來源全部失敗，修正後含既有控制共 20 項通過。CPU 測試檢查真實 Pixi cache lookup，但不宣稱實際 GL 編譯。
+
+sim4 以精確核對的 714 個 source／tools 檔案跑相同十次暖機、二十次量測的 headless 掛載測試，28.6 秒通過。舊來源的實際私有 shader 字典為 34→74 個鍵，兩個 family 各 11→31 個來源鍵；新來源維持 14→14，兩個 family 各一個鍵，字典 backing 維持 416 bytes。分類程式從實際 properties backing 辨認唯一字典，不以舊 node ID 猜測。
+
+資源與字型快取仍一致，沒有 context loss；原城名牌材質、遮擋、可讀性及河面四項 native 控制亦全部通過（27.5 秒）。另一次採相同啟動參數的原生地圖 probe 確認 Chromium 149.0.7827.55 的 WebGL2 renderer 為 NVIDIA RTX 5070 Ti／Vulkan。這個 renderer probe 是獨立 isolate，不能當作先前 heap isolate 的直接讀值。
+
+主頁 Runtime heap 仍由 20,634,280 增至 22,255,004 bytes（+1,620,724），因此只清除指定字串字典的成長缺陷，不認定整體 heap 已穩定。snapshot self-size 包含 native backing，口徑不同；其 code 類淨增 1,008,624 bytes。保留同一 closure ID 而 code／InstructionStream ID 換新，且對應既有 app／Pixi 原始函式，支持 JIT 暖機或重新編譯的推論，快照未記錄優化 tier。Script 數量 26→26，13 個替換都為 Pixi shader／uniform 生成函式；不支持將主要成長歸因於累積 page.evaluate script。完整前後快照、字典辨認腳本、714 檔 SHA256、來源證據及歸因原始資料見 [private-program-cache](private-program-cache/)。
+
+## 凍結來源最終測試
+
+`f09c8d1` 道路 oracle 改查 exact GraphicsPath 指令與樣式。四組原始／現版、Mac／Linux 的 22 組指令 bytes 完全相同；舊 tessellation 的六個海浪 y 座標跨平台只差 1.421×10⁻¹⁴。未使用四捨五入、容差或 OS 排除。五個故意修改 width、alpha、FAR 幾何、海浪半徑及橋面長度的真正 producer mutation 均在精確 hash 斷言失敗。原來源、向量、SHA256 及反例見 [road-command-provenance](road-command-provenance/)。
+
+`9464873` 的三個 golden 遷移以歷史來源及窄幅逆向控制證明：只回復既定城防整數／攻城功績、治安月結、外交功績及集結接受條件四組機制，2,880 日的完整狀態、事件與已排入／已套用指令即完全一致。唯一 schema 正規化為格式 3→4 及指定勢力確為零的獎賞欄位，沒有刪除非零支出。正式現版 summary 另先比對後才遷移，見 [goldens](../golden-provenance/goldens/)。
+
+`6254f9d` 與 `59a8de3` 保留 B8 的十項 literal hash、非合戰 RNG 斷言及 transcript 初始／checkpoint／最終 hash 驗證。新增完整狀態與 BattleTickResult 比對：十個 B8 tick 只有既定 schema／參戰名冊五項差異；三十個 tactical tick 的完整結果都相同，終結新增勝利 40＋敬畏 20、主將乘 1.5 的 90 功績及兩項經驗。見 [b8](../golden-provenance/b8/)、[tactical](../golden-provenance/tactical/)。
+
+凍結候選 `f446e85` 的完整測試為 672 檔、6,263 項通過、1 項失敗、1 項跳過（129.77 秒）。1,453 個來源／測試／設定檔的前後 SHA256 完全一致；typecheck、lint、production build 與 bundle budget 通過。唯一失敗仍為 s1560 第 450 日齋藤無繼承人滅亡後保留四城十六郡的 INV-02／INV-22，不修改不變量或推測領地接收規則。原始紀錄與來源 manifest 見 [final-candidate](final-candidate/)。全專案及長跑平衡驗收仍未完成。

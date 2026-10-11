@@ -1,0 +1,16 @@
+{
+  "candidate": "f446e85d75295c21ff23cf6302a4a405904ae28d",
+  "sourceAndTestFiles": 1453,
+  "mismatchesAfterFullSuite": [],
+  "fullSuite": {
+    "files": 672,
+    "passedFiles": 670,
+    "failedFiles": 1,
+    "skippedFiles": 1,
+    "passedTests": 6263,
+    "failedTests": 1,
+    "skippedTests": 1,
+    "seconds": 129.77
+  },
+  "remainingFailure": "s1560 day450 INV-02/INV-22 no-heir clan.saito ownership"
+}
