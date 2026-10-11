@@ -72,6 +72,31 @@ describe('read-only balance specification audit', () => {
       expect.objectContaining({ kind: 'missing', name: 'futureBonus' }),
     );
   });
+  it('retains retired rows with a recorded decision and rejects restoring their constants', () => {
+    const text = spec([
+      row('oldPollingBudget', '8', '⚠ 廢止：03 §8 D23 改由事件驅動；現行不進 `balance.ts`。'),
+    ]);
+    const report = auditBalanceSpec(text, 'const BAL = {};');
+    expect(report.passed).toBe(true);
+    expect(report.missingRows).toEqual([
+      expect.objectContaining({ name: 'oldPollingBudget', disposition: 'retired' }),
+    ]);
+    expect(report.exclusions[0]?.dispositionEvidence).toContain('03 §8 D23');
+    expect(auditBalanceSpec(text, 'const BAL = { oldPollingBudget: 8 };').issues).toEqual([
+      expect.objectContaining({ kind: 'excluded-implemented', name: 'oldPollingBudget' }),
+    ]);
+  });
+  it.each([
+    '⚠ 廢止：現行不進 `balance.ts`。',
+    '⚠ 廢止：03 §8；現行不進 `balance.ts`。',
+    '⚠ 廢止：03 §8 D23 改由事件驅動。',
+  ])('keeps unsupported retirement annotations active: %s', (note) => {
+    const report = auditBalanceSpec(spec([row('oldPollingBudget', '8', note)]), 'const BAL = {};');
+    expect(report.exclusions).toEqual([]);
+    expect(report.issues).toContainEqual(
+      expect.objectContaining({ kind: 'missing', name: 'oldPollingBudget' }),
+    );
+  });
   it.each([
     'derivation',
     'formula',
@@ -134,7 +159,7 @@ describe('read-only balance specification audit', () => {
     expect(report.valueProof).toBe(false);
     expect(report.passed).toBe(false);
   });
-  it('keeps calibration unverified when every literal row resolves and rejects unrelated approximate targets', () => {
+  it('rejects restoring a retired polling budget and keeps calibration unverified', () => {
     const text = readFileSync(new URL('../../plan/15-balance.md', import.meta.url), 'utf8');
     const source = readFileSync(
       new URL('../../src/core/balance.ts', import.meta.url),
@@ -142,8 +167,11 @@ describe('read-only balance specification audit', () => {
     ).replace('export const BAL = {', 'export const BAL = { aiReactiveChecksPerTick: 8,');
     // This is audit-input fault injection, not permission to add runtime constants.
     const report = auditBalanceSpec(text, source);
-    expect(report.issues).toEqual([expect.objectContaining({ kind: 'unverified-calibration' })]);
-    expect(report.counts.compared).toBe(592);
+    expect(report.issues).toEqual([
+      expect.objectContaining({ kind: 'excluded-implemented', name: 'aiReactiveChecksPerTick' }),
+      expect.objectContaining({ kind: 'unverified-calibration' }),
+    ]);
+    expect(report.counts.compared).toBe(591);
     expect(report.valueProof).toBe(false);
     expect(report.passed).toBe(false);
     const unknown = auditBalanceSpec(spec([row('futureCalibration', '≈0.025')]), 'const BAL={}');
@@ -379,18 +407,18 @@ describe('read-only balance specification audit', () => {
     });
     expect(report.orphanKeys).toEqual([]);
     expect(report.missingRows).toHaveLength(23);
-    expect(report.exclusions).toHaveLength(21);
+    expect(report.exclusions).toHaveLength(22);
     expect(report.unsupportedValues).toEqual([]);
     expect(report.issues.filter((issue) => issue.kind === 'value-mismatch')).toEqual([]);
     expect(
       report.issues.filter((issue) => issue.kind === 'non-simulation').map((issue) => issue.name),
     ).toEqual([]);
     expect(report.passed).toBe(false);
-    expect(report.issues).toHaveLength(2);
-    expect(report.issues.map((issue) => issue.name)).toEqual([
-      'aiReactiveChecksPerTick',
-      'soldiersPerKoku',
-    ]);
+    expect(report.issues).toHaveLength(1);
+    expect(report.issues.map((issue) => issue.name)).toEqual(['soldiersPerKoku']);
+    expect(report.missingRows).toContainEqual(
+      expect.objectContaining({ name: 'aiReactiveChecksPerTick', disposition: 'retired' }),
+    );
     expect(report.issues.some((issue) => issue.name === 'allianceTrustMin')).toBe(false);
     expect(parseBalanceSource(source).trustCostAlliance).toBe(60);
     expect(
