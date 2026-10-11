@@ -1,3 +1,4 @@
+import { acquirePrivateProgramName, type PrivateProgramNameLease } from './privateProgramName';
 import { Buffer, BufferUsage, Geometry, GlProgram, Mesh, Shader, type Texture } from 'pixi.js';
 import { TERRAIN_GROUND_COLOR, TERRAIN_RELIEF } from '../mapViewConfig';
 import type { ElevationPoint, createTerrainElevation } from './terrainElevation';
@@ -232,7 +233,6 @@ void main(){
   vec3 painted=mix(shoulder,vec3(${stone.join(',')}),rock)*vLight;
   gl_FragColor=vec4(painted,1.0)*vColor;
 }`;
-let programSequence = 0;
 /** GL-only, one private program. Parent supplies the existing displayed-land clip. */
 export function createTerrainElevatedSurface(
   texture: Texture,
@@ -253,6 +253,7 @@ export function createTerrainElevatedSurface(
     index: Buffer | undefined,
     geometry: Geometry | undefined,
     program: GlProgram | undefined,
+    programName: PrivateProgramNameLease | undefined,
     shader: Shader | undefined,
     mesh: Mesh<Geometry, Shader> | undefined;
   try {
@@ -273,10 +274,11 @@ export function createTerrainElevatedSurface(
       },
       indexBuffer: index,
     });
+    programName = acquirePrivateProgramName('terrain-elevated');
     program = new GlProgram({
       vertex,
       fragment,
-      name: `terrain-elevated-private-${++programSequence}`,
+      name: programName.name,
       preferredVertexPrecision: 'highp',
       preferredFragmentPrecision: 'highp',
     });
@@ -292,6 +294,7 @@ export function createTerrainElevatedSurface(
     attribute?.destroy();
     if (shader) shader.destroy(true);
     else program?.destroy();
+    programName?.release();
     throw error;
   }
   const ownedMesh = mesh,
@@ -327,6 +330,7 @@ export function createTerrainElevatedSurface(
       ownedGeometry.destroy(false);
       ownedAttribute.destroy();
       ownedShader.destroy(true);
+      programName.release();
     },
   };
 }

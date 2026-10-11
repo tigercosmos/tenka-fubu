@@ -1,3 +1,4 @@
+import { acquirePrivateProgramName, type PrivateProgramNameLease } from './privateProgramName';
 import {
   Buffer,
   BufferUsage,
@@ -298,7 +299,6 @@ void main(){
  vec4 canopy=tap(p,a)*w.x+tap(p,b)*w.y+tap(p,c)*w.z;
  gl_FragColor=vec4(canopy.rgb*vLight,canopy.a)*vCanopy*vColor;
 }`;
-let sequence = 0;
 /** Borrow the unmodified original canopy PNG. Caller puts this static mesh below
  * water/roads/models, beside the SAME elevated ground. No texture/filter/mask/FBO.
  * Shader consumes Pixi's premultiplied texture sample and preserves baked tree
@@ -339,6 +339,7 @@ export function createTerrainFoothillCanopy(texture: Texture, field: FoothillCan
     index: Buffer | undefined,
     geometry: Geometry | undefined,
     program: GlProgram | undefined,
+    programName: PrivateProgramNameLease | undefined,
     shader: Shader | undefined,
     mesh: Mesh<Geometry, Shader> | undefined;
   try {
@@ -356,10 +357,11 @@ export function createTerrainFoothillCanopy(texture: Texture, field: FoothillCan
       },
       indexBuffer: index,
     });
+    programName = acquirePrivateProgramName('terrain-foothill-canopy');
     program = new GlProgram({
       vertex,
       fragment,
-      name: `terrain-foothill-canopy-private-${++sequence}`,
+      name: programName.name,
       preferredVertexPrecision: 'highp',
       preferredFragmentPrecision: 'highp',
     });
@@ -395,6 +397,7 @@ export function createTerrainFoothillCanopy(texture: Texture, field: FoothillCan
     attribute?.destroy();
     if (shader) shader.destroy(true);
     else program?.destroy();
+    programName?.release();
     throw error;
   }
   mesh.label = 'terrain-foothill-canopy';
@@ -437,6 +440,7 @@ export function createTerrainFoothillCanopy(texture: Texture, field: FoothillCan
       geometry.destroy(false);
       attribute.destroy();
       shader.destroy(true);
+      programName.release();
     },
   };
 }
