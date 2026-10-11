@@ -47,6 +47,18 @@
       "localPath": "success-full-state.json.gz",
       "rawSha256": "9ef1578e348f2a929d65e8cec58f905b446d288001bd403c16186cf90702205f",
       "rawBytes": 4916767
+    },
+    {
+      "archivePath": "tenka-court-rank-day31-race-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/trace.zip!/resources/56d85679a738b4d37c33a4f9957256b0eb0f69b6",
+      "localPath": "tenka-court-rank-day31-race-results.json.gz",
+      "rawSha256": "da1e1be037af7c89fe63576e60aa2241437dd28cf63505f3fb1affe0e3618252",
+      "rawBytes": 755549
+    },
+    {
+      "archivePath": "tenka-court-rank-day91-results/court-rank-Earned-court-ra-5bbe0-rant-and-native-save-reload-chromium/trace.zip!/resources/a9b7c4ad13d605eb36905eafea42e5d39aca09f5",
+      "localPath": "tenka-court-rank-day91-results.json.gz",
+      "rawSha256": "55dc9a5ab2ecbd2991ad05e5dde5ac0322a9e38a9d0a7105b9a179bb2ce8b5b5",
+      "rawBytes": 755639
     }
   ],
   "largeTraces": [
@@ -90,5 +102,57 @@
     "Frozen complete production bundle505d96a, not rerun of all later production changes",
     "Passed run has no retained network trace; network excerpts are labeled diagnostic only",
     "No long-horizon ending, second rank, leader succession, or no-heir policy claim"
+  ],
+  "rawLogs": [
+    {
+      "localPath": "tenka-court-rank-browser-install-failure.log.gz",
+      "rawSha256": "8cb63d9e7a16201bb7705abaee52bbcba615c07b459df2183b8a3a5e9b0f7236",
+      "rawBytes": 2286
+    },
+    {
+      "localPath": "tenka-court-rank-browser-install.log.gz",
+      "rawSha256": "ca9c18e10a7cb765dc8cccf987dd24a178e1e4e1d170488a6cbcdc7ab0dd199e",
+      "rawBytes": 2499
+    },
+    {
+      "localPath": "tenka-court-rank-build.log.gz",
+      "rawSha256": "a8a3b1561b453050210b6238102501aa07708b5cbde327aefe6172707a28b7d7",
+      "rawBytes": 1678
+    },
+    {
+      "localPath": "tenka-court-rank-day31-race.log.gz",
+      "rawSha256": "f1fb17ccc4d1f65ba424460d243ca4b4777c3ca5991d5e96f71fe90dccb93bbc",
+      "rawBytes": 1864
+    },
+    {
+      "localPath": "tenka-court-rank-day61-owner-race.log.gz",
+      "rawSha256": "e21f09300b56aed8da2eacbfe9cfa97209c915f17fdaa4a35f7789c0d59f472c",
+      "rawBytes": 2659
+    },
+    {
+      "localPath": "tenka-court-rank-day91-failure.log.gz",
+      "rawSha256": "61645c43dd2d108251450ed8cc2fe91fe7acb764ac227bd08789d2c2b5404b38",
+      "rawBytes": 1931
+    },
+    {
+      "localPath": "tenka-court-rank-loader-failure.log.gz",
+      "rawSha256": "9fb36093b17a562e32fede26f0e16636e2efb0cd8307e03137f690d56f1bfa60",
+      "rawBytes": 298
+    },
+    {
+      "localPath": "tenka-court-rank-proof.log.gz",
+      "rawSha256": "b5080fdea3c83a93191e6d1e0db554d974c88eb9c0f0a0db9af61e94f7123e25",
+      "rawBytes": 189
+    },
+    {
+      "localPath": "tenka-court-rank-scoped-property-race.log.gz",
+      "rawSha256": "32e73f30fb0605302d75ecf38d4517b42af6490238000f6dfb8a87f3405e71c1",
+      "rawBytes": 2740
+    },
+    {
+      "localPath": "tenka-court-rank-typecheck.log.gz",
+      "rawSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a",
+      "rawBytes": 84
+    }
   ]
 }

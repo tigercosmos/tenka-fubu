@@ -1,6 +1,0 @@
-
-Running 1 test using 1 worker
-
-  ✓  1 [chromium] › e2e/court-rank.spec.ts:163:1 › Earned court rank: normal donations, queued grant, and native save/reload (3.1m)
-
-  1 passed (3.1m)

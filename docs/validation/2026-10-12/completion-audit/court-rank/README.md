@@ -19,8 +19,9 @@ The helper added at most three ordinary frames only with an unchanged day, no di
 It never resumed through an unknown owner.
 
 [The summary](summary.json) records all four diagnostic failures and the exact remote paths and hashes of their large traces.
-Their logs and compressed raw attachments remain alongside the passing result.
-The two early raw attachments predate monthly and frame recording.
+Exact compressed logs and raw attachments remain alongside the passing result.
+The summary records each uncompressed hash and byte count.
+The two early raw attachments came from trace resources and predate monthly and frame recording.
 The later helper records both.
 [Network excerpts](diagnostic-wasm-network.json) come from diagnostic runs only; the passed run retained no trace.
 
