@@ -126,7 +126,7 @@ sim4 最新六項 Worker 原生流程測試全部通過（43.3 秒），三組�
 
 `fc45370` 保存凍結 `505d96a` 的 sim2 原生驗證。兩個區域九城的實際結局、繼續遊玩及存檔重載流程通過；不是全國統一結局。色覺／道路土壤復原 gate 仍失敗，完整頁面分別有 11／8 個差異像素，位置都在 HUD 圓角。合法 rAF 內擷取的地圖畫布復原完全一致，完整狀態、日誌及地形資料亦一致；不能據此修改完整頁面 oracle。
 
-40 支實際行軍部隊的近景效能原 gate 仍失敗：30 秒窗口含月度具申自動暫停 3.5666 秒，只前進 29 日。56.40 FPS 僅為失效窗口的描述數值，不能當作效能驗收通過。完整失敗、成功控制、原始像素及 1,389 檔凍結來源 SHA256 見 [native-gates-sim2-505d96a](native-gates-sim2-505d96a/)。這組來源早於野戰退出修正，不宣稱涵蓋之後的全部提交。
+40 支實際行軍部隊的額外近景效能診斷仍失敗：30 秒窗口含月度具申自動暫停 3.5666 秒，只前進 29 日。56.40 FPS 僅為失效窗口的描述數值，不能當作效能驗收通過。完整失敗、成功控制、原始像素及 1,389 檔凍結來源 SHA256 見 [native-gates-sim2-505d96a](native-gates-sim2-505d96a/)。這組來源早於野戰退出修正，不宣稱涵蓋之後的全部提交。
 
 `38d22b0` 補齊 M6-18 的實際具申生命週期。既有 720 日 fixture 第 30 日自然產生提案，第 31 日由 CommandQueue 正常採納，實際出陣、功績及忠誠獎賞均確認，第 60 日清理；未額外注入提案或先決條件。原有死亡、登場與每日不變量驗證保留，並確認未付俸祿事件。sim1 的 20 項測試及型別／lint 通過，從 238 檔精確來源 archive 再執行亦通過；原始 RED／GREEN 與完整事件見 [m6-lifecycle-acceptance](m6-lifecycle-acceptance/)。同目錄的逐項 M6 matrix 保留未完成驗收，未推進 checkpoint。
 
@@ -135,3 +135,19 @@ sim4 最新六項 Worker 原生流程測試全部通過（43.3 秒），三組�
 `8c0de41` 的 sim3 原生官位流程以正常朝廷工作取得恩惠：第 150 日累積 23，第 151 日排入授予指令後正常結算，金錢 1,604→1,304、威信 450→500，恩惠維持 23；UI 官位、下一級禁用條件及原生存檔重載的完整 codec 狀態一致。149 次 RAF 日結之外另有兩次合法事件選項結算，未強制注入日數、恩惠或官位。相關現版 source bytes 與凍結 `505d96a` 一致；四次觀測失敗與成功的完整原始資料見 [court-rank](court-rank/)。
 
 具申驗證後再次全量回歸 6,264 通過／1 失敗／1 跳過（123.77 秒），唯一失敗仍為第 450 日無繼承人領地問題。型別、完整 lint、build 及 bundle 通過，1,355 個 manifest 檔案符合固定來源且結束後不變；見 [continuation-38d22b0](continuation-38d22b0/)。
+
+## 圖片載入修正與最新整合證據
+
+`ffcf964` 新增七項外交驗收，檢查十二個月的感情變化、敬畏的外交影響及 59.9／60 的接受邊界。四種隔離的錯誤修改都在原斷言失敗；沒有修改 BAL 或核心公式。完整原始控制與來源見 [m6-diplomacy-acceptance](m6-diplomacy-acceptance/)。
+
+sim2 的獨立控制將延長掛載失敗定位至 Pixi 圖片 Worker 的 Blob 傳送路徑：Blob-only 在 trace／cache 四組控制都約第四十輪失敗，ArrayBuffer-only 與逐輪回收 Worker heap 的 Blob 控制則完成七十輪。原始反例、先前無效控制及完整來源均保存，不能把推論當作 Chromium 內部配額的直接測量；見 [blob-worker-transport-sim2](blob-worker-transport-sim2/)。
+
+`2cfb2d6` 在共同素材載入入口設定 `preferWorkers: false`，保留非同步 ImageBitmap 解碼及獨立模擬 Worker。`29da33d` 的三項回歸使用實際 Pixi 8.19 parser，驗證原 Worker 路徑控制與兩種 alpha 選項；故意恢復 Worker 偏好會使兩項回歸失敗。這些是 parser 的受控解碼測試，原生瀏覽器證據另列；見 [asset-bitmap-parser](asset-bitmap-parser/)。
+
+正式載入來源在 sim4 完成十次暖機及一百二十次量測，共一百三十次掛載；資源、字型快取及 context loss 斷言全部通過。sim2 移除逐輪人工 GC 的獨立控制也完成同樣掛載。sim4 的一百二十一個 GC 後主頁 heap 樣本由 20,890,576 增至 25,438,644 bytes，最後二十個樣本仍淨增 348,632 bytes，故不宣稱整體 heap 已穩定。完整快照與原始 bytes 見 [main-blob-final-sim4](main-blob-final-sim4/)。
+
+最終六項原生 Worker 測試、四項原視覺控制均通過。同步／Worker 的完整狀態、日誌及前版地理標籤資料精確一致。暖機後一百二十日批次最長畫面間隔為同步 982.6 ms、Worker 101.1 ms，總耗時為 926.3／2,469.5 ms；正常 x5 的最長間隔為 106.8／61.6 ms，Worker 沒有 long task，但月底具申正常暫停，只推進二十九日。各情境各一筆，不宣稱批次吞吐改善或實際戰役穩定 60 FPS。
+
+規格要求的二十支移動部隊、1080p、三十秒平移／縮放渲染測試原樣通過，P95 畫面間隔 16.8 ms，符合 55 FPS 門檻。這是合成 renderer 工作負載；四十支真實部隊的額外診斷不是規格指定的 M6 渲染 gate，全國約一百二十支部隊的 60 FPS 目標仍未證明。原規格對照與具申暫停原因見 [live-close-workload-audit](live-close-workload-audit/)。
+
+凍結來源 `29da33d` 的最新完整測試為 674 檔，6,274 項通過、1 項失敗、1 項跳過（116.46 秒）。唯一失敗仍為 s1560 第 450 日無繼承人滅亡後保留四城十六郡的 INV-02／INV-22。一般／core 型別、完整 lint、build 及 bundle budget 通過；1,357 個已追蹤來源／測試／規格／工具／設定檔符合固定 Git blob，測試後 SHA256 不變。早期未完成 parser 測試的型別失敗原樣保留，沒有改寫成當時通過；見 [main-blob-final-regression](main-blob-final-regression/)。尚未推進全專案 checkpoint，領地接收及戰術外部收尾規則、整體 heap、藝術與長跑平衡驗收仍待完成。

@@ -698,6 +698,36 @@
       "path": "court-rank/source-manifest.json",
       "bytes": 4915,
       "sha256": "75e1348c09bd92ce9ce2af9ad9bf11a0dbb04efd2debe6de0a2aafa776c46833"
+    },
+    {
+      "path": "m6-diplomacy-acceptance/manifest.json",
+      "bytes": 3098,
+      "sha256": "dae41e0433934a376f584f42f592ccedcf74a91915b8ef183d12dd40b001aff2"
+    },
+    {
+      "path": "asset-bitmap-parser/summary.json",
+      "bytes": 3017,
+      "sha256": "fb3703e03dffb5a5b6a9ded867dc2b00488f507ab3e72487b9a4e1e2bcc34144"
+    },
+    {
+      "path": "blob-worker-transport-sim2/manifest.json",
+      "bytes": 20715,
+      "sha256": "639afa80682fa1c3cd4e4847b6d124346aca545ca659532257fdad55d9bb17ab"
+    },
+    {
+      "path": "live-close-workload-audit/manifest.json",
+      "bytes": 414,
+      "sha256": "96526f41bc9ed43af44cfebedfe73e78911c0420646c1b1344886252b579f223"
+    },
+    {
+      "path": "main-blob-final-sim4/artifact-sha256.json",
+      "bytes": 16889,
+      "sha256": "e04ea84109f7a02b9a270fb95f3246429972a83eea8926b47209eda5301e4fd1"
+    },
+    {
+      "path": "main-blob-final-regression/artifact-sha256.json",
+      "bytes": 2141,
+      "sha256": "7efbc234fc459980577825a90a70cc525b5e7790dbbe8aeb35a51cbf2ebaea61"
     }
   ]
 }

@@ -6346,3 +6346,19 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 資料檔繁體正字（滝→瀧等；掃描器會擋）；專有名詞在 JSON `name` 欄不進 i18n。
 - 驗證全套：`npm run typecheck && npm run lint && npm test && npm run validate:data && npm run build && npm run e2e`。
 - 持久記憶 `tenka-fubu-project.md` 已同步至實作階段。**每個階段結束或被中斷時，更新本文件。**
+
+## 最新 Worker／素材驗證交接（2026-10-12）
+
+- sim1、sim2、sim3 與 sim4 的工作均分步提交；正式圖片載入修正為 `2cfb2d6`，最新原生證據為 `02c1faf`。
+  Pixi 圖片 Worker 的 Blob 傳送在延長重載中失敗，改由主頁非同步 ImageBitmap 解碼；模擬 Worker 保留。
+  真實 Pixi parser 三項回歸與故意恢復 Worker 的失敗控制均保存。
+- sim4 一百三十次掛載完成，資源／字型快取／context loss 斷言通過；sim2 無逐輪人工 GC 的獨立控制亦通過。
+  主頁 heap 仍由 20,890,576 增至 25,438,644 bytes，不能宣稱記憶體已穩定。
+- 最終六項原生 Worker 及四項原視覺控制通過。暖機一百二十日批次最長畫面間隔 982.6→101.1 ms，
+  總結算時間 926.3→2,469.5 ms；正常 x5 最長間隔 106.8→61.6 ms，完整狀態／日誌精確一致。
+  規格原二十支移動部隊、1080p、三十秒渲染門檻通過，P95 畫面間隔 16.8 ms；不代表實際戰役穩定 60 FPS。
+  四十支真實部隊測試是額外診斷，月度具申暫停使其窗口失效，不將該數值當成 FPS 通過證據。
+- 最新完整測試 6,274 通過／1 失敗／1 跳過，型別、完整 lint、build 與 bundle 通過；
+  唯一失敗仍是 s1560 第 450 日無繼承人領地的 INV-02／INV-22。不擅定接收勢力或戰術外部收尾獎賞。
+  外交七項驗收、自然具申生命周期及實際官位授予另有獨立證據。完整索引見
+  `docs/validation/2026-10-12/completion-audit/README.md`；全專案目標及未完成 gate 保持開啟。
