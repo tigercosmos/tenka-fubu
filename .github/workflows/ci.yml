@@ -35,9 +35,30 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci
+      - run: npm run wasm:check
       - name: 計算里程碑門檻旗標（plan/18-roadmap.md §4.1）
         id: gate
         run: npx tsx tools/ci/milestone-gate.ts >> "$GITHUB_OUTPUT"
+
+  wasm:
+    name: wasm（locked Rust rebuild and artifact equality）
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Install pinned Rust toolchain
+        working-directory: rust/engine
+        run: rustup show active-toolchain
+      - run: npm run wasm:build
+      - run: npm run wasm:check
+      - name: Require reproducible committed artifact
+        run: git diff --exit-code -- public/wasm/tenka_engine.wasm public/wasm/manifest.json
+      - name: Rust kernel regressions
+        working-directory: rust/engine
+        run: cargo test --locked
 
   lint:
     name: lint（ESLint＋Prettier）

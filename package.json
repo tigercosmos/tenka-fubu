@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "postinstall": "node tools/dependencies/pixi-8.19-patch.mjs",
-    "predev": "node tools/dependencies/pixi-8.19-patch.mjs",
-    "prebuild": "node tools/dependencies/pixi-8.19-patch.mjs",
+    "predev": "node tools/dependencies/pixi-8.19-patch.mjs && npm run wasm:check",
+    "prebuild": "node tools/dependencies/pixi-8.19-patch.mjs && npm run wasm:check",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
@@ -35,7 +35,9 @@
     "gen:assets": "tsx tools/gen-assets.ts",
     "atlas:build": "tsx tools/build-atlas.ts",
     "validate:assets": "tsx tools/validate-assets.ts",
-    "validate:bundle": "tsx tools/ci/bundle-budget.ts"
+    "validate:bundle": "tsx tools/ci/bundle-budget.ts",
+    "wasm:build": "tsx tools/wasm/build.ts --build",
+    "wasm:check": "tsx tools/wasm/build.ts --check"
   },
   "dependencies": {
     "idb-keyval": "^6.2.1",

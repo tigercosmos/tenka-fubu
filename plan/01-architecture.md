@@ -1294,4 +1294,36 @@ onDprChange():
   `getSnapshot(game)` 每次建立分離的 collection counts；查詢不發布 store、不快取 mutable game 或消耗 RNG。
   此量測與面板不改模擬 dt、pipeline、GameState 或 SaveFile，也不取代 GPU gate。
 
+### D22｜Rust／WebAssembly 與背景模擬（2026-10-12）
+
+使用者於 2026-10-12 要求 Rust、WebAssembly（WASM）及 Web Worker 架構，以降低策略 tick 對渲染的阻塞。
+此新指示取代本文件原本的純 TypeScript 執行位置限制；`plan/00` 保持不變。
+遊戲規則、RNG 順序、指令序號、存檔與既有驗收條件仍是相同契約。
+
+正式策略 tick 在 `src/app/worker/simulation.worker.ts` 的單一背景 worker 執行。
+worker 載入 Rust WASM 模組，安裝 `src/core/acceleration/pathfindingKernel.ts` 的 ABI，再執行既有 TypeScript `advanceDay`。
+目前 Rust 負責路徑搜尋核心；此決策不宣稱全部遊戲系統已移植至 Rust。
+主執行緒負責畫面、輸入、指令佇列、存檔與 tick 結果發布。
+
+每次請求攜帶分離的 GameState、指令信封、事件定義、session epoch、requestId 與起始 stateVersion。
+worker 串行結算，回傳狀態、TickResult、事件呈現資料及實際 backend 標記。
+主執行緒僅在局面身分與版本仍相符時提交結果；新輸入保留於主佇列。
+`reconcileSnapshot` 保留 GameState 與存活實體的參照，讓既有 UI 與地圖 subject 繼續使用同一物件。
+
+取消未提交 tick 會拒絕 promise、終止 worker，並換用新的 epoch。
+讀檔、換局、同步除錯與存檔必須先處理未提交結果，不能把舊 worker 結果寫入新局。
+WASM 載入、ABI 或 worker 錯誤走既有致命錯誤路徑，不能靜默回退為主執行緒策略結算。
+此架構不使用 SharedArrayBuffer，也不要求 GitHub Pages 額外的跨來源隔離標頭。
+
+`rust/engine/rust-toolchain.toml` 釘選 Rust 工具鏈與 WASM target。
+`npm run wasm:build` 以 locked Cargo 編譯，產出 committed binary 與來源／成品 SHA-256 manifest。
+`npm run wasm:check` 驗證來源清單、工具鏈、建置配方、binary hash 與 ABI，無需安裝 Rust。
+`predev` 與 `prebuild` 拒絕過期成品；CI 另以真實 Rust 重建並比較 committed 成品。
+worker 與 WASM 路徑都使用 Vite base，涵蓋 Pages 的子路徑部署。
+
+完整快照的 structured clone 與主執行緒 reconciliation 仍有成本。
+此成本必須與原同步 tick 分開量測；背景計算本身不證明 FPS 或完整遊戲驗收通過。
+保留同步核心作為決定論參考與明確的除錯入口；正式策略驅動使用背景 worker。
+拒絕共享 mutable GameState，因為並行寫入會破壞指令、存檔與 RNG 的單一結算所有權。
+
 *本文件由 Fable 5 設計定稿；依 00 §0.5，實作期若有變更，回寫本節並註記原因。*
