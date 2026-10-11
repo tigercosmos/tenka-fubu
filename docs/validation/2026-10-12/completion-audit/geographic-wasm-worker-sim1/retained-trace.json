@@ -1,0 +1,12 @@
+{
+  "path": "/tmp/tenka-fb9fd7f-wasm-worker-evidence/original-test-results/worker-simulation-native-s-94ba2-mplete-state-and-replay-log-chromium/trace.zip",
+  "bytes": 55498974,
+  "sha256": "0a247ec60b7ddf156c78625f1848b842dafc8dbc2b0189a84c087cc05b56d3b5",
+  "includedTraceMetadata": [
+    "failed-test.trace.gz",
+    "failed-0-trace.trace.gz",
+    "failed-0-trace.network.gz",
+    "failed-0-trace.stacks.gz"
+  ],
+  "excludedTraceResources": "Screenshots, HTML snapshots and static resource bodies remain in the exact full remote trace; complete trace metadata and extracted state/diagnostics are included."
+}
