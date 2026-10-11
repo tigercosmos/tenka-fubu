@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 1,
+  "baselineSourceCommit": "fb9fd7f885f3569bc819a3957a67f734f9f7b123",
+  "baselineManifestsIdentical": true,
+  "baselineTrackedFiles": 1477,
+  "baselineResults": {
+    "files": 683,
+    "passed": 6287,
+    "failed": 34,
+    "skipped": 1,
+    "unhandledErrors": 17,
+    "durationSeconds": 116.06,
+    "newIntegrationFailures": 33
+  },
+  "fixtureChecker": {
+    "before": 20,
+    "after": 0,
+    "probe": 1
+  },
+  "repairStatus": "Complete: focused/full tests terminal, all types/lint/build/bundle checks passed except known pre-existing national no-heir test failure",
+  "entries": [
+    {
+      "path": "raw/tenka-geographic-indirect-readonly-inventory.json.gz",
+      "origin": "/tmp/tenka-geographic-indirect-readonly-inventory.json",
+      "rawBytes": 4187,
+      "gzipBytes": 499,
+      "rawSha256": "aaf784404d8f93ba2f71d6cccf47d198502958e59dd1f4ce66d051226e76b0ae",
+      "gzipSha256": "4d552a414aa6960af208268a0d91688c54d90c13874f65303c1f404c665319a8"
+    },
+    {
+      "path": "raw/tenka-render-wasm-fixtures-v2.cjs.gz",
+      "origin": "/tmp/tenka-render-wasm-fixtures-v2.cjs",
+      "rawBytes": 1782,
+      "gzipBytes": 910,
+      "rawSha256": "16634da60b25aa203586517ba98769d461c578d37237c67af4e613c4dab72049",
+      "gzipSha256": "6b1bc25f0c81a9493d61908453f7c86bc3fd07f7ecb512cec957369b85b8ddcf"
+    },
+    {
+      "path": "raw/tenka-render-wasm-fixtures-v2-baseline.log.gz",
+      "origin": "/tmp/tenka-render-wasm-fixtures-v2-baseline.log",
+      "rawBytes": 2241,
+      "gzipBytes": 388,
+      "rawSha256": "f4f3effeddf7d5a287cc51547ec980095fe0484b982e312bf630eed69c8e7d35",
+      "gzipSha256": "708220ab9f829be8117d894857857a9f2f9e26b4a9bb0a5fc651a80b4ab960a1"
+    },
+    {
+      "path": "raw/tenka-render-wasm-fixtures-v2-final.log.gz",
+      "origin": "/tmp/tenka-render-wasm-fixtures-v2-final.log",
+      "rawBytes": 90,
+      "gzipBytes": 108,
+      "rawSha256": "546cef5151f87a1ce538a85fa270ba656bfd7eecd4d10c3142ea28504abaaf35",
+      "gzipSha256": "20c1b4c91e6a2f3335afac4d90ec68800a78aef025c01a6f3d9fb350dbeda587"
+    },
+    {
+      "path": "raw/tenka-fixed-fb9-test.log.gz",
+      "origin": "/tmp/tenka-fixed-fb9-test.log",
+      "rawBytes": 707350,
+      "gzipBytes": 50934,
+      "rawSha256": "d32c817089bad0c9cf4c90c2c02c29d4084e7593bbe61eb3023e28b69c20f293",
+      "gzipSha256": "6e1babd815b3eb198f2f6fab7ab995b27f13f21f853920194ff7756f7eeb0a80"
+    },
+    {
+      "path": "raw/tenka-fixed-fb9-before.json.gz",
+      "origin": "/tmp/tenka-fixed-fb9-before.json",
+      "rawBytes": 251106,
+      "gzipBytes": 79505,
+      "rawSha256": "19fb7c7d2a42441082b8ea635db4519745ffc5ec2b127363cec17254b55d2667",
+      "gzipSha256": "c581152f6744cd5daf23263dd2c22a49f6c8d78bc30f591718875425c678f9d8"
+    },
+    {
+      "path": "raw/tenka-fixed-fb9-after.json.gz",
+      "origin": "/tmp/tenka-fixed-fb9-after.json",
+      "rawBytes": 251106,
+      "gzipBytes": 79505,
+      "rawSha256": "19fb7c7d2a42441082b8ea635db4519745ffc5ec2b127363cec17254b55d2667",
+      "gzipSha256": "c581152f6744cd5daf23263dd2c22a49f6c8d78bc30f591718875425c678f9d8"
+    },
+    {
+      "path": "raw/tenka-render-wasm-fixtures-v2-probe.log.gz",
+      "origin": "/tmp/tenka-render-wasm-fixtures-v2-probe.log",
+      "rawBytes": 180,
+      "gzipBytes": 167,
+      "rawSha256": "0b85df6ca3bb71a3b7b2913e3d3d8cd5684969cc046490c1954f4aa852971b66",
+      "gzipSha256": "fb5e877a8ba87618df6b25b1ebbe69d7903d9088c888f83779b84025a9a76b45"
+    },
+    {
+      "path": "raw/tenka-geo-indirect-focused.log.gz",
+      "origin": "/tmp/tenka-geo-indirect-focused.log",
+      "rawBytes": 77308,
+      "gzipBytes": 7983,
+      "rawSha256": "b0042ec270d9e031a7a8f3ee0ad9c34038dfcab2502bffe56bb237f8ac18f8fb",
+      "gzipSha256": "17ae12cdd93a39f4f5ea1a04283c7783ab34c080640f7a39dd8e2d352a60de6b"
+    },
+    {
+      "path": "raw/tenka-geo-indirect-types.log.gz",
+      "origin": "/tmp/tenka-geo-indirect-types.log",
+      "rawBytes": 84,
+      "gzipBytes": 87,
+      "rawSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a",
+      "gzipSha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984"
+    },
+    {
+      "path": "raw/tenka-geo-indirect-lint.log.gz",
+      "origin": "/tmp/tenka-geo-indirect-lint.log",
+      "rawBytes": 0,
+      "gzipBytes": 20,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "raw/tenka-geo-indirect-format.log.gz",
+      "origin": "/tmp/tenka-geo-indirect-format.log",
+      "rawBytes": 1081,
+      "gzipBytes": 330,
+      "rawSha256": "e8b5ca3a1fd66c026d798b0d684fcc4b4b991a1a168c3e8647b9319553c1cc5d",
+      "gzipSha256": "1d9b498ed75a87861b72aa1580c0adb0526c662f3c00e1b0d1db4e4b39e36aa3"
+    },
+    {
+      "path": "raw/probe/broken.spec.tsx.gz",
+      "origin": "/tmp/tenka-render-checker-v2-probe/src/broken.spec.tsx",
+      "rawBytes": 88,
+      "gzipBytes": 88,
+      "rawSha256": "31b16c0223928157ff06e2f90976de4f3b7d5fa3603883ab102e12d7ef417e50",
+      "gzipSha256": "c0d3f50a051f2b9d5ef3f8ca54eda05712a75eec91685c39547243c5bd315d5b"
+    },
+    {
+      "path": "raw/probe/fixed.spec.tsx.gz",
+      "origin": "/tmp/tenka-render-checker-v2-probe/src/fixed.spec.tsx",
+      "rawBytes": 85,
+      "gzipBytes": 85,
+      "rawSha256": "8980be8f7371d9cb486d1affd8b2625766f17179d37df97d0b78e86d764f9631",
+      "gzipSha256": "d82b9b930ad1eda9340efac127618e254c13d7b085c54f5637829affd4378bbe"
+    },
+    {
+      "path": "source/9e49cc9.patch.gz",
+      "origin": "git:9e49cc913aab1effbb6e7292cc2943f2640c28a2",
+      "rawBytes": 21840,
+      "gzipBytes": 2124,
+      "rawSha256": "f4a1bf3a22aaa639d4bd81f4da65d784882396b16a7b1467859a822ac2e97f5b",
+      "gzipSha256": "11eb831726f8cd6b738c17c7d5cc92ccea56ad8eff96f5e655bc45d9f2785f2b"
+    },
+    {
+      "path": "raw/tenka-fixed-9e49-test.log.gz",
+      "origin": "/tmp/tenka-fixed-9e49-test.log",
+      "rawBytes": 216536,
+      "gzipBytes": 29841,
+      "rawSha256": "4c6c7ce474531b36a2b2c23d7cf493410eac6e232ba1576b3c9d357f142f386c",
+      "gzipSha256": "75ac11780c24d9244c440a49a84355ded08060d297a961d9e0f0f2cabbc725c4"
+    },
+    {
+      "path": "raw/tenka-fixed-9e49-before.json.gz",
+      "origin": "/tmp/tenka-fixed-9e49-before.json",
+      "rawBytes": 251107,
+      "gzipBytes": 79512,
+      "rawSha256": "b1aa1e713cd2c86360f048585c78ef2329446b1949597142c28cce8cca98aa56",
+      "gzipSha256": "18730ee8ca9384f766b45d1935b71d3257a7db7bb250c27d4fc98d787091a0f4"
+    },
+    {
+      "path": "raw/tenka-fixed-9e49-after.json.gz",
+      "origin": "/tmp/tenka-fixed-9e49-after.json",
+      "rawBytes": 251107,
+      "gzipBytes": 79512,
+      "rawSha256": "b1aa1e713cd2c86360f048585c78ef2329446b1949597142c28cce8cca98aa56",
+      "gzipSha256": "18730ee8ca9384f766b45d1935b71d3257a7db7bb250c27d4fc98d787091a0f4"
+    },
+    {
+      "path": "raw/tenka-fixed-9e49-types.log.gz",
+      "origin": "/tmp/tenka-fixed-9e49-types.log",
+      "rawBytes": 84,
+      "gzipBytes": 87,
+      "rawSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a",
+      "gzipSha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984"
+    },
+    {
+      "path": "raw/tenka-fixed-9e49-lint.log.gz",
+      "origin": "/tmp/tenka-fixed-9e49-lint.log",
+      "rawBytes": 125,
+      "gzipBytes": 123,
+      "rawSha256": "d0e71f55d6f4fd8f983185091b7cdae86733c29af94431f99d20836fc2109fe1",
+      "gzipSha256": "a68529dacf305cdbd92f2dc4d54c6184e1eccc45862acae44d4240408dae422b"
+    },
+    {
+      "path": "raw/tenka-fixed-9e49-build.log.gz",
+      "origin": "/tmp/tenka-fixed-9e49-build.log",
+      "rawBytes": 1678,
+      "gzipBytes": 846,
+      "rawSha256": "347b60c9656f07bfaa0389d8a416751dceb273183389deeef69bcaa873de86b4",
+      "gzipSha256": "48cacbb3e8ef68291c70dff9fc0789f897e6ff2816ce0f67f6fae0350a2faecd"
+    },
+    {
+      "path": "raw/tenka-fixed-9e49-bundle.log.gz",
+      "origin": "/tmp/tenka-fixed-9e49-bundle.log",
+      "rawBytes": 1057,
+      "gzipBytes": 396,
+      "rawSha256": "d8edec4dd4fd2477c921a1cc975b2fc6a9b644d0f667c9b2479a35ed2999ffbb",
+      "gzipSha256": "18e6017be213b03f162def72ec7e5c8986573f497705a37a4e92f7cd4a8fa7fb"
+    },
+    {
+      "path": "raw/tenka-fixed-9e49-after-checks.json.gz",
+      "origin": "/tmp/tenka-fixed-9e49-after-checks.json",
+      "rawBytes": 251107,
+      "gzipBytes": 79512,
+      "rawSha256": "b1aa1e713cd2c86360f048585c78ef2329446b1949597142c28cce8cca98aa56",
+      "gzipSha256": "18730ee8ca9384f766b45d1935b71d3257a7db7bb250c27d4fc98d787091a0f4"
+    }
+  ],
+  "repairSourceCommit": "9e49cc913aab1effbb6e7292cc2943f2640c28a2",
+  "repairFocused": {
+    "files": 20,
+    "tests": 175,
+    "durationSeconds": 54.34
+  },
+  "repairPatch": {
+    "files": 20,
+    "insertions": 220,
+    "deletions": 0
+  },
+  "repairFull": {
+    "files": 683,
+    "passedFiles": 681,
+    "failedFiles": 1,
+    "skippedFiles": 1,
+    "passedTests": 6320,
+    "failedTests": 1,
+    "skippedTests": 1,
+    "unhandledErrors": 0,
+    "durationSeconds": 126.96
+  },
+  "repairManifestsByteIdentical": true,
+  "repairTrackedFiles": 1477,
+  "repairFullChecks": {
+    "typesExit": 0,
+    "lintExit": 0,
+    "buildExit": 0,
+    "bundleExit": 0,
+    "buildSeconds": 5.38,
+    "afterChecksManifestsByteIdentical": true
+  }
+}
