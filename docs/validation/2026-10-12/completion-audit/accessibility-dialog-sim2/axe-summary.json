@@ -1,0 +1,584 @@
+[
+  {
+    "file": "gallery--axe-critical-report.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 26
+      }
+    ],
+    "passes": 47
+  },
+  {
+    "file": "gallery--axe-danger-confirm.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 3
+      }
+    ],
+    "passes": 51
+  },
+  {
+    "file": "gallery--axe-default.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 23
+      }
+    ],
+    "passes": 47
+  },
+  {
+    "file": "gallery--axe-dialog.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "passes": 50
+  },
+  {
+    "file": "keyboard-probe--axe-main.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 2
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "passes": 31
+  },
+  {
+    "file": "keyboard-probe--axe-new-game.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 5
+      }
+    ],
+    "passes": 19
+  },
+  {
+    "file": "keyboard-probe--axe-save-load.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "landmark-no-duplicate-banner",
+        "impact": "moderate",
+        "nodes": 1
+      },
+      {
+        "id": "landmark-unique",
+        "impact": "moderate",
+        "nodes": 1
+      },
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 2
+      },
+      {
+        "id": "scrollable-region-focusable",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "passes": 36
+  },
+  {
+    "file": "keyboard-probe--axe-settings.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "landmark-no-duplicate-banner",
+        "impact": "moderate",
+        "nodes": 1
+      },
+      {
+        "id": "landmark-unique",
+        "impact": "moderate",
+        "nodes": 1
+      },
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 2
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "passes": 39
+  },
+  {
+    "file": "keyboard-probe--axe-title.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 3
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 3
+      }
+    ],
+    "passes": 22
+  },
+  {
+    "file": "native-green-attachments--axe-main.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 2
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "passes": 31
+  },
+  {
+    "file": "native-green-attachments--axe-new-game.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 5
+      }
+    ],
+    "passes": 19
+  },
+  {
+    "file": "native-green-attachments--axe-save-load.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 8
+      },
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 2
+      },
+      {
+        "id": "scrollable-region-focusable",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "passes": 38
+  },
+  {
+    "file": "native-green-attachments--axe-settings.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 2
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "passes": 41
+  },
+  {
+    "file": "native-green-attachments--axe-title.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 3
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 3
+      }
+    ],
+    "passes": 22
+  },
+  {
+    "file": "native-red--axe-main.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 2
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "passes": 31
+  },
+  {
+    "file": "native-red--axe-new-game.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 5
+      }
+    ],
+    "passes": 19
+  },
+  {
+    "file": "native-red--axe-save-load.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "landmark-no-duplicate-banner",
+        "impact": "moderate",
+        "nodes": 1
+      },
+      {
+        "id": "landmark-unique",
+        "impact": "moderate",
+        "nodes": 1
+      },
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 2
+      },
+      {
+        "id": "scrollable-region-focusable",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "passes": 36
+  },
+  {
+    "file": "native-red--axe-settings.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "landmark-no-duplicate-banner",
+        "impact": "moderate",
+        "nodes": 1
+      },
+      {
+        "id": "landmark-unique",
+        "impact": "moderate",
+        "nodes": 1
+      },
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 2
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "passes": 39
+  },
+  {
+    "file": "native-red--axe-title.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 3
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 3
+      }
+    ],
+    "passes": 22
+  },
+  {
+    "file": "original-production--axe-main.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 2
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "passes": 31
+  },
+  {
+    "file": "original-production--axe-new-game.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 5
+      }
+    ],
+    "passes": 19
+  },
+  {
+    "file": "original-production--axe-save-load.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "landmark-no-duplicate-banner",
+        "impact": "moderate",
+        "nodes": 1
+      },
+      {
+        "id": "landmark-unique",
+        "impact": "moderate",
+        "nodes": 1
+      },
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 2
+      },
+      {
+        "id": "scrollable-region-focusable",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "passes": 36
+  },
+  {
+    "file": "original-production--axe-settings.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "landmark-no-duplicate-banner",
+        "impact": "moderate",
+        "nodes": 1
+      },
+      {
+        "id": "landmark-unique",
+        "impact": "moderate",
+        "nodes": 1
+      },
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 2
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "impact": "serious",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ],
+    "passes": 39
+  },
+  {
+    "file": "original-production--axe-title.json.gz",
+    "axeVersion": "4.14.0",
+    "critical": 0,
+    "violations": [
+      {
+        "id": "region",
+        "impact": "moderate",
+        "nodes": 3
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 3
+      }
+    ],
+    "passes": 22
+  }
+]

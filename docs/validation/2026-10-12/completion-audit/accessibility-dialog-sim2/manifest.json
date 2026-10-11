@@ -1,0 +1,426 @@
+[
+  {
+    "file": "source-verification.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/source-verification.json",
+    "rawBytes": 678,
+    "storedBytes": 407,
+    "sha256Uncompressed": "6439e9f0a8b0b9b2b646bdde024da092148820e5cf5d50f33b49fb3d8ddf16e2",
+    "sha256Stored": "265d9e52b34a478ae1ff77aae55d63262013567e10ecf52ed8a1cedece987ef8"
+  },
+  {
+    "file": "source-manifest.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/source-manifest.json",
+    "rawBytes": 252406,
+    "storedBytes": 79543,
+    "sha256Uncompressed": "4288470b0689a2c477f5ce8ac758578260b9df196cd391a1eb390d6cca478456",
+    "sha256Stored": "a7ac2ee17526b772357f6bcde7b1fdaa5e17be144632c37f7b32df38c0a84102"
+  },
+  {
+    "file": "tenka-a11y-e65fbbc-build.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/tenka-a11y-e65fbbc-build.log",
+    "rawBytes": 2336,
+    "storedBytes": 935,
+    "sha256Uncompressed": "fd5a703f3a2b6d1be2cdedda5c105c9a7da2e6294251439e9d19bc6b69f254ac",
+    "sha256Stored": "a8aad0af0019cea49fd5e8e10b6aaf34cd260e356f7ae13b5ef4de64a56333be"
+  },
+  {
+    "file": "tenka-a11y-e65fbbc-keyboard-probe.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/tenka-a11y-e65fbbc-keyboard-probe.log",
+    "rawBytes": 1466,
+    "storedBytes": 316,
+    "sha256Uncompressed": "5538a4e990ea8f2b1bd462cd6100e716d122eee12dbdaaa7fe327b89671ba9cc",
+    "sha256Stored": "ba05e5fbd0e357292dbbead6c3fab2f6b265c20cd1ce656f4a7520d310bde2eb"
+  },
+  {
+    "file": "tenka-a11y-e65fbbc-gallery.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/tenka-a11y-e65fbbc-gallery.log",
+    "rawBytes": 903,
+    "storedBytes": 454,
+    "sha256Uncompressed": "93f770c65f6e529d18a19540da6daf12a58e6da8a7912b9cba9e27310a3620bd",
+    "sha256Stored": "b0a1620838da65375f2f2f0f7516238bbad31f4e9f2f285bb720a4d0c51369e2"
+  },
+  {
+    "file": "extract-a11y-report.py.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/extract-a11y-report.py",
+    "rawBytes": 1162,
+    "storedBytes": 686,
+    "sha256Uncompressed": "2df2373dbf5b75d1802f5f717882c49d24b8bd0cac2e764300e1d68f22c9e708",
+    "sha256Stored": "549893c9d3b560e9a8ee439f7cb6a0941e08bd8fabae4907201ad81bcd16c91d"
+  },
+  {
+    "file": "keyboard-probe.mjs.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/keyboard-probe.mjs",
+    "rawBytes": 5146,
+    "storedBytes": 1990,
+    "sha256Uncompressed": "e3c0462cc649c12e9a3e3f052496833f155a6197472995f886eabbf730903f99",
+    "sha256Stored": "585401438c239cd3b56fe39cf68ae5d34924e7f4c7c0e9390c8cb21043ed129f"
+  },
+  {
+    "file": "tenka-a11y-e65fbbc-accessibility-green.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/tenka-a11y-e65fbbc-accessibility-green.log",
+    "rawBytes": 1044,
+    "storedBytes": 538,
+    "sha256Uncompressed": "99eaa3a4a54664ab3c8885c6dc51d58a0bb850f652d1ddfa98d7929888467bbd",
+    "sha256Stored": "d0da0915afbe42a663d7f8545d460c67728f35ae5ba53c72d98ba884f21306c0"
+  },
+  {
+    "file": "tenka-a11y-dialog-green.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/tenka-a11y-dialog-green.log",
+    "rawBytes": 299,
+    "storedBytes": 238,
+    "sha256Uncompressed": "7373872d3491ab4c54e541a1c1e8e46d32c3eee1d749662d8cebca43644d679b",
+    "sha256Stored": "cebb9ea79e8444e1348351c857d0c879654a3c3d968c366e23303b818707ac05"
+  },
+  {
+    "file": "tenka-a11y-dialog-red.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/tenka-a11y-dialog-red.log",
+    "rawBytes": 1979,
+    "storedBytes": 857,
+    "sha256Uncompressed": "b6ffaabc2ab400510341628a39871934807302019f1df3b3eb60f73455199492",
+    "sha256Stored": "42a251f3852fee0ef1b447bafd17bbedf7b6d3d8f4acdf43c3f00fddc4be0728"
+  },
+  {
+    "file": "production-axe.mjs.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/production-axe.mjs",
+    "rawBytes": 4060,
+    "storedBytes": 1641,
+    "sha256Uncompressed": "8c70105f9a4ad4df427cb5e96490485bddb80c49b1e124ae708f83c63ad1de64",
+    "sha256Stored": "a33303470744bb0c60045c998a8da53890d9624265cf47ed60d1171a8b687c82"
+  },
+  {
+    "file": "tenka-a11y-e65fbbc-green-build.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/tenka-a11y-e65fbbc-green-build.log",
+    "rawBytes": 2336,
+    "storedBytes": 935,
+    "sha256Uncompressed": "c57498d2bbfde91ccbc871ae5e1a9a69b5dbb4d7c8c670a0b5451d81f883c154",
+    "sha256Stored": "42f9b3f6f0a3267d54f05995315390efc6caa5d854829995b0ce73ab55a1ea8c"
+  },
+  {
+    "file": "Dialog.before.tsx.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/Dialog.before.tsx",
+    "rawBytes": 5929,
+    "storedBytes": 1964,
+    "sha256Uncompressed": "31f5d46a8daf0556f8575ec7d9870c535f142ee6e6dc66cd5e9a8971e20caa48",
+    "sha256Stored": "8dadcb92581eb8fcf6ed6652711ff1660133e9910fb967a21e0b88e643a36cb5"
+  },
+  {
+    "file": "tenka-a11y-typecheck.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/tenka-a11y-typecheck.log",
+    "rawBytes": 84,
+    "storedBytes": 87,
+    "sha256Uncompressed": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a",
+    "sha256Stored": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984"
+  },
+  {
+    "file": "tenka-a11y-e65fbbc-accessibility-red.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/tenka-a11y-e65fbbc-accessibility-red.log",
+    "rawBytes": 9389,
+    "storedBytes": 1467,
+    "sha256Uncompressed": "41b00b3b43730e2db81432e70f99ce975931bdf0f2926af713da476a060e46e4",
+    "sha256Stored": "568134845baf6a5957d59ecc32b5be32f37099572a6ba1711a7ff8fb77d76c41"
+  },
+  {
+    "file": "tenka-a11y-e65fbbc-keyboard.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/tenka-a11y-e65fbbc-keyboard.log",
+    "rawBytes": 746,
+    "storedBytes": 427,
+    "sha256Uncompressed": "07bdba834184d24879ca0c07a9cf15d2ecfadcd0c4cd1876a4c59031b64d8618",
+    "sha256Stored": "4f00d373cf22a87fcfcf02d8d1a445a9d3be0ef48c8cf1343fabfc95b85052b0"
+  },
+  {
+    "file": "accessibility.spec.ts.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/accessibility.spec.ts",
+    "rawBytes": 5394,
+    "storedBytes": 1716,
+    "sha256Uncompressed": "11433a50130fcc89906d5ddaf2b79dfdfdb3b15380e6871337378077d0a2a61b",
+    "sha256Stored": "d01c0eaa8dac504eb8b27e600188ecaa18b4115ca04c79736ab5f963cb5c4b70"
+  },
+  {
+    "file": "Dialog.after.tsx.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/Dialog.after.tsx",
+    "rawBytes": 5941,
+    "storedBytes": 1975,
+    "sha256Uncompressed": "d60caa3ed1266477f12af31f5fed28561334f4e13f9ed19e0c741d452b02fae6",
+    "sha256Stored": "91eb987b7d64f3baea2b05b3e2c92c495cc661b7395681653f937ce4e301ec9d"
+  },
+  {
+    "file": "red-trace-hashes.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/red-trace-hashes.log",
+    "rawBytes": 192,
+    "storedBytes": 166,
+    "sha256Uncompressed": "de48991e58f437cb3a7aa576a23ed126fb69822a3246c1bc3b8fb3c562b3807c",
+    "sha256Stored": "4f8fae310bc9b1ef9d3d11fc6547e51036d4d28664d7caf086983f4a48d4c9e2"
+  },
+  {
+    "file": "tenka-a11y-e65fbbc-axe.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/tenka-a11y-e65fbbc-axe.log",
+    "rawBytes": 1466,
+    "storedBytes": 316,
+    "sha256Uncompressed": "5538a4e990ea8f2b1bd462cd6100e716d122eee12dbdaaa7fe327b89671ba9cc",
+    "sha256Stored": "ba05e5fbd0e357292dbbead6c3fab2f6b265c20cd1ce656f4a7520d310bde2eb"
+  },
+  {
+    "file": "native-red--axe-main.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-red/axe-main.json",
+    "rawBytes": 273447,
+    "storedBytes": 16244,
+    "sha256Uncompressed": "4388ab2a848c3e9b943fa4fa983de720eec556c51dda7036fadae55a31d418fa",
+    "sha256Stored": "51ab1f0467df2800781c5e34d051e7fd3006197010e65fbb6916de79ccde44df"
+  },
+  {
+    "file": "native-red--axe-new-game.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-red/axe-new-game.json",
+    "rawBytes": 72405,
+    "storedBytes": 7427,
+    "sha256Uncompressed": "d5a9860253064443f984e1b5f5a969f517ecbe1a2d5c34d994e1f8282828ae78",
+    "sha256Stored": "03addb576b2f583bfb1fabf25c5fda91c85a6706e43f4bfbe89bc86e8af872ea"
+  },
+  {
+    "file": "native-red--axe-title.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-red/axe-title.json",
+    "rawBytes": 91847,
+    "storedBytes": 8292,
+    "sha256Uncompressed": "1c918c97d206061da044a6b5984fdd1602dbe89f7c92f5d4849d0aa0faec50d7",
+    "sha256Stored": "6cfbe1833d695e862433166d2080196615f2f360a96e323b9b9eebdfaf805a21"
+  },
+  {
+    "file": "native-red--axe-save-load.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-red/axe-save-load.json",
+    "rawBytes": 663897,
+    "storedBytes": 31527,
+    "sha256Uncompressed": "fa8d64269b87690521966d649e3ab277692a15bbe9547155a3286599bdcee4f5",
+    "sha256Stored": "ffa46606b4bfbce9ac09616293b63958a71ca56a337c588298638bea758ec8b6"
+  },
+  {
+    "file": "native-red--error-context.md.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-red/error-context.md",
+    "rawBytes": 21282,
+    "storedBytes": 4606,
+    "sha256Uncompressed": "8a18cbb0c78764850b59498b16b34bddbb5e30b46aada4d38fa446911f757472",
+    "sha256Stored": "d14727ee223646eaadadbdb250dd6459870f3d36e11d949ca5e788940f870b96"
+  },
+  {
+    "file": "native-red--axe-settings.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-red/axe-settings.json",
+    "rawBytes": 476392,
+    "storedBytes": 26695,
+    "sha256Uncompressed": "f673aebb3aada6326a57886ab4becce2ddf225d668db06fc9536d924ba8757de",
+    "sha256Stored": "d8bfec4d8873a21e87b0ed96a3138349b7b85d4e0d8e2c7cbdc82290d81c955a"
+  },
+  {
+    "file": "gallery--axe-dialog.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/gallery/axe-dialog.json",
+    "rawBytes": 1822678,
+    "storedBytes": 69917,
+    "sha256Uncompressed": "d0ed640430c1caf30f1264bd88d7f7cd2c6c92e471c8c18c525c66cf05798404",
+    "sha256Stored": "143d9e9bebd6011c34a984e6d266def8e9a03fb219fa8cf9468db5c55fb0dc4c"
+  },
+  {
+    "file": "gallery--axe-danger-confirm.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/gallery/axe-danger-confirm.json",
+    "rawBytes": 1824916,
+    "storedBytes": 70390,
+    "sha256Uncompressed": "9067b3f38600f02c14ec1d435d400f9d831559b9c0f5c7dd8bdc35ab7e055e68",
+    "sha256Stored": "4e1d55a6854615f6e50253588c782cddb819a5e0774f36a6ae917c1b9b16ac2c"
+  },
+  {
+    "file": "gallery--axe-default.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/gallery/axe-default.json",
+    "rawBytes": 2108521,
+    "storedBytes": 77280,
+    "sha256Uncompressed": "bcda776969ad3427c930789754e66d0763c7d7f5e1fc5df80e31aa93e3f646b8",
+    "sha256Stored": "d9ecef2c58d5f3d1e880a75e68feb0ac0b9dffa12447189a40121f39232d7824"
+  },
+  {
+    "file": "gallery--axe-critical-report.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/gallery/axe-critical-report.json",
+    "rawBytes": 2142821,
+    "storedBytes": 79079,
+    "sha256Uncompressed": "071bebfe63ca61b8c0b45b0442f39706630e0bcb4441098606f6ec64300e8164",
+    "sha256Stored": "250ba54ee50da144b1076e0742becb79c8eb99ad088b039093eb06cfa173ea6e"
+  },
+  {
+    "file": "original-production--summary.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/original-production/summary.json",
+    "rawBytes": 2826,
+    "storedBytes": 432,
+    "sha256Uncompressed": "ff3b8e5bd35c5a565b2350fb0606632d738afa08553cf1c100564666a16297ed",
+    "sha256Stored": "7c1dd74404d13fee2cc8f9f100cd00209ad4b55fa5b15ea6eaba885924ebeed3"
+  },
+  {
+    "file": "original-production--axe-main.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/original-production/axe-main.json",
+    "rawBytes": 273436,
+    "storedBytes": 16235,
+    "sha256Uncompressed": "7c486c3be37b406a6aad2cc34f760d2b8c06d455d0cc9d6e5915920b84e171b1",
+    "sha256Stored": "d180c036e6da3e75354f24c498d24dab8b2544d5834fd1e9fce0dc31a77c35a2"
+  },
+  {
+    "file": "original-production--axe-new-game.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/original-production/axe-new-game.json",
+    "rawBytes": 72394,
+    "storedBytes": 7419,
+    "sha256Uncompressed": "d08a3085a59c67cf81fb684713d3bc34c2c0b54571de041488d0c50c5478d996",
+    "sha256Stored": "c1c8d47aa72e0fd8d3cc499b401d3b3985fbc9aee0e3c73d512008d594b29643"
+  },
+  {
+    "file": "original-production--axe-title.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/original-production/axe-title.json",
+    "rawBytes": 91836,
+    "storedBytes": 8286,
+    "sha256Uncompressed": "fb25a691eec67bec536918fd136516d2dc840e6ac9b99b67cf45557a17fc0c80",
+    "sha256Stored": "34073b55877404f250b0e244ec26bf27328ce6f26d02021aa0e5e73b2aef8c4a"
+  },
+  {
+    "file": "original-production--axe-save-load.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/original-production/axe-save-load.json",
+    "rawBytes": 663886,
+    "storedBytes": 31524,
+    "sha256Uncompressed": "fb7b29b1c8dfc0ea8a497f384b3b8834ed0de9a7a574ec303f6d0c51f8a51894",
+    "sha256Stored": "37a0189dcc901e506be31b8ca8dde1904979f0f7853bcb6bc3e63205843e2be1"
+  },
+  {
+    "file": "original-production--preview.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/original-production/preview.log",
+    "rawBytes": 39,
+    "storedBytes": 58,
+    "sha256Uncompressed": "ecbd7eb35ac4acd913ff89a5390ee30069b6e910709e5626dc3f8fc34eadb53f",
+    "sha256Stored": "4f2b8fee953f9dbfb2016b2e13d89258bcbbe4151b32bb2e28b3c0f20b0bf3cf"
+  },
+  {
+    "file": "original-production--axe-settings.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/original-production/axe-settings.json",
+    "rawBytes": 476381,
+    "storedBytes": 26678,
+    "sha256Uncompressed": "8837ed65c1951ab99a58042ce7cea79331dfb0c56c246384295e0b48970b91f1",
+    "sha256Stored": "bf9a8ed2de6d79c3ea2bad58f1056450359e81ae4a35b68588636c5ee431764d"
+  },
+  {
+    "file": "native-green-attachments--empty-registry-native-keyboard.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-green-attachments/empty-registry-native-keyboard.json",
+    "rawBytes": 130,
+    "storedBytes": 126,
+    "sha256Uncompressed": "63d3e05ceded1358f6df3b7b503a51fe84f2182411b2bc0be418e1bd3d078298",
+    "sha256Stored": "69c60400eeda57c962a5da004bd7b1c7b1b5670ac52a7dbe5b3ca1915490f092"
+  },
+  {
+    "file": "native-green-attachments--axe-main.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-green-attachments/axe-main.json",
+    "rawBytes": 273447,
+    "storedBytes": 16244,
+    "sha256Uncompressed": "c4160cfc28f00a600ea374e062139f3235c07ff7b5d5dbb47ab4d9c4d4483833",
+    "sha256Stored": "781a8377710635eb3121a17e2e82f28ee04a5f5cf3c3b49cf495a003644e0f62"
+  },
+  {
+    "file": "native-green-attachments--axe-new-game.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-green-attachments/axe-new-game.json",
+    "rawBytes": 72405,
+    "storedBytes": 7425,
+    "sha256Uncompressed": "00e0a07c6bc5a5613e0a4a221c4294f067c3c961ecebcb4c6218e9abcbeec9b5",
+    "sha256Stored": "c29ea4191a60eed665bf569584f241fa45e9687be5585b146d8b7f4dad98c684"
+  },
+  {
+    "file": "native-green-attachments--axe-title.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-green-attachments/axe-title.json",
+    "rawBytes": 91847,
+    "storedBytes": 8291,
+    "sha256Uncompressed": "44b509ef21bf809147c7322c7c13a86dcbcad568f9f37661b01324353137c887",
+    "sha256Stored": "fd8e4bae82c003f688739e3c6eda5532d03324efdd7d0bcd930ed0e58d2b6e62"
+  },
+  {
+    "file": "native-green-attachments--axe-save-load.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-green-attachments/axe-save-load.json",
+    "rawBytes": 671260,
+    "storedBytes": 31602,
+    "sha256Uncompressed": "a1dcd5ee19ae50b42163ca54ec588eb331c2da4be9bcb068812dd5721175c307",
+    "sha256Stored": "e6cbfe827a929d9a75eee78ec415ddf6f8529832acca62a46b581156cb07e377"
+  },
+  {
+    "file": "native-green-attachments--synthetic-escape-guard-flags.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-green-attachments/synthetic-escape-guard-flags.json",
+    "rawBytes": 388,
+    "storedBytes": 130,
+    "sha256Uncompressed": "f311a4531cc12b256a2b33c1926663791cd147b0a2b092e570b75aa59c6d14ce",
+    "sha256Stored": "16effa5a4e950d6188045a26a36ef903a2e153ce8351af0c56cf00af573440da"
+  },
+  {
+    "file": "native-green-attachments--native-import-consent-frame.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-green-attachments/native-import-consent-frame.json",
+    "rawBytes": 465,
+    "storedBytes": 263,
+    "sha256Uncompressed": "a313d821d76ee183fda6e80911369b5e145eb1e63ea69a3d408ec10b06c8bb70",
+    "sha256Stored": "85999051d67d55acee3a0b84fd948c05435e2e045d29a3c296dac1536ecf1b1a"
+  },
+  {
+    "file": "native-green-attachments--axe-settings.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-green-attachments/axe-settings.json",
+    "rawBytes": 477749,
+    "storedBytes": 26779,
+    "sha256Uncompressed": "186069abeac81cfb16e28e4a323926eb3fa9dadf3e77f66715b7884da72b3b3b",
+    "sha256Stored": "e557c7da7e19c533f8c3a9fa885ddf2fd15509ff47d76878d089dc6415cc628a"
+  },
+  {
+    "file": "native-green-attachments--extraction-manifest.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/native-green-attachments/extraction-manifest.json",
+    "rawBytes": 1862,
+    "storedBytes": 638,
+    "sha256Uncompressed": "bce6deb51c1fc47c068264db7f79f3d44e9366b31580bb898240920357032c9e",
+    "sha256Stored": "e7892db114af801610907457d09957476fbaeedd5a4ccadd7ae1fddaa623199f"
+  },
+  {
+    "file": "keyboard-probe--summary.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/keyboard-probe/summary.json",
+    "rawBytes": 2826,
+    "storedBytes": 432,
+    "sha256Uncompressed": "ff3b8e5bd35c5a565b2350fb0606632d738afa08553cf1c100564666a16297ed",
+    "sha256Stored": "7c1dd74404d13fee2cc8f9f100cd00209ad4b55fa5b15ea6eaba885924ebeed3"
+  },
+  {
+    "file": "keyboard-probe--axe-main.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/keyboard-probe/axe-main.json",
+    "rawBytes": 273436,
+    "storedBytes": 16235,
+    "sha256Uncompressed": "5068c31bc3affc6cc2ae2fdff72eb02f9c7bb434a12ce6952e95fd5713779f2b",
+    "sha256Stored": "c6271d51760259733abf865d6da639e7688d5e54b8f7d831cfa0677de66b9969"
+  },
+  {
+    "file": "keyboard-probe--axe-new-game.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/keyboard-probe/axe-new-game.json",
+    "rawBytes": 72394,
+    "storedBytes": 7419,
+    "sha256Uncompressed": "67219c4110158ba4d6d2aa08331ca3fef86a90077b515a52f443fec3557c49ef",
+    "sha256Stored": "05108cbd5e65f906648a974656653278a95bd12c771a530bbf9b78328f9eb112"
+  },
+  {
+    "file": "keyboard-probe--axe-title.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/keyboard-probe/axe-title.json",
+    "rawBytes": 91836,
+    "storedBytes": 8286,
+    "sha256Uncompressed": "0c054d029ec0f98c5db32604410b4b753c997a98fb0224bd110594c34bfc17c3",
+    "sha256Stored": "25f543438768040a3f7fdc812c077ef6159045bf5bc0f543aa3bfd1c7a2ed588"
+  },
+  {
+    "file": "keyboard-probe--axe-save-load.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/keyboard-probe/axe-save-load.json",
+    "rawBytes": 663886,
+    "storedBytes": 31524,
+    "sha256Uncompressed": "67966b15753e41b10d585ec578bf18c4d6fbd56b763bcd5a32f745c3ac2141ff",
+    "sha256Stored": "6ed779002e4ff895be17999f8c198053436d6bddc09886ef8ba831e42e30a46a"
+  },
+  {
+    "file": "keyboard-probe--scroll-keyboard-probe.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/keyboard-probe/scroll-keyboard-probe.json",
+    "rawBytes": 2334,
+    "storedBytes": 571,
+    "sha256Uncompressed": "c069edde1dd2cb3c109b9f7e8f620e266b29974cf624306def9fe774b364ffc9",
+    "sha256Stored": "711a139ac78095032c17cf634c9e6aed67521f8fa3541e9c6853779a114fcede"
+  },
+  {
+    "file": "keyboard-probe--axe-settings.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/raw/keyboard-probe/axe-settings.json",
+    "rawBytes": 476381,
+    "storedBytes": 26678,
+    "sha256Uncompressed": "ca0b737e77724c6b50be620f35dc43059f1f8a67def9ace4d3cbce081937c0ad",
+    "sha256Stored": "a204f86f544f81baec7de9740bc9c567e5297b762e2002b86e6034f8763130fb"
+  }
+]

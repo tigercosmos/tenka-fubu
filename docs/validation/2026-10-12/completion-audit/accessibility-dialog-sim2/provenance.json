@@ -1,0 +1,45 @@
+{
+  "requirement": ["M6-V11", "12-T14", "12 \u00a73.2.2 / \u00a73.5"],
+  "frozenBase": "e65fbbc8401c5fe96d0f887c78a13e4803e12f02",
+  "isolatedHost": "sim2",
+  "repo": "/tmp/tenka-a11y-e65fbbc",
+  "sourceVerification": "source-verification.json.gz",
+  "headless": true,
+  "productionGpuFlags": ["--enable-gpu", "--use-angle=vulkan"],
+  "profilerEnabled": false,
+  "withinHostRunsSerial": true,
+  "sourceCorrection": "Dialog header role=none preserves H2 and labelled modal dialog while removing its unintended page banner.",
+  "nativeCommands": [
+    "npm run build",
+    "npx playwright test e2e/accessibility.spec.ts --workers=1",
+    "npx playwright test e2e/accessibility.spec.ts e2e/dialog-keyboard.spec.ts e2e/visual.spec.ts --grep \"production screens have|empty load registry|SystemMenu settings Escape|real SaveLoad native|parent-owned import|HUD keyboard focus\" --workers=1",
+    "npx playwright test --config tests/browser/playwright.gallery.config.ts"
+  ],
+  "env": {
+    "PATH": "$PWD/runtime/node-v22.23.3-linux-x64/bin:$PATH",
+    "PLAYWRIGHT_BROWSERS_PATH": "$PWD/runtime/browsers",
+    "CI": "1",
+    "VISUAL_GPU": "1 for production; unset for canonical Gallery"
+  },
+  "unchangedTimeoutMs": 60000,
+  "unchangedGlobalTimeoutMs": 300000,
+  "runtimeArchive": {
+    "path": "/tmp/tenka-a11y-e65fbbc-runtime.tar.gz",
+    "sha256": "30175fd92393ec1161d9b2b178f53ac7146f96baff04d927974ad5d83d0e4644"
+  },
+  "externalRaw": {
+    "originalStandalone": "/tmp/tenka-a11y-e65fbbc-evidence",
+    "originalKeyboardProbe": "/tmp/tenka-a11y-e65fbbc-keyboard-probe",
+    "nativeRed": "/tmp/tenka-a11y-e65fbbc-preserved/red-results",
+    "nativeGreen": "/tmp/tenka-a11y-e65fbbc-preserved/green-results",
+    "gallery": "/tmp/tenka-component-gallery-results",
+    "traceChecksums": "red-trace-hashes.log.gz"
+  },
+  "qualifications": [
+    "Zero critical is the specified gate, not a clean overall accessibility verdict.",
+    "The serious scrollable-region-focusable result remains in raw reports; original native Tab and End demonstrate automatic focus and scrolling.",
+    "Moderate region findings and incomplete aria/color checks remain visible.",
+    "No native screen-reader or OS IME certification.",
+    "An initial archive extraction began before transfer completed; that incomplete setup was discarded before any accepted build or browser run."
+  ]
+}

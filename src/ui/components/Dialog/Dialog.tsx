@@ -177,7 +177,7 @@ export function Dialog({
           if (root) recordOwnedFocus(root, event.target);
         }}
       >
-        <header>
+        <header role="none">
           <h2 id={titleId}>{title}</h2>
           {dismissible && <IconButton icon="close" ariaLabel={title} size="sm" onClick={onClose} />}
         </header>

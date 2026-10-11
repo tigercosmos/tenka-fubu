@@ -6,6 +6,22 @@ import { useState } from 'react';
 afterEach(cleanup);
 
 describe('Dialog focus scopes', () => {
+  it('preserves its labelled heading without adding a page banner landmark', () => {
+    render(
+      <>
+        <header>Strategy HUD</header>
+        <Dialog open title="Settings" onClose={vi.fn()}>
+          <button>Apply settings</button>
+        </Dialog>
+      </>,
+    );
+    const dialog = screen.getByRole('dialog', { name: 'Settings' });
+    const heading = within(dialog).getByRole('heading', { name: 'Settings', level: 2 });
+    expect(dialog.getAttribute('aria-labelledby')).toBe(heading.id);
+    expect(dialog.getAttribute('aria-modal')).toBe('true');
+    expect(screen.getAllByRole('banner')).toEqual([screen.getByText('Strategy HUD')]);
+  });
+
   it.each([
     { dismissible: false, closeOnBackdrop: true },
     { dismissible: true, closeOnBackdrop: false },
