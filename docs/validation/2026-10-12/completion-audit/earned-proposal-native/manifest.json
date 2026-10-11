@@ -1,0 +1,82 @@
+[
+  {
+    "file": "README.md",
+    "bytes": 5533,
+    "sha256": "d2d7f7aba161327242279157f47a2795c2f6bcfebb31595ab81c1060a919bfcd"
+  },
+  {
+    "file": "accepted-test.spec.ts.gz",
+    "bytes": 2422,
+    "sha256": "375aa9b5708d7bb7516ba400af93399de6335f7ed2599cab9e2d7bdb51836409"
+  },
+  {
+    "file": "browser-install.log.gz",
+    "bytes": 339,
+    "sha256": "1cffe305d1d6475d36de1f0a862b7bbe33d110b82a7e78f13d30a141fdf27912"
+  },
+  {
+    "file": "build.log.gz",
+    "bytes": 850,
+    "sha256": "1ab1093a7bdc381d8fdea925072afd92e9952f1f432c713fc5806ee97fa90a9c"
+  },
+  {
+    "file": "green-observations.json.gz",
+    "bytes": 597068,
+    "sha256": "f33a9e30cca1ed735f37c9d700d8dc562f05f36041e4eb49ddaaaa0a611f1a72"
+  },
+  {
+    "file": "green.log.gz",
+    "bytes": 189,
+    "sha256": "01ec77032aca5c9d78a007054f0fa324aa087fd265e331e20dd7a24edfd885d1"
+  },
+  {
+    "file": "missing-browser.log.gz",
+    "bytes": 526,
+    "sha256": "5e56746ea88dd8815977b153c855aa69ed859127b5b93a9a5ad8d4cdd8c62fd0"
+  },
+  {
+    "file": "observations.json.gz",
+    "bytes": 493652,
+    "sha256": "0e2538951bdfe3321e06438b38538bc0a67d4516d6d5b3c2df3b5d78a7c5353f"
+  },
+  {
+    "file": "observer.log.gz",
+    "bytes": 166,
+    "sha256": "11180761589b239b38bcd686a6718db56282de9e6a85d2f78dead13a88597c7a"
+  },
+  {
+    "file": "observer.spec.ts.gz",
+    "bytes": 814,
+    "sha256": "06a6a8ba2d04b04d387a59c2bd72f11c9f472617979c6eea9f372d2c1a681a57"
+  },
+  {
+    "file": "reject-control.log.gz",
+    "bytes": 587,
+    "sha256": "bded0cb858787549dd346302cdccd5e661d79de6ef7c05b9cf22f33d7719b4c2"
+  },
+  {
+    "file": "reject-control.spec.ts.gz",
+    "bytes": 2424,
+    "sha256": "bb35245e0748f9c32a02052dacd646933b77ede8db05411c9dceaa3b9d99b8c4"
+  },
+  {
+    "file": "reject-observations.json.gz",
+    "bytes": 597861,
+    "sha256": "f66feb7fb8bcf85ff2ed0b548f381cf5a1cf4b78bcd2d24fea506c971e30431b"
+  },
+  {
+    "file": "source-e65fbbc-sha256.json.gz",
+    "bytes": 119779,
+    "sha256": "2456f080706d510a25274f1eceee578efed4f6b4b632c9a12e85cf7e4463cdf4"
+  },
+  {
+    "file": "summary.json",
+    "bytes": 3641,
+    "sha256": "18e90ce1c96dce8ffa82338f0deda7aa88e4890c9fc57ce86f17f754dc321fee"
+  },
+  {
+    "file": "typecheck.log.gz",
+    "bytes": 20,
+    "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  }
+]

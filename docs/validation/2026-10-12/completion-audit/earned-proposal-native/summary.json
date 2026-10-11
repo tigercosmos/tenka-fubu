@@ -1,0 +1,107 @@
+{
+  "sourceHead": "e65fbbc8401c5fe96d0f887c78a13e4803e12f02",
+  "testCommit": "ccdc40979ee28bcb1447fc1d099b7f4a284f4889",
+  "sourceFiles": 2259,
+  "host": "sim1",
+  "node": "22.23.3",
+  "playwrightLockedAndInstalled": "1.61.1",
+  "browser": "Chromium headless shell149.0.7827.55 revision1228",
+  "dependencies": "Reused locked installed dependency directory; no fresh npm ci claim. Missing browser installed using playwright install chromium --only-shell.",
+  "sourceDirectory": "/tmp/tenka-e65fbbc-m6-proposal-sim1",
+  "commands": {
+    "build": "npm run build",
+    "observation": "npx playwright test e2e/earned-proposal-observer.spec.ts --workers=1",
+    "accepted": "npx playwright test e2e/earned-proposal.spec.ts --workers=1",
+    "negative": "npx playwright test e2e/earned-proposal-reject-control.spec.ts --workers=1",
+    "typecheck": "npx tsc --noEmit",
+    "eslint": "npx eslint e2e/earned-proposal.spec.ts",
+    "prettier": "npx prettier --check e2e/earned-proposal.spec.ts"
+  },
+  "results": {
+    "nativeObservation": "1 passed36.8s; test34.4s",
+    "accepted": "1 passed42.1s; test40.9s",
+    "negative": "1 expected control failure44.6s: accepted vs rejected",
+    "typecheckExit": 0,
+    "eslintExit": 0,
+    "prettierExit": 0
+  },
+  "stages": {
+    "initial": 0,
+    "generated": 30,
+    "adoptionQueued": 30,
+    "summaryOwnsPause": 30,
+    "firstOrdinaryTick": 31,
+    "afterNativePause": 33
+  },
+  "proposal": {
+    "clanId": "clan.oda",
+    "officerId": "off.shibata-katsuie",
+    "kind": "march",
+    "command": {
+      "type": "march",
+      "clanId": "clan.oda",
+      "originCastleId": "castle.kiyosu",
+      "leaderId": "off.shibata-katsuie",
+      "deputyIds": [],
+      "soldiers": 1658,
+      "food": 1989,
+      "targetNodeId": "castle.okazaki"
+    },
+    "meritReward": 30,
+    "estimatedCostGold": 0,
+    "summaryKey": "ui.proposal.kind.march",
+    "summaryParams": {},
+    "id": "prop.000003",
+    "createdDay": 30,
+    "expiresDay": 90,
+    "status": "pending"
+  },
+  "outcome": {
+    "status": "accepted",
+    "merit": [0, 30],
+    "leadershipExperience": [0, 30],
+    "loyalty": [60, 62],
+    "armyId": "army.000003",
+    "rngIdentical": true,
+    "resolveProposalCommands": [
+      {
+        "day": 31,
+        "seq": 0,
+        "command": {
+          "type": "resolveProposal",
+          "clanId": "clan.oda",
+          "proposalId": "prop.000003",
+          "accept": true
+        }
+      },
+      {
+        "day": 31,
+        "seq": 1,
+        "command": {
+          "type": "resolveProposal",
+          "clanId": "clan.oda",
+          "proposalId": "prop.000004",
+          "accept": false
+        }
+      },
+      {
+        "day": 31,
+        "seq": 2,
+        "command": {
+          "type": "resolveProposal",
+          "clanId": "clan.oda",
+          "proposalId": "prop.000005",
+          "accept": false
+        }
+      }
+    ]
+  },
+  "boundaries": "No core/BAL/stat/resource/proposal injection or debug step/jump. Native normal x1 only. Full-state snapshots and retained reports/command logs, not an independent capture of every emitted GameEvent. This proves one generated proposal adoption and monthly queue handoff, not Takeda aid/Imagawa poach/all M6 completion.",
+  "remoteTrace": {
+    "path": "/tmp/tenka-e65fbbc-m6-proposal-sim1/test-results/earned-proposal-reject-con-eda57--executes-on-ordinary-day31-chromium/trace.zip",
+    "bytes": 74041359,
+    "sha256": "58b36fb68e0cacce69ee1242a743249881561a06a0e17771dada95b2cc35b3e3",
+    "included": false,
+    "reason": "71MB renderer/network trace retained remotely; full states and command logs preserved in this bounded bundle."
+  }
+}
