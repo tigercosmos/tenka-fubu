@@ -3671,13 +3671,13 @@ it('retains one original layout across contained paint and full-detail interacti
       );
     }
     const a = h.nameplateParts.get('castle.a')!.part;
-    expect(a.getPaintBounds().width).toBeLessThan(a.getOriginalPresentationGeometry().paint.width);
+    expect(a.getPaintBounds().width).toBe(a.getOriginalPresentationGeometry().paint.width);
     h.emit({ type: 'nodeHover', id: 'castle.a' });
     r.getDiagnostics();
     expect(a.getPaintBounds()).toEqual(a.getOriginalPresentationGeometry().paint);
     h.emit({ type: 'hoverEnd' });
     r.getDiagnostics();
-    expect(a.getPaintBounds().width).toBeLessThan(a.getOriginalPresentationGeometry().paint.width);
+    expect(a.getPaintBounds().width).toBe(a.getOriginalPresentationGeometry().paint.width);
     for (const analysisMode of ['supply', 'faction', 'castleDefense'] as const) {
       r.updateView(baseView({ analysisMode }));
       r.getDiagnostics();
@@ -4363,7 +4363,7 @@ describe('城名牌（M6-V9b §7-S1）：獨立簽章 diff／只兵數變／LOD�
     r.destroy();
   });
 
-  it('目標高亮（§3.4）：compact numeric detail restores once; identical targets reuse paint and layout', async () => {
+  it('目標高亮（§3.4）：compact mandatory detail remains readable; identical targets reuse paint and layout', async () => {
     const r = await makeRenderer();
     r.setMapData(nameplateStaticData());
     r.updateView(baseView());
@@ -4387,14 +4387,14 @@ describe('城名牌（M6-V9b §7-S1）：獨立簽章 diff／只兵數變／LOD�
       }
     ).nameplateParts.get('castle.a')!.part;
     const originalWidth = part.getOriginalPresentationGeometry().ribbon.w;
-    expect(part.getRibbonSize().w).toBeLessThan(originalWidth);
-    expect(troops.visible).toBe(false);
+    expect(part.getRibbonSize().w).toBe(originalWidth);
+    expect(troops.visible).toBe(true);
     expect(troops.text).toBe('2,000');
     expect(highlight.visible).toBe(false);
 
     r.setMarchTarget('castle.a');
     expect(highlight.visible).toBe(true); // 金框開（既繪子物件，只切 visible）
-    expect(clearA).toHaveBeenCalledTimes(1); // one real compact→full numeric repaint
+    expect(clearA).toHaveBeenCalledTimes(1); // one compact→full presentation transition
     expect(troops.visible).toBe(true);
     expect(troops.text).toBe('2,000');
     expect(part.getRibbonSize().w).toBe(originalWidth);
@@ -4410,8 +4410,8 @@ describe('城名牌（M6-V9b §7-S1）：獨立簽章 diff／只兵數變／LOD�
     expect(highlight.visible).toBe(false);
     r.getDiagnostics();
     expect(clearA.mock.calls.length).toBeLessThanOrEqual(1);
-    expect(part.getRibbonSize().w).toBeLessThan(originalWidth);
-    expect(troops.visible).toBe(false);
+    expect(part.getRibbonSize().w).toBe(originalWidth);
+    expect(troops.visible).toBe(true);
     const clearedLayout = r.getDiagnostics().castleRibbonLayout.runs;
     clearA.mockClear();
     r.setMarchTarget(null);

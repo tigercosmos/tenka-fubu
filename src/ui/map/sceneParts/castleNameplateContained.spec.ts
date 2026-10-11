@@ -36,6 +36,37 @@ const props: CastleNameplateProps = {
   soldiers: 3400,
 };
 describe('actual original-envelope compact presentation', () => {
+  it.each(['main', 'branch'] as const)(
+    'retains the mandatory numeric channel and readable full bounds in compact %s labels',
+    (tier) => {
+      const part = createCastleNameplate();
+      part.update({ ...props, tier });
+      part.setLodStage('near');
+      const original = part.getOriginalPresentationGeometry();
+      const name = part.container.children[1] as BitmapText;
+      const troops = part.container.children[2] as BitmapText;
+      const fonts = [name.style.fontSize, troops.style.fontSize];
+      part.setCompactPresentation(true);
+      expect(troops.visible).toBe(true);
+      expect([name.text, troops.text]).toEqual(['駿府城', '3,400']);
+      expect([name.style.fontSize, troops.style.fontSize]).toEqual(fonts);
+      const geometry = part.getContentGeometry()!;
+      for (const rect of Object.values(geometry)) {
+        expect(rect.width).toBeGreaterThan(0);
+        expect(rect.height).toBeGreaterThan(0);
+      }
+      expect(geometry.seal.x + geometry.seal.width).toBeLessThanOrEqual(geometry.name.x);
+      expect(geometry.name.x + geometry.name.width).toBeLessThan(geometry.troops.x);
+      expect(geometry.troops.x + geometry.troops.width).toBeLessThanOrEqual(original.ribbon.w / 2);
+      expect(part.getPaintBounds()).toEqual(original.paint);
+      part.update({ ...props, tier, soldiers: 5000 });
+      expect(troops.visible).toBe(true);
+      expect(troops.text).toBe('5,000');
+      expect(part.getContentGeometry()!.troops.width).toBeGreaterThan(0);
+      part.destroy();
+    },
+  );
+
   it('reproduces literal full content arithmetic across fractional original offsets', () => {
     const part = createCastleNameplate();
     part.update(props);
@@ -58,12 +89,12 @@ describe('actual original-envelope compact presentation', () => {
     }
     part.destroy();
   });
-  it('restores full numeric warning detail immediately without a renderer flush', () => {
+  it('keeps numeric detail visible while warnings reject compact admission without a renderer flush', () => {
     const part = createCastleNameplate();
     part.update(props);
     part.setCompactPresentation(true);
     const troops = part.container.children[2] as BitmapText;
-    expect(troops.visible).toBe(false);
+    expect(troops.visible).toBe(true);
     part.update({ ...props, warning: 'critical' });
     expect(troops.visible).toBe(true);
     expect(troops.text).toBe('3,400');
@@ -75,10 +106,10 @@ describe('actual original-envelope compact presentation', () => {
     part.update(props);
     expect(troops.visible).toBe(true); // no implicit readmission after warning clears
     part.setCompactPresentation(true);
-    expect(troops.visible).toBe(false);
+    expect(troops.visible).toBe(true);
     part.destroy();
   });
-  it('keeps actual original full geometry while the same original nodes paint a contained compact variant', () => {
+  it('keeps actual original full geometry while the same original nodes retain all mandatory content in the contained compact variant', () => {
     const part = createCastleNameplate();
     part.update(props);
     const original = part.getPaintBounds(),
@@ -90,12 +121,12 @@ describe('actual original-envelope compact presentation', () => {
     };
     optional.setCompactPresentation?.(true);
     const compact = part.getPaintBounds();
-    expect(compact.width).toBeLessThan(original.width);
+    expect(compact.width).toBe(original.width);
     expect(compact.x).toBeGreaterThanOrEqual(original.x);
     expect(compact.x + compact.width).toBeLessThanOrEqual(original.x + original.width);
     expect(part.container.children).toEqual(children);
     expect((children[2] as BitmapText).text).toBe('3,400');
-    expect(children[2]!.visible).toBe(false);
+    expect(children[2]!.visible).toBe(true);
     const clear = vi.spyOn(children[0] as Graphics, 'clear');
     optional.setCompactPresentation?.(true);
     expect(clear).not.toHaveBeenCalled();

@@ -378,7 +378,7 @@ export function createCastleNameplate(): CastleNameplatePart {
     const shown = stage === 'near' || (stage === 'mid' && tier === 'main');
     gfx.visible = shown;
     nameText.visible = shown;
-    troopsText.visible = shown && !compactPresentation;
+    troopsText.visible = shown;
     highlightGfx.visible = shown && targetHighlight;
     leaderGfx.visible = shown && leaderVisible;
   };
@@ -457,12 +457,10 @@ export function createCastleNameplate(): CastleNameplatePart {
       troopsText.text = formatSoldierChip(props.soldiers);
       const nameW = nameText.width;
       const troopsW = troopsText.width;
-      const w = compactPresentation
-        ? Math.max(
-            geo.ribbonMinW,
-            geo.ribbonPadX * 2 + geo.relStripeW + geo.sealR * 2 + geo.sealTextGap + nameW,
-          )
-        : ribbonWidthFor(geo, nameW, troopsW);
+      // Compact admission must retain both mandatory columns at their approved
+      // font sizes and spacing. The full envelope is the smallest approved
+      // ribbon that contains the seal, castle name and troop register.
+      const w = ribbonWidthFor(geo, nameW, troopsW);
       ribbonW = w;
       ribbonH = geo.ribbonH;
       const left = -w / 2;
@@ -486,26 +484,24 @@ export function createCastleNameplate(): CastleNameplatePart {
       const divX = dotX - geo.troopDotR - geo.divGapX;
       // Reserve the numeric register inside the existing ribbon, above its unchanged clan-dye edge.
       const inset = NAMEPLATE_STYLE.troopRegisterInset;
-      if (!compactPresentation)
-        gfx
-          .rect(
-            divX + inset,
-            inset,
-            w / 2 - divX - 2 * inset,
-            geo.ribbonH - geo.dyeUnderlineH - 2 * inset,
-          )
-          .fill({
-            color: nameplateMaterial(props.tier, props.warning !== 'none').troopRegisterColor,
-            alpha: nameplateMaterial(props.tier, props.warning !== 'none').registerAlpha,
-          });
-      if (!compactPresentation)
-        drawTroops(
-          gfx,
-          geo,
-          divX,
-          dotX,
-          nameplateMaterial(props.tier, props.warning !== 'none').dividerAlpha,
-        );
+      gfx
+        .rect(
+          divX + inset,
+          inset,
+          w / 2 - divX - 2 * inset,
+          geo.ribbonH - geo.dyeUnderlineH - 2 * inset,
+        )
+        .fill({
+          color: nameplateMaterial(props.tier, props.warning !== 'none').troopRegisterColor,
+          alpha: nameplateMaterial(props.tier, props.warning !== 'none').registerAlpha,
+        });
+      drawTroops(
+        gfx,
+        geo,
+        divX,
+        dotX,
+        nameplateMaterial(props.tier, props.warning !== 'none').dividerAlpha,
+      );
       if (props.warning !== 'none') drawWarnMark(gfx, geo, w);
       drawSeal(gfx, geo, props.tier, props.colorIndex, props.relation, props.isPlayer, sealCenter);
       // 文字定位：城名接關係色帶右（anchor 0,0.5）；兵數右對齊綬帶尾段（anchor 1,0.5）。
@@ -593,7 +589,6 @@ export function createCastleNameplate(): CastleNameplatePart {
         [nameText, nameBaseline],
         [troopsText, troopsBaseline],
       ] as const) {
-        if (text === troopsText && compactPresentation) continue;
         const bounds = text.getLocalBounds();
         rects.push({
           x: bounds.x + baseline.x,
@@ -637,9 +632,7 @@ export function createCastleNameplate(): CastleNameplatePart {
           height: r * 2 + 1,
         },
         name: measured(nameText),
-        troops: compactPresentation
-          ? { ...measured(troopsText), width: 0, height: 0 }
-          : measured(troopsText),
+        troops: measured(troopsText),
       };
     },
     destroy(): void {
