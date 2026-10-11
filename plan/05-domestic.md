@@ -252,8 +252,8 @@ diminish(屬性) = 1 − (當前值 / 上限)^BAL.devDiminishExp    # BAL.devDim
 | `fac.komedoiya` | 米問屋 | 250 | 60 | 需已建 市 | 該城秋收 ×(1 + `BAL.facRiceHarvestBonus`=0.10)；解鎖該城米買賣指令：賣米 `BAL.riceSellRate`=0.02 貫/石、買米 `BAL.riceBuyRate`=0.04 貫/石（每月每城交易上限 `BAL.riceTradeCapMonthly`=10000 石） |
 | `fac.heisha` | 兵舍 | 300 | 90 | — | 該城每月徵兵量 ×(1 + `BAL.facBarracksConscriptBonus`=0.25)；城最大兵力 +`BAL.facBarracksSoldierCap`=500 |
 | `fac.umaya` | 馬廄 | 400 | 120 | — | 解鎖該城騎馬隊編成；該城部隊機動 +10%（套用點見 07） |
-| `fac.kajiba` | 鍛冶場 | 400 | 120 | — | 該城部隊攻擊 ×(1 + `BAL.facSmithyAtkBonus`=0.05)（套用點見 07） |
-| `fac.shagekijo` | 射擊場 | 500 | 120 | 需已建 鍛冶場 | 解鎖該城鐵砲隊編成（鐵砲庫存規則見 07）；該城鐵砲隊攻擊 ×(1 + `BAL.facRangeGunAtkBonus`=0.10) |
+| `fac.kajiba` | 鍛冶場 | 400 | 120 | — | 該城部隊攻擊 ×(1 + `BAL.facSmithyAtkBonus`=0.05)；依 07 §8 D57 查詢仍由該部隊勢力持有之出陣城的已落成施設 |
+| `fac.shagekijo` | 射擊場 | 500 | 120 | 需已建 鍛冶場 | 鐵砲隊編成與攻擊 ×(1 + `BAL.facRangeGunAtkBonus`=0.10) 延後至 post-v1 兵種 schema 擴充（02 §8 二輪裁決 B；07 §3.2）；v1 不把全體部隊視為鐵砲隊 |
 | `fac.hyojosho` | 評定所 | 350 | 90 | 僅本城 | 該城駐將具申品質提升（掛鉤見 06）；本勢力外交工作月增益 ×`BAL.facDiplomacyWorkGainMult`=1.1（掛鉤見 08；全勢力至多一座生效） |
 | `fac.minato` | 湊 | 600 | 150 | 城屬性 `coastal === true` | 該城轄郡商業收入 ×(1 + `BAL.facPortIncomeBonus`=0.20)；起訖任一端為本城的輸送隊行經海路邊時速度 ×2（§3.6） |
 | `fac.jisha` | 寺社 | 300 | 90 | 與 南蠻寺 互斥 | 該城轄郡治安每月 +`BAL.facTempleSecurity`=2 |

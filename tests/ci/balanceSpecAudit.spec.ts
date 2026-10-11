@@ -26,7 +26,7 @@ describe('read-only balance specification audit', () => {
     expect(report).toMatchObject({
       passed: false,
       valueProof: false,
-      counts: { declared: 614, compared: 590 },
+      counts: { declared: 614, compared: 591 },
       derivedCalibrations: [
         {
           name: 'soldiersPerKoku',
@@ -42,6 +42,35 @@ describe('read-only balance specification audit', () => {
       expect.objectContaining({ kind: 'unverified-calibration', name: 'soldiersPerKoku' }),
     ]);
     expect(report.unsupportedValues).toEqual([]);
+  });
+  it('retains deferred rows and their decision evidence, and rejects implemented deferred constants', () => {
+    const text = spec([
+      row('futureBonus', '0.1', '⚠ 延後：02 §8 的現行 schema 不支援；現行不進 `balance.ts`。'),
+    ]);
+    const report = auditBalanceSpec(text, 'export const BAL = {};');
+    expect(report.passed).toBe(true);
+    expect(report.missingRows).toEqual([
+      expect.objectContaining({ name: 'futureBonus', disposition: 'deferred' }),
+    ]);
+    expect(report.exclusions[0]?.dispositionEvidence).toContain('02 §8');
+    expect(auditBalanceSpec(text, 'export const BAL = { futureBonus: 0.1 };').issues).toEqual([
+      expect.objectContaining({ kind: 'excluded-implemented', name: 'futureBonus' }),
+    ]);
+  });
+  it.each([
+    '⚠ 延後：將來再做。',
+    '⚠ 延後：現行不進 `balance.ts`。',
+    '⚠ 延後：02 §8 的 schema 尚未支援。',
+  ])('keeps incomplete deferral annotations active: %s', (note) => {
+    const report = auditBalanceSpec(
+      spec([row('futureBonus', '0.1', note)]),
+      'export const BAL = {};',
+    );
+    expect(report.passed).toBe(false);
+    expect(report.exclusions).toEqual([]);
+    expect(report.issues).toContainEqual(
+      expect.objectContaining({ kind: 'missing', name: 'futureBonus' }),
+    );
   });
   it.each([
     'derivation',
@@ -110,14 +139,11 @@ describe('read-only balance specification audit', () => {
     const source = readFileSync(
       new URL('../../src/core/balance.ts', import.meta.url),
       'utf8',
-    ).replace(
-      'export const BAL = {',
-      'export const BAL = { facRangeGunAtkBonus: .10, facSmithyAtkBonus: .05, defaultDeathAge: 60, defaultDeathAgeSpread: 8, aiReactiveChecksPerTick: 8,',
-    );
+    ).replace('export const BAL = {', 'export const BAL = { aiReactiveChecksPerTick: 8,');
     // This is audit-input fault injection, not permission to add runtime constants.
     const report = auditBalanceSpec(text, source);
     expect(report.issues).toEqual([expect.objectContaining({ kind: 'unverified-calibration' })]);
-    expect(report.counts.compared).toBe(595);
+    expect(report.counts.compared).toBe(592);
     expect(report.valueProof).toBe(false);
     expect(report.passed).toBe(false);
     const unknown = auditBalanceSpec(spec([row('futureCalibration', '≈0.025')]), 'const BAL={}');
@@ -347,20 +373,24 @@ describe('read-only balance specification audit', () => {
     expect(report.counts).toEqual({
       declared: 614,
       rows: 614,
-      implemented: 590,
-      shared: 590,
-      compared: 590,
+      implemented: 591,
+      shared: 591,
+      compared: 591,
     });
     expect(report.orphanKeys).toEqual([]);
-    expect(report.missingRows).toHaveLength(24);
-    expect(report.exclusions).toHaveLength(18);
+    expect(report.missingRows).toHaveLength(23);
+    expect(report.exclusions).toHaveLength(21);
     expect(report.unsupportedValues).toEqual([]);
     expect(report.issues.filter((issue) => issue.kind === 'value-mismatch')).toEqual([]);
     expect(
       report.issues.filter((issue) => issue.kind === 'non-simulation').map((issue) => issue.name),
     ).toEqual([]);
     expect(report.passed).toBe(false);
-    expect(report.issues).toHaveLength(6);
+    expect(report.issues).toHaveLength(2);
+    expect(report.issues.map((issue) => issue.name)).toEqual([
+      'aiReactiveChecksPerTick',
+      'soldiersPerKoku',
+    ]);
     expect(report.issues.some((issue) => issue.name === 'allianceTrustMin')).toBe(false);
     expect(parseBalanceSource(source).trustCostAlliance).toBe(60);
     expect(

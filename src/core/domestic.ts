@@ -1,7 +1,7 @@
 import { BAL } from './balance';
 import { FACILITIES } from './facilities';
 import { POLICIES } from './policies';
-import type { Castle, District, GameState, Officer } from './state/gameState';
+import type { Army, Castle, District, GameState, Officer } from './state/gameState';
 import type { CastleId, ClanId, FacilityTypeId, PolicyId } from './state/ids';
 import { RANK_VALUES } from './state/enums';
 
@@ -18,6 +18,20 @@ export function hasFacility(
   facilityId: FacilityTypeId | string,
 ): boolean {
   return castle.facilities.includes(facilityId as FacilityTypeId);
+}
+
+/** Completed smithies strengthen forces supplied by their current own-clan origin castle. */
+export function castleAttackFacilityMultiplier(castle: Readonly<Castle>): number {
+  return hasFacility(castle, 'fac.kajiba') ? 1 + BAL.facSmithyAtkBonus : 1;
+}
+
+export function armyAttackFacilityMultiplier(
+  state: Readonly<GameState>,
+  army: Readonly<Army> | undefined,
+): number {
+  if (!army) return 1;
+  const origin = state.castles[army.originCastleId];
+  return origin?.ownerClanId === army.clanId ? castleAttackFacilityMultiplier(origin) : 1;
 }
 
 export function castleFoodCap(castle: Readonly<Castle>): number {

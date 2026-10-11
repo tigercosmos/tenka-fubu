@@ -5,7 +5,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import ts from 'typescript';
 
 type Literal = number | string | boolean | null | Literal[] | { [key: string]: Literal };
-type Disposition = 'active' | 'v1.1' | 'deprecated' | 'difficulty';
+type Disposition = 'active' | 'v1.1' | 'deprecated' | 'difficulty' | 'deferred';
 export interface SpecRow {
   name: string;
   value: string;
@@ -226,6 +226,9 @@ export function parseBalanceSpec(spec: string): {
       dispositionEvidence = note;
     } else if (/⚠ 廢(?:棄|除)/.test(note)) {
       disposition = 'deprecated';
+      dispositionEvidence = note;
+    } else if (/⚠ 延後：.*(?:02|14) §8.+現行不進 `balance\.ts`/.test(note)) {
+      disposition = 'deferred';
       dispositionEvidence = note;
     } else if (/^diffAi/.test(name)) {
       const evidence = lines.find(

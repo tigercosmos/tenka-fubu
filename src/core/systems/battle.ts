@@ -2,6 +2,7 @@
 // 規格：plan/07-military.md §3.5～§3.7、§5.3～§5.4；plan/03-game-loop.md §3.7.2。
 
 import { BAL } from '../balance';
+import { armyAttackFacilityMultiplier } from '../domestic';
 import { traitModifier } from '../traits';
 import { getBattleOfficerStat, getEffectiveOfficerStat } from '../battleStats';
 import {
@@ -632,7 +633,8 @@ export function computeBattleUnitAttackPower(
     unit.troops *
     (1 + val * BAL.valBattleFactor + ldr * BAL.ldrBattleFactor) *
     moraleFactor *
-    tacticAtkMult
+    tacticAtkMult *
+    armyAttackFacilityMultiplier(state, state.armies[unit.armyId])
   );
 }
 

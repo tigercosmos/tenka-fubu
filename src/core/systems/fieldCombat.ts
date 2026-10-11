@@ -1,3 +1,4 @@
+import { armyAttackFacilityMultiplier } from '../domestic';
 import { BAL } from '../balance';
 import { getEffectiveOfficerStat } from '../battleStats';
 import { traitModifier } from '../traits';
@@ -19,7 +20,8 @@ export function computeArmyPower(state: Readonly<GameState>, army: Readonly<Army
   return (
     army.soldiers *
     (1 + ldr * BAL.ldrCombatFactor) *
-    (BAL.moraleFactorBase + army.morale / BAL.moraleFactorDivisor)
+    (BAL.moraleFactorBase + army.morale / BAL.moraleFactorDivisor) *
+    armyAttackFacilityMultiplier(state, army)
   );
 }
 

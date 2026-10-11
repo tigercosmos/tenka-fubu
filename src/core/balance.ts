@@ -459,6 +459,7 @@ export const BAL = {
   facRiceHarvestBonus: 0.1,
   facBarracksConscriptBonus: 0.25,
   facBarracksSoldierCap: 500,
+  facSmithyAtkBonus: 0.05,
   facDiplomacyWorkGainMult: 1.1,
   facPortIncomeBonus: 0.2,
   facTempleSecurity: 2,

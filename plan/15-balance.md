@@ -193,7 +193,7 @@ export type BalConfig = typeof BAL;
 | `facNanbanGold` | 80 | 貫/月 | 南蠻寺:每月固定金錢收入 | 05 §3.4.2 |  |
 | `facPortIncomeBonus` | 0.20 | 係數(收入加成) | 湊:該城轄郡商業收入 ×(1+此值) | 05 §3.4.2 |  |
 | `facPortSeaTransportDaysMult` | 0.5 | 係數(無量綱) | 行經海路且起訖任一城有湊時，輸送隊邊日數乘數 | 05 §3.4.2、§3.6 | 速度 ×2 的倒數；非海路不套用 |
-| `facRangeGunAtkBonus` | 0.10 | 係數(攻擊加成) | 射擊場:該城鐵砲隊攻擊 ×(1+此值) | 05 §3.4.2 |  |
+| `facRangeGunAtkBonus` | 0.10 | 係數(攻擊加成) | 射擊場:該城鐵砲隊攻擊 ×(1+此值) | 05 §3.4.2 | ⚠ 延後：02 §8 二輪裁決 B 廢除 v1.0 的 Army.troopType；07 §3.2 禁止 v1 兵種分支。本列保留至 post-v1 兵種 schema 擴充，現行不進 `balance.ts`，不把全體部隊視為鐵砲隊。 |
 | `facRiceHarvestBonus` | 0.10 | 係數(秋收加成) | 米問屋:該城秋收 ×(1+此值) | 05 §3.4.2 |  |
 | `facSmithyAtkBonus` | 0.05 | 係數(攻擊加成) | 鍛冶場:該城部隊攻擊 ×(1+此值)(套用點見07) | 05 §3.4.2 |  |
 | `facStorehouseCap` | 20000 | 石 | 藏:城兵糧容量加值 | 05 §3.4.2 |  |
@@ -267,8 +267,8 @@ export type BalConfig = typeof BAL;
 | `captiveRecruitPrestigeWeight` | 0.0002 | 機率/點 | 勢力威信（上限1000）每點的捕虜登用成功率權重 | 06 §3.7.2 |  |
 | `captiveRetryCooldownDays` | 30 | 日 | 捕虜登用失敗後下次可嘗試的冷卻天數 | 06 §3.7.2 |  |
 | `comingOfAgeAge` | 15 | 歲 | 未指定登場年時的元服年齡（debutYear=birthYear+此值） | 06 §3.10 |  |
-| `defaultDeathAge` | 60 | 歲 | 無史實卒年者的預設死亡年齡基準 | 06 §3.9.1 |  |
-| `defaultDeathAgeSpread` | 8 | 歲(±) | 預設死亡年齡的隨機浮動範圍（60±8） | 06 §3.9.1 |  |
+| `defaultDeathAge` | 60 | 歲 | 無史實卒年者的預設死亡年齡基準 | 06 §3.9.1 | ⚠ 延後：14 §8 D19 已裁定 zOfficer.deathYear 必填且程序生成浪人自行產生卒年，無卒年 fallback 在現行資料契約不可達；待允許省略 deathYear 時與 fallback 一併實作，現行不進 `balance.ts`。 |
+| `defaultDeathAgeSpread` | 8 | 歲(±) | 預設死亡年齡的隨機浮動範圍（60±8） | 06 §3.9.1 | ⚠ 延後：14 §8 D19 已裁定 zOfficer.deathYear 必填且程序生成浪人自行產生卒年，無卒年 fallback 在現行資料契約不可達；待允許省略 deathYear 時與 fallback 一併實作，現行不進 `balance.ts`。 |
 | `defectionChancePerPoint` | 0.01 | 機率/點 | 出奔機率＝(門檻−忠誠)×此係數（忠誠0時每月30%） | 06 §3.6.4 |  |
 | `defectionThreshold` | 30 | 忠誠點 | 出奔判定的忠誠門檻（低於此值才判定） | 06 §3.6.4 | ⚠ 17.defectionLoyaltyThreshold=30 別名須改名（值一致） |
 | `executeLoyaltyPenalty` | 2 | 忠誠點 | 處斬捕虜時我方全體非一門家臣連坐的忠誠懲罰 | 06 §3.6.3 |  |

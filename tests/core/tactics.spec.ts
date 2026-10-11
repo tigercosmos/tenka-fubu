@@ -1,3 +1,8 @@
+import { armyAttackFacilityMultiplier } from '../../src/core/domestic';
+import { BAL } from '../../src/core/balance';
+import { computeArmyPower } from '../../src/core/systems/fieldCombat';
+import { computeBattleUnitAttackPower } from '../../src/core/systems/battle';
+import { estArmyPower, estCastlePower } from '../../src/core/systems/ai/shared';
 import { describe, expect, it } from 'vitest';
 import tacticsJson from '../../src/data/scenarios/s1560/tactics.json';
 import { zTacticsFile } from '../../src/data/schemas/tactic';
@@ -9,6 +14,7 @@ import type {
   OfficerId,
   TacticId,
   TraitId,
+  FacilityTypeId,
 } from '../../src/core/state/ids';
 import {
   TACTIC_IDS,
@@ -426,5 +432,92 @@ describe('tactic effects', () => {
     expect(actor.tacticCooldowns['tac.charge']).toBe(7);
     expect(actor.tacticCooldowns['tac.hold']).toBe(7);
     expect(target.activeTactics[0]?.remainingTicks).toBe(3);
+  });
+});
+
+describe('completed origin smithy attack support', () => {
+  it('strengthens actual field/tactical power while retaining the documented cheap AI approximation', () => {
+    const { state, actor } = buildFixture(false);
+    const army = state.armies[ACTOR_ARMY_ID]!;
+    const castle = state.castles[CASTLE_A1]!;
+    castle.facilities = [];
+    const evaluate = () => [
+      computeArmyPower(state, army),
+      computeBattleUnitAttackPower(state, actor),
+    ];
+    const plain = evaluate();
+    const estimates = [estArmyPower(state, army), estCastlePower(state, castle)];
+    castle.facilities.push('fac.kajiba' as FacilityTypeId);
+    const before = structuredClone(state);
+    const boosted = evaluate();
+    boosted.forEach((value, index) => expect(value).toBeCloseTo(plain[index]! * 1.05, 12));
+    expect([estArmyPower(state, army), estCastlePower(state, castle)]).toEqual(estimates);
+    expect(state).toEqual(before);
+  });
+
+  it('queries the completed owned origin through construction, capture, recapture and demolition', () => {
+    const { state, actor } = buildFixture(false);
+    const army = state.armies[ACTOR_ARMY_ID]!;
+    const castle = state.castles[CASTLE_A1]!;
+    const otherCastle = Object.values(state.castles).find(
+      (candidate) => candidate.id !== CASTLE_A1,
+    )!;
+    castle.facilities = [];
+    otherCastle.facilities.push('fac.kajiba' as FacilityTypeId);
+    army.posNodeId = otherCastle.id;
+    const evaluate = () => [
+      computeArmyPower(state, army),
+      computeBattleUnitAttackPower(state, actor),
+    ];
+    const plain = evaluate();
+    // A smithy at the temporary location and an unfinished origin order confer no benefit.
+    castle.buildQueue.push({
+      facilityTypeId: 'fac.kajiba' as FacilityTypeId,
+      daysLeft: 1,
+    });
+    expect(evaluate()).toEqual(plain);
+    castle.buildQueue = [];
+    castle.facilities.push('fac.kajiba' as FacilityTypeId);
+    evaluate().forEach((value, index) => expect(value).toBeCloseTo(plain[index]! * 1.05, 12));
+    castle.ownerClanId = CLAN_BETA;
+    expect(evaluate()).toEqual(plain);
+    castle.ownerClanId = CLAN_ALPHA;
+    evaluate().forEach((value, index) => expect(value).toBeCloseTo(plain[index]! * 1.05, 12));
+    castle.facilities = [];
+    expect(evaluate()).toEqual(plain);
+    castle.facilities.push('fac.kajiba' as FacilityTypeId);
+    delete state.armies[ACTOR_ARMY_ID];
+    expect(computeBattleUnitAttackPower(state, actor)).toBe(plain[1]);
+    expect(armyAttackFacilityMultiplier(state, undefined)).toBe(1);
+    delete state.castles[CASTLE_A1];
+    expect(armyAttackFacilityMultiplier(state, army)).toBe(1);
+  });
+
+  it('applies exactly one smithy factor to default and supplied ranged tactic attack', () => {
+    const prepared = buildFixture(false);
+    prepared.state.castles[CASTLE_A1]!.facilities = [];
+    // Large enough to expose multiplier rounding while avoiding target troop cap.
+    prepared.actor.troops = 1_000;
+    prepared.target.troops = 1_000;
+    const baseline = structuredClone(prepared);
+    const boosted = structuredClone(prepared);
+    boosted.state.castles[CASTLE_A1]!.facilities.push('fac.kajiba' as FacilityTypeId);
+    const plainAttack = computeBattleUnitAttackPower(baseline.state, baseline.actor);
+    const expected = Math.round(plainAttack * 1.05 * BAL.battleTickDamageRate * 1.2);
+    const rng = structuredClone(boosted.state.rng);
+    const defaults = applyBattleTactic(
+      boosted.state,
+      boosted.battle,
+      order('tac.volley', boosted.target.id),
+    );
+    expect(defaults).toMatchObject({ applied: true, damageDealt: expected });
+    expect(boosted.state.rng).toEqual(rng);
+    const supplied = structuredClone(prepared);
+    supplied.state.castles[CASTLE_A1]!.facilities.push('fac.kajiba' as FacilityTypeId);
+    expect(
+      applyBattleTactic(supplied.state, supplied.battle, order('tac.volley', supplied.target.id), {
+        attackPower: computeBattleUnitAttackPower(supplied.state, supplied.actor),
+      }),
+    ).toMatchObject({ applied: true, damageDealt: expected });
   });
 });

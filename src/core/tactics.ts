@@ -2,6 +2,7 @@
 // Spec: plan/07-military.md §3.8 and §5.4; plan/06-officers.md §2 and §3.3.
 
 import { BAL } from './balance';
+import { armyAttackFacilityMultiplier } from './domestic';
 import { getBattleOfficerStat } from './battleStats';
 import { CoreError } from './errors';
 import { traitModifier } from './traits';
@@ -414,7 +415,8 @@ function defaultTacticAttackPower(state: Readonly<GameState>, actor: Readonly<Ba
     actor.troops *
     (1 + val * BAL.valBattleFactor + ldr * BAL.ldrBattleFactor) *
     moraleFactor *
-    tacticAttackMultiplier(actor)
+    tacticAttackMultiplier(actor) *
+    armyAttackFacilityMultiplier(state, state.armies[actor.armyId])
   );
 }
 
