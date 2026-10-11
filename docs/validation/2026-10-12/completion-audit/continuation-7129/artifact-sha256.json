@@ -1,0 +1,52 @@
+{
+  "scope": "Immutable raw logs and pinned source hashes; full gate remains failed",
+  "artifacts": [
+    {
+      "path": "build.log.gz",
+      "bytes": 851,
+      "sha256": "5c81f2de2dac344cdcb30249bf47e72b2b91c44be634093a48d66b4d208ddef5",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "33d2cc4b1f8f955f2122d917b3e019db323b23d10f1770eadf17687854eb20f7"
+    },
+    {
+      "path": "bundle.log.gz",
+      "bytes": 399,
+      "sha256": "18f51f32fc99391519c79f375e803b391d9e3c174ab16559d5d15efa12020569",
+      "uncompressedBytes": 1057,
+      "uncompressedSha256": "a6daf6ca7616ea8c50c2130a835146e8e08f6f78dbe4fb9e55f718d2837b9c1f"
+    },
+    {
+      "path": "full.log.gz",
+      "bytes": 30318,
+      "sha256": "c207903181997e84629ba8efac0dcbc8ba7544113d345e2edd771f1e0efb6f67",
+      "uncompressedBytes": 215241,
+      "uncompressedSha256": "6868d17418f601292cf7879566bd9f3bf11bf55365615af6b5524d7c950367fe"
+    },
+    {
+      "path": "lint.log.gz",
+      "bytes": 123,
+      "sha256": "a68529dacf305cdbd92f2dc4d54c6184e1eccc45862acae44d4240408dae422b",
+      "uncompressedBytes": 125,
+      "uncompressedSha256": "d0e71f55d6f4fd8f983185091b7cdae86733c29af94431f99d20836fc2109fe1"
+    },
+    {
+      "path": "source-manifest.json.gz",
+      "bytes": 66239,
+      "sha256": "cdf0a7108bd54fc98c3cd1b68818193f9d8a8d74bd3673c70d23d9ab3eac5ac9",
+      "uncompressedBytes": 150959,
+      "uncompressedSha256": "f41abfa082aaa816eb40566840a325f8d0dcad87d120f3bd18652d6229af4a98"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 937,
+      "sha256": "d2d82bf88ef159688f3837df0bdad8fd9ceb697a9e87e6023542d476a0df8443"
+    },
+    {
+      "path": "types.log.gz",
+      "bytes": 87,
+      "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+      "uncompressedBytes": 84,
+      "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+    }
+  ]
+}

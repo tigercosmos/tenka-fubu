@@ -658,6 +658,16 @@
       "path": "geographic-allocation/artifact-sha256.json",
       "bytes": 11884,
       "sha256": "5fc76ed2863c2c38a34f3846bc1c5af33ed24b2ccee0833a090c01395713aec7"
+    },
+    {
+      "path": "field-extinction/artifact-sha256.json",
+      "bytes": 5380,
+      "sha256": "6165f82bacdcacb78637fd00c811ce00af0735f64ae02e119d9fbe99ee313a81"
+    },
+    {
+      "path": "continuation-7129/artifact-sha256.json",
+      "bytes": 1918,
+      "sha256": "60d393de3152700dd3a14bfb271321ed5b9d430190a465983e288998279f20c1"
     }
   ]
 }

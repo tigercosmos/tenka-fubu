@@ -1,0 +1,21 @@
+{
+  "sourceCommit": "7129f63758c01c44c9179f61b81e977f2bb35213",
+  "testFiles": 672,
+  "passedFiles": 670,
+  "failedFiles": 1,
+  "skippedFiles": 1,
+  "passedTests": 6264,
+  "failedTests": 1,
+  "skippedTests": 1,
+  "durationSeconds": 128.82,
+  "failure": "s1560 tick450: Saito no-heir extinction retains4castles16districts, INV02/22; unchanged unresolved receiver rule",
+  "testsExitCode": 1,
+  "typecheckPassed": true,
+  "lintPassed": true,
+  "buildPassed": true,
+  "bundlePassed": true,
+  "sourceFilesMatchingCommittedGitBlobAndUnchangedAfterRun": 1355,
+  "manifestCaptured": "While full suite was running; every captured source exactly matches pinned commit, then all hashes checked again after terminal completion",
+  "untrackedCourtRankE2E": "Not part of the Vitest full suite; independent native proof still running",
+  "tacticalExternalExtinction": "Unfulfilled required postcondition retained separately; no it.fails/skip added"
+}

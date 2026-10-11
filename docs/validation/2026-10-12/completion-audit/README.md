@@ -117,3 +117,7 @@ sim4 以精確核對的 714 個 source／tools 檔案跑相同十次暖機、二
 sim4 最新六項 Worker 原生流程測試全部通過（43.3 秒），三組同步／Worker 的完整狀態與日誌一致。120 日批次最長畫面間隔為同步 1,028.1 ms、Worker 124.9 ms，總耗時為 939.9／2,511.1 ms；正常 x5 在實際自動暫停前完成 29 日，最長間隔為 128.4／84.7 ms，總耗時為 3,544.7／3,594.9 ms。互動阻塞縮短，但批次吞吐較慢，未達穩定 60 FPS。冷啟動、60 日批次及全部原始列亦保留；每種情境各一筆，見 [worker-final-sim4](worker-final-sim4/)。
 
 `d619085` 從真實 CPU profile 定位地理標籤 edge-axis 暫存與快取命中前的候選配置；保留精確運算／候選順序後，25 項原版／邊界測試及 sim4 六項原生流程通過。三組前後完整狀態、日誌、地圖發布與每個地理標籤完全一致。正常 x5 Worker 最長間隔 84.7→60.3 ms，這筆後版樣本沒有 long task；120 日間隔 124.9→108.1 ms，仍不宣稱穩定 60 FPS。另有獨立 profiler 歸因與局部診斷，不混作無 profiler 計時；完整原始資料見 [geographic-allocation](geographic-allocation/)。
+
+`7129f63` 修正零城勢力的普通野戰退出。正式 march／field-combat fixture 在原 source 真實失敗，修正後清除殘軍、職務及追擊引用，survivor 恢復狀態；RNG、功績及經驗不變，滅亡事件先於結局。sim1 八檔 84 項及本機 victory 十五項通過。有效戰術合戰的外部收尾尚無中止／獎賞表示，原 guard 行為保留；其真正失敗的 required-postcondition 診斷原樣保存，不轉為 it.fails 或 skip。見 [field-extinction](field-extinction/)。
+
+包含兩項 source 修正的 `7129f63` 全量回歸：672 檔、6,264 項通過、1 項失敗、1 項跳過（128.82 秒）；唯一失敗仍為 day450 無繼承人領地不變量。型別、完整 lint、build 與 bundle 通過。1,355 個來源／測試／規格／工具／根設定檔逐一符合固定 commit 的 Git blob，測試結束後 SHA256 全部不變；manifest 採集於測試進行中，不宣稱完整涵蓋公開素材或尚未提交的 court-rank E2E。原始紀錄見 [continuation-7129](continuation-7129/)。本次不推進里程碑或清除完整驗收 gate。

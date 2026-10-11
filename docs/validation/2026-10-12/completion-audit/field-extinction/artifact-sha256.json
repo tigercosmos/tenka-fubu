@@ -1,0 +1,134 @@
+{
+  "scope": "Exact raw diagnostics, patch and validation; tactical requirement remains unfulfilled",
+  "artifacts": [
+    {
+      "path": "README.md",
+      "bytes": 2681,
+      "sha256": "af72e90686d981bc531cc97bd6c3cfd7dc558e95299f05ac652f3d3cf5005188"
+    },
+    {
+      "path": "extinction-core-typecheck-final.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "extinction-core-typecheck.log.gz",
+      "bytes": 315,
+      "sha256": "92264912731b742400a0e5f1c69157aea790eab607621461cd60e3f5c2683917",
+      "uncompressedBytes": 2034,
+      "uncompressedSha256": "164cb5336c87c862fc70334821ab3b4a7e9d13ba63c121562dfa4da35603780b"
+    },
+    {
+      "path": "extinction-eslint.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "extinction-field-green.log.gz",
+      "bytes": 230,
+      "sha256": "cace333e9fc9b828e23dd76e6956445235c7238e88022c71f075b69a8c990fda",
+      "uncompressedBytes": 290,
+      "uncompressedSha256": "3d27b98b6376427291ce9ce0bc2f138fdb3b15e42920e10941746824bff04d53"
+    },
+    {
+      "path": "extinction-field-red.log.gz",
+      "bytes": 626,
+      "sha256": "15d21fff6992f8317a467791bb6cdc5e3cb06817bca4d9c186107059b77394cc",
+      "uncompressedBytes": 1270,
+      "uncompressedSha256": "12da2181952a956f4903ba8167dd6b2c447ea4951315bc4fd080c879b62f64c1"
+    },
+    {
+      "path": "extinction-final-format-validation.log.gz",
+      "bytes": 227,
+      "sha256": "87e7db20a8c75ada353f251065642f293de1c30a2c33733a1bacb8f63600ad55",
+      "uncompressedBytes": 290,
+      "uncompressedSha256": "9051968568601861802b24792ec4ebe80351949f5c331f825f958ffb7f766756"
+    },
+    {
+      "path": "extinction-focused-final-green.log.gz",
+      "bytes": 415,
+      "sha256": "d5a4dc10fb8970a0f69074af995bb21fd79a87ddabc916229c97e513dc3a8e57",
+      "uncompressedBytes": 830,
+      "uncompressedSha256": "12effc16aed78c774ada776e18745111cd8195befd2eac7aa4e2c04ad0c237af"
+    },
+    {
+      "path": "extinction-focused-green.log.gz",
+      "bytes": 709,
+      "sha256": "ce3857b05b5c428469a9d42188d450861734147b3f0c8e6c21b027302ed4a865",
+      "uncompressedBytes": 1540,
+      "uncompressedSha256": "748dac12a231a8925ed8880635f57a1d8a2bf7f5ee02800a3f5bcaafc7bab51f"
+    },
+    {
+      "path": "extinction-focused-typecheck.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "extinction-tactical-open-red.log.gz",
+      "bytes": 607,
+      "sha256": "ee63408146bdd294847876ca8248aef535b5926664a0093c24d17a5e997cd348",
+      "uncompressedBytes": 1228,
+      "uncompressedSha256": "84bfa33f235b130376fcfc237b49e735d468ab996a4b61a173c32965a834b0c8"
+    },
+    {
+      "path": "field-extinction.patch.gz",
+      "bytes": 4048,
+      "sha256": "9256d897a7cf0101a86f17b501a3a81eac639b51e97f36594972720c818539ce",
+      "uncompressedBytes": 9884,
+      "uncompressedSha256": "4337c50e2ee39837c9e9dc01a8ea5623c6349cf596c81b21ae1b90f265d35af6"
+    },
+    {
+      "path": "local-victory-green.log.gz",
+      "bytes": 226,
+      "sha256": "93572364c74bc3f975cfe43031dcfd9e080c3f2e9d6cf890174d588514a9f19a",
+      "uncompressedBytes": 284,
+      "uncompressedSha256": "70f3ab5a62d210806a3f7ca351643aaee3c84dae6c61f11cf1bc5c8d1138917e"
+    },
+    {
+      "path": "original-valid-engagement-probe.json.gz",
+      "bytes": 425,
+      "sha256": "2c1d1f141e28d127e837e0a43e8e2fd59bfeb40e85e1d29acaf0949f00b432da",
+      "uncompressedBytes": 2006,
+      "uncompressedSha256": "6edd280b57e5446e1a2ee4ace2745cfcaae77ec4a6d6a291c20a698aca5b1a18"
+    },
+    {
+      "path": "original-victory.ts.gz",
+      "bytes": 4803,
+      "sha256": "b7eab8e955a207723380a6a4750befd0493a99b5cff7cfc4e405b902402e047d",
+      "uncompressedBytes": 12418,
+      "uncompressedSha256": "5125fb8d4e2513086b897c34584d8c5d8815c6620a8fc254a871ddbfffaee285"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 476,
+      "sha256": "e000a29038c4e321b419b4f9112b24097b12eb7a1900ad5669ff63c87fdc9f07"
+    },
+    {
+      "path": "tactical-diagnostic.spec.ts.gz",
+      "bytes": 4783,
+      "sha256": "8fb3243aa167058c9f298cab58a5ecbc7e884baedc53e2387648d893be174ba0",
+      "uncompressedBytes": 17304,
+      "uncompressedSha256": "8d6daee4a912c279afef3cdf3b60bff3bea236f8869932135b398ec0c51a8a23"
+    },
+    {
+      "path": "victory.spec.ts.gz",
+      "bytes": 4811,
+      "sha256": "834ac7e0e60e95d0188f9d85d1023e5e080091c360b724d7c884b3c825b5d49e",
+      "uncompressedBytes": 17050,
+      "uncompressedSha256": "a01d1f7b3e199a7f12e1c6d2c430b75b957d2400925867fdae3d852cfd01d41c"
+    },
+    {
+      "path": "victory.ts.gz",
+      "bytes": 4919,
+      "sha256": "39960d89e85acae208040faec75052949e8012006f3e84a6b213b0f74af78567",
+      "uncompressedBytes": 12626,
+      "uncompressedSha256": "cb11c2fc94f30ed647de49b4cea9c96ac175d49a20eb76a47aafe2c3186d9c0f"
+    }
+  ]
+}

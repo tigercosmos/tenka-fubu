@@ -1,0 +1,11 @@
+{
+  "originalSource": "505d96a",
+  "sourceFix": "7129f63758c01c44c9179f61b81e977f2bb35213",
+  "remoteFocusedFiles": 8,
+  "remoteFocusedTestsPassed": 84,
+  "localVictoryTestsPassed": 15,
+  "fieldCleanupComplete": true,
+  "tacticalExtinctionComplete": false,
+  "noHeirTerritoryReceiverDefined": false,
+  "pendingRule": "External tactical closure has no cancellation result representation; ordinary resolution would invent death/capture RNG, victory/awe merit and casualties."
+}
