@@ -1,3 +1,5 @@
+import { createWasmGeographicScorer } from '@ui/map/wasmGeographicScorer';
+import { realRenderWasmExports } from '../helpers/realRenderWasm';
 // @vitest-environment jsdom
 // Scene-graph/lifecycle contracts with shared Pixi mocks, not native pixel proof.
 import { describe, expect, it, vi } from 'vitest';
@@ -37,7 +39,7 @@ const view: MapViewState = {
   analysisMode: 'none',
 };
 async function start() {
-  const renderer = new MapRenderer();
+  const renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
   await renderer.init(document.createElement('div'), vi.fn());
   return renderer;
 }

@@ -1,3 +1,5 @@
+import { createWasmGeographicScorer } from '@ui/map/wasmGeographicScorer';
+import { realRenderWasmExports } from '../../../tests/helpers/realRenderWasm';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 const hoisted = vi.hoisted(() => ({ apps: [] as { destroyed: boolean }[] }));
@@ -33,7 +35,7 @@ function actualDomEvent(target: HTMLElement): Event {
 
 describe('native DOM ownership at the actual renderer pointer router', () => {
   it('does not turn a real DOM trait pointer into a map hover and clears old map ownership', async () => {
-    const renderer = new MapRenderer();
+    const renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     const events = vi.fn();
     await renderer.init(document.createElement('div'), events);
     const move = vi.spyOn(MapInteraction.prototype, 'handleMove');
@@ -52,7 +54,7 @@ describe('native DOM ownership at the actual renderer pointer router', () => {
   });
 
   it('preserves native canvas routing and the legacy event-without-native-target path', async () => {
-    const renderer = new MapRenderer();
+    const renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await renderer.init(document.createElement('div'), vi.fn());
     const move = vi.spyOn(MapInteraction.prototype, 'handleMove');
     const app = renderer.getApp()!;
@@ -66,7 +68,7 @@ describe('native DOM ownership at the actual renderer pointer router', () => {
   });
 
   it('retains the existing owned-drag path across DOM overlays without starting hover', async () => {
-    const renderer = new MapRenderer();
+    const renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await renderer.init(document.createElement('div'), vi.fn());
     const move = vi.spyOn(MapInteraction.prototype, 'handleMove');
     stage(renderer).emit('pointerdown', { global: { x: 10, y: 20 }, pointerId: 7, button: 0 });

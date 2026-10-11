@@ -1,3 +1,5 @@
+import { createWasmGeographicScorer } from '@ui/map/wasmGeographicScorer';
+import { realRenderWasmExports } from '../helpers/realRenderWasm';
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 vi.mock('pixi.js', async () => {
@@ -160,7 +162,7 @@ describe('actual shared-elevation renderer coordinate consumers', () => {
   it('clears disposed projection diagnostics and callback without changing canonical inputs, including repeated teardown', async () => {
     const { data, view } = fixture(),
       before = snapshot(data, view),
-      renderer = new MapRenderer();
+      renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await renderer.init(document.createElement('div'), vi.fn());
     try {
       renderer.setMapData(data);
@@ -204,7 +206,7 @@ describe('actual shared-elevation renderer coordinate consumers', () => {
     }
   });
   it('resets retained field, error and callback even when disposing before application initialization', () => {
-    const renderer = new MapRenderer(),
+    const renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports())),
       actual = storage(renderer),
       field = expectedField(),
       point = { x: 1000, y: 1000 };
@@ -234,7 +236,7 @@ describe('actual shared-elevation renderer coordinate consumers', () => {
   it('places real cached node props and army feet in the same sampled scene while preserving canonical graph/view', async () => {
     const { data, view } = fixture(),
       before = snapshot(data, view),
-      renderer = new MapRenderer();
+      renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await renderer.init(document.createElement('div'), vi.fn());
     try {
       renderer.setMapData(data);
@@ -277,7 +279,7 @@ describe('actual shared-elevation renderer coordinate consumers', () => {
   });
   it('recovers canonical coordinates through the real pointer callback and keeps both native hit identities', async () => {
     const { data, view } = fixture(),
-      renderer = new MapRenderer(),
+      renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports())),
       events: MapRendererEvent[] = [];
     await renderer.init(document.createElement('div'), (event) => events.push(event));
     try {
@@ -322,7 +324,7 @@ describe('actual shared-elevation renderer coordinate consumers', () => {
   });
   it('replaces the road projection cache lease on field changes, resets to flat and updates existing node containers', async () => {
     const { data, view } = fixture(),
-      renderer = new MapRenderer();
+      renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await renderer.init(document.createElement('div'), vi.fn());
     try {
       renderer.setMapData(data);

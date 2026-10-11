@@ -1,3 +1,5 @@
+import { createWasmGeographicScorer } from '@ui/map/wasmGeographicScorer';
+import { realRenderWasmExports } from '../../../tests/helpers/realRenderWasm';
 // MapRenderer dirty-update 整合測試（M6-V4 §7 DoD①②③；決策 D10 panTo；決策 D11 getRebuildCounts）。
 //
 // 路徑說明（偏離設計文件建議路徑 `tests/ui/mapRendererDirty.spec.ts` 的紀錄）：`vitest.workspace.ts`
@@ -7,7 +9,7 @@
 // `init()`（建立 8 圖層／`camera`／`nodeParts` 等）才能驅動 `setMapData`/`updateView`/`panTo`，
 // 故比照既有 `MapCanvasHost.spec.tsx`（同樣需要 jsdom＋mock pixi）改置於 `src/ui/map/` 下
 // （`.spec.ts`，非 React 元件，沿用 `MapCanvasHost.spec.tsx`「MapRenderer 生命週期」區塊之直接
-// `new MapRenderer()` 手法，無需 `.tsx`／RTL）。任務指示「只動 slice 擁有的檔案」與此路徑調整
+// `new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()))` 手法，無需 `.tsx`／RTL）。任務指示「只動 slice 擁有的檔案」與此路徑調整
 // 不衝突——`src/ui/map/**` 本就是 Slice B 擁有的目錄。
 //
 // mock 手法：沿用共用 `tests/helpers/pixiMock.ts`（`createPixiMockClasses`，與
@@ -343,7 +345,7 @@ function baseView(overrides: Partial<MapViewState> = {}): MapViewState {
 }
 
 async function makeRenderer(): Promise<MapRenderer> {
-  const r = new MapRenderer();
+  const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
   await r.init(document.createElement('div'), vi.fn());
   return r;
 }
@@ -2151,7 +2153,7 @@ describe('MapRenderer.panTo（決策 D10；MiniMap onNavigate 用）', () => {
     r.destroy();
   });
   it('honors pre-init motion settings without reading browser media itself', async () => {
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     r.setPresentationSettings({ mapLabelDensity: 'medium', effectsEnabled: false });
     await r.init(document.createElement('div'), vi.fn());
     r.setMapData(staticData());
@@ -3238,7 +3240,7 @@ describe('地形/水系正向存在（M6-V5 §8.2，M2 處置）——堵靜默�
   });
 
   it('app 序回歸（Blocker 1）：setMapData→updateView→await init，init 後 territory 有 sprite＋首幀著色已跑', async () => {
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     // 實機 effect 序：init(async 未 resolve)→setMapData(initialized===false)→updateView(early-return)。
     r.setMapData(staticData()); // 僅存 staticData
     r.updateView(baseView()); // 僅存 view（early-return）

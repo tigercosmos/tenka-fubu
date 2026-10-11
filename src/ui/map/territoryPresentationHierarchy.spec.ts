@@ -1,3 +1,5 @@
+import { createWasmGeographicScorer } from '@ui/map/wasmGeographicScorer';
+import { realRenderWasmExports } from '../../../tests/helpers/realRenderWasm';
 import { expect, it, vi } from 'vitest';
 vi.mock('pixi.js', async () => {
   const { createPixiMockClasses } = await import('../../../tests/helpers/pixiMock');
@@ -27,7 +29,7 @@ it('uses a light normal MID/NEAR ownership wash while retaining the actual FAR/f
       },
     },
   );
-  const renderer = new MapRenderer();
+  const renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
   await renderer.init(document.createElement('div'), vi.fn());
   const view: MapViewState = {
     day: 1,

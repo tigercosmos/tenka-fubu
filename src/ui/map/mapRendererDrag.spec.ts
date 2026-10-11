@@ -1,3 +1,5 @@
+import { createWasmGeographicScorer } from '@ui/map/wasmGeographicScorer';
+import { realRenderWasmExports } from '../../../tests/helpers/realRenderWasm';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 const apps = vi.hoisted(() => []);
@@ -15,7 +17,7 @@ afterEach(() => {
 });
 
 async function fixture() {
-  const renderer = new MapRenderer();
+  const renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
   renderers.push(renderer);
   const emit = vi.fn<(event: MapRendererEvent) => void>();
   await renderer.init(document.createElement('div'), emit);

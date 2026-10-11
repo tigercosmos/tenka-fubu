@@ -16,7 +16,14 @@
 // unmount 時取消登記，供 `window.__TENKA_DEBUG__.setMapCameraPreset`／`waitMapIdle`（src/app/
 // debug.ts）取得活躍渲染器以驅動決定論截圖（17 §3.9.3）。
 
-import { forwardRef, useEffect, useImperativeHandle, useRef, type ReactElement } from 'react';
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+  type ReactElement,
+} from 'react';
 import { MapRenderer } from './MapRenderer';
 import type { FocusViewport } from './hudFocus';
 import { waitForMapFont } from './mapFontReady';
@@ -88,6 +95,7 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
   const onMapEventRef = useRef(onMapEvent);
   onMapEventRef.current = onMapEvent;
   const rendererRef = useRef<MapRenderer | null>(null);
+  const [initializationError, setInitializationError] = useState<Error | null>(null);
   const appliedStaticData = useRef<{ renderer: MapRenderer; data: MapStaticData | null } | null>(
     null,
   );
@@ -149,44 +157,51 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
     rendererRef.current = renderer;
     const handler: MapEventHandler = (event) => onMapEventRef.current(event);
     // init 完成前若已卸載（StrictMode／快速切畫面）則立即銷毀，防 WebGL context 洩漏（01 §3.6.2）。
-    void waitForMapFont().then(async () => {
-      if (disposed) return;
-      await renderer.init(host, handler);
-      if (disposed) {
-        renderer.destroy();
-        return;
-      }
-      const latest = latestProps.current;
-      const data = latest.staticData ?? null;
-      // init consumes data already received by the prop effect; do not reload that same receipt.
-      if (
-        appliedStaticData.current?.renderer !== renderer ||
-        appliedStaticData.current.data !== data
-      ) {
-        renderer.setMapData(data);
-        appliedStaticData.current = { renderer, data };
-      }
-      renderer.setPresentationSettings({
-        mapLabelDensity: latest.mapLabelDensity,
-        effectsEnabled: latest.effectsEnabled,
-        reducedMotion: latest.reducedMotion,
-      });
-      if (latest.viewState !== undefined) {
-        renderer.update(latest.viewState, {
-          analysisMode: latest.analysisMode,
-          analysisOpacity: latest.analysisOpacity,
+    void waitForMapFont()
+      .then(async () => {
+        if (disposed) return;
+        await renderer.init(host, handler);
+        if (disposed) {
+          renderer.destroy();
+          return;
+        }
+        const latest = latestProps.current;
+        const data = latest.staticData ?? null;
+        // init consumes data already received by the prop effect; do not reload that same receipt.
+        if (
+          appliedStaticData.current?.renderer !== renderer ||
+          appliedStaticData.current.data !== data
+        ) {
+          renderer.setMapData(data);
+          appliedStaticData.current = { renderer, data };
+        }
+        renderer.setPresentationSettings({
+          mapLabelDensity: latest.mapLabelDensity,
+          effectsEnabled: latest.effectsEnabled,
+          reducedMotion: latest.reducedMotion,
         });
-      }
-      renderer.showPathPreview(latest.pathPreview ?? null);
-      renderer.setMode(latest.interactionMode);
-      renderer.setMarchTarget(latest.marchTargetId);
-      renderer.setFocusViewport(latest.focusViewport ?? null);
-      renderer.setScreenOcclusions(latest.screenOcclusions ?? []);
-      if (focusNodeId !== undefined) renderer.focusNode(focusNodeId);
-      // M6-V2：登記為目前活躍渲染器，供 window.__TENKA_DEBUG__ 的地圖鏡頭 preset／idle 等待使用
-      // （src/app/debug.ts；src/ui/map/debugMapBridge.ts）。
-      registerDebugMapRenderer(renderer);
-    });
+        if (latest.viewState !== undefined) {
+          renderer.update(latest.viewState, {
+            analysisMode: latest.analysisMode,
+            analysisOpacity: latest.analysisOpacity,
+          });
+        }
+        renderer.showPathPreview(latest.pathPreview ?? null);
+        renderer.setMode(latest.interactionMode);
+        renderer.setMarchTarget(latest.marchTargetId);
+        renderer.setFocusViewport(latest.focusViewport ?? null);
+        renderer.setScreenOcclusions(latest.screenOcclusions ?? []);
+        if (focusNodeId !== undefined) renderer.focusNode(focusNodeId);
+        // M6-V2：登記為目前活躍渲染器，供 window.__TENKA_DEBUG__ 的地圖鏡頭 preset／idle 等待使用
+        // （src/app/debug.ts；src/ui/map/debugMapBridge.ts）。
+        registerDebugMapRenderer(renderer);
+      })
+      .catch((error: unknown) => {
+        if (disposed) return;
+        unregisterDebugMapRenderer(renderer);
+        renderer.destroy();
+        setInitializationError(error instanceof Error ? error : new Error(String(error)));
+      });
     return () => {
       disposed = true;
       unregisterDebugMapRenderer(renderer);
@@ -238,6 +253,7 @@ export const MapCanvasHost = forwardRef<MapHandle, MapCanvasHostProps>(function 
     });
   }, [mapLabelDensity, effectsEnabled, reducedMotion]);
 
+  if (initializationError) throw initializationError;
   return (
     <div
       ref={hostRef}

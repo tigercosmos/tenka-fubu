@@ -120,6 +120,7 @@ import {
   createGeographicLabelLayouter,
   type GeographicLabelCandidate,
 } from './geographicLabelLayout';
+import { createWasmGeographicScorer, type WasmGeographicScorer } from './wasmGeographicScorer';
 import {
   prioritizeGeographicLabels,
   type GeographicPriorityDecision,
@@ -252,7 +253,17 @@ export interface MapRebuildCounts {
 }
 
 export class MapRenderer {
-  private readonly geographicLayouter = createGeographicLabelLayouter();
+  private readonly geographicLayouter: ReturnType<typeof createGeographicLabelLayouter>;
+  private initialization: Promise<void> | null = null;
+
+  constructor(
+    private readonly geographicScorer: Pick<
+      WasmGeographicScorer,
+      'score' | 'initialize' | 'isReady' | 'dispose'
+    > = createWasmGeographicScorer(),
+  ) {
+    this.geographicLayouter = createGeographicLabelLayouter(geographicScorer);
+  }
   private app: Application | null = null;
   private onEvent: MapEventHandler | null = null;
   private layers: MapLayers | null = null;
@@ -748,8 +759,21 @@ export class MapRenderer {
    * 建立 Pixi Application、載入 8 圖層容器、繪製靜態層（海陸背景＋若已有資料則街道/標記）、
    * 開始事件管線；`host` 為滿版容器 div（01 §3.6.2）。可安全並發於 destroy（見檔頭防護）。
    */
-  async init(host: HTMLElement, onEvent: MapEventHandler): Promise<void> {
-    if (this.disposed || this.initialized || this.app !== null) return;
+  init(host: HTMLElement, onEvent: MapEventHandler): Promise<void> {
+    if (this.disposed || this.initialized || this.app !== null) return Promise.resolve();
+    if (this.initialization) return this.initialization;
+    const initialization = this.initialize(host, onEvent);
+    this.initialization = initialization;
+    const clear = () => {
+      if (this.initialization === initialization) this.initialization = null;
+    };
+    void initialization.then(clear, clear);
+    return initialization;
+  }
+
+  private async initialize(host: HTMLElement, onEvent: MapEventHandler): Promise<void> {
+    if (!this.geographicScorer.isReady()) await this.geographicScorer.initialize();
+    if (this.disposed) return;
     this.onEvent = onEvent;
 
     const app = new Application();
@@ -3732,6 +3756,7 @@ export class MapRenderer {
     for (const dispose of [...this.renderFrameDisposers]) dispose();
     this.clearBattleSparks();
     this.disposed = true;
+    this.geographicScorer.dispose();
     this.screenLayoutsPending = false;
     this.analysisOverlay?.destroy();
     this.analysisOverlay = null;

@@ -1,3 +1,5 @@
+import { createWasmGeographicScorer } from '@ui/map/wasmGeographicScorer';
+import { realRenderWasmExports } from '../helpers/realRenderWasm';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { BitmapText, Bounds, Container } from 'pixi.js';
 import { MapRenderer } from '@ui/map/MapRenderer';
@@ -75,7 +77,7 @@ describe('actual army annotation frame projection, not raster glyph recognition'
         bounds.addFrame(0, 0, this.text.length * 12, 12);
         return bounds;
       });
-      const renderer = new MapRenderer(),
+      const renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports())),
         camera = new Camera({ x: 600, y: 800, scale });
       const part = createArmyChip();
       part.update({ ...props, stage, relation });

@@ -1,3 +1,5 @@
+import { createWasmGeographicScorer } from '@ui/map/wasmGeographicScorer';
+import { realRenderWasmExports } from '../helpers/realRenderWasm';
 import { expect, it, vi } from 'vitest';
 vi.mock('pixi.js', async () => {
   const { createPixiMockClasses } = await import('../helpers/pixiMock');
@@ -82,7 +84,7 @@ it('retains bit-exact source-leg heading on actual national protected flat roads
     );
     // Exercise the actual consumer's field-present branch without GPU/init;
     // this narrow seam supplies only the canonical travel fields it reads.
-    const renderer = new MapRenderer();
+    const renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     Reflect.set(renderer, 'sceneProjection', field);
     Reflect.set(renderer, 'projectScenePoint', field.project);
     const consumer = renderer as unknown as {

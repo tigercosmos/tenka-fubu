@@ -1,3 +1,5 @@
+import { createWasmGeographicScorer } from '@ui/map/wasmGeographicScorer';
+import { realRenderWasmExports } from '../../../tests/helpers/realRenderWasm';
 import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('pixi.js', async () => {
@@ -10,7 +12,7 @@ import { Container, Graphics } from 'pixi.js';
 
 /** Local Runner stand-in: invokes the actual renderer's registered postrender method. */
 async function observedRenderer() {
-  const renderer = new MapRenderer();
+  const renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
   await renderer.init(document.createElement('div'), vi.fn());
   renderer.getDiagnostics(); // Settle the initial scene before tests inject observation-only parts.
   const prerender = renderer.getApp()!.renderer.runners.prerender;
@@ -129,7 +131,11 @@ describe('actual MapRenderer postrender observation lifecycle', () => {
   });
 
   it('rejects unready observation and removes owned postrender observers on destroy/remount', async () => {
-    expect(() => new MapRenderer().subscribeRenderedFrames(vi.fn())).toThrow('not ready');
+    expect(() =>
+      new MapRenderer(createWasmGeographicScorer(realRenderWasmExports())).subscribeRenderedFrames(
+        vi.fn(),
+      ),
+    ).toThrow('not ready');
     const first = await observedRenderer();
     const listener = vi.fn();
     const dispose = first.renderer.subscribeRenderedFrames(listener);

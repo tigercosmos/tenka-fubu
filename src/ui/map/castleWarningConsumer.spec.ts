@@ -1,3 +1,5 @@
+import { createWasmGeographicScorer } from '@ui/map/wasmGeographicScorer';
+import { realRenderWasmExports } from '../../../tests/helpers/realRenderWasm';
 import { describe, expect, it, vi } from 'vitest';
 vi.mock('pixi.js', async () => {
   const { createPixiMockClasses } = await import('../../../tests/helpers/pixiMock');
@@ -10,7 +12,7 @@ import type { CastleId } from '@core/state/ids';
 
 describe('warning camera consumer and actual obstacle envelope (mock renderer, not pixels)', () => {
   it('projects warning-only14CSS without changing anchors, body or idle resources', async () => {
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await r.init(document.createElement('div'), vi.fn());
     try {
       const id = 'castle.test' as CastleId;

@@ -1,3 +1,5 @@
+import { createWasmGeographicScorer } from '@ui/map/wasmGeographicScorer';
+import { realRenderWasmExports } from '../helpers/realRenderWasm';
 import { Sprite, Texture, Container, BufferImageSource, Graphics } from 'pixi.js';
 import type { FillInstruction } from 'pixi.js';
 import { describe, expect, it } from 'vitest';
@@ -36,7 +38,7 @@ describe('actual emitted forest coverage, not planned patches', () => {
   });
   it('retains baked fallback for a missing actual forest and requires every original ID', () => {
     const raster = createForestRaster(Texture.EMPTY, terrain);
-    const renderer = new MapRenderer();
+    const renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     Object.defineProperties(renderer, {
       forestRaster: { value: raster, configurable: true },
       staticData: { value: { terrain }, configurable: true },
@@ -60,7 +62,7 @@ describe('actual emitted forest coverage, not planned patches', () => {
     expect(Reflect.apply(complete, renderer, [])).toBe(false);
   });
   it('keeps the actual baked Sprite visible through the real LOD method until all original forests are painted', () => {
-    const renderer = new MapRenderer();
+    const renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     const raster = createForestRaster(Texture.EMPTY, terrain);
     const baked = new Sprite(Texture.EMPTY);
     Object.defineProperties(renderer, {

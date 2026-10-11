@@ -1,3 +1,5 @@
+import { createWasmGeographicScorer } from '@ui/map/wasmGeographicScorer';
+import { realRenderWasmExports } from '../../../tests/helpers/realRenderWasm';
 import { describe, expect, it, vi } from 'vitest';
 vi.mock('pixi.js', async () => {
   const { createPixiMockClasses } = await import('../../../tests/helpers/pixiMock');
@@ -9,7 +11,7 @@ import type { PlateRect } from './armyPlateLayout';
 import { GEOGRAPHIC_PRIMARY_MARGIN, prioritizeGeographicLabels } from './geographicLabelPriority';
 
 function consumer() {
-  const renderer = new MapRenderer();
+  const renderer = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
   const container = new Container();
   container.visible = true;
   const text = new BitmapText({ text: '郡名', style: { fontSize: 12 } });

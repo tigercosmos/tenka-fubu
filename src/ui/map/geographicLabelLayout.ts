@@ -1,5 +1,6 @@
 import type { PlateRect } from './armyPlateLayout';
 import { roadLabelClearsCapsules, type RoadLabelCapsule } from './roadLabelCapsules';
+import type { WasmGeographicScorer } from './wasmGeographicScorer';
 
 export interface GeographicLabelCandidate {
   id: string;
@@ -75,7 +76,7 @@ interface CachedPlacement {
 }
 
 /** One most recent placement per admitted label; changing geometry invalidates exactly. */
-export function createGeographicLabelLayouter() {
+export function createGeographicLabelLayouter(scorer?: Pick<WasmGeographicScorer, 'score'>) {
   const placements = new Map<string, CachedPlacement>();
   let computed = 0;
   let reused = 0;
@@ -87,11 +88,17 @@ export function createGeographicLabelLayouter() {
     ) {
       const ids = new Set(candidates.map(({ id }) => id));
       for (const id of placements.keys()) if (!ids.has(id)) placements.delete(id);
-      return layoutGeographicLabels(candidates, obstacles, hardObstacles, {
-        placements,
-        computed: () => computed++,
-        reused: () => reused++,
-      });
+      return layoutGeographicLabels(
+        candidates,
+        obstacles,
+        hardObstacles,
+        {
+          placements,
+          computed: () => computed++,
+          reused: () => reused++,
+        },
+        scorer,
+      );
     },
     getDiagnostics: () => ({ computed, reused, entries: placements.size }),
   };
@@ -107,6 +114,7 @@ export function layoutGeographicLabels(
     computed: () => void;
     reused: () => void;
   },
+  scorer?: Pick<WasmGeographicScorer, 'score'>,
 ): Map<string, { x: number; y: number }> {
   obstacles.forEach(validate);
   hardObstacles.forEach(validate);
@@ -194,41 +202,55 @@ export function layoutGeographicLabels(
       bestPrimary = Infinity,
       bestSecondary = Infinity,
       bestDistance = Infinity;
-    for (const offset of offsets) {
-      const distance = offset.x * offset.x + offset.y * offset.y;
-      if (distance > LIMIT * LIMIT) continue;
-      if (
-        roadLine &&
-        (!Number.isFinite(roadLine.slack) ||
-          !Number.isFinite(roadLine.normal.x) ||
-          !Number.isFinite(roadLine.normal.y) ||
-          offset.x * roadLine.normal.x + offset.y * roadLine.normal.y < -roadLine.slack - 1e-8)
-      )
-        continue;
-      const moved = { ...rect, x: rect.x + offset.x, y: rect.y + offset.y };
-      if (roadCapsules !== undefined && !roadLabelClearsCapsules(moved, roadCapsules)) continue;
-      // A clearer ordinary cluster cannot pay for a new collision with any
-      // protected castle channel. Zero offset is always eligible, even if a
-      // constrained label already overlaps a channel at its original anchor.
-      if (nearHard.some((r, index) => overlap(moved, r, 0) > hardBaseline[index]!)) continue;
-      // Primary bodies, plates and castle ribbons always outrank geographic clearance.
-      // Including the baseline prevents an accepted offset from increasing this area.
-      const primaryArea = nearPrimary.reduce((sum, r) => sum + overlap(moved, r, 0), 0);
-      if (primaryArea > baselinePrimary) continue;
-      const secondaryArea = nearReserved.reduce((sum, r) => sum + overlap(moved, r, 2), 0);
-      if (
-        primaryArea < bestPrimary ||
-        (primaryArea === bestPrimary &&
-          (secondaryArea < bestSecondary ||
-            (secondaryArea === bestSecondary && distance < bestDistance)))
-      ) {
-        best = offset;
-        bestPrimary = primaryArea;
-        bestSecondary = secondaryArea;
-        bestDistance = distance;
+    if (scorer) {
+      best =
+        scorer.score({
+          rect,
+          baselinePrimary,
+          roadLine,
+          roadCapsules,
+          offsets,
+          primary: nearPrimary,
+          hard: nearHard,
+          hardBaseline,
+          reserved: nearReserved,
+        }) ?? best;
+    } else
+      for (const offset of offsets) {
+        const distance = offset.x * offset.x + offset.y * offset.y;
+        if (distance > LIMIT * LIMIT) continue;
+        if (
+          roadLine &&
+          (!Number.isFinite(roadLine.slack) ||
+            !Number.isFinite(roadLine.normal.x) ||
+            !Number.isFinite(roadLine.normal.y) ||
+            offset.x * roadLine.normal.x + offset.y * roadLine.normal.y < -roadLine.slack - 1e-8)
+        )
+          continue;
+        const moved = { ...rect, x: rect.x + offset.x, y: rect.y + offset.y };
+        if (roadCapsules !== undefined && !roadLabelClearsCapsules(moved, roadCapsules)) continue;
+        // A clearer ordinary cluster cannot pay for a new collision with any
+        // protected castle channel. Zero offset is always eligible, even if a
+        // constrained label already overlaps a channel at its original anchor.
+        if (nearHard.some((r, index) => overlap(moved, r, 0) > hardBaseline[index]!)) continue;
+        // Primary bodies, plates and castle ribbons always outrank geographic clearance.
+        // Including the baseline prevents an accepted offset from increasing this area.
+        const primaryArea = nearPrimary.reduce((sum, r) => sum + overlap(moved, r, 0), 0);
+        if (primaryArea > baselinePrimary) continue;
+        const secondaryArea = nearReserved.reduce((sum, r) => sum + overlap(moved, r, 2), 0);
+        if (
+          primaryArea < bestPrimary ||
+          (primaryArea === bestPrimary &&
+            (secondaryArea < bestSecondary ||
+              (secondaryArea === bestSecondary && distance < bestDistance)))
+        ) {
+          best = offset;
+          bestPrimary = primaryArea;
+          bestSecondary = secondaryArea;
+          bestDistance = distance;
+        }
+        if (primaryArea === 0 && secondaryArea === 0 && distance === 0) break;
       }
-      if (primaryArea === 0 && secondaryArea === 0 && distance === 0) break;
-    }
     result.set(id, { ...best });
     if (signature !== null) cache?.placements.set(id, { signature, offset: { ...best } });
     placed.push({ ...rect, x: rect.x + best.x, y: rect.y + best.y });

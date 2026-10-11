@@ -1,3 +1,5 @@
+import { createWasmGeographicScorer } from '@ui/map/wasmGeographicScorer';
+import { realRenderWasmExports } from '../../../tests/helpers/realRenderWasm';
 // MapCanvasHost＋MapRenderer 生命週期測試（M2-13；01-A10）；末段另涵蓋 idle 模式命中測試與事件
 // 協定（M2-17；04 §3.12，interaction.ts 之純邏輯測試見 tests/ui/interaction.spec.ts）。
 // 驗收精神（01-A10）：StrictMode 掛載→卸載→再掛載無 WebGL context 洩漏——以 mock Pixi 驗證
@@ -11,6 +13,17 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { StrictMode } from 'react';
 import { act, render } from '@testing-library/react';
+
+// Renderer ownership/scene tests use the actual committed kernel without browser fetch.
+vi.mock('./wasmGeographicScorer', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('./wasmGeographicScorer')>();
+  const { realRenderWasmExports } = await import('../../../tests/helpers/realRenderWasm');
+  return {
+    ...actual,
+    createWasmGeographicScorer: (exports?: Record<string, unknown>) =>
+      actual.createWasmGeographicScorer(exports ?? realRenderWasmExports()),
+  };
+});
 
 const hoisted = vi.hoisted(() => {
   const apps: { destroyed: boolean }[] = [];
@@ -660,7 +673,7 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
     const host = document.createElement('div');
     document.body.appendChild(host);
     const onEvent = vi.fn();
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await r.init(host, onEvent);
 
     const app = r.getApp();
@@ -681,7 +694,7 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
   it('事件管線：stage pointertap → onEvent({type:emptyClick})', async () => {
     const host = document.createElement('div');
     const onEvent = vi.fn();
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await r.init(host, onEvent);
     const stage = r.getApp()?.stage as unknown as { emit: (e: string) => void };
     stage.emit('pointertap');
@@ -691,7 +704,7 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
 
   it('destroy 冪等：重複呼叫安全、app 歸零、isReady=false', async () => {
     const host = document.createElement('div');
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await r.init(host, vi.fn());
     expect(r.isReady()).toBe(true);
     r.destroy();
@@ -703,7 +716,7 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
 
   it('init 進行中 destroy：完成後不掛入且剛建立的 Application 被銷毀（無洩漏）', async () => {
     const host = document.createElement('div');
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     const p = r.init(host, vi.fn()); // 不 await：模擬 init 進行中
     r.destroy(); // 卸載先於 init resolve
     await p;
@@ -715,7 +728,7 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
 
   it('setMapData：roads 建 RoadsLayer 子容器（children===1）、nodeMarkers 建 ScenePart container；updateView 不 throw', async () => {
     const host = document.createElement('div');
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await r.init(host, vi.fn());
     const layers = r.getLayers();
     r.setMapData({
@@ -750,7 +763,7 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
 
   it('M6-V7 smoke：城下聚落於 near 顯示（far/mid 隱）、節點選取時金色雙環顯示', async () => {
     const host = document.createElement('div');
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await r.init(host, vi.fn());
     r.setMapData({
       graph: soloGraph(),
@@ -802,7 +815,7 @@ describe('MapRenderer 生命週期與圖層骨架（04 §3.10.1／04-T8）', () 
 
   it('M4 掛載 ArmyChip/SiegeMarker，且同節點 5 隊只顯示 3 隊＋「+2」收合棋', async () => {
     const host = document.createElement('div');
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await r.init(host, vi.fn());
     const armies = Array.from({ length: 5 }, (_, index) => ({
       id: `army.${String(index + 1).padStart(6, '0')}`,
@@ -848,7 +861,7 @@ describe('idle 模式命中測試與事件協定（M2-17；04 §3.12）', () => 
   /** 固定 world 容器為單位變換（scale=1、position=0），使螢幕座標＝世界座標，斷言更直觀。 */
   async function initWithIdentityWorld(onEvent: MapEventHandler): Promise<MapRenderer> {
     const host = document.createElement('div');
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await r.init(host, onEvent);
     const layers = r.getLayers();
     layers?.world.scale.set(1);
@@ -913,7 +926,7 @@ describe('idle 模式命中測試與事件協定（M2-17；04 §3.12）', () => 
   it('rightclick → onEvent(rightClick)', async () => {
     const onEvent = vi.fn();
     const host = document.createElement('div');
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await r.init(host, onEvent);
     const stage = r.getApp()?.stage as unknown as { emit: (e: string, ...a: unknown[]) => void };
 
@@ -931,7 +944,7 @@ describe('setCameraPose／waitForIdleFrames（M6-V2；17 §3.9.3 決定論截圖
 
   it('setCameraPose：瞬移（無補間）、scale 依 MAPVIEW.min/maxScale 夾限', async () => {
     const host = document.createElement('div');
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await r.init(host, vi.fn());
 
     r.setCameraPose({ x: 123, y: 456 }, 2);
@@ -950,7 +963,7 @@ describe('setCameraPose／waitForIdleFrames（M6-V2；17 §3.9.3 決定論截圖
 
   it('waitForIdleFrames(n)：滿 n 個 ticker frame 才 resolve；未滿不 resolve', async () => {
     const host = document.createElement('div');
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await r.init(host, vi.fn());
 
     let resolved = false;
@@ -976,7 +989,7 @@ describe('setCameraPose／waitForIdleFrames（M6-V2；17 §3.9.3 決定論截圖
 
   it('waitForIdleFrames(0)：立即 resolve（不待任何 frame）', async () => {
     const host = document.createElement('div');
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await r.init(host, vi.fn());
     await expect(r.waitForIdleFrames(0)).resolves.toBeUndefined();
     r.destroy();
@@ -984,7 +997,7 @@ describe('setCameraPose／waitForIdleFrames（M6-V2；17 §3.9.3 決定論截圖
 
   it('destroy()：未決 waitForIdleFrames 立即 resolve（不懸掛）', async () => {
     const host = document.createElement('div');
-    const r = new MapRenderer();
+    const r = new MapRenderer(createWasmGeographicScorer(realRenderWasmExports()));
     await r.init(host, vi.fn());
 
     const p = r.waitForIdleFrames(100);

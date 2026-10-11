@@ -5,8 +5,8 @@ type Offset = Readonly<{ x: number; y: number }>;
 export interface GeographicScorerInput {
   readonly rect: Readonly<PlateRect>;
   readonly baselinePrimary: number;
-  readonly roadLine?: Readonly<{ normal: Offset; slack: number }>;
-  readonly roadCapsules?: readonly RoadLabelCapsule[] | null;
+  readonly roadLine?: Readonly<{ normal: Offset; slack: number }> | undefined;
+  readonly roadCapsules?: readonly RoadLabelCapsule[] | null | undefined;
   readonly offsets: readonly Offset[];
   readonly primary: readonly Readonly<PlateRect>[];
   readonly hard: readonly Readonly<PlateRect>[];
@@ -41,6 +41,7 @@ export function createWasmGeographicScorer(initialExports?: Record<string, unkno
   let view: Float64Array | null = null;
   let disposed = false;
   let initializing = false;
+  let initializationController: AbortController | null = null;
   const assertLive = () => {
     if (disposed) throw new Error('Geographic scorer is disposed');
   };
@@ -49,7 +50,8 @@ export function createWasmGeographicScorer(initialExports?: Record<string, unkno
     if (backend) throw new Error('Geographic scorer is already installed');
     const candidate = exports as unknown as ScorerExports;
     if (
-      !(candidate.memory?.buffer instanceof ArrayBuffer) ||
+      !(candidate.memory instanceof WebAssembly.Memory) ||
+      Object.prototype.toString.call(candidate.memory.buffer) !== '[object ArrayBuffer]' ||
       typeof exports.geographic_abi_version !== 'function' ||
       typeof exports.engine_alloc !== 'function' ||
       typeof exports.engine_free !== 'function' ||
@@ -68,8 +70,10 @@ export function createWasmGeographicScorer(initialExports?: Record<string, unkno
       if (backend || initializing)
         throw new Error('Geographic scorer initialization already started');
       initializing = true;
+      const controller = new AbortController();
+      initializationController = controller;
       try {
-        const response = await fetch(url);
+        const response = await fetch(url, { signal: controller.signal });
         if (!response.ok) throw new Error(`Geographic scorer fetch failed: ${response.status}`);
         const bytes = await response.arrayBuffer();
         assertLive();
@@ -77,6 +81,7 @@ export function createWasmGeographicScorer(initialExports?: Record<string, unkno
         install(instantiated.instance.exports);
       } finally {
         initializing = false;
+        if (initializationController === controller) initializationController = null;
       }
     },
     score(input: GeographicScorerInput): Offset | undefined {
@@ -173,6 +178,8 @@ export function createWasmGeographicScorer(initialExports?: Record<string, unkno
     dispose() {
       if (disposed) return;
       disposed = true;
+      initializationController?.abort();
+      initializationController = null;
       if (backend && capacity) backend.engine_free(pointer, capacity);
       capacity = 0;
       view = null;
@@ -180,3 +187,5 @@ export function createWasmGeographicScorer(initialExports?: Record<string, unkno
     },
   };
 }
+
+export type WasmGeographicScorer = ReturnType<typeof createWasmGeographicScorer>;
