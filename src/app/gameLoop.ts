@@ -7,12 +7,20 @@
 // plan/15-balance.md §4.3／§5.2 表 D 明文「以 BAL.* 書寫但實作不進 balance.ts，歸 src/app/ 迴圈驅動
 // 設定」，故本檔以獨立常數表定義，不放 src/core/balance.ts（值出處仍為 15 §5.1）。
 
-import { hasQueuedEventChoiceResolution, runOneDay } from './bridge';
+import {
+  cancelPendingDay,
+  hasAsyncDayExecutor,
+  hasQueuedEventChoiceResolution,
+  isDayPending,
+  runOneDay,
+  runOneDayAsync,
+} from './bridge';
 import { store } from './store';
 import type { DebugSessionState, GameSpeed, PauseReason } from './store';
 import type { GameState } from '@core/state/gameState';
 import { installAutoPause } from './autoPause';
 import { perfMonitor } from './perfMonitor';
+import { captureFatalError } from './errors';
 
 /** 15 §5.2 表 D／§4.3：速度節奏＋debug 跳轉節奏，非模擬常數、不進 BAL；值見 15 §5.1。 */
 const UI_LOOP = {
@@ -154,6 +162,29 @@ export function createGameLoopController(
     }
     const dayMs = dayMsFor(speed);
     accumulatorMs += dt;
+    if (hasAsyncDayExecutor()) {
+      if (store.getState().session.fatalError !== null) {
+        controller.stop();
+        return;
+      }
+      // Keep the browser frame independent of simulation cost. One transaction
+      // owns the state at a time; elapsed frames cannot submit duplicate days.
+      if (accumulatorMs >= dayMs && !isDayPending()) {
+        const game = store.getState().game;
+        accumulatorMs -= dayMs;
+        void runOneDayAsync()
+          .catch((error: unknown) => {
+            if (store.getState().game === game)
+              store.getState().actions.setFatalError(captureFatalError(error));
+          })
+          .then(() => {
+            if (store.getState().game === game && store.getState().session.fatalError !== null)
+              controller.stop();
+          });
+      }
+      accumulatorMs = Math.min(accumulatorMs, dayMs);
+      return;
+    }
     let ticks = 0;
     while (
       accumulatorMs >= dayMs &&
@@ -180,6 +211,10 @@ export function createGameLoopController(
   }
 
   function stepDaysChunk(jump: DebugJump): void {
+    if (hasAsyncDayExecutor()) {
+      void stepDaysChunkAsync(jump);
+      return;
+    }
     if (!ownsJump(jump)) {
       cancelJump(jump);
       return;
@@ -231,6 +266,64 @@ export function createGameLoopController(
     }
   }
 
+  async function stepDaysChunkAsync(jump: DebugJump): Promise<void> {
+    if (!ownsJump(jump)) {
+      cancelJump(jump);
+      return;
+    }
+    jumpTimer = null;
+    const progress = jump.progress;
+    const count = Math.min(UI_LOOP.jumpChunkDays, progress.totalDays - progress.doneDays);
+    let executed = 0;
+    for (let i = 0; i < count; i++) {
+      const before = store.getState();
+      if (
+        !ownsJump(jump) ||
+        before.session.viewportBlocked ||
+        before.session.screen === 'battle' ||
+        before.session.fatalError !== null
+      ) {
+        cancelJump(jump);
+        return;
+      }
+      const version = jump.game.meta.stateVersion;
+      try {
+        await runOneDayAsync();
+      } catch (error: unknown) {
+        if (ownsJump(jump)) store.getState().actions.setFatalError(captureFatalError(error));
+        cancelJump(jump);
+        return;
+      }
+      if (!ownsJump(jump)) {
+        cancelJump(jump);
+        return;
+      }
+      if (jump.game.meta.stateVersion !== version + 1) {
+        cancelJump(jump); // A cancelled transaction cannot count as an executed day.
+        return;
+      }
+      executed++;
+      const current = store.getState();
+      if (
+        current.session.fatalError !== null ||
+        current.session.viewportBlocked ||
+        hasBlockingInteraction()
+      ) {
+        cancelJump(jump);
+        return;
+      }
+    }
+    const doneDays = progress.doneDays + executed;
+    if (doneDays >= progress.totalDays) {
+      cancelJump(jump);
+      return;
+    }
+    jump.progress = { totalDays: progress.totalDays, doneDays };
+    store.getState().actions.setDebugJumping(jump.progress);
+    if (ownsJump(jump)) jumpTimer = setTimeout(() => stepDaysChunk(jump), 0);
+    else cancelJump(jump);
+  }
+
   const controller: GameLoopController = {
     start() {
       if (running) return;
@@ -243,6 +336,7 @@ export function createGameLoopController(
       uninstallAutoPause ??= installAutoPause(controller);
     },
     stop() {
+      cancelPendingDay('game loop stopped');
       cancelJump(activeJump);
       perfMonitor.resetFrames();
       if (rafId !== null) {
@@ -263,6 +357,7 @@ export function createGameLoopController(
       store.getState().actions.setSpeed(speed); // 變速不清空累加器（§3.5.2）
     },
     requestPause(reason) {
+      cancelPendingDay(`game loop paused: ${reason}`);
       accumulatorMs = 0; // 暫停時累加器歸零（§5.1 步驟 4／§3.5.2）
       store.getState().actions.requestPause(reason);
     },

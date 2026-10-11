@@ -36,6 +36,9 @@ import type { EventEngine } from '@core/systems/events/engine';
 import type { CommandContext } from '@core/commands/registry';
 import { BAL } from '@core/balance';
 import type { LiveArmySlot } from './liveMapWorkload';
+import type { DayExecutor } from './dayExecutor';
+import { reconcileSnapshot } from './worker/reconcile';
+import type { CommandEnvelope } from '@core/commands/types';
 import type { CmdSetArmyTarget } from '@core/commands/types';
 import type { ExecutionAuthority } from '@core/commands/authority';
 import { buildEventModalVM } from './events/eventViewModel';
@@ -60,12 +63,13 @@ export interface DebugLiveArmyDriver {
   afterDay(game: Readonly<GameState>, result: Readonly<TickResult>): void;
   dispose(reason: string): void;
 }
-let liveDriver: {
+type LiveDriverRegistration = {
   game: GameState;
   driver: DebugLiveArmyDriver;
   unsubscribe: () => void;
   bindings: Map<string, { clanId: ClanId; authority: ExecutionAuthority }>;
-} | null = null;
+};
+let liveDriver: LiveDriverRegistration | null = null;
 function clearLiveDriver(reason: string): void {
   const previous = liveDriver;
   liveDriver = null;
@@ -179,6 +183,7 @@ function enqueueLiveArmyTargets(game: GameState): void {
 
 function prepareCommandLog(game: GameState, loaded = false): void {
   if (commandLogGame === game) return;
+  cancelPendingDay('session-replaced');
   clearLiveDriver('session-initialized');
   unsubscribeEventPresentations?.();
   unsubscribeEventPresentations = null;
@@ -202,6 +207,7 @@ export function initializeBridgeSession(
   pendingCommands: readonly Command[] = [],
   options: { loaded?: boolean; eventEngine?: EventEngine } = {},
 ): void {
+  cancelPendingDay('session-initialized');
   if (
     store.getState().game !== game ||
     !validateSavedPendingCommands(pendingCommands, game.meta.playerClanId)
@@ -217,32 +223,7 @@ export function initializeBridgeSession(
   const engine = sessionEventEngine;
   if (engine)
     unsubscribeEventPresentations = engine.subscribeFired((notice, state) => {
-      const publish = () => {
-        if (
-          state === commandLogGame &&
-          state === store.getState().game &&
-          state.events.pendingChoiceEventId === notice.def.id
-        ) {
-          enqueuePendingEventPresentation(state, notice.def.id);
-          return;
-        }
-        if (
-          state !== commandLogGame ||
-          state !== store.getState().game ||
-          state.events.pendingChoiceEventId === notice.def.id ||
-          (notice.def.kind !== 'historical' &&
-            !notice.clanIds.includes(state.meta.playerClanId) &&
-            !notice.def.ownerCandidates.includes(state.meta.playerClanId))
-        )
-          return;
-        enqueueEventPresentation(
-          state,
-          buildEventModalVM(state, notice.def, notice.binding, engine, {
-            ...getEventPresentationOptions(notice.def.id, notice.binding),
-            resolved: true,
-          }),
-        );
-      };
+      const publish = () => publishEventNotice(state, notice, engine);
       if (deferredTickPresentations?.game === state)
         deferredTickPresentations.publish.push(publish);
       else publish();
@@ -270,11 +251,195 @@ export function initializeBridgeSession(
   synchronizePendingEventPresentations(game);
 }
 
+function publishEventNotice(
+  state: GameState,
+  notice: Parameters<Parameters<EventEngine['subscribeFired']>[0]>[0],
+  engine: EventEngine,
+): void {
+  if (
+    state === commandLogGame &&
+    state === store.getState().game &&
+    state.events.pendingChoiceEventId === notice.def.id
+  ) {
+    enqueuePendingEventPresentation(state, notice.def.id);
+    return;
+  }
+  if (
+    state !== commandLogGame ||
+    state !== store.getState().game ||
+    state.events.pendingChoiceEventId === notice.def.id ||
+    (notice.def.kind !== 'historical' &&
+      !notice.clanIds.includes(state.meta.playerClanId) &&
+      !notice.def.ownerCandidates.includes(state.meta.playerClanId))
+  )
+    return;
+  enqueueEventPresentation(
+    state,
+    buildEventModalVM(state, notice.def, notice.binding, engine, {
+      ...getEventPresentationOptions(notice.def.id, notice.binding),
+      resolved: true,
+    }),
+  );
+}
+
+let dayExecutor: DayExecutor | null = null;
+let pendingDay: {
+  game: GameState;
+  queue: CommandQueue;
+  aiSequences: number[];
+  beforeVersion: number;
+  tickSeq: number;
+  promise: Promise<GameEvent[]>;
+} | null = null;
+let completedWorkerTicks = 0;
+let droppedStaleResponses = 0;
+
+export function configureDayExecutor(executor: DayExecutor | null): void {
+  cancelPendingDay('executor-replaced');
+  dayExecutor = executor;
+}
+export function hasAsyncDayExecutor(): boolean {
+  return dayExecutor !== null;
+}
+export function isDayPending(): boolean {
+  return pendingDay !== null;
+}
+export async function waitSimulationIdle(): Promise<void> {
+  await pendingDay?.promise;
+}
+export function cancelPendingDay(reason: string): void {
+  const pending = pendingDay;
+  if (!pending) return;
+  pendingDay = null;
+  pending.queue.cancelReservations(pending.aiSequences);
+  dayExecutor?.cancelPending(reason);
+  if (store.getState().game === pending.game && commandQueue === pending.queue)
+    store.getState().actions.setPendingCommandCount(commandQueue.size);
+}
+export function getSimulationDiagnostics() {
+  const diagnostics = dayExecutor?.getDiagnostics?.();
+  return {
+    backend: dayExecutor ? 'worker' : 'sync',
+    workerReady: diagnostics?.backendReady ?? false,
+    wasmLoaded: diagnostics?.backendReady ?? false,
+    wasmBackend: diagnostics?.backend ?? null,
+    pathfinderBackend: diagnostics?.backend ?? null,
+    generation: diagnostics?.epoch ?? 0,
+    pendingTicks: pendingDay ? 1 : 0,
+    completedWorkerTicks,
+    droppedStaleResponses: droppedStaleResponses + (diagnostics?.stale ?? 0),
+  };
+}
+// Committed state remains untouched until a complete, still-owned worker day returns.
+export function runOneDayAsync(): Promise<GameEvent[]> {
+  if (!dayExecutor) return Promise.resolve(runOneDay());
+  if (pendingDay) return pendingDay.promise;
+  const game = store.getState().game;
+  if (!game)
+    return Promise.reject(new CoreError('DATA_INTEGRITY', 'runOneDayAsync: game 尚未初始化'));
+  if (store.getState().session.viewportBlocked) return Promise.resolve([]);
+  prepareCommandLog(game);
+  const submittedQueue = commandQueue;
+  enqueueLiveArmyTargets(game);
+  if (store.getState().game !== game || commandQueue !== submittedQueue) return Promise.resolve([]);
+  const aiOrders = game.ai.pendingOrders.slice(
+    0,
+    Math.max(0, BAL.maxCommandsPerTick - commandQueue.size),
+  );
+  const aiSequences = aiOrders.map(
+    (order) =>
+      commandQueue.enqueue(structuredClone(order.command), game.time.day, order.authority).seq,
+  );
+  const commands = submittedQueue.snapshotEnvelopes();
+  const workGame = structuredClone(game);
+  workGame.ai.pendingOrders.splice(0, aiOrders.length);
+  const beforeVersion = game.meta.stateVersion;
+  const tickSeq = store.getState().tickSeq;
+  const context: DayPublication = {
+    game,
+    submittedQueue,
+    tickLiveDriver: liveDriver,
+    queue: commands,
+    startingSpeed: store.getState().session.speed,
+    startingDebugJumping: store.getState().session.debug.jumping,
+    beforeVersion,
+    pendingPresentations: { game, publish: [] },
+    elapsed: 0,
+  };
+  const executor = dayExecutor;
+  const transaction = {
+    game,
+    queue: submittedQueue,
+    aiSequences,
+    beforeVersion,
+    tickSeq,
+    promise: Promise.resolve([] as GameEvent[]),
+  };
+  pendingDay = transaction;
+  transaction.promise = Promise.resolve()
+    .then(() => {
+      if (pendingDay !== transaction) return null;
+      return executor.execute(workGame, commands, sessionEventEngine?.getDefs() ?? null);
+    })
+    .then((executed) => {
+      if (!executed) return [];
+      if (
+        pendingDay !== transaction ||
+        store.getState().game !== game ||
+        commandLogGame !== game ||
+        commandQueue !== submittedQueue ||
+        game.meta.stateVersion !== beforeVersion ||
+        store.getState().tickSeq !== tickSeq
+      ) {
+        droppedStaleResponses++;
+        if (pendingDay === transaction) cancelPendingDay('stale-day');
+        return [];
+      }
+      submittedQueue.consumePrefix(commands);
+      pendingDay = null;
+      reconcileSnapshot(game, executed.state);
+      executed.result.state = game;
+      context.elapsed = executed.computeMs;
+      const engine = sessionEventEngine;
+      if (engine)
+        for (const notice of executed.fired) {
+          const def = engine.getDef(notice.eventId);
+          if (def)
+            context.pendingPresentations!.publish.push(() =>
+              publishEventNotice(game, { ...notice, def }, engine),
+            );
+        }
+      completedWorkerTicks++;
+      return finishDay(context, executed.result);
+    })
+    .catch((error) => {
+      if (pendingDay !== transaction) return [];
+      cancelPendingDay('tick-failed');
+      clearLiveDriver('tick-failed');
+      if (store.getState().game === game && commandQueue === submittedQueue)
+        store.getState().actions.setFatalError(captureFatalError(error));
+      return [];
+    });
+  return transaction.promise;
+}
+store.subscribe((state, previous) => {
+  if (
+    pendingDay &&
+    (state.game !== pendingDay.game ||
+      state.tickSeq !== pendingDay.tickSeq ||
+      state.session.viewportBlocked ||
+      state.session.screen !== previous.session.screen ||
+      (state.session.speed === 'paused' && previous.session.speed !== 'paused'))
+  )
+    cancelPendingDay('session-boundary');
+});
+
 /** 不 drain、不更動 seq 的 tick 邊界存檔快照；同步捕捉 state 與尚未結算的玩家指令。 */
 export function captureSaveSnapshot(
   timestamp: number,
   context: SaveMetadataContext = {},
 ): SaveFile {
+  cancelPendingDay('save-boundary');
   const game = store.getState().game;
   if (game === null) throw new CoreError('DATA_INTEGRITY', 'captureSaveSnapshot: game 尚未初始化');
   prepareCommandLog(game);
@@ -435,6 +600,7 @@ export async function resolvePendingEventChoice(
   // Lazy initialization publishes pendingCount; a synchronous subscriber can replace this session.
   if (store.getState().game !== game || commandLogGame !== game) return invalid();
   const submittedQueue = commandQueue;
+  cancelPendingDay('event-choice');
   const submittedSeq = submittedQueue.nextSequence;
   const result = dispatchCommand(cmd);
   if (!result.ok) return result;
@@ -451,7 +617,7 @@ export async function resolvePendingEventChoice(
   for (let batch = 0; batch < maxBatches; batch += 1) {
     if (!current()) return invalid();
     if (game.meta.lastAppliedCmdSeq >= submittedSeq) return finished();
-    runOneDay();
+    await runOneDayAsync();
     if (!current()) return invalid();
     if (game.meta.lastAppliedCmdSeq >= submittedSeq) return finished();
     if (batch + 1 < maxBatches) await new Promise<void>((resolve) => setTimeout(resolve, 0));
@@ -489,6 +655,7 @@ export function onAutoPauseReasons(handler: AutoPauseHandler | null): void {
  * `runOneDay()` 後檢查 `session.fatalError`，非 null 時代為停止迴圈。
  */
 export function runOneDay(): GameEvent[] {
+  cancelPendingDay('synchronous-tick');
   if (store.getState().session.viewportBlocked) return [];
   const game = store.getState().game;
   if (game === null) {
@@ -542,6 +709,46 @@ export function runOneDay(): GameEvent[] {
   const elapsed = performance.now() - t0;
   if (store.getState().game !== game || commandLogGame !== game || commandQueue !== submittedQueue)
     return [];
+  return finishDay(
+    {
+      game,
+      submittedQueue,
+      tickLiveDriver,
+      queue,
+      startingSpeed,
+      startingDebugJumping,
+      beforeVersion,
+      pendingPresentations,
+      elapsed,
+    },
+    result,
+  );
+}
+
+interface DayPublication {
+  game: GameState;
+  submittedQueue: CommandQueue;
+  tickLiveDriver: LiveDriverRegistration | null;
+  queue: readonly CommandEnvelope[];
+  startingSpeed: import('./store').GameSpeed;
+  startingDebugJumping: import('./store').DebugSessionState['jumping'];
+  beforeVersion: number;
+  pendingPresentations: { game: GameState; publish: (() => void)[] } | null;
+  elapsed: number;
+}
+
+function finishDay(context: DayPublication, result: TickResult): GameEvent[] {
+  const {
+    game,
+    submittedQueue,
+    tickLiveDriver,
+    queue,
+    startingSpeed,
+    startingDebugJumping,
+    beforeVersion,
+    pendingPresentations,
+    elapsed,
+  } = context;
   perfMonitor.recordTick(elapsed);
   perfMonitor.recordSystems(
     Object.fromEntries(
@@ -640,6 +847,7 @@ export function runOneDay(): GameEvent[] {
 
 /** 匯出目前局的 success-only command log；檔案的 hash 對應匯出當下狀態。 */
 export function exportCommandLog(): CommandLogFile {
+  cancelPendingDay('log-boundary');
   const game = store.getState().game;
   if (game === null) {
     throw new CoreError('DATA_INTEGRITY', 'exportCommandLog: game 尚未初始化');
@@ -650,6 +858,8 @@ export function exportCommandLog(): CommandLogFile {
 
 /** 供測試重置模組私有佇列與回呼（非產品程式碼路徑）。 */
 export function resetBridgeForTests(): void {
+  cancelPendingDay('test-reset');
+  dayExecutor = null;
   deferredTickPresentations = null;
   clearLiveDriver('test-reset');
   unsubscribeEventPresentations?.();

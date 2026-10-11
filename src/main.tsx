@@ -5,6 +5,10 @@ import { createRoot } from 'react-dom/client';
 import { App } from '@app/App';
 import { injectCssVariables } from '@ui/styles/tokens';
 import '@ui/styles/global.css';
+import { configureDayExecutor } from '@app/bridge';
+import { createSimulationWorkerClient } from '@app/worker/client';
+
+configureDayExecutor(createSimulationWorkerClient());
 
 // design tokens 的 CSS 變數注入必須在任何元件掛載前執行一次（12 §3.1.1）。
 injectCssVariables();

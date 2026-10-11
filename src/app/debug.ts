@@ -5,6 +5,10 @@
 import { bumpTickSeq, setGame, store } from './store';
 import type { GameSpeed } from './store';
 import {
+  runOneDay,
+  runOneDayAsync,
+  getSimulationDiagnostics,
+  waitSimulationIdle,
   dispatchCommand,
   exportCommandLog,
   getQueuedPlayerCommands,
@@ -141,6 +145,10 @@ export interface TenkaDebugApi {
   getState(): GameState; // 直接參考（唯讀約定，僅供檢查）
   dispatch(cmd: Command): CommandDispatchResult;
   stepDays(n: number): void;
+  stepDaysAsync(n: number): Promise<void>;
+  measureSynchronousDays(n: number): { days: number; durationMs: number };
+  waitSimulationIdle(): Promise<void>;
+  getSimulationDiagnostics(): ReturnType<typeof getSimulationDiagnostics>;
   setSpeed(s: GameSpeed): void;
   getSeed(): number;
   getPerf(): PerfSnapshot;
@@ -418,6 +426,39 @@ export function installDebugApi(flags: DebugFlags): void {
     stepDays(n) {
       gameLoop.stepDays(n);
     },
+    async stepDaysAsync(n) {
+      if (!Number.isInteger(n) || n < 1) return;
+      gameLoop.setSpeed('paused');
+      const game = requireGame();
+      for (let i = 0; i < n; i++) {
+        if (
+          store.getState().game !== game ||
+          store.getState().session.fatalError ||
+          store.getState().session.viewportBlocked
+        )
+          break;
+        await runOneDayAsync();
+      }
+    },
+    measureSynchronousDays(n) {
+      if (!Number.isInteger(n) || n < 1) throw new Error('Invalid measurement day count');
+      gameLoop.setSpeed('paused');
+      const game = requireGame();
+      const before = game.meta.stateVersion;
+      const started = performance.now();
+      for (let i = 0; i < n; i++) {
+        if (
+          store.getState().game !== game ||
+          store.getState().session.fatalError ||
+          store.getState().session.viewportBlocked
+        )
+          break;
+        runOneDay();
+      }
+      return { days: game.meta.stateVersion - before, durationMs: performance.now() - started };
+    },
+    waitSimulationIdle,
+    getSimulationDiagnostics,
     setSpeed(s) {
       gameLoop.setSpeed(s);
     },
