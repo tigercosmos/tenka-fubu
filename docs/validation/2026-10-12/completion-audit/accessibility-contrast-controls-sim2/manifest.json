@@ -1,0 +1,236 @@
+[
+  {
+    "file": "contrast-full-sequence.mjs.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/contrast-full-sequence.mjs",
+    "compression": "gzip",
+    "rawBytes": 4960,
+    "storedBytes": 1998,
+    "sha256Uncompressed": "9147a5b14a70c5ddd22b9bd195f6867f225be08f28ba230bb24318d3dbc35fe3",
+    "sha256Stored": "326075ff9ccec9ccfa172946fdac46e83e407819eefd07046425f2e8b2e4546a"
+  },
+  {
+    "file": "contrast-probe.mjs.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/contrast-probe.mjs",
+    "compression": "gzip",
+    "rawBytes": 3889,
+    "storedBytes": 1686,
+    "sha256Uncompressed": "ebb594c935ba8cb8c8f136a3c23bc20f9eef5d87044e1f89e11732750b6553f0",
+    "sha256Stored": "515a3e43f2af2c644c27b76aee1ec875168c04cc0187e0a04cd7bfa70003b841"
+  },
+  {
+    "file": "external-page-paint-hashes.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/external-page-paint-hashes.log",
+    "compression": "gzip",
+    "rawBytes": 960,
+    "storedBytes": 420,
+    "sha256Uncompressed": "d40432827d648c498bb3b9c9e12be0e688b2532213a4810acb09524fbe6f684e",
+    "sha256Stored": "1366afdf4b4043479914e8cdf325827f0d0ba042433773cd28e905a645690dd5"
+  },
+  {
+    "file": "full-sequence--axe-main.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/full-sequence/axe-main.json",
+    "compression": "gzip",
+    "rawBytes": 273442,
+    "storedBytes": 16239,
+    "sha256Uncompressed": "f00b0eaf7a2dffc692d8b4f1dff7c9ef92a4545c23d58634b1a809f0edc63cce",
+    "sha256Stored": "42b2652b920637f205f3f8b449e9a30b9a21c89bcbdbf4afb2e34698a9d54cc5"
+  },
+  {
+    "file": "full-sequence--axe-new-game.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/full-sequence/axe-new-game.json",
+    "compression": "gzip",
+    "rawBytes": 72400,
+    "storedBytes": 7421,
+    "sha256Uncompressed": "5217cb67c511ead696b5a940bd80125dc5628ab967685e908422502da33e1f13",
+    "sha256Stored": "13acb6cee2c6535627fdf305008c7c42afee6c0486627202570ea426a63b101c"
+  },
+  {
+    "file": "full-sequence--axe-save-load-settled.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/full-sequence/axe-save-load-settled.json",
+    "compression": "gzip",
+    "rawBytes": 665337,
+    "storedBytes": 31488,
+    "sha256Uncompressed": "5b8b0bcc9c2aa40c6408fde6520dd4b0c5bf4e8337b04eab736c48c1f292fac9",
+    "sha256Stored": "4bf406166a992d06c5217c224c35ccb83f4b5931f7c059e7ece9f50c4864d2ed"
+  },
+  {
+    "file": "full-sequence--axe-save-load.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/full-sequence/axe-save-load.json",
+    "compression": "gzip",
+    "rawBytes": 665249,
+    "storedBytes": 31460,
+    "sha256Uncompressed": "f1b2258c5f2606ba82072491bbfb96e205d8981338aeec37c154c23eaeb78c58",
+    "sha256Stored": "5ff5b299b431b72b05a6ae8d9e25547b45c41d48b2052a414b4fc8bf8abf188c"
+  },
+  {
+    "file": "full-sequence--axe-settings.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/full-sequence/axe-settings.json",
+    "compression": "gzip",
+    "rawBytes": 477744,
+    "storedBytes": 26774,
+    "sha256Uncompressed": "06dfbb745a3914c16733a32e4138c1817ee7bb5cb5631a75904f13e0075f398f",
+    "sha256Stored": "8a500795208ab1184cfb34e62a801007e16c4e41d9deacdf7894b67c482b94cc"
+  },
+  {
+    "file": "full-sequence--axe-title.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/full-sequence/axe-title.json",
+    "compression": "gzip",
+    "rawBytes": 91842,
+    "storedBytes": 8287,
+    "sha256Uncompressed": "7d458103d4399265abefb57953548529561fef31bcef944ae503b34229932ce3",
+    "sha256Stored": "f7dbb914ba802dc7dab2f81785bacb0ec5235281fe001c2f832acef680933b18"
+  },
+  {
+    "file": "full-sequence--opacity-frames.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/full-sequence/opacity-frames.json",
+    "compression": "gzip",
+    "rawBytes": 62176,
+    "storedBytes": 906,
+    "sha256Uncompressed": "40ba0a407f8fb0dda25b4706bf6699efb447b3d4bee5629974f50837b60be40c",
+    "sha256Stored": "821c05a795ee05269dffd04218bc5969c100df2d16aaa5898c052f0166407e1e"
+  },
+  {
+    "file": "full-sequence--preview.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/full-sequence/preview.log",
+    "compression": "gzip",
+    "rawBytes": 39,
+    "storedBytes": 58,
+    "sha256Uncompressed": "ecbd7eb35ac4acd913ff89a5390ee30069b6e910709e5626dc3f8fc34eadb53f",
+    "sha256Stored": "4f2b8fee953f9dbfb2016b2e13d89258bcbbe4151b32bb2e28b3c0f20b0bf3cf"
+  },
+  {
+    "file": "full-sequence--summary.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/full-sequence/summary.json",
+    "compression": "gzip",
+    "rawBytes": 2978,
+    "storedBytes": 403,
+    "sha256Uncompressed": "9f10964672a327348ccc0280df2f3a8b9197483545a8a8d0ee2c0382427966a4",
+    "sha256Stored": "bfba7a2ea43dfd253e2f406503f920194f9bf1da89280fa468074d05dd585066"
+  },
+  {
+    "file": "probe--geometry-and-colors.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/probe/geometry-and-colors.json",
+    "compression": "gzip",
+    "rawBytes": 14900,
+    "storedBytes": 738,
+    "sha256Uncompressed": "c46a5c26e85d360231dbe452693e5cb767cee5923a6e41690e7dfb940f5eaa95",
+    "sha256Stored": "e5c95d90f309dc26f060a60bc2d75bf553ec455b07a60226e35e003407b467da"
+  },
+  {
+    "file": "probe--no-preference-immediate-axe.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/probe/no-preference-immediate-axe.json",
+    "compression": "gzip",
+    "rawBytes": 665249,
+    "storedBytes": 31462,
+    "sha256Uncompressed": "9a87b3d789c2738fc7f17377542e37625274bb64a1b5f1b5ab6d422a07855471",
+    "sha256Stored": "2bbb9fadbcba668cecb20fc59ac08110105638c7cfd1f87c3d7219146c5776c9"
+  },
+  {
+    "file": "probe--no-preference-settled-axe.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/probe/no-preference-settled-axe.json",
+    "compression": "gzip",
+    "rawBytes": 665249,
+    "storedBytes": 31462,
+    "sha256Uncompressed": "9e16cd16a7aadf462c9a0073d5273dc2efc240e1f738a795958467cb714a94fb",
+    "sha256Stored": "f3e4d88d2cdaf0b362872597b30673c6fdff2d8c9df8be24bd99432f64848480"
+  },
+  {
+    "file": "probe--no-preference-status-paint.png",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/probe/no-preference-status-paint.png",
+    "compression": "none",
+    "rawBytes": 630,
+    "storedBytes": 630,
+    "sha256Uncompressed": "8b0543ab5076e1dffa92496f78b17a396f4805aec70470dd76c01d4ee4ba3186",
+    "sha256Stored": "8b0543ab5076e1dffa92496f78b17a396f4805aec70470dd76c01d4ee4ba3186"
+  },
+  {
+    "file": "probe--preview.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/probe/preview.log",
+    "compression": "gzip",
+    "rawBytes": 39,
+    "storedBytes": 58,
+    "sha256Uncompressed": "ecbd7eb35ac4acd913ff89a5390ee30069b6e910709e5626dc3f8fc34eadb53f",
+    "sha256Stored": "4f2b8fee953f9dbfb2016b2e13d89258bcbbe4151b32bb2e28b3c0f20b0bf3cf"
+  },
+  {
+    "file": "probe--reduce-immediate-axe.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/probe/reduce-immediate-axe.json",
+    "compression": "gzip",
+    "rawBytes": 665243,
+    "storedBytes": 31462,
+    "sha256Uncompressed": "f3241a437235c9cfa017ec485117853faaf24219639bcaf51a245d1fa0d7dee0",
+    "sha256Stored": "345f423cb4580045ece53e8ef691e79d9303a4e2a905910036f8ecfaebfc2302"
+  },
+  {
+    "file": "probe--reduce-settled-axe.json.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/probe/reduce-settled-axe.json",
+    "compression": "gzip",
+    "rawBytes": 665243,
+    "storedBytes": 31462,
+    "sha256Uncompressed": "1de7fe286affb1e89e5709b27efe191d893817e0ed0944bad81307ceffc9c076",
+    "sha256Stored": "69b6d578c9486a4796bcd870df7a106e739e03ce4a1122f660aed7a7e5576e31"
+  },
+  {
+    "file": "probe--reduce-status-paint.png",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/probe/reduce-status-paint.png",
+    "compression": "none",
+    "rawBytes": 630,
+    "storedBytes": 630,
+    "sha256Uncompressed": "8b0543ab5076e1dffa92496f78b17a396f4805aec70470dd76c01d4ee4ba3186",
+    "sha256Stored": "8b0543ab5076e1dffa92496f78b17a396f4805aec70470dd76c01d4ee4ba3186"
+  },
+  {
+    "file": "source--Dialog.module.css.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/source/Dialog.module.css",
+    "compression": "gzip",
+    "rawBytes": 2336,
+    "storedBytes": 798,
+    "sha256Uncompressed": "da2a57a2fb7fbc0e5051617fe87965bda6f54439e0293e1262e19317a33493da",
+    "sha256Stored": "1c310f5d5113478b6f1a15163dbcb07319ebf491c9882580f178fbfb42b8bb2a"
+  },
+  {
+    "file": "source--SaveLoadPanel.module.css.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/source/SaveLoadPanel.module.css",
+    "compression": "gzip",
+    "rawBytes": 3870,
+    "storedBytes": 1046,
+    "sha256Uncompressed": "8e308cec41651cfe3bf2128d09bcdb61bb7323abbb828a19f26cccbc32cb2999",
+    "sha256Stored": "e4e976c50fc68f6b539b084dbbd740632ebf947a6fd67325f02f15852e1292c6"
+  },
+  {
+    "file": "source--tokens.ts.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/source/tokens.ts",
+    "compression": "gzip",
+    "rawBytes": 16146,
+    "storedBytes": 6591,
+    "sha256Uncompressed": "721b0ca336091626a75dc62503a2c10701d53e2ae830f575c7ca14be05c12e64",
+    "sha256Stored": "c7781c0683fd7b30a533994bb20199c3894b8790fb98a6a342543cd6b329ad5e"
+  },
+  {
+    "file": "tenka-a11y-contrast-full-sequence.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/tenka-a11y-contrast-full-sequence.log",
+    "compression": "gzip",
+    "rawBytes": 1554,
+    "storedBytes": 292,
+    "sha256Uncompressed": "ebeba25cc76351b338a6432285c8b62c3f3f59ab7a5a39f18b1434e2e3771ac9",
+    "sha256Stored": "5cfff4759daa43e051042c802c2da074b318961ec78c87f899389d5d02c5e960"
+  },
+  {
+    "file": "tenka-a11y-contrast-probe.log.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/contrast-bounded-raw/tenka-a11y-contrast-probe.log",
+    "compression": "gzip",
+    "rawBytes": 8040,
+    "storedBytes": 597,
+    "sha256Uncompressed": "1d818052294c6becd960cbce7cbf284c8fd6916ffa65b52d46dd11d314a69bbc",
+    "sha256Stored": "10a6ca556bb2ef6f84d5bc4be246bf7bd7e152e87efd76f8442e21942321e96c"
+  },
+  {
+    "file": "paint-calculation.py.gz",
+    "source": "/tmp/tenka-a11y-e65fbbc-evidence/paint-calculation.py",
+    "compression": "gzip",
+    "rawBytes": 1085,
+    "storedBytes": 591,
+    "sha256Uncompressed": "e56733e695f4d0b90668f7796fda3383ba7cc746df4d03b1b0392b11c0a55ff6",
+    "sha256Stored": "7036d0dad39cdda906c8be1d4c6439f0377cfe84db3d92a73b574b875eb7f1e8"
+  }
+]

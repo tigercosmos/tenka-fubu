@@ -1,0 +1,286 @@
+{
+  "base": "e65fbbc plus approved Dialog role correction 1575bc8",
+  "browser": "Chromium149.0.7827.55",
+  "host": "sim2",
+  "headless": true,
+  "profiler": false,
+  "sourceChanges": false,
+  "paintChecks": [
+    {
+      "motion": "no-preference",
+      "foregroundRGB": [77, 86, 88],
+      "backgroundRGB": [251, 248, 240],
+      "ratio": 7.098273976153997,
+      "allSettledAncestorOpacitiesOne": true,
+      "isDisabledActionText": false,
+      "paintFile": "probe--no-preference-status-paint.png",
+      "paintWidth": 37,
+      "paintHeight": 18,
+      "foregroundPixels": 10,
+      "backgroundPixels": 537,
+      "distinctColors": 80
+    },
+    {
+      "motion": "reduce",
+      "foregroundRGB": [77, 86, 88],
+      "backgroundRGB": [251, 248, 240],
+      "ratio": 7.098273976153997,
+      "allSettledAncestorOpacitiesOne": true,
+      "isDisabledActionText": false,
+      "paintFile": "probe--reduce-status-paint.png",
+      "paintWidth": 37,
+      "paintHeight": 18,
+      "foregroundPixels": 10,
+      "backgroundPixels": 537,
+      "distinctColors": 80
+    }
+  ],
+  "axeResults": [
+    {
+      "file": "full-sequence--axe-main.json.gz",
+      "violations": [
+        {
+          "id": "region",
+          "impact": "moderate",
+          "nodes": 2
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "file": "full-sequence--axe-new-game.json.gz",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 5
+        }
+      ]
+    },
+    {
+      "file": "full-sequence--axe-save-load-settled.json.gz",
+      "violations": [
+        {
+          "id": "region",
+          "impact": "moderate",
+          "nodes": 2
+        },
+        {
+          "id": "scrollable-region-focusable",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "file": "full-sequence--axe-save-load.json.gz",
+      "violations": [
+        {
+          "id": "region",
+          "impact": "moderate",
+          "nodes": 2
+        },
+        {
+          "id": "scrollable-region-focusable",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "file": "full-sequence--axe-settings.json.gz",
+      "violations": [
+        {
+          "id": "region",
+          "impact": "moderate",
+          "nodes": 2
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "file": "full-sequence--axe-title.json.gz",
+      "violations": [
+        {
+          "id": "region",
+          "impact": "moderate",
+          "nodes": 3
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "file": "probe--no-preference-immediate-axe.json.gz",
+      "violations": [
+        {
+          "id": "region",
+          "impact": "moderate",
+          "nodes": 2
+        },
+        {
+          "id": "scrollable-region-focusable",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "file": "probe--no-preference-settled-axe.json.gz",
+      "violations": [
+        {
+          "id": "region",
+          "impact": "moderate",
+          "nodes": 2
+        },
+        {
+          "id": "scrollable-region-focusable",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "file": "probe--reduce-immediate-axe.json.gz",
+      "violations": [
+        {
+          "id": "region",
+          "impact": "moderate",
+          "nodes": 2
+        },
+        {
+          "id": "scrollable-region-focusable",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "file": "probe--reduce-settled-axe.json.gz",
+      "violations": [
+        {
+          "id": "region",
+          "impact": "moderate",
+          "nodes": 2
+        },
+        {
+          "id": "scrollable-region-focusable",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1
+        }
+      ]
+    }
+  ],
+  "fullSequenceCapturedFrames": 27,
+  "fullSequenceNonopaqueCapturedFrames": 0,
+  "originalDiscrepancy": {
+    "source": "../accessibility-dialog-sim2/native-green-attachments--axe-save-load.json.gz",
+    "reportedNodes": 8,
+    "reportedContrast": 3.37,
+    "reportedForeground": "#777c7b",
+    "reportedBackground": "#e8e5de",
+    "qualification": "Original result remains preserved. Cause is unresolved; no attribution to animation or automatic tool false positive."
+  },
+  "conclusion": "Settled target paint independently satisfies 4.5:1. No static SaveLoad CSS defect established; no source correction justified.",
+  "limit": "Does not resolve every incomplete contrast/aria check, moderate landmark region finding, or the separate scroll-focus axe discrepancy."
+}

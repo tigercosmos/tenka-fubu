@@ -1,0 +1,20 @@
+[
+  {
+    "path": "src/ui/screens/SaveLoadPanel.module.css",
+    "sha256": "8e308cec41651cfe3bf2128d09bcdb61bb7323abbb828a19f26cccbc32cb2999",
+    "rawArchive": "source--SaveLoadPanel.module.css.gz",
+    "matchesCurrentWorkingSource": true
+  },
+  {
+    "path": "src/ui/styles/tokens.ts",
+    "sha256": "721b0ca336091626a75dc62503a2c10701d53e2ae830f575c7ca14be05c12e64",
+    "rawArchive": "source--tokens.ts.gz",
+    "matchesCurrentWorkingSource": true
+  },
+  {
+    "path": "src/ui/components/Dialog/Dialog.module.css",
+    "sha256": "da2a57a2fb7fbc0e5051617fe87965bda6f54439e0293e1262e19317a33493da",
+    "rawArchive": "source--Dialog.module.css.gz",
+    "matchesCurrentWorkingSource": true
+  }
+]

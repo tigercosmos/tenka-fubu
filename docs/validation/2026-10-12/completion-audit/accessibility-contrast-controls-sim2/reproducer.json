@@ -1,0 +1,19 @@
+{
+  "repository": "/tmp/tenka-a11y-e65fbbc",
+  "sourceVerification": "../accessibility-dialog-sim2/source-verification.json.gz",
+  "scripts": ["contrast-probe.mjs.gz", "contrast-full-sequence.mjs.gz"],
+  "environment": {
+    "PATH": "$PWD/runtime/node-v22.23.3-linux-x64/bin:$PATH",
+    "PLAYWRIGHT_BROWSERS_PATH": "$PWD/runtime/browsers"
+  },
+  "commands": ["node /tmp/contrast-probe.mjs", "node /tmp/contrast-full-sequence.mjs"],
+  "controls": "Fresh contexts for normal and reduced motion. All default axe rules; then await real scoped animation.finished without changing animation or style.",
+  "sequence": "Title, new game, main, settings, save/load, save/load after animations; normal motion only, 27 RAF ancestry observations.",
+  "externalPages": [
+    "/tmp/tenka-a11y-contrast-probe/*-settled-page.png",
+    "/tmp/tenka-a11y-contrast-full-sequence/*.png"
+  ],
+  "externalPageChecksums": "external-page-paint-hashes.log.gz",
+  "dataPolicy": "Raw files compressed before derived JSON formatting; PNG bytes unchanged.",
+  "criterion": "WCAG relative luminance ratio (Llighter + 0.05)/(Ldarker + 0.05), sRGB transfer threshold0.04045."
+}
