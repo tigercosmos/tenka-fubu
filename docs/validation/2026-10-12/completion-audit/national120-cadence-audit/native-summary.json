@@ -1,0 +1,464 @@
+{
+  "scope": "method audit and separate CPU profiles; no game acceptance or threshold change",
+  "blankControl": {
+    "scope": "diagnostic/no-game/blank-hardware-WebGL/rAF-and-post-clear",
+    "environment": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+      "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+      "visibility": "visible",
+      "dpr": 1,
+      "viewport": [1920, 1080],
+      "canvas": [1920, 1080]
+    },
+    "durationMs": 30015.10000038147,
+    "frames": 1801,
+    "averageFps": 60.00313175625304,
+    "schedulerP95Ms": 16.799999999999272,
+    "completionP95Ms": 16.800000190734863,
+    "headGapMs": 16.90000009536743,
+    "tailGapMs": 0
+  },
+  "blankControlExit": 1,
+  "blankFailedCriterion": "post-clear frame-time p95 <=1000/60; mean FPS criterion passed",
+  "authority": [
+    {
+      "file": "plan/04-map-and-movement.md",
+      "location": "3.10 line408",
+      "rule": "stable 60 FPS for approximately 500 nodes, 120 armies, and 700 edges at 1080p; no p95 definition"
+    },
+    {
+      "file": "plan/04-map-and-movement.md",
+      "location": "T11 line951",
+      "rule": "older generated 500-node/120-army acceptance >=55fps"
+    },
+    {
+      "file": "plan/17-testing.md",
+      "location": "3.9.2 lines502-510",
+      "rule": "manual release steps use 55 FPS with 20 moving armies"
+    },
+    {
+      "file": "plan/17-testing.md",
+      "location": "3.9.3(5) lines538-539",
+      "rule": "20-army visual fixture explicitly requires frame-time p95 <=1000/55"
+    },
+    {
+      "file": "e2e/national-map-perf.spec.ts and e2e/national120-map-perf.spec.ts",
+      "location": "end-of-window assertions",
+      "rule": "mean FPS >=60 and frame-time p95 <=1000/60; conservative method interpreting plan04 nominal 60"
+    }
+  ],
+  "interpretation": "Blank hardware control observes roughly 60 Hz cadence and also fails derivedP95 criterion. It does not prove a hard ceiling or clear the 120-army game target. Strict gates remain unchanged.",
+  "finalCloseProfile": {
+    "scope": "separate 10s close CPU sample with hashes; no acceptanceFPS",
+    "totalUs": 10298562,
+    "completedFrames": 240,
+    "driverTicks": 0,
+    "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+    "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+    "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+    "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+    "topSelf": [
+      {
+        "function": "layoutCastleRibbons",
+        "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts",
+        "line": 84,
+        "column": 16,
+        "selfUs": 981925,
+        "inclusiveUs": 2093915,
+        "selfSamples": 938
+      },
+      {
+        "function": "layoutGeographicLabels",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 101,
+        "column": 16,
+        "selfUs": 840741,
+        "inclusiveUs": 3527482,
+        "selfSamples": 803
+      },
+      {
+        "function": "edgeAxis",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 28,
+        "column": 9,
+        "selfUs": 812408,
+        "inclusiveUs": 994478,
+        "selfSamples": 772
+      },
+      {
+        "function": "overlap",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 57,
+        "column": 9,
+        "selfUs": 695741,
+        "inclusiveUs": 695741,
+        "selfSamples": 661
+      },
+      {
+        "function": "values",
+        "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts",
+        "line": 124,
+        "column": 18,
+        "selfUs": 573813,
+        "inclusiveUs": 616055,
+        "selfSamples": 545
+      },
+      {
+        "function": "layoutArmySignals",
+        "source": "../../src/ui/map/armySignalLayout.ts",
+        "line": 52,
+        "column": 16,
+        "selfUs": 483289,
+        "inclusiveUs": 1011584,
+        "selfSamples": 2912
+      },
+      {
+        "function": "overlap",
+        "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts",
+        "line": 74,
+        "column": 9,
+        "selfUs": 357860,
+        "inclusiveUs": 357860,
+        "selfSamples": 340
+      },
+      {
+        "function": "overlap",
+        "source": "../../src/ui/map/armySignalLayout.ts",
+        "line": 40,
+        "column": 9,
+        "selfUs": 301617,
+        "inclusiveUs": 301617,
+        "selfSamples": 298
+      },
+      {
+        "function": "(garbage collector)",
+        "source": "",
+        "line": 0,
+        "column": -1,
+        "selfUs": 252731,
+        "inclusiveUs": 252731,
+        "selfSamples": 239
+      },
+      {
+        "function": "segmentRectDistance",
+        "source": "../../src/ui/map/roadLabelCapsules.ts",
+        "line": 85,
+        "column": 9,
+        "selfUs": 244188,
+        "inclusiveUs": 390282,
+        "selfSamples": 232
+      }
+    ],
+    "topInclusive": [
+      {
+        "function": "(root)",
+        "source": "",
+        "line": 0,
+        "column": -1,
+        "selfUs": 0,
+        "inclusiveUs": 10298562,
+        "selfSamples": 0
+      },
+      {
+        "function": "emit",
+        "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/ticker/TickerListener.mjs",
+        "line": 37,
+        "column": 2,
+        "selfUs": 1114,
+        "inclusiveUs": 8260306,
+        "selfSamples": 1
+      },
+      {
+        "function": "update",
+        "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/ticker/Ticker.mjs",
+        "line": 421,
+        "column": 2,
+        "selfUs": 0,
+        "inclusiveUs": 8260306,
+        "selfSamples": 0
+      },
+      {
+        "function": "time",
+        "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/ticker/Ticker.mjs",
+        "line": 123,
+        "column": 18,
+        "selfUs": 0,
+        "inclusiveUs": 8260306,
+        "selfSamples": 0
+      },
+      {
+        "function": "render",
+        "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/rendering/renderers/shared/system/AbstractRenderer.mjs",
+        "line": 73,
+        "column": 2,
+        "selfUs": 1054,
+        "inclusiveUs": 8147212,
+        "selfSamples": 1
+      },
+      {
+        "function": "render",
+        "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/app/Application.mjs",
+        "line": 83,
+        "column": 2,
+        "selfUs": 0,
+        "inclusiveUs": 8147212,
+        "selfSamples": 0
+      },
+      {
+        "function": "emit",
+        "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/rendering/renderers/shared/system/SystemRunner.mjs",
+        "line": 16,
+        "column": 2,
+        "selfUs": 1052,
+        "inclusiveUs": 8146158,
+        "selfSamples": 1
+      },
+      {
+        "function": "flushScreenLayouts",
+        "source": "../../src/ui/map/MapRenderer.ts",
+        "line": 2184,
+        "column": 10,
+        "selfUs": 5347,
+        "inclusiveUs": 7317897,
+        "selfSamples": 5
+      },
+      {
+        "function": "prerender",
+        "source": "../../src/ui/map/MapRenderer.ts",
+        "line": 428,
+        "column": 55,
+        "selfUs": 0,
+        "inclusiveUs": 7281066,
+        "selfSamples": 0
+      },
+      {
+        "function": "placeGeographicLabels",
+        "source": "../../src/ui/map/MapRenderer.ts",
+        "line": 3058,
+        "column": 10,
+        "selfUs": 54696,
+        "inclusiveUs": 3933004,
+        "selfSamples": 52
+      },
+      {
+        "function": "layout",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 83,
+        "column": 4,
+        "selfUs": 101310,
+        "inclusiveUs": 3663495,
+        "selfSamples": 98
+      },
+      {
+        "function": "layoutGeographicLabels",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 101,
+        "column": 16,
+        "selfUs": 840741,
+        "inclusiveUs": 3527482,
+        "selfSamples": 803
+      },
+      {
+        "function": "placeCastleRibbons",
+        "source": "../../src/ui/map/MapRenderer.ts",
+        "line": 2436,
+        "column": 10,
+        "selfUs": 173494,
+        "inclusiveUs": 3295476,
+        "selfSamples": 168
+      },
+      {
+        "function": "layoutCastleRibbons",
+        "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts",
+        "line": 84,
+        "column": 16,
+        "selfUs": 981925,
+        "inclusiveUs": 2093915,
+        "selfSamples": 938
+      },
+      {
+        "function": "now",
+        "source": "../../src/app/mapFrameMeasurement.ts",
+        "line": 156,
+        "column": 21,
+        "selfUs": 2107,
+        "inclusiveUs": 1464716,
+        "selfSamples": 2
+      },
+      {
+        "function": "applyLodAndCulling",
+        "source": "../../src/ui/map/MapRenderer.ts",
+        "line": 2013,
+        "column": 10,
+        "selfUs": 39574,
+        "inclusiveUs": 1401531,
+        "selfSamples": 38
+      }
+    ]
+  },
+  "firstCloseProfile": {
+    "scope": "first separate 10s capture; retained before hash-recording observer followup",
+    "totalUs": 10299421,
+    "topSelf": [
+      {
+        "function": "layoutCastleRibbons",
+        "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts",
+        "line": 84,
+        "column": 16,
+        "selfUs": 1508600,
+        "inclusiveUs": 2079124,
+        "selfSamples": 1470
+      },
+      {
+        "function": "layoutGeographicLabels",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 101,
+        "column": 16,
+        "selfUs": 917197,
+        "inclusiveUs": 3496359,
+        "selfSamples": 875
+      },
+      {
+        "function": "edgeAxis",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 28,
+        "column": 9,
+        "selfUs": 780959,
+        "inclusiveUs": 916798,
+        "selfSamples": 743
+      },
+      {
+        "function": "overlap",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 57,
+        "column": 9,
+        "selfUs": 725708,
+        "inclusiveUs": 725708,
+        "selfSamples": 690
+      },
+      {
+        "function": "layoutArmySignals",
+        "source": "../../src/ui/map/armySignalLayout.ts",
+        "line": 52,
+        "column": 16,
+        "selfUs": 491857,
+        "inclusiveUs": 1035631,
+        "selfSamples": 3272
+      },
+      {
+        "function": "overlap",
+        "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts",
+        "line": 74,
+        "column": 9,
+        "selfUs": 355691,
+        "inclusiveUs": 355691,
+        "selfSamples": 341
+      },
+      {
+        "function": "overlap",
+        "source": "../../src/ui/map/armySignalLayout.ts",
+        "line": 40,
+        "column": 9,
+        "selfUs": 311250,
+        "inclusiveUs": 311250,
+        "selfSamples": 306
+      },
+      {
+        "function": "segmentRectDistance",
+        "source": "../../src/ui/map/roadLabelCapsules.ts",
+        "line": 85,
+        "column": 9,
+        "selfUs": 259619,
+        "inclusiveUs": 401506,
+        "selfSamples": 247
+      }
+    ]
+  },
+  "raw": [
+    {
+      "path": "native-blank-cadence.log.gz",
+      "uncompressedBytes": 2560,
+      "uncompressedSha256": "bdb9349d9266b5880c125505c716dc167cefb0074d1c7c38999857772c72561e"
+    },
+    {
+      "path": "native-blank-cadence.raw.json.gz",
+      "uncompressedBytes": 84152,
+      "uncompressedSha256": "8e57b8a057cad01b18880961fb1962bacb52e7e3c48b50a0051346244ffd46cd"
+    },
+    {
+      "path": "native-blank-control.spec.ts.gz",
+      "uncompressedBytes": 3020,
+      "uncompressedSha256": "bef6d60bc70cd5e7ffff56b76de8843513081aaf154ee1c8a7a7b05c5a8d873a"
+    },
+    {
+      "path": "native-close-first-profile-source-summary.json.gz",
+      "uncompressedBytes": 70271,
+      "uncompressedSha256": "117c93a54c2da49417ca9b376ecf85a3e68fbc227c699a586245d31298572d9d"
+    },
+    {
+      "path": "native-close-first-profile-summary.json.gz",
+      "uncompressedBytes": 113718,
+      "uncompressedSha256": "5a08aacbf3ea4971a700f6b85f84cc8af0b6b1a0342345485105ad8a5e3c9c29"
+    },
+    {
+      "path": "native-close-first.cpuprofile.gz",
+      "uncompressedBytes": 352899,
+      "uncompressedSha256": "f41eb42f7f94d14700f1810db39ef919f048c93d8fc22bb208da8d377fa2c7a8"
+    },
+    {
+      "path": "native-close-profile-analysis.log.gz",
+      "uncompressedBytes": 4122,
+      "uncompressedSha256": "981b6e9917eda89ebc0c54f278598217468593c668fcfc08765b3d2857c03cb2"
+    },
+    {
+      "path": "native-close-profile-analysis.mjs.gz",
+      "uncompressedBytes": 1981,
+      "uncompressedSha256": "6832e7047c62bfae71a72b4bc651cd9b912342421dbaf465055f0173f3c25f70"
+    },
+    {
+      "path": "native-close-profile-source-summary.json.gz",
+      "uncompressedBytes": 71592,
+      "uncompressedSha256": "f682858522ca9787f482ede181ca4cd5f47d0a3731895b7ff3f631c3c1492b62"
+    },
+    {
+      "path": "native-close-profile-summary.json.gz",
+      "uncompressedBytes": 114295,
+      "uncompressedSha256": "02b62bd65b46685606298dc6ef863af9d45ed5d3127369cab8c07b5cdd0cc9d5"
+    },
+    {
+      "path": "native-close-profile-with-hashes.log.gz",
+      "uncompressedBytes": 78,
+      "uncompressedSha256": "3941ccc3f2a57f37140080ad7c34ce85288c0be36a055cd231c1461f9cdd88f6"
+    },
+    {
+      "path": "native-close-profile-with-hashes.mjs.gz",
+      "uncompressedBytes": 3037,
+      "uncompressedSha256": "949053b424651b2cdd49d763a3114a5c2af986b87da3b16681a9714cee8cdd2e"
+    },
+    {
+      "path": "native-close-profile.log.gz",
+      "uncompressedBytes": 78,
+      "uncompressedSha256": "3afba880421b66563841ae779ac2b0c80419cf873fbfbd6808fbf6cb507bc70e"
+    },
+    {
+      "path": "native-close-profile.mjs.gz",
+      "uncompressedBytes": 2609,
+      "uncompressedSha256": "0477b84897444edbbddcc7ea1fff0d4c62dd43f5a2f32e32d435b78c287ede6e"
+    },
+    {
+      "path": "native-close.cpuprofile.gz",
+      "uncompressedBytes": 338632,
+      "uncompressedSha256": "994be28605a745fecc16be463fc20a0cd86f4787f06a5dff91d9fd03ad2b328e"
+    },
+    {
+      "path": "native-transfer-manifest.json.gz",
+      "uncompressedBytes": 3890,
+      "uncompressedSha256": "a63ffba5bc90038068fcedc23980d4f5255df2382ecb95b4ddaf5fd25dfb8232"
+    }
+  ],
+  "archive": {
+    "local": "/tmp/tenka-native-cadence-final-transfer.tar.gz",
+    "remote": "sim3:/tmp/tenka-native-cadence-final-transfer.tar.gz",
+    "sha256": "f4a4b51de8de6198f79f166115edc31c64163c4605780daffda37e75cee47a51"
+  }
+}
