@@ -1,0 +1,721 @@
+{
+  "base": "e65fbbc",
+  "workloadCommit": "07efa67",
+  "optimizationCommit": "8cdd7db",
+  "targetStillUnmet": true,
+  "controls": [
+    {
+      "camera": "overview",
+      "baselineAverageFps": 38.73103411540362,
+      "optimizedAverageFps": 59.608647583397804,
+      "baselineP95Ms": 27.100000381469727,
+      "optimizedP95Ms": 17.59999990463257,
+      "minMounted": 120,
+      "visible": [83, 120],
+      "resourcesEqual": true,
+      "canonicalByteEqualityAssertion": "passed before strict60 FPS assertion failed",
+      "exit": 1,
+      "strict60Accepted": false
+    },
+    {
+      "camera": "operational",
+      "baselineAverageFps": 25.905615765676924,
+      "optimizedAverageFps": 42.98056227371496,
+      "baselineP95Ms": 42.5,
+      "optimizedP95Ms": 25.299999713897705,
+      "minMounted": 120,
+      "visible": [79, 120],
+      "resourcesEqual": true,
+      "canonicalByteEqualityAssertion": "passed before strict60 FPS assertion failed",
+      "exit": 1,
+      "strict60Accepted": false
+    },
+    {
+      "camera": "close",
+      "baselineAverageFps": 16.340574776189477,
+      "optimizedAverageFps": 18.48717701466129,
+      "baselineP95Ms": 78.09999990463257,
+      "optimizedP95Ms": 70.30000019073486,
+      "minMounted": 120,
+      "visible": [56, 89],
+      "resourcesEqual": true,
+      "canonicalByteEqualityAssertion": "passed before strict60 FPS assertion failed",
+      "exit": 1,
+      "strict60Accepted": false
+    }
+  ],
+  "sourceProof": {
+    "files": 754,
+    "different": []
+  },
+  "functionalNativeParity": {
+    "exact": true,
+    "snapshots": 9,
+    "days": [0, 1, 2],
+    "cameras": ["overview", "operational", "close"],
+    "referenceDriverTicks": 2,
+    "optimizedDriverTicks": 2,
+    "excludedNonvisualCounters": [
+      "armyPlateLayout.runs",
+      "geographicLabelLayout.runs",
+      "geographicLabelLayout.placementCache",
+      "castleRibbonLayout.runs"
+    ]
+  },
+  "referenceCoverage": {
+    "seededScenes": 320,
+    "boundaryVariants": 24,
+    "denseArmies": 120,
+    "relatedTestsPassed": 49,
+    "typesExit": 0,
+    "lintExit": 0,
+    "buildExit": 0
+  },
+  "profiles": {
+    "overview": {
+      "totalSampledUs": 10204377,
+      "completedFrames": 599,
+      "canonicalStateByteEqual": true,
+      "driverTicks": 0,
+      "resourcesEqual": true,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "source": "",
+          "line": 0,
+          "column": -1,
+          "selfUs": 1332854,
+          "inclusiveUs": 1332854,
+          "selfSamples": 1242
+        },
+        {
+          "function": "overlap",
+          "source": "../../src/ui/map/armyPlateLayout.ts",
+          "line": 337,
+          "column": 9,
+          "selfUs": 1298302,
+          "inclusiveUs": 1298302,
+          "selfSamples": 1234
+        },
+        {
+          "function": "layoutArmyPlates",
+          "source": "../../src/ui/map/armyPlateLayout.ts",
+          "line": 351,
+          "column": 16,
+          "selfUs": 837529,
+          "inclusiveUs": 3176685,
+          "selfSamples": 802
+        },
+        {
+          "function": "overlap",
+          "source": "../../src/ui/map/geographicLabelLayout.ts",
+          "line": 57,
+          "column": 9,
+          "selfUs": 826989,
+          "inclusiveUs": 826989,
+          "selfSamples": 786
+        },
+        {
+          "function": "layoutGeographicLabels",
+          "source": "../../src/ui/map/geographicLabelLayout.ts",
+          "line": 101,
+          "column": 16,
+          "selfUs": 639458,
+          "inclusiveUs": 2146026,
+          "selfSamples": 615
+        },
+        {
+          "function": "bodyOverlap",
+          "source": "../../src/ui/map/armyPlateLayout.ts",
+          "line": 343,
+          "column": 9,
+          "selfUs": 553482,
+          "inclusiveUs": 553482,
+          "selfSamples": 526
+        },
+        {
+          "function": "query",
+          "source": "../../src/ui/map/lod.ts",
+          "line": 75,
+          "column": 2,
+          "selfUs": 400051,
+          "inclusiveUs": 400051,
+          "selfSamples": 385
+        },
+        {
+          "function": "updateTransformAndChildren",
+          "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/scene/container/utils/updateRenderGroupTransforms.mjs",
+          "line": 55,
+          "column": 9,
+          "selfUs": 306075,
+          "inclusiveUs": 306075,
+          "selfSamples": 291
+        }
+      ],
+      "topInclusive": [
+        {
+          "function": "(root)",
+          "source": "",
+          "line": 0,
+          "column": -1,
+          "selfUs": 0,
+          "inclusiveUs": 10204377,
+          "selfSamples": 0
+        },
+        {
+          "function": "time",
+          "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/ticker/Ticker.mjs",
+          "line": 123,
+          "column": 18,
+          "selfUs": 0,
+          "inclusiveUs": 7392119,
+          "selfSamples": 0
+        },
+        {
+          "function": "emit",
+          "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/ticker/TickerListener.mjs",
+          "line": 37,
+          "column": 2,
+          "selfUs": 2028,
+          "inclusiveUs": 7391106,
+          "selfSamples": 2
+        },
+        {
+          "function": "update",
+          "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/ticker/Ticker.mjs",
+          "line": 421,
+          "column": 2,
+          "selfUs": 0,
+          "inclusiveUs": 7391106,
+          "selfSamples": 0
+        },
+        {
+          "function": "render",
+          "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/app/Application.mjs",
+          "line": 83,
+          "column": 2,
+          "selfUs": 1010,
+          "inclusiveUs": 7019239,
+          "selfSamples": 1
+        },
+        {
+          "function": "render",
+          "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/rendering/renderers/shared/system/AbstractRenderer.mjs",
+          "line": 73,
+          "column": 2,
+          "selfUs": 2068,
+          "inclusiveUs": 7018229,
+          "selfSamples": 2
+        },
+        {
+          "function": "emit",
+          "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/rendering/renderers/shared/system/SystemRunner.mjs",
+          "line": 16,
+          "column": 2,
+          "selfUs": 0,
+          "inclusiveUs": 7016161,
+          "selfSamples": 0
+        },
+        {
+          "function": "flushScreenLayouts",
+          "source": "../../src/ui/map/MapRenderer.ts",
+          "line": 2184,
+          "column": 10,
+          "selfUs": 5271,
+          "inclusiveUs": 6212253,
+          "selfSamples": 5
+        },
+        {
+          "function": "prerender",
+          "source": "../../src/ui/map/MapRenderer.ts",
+          "line": 428,
+          "column": 55,
+          "selfUs": 0,
+          "inclusiveUs": 6202912,
+          "selfSamples": 0
+        },
+        {
+          "function": "placeCastleRibbons",
+          "source": "../../src/ui/map/MapRenderer.ts",
+          "line": 2436,
+          "column": 10,
+          "selfUs": 209285,
+          "inclusiveUs": 3567289,
+          "selfSamples": 204
+        },
+        {
+          "function": "layoutArmyPlates",
+          "source": "../../src/ui/map/armyPlateLayout.ts",
+          "line": 351,
+          "column": 16,
+          "selfUs": 837529,
+          "inclusiveUs": 3176685,
+          "selfSamples": 802
+        },
+        {
+          "function": "placeGeographicLabels",
+          "source": "../../src/ui/map/MapRenderer.ts",
+          "line": 3058,
+          "column": 10,
+          "selfUs": 81092,
+          "inclusiveUs": 2445624,
+          "selfSamples": 77
+        },
+        {
+          "function": "layout",
+          "source": "../../src/ui/map/geographicLabelLayout.ts",
+          "line": 83,
+          "column": 4,
+          "selfUs": 32922,
+          "inclusiveUs": 2181050,
+          "selfSamples": 32
+        },
+        {
+          "function": "layoutGeographicLabels",
+          "source": "../../src/ui/map/geographicLabelLayout.ts",
+          "line": 101,
+          "column": 16,
+          "selfUs": 639458,
+          "inclusiveUs": 2146026,
+          "selfSamples": 615
+        }
+      ]
+    },
+    "close": {
+      "totalSampledUs": 10368841,
+      "completedFrames": 183,
+      "canonicalStateByteEqual": true,
+      "driverTicks": 0,
+      "resourcesEqual": true,
+      "topSelf": [
+        {
+          "function": "segmentRectDistance",
+          "source": "../../src/ui/map/roadLabelCapsules.ts",
+          "line": 86,
+          "column": 9,
+          "selfUs": 2295743,
+          "inclusiveUs": 2401769,
+          "selfSamples": 2184
+        },
+        {
+          "function": "layoutCastleRibbons",
+          "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts",
+          "line": 84,
+          "column": 16,
+          "selfUs": 1170633,
+          "inclusiveUs": 1647625,
+          "selfSamples": 1115
+        },
+        {
+          "function": "layoutGeographicLabels",
+          "source": "../../src/ui/map/geographicLabelLayout.ts",
+          "line": 101,
+          "column": 16,
+          "selfUs": 823984,
+          "inclusiveUs": 4932054,
+          "selfSamples": 789
+        },
+        {
+          "function": "edgeAxis",
+          "source": "../../src/ui/map/geographicLabelLayout.ts",
+          "line": 28,
+          "column": 9,
+          "selfUs": 673840,
+          "inclusiveUs": 684369,
+          "selfSamples": 641
+        },
+        {
+          "function": "overlap",
+          "source": "../../src/ui/map/geographicLabelLayout.ts",
+          "line": 57,
+          "column": 9,
+          "selfUs": 522204,
+          "inclusiveUs": 522204,
+          "selfSamples": 497
+        },
+        {
+          "function": "layoutArmySignals",
+          "source": "../../src/ui/map/armySignalLayout.ts",
+          "line": 52,
+          "column": 16,
+          "selfUs": 421620,
+          "inclusiveUs": 830189,
+          "selfSamples": 5334
+        },
+        {
+          "function": "(garbage collector)",
+          "source": "",
+          "line": 0,
+          "column": -1,
+          "selfUs": 262623,
+          "inclusiveUs": 262623,
+          "selfSamples": 249
+        },
+        {
+          "function": "overlap",
+          "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts",
+          "line": 74,
+          "column": 9,
+          "selfUs": 228359,
+          "inclusiveUs": 228359,
+          "selfSamples": 217
+        }
+      ],
+      "topInclusive": [
+        {
+          "function": "(root)",
+          "source": "",
+          "line": 0,
+          "column": -1,
+          "selfUs": 0,
+          "inclusiveUs": 10368841,
+          "selfSamples": 0
+        },
+        {
+          "function": "time",
+          "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/ticker/Ticker.mjs",
+          "line": 123,
+          "column": 18,
+          "selfUs": 1057,
+          "inclusiveUs": 8609181,
+          "selfSamples": 1
+        },
+        {
+          "function": "update",
+          "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/ticker/Ticker.mjs",
+          "line": 421,
+          "column": 2,
+          "selfUs": 1054,
+          "inclusiveUs": 8607068,
+          "selfSamples": 1
+        },
+        {
+          "function": "emit",
+          "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/ticker/TickerListener.mjs",
+          "line": 37,
+          "column": 2,
+          "selfUs": 0,
+          "inclusiveUs": 8606014,
+          "selfSamples": 0
+        },
+        {
+          "function": "render",
+          "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/app/Application.mjs",
+          "line": 83,
+          "column": 2,
+          "selfUs": 1053,
+          "inclusiveUs": 8512988,
+          "selfSamples": 1
+        },
+        {
+          "function": "emit",
+          "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/rendering/renderers/shared/system/SystemRunner.mjs",
+          "line": 16,
+          "column": 2,
+          "selfUs": 1053,
+          "inclusiveUs": 8511935,
+          "selfSamples": 1
+        },
+        {
+          "function": "render",
+          "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/rendering/renderers/shared/system/AbstractRenderer.mjs",
+          "line": 73,
+          "column": 2,
+          "selfUs": 0,
+          "inclusiveUs": 8511935,
+          "selfSamples": 0
+        },
+        {
+          "function": "flushScreenLayouts",
+          "source": "../../src/ui/map/MapRenderer.ts",
+          "line": 2184,
+          "column": 10,
+          "selfUs": 4210,
+          "inclusiveUs": 7847712,
+          "selfSamples": 4
+        },
+        {
+          "function": "prerender",
+          "source": "../../src/ui/map/MapRenderer.ts",
+          "line": 428,
+          "column": 55,
+          "selfUs": 0,
+          "inclusiveUs": 7792036,
+          "selfSamples": 0
+        },
+        {
+          "function": "placeGeographicLabels",
+          "source": "../../src/ui/map/MapRenderer.ts",
+          "line": 3058,
+          "column": 10,
+          "selfUs": 43098,
+          "inclusiveUs": 5229652,
+          "selfSamples": 41
+        },
+        {
+          "function": "layout",
+          "source": "../../src/ui/map/geographicLabelLayout.ts",
+          "line": 83,
+          "column": 4,
+          "selfUs": 83743,
+          "inclusiveUs": 5027377,
+          "selfSamples": 80
+        },
+        {
+          "function": "layoutGeographicLabels",
+          "source": "../../src/ui/map/geographicLabelLayout.ts",
+          "line": 101,
+          "column": 16,
+          "selfUs": 823984,
+          "inclusiveUs": 4932054,
+          "selfSamples": 789
+        },
+        {
+          "function": "roadLabelClearsCapsules",
+          "source": "../../src/ui/map/roadLabelCapsules.ts",
+          "line": 116,
+          "column": 16,
+          "selfUs": 197242,
+          "inclusiveUs": 2597959,
+          "selfSamples": 188
+        },
+        {
+          "function": "placeCastleRibbons",
+          "source": "../../src/ui/map/MapRenderer.ts",
+          "line": 2436,
+          "column": 10,
+          "selfUs": 115124,
+          "inclusiveUs": 2549537,
+          "selfSamples": 112
+        }
+      ]
+    }
+  },
+  "baselineOverviewProfile": {
+    "totalSampledUs": 10217858,
+    "completedFrames": 383,
+    "layoutArmyPlatesInclusiveUs": 6384783,
+    "approxInclusiveMsPerCompletedRender": 16.670451697127938
+  },
+  "optimizedOverviewArmyLayout": {
+    "inclusiveUs": 3176685,
+    "approxInclusiveMsPerCompletedRender": 5.303313856427379
+  },
+  "dependencies": "Same frozen8.19.0 dependency tree; later root cache patches are not applied. Actual module hashes are in the dependency manifest.",
+  "observationRace": {
+    "failure": "First optimized overview snapshot requestedday2 but readactualday1; eventual coreday2 state matched.",
+    "correction": "Read-only waitSimulationIdle and exactactual/publishedday assertions before capture. No extra ticks.",
+    "originalRawRemoteFiles": [
+      {
+        "name": "tenka-national120-published-optimized-observation-race.json",
+        "origin": "/tmp/tenka-national120-published-optimized-observation-race.json",
+        "bytes": 15236231,
+        "sha256": "fe2ca73ffca301af5a0f650ac8dcd2feea3adf90cfcd7d45b4ddee553cac3c15"
+      },
+      {
+        "name": "tenka-national120-published-reference-observation-race.json",
+        "origin": "/tmp/tenka-national120-published-reference-observation-race.json",
+        "bytes": 15199813,
+        "sha256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29"
+      }
+    ],
+    "knownPausedDriverFailure": "Manual paused stepping reachesday2 with56marching armies and disposes driver. Same inreference andoptimized; no further days or campaign acceptance claim."
+  },
+  "archive": {
+    "local": "/tmp/tenka-national120-optimized-transfer.tar.gz",
+    "remote": "sim3:/tmp/tenka-national120-optimized-transfer.tar.gz",
+    "sha256": "bd6d06b9624a1de892c119a42fad10c454b13c1dde8ed43cda1f05520a5e3030"
+  },
+  "raw": [
+    {
+      "path": "national120-published.mjs.gz",
+      "uncompressedBytes": 3324,
+      "uncompressedSha256": "3ea424938698621395dbb62c420dc53c9a41d1fb318cf2d58daf2f24ad97d695"
+    },
+    {
+      "path": "optimized-close.raw.json.gz",
+      "uncompressedBytes": 120758,
+      "uncompressedSha256": "c6384600575ce0d9bf2283278e05e88fd77432b36f07cb99202cc0e18f057c76"
+    },
+    {
+      "path": "optimized-operational.raw.json.gz",
+      "uncompressedBytes": 137388,
+      "uncompressedSha256": "20a70e1cc81c1e6c97e343c77c7f61a19ee488f0a8aea130b11e9ed4b594dcd3"
+    },
+    {
+      "path": "optimized-overview.raw.json.gz",
+      "uncompressedBytes": 149076,
+      "uncompressedSha256": "d7a3cbd04f0b5521af616de6edd4e4d65c6fe00158e623d22aea4b8fd307f717"
+    },
+    {
+      "path": "tenka-national120-dependency-manifest.json.gz",
+      "uncompressedBytes": 938,
+      "uncompressedSha256": "f1f830e577c7ef346199b480839a96655832c78ffa9b7fbd43dc69b95eef9fda"
+    },
+    {
+      "path": "tenka-national120-optimized-build.log.gz",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "2421b4f5411551920027e481dca544cbc63d2f3361b82e81ae3b97e82e38e40d"
+    },
+    {
+      "path": "tenka-national120-optimized-close-profile-analysis.log.gz",
+      "uncompressedBytes": 4125,
+      "uncompressedSha256": "7493be8fa22e3ecc7c9b2b612ace88836d4c9106335172a0487c3e9c3d52a6e6"
+    },
+    {
+      "path": "tenka-national120-optimized-close-profile-preview.log.gz",
+      "uncompressedBytes": 39,
+      "uncompressedSha256": "ecbd7eb35ac4acd913ff89a5390ee30069b6e910709e5626dc3f8fc34eadb53f"
+    },
+    {
+      "path": "tenka-national120-optimized-close-profile-source-summary.json.gz",
+      "uncompressedBytes": 72882,
+      "uncompressedSha256": "f1ec81270c765629962a56da3e94687406ab3c5e9953cd84e603e74813abe48e"
+    },
+    {
+      "path": "tenka-national120-optimized-close-profile-summary.json.gz",
+      "uncompressedBytes": 112464,
+      "uncompressedSha256": "23ade5efbf4473719e09080fef3596ad4654e9527b7471a062c7517d262cfb94"
+    },
+    {
+      "path": "tenka-national120-optimized-close-profile.log.gz",
+      "uncompressedBytes": 77,
+      "uncompressedSha256": "2bad1590f73ff48d49e82d7370dc278812fe5453b7aaf0091a378259166e4f64"
+    },
+    {
+      "path": "tenka-national120-optimized-close-profile.mjs.gz",
+      "uncompressedBytes": 2627,
+      "uncompressedSha256": "eea5b060b07141e8af78694cffe838e99b3333fcefa38c475fa14cd88696c250"
+    },
+    {
+      "path": "tenka-national120-optimized-close.cpuprofile.gz",
+      "uncompressedBytes": 334854,
+      "uncompressedSha256": "a6cfcea1f62273af5065fec279485e93eea6eb777b8b3259dbeeffb5e10bd12d"
+    },
+    {
+      "path": "tenka-national120-optimized-close.log.gz",
+      "uncompressedBytes": 3024,
+      "uncompressedSha256": "7c9cedc0713106144cfe85177c6550121db41ea65f5873d8cc22843bafd1150e"
+    },
+    {
+      "path": "tenka-national120-optimized-expected-hashes.json.gz",
+      "uncompressedBytes": 81802,
+      "uncompressedSha256": "94e35893f8f0a3ce9d2c8f4dfe044375967c6a4fc2cf2f099e991d769a23ac07"
+    },
+    {
+      "path": "tenka-national120-optimized-operational.log.gz",
+      "uncompressedBytes": 3066,
+      "uncompressedSha256": "d8a6d1a5853decd6d6d86b0578aa893380eba212196a9d2d810d4d4a15fd483d"
+    },
+    {
+      "path": "tenka-national120-optimized-overview.cpuprofile.gz",
+      "uncompressedBytes": 281331,
+      "uncompressedSha256": "b6759522bdaac5acbfb8fea62be4b3ae5e2a9786635ba601582bb3521468472a"
+    },
+    {
+      "path": "tenka-national120-optimized-overview.log.gz",
+      "uncompressedBytes": 3046,
+      "uncompressedSha256": "7d4acfe94887f427a7835a7b6b42f55cabb40ca698ef0dbad3aaf487b0e4c471"
+    },
+    {
+      "path": "tenka-national120-optimized-profile-analysis.log.gz",
+      "uncompressedBytes": 3955,
+      "uncompressedSha256": "1e67acc1e1829c53aee85c9a06ddab520b3cbe505749fe1acd19dcd042e0ef1e"
+    },
+    {
+      "path": "tenka-national120-optimized-profile-analysis.mjs.gz",
+      "uncompressedBytes": 1990,
+      "uncompressedSha256": "c14167246c63d1cb919d3a21e8c11962a20110054d54dfa5faa9149d2fe0de7c"
+    },
+    {
+      "path": "tenka-national120-optimized-profile-preview.log.gz",
+      "uncompressedBytes": 39,
+      "uncompressedSha256": "ecbd7eb35ac4acd913ff89a5390ee30069b6e910709e5626dc3f8fc34eadb53f"
+    },
+    {
+      "path": "tenka-national120-optimized-profile-source-summary.json.gz",
+      "uncompressedBytes": 61500,
+      "uncompressedSha256": "5bf1d38ae4f1c1263cdf1a7608fd02e7dd65e4aefb24a671754090ea5674636e"
+    },
+    {
+      "path": "tenka-national120-optimized-profile-summary.json.gz",
+      "uncompressedBytes": 122232,
+      "uncompressedSha256": "decb60c43aae5d703f71f2df57aa67cd63be65d9fb09957f323aeaeb99d65757"
+    },
+    {
+      "path": "tenka-national120-optimized-profile.log.gz",
+      "uncompressedBytes": 76,
+      "uncompressedSha256": "212813de4e38ebdedcf61b71f6fb362e1f79b852980ba66ce8e237e25f89cfe5"
+    },
+    {
+      "path": "tenka-national120-optimized-profile.mjs.gz",
+      "uncompressedBytes": 2624,
+      "uncompressedSha256": "7161122ef3333849c74b18c4543f81e2d993ce4da6ef41ad11e484bcb0feef32"
+    },
+    {
+      "path": "tenka-national120-optimized-settled-build.log.gz",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "7abd4af1ec7ccbb129917511f9268f3e62d35462d1f6bb7671e8931b78e46d42"
+    },
+    {
+      "path": "tenka-national120-optimized-settled.log.gz",
+      "uncompressedBytes": 79,
+      "uncompressedSha256": "5c0b93a6204ed4831cf0fdaadef42f011f72b70244d2a089d1eedbb8d43297d2"
+    },
+    {
+      "path": "tenka-national120-optimized-source-proof.json.gz",
+      "uncompressedBytes": 121,
+      "uncompressedSha256": "1465583082cfefe4fd5d84fcf5e150e59e368522322af09d705209db1569c4df"
+    },
+    {
+      "path": "tenka-national120-published-optimized.json.gz",
+      "uncompressedBytes": 15199813,
+      "uncompressedSha256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29"
+    },
+    {
+      "path": "tenka-national120-published-parity.json.gz",
+      "uncompressedBytes": 373,
+      "uncompressedSha256": "d0389d268b89c0d5149ba66ac7ee66e8499e66e655b2e9e92ed92d39709f1ce4"
+    },
+    {
+      "path": "tenka-national120-published-reference.json.gz",
+      "uncompressedBytes": 15199813,
+      "uncompressedSha256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29"
+    },
+    {
+      "path": "tenka-national120-reference-settled.log.gz",
+      "uncompressedBytes": 79,
+      "uncompressedSha256": "77c76b1d75ff592bc690a2f369304bb049514bffc0e7db7145f3b38abeb25bfe"
+    },
+    {
+      "path": "transfer-manifest.json.gz",
+      "uncompressedBytes": 9416,
+      "uncompressedSha256": "025fd1adacc8078337b3b9ea798b2c1949bd562f6aa32f0eff46e323e2b90c94"
+    },
+    {
+      "path": "tenka-national120-broadphase-parity.log.gz",
+      "uncompressedBytes": 435,
+      "uncompressedSha256": "2339595895e2539662db377129cb052986d36872dd74a61eaec725e23c8ebe36"
+    },
+    {
+      "path": "tenka-national120-broadphase-focused.log.gz",
+      "uncompressedBytes": 1772,
+      "uncompressedSha256": "9d5de64e4df4aee29717ed7120d0b2dcc10c25cbb743e9f30387ea54d850f9c9"
+    },
+    {
+      "path": "tenka-national120-broadphase-types-final.log.gz",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tenka-national120-broadphase-lint-final.log.gz",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tenka-national120-broadphase-build.log.gz",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "9cc199774d10a77bf3bc31e97ed65d46023654f43e1616eaffa35269ed14cc0d"
+    }
+  ]
+}
