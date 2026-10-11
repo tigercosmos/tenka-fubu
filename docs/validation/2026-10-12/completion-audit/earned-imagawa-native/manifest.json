@@ -1,0 +1,174 @@
+{
+  "runtimeCommit": "f1082f503394a581532fc0ce02046e343b26b511",
+  "CPUAcceptanceCommit": "043b561",
+  "nativeAcceptanceCommit": "e207b4d",
+  "scope": "Natural seed42 CPU0..240 prefix, public native import, native241..300; CPU300 control from exact same save; no performance or whole-milestone claim",
+  "files": [
+    {
+      "path": "CPU-checkpoint240.tfusave.gz",
+      "bytes": 90616,
+      "sha256": "3df82ab0928a63a1af6e1c8d32184de43d72d435e9fe76000ec80fc15c6eb7f3",
+      "rawSha256": "23d57890ee503c8ce15f983fd9d2c951b3d2b829bae66e3ebd4f664ea42bcf85"
+    },
+    {
+      "path": "CPU-native-control-green.json.gz",
+      "bytes": 7120137,
+      "sha256": "60956b3d1249cf2e8a065858bdfb63037174985a0fbb17b501831bd60e05c0a1",
+      "rawSha256": "fc4ebfffbf8dcb8b9f1654c439f347b9c1f983a07987dbec6ab07690e2178875"
+    },
+    {
+      "path": "README.md",
+      "bytes": 9504,
+      "sha256": "f0f13c0bbdf635f30f74d782efef7d5480f387d07fc73c2fe78b17758f089609"
+    },
+    {
+      "path": "diff-check-green.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "earned-imagawa-poach.spec.ts.gz",
+      "bytes": 4897,
+      "sha256": "ca861e10daac2d173cbf90d68c2cc1551534a7e6d22e8b8b288c8fc9ec4431be",
+      "rawSha256": "4145e1ae2cbda15cb9c519c45137e2c6a0bbc626c3cb725e62d661b361ba95a9"
+    },
+    {
+      "path": "earnedImagawa.ts.gz",
+      "bytes": 2099,
+      "sha256": "01aa88680a30c395bd180b69dcf82b5dfceb00c39aaebbc92bdec352bdcd5e3d",
+      "rawSha256": "c5c517887808870ab0ef48049e6a8098c4153295a4cda567c61b00b5d34be751"
+    },
+    {
+      "path": "earnedImagawaJourney.spec.ts.gz",
+      "bytes": 1247,
+      "sha256": "630999b7677142c37b59618b19cb12a8d3aacc839411705eee33dcf41d08832d",
+      "rawSha256": "8920c58c37b605c36525d99fb6ae36b766dc2afe814fea3fcd3b269950938f10"
+    },
+    {
+      "path": "final-typecheck-green.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "helper-typecheck-red.spec.ts.gz",
+      "bytes": 1234,
+      "sha256": "454130a121642eb50e6c51cdc5216477c1a215807aeb8c8a89660c97eab032f7",
+      "rawSha256": "fe75fbce019e7a219541cf610affe20b0eeac6a69417999a74e22593f3bbd6f3"
+    },
+    {
+      "path": "helper-typecheck-red.ts.gz",
+      "bytes": 2067,
+      "sha256": "ddc2640a136830def485c0ba5f67162c4cc3af3a45fe7f2149ebb4651be64115",
+      "rawSha256": "d9baa0925ad698a57387d87a6a538dfc0b98efca5fc3bf2f34f730d403829ebc"
+    },
+    {
+      "path": "native-equivalent.mjs.gz",
+      "bytes": 3427,
+      "sha256": "1b6c430151db72e20c14b09d5787804e926c5ec66fd14c8379f651025090e2c8",
+      "rawSha256": "900b17b8b315484c059f99b923f9beed51b526348af8877233cb494db6adde2e"
+    },
+    {
+      "path": "native-green.log.gz",
+      "bytes": 189,
+      "sha256": "2f679731d106fc324086e148ab73bbd8ebeec32de96036ca0230958fba1474e8",
+      "rawSha256": "96862512c5704f3b8e3bb40744107744dc75c698f340ba1c5a85578f2f246244"
+    },
+    {
+      "path": "native-run-final-js-equivalence.json.gz",
+      "bytes": 203,
+      "sha256": "617c1d959540ecfa729112f9b7308ef22f09f4030d93ba2c100dd2bcfe937834",
+      "rawSha256": "4753d52314cb8931d472222aa757dbf32f17a583736deb72cc506a90ac5b6a7c"
+    },
+    {
+      "path": "native-run-source.spec.ts.gz",
+      "bytes": 4994,
+      "sha256": "fdd05e4afa58a241ed1b24a814d05a1cd3275124090759ceea2898fba9b863e4",
+      "rawSha256": "11c4a3eebb2eacc455dbf99df27d42d74b3d8171cb33f43c1cdf5d30a9c9bc6b"
+    },
+    {
+      "path": "native-tail-green.json.gz",
+      "bytes": 6295084,
+      "sha256": "94fa50a78223bd77e398ef62821cf553bbc5ca0f24fc6c04914a5ca7a5d2ba6a",
+      "rawSha256": "501c7acd5d72457743aca195b3f2de7e134512e1ce522f2fbe4d6fc104ebf577"
+    },
+    {
+      "path": "original-observer.spec.ts.gz",
+      "bytes": 1836,
+      "sha256": "d5f80264977b4c878b5ab0694913d1c581fba59461b9a38779b47998a4904485",
+      "rawSha256": "11935f339b8c1051289b2d8a5de4e7d0c9e82b456978779615786aedfe67c498"
+    },
+    {
+      "path": "runtime-file-verification.json.gz",
+      "bytes": 119,
+      "sha256": "a83dd26d065848ad5563ff51bb1533046a9254841df1621c098d022b37d19e90",
+      "rawSha256": "477520981b58b83af7d7ac534d3b2b0d34bb1e5e67f24d87b481cdf5b7611469"
+    },
+    {
+      "path": "runtime-source-f1082f5-sha256.json.gz",
+      "bytes": 38122,
+      "sha256": "70087f7cfddfd08dfb4b4d5a9c25695d6bedc0626a1269f79a20e1d9c6739166",
+      "rawSha256": "6489e2602b57c436ed97ca453aaeb6fe90644c8c88c452a261ec5bb1eea42e62"
+    },
+    {
+      "path": "scoped-format-green.log.gz",
+      "bytes": 82,
+      "sha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5",
+      "rawSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "scoped-lint-green.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tenka-imagawa-build.log.gz",
+      "bytes": 847,
+      "sha256": "a4c9cc03604ea8e4e21c7a2ac70b6915060a9f1409e7ef882898891830fed6d5",
+      "rawSha256": "1b4698e3d4c89e27ae6b8aceded01a8671ebbd63d1bf02199a68e6be7b72d6b7"
+    },
+    {
+      "path": "tenka-imagawa-helper-green.log.gz",
+      "bytes": 294,
+      "sha256": "e3e4e0efe9b290306f768f957169a372416a84159b3f3f4fa1a97b3ca0af32ca",
+      "rawSha256": "08fd356f45e3613ca091f4263f9f69b10301e646ecb7ae1216e2ac27d82d361b"
+    },
+    {
+      "path": "tenka-imagawa-initial.log.gz",
+      "bytes": 1387,
+      "sha256": "0e912bb673bff686bab7278552804f940ddee702bee79bee9abd5043d3d6b6a6",
+      "rawSha256": "9f6b644baa0408ed8e5a5cd706a956510eb40fe50030505ea2098bc5a73da430"
+    },
+    {
+      "path": "tenka-imagawa-journey42.log.gz",
+      "bytes": 1382,
+      "sha256": "b8d5631601ad792352e271a1cb618b4a6899fa0277ed8ac61076df3b947050ff",
+      "rawSha256": "bea08a67fbe0ad36a7fa39046779ecd8e00cc2a3c35346d172f7736123623682"
+    },
+    {
+      "path": "tenka-imagawa-native-lint.log.gz",
+      "bytes": 243,
+      "sha256": "b1eb29842bd197eb2daaae9776d1e2387e82db3ee11667d3d5c7181c5d324ce9",
+      "rawSha256": "b0696ea10571454cd70b8aeeb3d44773b5c98dc71200b5051b81f5010a57850d"
+    },
+    {
+      "path": "tenka-imagawa-natural-42.json.gz",
+      "bytes": 1176481,
+      "sha256": "9d374a4aa811d1a966520c3b9d602dd9db6c9fc50da8936fbdaa0ede3f8ac73c",
+      "rawSha256": "55c5ef57760e5f61afff51dc1d5f3900d71899d15f79044168a4ca30f91ad00f"
+    },
+    {
+      "path": "tenka-imagawa-typecheck-first.log.gz",
+      "bytes": 481,
+      "sha256": "42170473f05496bd06d14c79e99391e6480ac6391722297d71ac01edce9d113c",
+      "rawSha256": "810b39c523c0d8d41f979d71ea80ead77773b33a74cdc7602815637487b7d7a2"
+    },
+    {
+      "path": "verify-evidence.py",
+      "bytes": 5216,
+      "sha256": "4e13676e0eeef2286b54afe711817742d9f44c2daa470398c16b7f697d843b5d"
+    }
+  ]
+}
