@@ -1,0 +1,378 @@
+{
+  "base": "e65fbbc",
+  "workloadCommit": "07efa67",
+  "hardware": {
+    "host": "sim3 / t2-sim-3",
+    "gpu": "NVIDIA GeForce RTX5070 Ti",
+    "driver": "580.178.04",
+    "browser": "Chrome for Testing149.0.7827.55",
+    "headless": true,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    }
+  },
+  "sourceProof": {
+    "files": 754,
+    "different": []
+  },
+  "rendererControls": [
+    {
+      "camera": "overview",
+      "scope": "canonical-armies/render-only-paused-prerequisite",
+      "durationMs": 30027.599999904633,
+      "averageFps": 38.73103411540362,
+      "frameTimeP95": 27.100000381469727,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 83,
+      "maxVisibleArmies": 120,
+      "resourcesEqual": true,
+      "canonicalByteEqualityAssertion": "passed before FPS assertion failed",
+      "gate": {
+        "averageFpsMin": 60,
+        "frameTimeP95Max": 16.666666666666668
+      },
+      "exit": 1,
+      "firstFailedAssertion": "averageFps >= 60",
+      "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)"
+    },
+    {
+      "camera": "operational",
+      "scope": "canonical-armies/render-only-paused-prerequisite",
+      "durationMs": 30070.699999809265,
+      "averageFps": 25.905615765676924,
+      "frameTimeP95": 42.5,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 79,
+      "maxVisibleArmies": 120,
+      "resourcesEqual": true,
+      "canonicalByteEqualityAssertion": "passed before FPS assertion failed",
+      "gate": {
+        "averageFpsMin": 60,
+        "frameTimeP95Max": 16.666666666666668
+      },
+      "exit": 1,
+      "firstFailedAssertion": "averageFps >= 60",
+      "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)"
+    },
+    {
+      "camera": "close",
+      "scope": "canonical-armies/render-only-paused-prerequisite",
+      "durationMs": 30109.10000038147,
+      "averageFps": 16.340574776189477,
+      "frameTimeP95": 78.09999990463257,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 56,
+      "maxVisibleArmies": 89,
+      "resourcesEqual": true,
+      "canonicalByteEqualityAssertion": "passed before FPS assertion failed",
+      "gate": {
+        "averageFpsMin": 60,
+        "frameTimeP95Max": 16.666666666666668
+      },
+      "exit": 1,
+      "firstFailedAssertion": "averageFps >= 60",
+      "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)"
+    }
+  ],
+  "liveControl": {
+    "scope": "actual120-army campaign / invalid mandatory pause",
+    "legacyRawScopeField": "canonical-forty-armies/ordinary-live-x5/actual-postrender",
+    "valid": false,
+    "days": [121, 150],
+    "averageFps": 56.22864761269894,
+    "frameTimeP95": 18,
+    "minMarching": 120,
+    "minMounted": 120,
+    "interruptions": 1535,
+    "firstInterruption": {
+      "timestamp": 33313,
+      "day": 150,
+      "reasons": ["speed:paused"]
+    },
+    "observationErrors": [],
+    "remainingPresets": "not run after serial failure"
+  },
+  "profile": {
+    "scope": "separate10second overview CPU profile; not FPS acceptance",
+    "totalSampledUs": 10217858,
+    "topSelf": [
+      {
+        "function": "overlap",
+        "source": "../../src/ui/map/armyPlateLayout.ts",
+        "line": 337,
+        "column": 9,
+        "selfUs": 2929172,
+        "inclusiveUs": 2929172,
+        "selfSamples": 2784
+      },
+      {
+        "function": "bodyOverlap",
+        "source": "../../src/ui/map/armyPlateLayout.ts",
+        "line": 343,
+        "column": 9,
+        "selfUs": 1416292,
+        "inclusiveUs": 1416292,
+        "selfSamples": 1346
+      },
+      {
+        "function": "layoutArmyPlates",
+        "source": "../../src/ui/map/armyPlateLayout.ts",
+        "line": 351,
+        "column": 16,
+        "selfUs": 1247435,
+        "inclusiveUs": 6384783,
+        "selfSamples": 1189
+      },
+      {
+        "function": "",
+        "source": "../../src/ui/map/armyPlateLayout.ts",
+        "line": 440,
+        "column": 35,
+        "selfUs": 658434,
+        "inclusiveUs": 3378191,
+        "selfSamples": 626
+      },
+      {
+        "function": "overlap",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 57,
+        "column": 9,
+        "selfUs": 517582,
+        "inclusiveUs": 517582,
+        "selfSamples": 492
+      },
+      {
+        "function": "layoutGeographicLabels",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 101,
+        "column": 16,
+        "selfUs": 441386,
+        "inclusiveUs": 1402401,
+        "selfSamples": 424
+      },
+      {
+        "function": "edgeAxis",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 28,
+        "column": 9,
+        "selfUs": 262541,
+        "inclusiveUs": 314090,
+        "selfSamples": 250
+      },
+      {
+        "function": "query",
+        "source": "../../src/ui/map/lod.ts",
+        "line": 75,
+        "column": 2,
+        "selfUs": 228538,
+        "inclusiveUs": 228538,
+        "selfSamples": 218
+      }
+    ],
+    "topInclusive": [
+      {
+        "function": "(root)",
+        "source": "",
+        "line": 0,
+        "column": -1,
+        "selfUs": 0,
+        "inclusiveUs": 10217858,
+        "selfSamples": 0
+      },
+      {
+        "function": "time",
+        "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/ticker/Ticker.mjs",
+        "line": 123,
+        "column": 18,
+        "selfUs": 2103,
+        "inclusiveUs": 9159427,
+        "selfSamples": 2
+      },
+      {
+        "function": "emit",
+        "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/ticker/TickerListener.mjs",
+        "line": 37,
+        "column": 2,
+        "selfUs": 0,
+        "inclusiveUs": 9156272,
+        "selfSamples": 0
+      },
+      {
+        "function": "update",
+        "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/ticker/Ticker.mjs",
+        "line": 421,
+        "column": 2,
+        "selfUs": 0,
+        "inclusiveUs": 9156272,
+        "selfSamples": 0
+      },
+      {
+        "function": "render",
+        "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/app/Application.mjs",
+        "line": 83,
+        "column": 2,
+        "selfUs": 2112,
+        "inclusiveUs": 8934381,
+        "selfSamples": 2
+      },
+      {
+        "function": "render",
+        "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/rendering/renderers/shared/system/AbstractRenderer.mjs",
+        "line": 73,
+        "column": 2,
+        "selfUs": 1053,
+        "inclusiveUs": 8932269,
+        "selfSamples": 1
+      },
+      {
+        "function": "emit",
+        "source": "../../../tenka-20261012-sim3-production/node_modules/pixi.js/lib/rendering/renderers/shared/system/SystemRunner.mjs",
+        "line": 16,
+        "column": 2,
+        "selfUs": 4210,
+        "inclusiveUs": 8931216,
+        "selfSamples": 4
+      },
+      {
+        "function": "flushScreenLayouts",
+        "source": "../../src/ui/map/MapRenderer.ts",
+        "line": 2184,
+        "column": 10,
+        "selfUs": 3118,
+        "inclusiveUs": 8396508,
+        "selfSamples": 3
+      }
+    ],
+    "canonicalByteEqual": true,
+    "driverTicks": 0
+  },
+  "focusedTests": {
+    "passed": 41,
+    "typecheckExit": 0,
+    "lintExit": 0
+  },
+  "limitations": [
+    "Postrender cadence is not physical GPU presentation cadence.",
+    "All120 mounted does not mean all120 pixels are visible at every camera.",
+    "Live campaign paused at mandatory day150 owner; target remains unproven.",
+    "A source-hash read ran near the end of the invalid live window; no metadata/profile work overlapped renderer-only controls.",
+    "The raw live scope string still says forty;120count is proven by preparation/cohort fields. The committed workload fixes the scope metadata."
+  ],
+  "raw": [
+    {
+      "path": "live-overview.raw.json.gz",
+      "uncompressedBytes": 18821842,
+      "uncompressedSha256": "68386ba4f6445257c9155a99b10073a616849111d7b77b82c6807386d106d70e"
+    },
+    {
+      "path": "render-close.raw.json.gz",
+      "uncompressedBytes": 119392,
+      "uncompressedSha256": "d98283f8acbc6a8e5bd786f59e64466206e7cb8629c55a7de05070d8de93e17b"
+    },
+    {
+      "path": "render-operational.raw.json.gz",
+      "uncompressedBytes": 125571,
+      "uncompressedSha256": "db4bb43316b91a337da4b4a3f4655ad1a148a304bcc6cb3920032d929486f3ec"
+    },
+    {
+      "path": "render-overview.raw.json.gz",
+      "uncompressedBytes": 134987,
+      "uncompressedSha256": "f00da6a42ed610e0b0ec081beb52d2745a6ca5ad37721dee3a0bc258d0f13eda"
+    },
+    {
+      "path": "tenka-national120-final-expected-hashes.json.gz",
+      "uncompressedBytes": 81802,
+      "uncompressedSha256": "8d2647e10161a65a8084042672da30a347a404d94e16517a21f1ca16bc70e702"
+    },
+    {
+      "path": "tenka-national120-final-source-proof.json.gz",
+      "uncompressedBytes": 96,
+      "uncompressedSha256": "f9eced603da91ddd2e43fb70f94fc1b1565376e34deb8bc7c10ed7d459288bc3"
+    },
+    {
+      "path": "tenka-national120-live-failure.log.gz",
+      "uncompressedBytes": 3263,
+      "uncompressedSha256": "2c66c9c901b6ec50017acf2ffa0f10f1cdc38e43bb3fd6e9d8d3fcfc9a8a0e73"
+    },
+    {
+      "path": "tenka-national120-native.log.gz",
+      "uncompressedBytes": 2921,
+      "uncompressedSha256": "eb1428bc01e88e5facdb06eb470587b9b271cffe1fe83b942940c5fd5f6e96d0"
+    },
+    {
+      "path": "tenka-national120-overview.cpuprofile.gz",
+      "uncompressedBytes": 261918,
+      "uncompressedSha256": "2fd9bc9242b12471f0c3dff042230f4bb455f1e8c38563ef44ece1cedf044341"
+    },
+    {
+      "path": "tenka-national120-preparation.log.gz",
+      "uncompressedBytes": 572,
+      "uncompressedSha256": "84aaaba6bc4e49f15b99f7fad1bad81ce30fa3e78e13f6220a4e3ab328845664"
+    },
+    {
+      "path": "tenka-national120-profile-source-summary.json.gz",
+      "uncompressedBytes": 58857,
+      "uncompressedSha256": "5e6d298aa7d21b53a9b46a59e74e3611c04f7bc7faafb94a04ccfc06bff5eced"
+    },
+    {
+      "path": "tenka-national120-profile-summary.json.gz",
+      "uncompressedBytes": 117013,
+      "uncompressedSha256": "c9585fcc427d472fe8316549a1e003c6927e619f7908913ab9a5007eb21e6df8"
+    },
+    {
+      "path": "tenka-national120-profile.log.gz",
+      "uncompressedBytes": 76,
+      "uncompressedSha256": "05790cdda1d00f68e00996368d4fc34f24b728b1f8bad32e19b7b1652d4c026f"
+    },
+    {
+      "path": "tenka-national120-render-close.log.gz",
+      "uncompressedBytes": 3013,
+      "uncompressedSha256": "dc81e497575a84d42f66284bde5871d6df802c6bc2d34116eb8ea420533e2319"
+    },
+    {
+      "path": "tenka-national120-render-native.log.gz",
+      "uncompressedBytes": 3328,
+      "uncompressedSha256": "0981186d1fe29ae2daae6c2af3d4fcac00e693f2cd0e36c49295b4fd0c7ebcd3"
+    },
+    {
+      "path": "tenka-national120-render-operational.log.gz",
+      "uncompressedBytes": 3055,
+      "uncompressedSha256": "ca29f59915d627e1e24d9e7020697beca2fe5bd1eccc08ab3ac8bccbc69ad4c5"
+    },
+    {
+      "path": "tenka-national120-source-proof.json.gz",
+      "uncompressedBytes": 67,
+      "uncompressedSha256": "115c251a8f9f45d104aab0b2bef01155c26014d216adda51bac5607012215323"
+    },
+    {
+      "path": "transfer-manifest.json.gz",
+      "uncompressedBytes": 5036,
+      "uncompressedSha256": "42a4b1428a6950fb2c2a2e43f3116b0b8d13a3ed8f11c2d59e0cd776e622a8ef"
+    },
+    {
+      "path": "tenka-national120-focused.log.gz",
+      "uncompressedBytes": 1788,
+      "uncompressedSha256": "77afac4df57c286b1c1c0bd2f557602076eb4bcc4c5b40c9c7ab941f53e697a4"
+    },
+    {
+      "path": "tenka-national120-focused-final.log.gz",
+      "uncompressedBytes": 1016,
+      "uncompressedSha256": "c065fa6b3fa884743b2bac478f576e1fee767d806efc1d36b6f186bdd088c8ee"
+    },
+    {
+      "path": "tenka-national120-types-final.log.gz",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tenka-national120-lint-final.log.gz",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "remoteLiveArchive": {
+    "path": "sim3:/tmp/tenka-national120-live-failure.tar.gz",
+    "sha256": "f87d300018ce3773aa462d4fde9f2b9269b6cc47c3d523efd05b9196712a5997"
+  }
+}
