@@ -1,0 +1,30 @@
+{
+  "sourceCommit": "fe37e4c",
+  "beforeSnapshotCommit": "02c1faf",
+  "snapshots": "../main-blob-final-sim4/{01-before,03-after}-remounts.heapsnapshot.gz",
+  "sourceFiles": [
+    {
+      "path": "tools/dependencies/pixi-8.19-patch.json",
+      "sha256": "2fef603c194ee11aee809e6151e1a5e2177b9f0fe3aeffe07fed9c723ccb9c85"
+    },
+    {
+      "path": "tools/dependencies/pixi-8.19-patch.mjs",
+      "sha256": "ec4ec746e1b5caac07f36e80f886ddcd913e454e8edf6cf4bf901abb3e7334b5"
+    },
+    {
+      "path": "tests/ci/pixiManagedResourceLifecycle.spec.ts",
+      "sha256": "6e9410c3559180fb9caa95b92aa4f3dcde3a5f35cf8747861f01c96777115da2"
+    },
+    {
+      "path": "tests/ci/pixiDependencyPatch.spec.ts",
+      "sha256": "b50393d95b4c5dd48875010e515cbff7ef4a26ed40964e60c2dc848b0a14cc69"
+    },
+    {
+      "path": "tools/perf/heap-retainers.ts",
+      "sha256": "6578bb02fdaf0d70a064e7dda3ebdfb80a443c59778bd7ecb76ec03edc7137b8"
+    }
+  ],
+  "nativeRuntimeSource": "Exact patched CommonJS/ESM GPU lifecycle bytes; previous runtime sources are the same final-loader replica. This run does not contain later independent proposal/a11y/120-army changes.",
+  "nativeTestScope": "Original visual remount assertions with measurement count20\u2192120;10 warmup;page GC eachsample; source archived. Shared runtime frontend unchanged from preceding loader replica apart from patch.",
+  "nativePatchRuntimeVerified": true
+}

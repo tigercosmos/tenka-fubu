@@ -1,0 +1,266 @@
+[
+  {
+    "file": "00-.last-run.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/.last-run.json",
+    "bytes": 60,
+    "sha256": "ef94fcdc04da4703dc723d02a781282e4b455e1b3176cc7862e6c14c9851bca9",
+    "uncompressedBytes": 45,
+    "uncompressedSha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+  },
+  {
+    "file": "01-strategy-operational-identity-column.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-readability--402f1-ithout-changing-paused-core-chromium/strategy-operational-identity-column.png",
+    "bytes": 594392,
+    "sha256": "e7efcdc8f8018cb8ba1c13c6f915f61816f4c88ee2b1d0995d0bef758b6445d7",
+    "uncompressedBytes": 595200,
+    "uncompressedSha256": "ce8ed32f317ca739d427c45b534a920c11c88480d6e0c3f5b3d77df0abbf0eac"
+  },
+  {
+    "file": "02-castle-content-geometry.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-readability--402f1-ithout-changing-paused-core-chromium/castle-content-geometry.json",
+    "bytes": 868,
+    "sha256": "3ad32825a849cb4bee978b091c2354b1b61e73ba2ed2bddc8b96c5e6526cc165",
+    "uncompressedBytes": 5940,
+    "uncompressedSha256": "c7d7bbe8df67ae9f531670c2d80eb481ce77e1f206c03384f7f96ec202fad608"
+  },
+  {
+    "file": "03-strategy-close-identity-column.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-readability--402f1-ithout-changing-paused-core-chromium/strategy-close-identity-column.png",
+    "bytes": 817601,
+    "sha256": "15ea157dcc054744ef1265363531a85ddec51eb5d53a83c4ee16013e0c413204",
+    "uncompressedBytes": 818199,
+    "uncompressedSha256": "6c6cdf8c2ea53863fd571ddb23a865bf44e908640a26ea8fee8a7f879f816e5a"
+  },
+  {
+    "file": "04-ribbon-castle.sunpu-operational-1.5.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-obstruction--feafb--or-crossing-hard-obstacles-chromium/ribbon-castle.sunpu-operational-1.5.png",
+    "bytes": 570573,
+    "sha256": "1509cc76f38e9a847cb93b0f5d6efe981ecea6011ac4177edd72bd6dd62c7496",
+    "uncompressedBytes": 570748,
+    "uncompressedSha256": "9c91e1e2679bfc332b560b97c23d364f078bf530ec0aeea69e94cbcd45d6cca4"
+  },
+  {
+    "file": "05-ribbon-castle.narumi-operational-1.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-obstruction--feafb--or-crossing-hard-obstacles-chromium/ribbon-castle.narumi-operational-1.png",
+    "bytes": 1196782,
+    "sha256": "e701358a813a5d8e07fb66bdf087a4900a582b6a7d8c29399d9f5c12e5d26859",
+    "uncompressedBytes": 1196882,
+    "uncompressedSha256": "c315be4a36e6e5e0537990334d7b1cf968edb979f98059bea6c19c1c61e51215"
+  },
+  {
+    "file": "06-ribbon-castle.sunpu-close-1.5.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-obstruction--feafb--or-crossing-hard-obstacles-chromium/ribbon-castle.sunpu-close-1.5.png",
+    "bytes": 723892,
+    "sha256": "6474204785623cb4786178f6b7bda4baf0d9b7d86c1f1808f4c365bc51067421",
+    "uncompressedBytes": 724030,
+    "uncompressedSha256": "220308b69baccbaaa3c2f26abc7340fe367279f89abf4410e5e4abaef0ea478b"
+  },
+  {
+    "file": "07-ribbon-castle.narumi-operational-1.5.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-obstruction--feafb--or-crossing-hard-obstacles-chromium/ribbon-castle.narumi-operational-1.5.png",
+    "bytes": 1114781,
+    "sha256": "72f222d10ece8c57fea780374412c555eb8639d435a515f32711346f8eef3641",
+    "uncompressedBytes": 1114859,
+    "uncompressedSha256": "1778b973f32d4d1501b728387b07ddc87bf6c8de1889046f5684d09fb756f020"
+  },
+  {
+    "file": "08-ribbon-castle.narumi-close-0.8.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-obstruction--feafb--or-crossing-hard-obstacles-chromium/ribbon-castle.narumi-close-0.8.png",
+    "bytes": 1229537,
+    "sha256": "cfd0e6c07787f76c939e1fde60569c8c457337dac11f9f5233561268caa4aff7",
+    "uncompressedBytes": 1229485,
+    "uncompressedSha256": "0c6b153879b6b81ea3e9b04c0895a3511242e2e10365f825d149c86dc479b7d7"
+  },
+  {
+    "file": "09-ribbon-castle.sunpu-operational-0.8.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-obstruction--feafb--or-crossing-hard-obstacles-chromium/ribbon-castle.sunpu-operational-0.8.png",
+    "bytes": 600519,
+    "sha256": "527934b4f1e11d120fb739d7edbd61de6e7cdf11a9d49914d5924b509406ede2",
+    "uncompressedBytes": 600734,
+    "uncompressedSha256": "d1c36b053f200914814c1c96ee62d6b5cfe2ec7243e8c2eb2fedbd4b7692e719"
+  },
+  {
+    "file": "10-ribbon-castle.sunpu-close-1.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-obstruction--feafb--or-crossing-hard-obstacles-chromium/ribbon-castle.sunpu-close-1.png",
+    "bytes": 810999,
+    "sha256": "1031b16e9a2d5b2d5bb43052085b06e16a4d48a7b0bc657a1a31cad748b6dc2c",
+    "uncompressedBytes": 811158,
+    "uncompressedSha256": "b18e9c49c0ec1312d5f93cce06ec681b4fe9ad5ec7d65301e015a46777cb1965"
+  },
+  {
+    "file": "11-ribbon-castle.narumi-operational-0.8.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-obstruction--feafb--or-crossing-hard-obstacles-chromium/ribbon-castle.narumi-operational-0.8.png",
+    "bytes": 1229537,
+    "sha256": "cfd0e6c07787f76c939e1fde60569c8c457337dac11f9f5233561268caa4aff7",
+    "uncompressedBytes": 1229485,
+    "uncompressedSha256": "0c6b153879b6b81ea3e9b04c0895a3511242e2e10365f825d149c86dc479b7d7"
+  },
+  {
+    "file": "12-ribbon-castle.narumi-close-1.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-obstruction--feafb--or-crossing-hard-obstacles-chromium/ribbon-castle.narumi-close-1.png",
+    "bytes": 1196782,
+    "sha256": "e701358a813a5d8e07fb66bdf087a4900a582b6a7d8c29399d9f5c12e5d26859",
+    "uncompressedBytes": 1196882,
+    "uncompressedSha256": "c315be4a36e6e5e0537990334d7b1cf968edb979f98059bea6c19c1c61e51215"
+  },
+  {
+    "file": "13-ribbon-castle.narumi-close-1.5.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-obstruction--feafb--or-crossing-hard-obstacles-chromium/ribbon-castle.narumi-close-1.5.png",
+    "bytes": 1114781,
+    "sha256": "72f222d10ece8c57fea780374412c555eb8639d435a515f32711346f8eef3641",
+    "uncompressedBytes": 1114859,
+    "uncompressedSha256": "1778b973f32d4d1501b728387b07ddc87bf6c8de1889046f5684d09fb756f020"
+  },
+  {
+    "file": "14-ribbon-castle.sunpu-close-0.8.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-obstruction--feafb--or-crossing-hard-obstacles-chromium/ribbon-castle.sunpu-close-0.8.png",
+    "bytes": 843350,
+    "sha256": "914a03b05fafb2dfa554a238d8c79b29c7d09ddc05cc672e066403fffdcda8d4",
+    "uncompressedBytes": 843491,
+    "uncompressedSha256": "e4cb106bf3a43317f85afc9611efd46ff1423ad50206ad05c3a988a8e29404ca"
+  },
+  {
+    "file": "15-ribbon-castle.sunpu-operational-1.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-obstruction--feafb--or-crossing-hard-obstacles-chromium/ribbon-castle.sunpu-operational-1.png",
+    "bytes": 592242,
+    "sha256": "f1fe75c3fd7ceb4a6b887e15fa397caf018b73ca506e2cf72fc6c0bbc25edcbd",
+    "uncompressedBytes": 592374,
+    "uncompressedSha256": "cf065f6fd93f6fd2f0e9f0ae713c723208bb490a6284071fd9bfa93e3f2466ec"
+  },
+  {
+    "file": "16-placard-castle.narumi-1-observation.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-placard-material-pl-7cf52-channels-at-three-UI-scales-chromium/placard-castle.narumi-1-observation.json",
+    "bytes": 231154,
+    "sha256": "fcd2ff96dfff9263c1cdf8597b438601d4642de3afacb611a97fa6647d1877fd",
+    "uncompressedBytes": 1825746,
+    "uncompressedSha256": "139a8626298944dc359799c070aa330eff02ccb529e4d0827457a5f3ea12cfbf"
+  },
+  {
+    "file": "17-placard-castle.sunpu-1.5-scene.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-placard-material-pl-7cf52-channels-at-three-UI-scales-chromium/placard-castle.sunpu-1.5-scene.png",
+    "bytes": 609820,
+    "sha256": "2317957aba0bda60c2049f0c6be1ab30a077377466b21ee54f581a99ca886de2",
+    "uncompressedBytes": 610754,
+    "uncompressedSha256": "ad3a89e5d5681fd690b5d00964388f7ced70e8d53ffb7f3a30ac65262d5be57b"
+  },
+  {
+    "file": "18-placard-castle.sunpu-1-scene.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-placard-material-pl-7cf52-channels-at-three-UI-scales-chromium/placard-castle.sunpu-1-scene.png",
+    "bytes": 756144,
+    "sha256": "40d4149b4b073b9c4ff66d8728729e00076f507893bbff69ca56d902d4e5b6af",
+    "uncompressedBytes": 756772,
+    "uncompressedSha256": "2300212de331970d8d8f22708a1f8b20e575dbd8e6ed80a1ee618a549f8e6448"
+  },
+  {
+    "file": "19-placard-castle.sunpu-1.5-observation.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-placard-material-pl-7cf52-channels-at-three-UI-scales-chromium/placard-castle.sunpu-1.5-observation.json",
+    "bytes": 230991,
+    "sha256": "7e1caf869361d154b73fecae7ae59a1bb0bc0da8f318c5c69ae0535da0242841",
+    "uncompressedBytes": 1823201,
+    "uncompressedSha256": "6f7c9de285e62ceb54c772772d0d7d71e97af6aae6f78e1ca60168d730eb9d66"
+  },
+  {
+    "file": "20-placard-castle.narumi-1.5-scene.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-placard-material-pl-7cf52-channels-at-three-UI-scales-chromium/placard-castle.narumi-1.5-scene.png",
+    "bytes": 894223,
+    "sha256": "38b2e43a9b1aa8484ae3effc8d6b24319dcd68c1d3615d23d874b73c01341c81",
+    "uncompressedBytes": 895691,
+    "uncompressedSha256": "8f4483adcbcc9b0ebc7aca2483e1bddfa07e02f70d376556b646ca3c4829a4a7"
+  },
+  {
+    "file": "21-placard-castle.sunpu-1-observation.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-placard-material-pl-7cf52-channels-at-three-UI-scales-chromium/placard-castle.sunpu-1-observation.json",
+    "bytes": 230969,
+    "sha256": "13a18b8b5ed5e55ad34d4e4596c696cfa9b9be57f573aace8d647848c69b465b",
+    "uncompressedBytes": 1823197,
+    "uncompressedSha256": "5afcc91d66cf23b1296ab4f2fe40a59a7bfd19821760e0e18e96c32f01112aea"
+  },
+  {
+    "file": "22-placard-castle.sunpu-0.8-scene.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-placard-material-pl-7cf52-channels-at-three-UI-scales-chromium/placard-castle.sunpu-0.8-scene.png",
+    "bytes": 821134,
+    "sha256": "2ae8d1573cd894d94a18de59f65b574740da2e21ac310cc22357883a982e8994",
+    "uncompressedBytes": 821760,
+    "uncompressedSha256": "977fcf6c96916690ba241d5111ea8eb24b5ba97c87472f6edb24c004ed73082c"
+  },
+  {
+    "file": "23-placard-castle.narumi-0.8-scene.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-placard-material-pl-7cf52-channels-at-three-UI-scales-chromium/placard-castle.narumi-0.8-scene.png",
+    "bytes": 1109466,
+    "sha256": "b1e3cec551ac78d3aee4c999fc440e5dafc58b80d05540ffa38cf98e29f624a7",
+    "uncompressedBytes": 1110068,
+    "uncompressedSha256": "576e90ea983d75e6f9f3b22c1d92c20e5c75292f01de13444e7ed58649317bf6"
+  },
+  {
+    "file": "24-placard-castle.narumi-1.5-observation.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-placard-material-pl-7cf52-channels-at-three-UI-scales-chromium/placard-castle.narumi-1.5-observation.json",
+    "bytes": 231471,
+    "sha256": "fb0de7d43f216ef4aa4e7636a18d9aa004fa00f7f69814c94fa9dd8fcb341b1f",
+    "uncompressedBytes": 1825833,
+    "uncompressedSha256": "6e76145d6a4e3d4a2741360e62ab7202708bb5c09c4110a71535f97e41b1be0d"
+  },
+  {
+    "file": "25-placard-castle.narumi-0.8-observation.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-placard-material-pl-7cf52-channels-at-three-UI-scales-chromium/placard-castle.narumi-0.8-observation.json",
+    "bytes": 231372,
+    "sha256": "e2039f4b7c4b75ab32451384271384d4265f00e1d3c79b0b8cf3d6f0ab5a316e",
+    "uncompressedBytes": 1825955,
+    "uncompressedSha256": "462b5f0a836e1ab6aaa2f377e35296d435c7514dccc2a8a9025d051f021f3892"
+  },
+  {
+    "file": "26-placard-castle.sunpu-0.8-observation.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-placard-material-pl-7cf52-channels-at-three-UI-scales-chromium/placard-castle.sunpu-0.8-observation.json",
+    "bytes": 231183,
+    "sha256": "afe0316c330f23db20404ae5f9c32fe134c52d2bc7faf642fc8defb79115a223",
+    "uncompressedBytes": 1824737,
+    "uncompressedSha256": "8d425549645a5ebb00638a7ef7c5cc95a22a7f8610caa4be6f9589cb32f79018"
+  },
+  {
+    "file": "27-placard-castle.narumi-1-scene.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-placard-material-pl-7cf52-channels-at-three-UI-scales-chromium/placard-castle.narumi-1-scene.png",
+    "bytes": 1049875,
+    "sha256": "e9711defba673286d24963a0c128ccac511f01481418d36f00c6a803f6097b2d",
+    "uncompressedBytes": 1050975,
+    "uncompressedSha256": "a57cf425a8c724af54ab5d601a3a4e3f7823b5c45387f4498e1b0b74e5e039a6"
+  },
+  {
+    "file": "28-river-rv.yodo.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/river-surface-layout-nativ-6b8ff-orm-concentric-pipe-strokes-chromium/river-rv.yodo.png",
+    "bytes": 955190,
+    "sha256": "8f8f22a1642c807668e9a4c94d50829c178a02e3dcf88e962bfbc3ba9fb5056b",
+    "uncompressedBytes": 956117,
+    "uncompressedSha256": "0d26ac88e288322085700350daec67d7f72795a7e8dd63455b06cac19e2c187f"
+  },
+  {
+    "file": "29-river-rv.kiso.png.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/river-surface-layout-nativ-6b8ff-orm-concentric-pipe-strokes-chromium/river-rv.kiso.png",
+    "bytes": 1119291,
+    "sha256": "0743313e02b11473427dcd7c0f7bef7cb7d91c91d3ef59dd9d9638d2519245a3",
+    "uncompressedBytes": 1119965,
+    "uncompressedSha256": "7b7b06a62c8d0fc653011d4b005f0a2175fafd540a44cf098a6bc09abbee015a"
+  },
+  {
+    "file": "30-castle-content-geometry-8885749648a05f3437b4b5fc28f7ff6aa672059c.json.gz",
+    "source": "/tmp/tenka-remount-patched-20261012.VRxkTB/repo/test-results/castle-ribbon-readability--402f1-ithout-changing-paused-core-chromium/attachments/castle-content-geometry-8885749648a05f3437b4b5fc28f7ff6aa672059c.json",
+    "bytes": 868,
+    "sha256": "3ad32825a849cb4bee978b091c2354b1b61e73ba2ed2bddc8b96c5e6526cc165",
+    "uncompressedBytes": 5940,
+    "uncompressedSha256": "c7d7bbe8df67ae9f531670c2d80eb481ce77e1f206c03384f7f96ec202fad608"
+  },
+  {
+    "file": "31-tenka-managed-resource-visual-final.log.gz",
+    "source": "/tmp/tenka-managed-resource-visual-final.log",
+    "bytes": 439,
+    "sha256": "b6a04a3898703df9c9ca17f523606de15be2aa9ae928a62d0defc14f33072916",
+    "uncompressedBytes": 776,
+    "uncompressedSha256": "aeb44920382889af373a0cc68da2bbddc3f68299878be83e80585936224b175f"
+  },
+  {
+    "file": "32-tenka-managed-resource-grayscale.log.gz",
+    "source": "/tmp/tenka-managed-resource-grayscale.log",
+    "bytes": 188,
+    "sha256": "fd2548daa878e1e7b140a34da2e16fe0e81f92a5d63194ae612d0ea0fccf1972",
+    "uncompressedBytes": 213,
+    "uncompressedSha256": "d381bbcea1b9dbf50644790da609ff7624c3f62d3e46c0339b8817d450b9e051"
+  }
+]
