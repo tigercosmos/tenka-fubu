@@ -105,7 +105,8 @@ export function registerDebugLiveArmyDriver(
           : { kind: 'clan', clanId: army.clanId },
     });
   }
-  if (bindings.size !== 40) throw new Error('Live driver requires exactly forty armies');
+  if (bindings.size !== 40 && bindings.size !== 120)
+    throw new Error('Live driver requires exactly40 or120 armies');
   clearLiveDriver('replaced');
   const registration = { game, driver, bindings, unsubscribe: () => {} };
   liveDriver = registration;

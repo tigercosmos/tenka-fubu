@@ -114,7 +114,7 @@ export function parseDebugFlags(search: string): DebugFlags {
 
 /** console 除錯 API（01 §3.11.4 `TenkaDebugApi` 逐字）；僅 `debugFlags.enabled` 時安裝。 */
 export interface TenkaDebugApi {
-  prepareLiveNationalMapWorkload(): {
+  prepareLiveNationalMapWorkload(count?: 40 | 120): {
     count: number;
     commands: number;
     geographyRegions: readonly string[];
@@ -267,7 +267,7 @@ export function installDebugApi(flags: DebugFlags): void {
     return;
   }
   const api: TenkaDebugApi = {
-    prepareLiveNationalMapWorkload() {
+    prepareLiveNationalMapWorkload(count = 40) {
       const original = requireGame();
       const eventEngine = getSessionEventEngine();
       if (
@@ -278,7 +278,7 @@ export function installDebugApi(flags: DebugFlags): void {
         throw new Error(
           'Live preparation requires paused fresh session, empty player queue and canonical event engine',
         );
-      const prepared = prepareLiveMapWorkload(original);
+      const prepared = prepareLiveMapWorkload(original, count);
       disposeLiveMapWorkload?.();
       setGame(prepared.game);
       initializeBridgeSession(prepared.game, [], { loaded: true, eventEngine });
@@ -318,6 +318,7 @@ export function installDebugApi(flags: DebugFlags): void {
       if (!expectedGame || !workload) throw new Error('No live workload prepared');
       const cohortArmyIds = workload.driver.slots.map((slot) => slot.armyId);
       return measureLiveNationalMapFrames({
+        cohortCount: cohortArmyIds.length,
         renderer: {
           subscribeRenderedFrames: (listener) => renderer.subscribeRenderedFrames(listener),
           getDiagnostics: () => renderer.getDiagnostics(),

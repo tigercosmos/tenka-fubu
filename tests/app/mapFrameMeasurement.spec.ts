@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { buildFullState } from '../helpers/fullState';
 import { validateState } from '../../src/core/state/invariants';
+import { prepareLiveMapWorkload } from '../../src/app/liveMapWorkload';
 import { BAL } from '../../src/core/balance';
 import {
   prepareNationalMapFrameState,
@@ -53,10 +54,16 @@ describe('canonical national map performance prerequisites', () => {
     }
   });
 
-  it.each([false, true])(
-    'records actual renders across the full window (early stall=%s), without core mutation',
-    async (stall) => {
-      const { game } = prepareNationalMapFrameState(await buildFullState({ seed: 15600519 }));
+  it.each([
+    [false, 40],
+    [true, 40],
+    [false, 120],
+  ] as const)(
+    'records actual renders across the full window (early stall=%s, armies=%i), without core mutation',
+    async (stall, count) => {
+      const input = await buildFullState({ seed: 15600519 });
+      const { game } =
+        count === 120 ? prepareLiveMapWorkload(input, 120) : prepareNationalMapFrameState(input);
       const before = structuredClone(game);
       let now = 0;
       let nextId = 0;
@@ -70,7 +77,7 @@ describe('canonical national map performance prerequisites', () => {
       let observe: ((timestamp: number) => void) | null = null;
       let subscriptions = 0;
       let removals = 0;
-      const observeArmies = vi.fn(() => ({ mounted: 40, cullVisibleArmyChips: 40 }));
+      const observeArmies = vi.fn(() => ({ mounted: count, cullVisibleArmyChips: count }));
       const renderer: MapFrameMeasurementRenderer = {
         isReady: () => true,
         getArmyRenderObservation: observeArmies,
@@ -236,7 +243,11 @@ describe('canonical national map performance prerequisites', () => {
       expect(actual.averageFps).toBe(stall ? 2 : 6);
       expect(actual.headGapMs).toBe(0);
       expect(actual.tailGapMs).toBe(stall ? 800 : 0);
-      expect(actual.minMountedArmies).toBe(40);
+      expect(actual.minMountedArmies).toBe(count);
+      expect(actual.armyCount).toBe(count);
+      const animated = vi.mocked(renderer.updateView).mock.calls[0]![0].armies;
+      expect(animated).toHaveLength(count);
+      expect(animated[1]!.edgeT - animated[0]!.edgeT).toBeCloseTo(0.9 / count, 12);
       expect(actual.resourcesAfter).toEqual(actual.resourcesBefore);
       expect(subscriptions).toBe(0);
       expect(removals).toBe(1);

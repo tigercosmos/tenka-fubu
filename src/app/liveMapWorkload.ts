@@ -26,7 +26,8 @@ export interface LiveArmySlot {
 }
 
 /** Debug prerequisite: real commands on a clone, never resource or movement injections. */
-export function prepareLiveMapWorkload(input: Readonly<GameState>) {
+export function prepareLiveMapWorkload(input: Readonly<GameState>, count: 40 | 120 = 40) {
+  if (count !== 40 && count !== 120) throw new Error('Live cohort count must be40 or120');
   if (
     input.meta.scenarioId !== 's1560' ||
     input.time.day !== 0 ||
@@ -126,10 +127,10 @@ export function prepareLiveMapWorkload(input: Readonly<GameState>) {
   const events: GameEvent[] = [];
   const slots: LiveArmySlot[] = [];
   const maxCandidates = Math.max(...sources.map((s) => s.candidates.length));
-  for (let index = 0; index < maxCandidates && slots.length < 40; index++) {
+  for (let index = 0; index < maxCandidates && slots.length < count; index++) {
     for (const region of geographyRegions)
       for (const source of sources.filter((s) => s.region === region)) {
-        if (slots.length === 40) break;
+        if (slots.length === count) break;
         const candidate = source.candidates[index];
         if (!candidate || !validateCommand(game, candidate.command, source.authority).ok) continue;
         const envelope = queue.enqueue(candidate.command, game.time.day, source.authority);
@@ -151,8 +152,8 @@ export function prepareLiveMapWorkload(input: Readonly<GameState>) {
         });
       }
   }
-  if (slots.length !== 40 || validateState(game).length !== 0)
-    throw new Error('Unable to prepare valid forty-army live cohort');
+  if (slots.length !== count || validateState(game).length !== 0)
+    throw new Error(`Unable to prepare valid${count}-army live cohort`);
   return {
     game,
     commands,

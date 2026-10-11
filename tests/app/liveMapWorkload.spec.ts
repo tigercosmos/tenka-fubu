@@ -24,6 +24,36 @@ afterEach(() => {
   resetGameStoreForTests(null);
 });
 describe('authentic live national map workload', () => {
+  it('prepares120 legal marches and preserves invariants through four real paid-leg days', async () => {
+    const input = await buildFullState({ seed: 15600519 });
+    const before = structuredClone(input);
+    const prepared = prepareLiveMapWorkload(input, 120);
+    expect(input).toEqual(before);
+    expect(prepared.commands).toHaveLength(120);
+    expect(prepared.slots).toHaveLength(120);
+    expect(prepared.geographyRegions).toHaveLength(9);
+    expect(prepared.game.rng).toEqual(input.rng);
+    expect(validateState(prepared.game)).toEqual([]);
+    resetGameStoreForTests(prepared.game);
+    store.getState().actions.setScreen('main');
+    store.getState().actions.setSpeed('x5');
+    initializeBridgeSession(prepared.game);
+    const workload = createLiveMapWorkload(prepared.slots);
+    const dispose = registerDebugLiveArmyDriver(prepared.game, workload.driver);
+    for (let day = 0; day < 4; day++) {
+      runOneDay();
+      expect(validateState(prepared.game)).toEqual([]);
+      expect(workload.getSnapshot().failure).toBeNull();
+      expect(workload.getSnapshot().minimumMarching).toBe(120);
+      expect(
+        prepared.slots.filter(
+          (slot) => armyPhysicalLeg(prepared.game.armies[slot.armyId]!) !== null,
+        ),
+      ).toHaveLength(day % 2 === 0 ? 120 : 0);
+    }
+    dispose();
+  });
+
   it('fails closed on unexpected captured endpoints or destinations without changing the canonical game', async () => {
     const prepared = prepareLiveMapWorkload(await buildFullState({ seed: 15600519 }));
     const before = structuredClone(prepared.game);

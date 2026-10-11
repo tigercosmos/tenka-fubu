@@ -114,12 +114,12 @@ export async function measureNationalMapFrames(
     throw new Error('Frame measurement duration must be between1000 and60000 ms');
   const base = composeMapViewState(selectMapViewModel(game), null, game.meta.playerClanId);
   if (
-    base.armies.length !== 40 ||
+    (base.armies.length !== 40 && base.armies.length !== 120) ||
     base.armies.some(
       (army) => army.status !== 'marching' || army.toNode === null || army.fromNode === army.toNode,
     )
   )
-    throw new Error('National frame measurement requires forty canonical moving armies');
+    throw new Error('National frame measurement requires40 or120 canonical moving armies');
   const before = renderer.getDiagnostics();
   const frameTimesMs: number[] = [];
   let previous: number | null = null;
@@ -162,7 +162,7 @@ export async function measureNationalMapFrames(
             ...base,
             armies: base.armies.map((army, index) => ({
               ...army,
-              edgeT: 0.05 + ((elapsed / 10_000 + index / 40) % 1) * 0.9,
+              edgeT: 0.05 + ((elapsed / 10_000 + index / base.armies.length) % 1) * 0.9,
             })),
           });
           renderer.setCameraPose(

@@ -116,6 +116,33 @@ function fixture() {
 }
 
 describe('ordinary live national postrender observation', () => {
+  it.each([120, 119, 40])(
+    'requires the full requested120 cohort, observing %i mounted armies',
+    async (mounted) => {
+      const f = fixture();
+      Object.assign(f.state, { cohortCount: 120, marchingCount: 120, paidLegs: 120 });
+      f.renderer.getArmyRenderObservation.mockReturnValue({
+        mounted,
+        cullVisibleArmyChips: mounted,
+      });
+      const result = await measureLiveNationalMapFrames({
+        ...f.options,
+        cohortCount: 120,
+        wait: async () => {
+          await Promise.resolve();
+          f.render(1100);
+          f.state.day++;
+          f.render(1200);
+          f.setClock(2000);
+        },
+      });
+      expect(result.valid).toBe(mounted === 120);
+      expect(result.minMarching).toBe(120);
+      if (mounted !== 120)
+        expect(result.observationErrors).toContain('120 cohort army parts were not mounted');
+    },
+  );
+
   it('uses completed renders over the entire wall window, not the short unstalled interval', async () => {
     const f = fixture();
     const before = structuredClone(f.state);

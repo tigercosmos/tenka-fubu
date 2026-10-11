@@ -30,10 +30,14 @@ export async function measureLiveNationalMapFrames(options: {
   sample: () => LiveFrameSessionObservation;
   subscribeSessionChanges: (listener: () => void) => () => void;
   durationMs?: number;
+  cohortCount?: number;
   now?: () => number;
   wait?: (durationMs: number) => Promise<void>;
 }) {
   const durationMs = options.durationMs ?? 30_000;
+  const cohortCount = options.cohortCount ?? 40;
+  if (cohortCount !== 40 && cohortCount !== 120)
+    throw new Error('Live measurement cohort count must be40 or120');
   if (!Number.isFinite(durationMs) || durationMs < 1000 || durationMs > 60_000)
     throw new Error('Live measurement duration must be between1000 and60000 ms');
   const now = options.now ?? (() => performance.now());
@@ -87,8 +91,8 @@ export async function measureLiveNationalMapFrames(options: {
         sample.day < 0 ||
         sample.paidLegs < 0 ||
         sample.paidLegs > sample.cohortCount ||
-        sample.marchingCount < 40 ||
-        sample.cohortCount !== 40 ||
+        sample.marchingCount < cohortCount ||
+        sample.cohortCount !== cohortCount ||
         sample.marchingCount > sample.cohortCount
       )
         reasons.push('invalid-or-insufficient-cohort');
@@ -163,14 +167,21 @@ export async function measureLiveNationalMapFrames(options: {
   if (!first || !last || last.day <= first.day)
     observationErrors.push('No actual strategy progression');
   if (!frameTimesMs.length) observationErrors.push('No actual postrender intervals');
-  if (!Number.isFinite(minMountedArmies) || minMountedArmies < 40)
-    observationErrors.push('Forty cohort army parts were not mounted');
+  if (!Number.isFinite(minMountedArmies) || minMountedArmies < cohortCount)
+    observationErrors.push(
+      cohortCount === 40
+        ? 'Forty cohort army parts were not mounted'
+        : '120 cohort army parts were not mounted',
+    );
   if (lastPostrenderTimestamp !== null && lastPostrenderTimestamp > ended)
     observationErrors.push('Postrender timestamp beyond wall window');
   const ordered = [...frameTimesMs].sort((a, b) => a - b);
   const frameTimeP95 = ordered.length ? ordered[Math.ceil(ordered.length * 0.95) - 1]! : null;
   return {
-    scope: 'canonical-forty-armies/ordinary-live-x5/actual-postrender' as const,
+    scope:
+      cohortCount === 40
+        ? ('canonical-forty-armies/ordinary-live-x5/actual-postrender' as const)
+        : ('canonical120-armies/ordinary-live-x5/actual-postrender' as const),
     valid: interruptions.length === 0 && observationErrors.length === 0,
     durationMs: elapsed,
     startDay: first?.day ?? null,
