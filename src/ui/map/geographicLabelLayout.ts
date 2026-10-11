@@ -16,6 +16,33 @@ const LIMIT = 48;
 const GRID_STEP = 8;
 const EDGE_AXIS_CAP = 16;
 
+const DISK_OFFSETS: readonly { x: number; y: number }[] = (() => {
+  const offsets = [];
+  for (let y = -LIMIT; y <= LIMIT; y += GRID_STEP)
+    for (let x = -LIMIT; x <= LIMIT; x += GRID_STEP)
+      if (x * x + y * y <= LIMIT * LIMIT) offsets.push({ x, y });
+  return offsets;
+})();
+
+/** Preserve exact edge arithmetic and ordering without allocating four values per blocker. */
+function edgeAxis(rect: PlateRect, reserved: readonly PlateRect[], vertical: boolean) {
+  const values = new Set<number>([0]);
+  const add = (value: number) => {
+    if (Number.isFinite(value) && Math.abs(value) <= LIMIT) values.add(value);
+  };
+  const origin = vertical ? rect.y : rect.x;
+  const size = vertical ? rect.height : rect.width;
+  for (const r of reserved) {
+    const start = vertical ? r.y : r.x;
+    const extent = vertical ? r.height : r.width;
+    add(start - origin - size);
+    add(start - origin - size - GAP);
+    add(start + extent - origin);
+    add(start + extent - origin + GAP);
+  }
+  return [...values].sort((a, b) => Math.abs(a) - Math.abs(b) || a - b).slice(0, EDGE_AXIS_CAP);
+}
+
 function validate(r: PlateRect) {
   if (
     ![r.x, r.y, r.width, r.height, r.x + r.width + GAP, r.y + r.height + GAP].every(
@@ -131,37 +158,8 @@ export function layoutGeographicLabels(
         .sort((a, b) => sign * (a - b));
       offsets.push({ x: 0, y: edges[0] ?? sign * LIMIT });
     }
-    // Aggregating every blocker can skip useful interior positions in a crowded cluster.
-    // Fixed disk samples and bounded individual-edge pairs add at most 369 candidates.
-    // Together with the seven original candidates this is at most 376 per label.
-    for (let y = -LIMIT; y <= LIMIT; y += GRID_STEP) {
-      for (let x = -LIMIT; x <= LIMIT; x += GRID_STEP) {
-        if (x * x + y * y <= LIMIT * LIMIT) offsets.push({ x, y });
-      }
-    }
-    const axis = (values: number[]) =>
-      [...new Set([0, ...values])]
-        .filter((value) => Number.isFinite(value) && Math.abs(value) <= LIMIT)
-        .sort((a, b) => Math.abs(a) - Math.abs(b) || a - b)
-        .slice(0, EDGE_AXIS_CAP);
-    const xs = axis(
-      reserved.flatMap((r) => [
-        r.x - rect.x - rect.width,
-        r.x - rect.x - rect.width - GAP,
-        r.x + r.width - rect.x,
-        r.x + r.width - rect.x + GAP,
-      ]),
-    );
-    const ys = axis(
-      reserved.flatMap((r) => [
-        r.y - rect.y - rect.height,
-        r.y - rect.y - rect.height - GAP,
-        r.y + r.height - rect.y,
-        r.y + r.height - rect.y + GAP,
-      ]),
-    );
-    for (const y of ys)
-      for (const x of xs) if (x * x + y * y <= LIMIT * LIMIT) offsets.push({ x, y });
+    const xs = edgeAxis(rect, reserved, false);
+    const ys = edgeAxis(rect, reserved, true);
     // The seven dynamic directions plus both exact axes fully determine offset order;
     // disk samples are fixed constants. Keep distant edge inputs in these axes.
     const signature = cache
@@ -186,6 +184,12 @@ export function layoutGeographicLabels(
       continue;
     }
     cache?.computed();
+    // The exact cache signature above already determines all candidate offsets.
+    // Only a cache miss needs the disk and edge-pair scoring candidates.
+    // Keep their original order, including duplicates, for identical tie breaks.
+    offsets.push(...DISK_OFFSETS);
+    for (const y of ys)
+      for (const x of xs) if (x * x + y * y <= LIMIT * LIMIT) offsets.push({ x, y });
     let best = { x: 0, y: 0 },
       bestPrimary = Infinity,
       bestSecondary = Infinity,
