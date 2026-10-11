@@ -5,10 +5,11 @@ import {
   installRustPathfinding,
   isRustPathfindingReady,
   rustPathfindingQueryCount,
+  rustPathfindingTopologyBuildCount,
   rustPathfindingImports,
 } from '../../src/core/acceleration/pathfindingKernel';
 import { buildMapGraph } from '../../src/core/state/mapGraph';
-import type { CastleId, DistrictId } from '../../src/core/state/ids';
+import type { CastleId, DistrictId, RoadEdgeId } from '../../src/core/state/ids';
 import { computePath, computePathReference } from '../../src/core/systems/pathfinding';
 import { buildMiniState, CLAN_ALPHA, CLAN_BETA } from '../fixtures/mini';
 import { buildFullState } from '../helpers/fullState';
@@ -77,6 +78,53 @@ describe('compiled Rust pathfinding production hook', () => {
             computePathReference(state, graph, query),
           );
         }
+    }
+  });
+
+  it('reuses exact topology across daily cloned states and rebuilds when road costs change', () => {
+    let state = buildMiniState();
+    const ids = [...buildMapGraph(state.castles, state.districts, state.roads).nodes.keys()];
+    for (let day = 0; day < 60; day++) {
+      state = structuredClone(state);
+      state.time.day++;
+      const graph = buildMapGraph(state.castles, state.districts, state.roads);
+      const query = { clanId: CLAN_ALPHA, from: ids[0]!, to: ids[1]!, speedFactor: 1 };
+      expect(computePath(state, graph, query)).toEqual(computePathReference(state, graph, query));
+    }
+    expect(rustPathfindingTopologyBuildCount()).toBe(1);
+    const first = Object.values(state.roads)[0]!;
+    first.baseDays += 0.5;
+    const graph = buildMapGraph(state.castles, state.districts, state.roads);
+    const query = { clanId: CLAN_ALPHA, from: ids[0]!, to: ids[1]!, speedFactor: 1 };
+    expect(computePath(state, graph, query)).toEqual(computePathReference(state, graph, query));
+    expect(rustPathfindingTopologyBuildCount()).toBe(2);
+  });
+
+  it('rejects topology equivalence for rebuilt grade, edge membership and adjacency order changes', () => {
+    const state = buildMiniState();
+    const base = buildMapGraph(state.castles, state.districts, state.roads);
+    const ids = [...base.nodes.keys()];
+    const query = { clanId: CLAN_ALPHA, from: ids[0]!, to: ids[1]!, speedFactor: 1 };
+    const [edgeId, edge] = [...base.edges][0]!;
+    const changedGrade = { ...base, edges: new Map(base.edges) };
+    changedGrade.edges.set(edgeId, { ...edge, grade: edge.grade === 1 ? 2 : 1 });
+    const removed = { ...base, edges: new Map(base.edges) };
+    removed.edges.delete(edgeId);
+    const addedId = 'road.wasm-extra' as RoadEdgeId;
+    const added = { ...base, edges: new Map(base.edges), adjacency: new Map(base.adjacency) };
+    added.edges.set(addedId, { ...edge, id: addedId, baseDays: 0.5 });
+    for (const id of [edge.a, edge.b])
+      added.adjacency.set(id, [addedId, ...(base.adjacency.get(id) ?? [])]);
+    const reordered = { ...base, adjacency: new Map(base.adjacency) };
+    const junction = [...base.adjacency].find(([, edges]) => edges.length > 1)!;
+    reordered.adjacency.set(junction[0], [...junction[1]].reverse());
+    for (const variant of [changedGrade, removed, added, reordered]) {
+      computePath(state, base, query);
+      const builds = rustPathfindingTopologyBuildCount();
+      expect(computePath(state, variant, query)).toEqual(
+        computePathReference(state, variant, query),
+      );
+      expect(rustPathfindingTopologyBuildCount()).toBe(builds + 1);
     }
   });
 

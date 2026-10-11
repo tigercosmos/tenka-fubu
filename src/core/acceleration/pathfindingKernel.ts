@@ -31,6 +31,8 @@ interface Topology {
 let backend: RustExports | null = null;
 let topology: Topology | null = null;
 let queries = 0;
+let topologyBuilds = 0;
+let equivalentGraphs = new WeakSet<MapGraph>();
 let currentNodeCost: ((index: number) => number) | null = null;
 
 /** Imports evaluate only nodes actually touched by the Rust search. */
@@ -68,6 +70,8 @@ export function clearRustPathfinding(): void {
   topology = null;
   backend = null;
   queries = 0;
+  topologyBuilds = 0;
+  equivalentGraphs = new WeakSet();
 }
 
 export function isRustPathfindingReady(): boolean {
@@ -76,9 +80,43 @@ export function isRustPathfindingReady(): boolean {
 export function rustPathfindingQueryCount(): number {
   return queries;
 }
+export function rustPathfindingTopologyBuildCount(): number {
+  return topologyBuilds;
+}
 
+function sameTopology(a: MapGraph, b: MapGraph): boolean {
+  if (a.nodes.size !== b.nodes.size || a.edges.size !== b.edges.size) return false;
+  for (const id of a.nodes.keys()) {
+    if (!b.nodes.has(id)) return false;
+    const left = a.adjacency.get(id) ?? [];
+    const right = b.adjacency.get(id) ?? [];
+    if (left.length !== right.length || left.some((edge, index) => edge !== right[index]))
+      return false;
+  }
+  for (const [id, edge] of a.edges) {
+    const other = b.edges.get(id);
+    if (
+      !other ||
+      edge.a !== other.a ||
+      edge.b !== other.b ||
+      edge.type !== other.type ||
+      edge.baseDays !== other.baseDays ||
+      edge.grade !== other.grade
+    )
+      return false;
+  }
+  return true;
+}
+
+// MapGraph is canonical whole-game readonly topology (02 §5.1). Daily Worker
+// snapshots create new identities for the same topology; admit those by exact
+// comparison. A road change must provide a rebuilt graph, not mutate an admitted
+// transient graph in place. Ownership/diplomacy are always read for each query.
 function prepare(graph: MapGraph, rust: RustExports): Topology {
-  if (topology?.graph === graph) return topology;
+  if (topology && (equivalentGraphs.has(graph) || sameTopology(topology.graph, graph))) {
+    equivalentGraphs.add(graph);
+    return topology;
+  }
   if (topology) {
     rust.engine_free(topology.pointer, topology.length);
     rust.engine_free(topology.output, topology.ids.length * 2);
@@ -118,6 +156,8 @@ function prepare(graph: MapGraph, rust: RustExports): Topology {
     ...movement,
   ]);
   topology = { graph, ids, indexes, edges, links, pointer, length, output };
+  equivalentGraphs = new WeakSet([graph]);
+  topologyBuilds++;
   return topology;
 }
 
