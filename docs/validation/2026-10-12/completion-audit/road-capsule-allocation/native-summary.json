@@ -1,0 +1,208 @@
+{
+  "nativeScope": "frozen e65fbbc plus 07efa67/8cdd7db and ONLY dec6b8a roadLabelCapsules.ts",
+  "nativeRuntimeFilesVerified": 754,
+  "nativeDependencyChanges": [],
+  "nativeRendererOnly120Controls": [
+    {
+      "camera": "overview",
+      "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+      "durationMs": 30016,
+      "armyCount": 120,
+      "minMounted": 120,
+      "beforeAverageFps": 59.608647583397804,
+      "afterAverageFps": 59.86807036247335,
+      "beforeP95Ms": 17.59999990463257,
+      "afterP95Ms": 17.59999990463257,
+      "exit": 1,
+      "strict60Accepted": false,
+      "resourcesEqual": true
+    },
+    {
+      "camera": "operational",
+      "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+      "durationMs": 30059.700000286102,
+      "armyCount": 120,
+      "minMounted": 120,
+      "beforeAverageFps": 42.98056227371496,
+      "afterAverageFps": 42.81479855047624,
+      "beforeP95Ms": 25.299999713897705,
+      "afterP95Ms": 25.5,
+      "exit": 1,
+      "strict60Accepted": false,
+      "resourcesEqual": true
+    },
+    {
+      "camera": "close",
+      "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+      "durationMs": 30055.5,
+      "armyCount": 120,
+      "minMounted": 120,
+      "beforeAverageFps": 18.48717701466129,
+      "afterAverageFps": 23.98895376886094,
+      "beforeP95Ms": 70.30000019073486,
+      "afterP95Ms": 50.40000009536743,
+      "exit": 1,
+      "strict60Accepted": false,
+      "resourcesEqual": true
+    }
+  ],
+  "nativeGeometryParity": {
+    "source": "dec6b8a",
+    "referenceSha256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "exact": true,
+    "snapshots": 9,
+    "excludedNonvisualCounters": [
+      "armyPlateLayout.runs",
+      "geographicLabelLayout.runs",
+      "geographicLabelLayout.placementCache",
+      "castleRibbonLayout.runs"
+    ]
+  },
+  "nativeStateResourceProof": [
+    {
+      "camera": "overview",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-national120-capsules-overview-results/national120-map-perf-natio-0f189-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "5bfb707c6c4686b507ae9c742712c87e576ae28ed08f870a4947fd6ac529f401",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    },
+    {
+      "camera": "operational",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-national120-capsules-operational-results/national120-map-perf-natio-a8207-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "a99cbe1c80de78384dec72998df299108aca384a1b18cec5f62c41883f29ee2a",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    },
+    {
+      "camera": "close",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-national120-capsules-close-results/national120-map-perf-natio-9df1b-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "f48db56165b0d6641909ddffe70793286b23513fff31bf2d980434d785fc8cd8",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    }
+  ],
+  "limitations": [
+    "Paused renderer controls are not live campaign acceptance or GPU presentation cadence.",
+    "All strict 60 gates remain failed.",
+    "Later root cache patches are not applied to these paired controls.",
+    "Local root unit/type/lint/reference evidence is recorded separately."
+  ],
+  "raw": [
+    {
+      "path": "native-build.log.gz",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "6ed3d67ddf1f895b11735186d4aa3818287ba533b98c997d5385436d34aa0e85"
+    },
+    {
+      "path": "native-canonical-state.raw.json.gz",
+      "uncompressedBytes": 816643,
+      "uncompressedSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6"
+    },
+    {
+      "path": "native-close.log.gz",
+      "uncompressedBytes": 3020,
+      "uncompressedSha256": "b2b5914521198d7cb73ac9e82446607c6c90bbb6d9021b6b605e8c2971bf9587"
+    },
+    {
+      "path": "native-close.raw.json.gz",
+      "uncompressedBytes": 124431,
+      "uncompressedSha256": "5452c466ef539521fe1875d52588c96890903db5f4dd3e8860902ecb5d3b0906"
+    },
+    {
+      "path": "native-dependency-manifest.json.gz",
+      "uncompressedBytes": 938,
+      "uncompressedSha256": "f1f830e577c7ef346199b480839a96655832c78ffa9b7fbd43dc69b95eef9fda"
+    },
+    {
+      "path": "native-fps-control.spec.ts.gz",
+      "uncompressedBytes": 4470,
+      "uncompressedSha256": "2d39ba643aa3c0aa7a242d0e93d081806fe54bd64b650f1ab78cbf67d4f567e4"
+    },
+    {
+      "path": "native-observer.mjs.gz",
+      "uncompressedBytes": 3324,
+      "uncompressedSha256": "3ea424938698621395dbb62c420dc53c9a41d1fb318cf2d58daf2f24ad97d695"
+    },
+    {
+      "path": "native-operational.log.gz",
+      "uncompressedBytes": 3062,
+      "uncompressedSha256": "a258df45b4418ffd478d9d9f37762e6294cac9a6a08359ed2ca0a34fbdd600d4"
+    },
+    {
+      "path": "native-operational.raw.json.gz",
+      "uncompressedBytes": 137495,
+      "uncompressedSha256": "3e555e385b326965e3db95fa50612eff3afdd75b9083dda7a6b8684ba86e61a1"
+    },
+    {
+      "path": "native-overview.log.gz",
+      "uncompressedBytes": 3041,
+      "uncompressedSha256": "d3a54a72ed2b0d4b1322a0d38dc39d85cd62ab3d85bce96efcb12b7ff0b60bbd"
+    },
+    {
+      "path": "native-overview.raw.json.gz",
+      "uncompressedBytes": 149038,
+      "uncompressedSha256": "b546eac6be2f445ecf3d215d67f66223862774f59e46a5be84f75097f652cca3"
+    },
+    {
+      "path": "native-parity-proof.json.gz",
+      "uncompressedBytes": 323,
+      "uncompressedSha256": "377a39a76ab82c11aa475afb67a8a535e7338351dba57fe95715a9b02a15a1c8"
+    },
+    {
+      "path": "native-published-capsules.raw.json.gz",
+      "uncompressedBytes": 15199813,
+      "uncompressedSha256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29"
+    },
+    {
+      "path": "native-published.log.gz",
+      "uncompressedBytes": 78,
+      "uncompressedSha256": "6efa95821bba99c29dcc45e7c7b9ae7f1bd02caa50060119d76984b9d27b03d5"
+    },
+    {
+      "path": "native-source-manifest.json.gz",
+      "uncompressedBytes": 81802,
+      "uncompressedSha256": "c5942bb858d6fcb46fde5f2f6a000d09b083bf243b64dc2fb1b9f1604ffc0282"
+    },
+    {
+      "path": "native-source-proof.json.gz",
+      "uncompressedBytes": 175,
+      "uncompressedSha256": "f5641c3730c6f415d6f3f4beaf7b41ba018c29d1edf1eff45e46185d77607807"
+    },
+    {
+      "path": "native-state-resource-proof.json.gz",
+      "uncompressedBytes": 2817,
+      "uncompressedSha256": "864217e8bd3733552db2d47d74f62478f218ec283f81fc8b62e2e7c3fe27a0a5"
+    },
+    {
+      "path": "native-transfer-manifest.json.gz",
+      "uncompressedBytes": 4007,
+      "uncompressedSha256": "c0972a866428d56fbcdf6fbef4d7d2fdd3a43ca0be7be4feb4c5a4c310642670"
+    }
+  ],
+  "archive": {
+    "local": "/tmp/tenka-native-capsules-transfer.tar.gz",
+    "remote": "sim3:/tmp/tenka-native-capsules-transfer.tar.gz",
+    "sha256": "08936a5893179754b2918b7737db2f0a918a561673092d0cd06d1609360408a3"
+  }
+}
