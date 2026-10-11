@@ -227,6 +227,7 @@ vi.mock('pixi.js', async (importOriginal) => {
   }
   const assetTextures = new Map<string, Texture>();
   const Assets = {
+    setPreferences(): void {},
     add(): void {},
     load(alias: string): Promise<unknown> {
       let texture = assetTextures.get(alias);

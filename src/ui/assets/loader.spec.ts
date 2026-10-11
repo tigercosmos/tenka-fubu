@@ -58,6 +58,7 @@ vi.mock('pixi.js', () => {
     }
   }
   const Assets = {
+    setPreferences: vi.fn((): void => {}),
     add: vi.fn((): void => {}),
     load: vi.fn((alias: string) => {
       hoisted.loadCalls.push(alias);

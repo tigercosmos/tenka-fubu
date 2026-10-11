@@ -79,6 +79,11 @@ async function loadResource(resource: SharedResource): Promise<Texture> {
   if (resource.texture !== null) return resource.texture;
   if (resource.loading === null) {
     resource.loading = (async () => {
+      // Keep temporary image Blobs in the page heap. Pixi's persistent image
+      // workers can retain them until worker GC, exhausting Chromium's Blob
+      // quota across repeated unload/reload cycles. Bitmap decoding stays async;
+      // the simulation module Worker uses its own independent lifecycle.
+      Assets.setPreferences({ preferWorkers: false });
       const asset = { alias: resource.key, src: resolveRuntimeUrl(resource.runtimePath) };
       Assets.add(
         mipmappedCastleAssets.has(resource.key)
