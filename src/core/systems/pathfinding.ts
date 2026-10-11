@@ -25,6 +25,7 @@
 // 於 `District.subjugation.daysRequired`（04 §3.8，Army 側不存）。
 
 import { BAL } from '../balance';
+import { findRustPath } from '../acceleration/pathfindingKernel';
 import type { RoadKind } from '../state/enums';
 import type { DiplomacyRow, GameState, RoadEdge } from '../state/gameState';
 import type {
@@ -259,6 +260,24 @@ class PathFrontier {
  * （無任何隨機性讀取、無外部可變狀態）。
  */
 export function computePath(state: PathfindingState, graph: MapGraph, q: PathQuery): PathResult {
+  return computePathInternal(state, graph, q, true);
+}
+
+/** Independent TypeScript reference and fallback when a Rust module is not installed. */
+export function computePathReference(
+  state: PathfindingState,
+  graph: MapGraph,
+  q: PathQuery,
+): PathResult {
+  return computePathInternal(state, graph, q, false);
+}
+
+function computePathInternal(
+  state: PathfindingState,
+  graph: MapGraph,
+  q: PathQuery,
+  accelerated: boolean,
+): PathResult {
   const dist = new Map<string, DistEntry>();
   const prev = new Map<string, { prevKey: string; edgeId: RoadEdgeId }>();
   const visited = new Set<string>();
@@ -270,52 +289,79 @@ export function computePath(state: PathfindingState, graph: MapGraph, q: PathQue
   frontier.push(start);
 
   let goalKey: string | null = null;
-
-  for (;;) {
-    const best = frontier.pop();
-    if (best === undefined) break;
-    const bestKey = stateKey(best.nodeId, best.mode);
-    // Strict relaxation can leave older entries in the heap. Check before the
-    // destination test so a stale destination never terminates the search.
-    if (visited.has(bestKey) || dist.get(bestKey) !== best) continue;
-    visited.add(bestKey);
-    if (best.nodeId === q.to) {
-      goalKey = bestKey;
-      break;
+  const rustPath = accelerated
+    ? findRustPath(graph, q, (node) => {
+        const stance = getStance(state, q.clanId, ownerClanIdOf(state, node));
+        const allowed = isPassable(node, stance, node.id === q.to);
+        return {
+          allowed,
+          subjugateDays:
+            allowed && needsSubjugateNode(node, stance)
+              ? estimateSubjugateDays(state, node.id as DistrictId)
+              : 0,
+        };
+      })
+    : null;
+  if (rustPath !== null && rustPath !== false) {
+    let key = startKey;
+    let node = q.from;
+    for (const edgeId of rustPath) {
+      const edge = graph.edges.get(edgeId)!;
+      node = edge.a === node ? edge.b : edge.a;
+      const nextKey = stateKey(node, edge.type);
+      dist.set(nextKey, { nodeId: node, mode: edge.type, cost: 0 });
+      prev.set(nextKey, { prevKey: key, edgeId });
+      key = nextKey;
     }
+    goalKey = key;
+  }
 
-    const edgeIds = graph.adjacency.get(best.nodeId) ?? [];
-    for (const edgeId of edgeIds) {
-      const edge = graph.edges.get(edgeId);
-      if (!edge) continue;
-      const otherId = edge.a === best.nodeId ? edge.b : edge.a;
-      const otherNode = graph.nodes.get(otherId);
-      if (!otherNode) continue;
+  if (rustPath === null)
+    for (;;) {
+      const best = frontier.pop();
+      if (best === undefined) break;
+      const bestKey = stateKey(best.nodeId, best.mode);
+      // Strict relaxation can leave older entries in the heap. Check before the
+      // destination test so a stale destination never terminates the search.
+      if (visited.has(bestKey) || dist.get(bestKey) !== best) continue;
+      visited.add(bestKey);
+      if (best.nodeId === q.to) {
+        goalKey = bestKey;
+        break;
+      }
 
-      const stance = getStance(state, q.clanId, ownerClanIdOf(state, otherNode));
-      const isDestination = otherId === q.to;
-      if (!isPassable(otherNode, stance, isDestination)) continue;
+      const edgeIds = graph.adjacency.get(best.nodeId) ?? [];
+      for (const edgeId of edgeIds) {
+        const edge = graph.edges.get(edgeId);
+        if (!edge) continue;
+        const otherId = edge.a === best.nodeId ? edge.b : edge.a;
+        const otherNode = graph.nodes.get(otherId);
+        if (!otherNode) continue;
 
-      const { moveDays, subjugateDaysAtNode } = traversalCost(
-        state,
-        q,
-        best.mode,
-        edge,
-        otherNode,
-        stance,
-      );
-      const newCost = best.cost + moveDays + subjugateDaysAtNode;
-      const nextMode: Mode = edge.type;
-      const nextKey = stateKey(otherId, nextMode);
-      const existing = dist.get(nextKey);
-      if (existing === undefined || newCost < existing.cost) {
-        const entry: DistEntry = { nodeId: otherId, mode: nextMode, cost: newCost };
-        dist.set(nextKey, entry);
-        frontier.push(entry);
-        prev.set(nextKey, { prevKey: bestKey, edgeId });
+        const stance = getStance(state, q.clanId, ownerClanIdOf(state, otherNode));
+        const isDestination = otherId === q.to;
+        if (!isPassable(otherNode, stance, isDestination)) continue;
+
+        const { moveDays, subjugateDaysAtNode } = traversalCost(
+          state,
+          q,
+          best.mode,
+          edge,
+          otherNode,
+          stance,
+        );
+        const newCost = best.cost + moveDays + subjugateDaysAtNode;
+        const nextMode: Mode = edge.type;
+        const nextKey = stateKey(otherId, nextMode);
+        const existing = dist.get(nextKey);
+        if (existing === undefined || newCost < existing.cost) {
+          const entry: DistEntry = { nodeId: otherId, mode: nextMode, cost: newCost };
+          dist.set(nextKey, entry);
+          frontier.push(entry);
+          prev.set(nextKey, { prevKey: bestKey, edgeId });
+        }
       }
     }
-  }
 
   if (goalKey === null) {
     return {
