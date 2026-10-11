@@ -1,0 +1,42 @@
+[
+  {
+    "file": "README.md",
+    "bytes": 1459,
+    "sha256": "4eac292dc23c71349b3035bedb1343ea1fbb885040f6a0369c4ff0c335c33112"
+  },
+  {
+    "file": "full.log.gz",
+    "bytes": 30289,
+    "sha256": "e54659a592b81500ca0179908c2d7a3241b0301ab272a020fc5334ac6610cd1a",
+    "uncompressedBytes": 215902,
+    "uncompressedSha256": "702b87088596fac0164dd04d0bea25d17e53ccb6301feb238e01093ad3fcf6ae"
+  },
+  {
+    "file": "helper-first.log.gz",
+    "bytes": 682,
+    "sha256": "fc3bdbb469023b35c238b384a2555d97fcc3cb256cdff62f973e040ffbce2538",
+    "uncompressedBytes": 1542,
+    "uncompressedSha256": "6e501eb2af61a2c12fe2e6660582dccd90784a384d8fe35451c0daeb49bc193e"
+  },
+  {
+    "file": "helper-first.spec.ts.gz",
+    "bytes": 1070,
+    "sha256": "7fb315f4593ab0588d4c91e21c23139fbd7ada4285eaaead2b0e0871a3edea14",
+    "uncompressedBytes": 2508,
+    "uncompressedSha256": "330636068c994ad113942141cb95cd76915b46164fe2d580154238fd61a08b6c"
+  },
+  {
+    "file": "helper-first.ts.gz",
+    "bytes": 2249,
+    "sha256": "5089ffb686408c85d0845f0f31dee26a3eae8cd72cf26476430e12c494367b01",
+    "uncompressedBytes": 6950,
+    "uncompressedSha256": "81d4080fd5cd3ebc954c34021e650bb2f6d313ae46d3c3e77c96c5e928b87086"
+  },
+  {
+    "file": "tracked-source-manifest.json.gz",
+    "bytes": 111853,
+    "sha256": "423844b8fa3792e02276153aeda9120a5191ad97e393e099186e5f85edf33ccf",
+    "uncompressedBytes": 308857,
+    "uncompressedSha256": "3c7d31458c2df51ad071e4645b0d2a627c33d57c394243073d0b150ef07e39a3"
+  }
+]

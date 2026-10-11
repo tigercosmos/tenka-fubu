@@ -1,0 +1,7 @@
+# Full run with an unfinished acceptance fixture
+
+The run exits 1: 679 files, 676 passed, two failed and one skipped; 6,292 tests passed, two failed and one skipped (124.59 seconds). One failure is the unchanged s1560 day450 no-heir territorial invariant. The other is a then-untracked Miyoshi acceptance test: it expects an envoy response on day223, but the actual response is submitted on state day224 after the day223 event and normal time increment. This unfinished assertion is corrected separately in `6430a8b`, with focused control evidence owned by sim1. It is not a production rule change.
+
+The 1,469 tracked source/test/tool/spec/config files match the fixed commit before this run and are unchanged afterward. However, the full suite also discovers the unfinished untracked fixture while agents are working. Therefore this is mixed test-source evidence, not a frozen complete candidate. The first fixture/helper copies and original RED log are preserved from the shared local sim1 artifacts directory. The original response-day223 assertion remains unchanged in those copies.
+
+The existing six-case productionEventSession file passes this run; the previous full-run timeout and its unchanged focused rerun remain in `../continuation-8cdd`. No timeout or invariant is weakened. A later full run starts after the CPU acceptance fixture is committed, with explicit tracked-file freeze. Raw gzip bytes and compressed/uncompressed hashes are preserved.
