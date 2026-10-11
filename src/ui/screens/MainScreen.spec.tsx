@@ -46,6 +46,17 @@ vi.mock('../army/ArmyTargetModal', async (importOriginal) => {
     },
   };
 });
+// Component renderer fixtures use the actual committed WASM with an independent owner.
+vi.mock('@ui/map/wasmGeographicScorer', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@ui/map/wasmGeographicScorer')>();
+  const { realRenderWasmExports } = await import('../../../tests/helpers/realRenderWasm');
+  return {
+    ...actual,
+    createWasmGeographicScorer: (exports?: Record<string, unknown>) =>
+      actual.createWasmGeographicScorer(exports ?? realRenderWasmExports()),
+  };
+});
+
 vi.mock('pixi.js', async () => {
   const { createPixiMockClasses } = await import('../../../tests/helpers/pixiMock');
   return createPixiMockClasses(hoisted.apps);

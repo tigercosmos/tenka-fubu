@@ -1,5 +1,16 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+// Component renderer fixtures use the actual committed WASM with an independent owner.
+vi.mock('@ui/map/wasmGeographicScorer', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@ui/map/wasmGeographicScorer')>();
+  const { realRenderWasmExports } = await import('../helpers/realRenderWasm');
+  return {
+    ...actual,
+    createWasmGeographicScorer: (exports?: Record<string, unknown>) =>
+      actual.createWasmGeographicScorer(exports ?? realRenderWasmExports()),
+  };
+});
+
 vi.mock('pixi.js', async () => {
   const { createPixiMockClasses } = await import('../helpers/pixiMock');
   return createPixiMockClasses([]);
