@@ -1,0 +1,140 @@
+{
+  "scope": "read-only boundary and approved ABI design; no new timing or shared implementation",
+  "profileEvidence": "../geographic-wasm-native/native-close-profile-source-summary.json.gz",
+  "sampledUs": 10273087,
+  "completedRenders": 243,
+  "costs": [
+    {
+      "function": "layoutCastleRibbons",
+      "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts",
+      "line": 84,
+      "column": 16,
+      "selfUs": 1598228,
+      "inclusiveUs": 2140639,
+      "selfSamples": 1522,
+      "selfMsPerCompletedRender": 6.577069958847736,
+      "inclusiveMsPerCompletedRender": 8.809213991769548
+    },
+    {
+      "function": "overlap",
+      "source": "../../src/ui/map/sceneParts/castleRibbonLayout.ts",
+      "line": 74,
+      "column": 9,
+      "selfUs": 372668,
+      "inclusiveUs": 372668,
+      "selfSamples": 354,
+      "selfMsPerCompletedRender": 1.5336131687242798,
+      "inclusiveMsPerCompletedRender": 1.5336131687242798
+    },
+    {
+      "function": "layoutGeographicLabels",
+      "source": "../../src/ui/map/geographicLabelLayout.ts",
+      "line": 108,
+      "column": 16,
+      "selfUs": 637053,
+      "inclusiveUs": 3545292,
+      "selfSamples": 613,
+      "selfMsPerCompletedRender": 2.621617283950617,
+      "inclusiveMsPerCompletedRender": 14.58967901234568
+    },
+    {
+      "function": "edgeAxis",
+      "source": "../../src/ui/map/geographicLabelLayout.ts",
+      "line": 29,
+      "column": 9,
+      "selfUs": 488660,
+      "inclusiveUs": 945484,
+      "selfSamples": 466,
+      "selfMsPerCompletedRender": 2.010946502057613,
+      "inclusiveMsPerCompletedRender": 3.890880658436214
+    }
+  ],
+  "retainedSnapshot": {
+    "path": "sim3:/tmp/tenka-national120-published-wasm.json",
+    "sha256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "index": 2,
+    "day": 0,
+    "camera": "close",
+    "candidateCount": 64,
+    "ordinaryRectangles": 168,
+    "hardRectangles": 341,
+    "allObstacleEntries": 341,
+    "leaderCount": "not recorded; do not invent",
+    "baseInputBytes": 20512,
+    "leaderRowBytes": 32,
+    "outputBytes": 8192
+  },
+  "abi": {
+    "version": 1,
+    "function": "castle_ribbon_solve(pointer,words)",
+    "success": "candidateCount",
+    "malformed": -2,
+    "header": [
+      "version",
+      "candidateCount",
+      "ordinaryCount",
+      "hardCount",
+      "leaderCount",
+      "outputRowWords16",
+      "totalWorkOutputInitialZero",
+      "reservedZero",
+      "reservedZero",
+      "reservedZero",
+      "reservedZero",
+      "reservedZero",
+      "reservedZero",
+      "reservedZero",
+      "reservedZero",
+      "reservedZero"
+    ],
+    "candidateRow": [
+      "x",
+      "y",
+      "width",
+      "height",
+      "anchorX",
+      "anchorY",
+      "leaderStart",
+      "leaderCount"
+    ],
+    "rectRow": ["x", "y", "width", "height"],
+    "outputRow": [
+      "offsetX",
+      "offsetY",
+      "rectX",
+      "rectY",
+      "width",
+      "height",
+      "finalOverlap",
+      "finalBaselineOverlap",
+      "unresolved",
+      "triedPlacements",
+      "budgetLimited",
+      "leaderStartX",
+      "leaderStartY",
+      "leaderEndX",
+      "leaderEndY",
+      "leaderVisible"
+    ],
+    "exactWords": "16+24*C+4*(O+H+L)",
+    "maximumBytes": 245888,
+    "bounds": {
+      "C": 256,
+      "O": 1024,
+      "H": 1024,
+      "L": 4096,
+      "leadersPerCandidate": 1024,
+      "work": 1000000
+    },
+    "ordering": "JS priority/UTF16 stable candidate sort and stable ordinary sort; untouched hard/leader sequence; no kernel cache"
+  },
+  "sourceLocations": {
+    "pureSolver": "src/ui/map/sceneParts/castleRibbonLayout.ts:84",
+    "geometryInput": "src/ui/map/MapRenderer.ts:2335",
+    "callerAndCache": "src/ui/map/MapRenderer.ts:2460",
+    "planningSequence": "src/ui/map/MapRenderer.ts:2208",
+    "movingEveryRafWorkload": "src/app/mapFrameMeasurement.ts:159"
+  },
+  "workerRisk": "Every-rAF geometry invalidation can starve strict latest-only asynchronous results; coherent bundle publication needs an explicit presentation-latency contract",
+  "implementationPlan": "only /tmp/tenka-castle-ribbon-rust until root integrates lib/adapter/artifact coherently"
+}
