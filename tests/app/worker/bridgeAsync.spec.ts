@@ -22,15 +22,18 @@ let finish: (day: ExecutedDay) => void;
 let snapshot: GameState;
 let commands: readonly CommandEnvelope[];
 let cancelled: number;
+let resets: number;
 beforeEach(() => {
   resetBridgeForTests();
   const game = makeLoopTestState({ debugMode: true });
   resetGameStoreForTests(game);
   initializeBridgeSession(game);
   cancelled = 0;
+  resets = 0;
   configureDayExecutor({
-    execute(state, queue) {
+    execute(state, queue, _events, consumedAiOrders = 0) {
       snapshot = structuredClone(state);
+      snapshot.ai.pendingOrders.splice(0, consumedAiOrders);
       commands = structuredClone(queue);
       return new Promise((resolve) => {
         finish = resolve;
@@ -38,6 +41,9 @@ beforeEach(() => {
     },
     cancelPending() {
       cancelled++;
+    },
+    resetSession() {
+      resets++;
     },
   });
 });
@@ -123,4 +129,14 @@ it('reports publication errors after commit without restoring consumed commands'
   expect(store.getState().session.pendingCommandCount).toBe(0);
   expect(store.getState().session.fatalError).not.toBeNull();
   expect(cancelled).toBe(0);
+});
+
+it('starts a new Worker generation for an explicitly initialized idle session', () => {
+  const game = store.getState().game!;
+  initializeBridgeSession(game);
+  expect(resets).toBe(1);
+  const next = makeLoopTestState({ debugMode: true });
+  resetGameStoreForTests(next);
+  initializeBridgeSession(next);
+  expect(resets).toBe(2);
 });

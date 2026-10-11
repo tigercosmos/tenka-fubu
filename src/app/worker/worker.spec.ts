@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it, afterEach, vi } from 'vitest';
 import {
   buildTinyState,
+  CLAN_BETA,
   CLAN_ALPHA,
   CASTLE_A1,
   OFF_ALPHA_BUSHO,
@@ -19,7 +20,7 @@ import type { EventId } from '../../core/state/ids';
 import type { EventDef } from '../../core/systems/events/types';
 import { createWorkerExecutor } from './simulation.worker';
 import { createSimulationWorkerClient } from './client';
-import { reconcileWorkerTick } from './reconcile';
+import { reconcileWorkerTick, reconcileSnapshot } from './reconcile';
 import type {
   SimulationWorkerReply,
   SimulationWorkerRequest,
@@ -114,7 +115,7 @@ describe('simulation worker execution', () => {
       epoch: 1,
       requestId: 1,
       beforeStateVersion: 0,
-      state: initial,
+      state: structuredClone(initial),
       commands,
       eventDefs: defs,
     });
@@ -164,7 +165,7 @@ describe('simulation worker execution', () => {
       epoch: 1,
       requestId: 1,
       beforeStateVersion: 0,
-      state: initial,
+      state: structuredClone(initial),
       commands: [],
       eventDefs: null,
     });
@@ -273,4 +274,147 @@ describe('worker client lifecycle and reconciliation', () => {
     expect(game).toEqual(response.state);
     expect(reconcileWorkerTick(game, response, { epoch: 10, currentGame: game })).toBe(false);
   });
+});
+
+it('reconciliation splits stale target aliases while preserving distinct cache totals', () => {
+  const game = buildTinyState();
+  const shared = { computedDay: 1, entries: [], totalThreat: 0 };
+  game.ai.clans[CLAN_ALPHA]!.threatCache = shared;
+  game.ai.clans[CLAN_BETA]!.threatCache = shared;
+  const next = structuredClone(game);
+  next.ai.clans[CLAN_ALPHA]!.threatCache!.totalThreat = 1;
+  next.ai.clans[CLAN_BETA]!.threatCache = { computedDay: 2, entries: [], totalThreat: 2 };
+  reconcileSnapshot(game, next);
+  expect(game).toEqual(next);
+  expect(game.ai.clans[CLAN_ALPHA]!.threatCache).toBe(shared);
+  expect(game.ai.clans[CLAN_BETA]!.threatCache).not.toBe(shared);
+});
+it('reconciliation restores source aliases when formerly distinct caches become shared', () => {
+  const game = buildTinyState();
+  game.ai.clans[CLAN_ALPHA]!.threatCache = { computedDay: 1, entries: [], totalThreat: 1 };
+  game.ai.clans[CLAN_BETA]!.threatCache = { computedDay: 2, entries: [], totalThreat: 2 };
+  const next = structuredClone(game);
+  next.ai.clans[CLAN_BETA]!.threatCache = next.ai.clans[CLAN_ALPHA]!.threatCache;
+  reconcileSnapshot(game, next);
+  expect(game).toEqual(next);
+  expect(game.ai.clans[CLAN_ALPHA]!.threatCache).toBe(game.ai.clans[CLAN_BETA]!.threatCache);
+});
+
+it('idle session reset accepts a new game starting at version zero with a new epoch', async () => {
+  const workers: FakeWorker[] = [];
+  const client = createSimulationWorkerClient({
+    workerFactory: () => {
+      const worker = new FakeWorker();
+      workers.push(worker);
+      return worker as unknown as Worker;
+    },
+  });
+  const first = client.execute(buildTinyState(), [], null);
+  workers[0]!.reply(complete(workers[0]!.sent[0]!));
+  await first;
+  const epoch = client.epoch;
+  client.resetSession('new-game');
+  expect(client.epoch).not.toBe(epoch);
+  expect(workers[0]!.terminated).toBe(true);
+  expect(client.getDiagnostics().backendReady).toBe(false);
+  const second = client.execute(buildTinyState(), [], null);
+  workers[1]!.reply(complete(workers[1]!.sent[0]!));
+  expect((await second).beforeStateVersion).toBe(0);
+  client.destroy();
+});
+it('worker retains its owned state identity across detached daily requests', async () => {
+  const execute = createWorkerExecutor(initializeRust);
+  const first = await execute({
+    kind: 'tick',
+    epoch: 12,
+    requestId: 1,
+    beforeStateVersion: 0,
+    state: buildTinyState(),
+    commands: [],
+    eventDefs: null,
+  });
+  if (first.kind !== 'complete') throw new Error(first.error.message);
+  const second = await execute({
+    kind: 'tick',
+    epoch: 12,
+    requestId: 2,
+    beforeStateVersion: 1,
+    state: structuredClone(first.state),
+    commands: [],
+    eventDefs: null,
+  });
+  if (second.kind !== 'complete') throw new Error(second.error.message);
+  expect(second.state).toBe(first.state);
+  expect(second.state.meta.stateVersion).toBe(2);
+});
+
+it('consumes only the reserved AI prefix inside the detached worker snapshot', async () => {
+  const game = buildTinyState();
+  game.ai.allAi = true;
+  const command = {
+    type: 'setConscriptPolicy' as const,
+    clanId: CLAN_ALPHA,
+    castleId: CASTLE_A1,
+    policy: 'high' as const,
+  };
+  const authority = { kind: 'clan' as const, clanId: CLAN_ALPHA };
+  game.ai.pendingOrders.push({ command, authority });
+  const envelope = { seq: 1, issuedDay: game.time.day, command, authority };
+  const reference = structuredClone(game);
+  reference.ai.pendingOrders.splice(0, 1);
+  const expected = advanceDay(reference, [envelope]);
+  const execute = createWorkerExecutor(initializeRust);
+  const reply = await execute({
+    kind: 'tick',
+    epoch: 20,
+    requestId: 1,
+    beforeStateVersion: 0,
+    state: structuredClone(game),
+    commands: [envelope],
+    eventDefs: null,
+    consumedAiOrders: 1,
+  });
+  if (reply.kind !== 'complete') throw new Error(reply.error.message);
+  expect(reply.result.appliedCommands).toEqual([envelope]);
+  expect({ ...reply.result, perf: null }).toEqual({ ...expected, perf: null });
+  expect(reply.state).toEqual(reference);
+  expect(reply.state.castles[CASTLE_A1]!.conscriptPolicy).toBe('high');
+  expect(game.ai.pendingOrders).toEqual([{ command, authority }]);
+  expect(game.meta.stateVersion).toBe(0);
+});
+it('rejects malformed counts and mismatched AI reservations without executing a day', async () => {
+  const game = buildTinyState();
+  const command = {
+    type: 'setConscriptPolicy' as const,
+    clanId: CLAN_ALPHA,
+    castleId: CASTLE_A1,
+    policy: 'high' as const,
+  };
+  game.ai.pendingOrders.push({ command, authority: { kind: 'clan', clanId: CLAN_ALPHA } });
+  const execute = createWorkerExecutor(initializeRust);
+  for (const consumedAiOrders of [-1, 0.5, 2]) {
+    const reply = await execute({
+      kind: 'tick',
+      epoch: 21,
+      requestId: 1,
+      beforeStateVersion: 0,
+      state: structuredClone(game),
+      commands: [{ seq: 1, issuedDay: 0, command }],
+      eventDefs: null,
+      consumedAiOrders,
+    });
+    expect(reply.kind).toBe('error');
+  }
+  const reply = await execute({
+    kind: 'tick',
+    epoch: 21,
+    requestId: 1,
+    beforeStateVersion: 0,
+    state: structuredClone(game),
+    commands: [{ seq: 1, issuedDay: 0, command }],
+    eventDefs: null,
+    consumedAiOrders: 1,
+  });
+  expect(reply.kind).toBe('error');
+  if (reply.kind === 'error') expect(reply.error.message).toMatch(/reservation/);
 });

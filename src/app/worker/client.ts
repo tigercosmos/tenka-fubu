@@ -24,8 +24,10 @@ export interface SimulationWorkerClient {
     game: GameState,
     commands: readonly CommandEnvelope[],
     eventDefs: readonly EventDef[] | null,
+    consumedAiOrders?: number,
   ): Promise<SimulationWorkerResult>;
   cancelPending(reason: string): void;
+  resetSession(reason: string): void;
   getDiagnostics(): SimulationWorkerDiagnostics;
   destroy(): void;
 }
@@ -114,10 +116,11 @@ export function createSimulationWorkerClient(
     get epoch() {
       return epoch;
     },
-    execute(game, commands, eventDefs) {
+    execute(game, commands, eventDefs, consumedAiOrders = 0) {
       if (destroyed) return Promise.reject(new Error('Simulation worker has been destroyed'));
       if (pending) return Promise.reject(new Error('Simulation tick already in flight'));
-      const request: SimulationWorkerRequest = structuredClone({
+      // postMessage clones synchronously before returning; avoid a second main-thread copy.
+      const request: SimulationWorkerRequest = {
         kind: 'tick',
         epoch,
         requestId: ++requestId,
@@ -125,7 +128,8 @@ export function createSimulationWorkerClient(
         state: game,
         commands,
         eventDefs,
-      });
+        consumedAiOrders,
+      };
       requests++;
       return new Promise((resolve, reject) => {
         const timer = setTimeout(() => {
@@ -143,8 +147,15 @@ export function createSimulationWorkerClient(
     },
     cancelPending(reason) {
       if (destroyed || !pending) return;
-      clearPending()?.reject(new Error(reason));
-      cancelled++;
+      client.resetSession(reason);
+    },
+    resetSession(reason) {
+      if (destroyed) return;
+      const current = clearPending();
+      if (current) {
+        current.reject(new Error(reason));
+        cancelled++;
+      }
       terminate();
       epoch = nextEpoch++;
       backendReady = false;

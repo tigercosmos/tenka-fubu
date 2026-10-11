@@ -184,6 +184,7 @@ function enqueueLiveArmyTargets(game: GameState): void {
 function prepareCommandLog(game: GameState, loaded = false): void {
   if (commandLogGame === game) return;
   cancelPendingDay('session-replaced');
+  dayExecutor?.resetSession?.('session-initialized');
   clearLiveDriver('session-initialized');
   unsubscribeEventPresentations?.();
   unsubscribeEventPresentations = null;
@@ -351,8 +352,6 @@ export function runOneDayAsync(): Promise<GameEvent[]> {
       commandQueue.enqueue(structuredClone(order.command), game.time.day, order.authority).seq,
   );
   const commands = submittedQueue.snapshotEnvelopes();
-  const workGame = structuredClone(game);
-  workGame.ai.pendingOrders.splice(0, aiOrders.length);
   const beforeVersion = game.meta.stateVersion;
   const tickSeq = store.getState().tickSeq;
   const context: DayPublication = {
@@ -380,7 +379,12 @@ export function runOneDayAsync(): Promise<GameEvent[]> {
   transaction.promise = Promise.resolve()
     .then(() => {
       if (pendingDay !== transaction) return null;
-      return executor.execute(workGame, commands, sessionEventEngine?.getDefs() ?? null);
+      return executor.execute(
+        game,
+        commands,
+        sessionEventEngine?.getDefs() ?? null,
+        aiOrders.length,
+      );
     })
     .then((executed) => {
       if (!executed) return [];

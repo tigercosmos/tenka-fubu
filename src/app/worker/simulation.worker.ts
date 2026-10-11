@@ -1,4 +1,8 @@
 import { advanceDay } from '../../core/systems';
+import { envelopeAuthority } from '../../core/commands/authority';
+import { canonicalStringify } from '../../core/state/serialize';
+import type { GameState } from '../../core/state/gameState';
+import { reconcileSnapshot } from './reconcile';
 import { createRuntimeEventEngine } from '../../core/systems/events/runtime';
 import {
   installRustPathfinding,
@@ -28,7 +32,9 @@ export function createWorkerExecutor(
 ) {
   let initialization: Promise<void> | null = null;
   let serial = Promise.resolve();
-  const sessions = new Map<number, { requestId: number; stateVersion: number }>();
+  let catalogKey: string | null = null;
+  let cachedEngine: ReturnType<typeof createRuntimeEventEngine> | null = null;
+  const sessions = new Map<number, { requestId: number; stateVersion: number; state: GameState }>();
   return (request: SimulationWorkerRequest): Promise<SimulationWorkerReply> => {
     const execute = async (): Promise<SimulationWorkerReply> => {
       try {
@@ -47,12 +53,38 @@ export function createWorkerExecutor(
               request.beforeStateVersion < previous.stateVersion))
         )
           throw new Error('Stale or invalid simulation worker request');
+        const consumedAiOrders = request.consumedAiOrders ?? 0;
+        if (
+          !Number.isSafeInteger(consumedAiOrders) ||
+          consumedAiOrders < 0 ||
+          consumedAiOrders > request.state.ai.pendingOrders.length ||
+          consumedAiOrders > request.commands.length
+        )
+          throw new Error('Invalid consumed AI order count');
+        for (let index = 0; index < consumedAiOrders; index++) {
+          const order = request.state.ai.pendingOrders[index]!;
+          const envelope = request.commands[request.commands.length - consumedAiOrders + index]!;
+          if (
+            canonicalStringify(order.command) !== canonicalStringify(envelope.command) ||
+            canonicalStringify(order.authority) !== canonicalStringify(envelopeAuthority(envelope))
+          )
+            throw new Error('Consumed AI reservation does not match its command envelope');
+        }
         initialization ??= initializeBackend();
         await initialization;
-        const state = structuredClone(request.state);
+        // Preserve worker-owned identity so pure-core WeakMap caches follow the same lifecycle as synchronous days.
+        const state = previous?.state ?? request.state;
+        if (previous) reconcileSnapshot(state, request.state);
+        state.ai.pendingOrders.splice(0, consumedAiOrders);
         const fired: WorkerFiredEvent[] = [];
-        const eventEngine =
-          request.eventDefs === null ? null : createRuntimeEventEngine(request.eventDefs);
+        const nextCatalogKey =
+          request.eventDefs === null ? null : JSON.stringify(request.eventDefs);
+        if (nextCatalogKey !== catalogKey) {
+          cachedEngine =
+            request.eventDefs === null ? null : createRuntimeEventEngine(request.eventDefs);
+          catalogKey = nextCatalogKey;
+        }
+        const eventEngine = cachedEngine;
         const unsubscribe = eventEngine?.subscribeFired(({ def, binding, clanIds }) => {
           fired.push(structuredClone({ eventId: def.id, binding, clanIds: [...clanIds] }));
         });
@@ -65,6 +97,7 @@ export function createWorkerExecutor(
           sessions.set(request.epoch, {
             requestId: request.requestId,
             stateVersion: state.meta.stateVersion,
+            state,
           });
           return {
             kind: 'complete',

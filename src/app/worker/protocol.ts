@@ -12,6 +12,7 @@ export interface SimulationWorkerRequest {
   state: GameState;
   commands: readonly CommandEnvelope[];
   eventDefs: readonly EventDef[] | null;
+  consumedAiOrders?: number;
 }
 export interface WorkerFiredEvent {
   eventId: EventId;

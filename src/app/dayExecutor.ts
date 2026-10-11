@@ -23,6 +23,8 @@ export interface DayExecutor {
     state: GameState,
     commands: readonly CommandEnvelope[],
     events: readonly EventDef[] | null,
+    consumedAiOrders?: number,
   ): Promise<ExecutedDay>;
   cancelPending(reason: string): void;
+  resetSession?(reason: string): void;
 }

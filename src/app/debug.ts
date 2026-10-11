@@ -430,14 +430,21 @@ export function installDebugApi(flags: DebugFlags): void {
       if (!Number.isInteger(n) || n < 1) return;
       gameLoop.setSpeed('paused');
       const game = requireGame();
-      for (let i = 0; i < n; i++) {
-        if (
-          store.getState().game !== game ||
-          store.getState().session.fatalError ||
-          store.getState().session.viewportBlocked
-        )
-          break;
-        await runOneDayAsync();
+      const progress = { totalDays: n, doneDays: 0 };
+      store.getState().actions.setDebugJumping(progress);
+      try {
+        for (let i = 0; i < n; i++) {
+          if (
+            store.getState().game !== game ||
+            store.getState().session.fatalError ||
+            store.getState().session.viewportBlocked
+          )
+            break;
+          await runOneDayAsync();
+        }
+      } finally {
+        if (store.getState().game === game && store.getState().session.debug.jumping === progress)
+          store.getState().actions.setDebugJumping(null);
       }
     },
     measureSynchronousDays(n) {
@@ -446,14 +453,21 @@ export function installDebugApi(flags: DebugFlags): void {
       const game = requireGame();
       const before = game.meta.stateVersion;
       const started = performance.now();
-      for (let i = 0; i < n; i++) {
-        if (
-          store.getState().game !== game ||
-          store.getState().session.fatalError ||
-          store.getState().session.viewportBlocked
-        )
-          break;
-        runOneDay();
+      const progress = { totalDays: n, doneDays: 0 };
+      store.getState().actions.setDebugJumping(progress);
+      try {
+        for (let i = 0; i < n; i++) {
+          if (
+            store.getState().game !== game ||
+            store.getState().session.fatalError ||
+            store.getState().session.viewportBlocked
+          )
+            break;
+          runOneDay();
+        }
+      } finally {
+        if (store.getState().game === game && store.getState().session.debug.jumping === progress)
+          store.getState().actions.setDebugJumping(null);
       }
       return { days: game.meta.stateVersion - before, durationMs: performance.now() - started };
     },

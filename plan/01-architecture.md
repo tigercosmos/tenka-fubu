@@ -1306,11 +1306,13 @@ worker 載入 Rust WASM 模組，安裝 `src/core/acceleration/pathfindingKernel
 主執行緒負責畫面、輸入、指令佇列、存檔與 tick 結果發布。
 
 每次請求攜帶分離的 GameState、指令信封、事件定義、session epoch、requestId 與起始 stateVersion。
-worker 串行結算，回傳狀態、TickResult、事件呈現資料及實際 backend 標記。
+worker 在同一 epoch 保留 GameState 身分，先合併新快照，再串行結算，讓核心 WeakMap 快取延續。
+worker 回傳狀態、TickResult、事件呈現資料及實際 backend 標記。
 主執行緒僅在局面身分與版本仍相符時提交結果；新輸入保留於主佇列。
 `reconcileSnapshot` 保留 GameState 與存活實體的參照，讓既有 UI 與地圖 subject 繼續使用同一物件。
 
 取消未提交 tick 會拒絕 promise、終止 worker，並換用新的 epoch。
+新局與讀檔即使沒有 pending tick，也重設 worker session，避免沿用上一局的版本與快取。
 讀檔、換局、同步除錯與存檔必須先處理未提交結果，不能把舊 worker 結果寫入新局。
 WASM 載入、ABI 或 worker 錯誤走既有致命錯誤路徑，不能靜默回退為主執行緒策略結算。
 此架構不使用 SharedArrayBuffer，也不要求 GitHub Pages 額外的跨來源隔離標頭。
