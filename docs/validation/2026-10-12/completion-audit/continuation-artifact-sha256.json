@@ -728,6 +728,112 @@
       "path": "main-blob-final-regression/artifact-sha256.json",
       "bytes": 2141,
       "sha256": "7efbc234fc459980577825a90a70cc525b5e7790dbbe8aeb35a51cbf2ebaea61"
+    },
+    {
+      "path": "managed-resource-listeners/artifact-sha256.json",
+      "bytes": 20367,
+      "sha256": "90eaf8bf632f7898cc2b15c06067c1f3045253a25959fb25b777d50754f11ccb"
+    },
+    {
+      "path": "batch-bind-group-cache/artifact-sha256.json",
+      "bytes": 7420,
+      "sha256": "c7f87a5793638e75084e495f82ca1057e24270ba23fb919dcc28f95150bb52b5"
+    },
+    {
+      "path": "earned-proposal-native/manifest.json",
+      "bytes": 2313,
+      "sha256": "56332ea05a6400a3e9cba23623cc68e088b82c85c18d60b727c4e994b46806ea"
+    },
+    {
+      "path": "earned-takeda-native/manifest.json",
+      "bytes": 5511,
+      "sha256": "95f08d534cd416d856056e8901f8bb92ba493cb5a4a51d7b468751f2f65f4529"
+    },
+    {
+      "path": "accessibility-dialog-sim2/manifest.json",
+      "bytes": 19914,
+      "sha256": "0ea36efbac6ff2f980dbf0d3ea1b51e5f1e0f3099639d1dd0f7b0ae74cd0af71"
+    },
+    {
+      "path": "accessibility-contrast-controls-sim2/manifest.json",
+      "bytes": 10734,
+      "sha256": "0eafbf1209988ed17b406b981667445a08b4a33efd0aa4249b32726e2490d1ac"
+    },
+    {
+      "path": "m6-asset-acceptance-ledger/manifest.json",
+      "bytes": 1350,
+      "sha256": "571208367dcc41bfeb66326b5793e0cbf6c27d37ec2a264eb5414fe77474fe86"
+    },
+    {
+      "path": "latest-native-visual-sim2/manifest.json",
+      "bytes": 4659,
+      "sha256": "ead119827e68b2978405ec1efb86327d2e90e608b58de52373d9d0821096d8e9"
+    },
+    {
+      "path": "national120-target/summary.json",
+      "bytes": 12391,
+      "sha256": "07c90d4f4c5cc64ddfc7679b0536127c288fc516112cc4798b36b30d02ec6616"
+    },
+    {
+      "path": "national120-target/transfer-manifest.json.gz",
+      "bytes": 1420,
+      "sha256": "0227c10d3f387e43d66e66fac2d24f718584d13e2b0639bbbd0fab278b4d63ac",
+      "uncompressedBytes": 5036,
+      "uncompressedSha256": "42a4b1428a6950fb2c2a2e43f3116b0b8d13a3ed8f11c2d59e0cd776e622a8ef"
+    },
+    {
+      "path": "national120-broadphase/summary.json",
+      "bytes": 23990,
+      "sha256": "cb4ddc367ef4ef8a40920918c5cc080dcfb47984348f00ad2c87c797e3a2cdaa"
+    },
+    {
+      "path": "national120-broadphase/transfer-manifest.json.gz",
+      "bytes": 2213,
+      "sha256": "570527bd4a87b44bd5776b1fd74386c0b5137036913cfc7df846579ed348ce55",
+      "uncompressedBytes": 9416,
+      "uncompressedSha256": "025fd1adacc8078337b3b9ea798b2c1949bd562f6aa32f0eff46e323e2b90c94"
+    },
+    {
+      "path": "road-capsule-allocation/artifact-sha256.json",
+      "bytes": 6630,
+      "sha256": "8b924156d007b2237ee113de8fd96d951a91510365440e4ceaaf142da787c785"
+    },
+    {
+      "path": "takeda-route-feasibility/manifest.json",
+      "bytes": 1599,
+      "sha256": "3a2c6111b3760a3c1427c54d271d04035c4accaf6f3b171a1942634d194cd5de"
+    },
+    {
+      "path": "continuation-fe37/artifact-sha256.json",
+      "bytes": 1717,
+      "sha256": "011ecd890562ce000524e5c62e044cf5ab603c684d67de0f6a5388c44952011a"
+    },
+    {
+      "path": "continuation-8cdd/artifact-sha256.json",
+      "bytes": 1985,
+      "sha256": "be2eb01023f685d4572d70c1a67514c7e6d1721187423540519a41a4067a80a1"
+    },
+    {
+      "path": "continuation-dec6-mixed/artifact-sha256.json",
+      "bytes": 1495,
+      "sha256": "927721e76cd06b6642bdda6561b1d2d7263d8dd8d68067e5f89df21b1f7d30ac"
+    },
+    {
+      "path": "continuation-6430/artifact-sha256.json",
+      "bytes": 678,
+      "sha256": "f71596f7ccfeff8474f274f6ca0ab1a9c13abb3366ac01fefe75f979458b37de"
+    },
+    {
+      "path": "national120-cadence-audit/native-summary.json",
+      "bytes": 14659,
+      "sha256": "7873e5bf525f62041246bad6d4a2c6c855a5e8b2cb1d8b2eadc0bf24a4ed4b97"
+    },
+    {
+      "path": "national120-cadence-audit/native-transfer-manifest.json.gz",
+      "bytes": 1139,
+      "sha256": "8735e0305c1f5686a3326252c0b00e1d27deb5c06a286636040703d7a19a5118",
+      "uncompressedBytes": 3890,
+      "uncompressedSha256": "a63ffba5bc90038068fcedc23980d4f5255df2382ecb95b4ddaf5fd25dfb8232"
     }
   ]
 }

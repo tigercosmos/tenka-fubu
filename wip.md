@@ -6362,3 +6362,21 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
   唯一失敗仍是 s1560 第 450 日無繼承人領地的 INV-02／INV-22。不擅定接收勢力或戰術外部收尾獎賞。
   外交七項驗收、自然具申生命周期及實際官位授予另有獨立證據。完整索引見
   `docs/validation/2026-10-12/completion-audit/README.md`；全專案目標及未完成 gate 保持開啟。
+
+## 最新效能修正與固定來源回歸（2026-10-12）
+
+- 所有完成步驟分別提交；GPU manager listener 清理為 `fe37e4c`，texture batch BindGroup cache 清理為 `e25381b`。
+  原生一百三十次掛載確認指定舊 callback 累積消失、指定 group shape 維持 24；最新 heap 仍增加 3,769,532 bytes，整體穩定 gate 未清除。
+- 軍隊名牌局部範圍為 `8cdd7db`，道路距離暫存配置減量為 `dec6b8a`。
+  原版 reference／邊界及九份完整原生觀測精確一致；一百二十部隊近景 16.34→18.49→23.99 FPS，P95 78.1→70.3→50.4 ms。
+  全景 59.87、操作景 42.81，所有嚴格 60 FPS 控制仍失敗；是暫停策略日結的 renderer 診斷，未證明連續戰役。
+- 自然具申原生採納／拒絕旅程已通過。`6430a8b`／`fa43b73` 武田同盟及合法援軍請求旅程通過：
+  CPU-earned 第零至三百日加公開匯入後的原生三十二日；AI 實際拒絕援軍，不能宣稱派兵成功。今川離間／成為家臣仍待驗收。
+- `1575bc8` 修正 dialog landmark；素材 budget 與三個 LOD drawable layer 通過。
+  最新三張 Linux protected screenshot 仍有大幅像素差異，六張基準未改，藝術 gate 保留。
+- 最新固定來源全量 6,293 通過／1 失敗／1 跳過（121.28 秒），1,471 個 tracked inputs 前後 SHA 一致。
+  唯一失敗仍為 day450 無繼承人領地 INV-02／INV-22；早期逾時與混合 fixture 的失敗仍完整保存。
+  最新 native tail 有獨立型別／lint／功能證據；不把它冒稱為前輪全量來源。
+- 完整索引見 `docs/validation/2026-10-12/completion-audit/README.md`。
+  全專案目標保持 active，未修改 00、BAL、無嗣領地規則、protected baseline 或里程碑；未 push／部署。
+  下一輪依 close CPU profile 處理 geographic edge-axis、castle ribbon／army signal 熱點，保留精確輸出。

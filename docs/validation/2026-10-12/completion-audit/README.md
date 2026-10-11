@@ -1,6 +1,7 @@
 # 後續驗收、重放歸因與記憶體觀察
 
-候選版本 `2474139` 的 WASM／Worker 工作已提交，完整專案目標仍未完成。
+Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目標仍未完成。
+最新固定來源全量測試為 6,293 通過、1 失敗、1 跳過；120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
 ## 已完成修正
@@ -151,3 +152,39 @@ sim2 的獨立控制將延長掛載失敗定位至 Pixi 圖片 Worker 的 Blob �
 規格要求的二十支移動部隊、1080p、三十秒平移／縮放渲染測試原樣通過，P95 畫面間隔 16.8 ms，符合 55 FPS 門檻。這是合成 renderer 工作負載；四十支真實部隊的額外診斷不是規格指定的 M6 渲染 gate，全國約一百二十支部隊的 60 FPS 目標仍未證明。原規格對照與具申暫停原因見 [live-close-workload-audit](live-close-workload-audit/)。
 
 凍結來源 `29da33d` 的最新完整測試為 674 檔，6,274 項通過、1 項失敗、1 項跳過（116.46 秒）。唯一失敗仍為 s1560 第 450 日無繼承人滅亡後保留四城十六郡的 INV-02／INV-22。一般／core 型別、完整 lint、build 及 bundle budget 通過；1,357 個已追蹤來源／測試／規格／工具／設定檔符合固定 Git blob，測試後 SHA256 不變。早期未完成 parser 測試的型別失敗原樣保留，沒有改寫成當時通過；見 [main-blob-final-regression](main-blob-final-regression/)。尚未推進全專案 checkpoint，領地接收及戰術外部收尾規則、整體 heap、藝術與長跑平衡驗收仍待完成。
+
+## GPU 資源清理與全國地圖效能（最新）
+
+`fe37e4c` 修正 Pixi 8.19 自有 GPU manager 的 unload listener 清理；其他 owner 及使用者 callback 保留。原生一百三十次掛載後，舊版累積的 14,212 個已失去 renderer 的 callback 消失，現存 manager callback 維持 430。`e25381b` 另在自有 texture batch BindGroup 銷毀時移除其全域快取項，避免取回 resources 已清空的物件。原生相同掛載控制的指定 group shape 維持 24 個（23 個存活、一個空 resources），不再由 120 增至 1,560。
+
+兩組修正各有原來源失敗控制、實際 Pixi 單元測試、四項未修改的原生視覺控制及完整快照。最新主頁 heap 仍由 20,604,640 增至 24,374,172 bytes，末二十次淨增 155,208；不能宣稱整體記憶體穩定。不同原生輪次不是精確 heap 減量比較。證據見 [manager listener](managed-resource-listeners/)、[BindGroup cache](batch-bind-group-cache/)。
+
+`8cdd7db` 以局部範圍減少軍隊名牌碰撞計算，`dec6b8a` 移除道路線段／矩形距離計算的暫存陣列與點物件。兩者保留原算式、候選順序、判斷門檻及輸出；凍結原版 reference、隨機／邊界案例及九份原生完整發布資料精確比對通過。道路相關 33 項測試通過。
+
+下表為 sim3 同一隔離 GPU、相同 dependency bytes、1080p、一百二十支合法部隊、三十秒 renderer 控制的各一筆觀測。策略日結暫停；不是連續實際戰役或實體螢幕驗收。
+
+| 視圖   | 原版 FPS／P95 ms | 軍隊名牌優化 | 道路距離優化 |
+| ------ | ---------------- | ------------ | ------------ |
+| 全景   | 38.73／27.1      | 59.61／17.6  | 59.87／17.6  |
+| 操作景 | 25.91／42.5      | 42.98／25.3  | 42.81／25.5  |
+| 近景   | 16.34／78.1      | 18.49／70.3  | 23.99／50.4  |
+
+所有嚴格 60 FPS 控制仍失敗；道路修正沒有改善操作景。原始失敗、CPU profile、來源及 canonical/resource SHA 見 [原版 120 部隊](national120-target/)、[軍隊名牌範圍優化](national120-broadphase/)、[道路配置減量](road-capsule-allocation/)。sim3 這組比較保留原 dependency，未混入 sim4 的新 GPU cache 修正，因此不宣稱最新所有改動的組合效能。
+
+`f1082f5` 的同環境空白 GPU canvas 三十秒控制為 60.003 FPS、P95 16.8 ms。04 的原文要求穩定 60 FPS，P95 ≤1000/60 是目前 120 部隊診斷額外採用的方法；空白控制也未通過後者。這不清除遊戲平均幀率失敗、不修改門檻，也不證明環境硬性上限。最新獨立 close profile 以 canonical/resource 前後實際 SHA 確認不變，下一個熱點是地理標籤及城名牌；見 [cadence 與 profile](national120-cadence-audit/native-README.md)。
+
+## 自然取得的流程與介面驗收
+
+`ccdc409` 的原生旅程從正式新局自然產生第 30 日具申，透過實際 UI 採納／拒絕，再於第 31 日正常指令日結出陣及發給既定功績、經驗與忠誠獎賞。故意把採納改為拒絕的反例失敗；完整狀態及指令見 [自然具申](earned-proposal-native/)。
+
+`6430a8b` 與 `fa43b73` 完成三好玩家自然取得對武田信用的 CPU 第 0–300 日、公開 native save 匯入及原生第 301–332 日旅程。原生 UI 成立同盟，隨後合法請求對長尾援軍；武田按既定 AI 拒絕，未派兵。這符合 M6 指定的「武田同盟後請求援軍」互動，不能宣稱成功軍事支援或全程原生第零日重放。codec 省略的 AI 診斷 log 明示核對，其餘匯入狀態精確一致。早期錯誤 selector 及 envoy 日期斷言保留；見 [完整旅程證據](earned-takeda-native/)、[先前路徑診斷](takeda-route-feasibility/)。今川離間／成為家臣的完整自然流程仍未驗收。
+
+`1575bc8` 修正 dialog 內裝飾 header 的 landmark 語意，保留真正標題、dialog label、modal 及焦點契約。原生 accessibility、既有四項視覺控制與 gallery 控制通過；見 [dialog](accessibility-dialog-sim2/)。空槽文字的獨立原生取樣實際對比為 7.098，完整重現序列無相同 color error；舊 axe 報告仍保留，原因未確認，不將其宣稱為已證實的誤報；見 [對比控制](accessibility-contrast-controls-sim2/)。
+
+素材驗證為零 error／warning；首載素材預算通過。最新三個 LOD 的 drawable layer 通過，但三張 Linux protected screenshot 仍分別有 186,777／270,334／291,556 個差異像素，原六張基準及容差均未修改。實際畫面與既有藝術基準的大幅差異仍需審核，不能由 layer 通過清除。見 [素材與 M6 ledger](m6-asset-acceptance-ledger/)、[最新原生視覺](latest-native-visual-sim2/)。
+
+## 最新固定來源全量回歸
+
+`6430a8b` 的 1,471 個 tracked source／test／tool／spec／config 檔在測試開始前逐一符合 Git blob，結束後 SHA 不變。679 檔中 677 通過、1 失敗、1 跳過；6,293 項通過、1 失敗、1 跳過，耗時 121.28 秒。唯一失敗仍為 day450 無繼承人勢力持有四城十六郡的 INV-02／INV-22。這份 manifest 不涵蓋 public assets、dependency 或稍後新增的 native tail；後者另有自身型別、lint 及原生驗證。
+
+[固定來源完整紀錄](continuation-6430/) 保留全部原始輸出。[較早整合](continuation-fe37/)、[事件流程逾時及原樣重跑](continuation-8cdd/)、[尚未完成日期 fixture 的混合來源失敗](continuation-dec6-mixed/) 各自保留原輪 verdict，不以後版成功改寫。領地接收、戰術外部收尾、人口校準、完整長跑平衡、整體 heap、120 部隊效能及藝術 gate 仍開啟；未推進 checkpoint 或部署。
