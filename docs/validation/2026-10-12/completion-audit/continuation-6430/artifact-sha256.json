@@ -1,0 +1,21 @@
+[
+  {
+    "file": "README.md",
+    "bytes": 1398,
+    "sha256": "0dfa8ddfce257f174fdef787c607bc9b3b818ad6f3746925cda20b80dd373274"
+  },
+  {
+    "file": "full.log.gz",
+    "bytes": 29903,
+    "sha256": "58f903a6e0e08c2923905a0bffa5b796ad82a74db872a3f4a490b0784ccd7ce4",
+    "uncompressedBytes": 214421,
+    "uncompressedSha256": "c3d73afe79e644c7afd1cf097a96ca685b5cb43613f4ea7f3792abdd3a9d1081"
+  },
+  {
+    "file": "source-manifest.json.gz",
+    "bytes": 111934,
+    "sha256": "aa0eb9b71cc9fae57835316249d2e7907f830ecd19b9b7d88ae89d5b02b7741a",
+    "uncompressedBytes": 309179,
+    "uncompressedSha256": "a7d2d33416190b9c19158219b95b6565fd9f0515f90bf105323a3a3f5467af5f"
+  }
+]

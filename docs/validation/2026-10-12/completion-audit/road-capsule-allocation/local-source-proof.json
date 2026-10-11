@@ -1,0 +1,21 @@
+{
+  "sourceCommit": "dec6b8a",
+  "referenceCommit": "d9bd95a",
+  "referenceOriginalSha256": "6edaabdca9ab23f1c503a7b4dccb764533d914d7433227071acd834b4adba1eb",
+  "referenceNormalization": "Only heading/import/export names; all original source bytes otherwise equal",
+  "testCases": "600 seeded scenes,100 radius/epsilon/corner combinations, null/length/nonfinite/negative-radius guards; all33related tests pass",
+  "files": [
+    {
+      "path": "src/ui/map/roadLabelCapsules.ts",
+      "sha256": "aa529d9d17eb558a511a152cbd0985d39d127981042d3becfec2335336ea4d76"
+    },
+    {
+      "path": "tests/helpers/roadLabelCapsulesReference.ts",
+      "sha256": "c69d9e7def7c75b52adfcb9ca11b201e7fb2f556adb23be71be802e1b5c65865"
+    },
+    {
+      "path": "tests/ui/roadLabelCapsuleParity.spec.ts",
+      "sha256": "61e154811f78dcb6d10ad21340b15bbf5fc98af5ff213fbbf4dd94a9a2ff6d36"
+    }
+  ]
+}
