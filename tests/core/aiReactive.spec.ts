@@ -11,7 +11,9 @@ import {
   OFF_BETA_TAISHO,
 } from '../fixtures/tiny';
 import type { GameState, AiIntent } from '../../src/core/state/gameState';
-import type { AiSink } from '../../src/core/systems/ai/types';
+import { buildFullState } from '../helpers/fullState';
+import { nodeOwner } from '../../src/core/systems/ai/shared';
+import type { AiSignal, AiSink } from '../../src/core/systems/ai/types';
 import { runReactiveAi } from '../../src/core/systems/ai/reactive';
 import { createAiCommandSink } from '../../src/core/systems/ai';
 import { startFieldCombat } from '../../src/core/systems/fieldCombat';
@@ -38,6 +40,98 @@ function validatedFixtureMarch(state: GameState, command: CmdMarch) {
 }
 
 describe('current-tick event-driven reactive AI', () => {
+  it('reacts deterministically to nine independent invaded owners on the same day without a polling cap', async () => {
+    const state = await buildFullState({ seed: 1, allAi: true });
+    expect(validateState(state)).toEqual([]);
+    const signals: AiSignal[] = [];
+    for (const clan of Object.values(state.clans)
+      .filter((clan) => clan.alive)
+      .sort((a, b) => a.id.localeCompare(b.id))) {
+      for (const edge of Object.values(state.roads).sort((a, b) => a.id.localeCompare(b.id))) {
+        const target =
+          nodeOwner(state, edge.a) === clan.id
+            ? edge.a
+            : nodeOwner(state, edge.b) === clan.id
+              ? edge.b
+              : null;
+        if (!target) continue;
+        const enemy = nodeOwner(state, target === edge.a ? edge.b : edge.a);
+        if (!enemy || enemy === clan.id) continue;
+        const row = ensureDiplomacyRow(state, enemy, clan.id);
+        row.pacts = [];
+        row.lastHostileDay = state.time.day;
+        const source = Object.values(state.castles).find(
+          (castle) =>
+            castle.ownerClanId === enemy &&
+            castle.lordId &&
+            castle.soldiers >= 100 &&
+            castle.food >= 100 &&
+            !state.officers[castle.lordId]?.armyId,
+        );
+        if (!source?.lordId) continue;
+        const command: CmdMarch = {
+          type: 'march',
+          clanId: enemy,
+          originCastleId: source.id,
+          leaderId: source.lordId,
+          deputyIds: [],
+          soldiers: 100,
+          food: 100,
+          targetNodeId: target,
+        };
+        if (!validateCommand(state, command, { kind: 'clan', clanId: enemy }).ok) continue;
+        const beforeIds = new Set(Object.keys(state.armies));
+        validatedFixtureMarch(state, command);
+        const army = Object.values(state.armies).find((army) => !beforeIds.has(army.id))!;
+        // Controlled arrival fixture; the march itself passes the ordinary command validator.
+        army.posNodeId = target;
+        army.path = [target];
+        army.pathCursor = 0;
+        army.edgeProgressDays = 0;
+        signals.push({
+          type: 'army.enteredTerritory',
+          armyId: army.id,
+          nodeId: target,
+          clanId: enemy,
+          ownerClanId: clan.id,
+        });
+        break;
+      }
+      if (signals.length === 9) break;
+    }
+    expect(signals).toHaveLength(9);
+    expect(new Set(signals.map((signal) => signal.ownerClanId)).size).toBe(9);
+    expect(validateState(state)).toEqual([]);
+    const first = structuredClone(state),
+      second = structuredClone(state);
+    const execute = (game: GameState, events: AiSignal[]) => {
+      const intents: AiIntent[] = [];
+      const enqueue = vi.fn(() => ({ ok: true as const }));
+      runReactiveAi(game, events, { enqueue, record: (intent) => intents.push(intent) });
+      expect(validateState(game)).toEqual([]);
+      return { intents, commands: enqueue.mock.calls };
+    };
+    const result = execute(first, signals);
+    expect(result.intents.map((intent) => intent.clanId).sort()).toEqual(
+      signals.map((signal) => signal.ownerClanId).sort(),
+    );
+    expect(
+      result.intents.every(
+        (intent) =>
+          intent.day === state.time.day &&
+          intent.layer === 'reactive' &&
+          intent.kind.startsWith('defense.'),
+      ),
+    ).toBe(true);
+    // Duplicate contacts retain same-tick deduplication and deterministic detached-state results.
+    expect(
+      execute(
+        second,
+        signals.flatMap((signal) => [signal, signal]),
+      ),
+    ).toEqual(result);
+    expect(second).toEqual(first);
+  });
   it('reserves the first eligible player encounter and holds a distinct second contact on the shared shadow', () => {
     const state = buildTinyState();
     const alpha = state.castles[CASTLE_A1]!.ownerClanId;

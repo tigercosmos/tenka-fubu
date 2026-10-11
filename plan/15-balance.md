@@ -769,7 +769,7 @@ export type BalConfig = typeof BAL;
 | 常數 `BAL.*` | 定案值 | 單位 | 語意 | 出處 | 備註 |
 |---|---|---|---|---|---|
 | `aiCouncilsPerTick` | 4 | 家/tick | AI 月度評定每 tick 消化的勢力家數 | 03 §3.8.2 |  |
-| `aiReactiveChecksPerTick` | 8 | 家/tick | AI 反應式決策每 tick 輪詢的勢力家數 | 03 §3.8.2 |  |
+| `aiReactiveChecksPerTick` | 8 | 家/tick | 舊 AI 背景輪詢的勢力家數（歷史值） | 03 §3.8.2、§8 D23 | ⚠ 廢止：03 §8 D23（2026-10-12 新衝突裁決）依 02 §4.20 的 09 行為委託，保留 09 §3.10／§5.9 的同日事件反應，廢止八家背景輪詢；本列及原值保留供 audit 追溯，現行不進 `balance.ts`。 |
 | `debugGrantGoldAmount` | 10000 | 貫 | 除錯面板「金錢作弊」鈕之 `debugGrant` 金額 | 01 §3.11.2／§3.11.3 | 新增列，見 §8 D20 |
 | `debugSkipMaxDays` | 3600 | 日 | debug 時間跳轉單次上限日數 | 03 §3.9.2 |  |
 | `maxCommandsPerTick` | 200 | 個（每 tick） | Step 1 單 tick 套用 Command 數上限 | 03 §3.3.1 |  |
