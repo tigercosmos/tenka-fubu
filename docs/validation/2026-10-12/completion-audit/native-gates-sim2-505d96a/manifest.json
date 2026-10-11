@@ -1,0 +1,416 @@
+[
+  {
+    "file": "visual-functional-505d96a.log.gz",
+    "rawBytes": 3828,
+    "storedBytes": 870,
+    "sha256Uncompressed": "824192fec244bc644903d585b3dbfb90616901ba515a4ff5691aa7c9afb605e6",
+    "sha256Stored": "11ad34774cb235fc53c68cebf86b7d2fafd4c5ea354b73b34761c6ae97aa299a",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/evidence/visual-functional-505d96a.log",
+    "captureFile": "visual-functional-505d96a.log"
+  },
+  {
+    "file": "visual-functional-505d96a-build.log.gz",
+    "rawBytes": 2336,
+    "storedBytes": 930,
+    "sha256Uncompressed": "a2c32e34723624eef99b05908b9f612916ab9a94f886d3fcc8d3a6a35dcd46c1",
+    "sha256Stored": "2387152195c2cc0564f2c8c2f9ba856e96f03248c80f5605f757aed04bd3ca52",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/evidence/visual-functional-505d96a-build.log",
+    "captureFile": "visual-functional-505d96a-build.log"
+  },
+  {
+    "file": "ending-505d96a.log.gz",
+    "rawBytes": 407,
+    "storedBytes": 245,
+    "sha256Uncompressed": "3ccb3ed794035e8b90b5831cbf094a4611df7363ae15576cff239d6c6776968c",
+    "sha256Stored": "f93942b5e9cf1158b89ddf7a8760d220b621814e747653e2260b5c8dd4c06302",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/ending-505d96a.log",
+    "captureFile": "ending-505d96a.log"
+  },
+  {
+    "file": "live-close-505d96a.log.gz",
+    "rawBytes": 2807,
+    "storedBytes": 728,
+    "sha256Uncompressed": "f9b8396c65983a43c7df8bbfe4a68b7f7b28983ef72f968b551030d8bb4fba10",
+    "sha256Stored": "2791b2627c966dea991c1f781c02b55d3c1f84d99ba071fa77c1365182de499b",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/live-close-505d96a.log",
+    "captureFile": "live-close-505d96a.log"
+  },
+  {
+    "file": "rgba-differences.json.gz",
+    "rawBytes": 4737,
+    "storedBytes": 510,
+    "sha256Uncompressed": "64c737d60f1d0f3e205dc6eb529ba7cc3e77b10c7a52a6052b26d39871fb2401",
+    "sha256Stored": "fe33283948bf067f7fcdc7bc2b726b84680cfd542acc2cbaaaead0d143bd318f",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/rgba-differences.json",
+    "captureFile": "rgba-differences.json.gz"
+  },
+  {
+    "file": "raf-state-verification.json.gz",
+    "rawBytes": 634,
+    "storedBytes": 271,
+    "sha256Uncompressed": "1bbeefa5f435da539855044c889f94b69bbeb4b51aefc4328bd283bcf28e4a1e",
+    "sha256Stored": "07efc2e869a855f8be79f9087ccd7496f1ced5af68bde0120790f0e865b32b30",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/raf-state-verification.json",
+    "captureFile": "raf-state-verification.json.gz"
+  },
+  {
+    "file": "error-context.md.gz",
+    "rawBytes": 11434,
+    "storedBytes": 3460,
+    "sha256Uncompressed": "9962d4595d5e40d7d540770bc28e205e7e961b3d3209455f7fa4f416c6add969",
+    "sha256Stored": "58c8139fa1a4b2a27817b795bd54158a3737657477e6c586a34e9c4efa0f1181",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/live-close/error-context.md",
+    "captureFile": "error-context.md"
+  },
+  {
+    "file": "overview-none-observation.json.gz",
+    "rawBytes": 1687062,
+    "storedBytes": 226256,
+    "sha256Uncompressed": "1f03aeabc451c58d7ffdbf11ffb7e3ac45291940231deb8678db3624e9667fb4",
+    "sha256Stored": "c345aebb9c0f99918e5781b59e0a937d698cd4ea425171dbdf06bb280b420aca",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/test-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-none-observation.json",
+    "captureFile": "overview-none-observation.json.gz"
+  },
+  {
+    "file": "overview-restored-observation.json.gz",
+    "rawBytes": 1687060,
+    "storedBytes": 226255,
+    "sha256Uncompressed": "ac3f73767ef70aafcacfbbfa9105a9ee62b5465ba881e75314af520bef31d7f7",
+    "sha256Stored": "fd5236da3130e1caa59c213d74391effecf894febd837ad5dc96389322b89de5",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/test-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-restored-observation.json",
+    "captureFile": "overview-restored-observation.json.gz"
+  },
+  {
+    "file": "overview-none-observation.json.gz",
+    "rawBytes": 1687062,
+    "storedBytes": 226256,
+    "sha256Uncompressed": "1f03aeabc451c58d7ffdbf11ffb7e3ac45291940231deb8678db3624e9667fb4",
+    "sha256Stored": "c345aebb9c0f99918e5781b59e0a937d698cd4ea425171dbdf06bb280b420aca",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/test-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-achromatopsia-raw-observation.json",
+    "captureFile": "overview-achromatopsia-raw-observation.json.gz"
+  },
+  {
+    "file": "initial-preflight.json.gz",
+    "rawBytes": 1226720,
+    "storedBytes": 192135,
+    "sha256Uncompressed": "8b736670330fd44e19cf296d2e62b4723306abfb1357fd99d59c14bdb891e2f2",
+    "sha256Stored": "a495ab9f8e8a3c253cf5b1bac01b0b8e9c6c5c3d2782aed517c59224fcc58c57",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/test-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/initial-preflight.json",
+    "captureFile": "initial-preflight.json.gz"
+  },
+  {
+    "file": "overview-restored.png",
+    "rawBytes": 376184,
+    "storedBytes": 376184,
+    "sha256Uncompressed": "e214cc5890c985d4e6ae236fffd76ca9475230c210cf4b7a30df0452af76d65a",
+    "sha256Stored": "e214cc5890c985d4e6ae236fffd76ca9475230c210cf4b7a30df0452af76d65a",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/test-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-restored.png",
+    "captureFile": "overview-restored.png"
+  },
+  {
+    "file": "overview-none.png",
+    "rawBytes": 376176,
+    "storedBytes": 376176,
+    "sha256Uncompressed": "1ec74c838781a8bdb014d757f4a2d5c6efb08efedd691229c501791d9128ceac",
+    "sha256Stored": "1ec74c838781a8bdb014d757f4a2d5c6efb08efedd691229c501791d9128ceac",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/test-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-none.png",
+    "captureFile": "overview-none.png"
+  },
+  {
+    "file": "overview-achromatopsia.png",
+    "rawBytes": 223647,
+    "storedBytes": 223647,
+    "sha256Uncompressed": "b36f502e932615f7d6da2347913fe15c6fd0ec525b3a5af5c15cb6cea87c5b4a",
+    "sha256Stored": "b36f502e932615f7d6da2347913fe15c6fd0ec525b3a5af5c15cb6cea87c5b4a",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/test-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-achromatopsia.png",
+    "captureFile": "overview-achromatopsia.png"
+  },
+  {
+    "file": "road-operational-scene.png",
+    "rawBytes": 643992,
+    "storedBytes": 643992,
+    "sha256Uncompressed": "46f32fd381242fa15f50d21312e9ecb827cfc3a3a94a286d328d25b65d8326b3",
+    "sha256Stored": "46f32fd381242fa15f50d21312e9ecb827cfc3a3a94a286d328d25b65d8326b3",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/test-results/road-soil-material-normal--96ef8-sible-paint-at-mid-and-near-chromium/road-operational-scene.png",
+    "captureFile": "road-operational-scene.png"
+  },
+  {
+    "file": "road-operational-restored.png",
+    "rawBytes": 643995,
+    "storedBytes": 643995,
+    "sha256Uncompressed": "228f4f9cb693fe0a342b4f34a33baa8f3449ce904a291ee8e24beefbb5c8235f",
+    "sha256Stored": "228f4f9cb693fe0a342b4f34a33baa8f3449ce904a291ee8e24beefbb5c8235f",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/test-results/road-soil-material-normal--96ef8-sible-paint-at-mid-and-near-chromium/road-operational-restored.png",
+    "captureFile": "road-operational-restored.png"
+  },
+  {
+    "file": "road-operational-observation.json.gz",
+    "rawBytes": 5585949,
+    "storedBytes": 483754,
+    "sha256Uncompressed": "5bba8a88fcd90deaa5d91d55e900a7f7221fb911c9252817f4eaa2ecbed16bfd",
+    "sha256Stored": "fb5a440308b7f48f2282c179f4eb3d4651fd37fefb5deefab37a9f39a60b04ed",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/test-results/road-soil-material-normal--96ef8-sible-paint-at-mid-and-near-chromium/road-operational-observation.json",
+    "captureFile": "road-operational-observation.json.gz"
+  },
+  {
+    "file": "rejected-outside-raf-overview-none-canvas.png",
+    "rawBytes": 20861,
+    "storedBytes": 20861,
+    "sha256Uncompressed": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7",
+    "sha256Stored": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/canvas-diagnostic/overview-none-canvas.png",
+    "captureFile": "rejected-outside-raf-overview-none-canvas.png"
+  },
+  {
+    "file": "rejected-outside-raf-overview-none-canvas.png",
+    "rawBytes": 20861,
+    "storedBytes": 20861,
+    "sha256Uncompressed": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7",
+    "sha256Stored": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/canvas-diagnostic/operational-restored-canvas.png",
+    "captureFile": "rejected-outside-raf-operational-restored-canvas.png"
+  },
+  {
+    "file": "overview-none-controls.json.gz",
+    "rawBytes": 1420,
+    "storedBytes": 346,
+    "sha256Uncompressed": "8fd3da273aed36050b9191bb505bdf292cbcab5d40df867404c8039e73e5edb8",
+    "sha256Stored": "d88b60de821dc2dc9fc85ee0f24e6c940b4a17b399aca15ac9380bf16f682622",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/canvas-diagnostic/overview-none-controls.json",
+    "captureFile": "overview-none-controls.json.gz"
+  },
+  {
+    "file": "overview-none-controls.json.gz",
+    "rawBytes": 1420,
+    "storedBytes": 346,
+    "sha256Uncompressed": "8fd3da273aed36050b9191bb505bdf292cbcab5d40df867404c8039e73e5edb8",
+    "sha256Stored": "d88b60de821dc2dc9fc85ee0f24e6c940b4a17b399aca15ac9380bf16f682622",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/canvas-diagnostic/overview-restored-controls.json",
+    "captureFile": "overview-restored-controls.json.gz"
+  },
+  {
+    "file": "operational-restored-controls.json.gz",
+    "rawBytes": 1399,
+    "storedBytes": 322,
+    "sha256Uncompressed": "d4729fa8764bfc47fa7949bda1e1b3364ff994b5ebfa0977e8d51adc4d374c8c",
+    "sha256Stored": "f1270a27d08814c3e3c162c3ff38f7cfdbda4fdd9c1fc5a76a20fd7d801f47db",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/canvas-diagnostic/operational-restored-controls.json",
+    "captureFile": "operational-restored-controls.json.gz"
+  },
+  {
+    "file": "operational-restored-controls.json.gz",
+    "rawBytes": 1399,
+    "storedBytes": 322,
+    "sha256Uncompressed": "d4729fa8764bfc47fa7949bda1e1b3364ff994b5ebfa0977e8d51adc4d374c8c",
+    "sha256Stored": "f1270a27d08814c3e3c162c3ff38f7cfdbda4fdd9c1fc5a76a20fd7d801f47db",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/canvas-diagnostic/operational-none-controls.json",
+    "captureFile": "operational-none-controls.json.gz"
+  },
+  {
+    "file": "rejected-outside-raf-overview-none-canvas.png",
+    "rawBytes": 20861,
+    "storedBytes": 20861,
+    "sha256Uncompressed": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7",
+    "sha256Stored": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/canvas-diagnostic/overview-restored-canvas.png",
+    "captureFile": "rejected-outside-raf-overview-restored-canvas.png"
+  },
+  {
+    "file": "visual-functional-505d96a-canvas-diagnostic.log.gz",
+    "rawBytes": 3865,
+    "storedBytes": 856,
+    "sha256Uncompressed": "9f67f4c48e105513feac69eceaab93aec896c836db8e2b02504e5cef18511fd0",
+    "sha256Stored": "421730d7bc001aaaeaba53fb33d23c0ca5583b0aadb217b46241af40b66224d1",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/canvas-diagnostic/visual-functional-505d96a-canvas-diagnostic.log",
+    "captureFile": "visual-functional-505d96a-canvas-diagnostic.log"
+  },
+  {
+    "file": "rejected-outside-raf-overview-none-canvas.png",
+    "rawBytes": 20861,
+    "storedBytes": 20861,
+    "sha256Uncompressed": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7",
+    "sha256Stored": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/canvas-diagnostic/operational-none-canvas.png",
+    "captureFile": "rejected-outside-raf-operational-none-canvas.png"
+  },
+  {
+    "file": "first-valid-overview-none-raf-canvas.png",
+    "rawBytes": 538092,
+    "storedBytes": 538092,
+    "sha256Uncompressed": "8ea66046efbdd2b6325b51dddf31952e535a0af66425b5969621d24f30696c7a",
+    "sha256Stored": "8ea66046efbdd2b6325b51dddf31952e535a0af66425b5969621d24f30696c7a",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/raf-diagnostic/overview-none-raf-canvas.png",
+    "captureFile": "first-valid-overview-none-raf-canvas.png"
+  },
+  {
+    "file": "capture-validity.json.gz",
+    "rawBytes": 350,
+    "storedBytes": 175,
+    "sha256Uncompressed": "5354356b40b398251cfabd5cf9b00a7a15f44cdc20c1e1c5919772454b29c391",
+    "sha256Stored": "84c17f3246bd52d03e0aa9d1ec33ae2d2743adfd8d5dce6cacc62d336e891a29",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/raf-diagnostic/capture-validity.json",
+    "captureFile": "capture-validity.json.gz"
+  },
+  {
+    "file": "first-valid-operational-restored-raf-canvas.png",
+    "rawBytes": 911867,
+    "storedBytes": 911867,
+    "sha256Uncompressed": "097a1d004c43c2beffd77d39c69de769d5f5a4fe6ec783ab06acf0a64f247af7",
+    "sha256Stored": "097a1d004c43c2beffd77d39c69de769d5f5a4fe6ec783ab06acf0a64f247af7",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/raf-diagnostic/operational-restored-raf-canvas.png",
+    "captureFile": "first-valid-operational-restored-raf-canvas.png"
+  },
+  {
+    "file": "visual-functional-505d96a-raf-diagnostic.log.gz",
+    "rawBytes": 3865,
+    "storedBytes": 858,
+    "sha256Uncompressed": "044222133a6efdf4b418644bd71f1afbdfc01d720124efad92b3f39ca6eee928",
+    "sha256Stored": "c82958473099e024ec2f3c8f5704bdeaa0a2a9931e9bb8b45460cb6bdf04a316",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/raf-diagnostic/visual-functional-505d96a-raf-diagnostic.log",
+    "captureFile": "visual-functional-505d96a-raf-diagnostic.log"
+  },
+  {
+    "file": "first-valid-overview-none-raf-canvas.png",
+    "rawBytes": 538092,
+    "storedBytes": 538092,
+    "sha256Uncompressed": "8ea66046efbdd2b6325b51dddf31952e535a0af66425b5969621d24f30696c7a",
+    "sha256Stored": "8ea66046efbdd2b6325b51dddf31952e535a0af66425b5969621d24f30696c7a",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/raf-diagnostic/overview-restored-raf-canvas.png",
+    "captureFile": "first-valid-overview-restored-raf-canvas.png"
+  },
+  {
+    "file": "first-valid-operational-restored-raf-canvas.png",
+    "rawBytes": 911867,
+    "storedBytes": 911867,
+    "sha256Uncompressed": "097a1d004c43c2beffd77d39c69de769d5f5a4fe6ec783ab06acf0a64f247af7",
+    "sha256Stored": "097a1d004c43c2beffd77d39c69de769d5f5a4fe6ec783ab06acf0a64f247af7",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/raf-diagnostic/operational-none-raf-canvas.png",
+    "captureFile": "first-valid-operational-none-raf-canvas.png"
+  },
+  {
+    "file": "first-valid-operational-restored-raf-canvas.png",
+    "rawBytes": 911867,
+    "storedBytes": 911867,
+    "sha256Uncompressed": "097a1d004c43c2beffd77d39c69de769d5f5a4fe6ec783ab06acf0a64f247af7",
+    "sha256Stored": "097a1d004c43c2beffd77d39c69de769d5f5a4fe6ec783ab06acf0a64f247af7",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/final-artifacts/test-results/sim2-road-diagnostic-norma-d418d-sible-paint-at-mid-and-near-chromium/operational-restored-raf-canvas.png",
+    "captureFile": "verified-operational-restored-raf-canvas.png"
+  },
+  {
+    "file": "operational-restored-state-camera.json.gz",
+    "rawBytes": 919855,
+    "storedBytes": 83610,
+    "sha256Uncompressed": "a4ffdd9dc4c997f4d486071a4e7981448f717e8538bf01c5668f3be660aeeb32",
+    "sha256Stored": "1bd8ff069d56bd1ffcb135735cc50523ab4cf44ddfe2a7f742faf7973c93c6cb",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/final-artifacts/test-results/sim2-road-diagnostic-norma-d418d-sible-paint-at-mid-and-near-chromium/operational-restored-state-camera.json",
+    "captureFile": "operational-restored-state-camera.json.gz"
+  },
+  {
+    "file": "operational-restored-state-camera.json.gz",
+    "rawBytes": 919855,
+    "storedBytes": 83610,
+    "sha256Uncompressed": "a4ffdd9dc4c997f4d486071a4e7981448f717e8538bf01c5668f3be660aeeb32",
+    "sha256Stored": "1bd8ff069d56bd1ffcb135735cc50523ab4cf44ddfe2a7f742faf7973c93c6cb",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/final-artifacts/test-results/sim2-road-diagnostic-norma-d418d-sible-paint-at-mid-and-near-chromium/operational-none-state-camera.json",
+    "captureFile": "operational-none-state-camera.json.gz"
+  },
+  {
+    "file": "first-valid-operational-restored-raf-canvas.png",
+    "rawBytes": 911867,
+    "storedBytes": 911867,
+    "sha256Uncompressed": "097a1d004c43c2beffd77d39c69de769d5f5a4fe6ec783ab06acf0a64f247af7",
+    "sha256Stored": "097a1d004c43c2beffd77d39c69de769d5f5a4fe6ec783ab06acf0a64f247af7",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/final-artifacts/test-results/sim2-road-diagnostic-norma-d418d-sible-paint-at-mid-and-near-chromium/operational-none-raf-canvas.png",
+    "captureFile": "verified-operational-none-raf-canvas.png"
+  },
+  {
+    "file": "overview-restored-state-camera.json.gz",
+    "rawBytes": 41407,
+    "storedBytes": 7813,
+    "sha256Uncompressed": "efc8e2e8c02f83c236939109c280f143b9c9073956c36ab22416da46cc2b0feb",
+    "sha256Stored": "8b412e04ef64f46a1a763c1208ddcf7db5dd6feaf950023b119690f11acec8a0",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/final-artifacts/test-results/sim2-colorvision-diagnosti-b0b74--original-cameras-and-state-chromium/overview-restored-state-camera.json",
+    "captureFile": "overview-restored-state-camera.json.gz"
+  },
+  {
+    "file": "first-valid-overview-none-raf-canvas.png",
+    "rawBytes": 538092,
+    "storedBytes": 538092,
+    "sha256Uncompressed": "8ea66046efbdd2b6325b51dddf31952e535a0af66425b5969621d24f30696c7a",
+    "sha256Stored": "8ea66046efbdd2b6325b51dddf31952e535a0af66425b5969621d24f30696c7a",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/final-artifacts/test-results/sim2-colorvision-diagnosti-b0b74--original-cameras-and-state-chromium/overview-none-raf-canvas.png",
+    "captureFile": "verified-overview-none-raf-canvas.png"
+  },
+  {
+    "file": "overview-restored-state-camera.json.gz",
+    "rawBytes": 41407,
+    "storedBytes": 7813,
+    "sha256Uncompressed": "efc8e2e8c02f83c236939109c280f143b9c9073956c36ab22416da46cc2b0feb",
+    "sha256Stored": "8b412e04ef64f46a1a763c1208ddcf7db5dd6feaf950023b119690f11acec8a0",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/final-artifacts/test-results/sim2-colorvision-diagnosti-b0b74--original-cameras-and-state-chromium/overview-none-state-camera.json",
+    "captureFile": "overview-none-state-camera.json.gz"
+  },
+  {
+    "file": "first-valid-overview-none-raf-canvas.png",
+    "rawBytes": 538092,
+    "storedBytes": 538092,
+    "sha256Uncompressed": "8ea66046efbdd2b6325b51dddf31952e535a0af66425b5969621d24f30696c7a",
+    "sha256Stored": "8ea66046efbdd2b6325b51dddf31952e535a0af66425b5969621d24f30696c7a",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/final-artifacts/test-results/sim2-colorvision-diagnosti-b0b74--original-cameras-and-state-chromium/overview-restored-raf-canvas.png",
+    "captureFile": "verified-overview-restored-raf-canvas.png"
+  },
+  {
+    "file": "earned-regional-ending-gen-036c9-an-actual-native-quick-save-chromium-earned-regional-ending.tfusave.gz",
+    "rawBytes": 155056,
+    "storedBytes": 15626,
+    "sha256Uncompressed": "6fb93a190a467c5184580c45c2df1aadcf67b3d1b4bd447dc91a30ed001d9d39",
+    "sha256Stored": "ddccac62d19d0f37bf67e3a128053ead2da56dee0b51e1815c957163d6bacd74",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/final-artifacts/evidence/ending-505d96a-results/earned-regional-ending-gen-036c9-an-actual-native-quick-save-chromium/earned-regional-ending.tfusave",
+    "captureFile": "earned-regional-ending-gen-036c9-an-actual-native-quick-save-chromium-earned-regional-ending.tfusave.gz"
+  },
+  {
+    "file": "earned-regional-ending-gen-036c9-an-actual-native-quick-save-chromium-earned-regional-ending.tfusave.gz",
+    "rawBytes": 155056,
+    "storedBytes": 15626,
+    "sha256Uncompressed": "6fb93a190a467c5184580c45c2df1aadcf67b3d1b4bd447dc91a30ed001d9d39",
+    "sha256Stored": "ddccac62d19d0f37bf67e3a128053ead2da56dee0b51e1815c957163d6bacd74",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/final-artifacts/evidence/ending-505d96a-results/earned-regional-ending-gen-da37c-wledging-the-stored-victory-chromium/earned-regional-ending.tfusave",
+    "captureFile": "earned-regional-ending-gen-da37c-wledging-the-stored-victory-chromium-earned-regional-ending.tfusave.gz"
+  },
+  {
+    "file": "visual-functional-505d96a-raf-state-diagnostic.log.gz",
+    "rawBytes": 3865,
+    "storedBytes": 861,
+    "sha256Uncompressed": "5f7c6f26ab61a2cd14202c0e26a8b6918ced7f9cc083f20422e590ef535eb4d0",
+    "sha256Stored": "6b82f274b7aba9b23d66c42fc9bd70c1d0354500eb622dec8b63619d5150af74",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/final-artifacts/evidence/visual-functional-505d96a-raf-state-diagnostic.log",
+    "captureFile": "visual-functional-505d96a-raf-state-diagnostic.log"
+  },
+  {
+    "file": "canvas-diagnostic-helper.txt",
+    "rawBytes": 972,
+    "storedBytes": 972,
+    "sha256Uncompressed": "e56ebc4699e7d0d0f10c5f3bf865783adf660f3ee052ad77d91884cb8c0faa74",
+    "sha256Stored": "e56ebc4699e7d0d0f10c5f3bf865783adf660f3ee052ad77d91884cb8c0faa74",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/final-artifacts/evidence/canvas-diagnostic-helper.txt",
+    "captureFile": "canvas-diagnostic-helper.txt"
+  },
+  {
+    "file": "505d96a-source-verification.json.gz",
+    "rawBytes": 325482,
+    "storedBytes": 76522,
+    "sha256Uncompressed": "4413c8ac4c87ce30d6a514e60aee2a28a78b8c9df1cfe39d1ffce88c14147807",
+    "sha256Stored": "7758cb12422679ea95073da6f1cbcd778c2a7d634b6c50fb249c4b1207fce7de",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/final-artifacts/evidence/505d96a-source-verification.json",
+    "captureFile": "505d96a-source-verification.json.gz"
+  },
+  {
+    "file": "live-national-close.json.gz",
+    "rawBytes": 10768371,
+    "storedBytes": 432499,
+    "sha256Uncompressed": "cddefa8f739f3a22aaef5e8521839778fc2c7ea1c233284bc59ce4e2d1e9177f",
+    "sha256Stored": "4ddb62980be525deb2fc708611a2399f4288e491001e312bf8ea372f8c19c435",
+    "source": "/tmp/tenka-sim2-505d96a-native-evidence/live-close/live-national-close.json",
+    "captureFile": "live-national-close.json.gz"
+  }
+]

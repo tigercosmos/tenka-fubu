@@ -1,0 +1,89 @@
+{
+  "task": "M6-V14",
+  "sourceSnapshot": "505d96a",
+  "currentRootAtReporting": "9dad6a6",
+  "fixedSourceFilesVerified": 1389,
+  "sourceMismatches": 0,
+  "sourceArchiveSha256": "e887ef5d7dfa824ef91bee0fb6f84d9e2eb46d1e3ed2c66e132c1457593d4a98",
+  "host": "sim2/t2-sim-2",
+  "GPU": "NVIDIA RTX5070Ti",
+  "node": "22.23.3",
+  "headless": true,
+  "profilerEnabled": false,
+  "timingSerial": true,
+  "originalGates": [
+    {
+      "file": "color-vision-map.spec.ts",
+      "selected": "achromatopsia",
+      "completedCamera": "overview",
+      "outcome": "RED",
+      "wholePageChangedPixels": 11,
+      "classification": "Only rounded HUD speed/system button corner pixels x1120..1225,y16..47; no map raster difference",
+      "unmeasured": "remaining two cameras and three CDP modes remain ungated by this bounded run"
+    },
+    {
+      "file": "road-soil-material.spec.ts",
+      "completedCamera": "operational",
+      "outcome": "RED",
+      "wholePageChangedPixels": 8,
+      "classification": "Only rounded HUD speed button corners x1120..1215,y16..47; no map raster difference",
+      "unmeasured": "near phase remains unreachable after unchanged first restoration assertion"
+    }
+  ],
+  "canvasProof": [
+    {
+      "case": "sim2-colorvision-diagnosti-b0b74--original-cameras-and-state-chromium",
+      "stage": "overview",
+      "mapCanvasChangedPixels": 0,
+      "uniqueRGBA": 18467,
+      "stateExact": true,
+      "commandLogExact": true,
+      "cameraExact": true,
+      "positiveRaster": true,
+      "acceptedMapRestore": true
+    },
+    {
+      "case": "sim2-road-diagnostic-norma-d418d-sible-paint-at-mid-and-near-chromium",
+      "stage": "operational",
+      "mapCanvasChangedPixels": 0,
+      "uniqueRGBA": 48390,
+      "stateExact": true,
+      "commandLogExact": true,
+      "cameraExact": true,
+      "positiveRaster": true,
+      "acceptedMapRestore": true
+    }
+  ],
+  "rejectedProbe": {
+    "method": "canvas.toDataURL outside requestAnimationFrame",
+    "uniqueRGBA": 1,
+    "accepted": false,
+    "reason": "cleared drawing buffer; zero differences cannot prove map restoration"
+  },
+  "causeQualification": "Valid map raster, state, commands, observed camera geometry and computed control facts are exact. HUD-only corner raster variation remains a browser/compositor hypothesis; no unambiguous product defect or full-page oracle correction claimed. No masks, tolerances or protected screenshot refresh.",
+  "ending": {
+    "testsPassed": 2,
+    "durationSeconds": 17.8,
+    "scope": "supported s1560 builder subset with nine castles; genuinely earned day373 ending/continue/native quicksave/reload and title route",
+    "limitation": "Does not prove full-national wizard earned victory"
+  },
+  "liveFps": {
+    "outcome": "RED",
+    "valid": false,
+    "durationMs": 30000.199999809265,
+    "startDay": 121,
+    "endDay": 150,
+    "actualDayDelta": 29,
+    "firstInterruptionSeconds": 3.5665999999046325,
+    "interruptions": 1582,
+    "owner": "mandatory 1560 June three-proposal council dialog",
+    "minMountedArmies": 40,
+    "minMarching": 40,
+    "reportedAverageFps": 56.399624002865224,
+    "reportedFrameTimeP95": 19.800000190734863,
+    "acceptedPerformanceEvidence": false,
+    "qualification": "Descriptive full-wall raw metrics include paused modal rendering; not uninterrupted x5 FPS acceptance"
+  },
+  "productionAndOriginalTestsModified": false,
+  "evidenceStorage": "Manifest rows retain every capture identity. Byte-identical captures share one stored file, without pixel or payload transformation."
+}

@@ -1,0 +1,10 @@
+
+ const captureCanvas = async (name: string) => {
+  const capture = await page.evaluate(() => new Promise<{png: string; state: string; log: string; camera: unknown}>(resolve => requestAnimationFrame(() => {
+    const canvas = document.querySelector<HTMLCanvasElement>("[data-testid=map-canvas-host] canvas")!;
+    const debug = window.__tenka.debug, d = debug.getMapDiagnostics();
+    resolve({png:canvas.toDataURL("image/png"),state:JSON.stringify(debug.getState()),log:JSON.stringify(debug.exportCommandLog()),camera:{lakes:d.waterRendering.lakes.map(l=>({id:l.id,worldPoints:l.worldPoints,points:l.points})),castles:d.castleRendering.nodes.map(n=>({id:n.id,anchor:n.anchor})),scene:d.elevationRendering.nodes}});
+  })));
+  writeFileSync(info.outputPath(name+"-raf-canvas.png"),Buffer.from(capture.png.split(",")[1]!,"base64"));
+  writeFileSync(info.outputPath(name+"-state-camera.json"),JSON.stringify({state:capture.state,log:capture.log,camera:capture.camera}));
+ };

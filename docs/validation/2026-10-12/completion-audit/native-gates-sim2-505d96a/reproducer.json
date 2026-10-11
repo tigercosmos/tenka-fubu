@@ -1,0 +1,17 @@
+{
+  "cwd": "/tmp/tenka-20261012-sim2-browser",
+  "env": {
+    "PATH": "$PWD/runtime/node-v22.23.3-linux-x64/bin:$PATH",
+    "PLAYWRIGHT_BROWSERS_PATH": "$PWD/runtime/browsers",
+    "CI": "1",
+    "VISUAL_GPU": "1",
+    "SIMULATION_PROFILE": "0"
+  },
+  "build": "npm run build",
+  "originalRestoreGates": "npx playwright test e2e/color-vision-map.spec.ts e2e/road-soil-material.spec.ts --grep \"achromatopsia|normal campaign road material\" --workers=1",
+  "ending": "npx playwright test e2e/earned-regional-ending.spec.ts --workers=1",
+  "liveFps": "VISUAL_PERF=1 npx playwright test e2e/live-national-map-perf.spec.ts --grep \"close: live strategy\" --workers=1",
+  "diagnostic": "Temporary copies of the two original tests call the archived canvas helper before the toggle and before the original assertion. Assertions remain unchanged. Captures outside requestAnimationFrame are rejected because the raster contains one color. Temporary copies were removed; all 1,389 source files match the fixed snapshot.",
+  "timeouts": "Canonical test timeout 60,000 ms; global timeout 300,000 ms. The live gate retains its existing 120,000 ms timeout.",
+  "remoteRawTraces": "Original/diagnostic traces and full reports retained in evidence/{visual-functional-505d96a,canvas-diagnostic-task,raf-diagnostic,ending-505d96a,live-close-505d96a}-{results,report} and current test-results/playwright-report. Large traces excluded from bounded commit."
+}
