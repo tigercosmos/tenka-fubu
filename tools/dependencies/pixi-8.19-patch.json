@@ -376,6 +376,37 @@
           "to": ""
         }
       ]
+    },
+    {
+      "path": "lib/utils/data/GCManagedHash.mjs",
+      "originalSha256": "5763eeb3aec5708ebb5c344c98046673d7b8dc986fdb000179de4a6a8d2a54ce",
+      "patchedSha256": "95c629fda3a7226f356305bc720347cc1121ae0d3e9d6fba17b95091f1f2766b",
+      "replacements": [
+        {
+          "to": "    item.off(\"unload\", this.remove, this);\n    const gpuData = item._gpuData[this._renderer.uid];\n    if (gpuData) {\n      this._onUnload?.(item, ...args);\n      gpuData.destroy();\n      item._gpuData[this._renderer.uid] = null;\n    }\n    this.items[item.uid] = null;",
+          "from": "    const gpuData = item._gpuData[this._renderer.uid];\n    if (!gpuData) return;\n    this._onUnload?.(item, ...args);\n    gpuData.destroy();\n    item._gpuData[this._renderer.uid] = null;\n    this.items[item.uid] = null;"
+        },
+        {
+          "to": "",
+          "from": "//# sourceMappingURL=GCManagedHash.mjs.map\n"
+        }
+      ]
+    },
+    {
+      "path": "lib/utils/data/GCManagedHash.js",
+      "originalSha256": "1a51d2b7140af9993553264e9fbb848ab1cfc720316b51534bd7a8b000fb8114",
+      "patchedSha256": "8c555680d49d461243257cbfcd31b06450d31e1fe745e77d4cacc4513b220d1a",
+      "replacements": [
+        {
+          "to": "    item.off(\"unload\", this.remove, this);\n    const gpuData = item._gpuData[this._renderer.uid];\n    if (gpuData) {\n      this._onUnload?.(item, ...args);\n      gpuData.destroy();\n      item._gpuData[this._renderer.uid] = null;\n    }\n    this.items[item.uid] = null;",
+          "from": "    const gpuData = item._gpuData[this._renderer.uid];\n    if (!gpuData) return;\n    this._onUnload?.(item, ...args);\n    gpuData.destroy();\n    item._gpuData[this._renderer.uid] = null;\n    this.items[item.uid] = null;"
+        },
+        {
+          "to": "",
+          "from": "//# sourceMappingURL=GCManagedHash.js.map\n"
+        }
+      ]
     }
-  ]
+  ],
+  "managedResourceLifecyclePatch": "Local GCManagedHash removal detaches only its own unload callback, including already-absent GPU data. Shared buffers retain other renderer and user callbacks. This separate lifecycle fix does not claim complete heap stability."
 }
