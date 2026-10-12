@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "scp",
+    "sim4:/tmp/tenka-battle-79682cd/runs/concurrency-ecba-w8-c1/metadata.tar.gz",
+    "docs/validation/2026-10-12/completion-audit/native-concurrency-ecba08b/w8-metadata.tar.gz"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:37:21.267457+00:00",
+  "browser": false
+}

@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "python3",
+    "docs/validation/2026-10-12/completion-audit/native-concurrency-ecba08b/analyze-reports.py",
+    "docs/validation/2026-10-12/completion-audit/native-concurrency-ecba08b/w4-report.json.gz",
+    "docs/validation/2026-10-12/completion-audit/native-concurrency-ecba08b/w4-stdout-stderr.log.gz",
+    "/tmp/tenka-concurrency-local-w4-reparse.json"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:37:59.506313+00:00",
+  "browser": false
+}

@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "python3",
+    "/tmp/tenka-concurrency-analyze-ecba-c2.py",
+    "/tmp/tenka-battle-79682cd/runs/concurrency-ecba-w4-c1/report.json",
+    "/tmp/tenka-battle-79682cd/runs/concurrency-ecba-w4-c1/stdout-stderr.log",
+    "/tmp/tenka-battle-79682cd/runs/concurrency-ecba-w4-c1/analysis.json"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:33:27.688731+00:00",
+  "browser": false
+}

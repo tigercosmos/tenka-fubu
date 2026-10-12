@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "git",
+    "ls-tree",
+    "-rz",
+    "146414688dc2ceceb81042aeed6984ddf0687926"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu"
+}

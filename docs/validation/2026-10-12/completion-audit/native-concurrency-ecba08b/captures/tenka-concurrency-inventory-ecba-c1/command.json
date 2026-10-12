@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "python3 /tmp/tenka-full-artifact-inventory-146.py /tmp/tenka-battle-79682cd/runs/concurrency-ecba-w4-c1/browser-results /tmp/tenka-battle-79682cd/runs/concurrency-ecba-w4-c1/browser-inventory.json && python3 /tmp/tenka-full-artifact-inventory-146.py /tmp/tenka-battle-79682cd/runs/concurrency-ecba-w8-c1/browser-results /tmp/tenka-battle-79682cd/runs/concurrency-ecba-w8-c1/browser-inventory.json"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:35:35.617190+00:00",
+  "browser": false
+}

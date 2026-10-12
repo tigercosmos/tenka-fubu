@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "python3",
+    "-c",
+    "import gzip,shutil; from pathlib import Path; base=Path(\"docs/validation/2026-10-12/completion-audit/native-concurrency-ecba08b\"); dest=base/\"captures\"; paths=[p for p in sorted(Path(\"/tmp\").glob(\"tenka-concurrency-*ecba-c*\")) if p.is_dir() and not (dest/p.name).exists() and p.name!=\"tenka-concurrency-collect-ecba-c2\"]; [shutil.copytree(p,dest/p.name) for p in paths]; logs=list(dest.rglob(\"stdout-stderr.log\"))+[base/w/\"earned-regional-route-generation.log\" for w in (\"w4-generator\",\"w8-generator\")]; [(gzip.open(str(p)+\".gz\",\"wb\").write(p.read_bytes()),p.unlink()) for p in logs if p.exists()]; print(\"additionalDirs\",len(paths),\"gzipLogs\",len(logs))"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:37:48.864303+00:00",
+  "browser": false
+}

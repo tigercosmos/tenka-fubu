@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "cd /tmp/tenka-battle-79682cd/runs/concurrency-ecba-w4-c1 && tar -czf metadata.tar.gz command.json process.json result.json && sha256sum metadata.tar.gz"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:37:17.057221+00:00",
+  "browser": false
+}

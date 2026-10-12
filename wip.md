@@ -6588,3 +6588,13 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 色覺 achromatopsia 原 8ea 孤立重現 416 個精確還原差異，無 CDP 控制同區域 385 個差異，十二次額外 idle waits 後仍 406。state／commands／canvas rectangle 相等不代表 canvas pixels 相等；HUD shadow 與 canvas paint owner 未辨明，沒有放寬零差異或改基準。
 - 下一步先對新增 not-mounted 失敗做 bounded 共用 boot 前置關係稽核，保留刻意檢查未掛載／延遲地圖的案例，不加全域無條件等待。另可固定目前完整 364 項來源做 4／8 worker 診斷、原 300 秒與其他期限／斷言／skip 不變；不拿不同來源的歷史 16-worker run 當嚴格 timing pair，尚未採用新 worker 設定。
 - 所有既有 M6–M9 門檻、strict60、whole-heap、long-run、其餘介面與待決無嗣／戰術終局、人口校準、934163c 六圖人工審查保持開放。沒有改規則、references、milestone，沒有 push／deploy。所有新 setup／validation 都先建立唯一完整 log；來源只用 scoped archive／delta，這批失敗及診斷原檔均保存。
+
+## 2026-10-12 — 共用掛載前置、軍團 Worker 邊界與固定來源並行度診斷
+
+- `c74a46c` 只改四個 E2E 檔：抽出 coast 原 ready poll，並在 army material／context focus 首個 renderer 呼叫前套用。只將已知尚未掛載例外視為 pending，其他錯誤繼續失敗；不改全域 fixture。舊版兩個延遲路徑均 RED，候選延遲四項與精確原四項 PASS；原 coast 延遲回歸保持。
+- `bf6638e` 只改軍團 E2E：七個原 `stepDays` 呼叫之後，用原五秒 expect 等精確目標日及 pendingTicks=0。原精確兩項 RED；另存觀測衍生版本的 pendingTicks=1／舊日期；精確候選兩項 PASS 8.9 秒。保留原 blocker 中止、正常 UI resume、金庫、解散與手動暫停斷言，不改用不同語意的 `stepDaysAsync`。
+- 兩個固定整合來源各通過型別、完整 ESLint、格式及 364 項 chromium discovery；最後 `bf6638e` 的 1,633 Git 輸入前後相同。第一次 final source-before 因提早寫入 CLAUDE 交接段落停止；唯一差異及完整失敗留存，恢復該文件原文後另跑成功，成功 source-after 才恢復交接。沒有重標較早完整 core 或原生結果。
+- 新證據：`mapboot-readiness-c74a46c`、`mapboot-integrated-c74a46c`、`ai-corps-stepdays-bf6638e`、`ai-corps-integrated-bf6638e`。Readiness 初次複製相同 basename 的 fingerprint 覆蓋了本機副本；遠端原件完整，各自重新唯一命名複製，原最後副本亦保存。不宣稱該複製命令沒有碰撞。
+- 固定 `ecba08b`／原 364 項的兩次完整診斷只覆寫 CLI workers，來源／依賴前後一致，各次之間確認程序已退出，原 300 秒及個別期限不改。4 workers：162 PASS、9 FAIL、0 timeout、20 其他 skipped、2 interrupted、171 未派發；8 workers：218 PASS、9 FAIL、1 timeout、23 其他 skipped、3 interrupted、110 未派發。兩者均 RED，沒有採用新 worker cap。原 16-worker `1464146` 的來源及 363 項數不同，不作同條件比較。parser 首次誤以為 report test 有 id 欄位、第二次 terminal 裝飾字元匹配失敗的 RED 保留，修正後逐一比對 interrupted 名稱，不再把空結果當 interrupted。
+- 完整原生仍未包含 `c74a46c`／`bf6638e` 新修正；下一個有來源依據的候選是持續失敗 court／Hojo 的跳日邊界與剩餘原生原因，先單案證明，不全面替換 helper。strict60、whole-heap、long-run、其餘 UI／M6–M9 門檻及無嗣／戰術終局、人口校準、934163c 六圖人工核准仍開放。沒有改門檻、基準、規則或 milestone，未 push／deploy。
+- 兩次 Ending 三個瀏覽器案例均 PASS；generator test phase 2.09／3.64 秒（原上限五秒），Vitest 程序總時間 4.04／6.69 秒、parent process 4.281／7.068 秒分開標示。兩次合法存檔 bytes／SHA 相同。完整 364-title transition 保存，包括 earned-rice-trade 的 PASS→timeout；九個共同失敗為軍團兩項、色覺四項、court-work、earned-alliance、earned-hojo-aid。軍團後續修正只宣稱 focused 成功。

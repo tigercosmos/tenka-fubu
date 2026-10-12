@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "scp",
+    "/tmp/tenka-concurrency-delta-ecba-c1/manifest.json",
+    "sim4:/tmp/tenka-battle-79682cd/runs/concurrency-ecba-manifest.json"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:19:42.314605+00:00",
+  "browser": false
+}

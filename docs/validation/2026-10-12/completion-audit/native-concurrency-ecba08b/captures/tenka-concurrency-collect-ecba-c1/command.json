@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "python3",
+    "-c",
+    "import gzip,shutil; from pathlib import Path; src=Path(\"/tmp\"); dest=Path(\"docs/validation/2026-10-12/completion-audit/native-concurrency-ecba08b/captures\"); dest.mkdir(exist_ok=False); dirs=[p for p in sorted(src.glob(\"tenka-concurrency-*ecba-c*\")) if p.is_dir() and p.name!=\"tenka-concurrency-collect-ecba-c1\"]; [(shutil.copytree(p,dest/p.name)) for p in dirs]; logs=list(dest.rglob(\"stdout-stderr.log\")); [(gzip.open(str(p)+\".gz\",\"wb\").write(p.read_bytes()),p.unlink()) for p in logs]; print(\"captureDirs\",len(dirs),\"gzipLogs\",len(logs))"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:37:09.002199+00:00",
+  "browser": false
+}

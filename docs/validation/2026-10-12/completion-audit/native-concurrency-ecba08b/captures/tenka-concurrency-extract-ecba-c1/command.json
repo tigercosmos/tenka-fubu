@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "tar",
+    "-xf",
+    "/tmp/tenka-battle-79682cd/runs/concurrency-ecba-delta.tar",
+    "-C",
+    "/tmp/tenka-battle-79682cd"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:19:52.537186+00:00",
+  "browser": false
+}

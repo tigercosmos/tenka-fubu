@@ -4,6 +4,18 @@ Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目�
 最新固定來源 `7d37c28` 全量測試為 6,445 通過、1 既有失敗、1 跳過；120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
+## 地圖掛載前置與完整原生並行度診斷
+
+`c74a46c` 把既有 coast renderer-ready 前置抽成共用 helper，只套用到 coast、army material、context focus 三個測試路徑的第一個 renderer 呼叫前。[原生證據](mapboot-readiness-c74a46c/README.md) 保存原兩項延遲控制 RED、候選延遲四項 PASS、精確採用版本四項 PASS；coast 的刻意延遲回歸沒有變成全域等待。[固定整合](mapboot-integrated-c74a46c/README.md) 的型別、完整 ESLint、四檔格式、364 項 discovery 與 1,633 個 Git 輸入前後校驗通過。這只修正驗收前置，沒有改遊戲或期限。
+
+`bf6638e` 修正[軍團驗收讀取未完成 Worker tick](ai-corps-stepdays-bf6638e/README.md) 的競態。原兩項均失敗，觀測資料顯示 pendingTicks=1 且尚未到要求的日期；候選保留原 `stepDays`，等精確目標日與零 pending ticks 後，原兩項全部通過。原軍團、金庫、解散與暫停斷言不改，也沒有改用 blocker 語意不同的 async API。[最後整合](ai-corps-integrated-bf6638e/README.md) 的型別、完整 ESLint、五檔格式、364 項 discovery 及 1,633 來源前後證明通過；首次因交接段落造成的 CLAUDE 來源不符已明載保存。
+
+[固定 ecba08b 並行度診斷](native-concurrency-ecba08b/README.md) 在同一來源、依賴與原 300 秒上限下串行執行全部 364 項，只有 CLI workers 不同。4 workers：162 PASS、9 FAIL、0 timeout、20 其他 skipped、2 interrupted、171 未派發；8 workers：218 PASS、9 FAIL、1 timeout、23 其他 skipped、3 interrupted、110 未派發。兩者都未通過全套門檻，沒有採用新 worker 設定。較早 16-worker `1464146` 是不同來源及 363 項，不能當成同條件對照；此處兩次完整執行也不包含後續 readiness／軍團修正。
+
+兩次 Ending 三個瀏覽器流程均通過，generator 的 test phase 分別 2.09／3.64 秒，原五秒限制不改；4.04／6.69 秒是 Vitest 程序總時間，不能混用。九個相同失敗包括軍團兩項、色覺四項、court-work、earned-alliance、earned-hojo-aid；軍團的後續 focused 修正見上方。完整逐項轉移保留，其中 earned-rice-trade 從 4-worker PASS 變為 8-worker timeout；不只列出額外成功。
+
+其餘原生失敗、strict60、whole-heap、long-run、介面餘項與全 M6–M9 gate 維持開放。無嗣／戰術終局、人口校準、934163c 六圖人工核准仍未收到決策；沒有更改規則、基準、milestone 或 push／deploy。
+
 ## Ending 生成、投影座標、初次掛載與完整原生分類補正
 
 `5500bc0` 將 Ending 合法存檔生成集中到檔案內 `beforeAll`，每個 worker 生命週期各新生成一次，保留三個獨立 browser context、單一 `chromium` project 與所有原 UI 斷言。[生成控制](ending-fixture-5500bc0/README.md) 保存三項成功，以及失敗傳播、worker 重啟新生成、無關 subset、毀損檔案與逾時子程序清理。這是取代先前 dependency-project 提案的較小方案，不宣稱每次 invocation 絕對只生成一次。

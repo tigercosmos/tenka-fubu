@@ -1,0 +1,41 @@
+{
+  "after-month-jump-return": {
+    "day": 3,
+    "dayOfMonth": 4,
+    "version": 3,
+    "corps": [
+      {
+        "id": "corps.000001",
+        "gold": 0
+      }
+    ],
+    "simulation": {
+      "backend": "worker",
+      "workerReady": true,
+      "wasmLoaded": true,
+      "wasmBackend": "rust-wasm",
+      "pathfinderBackend": "rust-wasm",
+      "generation": 2,
+      "pendingTicks": 1,
+      "completedWorkerTicks": 3,
+      "droppedStaleResponses": 0
+    }
+  },
+  "after-create-step-return": {
+    "day": 1,
+    "dayOfMonth": 2,
+    "version": 1,
+    "corps": [],
+    "simulation": {
+      "backend": "worker",
+      "workerReady": true,
+      "wasmLoaded": true,
+      "wasmBackend": "rust-wasm",
+      "pathfinderBackend": "rust-wasm",
+      "generation": 2,
+      "pendingTicks": 1,
+      "completedWorkerTicks": 1,
+      "droppedStaleResponses": 0
+    }
+  }
+}

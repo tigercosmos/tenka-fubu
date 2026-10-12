@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "ps -eo pid,ppid,pgid,etime,args | grep -E 'playwright|vite|vitest.mjs|earnedRegionalEndingJourney|/tmp/tenka-battle-79682cd' | grep -v grep || true; ss -ltnp | grep 4173 || true"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:26:20.436881+00:00",
+  "browser": false
+}

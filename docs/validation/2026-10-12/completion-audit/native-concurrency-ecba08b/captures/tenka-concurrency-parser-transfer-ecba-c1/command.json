@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "scp",
+    "docs/validation/2026-10-12/completion-audit/native-concurrency-ecba08b/analyze-reports.py",
+    "sim4:/tmp/tenka-concurrency-analyze-ecba-c1.py"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:32:55.728317+00:00",
+  "browser": false
+}

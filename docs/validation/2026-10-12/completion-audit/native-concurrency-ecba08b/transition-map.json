@@ -1,0 +1,6450 @@
+{
+  "sourceRevision": "ecba08b76b772a598a6e6ceb61615b648c765170",
+  "discovered": 364,
+  "transitionCounts": [
+    {
+      "w4": "failed",
+      "w8": "failed",
+      "count": 9
+    },
+    {
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "count": 110
+    },
+    {
+      "w4": "notDispatched",
+      "w8": "otherSkipped",
+      "count": 5
+    },
+    {
+      "w4": "notDispatched",
+      "w8": "passed",
+      "count": 53
+    },
+    {
+      "w4": "notDispatched",
+      "w8": "terminalInterrupted",
+      "count": 3
+    },
+    {
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "count": 18
+    },
+    {
+      "w4": "otherSkipped",
+      "w8": "passed",
+      "count": 2
+    },
+    {
+      "w4": "passed",
+      "w8": "passed",
+      "count": 161
+    },
+    {
+      "w4": "passed",
+      "w8": "timedOut",
+      "count": 1
+    },
+    {
+      "w4": "terminalInterrupted",
+      "w8": "passed",
+      "count": 2
+    }
+  ],
+  "rows": [
+    {
+      "key": [
+        "chromium",
+        "accessibility.spec.ts",
+        33,
+        1,
+        "production screens have no critical axe findings and dialogs preserve one page banner"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "accessibility.spec.ts",
+        83,
+        1,
+        "empty load registry remains reachable and scrollable with native keyboard input"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "actor-depth-layout.spec.ts",
+        123,
+        3,
+        "actual shared body order follows world feet across three scales and selection does not lift troop bodies"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "actor-depth-layout.spec.ts",
+        266,
+        3,
+        "actual plate envelopes avoid visible castle body frames rather than only castle ribbons"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "actor-depth-layout.spec.ts",
+        320,
+        3,
+        "real normal-day movement updates world feet and actual body ordering, then remains stable while idle"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "ai-corps.spec.ts",
+        38,
+        1,
+        "corps creation waits for normal resume and its directive and wallet are visible"
+      ],
+      "w4": "failed",
+      "w8": "failed",
+      "w4Results": [
+        "failed"
+      ],
+      "w8Results": [
+        "failed"
+      ],
+      "w4Errors": [
+        "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m"
+      ],
+      "w8Errors": [
+        "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m"
+      ]
+    },
+    {
+      "key": [
+        "chromium",
+        "ai-corps.spec.ts",
+        83,
+        1,
+        "assign, remove and confirmed dissolution execute on tick and preserve a manual pause"
+      ],
+      "w4": "failed",
+      "w8": "failed",
+      "w4Results": [
+        "failed"
+      ],
+      "w8Results": [
+        "failed"
+      ],
+      "w4Errors": [
+        "Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'id')"
+      ],
+      "w8Errors": [
+        "Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'id')"
+      ]
+    },
+    {
+      "key": [
+        "chromium",
+        "army-annotation.spec.ts",
+        4,
+        1,
+        "actual army annotation exposes three relations and independent state and supply at the original cameras"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "army-auto-return.spec.ts",
+        46,
+        1,
+        "army auto-return: native deployed army stays authoritative until its single queued toggle executes"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "army-cloth-material.spec.ts",
+        4,
+        1,
+        "painted army cloth has a non-vacuous mid battle view without changing campaign state"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "army-dom-selection.spec.ts",
+        5,
+        1,
+        "native castle army list selects a normally deployed army without gameplay changes"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "army-operational-readability.spec.ts",
+        31,
+        1,
+        "operational original formations gain readable area while close frames and gameplay remain anchored"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "army-orders.spec.ts",
+        60,
+        1,
+        "native army orders: pure physical-position preview, one retarget and one recall on normal days"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "army-plate-layout.spec.ts",
+        143,
+        3,
+        "the independent tether oracle detects interiors but excludes edge and corner touches"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "army-plate-layout.spec.ts",
+        160,
+        3,
+        "the reserved-HUD visibility oracle clips and subtracts overlapping rectangles once"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "army-plate-layout.spec.ts",
+        173,
+        3,
+        "actual Sunpu/Narumi plate bounds reduce overlap at three real UI scales without core mutation"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "army-plate-layout.spec.ts",
+        227,
+        3,
+        "a real body-anchor pointer selects a player army and its plate survives far LOD"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "army-plate-layout.spec.ts",
+        279,
+        3,
+        "the three observed dense-cluster plate pairs no longer overlap independently of castle ribbons"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "army-plate-material.spec.ts",
+        26,
+        1,
+        "army plate material retains actual selected army and mandatory far channels"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "army-signal-layout.spec.ts",
+        173,
+        3,
+        "body-anchor selection and far mandatory signals survive; real movement refreshes placement only when needed"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "army-signal-layout.spec.ts",
+        79,
+        3,
+        "six actual crowded views reduce banner overlap without hiding signals or moving troop bodies"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        166,
+        1,
+        "battle native controls keep Space while local speed keys and Escape use battle ownership"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        45,
+        1,
+        "battle speed names include their visible multiplier and tactics form a named group"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 0.8"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 0.85"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 0.9"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 0.95"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 1"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 1.05"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 1.1"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 1.15"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 1.2"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 1.25"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 1.3"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 1.35"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 1.4"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 1.45"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-controls-acceptance.spec.ts",
+        64,
+        3,
+        "real battle controls fit 1280x720 at UI scale 1.5"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-log.spec.ts",
+        17,
+        1,
+        "real tactical effects log accepted facts and preserve older native scroll reading"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-map.spec.ts",
+        110,
+        1,
+        "switching tactical actor cancels a targeted tactic through cards and native map controls"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-map.spec.ts",
+        152,
+        1,
+        "actual tactical fixture shares canvas/native projection across sizes, scales and motion preference"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-map.spec.ts",
+        193,
+        1,
+        "native tactical node and enemy controls apply real movement and attack orders"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-result.spec.ts",
+        4,
+        1,
+        "core-generated tactical result owns focus and cannot be dismissed without acknowledgement"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-result.spec.ts",
+        85,
+        1,
+        "an existing SystemMenu owner hands a real completed battle to its mandatory result"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "battle-status.spec.ts",
+        4,
+        1,
+        "real queued moves and tactical lifecycle produce factual unit status badges"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "castle-lord-appointment.spec.ts",
+        7,
+        1,
+        "native castle-local lord appointment queues while paused and applies on the next ordinary day"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "castle-model-layout.spec.ts",
+        110,
+        3,
+        "normal-motion selected Sunpu siege inspector clears actual artwork and HUD at three scales; Narumi stays ordinary"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "castle-model-layout.spec.ts",
+        233,
+        3,
+        "actual selected and siege ground marks are behind original castle models, with compact separate durability and warning channels"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "castle-placard-material.spec.ts",
+        48,
+        1,
+        "placard material keeps selected critical main and ordinary branch channels at three UI scales"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "castle-recruitment.spec.ts",
+        3,
+        1,
+        "native castle city entry shows only the actual local adult ronin roster without changing the game"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "castle-ribbon-obstruction.spec.ts",
+        60,
+        1,
+        "castle text obstruction improves without hiding ribbons, changing bodies, or crossing hard obstacles"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "castle-ribbon-readability.spec.ts",
+        22,
+        1,
+        "loaded castle name and troop text have separate seal space without changing paused core"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "castle-tab-scroll.spec.ts",
+        4,
+        1,
+        "castle tabs retain distinct native visible-tab scroll offsets across long overview and domestic content"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "castle-warning-presentation.spec.ts",
+        107,
+        1,
+        "mini-campaign fixture warning presentation at twelve real UI/camera views, not earned siege"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "coast-surface-layout.spec.ts",
+        117,
+        3,
+        "waits for the mounted renderer after the strategy screen becomes visible"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "coast-surface-layout.spec.ts",
+        162,
+        3,
+        "the named Ise inlet removes its abrupt turn while actual ground clipping, river anchors and gameplay stay aligned"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "cold-load.spec.ts",
+        19,
+        5,
+        "fresh context 1: trusted new-game input within3000ms"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "cold-load.spec.ts",
+        19,
+        5,
+        "fresh context 2: trusted new-game input within3000ms"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "cold-load.spec.ts",
+        19,
+        5,
+        "fresh context 3: trusted new-game input within3000ms"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "cold-load.spec.ts",
+        19,
+        5,
+        "fresh context 4: trusted new-game input within3000ms"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "cold-load.spec.ts",
+        19,
+        5,
+        "fresh context 5: trusted new-game input within3000ms"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "color-vision-map.spec.ts",
+        73,
+        3,
+        "actual three-owner map achromatopsia artifacts preserve original cameras and state"
+      ],
+      "w4": "failed",
+      "w8": "failed",
+      "w4Results": [
+        "failed"
+      ],
+      "w8Results": [
+        "failed"
+      ],
+      "w4Errors": [
+        "Error: restoring none must recover exact RGBA pixels"
+      ],
+      "w8Errors": [
+        "Error: restoring none must recover exact RGBA pixels"
+      ]
+    },
+    {
+      "key": [
+        "chromium",
+        "color-vision-map.spec.ts",
+        73,
+        3,
+        "actual three-owner map deuteranopia artifacts preserve original cameras and state"
+      ],
+      "w4": "failed",
+      "w8": "failed",
+      "w4Results": [
+        "failed"
+      ],
+      "w8Results": [
+        "failed"
+      ],
+      "w4Errors": [
+        "Error: restoring none must recover exact RGBA pixels"
+      ],
+      "w8Errors": [
+        "Error: restoring none must recover exact RGBA pixels"
+      ]
+    },
+    {
+      "key": [
+        "chromium",
+        "color-vision-map.spec.ts",
+        73,
+        3,
+        "actual three-owner map protanopia artifacts preserve original cameras and state"
+      ],
+      "w4": "failed",
+      "w8": "failed",
+      "w4Results": [
+        "failed"
+      ],
+      "w8Results": [
+        "failed"
+      ],
+      "w4Errors": [
+        "Error: restoring none must recover exact RGBA pixels"
+      ],
+      "w8Errors": [
+        "Error: restoring none must recover exact RGBA pixels"
+      ]
+    },
+    {
+      "key": [
+        "chromium",
+        "color-vision-map.spec.ts",
+        73,
+        3,
+        "actual three-owner map tritanopia artifacts preserve original cameras and state"
+      ],
+      "w4": "failed",
+      "w8": "failed",
+      "w4Results": [
+        "failed"
+      ],
+      "w8Results": [
+        "failed"
+      ],
+      "w4Errors": [
+        "Error: restoring none must recover exact RGBA pixels"
+      ],
+      "w8Errors": [
+        "Error: restoring none must recover exact RGBA pixels"
+      ]
+    },
+    {
+      "key": [
+        "chromium",
+        "context-panel-focus.spec.ts",
+        3,
+        1,
+        "closed context is excluded from native sequential focus while open controls remain reachable"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "court-rank.spec.ts",
+        162,
+        1,
+        "Earned court rank: normal donations, queued grant, and native save/reload"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "court-work.spec.ts",
+        125,
+        1,
+        "Court work: actual queued start, paid month, stop and next month without work payment"
+      ],
+      "w4": "failed",
+      "w8": "failed",
+      "w4Results": [
+        "failed"
+      ],
+      "w8Results": [
+        "failed"
+      ],
+      "w4Errors": [
+        "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m"
+      ],
+      "w8Errors": [
+        "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m"
+      ]
+    },
+    {
+      "key": [
+        "chromium",
+        "crest-home.spec.ts",
+        4,
+        1,
+        "native crest click, Enter and Space select the real owned home without gameplay changes"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "dialog-keyboard.spec.ts",
+        116,
+        1,
+        "parent-owned import confirmation preserves dialog identity, guarded Escape and cancel-first Enter without loading or changing core"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "dialog-keyboard.spec.ts",
+        67,
+        1,
+        "SystemMenu settings Escape leaves slider focus first; repeat and composing/prevented guards keep the owner"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "dialog-keyboard.spec.ts",
+        94,
+        1,
+        "real SaveLoad native select Escape retains its dialog before returning to SystemMenu"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "district-material-layout.spec.ts",
+        27,
+        1,
+        "native district seals keep visible owner accents, quiet bodies and physical district picking without gameplay changes"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "earned-alliance.spec.ts",
+        185,
+        1,
+        "CPU-earned full-world diplomatic work enables an actual native alliance, pending reload and next paid month"
+      ],
+      "w4": "failed",
+      "w8": "failed",
+      "w4Results": [
+        "failed"
+      ],
+      "w8Results": [
+        "failed"
+      ],
+      "w4Errors": [
+        "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m"
+      ],
+      "w8Errors": [
+        "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m"
+      ]
+    },
+    {
+      "key": [
+        "chromium",
+        "earned-ending-journey.spec.ts",
+        73,
+        1,
+        "earned mini native save is refused by the production scenario loader but remains exportable intact"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "earned-ending-journey.spec.ts",
+        92,
+        1,
+        "refused earned mini campaign survives browser reload without being acknowledged or altered"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "earned-hojo-aid.spec.ts",
+        199,
+        1,
+        "earned Hojo military aid: paid native work, agreement, actual AI march and ordinary movement"
+      ],
+      "w4": "failed",
+      "w8": "failed",
+      "w4Results": [
+        "failed"
+      ],
+      "w8Results": [
+        "failed"
+      ],
+      "w4Errors": [
+        "Error: Actual refreshed Hojo threat must support aid; refusal is not positive proof"
+      ],
+      "w8Errors": [
+        "Error: Actual refreshed Hojo threat must support aid; refusal is not positive proof"
+      ]
+    },
+    {
+      "key": [
+        "chromium",
+        "earned-imagawa-poach.spec.ts",
+        266,
+        1,
+        "earned Imagawa rumors then native poach form, ordinary monthly resolution and vassal admission"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "earned-proposal.spec.ts",
+        26,
+        1,
+        "earned monthly proposal adoption waits for summary ownership then executes on ordinary day31"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "earned-regional-captive.spec.ts",
+        155,
+        1,
+        "CPU-earned supported s1560 captive uses real native disposal, pending reload and exactly one normal settlement"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "earned-regional-ending.spec.ts",
+        205,
+        1,
+        "earned ending at 1280×720 and 1.5 scale keeps its crest and actions reachable"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "earned-regional-ending.spec.ts",
+        234,
+        1,
+        "genuinely earned supported regional ending loads, continues and survives an actual native quick save"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "earned-regional-ending.spec.ts",
+        281,
+        1,
+        "genuinely earned supported regional ending returns to title without acknowledging the stored victory"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "earned-rice-trade.spec.ts",
+        130,
+        1,
+        "earned rice dealer: actual Kiyosu construction, queued buy and sell on normal calendar days"
+      ],
+      "w4": "passed",
+      "w8": "timedOut",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "timedOut"
+      ],
+      "w4Errors": [],
+      "w8Errors": [
+        "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+      ]
+    },
+    {
+      "key": [
+        "chromium",
+        "earned-takeda-alliance.spec.ts",
+        237,
+        1,
+        "CPU-earned Miyoshi prefix then native paid month, Takeda alliance and lawful refused aid request"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "event-host.spec.ts",
+        6,
+        1,
+        "restored unknown pending event stays mandatory and exports intact progress"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.akamatsu native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.amago native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.ando native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.asakura native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.ashina native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.chosokabe native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.date native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.hatakeyama native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.hojo native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.ichijo native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.ito native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.jinbo native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.kono native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.miyoshi native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.mogami native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.mori native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.nagao native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.nanbu native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.otomo native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.ryuzoji native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.sagara native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.saionji native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.shimazu native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.uragami native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "four-region.spec.ts",
+        198,
+        3,
+        "nine-region production clan.yamana native wizard and manual save/load"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "geographic-label-hierarchy.spec.ts",
+        5,
+        1,
+        "geographic hierarchy retains real role text, pixel-lock and campaign state in dense national views"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "geographic-label-layout.spec.ts",
+        188,
+        3,
+        "actual normal-day movement refreshes obstacles while idle placement remains stable"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "geographic-label-layout.spec.ts",
+        83,
+        3,
+        "actual Sunpu text overlap improves and the clear Narumi road stays clear while restored districts do not worsen at three scales without changing core"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "geographic-semantic-audit.spec.ts",
+        31,
+        3,
+        "records six unchanged views without assuming every view has a collision"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "hotkey-focus.spec.ts",
+        3,
+        1,
+        "Home and M work from non-control panel focus while native keys keep their owners"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "hud-focus-layout.spec.ts",
+        129,
+        3,
+        "actual minimap coordinate input keeps the intended castle ribbon clear across scale, M and resize"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "hud-focus-layout.spec.ts",
+        271,
+        3,
+        "real navigator explicit army focus keeps the selected body and mandatory plate clear"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "hud-focus-layout.spec.ts",
+        328,
+        3,
+        "a real navigator castle selection centers against the final newly opened context panel"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "hud-layout.spec.ts",
+        150,
+        3,
+        "five retained critical reports keep a 100px scroll viewport and native last-close access at scale 1.5"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "hud-layout.spec.ts",
+        265,
+        3,
+        "Shift+Tab and forward Tab reach each resource, playback control and report archive at scale 1.5"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "hud-layout.spec.ts",
+        36,
+        3,
+        "every resource number is unclipped and unobscured; report archive clears the minimap"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "kamon.spec.ts",
+        3,
+        1,
+        "production excludes the DEV gallery and renders actual clan crests with bounded short names"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "keyboard-minimum.spec.ts",
+        100,
+        1,
+        "minimum viewport rail, report, camera, Home and M keys work from Main"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "keyboard-minimum.spec.ts",
+        166,
+        3,
+        "minimum viewport WASD keys move the settled camera"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "keyboard-minimum.spec.ts",
+        166,
+        3,
+        "minimum viewport arrows keys move the settled camera"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "keyboard-minimum.spec.ts",
+        189,
+        1,
+        "minimum viewport keyboard and native wheel zoom change settled camera frames"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "keyboard-minimum.spec.ts",
+        218,
+        1,
+        "minimum viewport speed, quick save/load, and danger Enter keep focus priority"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "keyboard-minimum.spec.ts",
+        45,
+        1,
+        "minimum viewport map modes keep Tab navigation and input/modal ownership"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "layer-control-compact.spec.ts",
+        86,
+        3,
+        "compact LayerControl retains native keyboard controls and full active legend at scale 0.8"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "layer-control-compact.spec.ts",
+        86,
+        3,
+        "compact LayerControl retains native keyboard controls and full active legend at scale 1"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "layer-control-compact.spec.ts",
+        86,
+        3,
+        "compact LayerControl retains native keyboard controls and full active legend at scale 1.5"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "layout-motion.spec.ts",
+        327,
+        1,
+        "initial and live OS motion preference stops decoration but preserves information transitions"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "layout-motion.spec.ts",
+        371,
+        1,
+        "real camera and rail hotkeys are presentation-only; battle speed stays local"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "layout-motion.spec.ts",
+        59,
+        5,
+        "real UI bounds at 1280×720, scale 0.8"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "layout-motion.spec.ts",
+        59,
+        5,
+        "real UI bounds at 1280×720, scale 1"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "layout-motion.spec.ts",
+        59,
+        5,
+        "real UI bounds at 1280×720, scale 1.5"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "layout-motion.spec.ts",
+        59,
+        5,
+        "real UI bounds at 1920×1080, scale 0.8"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "layout-motion.spec.ts",
+        59,
+        5,
+        "real UI bounds at 1920×1080, scale 1"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "layout-motion.spec.ts",
+        59,
+        5,
+        "real UI bounds at 1920×1080, scale 1.5"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "live-national-map-perf.spec.ts",
+        92,
+        5,
+        "close: live strategy, native historical choice, full-wall rendering"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "live-national-map-perf.spec.ts",
+        92,
+        5,
+        "operational: live strategy, native historical choice, full-wall rendering"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "live-national-map-perf.spec.ts",
+        92,
+        5,
+        "overview: live strategy, native historical choice, full-wall rendering"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "live-national120-map-perf.spec.ts",
+        92,
+        5,
+        "close: live strategy, native historical choice, full-wall rendering"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "live-national120-map-perf.spec.ts",
+        92,
+        5,
+        "operational: live strategy, native historical choice, full-wall rendering"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "live-national120-map-perf.spec.ts",
+        92,
+        5,
+        "overview: live strategy, native historical choice, full-wall rendering"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "m6.spec.ts",
+        143,
+        3,
+        "debug fixture: actual UI Imagawa poach succeeds through real monthly plot resolution"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "m6.spec.ts",
+        182,
+        3,
+        "debug fixture: actual UI proposal adoption executes its payload and rewards its author on tick"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "m6.spec.ts",
+        25,
+        3,
+        "new game exposes officers, diplomacy, court and validated plot forms"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "m6.spec.ts",
+        55,
+        3,
+        "a manually paused reward stays queued until normal resume advances a tick"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "m6.spec.ts",
+        97,
+        3,
+        "debug fixture: actual UI Takeda alliance followed by a one-off reinforcement request"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 0.8"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 0.85"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 0.9"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 0.95"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 1"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 1.05"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 1.1"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 1.15"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 1.2"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 1.25"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 1.3"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 1.35"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 1.4"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 1.45"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "mandatory-overlays-responsive.spec.ts",
+        43,
+        3,
+        "earned proposal and month summary remain usable at scale 1.5"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "map-effects.spec.ts",
+        32,
+        1,
+        "live assault siege effects respect OS/settings, clear without backlog and remount one bounded pool"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "model-hierarchy-layout.spec.ts",
+        163,
+        3,
+        "painted main and branch castle frames have the approved world widths at three UI scales, without covering mandatory channels"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "model-hierarchy-layout.spec.ts",
+        259,
+        3,
+        "actual native lake polygons preserve canonical anchors, bounds and river banks while rounding the displayed scene"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "model-hierarchy-layout.spec.ts",
+        367,
+        3,
+        "enlarged artwork leaves occupied-army priority, unoccupied castle picking and far vector profiles intact"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "month-summary.spec.ts",
+        136,
+        1,
+        "monthly observation reads one coherent owner snapshot and refuses unknown dialogs"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "month-summary.spec.ts",
+        192,
+        3,
+        "native monthly reward and fief navigation scale 1"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "month-summary.spec.ts",
+        192,
+        3,
+        "native monthly reward and fief navigation scale 1.5"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "month-summary.spec.ts",
+        251,
+        3,
+        "native monthly opening summary at 1280×720 scale 1"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "month-summary.spec.ts",
+        251,
+        3,
+        "native monthly opening summary at 1280×720 scale 1.5"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "month-summary.spec.ts",
+        350,
+        1,
+        "disabled month pause produces an actual opening toast without suppressing mandatory proposals"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "national-map-perf.spec.ts",
+        7,
+        5,
+        "close: forty canonical armies and actual postrender cadence"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "national-map-perf.spec.ts",
+        7,
+        5,
+        "operational: forty canonical armies and actual postrender cadence"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "national-map-perf.spec.ts",
+        7,
+        5,
+        "overview: forty canonical armies and actual postrender cadence"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "national-road-readability.spec.ts",
+        8,
+        1,
+        "national Shikoku road has attributable paint at fixed unobstructed dash stations"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "national-soak.spec.ts",
+        14,
+        1,
+        "opt-in national 30 wall-minute ordinary ×5 lifecycle observation"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "national120-map-perf.spec.ts",
+        7,
+        5,
+        "close: 120 canonical armies and actual postrender cadence"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "national120-map-perf.spec.ts",
+        7,
+        5,
+        "operational: 120 canonical armies and actual postrender cadence"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "national120-map-perf.spec.ts",
+        7,
+        5,
+        "overview: 120 canonical armies and actual postrender cadence"
+      ],
+      "w4": "otherSkipped",
+      "w8": "otherSkipped",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 0.8"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 0.85"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 0.9"
+      ],
+      "w4": "terminalInterrupted",
+      "w8": "passed",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 0.95"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 1"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 1.05"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 1.1"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 1.15"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 1.2"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 1.25"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 1.3"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 1.35"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 1.4"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 1.45"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        116,
+        3,
+        "settings remain usable at uiScale 1.5"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 0.8"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 0.85"
+      ],
+      "w4": "otherSkipped",
+      "w8": "passed",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 0.9"
+      ],
+      "w4": "terminalInterrupted",
+      "w8": "passed",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 0.95"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 1"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 1.05"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 1.1"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 1.15"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 1.2"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 1.25"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 1.3"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 1.35"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 1.4"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 1.45"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        149,
+        3,
+        "save and load slots remain usable at uiScale 1.5"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 0.8"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 0.85"
+      ],
+      "w4": "passed",
+      "w8": "passed",
+      "w4Results": [
+        "passed"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 0.9"
+      ],
+      "w4": "otherSkipped",
+      "w8": "passed",
+      "w4Results": [
+        "skipped"
+      ],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 0.95"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 1"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 1.05"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 1.1"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 1.15"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 1.2"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 1.25"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 1.3"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 1.35"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 1.4"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 1.45"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "nonpolicy-responsive.spec.ts",
+        64,
+        3,
+        "officer table remains usable at uiScale 1.5"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "number-slider-normalization.spec.ts",
+        4,
+        1,
+        "native march numeric input normalizes above an unchanged controlled maximum on blur"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "perf-telemetry.spec.ts",
+        4,
+        1,
+        "native debug panel reads live scheduler telemetry without changing paused core state"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 0.8"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 0.85"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 0.9"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 0.95"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 1"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 1.05"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 1.1"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 1.15"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 1.2"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 1.25"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 1.3"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 1.35"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 1.4"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 1.45"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "policy-responsive.spec.ts",
+        31,
+        5,
+        "all twelve policy details remain reachable at uiScale 1.5"
+      ],
+      "w4": "notDispatched",
+      "w8": "passed",
+      "w4Results": [],
+      "w8Results": [
+        "passed"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 0.8"
+      ],
+      "w4": "notDispatched",
+      "w8": "otherSkipped",
+      "w4Results": [],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 0.85"
+      ],
+      "w4": "notDispatched",
+      "w8": "otherSkipped",
+      "w4Results": [],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 0.9"
+      ],
+      "w4": "notDispatched",
+      "w8": "otherSkipped",
+      "w4Results": [],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 0.95"
+      ],
+      "w4": "notDispatched",
+      "w8": "otherSkipped",
+      "w4Results": [],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 1"
+      ],
+      "w4": "notDispatched",
+      "w8": "terminalInterrupted",
+      "w4Results": [],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 1.05"
+      ],
+      "w4": "notDispatched",
+      "w8": "terminalInterrupted",
+      "w4Results": [],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 1.1"
+      ],
+      "w4": "notDispatched",
+      "w8": "terminalInterrupted",
+      "w4Results": [],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 1.15"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 1.2"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 1.25"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 1.3"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 1.35"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 1.4"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 1.45"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        248,
+        3,
+        "earned Okehazama choice stays reachable at 1280×720 scale 1.5"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "production-events.spec.ts",
+        99,
+        1,
+        "production event catalog fires actual Oda Okehazama, queues its native choice and survives native save/load"
+      ],
+      "w4": "notDispatched",
+      "w8": "otherSkipped",
+      "w4Results": [],
+      "w8Results": [
+        "skipped"
+      ],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 0.8"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 0.85"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 0.9"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 0.95"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 1"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 1.05"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 1.1"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 1.15"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 1.2"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 1.25"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 1.3"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 1.35"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 1.4"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 1.45"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "report-compact-presentation.spec.ts",
+        6,
+        3,
+        "compact native reports preserve readable content and archive controls at scale 1.5"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "reports.spec.ts",
+        6,
+        1,
+        "report center filters and paginates retained history without changing core, and navigates only on explicit goto"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-bank-morphology.spec.ts",
+        64,
+        3,
+        "fixed inland Kiso full-bank reference has guarded pixels and stable geography"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-bank-morphology.spec.ts",
+        64,
+        3,
+        "fixed inland Shinano full-bank reference has guarded pixels and stable geography"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-corner-layout.spec.ts",
+        61,
+        1,
+        "actual emitted river corners soften with one clear visual-review control and unchanged raw footprints/gameplay"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-inspection-control.spec.ts",
+        30,
+        5,
+        "river inspection after 1: retained-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-inspection-control.spec.ts",
+        30,
+        5,
+        "river inspection after 2: canonical-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-inspection-control.spec.ts",
+        30,
+        5,
+        "river inspection after 3: retained-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-inspection-control.spec.ts",
+        30,
+        5,
+        "river inspection after 4: canonical-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-inspection-control.spec.ts",
+        30,
+        5,
+        "river inspection after 5: retained-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-inspection-control.spec.ts",
+        30,
+        5,
+        "river inspection after 6: canonical-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-inspection-control.spec.ts",
+        30,
+        5,
+        "river inspection before 1: retained-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-inspection-control.spec.ts",
+        30,
+        5,
+        "river inspection before 2: canonical-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-inspection-control.spec.ts",
+        30,
+        5,
+        "river inspection before 3: retained-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-inspection-control.spec.ts",
+        30,
+        5,
+        "river inspection before 4: canonical-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-inspection-control.spec.ts",
+        30,
+        5,
+        "river inspection before 5: retained-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-inspection-control.spec.ts",
+        30,
+        5,
+        "river inspection before 6: canonical-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-material-remount.spec.ts",
+        76,
+        3,
+        "river material transport isolation 1: ten real renderer remounts"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-material-remount.spec.ts",
+        76,
+        3,
+        "river material transport isolation 2: ten real renderer remounts"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-material-remount.spec.ts",
+        76,
+        3,
+        "river material transport isolation 3: ten real renderer remounts"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-material-remount.spec.ts",
+        76,
+        3,
+        "river material transport isolation 4: ten real renderer remounts"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-material-remount.spec.ts",
+        76,
+        3,
+        "river material transport isolation 5: ten real renderer remounts"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-material-remount.spec.ts",
+        76,
+        3,
+        "river material transport isolation 6: ten real renderer remounts"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-pure-bounds.spec.ts",
+        5,
+        3,
+        "pure river bounds isolation 1: consecutive calls after ten remounts"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-pure-bounds.spec.ts",
+        5,
+        3,
+        "pure river bounds isolation 2: consecutive calls after ten remounts"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-pure-bounds.spec.ts",
+        5,
+        3,
+        "pure river bounds isolation 3: consecutive calls after ten remounts"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-pure-bounds.spec.ts",
+        5,
+        3,
+        "pure river bounds isolation 4: consecutive calls after ten remounts"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-pure-bounds.spec.ts",
+        5,
+        3,
+        "pure river bounds isolation 5: consecutive calls after ten remounts"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-pure-bounds.spec.ts",
+        5,
+        3,
+        "pure river bounds isolation 6: consecutive calls after ten remounts"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-runtime-identity.spec.ts",
+        29,
+        3,
+        "river runtime identity 1: retained-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-runtime-identity.spec.ts",
+        29,
+        3,
+        "river runtime identity 2: canonical-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-runtime-identity.spec.ts",
+        29,
+        3,
+        "river runtime identity 3: retained-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-runtime-identity.spec.ts",
+        29,
+        3,
+        "river runtime identity 4: canonical-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-runtime-identity.spec.ts",
+        29,
+        3,
+        "river runtime identity 5: retained-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-runtime-identity.spec.ts",
+        29,
+        3,
+        "river runtime identity 6: canonical-first actual same-realm routes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "river-surface-layout.spec.ts",
+        73,
+        3,
+        "actual wide-river interior varies quietly along both banks instead of uniform concentric pipe strokes"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "road-casing-presentation.spec.ts",
+        27,
+        1,
+        "soil-road casing captures six fixed poses and unobscured open/wooded stations"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "road-soil-material.spec.ts",
+        5,
+        1,
+        "normal campaign road material retains two authored bridges and reversible paint at mid and near"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "save-focus.spec.ts",
+        51,
+        1,
+        "save child confirmations restore parent focus including a deleted disabled opener"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "save-load.spec.ts",
+        151,
+        1,
+        "invalid import reports an error; valid direct import always requires cancel-first confirmation"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "save-load.spec.ts",
+        186,
+        1,
+        "F9 dirty quick load is cancel-first and restores the saved day only after confirmation"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "save-load.spec.ts",
+        34,
+        1,
+        "manual slots, overwrite/delete cancel-first and dirty load keep one system pause owner"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "save-load.spec.ts",
+        93,
+        1,
+        "export/import preview is non-mutating, stores only manual slots and loads from title after reload"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "save-progress.spec.ts",
+        154,
+        1,
+        "modal Ctrl+S leaves the existing quick save unchanged"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "save-progress.spec.ts",
+        72,
+        1,
+        "paused DOM orders survive quick save and continue, then execute once through normal resume"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "sea-surface-layout.spec.ts",
+        61,
+        3,
+        "open water has quiet two-dimensional variation, stays world-locked and does not change gameplay"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "settings.spec.ts",
+        12,
+        1,
+        "title preferences persist on reload and configure only the next session speed"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "settings.spec.ts",
+        47,
+        1,
+        "system settings retain their owned pause, preserve the map viewport and confirm leaving"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "settings.spec.ts",
+        81,
+        1,
+        "disabled arrival preferences cannot suppress mandatory proposal decisions"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "settlement-material.spec.ts",
+        116,
+        1,
+        "original town roofs, walls and shadows occupy safe ground without changing actors or gameplay"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "shared-panel-frame.spec.ts",
+        6,
+        3,
+        "shared command frames preserve actual panel and dialog controls at scale 0.8"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "shared-panel-frame.spec.ts",
+        6,
+        3,
+        "shared command frames preserve actual panel and dialog controls at scale 1"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "shared-panel-frame.spec.ts",
+        6,
+        3,
+        "shared command frames preserve actual panel and dialog controls at scale 1.5"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "shared-terrain-preview.spec.ts",
+        7,
+        1,
+        "shared terrain projection captures six national-game poses"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "smoke.spec.ts",
+        163,
+        3,
+        "P1 載入標題：screen-title 可見，頁面含「天下布武」字樣，無 console error"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "smoke.spec.ts",
+        172,
+        3,
+        "P2 開新局選織田：screen-strategy 可見，hud-date 顯示 s1560 開局日期（1560年），無 console error"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "smoke.spec.ts",
+        186,
+        3,
+        "P3 推進 3 個月：x5 到月份 +3，暫停後日期不再前進"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "smoke.spec.ts",
+        191,
+        3,
+        "P4 存檔再讀檔：承真正 P3，手動存檔後回標題載入同一時刻"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "smoke.spec.ts",
+        248,
+        3,
+        "P5 直達合戰畫面：debug-battle-01 可載入並撤退回策略畫面"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "state-viewer.spec.ts",
+        161,
+        1,
+        "state viewer is absent from a real nondebug game"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "state-viewer.spec.ts",
+        32,
+        1,
+        "state viewer native expansion, paging and selected JSON copy preserve queued paused progress"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "taimei.spec.ts",
+        6,
+        1,
+        "Taimei confirms once, executes on normal Step1, and restores its active HUD from a quick save"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "terrain-akaishi-layout.spec.ts",
+        4,
+        1,
+        "Akaishi unequal summits preserve normal-game river, roads and static resources"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "terrain-hida-layout.spec.ts",
+        4,
+        1,
+        "Hida original massif reference preserves national geography and static resources"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "terrain-kiso-layout.spec.ts",
+        4,
+        1,
+        "Kiso original massif retains normal-game geography, cameras and static resources"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "terrain-massif-layout.spec.ts",
+        25,
+        1,
+        "massif reference captures preserve full authored masses, projection and idle resources"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "transport-recall.spec.ts",
+        4,
+        1,
+        "native active transport recall returns real mid-edge cargo exactly once"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "transport.spec.ts",
+        18,
+        1,
+        "native transport preview stays read-only and its shortest friendly ETA matches actual cargo arrival"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "viewport-system-menu.spec.ts",
+        113,
+        1,
+        "owned settings and nested confirmation survive resize without losing input focus or identity"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "viewport-system-menu.spec.ts",
+        156,
+        1,
+        "battle viewport freeze and Escape SystemMenu preserve battle authority and disable save/load"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "viewport-system-menu.spec.ts",
+        44,
+        1,
+        "independent width/height minimum gates freeze real strategy and block background input"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "viewport-system-menu.spec.ts",
+        95,
+        1,
+        "initial undersized skip-title x5 boot cannot start the day loop"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "visual.spec.ts",
+        221,
+        3,
+        "analysis modes render visible overlays without changing GameState"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "visual.spec.ts",
+        264,
+        3,
+        "grayscale readability artifact for manual shape and line-style review"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "visual.spec.ts",
+        277,
+        3,
+        "HUD keyboard focus is visible and enabled buttons have readable contrast"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "visual.spec.ts",
+        352,
+        3,
+        "1080p / 20 moving armies / 30-second camera workload"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "visual.spec.ts",
+        41,
+        3,
+        "three camera baselines preserve small visual details"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "visual.spec.ts",
+        61,
+        3,
+        "required renderer layers contain visible content at each LOD"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "visual.spec.ts",
+        97,
+        3,
+        "zoom cycles and renderer remount preserve resource counts without context loss"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "water-foreground-layout.spec.ts",
+        135,
+        3,
+        "three real renderer remounts keep lake sources and listeners live without stale texture errors"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "water-foreground-layout.spec.ts",
+        210,
+        3,
+        "six unchanged focus views preserve castle clearance and reduce conditional soldier and signal interference"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "water-foreground-layout.spec.ts",
+        312,
+        3,
+        "actual Biwa and Hamana use bounded persistent two-dimensional material with visible interior variation"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "worker-simulation.spec.ts",
+        123,
+        1,
+        "native seeded full-world worker ticks preserve queued commands, complete state and replay log"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "worker-simulation.spec.ts",
+        229,
+        1,
+        "native save and browser reload preserve an unconsumed command for the next worker day"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "worker-simulation.spec.ts",
+        295,
+        3,
+        "same-host full-world 120-day synchronous and Worker measurements preserve complete state"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "worker-simulation.spec.ts",
+        295,
+        3,
+        "same-host full-world 60-day synchronous and Worker measurements preserve complete state"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "worker-simulation.spec.ts",
+        432,
+        1,
+        "pausing an already posted native Worker day keeps state and its command for a fresh generation"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    },
+    {
+      "key": [
+        "chromium",
+        "worker-simulation.spec.ts",
+        481,
+        1,
+        "native x5 Worker flow and a paced synchronous reference retain state with raw main-thread timings"
+      ],
+      "w4": "notDispatched",
+      "w8": "notDispatched",
+      "w4Results": [],
+      "w8Results": [],
+      "w4Errors": [],
+      "w8Errors": []
+    }
+  ]
+}

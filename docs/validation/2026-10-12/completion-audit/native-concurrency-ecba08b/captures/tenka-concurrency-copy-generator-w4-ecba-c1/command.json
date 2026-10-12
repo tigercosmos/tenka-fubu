@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "scp",
+    "-r",
+    "sim4:/tmp/tenka-battle-79682cd/runs/concurrency-ecba-w4-c1/browser-results/earned-regional-worker-7",
+    "docs/validation/2026-10-12/completion-audit/native-concurrency-ecba08b/w4-generator"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:36:28.777044+00:00",
+  "browser": false
+}

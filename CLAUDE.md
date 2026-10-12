@@ -48,9 +48,13 @@
 
 - 當前里程碑：見 `milestone.json`；歷史進度：見 README 進度表。
 
+- `c74a46c` 將 coast 的 renderer-ready 前置抽成共用 helper，只接到 coast、army material、context focus 三個原生路徑，在第一個需要 renderer 的呼叫前等待。控制延遲字型載入時舊兩項均因尚未掛載失敗，候選延遲四項與精確原案例四項均通過；既有 coast 延遲回歸保持。固定提交的型別、完整 ESLint、四檔格式與 364 項 discovery 通過，1,633 個來源輸入前後同 Git。沒有改遊戲、期限、全域 fixture 或保護基準。
+- `bf6638e` 修正軍團 E2E 在 Worker 結算完成前讀狀態的競態：保留原 `stepDays`，以原五秒 poll 等精確目標日及零 pending ticks。原兩項均失敗，觀測到 pendingTicks=1 與舊日期；候選兩項通過，原軍團／金庫／解散／手動暫停斷言保持。最後型別、完整 ESLint、五檔格式、364 項 discovery 與 1,633 來源前後校驗通過。首次來源前置因先寫入的 CLAUDE 交接段落停止，已保存唯一差異及恢復後的獨立成功執行；未改用 blocker 語意不同的 `stepDaysAsync`。
+- 固定較早 `ecba08b` 的完整 364 項並行度診斷，僅改 CLI workers，均到原 300 秒上限。4 workers：162 PASS／9 FAIL／0 timeout／20 其他 skipped／2 interrupted／171 未派發；8 workers：218 PASS／9 FAIL／1 timeout／23 其他 skipped／3 interrupted／110 未派發。兩者都 RED，未採用新的 worker 上限；原 16-worker `1464146` 是不同來源／363 項，只能作歷史參考。兩個新測試修正尚未重跑完整原生。
+
 - `5500bc0` 將三個 Ending 瀏覽器流程的合法存檔生成集中到檔案內 `beforeAll`，每個 worker 生命週期各新生成一次；保留獨立 browser context、單一 `chromium` project、原 5 秒 generator／300 秒全套上限。三項通過，生成失敗、worker 重啟、毀損存檔、無關 subset 與子程序逾時清理均有控制證據。這不是每次 invocation 絕對只生成一次，也尚未清除全套的生成逾時。
 - `1464146` 修正 actor-depth 測試把 canonical Y 當成地形抬升後 scene Y 的錯誤；改用獨立節點投影觀測，保留精確城池腳點相等、軍隊 anchor 關係、排序／重疊／選取斷言。原三項 1 FAIL／2 PASS，最後三項通過。`3ec8d7` 補 coast 初次掛載的 ready 前置；控制延遲字型載入時舊版失敗，新版原案例加回歸兩項通過。三次提交都只改 E2E，沒有改遊戲或期限。
-- 固定 `1464146` 原完整原生 363 項、預設 16 workers，300,015ms 到全套上限：226 PASS、15 FAIL、3 case timeout、29 其他 skipped、7 interrupted、83 未派發。Ending 單一 generator 仍花 6.719 秒而超過原 5 秒；後兩項未執行。最新 `3ec8d7` 型別、coast ESLint／Prettier、364 項 discovery 與 1,632 輸入前後校驗成功；完整 ESLint 與完整原生仍釘選 `1464146`，沒有重跑或改標。
+- 固定 `1464146` 原完整原生 363 項、預設 16 workers，300,015ms 到全套上限：226 PASS、15 FAIL、3 case timeout、29 其他 skipped、7 interrupted、83 未派發。Ending 單一 generator 仍花 6.719 秒而超過原 5 秒；後兩項未執行。該批次最後 `3ec8d7` 的型別、coast ESLint／Prettier、364 項 discovery 與 1,632 輸入前後校驗成功；該批次完整 ESLint 與完整原生釘選 `1464146`，沒有改標。後續完整 ESLint 見上方 `bf6638e`。
 - 分類更正：重新比對原 `8ea965a` JSON 與七項 terminal interrupted 名稱，正確分類為 222 PASS、18 FAIL、3 timeout、27 其他 skipped、7 interrupted、85 未派發。先前的 34／7／78 分法把有 skipped result 的 interrupted 錯當成空結果；原 raw 與歷史套件不改，新 `native-full-suite-1464146` 保存補正。兩次全套都未通過，不能把四個額外 PASS 當因果效能提升。
 - 色覺 CDP 還原仍 RED；獨立重現 416 個差異像素，無 CDP 控制也有同區域 385 個差異，paint owner 未確定，沒有放寬零差異或更換基準。下一步可做固定來源、完整案例、原期限下的 4／8 worker 診斷；未採用新的 worker 設定，亦不再重複同來源 16-worker 全套。
 
