@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "ps -eo pid,ppid,pgid,etime,args | grep -E \"[p]laywright|[c]hromium|[v]ite|[v]itest|[e]arned-regional|tenka-battle-79682cd\""
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:21:27.763371+00:00",
+  "browser": false
+}

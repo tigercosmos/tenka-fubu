@@ -1,0 +1,25 @@
+# Native Playwright suite on `8ea965a`
+
+The complete Chromium suite stopped at its unchanged 300-second global limit. It did not pass. The run used 16 default workers and found 362 tests in 103 files. The raw JSON report records 222 passed, 18 failed, three timed out, and 119 skipped. Of the skipped cases, 34 have an explicit skip result and 85 have no result. The terminal log identifies seven active cases as interrupted when the limit ended; 78 cases did not start.
+
+The exact source revision is `8ea965a2c3feada6118d6d65712ebe43f577ad03`. The scoped `79682cd` to `51abd75` archive changed five runtime files. The `51abd75` to `8ea965a` archive changed only `e2e/court-rank.spec.ts`. No file was deleted.
+
+The retained sim4 checkout started as all 1,630 allowlisted `79682cd` Git blobs plus one known Battle test overlay. After the scoped overlay, all 1,632 `8ea965a` blobs matched, with no extra allowlisted file. The before and after inventory outputs are in `captures/`. The package lock SHA-256 stayed `63f021d39b353a70831accbfc50b714a09767b900ce23157fbf4ecce1dda7be1`; installed dependencies passed `npm ls --depth=0` before and after the run. Both captured builds passed.
+
+The first complete run on `51abd75` stopped during Node test discovery. The sole E2E runtime import of `buildSaveFile` loaded `src/core/state/selectors.ts`, whose bare JSON import requires a Node import attribute. The complete original error is in `captures/tenka-sim4-full-playwright-51abd75-01/stdout-stderr.log.gz`. A test-only change in `8ea965a` removed that import. Focused discovery then listed the court-rank test, and full discovery listed all 362 tests. The save and serialization checks passed 38 of 38; typecheck, ESLint, and Prettier passed.
+
+The `8ea965a` run began at `2026-10-12T08:24:33.466Z` and ran for `300015.317` ms. The complete command and exit code are in `captures/tenka-sim4-full-playwright-8ea-01/`. `report.json.gz` contains the unchanged 144 MB Playwright JSON report. `captures/tenka-sim4-full-json-summary-8ea-02/stdout-stderr.log.gz` contains the derived per-case status and error list. The original configured case timeout is 60 seconds, but existing tests call `test.setTimeout` for longer limits. The run kept every override unchanged, as well as the 300-second global limit.
+
+The 21 unexpected cases group as follows. Three army plate cases hit five-second map-idle waits. Two corps cases failed state assertions. The depth case reported castle foot Y `2768.4` against expected `2774`. The coast case called a map diagnostic before the renderer was mounted.
+
+Four color-vision cases failed exact-pixel restoration. Army orders, rice trade, and geographic labels hit 60-second case limits. Court work and Hojo aid reported different days from their expected day. Earned alliance and Takeda alliance reported failed child commands. Three earned regional ending cases stopped because their fixture generator exited with a Vitest five-second case timeout. These are observed failures, not a single attributed product cause.
+
+The three original earned ending generator logs are in `earned-generator-logs.tar.gz`. Their SHA-256 values are also in `artifact-inventory.json.gz`. The recorded test durations were 6.61, 6.47, and 5.95 seconds, each beyond the unchanged five-second Vitest case limit.
+
+One exact generator command on the idle sim4 host passed with a 1.61-second case duration. Its raw output is in `captures/tenka-sim4-isolated-earned-generator-8ea-01/`; `isolated-earned-regional.tfusave.gz` preserves its 155,056-byte result. This control supports a workload-sensitive fixture timeout. It does not turn the complete suite green.
+
+The full 5,184,669,183-byte test output tree remains at `/tmp/tenka-battle-79682cd/runs/full-suite-8ea-01/test-results` on sim4. `artifact-inventory.json.gz` lists the relative path, byte size, and SHA-256 for each of its 22,721 files. The raw JSON report remains beside that tree; the local compressed copy has SHA-256 `59225f5e25afcc99565ff80c95300eddca7d5c8692b90f44a215b7e45c6ecd58`. The remote uncompressed report has SHA-256 `20d16a743204f763c65c98fce26db002a6086c25c65cb1c264d3cdbb8d5d0a2c`. No large trace or screenshot was copied into Git.
+
+Immediately after the failed run, process inspection found two Playwright workers with parent PID 1. A second inspection seconds later found neither worker and no preview, Chromium, or Vitest process. Both outputs are preserved under `captures/tenka-sim4-full-postprocess-8ea-01/` and `captures/tenka-sim4-full-postprocess-8ea-02/`. The intermediate orphan detail command returned exit code 2 because its `awk` filter was malformed; its raw result remains under `captures/tenka-sim4-full-orphan-detail-8ea-01/`.
+
+Run `python3 verify.py` from this directory to check every packaged file against `manifest.json`, decompress the report, and check the report counts. The verifier does not fetch external traces. `source/` contains the exact scoped manifests and tar streams. `scripts/` contains the source inventory and report parsers used for the analysis.

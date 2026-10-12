@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "set -eu; cd /tmp/tenka-battle-79682cd/runs/full-suite-8ea-01; test ! -e earned-generator-logs.tar.gz; tar -czf earned-generator-logs.tar.gz -C test-results earned-regional-ending-ear-a2815-crest-and-actions-reachable-chromium/earned-regional-route-generation.log earned-regional-ending-gen-036c9-an-actual-native-quick-save-chromium/earned-regional-route-generation.log earned-regional-ending-gen-da37c-wledging-the-stored-victory-chromium/earned-regional-route-generation.log; sha256sum earned-generator-logs.tar.gz; wc -c earned-generator-logs.tar.gz"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:34:15.076895+00:00",
+  "browser": false
+}

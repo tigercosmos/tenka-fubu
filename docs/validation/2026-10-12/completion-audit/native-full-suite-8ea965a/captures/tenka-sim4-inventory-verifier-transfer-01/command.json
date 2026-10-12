@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "scp",
+    "/tmp/tenka-source-inventory-verify.py",
+    "sim4:/tmp/tenka-source-inventory-verify.py"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:17:33.692290+00:00",
+  "browser": false
+}

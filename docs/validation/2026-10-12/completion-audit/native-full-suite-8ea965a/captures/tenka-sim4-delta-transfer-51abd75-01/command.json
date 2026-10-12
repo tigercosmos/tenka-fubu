@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "scp",
+    "/tmp/tenka-scoped-delta-796-to-51abd75-01/source.tar",
+    "/tmp/tenka-scoped-delta-796-to-51abd75-01/manifest.json",
+    "sim4:/tmp/tenka-battle-79682cd/runs/full-suite-readiness-01/"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:20:35.540310+00:00",
+  "browser": false
+}

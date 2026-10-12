@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "set -eu; cd /tmp/tenka-battle-79682cd; test ! -e runs/full-suite-51abd75-01; mkdir runs/full-suite-51abd75-01; export PATH=/tmp/tenka-fubu-parallel-20261011.FC6Shj/runtime/bin:$PATH; CI=1 VISUAL_GPU=1 PLAYWRIGHT_JSON_OUTPUT_FILE=runs/full-suite-51abd75-01/report.json ./node_modules/.bin/playwright test --output=runs/full-suite-51abd75-01/test-results --reporter=line,json"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:21:05.601194+00:00",
+  "browser": false
+}

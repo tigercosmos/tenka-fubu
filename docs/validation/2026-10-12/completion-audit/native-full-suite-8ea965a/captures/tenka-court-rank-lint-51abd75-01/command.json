@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "bash",
+    "-c",
+    "./node_modules/.bin/eslint e2e/court-rank.spec.ts && ./node_modules/.bin/prettier --check e2e/court-rank.spec.ts && git diff --check"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:23:03.334942+00:00",
+  "browser": false
+}

@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "cat /tmp/tenka-battle-79682cd/runs/full-suite-8ea-01/test-results/earned-regional-ending-gen-036c9-an-actual-native-quick-save-chromium/earned-regional-route-generation.log"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:31:50.746176+00:00",
+  "browser": false
+}

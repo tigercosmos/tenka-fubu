@@ -1,0 +1,1432 @@
+{
+  "files": [
+    {
+      "path": "captures/tenka-scoped-delta-796-to-51abd75-capture-01/command.json",
+      "sizeBytes": 369,
+      "sha256": "5be2f17ff4f986149bcb9de5961a87f54d60c5b58ac33387497adc6971f38636",
+      "source": "/tmp/tenka-scoped-delta-796-to-51abd75-capture-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-scoped-delta-796-to-51abd75-capture-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "21879a1ce1700c5ecef63b47ca07c9f09edfa612b0cb3a514fa66364a365d17f",
+      "source": "/tmp/tenka-scoped-delta-796-to-51abd75-capture-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-scoped-delta-796-to-51abd75-capture-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "da28665620fba6e98bf266360dc54222791322067a4f30f7a878b3656995bd1f",
+      "source": "/tmp/tenka-scoped-delta-796-to-51abd75-capture-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-scoped-delta-796-to-51abd75-capture-01/stdout-stderr.log.gz",
+      "sizeBytes": 151,
+      "sha256": "52b8280de115652c5fe02af47be52f6abeab934bb4a2593f03bb561339c9b5a9",
+      "source": "/tmp/tenka-scoped-delta-796-to-51abd75-capture-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-base-inventory-extras-01/command.json",
+      "sizeBytes": 294,
+      "sha256": "7a1f69423650cb589f964fac48197e9f1a1c7346f53dace860018a385b8ad999",
+      "source": "/tmp/tenka-sim4-base-inventory-extras-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-base-inventory-extras-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "182d88250cfd5e303038fda63e651bf40bc8250fbbf575528c4a1fed3dd2b9e5",
+      "source": "/tmp/tenka-sim4-base-inventory-extras-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-base-inventory-extras-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "6a155a52a7c0e5940db28b450bcef9b1fd1251db0c6ce53616f5bfb37d93b841",
+      "source": "/tmp/tenka-sim4-base-inventory-extras-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-base-inventory-extras-01/stdout-stderr.log.gz",
+      "sizeBytes": 149,
+      "sha256": "ded46888532628a10b6d470bd4794c0c2d242f2fa8593afa9c72051a3cfbf957",
+      "source": "/tmp/tenka-sim4-base-inventory-extras-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-source-overlay-51abd75-01/command.json",
+      "sizeBytes": 480,
+      "sha256": "5f219c5a3bc356bc80be132f2eb837a1589676db66a25e2355cc70a001ecca5c",
+      "source": "/tmp/tenka-sim4-source-overlay-51abd75-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-source-overlay-51abd75-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "858c6ec01bc4a61ccf20355cef6bbb91bbfe0495f478f6badbb7fdd5fb99d946",
+      "source": "/tmp/tenka-sim4-source-overlay-51abd75-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-source-overlay-51abd75-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "9ff20a8280b25e796201c69dcce60ec6f4ec8cc061a1ee19a82d439aaf1abd36",
+      "source": "/tmp/tenka-sim4-source-overlay-51abd75-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-source-overlay-51abd75-01/stdout-stderr.log.gz",
+      "sizeBytes": 260,
+      "sha256": "216e9f73d32f23650dca781998e38c072b3a31c8e80e61560220a259c940c134",
+      "source": "/tmp/tenka-sim4-source-overlay-51abd75-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-deps-before-51abd75-01/command.json",
+      "sizeBytes": 391,
+      "sha256": "27d9974341af554b8dd7c36f7ed53b4fd31b5b421a57a268312ce67c1f8d38c2",
+      "source": "/tmp/tenka-sim4-deps-before-51abd75-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-deps-before-51abd75-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "9eed8378f97da52f1d5b087e08c11ec6b8c5a093ee79b081ceaeeffa52600384",
+      "source": "/tmp/tenka-sim4-deps-before-51abd75-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-deps-before-51abd75-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "beb63cfd5dd12631469b1839b0d7db8678362ba5119925e42e4df19e034961ac",
+      "source": "/tmp/tenka-sim4-deps-before-51abd75-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-deps-before-51abd75-01/stdout-stderr.log.gz",
+      "sizeBytes": 535,
+      "sha256": "4a9124dd0fdb46190785b1dffb33ac6956819955a3a32106426d99fa04178615",
+      "source": "/tmp/tenka-sim4-deps-before-51abd75-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-build-51abd75-01/command.json",
+      "sizeBytes": 301,
+      "sha256": "71da562c64a77f3470dc62eba6c4db0ff7c3821d717ac48d748f8f7d9c41fcd7",
+      "source": "/tmp/tenka-sim4-build-51abd75-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-build-51abd75-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "52f0c6d449cd648a92353b41c9ab3c742b383052dbe8c7f7d10ef21291535d00",
+      "source": "/tmp/tenka-sim4-build-51abd75-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-build-51abd75-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "54d8c5f983ac798dffff7c7a464aeeab231c9c44318aca6deee1f45f373798bb",
+      "source": "/tmp/tenka-sim4-build-51abd75-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-build-51abd75-01/stdout-stderr.log.gz",
+      "sizeBytes": 936,
+      "sha256": "39f599b1ebe6f10f7b49712460a137bc52071f4b970b669a9f7a6a2af6619ece",
+      "source": "/tmp/tenka-sim4-build-51abd75-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-full-playwright-51abd75-01/command.json",
+      "sizeBytes": 537,
+      "sha256": "cb0ce3164088604501c1acbd3c72fbc1eaf1c01ed0bab7fa52fa087e12d5e661",
+      "source": "/tmp/tenka-sim4-full-playwright-51abd75-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-playwright-51abd75-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "049bc77d718d5e469e3e01cac6075936c08fec8ac67e53314903c06c33618c8c",
+      "source": "/tmp/tenka-sim4-full-playwright-51abd75-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-playwright-51abd75-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "2ae6e86590d66ff94e5063b8ac99b47f7e39044e361374f8534c5f9fc6468059",
+      "source": "/tmp/tenka-sim4-full-playwright-51abd75-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-playwright-51abd75-01/stdout-stderr.log.gz",
+      "sizeBytes": 130,
+      "sha256": "5d3a9caa7d9882f196ed062e68a96d7dd25261e8a30fe4f110db3b63114995ba",
+      "source": "/tmp/tenka-sim4-full-playwright-51abd75-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-full-postprocess-51abd75-01/command.json",
+      "sizeBytes": 288,
+      "sha256": "e02bb36a2e7eb4f6e93d3a14cbb1ef262333ace5c07675735921a2c55228c712",
+      "source": "/tmp/tenka-sim4-full-postprocess-51abd75-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-postprocess-51abd75-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "2a204e2a561a74fa0861e5ba2cbf70525d1d52f1607d42275513f489482e4715",
+      "source": "/tmp/tenka-sim4-full-postprocess-51abd75-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-postprocess-51abd75-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "a1a66ddf9993fddfa19bfd72c32394ac02527460706a1dc3ea7af850d645dbc6",
+      "source": "/tmp/tenka-sim4-full-postprocess-51abd75-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-postprocess-51abd75-01/stdout-stderr.log.gz",
+      "sizeBytes": 169,
+      "sha256": "03d17c8696a810004c3549ab8c9ed444769f3da143153809f4d6f8bee80fab0a",
+      "source": "/tmp/tenka-sim4-full-postprocess-51abd75-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-court-rank-51abd75-01/command.json",
+      "sizeBytes": 353,
+      "sha256": "4d14d7888a743954f4eb3308bc1bb6c8616f2f6886e790b4c7dd5bcf6b79e735",
+      "source": "/tmp/tenka-sim4-discovery-court-rank-51abd75-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-court-rank-51abd75-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "d6e3056c688b03d30e5a639616c0866777d6a0fad2f2db642fda21e30a443657",
+      "source": "/tmp/tenka-sim4-discovery-court-rank-51abd75-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-court-rank-51abd75-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "43465532bcf48d1c25cbddba7d83b6d98654e1deed606e2b5691c4f6942c9895",
+      "source": "/tmp/tenka-sim4-discovery-court-rank-51abd75-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-court-rank-51abd75-01/stdout-stderr.log.gz",
+      "sizeBytes": 249,
+      "sha256": "6e78dbf5a6d04cb126119f7d47747e57b0b9af6303b73618720f1ad5363a56c6",
+      "source": "/tmp/tenka-sim4-discovery-court-rank-51abd75-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-accessibility-51abd75-01/command.json",
+      "sizeBytes": 356,
+      "sha256": "d3db11e7ae54209b048ce1a9385aa9f12c225a54cac925c59c5bb050dc3f9c8a",
+      "source": "/tmp/tenka-sim4-discovery-accessibility-51abd75-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-accessibility-51abd75-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "3a07a927f707ee34a7fd5dab8d2917c143c5e4c878ad0edc303b79575c404959",
+      "source": "/tmp/tenka-sim4-discovery-accessibility-51abd75-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-accessibility-51abd75-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "ca98ebd92d3d87e486d09498cd9ae3d3000da5a6dd236d46d4fb4744a5cd7512",
+      "source": "/tmp/tenka-sim4-discovery-accessibility-51abd75-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-accessibility-51abd75-01/stdout-stderr.log.gz",
+      "sizeBytes": 213,
+      "sha256": "ad3cde9798627f0c1640765f0636ddd200919d58b30be2e41fc5718611fe7137",
+      "source": "/tmp/tenka-sim4-discovery-accessibility-51abd75-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-court-rank-lint-51abd75-01/command.json",
+      "sizeBytes": 295,
+      "sha256": "4c49a9a0bc3db196d0d49acdf06ff733f1f651ba6f511b292ba985da6259ebc4",
+      "source": "/tmp/tenka-court-rank-lint-51abd75-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-court-rank-lint-51abd75-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "8353bc8cf3d0ff4ee714bb2e616a19e3d3a4aa8d168f56e93261af9b2c144076",
+      "source": "/tmp/tenka-court-rank-lint-51abd75-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-court-rank-lint-51abd75-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "9033ef0a8112ee628c2df6705595006a0aac7ffb396c67432d236e4401c59664",
+      "source": "/tmp/tenka-court-rank-lint-51abd75-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-court-rank-lint-51abd75-01/stdout-stderr.log.gz",
+      "sizeBytes": 82,
+      "sha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5",
+      "source": "/tmp/tenka-court-rank-lint-51abd75-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-court-rank-save-tests-51abd75-01/command.json",
+      "sizeBytes": 362,
+      "sha256": "9ba3839ac4ecf2d17c8b8ef4406c87f2c8c3731ed246d0fe65ad6f3153efcb66",
+      "source": "/tmp/tenka-court-rank-save-tests-51abd75-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-court-rank-save-tests-51abd75-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "cc47218de84d0be8ec3dff2410ce5ad69e9c2dfd7b008f4a04fe5ed47a7ff74c",
+      "source": "/tmp/tenka-court-rank-save-tests-51abd75-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-court-rank-save-tests-51abd75-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "1745d9dd5fb3b80bb28717ca3c8be080cfa4b2fd6efa8b5f60bdca7ab23c8e1f",
+      "source": "/tmp/tenka-court-rank-save-tests-51abd75-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-court-rank-save-tests-51abd75-01/stdout-stderr.log.gz",
+      "sizeBytes": 260,
+      "sha256": "01e33878135a0186f01852b38ecc690448a1f0c674a5edf90e79cc20800c1200",
+      "source": "/tmp/tenka-court-rank-save-tests-51abd75-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-court-rank-typecheck-51abd75-01/command.json",
+      "sizeBytes": 172,
+      "sha256": "e66b62d3389f44a686abcf87fa295830b8db9052efcde1b7108c7a32793681a7",
+      "source": "/tmp/tenka-court-rank-typecheck-51abd75-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-court-rank-typecheck-51abd75-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "f5a8e722f80eae6eab90c56eac8b61cc075eb676679829ed5c2f44ee69e5506a",
+      "source": "/tmp/tenka-court-rank-typecheck-51abd75-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-court-rank-typecheck-51abd75-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "e071c75dab040d1647d514db03b31880dc6479bae8f05109c5b40e0673c0e515",
+      "source": "/tmp/tenka-court-rank-typecheck-51abd75-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-court-rank-typecheck-51abd75-01/stdout-stderr.log.gz",
+      "sizeBytes": 87,
+      "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+      "source": "/tmp/tenka-court-rank-typecheck-51abd75-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-court-rank-fixed-01/command.json",
+      "sizeBytes": 389,
+      "sha256": "ce49a8fa68b61a93058abef524499413b1aea425a4415d356ad43a8a9af58d66",
+      "source": "/tmp/tenka-sim4-discovery-court-rank-fixed-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-court-rank-fixed-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "9dcaa0476d813efb205851e75f1f1af0be158d97deb26632f0a2fee7124be65a",
+      "source": "/tmp/tenka-sim4-discovery-court-rank-fixed-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-court-rank-fixed-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "42c730a96b65662865794ea795447ca009153560e8ca8e6b843201f7c87ebe90",
+      "source": "/tmp/tenka-sim4-discovery-court-rank-fixed-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-court-rank-fixed-01/stdout-stderr.log.gz",
+      "sizeBytes": 207,
+      "sha256": "58b1408f4ce3e7336709845e74777b1086389d6d0a8ef6654983603e31a190d2",
+      "source": "/tmp/tenka-sim4-discovery-court-rank-fixed-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-all-fixed-01/command.json",
+      "sizeBytes": 330,
+      "sha256": "9777ca8df80090be16ee9c279c3fa550e8e060819c3304d4371be05ac932ff2f",
+      "source": "/tmp/tenka-sim4-discovery-all-fixed-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-all-fixed-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "cbe71d836d24c1890dacf90301befc18ac26866aaae3bb1e7feb2496bc914412",
+      "source": "/tmp/tenka-sim4-discovery-all-fixed-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-all-fixed-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "b9880eba47e830f63b64924d24c47d196e49c34cb255d9a32a699bc14165df83",
+      "source": "/tmp/tenka-sim4-discovery-all-fixed-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-discovery-all-fixed-01/stdout-stderr.log.gz",
+      "sizeBytes": 9110,
+      "sha256": "9df0772059140267c689ad1af268070c33046f36eac17ccfd8d869532e031621",
+      "source": "/tmp/tenka-sim4-discovery-all-fixed-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-scoped-delta-51-to-8ea-capture-01/command.json",
+      "sizeBytes": 364,
+      "sha256": "373077c4ed395b36f0f51d1aa0190408c8c33b73309348d932408a3a8a797351",
+      "source": "/tmp/tenka-scoped-delta-51-to-8ea-capture-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-scoped-delta-51-to-8ea-capture-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "804133c93fc446bd057a23d55627d5e252462400f5c164030a3ef6e946e95e64",
+      "source": "/tmp/tenka-scoped-delta-51-to-8ea-capture-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-scoped-delta-51-to-8ea-capture-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "4e207045cf7dcf89d5f59e90b8226e4c4654f83c80eb643081b4ad4e205b5767",
+      "source": "/tmp/tenka-scoped-delta-51-to-8ea-capture-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-scoped-delta-51-to-8ea-capture-01/stdout-stderr.log.gz",
+      "sizeBytes": 148,
+      "sha256": "d6b436c376b9f1c8decc32412281fbffe0a60df23d2ca75ce12f4c4f8af685a2",
+      "source": "/tmp/tenka-scoped-delta-51-to-8ea-capture-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-final-preproof-8ea-01/command.json",
+      "sizeBytes": 482,
+      "sha256": "4c89f1d56fc979bce6177ba7a381cf9e08ab2d96a8616f4c257ad6a8cb89a39e",
+      "source": "/tmp/tenka-sim4-final-preproof-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-final-preproof-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "135fd0c8ae7db943c8b2debac1b891fbf8e5eb3c238ee6f640eea7995f7d0072",
+      "source": "/tmp/tenka-sim4-final-preproof-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-final-preproof-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "8d73f3af4b0719d45c4e63e72e1848da07d4de895d6f6c6cc8cf2ebffb79b926",
+      "source": "/tmp/tenka-sim4-final-preproof-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-final-preproof-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 660,
+      "sha256": "df0a2d25df78dc4a4eed7faa5b68334fa0a0205b42cdb754aff7e6809b39adbc",
+      "source": "/tmp/tenka-sim4-final-preproof-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-build-8ea-01/command.json",
+      "sizeBytes": 301,
+      "sha256": "cb725d472b564438bd07b44d5c5fc1acf17e10b8ae9c32d58f7a7a21f97e803a",
+      "source": "/tmp/tenka-sim4-build-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-build-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "7cc5fe9e33c1044c46318fad28a076025cf48a1cc86809525d22b53b39d3287b",
+      "source": "/tmp/tenka-sim4-build-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-build-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "0cfc67ec8a1377298368a5644d8722060ce6e88e139e1eeca464894644a2803b",
+      "source": "/tmp/tenka-sim4-build-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-build-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 936,
+      "sha256": "1bd18825e05542af7d68a813d2c50ed00f3598c8cc77267c46c808affd5a8af0",
+      "source": "/tmp/tenka-sim4-build-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-full-playwright-8ea-01/command.json",
+      "sizeBytes": 521,
+      "sha256": "18cd5d61a716075c25577b5b247038691d8dd2f825eda66966b9fa2aa1d6f500",
+      "source": "/tmp/tenka-sim4-full-playwright-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-playwright-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "e0d5da32941f345063100f360533c1988de41ab1cc2ccf482f9dbd234cbe7517",
+      "source": "/tmp/tenka-sim4-full-playwright-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-playwright-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "f533f4cfde7c59178e6df1472f61fa697c1fd85b778645d846d0ba0be48678f7",
+      "source": "/tmp/tenka-sim4-full-playwright-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-playwright-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 13056,
+      "sha256": "bc6bc8f7b98d6d82f98de1b4a515d2bbd3156c218c2f739f49b515849627beed",
+      "source": "/tmp/tenka-sim4-full-playwright-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-full-postprocess-8ea-01/command.json",
+      "sizeBytes": 288,
+      "sha256": "50e6adbc3150dee63aabd69a92819091ce90077400f16353736c6a2b63c1cdbe",
+      "source": "/tmp/tenka-sim4-full-postprocess-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-postprocess-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "c53a1a34a562dc6ab9a783a7ba9eb59031ab4bef54696e36dc4394dd7ad9957e",
+      "source": "/tmp/tenka-sim4-full-postprocess-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-postprocess-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "d04778d5aee5ae00c59a5c4ffbbb298beac48129a8a21c2dc2b05b9c019d8308",
+      "source": "/tmp/tenka-sim4-full-postprocess-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-postprocess-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 279,
+      "sha256": "2784aba10a5f87f570087e492283bee13405b50556d913b498e374443de529bb",
+      "source": "/tmp/tenka-sim4-full-postprocess-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-full-orphan-detail-8ea-01/command.json",
+      "sizeBytes": 301,
+      "sha256": "3cfed44b3e1c43efac0eafc85faf81bc5ce208fbe51a14451f97d35a9272ee64",
+      "source": "/tmp/tenka-sim4-full-orphan-detail-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-orphan-detail-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "5a437fdec5052456c5f10edc94b93bfc84acc94ad92bf04ac1b595613f2b63ee",
+      "source": "/tmp/tenka-sim4-full-orphan-detail-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-orphan-detail-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "e53f6fad4230f0772ebbe15b7d62df5565d689c0500f7960da1e92aca80689c9",
+      "source": "/tmp/tenka-sim4-full-orphan-detail-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-orphan-detail-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 98,
+      "sha256": "023064231666febbffe2dd0f80242f9872ff0d6d4450078f78595735133ee863",
+      "source": "/tmp/tenka-sim4-full-orphan-detail-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-full-postprocess-8ea-02/command.json",
+      "sizeBytes": 297,
+      "sha256": "0ebf2ef9eaf75495874001ad958505360b352f4b784b70f8eeab4f0f9d4ea37b",
+      "source": "/tmp/tenka-sim4-full-postprocess-8ea-02/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-postprocess-8ea-02/process.json",
+      "sizeBytes": 19,
+      "sha256": "4dc1e3b26ac8f82a0ea87edb8964ca5be97323ef85179b0d9b7f7f48ef2e7858",
+      "source": "/tmp/tenka-sim4-full-postprocess-8ea-02/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-postprocess-8ea-02/result.json",
+      "sizeBytes": 73,
+      "sha256": "eec3aa99c0a73a7e02fd374b700ae1a9b9c36d45a8b76b347d4a28dda17c1406",
+      "source": "/tmp/tenka-sim4-full-postprocess-8ea-02/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-postprocess-8ea-02/stdout-stderr.log.gz",
+      "sizeBytes": 178,
+      "sha256": "5f90a5f7db42b57b46c4f60b7c963d2a839346512aa980215b68e79b4a4567e0",
+      "source": "/tmp/tenka-sim4-full-postprocess-8ea-02/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-full-artifact-inventory-8ea-01/command.json",
+      "sizeBytes": 426,
+      "sha256": "8135d1ddf7ea2b9bad41f35c0f394606208d93677ebb10c941ca1aaad055e49a",
+      "source": "/tmp/tenka-sim4-full-artifact-inventory-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-artifact-inventory-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "59b04e6649add5b9d7c30394769fac0a3bef65c36a927424c1176f2de6499299",
+      "source": "/tmp/tenka-sim4-full-artifact-inventory-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-artifact-inventory-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "b9a4b60ca6d348acd04b9fa284868fa9f0167282e6fa3cbd4d3d5f051d81b505",
+      "source": "/tmp/tenka-sim4-full-artifact-inventory-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-artifact-inventory-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 1065,
+      "sha256": "50cd0d773e2b5c8c40abc0fec7a3ef410f6e61d7f3a79f93104e8f80a8453cd6",
+      "source": "/tmp/tenka-sim4-full-artifact-inventory-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-json-gzip-8ea-01/command.json",
+      "sizeBytes": 408,
+      "sha256": "9f34290098b8a91db86fe7b10e12db01eece79f1cbea2596994b983aa614094d",
+      "source": "/tmp/tenka-sim4-json-gzip-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-json-gzip-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "887eba29b13d8ac3b6afe759e8d903ea901efd7874f8431a034c77317f6798ff",
+      "source": "/tmp/tenka-sim4-json-gzip-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-json-gzip-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "80edf8990b1805cd64cb50ab5b8708c9e8e6452deed27bd0ec56149ab529d2af",
+      "source": "/tmp/tenka-sim4-json-gzip-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-json-gzip-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 242,
+      "sha256": "2ae957f1f6232f532dcaa55e10c2a0f587e7c9004ce3311edc95fe6e464996a9",
+      "source": "/tmp/tenka-sim4-json-gzip-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-json-copy-8ea-01/command.json",
+      "sizeBytes": 318,
+      "sha256": "839af463bf49424a3cf6a8ce52c61fa78c7cdcb992b09a4b6f28128cb74df195",
+      "source": "/tmp/tenka-sim4-json-copy-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-json-copy-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "e9378bf6fec8940f50cd380b69d25401b97e59a96a6bbd9a18018c1f6fedfd6f",
+      "source": "/tmp/tenka-sim4-json-copy-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-json-copy-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "b647c52f1efc29c0938717816c7f1feacd6f75354fe08647a27ab3a5e40ad916",
+      "source": "/tmp/tenka-sim4-json-copy-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-json-copy-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "source": "/tmp/tenka-sim4-json-copy-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-full-json-summary-8ea-02/command.json",
+      "sizeBytes": 286,
+      "sha256": "3de603d1d01cf30a08145575c0ddcf97ddb20f389caceef5da759b5935a19a50",
+      "source": "/tmp/tenka-sim4-full-json-summary-8ea-02/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-json-summary-8ea-02/process.json",
+      "sizeBytes": 19,
+      "sha256": "17172a2d6b5aa32061f87c512fab9e8e392f668ebcd021a1450a2181459768b2",
+      "source": "/tmp/tenka-sim4-full-json-summary-8ea-02/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-json-summary-8ea-02/result.json",
+      "sizeBytes": 73,
+      "sha256": "7603d28dc69d694a0937124e99c3a8b1e11b9ddb95ed069e0b84aae75ba068c8",
+      "source": "/tmp/tenka-sim4-full-json-summary-8ea-02/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-json-summary-8ea-02/stdout-stderr.log.gz",
+      "sizeBytes": 9506,
+      "sha256": "89723ec1131117fd13eec38395b958b3084ee0dcc71c593a7cea93a07cdf52a8",
+      "source": "/tmp/tenka-sim4-full-json-summary-8ea-02/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-earned-generator-log-8ea-01/command.json",
+      "sizeBytes": 336,
+      "sha256": "706860db37e28081bdad09ba304ce54734dc3fd68d2f14665cdc57607d5ca079",
+      "source": "/tmp/tenka-sim4-earned-generator-log-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-earned-generator-log-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "b1350208f7ed4ea05fb09442f42100bfc399789ee57500f615a94a6043a107a6",
+      "source": "/tmp/tenka-sim4-earned-generator-log-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-earned-generator-log-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "f42648a7ccc4d5c7695e50293676eea11c343b25673eb175b6df33f474b809c0",
+      "source": "/tmp/tenka-sim4-earned-generator-log-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-earned-generator-log-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 1027,
+      "sha256": "aeb9e7f2801ba8b4c94d6e18f67c32eb5ac78d4ffdabe21a57017808e8974697",
+      "source": "/tmp/tenka-sim4-earned-generator-log-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-final-postproof-8ea-01/command.json",
+      "sizeBytes": 482,
+      "sha256": "b8a511395a0a022ef454f91ea1e43f3185ad88aac6dd5f85816beb2ae782977b",
+      "source": "/tmp/tenka-sim4-final-postproof-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-final-postproof-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "60ace58c2d8e0c3e20b2ac3be0047e900ae75c3620231733a35dad24d6f52e19",
+      "source": "/tmp/tenka-sim4-final-postproof-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-final-postproof-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "5681e2de2767f5fe3ffb830c8b606a20feaba6fe95ad736d7daddf1eeaa09dfe",
+      "source": "/tmp/tenka-sim4-final-postproof-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-final-postproof-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 660,
+      "sha256": "df0a2d25df78dc4a4eed7faa5b68334fa0a0205b42cdb754aff7e6809b39adbc",
+      "source": "/tmp/tenka-sim4-final-postproof-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-isolated-earned-generator-8ea-01/command.json",
+      "sizeBytes": 765,
+      "sha256": "632158add1577cde3fa646ee0da3b1d921be9d15794e86ce2983678b99885dd3",
+      "source": "/tmp/tenka-sim4-isolated-earned-generator-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-isolated-earned-generator-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "89ba66ac773ed58d4fb9b1d9ab06e7118fa978d2234f5de42ebf085cd8e25082",
+      "source": "/tmp/tenka-sim4-isolated-earned-generator-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-isolated-earned-generator-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "bfffe6c94b64c18c3d58ba2487d8d2e9b06181d20782bac3b27696c2df6be617",
+      "source": "/tmp/tenka-sim4-isolated-earned-generator-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-isolated-earned-generator-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 731,
+      "sha256": "9b250402c9e305f9eedc625e09fa5ddb11cefc94a8ae97bc5fb3a98deecc21b9",
+      "source": "/tmp/tenka-sim4-isolated-earned-generator-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-isolated-earned-artifact-8ea-01/command.json",
+      "sizeBytes": 461,
+      "sha256": "a646e48e835b85592f92695ae4a066a0742cf70e9893730a8516cc77cdc4f926",
+      "source": "/tmp/tenka-sim4-isolated-earned-artifact-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-isolated-earned-artifact-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "c3eecc2c03df820261dd1179780ce3e0da85a3d6363bb7a9401c56f6a91d39c3",
+      "source": "/tmp/tenka-sim4-isolated-earned-artifact-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-isolated-earned-artifact-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "7764f7c8377c40b6fb4c6f34a9c26f229e4be706772fd81ea72669843d4714a8",
+      "source": "/tmp/tenka-sim4-isolated-earned-artifact-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-isolated-earned-artifact-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 154,
+      "sha256": "8e40ae57aac2532d13e9d7b6b93740b269cc031a207a6f9841830c1cc6c36353",
+      "source": "/tmp/tenka-sim4-isolated-earned-artifact-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-isolated-earned-copy-8ea-01/command.json",
+      "sizeBytes": 306,
+      "sha256": "5cd0362a2f87356793c0b78312fb47ae4c29cc92bf7800a703880e201da8c80a",
+      "source": "/tmp/tenka-sim4-isolated-earned-copy-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-isolated-earned-copy-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "40a5c6b745e0c34b7d59dbae337b0b6d28578da70428f3d94c56c7ad1e863b36",
+      "source": "/tmp/tenka-sim4-isolated-earned-copy-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-isolated-earned-copy-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "e4ca08e892b7f2626dcfca34217f0a1de306d93d7fcae1d789421a22a4cf7279",
+      "source": "/tmp/tenka-sim4-isolated-earned-copy-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-isolated-earned-copy-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "source": "/tmp/tenka-sim4-isolated-earned-copy-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "report.json.gz",
+      "sizeBytes": 25637240,
+      "sha256": "59225f5e25afcc99565ff80c95300eddca7d5c8692b90f44a215b7e45c6ecd58",
+      "source": "/tmp/report.json.gz",
+      "compressed": false
+    },
+    {
+      "path": "artifact-inventory.json.gz",
+      "sizeBytes": 497913,
+      "sha256": "5bc0d1b65d1ce03eddf03d439eb963e91327105fc7d2fb260530ec5f49281727",
+      "source": "/tmp/artifact-inventory.json",
+      "compressed": true
+    },
+    {
+      "path": "isolated-earned-regional.tfusave.gz",
+      "sizeBytes": 15626,
+      "sha256": "ddccac62d19d0f37bf67e3a128053ead2da56dee0b51e1815c957163d6bacd74",
+      "source": "/tmp/tenka-earned-regional-8ea-isolated.tfusave",
+      "compressed": true
+    },
+    {
+      "path": "source/796-to-51-manifest.json.gz",
+      "sizeBytes": 57511,
+      "sha256": "c1504066679fcd1d6b03bbc9654e22fee2c63e6d4e3c0ea46f230487013674f2",
+      "source": "/tmp/tenka-scoped-delta-796-to-51abd75-01/manifest.json",
+      "compressed": true
+    },
+    {
+      "path": "source/796-to-51-source.tar.gz",
+      "sizeBytes": 10282,
+      "sha256": "2155ff5861b795bacdcb7caa9f3f02bdb1ea88a8ab890843ccc085bbdd29a5f5",
+      "source": "/tmp/tenka-scoped-delta-796-to-51abd75-01/source.tar",
+      "compressed": true
+    },
+    {
+      "path": "source/51-to-8ea-manifest.json.gz",
+      "sizeBytes": 57425,
+      "sha256": "5cee4bce2374d4ed70f955fd8d5aee896e9e255b765667a0c2eff4ba99efe773",
+      "source": "/tmp/tenka-scoped-delta-51-to-8ea-01/manifest.json",
+      "compressed": true
+    },
+    {
+      "path": "source/51-to-8ea-source.tar.gz",
+      "sizeBytes": 4780,
+      "sha256": "eb9fc069b81e23ed76f987e2fa7041fbb826b7131477315d75c97fe7d2ae0cd6",
+      "source": "/tmp/tenka-scoped-delta-51-to-8ea-01/source.tar",
+      "compressed": true
+    },
+    {
+      "path": "source/base-796-manifest.json.gz",
+      "sizeBytes": 69046,
+      "sha256": "4fac1e15270624f5d93fb7f52a63b5822e4af7debc4e3169641043bb3f797405",
+      "source": "/tmp/tenka-scoped-source-base-79682cd-01/base.tar/manifest.json",
+      "compressed": true
+    },
+    {
+      "path": "scripts/report-summary.py.gz",
+      "sizeBytes": 644,
+      "sha256": "d1bca96e25fe291ad9ef20f36e8c50ef631c06cce6630c74fef98bd49096a082",
+      "source": "/tmp/tenka-playwright-report-summary.py",
+      "compressed": true
+    },
+    {
+      "path": "scripts/artifact-inventory.py.gz",
+      "sizeBytes": 402,
+      "sha256": "e44b769fce64b92d27ff21826408052a7f9d919745b510be7a89d613b307064d",
+      "source": "/tmp/tenka-artifact-inventory.py",
+      "compressed": true
+    },
+    {
+      "path": "scripts/source-inventory-verify.py.gz",
+      "sizeBytes": 749,
+      "sha256": "a7298956cfd0cdbd96c98826597b3eab635776d441d9610110f028cc63528277",
+      "source": "/tmp/tenka-source-inventory-verify.py",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-scoped-source-base-79682cd-01/command.json",
+      "sizeBytes": 372,
+      "sha256": "dc51fa87825107ecd0453f9c2aee4a8c6b8bc6e6660d2425d655d95b855589d2",
+      "source": "/tmp/tenka-scoped-source-base-79682cd-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-scoped-source-base-79682cd-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "4d31f22058517a457d8616c2dee89f1a6a007d42d3ff5dc1695d2ab13cde0092",
+      "source": "/tmp/tenka-scoped-source-base-79682cd-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-scoped-source-base-79682cd-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "01239121d6570815e7d1853f1c8db77f40af649c76ce60c05f2cd9ece00c779d",
+      "source": "/tmp/tenka-scoped-source-base-79682cd-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-scoped-source-base-79682cd-01/stdout-stderr.log.gz",
+      "sizeBytes": 155,
+      "sha256": "9e7f1c95f7a32ab1b2447a70ba517f9324a05f50769b0f4fe0d8c5eae5e06dc4",
+      "source": "/tmp/tenka-scoped-source-base-79682cd-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-base-readiness-02/command.json",
+      "sizeBytes": 315,
+      "sha256": "ba496f08c99186d077bb6947930535a4e97fd1575647ab5a663d3595ff5c7ee9",
+      "source": "/tmp/tenka-sim4-base-readiness-02/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-base-readiness-02/process.json",
+      "sizeBytes": 19,
+      "sha256": "89d6d2f07b5ca68fdfbd2236c5b0034969b4b603ce0ea389a79e477a1fda22f8",
+      "source": "/tmp/tenka-sim4-base-readiness-02/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-base-readiness-02/result.json",
+      "sizeBytes": 73,
+      "sha256": "afeb2c7a46cc4a26ac7b8596a581cb445d9e5458eb18e0e94ed9cadcc21dd432",
+      "source": "/tmp/tenka-sim4-base-readiness-02/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-base-readiness-02/stdout-stderr.log.gz",
+      "sizeBytes": 169,
+      "sha256": "bfb18935c9e4e90d5f9b851b8494522363dbdaebd0db311077983905af109b85",
+      "source": "/tmp/tenka-sim4-base-readiness-02/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-base-manifest-transfer-01/command.json",
+      "sizeBytes": 265,
+      "sha256": "435f65c9cb57ea7c9a808c5c07073b25787ec835e495076398755be41f5d5bb7",
+      "source": "/tmp/tenka-sim4-base-manifest-transfer-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-base-manifest-transfer-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "2af32cd8e2f5fdf38597caaa1d6785d67bf8891989ff01da8fb5475e09bdd604",
+      "source": "/tmp/tenka-sim4-base-manifest-transfer-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-base-manifest-transfer-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "789cc8a333bf15af164b5b347e1f83f760ad8606b773a7296496879a5195c3b6",
+      "source": "/tmp/tenka-sim4-base-manifest-transfer-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-base-manifest-transfer-01/stdout-stderr.log.gz",
+      "sizeBytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "source": "/tmp/tenka-sim4-base-manifest-transfer-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-base-inventory-verify-01/command.json",
+      "sizeBytes": 294,
+      "sha256": "788bbf8a38e2c438e812dfd0ec41a935f3290cf3c02de08efc4c694176688c6a",
+      "source": "/tmp/tenka-sim4-base-inventory-verify-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-base-inventory-verify-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "953cbbb8125c4de55809227a48f1fd005f423185593b0bd3374ce133f09f0acf",
+      "source": "/tmp/tenka-sim4-base-inventory-verify-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-base-inventory-verify-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "633307fc294b05e62cd78ff6a52b2d3686ea1266a2d386e14247ad8639e37533",
+      "source": "/tmp/tenka-sim4-base-inventory-verify-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-base-inventory-verify-01/stdout-stderr.log.gz",
+      "sizeBytes": 110,
+      "sha256": "46485972aa89cd6225b3472c3f1e81933edaa80ef8133eea07f3dad93ac96a5f",
+      "source": "/tmp/tenka-sim4-base-inventory-verify-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-inventory-verifier-transfer-01/command.json",
+      "sizeBytes": 239,
+      "sha256": "066435b9df407682ab61739e5bc58966729f610ce3529743591e312b15e836de",
+      "source": "/tmp/tenka-sim4-inventory-verifier-transfer-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-inventory-verifier-transfer-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "7f5c02264f9e301adcb39b7b20a8741129cf36ad2e7125f4c29bc77cdb4305b0",
+      "source": "/tmp/tenka-sim4-inventory-verifier-transfer-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-inventory-verifier-transfer-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "97026e0367c29dfd34b146f99b80168061aaeaad75ae4a64a3490e7e5d62eb12",
+      "source": "/tmp/tenka-sim4-inventory-verifier-transfer-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-inventory-verifier-transfer-01/stdout-stderr.log.gz",
+      "sizeBytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "source": "/tmp/tenka-sim4-inventory-verifier-transfer-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-inventory-verifier-transfer-02/command.json",
+      "sizeBytes": 239,
+      "sha256": "50a8aefa4ae042042a412f3d39786d2103cd28e232cad546a1ce125c2739f4d4",
+      "source": "/tmp/tenka-sim4-inventory-verifier-transfer-02/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-inventory-verifier-transfer-02/process.json",
+      "sizeBytes": 19,
+      "sha256": "694145a8db9636078059ea31e7490d46c5911173185925556a26c395fe5bb586",
+      "source": "/tmp/tenka-sim4-inventory-verifier-transfer-02/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-inventory-verifier-transfer-02/result.json",
+      "sizeBytes": 73,
+      "sha256": "4c21d11f4980e7a37dcab36b002c3dab2096759bfa18f304520d5ceb004443a0",
+      "source": "/tmp/tenka-sim4-inventory-verifier-transfer-02/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-inventory-verifier-transfer-02/stdout-stderr.log.gz",
+      "sizeBytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "source": "/tmp/tenka-sim4-inventory-verifier-transfer-02/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-delta-transfer-51abd75-01/command.json",
+      "sizeBytes": 335,
+      "sha256": "c78f5b14e726f04794eecf1111ac15a5963eb2051410cd366d776f06cc213c01",
+      "source": "/tmp/tenka-sim4-delta-transfer-51abd75-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-delta-transfer-51abd75-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "ccbb6c45e3fad9a9263db6c101bd530f3dc8b5101570d7196922f8e0b6940bf6",
+      "source": "/tmp/tenka-sim4-delta-transfer-51abd75-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-delta-transfer-51abd75-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "f97105c266d8083ccf234f83c5194ccc26810bfea1ddaad3b7ad0f7ecdbd69eb",
+      "source": "/tmp/tenka-sim4-delta-transfer-51abd75-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-delta-transfer-51abd75-01/stdout-stderr.log.gz",
+      "sizeBytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "source": "/tmp/tenka-sim4-delta-transfer-51abd75-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-court-rank-before-overlay-51abd75-01/command.json",
+      "sizeBytes": 357,
+      "sha256": "9fa8181ebdba09547e262e43527b03a04d1ebcf48fb7c39357192cb0e6bfcbc4",
+      "source": "/tmp/tenka-sim4-court-rank-before-overlay-51abd75-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-court-rank-before-overlay-51abd75-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "7ce932c465ce5b2dc90b05d103c0566316ea17e41b056ad9816cf71e19aad81d",
+      "source": "/tmp/tenka-sim4-court-rank-before-overlay-51abd75-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-court-rank-before-overlay-51abd75-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "c2bcfd57ceab4d1a52ddae06c7609045a545c93892f4595d96f3aa9de99b145f",
+      "source": "/tmp/tenka-sim4-court-rank-before-overlay-51abd75-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-court-rank-before-overlay-51abd75-01/stdout-stderr.log.gz",
+      "sizeBytes": 171,
+      "sha256": "4302008f4a9a43356a36af93552544de22c8488d05154a89bcfcbfafda00a2b9",
+      "source": "/tmp/tenka-sim4-court-rank-before-overlay-51abd75-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-court-rank-overlay-51abd75-01/command.json",
+      "sizeBytes": 265,
+      "sha256": "6a6995764ba51feae53a7850eaa37c7bb2ff75aea8b3ceaa6b2f50fc284c13ef",
+      "source": "/tmp/tenka-sim4-court-rank-overlay-51abd75-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-court-rank-overlay-51abd75-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "90ceb6c06600e6b8c00391a011779c563c0ee9f9a16f6837202e7be572b3d277",
+      "source": "/tmp/tenka-sim4-court-rank-overlay-51abd75-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-court-rank-overlay-51abd75-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "6356aecf313cf317795760da8bc8834f2d72e08942aa08e3086c45e15b240fe3",
+      "source": "/tmp/tenka-sim4-court-rank-overlay-51abd75-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-court-rank-overlay-51abd75-01/stdout-stderr.log.gz",
+      "sizeBytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "source": "/tmp/tenka-sim4-court-rank-overlay-51abd75-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-final-manifest-transfer-8ea-01/command.json",
+      "sizeBytes": 291,
+      "sha256": "a7a7494946f12c2a3e100154d00d8c95655cb26816c0be7a930022dd0d2cbf29",
+      "source": "/tmp/tenka-sim4-final-manifest-transfer-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-final-manifest-transfer-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "a4008f9df6b33385e4ff8ba530c55f389c2aca29f157aaec72f28eeabaeb3f41",
+      "source": "/tmp/tenka-sim4-final-manifest-transfer-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-final-manifest-transfer-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "47de81d32ec2e1434dcf411c1c7fa827899c18ea7565d77494aecd874e60423c",
+      "source": "/tmp/tenka-sim4-final-manifest-transfer-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-final-manifest-transfer-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "source": "/tmp/tenka-sim4-final-manifest-transfer-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-full-json-peek-8ea-01/command.json",
+      "sizeBytes": 363,
+      "sha256": "1d91294a86d742aec789e9f271bd2bad8a8bc5d0ee9b3e7070c6c690ac13bc1b",
+      "source": "/tmp/tenka-sim4-full-json-peek-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-json-peek-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "d905063bf196db19d27474b2f2b6c252f48f4f5c0bb92ef6964dcdae468ea592",
+      "source": "/tmp/tenka-sim4-full-json-peek-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-json-peek-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "d895f7891e378c2ca33047a8f4c536d7eae85781c8a9e9b4dbb83128185a0c4a",
+      "source": "/tmp/tenka-sim4-full-json-peek-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-json-peek-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 154,
+      "sha256": "4fd117d57f373bf1d4ceff0647ef8639e4151d4697bac6cd14d5e41df30828bb",
+      "source": "/tmp/tenka-sim4-full-json-peek-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-full-json-summary-8ea-01/command.json",
+      "sizeBytes": 286,
+      "sha256": "7bd849d8b5481285b247137c4d894bcf65ac7fae77e073ef49906c10758c4f3d",
+      "source": "/tmp/tenka-sim4-full-json-summary-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-json-summary-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "d951ee6db63c6b25537baac5bbac17d3dca3308958cce4d782b4cf93f4e1b92b",
+      "source": "/tmp/tenka-sim4-full-json-summary-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-json-summary-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "c1cd4cbb472a8e7ba7e4a5aa19e798d705ff439c7bd8742fe0c16477dfd3a941",
+      "source": "/tmp/tenka-sim4-full-json-summary-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-full-json-summary-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 8497,
+      "sha256": "7cf64de9e571d1744a85f3303b0417fcfecb32d6339e3337826f807053332f35",
+      "source": "/tmp/tenka-sim4-full-json-summary-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-artifact-inventory-transfer-01/command.json",
+      "sizeBytes": 229,
+      "sha256": "1077442e1dd572ba15f84d88d856ab2de5ced42e76644099884a33b7c3da563e",
+      "source": "/tmp/tenka-sim4-artifact-inventory-transfer-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-artifact-inventory-transfer-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "33b7a7c3e294fa25ab6cb794c473ab9218d726da3ebf24268a6bf8c6d1741e91",
+      "source": "/tmp/tenka-sim4-artifact-inventory-transfer-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-artifact-inventory-transfer-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "b9c371022584102ccf5d48d3b7ad96586072e125794d215fb03901fabec49aa4",
+      "source": "/tmp/tenka-sim4-artifact-inventory-transfer-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-artifact-inventory-transfer-01/stdout-stderr.log.gz",
+      "sizeBytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "source": "/tmp/tenka-sim4-artifact-inventory-transfer-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-report-parser-transfer-01/command.json",
+      "sizeBytes": 243,
+      "sha256": "38bf64443322924d45668e680c6542300fce01f8182130d20ff2d6e55e6fa71a",
+      "source": "/tmp/tenka-sim4-report-parser-transfer-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-report-parser-transfer-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "7d29d0a1989e6bb02cc8c81a2e29697df6f271cb2c19640021cc6bdeabcfc94f",
+      "source": "/tmp/tenka-sim4-report-parser-transfer-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-report-parser-transfer-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "2f9c07592f8bcd6b66701ab31324f55e5abfee26b07b49dad0f9370c14d1b015",
+      "source": "/tmp/tenka-sim4-report-parser-transfer-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-report-parser-transfer-01/stdout-stderr.log.gz",
+      "sizeBytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "source": "/tmp/tenka-sim4-report-parser-transfer-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-report-parser-transfer-02/command.json",
+      "sizeBytes": 243,
+      "sha256": "92cc12b7b55d4e5f01b3aa1d397996c0eb41dfbaffa46dc53e534958a25c15c8",
+      "source": "/tmp/tenka-sim4-report-parser-transfer-02/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-report-parser-transfer-02/process.json",
+      "sizeBytes": 19,
+      "sha256": "a17ab7800f69e372ac7be56a091d586d7e5e1e85627037267eaf521f958b1e16",
+      "source": "/tmp/tenka-sim4-report-parser-transfer-02/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-report-parser-transfer-02/result.json",
+      "sizeBytes": 73,
+      "sha256": "3c4d9fc21f593118e627df39b8563f1ef156da737682f02a6d792a1d79cc4940",
+      "source": "/tmp/tenka-sim4-report-parser-transfer-02/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-report-parser-transfer-02/stdout-stderr.log.gz",
+      "sizeBytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "source": "/tmp/tenka-sim4-report-parser-transfer-02/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-earned-three-logs-8ea-01/command.json",
+      "sizeBytes": 458,
+      "sha256": "2568223bc1e049b3a0090b7df339c1d9888e28a39f531def7ad63a24080d5e53",
+      "source": "/tmp/tenka-sim4-earned-three-logs-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-earned-three-logs-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "a4d37cb4a164a9a2db8949fc974bc95dd75fbaf746fd7d34702a544b43356d2e",
+      "source": "/tmp/tenka-sim4-earned-three-logs-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-earned-three-logs-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "8fa86c9aa17e579934b279e9709060d1a27c460b4c88523f9e698612ca11f927",
+      "source": "/tmp/tenka-sim4-earned-three-logs-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-earned-three-logs-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 496,
+      "sha256": "a729a0b92b3d21be7067a1b98405e00663faeaa5cb5d706227054f4321b5e1d5",
+      "source": "/tmp/tenka-sim4-earned-three-logs-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-earned-three-archive-8ea-01/command.json",
+      "sizeBytes": 716,
+      "sha256": "3f05355f54f383fe43820b9ceaa66fc85bf3657114b014c9fb95d3e3db38b37a",
+      "source": "/tmp/tenka-sim4-earned-three-archive-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-earned-three-archive-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "8d80777e0cd9513669f63600740a4979cc9a32a1ceea1147c1b8f340ae7601a8",
+      "source": "/tmp/tenka-sim4-earned-three-archive-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-earned-three-archive-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "34bf50a74a09dd3b7fc0a303d3209dc25ef7c6e67de1923e45e562da6a7ba89e",
+      "source": "/tmp/tenka-sim4-earned-three-archive-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-earned-three-archive-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 110,
+      "sha256": "b284ba6770dbf9ce1d23b6ac04e5f31488126731fd6bf736554ab81874082ac7",
+      "source": "/tmp/tenka-sim4-earned-three-archive-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "captures/tenka-sim4-earned-three-copy-8ea-01/command.json",
+      "sizeBytes": 281,
+      "sha256": "80cd90cb3ac45e64c55460ea3f8c6438e539647aa84db31648eb2258ce63009e",
+      "source": "/tmp/tenka-sim4-earned-three-copy-8ea-01/command.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-earned-three-copy-8ea-01/process.json",
+      "sizeBytes": 19,
+      "sha256": "ce0b39f1b67d9173b321b922d926b903ecbb3d0f91cebfeeeee5a2977c20bbb2",
+      "source": "/tmp/tenka-sim4-earned-three-copy-8ea-01/process.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-earned-three-copy-8ea-01/result.json",
+      "sizeBytes": 73,
+      "sha256": "fd8ed96b31cb6a8b277092af1962a23acb0e6363d8ab0a022273c14959283a79",
+      "source": "/tmp/tenka-sim4-earned-three-copy-8ea-01/result.json",
+      "compressed": false
+    },
+    {
+      "path": "captures/tenka-sim4-earned-three-copy-8ea-01/stdout-stderr.log.gz",
+      "sizeBytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "source": "/tmp/tenka-sim4-earned-three-copy-8ea-01/stdout-stderr.log",
+      "compressed": true
+    },
+    {
+      "path": "earned-generator-logs.tar.gz",
+      "sizeBytes": 1492,
+      "sha256": "5dc33b9845778c83689f9930d10e12a3ff32c3f51dcac35cd55b479113a2cf75",
+      "source": "/tmp/tenka-earned-three-logs-8ea.tar.gz",
+      "compressed": false
+    }
+  ]
+}

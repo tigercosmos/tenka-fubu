@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "scp",
+    "/tmp/tenka-scoped-source-base-79682cd-01/base.tar/manifest.json",
+    "sim4:/tmp/tenka-base-manifest-79682cd.json"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:17:24.386552+00:00",
+  "browser": false
+}

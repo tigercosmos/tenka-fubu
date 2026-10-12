@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "python3 -c \"import json; d=json.load(open(\\\"/tmp/tenka-battle-79682cd/runs/full-suite-8ea-01/report.json\\\")); print(list(d)); print(d.get(\\\"stats\\\")); print(len(d.get(\\\"suites\\\", [])))\""
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:30:04.242702+00:00",
+  "browser": false
+}

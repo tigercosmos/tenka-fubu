@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "cd /tmp/tenka-battle-79682cd/runs/full-suite-8ea-01/test-results; for f in earned-regional-ending-*/earned-regional-route-generation.log; do printf \"%s\\n\" \"$f\"; sha256sum \"$f\"; grep -E \"Test timed out|tests/app/earnedRegionalEndingJourney.spec.tsx \\(|Duration \" \"$f\" | tail -4; done"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:33:44.941319+00:00",
+  "browser": false
+}

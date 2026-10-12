@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "scp",
+    "sim4:/tmp/tenka-battle-79682cd/runs/full-suite-8ea-01/report.json.gz",
+    "sim4:/tmp/tenka-battle-79682cd/runs/full-suite-8ea-01/artifact-inventory.json",
+    "/tmp/"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:31:29.642795+00:00",
+  "browser": false
+}

@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "python3",
+    "/tmp/tenka-scoped-source-archive.py",
+    "--repo",
+    "/Users/tigercosmos/tenka-fubu",
+    "--revision",
+    "51abd75",
+    "--base",
+    "79682cd",
+    "--output",
+    "/tmp/tenka-scoped-delta-796-to-51abd75-01"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:20:29.858723+00:00",
+  "browser": false
+}

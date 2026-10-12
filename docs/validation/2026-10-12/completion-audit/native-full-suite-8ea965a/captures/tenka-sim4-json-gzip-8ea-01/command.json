@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "cd /tmp/tenka-battle-79682cd/runs/full-suite-8ea-01 && test ! -e report.json.gz && gzip -c report.json > report.json.gz && ls -lh report.json report.json.gz artifact-inventory.json && sha256sum report.json report.json.gz artifact-inventory.json"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:31:21.423871+00:00",
+  "browser": false
+}

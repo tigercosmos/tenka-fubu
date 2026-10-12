@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "npm",
+    "run",
+    "typecheck"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:23:18.933864+00:00",
+  "browser": false
+}

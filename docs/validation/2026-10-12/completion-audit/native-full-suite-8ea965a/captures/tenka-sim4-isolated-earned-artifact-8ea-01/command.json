@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "sha256sum /tmp/tenka-battle-79682cd/runs/isolated-earned-generator-8ea-01/earned-regional-ending.tfusave && wc -c /tmp/tenka-battle-79682cd/runs/isolated-earned-generator-8ea-01/earned-regional-ending.tfusave && ps -eo pid,ppid,pgid,etime,args | grep -E \"[v]itest|[p]laywright|[c]hromium|[v]ite\""
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:33:17.092586+00:00",
+  "browser": false
+}

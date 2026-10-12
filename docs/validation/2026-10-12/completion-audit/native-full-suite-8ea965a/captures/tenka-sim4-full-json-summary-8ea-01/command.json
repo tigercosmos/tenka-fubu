@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "python3",
+    "/tmp/tenka-playwright-report-summary.py",
+    "/tmp/tenka-battle-79682cd/runs/full-suite-8ea-01/report.json"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:30:21.093347+00:00",
+  "browser": false
+}

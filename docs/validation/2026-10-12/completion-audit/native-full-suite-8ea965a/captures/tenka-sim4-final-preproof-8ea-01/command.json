@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "set -eu; cd /tmp/tenka-battle-79682cd; python3 /tmp/tenka-source-inventory-verify.py . runs/full-suite-readiness-01/manifest-8ea965a.json; sha256sum package-lock.json tools/dependencies/pixi-8.19-patch.mjs e2e/court-rank.spec.ts; export PATH=/tmp/tenka-fubu-parallel-20261011.FC6Shj/runtime/bin:$PATH; npm ls --depth=0"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:24:13.962474+00:00",
+  "browser": false
+}

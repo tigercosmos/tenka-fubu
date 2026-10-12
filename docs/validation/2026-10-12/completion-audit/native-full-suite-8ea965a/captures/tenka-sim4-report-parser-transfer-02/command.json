@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "scp",
+    "/tmp/tenka-playwright-report-summary.py",
+    "sim4:/tmp/tenka-playwright-report-summary.py"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:30:35.524949+00:00",
+  "browser": false
+}

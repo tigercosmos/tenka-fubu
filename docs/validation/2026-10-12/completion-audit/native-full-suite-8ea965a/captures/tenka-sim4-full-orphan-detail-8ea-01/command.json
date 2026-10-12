@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "ps -o pid,ppid,pgid,sid,stat,etime,args -p 3469571,3472672; ps -eo pid,ppid,pgid,sid,stat,etime,args | awk \"$2==3469571 || $2==3472672\""
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:29:45.354856+00:00",
+  "browser": false
+}

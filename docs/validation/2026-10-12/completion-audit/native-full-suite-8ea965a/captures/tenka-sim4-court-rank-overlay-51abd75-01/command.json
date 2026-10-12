@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "scp",
+    "/Users/tigercosmos/tenka-fubu/e2e/court-rank.spec.ts",
+    "sim4:/tmp/tenka-battle-79682cd/e2e/court-rank.spec.ts"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:23:40.107362+00:00",
+  "browser": false
+}

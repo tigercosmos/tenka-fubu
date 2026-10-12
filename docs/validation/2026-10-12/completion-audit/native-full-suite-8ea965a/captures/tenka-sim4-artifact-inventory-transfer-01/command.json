@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "scp",
+    "/tmp/tenka-artifact-inventory.py",
+    "sim4:/tmp/tenka-artifact-inventory.py"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:31:05.393305+00:00",
+  "browser": false
+}

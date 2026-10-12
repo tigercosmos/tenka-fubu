@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "scp",
+    "sim4:/tmp/tenka-battle-79682cd/runs/isolated-earned-generator-8ea-01/earned-regional-ending.tfusave",
+    "/tmp/tenka-earned-regional-8ea-isolated.tfusave"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:33:22.888713+00:00",
+  "browser": false
+}

@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "./node_modules/.bin/vitest",
+    "run",
+    "--project",
+    "core",
+    "tests/core/save.spec.ts",
+    "tests/core/saveTopLevelShape.spec.ts",
+    "tests/core/serialize.spec.ts",
+    "--minWorkers=1",
+    "--maxWorkers=1"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:23:14.227174+00:00",
+  "browser": false
+}

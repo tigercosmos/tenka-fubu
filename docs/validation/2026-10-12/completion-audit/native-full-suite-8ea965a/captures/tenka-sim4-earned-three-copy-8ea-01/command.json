@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "scp",
+    "sim4:/tmp/tenka-battle-79682cd/runs/full-suite-8ea-01/earned-generator-logs.tar.gz",
+    "/tmp/tenka-earned-three-logs-8ea.tar.gz"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:34:24.471348+00:00",
+  "browser": false
+}

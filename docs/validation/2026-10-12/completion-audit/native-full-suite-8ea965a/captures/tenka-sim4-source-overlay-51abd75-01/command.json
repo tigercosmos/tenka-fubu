@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "set -eu; cd /tmp/tenka-battle-79682cd; python3 /tmp/tenka-source-inventory-verify.py . /tmp/tenka-base-manifest-79682cd.json; sha256sum runs/full-suite-readiness-01/source.tar; tar -xf runs/full-suite-readiness-01/source.tar; python3 /tmp/tenka-source-inventory-verify.py . runs/full-suite-readiness-01/manifest.json"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:20:40.836499+00:00",
+  "browser": false
+}

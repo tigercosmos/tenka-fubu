@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "set -eu; cd /tmp/tenka-battle-79682cd; test ! -e runs/isolated-earned-generator-8ea-01; mkdir runs/isolated-earned-generator-8ea-01; export PATH=/tmp/tenka-fubu-parallel-20261011.FC6Shj/runtime/bin:$PATH; REGIONAL_EARNED_ENDING_SAVE_PATH=/tmp/tenka-battle-79682cd/runs/isolated-earned-generator-8ea-01/earned-regional-ending.tfusave node /tmp/tenka-battle-79682cd/node_modules/vitest/vitest.mjs run --project app tests/app/earnedRegionalEndingJourney.spec.tsx --minWorkers=1 --maxWorkers=1 -t \"loads the earned regional ending into actual App and continues without a phantom day or repeated victory\""
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:33:00.547874+00:00",
+  "browser": false
+}

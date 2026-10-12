@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "cd /tmp/tenka-battle-79682cd && pwd && sha256sum e2e/battle-controls-acceptance.spec.ts && find . -maxdepth 1 -type f -name \"*.json\" -print | head -5"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T08:17:09.816790+00:00",
+  "browser": false
+}
