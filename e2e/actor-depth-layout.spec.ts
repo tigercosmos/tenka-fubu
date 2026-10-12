@@ -34,6 +34,7 @@ async function observe(page: Page) {
       depth: diagnostics.actorDepth,
       plates: diagnostics.armyPlateLayout,
       castles: diagnostics.castleRendering,
+      elevation: diagnostics.elevationRendering,
     };
   });
 }
@@ -141,12 +142,32 @@ test.describe('native castle and troop body depth', () => {
           'actual shared-model diagnostic exists; old built absence is structural RED only',
         ).toBeDefined();
         const bodies = ordered(data.depth);
+        expect(data.elevation.active).toBe(true);
+        expect(data.elevation.field).not.toBeNull();
         for (const castle of bodies.filter((entry) => entry.kind === 'castle')) {
-          expect(castle.footY).toBe(
-            Object.values(game.castles).find((entry) => entry.id === castle.id)!.pos.y,
-          );
+          const canonical = Object.values(game.castles).find(
+            (entry) => entry.id === castle.id,
+          )!.pos;
+          const projected = data.elevation.nodes.find((entry) => entry.id === castle.id);
+          expect(projected).toBeDefined();
+          expect(projected!.canonical).toEqual(canonical);
+          const height = canonical.y - projected!.scene.y;
+          expect(height).toBeGreaterThanOrEqual(-1e-8);
+          expect(height).toBeLessThanOrEqual(data.elevation.field!.maximumHeight + 1e-8);
+          expect(projected!.scene.x).toBeCloseTo(canonical.x - 0.18 * height, 6);
+          expect(castle.footY).toBe(projected!.scene.y);
           for (const army of bodies.filter((entry) => entry.kind === 'army'))
             mixedOverlap += intersection(castle.rect, army.rect);
+        }
+        if (id === 'castle.sunpu') {
+          expect(
+            bodies.some((entry) => {
+              if (entry.kind !== 'castle') return false;
+              const projected = data.elevation.nodes.find((node) => node.id === entry.id);
+              return projected !== undefined && projected.canonical.y - projected.scene.y > 1e-8;
+            }),
+            'Sunpu camera includes a visible elevated castle, so canonical Y is not a valid foot oracle',
+          ).toBe(true);
         }
         const reference = data.castles.nodes.find((entry) => entry.painted);
         expect(reference).toBeDefined();
@@ -155,15 +176,17 @@ test.describe('native castle and troop body depth', () => {
         )!;
         // Painted-only hierarchy contract; vector fallback dimensions are unchanged.
         const cameraScale = reference!.body.width / (referenceCastle.tier === 'main' ? 40 : 30);
+        const referenceScene = data.elevation.nodes.find((entry) => entry.id === reference!.id);
+        expect(referenceScene).toBeDefined();
         for (const army of bodies.filter((entry) => entry.kind === 'army')) {
           const plate = data.plates.plates.find((entry) => entry.id === army.id);
           expect(plate, 'visible near troop body retains its anchor-bearing plate').toBeDefined();
-          const worldY =
-            referenceCastle.pos.y + (plate!.anchor.y - reference!.anchor.y) / cameraScale;
+          const sceneY =
+            referenceScene!.scene.y + (plate!.anchor.y - reference!.anchor.y) / cameraScale;
           // Near formation artwork's authored ground foot is one world unit
           // above its unchanged map/picking anchor; inferred independently from
           // actual plate/castle transforms, not the published footY itself.
-          expect(army.footY).toBeCloseTo(worldY - 1, 6);
+          expect(army.footY).toBeCloseTo(sceneY - 1, 6);
         }
         if (id === 'castle.narumi') {
           const occupying = Object.values(game.armies).find(
