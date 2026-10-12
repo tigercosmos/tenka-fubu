@@ -6479,3 +6479,20 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 模擬仍由獨立Worker序列執行JSadvanceDay，Rust加速path；主頁另有geo／castle／prepRust核心。不是整套Rust遊戲引擎。全專案goalactive，60FPS／wholeheap／protectedart／長跑／領地gate保持，未push／部署。
 
 - 本階段原native／Linux包完整封存，root獨立verifier與Gitproof通過，parent索引新增而不改舊rows。下一步候選為Rust評分的原式矩形邊界重用，尚未實作或量測，不做NaN／溢位的提前零值捷徑。
+
+## 評分 overlap 熱點與 endpoint 候選（2026-10-12）
+
+- `8aea548` 以既有 feab profile／actualWASM反組譯分析：推定overlap的function44 own1,249,004us／1188samples，占score WASM own53.49%。Module無name／DWARF，名稱是指令與source模式推定；不能把hard單loop視作已證主因。無新GPU工作。
+- `d2ce3c4` 獨立 strictSIMD overlap算術probe，884byte實際WASM與原JS／scalar871200cases一致，含248374NaN；nonNaN按bits。只證helper算術，不證gameintegration／browsercompatibility／FPS。Pinnedstable f64minimum API E0658原RED保存，正式artifact沒有SIMD。
+- `aa48e56` 保存完整scratchendpoint證據，baseline88475SHA642、candidate89761SHA69af不同。永久test綁actualhelper對unchangedlegacyoverlap：1169294grid＋40ULP／touch／epsilon、24Rust與1925compiled完整packet比對通過；raw10986065bytes全保存。最初workdir工具拒絕／contact typeambiguity／clippyRED皆保留。
+- `c2302c4` 正式有界候選僅改兩Rust來源與WASM／manifest；保留+padding含+0、原sum／ties／guards，不改sharedlegacygeo／caps／prep／JS／Worker。Root原recipebuild89761SHA69af、24Rust／Clippy／fmt與11files80actualWASM tests通過。這不是新全套測試，最近完整回歸仍固定feab6392／1known／1skip。
+- `ad6fc41` sim3固定c230原nineaf4／source1524／deps14765+23proof通過；overview59.93850／operational50.04925／close31.74741，相對feab-0.0356%／+0.329%／-0.911%，全部strict60RED。唯一profile320renders，geo11.764675ms（+1.308%）、WASMscore7.346244ms（+1.618%），推定新overlaphelper normalizedown未下降；setup提前scpRED保留。`45a5384` 撤回四個檔案，沒有量測重試／baseline重跑。
+- Root撤回後1494trackedruntime/test/config輸入與feabFULLbeforeinventory逐byte一致，publicWASM／manifest亦與feabGitblobs相同；wasm:check通過。不是新FULL／FPS重跑，最新完整6392／1known／1skip仍固定feab。
+- Goal仍active，原60FPS／wholeheap／art／longrun／inheritancegate未完成；未push／deploy。平行SIMD核心prototype僅隔離scratch，未翻轉productiondefault。
+
+## Strict SIMD 核心隔離驗證（2026-10-12）
+
+- `fbeb80a` SIMD prepared-only完整核心prototype從acceptedc5／feab建立，未疊加失敗endpoint。實際prototype88469bytes SHA4ba2591c5205e363f92ee896c6f40c441fb2a7d613e587a2fe6aa2aee0408d0a；baseline88475SHA642，2121compiledcases（1920legal／5synthetic／196validextremes）及24malformedatomiccontrols通過。完整raw11412888bytes保存，native23只測scalarreference，不能當SIMD證明。
+- Actual反組譯只有strictf64x2 min/max/add/sub/extract，无relaxed／pmin／pmax／FMA；sharedlegacygeo／prepintersections／caps未改。sim2actualsource／unsafe-target-feature審查未見數值或ABI缺陷；目前prototype對所有wasm32啟SIMD，正式接入前必須featuregate生成真正scalarvariant。
+- `aa18b75` 本機完整Chromium149 headlesstinyprobe validate true、100352grid＋5explicitcontrols一致；第一default-headlessGREEN與後續fullbinaryGREEN分開保存。只有4gridrows＋5controls原結果，未保留全100352逐案例stream，未宣稱已保存。FF／WebKit未安裝，無Safari／GPU／FPS／fullgame結論。
+- Root三包verifier獨立通過；下一步實作初始化前明確scalar／SIMDcapability選擇與雙recipe／artifact契約，選定後fetch／instantiate／ABI錯誤保持fatal，保留owner／Workerepochready／dispose。Production仍是撤回後acceptedscalar88475SHA642，未翻轉SIMD預設、未量測game收益。

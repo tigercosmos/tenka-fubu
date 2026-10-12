@@ -286,3 +286,23 @@ Rust 十一項、337 組完整 f64 原版 oracle、13 項實際 WASM／協定測
 [Linux 重建證據](geographic-preparation-linux-sim1/README.md) 以原 pinned1.97.1 recipe 一次建置新WASM，binary與manifest皆與Mac逐byte相同；733source rows前後與固定Gitblobs一致、四個actualABI版本1。依賴沿用04群組，不宣稱freshnpmci。Root獨立verifier含Gitproof通過。新增本機、Linux、原生證據加入append-only索引，既有raw與全部原始RED不變。
 
 下一個 bounded 候選是評分時的矩形邊界重用：準備及評分成本主要歸在內部WASM，而完整JSONsignature仍保留。此候選只有唯讀研究，尚未實作或量測；禁止提早將不相交overlap視作零，因溢位／NaN／signedzero可能改變結果。
+
+## 評分熱點與下一個有界候選
+
+[既有 profile overlap 分析](geographic-score-overlap-profile/README.md) 將 unnamed function44 推定為原 overlap：own1,249,004us／1188samples，占scoreWASM own53.49%。這是actualinstruction/source模式推定，binary沒有name／DWARF；不證hard或reserved單一loop主導。Root獨立verifier核對parentraw／sourceblobs／反組譯與每個samplecounts通過，沒有新增timing。
+
+[Strict SIMD算術probe](geographic-score-simd-probe/README.md) 的884byte實際WASM對原JS／scalar871200cases一致，保留nonNaN bits與NaN class；helper輸入也含刻意非合法packet的值。沒有game／browser／FPS驗收，也未更動正式artifact。
+
+[Endpoint scratch完整證據](geographic-score-endpoints-local/README.md) 保存candidate與baseline兩完整WASM、實際helper永久test及完整10,986,065-byte compiledraw。1169294算術grid＋40ULP／epsilon／touchcases、24Rust、1925compiledpackets通過；原RED與原build／commands保留。
+
+`c2302c4` 只在prepared scorer重用candidate的原式x+width／y+height，後續+padding含+0仍執行，sharedlegacyoverlap／caps／JS／Worker不變。Root正式build與24Rust／Clippy／fmt及11files80actualWASM測試通過。Candidate89761bytes SHA69af4226d451a71211b209101cc4223045b1aeca2f1178d16e9beaa91166b736，原feab88475SHA642保留為公平對照。這些是focused驗證，不冒充新全套。
+
+[固定c230原生證據](geographic-score-endpoints-native/README.md) 的nine完整af4仍一致；原three30秒窗口各一次，overview59.93850／operational50.04925／close31.74741，相對feab-0.0356%／+0.329%／-0.911%，strict60全RED。唯一closeprofile320renders／319intervals，geo parent11.764675ms（feab11.612774，+1.308%），WASMscore7.346244ms（feab7.229238，+1.618%）；推定新overlaphelper own3.88121ms／render未較原3.86689下降。全部RTXpre/post／source1524／deps14765+23／canonical-resourceproof通過，setup提前scpRED保留。沒有明確整體收益，`45a5384` 撤回四個source/artifact檔案，保留全部candidate來源與原raw。
+
+Root另核對撤回後1494trackedruntime/test/config輸入逐byte等同feab全套的beforeinventory，兩個publicWASM／manifest也與feabGitblobs一致；freshwasm:check通過。這是來源／產物一致證據，沒有新FULL或FPS重跑。最新FULL6392／1known／1skip仍明確歸屬feab，沒有擇優重跑微優化。
+
+[完整 SIMD 核心隔離證據](geographic-score-simd-kernel-local/README.md) 以原acceptedscalar為基準，實際88469-byteprototype與原88475baseline的2121compiledcases一致，另24malformedatomiccontrols通過；完整11412888-byte raw保存。Native23只證scalarreference；strict SIMD反組譯與sourcebinding另行核對，未改sharedlegacy／caps／prep。Root獨立verifier通過。
+
+[Chromium tinyprobe證據](geographic-score-simd-browser/README.md) 實際fullChrome149 validate true，100352grid＋5explicitcontrols一致；default-headless與fullbinaryGREEN分開保留。只有4gridrows＋5controls結果留存，沒有完整逐案例stream或Safari／GPU／FPS／game結論。FF／WebKit未安裝。Root14raw pairs驗證通過。
+
+[Root撤回一致證據](geographic-score-endpoints-restored-root/README.md) 保存正式candidate80WASM／24Rust及restore1494source rows與Gitblob核對，source/artifact等同feabFULL範圍，沒有新fullrun。下一步為feature-gated scalar／SIMD雙artifact及初始化前capability選擇；prototype目前每個wasm32都含SIMD，不能當scalarfallback。Production維持acceptedscalar，尚無SIMDgame收益量測。
