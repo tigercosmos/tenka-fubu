@@ -48,10 +48,16 @@
 
 - 當前里程碑：見 `milestone.json`；歷史進度：見 README 進度表。
 
+- `5500bc0` 將三個 Ending 瀏覽器流程的合法存檔生成集中到檔案內 `beforeAll`，每個 worker 生命週期各新生成一次；保留獨立 browser context、單一 `chromium` project、原 5 秒 generator／300 秒全套上限。三項通過，生成失敗、worker 重啟、毀損存檔、無關 subset 與子程序逾時清理均有控制證據。這不是每次 invocation 絕對只生成一次，也尚未清除全套的生成逾時。
+- `1464146` 修正 actor-depth 測試把 canonical Y 當成地形抬升後 scene Y 的錯誤；改用獨立節點投影觀測，保留精確城池腳點相等、軍隊 anchor 關係、排序／重疊／選取斷言。原三項 1 FAIL／2 PASS，最後三項通過。`3ec8d7` 補 coast 初次掛載的 ready 前置；控制延遲字型載入時舊版失敗，新版原案例加回歸兩項通過。三次提交都只改 E2E，沒有改遊戲或期限。
+- 固定 `1464146` 原完整原生 363 項、預設 16 workers，300,015ms 到全套上限：226 PASS、15 FAIL、3 case timeout、29 其他 skipped、7 interrupted、83 未派發。Ending 單一 generator 仍花 6.719 秒而超過原 5 秒；後兩項未執行。最新 `3ec8d7` 型別、coast ESLint／Prettier、364 項 discovery 與 1,632 輸入前後校驗成功；完整 ESLint 與完整原生仍釘選 `1464146`，沒有重跑或改標。
+- 分類更正：重新比對原 `8ea965a` JSON 與七項 terminal interrupted 名稱，正確分類為 222 PASS、18 FAIL、3 timeout、27 其他 skipped、7 interrupted、85 未派發。先前的 34／7／78 分法把有 skipped result 的 interrupted 錯當成空結果；原 raw 與歷史套件不改，新 `native-full-suite-1464146` 保存補正。兩次全套都未通過，不能把四個額外 PASS 當因果效能提升。
+- 色覺 CDP 還原仍 RED；獨立重現 416 個差異像素，無 CDP 控制也有同區域 385 個差異，paint owner 未確定，沒有放寬零差異或更換基準。下一步可做固定來源、完整案例、原期限下的 4／8 worker 診斷；未採用新的 worker 設定，亦不再重複同來源 16-worker 全套。
+
 - `51abd75` 修復 1280×720／1.5 倍率結局徽記被上緣裁切：只把垂直對齊改為 `safe center`，保留可捲動內容及原字級。Ending、事件、具申／月結各十五倍率的分組證據已保存；具申／月結最後鍵盤版本十五項通過。只有 Event 最後新增的橫向溢出與 Enter 斷言只在精確 1.5 倍率 focused run 驗過，不能把較早事件十五項成功改標為最後測試版本。Battle 控制十五倍率加原生鍵盤共十六項通過。
 - `b867014` 修正 Battle 速度按鈕的可及名稱，包含可見倍率，並為戰法容器加上 group 語意。Axe serious 三節點降為零，原 critical 零維持；41 項受影響的一般原生案例通過。`3da2334` 補齊十個 unit 精確名稱查詢，原 7 FAIL／14 PASS 轉為 21 PASS。最後固定 `3da2334` 的 138 focused tests、型別、完整 ESLint、資料／素材、build／bundle 成功，1,632 輸入前後符合 Git。national-soak 只有 selector 靜態更新，沒有長跑結論。
-- 原完整原生 `51abd75` 在 Node 22 discovery 因 court-rank 間接匯入 JSON 而失敗；`8ea965a` 只修正測試的存檔預期值，保留全 state 相等。原完整 `8ea965a` 以預設 16 workers 在 300,015ms 達全套上限：222 PASS、18 FAIL、3 case timeout、34 explicit skip、7 interrupted、78 未執行。現有個別測試的 75–270 秒 override 未改，不能宣稱每項都受 60 秒限制。最新完整 core 仍釘選 `7d37c28`，不得把 focused 或後續語意修改當全量成功。
-- 下一步先設計 Ending 專屬 Playwright dependency setup：每次 invocation 新生成一次合法 earned fixture，生成成本仍計入原 300 秒，失敗向依賴案例傳播，不用舊檔 fallback，也不讓無關 subset 承擔 globalSetup。原三個 child 超過 5 秒，idle 同命令 1.61 秒成功；尚未實作排程修正。其餘原生失敗、strict60、whole-heap、long-run、其他介面與全 M6–M9 gate 保持開放。無嗣／戰術終局、人口校準及 934163c 六圖人工核准均未收到決策。
+- 原完整原生 `51abd75` 在 Node 22 discovery 因 court-rank 間接匯入 JSON 而失敗；`8ea965a` 只修正測試的存檔預期值，保留全 state 相等。原完整 `8ea965a` 的分類補正見上方；現有個別測試的 75–270 秒 override 未改，不能宣稱每項都受 60 秒限制。最新完整 core 仍釘選 `7d37c28`，不得把 focused 或後續語意修改當全量成功。
+- 先前 Ending dependency setup 提案由 `5500bc0` 的檔案內 worker 生命週期方案取代，避免 `--project=chromium` 漏掉新 project 或無關 subset 被迫生成 fixture。其餘原生失敗、strict60、whole-heap、long-run、其他介面與全 M6–M9 gate 保持開放。無嗣／戰術終局、人口校準及 934163c 六圖人工核准均未收到決策。
 - 後續隔離副本使用 `docs/validation/2026-10-12/completion-audit/scoped-source-snapshot-79682cd/tenka-scoped-source-archive.py` 的 allowlist／精確 delta 與全來源校驗，禁止再串流整個驗證文件樹。這批 Battle setup 的全 tracked archive 例外已明載；所有新的驗證 subprocess 仍須先 exclusive-create 完整 log，Playwright 使用唯一 output／report。未 push／deploy，milestone 未提升。
 
 - `5f250eb` 修正 0.9 倍率的報告提示密度超標：上下 padding 統一減少，字級、完整換行與 32px 按鈕維持；原版十五項為 14 PASS／1 FAIL，候選十五項全通過，報告中心另驗 195 個控制。`cf9fb7e` 增加武將／設定／存讀檔三類面板十五倍率驗收，45 項通過。這些只是 M8-23 子門檻；強制 overlay、Battle 控制的後續結果見上方，其他面板、完整文字可讀性與原生全套五分鐘仍未完成。新提示間距的六張候選圖已保存，尚未收到人工核准，不得更新 references。

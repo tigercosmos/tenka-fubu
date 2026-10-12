@@ -6575,3 +6575,16 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 固定 `51abd75` 與最終 `3da2334` local checks 各保存自己的來源；最後 138 tests／16 files、型別、完整 ESLint、資料／素材、build／bundle 成功，1,632 個輸入前後同 Git。最後語意修改後未再跑完整原生；最新完整 core 仍 `7d37c28` 的 6,445 PASS／1 無嗣 FAIL／1 SKIP。
 - Battle setup 曾誤串流完整 tracked archive，成功紀錄與範圍例外明載，沒有重標為 scoped。新 allowlist snapshot helper 實測 restore 1,630 base files＋單檔 delta，1,631 final Git blobs／modes 全相等，排除 docs／output。往後只用限定快照／精確 delta，先開唯一 log，Playwright 唯一 output／report。一次 coordinator SSH status-read quoting error 在讀資料前失敗，原 exit2／log 亦保留。
 - strict60、whole-heap、long-run、原生全套 deadline、其他介面及 M6–M9 仍未完成。無嗣／戰術終局、人口校準及 934163c 六圖人工核准均未收到決策；未改規則、基準或 milestone，未 push／deploy。下次從已保存原始失敗及 Ending-only dependency 設計繼續，不先重跑同一完整 workload。
+
+## Ending 共用生成、深度／掛載前置與全套分類補正（2026-10-12）
+
+- `5500bc0` 只改 Ending E2E：檔案內 default 分組與 beforeAll 每個 worker 生命週期新生成一次合法 save；三個 browser context 及所有 UI 斷言獨立保留。保留單一 chromium project，所以明確 project 選取不漏案例，無關 subset 不生成。原三項 14.2 秒成功；生成失敗、重啟新生成、毀損檔案、無關 subset、掛住子程序及 descendant 清理控制均保存。這個較小方案取代先前 dependency-project 提案，不宣稱一次 invocation 絕對只生成一次。
+- `1464146` 修正 actor-depth 測試 canonical Y／scene Y 混用。Sunpu camera 的 Gifu 有 5.6 world-unit 抬升，Sunpu 城本身不是該非零見證。改用獨立節點投影觀測並驗 canonical linkage、投影界線，保留精確城池腳點相等、軍隊 anchor 推導、排序／重疊／選取。原 1 FAIL／2 PASS；候選及最後精確三項均 PASS。最後 line-wrap 以 AST／輸出 JS 相同證明，完整原生使用實際最後 bytes。
+- `3ec8d7` 只改 coast E2E 的初次 renderer-ready 前置。原孤立案例 PASS 不能清除先前全套 not-mounted 失敗；控制 document.fonts.load 延遲證明 strategy DOM 可見時仍未註冊 renderer。舊 immediate-idle 失敗，新 readiness poll 只捕捉已知 not-mounted 狀態、其他錯誤照常拋出；原幾何案例及回歸 2 PASS／6.4 秒，原 expect／case／global 期限不變。
+- 固定 `1464146` 全套 363 項、預設 16 workers，300,015.168ms 到原 deadline：226 PASS、15 FAIL、3 case timeout、29 其他 skipped、7 interrupted、83 未派發。單一 Ending generator 仍花 6.719 秒而超過原 5 秒，後兩個流程未執行；共用生成沒有清除全套 RED。27,398 個檔案／5,373,903,660 bytes 留 sim4，有逐檔 hash／size；完整 JSON 與 log 本地壓縮保存。terminal 後 process 觀測沒有 project child。
+- **補正上一節的歷史分類：**原 `8ea965a` 應為 222 PASS、18 FAIL、3 timeout、27 其他 skipped、7 interrupted、85 未派發，而不是 34／7／78。兩次 raw JSON 的七個 interrupted 均有 skipped result；先前 helper 從空結果再減七是錯誤分類。原 raw、歷史套件、舊索引列保持不變，新 full146 套件以 terminal 名稱比對保存補正。PASS／FAIL／timeout aggregate 沒有更改。
+- 原 actor-depth、army-plate 指標／far LOD、coast 本次通過；原兩個後續 Ending 案例改為未執行。新增 unexpected 為 army-plate-material 與 context-panel-focus 的 renderer 尚未掛載；其餘 unexpected 持續。新增 Battle 名稱／群組案例通過。這是狀態差異，不是四項額外 PASS 的因果效能結論。
+- 固定 `1464146` 型別、完整 ESLint、363 項 discovery／格式通過；最後 `3ec8d7` 型別、coast ESLint／格式、364 項 discovery 通過。兩者各自 1,632 inputs 前後符合 Git；完整原生仍釘選 146，沒有為之後 coast 修改重跑或改標，也沒有再跑無關 core／build。
+- 色覺 achromatopsia 原 8ea 孤立重現 416 個精確還原差異，無 CDP 控制同區域 385 個差異，十二次額外 idle waits 後仍 406。state／commands／canvas rectangle 相等不代表 canvas pixels 相等；HUD shadow 與 canvas paint owner 未辨明，沒有放寬零差異或改基準。
+- 下一步先對新增 not-mounted 失敗做 bounded 共用 boot 前置關係稽核，保留刻意檢查未掛載／延遲地圖的案例，不加全域無條件等待。另可固定目前完整 364 項來源做 4／8 worker 診斷、原 300 秒與其他期限／斷言／skip 不變；不拿不同來源的歷史 16-worker run 當嚴格 timing pair，尚未採用新 worker 設定。
+- 所有既有 M6–M9 門檻、strict60、whole-heap、long-run、其餘介面與待決無嗣／戰術終局、人口校準、934163c 六圖人工審查保持開放。沒有改規則、references、milestone，沒有 push／deploy。所有新 setup／validation 都先建立唯一完整 log；來源只用 scoped archive／delta，這批失敗及診斷原檔均保存。

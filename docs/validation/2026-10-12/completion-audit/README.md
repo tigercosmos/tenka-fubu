@@ -4,13 +4,27 @@ Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目�
 最新固定來源 `7d37c28` 全量測試為 6,445 通過、1 既有失敗、1 跳過；120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
+## Ending 生成、投影座標、初次掛載與完整原生分類補正
+
+`5500bc0` 將 Ending 合法存檔生成集中到檔案內 `beforeAll`，每個 worker 生命週期各新生成一次，保留三個獨立 browser context、單一 `chromium` project 與所有原 UI 斷言。[生成控制](ending-fixture-5500bc0/README.md) 保存三項成功，以及失敗傳播、worker 重啟新生成、無關 subset、毀損檔案與逾時子程序清理。這是取代先前 dependency-project 提案的較小方案，不宣稱每次 invocation 絕對只生成一次。
+
+`1464146` 修正測試的 canonical／scene 座標混用，[actor-depth 證據](actor-depth-projection-1464146/README.md) 保存原 1 FAIL／2 PASS 和最後 3 PASS，精確城池腳點相等與其他排序／重疊／選取斷言保留。`3ec8d7` 補初次 map-ready 前置，[coast 證據](coast-readiness-diagnosis-8ea/README.md) 保存字型載入被控制延遲時的舊版 RED，以及原幾何案例加新回歸兩項成功。這些修改都限於 E2E，沒有改遊戲、原期限或保護基準。
+
+[固定 1464146 全套](native-full-suite-1464146/README.md) 使用預設 16 workers，在 300,015ms 到原 global deadline：363 項中 226 PASS、15 FAIL、3 case timeout、29 其他 skipped、7 interrupted、83 未派發。單一 Ending generator 仍花 6.719 秒而超過原 5 秒；後兩個流程沒有執行。原 actor-depth、army-plate 指標／far LOD、coast 案例本次通過；army-plate-material 與 context-panel-focus 則新增 renderer 尚未掛載失敗。這是單次狀態差異，不能推論四個額外 PASS 是因果效能提升。
+
+**歷史分類補正：**重新比對 `8ea965a` 原 JSON 與七個 terminal interrupted 名稱，正確分類是 222 PASS、18 FAIL、3 timeout、27 其他 skipped、7 interrupted、85 未派發。先前 34／7／78 的分類有誤：這七個 interrupted 已有 `skipped` result，不屬於空結果。原 JSON、log、歷史套件與既有 hash 列不改；新全套套件保存兩次 raw 的補正分析。
+
+[1464146 本機整合](e2e-integrated-1464146/README.md) 的型別、完整 ESLint、363 項 discovery／格式與 1,632 輸入前後校驗成功。[3ec8d7 最後檢查](e2e-integrated-3ec8d7/README.md) 的型別、coast ESLint／格式、364 項 discovery 與相同範圍來源校驗成功。完整原生仍釘選較早 `1464146`，沒有在 coast 修改後再跑或改標；最新完整 core 仍是 `7d37c28`。
+
+[色覺診斷](native-colorvision-diagnosis-8ea/README.md) 獨立重現 416 個還原差異像素，無 CDP 控制也有同區域 385 個差異；DOM hit target 無法區分 HUD shadow 與 canvas 的 paint owner，原因仍未確定。零差異門檻不變。下一步見[原生排程與掛載前置](e2e-integrated-3ec8d7/next-native-design.md)：先釐清共用啟動 helper 關係，另以固定完整來源做 4／8 worker 診斷，沒有採用新 worker 設定。strict60、whole-heap、long-run、其餘介面與全 M6–M9 gate 仍未完成；無嗣／戰術終局、人口校準、934163c 六圖人工核准仍未收到決策。
+
 ## 結局溢出、Battle 語意與完整原生原始失敗
 
 `51abd75` 以 `safe center` 修復最小視窗／1.5 倍率的結局徽記上緣裁切。原圖、原 RED、修正後十五倍率與精確最後三項 focused 驗證見[強制視窗證據](mandatory-overlays-responsive-51abd75/README.md)。具申／月結最後鍵盤版本十五項通過；Event 較早十五項成功與最後新增橫向溢出／Enter 斷言的精確 1.5 倍率成功分開標示，沒有把事件前版結果改標為最後版本。[Battle 控制](battle-controls-79682cd/README.md) 十五倍率及鍵盤共十六項成功；production 撤退／戰術滅亡仍沒有新規則。
 
 `b867014` 修正速度按鈕可及名稱與戰法 group，原 axe serious 三個節點降為零，critical 維持零。[Battle 語意證據](battle-axe-3da2334/README.md) 保存原 native 負控制、41 項受影響的一般原生成功，以及漏改 unit 查詢造成的 7 FAIL／14 PASS 和 `3da2334` 修正後 21 PASS。第一次 checker 只有 E2E 22 處；擴充到 src／tests／e2e 後才補齊十個 unit 查詢。national-soak 只有 selector 靜態更新。
 
-[原完整原生](native-full-suite-8ea965a/README.md) 先保存 `51abd75` Node 22 discovery RED，再保存 court-rank 測試專用修正後 `8ea965a` 的全套。362 項以預設 16 workers 在原 300 秒上限結束：222 PASS、18 FAIL、3 case timeout、34 explicit skip、7 interrupted、78 未派發。Playwright 的 119 skipped 包含後兩類，不能當成 119 個主動略過。原個別 timeout overrides 保留，不宣稱所有案例都使用 60 秒。完整 report 本地壓縮保存，4.9GB／22,721 個輸出檔仍在 sim4 並有逐檔 hash／size 清單；第一張 post-process 圖有兩個 PPID1 worker，第二次觀測已退出。
+[原完整原生](native-full-suite-8ea965a/README.md) 先保存 `51abd75` Node 22 discovery RED，再保存 court-rank 測試專用修正後 `8ea965a` 的全套。362 項以預設 16 workers 在原 300 秒上限結束：222 PASS、18 FAIL、3 case timeout；skipped／interrupted／未派發的歷史分類補正見上節。原個別 timeout overrides 保留，不宣稱所有案例都使用 60 秒。完整 report 本地壓縮保存，4.9GB／22,721 個輸出檔仍在 sim4 並有逐檔 hash／size 清單；第一張 post-process 圖有兩個 PPID1 worker，第二次觀測已退出。
 
 三個 Ending 案例在 browser 前的合法 fixture generator 各因 5 秒 Vitest 上限失敗；case 6.61／6.47／5.95 秒，idle 同命令 1.61 秒成功。這不代表 Ending 畫面失敗，也不解釋其餘十八個 unexpected。下一步是[Ending 專屬 dependency setup 設計](overlay-integrated-3da2334/next-fixture-design.md)，生成仍計入原全套 deadline，不增加 timeout、不讀舊 fixture，不使用會牽連無關 subset 的 globalSetup；尚未實作。
 

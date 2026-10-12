@@ -1,0 +1,1013 @@
+{
+  "before": {
+    "at30x57": [
+      {
+        "tag": "CANVAS",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": "map-canvas-host",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_screen_1v1gg_1",
+        "testid": "screen-strategy",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "BODY",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "HTML",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(0, 0, 0)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      }
+    ],
+    "at30x31": [
+      {
+        "tag": "SPAN",
+        "className": "_clanChip_1h09p_110",
+        "testid": null,
+        "rect": [
+          21,
+          25,
+          14,
+          14
+        ],
+        "background": "rgb(174, 41, 41)",
+        "borderBottom": "1px solid rgb(156, 149, 133)",
+        "boxShadow": "rgb(244, 240, 229) 0px 0px 0px 1px",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "SPAN",
+        "className": "_clanIdentity_1h09p_102",
+        "testid": null,
+        "rect": [
+          21,
+          9,
+          22,
+          46
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(251, 248, 240)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_root_1h09p_1",
+        "testid": null,
+        "rect": [
+          13,
+          9,
+          479.453125,
+          46
+        ],
+        "background": "rgb(23, 37, 44)",
+        "borderBottom": "0px none rgb(251, 248, 240)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_resourceViewport_1v1gg_21",
+        "testid": "hud-resources",
+        "rect": [
+          13,
+          9,
+          1061,
+          46
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(251, 248, 240)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "HEADER",
+        "className": "_hud_1v1gg_7",
+        "testid": null,
+        "rect": [
+          12,
+          8,
+          1256,
+          48
+        ],
+        "background": "rgb(23, 37, 44)",
+        "borderBottom": "1px solid color(srgb 0.278431 0.296627 0.271373)",
+        "boxShadow": "rgba(20, 18, 14, 0.25) 0px 1px 3px 0px",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "CANVAS",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": "map-canvas-host",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_screen_1v1gg_1",
+        "testid": "screen-strategy",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      }
+    ],
+    "at30x63": [
+      {
+        "tag": "CANVAS",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": "map-canvas-host",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_screen_1v1gg_1",
+        "testid": "screen-strategy",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "BODY",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "HTML",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(0, 0, 0)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      }
+    ],
+    "resources": {
+      "clientWidth": 1061,
+      "scrollWidth": 1061,
+      "clientHeight": 46,
+      "scrollHeight": 46,
+      "scrollLeft": 0,
+      "scrollTop": 0
+    },
+    "animations": []
+  },
+  "during": {
+    "at30x57": [
+      {
+        "tag": "CANVAS",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": "map-canvas-host",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_screen_1v1gg_1",
+        "testid": "screen-strategy",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "BODY",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "HTML",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(0, 0, 0)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      }
+    ],
+    "at30x31": [
+      {
+        "tag": "SPAN",
+        "className": "_clanChip_1h09p_110",
+        "testid": null,
+        "rect": [
+          21,
+          25,
+          14,
+          14
+        ],
+        "background": "rgb(174, 41, 41)",
+        "borderBottom": "1px solid rgb(156, 149, 133)",
+        "boxShadow": "rgb(244, 240, 229) 0px 0px 0px 1px",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "SPAN",
+        "className": "_clanIdentity_1h09p_102",
+        "testid": null,
+        "rect": [
+          21,
+          9,
+          22,
+          46
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(251, 248, 240)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_root_1h09p_1",
+        "testid": null,
+        "rect": [
+          13,
+          9,
+          479.453125,
+          46
+        ],
+        "background": "rgb(23, 37, 44)",
+        "borderBottom": "0px none rgb(251, 248, 240)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_resourceViewport_1v1gg_21",
+        "testid": "hud-resources",
+        "rect": [
+          13,
+          9,
+          1061,
+          46
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(251, 248, 240)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "HEADER",
+        "className": "_hud_1v1gg_7",
+        "testid": null,
+        "rect": [
+          12,
+          8,
+          1256,
+          48
+        ],
+        "background": "rgb(23, 37, 44)",
+        "borderBottom": "1px solid color(srgb 0.278431 0.296627 0.271373)",
+        "boxShadow": "rgba(20, 18, 14, 0.25) 0px 1px 3px 0px",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "CANVAS",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": "map-canvas-host",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_screen_1v1gg_1",
+        "testid": "screen-strategy",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      }
+    ],
+    "at30x63": [
+      {
+        "tag": "CANVAS",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": "map-canvas-host",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_screen_1v1gg_1",
+        "testid": "screen-strategy",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "BODY",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "HTML",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(0, 0, 0)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      }
+    ],
+    "resources": {
+      "clientWidth": 1061,
+      "scrollWidth": 1061,
+      "clientHeight": 46,
+      "scrollHeight": 46,
+      "scrollLeft": 0,
+      "scrollTop": 0
+    },
+    "animations": []
+  },
+  "after": {
+    "at30x57": [
+      {
+        "tag": "CANVAS",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": "map-canvas-host",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_screen_1v1gg_1",
+        "testid": "screen-strategy",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "BODY",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "HTML",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(0, 0, 0)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      }
+    ],
+    "at30x31": [
+      {
+        "tag": "SPAN",
+        "className": "_clanChip_1h09p_110",
+        "testid": null,
+        "rect": [
+          21,
+          25,
+          14,
+          14
+        ],
+        "background": "rgb(174, 41, 41)",
+        "borderBottom": "1px solid rgb(156, 149, 133)",
+        "boxShadow": "rgb(244, 240, 229) 0px 0px 0px 1px",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "SPAN",
+        "className": "_clanIdentity_1h09p_102",
+        "testid": null,
+        "rect": [
+          21,
+          9,
+          22,
+          46
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(251, 248, 240)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_root_1h09p_1",
+        "testid": null,
+        "rect": [
+          13,
+          9,
+          479.453125,
+          46
+        ],
+        "background": "rgb(23, 37, 44)",
+        "borderBottom": "0px none rgb(251, 248, 240)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_resourceViewport_1v1gg_21",
+        "testid": "hud-resources",
+        "rect": [
+          13,
+          9,
+          1061,
+          46
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(251, 248, 240)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "HEADER",
+        "className": "_hud_1v1gg_7",
+        "testid": null,
+        "rect": [
+          12,
+          8,
+          1256,
+          48
+        ],
+        "background": "rgb(23, 37, 44)",
+        "borderBottom": "1px solid color(srgb 0.278431 0.296627 0.271373)",
+        "boxShadow": "rgba(20, 18, 14, 0.25) 0px 1px 3px 0px",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "CANVAS",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": "map-canvas-host",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_screen_1v1gg_1",
+        "testid": "screen-strategy",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      }
+    ],
+    "at30x63": [
+      {
+        "tag": "CANVAS",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": "map-canvas-host",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "_screen_1v1gg_1",
+        "testid": "screen-strategy",
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "BODY",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgb(244, 240, 229)",
+        "borderBottom": "0px none rgb(32, 44, 49)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      },
+      {
+        "tag": "HTML",
+        "className": "",
+        "testid": null,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "background": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px none rgb(0, 0, 0)",
+        "boxShadow": "none",
+        "animation": "0s",
+        "transition": "all"
+      }
+    ],
+    "resources": {
+      "clientWidth": 1061,
+      "scrollWidth": 1061,
+      "clientHeight": 46,
+      "scrollHeight": 46,
+      "scrollLeft": 0,
+      "scrollTop": 0
+    },
+    "animations": []
+  }
+}

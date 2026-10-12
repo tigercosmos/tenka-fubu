@@ -1,0 +1,13 @@
+# Next native acceptance work
+
+The original `1464146` run still failed at the unchanged 300-second global deadline. The single shared Ending generator exceeded its unchanged 5,000 ms Vitest case budget at 6.719 seconds under 16 workers. Three workflows passed on the idle host, but that focused result does not establish reliability in the full suite. No further identical 16-worker run is planned without a relevant change.
+
+First audit the concrete renderer-startup failures. The new `army-plate-material` and `context-panel-focus` failures both report that the renderer is not mounted. The coast test demonstrated that strategy DOM visibility and `document.fonts.ready` do not imply completion of `MapRenderer.init` and debug registration. Trace each failing boot path before extracting or reusing a shared readiness helper. Keep exceptions visible, retain the existing expectation and case limits, and preserve tests that intentionally inspect an absent or delayed renderer. Do not install an unconditional global wait.
+
+Separately, use a fixed current source and all discovered cases for a bounded 4-worker and 8-worker diagnostic, one run at a time on the same otherwise idle host. Keep the 300-second global deadline, existing case overrides, 5-second generator limit, assertions, references and skip conditions unchanged. Capture the explicit worker override as a diagnostic parameter, exact source/dependency proofs, per-case outcomes, setup costs and complete wall duration. Preserve failed and incomplete runs. Lower concurrency is a scheduling candidate, not permission to omit tests or relax acceptance.
+
+The current `3ec8d7` source discovers 364 cases, including the coast delayed-registration regression. A paired 4/8 comparison must use identical source and case inventory. The historical 16-worker `1464146` run contains 363 cases and is context, not an otherwise identical timing pair. Do not claim a causal speedup by comparing those different sources. Adopt a worker cap only after the full outcomes support it, then validate the adopted current configuration as a separate acceptance result.
+
+The color-vision exact-restoration discrepancy remains unattributed. The no-CDP control also changes the same narrow composited edge, and repeated idle frames do not restore equality. Identify the responsible paint and capture condition before changing product code or the oracle; the exact-zero requirement remains intact.
+
+These steps do not close strict render performance, whole-heap growth, long-run campaigns, remaining UI coverage, gameplay decisions, calibration, protected-reference approval, or the full M6–M9 milestone requirements.
