@@ -542,15 +542,11 @@ describe('WASM geographic scorer adapter', () => {
   });
   it('retains explicit custom SIMD initialization when the default runtime policy is scalar', async () => {
     const validate = vi.spyOn(WebAssembly, 'validate');
-    const fetch = vi
-      .spyOn(globalThis, 'fetch')
-      .mockResolvedValue({
-        ok: true,
-        arrayBuffer: () =>
-          Promise.resolve(
-            Uint8Array.from(readFileSync('public/wasm/tenka_engine.simd.wasm')).buffer,
-          ),
-      } as Response);
+    const fetch = vi.spyOn(globalThis, 'fetch').mockResolvedValue({
+      ok: true,
+      arrayBuffer: () =>
+        Promise.resolve(Uint8Array.from(readFileSync('public/wasm/tenka_engine.simd.wasm')).buffer),
+    } as Response);
     const scorer = createWasmGeographicScorer();
     await scorer.initialize({ url: '/custom-simd.wasm', variant: 'simd128' });
     expect(scorer.getNumericVariant()).toBe('simd128');
