@@ -1303,6 +1303,11 @@ onDprChange():
 正式策略 tick 在 `src/app/worker/simulation.worker.ts` 的單一背景 worker 執行。
 worker 載入 Rust WASM 模組，安裝 `src/core/acceleration/pathfindingKernel.ts` 的 ABI，再執行既有 TypeScript `advanceDay`。
 目前 Rust 負責路徑搜尋核心；此決策不宣稱全部遊戲系統已移植至 Rust。
+
+主頁另載入獨立 WASM 實例，提供地理標籤評分與完整城名牌純布局。
+JavaScript 保留輸入驗證、排序、字形量測、快取與可見度規則；Rust 保留既有 f64 運算順序與搜尋工作上限。
+地理與城名牌各自持有可重用 arena，共用該主頁實例的 memory；memory growth 後更新 view，destroy 各釋放一次。
+主頁不與模擬 worker 共用 memory；缺少任一正式布局 ABI 時，在建立 Pixi Application 前回報錯誤。
 主執行緒負責畫面、輸入、指令佇列、存檔與 tick 結果發布。
 
 每次請求攜帶分離的 GameState、指令信封、事件定義、session epoch、requestId 與起始 stateVersion。
@@ -1315,6 +1320,11 @@ worker 回傳狀態、TickResult、事件呈現資料及實際 backend 標記。
 新局與讀檔即使沒有 pending tick，也重設 worker session，避免沿用上一局的版本與快取。
 讀檔、換局、同步除錯與存檔必須先處理未提交結果，不能把舊 worker 結果寫入新局。
 WASM 載入、ABI 或 worker 錯誤走既有致命錯誤路徑，不能靜默回退為主執行緒策略結算。
+
+每個新 worker 立即收到只含 epoch 的 initialize 訊息；載入並驗證實際 Rust ABI 後才回覆 ready。
+Ready 只屬於該實例與 epoch，舊實例的訊息不能使新世代就緒；成功 tick 也不能替代 ready 握手。
+`waitSimulationIdle` 先等待未提交 tick，再加入當前世代的 readiness；世代變更時重新加入，所有等待共用同一截止時間。
+這個控制平面不修改局面、指令、RNG 或 tick 序號；取消與卸載須清理原實例的 listener、timer 與等待。
 此架構不使用 SharedArrayBuffer，也不要求 GitHub Pages 額外的跨來源隔離標頭。
 
 `rust/engine/rust-toolchain.toml` 釘選 Rust 工具鏈與 WASM target。

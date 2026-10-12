@@ -58,6 +58,7 @@
 ## 🛠️ 技術架構
 
 - **前端**：TypeScript（strict）＋ React 18 ＋ Vite；狀態管理 Zustand；戰略與合戰地圖使用 **PixiJS 8（WebGL）**。效能驗收必須註明 workload、硬體與 renderer backend。
+- **背景模擬與 Rust／WASM**：每日策略結算在專用 Web Worker 執行，與主頁渲染平行；日與日之間仍串行，保留指令與 RNG 順序。Rust 提供路徑搜尋、地理標籤評分及城名牌布局；其餘每日系統仍使用 TypeScript。主頁布局使用獨立 WASM 實例。架構契約見 [01 D22](plan/01-architecture.md)，實測與未通過項目見 [驗證紀錄](docs/validation/2026-10-12/completion-audit/README.md)。
 - **純前端 SPA、零後端**，可直接部署到 GitHub Pages。存檔走 IndexedDB（idb-keyval）＋ lz-string 壓縮。
 - **核心鐵律**：`src/core/` 是零 DOM 依賴的純邏輯，能在 Node 裡跑測試與模擬；**決定論設計**（固定亂數流），同劇本同種子必重現同一結果——這也是 AI 對戰可重播、可驗證的基礎。
 - 全 UI **繁體中文（台灣慣用語）**，字形嚴禁簡體與日文新字體。
