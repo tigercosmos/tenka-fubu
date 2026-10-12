@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "scope": "Withdrawn fused-axis candidate; exact restored source and retained generic preparation coverage; no native gain claim",
+  "restoredCommit": "3d6a95335dce862765e0eb46f0c97073c5398988",
+  "preWithdrawalCommit": "b0e8dc8bf15d4a145d980908a1845a95e9c1048a",
+  "candidateCommit": "5224c06bcbaf87ba8a84543837037a99e7d0d0d2",
+  "originalGeoSourceCommit": "04c7b6083df32cc9c1a20d693ef45eddb806ed14",
+  "restoredGeoSourceSha256": "fbf127f31dbb5d8318acdf1ff1dd8bc56b77e808ba23247b779ad74ed28c3bdd",
+  "restoredGeoSourceByteIdenticalTo04": true,
+  "retainedGenericTests": 5,
+  "withdrawalFocused": {
+    "files": 3,
+    "tests": 26,
+    "lintExit": 0,
+    "formatExit": 0
+  },
+  "fixedIntegrationStatus": "Complete:6362passed/1knownfailure/1skip, all4checks passed; compiled8JS/CSS+WASM equal, no nativeFPSrerun",
+  "nativeVerdict": "No clear measured overall benefit; native evidence remains in its own source/dependency-pinned package",
+  "entries": [
+    {
+      "path": "raw/tenka-geographic-withdrawal-focused.log.gz",
+      "origin": "/tmp/tenka-geographic-withdrawal-focused.log",
+      "kind": "withdrawal-focused-validation",
+      "rawBytes": 1225,
+      "gzipBytes": 472,
+      "rawSha256": "4dee2599dba3267302f744fea28642011cb127fa6501e86304d8e9537a5bb302",
+      "gzipSha256": "13027612c37a773ff0149ab52fbc7d11712cb3b3615c0615cb991bb148426046"
+    },
+    {
+      "path": "raw/tenka-geographic-withdrawal-lint.log.gz",
+      "origin": "/tmp/tenka-geographic-withdrawal-lint.log",
+      "kind": "withdrawal-focused-validation",
+      "rawBytes": 0,
+      "gzipBytes": 20,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "raw/tenka-geographic-withdrawal-format.log.gz",
+      "origin": "/tmp/tenka-geographic-withdrawal-format.log",
+      "kind": "withdrawal-focused-validation",
+      "rawBytes": 66,
+      "gzipBytes": 82,
+      "rawSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "gzipSha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5"
+    },
+    {
+      "path": "restored/src/ui/map/geographicLabelLayout.ts.gz",
+      "origin": "git:3d6a95335dce862765e0eb46f0c97073c5398988:src/ui/map/geographicLabelLayout.ts",
+      "kind": "frozen-restored-source",
+      "rawBytes": 10191,
+      "gzipBytes": 3264,
+      "rawSha256": "fbf127f31dbb5d8318acdf1ff1dd8bc56b77e808ba23247b779ad74ed28c3bdd",
+      "gzipSha256": "b736fd3539e2a278d302b9de1909f7bb5045248f83b06244a3771fca6ae23a28"
+    },
+    {
+      "path": "restored/tests/ui/geographicPreparationParity.spec.ts.gz",
+      "origin": "git:3d6a95335dce862765e0eb46f0c97073c5398988:tests/ui/geographicPreparationParity.spec.ts",
+      "kind": "frozen-restored-source",
+      "rawBytes": 8944,
+      "gzipBytes": 3016,
+      "rawSha256": "d60ddc703a64e46eebf992e3585e948509a1c7b7c9bc90901fdfdcee447a9ce0",
+      "gzipSha256": "e43271a7cfc4f0d92f72a440f86e654c409d701c1df7e36d23813c31d8f29c7b"
+    },
+    {
+      "path": "restored/tests/helpers/geographicWasmReference.ts.gz",
+      "origin": "git:3d6a95335dce862765e0eb46f0c97073c5398988:tests/helpers/geographicWasmReference.ts",
+      "kind": "frozen-restored-source",
+      "rawBytes": 9800,
+      "gzipBytes": 3285,
+      "rawSha256": "bda5b757e2bd8a2e82c5a42fde825ebe9c846337b8a578f8413938624899d9b2",
+      "gzipSha256": "6a6d799bf32a3a8bcfdcb28b1920c505eece88047ce80ce5ce575f281ee05125"
+    },
+    {
+      "path": "restored/tests/helpers/realGeographicWasm.ts.gz",
+      "origin": "git:3d6a95335dce862765e0eb46f0c97073c5398988:tests/helpers/realGeographicWasm.ts",
+      "kind": "frozen-restored-source",
+      "rawBytes": 983,
+      "gzipBytes": 489,
+      "rawSha256": "b2001d4e922748c29cbcf27306665b023e5bc49b3bcc5a06d48822df05fb3b84",
+      "gzipSha256": "3f90b976f47b381d4d435d8399eb8a6c21155035c810484b69d1ae2c6563427a"
+    },
+    {
+      "path": "restored/public/wasm/manifest.json.gz",
+      "origin": "git:3d6a95335dce862765e0eb46f0c97073c5398988:public/wasm/manifest.json",
+      "kind": "frozen-restored-source",
+      "rawBytes": 1226,
+      "gzipBytes": 686,
+      "rawSha256": "7a8d15decf200d54940210644e44186a23bd9da94fe15c20e8628da58962c7de",
+      "gzipSha256": "9794ec92186b63566524479adb8470236006ee79a44f6951f9189c39f8f53af2"
+    },
+    {
+      "path": "restored/public/wasm/tenka_engine.wasm.gz",
+      "origin": "git:3d6a95335dce862765e0eb46f0c97073c5398988:public/wasm/tenka_engine.wasm",
+      "kind": "frozen-restored-source",
+      "rawBytes": 63073,
+      "gzipBytes": 23266,
+      "rawSha256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba",
+      "gzipSha256": "274428b88d8cc6abdd3057e637f0032700ed71f6a2d0a9d980cd398c30292d5a"
+    },
+    {
+      "path": "candidate/src/ui/map/geographicLabelLayout.ts.gz",
+      "origin": "git:5224c06bcbaf87ba8a84543837037a99e7d0d0d2:src/ui/map/geographicLabelLayout.ts",
+      "kind": "separate-before-source",
+      "rawBytes": 10887,
+      "gzipBytes": 3297,
+      "rawSha256": "f7773dc24e57cb917b5b989f17facb761bef5c38c2b78eebe62c9fcd0fd380b8",
+      "gzipSha256": "dd10a6023673465ad3ce568823db02753a32def85261a84187d173a62d052b13"
+    },
+    {
+      "path": "candidate/tests/ui/geographicFusedAxes.spec.ts.gz",
+      "origin": "git:5224c06bcbaf87ba8a84543837037a99e7d0d0d2:tests/ui/geographicFusedAxes.spec.ts",
+      "kind": "separate-before-source",
+      "rawBytes": 8946,
+      "gzipBytes": 3019,
+      "rawSha256": "5568bee2d0db638e20a80b924c56dbe579b7d69d757253b6a2061d2fd410c7a8",
+      "gzipSha256": "287d6299b0e21d2185bd2651f5295b30ff314fc0b4cfe245f6cafa28090fb605"
+    },
+    {
+      "path": "pre-withdrawal/src/ui/map/geographicLabelLayout.ts.gz",
+      "origin": "git:b0e8dc8bf15d4a145d980908a1845a95e9c1048a:src/ui/map/geographicLabelLayout.ts",
+      "kind": "separate-before-source",
+      "rawBytes": 10887,
+      "gzipBytes": 3297,
+      "rawSha256": "f7773dc24e57cb917b5b989f17facb761bef5c38c2b78eebe62c9fcd0fd380b8",
+      "gzipSha256": "dd10a6023673465ad3ce568823db02753a32def85261a84187d173a62d052b13"
+    },
+    {
+      "path": "pre-withdrawal/tests/ui/geographicFusedAxes.spec.ts.gz",
+      "origin": "git:b0e8dc8bf15d4a145d980908a1845a95e9c1048a:tests/ui/geographicFusedAxes.spec.ts",
+      "kind": "separate-before-source",
+      "rawBytes": 8946,
+      "gzipBytes": 3019,
+      "rawSha256": "5568bee2d0db638e20a80b924c56dbe579b7d69d757253b6a2061d2fd410c7a8",
+      "gzipSha256": "287d6299b0e21d2185bd2651f5295b30ff314fc0b4cfe245f6cafa28090fb605"
+    },
+    {
+      "path": "original04/src/ui/map/geographicLabelLayout.ts.gz",
+      "origin": "git:04c7b60:src/ui/map/geographicLabelLayout.ts",
+      "kind": "separate-before-source",
+      "rawBytes": 10191,
+      "gzipBytes": 3264,
+      "rawSha256": "fbf127f31dbb5d8318acdf1ff1dd8bc56b77e808ba23247b779ad74ed28c3bdd",
+      "gzipSha256": "b736fd3539e2a278d302b9de1909f7bb5045248f83b06244a3771fca6ae23a28"
+    },
+    {
+      "path": "restored/3d6a953.patch.gz",
+      "origin": "git show --format=fuller 3d6a95335dce862765e0eb46f0c97073c5398988",
+      "kind": "withdrawal-patch",
+      "rawBytes": 4303,
+      "gzipBytes": 1484,
+      "rawSha256": "86dfc4033f18b17e7f90a9a29b74cd99e4db804cc999f2f1f3accdc157a04e91",
+      "gzipSha256": "a6d113160c9d04f875dd435b131f5edc1430660c5f35a31398033c7b8702d3a3"
+    },
+    {
+      "path": "raw/tenka-fixed-3d6a-test.log.gz",
+      "origin": "/tmp/tenka-fixed-3d6a-test.log",
+      "kind": "fixed-restored-source-full-suite",
+      "rawBytes": 220232,
+      "gzipBytes": 30257,
+      "rawSha256": "69bcd19c1c7f5be0c95fdbed9812fa1b505eca14c8972fa7c34884e0f53c5876",
+      "gzipSha256": "d00e1998049bf92103e850a2ff6098f19642e80acce8db9f5d3fc25186392d0c"
+    },
+    {
+      "path": "raw/tenka-fixed-3d6a-before.json.gz",
+      "origin": "/tmp/tenka-fixed-3d6a-before.json",
+      "kind": "fixed-restored-source-full-suite",
+      "rawBytes": 252658,
+      "gzipBytes": 79969,
+      "rawSha256": "0b9553d3bffe7b90f69cc2eda3fc7ba1070ce092e5157ab8e0c3902d8a78d839",
+      "gzipSha256": "97468816e593d68367ddd587c08afcdb3385f9d242a8dd822e9a1ea4030fba15"
+    },
+    {
+      "path": "raw/tenka-fixed-3d6a-after.json.gz",
+      "origin": "/tmp/tenka-fixed-3d6a-after.json",
+      "kind": "fixed-restored-source-full-suite",
+      "rawBytes": 252658,
+      "gzipBytes": 79969,
+      "rawSha256": "0b9553d3bffe7b90f69cc2eda3fc7ba1070ce092e5157ab8e0c3902d8a78d839",
+      "gzipSha256": "97468816e593d68367ddd587c08afcdb3385f9d242a8dd822e9a1ea4030fba15"
+    },
+    {
+      "path": "raw/tenka-fixed-3d6a-types.log.gz",
+      "origin": "/tmp/tenka-fixed-3d6a-types.log",
+      "kind": "terminal-restored-check-or-compiled-comparison",
+      "rawBytes": 84,
+      "gzipBytes": 87,
+      "rawSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a",
+      "gzipSha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984"
+    },
+    {
+      "path": "raw/tenka-fixed-3d6a-lint.log.gz",
+      "origin": "/tmp/tenka-fixed-3d6a-lint.log",
+      "kind": "terminal-restored-check-or-compiled-comparison",
+      "rawBytes": 125,
+      "gzipBytes": 123,
+      "rawSha256": "d0e71f55d6f4fd8f983185091b7cdae86733c29af94431f99d20836fc2109fe1",
+      "gzipSha256": "a68529dacf305cdbd92f2dc4d54c6184e1eccc45862acae44d4240408dae422b"
+    },
+    {
+      "path": "raw/tenka-fixed-3d6a-build.log.gz",
+      "origin": "/tmp/tenka-fixed-3d6a-build.log",
+      "kind": "terminal-restored-check-or-compiled-comparison",
+      "rawBytes": 1678,
+      "gzipBytes": 849,
+      "rawSha256": "ee130bf4ac80e173e087a359a27112af870b35b47c5e4ff442a67431b8baa60a",
+      "gzipSha256": "53ddee96e6a3693cf4f0b06562369d6967749e3fa51e9d0c0a00ba2fb73b4244"
+    },
+    {
+      "path": "raw/tenka-fixed-3d6a-bundle.log.gz",
+      "origin": "/tmp/tenka-fixed-3d6a-bundle.log",
+      "kind": "terminal-restored-check-or-compiled-comparison",
+      "rawBytes": 1057,
+      "gzipBytes": 398,
+      "rawSha256": "311a5c69577820ce31fd3d984c96e522c1de5654280ffa429d74a4ab3bfa5ec6",
+      "gzipSha256": "169725048c6fc478c7953294812dd21c6fa22a991e740d5f8a9327ca2a2cca10"
+    },
+    {
+      "path": "raw/tenka-fixed-3d6a-after-checks.json.gz",
+      "origin": "/tmp/tenka-fixed-3d6a-after-checks.json",
+      "kind": "terminal-restored-check-or-compiled-comparison",
+      "rawBytes": 252658,
+      "gzipBytes": 79969,
+      "rawSha256": "0b9553d3bffe7b90f69cc2eda3fc7ba1070ce092e5157ab8e0c3902d8a78d839",
+      "gzipSha256": "97468816e593d68367ddd587c08afcdb3385f9d242a8dd822e9a1ea4030fba15"
+    },
+    {
+      "path": "raw/tenka-fixed-3d6a-compiled-assets.json.gz",
+      "origin": "/tmp/tenka-fixed-3d6a-compiled-assets.json",
+      "kind": "terminal-restored-check-or-compiled-comparison",
+      "rawBytes": 3016,
+      "gzipBytes": 973,
+      "rawSha256": "f063b59f8a4884bc9015fbbe7b052c7499ec69d9e3bc208e15733115149c1739",
+      "gzipSha256": "c744eb3e36180454aad804c37eb7e30a5cef3a59d03584e2be687f60acccf59c"
+    },
+    {
+      "path": "raw/tenka-fixed-3d6a-compiled-assets.log.gz",
+      "origin": "/tmp/tenka-fixed-3d6a-compiled-assets.log",
+      "kind": "terminal-restored-check-or-compiled-comparison",
+      "rawBytes": 71,
+      "gzipBytes": 89,
+      "rawSha256": "0e83ee0538ad64cd580d61436f0a3491b699c3b0962b1c4eb116c03b5cc61ac6",
+      "gzipSha256": "f3baef36ec7c35845496ba028913e3fb1b3d2f6fdb83ba8341d40c3cba9607c6"
+    },
+    {
+      "path": "raw/tenka-compare-restored-assets.py.gz",
+      "origin": "/tmp/tenka-compare-restored-assets.py",
+      "kind": "terminal-restored-check-or-compiled-comparison",
+      "rawBytes": 1761,
+      "gzipBytes": 735,
+      "rawSha256": "2a2e87a0fb4de2701cb31e7ba24e2da155a6e1cab80c827c0d6b5e50684032a6",
+      "gzipSha256": "19a25b0b4f1e2c0cd1488f9b9c5ef8fdf7e88cd5eb2c7b0d9adb0bc93c7cf0f2"
+    },
+    {
+      "path": "raw/tenka-fixed-04c7-restored-comparison-inputs.json.gz",
+      "origin": "/tmp/tenka-fixed-04c7-restored-comparison-inputs.json",
+      "kind": "terminal-restored-check-or-compiled-comparison",
+      "rawBytes": 252479,
+      "gzipBytes": 79921,
+      "rawSha256": "ca23fcc5350d0ff8f1992029be541d1c0808285ecab1741ca8d8bc80b42324d3",
+      "gzipSha256": "8b658e730304720077cdadcd464467652673191a466f9728ac3e94f8829fb51f"
+    },
+    {
+      "path": "raw/tenka-fixed-inputs.py.gz",
+      "origin": "/tmp/tenka-fixed-inputs.py",
+      "kind": "terminal-restored-check-or-compiled-comparison",
+      "rawBytes": 1282,
+      "gzipBytes": 687,
+      "rawSha256": "48d4077d961dc174171af21f4f77d0d3586ff445599fca417677d1c7d9a0da5d",
+      "gzipSha256": "05e8953c0cdacf4195e603a887aa34f3fb1593757fd48cb7804c70b4a2eff0c9"
+    }
+  ],
+  "fixedIntegration": {
+    "files": 687,
+    "passedFiles": 685,
+    "failedFiles": 1,
+    "skippedFiles": 1,
+    "passedTests": 6362,
+    "failedTests": 1,
+    "skippedTests": 1,
+    "durationSeconds": 128.23,
+    "trackedInputs": 1486,
+    "manifestsByteIdentical": true,
+    "dependencies": "root node_modules symlink; not fresh dependency provisioning",
+    "checks": {
+      "typesExit": 0,
+      "lintExit": 0,
+      "buildExit": 0,
+      "bundleExit": 0,
+      "bundlePassed": true,
+      "buildSeconds": 4.2,
+      "afterChecksByteIdentical": true
+    }
+  },
+  "compiledAssetsComparison": {
+    "scope": "Emitted dist/assets JS/CSS and served WASM binary only. Excludes sourcemaps, other public assets, manifest metadata and dependencies. Not a native FPS rerun.",
+    "assets": 8,
+    "wasmBytes": 63073,
+    "wasmSha256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba",
+    "allEqual": true,
+    "baselineInputHead": "04c7b6083df32cc9c1a20d693ef45eddb806ed14",
+    "baselineTrackedInputs": 1485
+  }
+}
