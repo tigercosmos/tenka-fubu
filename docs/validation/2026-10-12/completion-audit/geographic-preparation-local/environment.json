@@ -1,0 +1,7 @@
+{
+  "scope": "Local packaging-time runtime observation; not fresh dependency installation or native timing",
+  "platform": "macOS-26.4.1-arm64-arm-64bit-Mach-O",
+  "node": "v22.17.0",
+  "npm": "10.9.2",
+  "rustcPinned": "rustc 1.97.1 (8bab26f4f 2026-07-14)"
+}

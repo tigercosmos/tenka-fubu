@@ -1,0 +1,203 @@
+{
+  "commit": "feab20cc9c207f37afae7a2f372c437b93232a07",
+  "sources": [
+    {
+      "path": "package-lock.json",
+      "bytes": 240141,
+      "sha256": "63f021d39b353a70831accbfc50b714a09767b900ce23157fbf4ecce1dda7be1",
+      "gitBlob": "ee2c0571d8dc1b0f91b74ad4f8957f3699a9f13a"
+    },
+    {
+      "path": "package.json",
+      "bytes": 3508,
+      "sha256": "82a6bf97a6611fe52eedcaf8e732e19f07a696121f928c7c2cd9fc9dffb0876f",
+      "gitBlob": "1154699cd6c88d58dab7867646763a81ae3d28cf"
+    },
+    {
+      "path": "public/wasm/manifest.json",
+      "bytes": 1466,
+      "sha256": "09483b9c0d9ddcd7ec57673a6a17380dc7ca2385a095872f710b020451413ca3",
+      "gitBlob": "bcfe2f181c8dc99f6c64c493345a400804c536fe"
+    },
+    {
+      "path": "public/wasm/tenka_engine.wasm",
+      "bytes": 88475,
+      "sha256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b",
+      "gitBlob": "a59cca9d17f363d3ce5e77c69d7bfd6cfb014bad"
+    },
+    {
+      "path": "rust/engine/Cargo.lock",
+      "bytes": 156,
+      "sha256": "5f071ef4ef4455f76340d6952350e944dae5cc3ea6aeb8b114eec4d8e90d65df",
+      "gitBlob": "13b5eeeab8ca7af9edb78fc5d9a15d364d548164"
+    },
+    {
+      "path": "rust/engine/Cargo.toml",
+      "bytes": 179,
+      "sha256": "15b426b65097ac31633fccc383a2b571bb6cc2243d2f4c4df44549f165949907",
+      "gitBlob": "7bf8610c3783e03e28dffbbef48bca6b8658956a"
+    },
+    {
+      "path": "rust/engine/rust-toolchain.toml",
+      "bytes": 88,
+      "sha256": "9cbeb062ec3a97a5b5b76aacde94f5dcb034ed98f32af151480764de2e03d6f9",
+      "gitBlob": "16d10a75ac1287b529bbbb72b5e911f73941712a"
+    },
+    {
+      "path": "rust/engine/src/castle_ribbon.rs",
+      "bytes": 14044,
+      "sha256": "a5cb03aa871c51d5e364d6882e4ab10cb95bd0136d26461fc4741402514a1b95",
+      "gitBlob": "205fbc4e32e7653f13a68ea0ecb3319e8b30541e"
+    },
+    {
+      "path": "rust/engine/src/castle_ribbon_tests.rs",
+      "bytes": 2550,
+      "sha256": "9f3e65e490d7ba3b142d12bfb508f9834e32dc5c20eed0e42b9c41cd3e7d3df0",
+      "gitBlob": "57e0c18ccd2a24f9fdebec3e4b7a89585f780785"
+    },
+    {
+      "path": "rust/engine/src/geographic.rs",
+      "bytes": 15399,
+      "sha256": "69ed145c2ee7d445691b0897362fc6de196cbe48fd4b0c1721764e67def56768",
+      "gitBlob": "33c2dc5126b44546f9c6ea2bc784bd1180b11766"
+    },
+    {
+      "path": "rust/engine/src/geographic_preparation.rs",
+      "bytes": 12429,
+      "sha256": "9170c88bdc278090a24d7fe517bc771efeed2c60bb0477ffb218bc27f8009f5e",
+      "gitBlob": "3eef27410b6d4b8f8e6fbdbad92d76bee8f3863d"
+    },
+    {
+      "path": "rust/engine/src/geographic_preparation_tests.rs",
+      "bytes": 11373,
+      "sha256": "31ad3b3aa8f7b66e32a09ef543b7c82bcb4105a2310757a32b4df334ddaceaa9",
+      "gitBlob": "32ec8b4623f4a4f75e2311f9459dbc08b030b25c"
+    },
+    {
+      "path": "rust/engine/src/lib.rs",
+      "bytes": 7585,
+      "sha256": "8aa42164165e7cd60f4fc1c57b1c4adfebdf379dbc9ab9306e614e09b720dacf",
+      "gitBlob": "95af16572d1dac101185032a7c7790d3114dea1a"
+    },
+    {
+      "path": "src/ui/map/MapRenderer.ts",
+      "bytes": 207474,
+      "sha256": "b9a3d2073fb044c874d5ad13c203837254d8653c3f60b86efad340b6e065dc16",
+      "gitBlob": "2ec0deb29155c71f233d4facfe814cb49d18a0ae"
+    },
+    {
+      "path": "src/ui/map/geographicLabelLayout.ts",
+      "bytes": 11428,
+      "sha256": "2c0cc48de296fdb974ec397f9fe8732357b1831a835f592f3a880702705e9acd",
+      "gitBlob": "e8cf7e50b6a2780ec0743b8ba691f6d39435ecdc"
+    },
+    {
+      "path": "src/ui/map/roadLabelCapsules.ts",
+      "bytes": 3953,
+      "sha256": "aa529d9d17eb558a511a152cbd0985d39d127981042d3becfec2335336ea4d76",
+      "gitBlob": "1591955750da30e4a5ff5a17b7d4715343f1cfaa"
+    },
+    {
+      "path": "src/ui/map/wasmGeographicPreparation.ts",
+      "bytes": 16274,
+      "sha256": "8ac687b6fb9e8942cb533bd2a85fee22f5fddb388b586386918c8b37137fba42",
+      "gitBlob": "e8efbef46a197aeefc5f69145b19357cf2f14676"
+    },
+    {
+      "path": "src/ui/map/wasmGeographicScorer.ts",
+      "bytes": 9195,
+      "sha256": "efa531ba5b1dcb25129ade33332935867cf019fe89ef1004318b9b4a1c8f65ba",
+      "gitBlob": "d19b4cd7fcd150923c66d34b1a6bb05d2d75a98a"
+    },
+    {
+      "path": "tests/core/geographicPreparationProtocol.spec.ts",
+      "bytes": 4432,
+      "sha256": "fccb26986393c900359736e6923d922aa0455c07912f864cf355395c603a8205",
+      "gitBlob": "262c27043c03e8abdedef1fa2a336e311d69b8a1"
+    },
+    {
+      "path": "tests/core/wasm-artifact.spec.ts",
+      "bytes": 5085,
+      "sha256": "f54e3f0f17736d491ef7990e5fd1bcd5d467a6233d1138d680086fc7575b5202",
+      "gitBlob": "c2ee0b9f327b82a55fc98c77527847f4335596f7"
+    },
+    {
+      "path": "tests/helpers/geographicPreparationOracle.ts",
+      "bytes": 6129,
+      "sha256": "eb3d2377f729c2f3d24dccb42fa937c3f593d187078c4f6428df27526f1bc2ed",
+      "gitBlob": "aeb58d3df733b501d7583b0a163f7d132337e54d"
+    },
+    {
+      "path": "tests/helpers/geographicWasmReference.ts",
+      "bytes": 9800,
+      "sha256": "bda5b757e2bd8a2e82c5a42fde825ebe9c846337b8a578f8413938624899d9b2",
+      "gitBlob": "ae9c0c0f4e46bcdeae421a294df04279f35544e2"
+    },
+    {
+      "path": "tests/helpers/realGeographicWasm.ts",
+      "bytes": 1346,
+      "sha256": "b0607ce4249c039df517b4eac68c398594f09a3cfe8263cfa25f31c6a2f0b818",
+      "gitBlob": "2228930b9d0113bfff1cccb0365695295c8abcfa"
+    },
+    {
+      "path": "tests/ui/geographicPreparationIntegration.spec.ts",
+      "bytes": 10010,
+      "sha256": "885aed343f9a26421bf134d65f49794afd642ed1437cc0154d51211a5279c636",
+      "gitBlob": "22d8df2d8ec97780ec925692d86485c4f56c6305"
+    },
+    {
+      "path": "tests/ui/geographicPreparationOracle.spec.ts",
+      "bytes": 2674,
+      "sha256": "694485b0277a4a183c00e9e45a3eaaea739bfcc9280980d02e53901d693ed1fa",
+      "gitBlob": "a616748636c221cd5765252cec8558193776e08d"
+    },
+    {
+      "path": "tests/ui/geographicPreparationWasm.spec.ts",
+      "bytes": 14648,
+      "sha256": "10766f414abc3ec1898e5bb64bc668b5f33d6e2e77c0474d72e044fdebc1b3cb",
+      "gitBlob": "e8fd6b39b6ffa0b6287b30bc0594a9c4eab34b8b"
+    },
+    {
+      "path": "tests/ui/mapGeographicWasmLifecycle.spec.ts",
+      "bytes": 11020,
+      "sha256": "bfd818e2c43981e6f313712fa6c5eb90154e70cd7b744d360cdf44eb768d7b1b",
+      "gitBlob": "bd97ccfb80b88dec7381d90fae04ac5de1941728"
+    },
+    {
+      "path": "tools/wasm/artifact.ts",
+      "bytes": 3897,
+      "sha256": "b4c509e3ed8ca9a953859db47ff990b125d526d7c48ed80766f3c5708b750021",
+      "gitBlob": "3894bfa4c00bfee37901c4e6f3015b001b917b4f"
+    },
+    {
+      "path": "tools/wasm/build.ts",
+      "bytes": 2417,
+      "sha256": "3cecc0dd5ecd39a5f29d4d599d254fdad5bd2bb7fbac585c30f666aebb2a019d",
+      "gitBlob": "5edc7ed1184957533b85b706e78e0879e1f97661"
+    },
+    {
+      "path": "tsconfig.core.json",
+      "bytes": 255,
+      "sha256": "634f74a0fd7268758bc921234823d5abab20ae68fac6c2004fbebf6ef62e676c",
+      "gitBlob": "a89ce06b64d94a0a1f1bc29fe046d212ff76da8d"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 1089,
+      "sha256": "6cc7a93224c1a4f43c5d4af8679ee0f51798be57c51e7a1d86a87bd23180b5a5",
+      "gitBlob": "2a8a493d7661dd566929d4e6e4c2b666d577b4e7"
+    },
+    {
+      "path": "vite.config.ts",
+      "bytes": 1806,
+      "sha256": "0cd92595075e165b60b9c5a61e1d14804816fa8b428e4e114f12ae666fea9152",
+      "gitBlob": "923e26a4f1bc2a28674535092d2a88d698446dd8"
+    },
+    {
+      "path": "vitest.workspace.ts",
+      "bytes": 3298,
+      "sha256": "3f67a88cf7226c67d6e718befaa88f4bba721c2665f135f93b447a94f6ab59ef",
+      "gitBlob": "2a0f836dbe8979fa2f67cbdab011638c91fc06aa"
+    }
+  ]
+}
