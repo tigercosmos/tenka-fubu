@@ -152,6 +152,13 @@ for (const scale of scales) {
     const chosenClan = daimyo.locator('aside').getByRole('heading', { level: 2 });
     await chosenClan.evaluate((element) => element.scrollIntoView({ block: 'nearest' }));
     await readableInViewport(chosenClan, 'selected clan');
+    await readableInViewport(
+      daimyo.locator('aside').getByText('當主', { exact: true }),
+      'selected clan label',
+    );
+    const metricLabel = daimyo.locator('aside dl dt').first();
+    await metricLabel.evaluate((element) => element.scrollIntoView({ block: 'nearest' }));
+    await readableInViewport(metricLabel, 'selected clan metric label');
     await readableInViewport(daimyo.locator('aside dl dd').first(), 'selected clan metric');
     await page.screenshot({ path: info.outputPath(`wizard-${scale}-daimyo-metadata.png`) });
     await page.getByTestId('daimyo-next').click();

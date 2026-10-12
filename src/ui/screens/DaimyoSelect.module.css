@@ -72,7 +72,7 @@
   border-radius: 4px;
   background: var(--surface-panel);
   color: var(--text-secondary);
-  font-size: 0.8rem;
+  font-size: max(12px, 0.8rem);
   box-shadow: 0 3px 12px rgb(32 42 39 / 5%);
 }
 .clan:hover {
@@ -108,7 +108,7 @@
 }
 .eyebrow {
   color: var(--command-gold);
-  font-size: 0.7rem;
+  font-size: max(12px, 0.7rem);
   letter-spacing: 0.2em;
 }
 .selection h2 {
@@ -131,7 +131,7 @@
 }
 .metrics dt {
   color: var(--command-muted);
-  font-size: 0.8rem;
+  font-size: max(12px, 0.8rem);
 }
 .metrics dd {
   margin: 0;
