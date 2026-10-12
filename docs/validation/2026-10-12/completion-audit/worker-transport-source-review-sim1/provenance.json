@@ -1,0 +1,110 @@
+{
+  "head": "e691755b1b40dd7f9e9249417c09d80f8aa67160",
+  "sourceFiles": [
+    {
+      "path": "src/app/worker/client.ts",
+      "bytes": 11653,
+      "sha256": "e57d7ea28a396354a7607b4b75d0689dd7d363857396b6a72da1b4bd65d7dd56",
+      "sameAs04c7b60": true
+    },
+    {
+      "path": "src/app/worker/protocol.ts",
+      "bytes": 1830,
+      "sha256": "27041560c3b3cd6f0303293ce6eda79b1e034911b3313ac494e7fa055bf169bd",
+      "sameAs04c7b60": true
+    },
+    {
+      "path": "src/app/worker/simulation.worker.ts",
+      "bytes": 7786,
+      "sha256": "03bdb72a28501aa52ecda790fd0c076a879bb63a32e4f22760351f4f2f885712",
+      "sameAs04c7b60": true
+    },
+    {
+      "path": "src/app/worker/reconcile.ts",
+      "bytes": 2731,
+      "sha256": "9bbca7e75612f52cec02d02b9d2f014b54685c473cf53d3c28bfc67e059844d8",
+      "sameAs04c7b60": true
+    },
+    {
+      "path": "src/app/worker/worker.spec.ts",
+      "bytes": 25529,
+      "sha256": "862336ebbd565090a67548d983dfa671384f47bad8222b368c6d057704663ade",
+      "sameAs04c7b60": true
+    },
+    {
+      "path": "src/app/bridge.ts",
+      "bytes": 37265,
+      "sha256": "92e74e3dfec9b1ac256f272375e7ca9fca4a7d4b1742d6cb1de63e402cf4d997",
+      "sameAs04c7b60": true
+    },
+    {
+      "path": "src/core/systems/index.ts",
+      "bytes": 13884,
+      "sha256": "a9cf67062942d1d45aa5fc9a8616de4911b78405af8f2f1cfa44f7f722886ba7",
+      "sameAs04c7b60": true
+    },
+    {
+      "path": "src/core/systems/events/engine.ts",
+      "bytes": 12527,
+      "sha256": "a94f4d8aa13b2a0e3a585060ef0e26c4ed518e075dd6ed0cad7a2ec3bbed9510",
+      "sameAs04c7b60": true
+    },
+    {
+      "path": "src/core/systems/events/runtime.ts",
+      "bytes": 792,
+      "sha256": "90d6d3b4ef133a0b4fdea70dbe43fe5ce65b723e55cdca1d9d958a0d67497c14",
+      "sameAs04c7b60": true
+    },
+    {
+      "path": "src/core/state/gameState.ts",
+      "bytes": 50170,
+      "sha256": "135925ad56fb012c46224a7866949e49eef79b069d2f884d96ee846230a75fe0",
+      "sameAs04c7b60": true
+    },
+    {
+      "path": "src/data/scenarios/s1560/events.json",
+      "bytes": 51692,
+      "sha256": "1138a01f5f1f40f496803e30e0125b39757e788f994b33537068d8b3f3c06fb8",
+      "sameAs04c7b60": true
+    }
+  ],
+  "input": {
+    "relativeSibling": "../worker-batch-overhead-sim1/default-observation.json.gz",
+    "gzipSha256": "1586d8ce8827fb9da144df32e2b13deb9fc3bd36b7513b36bdda3cf1ecbb3740",
+    "rawSha256": "f47f4b69d937409bd3a168c14622024a47f9ee1f5cf62e69407a814c0a604e7e",
+    "scope": "exact04 storedJSONday1/day121; does not retain aliases"
+  },
+  "producer": {
+    "command": "node /tmp/tenka-worker-transport-readonly.mjs",
+    "node": "v22.17.0",
+    "timingPerformed": false,
+    "productionSourceEdited": false
+  },
+  "graph": {
+    "boundedQuery": "inspect_symbol(reconcileSnapshot),max_bytes4200",
+    "result": "symbolnotfound; directsource fallback"
+  },
+  "artifacts": [
+    {
+      "path": "payload-analysis.raw.json.gz",
+      "rawBytes": 4967,
+      "rawSha256": "52bb04b360c5e1103e09278d6efb51ed069d1a6d205ab8867dad6d857ff586de",
+      "gzipBytes": 1001,
+      "gzipSha256": "001c7ad3f214c39dd1a6b64561540f98f2a3d8da035c0e2c3c8a1d005fb48964"
+    },
+    {
+      "path": "producer.raw.mjs.gz",
+      "rawBytes": 1999,
+      "rawSha256": "f8fb2985ad73804ed8a30a64b24f41241ff80eca4b22000741942346b1e543db",
+      "gzipBytes": 1035,
+      "gzipSha256": "1b7ecbf9f8681cca05793d5b61d8e13a022dc1e2271c6680c3d13dc75f558003"
+    },
+    {
+      "path": "sources.tar.gz",
+      "rawBytes": 225280,
+      "rawSha256": "290f8bd58d852089836f6771247547f0c1c4bde8d307d87a061eead541404724",
+      "gzipBytes": 53785,
+      "gzipSha256": "be25cb0500faca16e850d08ade3aed9f1c27e8472f2f11edb9a0a31e2b078b63"
+    }
+  ]
+}

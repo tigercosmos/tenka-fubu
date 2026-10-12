@@ -1,0 +1,185 @@
+{
+  "sourceHead": "e691755b1b40dd7f9e9249417c09d80f8aa67160",
+  "observationSource": "04c7b60",
+  "scope": "non-timing counting of exact stored JSON checkpoints. JSON tree occurrences are not unique alias-preserving graph counts or actual browser structured-clone wire bytes.",
+  "warmDay1": {
+    "compactJsonUtf8Bytes": 772010,
+    "objectOccurrences": 4546,
+    "arrayOccurrences": 1199,
+    "scalarOccurrences": 38263,
+    "childSlots": 44007
+  },
+  "afterDay121": {
+    "compactJsonUtf8Bytes": 1042976,
+    "objectOccurrences": 7357,
+    "arrayOccurrences": 2481,
+    "scalarOccurrences": 48889,
+    "childSlots": 58726
+  },
+  "canonicalEventDefs": {
+    "definitions": 21,
+    "compactJsonUtf8Bytes": 29988,
+    "objectOccurrences": 331,
+    "arrayOccurrences": 159,
+    "scalarOccurrences": 1046,
+    "childSlots": 1535
+  },
+  "warmBranches": {
+    "meta": {
+      "compactJsonUtf8Bytes": 342,
+      "objectOccurrences": 2,
+      "arrayOccurrences": 1,
+      "scalarOccurrences": 19,
+      "childSlots": 21
+    },
+    "time": {
+      "compactJsonUtf8Bytes": 46,
+      "objectOccurrences": 1,
+      "arrayOccurrences": 0,
+      "scalarOccurrences": 4,
+      "childSlots": 4
+    },
+    "rng": {
+      "compactJsonUtf8Bytes": 88,
+      "objectOccurrences": 1,
+      "arrayOccurrences": 0,
+      "scalarOccurrences": 5,
+      "childSlots": 5
+    },
+    "clans": {
+      "compactJsonUtf8Bytes": 14019,
+      "objectOccurrences": 83,
+      "arrayOccurrences": 0,
+      "scalarOccurrences": 615,
+      "childSlots": 697
+    },
+    "officers": {
+      "compactJsonUtf8Bytes": 447210,
+      "objectOccurrences": 2637,
+      "arrayOccurrences": 659,
+      "scalarOccurrences": 24001,
+      "childSlots": 27296
+    },
+    "castles": {
+      "compactJsonUtf8Bytes": 77882,
+      "objectOccurrences": 243,
+      "arrayOccurrences": 363,
+      "scalarOccurrences": 3256,
+      "childSlots": 3861
+    },
+    "districts": {
+      "compactJsonUtf8Bytes": 139063,
+      "objectOccurrences": 689,
+      "arrayOccurrences": 0,
+      "scalarOccurrences": 6192,
+      "childSlots": 6880
+    },
+    "provinces": {
+      "compactJsonUtf8Bytes": 5923,
+      "objectOccurrences": 121,
+      "arrayOccurrences": 0,
+      "scalarOccurrences": 300,
+      "childSlots": 420
+    },
+    "roads": {
+      "compactJsonUtf8Bytes": 61800,
+      "objectOccurrences": 496,
+      "arrayOccurrences": 0,
+      "scalarOccurrences": 2970,
+      "childSlots": 3465
+    },
+    "armies": {
+      "compactJsonUtf8Bytes": 2,
+      "objectOccurrences": 1,
+      "arrayOccurrences": 0,
+      "scalarOccurrences": 0,
+      "childSlots": 0
+    },
+    "fieldCombats": {
+      "compactJsonUtf8Bytes": 2,
+      "objectOccurrences": 1,
+      "arrayOccurrences": 0,
+      "scalarOccurrences": 0,
+      "childSlots": 0
+    },
+    "battles": {
+      "compactJsonUtf8Bytes": 2,
+      "objectOccurrences": 1,
+      "arrayOccurrences": 0,
+      "scalarOccurrences": 0,
+      "childSlots": 0
+    },
+    "sieges": {
+      "compactJsonUtf8Bytes": 2,
+      "objectOccurrences": 1,
+      "arrayOccurrences": 0,
+      "scalarOccurrences": 0,
+      "childSlots": 0
+    },
+    "corps": {
+      "compactJsonUtf8Bytes": 2,
+      "objectOccurrences": 1,
+      "arrayOccurrences": 0,
+      "scalarOccurrences": 0,
+      "childSlots": 0
+    },
+    "transports": {
+      "compactJsonUtf8Bytes": 2,
+      "objectOccurrences": 1,
+      "arrayOccurrences": 0,
+      "scalarOccurrences": 0,
+      "childSlots": 0
+    },
+    "diplomacy": {
+      "compactJsonUtf8Bytes": 7897,
+      "objectOccurrences": 61,
+      "arrayOccurrences": 28,
+      "scalarOccurrences": 286,
+      "childSlots": 374
+    },
+    "court": {
+      "compactJsonUtf8Bytes": 139,
+      "objectOccurrences": 4,
+      "arrayOccurrences": 0,
+      "scalarOccurrences": 3,
+      "childSlots": 6
+    },
+    "policies": {
+      "compactJsonUtf8Bytes": 2887,
+      "objectOccurrences": 83,
+      "arrayOccurrences": 41,
+      "scalarOccurrences": 41,
+      "childSlots": 164
+    },
+    "proposals": {
+      "compactJsonUtf8Bytes": 2,
+      "objectOccurrences": 1,
+      "arrayOccurrences": 0,
+      "scalarOccurrences": 0,
+      "childSlots": 0
+    },
+    "events": {
+      "compactJsonUtf8Bytes": 215,
+      "objectOccurrences": 5,
+      "arrayOccurrences": 1,
+      "scalarOccurrences": 7,
+      "childSlots": 12
+    },
+    "ai": {
+      "compactJsonUtf8Bytes": 14248,
+      "objectOccurrences": 112,
+      "arrayOccurrences": 105,
+      "scalarOccurrences": 564,
+      "childSlots": 780
+    },
+    "reports": {
+      "compactJsonUtf8Bytes": 2,
+      "objectOccurrences": 0,
+      "arrayOccurrences": 1,
+      "scalarOccurrences": 0,
+      "childSlots": 0
+    }
+  },
+  "replyStateAlias": "runtime result.state === state, so structured clone preserves one referenced state graph; naive JSON {state,result.state} double count would be false transport evidence",
+  "candidate": "primitive recursion inline only after measured meaningful benefit; no edits or timing performed"
+}
