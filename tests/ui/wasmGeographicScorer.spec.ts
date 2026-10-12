@@ -328,9 +328,9 @@ describe('WASM geographic scorer adapter', () => {
   it.each([
     {
       supported: true,
-      variant: 'simd128',
-      flag: 1,
-      file: 'tenka_engine.simd.wasm',
+      variant: 'scalar',
+      flag: 0,
+      file: 'tenka_engine.wasm',
     },
     { supported: false, variant: 'scalar', flag: 0, file: 'tenka_engine.wasm' },
   ] as const)(
@@ -372,17 +372,17 @@ describe('WASM geographic scorer adapter', () => {
     const fetch = vi
       .spyOn(globalThis, 'fetch')
       .mockResolvedValueOnce({ ok: false, status: 503 } as Response);
-    const wasm = mockBackend(1);
+    const wasm = mockBackend(0);
     vi.spyOn(WebAssembly, 'instantiate').mockResolvedValue({
       instance: { exports: wasm.exports },
       module: {},
     } as unknown as WebAssembly.Instance);
     const scorer = createWasmGeographicScorer();
     await expect(scorer.initialize()).rejects.toThrow('503');
-    expect(() => scorer.install(mockBackend().exports)).toThrow('variant mismatch');
+    expect(() => scorer.install(mockBackend(1).exports, 'simd128')).toThrow('variant mismatch');
     validate.mockReturnValue(false);
     await expect(
-      scorer.initialize({ url: '/wasm/tenka_engine.wasm', variant: 'scalar' }),
+      scorer.initialize({ url: '/wasm/tenka_engine.simd.wasm', variant: 'simd128' }),
     ).rejects.toThrow('already selected');
     fetch.mockResolvedValue({
       ok: true,
@@ -391,8 +391,8 @@ describe('WASM geographic scorer adapter', () => {
     await scorer.initialize();
     expect(validate).toHaveBeenCalledOnce();
     expect(fetch).toHaveBeenCalledTimes(2);
-    expect(fetch.mock.calls.every(([url]) => url === '/wasm/tenka_engine.simd.wasm')).toBe(true);
-    expect(scorer.getNumericVariant()).toBe('simd128');
+    expect(fetch.mock.calls.every(([url]) => url === '/wasm/tenka_engine.wasm')).toBe(true);
+    expect(scorer.getNumericVariant()).toBe('scalar');
     scorer.dispose();
   });
   it.each([
@@ -402,37 +402,40 @@ describe('WASM geographic scorer adapter', () => {
     'missingVariant',
     'wrongABI',
     'wrongVariant',
-  ] as const)('surfaces selected-module %s failure without a scalar fallback', async (failure) => {
-    vi.spyOn(WebAssembly, 'validate').mockReturnValue(true);
-    const wasm = mockBackend(1),
-      exports: Record<string, unknown> = { ...wasm.exports };
-    if (failure === 'missingABI') delete exports.render_numeric_abi_version;
-    if (failure === 'missingVariant') delete exports.render_numeric_variant;
-    if (failure === 'wrongABI') exports.render_numeric_abi_version = () => 2;
-    if (failure === 'wrongVariant') exports.render_numeric_variant = () => 0;
-    const fetch = vi.spyOn(globalThis, 'fetch');
-    if (failure === 'fetch') fetch.mockRejectedValue(new Error('network unavailable'));
-    else
-      fetch.mockResolvedValue({
-        ok: true,
-        arrayBuffer: () => Promise.resolve(new ArrayBuffer(8)),
-      } as Response);
-    const instantiate = vi.spyOn(WebAssembly, 'instantiate');
-    if (failure === 'instantiate') instantiate.mockRejectedValue(new Error('compile failure'));
-    else
-      instantiate.mockResolvedValue({
-        instance: { exports },
-        module: {},
-      } as unknown as WebAssembly.Instance);
-    const scorer = createWasmGeographicScorer();
-    await expect(scorer.initialize()).rejects.toThrow();
-    expect(fetch).toHaveBeenCalledOnce();
-    expect(fetch.mock.calls[0]![0]).toBe('/wasm/tenka_engine.simd.wasm');
-    expect(instantiate).toHaveBeenCalledTimes(failure === 'fetch' ? 0 : 1);
-    expect(scorer.isReady()).toBe(false);
-    expect(wasm.alloc).not.toHaveBeenCalled();
-    scorer.dispose();
-  });
+  ] as const)(
+    'surfaces selected-module %s failure without another artifact fallback',
+    async (failure) => {
+      vi.spyOn(WebAssembly, 'validate').mockReturnValue(true);
+      const wasm = mockBackend(0),
+        exports: Record<string, unknown> = { ...wasm.exports };
+      if (failure === 'missingABI') delete exports.render_numeric_abi_version;
+      if (failure === 'missingVariant') delete exports.render_numeric_variant;
+      if (failure === 'wrongABI') exports.render_numeric_abi_version = () => 2;
+      if (failure === 'wrongVariant') exports.render_numeric_variant = () => 1;
+      const fetch = vi.spyOn(globalThis, 'fetch');
+      if (failure === 'fetch') fetch.mockRejectedValue(new Error('network unavailable'));
+      else
+        fetch.mockResolvedValue({
+          ok: true,
+          arrayBuffer: () => Promise.resolve(new ArrayBuffer(8)),
+        } as Response);
+      const instantiate = vi.spyOn(WebAssembly, 'instantiate');
+      if (failure === 'instantiate') instantiate.mockRejectedValue(new Error('compile failure'));
+      else
+        instantiate.mockResolvedValue({
+          instance: { exports },
+          module: {},
+        } as unknown as WebAssembly.Instance);
+      const scorer = createWasmGeographicScorer();
+      await expect(scorer.initialize()).rejects.toThrow();
+      expect(fetch).toHaveBeenCalledOnce();
+      expect(fetch.mock.calls[0]![0]).toBe('/wasm/tenka_engine.wasm');
+      expect(instantiate).toHaveBeenCalledTimes(failure === 'fetch' ? 0 : 1);
+      expect(scorer.isReady()).toBe(false);
+      expect(wasm.alloc).not.toHaveBeenCalled();
+      scorer.dispose();
+    },
+  );
   it('requires explicit expected SIMD for injected exports and leaves readiness false on mismatch', () => {
     const wasm = mockBackend(1);
     expect(() => createWasmGeographicScorer(wasm.exports)).toThrow('variant mismatch');
@@ -536,5 +539,25 @@ describe('WASM geographic scorer adapter', () => {
     b.owner.dispose();
     expect(b.free.mock.calls.length).toBe(b.allocate.mock.calls.length);
     expect(isRustPathfindingReady()).toBe(coreReady);
+  });
+  it('retains explicit custom SIMD initialization when the default runtime policy is scalar', async () => {
+    const validate = vi.spyOn(WebAssembly, 'validate');
+    const fetch = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValue({
+        ok: true,
+        arrayBuffer: () =>
+          Promise.resolve(
+            Uint8Array.from(readFileSync('public/wasm/tenka_engine.simd.wasm')).buffer,
+          ),
+      } as Response);
+    const scorer = createWasmGeographicScorer();
+    await scorer.initialize({ url: '/custom-simd.wasm', variant: 'simd128' });
+    expect(scorer.getNumericVariant()).toBe('simd128');
+    expect(scorer.isReady()).toBe(true);
+    expect(fetch).toHaveBeenCalledOnce();
+    expect(fetch.mock.calls[0]![0]).toBe('/custom-simd.wasm');
+    expect(validate).not.toHaveBeenCalled();
+    scorer.dispose();
   });
 });

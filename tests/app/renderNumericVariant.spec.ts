@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
+  DEFAULT_RENDER_SIMD_ENABLED,
   assertRenderNumericArtifact,
   assertRenderNumericVariant,
   selectRenderNumericArtifact,
@@ -111,5 +112,20 @@ describe('initialization-time strict SIMD artifact selection', () => {
     expect(() =>
       assertRenderNumericVariant(exportsFor(0), 'unknown' as RenderNumericVariant),
     ).toThrow('expected');
+  });
+  it('selects supported scalar under the explicit runtime policy without calling SIMD unsupported', () => {
+    const validate = vi.fn((_bytes: BufferSource) => {
+      void _bytes;
+      return true;
+    });
+    expect(DEFAULT_RENDER_SIMD_ENABLED).toBe(false);
+    const retained = selectRenderNumericArtifact('/', validate, DEFAULT_RENDER_SIMD_ENABLED);
+    expect(retained).toEqual({ url: '/wasm/tenka_engine.wasm', variant: 'scalar' });
+    expect(validate).toHaveBeenCalledOnce();
+    expect(validate.mock.results[0]!.value).toBe(true);
+    expect(selectRenderNumericArtifact('/', () => true, true)).toEqual({
+      url: '/wasm/tenka_engine.simd.wasm',
+      variant: 'simd128',
+    });
   });
 });

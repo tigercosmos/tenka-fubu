@@ -1,6 +1,8 @@
 /** Strict SIMD overlap probe compiled and browser-validated independently of engine artifacts. */
 const STRICT_SIMD_PROBE =
   'AGFzbQEAAAABDgFgCXx8fHx8fHx8fAF8AwMCAAAEBQFwAQEBBQMBABAGCQF/AUGAgMAACwcbAwZtZW1vcnkCAAVsYW5lcwAABnNjYWxhcgABCqAGAncBA3sgAP0UIAH9IgEiCSAC/RQgA/0iAf3wASAI/RQiCv3wASAE/RQgBf0iASILIAb9FCAH/SIB/fABIAr98AH99AEgCSAK/fEBIAsgCv3xAf31Af3xAf0MAAAAAAAAAAAAAAAAAAAAAP31ASIK/SEAIAr9IQGiC6UFAQJ8RAAAAAAAAPh/IQlEAAAAAAAA+H8hCgJAIAAgAqAgCKAiAiACYiAEIAagIAigIgYgBmJyDQACQAJAIAJEAAAAAAAAAABiDQAgBkQAAAAAAAAAAGENAQsgAiAGIAIgBmMbIQoMAQsCQCACvUIAUg0ARAAAAAAAAAAAIQogBr1QDQELRAAAAAAAAACAIQoLAkAgACAIoSICIAJiIAQgCKEiBiAGYnINAAJAAkAgAkQAAAAAAAAAAGINACAGRAAAAAAAAAAAYQ0BCyACIAYgAiAGZBshCQwBC0QAAAAAAAAAACEJIAK9UA0ARAAAAAAAAAAARAAAAAAAAACAIAa9UBshCQtEAAAAAAAA+H8hAEQAAAAAAAD4fyEEAkAgCiAJoSICIAJiDQBEAAAAAAAAAAAhBCACRAAAAAAAAAAAYQ0ARAAAAAAAAAAAIAIgAkQAAAAAAAAAAGMbIQQLAkAgASADoCAIoCICIAJiIAUgB6AgCKAiBiAGYnINAAJAAkAgAkQAAAAAAAAAAGINACAGRAAAAAAAAAAAYQ0BCyACIAYgAiAGYxshAAwBCwJAIAK9QgBSDQBEAAAAAAAAAAAhACAGvVANAQtEAAAAAAAAAIAhAAtEAAAAAAAA+H8hBkQAAAAAAAD4fyEJAkAgASAIoSICIAJiIAUgCKEiCCAIYnINAAJAAkAgAkQAAAAAAAAAAGINACAIRAAAAAAAAAAAYQ0BCyACIAggAiAIZBshCQwBC0QAAAAAAAAAACEJIAK9UA0ARAAAAAAAAAAARAAAAAAAAACAIAi9UBshCQsCQCAAIAmhIgggCGINAEQAAAAAAAAAACEGIAhEAAAAAAAAAABhDQBEAAAAAAAAAAAgCCAIRAAAAAAAAAAAYxshBgsgBCAGogs=';
+// Default runtime policy retains scalar until a measured SIMD benefit is established.
+export const DEFAULT_RENDER_SIMD_ENABLED = false;
 export type RenderNumericVariant = 'scalar' | 'simd128';
 export interface RenderNumericArtifact {
   readonly url: string;
@@ -20,9 +22,11 @@ export function assertRenderNumericArtifact(artifact: RenderNumericArtifact): vo
 export function selectRenderNumericArtifact(
   baseUrl: string,
   validate: (bytes: BufferSource) => boolean = WebAssembly.validate,
+  enableSimd = true,
 ): RenderNumericArtifact {
   const probe = Uint8Array.from(atob(STRICT_SIMD_PROBE), (char) => char.charCodeAt(0));
-  const variant: RenderNumericVariant = validate(probe) ? 'simd128' : 'scalar';
+  const supported = validate(probe);
+  const variant: RenderNumericVariant = supported && enableSimd ? 'simd128' : 'scalar';
   return Object.freeze({
     variant,
     url: `${baseUrl}wasm/tenka_engine${variant === 'simd128' ? '.simd' : ''}.wasm`,

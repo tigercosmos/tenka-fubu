@@ -1,4 +1,5 @@
 import {
+  DEFAULT_RENDER_SIMD_ENABLED,
   assertRenderNumericArtifact,
   assertRenderNumericVariant,
   selectRenderNumericArtifact,
@@ -26,7 +27,13 @@ import type {
 
 export async function initializeRustBackend(artifact?: RenderNumericArtifact): Promise<number> {
   const selected =
-    artifact === undefined ? selectRenderNumericArtifact(import.meta.env.BASE_URL) : artifact;
+    artifact === undefined
+      ? selectRenderNumericArtifact(
+          import.meta.env.BASE_URL,
+          WebAssembly.validate,
+          DEFAULT_RENDER_SIMD_ENABLED,
+        )
+      : artifact;
   assertRenderNumericArtifact(selected);
   const response = await fetch(new URL(selected.url, globalThis.location.origin));
   if (!response.ok) throw new Error(`Rust simulation module load failed: HTTP ${response.status}`);

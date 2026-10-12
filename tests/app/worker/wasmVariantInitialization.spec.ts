@@ -32,7 +32,7 @@ function fetchedUrl(value: RequestInfo | URL): string {
 }
 describe('actual Worker numeric variant initialization', () => {
   it.each([
-    { supported: true, variant: 'simd128', file: 'tenka_engine.simd.wasm' },
+    { supported: true, variant: 'scalar', file: 'tenka_engine.wasm' },
     { supported: false, variant: 'scalar', file: 'tenka_engine.wasm' },
   ] as const)(
     'confirms $variant before the unchanged ready handshake and deterministic tick',
@@ -95,42 +95,45 @@ describe('actual Worker numeric variant initialization', () => {
     'missingVariant',
     'wrongABI',
     'wrongVariant',
-  ] as const)('never sends ready or attempts scalar fallback for %s failure', async (failure) => {
-    clearRustPathfinding();
-    vi.spyOn(WebAssembly, 'validate').mockReturnValue(true);
-    const exports: Record<string, unknown> = {
-      ...new WebAssembly.Instance(
-        new WebAssembly.Module(new Uint8Array(bytesFor('simd128'))),
-        rustPathfindingImports(),
-      ).exports,
-    };
-    if (failure === 'missingABI') delete exports.render_numeric_abi_version;
-    if (failure === 'missingVariant') delete exports.render_numeric_variant;
-    if (failure === 'wrongABI') exports.render_numeric_abi_version = () => 2;
-    if (failure === 'wrongVariant') exports.render_numeric_variant = () => 0;
-    const fetch = vi.spyOn(globalThis, 'fetch');
-    if (failure === 'fetch') fetch.mockRejectedValue(new Error('network failure'));
-    else
-      fetch.mockResolvedValue({
-        ok: true,
-        arrayBuffer: () => Promise.resolve(bytesFor('simd128')),
-      } as Response);
-    const instantiate = vi.spyOn(WebAssembly, 'instantiate');
-    if (failure === 'instantiate')
-      instantiate.mockRejectedValue(new Error('instantiation failure'));
-    else
-      instantiate.mockResolvedValue({
-        instance: { exports },
-        module: {},
-      } as unknown as WebAssembly.Instance);
-    const executor = createWorkerExecutor();
-    await expect(executor.initialize(9)).rejects.toThrow();
-    await expect(executor.initialize(9)).rejects.toThrow();
-    expect(fetch).toHaveBeenCalledOnce();
-    expect(fetchedUrl(fetch.mock.calls[0]![0])).toContain('/wasm/tenka_engine.simd.wasm');
-    expect(instantiate).toHaveBeenCalledTimes(failure === 'fetch' ? 0 : 1);
-    expect(isRustPathfindingReady()).toBe(false);
-  });
+  ] as const)(
+    'never sends ready or attempts another artifact fallback for %s failure',
+    async (failure) => {
+      clearRustPathfinding();
+      vi.spyOn(WebAssembly, 'validate').mockReturnValue(true);
+      const exports: Record<string, unknown> = {
+        ...new WebAssembly.Instance(
+          new WebAssembly.Module(new Uint8Array(bytesFor('scalar'))),
+          rustPathfindingImports(),
+        ).exports,
+      };
+      if (failure === 'missingABI') delete exports.render_numeric_abi_version;
+      if (failure === 'missingVariant') delete exports.render_numeric_variant;
+      if (failure === 'wrongABI') exports.render_numeric_abi_version = () => 2;
+      if (failure === 'wrongVariant') exports.render_numeric_variant = () => 1;
+      const fetch = vi.spyOn(globalThis, 'fetch');
+      if (failure === 'fetch') fetch.mockRejectedValue(new Error('network failure'));
+      else
+        fetch.mockResolvedValue({
+          ok: true,
+          arrayBuffer: () => Promise.resolve(bytesFor('scalar')),
+        } as Response);
+      const instantiate = vi.spyOn(WebAssembly, 'instantiate');
+      if (failure === 'instantiate')
+        instantiate.mockRejectedValue(new Error('instantiation failure'));
+      else
+        instantiate.mockResolvedValue({
+          instance: { exports },
+          module: {},
+        } as unknown as WebAssembly.Instance);
+      const executor = createWorkerExecutor();
+      await expect(executor.initialize(9)).rejects.toThrow();
+      await expect(executor.initialize(9)).rejects.toThrow();
+      expect(fetch).toHaveBeenCalledOnce();
+      expect(fetchedUrl(fetch.mock.calls[0]![0])).toContain('/wasm/tenka_engine.wasm');
+      expect(instantiate).toHaveBeenCalledTimes(failure === 'fetch' ? 0 : 1);
+      expect(isRustPathfindingReady()).toBe(false);
+    },
+  );
   it('caches capability errors per executor without fetching or producing ready', async () => {
     clearRustPathfinding();
     const error = new Error('capability validation failure');
@@ -147,5 +150,23 @@ describe('actual Worker numeric variant initialization', () => {
     expect(fetch).not.toHaveBeenCalled();
     expect(instantiate).not.toHaveBeenCalled();
     expect(isRustPathfindingReady()).toBe(false);
+  });
+  it('retains explicit custom SIMD initialization and the original ready handshake', async () => {
+    clearRustPathfinding();
+    const fetch = transport('simd128');
+    const executor = createWorkerExecutor(() =>
+      initializeRustBackend({ url: '/custom-simd.wasm', variant: 'simd128' }),
+    );
+    await expect(executor.initialize(17)).resolves.toEqual({
+      kind: 'ready',
+      epoch: 17,
+      backend: 'rust-wasm',
+      engineAbi: 1,
+    });
+    expect(fetch).toHaveBeenCalledOnce();
+    expect(fetchedUrl(fetch.mock.calls[0]![0])).toBe(
+      new URL('/custom-simd.wasm', globalThis.location.origin).href,
+    );
+    expect(isRustPathfindingReady()).toBe(true);
   });
 });

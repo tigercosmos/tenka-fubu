@@ -1,4 +1,5 @@
 import {
+  DEFAULT_RENDER_SIMD_ENABLED,
   assertRenderNumericArtifact,
   assertRenderNumericVariant,
   selectRenderNumericArtifact,
@@ -136,7 +137,11 @@ export function createWasmGeographicScorer(
       else if (selection) requested = selection;
       else {
         try {
-          requested = selectRenderNumericArtifact(import.meta.env.BASE_URL);
+          requested = selectRenderNumericArtifact(
+            import.meta.env.BASE_URL,
+            WebAssembly.validate,
+            DEFAULT_RENDER_SIMD_ENABLED,
+          );
         } catch (error) {
           selectionFailure = { error };
           throw error;
