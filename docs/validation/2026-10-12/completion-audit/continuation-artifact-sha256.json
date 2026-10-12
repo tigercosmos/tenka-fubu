@@ -9442,6 +9442,191 @@
       "sha256": "5d9d9d5d57da7d7adace1ee42c6c9a2a4ad0a7adb5ee67be9dbe3880218671c9",
       "uncompressedBytes": 6193,
       "uncompressedSha256": "525dc4f9bd6eb62384b78f9e0c51a311ecb2980ec1c16c894b13bd4993d77c32"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/README.md",
+      "bytes": 2750,
+      "sha256": "c97e22cb4c88177f5e8d531cf362a3300560d4263840f754f9ff2e10c849afb3"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/manifest.json",
+      "bytes": 14835,
+      "sha256": "b1ddea5e29f99c5335e5c81f24eec62325f7a4472ec7372ecdf41e297ad9ab82"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/baseline.wasm.gz",
+      "bytes": 32309,
+      "sha256": "4a4333644726134a9e4400de858ab141a581acc02379ae18919332249384d6a8",
+      "uncompressedBytes": 88475,
+      "uncompressedSha256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/browser-install.exit.gz",
+      "bytes": 22,
+      "sha256": "89ed3b723e0e40d8957a2df55fcb04d57b6d95fa665c5fe67b098df7f29694ae",
+      "uncompressedBytes": 2,
+      "uncompressedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/browser-install.log.gz",
+      "bytes": 412,
+      "sha256": "3e6f3f72b3a67d99aebcd320921e42e5680f384ad6efa2b049357a414a5b005e",
+      "uncompressedBytes": 4514,
+      "uncompressedSha256": "97c6b70dbfa0615a9ca5b7299cbdc974c8ca474db38371a44afac748a357df39"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/environment.cjs.gz",
+      "bytes": 996,
+      "sha256": "12c841fe2cfa553489707f1981335f55df4f60e76136c39100eabc0ca96b8a07",
+      "uncompressedBytes": 1972,
+      "uncompressedSha256": "02a93221318eeba4239ffb9430b801fbdadd5f701d63d6708068edb2eb09e9af"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/environment.json.gz",
+      "bytes": 1141,
+      "sha256": "bb394968dcd2d39c20f8e602e08916a6e60c05bc49de3f3f81e837c88817d8f2",
+      "uncompressedBytes": 2391,
+      "uncompressedSha256": "5e64da900944fde4c0568f07b9799a833e7403e6c68d3559a29d752af9ad1b7a"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/firefox.raw.json.gz",
+      "bytes": 868293,
+      "sha256": "77c80f55842ccabaad5eb3605373140537eb6acf4c48485338fa84c194762780",
+      "uncompressedBytes": 13209461,
+      "uncompressedSha256": "62e6beaeb470cbc19e0bd56de72f8386d6e74fe2bcfb95ecf3f436c42c299e34"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/input-source-proof.json.gz",
+      "bytes": 1224,
+      "sha256": "225464e8f9aaaebabb794ff514f0dd3a623527c27dc0dc55824a544cfe8b018f",
+      "uncompressedBytes": 3897,
+      "uncompressedSha256": "b3522be41e43ada88ab9beed101d363097a9895a7703f295e1a7155603e498f0"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/malformed-and-abi.cjs.gz",
+      "bytes": 1241,
+      "sha256": "3a8ab64527de681a4c83719055b2f50ef91fdc7c36e38a2010a07611a9e28e2a",
+      "uncompressedBytes": 3323,
+      "uncompressedSha256": "ce3dbef0d88a14d403ae3e7bdfa3dcf3af6842935a8653c8c72437653dddc5c5"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/malformed-and-abi.raw.json.gz",
+      "bytes": 906,
+      "sha256": "6cc9eb7c940f825a4dea5ccd51b3fb9f6bfaab7a6e885ba89944f19e67cc8a15",
+      "uncompressedBytes": 47945,
+      "uncompressedSha256": "60dcec76656b5883555c79f0d2908d1d30b10783a65b6af38df98eb3b1d3c8e9"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/metadata-lookup-original-red-status.json.gz",
+      "bytes": 242,
+      "sha256": "0cbc66209c43df2d791a796c5fdde3821e8a3c31223d126fc77b1548f8d13b41",
+      "uncompressedBytes": 333,
+      "uncompressedSha256": "f70d21f1a81b0f17dcd441fae4a61e5e30dcfc6260048f8935649ffa78abdbf3"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/metadata-lookup-original-red.log.gz",
+      "bytes": 141,
+      "sha256": "0b13af8553fe19c7691bd4997f470ee878c5f47c93941281c6e928d846bb8f28",
+      "uncompressedBytes": 147,
+      "uncompressedSha256": "618e8e07d2639630ee4f1b580af74b06ce54ac8389b9fcc440ade8455eead643"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/package-producer.py.gz",
+      "bytes": 3351,
+      "sha256": "1dc575dc48089ec897add4d050d679bd2e924b091cba23cf8bbbdb495320ef33",
+      "uncompressedBytes": 8076,
+      "uncompressedSha256": "52b95d851a92ac8f3e8af4089d8953383cf693b073314f2604d3d2f069ae2eda"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/project-browsers.json.gz",
+      "bytes": 465,
+      "sha256": "8b2607538863b1dc7a45129df54e1dd9caa4d2a1ef5828c6f77403b190305ba6",
+      "uncompressedBytes": 1939,
+      "uncompressedSha256": "ee39bc924bc3d1bd895626c2910f1292d109bbfeeb5abd113acb45e1951cc942"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/prototype.wasm.gz",
+      "bytes": 32376,
+      "sha256": "12f37429cd6b2bb6d03b6277d408ab229be115e7c41dab29d5709a308ce63b58",
+      "uncompressedBytes": 88469,
+      "uncompressedSha256": "4ba2591c5205e363f92ee896c6f40c441fb2a7d613e587a2fe6aa2aee0408d0a"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/run.cjs.gz",
+      "bytes": 2959,
+      "sha256": "5d6f9bcfab9e9b1ef3bacbe7a706fde55c32dce942d0e8baeff98efdbcbe0351",
+      "uncompressedBytes": 8667,
+      "uncompressedSha256": "840ebe29fba2f218b336b87da69a0d41fd1ad8ca3d2143b82b2606063bb7f29f"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/run.log.gz",
+      "bytes": 262,
+      "sha256": "0ae0af85e308325f04b835c01cd3a8304330037480c456ced2ea6ffe7ab85802",
+      "uncompressedBytes": 716,
+      "uncompressedSha256": "826d1c3777beb53f23cdf3b2aa84c31c08f4ec81edde8b7a5a613d6e0743a333"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/simd-parity.raw.json.gz",
+      "bytes": 1180948,
+      "sha256": "c045c0eef977842360fa4741652de42fc7b8af96b53220804426aebfb324f6bc",
+      "uncompressedBytes": 11412888,
+      "uncompressedSha256": "c03ce119012756560b992ed5f43b2a04ee676339bdc00b215f48d627cd4063b9"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/simd-parity.ts.gz",
+      "bytes": 1935,
+      "sha256": "cb2afaf53741961717161b58397296f692fcdd09d836ae44b4f735f234831444",
+      "uncompressedBytes": 4918,
+      "uncompressedSha256": "a4037d048260a983e3a2d4d18f895dfae6ff59ebc48188b6964a7f6eb8e6ffef"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/status.json.gz",
+      "bytes": 291,
+      "sha256": "37d703af36321ce985b29ab4b559484bcbd1515a670a2e546b94aeaa59b07870",
+      "uncompressedBytes": 1003,
+      "uncompressedSha256": "d1bf796a343939c02941936be767c0f419393aee6efa117b8f97e2865925d56e"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/tiny-check.cjs.gz",
+      "bytes": 1735,
+      "sha256": "f501d233153a73a211b4621c7693f24535ac9374c14480ae90ccc98a854d9c62",
+      "uncompressedBytes": 4273,
+      "uncompressedSha256": "2272c443bc48b353c2bc906986eb64e304e84b6b753a1f404ccd7417ca79f95a"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/tiny-probe.rs.gz",
+      "bytes": 473,
+      "sha256": "2789867fe926da13d74807ed691482a3a8627875f278a46f2a89b9788e962647",
+      "uncompressedBytes": 1246,
+      "uncompressedSha256": "21abbe05ebad21adaebcba0ea76a316f7e853b700e2d3a57f9e4ae587ee18ab8"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/tiny-probe.wasm.gz",
+      "bytes": 375,
+      "sha256": "da476e99046e1c82f6df0e21373c3e08a8f0f899d0a3609ca62d1302159a8fb2",
+      "uncompressedBytes": 884,
+      "uncompressedSha256": "fbfee3afdc0d3537860fde16228b5d03de1329f83b6c637d9b2c5e75e299c533"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/verify.py.gz",
+      "bytes": 1219,
+      "sha256": "735b128c91acf009ffa09d1c50772d6007237177a33dd7cf56cf8ee7c499df69",
+      "uncompressedBytes": 2608,
+      "uncompressedSha256": "e5de16ee8785fa93d56bfe4e69f09132e040d4a2f5ff32d6aa81125c4f48f9e6"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/webkit-launch-wrapper.sh.gz",
+      "bytes": 986,
+      "sha256": "14922913240a1ec443129154243a3aa0c336d080df11b001b43e01c53b30120a",
+      "uncompressedBytes": 3049,
+      "uncompressedSha256": "a85baad3d8c07173ac387a59b41500c382b21ed692afe0964d29aac247ccc63b"
+    },
+    {
+      "path": "geographic-score-simd-cross-engine/raw/webkit.raw.json.gz",
+      "bytes": 868421,
+      "sha256": "d5788c572d04e1d54935def889aa923479889f13d4afc08ad18f6b2b82b1b400",
+      "uncompressedBytes": 13210850,
+      "uncompressedSha256": "1b78b087f25d431c2615ce0e7aa4a65d02c0e5317689e963c88cd2fffd248ccf"
     }
   ]
 }

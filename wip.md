@@ -6498,3 +6498,11 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - Root三包verifier獨立通過；下一步實作初始化前明確scalar／SIMDcapability選擇與雙recipe／artifact契約，選定後fetch／instantiate／ABI錯誤保持fatal，保留owner／Workerepochready／dispose。Production仍是撤回後acceptedscalar88475SHA642，未翻轉SIMD預設、未量測game收益。
 
 - 後續唯讀source檢查：實際MapRenderer普通／hard傳rect而非外層id/kind，主要constructors與MainScreenHUD皆是四數值fields，caps／normal也是數值literal；genericHUD API仍能spreadextras。token／revision不在signature，物件重新配置本身不造成JSONmiss；cache移出admission後刪除也可能造成miss。沒有逐次input-equalitytrace，不能把41735／121歸因metadatachurn或宣稱numericmemo可受益，暫不採用此捷徑。
+
+## 雙 WASM 產物與執行期選擇（2026-10-12）
+
+- `c05c167` 提交 Rust scalar／SIMD 雙產物與獨立數值 ABI；scalar 88,536 bytes、SHA `57b04ba8b63eb8af3a7a25742e676e0c2bd53eaeece7df40c85c5bd0862b189e`，SIMD 88,392 bytes、SHA `0edab970302a9439995d634f2dd0c2b018651473a227b3ff9efc309b1974b38a`。Scalar 實際反組譯零 SIMD；SIMD 浮點向量運算限 overlap helper，另兩函式只有 bit-preserving 向量複製。
+- 最終產物 2121 組完整數值比對、24 組 malformed atomicity、兩版 memory growth／free／重配置、41 focused tests、Rust default／feature 各 23 tests、clippy／fmt／types／lint／artifact 檢查通過。
+- `c116452` 保存 Firefox／WebKit 對舊 scalar642／prototype4ba 的完整 2121＋24 證據；此項不冒充新產物的瀏覽器或效能驗證。
+- 載入接線的 10 檔 123 tests、完整 typecheck、scoped lint、production build、bundle gate 通過。最初 lint／fake type 缺欄位與 ENOSPC 作業失敗保留；磁碟恢復後重跑受影響檢查。Root 僅清理已完成隔離副本的生成 dist，沒有清除 source、public 或 raw evidence。
+- `f898ac9` 提交主頁／Worker 初始化前的能力選擇與 variant 核對；固定 `f898ac94fe98c317edb7c2cafdf1831fa4528059` 進行原生量測。上一個 accepted close 結果仍為 32.0392 FPS，不能據數值驗證宣稱新效能收益。未 push／deploy。

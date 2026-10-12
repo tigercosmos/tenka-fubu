@@ -1333,6 +1333,20 @@ Ready 只屬於該實例與 epoch，舊實例的訊息不能使新世代就緒�
 `predev` 與 `prebuild` 拒絕過期成品；CI 另以真實 Rust 重建並比較 committed 成品。
 worker 與 WASM 路徑都使用 Vite base，涵蓋 Pages 的子路徑部署。
 
+數值核心提供兩份產物：`tenka_engine.wasm` 是不含 SIMD 指令的 scalar 版，
+`tenka_engine.simd.wasm` 以 Cargo `render-simd` feature 啟用 prepared 地理評分的 strict SIMD overlap。
+兩份產物各有獨立 target 目錄與來源／編譯旗標／binary hash 記錄。
+建置驗證檢查實際指令與 exported variant；既有路徑、地理、preparation 與城名牌 ABI 保持版本 1。
+新增 `render_numeric_abi_version` 版本 1 與 `render_numeric_variant`，後者以 0 表示 scalar、1 表示 SIMD。
+
+主頁與每個模擬 worker 各自於 fetch 前以固定的 strict SIMD probe 選定產物。
+不支援 SIMD 時明確選擇 scalar；選定後不得切換模式。
+實例化後核對數值 ABI 與選定 variant，通過後才安裝核心或回覆 worker ready。
+能力偵測例外、HTTP、實例化或 ABI／variant 錯誤都沿用原錯誤路徑。
+兩個執行環境仍持有獨立 memory；SIMD 不改變策略 tick 的串行結算與 RNG 順序。
+Rust 保留各 lane 的原 f64 加減順序、strict min／max 及最後的 scalar 乘法；不使用 relaxed SIMD。
+數值一致性與瀏覽器能力驗證不能替代原遊戲 FPS gate。
+
 完整快照的 structured clone 與主執行緒 reconciliation 仍有成本。
 此成本必須與原同步 tick 分開量測；背景計算本身不證明 FPS 或完整遊戲驗收通過。
 保留同步核心作為決定論參考與明確的除錯入口；正式策略驅動使用背景 worker。

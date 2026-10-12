@@ -303,6 +303,8 @@ Root另核對撤回後1494trackedruntime/test/config輸入逐byte等同feab全�
 
 [完整 SIMD 核心隔離證據](geographic-score-simd-kernel-local/README.md) 以原acceptedscalar為基準，實際88469-byteprototype與原88475baseline的2121compiledcases一致，另24malformedatomiccontrols通過；完整11412888-byte raw保存。Native23只證scalarreference；strict SIMD反組譯與sourcebinding另行核對，未改sharedlegacy／caps／prep。Root獨立verifier通過。
 
-[Chromium tinyprobe證據](geographic-score-simd-browser/README.md) 實際fullChrome149 validate true，100352grid＋5explicitcontrols一致；default-headless與fullbinaryGREEN分開保留。只有4gridrows＋5controls結果留存，沒有完整逐案例stream或Safari／GPU／FPS／game結論。FF／WebKit未安裝。Root14raw pairs驗證通過。
+[Chromium tinyprobe證據](geographic-score-simd-browser/README.md) 實際fullChrome149 validate true，100352grid＋5explicitcontrols一致；default-headless與fullbinaryGREEN分開保留。只有4gridrows＋5controls結果留存，沒有完整逐案例stream或Safari／GPU／FPS／game結論。該次未測FF／WebKit。Root14raw pairs驗證通過。
+
+[Firefox／WebKit 完整數值驗證](geographic-score-simd-cross-engine/README.md) 各自通過原scalar642與隔離SIMDprototype4ba的2121compiledcases及24malformedatomiccontrols，保存完整before／after bits及NaN分類。兩個引擎皆接受strict probe與完整產物。WebKit不等於Safari產品驗收；本證據不涵蓋新雙產物57b04／0edab、完整遊戲或FPS。Root獨立verifier通過，27檔加入索引。
 
 [Root撤回一致證據](geographic-score-endpoints-restored-root/README.md) 保存正式candidate80WASM／24Rust及restore1494source rows與Gitblob核對，source/artifact等同feabFULL範圍，沒有新fullrun。下一步為feature-gated scalar／SIMD雙artifact及初始化前capability選擇；prototype目前每個wasm32都含SIMD，不能當scalarfallback。Production維持acceptedscalar，尚無SIMDgame收益量測。
