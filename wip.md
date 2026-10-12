@@ -6691,3 +6691,12 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 另一個固定 b1 的十八項素材 observer cohort 為 14 PASS／4 FAIL（軍勢札三個原五秒 boot 加 accessibility 未掛載），32.416 秒；十六 workers／60／300 秒與原斷言不變，沒有重跑。三頁 buffer 零 dropped；post-poll 時 castle-branch-mountain 的 Response.blob 已開始但未完成，沒有 bitmap start／castle attachment，另外部分 terrain 也未完成。這定位到 body-read／response delivery 邊界，不能當成純 decode 或已證明的 network 根因；較早十八項結果與此觀測版本分開。
 - 本批採用的只有經精確輸出驗證的 hash 算術；素材觀測沒有改 readiness／timeout／worker cap 或 image Worker。最新完整原生仍為 955 的 440 項 RED，後續 441 僅 discovery。strict60、whole-heap、long-run、全 M6–M9、六推薦／星級與無嗣／戰術終局、人口校準、六圖人工核准保持開放；未 push／deploy。
 - 保存限制：最初 scratch Prettier RED 沒有預先建立 subprocess capture，僅另留 tool transcript；後續格式／lint／型別等均有完整 capture。最後 handoff producer 另因把 JSON `passed:true` 誤當必須含 `PASS` 而失敗，也只有 tool transcript，部分已複製檔保留；修正 producer 以預開 capture 執行成功。不能宣稱每個 setup 都有 raw log。素材首輪 type cast RED 與 verifier list-banner RED 亦保留。下一步依本次實質 hash 修正決定固定來源完整驗收，或有區辨力的 asset delivery 歸因；不盲重跑舊配置。
+
+## 2026-10-13 — 暫停與下次續作交接
+
+- 使用者要求先結束本次工作，更新本檔並推送，下次再繼續。專案目標保持暫停，尚未完成。暫停前 HEAD 為 `dc388bb`；雜湊修正 `a48eb2c` 與三個已驗證證據套件均已提交，索引共 5,946 筆。
+- 原定 sim4 完整 441 項原生驗證**尚未啟動**。僅完成 preflight、1,652 檔來源封存、傳輸、解壓及 runner 傳輸；未執行 dependency install、build、discovery 或測試。準備目錄為 sim4 `/tmp/tenka-fullnative-441-dc-payload-c1` 與 `/tmp/tenka-fullnative-441-dc-runtime-c1`。最後傳輸 capture `/tmp/tenka-fullnative-441-dc-runner-transfer-c1` 已結束，exit 0。所有代理與驗證工作均已停止。
+- 素材唯讀分析：每頁 28 張 PNG 共 54,550,599 bytes。離線重壓縮預估可減少 4,310,568 bytes（7.90%）；28 張的非 IDAT chunks、解壓 scanlines 與解碼 RGBA 均相同。未修改任何素材，亦未量到載入改善。scratch 證據位於 `/tmp/tenka-png-idat-headroom-b1a-c1` 與 `/tmp/tenka-png-idat-rgba-b1a-c1`，尚未納入版本化證據套件；下次使用前須確認仍存在。既有 HAR 缺少 blocked／queue 欄位，無法區分連線排隊與伺服器延遲；後續被動時序觀測尚未實作或執行。
+- 續作先確認本機／遠端 HEAD、工作樹與既有 process handles，再決定是否沿用上述 runtime。完整驗證須重新確認固定來源、29 個 dependency targets、build 與實際 441 項 discovery。維持原 16 workers、60 秒 case、300 秒 global；完整保留失敗、跳過、中斷與未派發分類。不要把準備完成當成測試成功，也不要只因觀測逾時重啟工作。
+- 最新完整原生仍為 `9550e39` 的 440 項 RED。全 M6–M9、strict60、whole-heap、long-run 及前述待決規則／六圖人工核准保持開放。本次只保存交接並依使用者要求推送；不部署、不更改期限、規則、基準或 milestone。
+- 推送前檢查：`origin/main` 無新增提交，本機已有 244 個未推送提交（不含本次交接）。其中五個普通 Git blobs 超過 GitHub 100 MB 上限：`ai-corps-stepdays-bf6638e/native-raw.tar.gz`、`court-work-normalday-a98046e/native-raw.tar.gz`、`hojo-aid-cadence-a98046e/native-raw.tar.gz`、`hojo-aid-transport-1791c9a/native-raw.tar.gz`、`mandatory-overlays-responsive-51abd75/overlay-runs.tar.gz`，均位於 `docs/validation/2026-10-12/completion-audit/`。需先決定 Git LFS 遷移或其他歷史整理方式；目前未改寫歷史、未推送，既有證據 bytes 保持。
