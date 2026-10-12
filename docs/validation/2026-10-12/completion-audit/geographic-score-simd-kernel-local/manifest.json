@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 1,
+  "scope": "Isolated full-kernel SIMD semantic prototype; no main source/adoption/browser/GPU/performance claim",
+  "sourceBase": "c5c7e551da0e39f4bdca55e5b92d415a57c67dc7",
+  "runtimeBase": "feab20cc9c207f37afae7a2f372c437b93232a07",
+  "scratchPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1",
+  "baseline": {
+    "bytes": 88475,
+    "sha256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b"
+  },
+  "prototype": {
+    "bytes": 88469,
+    "sha256": "4ba2591c5205e363f92ee896c6f40c441fb2a7d613e587a2fe6aa2aee0408d0a"
+  },
+  "counts": {
+    "compiledABI": 2121,
+    "originalJSDerivedLegalSteps": 1920,
+    "syntheticOffsets": 5,
+    "validatedExtremeFrames": 196,
+    "malformedAtomicControls": 24,
+    "nativeScalarReferenceTests": 23
+  },
+  "sourceProof": {
+    "sourceBase": "c5c7e551da0e39f4bdca55e5b92d415a57c67dc7",
+    "runtimeBase": "feab20cc9c207f37afae7a2f372c437b93232a07",
+    "legacyGeographicBeforeSHA256": "69ed145c2ee7d445691b0897362fc6de196cbe48fd4b0c1721764e67def56768",
+    "legacyGeographicAfterSHA256": "69ed145c2ee7d445691b0897362fc6de196cbe48fd4b0c1721764e67def56768",
+    "preparationBeforeScorePrefixEqual": true,
+    "prototypeSourceSHA256": "efdd69070520e91b8d2ebfc67dddaa26ab56522c17df90bd0af548af6fa55b62",
+    "prototypeNativeCfg": "Scalar reference only, not SIMD proof",
+    "prototypeWasmCfg": "Strict simd128 target_feature helper used only in prepared score",
+    "performance": "Not measured",
+    "browser": "Not executed or proved"
+  },
+  "toolchain": "Rust1.97.1 original locked release recipe; no global SIMD/relaxed/FMA flag",
+  "dependencies": "Reused main node_modules; no npm ci/fresh install claim",
+  "files": [
+    {
+      "path": "raw/baseline-build.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/baseline-build.log",
+      "bytes": 293,
+      "sha256": "961c828169152c09855ae18f3beadb827f972fe7f1f44f93a019abb8cbafeda3",
+      "rawBytes": 376,
+      "rawSHA256": "114585d6bf9b9541d4c6d4aa5dbfdde521b18ab13a3b094e03e18c2e958f1462"
+    },
+    {
+      "path": "raw/baseline-geographic-preparation.rs.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/baseline-geographic-preparation.rs",
+      "bytes": 3570,
+      "sha256": "bc94b33e340b285e85d8b10ac4eed3135bf358a69f457ef90e985a0ef2ee97bc",
+      "rawBytes": 12429,
+      "rawSHA256": "9170c88bdc278090a24d7fe517bc771efeed2c60bb0477ffb218bc27f8009f5e"
+    },
+    {
+      "path": "raw/baseline-manifest.json.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/baseline-manifest.json",
+      "bytes": 780,
+      "sha256": "0ced6ab5b3848e403355034bf3cb3d5c598d2240afafa6c77fc7e2592074a41a",
+      "rawBytes": 1466,
+      "rawSHA256": "09483b9c0d9ddcd7ec57673a6a17380dc7ca2385a095872f710b020451413ca3"
+    },
+    {
+      "path": "raw/baseline.wasm.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/baseline.wasm",
+      "bytes": 32309,
+      "sha256": "4a4333644726134a9e4400de858ab141a581acc02379ae18919332249384d6a8",
+      "rawBytes": 88475,
+      "rawSHA256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b"
+    },
+    {
+      "path": "raw/frozen.wasm.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/frozen.wasm",
+      "bytes": 32309,
+      "sha256": "4a4333644726134a9e4400de858ab141a581acc02379ae18919332249384d6a8",
+      "rawBytes": 88475,
+      "rawSHA256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b"
+    },
+    {
+      "path": "raw/malformed-and-abi.cjs.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/malformed-and-abi.cjs",
+      "bytes": 1241,
+      "sha256": "3a8ab64527de681a4c83719055b2f50ef91fdc7c36e38a2010a07611a9e28e2a",
+      "rawBytes": 3323,
+      "rawSHA256": "ce3dbef0d88a14d403ae3e7bdfa3dcf3af6842935a8653c8c72437653dddc5c5"
+    },
+    {
+      "path": "raw/malformed-and-abi.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/malformed-and-abi.log",
+      "bytes": 301,
+      "sha256": "62bea18746ec777800fb8bd953590556350908f8e85219cbfe4837b5c4d1c45a",
+      "rawBytes": 636,
+      "rawSHA256": "5ea2034e401e3f7233536aa5fc84ba930fafd1376943433b746777a78dc3fc87"
+    },
+    {
+      "path": "raw/malformed-and-abi.raw.json.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/malformed-and-abi.raw.json",
+      "bytes": 906,
+      "sha256": "6cc9eb7c940f825a4dea5ccd51b3fb9f6bfaab7a6e885ba89944f19e67cc8a15",
+      "rawBytes": 47945,
+      "rawSHA256": "60dcec76656b5883555c79f0d2908d1d30b10783a65b6af38df98eb3b1d3c8e9"
+    },
+    {
+      "path": "raw/native-clippy.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/native-clippy.log",
+      "bytes": 154,
+      "sha256": "df41f2ce9b357d127994f178d9416c7f3679a4f903588ad708daa2fbdac747b4",
+      "rawBytes": 165,
+      "rawSHA256": "ca672588821ccae81d1c4de4d674fb8f25d2c8772241e3f6415047703c3afe99"
+    },
+    {
+      "path": "raw/native-scalar-reference-tests.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/native-scalar-reference-tests.log",
+      "bytes": 1036,
+      "sha256": "f5ffc9a9e13851ac6175e22760df38ccffe6cf43155ba9d239431a38cc63fde3",
+      "rawBytes": 2676,
+      "rawSHA256": "65c38d01248b7a4f9def0fde28f2fc8aef630e8556bc8189bc7194c9d7447458"
+    },
+    {
+      "path": "raw/prototype-build.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/prototype-build.log",
+      "bytes": 293,
+      "sha256": "7b4dde9697c32e9c5640302f86103b4d0e437b11da3b421a4fbe121931f91578",
+      "rawBytes": 376,
+      "rawSHA256": "ad428f546a6cbc5db94c2b93e4a346288ff308dc9f73a77e6e468c8fd44aeda3"
+    },
+    {
+      "path": "raw/prototype-disassembly.txt.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/prototype-disassembly.txt",
+      "bytes": 182902,
+      "sha256": "f0a82bd5ea95fb8356c4db418c44c137481ef7d423574d6003644e7d3f61974f",
+      "rawBytes": 1473350,
+      "rawSHA256": "c28865f58f595f08d00b519b40f97dd787c05afb86d617a56c8eefdec4d59b4f"
+    },
+    {
+      "path": "raw/prototype-manifest.json.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/prototype-manifest.json",
+      "bytes": 780,
+      "sha256": "cdb14f69e8e9e4882c07522376dff47abfd8901479222b72fa8eeec147b093ae",
+      "rawBytes": 1466,
+      "rawSHA256": "700070361d6df5ca2db30dc6f83d3728416988c8079b88405e47c81fb5d7a33f"
+    },
+    {
+      "path": "raw/prototype.patch.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/prototype.patch",
+      "bytes": 944,
+      "sha256": "52c40453fff5189c22bf5135265fdca7b85a11279f80ad6d0b4b8cfbd89b4e1f",
+      "rawBytes": 3013,
+      "rawSHA256": "b05d13c25b25839810a25edc1471e56247a5f7cc9088147774681b788239d319"
+    },
+    {
+      "path": "raw/prototype.wasm.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/prototype.wasm",
+      "bytes": 32376,
+      "sha256": "12f37429cd6b2bb6d03b6277d408ab229be115e7c41dab29d5709a308ce63b58",
+      "rawBytes": 88469,
+      "rawSHA256": "4ba2591c5205e363f92ee896c6f40c441fb2a7d613e587a2fe6aa2aee0408d0a"
+    },
+    {
+      "path": "raw/readonly-lookup-first-red.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/readonly-lookup-first-red.log",
+      "bytes": 459,
+      "sha256": "f1ebcbbc6c5e38ac06ec6025eb7d9f80f2ca110713d641237e1d2d5c48e96eef",
+      "rawBytes": 868,
+      "rawSHA256": "9b10dcc810cf595299113f4121c33bf150148ce2476d24197edd23fb5fce0a96",
+      "capture": "Transcribed tool text; not an original redirected stderr file"
+    },
+    {
+      "path": "raw/simd-instructions.json.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/simd-instructions.json",
+      "bytes": 108,
+      "sha256": "2d1837faaa4dc128d7f0caad0f0051c4d6fb5dce9f8916109cc6ac0f8ac78c1b",
+      "rawBytes": 219,
+      "rawSHA256": "0ad13dcfba87c2b33232b445cad871372b342a0f59f5eb5daeafdb1cd8f98547"
+    },
+    {
+      "path": "raw/simd-parity-extreme.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/simd-parity-extreme.log",
+      "bytes": 282,
+      "sha256": "d9711e1fe095a6634b339d0c417f9818b85a8c79a578f9dfc16015298cbf09a5",
+      "rawBytes": 375,
+      "rawSHA256": "3a9768251ef57de7dd8436633cee25b8e01742c73b8d53757784c8f4695d7692"
+    },
+    {
+      "path": "raw/simd-parity.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/simd-parity.log",
+      "bytes": 266,
+      "sha256": "a8b2f2a2c44b7aaf2d57d8052927c5c5bfb60b4684d4b0e618cd4dc4d5ff1514",
+      "rawBytes": 347,
+      "rawSHA256": "a4c8582e10cd82fa3067835d4b59c3ce51fb2216a22ffc86b4c3d6e730451987"
+    },
+    {
+      "path": "raw/simd-parity.raw.json.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/simd-parity.raw.json",
+      "bytes": 1180948,
+      "sha256": "c045c0eef977842360fa4741652de42fc7b8af96b53220804426aebfb324f6bc",
+      "rawBytes": 11412888,
+      "rawSHA256": "c03ce119012756560b992ed5f43b2a04ee676339bdc00b215f48d627cd4063b9"
+    },
+    {
+      "path": "raw/simd-parity.ts.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/simd-parity.ts",
+      "bytes": 1935,
+      "sha256": "cb2afaf53741961717161b58397296f692fcdd09d836ae44b4f735f234831444",
+      "rawBytes": 4918,
+      "rawSHA256": "a4037d048260a983e3a2d4d18f895dfae6ff59ebc48188b6964a7f6eb8e6ffef"
+    },
+    {
+      "path": "raw/source-proof.json.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/source-proof.json",
+      "bytes": 408,
+      "sha256": "f3748ec9bcf47bfc75cc6a84e9c86d5d940550406e5201cde95dbac57f374c82",
+      "rawBytes": 694,
+      "rawSHA256": "d7a4719d67dbf725d421637b01c4c8877ea7e593e834e8bb9c64c81f0af5183e"
+    },
+    {
+      "path": "raw/wasm-clippy.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/evidence/wasm-clippy.log",
+      "bytes": 154,
+      "sha256": "f107a2d7e90ea2b7ecd1236870377d1486c07345734a8b5594716cff27068221",
+      "rawBytes": 165,
+      "rawSHA256": "b52feed19d08d111239684b1d0b524109f42b872cdee696dba4ca4ce976d4e83"
+    },
+    {
+      "path": "raw/source-rust__engine__src__geographic_preparation.rs.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/rust/engine/src/geographic_preparation.rs",
+      "bytes": 3893,
+      "sha256": "4774453e6a46ef6cd898432b01c957e410bc0d90a7016a14e8f6c268487a69ba",
+      "rawBytes": 13424,
+      "rawSHA256": "efdd69070520e91b8d2ebfc67dddaa26ab56522c17df90bd0af548af6fa55b62"
+    },
+    {
+      "path": "raw/source-rust__engine__src__geographic_preparation_tests.rs.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/rust/engine/src/geographic_preparation_tests.rs",
+      "bytes": 2995,
+      "sha256": "e8459e626e377a6b8861c8f540494d35a5446fd9f0bd932d51033a69f47cea46",
+      "rawBytes": 11373,
+      "rawSHA256": "31ad3b3aa8f7b66e32a09ef543b7c82bcb4105a2310757a32b4df334ddaceaa9"
+    },
+    {
+      "path": "raw/source-rust__engine__src__geographic.rs.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/rust/engine/src/geographic.rs",
+      "bytes": 4081,
+      "sha256": "0ccd2ffb5f3546b335170d926418f0e17267fac531d96ca37fb4192f6c10b677",
+      "rawBytes": 15399,
+      "rawSHA256": "69ed145c2ee7d445691b0897362fc6de196cbe48fd4b0c1721764e67def56768"
+    },
+    {
+      "path": "raw/source-rust__engine__Cargo.toml.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/rust/engine/Cargo.toml",
+      "bytes": 151,
+      "sha256": "16eb8f21ef1b34e990b13bb2aff408b9df4fcaf93671ecb783a77e11c634a3bc",
+      "rawBytes": 179,
+      "rawSHA256": "15b426b65097ac31633fccc383a2b571bb6cc2243d2f4c4df44549f165949907"
+    },
+    {
+      "path": "raw/source-rust__engine__Cargo.lock.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/rust/engine/Cargo.lock",
+      "bytes": 145,
+      "sha256": "35c416e76b8b815c5fbd7abff4d0e84c73f0f155ac79af72c0165976b793d186",
+      "rawBytes": 156,
+      "rawSHA256": "5f071ef4ef4455f76340d6952350e944dae5cc3ea6aeb8b114eec4d8e90d65df"
+    },
+    {
+      "path": "raw/source-rust__engine__rust-toolchain.toml.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/rust/engine/rust-toolchain.toml",
+      "bytes": 97,
+      "sha256": "95ba403fb2f91b8df6ea471ceb8d05b29a0fd12d0a85290835721678dca63a23",
+      "rawBytes": 88,
+      "rawSHA256": "9cbeb062ec3a97a5b5b76aacde94f5dcb034ed98f32af151480764de2e03d6f9"
+    },
+    {
+      "path": "raw/source-tools__wasm__build.ts.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/tools/wasm/build.ts",
+      "bytes": 1008,
+      "sha256": "ddf7bc05a478411ebd6e38641f3927169931db2e8b2a888c6e93b2e2528c6e49",
+      "rawBytes": 2417,
+      "rawSHA256": "3cecc0dd5ecd39a5f29d4d599d254fdad5bd2bb7fbac585c30f666aebb2a019d"
+    },
+    {
+      "path": "raw/source-tools__wasm__artifact.ts.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/tools/wasm/artifact.ts",
+      "bytes": 1390,
+      "sha256": "baac20a1fd324fcde69c73477d97e56cef7d162dd73c0a72de8cd93f2e5e225b",
+      "rawBytes": 3897,
+      "rawSHA256": "b4c509e3ed8ca9a953859db47ff990b125d526d7c48ed80766f3c5708b750021"
+    },
+    {
+      "path": "raw/source-tests__helpers__geographicPreparationOracle.ts.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/tests/helpers/geographicPreparationOracle.ts",
+      "bytes": 2103,
+      "sha256": "fb6ae8f6bec96784b260a6dd39dfaa1c96c691d4d55c9f11819439dca9ffef8e",
+      "rawBytes": 6129,
+      "rawSHA256": "eb3d2377f729c2f3d24dccb42fa937c3f593d187078c4f6428df27526f1bc2ed"
+    },
+    {
+      "path": "raw/source-tests__helpers__geographicWasmReference.ts.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/tests/helpers/geographicWasmReference.ts",
+      "bytes": 3285,
+      "sha256": "6a6d799bf32a3a8bcfdcb28b1920c505eece88047ce80ce5ce575f281ee05125",
+      "rawBytes": 9800,
+      "rawSHA256": "bda5b757e2bd8a2e82c5a42fde825ebe9c846337b8a578f8413938624899d9b2"
+    },
+    {
+      "path": "raw/source-src__ui__map__roadLabelCapsules.ts.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-simd-prepared-sim1/src/ui/map/roadLabelCapsules.ts",
+      "bytes": 1316,
+      "sha256": "78456b1b5c8ff35e4d0c7c6cce101a2d0b93e270420b2cb2cc2022a472f3374b",
+      "rawBytes": 3953,
+      "rawSHA256": "aa529d9d17eb558a511a152cbd0985d39d127981042d3becfec2335336ea4d76"
+    }
+  ]
+}
