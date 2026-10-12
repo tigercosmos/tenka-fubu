@@ -1,0 +1,801 @@
+{
+  "scope": "Frozen f898 automatic-SIMD-default campaign only; not acceptance of a later scalar default",
+  "frozenRuntimeCommit": "f898ac94fe98c317edb7c2cafdf1831fa4528059",
+  "retentionDecision": "withdraw automatic SIMD production default; retain dual-artifact foundation and explicit SIMD availability",
+  "reason": "No observed overall benefit: overview\u22120.161%, operational+0.051%, close\u22123.556%; all original strict60 controls RED",
+  "baselineEvidenceCommit": "44c3b30",
+  "baselineRuntimeCommit": "feab20cc9c207f37afae7a2f372c437b93232a07",
+  "sourceFiles": 1528,
+  "dependencyFiles": 14765,
+  "pixiPatchTargets": 23,
+  "sourceScope": "all frozen src/public/rust/tools/tests/e2e and13rootcode/config; copied public files; only original current23 node_modules shared",
+  "scalar": {
+    "bytes": 88536,
+    "sha256": "57b04ba8b63eb8af3a7a25742e676e0c2bd53eaeece7df40c85c5bd0862b189e"
+  },
+  "simd": {
+    "bytes": 88392,
+    "sha256": "0edab970302a9439995d634f2dd0c2b018651473a227b3ff9efc309b1974b38a"
+  },
+  "functionalParity": {
+    "referenceSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "actualSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "fullPayloadEqual": true,
+    "snapshotsEqual": true,
+    "snapshots": 9,
+    "days": [
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2
+    ],
+    "excludedNonvisualCounters": [
+      "armyPlateLayout.runs",
+      "geographicLabelLayout.runs",
+      "geographicLabelLayout.placementCache",
+      "castleRibbonLayout.runs"
+    ]
+  },
+  "fps": [
+    {
+      "camera": "overview",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 59.86348327482176,
+      "slowFrameFps": 58.13953391663639,
+      "frameTimeP95": 17.200000286102295,
+      "durationMs": 30018.300000190735,
+      "frames": 1796,
+      "completedFrames": 1797,
+      "minVisibleArmies": 83,
+      "minMountedArmies": 120,
+      "lodStage": "far",
+      "terminalExit": 1,
+      "strict60Pass": false,
+      "baselineAverageFps": 59.959826916156786,
+      "baselineFrameTimeP95": 17.199999809265137,
+      "observedVsFeabAveragePercent": -0.16068031929068471
+    },
+    {
+      "camera": "operational",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 49.910268064388546,
+      "slowFrameFps": 45.6621002577773,
+      "frameTimeP95": 21.90000009536743,
+      "durationMs": 30033.89999961853,
+      "frames": 1498,
+      "completedFrames": 1499,
+      "minVisibleArmies": 79,
+      "minMountedArmies": 120,
+      "lodStage": "mid",
+      "terminalExit": 1,
+      "strict60Pass": false,
+      "baselineAverageFps": 49.885021514945784,
+      "baselineFrameTimeP95": 21.90000009536743,
+      "observedVsFeabAveragePercent": 0.05060947890982437
+    },
+    {
+      "camera": "close",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 30.899820055847623,
+      "slowFrameFps": 25.8397930906247,
+      "frameTimeP95": 38.700000286102295,
+      "durationMs": 30064.900000095367,
+      "frames": 928,
+      "completedFrames": 929,
+      "minVisibleArmies": 56,
+      "minMountedArmies": 120,
+      "lodStage": "near",
+      "terminalExit": 1,
+      "strict60Pass": false,
+      "baselineAverageFps": 32.0392322560525,
+      "baselineFrameTimeP95": 37.19999980926514,
+      "observedVsFeabAveragePercent": -3.5563030696206255
+    }
+  ],
+  "nativeSix": {
+    "terminalExit": 0,
+    "passed": 6,
+    "reportedDurationSeconds": 42.7,
+    "scope": "original native Worker fullstate/log/save/reload/cancel/x5 and60/120daycoldwarm; not ordinaryFPS",
+    "source": "native-six.spec.ts.gz",
+    "rawManifest": "native-six-raw-manifest.json.gz"
+  },
+  "cpuProfile": {
+    "executed": false,
+    "reason": "Not authorized after outcome; no new profile requested"
+  },
+  "setupRecovery": {
+    "attempt1": "Original observer externalbodycollector CDP Network.getResponseBody RED; no completed9payload/noFPS/native6 before recovery",
+    "attempt2": "Authorized setup instrumentation recovery; original nine finished once, payload/assertions/exclusions unchanged; actualbodyerrors caught and separate served-byte proof honestly labeled",
+    "originalStatus": "campaign-attempt1-original-status.json.gz",
+    "recoveryStatus": "campaign-setup-recovery2-status.json.gz",
+    "repair": "setup-observer-repair.json.gz"
+  },
+  "selectedWasmProof": {
+    "scope": "setup recovery2; requested URLs observed by page; separately fetched served byte hashes outside CPU/FPS windows",
+    "observed": [
+      {
+        "url": "http://127.0.0.1:4173/wasm/tenka_engine.simd.wasm",
+        "status": 200,
+        "bytes": 88392,
+        "sha256": "0edab970302a9439995d634f2dd0c2b018651473a227b3ff9efc309b1974b38a",
+        "proof": "actual response.body bytes"
+      },
+      {
+        "url": "http://127.0.0.1:4173/wasm/tenka_engine.simd.wasm",
+        "status": 200,
+        "bodyError": "Error: response.body: Protocol error (Network.getResponseBody): No data found for resource with given identifier",
+        "proof": "observed requested URL; actual response body unavailable"
+      },
+      {
+        "url": "http://127.0.0.1:4173/wasm/tenka_engine.simd.wasm",
+        "status": 200,
+        "bytes": 88392,
+        "sha256": "0edab970302a9439995d634f2dd0c2b018651473a227b3ff9efc309b1974b38a",
+        "proof": "actual response.body bytes"
+      },
+      {
+        "url": "http://127.0.0.1:4173/wasm/tenka_engine.simd.wasm",
+        "status": 200,
+        "bytes": 88392,
+        "sha256": "0edab970302a9439995d634f2dd0c2b018651473a227b3ff9efc309b1974b38a",
+        "proof": "actual response.body bytes"
+      },
+      {
+        "url": "http://127.0.0.1:4173/wasm/tenka_engine.simd.wasm",
+        "status": 200,
+        "bytes": 88392,
+        "sha256": "0edab970302a9439995d634f2dd0c2b018651473a227b3ff9efc309b1974b38a",
+        "proof": "actual response.body bytes"
+      }
+    ],
+    "separatelyServed": [
+      {
+        "url": "http://127.0.0.1:4173/wasm/tenka_engine.simd.wasm",
+        "status": 200,
+        "bytes": 88392,
+        "sha256": "0edab970302a9439995d634f2dd0c2b018651473a227b3ff9efc309b1974b38a",
+        "proof": "observed requested URL + separately served frozen bytes; not original response body"
+      }
+    ]
+  },
+  "stateResourceProof": [
+    {
+      "camera": "overview",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-simd-native-current23-overview-results/national120-map-perf-natio-0f189-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "bbe187bee92530353d23021b9b49ef8d9db6d082e0901d29788583d1d69e9a8a",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    },
+    {
+      "camera": "operational",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-simd-native-current23-operational-results/national120-map-perf-natio-a8207-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "68c0103ed398fcad3fea32e690e7ce62d07945516528abc9febcf989a54055e2",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    },
+    {
+      "camera": "close",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-simd-native-current23-close-results/national120-map-perf-natio-9df1b-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "b8801cfdc62734b373ac2c2775bd8920d26905013d2ab00826be33cc1a9bc47c",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    }
+  ],
+  "allJobsTerminal": true,
+  "noRetriesOfFPSOrNativeSix": true,
+  "limitations": [
+    "Single unreplicated same-cohort FPS windows; no broad causal or repeatability claim.",
+    "Nine functional observation attempts are2 because firstinstrumentationRED; this is explicit setup recovery, not an all-first-attempt claim.",
+    "Bodyunavailable rows prove onlyrequestedURL; separatelyServed hashes are separateHTTPfetches, not originalbody captures.",
+    "Later production default policy/source differs; these FPS results do not measure that future scalar default."
+  ],
+  "artifacts": [
+    {
+      "path": "build-artifact-proof.json.gz",
+      "rawBytes": 12795,
+      "rawSHA256": "f8bacd219d2501fb798b2a6f3da07aefa5e555a8d94815dc88d839bee6dc0acb",
+      "gzipBytes": 3736,
+      "gzipSHA256": "b2c0d15b61c0dfccec2cc593726853a7d66b8413f704585d52b61e008953067b",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/build-artifact-proof.json"
+    },
+    {
+      "path": "build-final.log.gz",
+      "rawBytes": 2336,
+      "rawSHA256": "ebdd1cc5302aafbd0043796b5209bc6cfde9d5890de8af587da5913363f0a275",
+      "gzipBytes": 934,
+      "gzipSHA256": "4047f2762081d5de99785361ae52672e98b69af12b5cb1eeb835c6bf17ce83c9",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/build-final.log"
+    },
+    {
+      "path": "campaign-attempt1-original-status.json.gz",
+      "rawBytes": 1307,
+      "rawSHA256": "281ff51e28d210ac7211e6f39655c0e986d34f61de2f206b3759825a0e70691a",
+      "gzipBytes": 349,
+      "gzipSHA256": "888b9833bbcb25b2a12cadfc5f98240bb7df495a23adf0eee306e7824dc766f0",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/campaign-attempt1-original-status.json"
+    },
+    {
+      "path": "campaign-setup-recovery2-status.json.gz",
+      "rawBytes": 2601,
+      "rawSHA256": "239e5372fd6cf6c53c5dcbb0f496ae11042d5774ee72f15e78072170e322d563",
+      "gzipBytes": 541,
+      "gzipSHA256": "35367ac06dee495c9a530126cd32f71c2d3a37cead3d0d3d203a0a6eb341840f",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/campaign-setup-recovery2-status.json"
+    },
+    {
+      "path": "campaign-status.json.gz",
+      "rawBytes": 1307,
+      "rawSHA256": "281ff51e28d210ac7211e6f39655c0e986d34f61de2f206b3759825a0e70691a",
+      "gzipBytes": 349,
+      "gzipSHA256": "888b9833bbcb25b2a12cadfc5f98240bb7df495a23adf0eee306e7824dc766f0",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/campaign-status.json"
+    },
+    {
+      "path": "campaign.py.gz",
+      "rawBytes": 2062,
+      "rawSHA256": "bc72e6833c81a05d2d1b4c44747bf3f76e5454ffc8bcdaf35658874d7474f00f",
+      "gzipBytes": 917,
+      "gzipSHA256": "198f5b2782c9bc5197b0a46d2f29477ef802fb2b19ccc485c53774db59987c7c",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/campaign.py"
+    },
+    {
+      "path": "canonical-state.raw.json.gz",
+      "rawBytes": 816643,
+      "rawSHA256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "gzipBytes": 71991,
+      "gzipSHA256": "2131493e97a0d61568ce79807f50bece03ac03fed840a27862b345a4bd2e1bf2",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/canonical-state.raw.json"
+    },
+    {
+      "path": "close.log.gz",
+      "rawBytes": 3030,
+      "rawSHA256": "9d84c1aa0c1f808413a37f6b1a51e54ca4335bea20ad5f1c59769442860facf6",
+      "gzipBytes": 698,
+      "gzipSHA256": "f4527325295ba9b181482c581778b2535e905b969a9fdf9c68959946c203eaef",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/close.log"
+    },
+    {
+      "path": "close.raw.json.gz",
+      "rawBytes": 129726,
+      "rawSHA256": "b6e8c15a6d305865cbc5ae1ff2d199a8f32bdb2d70b65736138625de49c12ea9",
+      "gzipBytes": 8452,
+      "gzipSHA256": "5a03e039e75c110f35b5b69ba5051291b77c67a902c1a96b874ebe81946f9f93",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/close.raw.json"
+    },
+    {
+      "path": "collect.py.gz",
+      "rawBytes": 1949,
+      "rawSHA256": "76878e2ab5686d3c8bcb5630dda042959f88a6195c79b416c383dbcd17d561eb",
+      "gzipBytes": 787,
+      "gzipSHA256": "bed9ef4a4d41e6de362620bf6ea8d4610bb35f42e078c54fc069a077b415b44c",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/collect.py"
+    },
+    {
+      "path": "dependency-after-proof.json.gz",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "gzipBytes": 803276,
+      "gzipSHA256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/dependency-after-proof.json"
+    },
+    {
+      "path": "dependency-before-proof.json.gz",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "gzipBytes": 803276,
+      "gzipSHA256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/dependency-before-proof.json"
+    },
+    {
+      "path": "dependency-final-proof.json.gz",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "gzipBytes": 803276,
+      "gzipSHA256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/dependency-final-proof.json"
+    },
+    {
+      "path": "environment.json.gz",
+      "rawBytes": 1740,
+      "rawSHA256": "e3d0dfe1c7dc09c974abb7957ef108c3b3faf45c94913ef83f0d5ad035c05b27",
+      "gzipBytes": 817,
+      "gzipSHA256": "1e83279becdc75bb18f2dc95550f411a9063a47c6dea26fe882b23621699f611",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/environment.json"
+    },
+    {
+      "path": "finalize.py.gz",
+      "rawBytes": 3338,
+      "rawSHA256": "ab75e8a38b89e3f43b07427dec2152cd6998c359bc64d26b604675d1863a038f",
+      "gzipBytes": 1287,
+      "gzipSHA256": "4f979d16d7c824fb532f91725de3f472ef0c52c2b499048a9ad9373ec37fe3e9",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/finalize.py"
+    },
+    {
+      "path": "fixtures.ts.gz",
+      "rawBytes": 1012,
+      "rawSHA256": "7a3a8311c171fcfdb99bd37aff1128fa09cd15e7829650c1611bdcce014b8432",
+      "gzipBytes": 645,
+      "gzipSHA256": "2455ba2edc37594284f250c9814011f9274331ececadcf72a82992bccb50fcbe",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/fixtures.ts"
+    },
+    {
+      "path": "fps-control.spec.ts.gz",
+      "rawBytes": 4470,
+      "rawSHA256": "2d39ba643aa3c0aa7a242d0e93d081806fe54bd64b650f1ab78cbf67d4f567e4",
+      "gzipBytes": 1654,
+      "gzipSHA256": "d9831afdd58ba882a7310b7c943d8d6762de07ad2a0b22232e3cad5c12df3d8e",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/fps-control.spec.ts"
+    },
+    {
+      "path": "fps-driver-status.json.gz",
+      "rawBytes": 3077,
+      "rawSHA256": "d075bed2f3c5a5f0379b15c29bafe4010fd8c5869799e86abc99af4e8d6d9b4b",
+      "gzipBytes": 692,
+      "gzipSHA256": "620b38eb9f9bd22d9cf728c26ca2a81d6fb662b93d8e1c68a2990c6c691ffea2",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/fps-driver-status.json"
+    },
+    {
+      "path": "fps-driver.py.gz",
+      "rawBytes": 1574,
+      "rawSHA256": "4ecc5a47a0b91908a0bea48ae13a046d20efdc50dcfd93f237f9aa517e10c006",
+      "gzipBytes": 840,
+      "gzipSHA256": "4ad4af9f05cd0fc180eee8e823c98b8a2642a17af17daaaf50c628228d6048c4",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/fps-driver.py"
+    },
+    {
+      "path": "gpu-after-functional.json.gz",
+      "rawBytes": 286,
+      "rawSHA256": "d1132cf181bb7383d8459cf41c742535be1a8f33176234f6912c70d87cf8d9bf",
+      "gzipBytes": 196,
+      "gzipSHA256": "358cacb89247d7ef19bf6a631757a23e3e627c0bede00855b50414d6d202613e",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/gpu-after-functional.json"
+    },
+    {
+      "path": "gpu-before.json.gz",
+      "rawBytes": 286,
+      "rawSHA256": "d1132cf181bb7383d8459cf41c742535be1a8f33176234f6912c70d87cf8d9bf",
+      "gzipBytes": 196,
+      "gzipSHA256": "358cacb89247d7ef19bf6a631757a23e3e627c0bede00855b50414d6d202613e",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/gpu-before.json"
+    },
+    {
+      "path": "gpu-driver-hashes.json.gz",
+      "rawBytes": 1409,
+      "rawSHA256": "615f13f8f20404aba9dc45042f5b706e351218eff35ee9fe83542cf21e124e88",
+      "gzipBytes": 438,
+      "gzipSHA256": "abb4cb553fe94d8dd29336bcc7dcfaec78ee3ecb3e3b060e9fccffe81b38d08c",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/gpu-driver-hashes.json"
+    },
+    {
+      "path": "native-six-.last-run.json.gz",
+      "rawBytes": 45,
+      "rawSHA256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903",
+      "gzipBytes": 60,
+      "gzipSHA256": "ab2773fce076cedf886e7b45072ea49d0dfc6bdbbca2d9e3779ab76473918f40",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/native-six-.last-run.json"
+    },
+    {
+      "path": "native-six-full-snapshot-transport.ts.gz",
+      "rawBytes": 2251,
+      "rawSHA256": "aa2b5394fc7d61d6f7f2d7c0df100914f30ab6aa07ed4627227265d6d17380aa",
+      "gzipBytes": 838,
+      "gzipSHA256": "20b670635eb33573f631613641a9fa77293f2f4b89ef0e3acb96975684e8fe44",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/native-six-full-snapshot-transport.ts"
+    },
+    {
+      "path": "native-six-normal-x5-worker-paced-sync-responsiveness.json.gz",
+      "rawBytes": 7710234,
+      "rawSHA256": "95f064a8a5c7d9bea05fffdb8164340b3f36f3ca84d83db75ec53746f82ece27",
+      "gzipBytes": 1129279,
+      "gzipSHA256": "f88fe68cd75470bb01db5da4434712c2248348bb43f6f528254a4d546e5b5703",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/native-six-normal-x5-worker-paced-sync-responsiveness.json"
+    },
+    {
+      "path": "native-six-raw-manifest.json.gz",
+      "rawBytes": 2673,
+      "rawSHA256": "370733c210cdd52fd89c344a0c49d24967bd9376880ed2003b142046cce94830",
+      "gzipBytes": 603,
+      "gzipSHA256": "2833905b74269f8387635960b47e7f87c64b028a98673204ca52d925ad34122d",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/native-six-raw-manifest.json"
+    },
+    {
+      "path": "native-six-same-host-120-day-worker-responsiveness.json.gz",
+      "rawBytes": 8142482,
+      "rawSHA256": "d86aa4c0d2c3fda6ae3abe2454c8bcbb700086d05499aaaaa020ae6b1c5f9aea",
+      "gzipBytes": 1148014,
+      "gzipSHA256": "446c506f3476e1c2163000594630e1c5360ff7503447550f645792f98dd02034",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/native-six-same-host-120-day-worker-responsiveness.json"
+    },
+    {
+      "path": "native-six-same-host-60-day-worker-responsiveness.json.gz",
+      "rawBytes": 8012446,
+      "rawSHA256": "78f15b36d141597847a455a44501b86926bfeedb0c0f51be860ba28a9c06fc83",
+      "gzipBytes": 1138182,
+      "gzipSHA256": "bf0c671271eeed6db29e0a1bb075197a7c714ac05eea193c4fc76e031aaa25b2",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/native-six-same-host-60-day-worker-responsiveness.json"
+    },
+    {
+      "path": "native-six.log.gz",
+      "rawBytes": 1030,
+      "rawSHA256": "f7a683b502b0384e85744bd278a41692c9784670a45cecb71a72bf28499b224c",
+      "gzipBytes": 421,
+      "gzipSHA256": "c6ad672268edebe469daf85ab1121877d06e5d6beffd542c5c4daad65b40090c",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/native-six.log"
+    },
+    {
+      "path": "native-six.spec.ts.gz",
+      "rawBytes": 25818,
+      "rawSHA256": "4107cf8d52589b0fbad4ec319441f5a970f8d14becc917aee23b53e1020b98b7",
+      "gzipBytes": 6109,
+      "gzipSHA256": "68ce4dad1c924b2cfaf4ef9ab3328246ff9d530b51486f8dd3932b963748c8a7",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/native-six.spec.ts"
+    },
+    {
+      "path": "observer-repair.py.gz",
+      "rawBytes": 3224,
+      "rawSHA256": "07ee1e9872a7a4903db799065f3e95539ecb35c2d7e315e552b44ff4134ac2c8",
+      "gzipBytes": 1309,
+      "gzipSHA256": "481bad3508719ba05370a8d0f6d8c5e4574c00d97cf848afec9748176a77285f",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/observer-repair.py"
+    },
+    {
+      "path": "observer.mjs.gz",
+      "rawBytes": 5592,
+      "rawSHA256": "477f31eaf0e180b52cc2679da126f0e8a851fefa0b03bae7c32dba8c3618ad59",
+      "gzipBytes": 2222,
+      "gzipSHA256": "65572aa389011847f7c2dcb073f885834b93ddfae891fb277513faa2b9b62774",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/observer.mjs"
+    },
+    {
+      "path": "operational.log.gz",
+      "rawBytes": 3072,
+      "rawSHA256": "bff4e41855204b464d2bc358b794c9eff08c18f5269833f7ea59971fbf3530a5",
+      "gzipBytes": 700,
+      "gzipSHA256": "1448e0c9f3eba4c8eca8906d4f9fd3b51ebe1ee29ec0c285a1255a2941ec6dbe",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/operational.log"
+    },
+    {
+      "path": "operational.raw.json.gz",
+      "rawBytes": 142076,
+      "rawSHA256": "74ce793e88892993abe4fcbafb618a5f1a5e167093d4aaa19de8098f0a3da526",
+      "gzipBytes": 9254,
+      "gzipSHA256": "b15af1929b92bfbebafadc03222fee7821b83f2e1076cbfeb0152eaceb133f5a",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/operational.raw.json"
+    },
+    {
+      "path": "overview.log.gz",
+      "rawBytes": 3050,
+      "rawSHA256": "08989f392f76ac91d41a7d11203fcf3ee15f75fb8bf5fa6495115b63106f0756",
+      "gzipBytes": 699,
+      "gzipSHA256": "843a003ce2386547ed1bf06f09d822ed469445bc59f59e5762c64156085dfac3",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/overview.log"
+    },
+    {
+      "path": "overview.raw.json.gz",
+      "rawBytes": 149112,
+      "rawSHA256": "be7384ccb31c44ca04665a336b286558889e05572c1a415ed87eda9fadee7a8d",
+      "gzipBytes": 9042,
+      "gzipSHA256": "b01caba6e0e16ff282e0ec94cdd0c3226ece5213c56c839834cd801c1850489d",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/overview.raw.json"
+    },
+    {
+      "path": "package-producer.py.gz",
+      "rawBytes": 10001,
+      "rawSHA256": "2c9397bc20e82a069344bfbb6107bb1dc75e36bc5a87044cc07f6f490994df20",
+      "gzipBytes": 4193,
+      "gzipSHA256": "533054d79629913c80057e0f9c51f62059f2e09f271dbaff013776822a8152c8",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/package-producer.py"
+    },
+    {
+      "path": "parity-proof.json.gz",
+      "rawBytes": 502,
+      "rawSHA256": "93130188f9732ee34556fe6935020d0de93b429b5e0a9d4a2b334fd80fd3bb37",
+      "gzipBytes": 257,
+      "gzipSHA256": "8927acafdca107345ed314ae8e0b4b1dad0316d410546fd1d88a6f71e8878f05",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/parity-proof.json"
+    },
+    {
+      "path": "patch-applier.mjs.gz",
+      "rawBytes": 3071,
+      "rawSHA256": "ec4ec746e1b5caac07f36e80f886ddcd913e454e8edf6cf4bf901abb3e7334b5",
+      "gzipBytes": 1194,
+      "gzipSHA256": "37b3844d179c76da46cdd537a57c1bd5ea44bb6a1615039e1e22b479335c1d7e",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/patch-applier.mjs"
+    },
+    {
+      "path": "patch-manifest.json.gz",
+      "rawBytes": 24802,
+      "rawSHA256": "61616fb34a6ed6d3212bd0bc6ff78929f2f1cfa4214cf12dea7cb946cca81972",
+      "gzipBytes": 5076,
+      "gzipSHA256": "34e20843a51cef6c2f4350b8e7dcb17ba26b61fc2486488dfe07170dd8117ae7",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/patch-manifest.json"
+    },
+    {
+      "path": "playwright.config.ts.gz",
+      "rawBytes": 1918,
+      "rawSHA256": "0f2062a03f1ed2174fbd4b496dff2c851a579d78952452666d5de2c6ee30b21c",
+      "gzipBytes": 1072,
+      "gzipSHA256": "3a2610600999f04c9ca9af25eefb885f72bb86cde6f2547bd9d11b558b438177",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/playwright.config.ts"
+    },
+    {
+      "path": "proof.py.gz",
+      "rawBytes": 2715,
+      "rawSHA256": "0f5b025d375b68de5ca0fbaa269c18bb65b92dc7295cd623b1109fd4a45b6a37",
+      "gzipBytes": 1097,
+      "gzipSHA256": "8360855b2aafa57e441d4269472838f45008eba8a1fc8d3bac6602ad8eb89767",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/proof.py"
+    },
+    {
+      "path": "published-attempt1-original-red.log.gz",
+      "rawBytes": 440,
+      "rawSHA256": "4279f81be81fa99038484ee6977186cd5d01ade06f3803a3f2b1144198edaf3e",
+      "gzipBytes": 302,
+      "gzipSHA256": "08e22483aecca4aecf5c5dbcf8629b2ae70836c0bd415c2c8d2e02d4bb5c9f35",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/published-attempt1-original-red.log"
+    },
+    {
+      "path": "published-observer-attempt1.mjs.gz",
+      "rawBytes": 4839,
+      "rawSHA256": "45180e8836310605739915e13194a7ceefc78921b4b0fc3b1091fff10a43e550",
+      "gzipBytes": 1979,
+      "gzipSHA256": "4c1d7fd0306a8905081965d37afdfdc8dbea6b5f15e28c1eb732060a5c1ef230",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/published-observer-attempt1.mjs"
+    },
+    {
+      "path": "published-observer-attempt2-setup-recovery.mjs.gz",
+      "rawBytes": 5592,
+      "rawSHA256": "477f31eaf0e180b52cc2679da126f0e8a851fefa0b03bae7c32dba8c3618ad59",
+      "gzipBytes": 2222,
+      "gzipSHA256": "65572aa389011847f7c2dcb073f885834b93ddfae891fb277513faa2b9b62774",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/published-observer-attempt2-setup-recovery.mjs"
+    },
+    {
+      "path": "published-setup-recovery2.log.gz",
+      "rawBytes": 91,
+      "rawSHA256": "1dbc6ff0c0a46579ccc8d92ac0e57d0f0d8de25e952c9aef8bce610346e2baa4",
+      "gzipBytes": 98,
+      "gzipSHA256": "d63ddf2c46f8028b09085113985979aa884c706b40d76696af093791b515bcfb",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/published-setup-recovery2.log"
+    },
+    {
+      "path": "published.log.gz",
+      "rawBytes": 440,
+      "rawSHA256": "4279f81be81fa99038484ee6977186cd5d01ade06f3803a3f2b1144198edaf3e",
+      "gzipBytes": 302,
+      "gzipSHA256": "08e22483aecca4aecf5c5dbcf8629b2ae70836c0bd415c2c8d2e02d4bb5c9f35",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/published.log"
+    },
+    {
+      "path": "published.raw.json.gz",
+      "rawBytes": 15199813,
+      "rawSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+      "gzipBytes": 2263646,
+      "gzipSHA256": "5f3d23a445cc229f2ce18a6b51842170c9ba6a9927a9b07d1632c82d16b100ef",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/published.raw.json"
+    },
+    {
+      "path": "resume-after-setup-repair.py.gz",
+      "rawBytes": 1738,
+      "rawSHA256": "2c17d11bfc2fc8c0c8e54d0023084c2ca6541e2978a9b9d05c33a6e0029c1231",
+      "gzipBytes": 803,
+      "gzipSHA256": "23a69faa1e116e99d6731ee33f74194da786b0aa6a9761050bf6f4e037d1deff",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/resume-after-setup-repair.py"
+    },
+    {
+      "path": "rust__engine__src__geographic_preparation.rs.gz",
+      "rawBytes": 13788,
+      "rawSHA256": "44d42946a7b96b8819bc2e8c5bde9cde36cd9761acc1bf937f627c1ece2b0056",
+      "gzipBytes": 4028,
+      "gzipSHA256": "ddacbf5456ec87002c1c88f15f872c0af9d69405b62f7d6224e650d8c8e46f66",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/rust__engine__src__geographic_preparation.rs"
+    },
+    {
+      "path": "rust__engine__src__lib.rs.gz",
+      "rawBytes": 7893,
+      "rawSHA256": "a4fe6346d3ed93310f912539efe67c35af815375686df39ddf17c2ea85bc9935",
+      "gzipBytes": 2477,
+      "gzipSHA256": "8ba529302d3915e1d57551d64adc5361d154d9e5c028ba629c7d441b0aedc6ac",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/rust__engine__src__lib.rs"
+    },
+    {
+      "path": "selected-wasm-url-bytes.json.gz",
+      "rawBytes": 1481,
+      "rawSHA256": "ca4e3aef8e49113d411413519a6fa81fbcaf160bbbbeb05ec4c171ca0e74d0ea",
+      "gzipBytes": 433,
+      "gzipSHA256": "cbfd12a596f5d728bdd36e40c836ceb95a75bfbdd85ebc3b5cfe41a0d33af9c4",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/selected-wasm-url-bytes.json"
+    },
+    {
+      "path": "setup-observer-repair.json.gz",
+      "rawBytes": 684,
+      "rawSHA256": "6033b88ef2b4cc7e07a065ea7bbfe88086438a48111dc70daf58f7c69ae7ce4c",
+      "gzipBytes": 471,
+      "gzipSHA256": "e56f15714610304a43df1b4147083ccfd5846e8aaafcac1832af7654dc3077e8",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/setup-observer-repair.json"
+    },
+    {
+      "path": "setup.log.gz",
+      "rawBytes": 104,
+      "rawSHA256": "c41ef29537a9cd1751b4132af1815a2bc9ccb56a6093b38d57dedf86566b58b1",
+      "gzipBytes": 115,
+      "gzipSHA256": "433df1677ecfd671f85b65594524100955d28646c331ac843be3f56e6924f8ab",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/setup.log"
+    },
+    {
+      "path": "setup.py.gz",
+      "rawBytes": 1632,
+      "rawSHA256": "48df03433e12dcbf9ece828c4903bc7a37aaf71ee59ff4c39d368eeac86c18e4",
+      "gzipBytes": 811,
+      "gzipSHA256": "510494e2fd3cbd3c388f138ab98c98adf5bab53496f25bded9b977cf4956bba3",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/setup.py"
+    },
+    {
+      "path": "simd.wasm.gz",
+      "rawBytes": 88392,
+      "rawSHA256": "0edab970302a9439995d634f2dd0c2b018651473a227b3ff9efc309b1974b38a",
+      "gzipBytes": 32353,
+      "gzipSHA256": "327e0a690f48332b29419980874a45915497d10e4146a28e104f552cc1f02109",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/simd.wasm"
+    },
+    {
+      "path": "source-after-proof.json.gz",
+      "rawBytes": 565524,
+      "rawSHA256": "25a32ea81ce535508ba3c187017068e0d3212ee53b2c4d9f4a9ce56140e46cb5",
+      "gzipBytes": 139346,
+      "gzipSHA256": "7d535f097bb03f2dc11f23cb456281a811c66bc7d4f71fec8cbd1b070012066e",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/source-after-proof.json"
+    },
+    {
+      "path": "source-before-proof.json.gz",
+      "rawBytes": 565524,
+      "rawSHA256": "25a32ea81ce535508ba3c187017068e0d3212ee53b2c4d9f4a9ce56140e46cb5",
+      "gzipBytes": 139346,
+      "gzipSHA256": "7d535f097bb03f2dc11f23cb456281a811c66bc7d4f71fec8cbd1b070012066e",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/source-before-proof.json"
+    },
+    {
+      "path": "source-final-proof.json.gz",
+      "rawBytes": 565524,
+      "rawSHA256": "25a32ea81ce535508ba3c187017068e0d3212ee53b2c4d9f4a9ce56140e46cb5",
+      "gzipBytes": 139346,
+      "gzipSHA256": "7d535f097bb03f2dc11f23cb456281a811c66bc7d4f71fec8cbd1b070012066e",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/source-final-proof.json"
+    },
+    {
+      "path": "src__ui__map__MapRenderer.ts.gz",
+      "rawBytes": 207474,
+      "rawSHA256": "b9a3d2073fb044c874d5ad13c203837254d8653c3f60b86efad340b6e065dc16",
+      "gzipBytes": 56140,
+      "gzipSHA256": "e49b4b4deb7dfebe2b0f1edc7f6ecf5806b046ad7bc49974f07e18e09d108fca",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/src__ui__map__MapRenderer.ts"
+    },
+    {
+      "path": "src__ui__map__geographicLabelLayout.ts.gz",
+      "rawBytes": 11428,
+      "rawSHA256": "2c0cc48de296fdb974ec397f9fe8732357b1831a835f592f3a880702705e9acd",
+      "gzipBytes": 3510,
+      "gzipSHA256": "f943ecfa48536b44e5b6c4a6a0854fb5acb21e3c72893385fa8c917300ca26e4",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/src__ui__map__geographicLabelLayout.ts"
+    },
+    {
+      "path": "src__ui__map__wasmGeographicPreparation.ts.gz",
+      "rawBytes": 16274,
+      "rawSHA256": "8ac687b6fb9e8942cb533bd2a85fee22f5fddb388b586386918c8b37137fba42",
+      "gzipBytes": 4146,
+      "gzipSHA256": "78b8331fc5c942f56dce368ce1ec918b06faea4cfba6631529d162e2b72d75e8",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/src__ui__map__wasmGeographicPreparation.ts"
+    },
+    {
+      "path": "src__ui__map__wasmGeographicScorer.ts.gz",
+      "rawBytes": 10972,
+      "rawSHA256": "9b4447e958cc049a48eb898fcd7d3b63449b7000246a659451279131343461e9",
+      "gzipBytes": 2950,
+      "gzipSHA256": "8270f024ea64715ddea8e592a6f3b1c17c34fbc2ac9c0f163bfe1e26e7133d43",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/src__ui__map__wasmGeographicScorer.ts"
+    },
+    {
+      "path": "state-proof.py.gz",
+      "rawBytes": 2127,
+      "rawSHA256": "888df1be7ae2acdec046073feca5c397c03aca912c635d0a6416670aec568218",
+      "gzipBytes": 966,
+      "gzipSHA256": "0c520197c343bd9e8dad28d0ceca511c317bae5f712005351fa1c1f0f4b6b185",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/state-proof.py"
+    },
+    {
+      "path": "state-resource-proof.json.gz",
+      "rawBytes": 2820,
+      "rawSHA256": "8868ed61002eacc51979b6da7ccd84a89898ba58bb623906cb9e76923a354159",
+      "gzipBytes": 633,
+      "gzipSHA256": "7d38166a6f7c4d63b7b58f8813e6ff1b9c213e6c2a1279d83ff18ed662b49fd1",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/state-resource-proof.json"
+    },
+    {
+      "path": "tenka_engine.wasm.gz",
+      "rawBytes": 88536,
+      "rawSHA256": "57b04ba8b63eb8af3a7a25742e676e0c2bd53eaeece7df40c85c5bd0862b189e",
+      "gzipBytes": 32351,
+      "gzipSHA256": "4757bbb9c839bf399f5554261983ea565f24abc152ff1c5fdf93cd1f2850e345",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/tenka_engine.wasm"
+    },
+    {
+      "path": "tools__wasm__artifact.ts.gz",
+      "rawBytes": 10218,
+      "rawSHA256": "425c210717e52f86fdd33eed34718ed498456461f93a42b1bdc748555b7f748b",
+      "gzipBytes": 3197,
+      "gzipSHA256": "a38f0f456576ee0dc85b6353f5e77d8016dfb6eff7eeaf1c9e37f2ea285660e1",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/tools__wasm__artifact.ts"
+    },
+    {
+      "path": "tools__wasm__build.ts.gz",
+      "rawBytes": 3028,
+      "rawSHA256": "e1864d5a21a7a353fe359ec339b56d4f0e740e887daf50f8d74e248d9822274b",
+      "gzipBytes": 1218,
+      "gzipSHA256": "97b67f047c2eff629f6a0084981add72549979824209fcde5b338c98f730853f",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/tools__wasm__build.ts"
+    },
+    {
+      "path": "transfer-proof.json.gz",
+      "rawBytes": 365,
+      "rawSHA256": "3fde325d7a03263d4b33d204a27689f4d238ddbb98889651a5d6c6b7660c8f55",
+      "gzipBytes": 280,
+      "gzipSHA256": "61f894cde7aa1780c9b29acbbc24cf930ea2c6973c8c4b1282cbdf963991bf30",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/transfer-proof.json"
+    },
+    {
+      "path": "verify-evidence.py.gz",
+      "rawBytes": 3263,
+      "rawSHA256": "70b851fba34b062ae158d34f6e6d4c742bddbea1f8a7d7ae9dc4fad5004a308f",
+      "gzipBytes": 1463,
+      "gzipSHA256": "6df80d9ffccbc9c9d1aa137e07a4f6a9e817dc2e07bc476bb61928f8d9ebfe39",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/verify-evidence.py"
+    },
+    {
+      "path": "wasm-manifest.json.gz",
+      "rawBytes": 3824,
+      "rawSHA256": "c1e95236544d40ff32d3c7e0b267e30f61b8bca01d85302857efe22bd0cd8621",
+      "gzipBytes": 1341,
+      "gzipSHA256": "c900f0a9a77c43d36fa70e66a631426fc362045bc99d04357a8dd4ebdff739d6",
+      "originalRemotePath": "/tmp/tenka-simd-native-current23-evidence/wasm-manifest.json"
+    }
+  ]
+}
