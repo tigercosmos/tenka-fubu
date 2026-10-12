@@ -1,0 +1,796 @@
+{
+  "items": [
+    {
+      "source": "local-capture/tenka-castle-axis-bench-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-axis-bench-transfer-955-c1__command.json.gz",
+      "rawBytes": 285,
+      "rawSha256": "451716352615c89be05933fe74453c478c31cb77082296a6753c90f05fafce62",
+      "gzipBytes": 194,
+      "gzipSha256": "0179e3dc698c36a1d01da5901c1053edc5cbd618fe8702cc56796493358b06ef"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-bench-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-axis-bench-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "ec50271d2280fbd9af2382f8fffcbcde034aaa586405fddb361fd8d17b8c065e",
+      "gzipBytes": 39,
+      "gzipSha256": "0d6c891871bdccaae1b65949e683c54751d8d6df703f156ffa77911d5efc2647"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-bench-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-axis-bench-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "fae5ba26bda9e8a60a9257a64d47e98d9c15c0d3b69a1dff2aa9bb72b43fc126",
+      "gzipBytes": 89,
+      "gzipSha256": "d987dc98ac508b2276b81501c336ad949f2c0a54e6f720fbe5b36432c5fcb8dd"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-bench-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-axis-bench-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-census-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-axis-census-955-c1__command.json.gz",
+      "rawBytes": 243,
+      "rawSha256": "7af651ae433693f1349706eca1531e810c4672a5ded176f6fca6f0a853e33676",
+      "gzipBytes": 190,
+      "gzipSha256": "5f72f4ac934e4665c0420c620f8a22222d60a95feb31b2eb742583e40ddd0fcf"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-census-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-axis-census-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "202e0ac62813a7dce2808a62fce159696a83d55898708c29368c470157540a81",
+      "gzipBytes": 39,
+      "gzipSha256": "60b1c7502ba1019753e19924a85a2f77513131e3cb181188b0692018f36f1f39"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-census-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-axis-census-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "bf2fd2482ff0830cdeb6fdaf81258d9d997e9bd9f18c0fdf451d3d40a6c3ea03",
+      "gzipBytes": 89,
+      "gzipSha256": "c99033bef23f6723810818c47870355f78de3694183c88db51c9126fe841843c"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-census-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-axis-census-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 1888,
+      "rawSha256": "7cf401c8ce2c17ac66ab872ae5494f2cc1118d1c9427da0330f7bdc166426972",
+      "gzipBytes": 614,
+      "gzipSha256": "8e0d07ed2cbc1e581266eb6c340ef43aa9617be61ebc9362906cdf61a956e322"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-evidence-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-axis-evidence-transfer-955-c1__command.json.gz",
+      "rawBytes": 612,
+      "rawSha256": "e44516016429df3653ad4af62b3b82eb9e2c1a00a538fda4fcb1e5057ff14e97",
+      "gzipBytes": 240,
+      "gzipSha256": "ae8052e769254874f0522c8162f09088f4002d6c47d7ec43d41cb34926798fdf"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-evidence-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-axis-evidence-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "e6cf9a43d26ce30f658daaa612bc6be95c72ba5b40c1b7c760fd89e4038bb063",
+      "gzipBytes": 39,
+      "gzipSha256": "38089f8ceb5bf1706a8f9a7b0ea13d2086f33178474f697ec1731f03a2a07b6b"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-evidence-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-axis-evidence-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "1daadcf09843bec96261df33cc7e8f0ea726363f525379da0e6885fa8ee7252f",
+      "gzipBytes": 89,
+      "gzipSha256": "fdcaa6cd1b6cef13f319529d602d8494e0b1fe7a27d5cb4277a0803ca064b863"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-evidence-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-axis-evidence-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-final-proof-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-axis-final-proof-transfer-955-c1__command.json.gz",
+      "rawBytes": 276,
+      "rawSha256": "df61c0c582bbef67dd1c76d65c7011d03eab57181bdaa79a19605149849ad102",
+      "gzipBytes": 192,
+      "gzipSha256": "7412d4405e5321e34f8c1ebd7af2ed985b0d75b56c83a2994ab02738aafb863a"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-final-proof-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-axis-final-proof-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "aeb609853bc0d4dfd084c2422b6b693b81eb724327982afa0a14d6d283c709a4",
+      "gzipBytes": 39,
+      "gzipSha256": "beecdcb8d512af652fb13691eec0ab891be66a3a399f6c43930c269f3ad06900"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-final-proof-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-axis-final-proof-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "003b1b76fe9dab222a8e399585f741ae0d4d99ad1efaa94ed674ee2bfb6a89c3",
+      "gzipBytes": 89,
+      "gzipSha256": "d2af4a2dee98543eceabe8a0fe7656f90aad0eadab281808e62077dbb0d5800d"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-final-proof-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-axis-final-proof-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-overlay-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-axis-overlay-transfer-955-c1__command.json.gz",
+      "rawBytes": 262,
+      "rawSha256": "f66387a19e1f0c9377bd41f80c32e793642fa674216d33c08ac03ad760b64b44",
+      "gzipBytes": 184,
+      "gzipSha256": "99c6041388b8cdd252608d2c12f69f60028905ae96557940a9686455ec61b561"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-overlay-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-axis-overlay-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "e5bc5a9f2e92d478f264a27480fd35b7683952d6dc92fa55eea2080e39ad3c95",
+      "gzipBytes": 39,
+      "gzipSha256": "3537e48691d1f9bc0918f29d3ed7d8f262361f3e4f9976230144612f3635f320"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-overlay-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-axis-overlay-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "74490ddf3f7f30581442ea821853f8f913cdeb47cb3e91e5829cbab8418ca146",
+      "gzipBytes": 89,
+      "gzipSha256": "32f29914cf8c9f845e499187344e50321c1b95c7a0c9990464b17d1e2e19d4ff"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-overlay-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-axis-overlay-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-packet-binary-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-axis-packet-binary-955-c1__command.json.gz",
+      "rawBytes": 294,
+      "rawSha256": "3b69104128ea789e76462940c5c30b745bb7682abf7bc230c9288e69996978b8",
+      "gzipBytes": 200,
+      "gzipSha256": "0bf8967a5b56494d10bac76a7c9097e57876228e63655fe057cbb04ed0b5601e"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-packet-binary-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-axis-packet-binary-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "ef348a7e537f674d867182016dd492e75e038e90f2e680fc44332e5dfc91f92a",
+      "gzipBytes": 39,
+      "gzipSha256": "ca81ffcf32e74751582ffa59c6254acdbb827d0446ffca058944dc62d3e63e9a"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-packet-binary-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-axis-packet-binary-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "ae56b98571811d95ed780984785b222de3d7c55f0c0363c02beaecabf547af7a",
+      "gzipBytes": 89,
+      "gzipSha256": "5536711402cabdff71f8d850ed9757a2604e8aac0de531b56be39fc586f2660d"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-packet-binary-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-axis-packet-binary-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-packet-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-axis-packet-transfer-955-c1__command.json.gz",
+      "rawBytes": 366,
+      "rawSha256": "5221c2db6e6a846107b95392ea755f443decf7a520ec6803315b76e51134a26b",
+      "gzipBytes": 247,
+      "gzipSha256": "076cd4f7a82a9103380a725eda89d6e09e95ebc74697bc36a85bbc7138946fad"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-packet-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-axis-packet-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "93d3ecc62e333add14596c19144266c254e96e13d0edf0792374b30c450b24c9",
+      "gzipBytes": 39,
+      "gzipSha256": "def168717a805413e3e09ae23e02a3bf48a77848deed977e3b59a95d5ad72b77"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-packet-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-axis-packet-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "23b8144e65393ef36d440b73fe2576ddce1bc1cb20279381f812832319510a79",
+      "gzipBytes": 89,
+      "gzipSha256": "0b698c8ea27e6590881c4e8d8edc55e58454fd269cc5a03e1ef975b6857b4599"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-packet-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-axis-packet-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-remote-mkdir-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-axis-remote-mkdir-955-c1__command.json.gz",
+      "rawBytes": 206,
+      "rawSha256": "8e4d8bf3a409ed25108e8578562e4b5904203a61301285e8e9733839d5222db5",
+      "gzipBytes": 172,
+      "gzipSha256": "8b7e402546da642c9f9f457bfdb8c384ea0c8aefcd1a7c92226b9926239e1416"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-remote-mkdir-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-axis-remote-mkdir-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "e65d64eadaa250bbd8fbbd282d8981ca05b0427aab0af43bacde2f3bdf09cf31",
+      "gzipBytes": 39,
+      "gzipSha256": "98e61045426ac9c6ff95fcb38451fb8906750f11066679d452a0c735dc65cb66"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-remote-mkdir-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-axis-remote-mkdir-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "db0cf339f2e0f1cd0bd11b5cf8eee595941cba4688ef146ffbeee6dbf957f6e4",
+      "gzipBytes": 88,
+      "gzipSha256": "836f1317078c290af96c08df93ed9671adbb7cb9f8841320ef018e72ce9ed614"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-remote-mkdir-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-axis-remote-mkdir-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-source-overlay-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-axis-source-overlay-transfer-955-c1__command.json.gz",
+      "rawBytes": 471,
+      "rawSha256": "f2ac16f1023dd0c61a810da534a81b35a3dc51abfe59fdae267c75566be32069",
+      "gzipBytes": 270,
+      "gzipSha256": "325395e6751ede9a5244dc8afc6b35246227395f472fe019f3ea43d783fcbaa7"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-source-overlay-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-axis-source-overlay-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "bfb07fe8173565f2cf6eacb8d79aa04830b8b97a49ffc862e76ed22aaa33f5ac",
+      "gzipBytes": 39,
+      "gzipSha256": "f0c0e6ac020b60334b44b16f30c3d3f99d1c6e14ab7befa940e0af4a9dbd8bf9"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-source-overlay-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-axis-source-overlay-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "4b72d088468ac1f5f2b18285e085d0a9db1386cc7c89225c138f7eccc7f32284",
+      "gzipBytes": 89,
+      "gzipSha256": "cf2c119de50d9bc2d0407b7afa8cbe26dc1475537cd127b24fe0b4e91ec9d26a"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-source-overlay-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-axis-source-overlay-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-source-snapshot-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-axis-source-snapshot-955-c1__command.json.gz",
+      "rawBytes": 368,
+      "rawSha256": "9b77f6f5b76f669059f1c73abd132eb25eba8fe842e99edd9e8951283073ef32",
+      "gzipBytes": 243,
+      "gzipSha256": "1b69bede6ebaec9901f9442534f322c5e51ed83317f3b8e39cbb3a881cbdd5a5"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-source-snapshot-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-axis-source-snapshot-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "1acc3bc33869dc465de265e4ebb46c5ab3bab7777798e0e5653c4cadc00d1a49",
+      "gzipBytes": 39,
+      "gzipSha256": "dd2b067c20f068feb23284a6ed45ff98cc96263c176a9104edd5a1650997fc14"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-source-snapshot-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-axis-source-snapshot-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "4b24493dab71ea86687251686000c8e9c4b15431bb10c669c696bed1a4009c9c",
+      "gzipBytes": 89,
+      "gzipSha256": "30f4b258f332d4174ad498176013ffcdffd5db5fdd7aa706f2797f24c1b7969b"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-source-snapshot-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-axis-source-snapshot-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 163,
+      "rawSha256": "da4a010cda0fe6b824e83e8e72f60a0f3fccf170c9e044c60a5ece816c905774",
+      "gzipBytes": 150,
+      "gzipSha256": "d1e36c8420fd4f437892425c6e8b7fc2c3a71eb85320034b9415e72fc4cde8ff"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-test-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-axis-test-transfer-955-c1__command.json.gz",
+      "rawBytes": 262,
+      "rawSha256": "33079b1323e3e16e1f7450352db49955d9c30ec51926c665ea8aee7d61552bc9",
+      "gzipBytes": 186,
+      "gzipSha256": "d5ac768f6c1223b51c5b80f16e4cc9dbff82f3b3cfe57ddeb4cf6de5f5944777"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-test-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-axis-test-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "f5ad3ac53bac985b548faa374bda3f20e872088bfd7aba13fd99792093733508",
+      "gzipBytes": 39,
+      "gzipSha256": "0c863fc7c51733c7cc932ecf817a2c1c6d6116b10e129ab45dfaeb34b4b071f8"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-test-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-axis-test-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "721b86d4b79b5145ab4eaae31a8164d6f8f658c9273223997d1b09216586a704",
+      "gzipBytes": 89,
+      "gzipSha256": "6f25eb5e30c2ec082cfd9acdd62dc14b027580bb2e679236376141776590abc1"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-test-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-axis-test-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-axis-transfer-955-c1__command.json.gz",
+      "rawBytes": 300,
+      "rawSha256": "205f468739af567eda6dbac884a0c30c877dba0215bfd768953b5d21511e9fc8",
+      "gzipBytes": 195,
+      "gzipSha256": "3e5933891f56dada6e35e531ac9adbb14ed3376ffee7baa26dc2bf35bf924a42"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-axis-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "649aae7af51057b1391049a26961eecf9b9b21aa6fb190c02e72f669293cd8d1",
+      "gzipBytes": 39,
+      "gzipSha256": "8b8c1ed3035b3018a61c3e7468a868bce87dd6b3200f440529e5830fb581264f"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-axis-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "c72634555839e063aaedc2df87654f4aea7b9c5b1acee96b4c5dfc8a39c955cf",
+      "gzipBytes": 89,
+      "gzipSha256": "8bc59ff0657cba361881aa9e3b86cb4269cf39a894e1c543fb9d0e63928c9547"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-axis-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-wasm-cost-transfer-v2/command.json",
+      "file": "raw/local-capture__tenka-castle-axis-wasm-cost-transfer-v2__command.json.gz",
+      "rawBytes": 265,
+      "rawSha256": "e3cbf5c05d26bcb6723afb287915892947108711e5feac5c5efbb714eac298d5",
+      "gzipBytes": 187,
+      "gzipSha256": "e921a14f83b42dce60a077b1f32bbb94c4aac3e56cab80f4d14a542d220f72c1"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-wasm-cost-transfer-v2/process.json",
+      "file": "raw/local-capture__tenka-castle-axis-wasm-cost-transfer-v2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "7d2fa2ce0453a34fe39bab171a6d1dc79f7999889d4095586ae0bdc9ed523a05",
+      "gzipBytes": 39,
+      "gzipSha256": "e94218a48ba5417213dc2affb9d26eecdd261beb49e858e4666d49c96eed71d7"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-wasm-cost-transfer-v2/result.json",
+      "file": "raw/local-capture__tenka-castle-axis-wasm-cost-transfer-v2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "9db59d128e51e87ab60d9e005d2fc53a5cf123f0b037b53b92b9919916204271",
+      "gzipBytes": 89,
+      "gzipSha256": "e2abd0f714525e231a5bbebe6b003420989ce4d2ece7afe7c695e679526ef1de"
+    },
+    {
+      "source": "local-capture/tenka-castle-axis-wasm-cost-transfer-v2/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-axis-wasm-cost-transfer-v2__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "producer/tenka-castle-axis-census.py",
+      "file": "raw/producer__tenka-castle-axis-census.py.gz",
+      "rawBytes": 2997,
+      "rawSha256": "8d2636585662ccf18056929a804b68fd59e6efcf44abde691b6ca5883c28f470",
+      "gzipBytes": 1102,
+      "gzipSha256": "b97c62ce3df99e21b5cc975fcaedff28be77b51756f41f6a7ffd5868ff3199fc"
+    },
+    {
+      "source": "producer/tenka-castle-axis-instrument.py",
+      "file": "raw/producer__tenka-castle-axis-instrument.py.gz",
+      "rawBytes": 1803,
+      "rawSha256": "885628488e1d098efbbb31bef0b110937bad18a638f3a0478c80156dbe8e63c9",
+      "gzipBytes": 778,
+      "gzipSha256": "6adf257876508409948aa9c2c61fd3b6e3bc0a99717e6fedcae5ec8c5a8429be"
+    },
+    {
+      "source": "producer/tenka-castle-axis-overlay-955-c1.json",
+      "file": "raw/producer__tenka-castle-axis-overlay-955-c1.json.gz",
+      "rawBytes": 218,
+      "rawSha256": "061813e5483660fa61ac6cbf8279b0aa04e5e87b182baf547aa6904c371c51e7",
+      "gzipBytes": 191,
+      "gzipSha256": "7eaa182af2df56814301053dad9a53134e0ae8a7f24b907cb3572674110fe0ef"
+    },
+    {
+      "source": "producer/tenka-castle-axis-packet.spec.ts",
+      "file": "raw/producer__tenka-castle-axis-packet.spec.ts.gz",
+      "rawBytes": 3190,
+      "rawSha256": "8af3f4b4268e585fbe5181077c52484291784593f1dc7e832a5c31933c1aad25",
+      "gzipBytes": 1269,
+      "gzipSha256": "1d756f82800efd97782056a3ce30d5938a6bc106898cc0c723dded5289cb110c"
+    },
+    {
+      "source": "producer/tenka-castle-axis-proof.py",
+      "file": "raw/producer__tenka-castle-axis-proof.py.gz",
+      "rawBytes": 1821,
+      "rawSha256": "2073365bb89a5982a9eda1686e975c9d8553fd99267e231954f2667f06f4fe0e",
+      "gzipBytes": 707,
+      "gzipSha256": "3a95fcee80b35dead91b8be85dc590beff85f4efa9f1645a7f51e5185e197a02"
+    },
+    {
+      "source": "producer/tenka-castle-axis-wasm-cost.mjs",
+      "file": "raw/producer__tenka-castle-axis-wasm-cost.mjs.gz",
+      "rawBytes": 1828,
+      "rawSha256": "312eb862ef20740f9b976a7948062622bd6012a17145de0bf01043d8d6dac411",
+      "gzipBytes": 862,
+      "gzipSha256": "b3ea976e44702fda6b71eac7e4f882bd5fc1014cd0edd76b46bc6179afc26af6"
+    },
+    {
+      "source": "producer/tenka-castle-axis-write-packets.py",
+      "file": "raw/producer__tenka-castle-axis-write-packets.py.gz",
+      "rawBytes": 654,
+      "rawSha256": "31ef3912f16eb732acdecf752708ccf5d2914c4a52e79f7e1dc08e3829d78630",
+      "gzipBytes": 363,
+      "gzipSha256": "0f423d3a03cce222482bb88dad2655e40cf593ff3ccf5a1b13ab19c07080651e"
+    },
+    {
+      "source": "remote-copy/castle-axis-packet.spec.ts",
+      "file": "raw/remote-copy__castle-axis-packet.spec.ts.gz",
+      "rawBytes": 3190,
+      "rawSha256": "8af3f4b4268e585fbe5181077c52484291784593f1dc7e832a5c31933c1aad25",
+      "gzipBytes": 1269,
+      "gzipSha256": "1d756f82800efd97782056a3ce30d5938a6bc106898cc0c723dded5289cb110c"
+    },
+    {
+      "source": "remote-copy/dependency-baseline.json.gz",
+      "file": "raw/remote-copy__dependency-baseline.json.gz.gz",
+      "rawBytes": 66456,
+      "rawSha256": "514c4994180ee0db1b883cbed1254ef560cbb492032096f5ea51ecd2ccde26d1",
+      "gzipBytes": 66445,
+      "gzipSha256": "af65a6399c4a40331c00dc497e898cb83a3a56928b6ac39ee76bd8be8b753898"
+    },
+    {
+      "source": "remote-copy/manifest.json",
+      "file": "raw/remote-copy__manifest.json.gz",
+      "rawBytes": 300738,
+      "rawSha256": "f92fa13106d9352a41d8abbef03fdcd169c1988703321d108d5d411c33fc2568",
+      "gzipBytes": 69908,
+      "gzipSha256": "8901d64b36beb14337d9d7a522111f74258891d7b317199f8bd56474c610e627"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-baseline-proof-955-c1/command.json",
+      "file": "raw/remote-copy__tenka-castle-axis-baseline-proof-955-c1__command.json.gz",
+      "rawBytes": 315,
+      "rawSha256": "450c8a460426d184979f192eb703b7063de198613107f00e55492a3d91648621",
+      "gzipBytes": 198,
+      "gzipSha256": "90ec8732ccb61e6964487db9e8cf11e9ede66c9e3fdeaa4dfc411484fa44abca"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-baseline-proof-955-c1/process.json",
+      "file": "raw/remote-copy__tenka-castle-axis-baseline-proof-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "63284f546e5075a6326d3e20985d72785af75643eeae529c1f841ea3822053da",
+      "gzipBytes": 41,
+      "gzipSha256": "c53ee85ba1ef4bc28ff7b78ec9afb2917c5c8585dffaedb646f505fd9ded7dfc"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-baseline-proof-955-c1/result.json",
+      "file": "raw/remote-copy__tenka-castle-axis-baseline-proof-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "d7bdd93b1316d548952d53353aedd415aa8f2262e8b3c81d0cbabc9080dfea29",
+      "gzipBytes": 89,
+      "gzipSha256": "86a7027a914904b2b942ab52d5e558da00c42e4f8cd050668d7cf816e9ed0d8f"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-baseline-proof-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__tenka-castle-axis-baseline-proof-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 5065,
+      "rawSha256": "60cb5b4f1eb52de677ff38d0f463aed98108e85fbc65e5978d825391e9cccacc",
+      "gzipBytes": 1711,
+      "gzipSha256": "4be56fc02600c7cc4e910737d0793468ab52d007b8ed4e5ea7240bc1ed9e5117"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-build-955-c1/command.json",
+      "file": "raw/remote-copy__tenka-castle-axis-build-955-c1__command.json.gz",
+      "rawBytes": 168,
+      "rawSha256": "08acdc173435813f87142dca734e0f78c2cce2ce60eeb2b10f4bba8417338727",
+      "gzipBytes": 153,
+      "gzipSha256": "eeca2256fa4195c7fc70416eba7f38bc87394746a48bf608355abd6fe804a067"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-build-955-c1/process.json",
+      "file": "raw/remote-copy__tenka-castle-axis-build-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "5e0cab46be0516f9334caff9c6fd56e72808021d0770ef9d4a40727759770a22",
+      "gzipBytes": 41,
+      "gzipSha256": "f125241d17da9e2c61bcb058d5d100701beefa4903d8abcba0b70bd7267ac14e"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-build-955-c1/result.json",
+      "file": "raw/remote-copy__tenka-castle-axis-build-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "88fe5f6cf00baad2a46995eebc68b58cea54bab71799ada3915bcb7a01e8f729",
+      "gzipBytes": 89,
+      "gzipSha256": "f94f371d910621e3a5556fe89375b662888118bdea0275d3c0c6ec95d98ff02c"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-build-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__tenka-castle-axis-build-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 1678,
+      "rawSha256": "c758f44c1151443c8ca06b83cbc1ce596505bc396687ad9349e659c2a8926752",
+      "gzipBytes": 853,
+      "gzipSha256": "056d8610d7ba26be0ce728c2d1de0c7c91870f2d5e9e3aef60c30c1330b91474"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-final-proof-955-c1/command.json",
+      "file": "raw/remote-copy__tenka-castle-axis-final-proof-955-c1__command.json.gz",
+      "rawBytes": 390,
+      "rawSha256": "b38c8aa2029025e264b36fb013d182b0f51b094df6a62698bc5a538941f5c94f",
+      "gzipBytes": 213,
+      "gzipSha256": "7eb0833636a4efedc3a36ca0b6342c0504352e1aa17d272c4b23a7d368027531"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-final-proof-955-c1/process.json",
+      "file": "raw/remote-copy__tenka-castle-axis-final-proof-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "5f081b35ff3c6f1a9bbfd54ea0f6ed6637361e913f79f7f713f393f29b9e62cd",
+      "gzipBytes": 41,
+      "gzipSha256": "a78c97de9de0a1d29b007512d6cc7c0f453a152e3610984d87a678c9ad73a8cc"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-final-proof-955-c1/result.json",
+      "file": "raw/remote-copy__tenka-castle-axis-final-proof-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "f50b19ee90b50c250943199c5ff4a14c2c67b934ae5b9172532b90e86d1ef5a5",
+      "gzipBytes": 89,
+      "gzipSha256": "97b25ece5eb363fb0cd0c9c47f277746645fc3096cb5cdfd71c9ad3c60b65cdc"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-final-proof-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__tenka-castle-axis-final-proof-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 5303,
+      "rawSha256": "13005df52560605f3a0f716f241db036ccdbbbea967ce113055f1ef977422351",
+      "gzipBytes": 1861,
+      "gzipSha256": "bb9a16ca925e6e7ed1c86ba5e307b4faa6015d20e7604c714dbcf539ef5931b5"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-list-955-c1/command.json",
+      "file": "raw/remote-copy__tenka-castle-axis-list-955-c1__command.json.gz",
+      "rawBytes": 333,
+      "rawSha256": "e47644476268694be18bc88bb64cb17375b5cab1757a9ad591a731dab5a7312a",
+      "gzipBytes": 221,
+      "gzipSha256": "1b6b5b3849d1487c40e8e256af7e4ed4416c0d6fa0ae23f0ec99db8a5d664318"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-list-955-c1/process.json",
+      "file": "raw/remote-copy__tenka-castle-axis-list-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "bea282fba8d4d565c0bed53947a838d23ac07b86c68b0edbb8bb2a339ac56faa",
+      "gzipBytes": 41,
+      "gzipSha256": "a653aae0c62c02967ceb975a31afd2c2932a7096c00e16bb7159dfcd09b8c615"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-list-955-c1/result.json",
+      "file": "raw/remote-copy__tenka-castle-axis-list-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "5ff41190ffd2190aaf2cdfbe7d96da24f8bccadb4e4f8585168d55aac9875b3c",
+      "gzipBytes": 88,
+      "gzipSha256": "14ee43d70a2da8f091cd9f9dd131a69c1c7d8a8a47acfb4e119edae51c2bd8a4"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-list-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__tenka-castle-axis-list-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 159,
+      "rawSha256": "6b339051ae951b2b62e4ae7a240d4099848c588221e0471820a5a4dc0034db67",
+      "gzipBytes": 148,
+      "gzipSha256": "432a4c0d4de502ef669077493ddb3d8671f070c692254c890c8f6f977d94797f"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-native-955-c1/browser-results/.last-run.json",
+      "file": "raw/remote-copy__tenka-castle-axis-native-955-c1__browser-results__.last-run.json.gz",
+      "rawBytes": 45,
+      "rawSha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903",
+      "gzipBytes": 60,
+      "gzipSha256": "ab2773fce076cedf886e7b45072ea49d0dfc6bdbbca2d9e3779ab76473918f40"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-native-955-c1/browser-results/castle-axis-packet-read-on-4a251--for-three-national-cameras-chromium/attachments/castle-solver-full-packets-9f3975235fa21767cf63a905f82665482b47ee0b.json",
+      "file": "raw/remote-copy__tenka-castle-axis-native-955-c1__browser-results__castle-axis-packet-read-on-4a251--for-three-national-cameras-chromium__attachments__castle-solver-full-packets-9f3975235fa21767cf63a905f82665482b47ee0b.json.gz",
+      "rawBytes": 2321543,
+      "rawSha256": "288f9951c0f817dc11dd7c208bd2079fa5c1a5195b46b01a3119b400a56642dc",
+      "gzipBytes": 199485,
+      "gzipSha256": "3486674e122edcec7e80c0dd2acd53980a821ae28a0b0f5e0a38c9409c66151a"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-native-955-c1/browser-results/castle-axis-packet-read-on-4a251--for-three-national-cameras-chromium/castle-solver-full-packets.json",
+      "file": "raw/remote-copy__tenka-castle-axis-native-955-c1__browser-results__castle-axis-packet-read-on-4a251--for-three-national-cameras-chromium__castle-solver-full-packets.json.gz",
+      "rawBytes": 2321543,
+      "rawSha256": "288f9951c0f817dc11dd7c208bd2079fa5c1a5195b46b01a3119b400a56642dc",
+      "gzipBytes": 199485,
+      "gzipSha256": "3486674e122edcec7e80c0dd2acd53980a821ae28a0b0f5e0a38c9409c66151a"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-native-955-c1/command.json",
+      "file": "raw/remote-copy__tenka-castle-axis-native-955-c1__command.json.gz",
+      "rawBytes": 434,
+      "rawSha256": "441d6dd438bc1208e5c1a8d97700299074780afad49765ba419bdcdc7aea574c",
+      "gzipBytes": 262,
+      "gzipSha256": "cf9be799fa078e48b09ba7dc01c53a1333fe188adadd4ea2337b5e8fa4e9e644"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-native-955-c1/process.json",
+      "file": "raw/remote-copy__tenka-castle-axis-native-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "eefa990dad8c0f8e090749277ff10b4da6f7f3cbca214bc31655bc1d555832a2",
+      "gzipBytes": 41,
+      "gzipSha256": "ce1b628c9f70c0ff39d4ad40a42e36bfb4346ffafcf974d929ba7b2b2468d5be"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-native-955-c1/report.json",
+      "file": "raw/remote-copy__tenka-castle-axis-native-955-c1__report.json.gz",
+      "rawBytes": 3618,
+      "rawSha256": "f2866c43f5bc7513ec63ae4f02398d14f1f0d0ca0879c82dec317724a295a0c2",
+      "gzipBytes": 1190,
+      "gzipSha256": "e03b290123c6531e80d2e463168447ab1b70e95edba2d9944e429b7021f8f6a4"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-native-955-c1/result.json",
+      "file": "raw/remote-copy__tenka-castle-axis-native-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "56dc87b586c88d44ec2af1e82cf9cef472863a0fecdf42046347275fc888051c",
+      "gzipBytes": 89,
+      "gzipSha256": "8fb02a6d0f91bf1e592b9cd5495ab6de58d6b55151e7af0f8acdc648406f6b24"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-native-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__tenka-castle-axis-native-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 178,
+      "rawSha256": "1572f66d3fbbbd90e98da62d53abe79aa7737c9db0e8841870762bdcec2029f2",
+      "gzipBytes": 161,
+      "gzipSha256": "0265a931dc683bedd32a7e46e81b9abb3f637d8951d1347be62407d30bad6af8"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-typecheck-955-c1/command.json",
+      "file": "raw/remote-copy__tenka-castle-axis-typecheck-955-c1__command.json.gz",
+      "rawBytes": 172,
+      "rawSha256": "ed1441e1616c5fa5c57e595e96dab46ce0a9df758adba4fe30228357a9c4179e",
+      "gzipBytes": 156,
+      "gzipSha256": "7330ee1214d5cd05505157fb6b353eedffcae6be31b07048259da42cfba9e23f"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-typecheck-955-c1/process.json",
+      "file": "raw/remote-copy__tenka-castle-axis-typecheck-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "5d102f584cfab81120c3bad7321d703bc70f7bd1016cfa89aab7163a08540b93",
+      "gzipBytes": 41,
+      "gzipSha256": "3c5ba8775fbc43a2c74e10bc172fb8572e01431194d2d616265d7741fb435721"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-typecheck-955-c1/result.json",
+      "file": "raw/remote-copy__tenka-castle-axis-typecheck-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "7356b35a24900af74bf0ad25a3bfd88ce5f83c89df5916e7277feb6b6926cea7",
+      "gzipBytes": 89,
+      "gzipSha256": "b5107544b1a9feeefc67e6e7291cc828c02c42a6847c6b792ead520d7b4de929"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-typecheck-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__tenka-castle-axis-typecheck-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 84,
+      "rawSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a",
+      "gzipBytes": 87,
+      "gzipSha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-wasm-cost-955-c1/command.json",
+      "file": "raw/remote-copy__tenka-castle-axis-wasm-cost-955-c1__command.json.gz",
+      "rawBytes": 251,
+      "rawSha256": "8ef5735c0e4418cdf0cf7e4f9f24d32b60d34201ceffced98c4f34cfa629fd6c",
+      "gzipBytes": 164,
+      "gzipSha256": "b1811b2b39d342131597c1f0175783e8086339f878cc8611ae3f5dec93ca56cc"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-wasm-cost-955-c1/process.json",
+      "file": "raw/remote-copy__tenka-castle-axis-wasm-cost-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "eb7418ddab45806bfe8454ce82bb1f4e9405d99cc081f779a96b22abf224eb2a",
+      "gzipBytes": 41,
+      "gzipSha256": "c4f2baa84d1ab3c4be6b629f5f14a033d4766a121c35f6f43cd63fddb9d675a1"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-wasm-cost-955-c1/result.json",
+      "file": "raw/remote-copy__tenka-castle-axis-wasm-cost-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "9c6fc29863de358c52cb669c7ad46fdd58638acf1cd84d8035198f626bdd3fcc",
+      "gzipBytes": 89,
+      "gzipSha256": "a30cbecc7f76eee573f4d80addd387982048f2e0fa24778e08b12ded4852bea5"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-wasm-cost-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__tenka-castle-axis-wasm-cost-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 182,
+      "rawSha256": "f1c738df04e92a02bcc68fae160f2096f808dd9a57325550b85cd6dc2852f8b8",
+      "gzipBytes": 172,
+      "gzipSha256": "9fbc385f7d9a8fb30750e55148a8171c05ad06f442f43aa8efb9031536e72294"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-wasm-cost-955-c2/command.json",
+      "file": "raw/remote-copy__tenka-castle-axis-wasm-cost-955-c2__command.json.gz",
+      "rawBytes": 254,
+      "rawSha256": "a425ecf1848998e29a1f2cea290426d8703d01e3a7d03d9bdde6c1977c7f5199",
+      "gzipBytes": 166,
+      "gzipSha256": "a6763c954422ec4eff93b4b1cdc91fb3fd3b451e9d4489c31a067c1257b458cd"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-wasm-cost-955-c2/process.json",
+      "file": "raw/remote-copy__tenka-castle-axis-wasm-cost-955-c2__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "b278486c9e310342cbab6e8acc343197df2877cbb7747de8e8842583c534cf54",
+      "gzipBytes": 41,
+      "gzipSha256": "912ff1610e24df8419c5c7472787f238eae9a7dfb6bb2e34a79fcb1791497111"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-wasm-cost-955-c2/result.json",
+      "file": "raw/remote-copy__tenka-castle-axis-wasm-cost-955-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "322909680bcdce8d6b33204e19b53d5fc1ac98df8094278f0bd9db95546954c7",
+      "gzipBytes": 89,
+      "gzipSha256": "86e512fd8c6719127f8d9fb206ffee76cfe98b5aac59cf785d9e6f442908b24e"
+    },
+    {
+      "source": "remote-copy/tenka-castle-axis-wasm-cost-955-c2/stdout-stderr.log",
+      "file": "raw/remote-copy__tenka-castle-axis-wasm-cost-955-c2__stdout-stderr.log.gz",
+      "rawBytes": 1054,
+      "rawSha256": "3d4d05843f13d280e8e8adebb922cef70b6ccdb8250aaacf11486404dcb0e33b",
+      "gzipBytes": 442,
+      "gzipSha256": "6242d916f9319747cda3af9ffafa49b01a943bd7664b13ff0b2c78c41322aaa7"
+    },
+    {
+      "source": "remote-copy/wasmCastleRibbonPlanner.ts",
+      "file": "raw/remote-copy__wasmCastleRibbonPlanner.ts.gz",
+      "rawBytes": 8509,
+      "rawSha256": "83683d74cc2fa474478619927b48e26d3c1c7b4e79fcae63aa3e6e9ad14579f0",
+      "gzipBytes": 2527,
+      "gzipSha256": "f48bfc5b8a85a8c7cbf4147331c1d2e1171055df9641f827d85e79dd5f142dc7"
+    }
+  ]
+}

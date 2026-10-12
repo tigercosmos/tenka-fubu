@@ -1,0 +1,156 @@
+{
+  "rootReportedExitCodes": {
+    "fullnative-phase-9550": 0,
+    "castle-axis-packet-census-9550e39": 0,
+    "castle-close-profile-9550e39": 0,
+    "fullnative-current-9550": 0,
+    "signal-integrated-ef75be6": 0,
+    "army-signal-zero-x-ef75be6": 0
+  },
+  "artifacts": [
+    {
+      "path": "root-fullnative-phase-9550.log.gz",
+      "origin": "/tmp/tenka-root-phase-verify.3mSg7k",
+      "bytes": 105,
+      "sha256": "b3c86ef851a56dd4c7a6d69b606117e79d287e14e0cee32bb207052c5fd1b3bd",
+      "rawBytes": 94,
+      "rawSha256": "808600a6594642a1950ad1709b475352448c0514626a2d29b306c40747d5d306"
+    },
+    {
+      "path": "root-castle-axis-packet-census-9550e39.log.gz",
+      "origin": "/tmp/tenka-root-census-verify.22LqmU",
+      "bytes": 112,
+      "sha256": "8e5a906e35c5bfbbbbfebbfe16c3afbd2f44cf4812a11eb9693b21e50b8ec6c9",
+      "rawBytes": 104,
+      "rawSha256": "95e17d8fe2b2b3e1f501eee42adb79ed173184ca83e97ab7d026fa8193263b33"
+    },
+    {
+      "path": "root-castle-close-profile-9550e39.log.gz",
+      "origin": "/tmp/tenka-root-close-verify.ydHdxE",
+      "bytes": 154,
+      "sha256": "775c91dfdd383da2f1ac30a69aef0238c6186d048e70de13faa73218fc865577",
+      "rawBytes": 168,
+      "rawSha256": "37c41695050cd3bdcfe4d1fbf16934d34fe061e3758a9cd145714c0e7995a1bd"
+    },
+    {
+      "path": "root-fullnative-current-9550.log.gz",
+      "origin": "/tmp/tenka-root-full-verify.5aRDAi",
+      "bytes": 109,
+      "sha256": "9bba98beb77ba42e73db9d0381b3c988f3605ed07532fc4632dd4e20530c19d1",
+      "rawBytes": 98,
+      "rawSha256": "d906aa42af5d052aef3bfc7cb7bedf3a1e7b5ddb89411cf3db824c93d7a82cdc"
+    },
+    {
+      "path": "root-signal-integrated-ef75be6.log.gz",
+      "origin": "/tmp/tenka-root-signal-integrated.MN9a2q",
+      "bytes": 105,
+      "sha256": "c2d9cffdd237e9c590cdb72409e93d267b82dce59c577fdcc5b9255cece9c3bb",
+      "rawBytes": 94,
+      "rawSha256": "ce65a10f9fd4b2e8cfc039ee5acbb7f12d592ffa4106d24583ba8246e2ad9ddf"
+    },
+    {
+      "path": "root-army-signal-zero-x-ef75be6.log.gz",
+      "origin": "/tmp/tenka-root-signal-native.iTPRe3",
+      "bytes": 127,
+      "sha256": "2adb41cbe33e0f0c2115f8d44a15a3711eecac073e74400f1270c95a9dbf2d22",
+      "rawBytes": 124,
+      "rawSha256": "9fe1d519558cc52b7fc0a8021e230e135c6f9aadc590d9c920743682012e0a89"
+    },
+    {
+      "path": "producer.py.gz",
+      "origin": "/tmp/tenka-signal-final-handoff-c2.py",
+      "bytes": 717,
+      "sha256": "42f7971515b208aba768e4f15b6a84f688569a99c9af136e3676231db59e27ea",
+      "rawBytes": 1672,
+      "rawSha256": "c92cf09ae908b8c04b870e2cd003e791c0ad0dc6738c97e90c475cb0f47b4be6"
+    },
+    {
+      "path": "original-producer-c1.py.gz",
+      "origin": "/tmp/tenka-signal-final-handoff-c1.py",
+      "bytes": 2144,
+      "sha256": "49503d7a3c6000408b2d79b928dd89a3d51d143e271f332396296140456b01ac",
+      "rawBytes": 4425,
+      "rawSha256": "fa3fe1f0fc791138ca225abeff55411c8f672f30ab3beb2e2fb8dac041a48b6d"
+    },
+    {
+      "path": "initial-failed-command.json.gz",
+      "origin": "/tmp/tenka-signal-final-handoff-capture-c1/command.json",
+      "bytes": 171,
+      "sha256": "9606d2c4be5b90defbe2b4ea831971f85e7a760ebf22e9987cfee1aa538297f8",
+      "rawBytes": 193,
+      "rawSha256": "e70a0e0e19a037638f9e09e410fb3ae873c85ad421ea6099f07fc12760742873"
+    },
+    {
+      "path": "initial-failed-process.json.gz",
+      "origin": "/tmp/tenka-signal-final-handoff-capture-c1/process.json",
+      "bytes": 39,
+      "sha256": "5e7906caa68cfc0a9416d3a2129c54122c76b165ae0a719b8daf8d4034201d8e",
+      "rawBytes": 19,
+      "rawSha256": "0f4c8d60340087e548dc20632d636cc04f4d8ac40ef1d5fad95c10ba1e325ce7"
+    },
+    {
+      "path": "initial-failed-result.json.gz",
+      "origin": "/tmp/tenka-signal-final-handoff-capture-c1/result.json",
+      "bytes": 89,
+      "sha256": "e8c31366f88ced5e8449bbabfbc9810c6e995524c559726e4ef208bf088953b4",
+      "rawBytes": 73,
+      "rawSha256": "ecc535a8d3bedb5d93531e31f076f04c725b3cb3937a8b721f52e7ff935bc1af"
+    },
+    {
+      "path": "initial-failed-stdout-stderr.log.gz",
+      "origin": "/tmp/tenka-signal-final-handoff-capture-c1/stdout-stderr.log",
+      "bytes": 154,
+      "sha256": "4def161f22709a6d88f52d1ae8e793030186a56fac4dca3ff38038cd04007a9e",
+      "rawBytes": 171,
+      "rawSha256": "0bc32f31d84880f50ad7ede9921a9e927601fa1bd0425049b9f352ff7dc599db"
+    },
+    {
+      "path": "format.command.json.gz",
+      "origin": "/tmp/tenka-signal-final-handoff-proof-c2/format.command.json",
+      "bytes": 207,
+      "sha256": "b50ceffa449df02e67f5bba7b24ce3c13081763c3efbc585f0feed8834c98d22",
+      "rawBytes": 369,
+      "rawSha256": "9f7a26d0241e1a0848ccb05a3c981c661ac69e809f54e1bae2d3422ebfc08eca"
+    },
+    {
+      "path": "format.log.gz",
+      "origin": "/tmp/tenka-signal-final-handoff-proof-c2/format.log",
+      "bytes": 144,
+      "sha256": "22b667a98b3482ec0534b1e079566c7960a8dee78839e32461a89855030e8b8e",
+      "rawBytes": 249,
+      "rawSha256": "4c8d419cc172524657cf6b34ed78cd51b003664a7b817463d342bef7bd92425d"
+    },
+    {
+      "path": "format.result.json.gz",
+      "origin": "/tmp/tenka-signal-final-handoff-proof-c2/format.result.json",
+      "bytes": 36,
+      "sha256": "4ce9246abc74fe112bb59d95c7c29c389dc700925b2dbeb8cf1f339a21979b3b",
+      "rawBytes": 16,
+      "rawSha256": "982b9e9bfb10ffe83cad665807abcfd3fa97b37822db5ab7831157a499548a9e"
+    },
+    {
+      "path": "diff-check.command.json.gz",
+      "origin": "/tmp/tenka-signal-final-handoff-proof-c2/diff-check.command.json",
+      "bytes": 100,
+      "sha256": "8d3228fb5b581962ed5ff2ff16cea2e0fb13967e3f401f7d1c8c442ecdde37af",
+      "rawBytes": 99,
+      "rawSha256": "1b6d1f3fa45db4d25a516fd93f897db76d802655d10ee3956bbfc0f32ebd5e6b"
+    },
+    {
+      "path": "diff-check.log.gz",
+      "origin": "/tmp/tenka-signal-final-handoff-proof-c2/diff-check.log",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diff-check.result.json.gz",
+      "origin": "/tmp/tenka-signal-final-handoff-proof-c2/diff-check.result.json",
+      "bytes": 36,
+      "sha256": "4ce9246abc74fe112bb59d95c7c29c389dc700925b2dbeb8cf1f339a21979b3b",
+      "rawBytes": 16,
+      "rawSha256": "982b9e9bfb10ffe83cad665807abcfd3fa97b37822db5ab7831157a499548a9e"
+    }
+  ]
+}

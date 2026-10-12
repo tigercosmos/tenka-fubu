@@ -1,0 +1,357 @@
+{
+  "scope": "Exact ef75be6 signal integration captures and their producers",
+  "items": [
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/after-pixi.json",
+      "file": "raw/inner__after-pixi.json.gz",
+      "rawBytes": 7740,
+      "rawSha256": "307705fb6bcae074a47b46f36d04051c87e8445d486193d28cf1f90ff5a9d331",
+      "gzipBytes": 1770,
+      "gzipSha256": "5980f197a975c3cc2fb99d825c1e94311d33ee3a4c6f92432d328451f69a4671"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/after-result.json",
+      "file": "raw/inner__after-result.json.gz",
+      "rawBytes": 75,
+      "rawSha256": "67298eeea7e1f213f4d174371a5e283bd28f26973ace4cee6d7b42b224768dd0",
+      "gzipBytes": 67,
+      "gzipSha256": "44bcd759d610018e307e8be0be386e2cddd78dc5bfc9dd2f5037586695956183"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/after-source.json",
+      "file": "raw/inner__after-source.json.gz",
+      "rawBytes": 507653,
+      "rawSha256": "7c13a335eb956f571c7f08d16b88eba91b53c6a21a7e2c5f56c1f0e7580fb4dd",
+      "gzipBytes": 135301,
+      "gzipSha256": "c4a0d3b3801b50d31e93b8e8af7f2630442a185927d348d41b00ca9694e98560"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/before-pixi.json",
+      "file": "raw/inner__before-pixi.json.gz",
+      "rawBytes": 7740,
+      "rawSha256": "307705fb6bcae074a47b46f36d04051c87e8445d486193d28cf1f90ff5a9d331",
+      "gzipBytes": 1770,
+      "gzipSha256": "5980f197a975c3cc2fb99d825c1e94311d33ee3a4c6f92432d328451f69a4671"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/before-result.json",
+      "file": "raw/inner__before-result.json.gz",
+      "rawBytes": 75,
+      "rawSha256": "67298eeea7e1f213f4d174371a5e283bd28f26973ace4cee6d7b42b224768dd0",
+      "gzipBytes": 67,
+      "gzipSha256": "44bcd759d610018e307e8be0be386e2cddd78dc5bfc9dd2f5037586695956183"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/before-source.json",
+      "file": "raw/inner__before-source.json.gz",
+      "rawBytes": 507653,
+      "rawSha256": "7c13a335eb956f571c7f08d16b88eba91b53c6a21a7e2c5f56c1f0e7580fb4dd",
+      "gzipBytes": 135301,
+      "gzipSha256": "c4a0d3b3801b50d31e93b8e8af7f2630442a185927d348d41b00ca9694e98560"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/build.command.json",
+      "file": "raw/inner__build.command.json.gz",
+      "rawBytes": 148,
+      "rawSha256": "01f9c300f8b66e0dba7b71e1491ab172c71a6b10252426e81cb12050a05009fe",
+      "gzipBytes": 142,
+      "gzipSha256": "6cf060e0260f0c518e07ce05cce4981b839567b455bc5ece19a12fe814cdc738"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/build.log",
+      "file": "raw/inner__build.log.gz",
+      "rawBytes": 1678,
+      "rawSha256": "c4632c7c10c649b8eac437071c7f1988e9a3b0a4f71b3529170abaaf25a54afb",
+      "gzipBytes": 851,
+      "gzipSha256": "5acec08a771824e27524a1e23d79d5831a3f1e40683975d622f127159b7e7490"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/build.result.json",
+      "file": "raw/inner__build.result.json.gz",
+      "rawBytes": 125,
+      "rawSha256": "b0be91778c2b217e548659b7840328ba3b6cafb8249f5de01d1e9c7bc0cdd3f2",
+      "gzipBytes": 129,
+      "gzipSha256": "ec9c72a2a16973f178a3be63e99d225806c082f03e83524966b182f6792c608f"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/bundle.command.json",
+      "file": "raw/inner__bundle.command.json.gz",
+      "rawBytes": 158,
+      "rawSha256": "d7ab1048701a2c43d1fd2dd9e251f4b399379d2510816afb4d9e5ca59fab4f2c",
+      "gzipBytes": 149,
+      "gzipSha256": "fbae905ea3260eef66077b8dd380ab43fb0fc189d0fef98a9d1c2ed95a083c1c"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/bundle.log",
+      "file": "raw/inner__bundle.log.gz",
+      "rawBytes": 1057,
+      "rawSha256": "8e234e9d2e3b4fc82f7f5dc3e4186cf80a414a06b2a708c0b3a86f9cb3fe1666",
+      "gzipBytes": 397,
+      "gzipSha256": "efaa331277f8ee08bc6b07b9ad72a3defb1aaf8ddca8a9160620c00aee574988"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/bundle.result.json",
+      "file": "raw/inner__bundle.result.json.gz",
+      "rawBytes": 128,
+      "rawSha256": "54e3d8c6cc4f765518d95a4966b878cfa1cbaffcdef1d07b3f8aabc2711f997e",
+      "gzipBytes": 132,
+      "gzipSha256": "602bf92e9785b3833c268cafbc454aab53500abc6dc1e5fde0f6118f36af098c"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/eslint.command.json",
+      "file": "raw/inner__eslint.command.json.gz",
+      "rawBytes": 154,
+      "rawSha256": "4c6dbe91e90e0d38331acee23b3921063f972181a9bce8e7d1cd030b9457b32c",
+      "gzipBytes": 149,
+      "gzipSha256": "e2a86fc849e0c6f2997e645fd44ea2e988f87fd3f4ba26287f7c7dede5de77d2"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/eslint.log",
+      "file": "raw/inner__eslint.log.gz",
+      "rawBytes": 674,
+      "rawSha256": "2ee6671669b535840800a8f90bb18fc543b0dd2e02871435e6715557c7fcb3b3",
+      "gzipBytes": 390,
+      "gzipSha256": "473be89ba225e113228f3797a83a853b7886415ce7502a3041d572540e02d10e"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/eslint.result.json",
+      "file": "raw/inner__eslint.result.json.gz",
+      "rawBytes": 127,
+      "rawSha256": "831d8884b6fe86088cfd91d19f4f7d36f9404e74b080f59686be72cf62b9f9b4",
+      "gzipBytes": 132,
+      "gzipSha256": "31975229c61f4d251e8b41017f6cbe0a735975c1b36c9f1a26a33206fc419d7f"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/focused.command.json",
+      "file": "raw/inner__focused.command.json.gz",
+      "rawBytes": 506,
+      "rawSha256": "7b12bba8376e3bdf5ee6546858ba48cb6425eba29a21de8eb00cb8c8d6f359b0",
+      "gzipBytes": 267,
+      "gzipSha256": "dfbbc9fdb61b689b12b33dd195028a3df14fd235ec9465ffbe0b64545c84826e"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/focused.log",
+      "file": "raw/inner__focused.log.gz",
+      "rawBytes": 3746,
+      "rawSha256": "138bbad1da4f24080931079bdcf22b73a54746b08c82d105ebff3967727c6cf8",
+      "gzipBytes": 1329,
+      "gzipSha256": "25ead3b7b19cbcdb71a7d1bc7d4c4bfd2aac6f8f0e17a1ad3dde304f27093376"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/focused.result.json",
+      "file": "raw/inner__focused.result.json.gz",
+      "rawBytes": 127,
+      "rawSha256": "ecbb2e644b68c2a5a8f2d16ee5d0482f84059c1e6b3283da6ce65500b4260c86",
+      "gzipBytes": 130,
+      "gzipSha256": "b7fba8792af2b70cd56b94312dafbf1a34f2753a53285c85f800b378b8ff58d1"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/format.command.json",
+      "file": "raw/inner__format.command.json.gz",
+      "rawBytes": 303,
+      "rawSha256": "82f994850ab6a28ee27c248575e47f55d8e6d26ffa546fcf75c5ddd38812c542",
+      "gzipBytes": 227,
+      "gzipSha256": "4ac5af652642e5b330c58648d46ff07a84e42250346e76a0d939b6121ca837fc"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/format.log",
+      "file": "raw/inner__format.log.gz",
+      "rawBytes": 66,
+      "rawSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "gzipBytes": 82,
+      "gzipSha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/format.result.json",
+      "file": "raw/inner__format.result.json.gz",
+      "rawBytes": 128,
+      "rawSha256": "7f1d63d4413a16528c0ad13d000546bebb713021cdc524e3b39a41be175388a7",
+      "gzipBytes": 133,
+      "gzipSha256": "32dece7e4fcdd3ca38b3c70dec2b183f7303a16e94c56f71a5123166716c77a4"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/inventory.command.json",
+      "file": "raw/inner__inventory.command.json.gz",
+      "rawBytes": 542,
+      "rawSha256": "1cf813da43ec65b09e3a6b33d19de67d6952e0a6ba2f513c5431053dcc0672bb",
+      "gzipBytes": 315,
+      "gzipSha256": "9c22325cac5d526908b405a1519121eadb7334cc209b27cbd296e99868b7f442"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/inventory.log",
+      "file": "raw/inner__inventory.log.gz",
+      "rawBytes": 188,
+      "rawSha256": "7f71183c70a95ce49c630eb53a6c4ad79cb122745c92859e35e6871faa2ffc55",
+      "gzipBytes": 163,
+      "gzipSha256": "7cf483eabe4715e7a5fc5004349e820fd32450076467d91970377083ba957646"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/inventory.result.json",
+      "file": "raw/inner__inventory.result.json.gz",
+      "rawBytes": 131,
+      "rawSha256": "8a99080b1e30ee8ad43a010ef29cc9ce8259b456568f4f42a2fa15553eebe26d",
+      "gzipBytes": 133,
+      "gzipSha256": "5759a2c115dd28a651c932f1db41c02d2a5d053b23c3b86bc31e462fc7875c74"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/source-inventory/manifest.json",
+      "file": "raw/inner__source-inventory__manifest.json.gz",
+      "rawBytes": 301043,
+      "rawSha256": "059918f42d4afee437aa4da9fe501f800f8b50587b41cf09bc979b7108404856",
+      "gzipBytes": 69935,
+      "gzipSha256": "51bfdf628b41af70063df66fd02c30129a1abf8b35967088373ac2104223d652"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/source-inventory/revision-commit.command.json",
+      "file": "raw/inner__source-inventory__revision-commit.command.json.gz",
+      "rawBytes": 161,
+      "rawSha256": "1a249721729982faaa768d925d46fb660d9d0f86a59986ffcc41f29d5b7fd06b",
+      "gzipBytes": 149,
+      "gzipSha256": "1af67ca9f799063301ad1b0b3e30c64002c697f44a98d2ee75140dff0730e00e"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/source-inventory/revision-commit.result.json",
+      "file": "raw/inner__source-inventory__revision-commit.result.json.gz",
+      "rawBytes": 15,
+      "rawSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe",
+      "gzipBytes": 35,
+      "gzipSha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/source-inventory/revision-commit.stderr",
+      "file": "raw/inner__source-inventory__revision-commit.stderr.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/source-inventory/revision-commit.stdout",
+      "file": "raw/inner__source-inventory__revision-commit.stdout.gz",
+      "rawBytes": 41,
+      "rawSha256": "cabe34b8686a86a0c5dc875dd3e27404e6bf68ea1cac539f4a3481c6233eb0c0",
+      "gzipBytes": 60,
+      "gzipSha256": "de86bc2ccd635c68aa72fc919f48f9d5c8607bcce0c5114ba1bfcc80319dae3c"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/source-inventory/revision-tree.command.json",
+      "file": "raw/inner__source-inventory__revision-tree.command.json.gz",
+      "rawBytes": 145,
+      "rawSha256": "f2001e325bcb97852fa2718a5810ac6929be3278346b4a607b62a6924adacb1a",
+      "gzipBytes": 139,
+      "gzipSha256": "f92b28ed199f453941c903d86895de0c844122a6e8f7afbef1f7d7a2e3aced52"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/source-inventory/revision-tree.result.json",
+      "file": "raw/inner__source-inventory__revision-tree.result.json.gz",
+      "rawBytes": 15,
+      "rawSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe",
+      "gzipBytes": 35,
+      "gzipSha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/source-inventory/revision-tree.stderr",
+      "file": "raw/inner__source-inventory__revision-tree.stderr.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/source-inventory/revision-tree.stdout",
+      "file": "raw/inner__source-inventory__revision-tree.stdout.gz",
+      "rawBytes": 1123275,
+      "rawSha256": "86cb02087bad1741f0a869bd68c30c9b1678c8d32901fccc8c777b10d31a47b2",
+      "gzipBytes": 231522,
+      "gzipSha256": "40d3ed07f0f01320a8ee468973c54a02bd3c8222173c2688d2721812f738bdf9"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/status.json",
+      "file": "raw/inner__status.json.gz",
+      "rawBytes": 1214,
+      "rawSha256": "49342e7d9122612b97ab1797065509ba3fe2a4c515ece8f51533431931189ab2",
+      "gzipBytes": 390,
+      "gzipSha256": "eab7e11ab5a16fff1a376220ced9cd59acd144e00028661e8b4376bcfd6a3cf4"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/typecheck.command.json",
+      "file": "raw/inner__typecheck.command.json.gz",
+      "rawBytes": 152,
+      "rawSha256": "ca1fc619e0178e40d76de63f3fbae7abb48f3b988a78acbe8ee95173b2a63313",
+      "gzipBytes": 145,
+      "gzipSha256": "739e12f61ab1f11994df40a0f63896d451b1edcb9239f539ccaa1600af070b5a"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/typecheck.log",
+      "file": "raw/inner__typecheck.log.gz",
+      "rawBytes": 84,
+      "rawSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a",
+      "gzipBytes": 87,
+      "gzipSha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-c1/typecheck.result.json",
+      "file": "raw/inner__typecheck.result.json.gz",
+      "rawBytes": 129,
+      "rawSha256": "f6b7d00226e08f8ba16eccaf7f45d54933312b4802b911a614042bb0113aff20",
+      "gzipBytes": 132,
+      "gzipSha256": "3a683dadf3b12bcc5a2cd7ed6e26b1f1ed0d65e16536fe1360888fa573123e92"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-outer-c1/command.json",
+      "file": "raw/outer__command.json.gz",
+      "rawBytes": 333,
+      "rawSha256": "1bc5fc0bc0c73cad697f647ef3512f42ccf013f85870ad696c6feb468d68b26a",
+      "gzipBytes": 232,
+      "gzipSha256": "599c2b9657deed44739b971cec4507f322bee62a90913de9cf78afc1d78f2462"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-outer-c1/process.json",
+      "file": "raw/outer__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "045cc54aebcc020497b0597879720935a0fc0a80ce906cc61547c308a48dbe4f",
+      "gzipBytes": 39,
+      "gzipSha256": "80cd5716f6be0feddf2f17742c948864706a6d654dd9b4704082d62c6bc2ecc1"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-outer-c1/result.json",
+      "file": "raw/outer__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "56bfeb7ec7d511319aabd2499d9a42d2ae34ce296e26cfb9cec088846fe5fb5c",
+      "gzipBytes": 89,
+      "gzipSha256": "db7a318ffe5df811cded4496861c67f56ade253d35c754dcad209ebfe40f58b4"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-ef75be6-outer-c1/stdout-stderr.log",
+      "file": "raw/outer__stdout-stderr.log.gz",
+      "rawBytes": 825,
+      "rawSha256": "84fdce44d3fccba08bd939bf3c6075ecebbe348723598e9ef7659b45a31dad11",
+      "gzipBytes": 291,
+      "gzipSha256": "d325218c8be7ec0bbd633ac25c4219dc9ad51001648a4ed2f6df0bd7728006cd"
+    },
+    {
+      "source": "/tmp/tenka-army-signal-integrated-run-c1.py",
+      "file": "raw/producer__runner.py.gz",
+      "rawBytes": 5849,
+      "rawSha256": "d4921c56cd3d8d485d624e3c14a3ccc7dedf4621e0eadfcc89f9602742ad18cc",
+      "gzipBytes": 2062,
+      "gzipSha256": "9a94ca01ba8cb2f17b4621eeef1da7a7c08f61d576a611b310f1f35bd0c78fa4"
+    },
+    {
+      "source": "/tmp/tenka-validation-capture-961f0ae.py",
+      "file": "raw/producer__outer-capture.py.gz",
+      "rawBytes": 1722,
+      "rawSha256": "888e8cf09de8e6cc4191194d69168974601d5397ffa4991ac3c981c8531f1710",
+      "gzipBytes": 904,
+      "gzipSha256": "3a492d9e511f6dd9d21d3e57f8834ba5f7586c73ff765feec7c3c6904c4758e1"
+    },
+    {
+      "source": "/Users/tigercosmos/tenka-fubu/docs/validation/2026-10-12/completion-audit/scoped-source-snapshot-79682cd/tenka-scoped-source-archive.py",
+      "file": "raw/producer__scoped-source-inventory.py.gz",
+      "rawBytes": 3348,
+      "rawSha256": "d7f1fd477c0583eff8237e13c34e7c77a594a8552ca6211a958536da2287ab1d",
+      "gzipBytes": 1434,
+      "gzipSha256": "b415c2a965cc5260bcb78e7a263f297404a7dbbb3f4c20cb8c7bd98c02635f70"
+    }
+  ]
+}

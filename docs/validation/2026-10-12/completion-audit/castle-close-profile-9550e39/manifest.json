@@ -1,0 +1,705 @@
+{
+  "items": [
+    {
+      "source": "local-capture/tenka-castle-clean-analysis-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-clean-analysis-transfer-955-c1__command.json.gz",
+      "rawBytes": 287,
+      "rawSha256": "b41cf9579022890eaf9206877a643dfe6ffac91667e6afcb4b6691665fb75585",
+      "gzipBytes": 192,
+      "gzipSha256": "ff9c632adb6809111f85298ffb6fce1d7bf24d902a64062af69a4e322023e33b"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-analysis-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-clean-analysis-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "d89b201976342c033504065be18287c420c5eaa0558b54f999559ea65f1e3d96",
+      "gzipBytes": 39,
+      "gzipSha256": "8d66f5e8f98f502239a4f3927fa7294d87fef3f5805795e0825f12f4773c8a77"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-analysis-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-clean-analysis-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "d43cd2b189f8809e352caf6aa57ae52ad53cc51431fcef0a164ee97886e2b4ff",
+      "gzipBytes": 89,
+      "gzipSha256": "ae9a415d11c9b144d81eb8424b3f77f1c21ed595b309fef88659b5b903434440"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-analysis-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-clean-analysis-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-parent-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-clean-parent-transfer-955-c1__command.json.gz",
+      "rawBytes": 301,
+      "rawSha256": "249151825e3892500147f27219f5836c687859250dbe12db9f324a6ad2088ed8",
+      "gzipBytes": 197,
+      "gzipSha256": "6cd568d692cf1757ab3a148f3e70e955d9c5a5eb19fb1212a181e6c4b6f8a8a6"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-parent-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-clean-parent-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "74df1e4468c3a937dfd051139e711459b012c9e6523819287fa58fead216e33d",
+      "gzipBytes": 39,
+      "gzipSha256": "1271e9882db874577c86e0f12574be48cd7fb9853b108be43161e56157ea6b8d"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-parent-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-clean-parent-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "806ed827661bdef036b326b6fadca81ce673c62493bca2dff6e48764bc3b2574",
+      "gzipBytes": 89,
+      "gzipSha256": "467de8ee4aa84d39cd792dbcfd025c1625e79e39361b0064de168a5b7744d9f1"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-parent-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-clean-parent-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c1__command.json.gz",
+      "rawBytes": 899,
+      "rawSha256": "7818b13d886aafc086fd681efe0f29b9ea9b0676c61eef1e4291aba18c9acad5",
+      "gzipBytes": 315,
+      "gzipSha256": "8f0b415fa71e34eca7892d59ec0500bfd425000045eca415d96587e6869f0cd2"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "87367ec4ae37372091f79bedde3f75b5aa86aef5b8271537f28d8ecd77b8e741",
+      "gzipBytes": 39,
+      "gzipSha256": "77940e371a33e5e26852458c57ad4cf33b1c303464c5cb35e1d32907909cc4d9"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "c9012e222ea74518e1372059be850447d62e2d1c5f28aa70c9ddec7bfd3a1e9e",
+      "gzipBytes": 89,
+      "gzipSha256": "512a9d9bda36f6e45c745bb04e038e1b14217fd314b9d1018a8624cdb014dbf6"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c2/command.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c2__command.json.gz",
+      "rawBytes": 834,
+      "rawSha256": "9758fc9e84b4e39d03da0f150307951e926b551036b12c0e5a2dd983b549f4ac",
+      "gzipBytes": 273,
+      "gzipSha256": "44e9d28013d973ebaa9afee40feeef3e088c474458aff9426607e1075bbf70da"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c2/process.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "bbb3436baf1d278f0926de6538027089532ca931ea9b41f8ca2ef7498eef42a2",
+      "gzipBytes": 39,
+      "gzipSha256": "4d0e1c8afd93ad40db4f63ffe7df53f3c01159d142b6d5f77699a5aacdddcb7b"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c2/result.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "7252b2634e1b6a3d40946df10080f8379e7a268cb98f2ef235e27cc58362d31c",
+      "gzipBytes": 89,
+      "gzipSha256": "0ed39524df7e179cd9452eaa105ab87d66f6c944d60d89e495a6eee9bf6acb46"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c2/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c2__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c3/command.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c3__command.json.gz",
+      "rawBytes": 423,
+      "rawSha256": "d5385b2166d7aa43b3c7beefa2944fa353f71f57db28e47769a7d85db0b7d015",
+      "gzipBytes": 231,
+      "gzipSha256": "f152a5bef160e3e8474c673014b65202546dd0716e8dc6725e44eff91c2f3802"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c3/process.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c3__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "2cb336bf608eaa1a9b12d43d5553b0e62f61ac44c7795cfbd39c55a3868cc92f",
+      "gzipBytes": 39,
+      "gzipSha256": "e53c294c4ade85452c5037278cc692ff576ce6a0761f5efe8d354ff129b28c64"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c3/result.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c3__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "26ba2598abc59f2ed85c6ec60487e67dbe6d711dd8a065393240a561726f2919",
+      "gzipBytes": 88,
+      "gzipSha256": "3d38b99b9894913257c657b6b08b5786ec4b892bb94bb5e6e0d60ccc7e0614e1"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c3/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c3__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c4/command.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c4__command.json.gz",
+      "rawBytes": 426,
+      "rawSha256": "ba225518a5c4ce7e37be2f13ebfc22e2bddadf6be10df856cddc1f6ed192c958",
+      "gzipBytes": 233,
+      "gzipSha256": "bbec3cf49e84b671c62041ea4bf32af33ae2ed8e3099fcc53ae976d087db2866"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c4/process.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c4__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "e9d3bedf4b5bcbbfe4ee3b37137d6d8763ec6f43008d861caff7343ff6c69266",
+      "gzipBytes": 39,
+      "gzipSha256": "bba503caf850a386ce1006e75dad91af143bcd51730d9d07a38e91ea25447b8d"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c4/result.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c4__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "fb5c9ff5a3b969e72ac54f5e12b5e48057d98039f6c8ae2167397c65c6cd9706",
+      "gzipBytes": 89,
+      "gzipSha256": "b30a62ebb1f4c3b70bf9ccc31c8f9de18a442b005daa13d9413a5a318d036f6d"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c4/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c4__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c5/command.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c5__command.json.gz",
+      "rawBytes": 530,
+      "rawSha256": "d7b978a50b43703e9067c0cbb1403cfe6d2c8e32def93753fedd1dd615d4b350",
+      "gzipBytes": 226,
+      "gzipSha256": "95325023feb924b9d4f524a59127901dbb0a653a3dc71064b88e977d09088861"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c5/process.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c5__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "3d6558eb67923163c7d6f4ef20582e1be7736aaf9aab5dc217dad44e93f206bf",
+      "gzipBytes": 39,
+      "gzipSha256": "8d06b222102c989bcec6c73f362a56d5d8fd1ceb714ee10e8a10b02db3efcdff"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c5/result.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c5__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "cbc49a288e4c3ceeffddf74f382c4e1ec641428a0749de4aa8e4d30e9d86ad6d",
+      "gzipBytes": 89,
+      "gzipSha256": "fc4020e89d320aec13ece5342094903b662cda4e4110a41f43e87424eb9d30f6"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-evidence-transfer-955-c5/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-clean-profile-evidence-transfer-955-c5__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-launcher-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-launcher-transfer-955-c1__command.json.gz",
+      "rawBytes": 273,
+      "rawSha256": "c3bb8babafe139740d76598d8026ddf14f2aac032a15a566828bec9aa79bc4b5",
+      "gzipBytes": 191,
+      "gzipSha256": "87c7cad3038364a9c99edb49d069c6825b2ffb7e674dfe6c8687d825c660b8be"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-launcher-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-launcher-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "69b212ed9bf6e2d93962bf093b5354a107ace7956514a01bcb8941ba77349cbf",
+      "gzipBytes": 39,
+      "gzipSha256": "c1defb2df526969aa9d57d9310dba34dee4256f1a694275306d49226b6069ace"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-launcher-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-launcher-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "203a5992261af28fc7963b9b4d42f563fd5fdcb069489d764398bbcae6efe56d",
+      "gzipBytes": 89,
+      "gzipSha256": "60e65620ccfeb0391b0ba0e79efe54d50256a2c10ca3544c8f38a1731b7922ab"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-launcher-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-clean-profile-launcher-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-transfer-955-c1__command.json.gz",
+      "rawBytes": 269,
+      "rawSha256": "9030bcfd24d822a75c8e0f8482c7fff946f37476fc7aa94e49f183ed4127c609",
+      "gzipBytes": 186,
+      "gzipSha256": "f3243cff59334056f544b42918b7b39522589c05f5f162ce2c5a4624cec407cc"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "279857b47a6a0a066b9186559061ac1c599d7c8cf282749f80da0488c6f25630",
+      "gzipBytes": 39,
+      "gzipSha256": "89cdecdfcc0c164f36bcb13deacc2764d99fc92e7a3fb7e7a5b7c1c2916ac387"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-castle-clean-profile-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "ef4b1f545dec29ac579e8e7bd37765dca7428faf31a68381ac6fc22388245563",
+      "gzipBytes": 89,
+      "gzipSha256": "3c5561a2b757054c42bd0b45f7d3c33ff2befef7a11ebcc6eb1db385156a811d"
+    },
+    {
+      "source": "local-capture/tenka-castle-clean-profile-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-castle-clean-profile-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "producer/tenka-castle-clean-launcher-955.sh",
+      "file": "raw/producer__tenka-castle-clean-launcher-955.sh.gz",
+      "rawBytes": 1128,
+      "rawSha256": "de2f6420d7f14469e03488f49d9343e1793cf00a11591acb501ec11f0ab165cc",
+      "gzipBytes": 558,
+      "gzipSha256": "20b6eed9380c7580cd29b0be915002d0ceb2fd8bd67cf2aac7ddd9b3fd5fb455"
+    },
+    {
+      "source": "producer/tenka-castle-clean-profile-955.mjs",
+      "file": "raw/producer__tenka-castle-clean-profile-955.mjs.gz",
+      "rawBytes": 5845,
+      "rawSha256": "9601a96f47d6bc59191d8134a8e124b5198a71c6792baa189a5e4bfd740e88db",
+      "gzipBytes": 2066,
+      "gzipSha256": "20597ed07306508e2b05ca14256a0eafa304d871b8312b6cc33a8cedab32dd39"
+    },
+    {
+      "source": "producer/tenka-castle-clean-profile-analysis-955.mjs",
+      "file": "raw/producer__tenka-castle-clean-profile-analysis-955.mjs.gz",
+      "rawBytes": 3636,
+      "rawSha256": "e4121df9873230a1ca656845e6dfd7171fad1a7dff2738f89fc9459dbf3a2ad8",
+      "gzipBytes": 1556,
+      "gzipSha256": "767d9e68a68fc917835fce2cb0db85fd62590aa95174c33073a77eca7c08bf1e"
+    },
+    {
+      "source": "producer/tenka-castle-clean-profile-parent-analysis-955.mjs",
+      "file": "raw/producer__tenka-castle-clean-profile-parent-analysis-955.mjs.gz",
+      "rawBytes": 4796,
+      "rawSha256": "0f1fa48dd436b73be4a3d5f765462e4b692963969f5e345f0d59063c732fb056",
+      "gzipBytes": 1947,
+      "gzipSha256": "33a0e672708d315b014359b3b7b3895db61bdb4d4605d96dd14b2bf49ac54096"
+    },
+    {
+      "source": "producer/tenka-castle-profile-launcher-955.sh",
+      "file": "raw/producer__tenka-castle-profile-launcher-955.sh.gz",
+      "rawBytes": 654,
+      "rawSha256": "b46bb30d107d8d9ce3a0b236c1401a4d6e77706e7eb78071a86331b552901cf7",
+      "gzipBytes": 386,
+      "gzipSha256": "aa35944ded533d5c583deab96b735fc64ec01bdadc48b2937647fa6b955dac84"
+    },
+    {
+      "source": "remote-copy/original/command.json",
+      "file": "raw/remote-copy__original__command.json.gz",
+      "rawBytes": 531,
+      "rawSha256": "b44d0a323b5fbdaa56b9933db1e6938d180f7ced542ae8dba27b9cc9bade3093",
+      "gzipBytes": 324,
+      "gzipSha256": "f0fb914b786e3bfd6b65e7ff37b3ecd5fc043a95d8bc7eb8e544e49eb7026b56"
+    },
+    {
+      "source": "remote-copy/original/error-context.md",
+      "file": "raw/remote-copy__original__error-context.md.gz",
+      "rawBytes": 8979,
+      "rawSha256": "dd4842c17d8906e954c5ecc8bf5334267eaa15a3649a95c59f91d4021ebf316f",
+      "gzipBytes": 3079,
+      "gzipSha256": "268781dba738c1b6fb74cb229fe274c438d013d2b36189645a03ffea05e42cbf"
+    },
+    {
+      "source": "remote-copy/original/national-close-frames.json",
+      "file": "raw/remote-copy__original__national-close-frames.json.gz",
+      "rawBytes": 130933,
+      "rawSha256": "18cd75f87bf3355b7aff6ea8bd84940fc3864eeb30faaedddfe0299a21a55394",
+      "gzipBytes": 8506,
+      "gzipSha256": "3fe7ef19cf2fc4ad5bddf7a6b91c1afe30cf928815e87404e0663f1538c3d8ec"
+    },
+    {
+      "source": "remote-copy/original/process.json",
+      "file": "raw/remote-copy__original__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "ba2e93b8be92a2ce8ca704d78c0d12e64523d55789b60ee58010bd268899c96f",
+      "gzipBytes": 41,
+      "gzipSha256": "6a58cc62a6f220fd76bdc63f24dca9b4f14ad8fd736d26d8784022db9fc249c9"
+    },
+    {
+      "source": "remote-copy/original/report.json",
+      "file": "raw/remote-copy__original__report.json.gz",
+      "rawBytes": 2470519,
+      "rawSha256": "dca7b0f25c19f37eb468c493fe0ca7b2b001df85aad4adf34434c7d8350580a2",
+      "gzipBytes": 1865021,
+      "gzipSha256": "bb5ac7889949d98737cb42e4e1369e8b38fe761898d10ca22b86346ea7cf883d"
+    },
+    {
+      "source": "remote-copy/original/result.json",
+      "file": "raw/remote-copy__original__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "c8639cf8c69631321fbaa69fe86c86aeb822690f776d32a59aa5b8daf9c323a8",
+      "gzipBytes": 89,
+      "gzipSha256": "aa8fc5ff9d3c60e7e45477834f4e802782ca530d4ea4ea3bc99412d039a0a9bc"
+    },
+    {
+      "source": "remote-copy/original/stdout-stderr.log",
+      "file": "raw/remote-copy__original__stdout-stderr.log.gz",
+      "rawBytes": 3066,
+      "rawSha256": "2d01bdb22064829dc9071c75f1fa016b3f76f134b3a655721a1e23f5e15ec4b1",
+      "gzipBytes": 700,
+      "gzipSha256": "16ffcf7e4853ef201654f83548e4652634e4af6481ac4f3a91b20c3aefdfee1e"
+    },
+    {
+      "source": "remote-copy/profile/close.cpuprofile",
+      "file": "raw/remote-copy__profile__close.cpuprofile.gz",
+      "rawBytes": 361549,
+      "rawSha256": "d415f87fef4ad3b29099ce39cf07d772302fe022a69a1d221cdccea71ac29e5a",
+      "gzipBytes": 38668,
+      "gzipSha256": "31d02d1298b88a3af2d30926a5fc0ceea4666bf70c141b657ccf8006e199149c"
+    },
+    {
+      "source": "remote-copy/profile/command.json",
+      "file": "raw/remote-copy__profile__command.json.gz",
+      "rawBytes": 308,
+      "rawSha256": "bd5227e09f833c165cf6d980405583eefa2b607c36bdb589d385f3acdadd4bdc",
+      "gzipBytes": 198,
+      "gzipSha256": "ec3356612bbb99bb9bd992661be11b71d72ccf8a133a09fcc8499d10efb3f24d"
+    },
+    {
+      "source": "remote-copy/profile/preview.stdout-stderr.log",
+      "file": "raw/remote-copy__profile__preview.stdout-stderr.log.gz",
+      "rawBytes": 77,
+      "rawSha256": "ae24f783560c59deed04caeff90ef3b84a3c0d3a50ca749550cfeeed2c58dd88",
+      "gzipBytes": 83,
+      "gzipSha256": "26f5399dcd9c782a09d4c0582be22c07d7fd22563ba84c164d2e9279f70953e3"
+    },
+    {
+      "source": "remote-copy/profile/process.json",
+      "file": "raw/remote-copy__profile__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "1f3a5187bb3bdb4d37439f223170cf3b25131e6830057e53e2601bc5397c382a",
+      "gzipBytes": 41,
+      "gzipSha256": "fea1a868a54e720c95080077f4acd54a6d9197aa427e808460e84a95d3a59d4b"
+    },
+    {
+      "source": "remote-copy/profile/result.json",
+      "file": "raw/remote-copy__profile__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "76edb6d4a2cef578a7e71da7ba5d5b2371e67d81156992f38ef189d593d5fcf4",
+      "gzipBytes": 89,
+      "gzipSha256": "b53732007f8fb0594bc395c271370e657bdab1c2cdf168a10bec166d56338b22"
+    },
+    {
+      "source": "remote-copy/profile/source-attribution.json",
+      "file": "raw/remote-copy__profile__source-attribution.json.gz",
+      "rawBytes": 517539,
+      "rawSha256": "42acb5fa7f370a584f11f9503bbb868ba9521de0e45a5fb9822c078245998d93",
+      "gzipBytes": 33047,
+      "gzipSha256": "d335028b18dcb3b8017a0ba199f9a3bda60a1354db1af310988cea426351cb88"
+    },
+    {
+      "source": "remote-copy/profile/source-parent-attribution.json",
+      "file": "raw/remote-copy__profile__source-parent-attribution.json.gz",
+      "rawBytes": 525528,
+      "rawSha256": "4296cc61c8aae010c30acc82712e0ca71ea4be781a071d341e4fec48ca95911b",
+      "gzipBytes": 34170,
+      "gzipSha256": "ff91ecf18cd475b4ed6109a27d246fede0c8a89ee124feb05e27d233acb425c8"
+    },
+    {
+      "source": "remote-copy/profile/stdout-stderr.log",
+      "file": "raw/remote-copy__profile__stdout-stderr.log.gz",
+      "rawBytes": 108,
+      "rawSha256": "c704ae9fdc324071f49a1c281ad2d8a9437024042933466ce630499f28457364",
+      "gzipBytes": 101,
+      "gzipSha256": "d191d2f2bf4b52aeb75650fa33b12284339a70947503f40b9d65e6e8731e4d55"
+    },
+    {
+      "source": "remote-copy/profile/summary.json",
+      "file": "raw/remote-copy__profile__summary.json.gz",
+      "rawBytes": 119640,
+      "rawSha256": "252f974da88c3f6f9e807325f2e99aa7363f83143e688309c4c2d5ab01cae3b5",
+      "gzipBytes": 7608,
+      "gzipSha256": "6d20fd054cb8fad621efccd68058d21ac08602994bebcbeadefa3aa69e86c554"
+    },
+    {
+      "source": "remote-copy/sourceproof/after/command.json",
+      "file": "raw/remote-copy__sourceproof__after__command.json.gz",
+      "rawBytes": 317,
+      "rawSha256": "101820872f5a7895f67b313f7113d2b31119acf67ce1a9d55af27f2ba184ec13",
+      "gzipBytes": 202,
+      "gzipSha256": "a6706791732ad1ac3de9da7bb0de52701e1bd7c79d0c563ca79f7ccb584db586"
+    },
+    {
+      "source": "remote-copy/sourceproof/after/result.json",
+      "file": "raw/remote-copy__sourceproof__after__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "592f49985b85a65f1ad30668da0c7c5eebef09a09ac04c7c5d6c3aab6ed23020",
+      "gzipBytes": 88,
+      "gzipSha256": "4b9a49b007b4e625f3d9e1bb070371c456e0afd493cda80442e5dec10e2d27ee"
+    },
+    {
+      "source": "remote-copy/sourceproof/after/stdout-stderr.log",
+      "file": "raw/remote-copy__sourceproof__after__stdout-stderr.log.gz",
+      "rawBytes": 5082,
+      "rawSha256": "74b78577fff9093cc3103cc18b8e141561e542247f775097df079fec813ebee2",
+      "gzipBytes": 1723,
+      "gzipSha256": "2ec944bb7c14a5c0cde346e994a4f46be48a35d2806d1373d3d36a6e83331863"
+    },
+    {
+      "source": "remote-copy/sourceproof/before/command.json",
+      "file": "raw/remote-copy__sourceproof__before__command.json.gz",
+      "rawBytes": 317,
+      "rawSha256": "aaf723e30e7c0d39d6a15114d27bd7016f87dea97d040cbb149042228a20d153",
+      "gzipBytes": 204,
+      "gzipSha256": "7c8f57316e55395e1bd30d7d434cd6d49718ad4f6f5ed7050ef7942181ee4151"
+    },
+    {
+      "source": "remote-copy/sourceproof/before/result.json",
+      "file": "raw/remote-copy__sourceproof__before__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "64185583c3d80a2b113e651224e18a512d9b2b72d86db66951703d8243ea1cd0",
+      "gzipBytes": 89,
+      "gzipSha256": "5f3b143a5c9277121ac3637f612ce1ebc1382e6081bc0d516e7eb7fa3801f45f"
+    },
+    {
+      "source": "remote-copy/sourceproof/before/stdout-stderr.log",
+      "file": "raw/remote-copy__sourceproof__before__stdout-stderr.log.gz",
+      "rawBytes": 5082,
+      "rawSha256": "74b78577fff9093cc3103cc18b8e141561e542247f775097df079fec813ebee2",
+      "gzipBytes": 1723,
+      "gzipSha256": "2ec944bb7c14a5c0cde346e994a4f46be48a35d2806d1373d3d36a6e83331863"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-build-955-c1/command.json",
+      "file": "raw/remote-copy__tenka-castle-clean-build-955-c1__command.json.gz",
+      "rawBytes": 169,
+      "rawSha256": "da705f643dba07ba06ba268981c60c2b619a54072e0ad97aef98e1f79ee8ee2e",
+      "gzipBytes": 153,
+      "gzipSha256": "aeca362ab0124065571c2e65ba55d2574ffed1ea1a25777c4060e6db3fd40eb0"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-build-955-c1/process.json",
+      "file": "raw/remote-copy__tenka-castle-clean-build-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "b6d0b0d80fa113cfb5fe71fac51b40b90e344ef9208419c4e0f9a2591215d9b6",
+      "gzipBytes": 41,
+      "gzipSha256": "84b45ca3e66e203abd04a5f05cdcfef57b2c7572913ee8a9b30a4ac13f3cca37"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-build-955-c1/result.json",
+      "file": "raw/remote-copy__tenka-castle-clean-build-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "958b966c0b9cee77215c9efa9d638cd33f3ce288a2ab3e27fcd1f1d89217f1ea",
+      "gzipBytes": 89,
+      "gzipSha256": "74dafdf4c388e3854a3d760d3d80234a20433e65c96a069b455892a91e0614a5"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-build-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__tenka-castle-clean-build-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 1678,
+      "rawSha256": "c8b4df5aca74dd4411911ab3d076431d2851a705d58b448d1f34a08d04b6510b",
+      "gzipBytes": 848,
+      "gzipSha256": "bdb1e44b313588576ffcc481415ede91acd8ef712c8897da835e1004f916134b"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-list-955-c1/command.json",
+      "file": "raw/remote-copy__tenka-castle-clean-list-955-c1__command.json.gz",
+      "rawBytes": 465,
+      "rawSha256": "03660b512cac2aa168fa013ada9110681d1b0ac15aa25e2895a7d963b070e7de",
+      "gzipBytes": 274,
+      "gzipSha256": "f2b25232bedf8a838224d6c2d492df75ff3d634a3eb23b1ed47c45babd00b390"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-list-955-c1/process.json",
+      "file": "raw/remote-copy__tenka-castle-clean-list-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "f49a5ef1c4f00aef74771e5c0bb95d860e7dbd289cbec351884af837eca93028",
+      "gzipBytes": 41,
+      "gzipSha256": "707805653b6a6f33cfcb4ebe585f7962c6e5cd8c4152e9bb5e4d9b962c55ed4b"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-list-955-c1/result.json",
+      "file": "raw/remote-copy__tenka-castle-clean-list-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "578c1146f6946e124db10ec52e0e41ce8d67e25c32fd1479985524f27011aa4b",
+      "gzipBytes": 89,
+      "gzipSha256": "f27b08aa8e38eafff50109ff7d394c27f0d753d443e97859123b5603d25b2fb3"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-list-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__tenka-castle-clean-list-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 430,
+      "rawSha256": "4452a4048f3de18042d200615f0199f5e8bae5c659cc4841da5ab08ceb0a485c",
+      "gzipBytes": 260,
+      "gzipSha256": "718ca89dd8ad4583b0b0b30e3492bb2bf7317535ce650570a2625b197d7468bf"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-list-955-c2/command.json",
+      "file": "raw/remote-copy__tenka-castle-clean-list-955-c2__command.json.gz",
+      "rawBytes": 536,
+      "rawSha256": "85294204a07f916f943ae7efcf95cede650ace3b1170cc19f891855d9f663aec",
+      "gzipBytes": 299,
+      "gzipSha256": "6a2093214dfdaf205507b5165f923316ed897e3e9a06c1671755ba247bb4556c"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-list-955-c2/process.json",
+      "file": "raw/remote-copy__tenka-castle-clean-list-955-c2__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "a5dc0e40422144b4aba92d1d5ea3e0093021b5b5e017f1722d5ac12934768a6c",
+      "gzipBytes": 41,
+      "gzipSha256": "ccd2cb737d7358c81ba458a2a78b51e7f0f62fee6702dadafa5e6346fe03a8c1"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-list-955-c2/result.json",
+      "file": "raw/remote-copy__tenka-castle-clean-list-955-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "c8408d2420a825c243d4dec51054d8b2dbe7e508e2a01c09a7b1c3f0feec05b8",
+      "gzipBytes": 88,
+      "gzipSha256": "998f24da83527dcf280ec26221470fdb59845aebe331a55d2f897a4fd15d0586"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-list-955-c2/stdout-stderr.log",
+      "file": "raw/remote-copy__tenka-castle-clean-list-955-c2__stdout-stderr.log.gz",
+      "rawBytes": 1226,
+      "rawSha256": "a9a593af2b881c1fa43b529b002cbfcd2219ca85b1ec12798f65a8efd8fd523d",
+      "gzipBytes": 295,
+      "gzipSha256": "44ad060b185fe5488b649d01223cf35aa68ec3574c21a5f9a6d59c1e07a5005c"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-list-955-c3/command.json",
+      "file": "raw/remote-copy__tenka-castle-clean-list-955-c3__command.json.gz",
+      "rawBytes": 421,
+      "rawSha256": "a31e5625da2c3981dc517caaa8b747eb258acb175081fd2e8403bcab17104d3a",
+      "gzipBytes": 276,
+      "gzipSha256": "8e561ae144e0405c9a50310fd954d9f078e5ca9746ae9d769cc4dccb6d023aff"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-list-955-c3/process.json",
+      "file": "raw/remote-copy__tenka-castle-clean-list-955-c3__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "0781d9dfc2f6823699f7f5819ae7a35aae2b3811666f4434730357eb6ad96596",
+      "gzipBytes": 41,
+      "gzipSha256": "798ce5fd91ed1b5424844c631f19a98eb7206d8395db8a1f613d4c2034d4c4ee"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-list-955-c3/result.json",
+      "file": "raw/remote-copy__tenka-castle-clean-list-955-c3__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "a41b06d9c31ba9bd21230cdd457715f7f32b22a53bb71cc7b4535f3b5e35e16b",
+      "gzipBytes": 88,
+      "gzipSha256": "6ca94bf06a27f4c3c20717018f4a844307037690d718a7b67b6204f56addcc1a"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-list-955-c3/stdout-stderr.log",
+      "file": "raw/remote-copy__tenka-castle-clean-list-955-c3__stdout-stderr.log.gz",
+      "rawBytes": 230,
+      "rawSha256": "a9b7d03a36cbbbf0738316abfdf00047e5a480281045611bcc1dc901bc70354d",
+      "gzipBytes": 185,
+      "gzipSha256": "9f28817e67b05dcb395706704c63250878c67d98c8ce047a02d5d7e2eaa44099"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-profile-analysis-955-c1/command.json",
+      "file": "raw/remote-copy__tenka-castle-clean-profile-analysis-955-c1__command.json.gz",
+      "rawBytes": 271,
+      "rawSha256": "0c35f7899c7dc31796c4dd8a4c9c951ef724284eb3a9c56a8f96ba8d6acd9232",
+      "gzipBytes": 198,
+      "gzipSha256": "5d24ca1390fb9e79cad7da8cc8ad9ce9b7626a6f05794d0b9fc58c6f5b93f52f"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-profile-analysis-955-c1/process.json",
+      "file": "raw/remote-copy__tenka-castle-clean-profile-analysis-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "c62d7392335d77e366a78ef9d624588b414c1744578fbce05772ed3056cc6fa7",
+      "gzipBytes": 41,
+      "gzipSha256": "c06f6cefddf15b779c85da0e68a3e99c7ba1c220cddd434a6d164afe40ced91d"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-profile-analysis-955-c1/result.json",
+      "file": "raw/remote-copy__tenka-castle-clean-profile-analysis-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "039398d435b309cba315466bb007d0ca0f0f11ecdd3453f7b42699198fd4e21f",
+      "gzipBytes": 89,
+      "gzipSha256": "d271914b63fee6f39e36dc3df04944d235d7610d2cb504b1965f0f254df25199"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-profile-analysis-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__tenka-castle-clean-profile-analysis-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 4064,
+      "rawSha256": "6a144f59d11f336ad510da9561882e5d2409959128107129845ba9f2b8b71710",
+      "gzipBytes": 773,
+      "gzipSha256": "2e92ea377cdd35aa444b3d4d1db1ad69ae30bac45cbc0b0a543d73bfff85c509"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-profile-parent-analysis-955-c1/command.json",
+      "file": "raw/remote-copy__tenka-castle-clean-profile-parent-analysis-955-c1__command.json.gz",
+      "rawBytes": 278,
+      "rawSha256": "25d5dee8f3832f6460b8d14811cc9d48f7b3f8571aa88b9fe664e1c8de9ad2f2",
+      "gzipBytes": 205,
+      "gzipSha256": "fe55545911a823306ae3debb2681930cace36ab2f02248e93d129d8dddebbab6"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-profile-parent-analysis-955-c1/process.json",
+      "file": "raw/remote-copy__tenka-castle-clean-profile-parent-analysis-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "6b1933118669c114ff4c96061e2c5f0be70288a505bff99f417b4db2d73dbaab",
+      "gzipBytes": 41,
+      "gzipSha256": "c79a894bf2bd00ed7d2b9533c5557d1a7ba0a1d186b976b39268e363f7954b0c"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-profile-parent-analysis-955-c1/result.json",
+      "file": "raw/remote-copy__tenka-castle-clean-profile-parent-analysis-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "165792ca7db97ae806a4a3b22fcd60e04d47578f677aeef5d9624b2de4611611",
+      "gzipBytes": 89,
+      "gzipSha256": "db3371a05d68731684a8f67adc86796b75e3f28756b75561128908ff7bbe308b"
+    },
+    {
+      "source": "remote-copy/tenka-castle-clean-profile-parent-analysis-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__tenka-castle-clean-profile-parent-analysis-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 4064,
+      "rawSha256": "6a144f59d11f336ad510da9561882e5d2409959128107129845ba9f2b8b71710",
+      "gzipBytes": 773,
+      "gzipSha256": "2e92ea377cdd35aa444b3d4d1db1ad69ae30bac45cbc0b0a543d73bfff85c509"
+    }
+  ],
+  "remoteTrace": {
+    "path": "/tmp/tenka-castle-clean-original-close-955-c1/browser-results/national120-map-perf-natio-9df1b-d-actual-postrender-cadence-chromium/trace.zip",
+    "bytes": 69333042,
+    "sha256": "6481796e2a62a30f2e61dc24dbbfd6ffc783e90a495356cbe334ad61ab189236"
+  }
+}

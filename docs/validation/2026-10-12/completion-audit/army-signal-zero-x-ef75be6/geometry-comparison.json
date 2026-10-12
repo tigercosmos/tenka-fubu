@@ -1,0 +1,100 @@
+{
+  "baselineBytes": 15575980,
+  "candidateBytes": 15575980,
+  "sha256": "aa64ea9e54228fe8bfb3703539543a36e4ff5af71da9b600754de13e37e796c3",
+  "exactBytesEqual": true,
+  "views": [
+    {
+      "day": 0,
+      "camera": "overview",
+      "sha256": "7a476d98491da88f81f6d31dad284fe64c4489cb95d2b356994af20a02cc1611",
+      "signals": 120,
+      "visibleSignals": 83,
+      "canonicalSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "commandsSha256": "f3b7b0cd24f5dea3cada3d8c5c8229de0d437d7057c74763197664c2759ea908"
+    },
+    {
+      "day": 0,
+      "camera": "operational",
+      "sha256": "698607d99ef4b54687d0796d80bcc4a5615a8fa8282905df7e320c44c18ff3d8",
+      "signals": 120,
+      "visibleSignals": 79,
+      "canonicalSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "commandsSha256": "f3b7b0cd24f5dea3cada3d8c5c8229de0d437d7057c74763197664c2759ea908"
+    },
+    {
+      "day": 0,
+      "camera": "close",
+      "sha256": "29c0166605c7bffae3c81bf8051d372622b2dea70dfc3c82bb06ad16a6a45f3e",
+      "signals": 120,
+      "visibleSignals": 56,
+      "canonicalSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "commandsSha256": "f3b7b0cd24f5dea3cada3d8c5c8229de0d437d7057c74763197664c2759ea908"
+    },
+    {
+      "day": 1,
+      "camera": "overview",
+      "sha256": "349980a585b2c649f70061eb5de1bf41b17138c135241c156edebd43b5e0c0cf",
+      "signals": 120,
+      "visibleSignals": 120,
+      "canonicalSha256": "811d0a4bf0a837fe6835ebffefbd90490c970e8f78588a697ddcec4c76fef8ee",
+      "commandsSha256": "08c360c63c6bbd0bb7879c2d054725577c868aa06ec3ac4b88e21f74161f7319"
+    },
+    {
+      "day": 1,
+      "camera": "operational",
+      "sha256": "b93d0129f741687b9591696aa9444c964472a7f4e9cbf78fa6b68f83bd2c3ce7",
+      "signals": 120,
+      "visibleSignals": 113,
+      "canonicalSha256": "811d0a4bf0a837fe6835ebffefbd90490c970e8f78588a697ddcec4c76fef8ee",
+      "commandsSha256": "08c360c63c6bbd0bb7879c2d054725577c868aa06ec3ac4b88e21f74161f7319"
+    },
+    {
+      "day": 1,
+      "camera": "close",
+      "sha256": "ca566d9b4116c60e81798853f10195c0b9bb107bd58f08e35e74134893b03694",
+      "signals": 120,
+      "visibleSignals": 79,
+      "canonicalSha256": "811d0a4bf0a837fe6835ebffefbd90490c970e8f78588a697ddcec4c76fef8ee",
+      "commandsSha256": "08c360c63c6bbd0bb7879c2d054725577c868aa06ec3ac4b88e21f74161f7319"
+    },
+    {
+      "day": 2,
+      "camera": "overview",
+      "sha256": "3a16e09e96555b9085d591a3abee5f29728398046ec09d5bf8fb59fbbff65d1a",
+      "signals": 120,
+      "visibleSignals": 93,
+      "canonicalSha256": "ec30f82c1f27f20aca3c81b2925ea936c769e092b3edfe4e0adbcbd7727a61bd",
+      "commandsSha256": "3543a9b074dfa93eea36bd578dcd36911767a4007ba95b6af346b70bad96250b"
+    },
+    {
+      "day": 2,
+      "camera": "operational",
+      "sha256": "8c27f624a4e334c18246d2461b72b23a73059df443a990adc3613810cb6b9796",
+      "signals": 120,
+      "visibleSignals": 89,
+      "canonicalSha256": "ec30f82c1f27f20aca3c81b2925ea936c769e092b3edfe4e0adbcbd7727a61bd",
+      "commandsSha256": "3543a9b074dfa93eea36bd578dcd36911767a4007ba95b6af346b70bad96250b"
+    },
+    {
+      "day": 2,
+      "camera": "close",
+      "sha256": "9163e1498346d223e0cea0a3a6cc58bbcde7ef5c6bd63768a13704e809122043",
+      "signals": 120,
+      "visibleSignals": 61,
+      "canonicalSha256": "ec30f82c1f27f20aca3c81b2925ea936c769e092b3edfe4e0adbcbd7727a61bd",
+      "commandsSha256": "3543a9b074dfa93eea36bd578dcd36911767a4007ba95b6af346b70bad96250b"
+    }
+  ],
+  "gpu": {
+    "lost": false,
+    "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)"
+  },
+  "excluded": [
+    "armyPlateLayout.runs",
+    "geographicLabelLayout.runs",
+    "geographicLabelLayout.placementCache",
+    "castleRibbonLayout.runs"
+  ],
+  "driverTicks": 2
+}

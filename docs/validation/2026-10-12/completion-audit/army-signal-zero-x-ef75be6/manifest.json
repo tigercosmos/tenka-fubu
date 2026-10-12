@@ -1,0 +1,1948 @@
+{
+  "sourceBase": "9550e397568ff448689bc5904ec0651b04bfe717",
+  "adoptedCommit": "ef75be660e0a142da9c6130ac04ffefc9820e7fb",
+  "items": [
+    {
+      "source": "committed-source/src/ui/map/armySignalLayout.ts",
+      "file": "raw/committed-source__src__ui__map__armySignalLayout.ts.gz",
+      "rawBytes": 6986,
+      "rawSha256": "6271e113276b0891a196848464ad82aad87c760fe7f0b213c0f32e9ae160c4c0",
+      "gzipBytes": 2299,
+      "gzipSha256": "87a57f0b1d36d051ea471e3e139d7174a335219d0ab4e1aeb11d49edb3cc35b1"
+    },
+    {
+      "source": "committed-source/tests/ui/armySignalOverlapFastPath.spec.ts",
+      "file": "raw/committed-source__tests__ui__armySignalOverlapFastPath.spec.ts.gz",
+      "rawBytes": 5744,
+      "rawSha256": "a705f25a5fde063f201bbca5cc02326bf161d69ec61dea56a18b85d80bcd03fa",
+      "gzipBytes": 1709,
+      "gzipSha256": "063ba0b80508fc63df317aa68dd67f742ba04de3bc39c2bc4650e4e9e2a6f318"
+    },
+    {
+      "source": "committed-source/tests/ui/fixtures/armySignalLayoutOriginal.ts",
+      "file": "raw/committed-source__tests__ui__fixtures__armySignalLayoutOriginal.ts.gz",
+      "rawBytes": 6217,
+      "rawSha256": "c59493b51277a580d2ba75818a37d24cd5c04dc65c206be63f43abf1ec79295b",
+      "gzipBytes": 2070,
+      "gzipSha256": "7e3869542c9c183d14685bf6363f0d95261acd67607f9ba4873e0d486f688db1"
+    },
+    {
+      "source": "local-capture/tenka-signal-candidate-overlay-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-candidate-overlay-transfer-955-c1__command.json.gz",
+      "rawBytes": 260,
+      "rawSha256": "2fbd07056cdff940fc1da01a66e72e58923907748ec3fc383876ada6a11bd687",
+      "gzipBytes": 197,
+      "gzipSha256": "64ed74c5a27d9cf6b0186a61f07e9d18ec790d3de9cf14a1e0028abfabd021f7"
+    },
+    {
+      "source": "local-capture/tenka-signal-candidate-overlay-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-candidate-overlay-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "3e8fae6ad6c6dab248dbc9e27deb4eb06115c34ae96842b8e10cc48a9aa4bc66",
+      "gzipBytes": 39,
+      "gzipSha256": "59cdaf6d3d8c40c2a7cbda38a7025df617428d182e86fb2d90860c85ac05c472"
+    },
+    {
+      "source": "local-capture/tenka-signal-candidate-overlay-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-candidate-overlay-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "1ec527fca4914c5b2b21551f15292b46c7ac5627ce10abc5589bfcedbd527639",
+      "gzipBytes": 89,
+      "gzipSha256": "a54f8c25c770106e4f82ff86f4e5718bb48a39107e1f0b9ade98e3e20e6b5fd0"
+    },
+    {
+      "source": "local-capture/tenka-signal-candidate-overlay-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-candidate-overlay-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-candidate-overlaymanifest-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-candidate-overlaymanifest-transfer-955-c1__command.json.gz",
+      "rawBytes": 249,
+      "rawSha256": "5167b299eb7645a49b45149ebe556e4c4ecc936b7208f76dcdf657bf10b6439e",
+      "gzipBytes": 191,
+      "gzipSha256": "03a3b2d84d085fc8b8424dec4d80438eba017ff9c639780baf9cc4140671f341"
+    },
+    {
+      "source": "local-capture/tenka-signal-candidate-overlaymanifest-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-candidate-overlaymanifest-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "343fcd9d22e153ae68ea8155dedf60dd71de4176aa7b276b55b4db3ebbdfee25",
+      "gzipBytes": 39,
+      "gzipSha256": "bdeb5e147242ec3dfe31916dd14ebb00053a63405892b8db45bbd7e0a13aa0d1"
+    },
+    {
+      "source": "local-capture/tenka-signal-candidate-overlaymanifest-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-candidate-overlaymanifest-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "bba054dbc4eb055ed4a1726ad320094c292fd93c58a1a1c4372547197ba2d7a3",
+      "gzipBytes": 89,
+      "gzipSha256": "060940d1ad855e95bab8d3affcc73f13f1e6a0113628ac50b13900bacf23710d"
+    },
+    {
+      "source": "local-capture/tenka-signal-candidate-overlaymanifest-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-candidate-overlaymanifest-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-candidate-profile-analysis-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-candidate-profile-analysis-transfer-955-c1__command.json.gz",
+      "rawBytes": 299,
+      "rawSha256": "8030b169d8d4be16d3da125f95338a53d51e56ca374f80ce88b589be41567e53",
+      "gzipBytes": 198,
+      "gzipSha256": "35067ccfb0ce3c68306006d098f3e3ed521165a123308f553fd438ebf4353714"
+    },
+    {
+      "source": "local-capture/tenka-signal-candidate-profile-analysis-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-candidate-profile-analysis-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "a38c61e0c97c18e56bb251da2997ab6971e9ef77b1961cd94346e0a48e105862",
+      "gzipBytes": 39,
+      "gzipSha256": "7562b45094c2d4810d87091f2f9dfca27f3e62e35d6fe7e5f7ad799631aedfb7"
+    },
+    {
+      "source": "local-capture/tenka-signal-candidate-profile-analysis-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-candidate-profile-analysis-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "3ac1a829e13638ba31ada18088caf8fef8fc51eabb3ae69959bdb9306ae345c6",
+      "gzipBytes": 89,
+      "gzipSha256": "71f8d833af92128621684cc18e3fabdf741f20fec457ddf206b173e9785e69e9"
+    },
+    {
+      "source": "local-capture/tenka-signal-candidate-profile-analysis-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-candidate-profile-analysis-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c1__command.json.gz",
+      "rawBytes": 493,
+      "rawSha256": "7c9e07d1b7d0b5524d3a2098640e3c2e0de29e60b3d15a69c9224703cc6c0e31",
+      "gzipBytes": 240,
+      "gzipSha256": "1b1f0f4353bdc0c0df7d5d0dc82b4a4c7368389f1eb87cd0c8397c803e65432e"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "8637a5867f7668754e4c9ffb2ea69477fe87af66549eed68b141d43e65ce96e7",
+      "gzipBytes": 39,
+      "gzipSha256": "cf6db3f6554ae068da3d1123ceeacef325a600c55b70820b621123a56bd1b491"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "bab776ae42db38bdb9c0b8367e3fef98581e100992b20996ce03773d23714d8a",
+      "gzipBytes": 89,
+      "gzipSha256": "a585218602a094268e83e1e0a32e1055e63fc063b1aa5574ff168048b9804a89"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c2/command.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c2__command.json.gz",
+      "rawBytes": 498,
+      "rawSha256": "70ab47b1c6a968d08c44efe87841e48b09ccfc83357b8f3a695abd847cc3b3cf",
+      "gzipBytes": 243,
+      "gzipSha256": "8caef5aa828731060662bd79b00220021d951857d423950a6b97e3607da07a34"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c2/process.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "ab618c05cf2a3054db5001c8f8af70fafcdc15882f3e190b5f2a93d7c68b6369",
+      "gzipBytes": 39,
+      "gzipSha256": "241197adc38cf7e26b189d0dccaf180a4ee38b7cc0c3f1e37ac9c71133568611"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c2/result.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "e9827726d96709a6e5251b4932bf693e5565025e2df0afdfc1c13e6a51aa0886",
+      "gzipBytes": 89,
+      "gzipSha256": "dff238b3dc5568aab59d5dcb6ea5b6f9a0cc05933fe69e990d2ecb82f1f44ef9"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c2/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c2__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c3/command.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c3__command.json.gz",
+      "rawBytes": 864,
+      "rawSha256": "4b15f98624fdeb145b0cd893273a9751b416b7f544014e82a05bf4252bb9f616",
+      "gzipBytes": 313,
+      "gzipSha256": "f29a5136f841041803493333770fbbfc3acd2b7c77c9473aa323c6a7ee0afa23"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c3/process.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c3__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "cc8c30136fcad83b9b2319891f59a2dab41aae6c340b49125210921ee2824e99",
+      "gzipBytes": 39,
+      "gzipSha256": "6f5731770b9f21eaa86e6e8326b5fffd291c2766643189cd62e0ddbdaf7728cd"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c3/result.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c3__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "9bd41201afbecff28a1f4fa78fde7f7a6d7fb7192d81b8b2b460ac98c087dcee",
+      "gzipBytes": 89,
+      "gzipSha256": "b0e9afd2083dbd7325929cfd66790b3c47b50f2337bde37ebf4aadddba4b5501"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c3/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c3__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c4/command.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c4__command.json.gz",
+      "rawBytes": 794,
+      "rawSha256": "914cf888d2decad643b54b6434643f43cff4e54c335e511e237543570c9f5f1f",
+      "gzipBytes": 279,
+      "gzipSha256": "03fd554b0c52b83819eb623b86475bb53d326f3b4bb3d69aec0f9c1ab4907d0f"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c4/process.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c4__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "6365f2ae661ffce70eb8c0416c98daddf0b3537e553ce0bb677369d4c992ded0",
+      "gzipBytes": 39,
+      "gzipSha256": "fd5aaffb0ec67d42553d62be48a70f9d81cffc69475d1a1af7241944a12f24f3"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c4/result.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c4__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "c66310070be20654cc2fd244ecc1c58a0a38f36777c599ec9cf48c7757c845b8",
+      "gzipBytes": 89,
+      "gzipSha256": "f6b627889554c5dff6980aefca2ad221e69a87fce2aea7071460db4dbf327a55"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c4/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c4__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c5/command.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c5__command.json.gz",
+      "rawBytes": 896,
+      "rawSha256": "02109aa1ef83b76bece33bc4b5c11846e4aa08478abe0e26714a0c499e13c5f8",
+      "gzipBytes": 283,
+      "gzipSha256": "e989d1fc2da696f0610b80010ec51c510722441506f0c790cf40880b77c6bf3e"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c5/process.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c5__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "578cfd7db1c1305e568461969d2cf5702615176ac7ec20c612f34bbc4e54056f",
+      "gzipBytes": 39,
+      "gzipSha256": "e5405c2cbe2584538bbe75e32eefe92331f6a76c8de57a4ea6c573506540cbf2"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c5/result.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c5__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "f8202ca2d51dc7cd11757fd01d8a1f5c1ca13f7aa46ca444930917a61cb01835",
+      "gzipBytes": 89,
+      "gzipSha256": "4daa445d5619224488a65e62105d01c961f37ac5a7e908ca6b90fe4fd34d5da5"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c5/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c5__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c6/command.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c6__command.json.gz",
+      "rawBytes": 347,
+      "rawSha256": "9f0b1291f4765b1e1156058562e1166c40e09347877e6745629046ebc98f5cce",
+      "gzipBytes": 242,
+      "gzipSha256": "90d378af9179434c4d3ccd8e62f82f6d1f593ab89a0b7d6163aef880adbd0d11"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c6/process.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c6__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "aee2d452fef34021c6dabe5f39fddb510d5184399e7ae54c6490b65b6278d7db",
+      "gzipBytes": 39,
+      "gzipSha256": "63c94dd207f4715bd4cf983477638a9cdb55741bc51db205e5bb20dd214607e5"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c6/result.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c6__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "c97ae116133fe3b43ad18637636783d33f13758cdf91ba9d751d999ca30865a9",
+      "gzipBytes": 89,
+      "gzipSha256": "504ca0a7450d2df9c6e0d732253b6284083fed820a50fc1fc09148d6be2e6a23"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c6/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c6__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c7/command.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c7__command.json.gz",
+      "rawBytes": 267,
+      "rawSha256": "015cb6119d00c8caa47ea1bb19cbc3b4bdc3e7981d1ce4365d85cdf25098d383",
+      "gzipBytes": 207,
+      "gzipSha256": "53b8be7a0cbe7f4bd468fe04d2c20db0eb89f00635817b56f2fa2381d849f69f"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c7/process.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c7__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "f75f9c402ee3daec5b116be044e4bf653fb9abc1cc6ab847cbc9e4b691acbb9d",
+      "gzipBytes": 39,
+      "gzipSha256": "d1388794cba72de66ca9fc5868a8ed750165403fede2d9923c329913d9309696"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c7/result.json",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c7__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "0921db3e94cde6215b9fda2b7bcc1c5bf981cfb6aaed9eac4861eb9cef93c36b",
+      "gzipBytes": 89,
+      "gzipSha256": "a2ebf9e49f50b05c6ead991050fe3d642cc42e553d543b08f550703bed17d25d"
+    },
+    {
+      "source": "local-capture/tenka-signal-evidence-transfer-ef75-c7/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-evidence-transfer-ef75-c7__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-955-c1__command.json.gz",
+      "rawBytes": 209,
+      "rawSha256": "70bc2a9f432d52a0a8fe19bdf74308f0244764bb6be6da13a01e39ae3a37ae2a",
+      "gzipBytes": 183,
+      "gzipSha256": "8b22921057550572941fb9f854d202819486611e8570fd56b8690483455dbe47"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "d4422df4e4b9d98d9508e05e39978d6db4358c6d08fcf3736373bee818ff2fbd",
+      "gzipBytes": 39,
+      "gzipSha256": "0aef8dfd9bf72531dd5424678af628159ae7fc8d503d11bc94376004ea1606d4"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "c380ae1c31ccaf1205b4aa0777a709cbdc13368921081c526f8ec2f03239a4e6",
+      "gzipBytes": 88,
+      "gzipSha256": "a4e8e975fa957b079b5630d2c00a2392df7c37d01ca669b4e55ef56df1613499"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 1639,
+      "rawSha256": "7045feafc4202aac2aa79d9d0de20554b96adfcc9a95e37447c97707b21b5011",
+      "gzipBytes": 747,
+      "gzipSha256": "6d019d05ca03e4e6875c570e6da91988f77681cc934f5bacb9ec4b945f065652"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-955-c2/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-955-c2__command.json.gz",
+      "rawBytes": 209,
+      "rawSha256": "9b8d00ccb97858b852c0501cac914019ca007cdf6d71f7a8869a2c5c8160a337",
+      "gzipBytes": 183,
+      "gzipSha256": "de6397a02be766aa0d398fb9bc01733f6294d5f322dd112ef834611472adc36c"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-955-c2/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-955-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "b9463dc7751d516af123b9dfb2f4d5f2b19ece170ad4f3b28090ca1774149d91",
+      "gzipBytes": 39,
+      "gzipSha256": "807692b9719b6e606e000cce8d1430ba04c0f642da876f056c63106ec89f8878"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-955-c2/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-955-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "520ad74715e6346a7d1a301b31a1a946fda5309d5bb40a076ba071e12f26f7da",
+      "gzipBytes": 89,
+      "gzipSha256": "8aeab0870e86a96e39f17d6f97d577b64b3fa1848d065ac015d2b4f9b0bbfab0"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-955-c2/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-955-c2__stdout-stderr.log.gz",
+      "rawBytes": 1639,
+      "rawSha256": "f1050de584d194b1c0ddd4b963a9c3d503463fd5e6b292e41299cdd2c2ef3f0b",
+      "gzipBytes": 738,
+      "gzipSha256": "02602d26cb1bbec6a942c22d9b9c617c654a486975909175574e7d974ecba9c8"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-ef75-c3/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-ef75-c3__command.json.gz",
+      "rawBytes": 209,
+      "rawSha256": "5eaa31dfcb782ecd64e3ad4bdd890812aa01d2c47d76012c57ea85ae644be5e1",
+      "gzipBytes": 183,
+      "gzipSha256": "a66c6609e9c09b08242203a23b67f7903666cbbaad5f7525b8f92fded23464e4"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-ef75-c3/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-ef75-c3__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "66ac38f6a242b98b2c7f51d344fc8ea5f1fe7a5d240d559809d0482731531abb",
+      "gzipBytes": 39,
+      "gzipSha256": "4b70099f4704b88d7630db3bd1ae96d7bce60e81b9886b667170d9e577c6c66d"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-ef75-c3/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-ef75-c3__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "6abc7495d2c1eccaf9f3c27477ea2b232a4d05b30cd6adf19c4b697b53d2a3c8",
+      "gzipBytes": 89,
+      "gzipSha256": "61608ab6f95c47aa818133792b9ba833e1d2c77ab72b5ec93a67b3e7870f45a1"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-ef75-c3/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-ef75-c3__stdout-stderr.log.gz",
+      "rawBytes": 1640,
+      "rawSha256": "0988df1f6226a642734569174701f8050d3d18f5db5e72865fb197036467482b",
+      "gzipBytes": 735,
+      "gzipSha256": "a1df520a0ef62b6b4ca432d1ff505f942a88406159642a4e7fef227a5f702b16"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-steady-ef75-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-steady-ef75-c1__command.json.gz",
+      "rawBytes": 217,
+      "rawSha256": "775435da0f23aab2f3c1695d69a19b3dbed253679153e2d258fee5ac01aa71f7",
+      "gzipBytes": 189,
+      "gzipSha256": "5448bbee343d4bf49305b5d21528f959684ed0a519141ca0ae1c7e6209d78612"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-steady-ef75-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-steady-ef75-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "f1d7eb79f8607500faefab6d2a977fb068b2a14933c21291a53646526795b325",
+      "gzipBytes": 39,
+      "gzipSha256": "af7b83390ae0857116ec68744029a495a264c142e4775838788c1a256fc558bb"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-steady-ef75-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-steady-ef75-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "60816e5c14b53c3247b6be34073cbb7881a221aa29ac47296067001c4a22cebc",
+      "gzipBytes": 89,
+      "gzipSha256": "09124629c2faea8bda3db1af6a65354a6be1cf91d55af41fc071d0b5617fc098"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-bench-steady-ef75-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-bench-steady-ef75-c1__stdout-stderr.log.gz",
+      "rawBytes": 2712,
+      "rawSha256": "02e0d3607ee22aba92fd27e000c08effbb52bbe0f740d7f955d75e366d074dd2",
+      "gzipBytes": 1110,
+      "gzipSha256": "677b68c20d3ac01f27cc1ef798d5717cf6f02643e7938d1c60db3d731d0d09f9"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-diffcheck-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-diffcheck-955-c1__command.json.gz",
+      "rawBytes": 171,
+      "rawSha256": "4ab6b0c0d230a29c33f663257458efaed1e7bb186e9fb7461df0ad013148753a",
+      "gzipBytes": 154,
+      "gzipSha256": "2af0f6ce78119f67a586bca19e81ba2e8275a8faa44bb57f6678de314c8a703c"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-diffcheck-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-diffcheck-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "bd89dac3a48aa21761711f7eac536175848cc8a6cc86ec498ae208fc0ed42b67",
+      "gzipBytes": 39,
+      "gzipSha256": "94388d951a14912d2b22febaf804e866f7f10aa0f50934e09abb11ae9cbdc387"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-diffcheck-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-diffcheck-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "0664d1cd935625e5857030ea183bb5bb095edaa18474e0f0e445bb253b501211",
+      "gzipBytes": 89,
+      "gzipSha256": "de14caa7dee2c93d1f6775d0b6d511250f39e1a568c82d267a0f8ae5ce218fb8"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-diffcheck-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-diffcheck-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c1__command.json.gz",
+      "rawBytes": 323,
+      "rawSha256": "d81690df4b7cedc7fe6b7f092cb0e7c588dffdcf038aa53cd3b66920bd029328",
+      "gzipBytes": 238,
+      "gzipSha256": "c817c14d401afa03dd28dc9a77fedd03d8c68d3842dab598d860dab9b5e790bd"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "a41fe5138d152cedf0c4d482bb70b7deef499db828cade83404c7dd31afbb1d5",
+      "gzipBytes": 39,
+      "gzipSha256": "f5c2edacc7c1eb7b48329424ed2b77152c391dc1ece4c6704abb2343a8b11795"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "016d05f6d827cede8770d5e674d381fe6945c76863423a5b2fa1002420db93c2",
+      "gzipBytes": 89,
+      "gzipSha256": "81d81366838ceedac836f7907cb2f1a8bf1a8c2ecb1c0aecf768325892308a44"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 157,
+      "rawSha256": "35837d4070bcb86ed9099cb1fca1b4aed4d72c345c7ccf6526344031f10cebd1",
+      "gzipBytes": 146,
+      "gzipSha256": "ce2122438676e3e4f2c346fe8281b7e33e9a7d4fb47f2fa8c0c036b92e00856f"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c2/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c2__command.json.gz",
+      "rawBytes": 270,
+      "rawSha256": "7d0fad166d56aef7245595c3cb8cd7fd48db19bd908f4b5b7e9a4324265a55f3",
+      "gzipBytes": 220,
+      "gzipSha256": "1264d7a125adc49481b4a176d6cd0f11bd8c1b24ded8f49e8c232bd39dcf128d"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c2/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "76607d38a50896043fb35c4c91965e7618c326859139313fbbb9f3a02894e056",
+      "gzipBytes": 39,
+      "gzipSha256": "410e25912008c569789c453165f850dbb3b5c19ef86dc8d73ba12e15ec852360"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c2/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "de7505de58b589f6724cdd664529c704f1427531671b89b177616b86993a2b57",
+      "gzipBytes": 89,
+      "gzipSha256": "42cebdbb4a1c52cbca536eb271115750a1df5dc2a86a4d602217dbcc44d44d5b"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c2/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c2__stdout-stderr.log.gz",
+      "rawBytes": 96,
+      "rawSha256": "893abf6ffa24e8231429bbe940cec18895f135a615497a9e5c42a1070491df8f",
+      "gzipBytes": 104,
+      "gzipSha256": "6ef02571d41e58c5198d22127be71ec9119f5c7af09c608c6472ba41d256b223"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c3/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c3__command.json.gz",
+      "rawBytes": 323,
+      "rawSha256": "1397f9a9d64063f343f07acf1ccf8d1f4313e8a95d2cdcc0f2a1d199eeb4fe2e",
+      "gzipBytes": 238,
+      "gzipSha256": "ccb313cadfe869e878d31c81dbd62da9400d02076d123ef59c8a62b11b2cad99"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c3/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c3__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "434b86b24babd816f8ff302231a7e2bf30dc2a3b89944b3259a50faddcfa8826",
+      "gzipBytes": 39,
+      "gzipSha256": "8d9619cb54e0da765caee949fbbfbff605b2f5ff3ec5587c2778048e3c82adac"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c3/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c3__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "36ce9b2b59f046d279695fcc409ff2dd97bbb03e91f7a4055e9500b1b5c348d6",
+      "gzipBytes": 89,
+      "gzipSha256": "cbbf70b35d1a473f673b1f5758aa7e3c53853f9da9b1f5c7a78715b815b96ff1"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c3/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c3__stdout-stderr.log.gz",
+      "rawBytes": 66,
+      "rawSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "gzipBytes": 82,
+      "gzipSha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c4/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c4__command.json.gz",
+      "rawBytes": 323,
+      "rawSha256": "5eee456b64d02e0e622dd74bc98e20802cab70e0b71382d0d0efdd8cd45a973f",
+      "gzipBytes": 237,
+      "gzipSha256": "7f7f23748e28a73a6a8641ba5878faa836dffe5580795ca1c9149ff6b68ee874"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c4/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c4__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "6a1007aa3c5562a2a055514c9aa5b39b2db9389d001aa9c126371b276dc0bad9",
+      "gzipBytes": 39,
+      "gzipSha256": "a8a514954bf8aabf37549ca6760b0597081ba336c844fb969901b6d4f2c4862e"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c4/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c4__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "c84c5ca9dcb916dd7880a8b0115933839a677572d824e7d4f2d22ba2e9609753",
+      "gzipBytes": 88,
+      "gzipSha256": "501876cc21ce1097918f94ba6f81d41ad752dc36ec1cacb6eaf6ae011f1c4b98"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-format-955-c4/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-format-955-c4__stdout-stderr.log.gz",
+      "rawBytes": 66,
+      "rawSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "gzipBytes": 82,
+      "gzipSha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-lint-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-lint-955-c1__command.json.gz",
+      "rawBytes": 306,
+      "rawSha256": "e479da283904128649328602a5d795b06bb5fcba0cbdf89bca9bdcb9d14b3599",
+      "gzipBytes": 231,
+      "gzipSha256": "b4bc01e753e1f172d54c34e9470015ae216c5a63a9d980f81ad9f39e51932ae4"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-lint-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-lint-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "d45a725042a531c6b6be6016076c679073ad67b18f703dd58959ee762732f3d9",
+      "gzipBytes": 39,
+      "gzipSha256": "fd57054bf896368571917435f6f7fde60dba0b82ac610604d149e635b64d5788"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-lint-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-lint-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "ebc7fd663f91f839e8e502a8342da1f040c77adf8b0108662ebee35466827213",
+      "gzipBytes": 89,
+      "gzipSha256": "2521b7ed2493f72dd90c40542d0d1c423bb19004f4dc1e758cbb57759a11201f"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-lint-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-lint-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-lint-955-c2/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-lint-955-c2__command.json.gz",
+      "rawBytes": 306,
+      "rawSha256": "82ebf979f279657ac9c4b3cb43892297ea2751c75b5fe72d73fdba676079eb26",
+      "gzipBytes": 229,
+      "gzipSha256": "a1cf766437af727a21961a346f8bc26ddcc6953b9fa23ad7b8918cafc8c4963d"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-lint-955-c2/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-lint-955-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "a7f89698cea94f2efdf24b909e8bb2ea06220d9e30472786c3bd677503c2a738",
+      "gzipBytes": 39,
+      "gzipSha256": "e6292207e326b8350bf9f1e6ad65113ecfe5d04c63317b6a859e6dd9a8dc023a"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-lint-955-c2/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-lint-955-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "6b985293148f68be73e5a4f64bf66eb1904d147a773fa2fd34e0794b8fd1bc0a",
+      "gzipBytes": 88,
+      "gzipSha256": "83648eaf1b953977f71673d085003b78db3fb878fcab39f3b2343b21153118b2"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-lint-955-c2/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-lint-955-c2__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-type-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-type-955-c1__command.json.gz",
+      "rawBytes": 178,
+      "rawSha256": "5240765cd9e80a9cf48c25f3ba7bdb2722cbe15184c2c6be4effc7c2c4d19d7d",
+      "gzipBytes": 165,
+      "gzipSha256": "1a04124c69ec1665e5e8b7354ac704e878e2f9491a33a72db584df32a3b2169a"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-type-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-type-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "e1ad9b82b51bcc5f9ca62eef91aaab3f6dadbd13722cf1ad274d0ee2411a8a27",
+      "gzipBytes": 39,
+      "gzipSha256": "356f19658acc1b796dab5b53b7133ab5ad7c04c1901168af580d5a598fffee28"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-type-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-type-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "5115d944cfc0d3a6e0f04299c04811f969468e653d19abebd4e1bceeb803729d",
+      "gzipBytes": 89,
+      "gzipSha256": "4677a56bbf2ac5be7b5a3a625d04b0d1a94e7ea1d239f810457d02de9f52477e"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-type-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-type-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-type-955-c2/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-type-955-c2__command.json.gz",
+      "rawBytes": 178,
+      "rawSha256": "3ed9e8773148cca809064cc8a87760d30797ddce13b81d7c2ea8b7cdfda4f230",
+      "gzipBytes": 165,
+      "gzipSha256": "e174d22582bbc0ec7b8f18e49a9731f532f94b74f8eec92b3bba99de4c42b1fd"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-type-955-c2/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-type-955-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "860b4eabeb2d19ec6195f001ec1b33156abe1050ee45d6171517ffa3f2970f2b",
+      "gzipBytes": 39,
+      "gzipSha256": "373d8c81b88a29d012860b1cb70f28e74cab45deb3f8e21f83035b23e37fa7cb"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-type-955-c2/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-type-955-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "702793265174d136f5c6fefb18c17a9bec49f6d4bf68f44acdeae783505ecbfd",
+      "gzipBytes": 89,
+      "gzipSha256": "ee2647d2568acf0e47083256a8f3fdc7506fcac40a1a42432cbfc2229ec2041d"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-type-955-c2/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-type-955-c2__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c1__command.json.gz",
+      "rawBytes": 267,
+      "rawSha256": "847afbf976b560e02d4b0e6a5b769a784820fbee6f81a06f95d582dce5e4dc21",
+      "gzipBytes": 210,
+      "gzipSha256": "b4279a86829c47ca7727c344aca4368dde53ffaebc23402aa49f73da58563481"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "01cd76e5118989e0bb44edc5dcf0f93c36d75150c5721116f8851dc4e4c8a294",
+      "gzipBytes": 39,
+      "gzipSha256": "70e51bf6cfb9e4012a009cfc26466e58a04a66d8876fbfb67c1f80e33de39b09"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "faf5c908a4e278081eb0e171c26c5ebffd15a7197b9d3924f7b5fa812df65643",
+      "gzipBytes": 89,
+      "gzipSha256": "bfa7547bb2961d3168a3aad3e43ab456d8c3aac1bb3f81a3027a5b6d3c930c06"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 520,
+      "rawSha256": "5da8ab04c8b87c697e3e6d013ffdddf3a267b5b1447c2917308486fa85424c1f",
+      "gzipBytes": 345,
+      "gzipSha256": "39abb937a59615ca545f718cfc365bca81cd16d7451fcf8fd67e8fa28bde3d9d"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c2/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c2__command.json.gz",
+      "rawBytes": 267,
+      "rawSha256": "8781aba0dc69ab2267cfc7737bcea62ba74265d44855af2e1a2de660194d1b3f",
+      "gzipBytes": 210,
+      "gzipSha256": "5e378abc006628ecfcac8b0f4b28e4f564b23b2024872117c7e716fcc6a86cc8"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c2/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "8dde64f583f7263e214b04105ef65d723f492267646d7378a759ba18594a8d8f",
+      "gzipBytes": 39,
+      "gzipSha256": "ecfdfdcc2efd53ebef0139a3b893981b73e052c07e132fa90baf895d294fbe5c"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c2/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "a88ae7d34f6032b69df54509ec64d42471e5814274eebe48c3f4a5a3532b1684",
+      "gzipBytes": 89,
+      "gzipSha256": "554271d5efc6ca9fb41a928f299ef6a4aa795da281030a0a9f2836db6988eab4"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c2/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c2__stdout-stderr.log.gz",
+      "rawBytes": 520,
+      "rawSha256": "522103aca3badc37f3670eaf58ca22167a7327cef96f9217cb5e7deecce54601",
+      "gzipBytes": 348,
+      "gzipSha256": "de6ffe73c219e31adcbee861208c583ba29c176ed1a1b97c0d0064d0833f5561"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c3/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c3__command.json.gz",
+      "rawBytes": 267,
+      "rawSha256": "e37f6fec43ed1e62ee1eb2ea1f219cc381b8f0d7f28f057d5a624faccf999791",
+      "gzipBytes": 210,
+      "gzipSha256": "f31c3c13ec176a7538e55901f8f2ddee2e84dc4c393a58a90cd315e60a61788b"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c3/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c3__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "b8b8fb7bc20a4ef885f1b14f3e623251a2adc3e36f9e225a7ab2a9820176fca5",
+      "gzipBytes": 39,
+      "gzipSha256": "08900920a06b41ff0ddb8422f85c0edd8ee53844882fe72a34ad04867093d6b5"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c3/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c3__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "09bb1eaf49f1dd742e00ae9eb08a56c2c6e43f767fac2aa13ab5bc3f2d4b52d0",
+      "gzipBytes": 89,
+      "gzipSha256": "3c2f1b12da1e30421304c6dc0688cbd6afe050df0a3e552b50a58c31772bb329"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c3/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c3__stdout-stderr.log.gz",
+      "rawBytes": 520,
+      "rawSha256": "3126bdf72773389cd1260e398dd7e56cabce30017320b86efb2eb7de781d50d7",
+      "gzipBytes": 348,
+      "gzipSha256": "baa063622648721d1ea74539e2f31aad398a65d901cc22c678d4067df912bae4"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c4/command.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c4__command.json.gz",
+      "rawBytes": 267,
+      "rawSha256": "bfd8e1506c0a27707220e211e9ee6fda0b93c03462ac7ab0f54b6b0bc728cbc6",
+      "gzipBytes": 208,
+      "gzipSha256": "d570afa8df5d56644faadc8847d5e2b92a711ebc54227d74549fc9b42b21920b"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c4/process.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c4__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "a708da48f9919ed4f8fb70cfe0bb82cbe78b44119b93f96d769c8c392b5b7cb2",
+      "gzipBytes": 39,
+      "gzipSha256": "33288df3ab01d2e3073f537f1f28202275502dcadb38b5002126eb5436493077"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c4/result.json",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c4__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "cb956aa4540e720419042a77aab69ec9cd2d42d502ca3b3c19ecf0b0ac41a953",
+      "gzipBytes": 88,
+      "gzipSha256": "2476c6254850dcfc9370dc28905e92c3fca33d5564ccc4f43959199f6d9b7e01"
+    },
+    {
+      "source": "local-capture/tenka-signal-fastpath-unit-955-c4/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-fastpath-unit-955-c4__stdout-stderr.log.gz",
+      "rawBytes": 520,
+      "rawSha256": "35d098b92a06dc3fe2a134fcd28637323b04dfa6d9b899cde2879d827e067864",
+      "gzipBytes": 349,
+      "gzipSha256": "0d0ec005a5dea3266babc63ce089a43268be404abcc8e01234f399d0942fa697"
+    },
+    {
+      "source": "local-capture/tenka-signal-geometry-compare-ef75-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-geometry-compare-ef75-c1__command.json.gz",
+      "rawBytes": 198,
+      "rawSha256": "09f06cc547fe4b027c74fd626f168dfbad3123a6794cf90f9d18e5675f5f24f1",
+      "gzipBytes": 175,
+      "gzipSha256": "676272280bbd7028ee258e251994c1b6e249cf3371d6fd7120da0396dd8f5a56"
+    },
+    {
+      "source": "local-capture/tenka-signal-geometry-compare-ef75-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-geometry-compare-ef75-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "ea53c319eab6f828e830dce45fb32baa8e6c1e8f9b7bfa1da54aa73739d2cd26",
+      "gzipBytes": 39,
+      "gzipSha256": "ed3e9e519c858aa3823452e530c1ce9ba27b86390344eb3aedc0009d0f74f243"
+    },
+    {
+      "source": "local-capture/tenka-signal-geometry-compare-ef75-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-geometry-compare-ef75-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "085cf0a080b010086e125b9f592383e64b275d9bf091d9285856433ba4fe72a4",
+      "gzipBytes": 89,
+      "gzipSha256": "9256d3b177654b6bbd8f1a9058973059ecc0a0bef2a947d977de2d47bc6c4e35"
+    },
+    {
+      "source": "local-capture/tenka-signal-geometry-compare-ef75-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-geometry-compare-ef75-c1__stdout-stderr.log.gz",
+      "rawBytes": 327,
+      "rawSha256": "7d6b0a81dd06a5d1135b62a3a692a49e94356cde12e3bc8f60a41db5456853a3",
+      "gzipBytes": 204,
+      "gzipSha256": "91fa7672ecdb90cd425475f0e4facdeb5b5eb1dfc74bc12e78026ab9865a7e08"
+    },
+    {
+      "source": "local-capture/tenka-signal-launcher-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-launcher-transfer-955-c1__command.json.gz",
+      "rawBytes": 245,
+      "rawSha256": "d922fb8fd4332d06eb42afb046080d81048b119f1b4acf0790e897735e41abaf",
+      "gzipBytes": 179,
+      "gzipSha256": "9f37d7a9636d08a6e41723744927439a82cf9c4f6025fa5aa1e25ccfda3827ce"
+    },
+    {
+      "source": "local-capture/tenka-signal-launcher-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-launcher-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "6fb699005371ef2508a61d11fb5ae427b344ce9f200e229489b2f7c36b9d811a",
+      "gzipBytes": 39,
+      "gzipSha256": "b2c488a5a89fc84bd97d10a55533ef7e95643f0d64bb284b2976524838313dd9"
+    },
+    {
+      "source": "local-capture/tenka-signal-launcher-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-launcher-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "fb0e63924a26b9d741e59bf74119165126b20e7a3d4a011dbd03dcc283f0dd96",
+      "gzipBytes": 89,
+      "gzipSha256": "cd5b0fcfcf0e9be69e8489ab1ab5e5ba9be86f16bf8a0ec4024acc0230aad54a"
+    },
+    {
+      "source": "local-capture/tenka-signal-launcher-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-launcher-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c1__command.json.gz",
+      "rawBytes": 261,
+      "rawSha256": "5c42e53d5dcb0c334c19ebc576820dbba6dfeadf90d8c572d22bd7c343dca2d0",
+      "gzipBytes": 192,
+      "gzipSha256": "f516287b4bf06f78513c2d47c940ffe79e0e3f83623982986672c3cd33c1346f"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "1b589084782168ec4c1fa3e2e572b3d059bb01813f5bf2bd80b924bc0cfcfa30",
+      "gzipBytes": 39,
+      "gzipSha256": "0e348e50742b5c8a67078c06e6183dc598608cfccab75e9c61d125b0c29493fd"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "6e478b6b45aa47c8932c1ba7c0732fe7dac6c44b9269275fb3d129aaf92b8bdb",
+      "gzipBytes": 89,
+      "gzipSha256": "76ac96c29ddb0b0948b57cf418db7c335ac290d1bd3dac55d62812088eaacad0"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c2/command.json",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c2__command.json.gz",
+      "rawBytes": 265,
+      "rawSha256": "3df707c250fa287c6e132500d1446543b5c9235220225ad7150ae7c10859c440",
+      "gzipBytes": 190,
+      "gzipSha256": "b5b9039aeb90fba02a1d0e77681ecd6de0c7ab12b38449c3d60c0ce98915351d"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c2/process.json",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "3a52646809c7d0b21e741afeda2a4898af2030b2cc25e97bc010b29d887393fa",
+      "gzipBytes": 39,
+      "gzipSha256": "80f1e3ef5352d9c7c202dd768acc3b49ed035c80e01d123b83967bd182823812"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c2/result.json",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "415c6451d00dab55cd7a8ac3d3785ef9522df5161e6bb361b3701a9a70a1ca3b",
+      "gzipBytes": 89,
+      "gzipSha256": "c588fae392d223d454cf5973ef7b0e1c91f78f2123ec79bb2b0ba843cf043a7a"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c2/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c2__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c3/command.json",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c3__command.json.gz",
+      "rawBytes": 261,
+      "rawSha256": "4a553a2827b37845e8d7794c7265cc6f520855247c82a05d3e21a0cdb2354a24",
+      "gzipBytes": 192,
+      "gzipSha256": "7cd4c5f15b19c63c9576cc24ff8339212ec56b8644358d50ebd124c602646c0d"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c3/process.json",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c3__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "04d5ef25df946239b9b7ad84e9f7e497aba0b90c616be48021a7877c7d6de65c",
+      "gzipBytes": 39,
+      "gzipSha256": "1b8bdecbdf83773552cac56e20a113982d689de6918dcdf722159f818c3f2d0f"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c3/result.json",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c3__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "5931b1ff74f50fbfd103a30a2de198194bad3de0f9b4fa5103deb74b866d8b60",
+      "gzipBytes": 88,
+      "gzipSha256": "6107185c7cffb22c85a0a0fe8ce6f62267bca5d1f433baae773a6e8bc1e376b8"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c3/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c3__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c4/command.json",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c4__command.json.gz",
+      "rawBytes": 265,
+      "rawSha256": "5019a8a49495a8f3e506cef2eb75993a6891c21d73fa1fa63716899ea7c1d424",
+      "gzipBytes": 190,
+      "gzipSha256": "7bd943fd65bc254f040e5b308425b9cc73345331e21d97c7f99f4094b8d4f737"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c4/process.json",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c4__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "fb396392f6959b5fccd7250f36ca7b721f0de726f2fab4da67bfdb287583fbc8",
+      "gzipBytes": 39,
+      "gzipSha256": "ffbd6c8a251dc24dd416623058c6bb24b70749abc236c4d7ee9531d0ba196a42"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c4/result.json",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c4__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "cdb3e8909bf4fcccf7f32d819df924ecd59d72b7d1ee9cfb16b755cacbc697de",
+      "gzipBytes": 88,
+      "gzipSha256": "66c99138743340a29038666bb6790310fcf63ca739071d15e1bdf2b91be23e34"
+    },
+    {
+      "source": "local-capture/tenka-signal-observer-transfer-955-c4/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-observer-transfer-955-c4__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-profile-launcher-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-profile-launcher-transfer-955-c1__command.json.gz",
+      "rawBytes": 247,
+      "rawSha256": "e62e7a7a3aabd20acfe12dd80eb3f830c1eeb9e2d089c81e09efbc49aec8c80d",
+      "gzipBytes": 180,
+      "gzipSha256": "940c6f4fda9a6f5feacb10f28153e6c9b999608fa9258c016e6ff988d9370520"
+    },
+    {
+      "source": "local-capture/tenka-signal-profile-launcher-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-profile-launcher-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "2f82d81d5baefc10d0514dc9d262784506129fa2d313d2fa7fda168b8007d38c",
+      "gzipBytes": 39,
+      "gzipSha256": "383d9893824d64ec825f016539264135edbe520f995cd17096ca4430ece7640e"
+    },
+    {
+      "source": "local-capture/tenka-signal-profile-launcher-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-profile-launcher-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "dcaec7d0eb0a3cc99a6614de6f7e1e32b3face4f3d306f5dbbea205a2ee24b3e",
+      "gzipBytes": 89,
+      "gzipSha256": "3aa4f8bd53f77c85b40cd9220c08890b53d44b8a6af72aab9911858790affb20"
+    },
+    {
+      "source": "local-capture/tenka-signal-profile-launcher-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-profile-launcher-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-profile-script-transfer-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-profile-script-transfer-955-c1__command.json.gz",
+      "rawBytes": 273,
+      "rawSha256": "94f40ab98cb806c3070a0077a8c27eb17b4f54a1a8e36bdaa84498e15bff50ea",
+      "gzipBytes": 194,
+      "gzipSha256": "a851b11954a30325ec446273e59922df748d19967130f691b58daae45818c922"
+    },
+    {
+      "source": "local-capture/tenka-signal-profile-script-transfer-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-profile-script-transfer-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "9edc9473ceb05f0746f5933291b9f27dea21807b2c0fb26682f7108ae5fae923",
+      "gzipBytes": 39,
+      "gzipSha256": "abdb1945a05ef91f0e082b8fa0d5f5901edc1d374e0023731b6691a8865a4665"
+    },
+    {
+      "source": "local-capture/tenka-signal-profile-script-transfer-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-profile-script-transfer-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "41628c35693fccba1e57f33fadc99579c84786c3e44b660d76537e3d616cee7e",
+      "gzipBytes": 89,
+      "gzipSha256": "a66562c6033967eb77dbd37be02bffa69414c48fa3ed485eb9a4773fa00d3dcb"
+    },
+    {
+      "source": "local-capture/tenka-signal-profile-script-transfer-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-profile-script-transfer-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-published-syntax-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-published-syntax-955-c1__command.json.gz",
+      "rawBytes": 203,
+      "rawSha256": "6d0dd0879f5b213d448103860330112a6afc2f1c29dc551709b55f6d379d97ed",
+      "gzipBytes": 176,
+      "gzipSha256": "e37920ba6b65c409fd224bbb23c51d81974bae7165bf1974fd8f76f8066e649d"
+    },
+    {
+      "source": "local-capture/tenka-signal-published-syntax-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-published-syntax-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "c6cdca1af9bde2374cd721ca0eea826d6a2777fe4a168c0d3850eeafd55d0789",
+      "gzipBytes": 39,
+      "gzipSha256": "d3043d2e6193c2f84be4e906ceba3e48ef6de637ae2019fd548c18cd11f23925"
+    },
+    {
+      "source": "local-capture/tenka-signal-published-syntax-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-published-syntax-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "dd5ce992dd648da26f616cede2e8327a29fabcbb4bd08c993d18222054d6d0c8",
+      "gzipBytes": 89,
+      "gzipSha256": "f59e66d4e702574c0bd5da746130bcc4807a652179231ae85366af7df388aab3"
+    },
+    {
+      "source": "local-capture/tenka-signal-published-syntax-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-published-syntax-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "local-capture/tenka-signal-work-witness-955-c1/command.json",
+      "file": "raw/local-capture__tenka-signal-work-witness-955-c1__command.json.gz",
+      "rawBytes": 207,
+      "rawSha256": "4258463e09e8af490e892ed41bae836c41aded96dfbed0740364d2056c11f11a",
+      "gzipBytes": 181,
+      "gzipSha256": "59328e4a2b461d65638b444bbacbe1c95239075a46e2d37414af6e2c474c200c"
+    },
+    {
+      "source": "local-capture/tenka-signal-work-witness-955-c1/process.json",
+      "file": "raw/local-capture__tenka-signal-work-witness-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "7ab928b361b7459b061afc6da23c43c5264e99f1c4b571a30a8a96c4b83daa95",
+      "gzipBytes": 39,
+      "gzipSha256": "02b11404c5e8a128c02cdfce594004051866c56a2bb5a2c912904b2d2720a472"
+    },
+    {
+      "source": "local-capture/tenka-signal-work-witness-955-c1/result.json",
+      "file": "raw/local-capture__tenka-signal-work-witness-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "443846dd79539a7ae022f225f1bab2436ff9e70a6f585160b76355849b575082",
+      "gzipBytes": 89,
+      "gzipSha256": "8a1588abcde90c190ba3a4c5ffce09f0bfe35f4ac9ff520c435f3cffc0c28292"
+    },
+    {
+      "source": "local-capture/tenka-signal-work-witness-955-c1/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-work-witness-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 461,
+      "rawSha256": "4b0f951ccec7708c90db1c5e67cbde7ed79b1f37c3a6f26b736a706730f8adc2",
+      "gzipBytes": 236,
+      "gzipSha256": "85682db64965252c32128bb473b1c1b2cd3bb79b654963e2825f38b8acd6fbae"
+    },
+    {
+      "source": "local-capture/tenka-signal-work-witness-ef75-c2/command.json",
+      "file": "raw/local-capture__tenka-signal-work-witness-ef75-c2__command.json.gz",
+      "rawBytes": 207,
+      "rawSha256": "ec07b5c5c73d2a070431bf845f1d4d49de70c76d560e6783925384a41383ea9b",
+      "gzipBytes": 181,
+      "gzipSha256": "732ec71c269ad551545579a413a2becb5dfa952d2f4b71eb753232406e3d5307"
+    },
+    {
+      "source": "local-capture/tenka-signal-work-witness-ef75-c2/process.json",
+      "file": "raw/local-capture__tenka-signal-work-witness-ef75-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "eb623b72d1f1b2e3b792ea11eab330eb7ec33e6e2eff4bbab4f75a895db2e49a",
+      "gzipBytes": 39,
+      "gzipSha256": "7159256283cd831a25a5232c35399b52bdbbc9f7a0af89f1561c980ecace01bc"
+    },
+    {
+      "source": "local-capture/tenka-signal-work-witness-ef75-c2/result.json",
+      "file": "raw/local-capture__tenka-signal-work-witness-ef75-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "aa2144a60095818572e7f09dbd4eb9bfa266d5c91e38227d348425fae4f6d675",
+      "gzipBytes": 89,
+      "gzipSha256": "7eb6a9748e3ed3e686f06313472ec1b6654cdb75366577c979b1b55c93b99bff"
+    },
+    {
+      "source": "local-capture/tenka-signal-work-witness-ef75-c2/stdout-stderr.log",
+      "file": "raw/local-capture__tenka-signal-work-witness-ef75-c2__stdout-stderr.log.gz",
+      "rawBytes": 461,
+      "rawSha256": "a5e113072561150ce8c5978f7bebe2ecaca2df303be73c020cee417620dc716b",
+      "gzipBytes": 237,
+      "gzipSha256": "575cdb869a442ab75c4ae4141eb5fd4b806e3fd083c11b1d42c0235460f03116"
+    },
+    {
+      "source": "producer/tenka-signal-candidate-profile-analysis-955.mjs",
+      "file": "raw/producer__tenka-signal-candidate-profile-analysis-955.mjs.gz",
+      "rawBytes": 4804,
+      "rawSha256": "0428e1aa99abda2e75ddf04278103ba2d61e71e688d55ed79dc00d7bef36b369",
+      "gzipBytes": 1950,
+      "gzipSha256": "1d77943ce0728ca5af2dd03d10fcbda5d27e6ce8e80d2b39f4c80ccde3280603"
+    },
+    {
+      "source": "producer/tenka-signal-fastpath-bench-955.ts",
+      "file": "raw/producer__tenka-signal-fastpath-bench-955.ts.gz",
+      "rawBytes": 1979,
+      "rawSha256": "356afe5c575073d20a6822720bb05ef78f2cf7c0595a299b013addb19f344fcd",
+      "gzipBytes": 827,
+      "gzipSha256": "bf03db997849aa67fcbcf6e99b5521c8a470d916d06e3da4c2867cce11651a56"
+    },
+    {
+      "source": "producer/tenka-signal-fastpath-bench-steady-ef75.ts",
+      "file": "raw/producer__tenka-signal-fastpath-bench-steady-ef75.ts.gz",
+      "rawBytes": 1981,
+      "rawSha256": "c9e8dd371659ea47712352674106d724f9830040a03e6ffc7147e0f8446b786d",
+      "gzipBytes": 828,
+      "gzipSha256": "5ddf9ce6cd01a74c4b4c821cbe8d9136be872920ca6cf0464672a3871b7347ba"
+    },
+    {
+      "source": "producer/tenka-signal-geometry-compare-ef75.py",
+      "file": "raw/producer__tenka-signal-geometry-compare-ef75.py.gz",
+      "rawBytes": 1794,
+      "rawSha256": "2a1a6adb411170c45e30ad62e97d2790ab79a069f14e55da63a14d7dec6bcaa2",
+      "gzipBytes": 877,
+      "gzipSha256": "cf37693817be01d0fff1a73478c7f8caaae13a005ac9d1ce03c6d77f3a0f31e7"
+    },
+    {
+      "source": "producer/tenka-signal-native-launcher-955.sh",
+      "file": "raw/producer__tenka-signal-native-launcher-955.sh.gz",
+      "rawBytes": 1310,
+      "rawSha256": "92469d6812b4e91993f3c5ced1de968f1ef0dd9830aeb3c5a707cc136c3ca6cf",
+      "gzipBytes": 581,
+      "gzipSha256": "7e3beb129be1255ab9623ccb160a852c5a7d4de53459a576de3085c4602ef3e4"
+    },
+    {
+      "source": "producer/tenka-signal-overlay-955-c1.json",
+      "file": "raw/producer__tenka-signal-overlay-955-c1.json.gz",
+      "rawBytes": 107,
+      "rawSha256": "51a3fcf7e59b957296fac0b47fd8d87ea5ad0058f7e548316d3b96b26e8f829b",
+      "gzipBytes": 121,
+      "gzipSha256": "7961a6e17c626991d205676c586c37736aace1d84939d4bd2c3cb3ccf7ba607c"
+    },
+    {
+      "source": "producer/tenka-signal-profile-launcher-955.sh",
+      "file": "raw/producer__tenka-signal-profile-launcher-955.sh.gz",
+      "rawBytes": 626,
+      "rawSha256": "2caffcb16eb552b7e57d584bcc21d6500f71b93d00a0d4e3c52f5f0fbe04a54e",
+      "gzipBytes": 381,
+      "gzipSha256": "0b0a1bd48b7559d713359e5068164ce620a3d4381110f462eb96216ef9b1fa43"
+    },
+    {
+      "source": "producer/tenka-signal-published-955.mjs",
+      "file": "raw/producer__tenka-signal-published-955.mjs.gz",
+      "rawBytes": 5975,
+      "rawSha256": "5ad03dade74c2cd34caf8988d23c3253a97dfc5e5848989000d5ea8f9763b331",
+      "gzipBytes": 2252,
+      "gzipSha256": "de8f1a9ca1a765dace6f4703bba5f788183f9f45f4d0918b79e27262cd27c83d"
+    },
+    {
+      "source": "producer/tenka-signal-work-witness-955.ts",
+      "file": "raw/producer__tenka-signal-work-witness-955.ts.gz",
+      "rawBytes": 1648,
+      "rawSha256": "69a12aa73c3d557e457e3efa382a3bd9d863449dd5ade17c6f86777525df6d9a",
+      "gzipBytes": 854,
+      "gzipSha256": "77eb65ccf59221de91608a52d95cc7d0f68bdb6af3612bfa2bd2215cacaa0abd"
+    },
+    {
+      "source": "remote-copy/candidate-close/command.json",
+      "file": "raw/remote-copy__candidate-close__command.json.gz",
+      "rawBytes": 534,
+      "rawSha256": "7cca2d1450c6695b1b223630d028fb6fc8835bf8fc4d1ebc541bd12302608a08",
+      "gzipBytes": 320,
+      "gzipSha256": "0df28b3c2043bb81977eb95bfc809c4ac8f3733a6cfb921177766222d5104f5a"
+    },
+    {
+      "source": "remote-copy/candidate-close/error-context.md",
+      "file": "raw/remote-copy__candidate-close__error-context.md.gz",
+      "rawBytes": 8979,
+      "rawSha256": "8e0700cc9f43a7a7fec1c5fbd06ec7373770efa242baee1456bb12e635e6c65b",
+      "gzipBytes": 3078,
+      "gzipSha256": "cd71e88c97d20f79931d104797dc07206de7e92e467d5898456617331dbe2508"
+    },
+    {
+      "source": "remote-copy/candidate-close/national-close-frames.json",
+      "file": "raw/remote-copy__candidate-close__national-close-frames.json.gz",
+      "rawBytes": 131540,
+      "rawSha256": "dcdedea1e11eef13a4b72b7df58b7bb5745bef2d90225e2101fc438db7f74e81",
+      "gzipBytes": 8532,
+      "gzipSha256": "200f45a3680031d4f20b51bdf65b3f7b99ff45fe7b08b3594c23578eec83be95"
+    },
+    {
+      "source": "remote-copy/candidate-close/process.json",
+      "file": "raw/remote-copy__candidate-close__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "5d5d1c2b627bbac297fb5a442223f7d62d6e9fc360d1505fd5427ef33765fdfe",
+      "gzipBytes": 41,
+      "gzipSha256": "2ef240f1729914e85d19294132c1ed825eca43b3e8f5914951433696af79c7a8"
+    },
+    {
+      "source": "remote-copy/candidate-close/report.json",
+      "file": "raw/remote-copy__candidate-close__report.json.gz",
+      "rawBytes": 2470539,
+      "rawSha256": "625f66626f31451d82e2b0065b98cf9e0c6c72a5cc23594c0d3df4b7d0222d54",
+      "gzipBytes": 1865017,
+      "gzipSha256": "65eee4467fcd7634f4d192c43b1775ba3b64ef2d956232c88dc3247134f8129a"
+    },
+    {
+      "source": "remote-copy/candidate-close/result.json",
+      "file": "raw/remote-copy__candidate-close__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "deb44de262aef0329b6d360ed19209e9e2f318a346bf7cff03a5294b1d813c64",
+      "gzipBytes": 89,
+      "gzipSha256": "2c50a8fd3725e2808295e9f269abbe4fdf9c50b277025d93a90aed93cabdb0ef"
+    },
+    {
+      "source": "remote-copy/candidate-close/stdout-stderr.log",
+      "file": "raw/remote-copy__candidate-close__stdout-stderr.log.gz",
+      "rawBytes": 3050,
+      "rawSha256": "46bd26e48328f1450bf667379f66c0c145cd7cd1c7fd87c97eb42f3a200ba056",
+      "gzipBytes": 696,
+      "gzipSha256": "6e1b39c056d4aa2107d0870d6618c82c27a528820f2ea2ea2e925186738f45b7"
+    },
+    {
+      "source": "remote-copy/candidate-profile/close.cpuprofile",
+      "file": "raw/remote-copy__candidate-profile__close.cpuprofile.gz",
+      "rawBytes": 375582,
+      "rawSha256": "fc8c2ef4331ca1d6e8accc65e072d5f47e4e8caf3db0978c7491329b8bf22f6a",
+      "gzipBytes": 40779,
+      "gzipSha256": "0b0e72bf91f4867d26bda1414e16deb0dc87d2b01c6407242576e30b0a1698e8"
+    },
+    {
+      "source": "remote-copy/candidate-profile/command.json",
+      "file": "raw/remote-copy__candidate-profile__command.json.gz",
+      "rawBytes": 320,
+      "rawSha256": "9229f73010159c5c6e29194dbd82fb1b37e8913b245b258ec698836afadd7de5",
+      "gzipBytes": 213,
+      "gzipSha256": "f1e1be75256250a4aabc87a08968c9eaa9520ef87b9a77918c5bb3ce03138b46"
+    },
+    {
+      "source": "remote-copy/candidate-profile/preview.stdout-stderr.log",
+      "file": "raw/remote-copy__candidate-profile__preview.stdout-stderr.log.gz",
+      "rawBytes": 77,
+      "rawSha256": "ae24f783560c59deed04caeff90ef3b84a3c0d3a50ca749550cfeeed2c58dd88",
+      "gzipBytes": 83,
+      "gzipSha256": "26f5399dcd9c782a09d4c0582be22c07d7fd22563ba84c164d2e9279f70953e3"
+    },
+    {
+      "source": "remote-copy/candidate-profile/process.json",
+      "file": "raw/remote-copy__candidate-profile__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "7e96a7ebad1dcebaaf304a5539cf35784697964b27ace2cce79be6be1f664a83",
+      "gzipBytes": 41,
+      "gzipSha256": "d6736dc563bf2a5d8adc5b38974b2e74626c17178b528d6fbb833fdffac5aea7"
+    },
+    {
+      "source": "remote-copy/candidate-profile/result.json",
+      "file": "raw/remote-copy__candidate-profile__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "6b774ed5299ead04e92c3c5ccbb14e1319b094d8e9a6010ae7f12e28ce8e4451",
+      "gzipBytes": 89,
+      "gzipSha256": "a31b7657e8691aea446b449969082cadf291851f24d905e228ca7250608d9644"
+    },
+    {
+      "source": "remote-copy/candidate-profile/source-parent-attribution.json",
+      "file": "raw/remote-copy__candidate-profile__source-parent-attribution.json.gz",
+      "rawBytes": 526070,
+      "rawSha256": "31b5232a8e9a88f621c396a37f7ffdb2ed8ed47d709c9b071f6257478a42f6b4",
+      "gzipBytes": 34394,
+      "gzipSha256": "bc664390e1af8a22a2581677f29fe01284853fde5d19eb9f136fa99d4f17ff33"
+    },
+    {
+      "source": "remote-copy/candidate-profile/stdout-stderr.log",
+      "file": "raw/remote-copy__candidate-profile__stdout-stderr.log.gz",
+      "rawBytes": 108,
+      "rawSha256": "4c30dd6e5cdd107449b6447166c2bd2c3f9a6fe234eb23451c8550c71184f31d",
+      "gzipBytes": 98,
+      "gzipSha256": "89aa865d70fdd1df1855a0b6dd7763294f13f70141ce0dd78bfb1cdfdbb203c4"
+    },
+    {
+      "source": "remote-copy/candidate-profile/summary.json",
+      "file": "raw/remote-copy__candidate-profile__summary.json.gz",
+      "rawBytes": 119674,
+      "rawSha256": "649fc90e1e6d761a5b300ea0b3af560b5ef74f55c2775be686ff96fff2d32de2",
+      "gzipBytes": 7629,
+      "gzipSha256": "fe00f0db7047d3f677431cf5ec1ceb0eb9c658c0bb8db40f8a7a63814b5bb35b"
+    },
+    {
+      "source": "remote-copy/geometry-candidate/command.json",
+      "file": "raw/remote-copy__geometry-candidate__command.json.gz",
+      "rawBytes": 318,
+      "rawSha256": "a8f1a059eb0353754d5b930eff5d2c449975125a60bcd5d760b32dfbeaa5eefe",
+      "gzipBytes": 206,
+      "gzipSha256": "b334bc543acb0a43fa8dfa53cf8b3d020683e23906fc441808391570caf58975"
+    },
+    {
+      "source": "remote-copy/geometry-candidate/published.json",
+      "file": "raw/remote-copy__geometry-candidate__published.json.gz",
+      "rawBytes": 15575980,
+      "rawSha256": "aa64ea9e54228fe8bfb3703539543a36e4ff5af71da9b600754de13e37e796c3",
+      "gzipBytes": 2294464,
+      "gzipSha256": "ad24c7c85549cd173371a2f69e7361807560e860091183ecb5d7a159deaf9466"
+    },
+    {
+      "source": "remote-copy/geometry-candidate/result.json",
+      "file": "raw/remote-copy__geometry-candidate__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "06a550ceb1bd67dfe863dfbea3621c4cc7e262f8d96085929e0a0070659fe2c3",
+      "gzipBytes": 89,
+      "gzipSha256": "cb0dcbe24e1415e3cb9ad97e1e2518186b6caa4187a8181e6e74c750bb671de8"
+    },
+    {
+      "source": "remote-copy/geometry-candidate/stdout-stderr.log",
+      "file": "raw/remote-copy__geometry-candidate__stdout-stderr.log.gz",
+      "rawBytes": 160,
+      "rawSha256": "c90fa172efbf0bda3ee823d87f562cbdb74d4479078c6c2f7ce740adb05141f7",
+      "gzipBytes": 150,
+      "gzipSha256": "c2215f7959565e8cb8e037b493f010309ed836293f2f7fd2dca2be164fae5377"
+    },
+    {
+      "source": "remote-copy/geometry-original/command.json",
+      "file": "raw/remote-copy__geometry-original__command.json.gz",
+      "rawBytes": 309,
+      "rawSha256": "4fb434b94388e753bf526d30e400d9476bce3e4f753aa47c93a2491418014133",
+      "gzipBytes": 211,
+      "gzipSha256": "2c9a1a1d8b9229e0aa2fcd5464cbccba0bb5329701e70dc181cb014708659ced"
+    },
+    {
+      "source": "remote-copy/geometry-original/published.json",
+      "file": "raw/remote-copy__geometry-original__published.json.gz",
+      "rawBytes": 15575980,
+      "rawSha256": "aa64ea9e54228fe8bfb3703539543a36e4ff5af71da9b600754de13e37e796c3",
+      "gzipBytes": 2294464,
+      "gzipSha256": "ad24c7c85549cd173371a2f69e7361807560e860091183ecb5d7a159deaf9466"
+    },
+    {
+      "source": "remote-copy/geometry-original/result.json",
+      "file": "raw/remote-copy__geometry-original__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "3bb29a28ad80482387ae8f143afb711197f790350153e4d3085fa8fd3962faa3",
+      "gzipBytes": 89,
+      "gzipSha256": "c5a8944b2e3954e2c2ffbf315a5f40d8eb73b272ecbc018e05a679eb4079d6b8"
+    },
+    {
+      "source": "remote-copy/geometry-original/stdout-stderr.log",
+      "file": "raw/remote-copy__geometry-original__stdout-stderr.log.gz",
+      "rawBytes": 160,
+      "rawSha256": "c90fa172efbf0bda3ee823d87f562cbdb74d4479078c6c2f7ce740adb05141f7",
+      "gzipBytes": 150,
+      "gzipSha256": "c2215f7959565e8cb8e037b493f010309ed836293f2f7fd2dca2be164fae5377"
+    },
+    {
+      "source": "remote-copy/producers-remote/overlay.json",
+      "file": "raw/remote-copy__producers-remote__overlay.json.gz",
+      "rawBytes": 107,
+      "rawSha256": "51a3fcf7e59b957296fac0b47fd8d87ea5ad0058f7e548316d3b96b26e8f829b",
+      "gzipBytes": 121,
+      "gzipSha256": "7961a6e17c626991d205676c586c37736aace1d84939d4bd2c3cb3ccf7ba607c"
+    },
+    {
+      "source": "remote-copy/producers-remote/tenka-signal-published-v1-955.mjs",
+      "file": "raw/remote-copy__producers-remote__tenka-signal-published-v1-955.mjs.gz",
+      "rawBytes": 5910,
+      "rawSha256": "5c96c99bfcf7a9648d89526d5198797b0422c0af812e7f233fce742d3c39f270",
+      "gzipBytes": 2238,
+      "gzipSha256": "5fe5a1faf06ae386a944be9fc73358f6147038535970268aa5b5889f2f4ac347"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-afterproof-955-c1/command.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-afterproof-955-c1__command.json.gz",
+      "rawBytes": 380,
+      "rawSha256": "d8ca1f0a4b6f3dd6cdb19dd82b45eddffc72f30f2fdd0ad4ec22310fbd1c7af6",
+      "gzipBytes": 219,
+      "gzipSha256": "162526f3985064f49a60eb827a13f5e8e2b60693770121d38873684a24124b60"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-afterproof-955-c1/process.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-afterproof-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "ede136c908df07cce9672530e0b74e467992c57e451d982b95d6ff1aa70bf621",
+      "gzipBytes": 41,
+      "gzipSha256": "92127538aecd433d6eb28a454dea4f870aac001c96dcb7946b548ad697bc369c"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-afterproof-955-c1/result.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-afterproof-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "07742f00165132a30dc85e2110530cc27151fda35e512b9bdcdb80c03c48ed4c",
+      "gzipBytes": 89,
+      "gzipSha256": "f3412bf7fe082049b302dcbe4849a6286f1ef84e0b8b9016c71391f591ce5872"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-afterproof-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-afterproof-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 5190,
+      "rawSha256": "99cfd4c4bd189eaad02608e54e3f45f2887f5c5c52f9d0c940877099301c08e3",
+      "gzipBytes": 1795,
+      "gzipSha256": "e7d869a55971b3879d92cc5c9ba1982683c575a04cfb8c1e85b9afedc3273ba5"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-baseproof-955-c1/command.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-baseproof-955-c1__command.json.gz",
+      "rawBytes": 325,
+      "rawSha256": "ae43931d8b5224688ccec5327b81e25eb15959e2a651a6517ea3d1c55ad3a838",
+      "gzipBytes": 212,
+      "gzipSha256": "973aa914ee55cf2a8c9038d90b44d60c207b4175a6605c361901a22f2d570d26"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-baseproof-955-c1/process.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-baseproof-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "eb6e7158869e8bb55594e025aaa9a5b3b7bfd26270d5321c12ffaace5d704d2a",
+      "gzipBytes": 41,
+      "gzipSha256": "c0be3f656a91b8daed49186c7029c514e1f5bfade6c09f579efea84f56bfbc23"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-baseproof-955-c1/result.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-baseproof-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "fff3c1ae6dd1f15e2e2029e48d2c18fb8ac6371264ce5e2193c24dcb4389ba66",
+      "gzipBytes": 89,
+      "gzipSha256": "08d7d1821314fd3ab7d50977a8bdff982588c4ebeff2b735717f2dd5e8f0f348"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-baseproof-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-baseproof-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 5082,
+      "rawSha256": "74b78577fff9093cc3103cc18b8e141561e542247f775097df079fec813ebee2",
+      "gzipBytes": 1723,
+      "gzipSha256": "2ec944bb7c14a5c0cde346e994a4f46be48a35d2806d1373d3d36a6e83331863"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-build-955-c1/command.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-build-955-c1__command.json.gz",
+      "rawBytes": 216,
+      "rawSha256": "fd66efd582179a74838eda0fbbb4081b115a1d892efc6442e09a9a63a70701f8",
+      "gzipBytes": 186,
+      "gzipSha256": "54d359a8d1d3099754205af38016933666503c6a0b749b558a802f66660cfca4"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-build-955-c1/process.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-build-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "2aa6418c6e2710801f816e53b8a128cdf7687d70ca9cb557f7801788937440c2",
+      "gzipBytes": 41,
+      "gzipSha256": "99d84719a6b00b1471d8765e8c1c26c54a4751c37915387e94d70c1ea084a608"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-build-955-c1/result.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-build-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "d93f5a0374667f5ef759004488c1062399588bf176c6351cc299b6739fa6ceb7",
+      "gzipBytes": 89,
+      "gzipSha256": "f98ed7e8999662cf4ea1f70a549617b0aa0724016f8a9dba268a280dafcc7065"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-build-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-build-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 1678,
+      "rawSha256": "5c624cdba60578729035f39bd104b61a9216e79aa28a7dd1410d050020f15aac",
+      "gzipBytes": 853,
+      "gzipSha256": "d5636fe4e5a192ab35c878911c15d1242caa526adc8701eb207781bd3a8012b4"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-depslink-955-c1/command.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-depslink-955-c1__command.json.gz",
+      "rawBytes": 237,
+      "rawSha256": "f2e1cf9924cd1420835c1883f2f96c098e6881e7fd8d0e678ba57a100452c7ea",
+      "gzipBytes": 183,
+      "gzipSha256": "513216e8771942afae7019ed26d5597c4b65e3630ca62257bba0f365b71ec61a"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-depslink-955-c1/process.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-depslink-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "2fe3345830516f44fbbcbb5bb70dc12525373e032bc1d60dfaaa576382c21a72",
+      "gzipBytes": 41,
+      "gzipSha256": "c875ef7fe3c9d2f2035d3aca3212f4c5cbe5ea354da548859f7a0885c24b499e"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-depslink-955-c1/result.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-depslink-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "690f15a5569b790573139cc4e6504e8089f44ae59dd217c3f5d148e15c8f3344",
+      "gzipBytes": 89,
+      "gzipSha256": "70cea309846651722d9ddef9c14c9fba1d4f9111f8b1eca749c596de3bb944d4"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-depslink-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-depslink-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-extract-955-c1/command.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-extract-955-c1__command.json.gz",
+      "rawBytes": 230,
+      "rawSha256": "526fada87e0f77a7fe1dbe908001853b4d2cc9febfc80935d10b34709079e566",
+      "gzipBytes": 178,
+      "gzipSha256": "6f0391b7532118601ee1b6033ced4637d180b075145d4479d1dcbd046157c6a9"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-extract-955-c1/process.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-extract-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "1e15fd0099b88bbeb81ef4b50ca4f822db970cde2d9dc0475f99f0026a7609fb",
+      "gzipBytes": 41,
+      "gzipSha256": "dd3995bdaccd791786634b9c69793c7856378191f732b55e6f3ed2c00f23bff5"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-extract-955-c1/result.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-extract-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "d7815823efd55dcfc5c39d8284e3aff8ff0ff737e01debdd9afa7e87ead4c8de",
+      "gzipBytes": 89,
+      "gzipSha256": "5cbac46db4f2001734238e21187cf98cdb9fe0f397abe4ed28c136e49973c657"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-extract-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-extract-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-list-955-c1/command.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-list-955-c1__command.json.gz",
+      "rawBytes": 429,
+      "rawSha256": "0a17c4b0bc5d4e1c434ad739f131115a00f1fafc2bd791cd38abf1f5707dc519",
+      "gzipBytes": 278,
+      "gzipSha256": "bc590caf719ae4cc2768b7a42e301a184b41d24388cc53d21d880e0ceeebcc35"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-list-955-c1/process.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-list-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "92fcc04fb9dcd90c9668743baf6a0cc52bec681f2f1b1b077e2f9d120ca38604",
+      "gzipBytes": 41,
+      "gzipSha256": "52e473d1bb610de45be5d107b637029efc8dd43b4d65cf34cdbde91c6a61d1c3"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-list-955-c1/result.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-list-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "76a58486089e39e08126963a07bd0066257b575714085e4c1326d63d31a398d4",
+      "gzipBytes": 89,
+      "gzipSha256": "bdec09a93d8ceb91ce33779547b9ccfb1420d70c90e1cb2994edf2f9331baca1"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-list-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-list-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 230,
+      "rawSha256": "a9b7d03a36cbbbf0738316abfdf00047e5a480281045611bcc1dc901bc70354d",
+      "gzipBytes": 185,
+      "gzipSha256": "9f28817e67b05dcb395706704c63250878c67d98c8ce047a02d5d7e2eaa44099"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-manifest-955-c1/command.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-manifest-955-c1__command.json.gz",
+      "rawBytes": 226,
+      "rawSha256": "bb76b1b676860d751ad676d022bd5bfc4ef9fef9e4b20237a5dd86cf3b9dc177",
+      "gzipBytes": 173,
+      "gzipSha256": "e14453638f29b35009cf24e9cac83f9c6613de6b156142813267aa11677c66c0"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-manifest-955-c1/process.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-manifest-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "888f3724431a6b4d51c328fde94cdbea34093bfb33ef906d51f4ab81e47a2024",
+      "gzipBytes": 41,
+      "gzipSha256": "5c167055240c162f393f3d36af9327548bc550f8256ab12603c6d958303f68f4"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-manifest-955-c1/result.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-manifest-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "83737e237d9ac5385b09b53be09ef27d7f8a2eb60d50033227fdb3735f69e16f",
+      "gzipBytes": 89,
+      "gzipSha256": "5619cb12869e29cbe549bb45453047989b84611edfe5b0fb198b62dff61dd248"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-manifest-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-manifest-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-mkdir-955-c1/command.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-mkdir-955-c1__command.json.gz",
+      "rawBytes": 163,
+      "rawSha256": "c7897a58114bd47fad8582f6eee47cfa07f93336b26d6a4280e40f770be6a74c",
+      "gzipBytes": 152,
+      "gzipSha256": "e475233bb1663add723b92dd6afac2193debe5e96fe919ef2d35e3868c95741c"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-mkdir-955-c1/process.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-mkdir-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "fcff2969a5de1c67b1a612111a9ac14a7f0551455a92b90b48d894c27e33cc13",
+      "gzipBytes": 41,
+      "gzipSha256": "534f7572b1f69d77abb7bb29c8b40ec4c31346bfd871204b4f6fc1a123d6bb7a"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-mkdir-955-c1/result.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-mkdir-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "70969d01085fec1abc87c77533c1f5338493de9c5dceca3e384253cf3a5ad346",
+      "gzipBytes": 89,
+      "gzipSha256": "49ab0ef111342a171dce48a2bc838ba9ff149fe18c367de19acf14cdba2569d7"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-mkdir-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-mkdir-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-overlayproof-955-c1/command.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-overlayproof-955-c1__command.json.gz",
+      "rawBytes": 380,
+      "rawSha256": "1e55957db45da2718e727a9527792fb15d205662a2b6ee3169bc92b6d317b33d",
+      "gzipBytes": 219,
+      "gzipSha256": "6d7e8330046757da95b2bcf64ef58da3b1ccb2868c0340c0a2f991cebe44ca75"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-overlayproof-955-c1/process.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-overlayproof-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "795bd4de4c4ac8d1f6a7cbdc2605f068454d1e7ff2c2b6e0a6f87d5849562847",
+      "gzipBytes": 39,
+      "gzipSha256": "e36bb764761f3ae68ef0079d0dec3e4c92a67d330baf41fb6a1d56f499155dfc"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-overlayproof-955-c1/result.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-overlayproof-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "ce02b4551e8f705cf24968a17ae523abccc42ce142bd17ff0a0fe6441f7a659a",
+      "gzipBytes": 89,
+      "gzipSha256": "47f07ca17765eebd3fec431816a1aa1e97e21a89e92864d9e3c36bec9037b7d1"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-overlayproof-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-overlayproof-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 5190,
+      "rawSha256": "99cfd4c4bd189eaad02608e54e3f45f2887f5c5c52f9d0c940877099301c08e3",
+      "gzipBytes": 1795,
+      "gzipSha256": "e7d869a55971b3879d92cc5c9ba1982683c575a04cfb8c1e85b9afedc3273ba5"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-profile-afterproof-955-c1/command.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-profile-afterproof-955-c1__command.json.gz",
+      "rawBytes": 380,
+      "rawSha256": "1717de3f8c3b3fe6b5ebfdc4572359bd8c0024c2c46a071a4ae8f4787fc7d328",
+      "gzipBytes": 220,
+      "gzipSha256": "41d388d0ddec0b6e26cf093eb7943ec0bd6631b16d3d8efde177898c116be0a4"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-profile-afterproof-955-c1/process.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-profile-afterproof-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "8ad555e3506088fcecbe84c8310ec67e45af6ea9034d8e839b85bda7fc9877ca",
+      "gzipBytes": 41,
+      "gzipSha256": "895e6a0c9437166f7dd5650d441815c8f93a6799fc00f6fa336c426d52e56f4d"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-profile-afterproof-955-c1/result.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-profile-afterproof-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "7e68b44d9c2c7f8980fc3a69643ab85553f5a0ba6579f98191f90a6cc0890629",
+      "gzipBytes": 89,
+      "gzipSha256": "57a064c85577150ec6bdc2ec3d97d40e828c20ddacd662d6758d56d074f9468e"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-profile-afterproof-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-profile-afterproof-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 5190,
+      "rawSha256": "99cfd4c4bd189eaad02608e54e3f45f2887f5c5c52f9d0c940877099301c08e3",
+      "gzipBytes": 1795,
+      "gzipSha256": "e7d869a55971b3879d92cc5c9ba1982683c575a04cfb8c1e85b9afedc3273ba5"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-profile-analysis-955-c1/command.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-profile-analysis-955-c1__command.json.gz",
+      "rawBytes": 283,
+      "rawSha256": "4fe2c97c8e1cc38f5306933a69c839d544a09a44a7bc7c3c85a4b89dc9e74698",
+      "gzipBytes": 205,
+      "gzipSha256": "0ea48ce743662a9ad750aca4b8592a24168b06ad46c8d33ef3d47e80edca77fb"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-profile-analysis-955-c1/process.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-profile-analysis-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "874880abb09dc3710523d8f80395e2bd6166439e3421bc432255afa7e1637c7d",
+      "gzipBytes": 41,
+      "gzipSha256": "bd048923a69926eccedcde19e050230a399aeb0dcc30ce6c0ebc9a36b8077783"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-profile-analysis-955-c1/result.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-profile-analysis-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "c72589a82235d8c561687a03d0797dfefa6f82bf90094e52957a9dd0205baa62",
+      "gzipBytes": 89,
+      "gzipSha256": "8938a2661ae190486ec3599a3fe771cf2cd47a443c0c2aaf9c584fc08688b730"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-profile-analysis-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-profile-analysis-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 4055,
+      "rawSha256": "f790d706f526d6f459e4132ef9e4faa795d576498b624a304326e4b95ec83aab",
+      "gzipBytes": 802,
+      "gzipSha256": "a8bc057ac91ec4f8f57235e5460e107c8790896392501e3465eca89a6c531f6f"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-tracehash-955-c1/command.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-tracehash-955-c1__command.json.gz",
+      "rawBytes": 299,
+      "rawSha256": "d1172ab5904cd1ffb5991b5d22ca9211b4076fc86dc8c140dd314ab89f78eb26",
+      "gzipBytes": 226,
+      "gzipSha256": "b0ba5bc6b2630b34922c779a58bf15f778c44f74994ade96ac9d8b3d226bdd5d"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-tracehash-955-c1/process.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-tracehash-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "63b3128fd308f5275b51f5ca7165f4ac60098a36d5d333fd1cd4d3e7f69ce0e9",
+      "gzipBytes": 41,
+      "gzipSha256": "b2b753679160bac7e2428d5e692713d89786b64b5d54087ee60464bb6f213376"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-tracehash-955-c1/result.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-tracehash-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "7373dc553e7f32d798b55989d3ff18bf79ee2c6b33b8de60fed2185e31ec9807",
+      "gzipBytes": 89,
+      "gzipSha256": "7488207c51eda1c2a418b39afd89a9c204e0e57a39d521ece78f55439cf69139"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-candidate-tracehash-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__proofs__tenka-signal-candidate-tracehash-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 203,
+      "rawSha256": "0f985ccf735893a72bc0751b59863cc5206ba0069e3a70a020b3e93dd1117066",
+      "gzipBytes": 175,
+      "gzipSha256": "897d7e6ec69ea6e52893a6eb2d15c43700a0cb6df9d2f3b6158bba371e21f597"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-published-original-955-c1/command.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-published-original-955-c1__command.json.gz",
+      "rawBytes": 309,
+      "rawSha256": "019c3edb7dd0ec48f48db09cfb9abf5e40701361aee4316d2283515f9723bdbc",
+      "gzipBytes": 212,
+      "gzipSha256": "fe8614d0d668637a48b54e87c4969c22cb77611099a88125ad1fe5d820f817c8"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-published-original-955-c1/preview.stdout-stderr.log",
+      "file": "raw/remote-copy__proofs__tenka-signal-published-original-955-c1__preview.stdout-stderr.log.gz",
+      "rawBytes": 77,
+      "rawSha256": "ae24f783560c59deed04caeff90ef3b84a3c0d3a50ca749550cfeeed2c58dd88",
+      "gzipBytes": 83,
+      "gzipSha256": "26f5399dcd9c782a09d4c0582be22c07d7fd22563ba84c164d2e9279f70953e3"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-published-original-955-c1/process.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-published-original-955-c1__process.json.gz",
+      "rawBytes": 21,
+      "rawSha256": "e2dc6927cbff42f536ef30c9ff6259b4186933c91cf8d0bcf00ae725fc063dc1",
+      "gzipBytes": 41,
+      "gzipSha256": "160e42617fa0d2f0fcf5dde509b6393246e3fa08a770a038bf6f4ddeb299c4ca"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-published-original-955-c1/result.json",
+      "file": "raw/remote-copy__proofs__tenka-signal-published-original-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "d547c3f0caaea4d244885fdea2b9fa0ca239a8a508c2471b56a3dc2c14971951",
+      "gzipBytes": 89,
+      "gzipSha256": "2d2cfed59392cb0df73fde8fd18f94cf2ad179354131426aba387ef5cb9f7de5"
+    },
+    {
+      "source": "remote-copy/proofs/tenka-signal-published-original-955-c1/stdout-stderr.log",
+      "file": "raw/remote-copy__proofs__tenka-signal-published-original-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 269,
+      "rawSha256": "625d9e0bbc7323606e1173de370e7e442580ee622a164e50360c9267806ff81f",
+      "gzipBytes": 166,
+      "gzipSha256": "8952c5c9dc683bab456020da73b3bd6aeb684fa9bc940e2166aa933ed53f768f"
+    }
+  ],
+  "remoteTrace": {
+    "path": "/tmp/tenka-signal-candidate-close-955-c1/browser-results/national120-map-perf-natio-9df1b-d-actual-postrender-cadence-chromium/trace.zip",
+    "bytes": 69705220,
+    "sha256": "f40794e877c61bc902897865aa8c503fbce6c6402d6a6af94797a281c4999638"
+  },
+  "geometryComparisonSha256": "0d2c3227600f59b1f68d44f82d10383cfff00696d06de904441f2475a5b12798"
+}

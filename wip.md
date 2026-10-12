@@ -11,7 +11,7 @@
 - 後續 `d619085` 減少地理標籤的 edge-axis 暫存及快取命中前候選配置。25 項原版比對／邊界測試與六項 native Worker 流程通過；原生前後完整狀態、日誌、地圖發布及全部地理標籤一致。正常 x5 最長間隔 84.7→60.3 ms，後版此樣本沒有 long task；仍未達穩定 60 FPS。完整前後 profile／source map／原始數據見 completion-audit/geographic-allocation。
 - `7129f63` 修正零城勢力的普通野戰退出，84 項相關測試與本機十五項 victory 通過。有效戰術收尾仍缺中止／獎賞表示，已詢問使用者；真正失敗診斷保留，未用 expected-failure 或 skip 掩蓋。全量回歸 6,264 通過／1 失敗／1 跳過（唯一 day450 無繼承人領地問題），型別／完整 lint／build／bundle 通過；1,355 個固定 commit 的來源 SHA256 不變。證據見 completion-audit/field-extinction、continuation-7129。
 - `fc45370` 保存 sim2 凍結來源的原生補驗：區域九城實際結局與重載通過；色覺／道路土壤完整頁面復原仍有 HUD 圓角像素差異。40 支行軍部隊的 30 秒窗口含月度自動暫停，效能結果失效；保留原 gate 失敗，不修改門檻。詳見 completion-audit/native-gates-sim2-505d96a。
-- `38d22b0`／`9a0e242` 補齊 M6-18 自然具申採納、實際出陣／獎賞、次月清理與未付俸祿驗證；20 項測試與來源 archive 重跑均通過。逐項 M6 matrix 仍保留未完成 gate。sim4 延長掛載兩次均在第 41 次失敗，地面材質請求傳輸失敗；尚未定位底層原因，原始紀錄保留於 completion-audit/extended-remount，不認定整體記憶體穩定。
+- `38d22b0`／`9a0e242` 補齊 M6-18 自然具申採納、實際出陣／獎賞、次月清理與未付俸祿驗證；20 項測試與來源 archive 重跑均通過。逐項 M6 matrix 仍保留未完成 gate。當時 sim4 延長掛載兩次均在第 41 次發生地面材質傳輸失敗；後續 Blob Worker 控制與 `2cfb2d6` 主執行緒 decode 已修正，130 次及之後 240 次資源驗證通過。原 RED 留在 completion-audit/extended-remount；whole-heap 仍有後半 +208,584 bytes，不能把傳輸修正當整體記憶體穩定。
 - `8c0de41` 原生官位驗證通過：正常朝廷工作至第 150 日取得恩惠 23，第 151 日正常授官扣 300 金、加 50 威信，恩惠不變；原生存檔重載一致。相關現版來源與凍結來源相符，原始成功及四次觀測失敗均保存於 completion-audit/court-rank。具申驗證後全量回歸仍為 6,264 通過／1 失敗／1 跳過，型別／完整 lint／build／bundle 通過，詳見 continuation-38d22b0。
 - 分步提交與原始前後資料集中於 `docs/validation/2026-10-12/completion-audit/README.md`。WASM／Worker 架構已提交；全專案、長跑校準及原生藝術驗收仍未完成。人口校準與無繼承人領地處理仍待先前詢問的規則決定，不擅自改變遊戲結果。
 
@@ -6656,3 +6656,14 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - `04b2d92` 依 12 §3.3.4／D29 補選取城池／郡的 1200ms pulse，使用指定 cubic-bezier(.65,0,.35,1)、scale 1→1.08→1、alpha envelope .9→.6→.9。只變內部 Graphics transform／容器 alpha，groundY=4 與世界 anchor 不變；減動態／停用效果恢復原 static RGBA，選取切換／換圖／destroy 清理。原既有 Graphics native 控制因維持靜態而 RED，候選 1/1 PASS（5.5 秒），減動態取樣跨 1300ms；明示 renderer selection fixture，不冒稱實際 pointer selection或完整藝術核准。來源完整比對是較晚 post-run readback，pre-run archive／overlay hashes 分開保存，AppleDouble／overlay verifier RED 未隱藏。
 - 最後固定 `04b2d92` 合併 247/247（15 檔）、型別、data／assets／build／bundle、440 production／8 gallery discovery／格式及 1,648 Git inputs／29 Pixi targets 前後一致。第一次完整 ESLint 因同期封存的五個 raw TS 證據副本位於 tsconfig 外而 RED；bytes 入 archive 後移除 plain copies，原碼與 lint 規則未改，另跑完整 ESLint PASS（0 errors／2 warnings）。沒有把首次 RED 改標，也沒有重跑全量 core／原生。
 - 全套五分鐘、strict60、whole-heap、long-run、六推薦／星級及其餘 M6–M9 仍開放；威風 world-radius payload 缺口與 max0 ProgressBar 語意均未擅自改寫。無嗣／戰術終局、人口校準、934163c 六圖仍無新回答；未改規則、保護基準、deadline、milestone，未 push／deploy。
+
+## 2026-10-12 — 現版完整原生與旗標零重疊快徑
+
+- 固定 `9550e39` 更新完整 440 項原生：原 300 秒、預設 16 workers 下為 257 PASS、11 assertion FAIL、3 timeout、31 其他 skipped、5 interrupted、133 未派發。逐一用 terminal title 區分 interruption 與空 results，完整 report／25,033 個遠端檔案 inventory 留存；未重跑 RED。來源 1,648 blobs／29 dependency targets 前後相同。
+- Army plate 三項都停在 shared boot 的原 5 秒 poll；catch 吞掉 `waitMapIdle` 例外，不能宣稱未掛載或 CPU 爭用原因。Hojo 真正 day30→32 違例保留；alliance／Takeda／Ending generator 分別撞原 15／60／5 秒 test limit，Ending test6.980秒與 process13.93秒分列。四項色覺復原仍有 11／17／11／10 pixels 差異。兩個 corps、court-rank、十五倍率精靈與 same-seed 通過；SystemMenu 未派發，pulse gallery 不屬此套件。
+- 單案啟動 census PASS4.408秒但沒有單一可安全修復的主因；Castle packet census 保存 exact WASM input/output bits 與掃描成本，未採用 axis index。離線 kernel 2.829ms 包含 copy／comparison，不能與舊 live parent cost 相減或當 FPS 上限。後續精確現版 profile 明列 kernel、JS seed、materialization 與獨立軍勢旗標成本。
+- `ef75be6` 只為旗標 overlap 加安全零 X-span 快徑；每次呼叫的 MAX/16 Y 範圍保護原浮點語意，極端值 fallback 原式。`++work`、候選／提案／障礙排序及原 forEach 稀疏行為不變。原函式 fixture 為 9550 exact bytes；邊界、signed zero、subnormal、隨機與實際 1,000,001 工作耗盡證明全數保留。九個完整 published views 加所有 signals 與原版 byte-identical（SHA aa64ea9e…），原四 counter exclusions 未增加。
+- 同機原 30 秒近景窗口 33.2367→34.1319 FPS、p95 36→35ms、slow27.7778→28.5714；兩版 strict60 仍 RED，mean 之後斷言未執行。相同 producer 各一次 10 秒 profile，328／342 renders 的 solver sampled cost4.144→3.541ms/render，state／commands／resources 不變。單次方向性證據支持增量採用，不代表重複性、live x5 或穩定60。
+- 合成 early crowded medians 矛盾與 dense +5.9%／約+8% 都保留；觀測時間分段後才增加固定 60 warmup／40 timed pairs，sparse−10.9%、crowded−9.3%、dense+7.6%。沒有冒稱此設計事先決定、證明 JIT 或普遍改善。第一版九圖 observer 誤要求零 ticks 而 RED；原 day0–2 observer 正確為兩次，兩版修正後使用相同 observer，沒有排除新增差異。
+- 固定 ef75be6 八檔 207/207、型別、完整 ESLint、build／bundle／touched format 及 1,650 Git inputs／29 Pixi targets 前後通過。候選原生來源是9550加單檔 overlay，完整440仍釘選9550；不重標後續 source，不重跑完整 core。
+- 下一步以已見失敗優先：保留真正例外再定位 army plate boot、Hojo 原生暫停交接、earned generator 原期限；不盲加 timeout、改 worker cap 或重跑未改全套。41st texture 傳輸故障早由2cf修正，whole-heap後半+208,584 bytes仍開放。全 M6–M9、strict60、whole-heap、long-run、六推薦／星級與既有規則／六圖人工決策保持；未 push／deploy。

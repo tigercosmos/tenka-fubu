@@ -4,6 +4,20 @@ Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目�
 最新固定來源 `ab06242` 全量測試為 6,451 通過、3 失敗、1 跳過；其中兩個新缺字失敗已另以 focused 檢查修復，既有無嗣領地失敗保留。120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
+## 現版完整原生與軍勢旗標增量效能
+
+[固定 9550 完整原生](fullnative-current-9550/README.md) 首次涵蓋現有 440 項，維持原 300 秒、預設 16 workers 及所有個別期限／skip。結果為 257 PASS、11 assertion FAIL、3 timeout、31 其他 skipped、5 interrupted、133 未派發，完整 gate 仍 RED。Army plate 三案失敗於吞掉例外的 boot poll，尚不能判定底層原因；Hojo 保留 day30→32 違例；三個 earned generator 原 test timeout、四項精確色覺差異與其他逾時均保存。這是修正前 `9550e39`，不能改標為後續提交。
+
+[單案啟動 census](fullnative-phase-9550/README.md) 的原斷言通過，成本分散於初始化及多個地圖函式，未據此修改 scheduler 或期限。其 29 個 dependency target 只有 post-run 校驗，pre-run lockfile／source 證明範圍另列。[Castle 真實 packet census](castle-axis-packet-census-9550e39/README.md) 保存三視角 Float64 bits、原始輸出、離線 byte 比對與缺 env 的初次 RED；未採用 axis index，離線 kernel 不是完整 castle stage 或 FPS 上限。
+
+[現版近景與 source-mapped profile](castle-close-profile-9550e39/README.md) 將成本重新定位到實際 `9550e39`：30 秒 strict60 原案為 33.2367 FPS、p95 36ms，仍 RED。另一次 10 秒 profile 的 328 renders 中，軍勢旗標 solver sampled cost 約 4.144ms/render；父節點 inclusive 與子節點 self 分開，沒有重複加總或虛構呼叫次數。
+
+[旗標快徑 ef75be6](army-signal-zero-x-ef75be6/README.md) 只在每次呼叫的安全 Y 範圍內，對零 X-span 跳過必為有限值的 Y 計算，極端輸入走原式。原參數驗證、稀疏陣列處理、候選順序及每次 `++work` 保持；原版與候選都實際觸及 1,000,001 次工作上限且輸出相同。兩版九個完整地圖 payload 加所有 signals 逐 byte 相同，SHA `aa64ea9e54228fe8bfb3703539543a36e4ff5af71da9b600754de13e37e796c3`，只排除原四個非視覺計數。
+
+候選同機單次 30 秒結果為 34.1319 FPS、p95 35ms、slow 28.5714 FPS；兩版 strict60 都失敗，mean 之後的原斷言未執行，raw 比對不冒稱已執行。另一次相同 producer 的 10 秒 profile 保持 core／commands／resources，342 renders 的旗標 solver 為 3.541ms/render。這些方向一致的觀察與精確布局支持增量採用，不證明重複性。早期合成 crowded medians 互相矛盾；看到時間分段變化後才另訂固定 60 warmup／40 timed pairs，得 sparse −10.9%、crowded −9.3%、dense +7.6%。所有早期 rows（含 dense +5.9%）、方法調整及負結果保持，沒有證明 JIT 原因或普遍加速。
+
+[固定 ef75be6 整合](signal-integrated-ef75be6/README.md) 的八檔 207 tests、型別、完整 ESLint、build／bundle／touched format 全通過，1,650 Git inputs 與 29 Pixi targets 前後相同。原生候選仍明列 `9550e39` 加精確單檔 overlay；沒有重跑或重標完整 core／440 原生。全 M6–M9、strict60、whole-heap、long-run、六推薦／星級、無嗣／戰術終局、人口校準及六張保護圖人工核准仍開放，未改 gate、規則、references 或 milestone，未 push／deploy。
+
 ## StrictMode 菜單所有權與選取環脈動
 
 [SystemMenu 證據](system-menu-strict-1990036/README.md) 區分原 production 設定旅程 PASS 與 DEV StrictMode 的真實 click→enqueue→close RED。6cb 的 generation-guarded microtask release 保留即時 callback 撤銷、真實卸載與 replacement／pause 所有權；199 的真實 captured onConfirm 回呼負控制補足 detached DOM 測試不能證明的部分。最後六項 focused regression、候選 DEV fixture 1/1（4.9 秒）與重建 production 原旅程 1/1（約 5.5 秒）通過；DEV fixture 現可用真實遊戲內 Settings 即時關閉效果，警示跨週期恆亮。原失敗、setup 錯誤及第一版 unit source 未封存的限制保持。
