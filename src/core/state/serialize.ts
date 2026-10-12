@@ -97,19 +97,20 @@ function utf8Bytes(text: string): number[] {
 }
 
 /**
- * FNV-1a 64-bit（純 TypeScript BigInt 實作，零依賴，Node／瀏覽器結果一致，可同步呼叫；
- * 17 §5.2／tests/helpers/hash.ts 選型理由同款）。與 tests/helpers/hash.ts 之 `fnv1a64`
- * 演算法相同、輸出位元一致的獨立實作——core 不得 import tests/。
+ * FNV-1a 64-bit（與 17 §5.2 BigInt 定義位元一致）。保留 `utf8Bytes` 的既有位元組序列，
+ * 只用兩個 unsigned 32-bit 字拆算模 2^64 乘法。prime = 2^40 + 435；xor 僅作用於 low 字。
+ * x*435 < 2^41 可由 JS number 精確表示，high 的三項和亦低於 2^53。
  */
 export function fnv1a64(text: string): string {
-  let h = 0xcbf29ce484222325n;
-  const prime = 0x00000100000001b3n;
-  const mask = 0xffffffffffffffffn;
+  let hi = 0xcbf29ce4;
+  let lo = 0x84222325;
   for (const b of utf8Bytes(text)) {
-    h ^= BigInt(b);
-    h = (h * prime) & mask;
+    const x = (lo ^ b) >>> 0;
+    const product = x * 435;
+    hi = (Math.imul(hi, 435) + Math.floor(product / 0x100000000) + ((x << 8) >>> 0)) >>> 0;
+    lo = product >>> 0;
   }
-  return h.toString(16).padStart(16, '0');
+  return hi.toString(16).padStart(8, '0') + lo.toString(16).padStart(8, '0');
 }
 
 /**

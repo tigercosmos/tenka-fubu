@@ -1192,3 +1192,12 @@ perfGate():
     依 08 §3.4.1 與 15 D37，提案及成立時的信用至少達 trustCostAlliance＝60。
     五十九點拒絕、六十點允許提案；完整接受度不足時仍拒絕成立，不混用兩種門檻。
     舊 allianceTrustMin 為重複別名；不新增 BAL key、不更改行為或回寫 frozen 基準。
+29. **（2026-10-12；M9 效能）以兩個 32-bit 字實作等價的 FNV-1a 64-bit 乘法**：
+    §5.2 的 BigInt 程式碼保留為位元輸出的參考實作；正式 `stateHash` 仍先以相同的
+    `canonicalStringify` 和既有 `utf8Bytes` 取得同一位元組序列。令 XOR 後低字為 `x`，
+    `prime = 2^40 + 435`，則低字為 `(x × 435) mod 2^32`，高字為
+    `(hi × 435 + floor(x × 435 / 2^32) + (x << 8)) mod 2^32`。`x × 435 < 2^41`，
+    JS 整數運算可精確表示；低字輸出前均轉為 unsigned。此裁決不更換雜湊、編碼、
+    transient 欄位處理或 golden 值。以固定舊版函式為 oracle，對全部單一 UTF-16 code unit
+    （含孤立 surrogate）、代表性成對字元、決定論字串及全國狀態比對；完整 earned 旅程另比對
+    三百個逐日 hash、事件／指令證據與原存檔位元。
