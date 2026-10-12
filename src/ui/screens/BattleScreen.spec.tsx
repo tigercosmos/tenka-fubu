@@ -340,7 +340,7 @@ describe('BattleScreen', () => {
     expect(screen.getByTestId('battle-log-latest')).toBeTruthy();
     log.focus();
     fireEvent.keyDown(log, { key: ' ' });
-    expect(screen.getByRole('button', { name: '一倍速' }).getAttribute('aria-pressed')).toBe(
+    expect(screen.getByRole('button', { name: '一倍速 ×1' }).getAttribute('aria-pressed')).toBe(
       'true',
     );
     fireEvent.click(screen.getByTestId('battle-log-latest'));
@@ -444,7 +444,7 @@ describe('BattleScreen', () => {
     advance(UI.kassenTickMs * 2);
     expect(runner.mock.calls).toHaveLength(calls);
     fireEvent.keyDown(document.body, { key: ' ' });
-    expect(screen.getByRole('button', { name: '一倍速' }).getAttribute('aria-pressed')).toBe(
+    expect(screen.getByRole('button', { name: '一倍速 ×1' }).getAttribute('aria-pressed')).toBe(
       'true',
     );
     advance(UI.kassenTickMs);
@@ -556,7 +556,7 @@ describe('BattleScreen', () => {
     advance(UI.kassenTickMs * 2);
     expect(store.getState().game!.battles[BATTLE]!.tick).toBe(tick);
     expect(getPendingBattleOrdersForTests(BATTLE)).toEqual([]);
-    expect(screen.getByRole('button', { name: '二倍速' }).getAttribute('aria-pressed')).toBe(
+    expect(screen.getByRole('button', { name: '二倍速 ×2' }).getAttribute('aria-pressed')).toBe(
       'true',
     );
   });
@@ -572,7 +572,7 @@ describe('BattleScreen', () => {
     advance(1000);
     expect(store.getState().game!.battles[BATTLE]!.tick).toBe(tick);
     expect(getPendingBattleOrdersForTests(BATTLE)).toEqual([]);
-    expect(screen.getByRole('button', { name: '二倍速' }).getAttribute('aria-pressed')).toBe(
+    expect(screen.getByRole('button', { name: '二倍速 ×2' }).getAttribute('aria-pressed')).toBe(
       'true',
     );
     view.rerender(<BattleScreen {...props} />);
@@ -607,7 +607,7 @@ describe('BattleScreen', () => {
     const tick = store.getState().game!.battles[BATTLE]!.tick;
     advance(UI.kassenTickMs);
     expect(store.getState().game!.battles[BATTLE]!.tick).toBeGreaterThan(tick);
-    expect(screen.getByRole('button', { name: '一倍速' }).getAttribute('aria-pressed')).toBe(
+    expect(screen.getByRole('button', { name: '一倍速 ×1' }).getAttribute('aria-pressed')).toBe(
       'true',
     );
     fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' });
@@ -634,7 +634,7 @@ describe('BattleScreen', () => {
     viewport.blocked = true;
     view.rerender(<BattleScreen {...props} />);
     expect(screen.getByRole('button', { name: '暫停' }).getAttribute('aria-pressed')).toBe('true');
-    const x2 = screen.getByRole<HTMLButtonElement>('button', { name: '二倍速' });
+    const x2 = screen.getByRole<HTMLButtonElement>('button', { name: '二倍速 ×2' });
     expect(x2.disabled).toBe(true);
     fireEvent.click(x2);
     fireEvent.click(screen.getByRole('button', { name: '全軍委任：關' }));
@@ -657,7 +657,7 @@ describe('BattleScreen', () => {
     const view = render(<BattleScreen battleId={BATTLE} onExit={vi.fn()} onRetreat={vi.fn()} />);
     const strategy = { ...store.getState().session };
     const paused = screen.getByRole('button', { name: '暫停' });
-    const x2 = screen.getByRole('button', { name: '二倍速' });
+    const x2 = screen.getByRole('button', { name: '二倍速 ×2' });
     fireEvent.keyDown(document.body, { key: '2' });
     expect(x2.getAttribute('aria-pressed')).toBe('true');
     fireEvent.keyDown(document.body, { key: ' ' });
@@ -665,11 +665,11 @@ describe('BattleScreen', () => {
     fireEvent.keyDown(document.body, { key: ' ' });
     expect(x2.getAttribute('aria-pressed')).toBe('true');
     fireEvent.keyDown(document.body, { key: '3' });
-    expect(screen.getByRole('button', { name: '五倍速' }).getAttribute('aria-pressed')).toBe(
+    expect(screen.getByRole('button', { name: '五倍速 ×5' }).getAttribute('aria-pressed')).toBe(
       'true',
     );
     fireEvent.keyDown(document.body, { key: '1' });
-    expect(screen.getByRole('button', { name: '一倍速' }).getAttribute('aria-pressed')).toBe(
+    expect(screen.getByRole('button', { name: '一倍速 ×1' }).getAttribute('aria-pressed')).toBe(
       'true',
     );
     const nativeSpace = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true });
@@ -681,7 +681,7 @@ describe('BattleScreen', () => {
       </div>,
     );
     for (const key of [' ', '2', '3']) fireEvent.keyDown(document.body, { key });
-    expect(screen.getByRole('button', { name: '一倍速' }).getAttribute('aria-pressed')).toBe(
+    expect(screen.getByRole('button', { name: '一倍速 ×1' }).getAttribute('aria-pressed')).toBe(
       'true',
     );
     expect(store.getState().session).toEqual(strategy);
