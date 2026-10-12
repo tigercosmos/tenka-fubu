@@ -1341,11 +1341,16 @@ worker 與 WASM 路徑都使用 Vite base，涵蓋 Pages 的子路徑部署。
 
 主頁與每個模擬 worker 各自於 fetch 前以固定的 strict SIMD probe 選定產物。
 不支援 SIMD 時明確選擇 scalar；選定後不得切換模式。
+正式自動載入的 SIMD 政策保持關閉，預設選擇 scalar；支援能力不代表已證明遊戲效能收益。
+明確指定的 SIMD 產物仍須通過相同 ABI／variant 檢查。
 實例化後核對數值 ABI 與選定 variant，通過後才安裝核心或回覆 worker ready。
 能力偵測例外、HTTP、實例化或 ABI／variant 錯誤都沿用原錯誤路徑。
 兩個執行環境仍持有獨立 memory；SIMD 不改變策略 tick 的串行結算與 RNG 順序。
 Rust 保留各 lane 的原 f64 加減順序、strict min／max 及最後的 scalar 乘法；不使用 relaxed SIMD。
 數值一致性與瀏覽器能力驗證不能替代原遊戲 FPS gate。
+固定 `f898ac9` 的單次原生 SIMD 量測為 overview 59.8635、operational 49.9103、close 30.8998 FPS。
+相對既有同依賴群組的 scalar 基準，close 下降約 3.56%，因此撤回自動啟用。
+此結果沒有重跑以挑選較佳窗口，也不作為撤回後 scalar 預設的重新量測結果。
 
 完整快照的 structured clone 與主執行緒 reconciliation 仍有成本。
 此成本必須與原同步 tick 分開量測；背景計算本身不證明 FPS 或完整遊戲驗收通過。

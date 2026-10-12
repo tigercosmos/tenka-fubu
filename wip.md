@@ -6506,3 +6506,11 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - `c116452` 保存 Firefox／WebKit 對舊 scalar642／prototype4ba 的完整 2121＋24 證據；此項不冒充新產物的瀏覽器或效能驗證。
 - 載入接線的 10 檔 123 tests、完整 typecheck、scoped lint、production build、bundle gate 通過。最初 lint／fake type 缺欄位與 ENOSPC 作業失敗保留；磁碟恢復後重跑受影響檢查。Root 僅清理已完成隔離副本的生成 dist，沒有清除 source、public 或 raw evidence。
 - `f898ac9` 提交主頁／Worker 初始化前的能力選擇與 variant 核對；固定 `f898ac94fe98c317edb7c2cafdf1831fa4528059` 進行原生量測。上一個 accepted close 結果仍為 32.0392 FPS，不能據數值驗證宣稱新效能收益。未 push／deploy。
+
+## 自動 SIMD 啟用撤回決定（2026-10-12）
+
+- 固定 `f898ac9` 在原 current23 RTX5070Ti Vulkan 環境完成 original9，完整 payload SHA `af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29` 一致。實際請求 SIMD URL，四筆成功 response body 及獨立 served bytes 都是新 `0edab`／88392-byte 產物；另一次 CDP body 收集錯誤保留，沒有冒充其 response bytes。
+- 原三個 30 秒視角各測一次：overview 59.8634833、operational 49.9102681、close 30.8998201 FPS。相對 feab 同 cohort 分別 −0.16068%、＋0.05061%、−3.55630%；close p95 38.7 ms。三個 strict60 原 RED 保留，沒有重跑基準或 FPS。
+- 原六個 Worker E2E 全通過、42.7 秒，包含 60／120 日 cold／warm 完整狀態、log 與 readiness 控制。來源 1528／依賴 14765／23 patch 的前後與最終校驗通過。
+- 第一個新增 body collector 的 CDP 錯誤發生於 FPS／六 Worker 作業前；保留第一 RED，僅修正外部收集器後完成 original9。未修改固定遊戲程式或原斷言。
+- `2dfc0ab` 撤回正式自動 SIMD 預設，保留雙產物、數值 ABI 驗證、明確 SIMD 模式及 Rust／背景 Worker 架構。最終 126 tests／10 files、types、lint、format、production build／bundle 通過。撤回後沒有重新量測，因此不宣稱新的 scalar FPS。無額外 CPUprofile、未 push／deploy。

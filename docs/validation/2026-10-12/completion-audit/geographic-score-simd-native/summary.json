@@ -23,17 +23,7 @@
     "fullPayloadEqual": true,
     "snapshotsEqual": true,
     "snapshots": 9,
-    "days": [
-      0,
-      0,
-      0,
-      1,
-      1,
-      1,
-      2,
-      2,
-      2
-    ],
+    "days": [0, 0, 0, 1, 1, 1, 2, 2, 2],
     "excludedNonvisualCounters": [
       "armyPlateLayout.runs",
       "geographicLabelLayout.runs",

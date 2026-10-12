@@ -307,4 +307,6 @@ Root另核對撤回後1494trackedruntime/test/config輸入逐byte等同feab全�
 
 [Firefox／WebKit 完整數值驗證](geographic-score-simd-cross-engine/README.md) 各自通過原scalar642與隔離SIMDprototype4ba的2121compiledcases及24malformedatomiccontrols，保存完整before／after bits及NaN分類。兩個引擎皆接受strict probe與完整產物。WebKit不等於Safari產品驗收；本證據不涵蓋新雙產物57b04／0edab、完整遊戲或FPS。Root獨立verifier通過，27檔加入索引。
 
+[固定 SIMD 原生驗證](geographic-score-simd-native/README.md) 在 `f898ac9` 完成 original9 的 af4 完整 payload 比對與原六項 Worker E2E；實際請求新 SIMD88392-byte／0edab 產物。原三個30秒視角各一次為59.8635／49.9103／30.8998 FPS，strict60皆RED；close比同cohort feab下降3.56%。第一 body collector 錯誤保留，僅修正外部收集器後恢復，FPS沒有重跑。Root獨立verifier通過全部71raw pairs、source1528／deps14765／23patch及狀態／資源／RTX guards。`2dfc0ab` 因未觀察到收益而關閉自動SIMD，保留雙產物、明確SIMD與數值ABI；最終126tests／types／lint／build／bundle通過。此包不宣稱撤回後的新scalar FPS；73檔加入索引。
+
 [Root撤回一致證據](geographic-score-endpoints-restored-root/README.md) 保存正式candidate80WASM／24Rust及restore1494source rows與Gitblob核對，source/artifact等同feabFULL範圍，沒有新fullrun。下一步為feature-gated scalar／SIMD雙artifact及初始化前capability選擇；prototype目前每個wasm32都含SIMD，不能當scalarfallback。Production維持acceptedscalar，尚無SIMDgame收益量測。
