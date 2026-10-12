@@ -1,9 +1,130 @@
 import { spawn } from 'node:child_process';
-import { mkdir, open, readFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
+import { createHash } from 'node:crypto';
+import { chmod, mkdir, open, readFile, writeFile } from 'node:fs/promises';
+import { join, resolve } from 'node:path';
 import type { Page, TestInfo } from '@playwright/test';
 import type { SaveFile } from '../src/core/save/serialize';
 import { test, expect } from './fixtures';
+
+// The three independent browser workflows share one freshly earned save per
+// worker. A failed test starts a new worker, which generates its own save.
+test.describe.configure({ mode: 'default' });
+
+const generatorSource = resolve('tests/app/earnedRegionalEndingJourney.spec.tsx');
+const generatorArgs = [
+  resolve('node_modules/vitest/vitest.mjs'),
+  'run',
+  '--project',
+  'app',
+  'tests/app/earnedRegionalEndingJourney.spec.tsx',
+  '--minWorkers=1',
+  '--maxWorkers=1',
+  '-t',
+  'loads the earned regional ending into actual App and continues without a phantom day or repeated victory',
+];
+
+let earnedArtifact: { path: string; hash: string } | undefined;
+
+// Playwright requires an object pattern even when this hook needs no fixture.
+// eslint-disable-next-line no-empty-pattern
+test.beforeAll(async ({}, info) => {
+  const directory = join(info.project.outputDir, `earned-regional-worker-${info.workerIndex}`);
+  await mkdir(info.project.outputDir, { recursive: true });
+  await mkdir(directory); // Exclusive: a worker must never consume an earlier artifact.
+  const artifactPath = join(directory, 'earned-regional-ending.tfusave');
+  const generationLog = join(directory, 'earned-regional-route-generation.log');
+  const output = await open(generationLog, 'wx');
+  const startedAt = Date.now();
+  let sourceHash: string;
+  try {
+    sourceHash = createHash('sha256')
+      .update(await readFile(generatorSource))
+      .digest('hex');
+    const child = spawn(process.execPath, generatorArgs, {
+      env: { ...process.env, REGIONAL_EARNED_ENDING_SAVE_PATH: artifactPath },
+      stdio: ['ignore', output.fd, output.fd],
+      detached: process.platform !== 'win32',
+    });
+    let closed = false;
+    const stopChild = (signal: NodeJS.Signals) => {
+      if (closed || child.pid === undefined) return;
+      try {
+        process.kill(process.platform === 'win32' ? child.pid : -child.pid, signal);
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== 'ESRCH') throw error;
+      }
+    };
+    const onWorkerExit = () => stopChild('SIGKILL');
+    process.once('exit', onWorkerExit);
+    // Reap the owned process group at the existing Playwright hook deadline.
+    // Vitest's own 5-second case limit remains unchanged.
+    const remaining = Math.max(0, info.timeout - info.duration);
+    const terminate = setTimeout(() => stopChild('SIGTERM'), Math.max(0, remaining - 1_000));
+    const kill = setTimeout(() => stopChild('SIGKILL'), remaining);
+    try {
+      const exitCode = await new Promise<number>((resolveExit, reject) => {
+        let spawnError: Error | undefined;
+        child.once('error', (error) => {
+          spawnError = error;
+        });
+        child.once('close', (code) => {
+          if (spawnError) reject(spawnError);
+          else resolveExit(code ?? -1);
+        });
+      });
+      closed = true;
+      if (exitCode !== 0) throw new Error(`Earned regional route generator exited ${exitCode}`);
+    } finally {
+      clearTimeout(terminate);
+      clearTimeout(kill);
+      process.removeListener('exit', onWorkerExit);
+      if (!closed) stopChild('SIGKILL');
+    }
+  } finally {
+    await output.close();
+    await info.attach('earned-regional-route-generation', {
+      path: generationLog,
+      contentType: 'text/plain',
+    });
+  }
+  const raw = await readFile(artifactPath);
+  const save = JSON.parse(raw.toString('utf8')) as SaveFile;
+  assertEarnedSave(save);
+  const hash = createHash('sha256').update(raw).digest('hex');
+  await chmod(artifactPath, 0o444);
+  await writeFile(
+    join(directory, 'provenance.json'),
+    JSON.stringify({
+      workerIndex: info.workerIndex,
+      retry: info.retry,
+      startedAt,
+      durationMs: Date.now() - startedAt,
+      generatorSourceSha256: sourceHash,
+      generatorArgs,
+      saveSha256: hash,
+      saveBytes: raw.byteLength,
+    }),
+    { flag: 'wx' },
+  );
+  earnedArtifact = { path: artifactPath, hash };
+});
+
+// Envelope and earned-route facts; the native import below also runs the full
+// production save decoder and state validation in each browser context.
+function assertEarnedSave(save: SaveFile) {
+  expect(save.version).toBe(4);
+  expect(Number.isSafeInteger(save.timestamp)).toBe(true);
+  expect(save.meta).toBeTruthy();
+  expect(save.state.meta.scenarioId).toBe('s1560');
+  expect(save.state.time.day).toBe(373);
+  expect(save.state.meta.gameOver).toEqual({ kind: 'victory', endingId: 'unification' });
+  expect(Object.values(save.state.castles)).toHaveLength(9);
+  expect(
+    Object.values(save.state.castles).every((castle) => castle.ownerClanId === 'clan.takeda'),
+  ).toBe(true);
+  expect(save.pendingCommands).toEqual([]);
+  expect(save.state.events.flags['victory.ack.unification']).toBeUndefined();
+}
 
 async function state(page: Page) {
   return page.evaluate(() => window.__tenka.debug.getState());
@@ -20,55 +141,12 @@ async function loadSlot(page: Page) {
 }
 
 async function earnedEnding(page: Page, info: TestInfo, scale?: number) {
-  // Actual supported builder subset, not the full-national wizard campaign.
-  // Every case freshly earns the save through legal orders and natural AI/events.
-  // This child ends before browser gameplay; no stale fixture or debug state setter.
-  const artifactPath = info.outputPath('earned-regional-ending.tfusave');
-  await mkdir(dirname(artifactPath), { recursive: true });
-  const generationLog = info.outputPath('earned-regional-route-generation.log');
-  const output = await open(generationLog, 'wx');
-  try {
-    const child = spawn(
-      process.execPath,
-      [
-        resolve('node_modules/vitest/vitest.mjs'),
-        'run',
-        '--project',
-        'app',
-        'tests/app/earnedRegionalEndingJourney.spec.tsx',
-        '--minWorkers=1',
-        '--maxWorkers=1',
-        '-t',
-        'loads the earned regional ending into actual App and continues without a phantom day or repeated victory',
-      ],
-      {
-        env: { ...process.env, REGIONAL_EARNED_ENDING_SAVE_PATH: artifactPath },
-        stdio: ['ignore', output.fd, output.fd],
-      },
-    );
-    const exitCode = await new Promise<number>((resolveExit, reject) => {
-      child.once('error', reject);
-      child.once('close', (code) => resolveExit(code ?? -1));
-    });
-    if (exitCode !== 0) throw new Error(`Earned regional route generator exited ${exitCode}`);
-  } finally {
-    await output.close();
-    await info.attach('earned-regional-route-generation', {
-      path: generationLog,
-      contentType: 'text/plain',
-    });
-  }
-  const raw = await readFile(artifactPath, 'utf8');
+  if (!earnedArtifact) throw new Error('Earned regional route was not generated by this worker');
+  const raw = await readFile(earnedArtifact.path, 'utf8');
+  if (createHash('sha256').update(raw).digest('hex') !== earnedArtifact.hash)
+    throw new Error('Earned regional route artifact hash changed after generation');
   const save = JSON.parse(raw) as SaveFile;
-  expect(save.state.meta.scenarioId).toBe('s1560');
-  expect(save.state.time.day).toBe(373);
-  expect(save.state.meta.gameOver).toEqual({ kind: 'victory', endingId: 'unification' });
-  expect(Object.values(save.state.castles)).toHaveLength(9);
-  expect(
-    Object.values(save.state.castles).every((castle) => castle.ownerClanId === 'clan.takeda'),
-  ).toBe(true);
-  expect(save.pendingCommands).toEqual([]);
-  expect(save.state.events.flags['victory.ack.unification']).toBeUndefined();
+  assertEarnedSave(save);
   await page.goto('/?debug=1');
   if (scale !== undefined) {
     await page.getByTestId('title-settings').click();
