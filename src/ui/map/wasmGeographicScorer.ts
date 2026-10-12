@@ -1,8 +1,15 @@
 import { createWasmCastleRibbonPlanner } from './wasmCastleRibbonPlanner';
+import {
+  createWasmGeographicPreparation,
+  type GeographicPreparationOptions,
+} from './wasmGeographicPreparation';
 import type { PlateRect } from './armyPlateLayout';
 import type { RoadLabelCapsule } from './roadLabelCapsules';
 
 type Offset = Readonly<{ x: number; y: number }>;
+// Frame/prep retained allocation only: 1 MiB. Oversized inputs retain the existing
+// JS preparation plus Rust scorer; road storage and WASM pages are separate.
+const PREPARATION_BUDGET_WORDS = 131_072;
 export interface GeographicScorerInput {
   readonly rect: Readonly<PlateRect>;
   readonly baselinePrimary: number;
@@ -35,9 +42,15 @@ export function geographicScorerImports() {
 }
 
 /** One owner retains the arena; returned offsets always belong to the caller. */
-export function createWasmGeographicScorer(initialExports?: Record<string, unknown>) {
+export function createWasmGeographicScorer(
+  initialExports?: Record<string, unknown>,
+  preparationOptions: GeographicPreparationOptions = {
+    capacityBudgetWords: PREPARATION_BUDGET_WORDS,
+  },
+) {
   let backend: ScorerExports | null = null;
   let castlePlanner: ReturnType<typeof createWasmCastleRibbonPlanner> | null = null;
+  let preparation: ReturnType<typeof createWasmGeographicPreparation> | null = null;
   let pointer = 0;
   let capacity = 0;
   let view: Float64Array | null = null;
@@ -70,12 +83,22 @@ export function createWasmGeographicScorer(initialExports?: Record<string, unkno
       backend as unknown as Record<string, unknown>,
     ));
   };
+  const ownedPreparation = () => {
+    assertLive();
+    if (!backend) throw new Error('Geographic scorer is not ready');
+    return (preparation ??= createWasmGeographicPreparation(
+      backend as unknown as Record<string, unknown>,
+      preparationOptions,
+    ));
+  };
   if (initialExports) install(initialExports);
   return {
     install,
     prepareCastlePlanner: () => {
       ownedCastlePlanner();
+      ownedPreparation();
     },
+    getPreparation: ownedPreparation,
     layoutCastleRibbons(
       ...args: Parameters<ReturnType<typeof createWasmCastleRibbonPlanner>['layout']>
     ) {
@@ -197,6 +220,8 @@ export function createWasmGeographicScorer(initialExports?: Record<string, unkno
       disposed = true;
       initializationController?.abort();
       initializationController = null;
+      preparation?.dispose();
+      preparation = null;
       castlePlanner?.dispose();
       castlePlanner = null;
       if (backend && capacity) backend.engine_free(pointer, capacity);

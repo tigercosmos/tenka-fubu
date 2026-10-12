@@ -4,6 +4,7 @@ import { createElement } from 'react';
 import { act, cleanup, render, waitFor } from '@testing-library/react';
 import type { createWasmGeographicScorer } from '../../src/ui/map/wasmGeographicScorer';
 import { createWasmCastleRibbonPlanner } from '../../src/ui/map/wasmCastleRibbonPlanner';
+import { createWasmGeographicPreparation } from '../../src/ui/map/wasmGeographicPreparation';
 import { realRenderWasmExports } from '../helpers/realRenderWasm';
 import type { FatalErrorInfo } from '../../src/app/errors';
 import type { MapViewState } from '../../src/ui/map/mapViewTypes';
@@ -37,7 +38,9 @@ import {
 } from '../../src/ui/map/debugMapBridge';
 
 function deferredOwner() {
-  const planner = createWasmCastleRibbonPlanner(realRenderWasmExports());
+  const exports = realRenderWasmExports();
+  const planner = createWasmCastleRibbonPlanner(exports);
+  const preparation = createWasmGeographicPreparation(exports);
   let resolve!: () => void, reject!: (error: Error) => void;
   const gate = new Promise<void>((yes, no) => {
     resolve = yes;
@@ -58,6 +61,10 @@ function deferredOwner() {
       if (!ready || disposed) throw new Error('Explicit reference owner is not ready');
       return planner.layout(...args);
     },
+    getPreparation: () => {
+      if (!ready || disposed) throw new Error('Explicit reference owner is not ready');
+      return preparation;
+    },
     install: () => {
       throw new Error('Explicit reference owner cannot install a backend');
     },
@@ -68,6 +75,7 @@ function deferredOwner() {
     },
     dispose: vi.fn(() => {
       planner.dispose();
+      preparation.dispose();
       disposed = true;
       ready = false;
     }),
@@ -137,6 +145,26 @@ describe('renderer geographic scorer owner readiness and cancellation', () => {
     renderer.destroy();
     expect(owner.isReady()).toBe(false);
   });
+
+  it.each(['geo_prepare', 'geo_score_prepared', 'geographic_preparation_abi_version'])(
+    'rejects missing preparation export %s before constructing any Application',
+    async (name) => {
+      const actual = await vi.importActual<typeof import('../../src/ui/map/wasmGeographicScorer')>(
+        '../../src/ui/map/wasmGeographicScorer',
+      );
+      const exports = { ...realRenderWasmExports() };
+      delete exports[name];
+      const owner = actual.createWasmGeographicScorer(exports);
+      const renderer = new MapRenderer(owner);
+      await expect(renderer.init(document.createElement('div'), vi.fn())).rejects.toThrow(
+        'Unsupported geographic preparation ABI',
+      );
+      expect(tracked.apps).toHaveLength(0);
+      expect(renderer.isReady()).toBe(false);
+      renderer.destroy();
+      expect(owner.isReady()).toBe(false);
+    },
+  );
 
   it('does not resurrect a renderer destroyed while its scorer prepares', async () => {
     const owner = deferredOwner(),

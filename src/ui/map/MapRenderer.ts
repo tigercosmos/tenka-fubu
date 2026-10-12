@@ -264,6 +264,7 @@ export class MapRenderer {
       | 'dispose'
       | 'prepareCastlePlanner'
       | 'layoutCastleRibbons'
+      | 'getPreparation'
     > = createWasmGeographicScorer(),
   ) {
     this.geographicLayouter = createGeographicLabelLayouter(geographicScorer);

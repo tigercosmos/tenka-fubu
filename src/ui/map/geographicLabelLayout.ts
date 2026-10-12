@@ -1,6 +1,10 @@
 import type { PlateRect } from './armyPlateLayout';
 import { roadLabelClearsCapsules, type RoadLabelCapsule } from './roadLabelCapsules';
 import type { WasmGeographicScorer } from './wasmGeographicScorer';
+import { geographicPreparationSignature } from './wasmGeographicPreparation';
+
+type GeographicLayoutScorer = Pick<WasmGeographicScorer, 'score'> &
+  Partial<Pick<WasmGeographicScorer, 'getPreparation'>>;
 
 export interface GeographicLabelCandidate {
   id: string;
@@ -76,7 +80,7 @@ interface CachedPlacement {
 }
 
 /** One most recent placement per admitted label; changing geometry invalidates exactly. */
-export function createGeographicLabelLayouter(scorer?: Pick<WasmGeographicScorer, 'score'>) {
+export function createGeographicLabelLayouter(scorer?: GeographicLayoutScorer) {
   const placements = new Map<string, CachedPlacement>();
   let computed = 0;
   let reused = 0;
@@ -114,7 +118,7 @@ export function layoutGeographicLabels(
     computed: () => void;
     reused: () => void;
   },
-  scorer?: Pick<WasmGeographicScorer, 'score'>,
+  scorer?: GeographicLayoutScorer,
 ): Map<string, { x: number; y: number }> {
   obstacles.forEach(validate);
   hardObstacles.forEach(validate);
@@ -136,7 +140,31 @@ export function layoutGeographicLabels(
   const sorted = [...candidates].sort(
     (a, b) => PRIORITY[a.kind] - PRIORITY[b.kind] || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
   );
+  const preparation = scorer?.getPreparation?.();
+  const preparedFrame = preparation?.beginFrame(primary, hard, sorted.length);
+  const usePreparation = preparedFrame?.mode === 'wasm';
   for (const { id, rect, roadLine, roadCapsules } of sorted) {
+    if (usePreparation && preparation) {
+      const prepared = preparation.prepare(rect);
+      const signature = cache
+        ? geographicPreparationSignature(rect, roadLine, roadCapsules, prepared)
+        : null;
+      const cached = cache?.placements.get(id);
+      let best: { x: number; y: number };
+      if (cached && cached.signature === signature) {
+        cache?.reused();
+        best = { ...cached.offset };
+      } else {
+        cache?.computed();
+        best = preparation.scorePrepared(prepared, roadLine, roadCapsules) ?? { x: 0, y: 0 };
+        if (signature !== null) cache?.placements.set(id, { signature, offset: { ...best } });
+      }
+      result.set(id, { ...best });
+      const positioned = { ...rect, x: rect.x + best.x, y: rect.y + best.y };
+      placed.push(positioned);
+      preparation.appendPlaced(positioned);
+      continue;
+    }
     const reserved = [...primary, ...hard, ...placed];
     // Every eligible placement lies in this envelope. Outside rectangles contribute
     // zero overlap even with the existing two-pixel scoring padding on both sides.

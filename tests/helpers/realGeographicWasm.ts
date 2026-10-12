@@ -14,11 +14,19 @@ export async function realGeographicWasm() {
   const realScore = instance.exports.geo_score;
   if (typeof realScore !== 'function') throw new Error('Compiled artifact lacks geo_score');
   const score = realScore as (pointer: number, words: number) => number;
+  const realPreparedScore = instance.exports.geo_score_prepared;
+  if (typeof realPreparedScore !== 'function')
+    throw new Error('Compiled artifact lacks geo_score_prepared');
+  const preparedScore = realPreparedScore as (...args: number[]) => number;
   const scorer = createWasmGeographicScorer({
     ...instance.exports,
     geo_score: (pointer: number, words: number) => {
       calls++;
       return score(pointer, words);
+    },
+    geo_score_prepared: (...args: number[]) => {
+      calls++;
+      return preparedScore(...args);
     },
   });
   return { scorer, instance, getScoreCalls: () => calls };
