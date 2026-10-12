@@ -285,6 +285,8 @@ function publishEventNotice(
 }
 
 let dayExecutor: DayExecutor | null = null;
+let executorSubscription = 0;
+let unsubscribeExecutorFailure: (() => void) | null = null;
 let pendingDay: {
   game: GameState;
   queue: CommandQueue;
@@ -297,8 +299,25 @@ let completedWorkerTicks = 0;
 let droppedStaleResponses = 0;
 
 export function configureDayExecutor(executor: DayExecutor | null): void {
+  const subscription = ++executorSubscription;
+  unsubscribeExecutorFailure?.();
+  unsubscribeExecutorFailure = null;
   cancelPendingDay('executor-replaced');
   dayExecutor = executor;
+  if (executor) {
+    const unsubscribe = executor.subscribeInitializationFailure((error, epoch) => {
+      if (
+        executorSubscription !== subscription ||
+        dayExecutor !== executor ||
+        executor.epoch !== epoch
+      )
+        return;
+      store.getState().actions.setFatalError(captureFatalError(error));
+    });
+    if (executorSubscription === subscription && dayExecutor === executor)
+      unsubscribeExecutorFailure = unsubscribe;
+    else unsubscribe();
+  }
 }
 export function hasAsyncDayExecutor(): boolean {
   return dayExecutor !== null;
@@ -306,8 +325,37 @@ export function hasAsyncDayExecutor(): boolean {
 export function isDayPending(): boolean {
   return pendingDay !== null;
 }
-export async function waitSimulationIdle(): Promise<void> {
-  await pendingDay?.promise;
+export async function waitSimulationIdle(timeoutMs = 120_000): Promise<void> {
+  if (!Number.isFinite(timeoutMs) || timeoutMs <= 0)
+    throw new Error('Simulation idle timeout must be positive and finite');
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const deadline = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new Error('Simulation idle readiness timed out')), timeoutMs);
+  });
+  // Observe the deadline immediately, including a synchronous/empty join.
+  void deadline.catch(() => {});
+  try {
+    for (;;) {
+      const executor = dayExecutor;
+      const epoch = executor?.epoch;
+      const pending = pendingDay;
+      try {
+        await Promise.race([pending?.promise ?? Promise.resolve(), deadline]);
+        if (executor) {
+          const ready = await Promise.race([executor.waitReady(), deadline]);
+          if (ready.epoch !== epoch || ready.backend !== 'rust-wasm' || ready.engineAbi !== 1)
+            throw new Error('Simulation executor returned invalid readiness');
+        }
+      } catch (error) {
+        if (dayExecutor === executor && executor?.epoch === epoch) throw error;
+        // A reset invalidates the old join; the same deadline still bounds its replacement.
+      }
+      if (dayExecutor === executor && executor?.epoch === epoch && pendingDay === null) return;
+      await Promise.race([new Promise<void>((resolve) => setTimeout(resolve, 0)), deadline]);
+    }
+  } finally {
+    clearTimeout(timer);
+  }
 }
 export function cancelPendingDay(reason: string): void {
   const pending = pendingDay;
@@ -865,6 +913,9 @@ export function exportCommandLog(): CommandLogFile {
 
 /** 供測試重置模組私有佇列與回呼（非產品程式碼路徑）。 */
 export function resetBridgeForTests(): void {
+  ++executorSubscription;
+  unsubscribeExecutorFailure?.();
+  unsubscribeExecutorFailure = null;
   cancelPendingDay('test-reset');
   dayExecutor = null;
   deferredTickPresentations = null;

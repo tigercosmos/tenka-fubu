@@ -13,6 +13,9 @@ export interface ExecutedDay {
 }
 
 export interface DayExecutor {
+  readonly epoch: number;
+  waitReady(): Promise<{ epoch: number; backend: 'rust-wasm'; engineAbi: number }>;
+  subscribeInitializationFailure(listener: (error: Error, epoch: number) => void): () => void;
   getDiagnostics?(): {
     epoch: number;
     backendReady: boolean;

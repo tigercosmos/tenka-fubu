@@ -1,6 +1,6 @@
-import { beforeEach, expect, it } from 'vitest';
+import { beforeEach, expect, it, vi } from 'vitest';
 import { advanceDay } from '../../../src/core/systems';
-import type { ExecutedDay } from '../../../src/app/dayExecutor';
+import type { DayExecutor, ExecutedDay } from '../../../src/app/dayExecutor';
 import {
   configureDayExecutor,
   dispatchCommand,
@@ -12,6 +12,7 @@ import {
   resetBridgeForTests,
   isDayPending,
   onAutoPauseReasons,
+  waitSimulationIdle,
 } from '../../../src/app/bridge';
 import { resetGameStoreForTests, store } from '../../../src/app/store';
 import { makeLoopTestState, TEST_CLAN } from '../../helpers/loopState';
@@ -23,6 +24,7 @@ let snapshot: GameState;
 let commands: readonly CommandEnvelope[];
 let cancelled: number;
 let resets: number;
+let executor: DayExecutor;
 beforeEach(() => {
   resetBridgeForTests();
   const game = makeLoopTestState({ debugMode: true });
@@ -30,7 +32,14 @@ beforeEach(() => {
   initializeBridgeSession(game);
   cancelled = 0;
   resets = 0;
-  configureDayExecutor({
+  executor = {
+    epoch: 1,
+    waitReady() {
+      return Promise.resolve({ epoch: this.epoch, backend: 'rust-wasm', engineAbi: 1 } as const);
+    },
+    subscribeInitializationFailure() {
+      return () => {};
+    },
     execute(state, queue, _events, consumedAiOrders = 0) {
       snapshot = structuredClone(state);
       snapshot.ai.pendingOrders.splice(0, consumedAiOrders);
@@ -45,7 +54,8 @@ beforeEach(() => {
     resetSession() {
       resets++;
     },
-  });
+  };
+  configureDayExecutor(executor);
 });
 function grant(gold: number) {
   return { type: 'debugGrant' as const, clanId: TEST_CLAN, gold, food: null, castleId: null };
@@ -139,4 +149,183 @@ it('starts a new Worker generation for an explicitly initialized idle session', 
   resetGameStoreForTests(next);
   initializeBridgeSession(next);
   expect(resets).toBe(2);
+});
+
+function deferredReady(epoch: number) {
+  let resolve!: (ready: Awaited<ReturnType<DayExecutor['waitReady']>>) => void;
+  let reject!: (error: Error) => void;
+  const promise = new Promise<Awaited<ReturnType<DayExecutor['waitReady']>>>((yes, no) => {
+    resolve = yes;
+    reject = no;
+  });
+  void promise.catch(() => {});
+  return { promise, reject, ready: () => resolve({ epoch, backend: 'rust-wasm', engineAbi: 1 }) };
+}
+
+it('joins actual readiness without advancing state, RNG, commands or a worker day', async () => {
+  const ready = deferredReady(1);
+  executor.waitReady = () => ready.promise;
+  const state = structuredClone(store.getState().game);
+  const log = exportCommandLog();
+  let finished = false;
+  const idle = waitSimulationIdle().then(() => {
+    finished = true;
+  });
+  await Promise.resolve();
+  expect(finished).toBe(false);
+  ready.ready();
+  await idle;
+  expect(store.getState().game).toEqual(state);
+  expect(exportCommandLog()).toEqual(log);
+});
+
+it('drains the posted day and then joins the current readiness', async () => {
+  const ready = deferredReady(1);
+  executor.waitReady = () => ready.promise;
+  const pending = runOneDayAsync();
+  let finished = false;
+  const idle = waitSimulationIdle().then(() => {
+    finished = true;
+  });
+  ready.ready();
+  await Promise.resolve();
+  expect(finished).toBe(false);
+  complete();
+  await pending;
+  await idle;
+  expect(store.getState().game!.meta.stateVersion).toBe(1);
+});
+
+it('rejoins a reset epoch instead of accepting a retired ready result', async () => {
+  let epoch = 1;
+  Object.defineProperty(executor, 'epoch', { get: () => epoch });
+  const old = deferredReady(1);
+  const next = deferredReady(2);
+  executor.waitReady = () => (epoch === 1 ? old.promise : next.promise);
+  let finished = false;
+  const idle = waitSimulationIdle().then(() => {
+    finished = true;
+  });
+  await Promise.resolve();
+  epoch = 2;
+  old.ready();
+  await new Promise((resolve) => setTimeout(resolve, 5));
+  expect(finished).toBe(false);
+  next.ready();
+  await idle;
+});
+
+it('rejects current readiness failure and invalid ABI rather than using synchronous fallback', async () => {
+  executor.waitReady = () => Promise.reject(new Error('Rust fetch failed'));
+  await expect(waitSimulationIdle()).rejects.toThrow('Rust fetch failed');
+  executor.waitReady = () => Promise.resolve({ epoch: 1, backend: 'rust-wasm', engineAbi: 2 });
+  await expect(waitSimulationIdle()).rejects.toThrow('invalid readiness');
+  expect(store.getState().game!.meta.stateVersion).toBe(0);
+});
+
+it('bounds a missing ready message even without any posted tick and clears its deadline', async () => {
+  vi.useFakeTimers();
+  try {
+    executor.waitReady = () => deferredReady(1).promise;
+    const assertion = expect(waitSimulationIdle(20)).rejects.toThrow('timed out');
+    void assertion.catch(() => {});
+    await vi.advanceTimersByTimeAsync(20);
+    await assertion;
+    expect(vi.getTimerCount()).toBe(0);
+    executor.waitReady = () => Promise.resolve({ epoch: 1, backend: 'rust-wasm', engineAbi: 1 });
+    await waitSimulationIdle(20);
+    expect(vi.getTimerCount()).toBe(0);
+  } finally {
+    vi.useRealTimers();
+  }
+});
+
+it('reports cached current-epoch initialization failure on late configure', () => {
+  executor.subscribeInitializationFailure = (listener) => {
+    listener(new Error('cached Rust failure'), executor.epoch);
+    return () => {};
+  };
+  configureDayExecutor(executor);
+  expect(store.getState().session.fatalError?.message).toContain('cached Rust failure');
+});
+
+it('invalidates retired subscriptions before replacement cancellation and test reset', async () => {
+  let listener!: (error: Error, epoch: number) => void;
+  let unsubscribed = 0;
+  executor.subscribeInitializationFailure = (callback) => {
+    listener = callback;
+    return () => {
+      unsubscribed++;
+    };
+  };
+  configureDayExecutor(executor);
+  executor.cancelPending = () => listener(new Error('synchronous retired cancellation'), 1);
+  const pending = runOneDayAsync();
+  configureDayExecutor(null);
+  expect(unsubscribed).toBe(1);
+  expect(store.getState().session.fatalError).toBeNull();
+  listener(new Error('late old failure'), 1);
+  expect(store.getState().session.fatalError).toBeNull();
+  complete();
+  await pending;
+  configureDayExecutor(executor);
+  resetBridgeForTests();
+  expect(unsubscribed).toBe(2);
+  listener(new Error('after test reset'), 1);
+  expect(store.getState().session.fatalError).toBeNull();
+});
+
+it('ignores an old epoch failure while accepting actual current initialization failure', () => {
+  let listener!: (error: Error, epoch: number) => void;
+  executor.subscribeInitializationFailure = (callback) => {
+    listener = callback;
+    return () => {};
+  };
+  configureDayExecutor(executor);
+  listener(new Error('retired epoch'), 0);
+  expect(store.getState().session.fatalError).toBeNull();
+  listener(new Error('current initialization'), 1);
+  expect(store.getState().session.fatalError?.message).toContain('current initialization');
+});
+
+it('rejoins a replacement when its retired initialization rejects without reporting fatal', async () => {
+  const old = deferredReady(1);
+  executor.waitReady = () => old.promise;
+  const idle = waitSimulationIdle();
+  await Promise.resolve();
+  const next = deferredReady(2);
+  configureDayExecutor({ ...executor, epoch: 2, waitReady: () => next.promise });
+  old.reject(new Error('retired worker cancelled'));
+  await new Promise((resolve) => setTimeout(resolve, 5));
+  expect(store.getState().session.fatalError).toBeNull();
+  next.ready();
+  await idle;
+  expect(store.getState().game!.meta.stateVersion).toBe(0);
+});
+
+it('bounds repeated epoch replacement using one deadline rather than restarting it', async () => {
+  vi.useFakeTimers();
+  try {
+    let epoch = 1;
+    let ready = deferredReady(epoch);
+    Object.defineProperty(executor, 'epoch', { get: () => epoch });
+    executor.waitReady = () => ready.promise;
+    const assertion = expect(waitSimulationIdle(20)).rejects.toThrow('timed out');
+    void assertion.catch(() => {});
+    await vi.advanceTimersByTimeAsync(7);
+    const retired = ready;
+    epoch++;
+    ready = deferredReady(epoch);
+    retired.reject(new Error('reset'));
+    await vi.advanceTimersByTimeAsync(7);
+    const retiredAgain = ready;
+    epoch++;
+    ready = deferredReady(epoch);
+    retiredAgain.reject(new Error('reset again'));
+    await vi.advanceTimersByTimeAsync(6);
+    await assertion;
+    expect(vi.getTimerCount()).toBe(0);
+  } finally {
+    vi.useRealTimers();
+  }
 });
