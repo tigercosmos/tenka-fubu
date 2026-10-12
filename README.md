@@ -65,15 +65,17 @@
 
 ## 📐 專案現況：規格與驗證
 
+新遊戲已補齊劇本、大名、難易度、種子四步驟，並修正大名卡片縮放截字與新文字的字型子集。外交、軍團、大命三類面板在十五倍率共 45 項原生驗收通過；這些是個別子門檻。最新完整單元來源 `ab06242` 為 6,451 PASS／3 FAIL／1 SKIP，其中兩個缺字失敗已由後續 focused 字型檢查修復，既有全國 day450 無嗣領地失敗保留。完整原生五分鐘、strict60、whole-heap、long-run 及正式 M6 checkpoint 仍未通過；[本批證據](docs/validation/2026-10-12/completion-audit/README.md) 分開列出各來源與後續檢查。
+
 - **規格依據**：系統規格、資料模型、UI 與元件、劇本資料、數值平衡主表與跨文件勘誤台帳保留在 `plan/`。未決的無親族領地規則與驗收缺口另記在工作紀錄，不宣稱全部設計問題已結案。
 - **M0 專案鷹架完成**：TypeScript strict＋React＋Vite 工具鏈、core 純度守門、字形掃描與字型子集管線已接線。CI／Pages workflow 的本機測試不等於遠端 CI 或部署成功。
 - **M5 合戰完成**：9–13 陣決定論戰場、battle tick、12 戰法、委任 AI、威風大 3 跳翻轉、合戰 UI／特效、debug P5 與 bit-exact battle transcript 已落地。
 - **M6 視覺基礎完成**：地形、水系、道路、城池／軍隊名牌與 HUD 已接線；五種分析主題、圖例與透明度控制已接線。當時的雙平台、headless 效能與生命週期驗收見 `docs/visual/m6-v11-review.md`；最新完整套件仍有下列 frozen 差異。
 - **M6 玩法整合中**：外交工作、協定、朝廷幕府、調略、捕虜、家臣生命週期與具申結算已接入每日流程；新增五年外交 golden 與兩年家臣測試。實作裁決見 `docs/design/m6-gameplay-decisions.md`，完整 checkpoint 尚待最終驗收。
 - **M7／M8 提前實作**：分期 AI 評定、委任／難易度、九地方資料、正式事件、大命、報告中心、月初摘要及完整存讀檔 UI 已接線。提前實作不代表里程碑完成。
-- **目前未通過的門檻**：無親族繼承可留下已滅亡勢力的領地，全國 golden 仍在 day450 失敗。最新四地方 Yoshimichi 歸還與七地方 Yuki 滅亡測試未觀測到要求的事件；不能當作已通過。五年與十年全國 golden 尚未完成，未生成替代基準。
-- **最新固定完整回歸**：撤回未顯示整體收益的地理掃描候選後，固定 `3d6a953` 為 6,362 通過、1 項已知無嗣領地失敗、1 跳過；型別、完整 lint、build 與 bundle 通過。此輪未重跑 coverage 或清除 60 FPS 門檻，詳見 [固定來源與效能證據](docs/validation/2026-10-12/completion-audit/README.md)。
-- **最近完整 coverage 快照**：系統選單修正後為 4636 passed、14 failed、1 skipped，243.81 秒。core coverage 為行 94.58%、分支 90.96%、函式 97.99%。同一輪 1707 項 UI／app 均通過；兩項歷史 witness、全國 day450 ownership 與十一項 frozen hash／BAL／replay 比對仍失敗。BAL hash 保持 824f87bf28bccf9a，不回寫 frozen 基準。覆蓋百分比達標不代表完整 gate 通過。
+- **目前未通過的門檻**：無親族繼承可留下已滅亡勢力的領地，全國 golden 仍在 day450 失敗。五年與十年全國 golden 尚未完成，未生成替代基準。
+- **歷史固定完整回歸**：撤回未顯示整體收益的地理掃描候選後，固定 `3d6a953` 為 6,362 通過、1 項已知無嗣領地失敗、1 跳過；型別、完整 lint、build 與 bundle 通過。此輪未重跑 coverage 或清除 60 FPS 門檻，詳見 [固定來源與效能證據](docs/validation/2026-10-12/completion-audit/README.md)。
+- **歷史完整 coverage 快照**：系統選單修正後為 4636 passed、14 failed、1 skipped，243.81 秒。core coverage 為行 94.58%、分支 90.96%、函式 97.99%。同一輪 1707 項 UI／app 均通過；兩項歷史 witness、全國 day450 ownership 與十一項 frozen hash／BAL／replay 比對仍失敗。BAL hash 保持 824f87bf28bccf9a，不回寫 frozen 基準。覆蓋百分比達標不代表完整 gate 通過。
 - **家臣與編成介面驗證**：褒賞、知行、兵糧月數、城下登用及捕虜情報已接線。捕虜顯示四項普通能力、身分、原屬勢力、對舊主忠誠與特性說明，處斬同意只接受自有頂層確認。城下登用分列每次禮金及成功時支度金，捕虜招降支度金只在成功時支付；過期回呼與背景提交均受限制。編成顯示候選及已選武將的戰法聯集與采配成本，解鎖不保證可以使用。該輪全部 1476 項 UI／app 測試通過；前輪 core-only project 為 2905 通過、十四項失敗、一項略過，不相加稱為完整 suite。原生瀏覽器、尺寸及完整捕獲旅程仍未證明；六百武將測試只證明 DOM 虛擬視窗及晚段列資料。
 - **政策容量介面驗證**：政策畫面上限加入既有官位及役職加成，幕府滅亡後即時刷新，維持六格封頂。Main 真正入口與 queued 採用經下一正常日結算；該輪全部 1485 項 UI／app 及三十一項局部 core 回歸分別通過。該輪沒有重跑完整 core 或 coverage；效果詳情的後續驗證另記，未實作效果及原生瀏覽器仍未完成。
 - **政策卡片詳情與原因**：十二張卡片補摘要、狀態、解鎖條件及右側詳情；已實作效果與待完成規格分列，倍率保留小數。中央驗證及實際阻擋條件供原因提示，舊局、卸載、原面板關閉及背景對話框下的回呼不能下令或關閉新面板。十六項新旅程與所有權回歸、兩項完整型錄說明檢查及兩項費用 metadata 回歸分別通過。完整 coverage 同一輪的 1503 項 UI／app 均通過；原生尺寸、倍率溢版及待定政策玩法仍未完成。
@@ -86,8 +88,8 @@
 - **傳馬制行軍效果**：部隊勢力的當前政策於陸路起步速度封頂前乘 1.1，採用、廢止及月費不足均影響當日移動。海路起步不套用，已支付跨邊餘量依原規則保留；九項回歸涵蓋真正 queued 出陣與政策旅程、受控特性與士氣組合及 codec。完整單元結果見上述快照，不宣稱原生瀏覽器或全部政策完成。
 - **遠交近攻工作效率**：勢力、朝廷及幕府的已付工作增益，依工作勢力當前政策乘 1.25，與既有倍率合成一次。費用、上限、小數與功績完成條件不變；外交早於政策月費，後續自動廢止不回溯當日增益。十一項新回歸及五十一項既有回歸分別通過；非鄰接信用＋2 的條件及順序仍待定，不宣稱整項政策完成。
 - **褒賞月支出**：核心保存成功賞賜的當月實付總額，月首歸零；舊格式遷移至 v4，當月未知保留 null。狀態建置、指令結算及存檔相關測試分別為 74、61、126 項通過；完整套件結果另記，不以局部通過宣告全遊戲完成。
-- **完整單元驗證界線**：最新完整結果見 coverage 快照；後續知行確認及兵糧 HUD 另跑全部 UI／app，不相加稱為新的完整 suite。既有軌跡、ownership 與 frozen hash／BAL／replay 比對仍失敗；沒有更新凍結基準。
-- **最近可執行的 headless 快照**：較早完整 Metal browser 執行為 90 passed、1 failed、13 skipped，耗時 2.8 分鐘。三份 actual 截圖與前輪逐 pixel 相同；唯一失敗為 frozen 三視角差異。最新 runtime 改動後，本機 preview 的 IPv6 與 IPv4 監聽均遭 sandbox 拒絕。無伺服器的 Metal 與 default headless shell 也在建立 page 前停止；後者明示 MachPort 權限拒絕，瀏覽器 gate 未執行。沒有開新視窗；較早快照不能替代最新 core 驗收。
+- **該批次完整單元驗證界線**：當時完整結果見 coverage 快照；後續知行確認及兵糧 HUD 另跑全部 UI／app，不相加稱為新的完整 suite。既有軌跡、ownership 與 frozen hash／BAL／replay 比對仍失敗；沒有更新凍結基準。
+- **歷史 headless 快照**：較早完整 Metal browser 執行為 90 passed、1 failed、13 skipped，耗時 2.8 分鐘。三份 actual 截圖與前輪逐 pixel 相同；唯一失敗為 frozen 三視角差異。最新 runtime 改動後，本機 preview 的 IPv6 與 IPv4 監聽均遭 sandbox 拒絕。無伺服器的 Metal 與 default headless shell 也在建立 page 前停止；後者明示 MachPort 權限拒絕，瀏覽器 gate 未執行。沒有開新視窗；較早快照不能替代最新 core 驗收。
 - **效能界線**：評定輸送的前輪 420 日功能軌跡精確一致，不是硬體因果加速證明。政策詳情修正後的隔離 serial mean 為 9.424／6.732 ms，依既有單次 retry 規則通過 8 ms 門檻；兩次合計七百二十項樣本及首輪失敗均保留。候選 midgame p95 仍在 day450 因 ownership 違例停止，零項量測；mean 通過不代表 p95、FPS 或全遊戲完成。
 - **Renderer 前置驗證**：四十支正式指令建立的部隊分布於九地方；三視角各三十秒的隔離 Metal headless 量測均通過。Apple M3 Max 的平均 postrender 約 120 FPS，間隔 p95 約 9.1 ms。核心暫停，只有 view fraction 移動；此結果不替代 live ×5 gameplay 或七步手動驗收。
 - **Live 再驗**：四十支 command-driven 部隊的 overview 三十秒 headless 觀測為 116.76 FPS、p95 9.9 ms。正式月初具申在 day150 暫停；觀測含暫停時間，不是連續 live 達標。原生 soak 在第三分鐘 day570 再現無繼承人 ownership 違例，三十分鐘 gate 未通過。

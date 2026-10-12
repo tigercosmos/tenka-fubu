@@ -6628,3 +6628,14 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 原樣式色覺觀測三張圖仍 RED 508 像素，位於左上 HUD／rail 邊緣。六次無 live animation，樣式／幾何／焦點／state／commands 相同；兩個相符尺寸 layer 在模式／還原各增加 paintCount。沒有 node ID 證明 owner，CDP 觀測可能擾動，未確認 Chromium 原因。精確零差異不變；不再重複 native priming／重畫／穩定序列。人工色覺／灰階、道路／友敵 cues 與 40 勢力辨識仍需原規格人工驗收，不能用這次診斷代替。
 - 舊 national traces 17,006 entries／1,644,571,085 bytes 已完整校驗後搬至 sim2 exclusive retained 目錄。本機再次全量比對及無 open handles 後才移除原副本，完整 proof／manifest 保存於 `national-traces-relocation-f03f318`；indexed 歷史 bytes 不變。首次套件 verifier 的自我 hash 表錯誤 RED 亦保存，修正後及 root 獨立驗證通過。這是有證明的保留搬移，與前批未找回的 scratch bytes 分開。
 - 色覺／搬移 compact packages 已由 root 獨立驗證。本批沒有重跑無關 core、沒有全專案完成宣稱。strict60、whole-heap、long-run、完整原生五分鐘、其餘 M6–M9 及待決無嗣／戰術終局、人口校準、934163c 六圖仍開放；未改規則、references、milestone，未 push／deploy。
+
+## 2026-10-12 — 完整四步驟開局與面板縮放缺口
+
+- `ab06242` 依 16 §3.9／T16-7 補齊劇本、大名、難易度、種子四步驟；11 D66 回寫優先序，不修改 00。每步返回保留選擇與非法 seed text，預填／debug seed、uint32 0／max／leading zero 與非法值停用，最後才建立指定難易度／大名的新局並正常暫停。難易度沿用既有 BAL，不新增玩法規則。
+- Verified-refactor checker 原版 61 start site／57 E2E 檔，兩批 native-click helper 替換有 inverse bytes 證明；最後零遺漏、原版負控制仍 61。另以較廣 literal inventory 核對 source／tests／tools，沒有宣稱任意動態 selector 都可被 checker 發現。七個 App unit 檔隨新步驟遷移；full run 證明與既有流程的原生樣本分開。
+- 固定 ab 的 full suite：6,451 PASS／3 FAIL／1 SKIP，695 檔，116.79 秒。原 s1560 day450 無嗣所有權違例保持；另兩個 font-coverage 失敗是新增字「薦」未進子集。型別、完整 ESLint、assets／build／bundle、412 discovery／touched-format 成功，data 僅缺字。1,640 Git inputs 與另列未提交 responsive overlay 前後一致；沒有以後續 focused 結果改標 full suite。
+- `c3eab38` 的外交三頁、軍團、大命十五倍率共 45 個原生案例在 ab product 全通過，184.924 秒、原 60／300 秒不變。grep 同時命中文件名而選到全部 45 項，保留實際結果，不冒稱三個獨立矩陣。原 da 九個端點／observer RED 分開；早期中間 RED overlay bytes 被覆寫、只有 report snippets 的限制明載。最終 overlay 與 1,640 source／29 dependency targets 前後一致；所有 bulk traces 留獨立遠端 hash inventory。
+- `01c7dbc` 以既有管線產出 1,661 字元／355,728 bytes 字型，32 focused 與型別／data／assets／build／bundle 等通過。另把大名 roster 隱含 grid rows 改為 max-content，修復卡片內容被壓縮到約 74px 的截字。首次 native16 的 15 FAIL 是錯誤 hardcoded55 卡數，實際型錄／runtime 都41；`0a8e747` 改比完整有序型錄 IDs。舊 CSS 配新 Range oracle 的1.5倍率控制以文字下緣超出卡片7px失敗，沒有放寬容差。
+- `0a8e747` 原生13 PASS／3 FAIL 發現小倍率標籤未達12px；`5163242` 補進度／卡片／當主／metric四種標籤下限，14 UI與相關checks成功。其原生14 PASS／2 FAIL 剩餘兩項誤量無直接文字的劇本卡片容器；改驗四個可見子 span 的字級與 Range，保留整卡 viewport／32px。一次完整四步驟0.8 actual DOM audit又確認 global body 繼承字級為11.2px，先前12.8px推論錯誤；`b6aca26` 為三個精靈screen設最低12px、正常14px保持。所有原始 RED／audit／來源與後續結果各自保存。
+- 固定01的既有save/load四項及精確選取smoke P1／P2六項成功；沒有跑P3–P5，未改標較晚字級修正來源。最終固定 `b6aca26` 的十五倍率與同輸入 SaveFile.state 精確相等共16項全通過，原60／300秒不變；每一輪RED與actual DOM audit保持原來源，不改標為首次成功。
+- 大名靜態全國勢力色地圖與推薦呈現仍缺，沒有把四步驟完成當M8-17或M8-23全部完成。完整425原生五分鐘、strict60、whole-heap、long-run與其餘M6–M9門檻保持；待決無嗣／戰術終局、人口校準及934163c六圖未收到回答。未改規則、references、deadline或milestone，未push／deploy。

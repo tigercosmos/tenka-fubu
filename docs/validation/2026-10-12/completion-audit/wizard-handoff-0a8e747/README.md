@@ -1,0 +1,7 @@
+# Four-step wizard continuation handoff
+
+This package retains independent root reviews and final documentation checks for the four-step wizard, its font/card corrections, responsive panel acceptance, and representative existing boot flows. The adjacent packages retain exact original failures and separate source pins. Full unit results belong to ab06242; corrected assets/CSS to 01c7dbc; the catalog-backed native test to 0a8e747 and subsequent minimum-font corrections to 5163242 and b6aca26. The final 16-case native wizard cohort passed at b6aca26. None is relabeled as a passing complete project gate.
+
+The updater verifies all 3,912 historical rows and bytes against the committed da142d1 inventory before appending the seven new package directories. Running captures are never included in their own stable inventory. Bulk native artifacts remain at explicit remote paths with hashes; only compact reports and selected images are copied here.
+
+The initial responsive observer overlays were overwritten on the isolated host, as disclosed in that package; retained reports contain failing snippets but cannot prove complete overlay bytes. Later wizard and final matrix overlays use immutable unique paths. No blanket claim that every setup artifact was retained is made. Full native 300 seconds, strict 60 FPS, whole-heap, long-run, the remaining M6-M9 scope, gameplay decisions and protected-art approval remain open. No rules, baselines, time limits or milestone were changed; nothing was pushed or deployed.

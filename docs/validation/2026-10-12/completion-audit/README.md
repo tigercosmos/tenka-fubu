@@ -1,8 +1,18 @@
 # 後續驗收、重放歸因與記憶體觀察
 
 Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目標仍未完成。
-最新固定來源 `7d37c28` 全量測試為 6,445 通過、1 既有失敗、1 跳過；120 部隊近景仍未達 60 FPS。
+最新固定來源 `ab06242` 全量測試為 6,451 通過、3 失敗、1 跳過；其中兩個新缺字失敗已另以 focused 檢查修復，既有無嗣領地失敗保留。120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
+
+## 四步驟開局、標籤可讀性與面板全倍率驗收
+
+`ab06242` 實作 16 §3.9／T16-7 的劇本、大名、難易度、種子四個步驟，依 11 D66 解決舊縮減流程與種子空白行為的衝突。選擇／非法編輯文字在返回後保留，有效 uint32 種子、明確難易度與大名才建立暫停的新局。61 個既有 start site／57 檔以 shared native-click helper 遷移；[固定來源與遷移證據](wizard-integrated-ab06242/README.md) 保留 deterministic checker controls、逆向 bytes 證明、原版 61 違例負控制與最後零違例。這不是全部 425 原生案例已執行的宣稱。
+
+完整單元在 ab 為 6,451 PASS／3 FAIL／1 SKIP：既有 day450 無嗣 golden 加兩個缺字檢查。型別、完整 ESLint、assets／build／bundle 等通過；data 只缺「薦」。[01c7dbc 修正](wizard-correction-01c7dbc/README.md) 透過既有字型管線補成 1,661 字元／355,728 bytes，並以 max-content grid rows 修復大名卡片截字；32 focused 與各項 local checks 成功。原卡片計數 55 是錯誤診斷，實際型錄／runtime 都是 41；後續 `0a8e747` 改為完整有序型錄 ID 核對，原生 13 PASS／3 FAIL 進一步揭露低倍率標籤小於原規格 12px。`5163242` 只補同畫面四種標籤的 12px 下限，14 UI 與型別／資料／build 等成功。該來源原生 14 PASS／2 FAIL 揭露劇本卡片測試誤量無直接文字的容器字級；四個可見子節點已有獨立字級。一次四步驟 actual DOM audit 則證明其他繼承 body 的操作與內文實為 11.2px，前述 12.8px 來源推論錯誤。`b6aca26` 僅為三個精靈 screen 加 12px 下限（正常 14px 不變），保留所有實際文字／32px／Range 斷言；十四項 UI 與相關 checks 成功，[最終精靈原生證據](new-game-wizard-final/README.md) 在固定 `b6aca26` 的十五倍率加同輸入 SaveFile.state 精確相等共十六項全通過，原 60／300 秒不變；每一輪失敗的來源及 observer／product 原因分開保存。
+
+[外交／軍團／大命原生全倍率](responsive-panels-ab06242/README.md) 固定 ab product，十五倍率共 45 項全通過，184.924 秒、原 300 秒全套／60 秒 case 不變。`--grep=diplomacy` 同時命中文件名而選到完整 45 項，保留實際執行，不重標為三個分組。舊來源的[九個端點控制](responsive-panels-da142d1/README.md) 與 observer RED 分開保存；中間失敗 overlay 的完整 bytes 已被覆寫，只有報告片段，因此不宣稱全部歷史 overlay 可重建。最終 45 項 exact overlay／1,640 inputs／29 patched dependencies 前後一致。
+
+[既有代表流程](representative-flows-01c7dbc/README.md) 在 01c7dbc 真實跑過 save/load 四項與明確 `--list` 選取的 smoke P1／P2，共六項成功；沒有選 P3–P5，也不將其改標為較晚字級修正的原生結果。大名靜態全國勢力色地圖與推薦呈現仍未完成；M8-17／M8-23 不能整體結案。425 項完整原生五分鐘、strict60、whole-heap、long-run、其餘 M6–M9 與既有待決規則／六圖人工核准皆保持；未改基準、期限、milestone，未 push／deploy。
 
 ## 原生成本負控制、靜態繪製觀測與原始檔搬移
 
