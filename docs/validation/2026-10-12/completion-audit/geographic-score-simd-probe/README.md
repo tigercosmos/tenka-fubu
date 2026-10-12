@@ -1,0 +1,11 @@
+# Strict SIMD overlap arithmetic probe
+
+This isolated probe does not change the game. It compares the unchanged production scalar overlap, the original JavaScript Math.min/max formula and a two-lane WASM overlap. The scalar helper bodies match frozen `feab20c` after lexical whitespace/trailing-comma normalization. The SIMD version uses ordinary `f64x2_min/max`, not relaxed or pseudo min/max, and retains each addition, subtraction, lane order and final x-times-y product. [WebAssembly numeric rules](https://webassembly.github.io/spec/core/exec/numerics.html#op-fmin) define NaN propagation and opposite-sign zero handling; implementation parity is checked separately here.
+
+Pinned Rust1.97.1 built the 884-byte WASM once. Actual Node22.17.0 instantiates it and compares **871,200 cases**:660 constructed rectangles paired in both padding0/2 modes. Coordinates include signed zero, subnormal, epsilon boundaries, normal values, extreme finite numbers, infinity and NaN; sizes include zero, extremes and nonfinite values. Some inputs are intentionally outside the valid game-packet domain to exercise the arithmetic helper. Cases include248,374 NaN results and505,908 zero results. Every non-NaN result matches bits, including infinity; NaN compares by class. Input/output stream SHA256 is in `summary.json`. These constructed rows do not exhaust all rectangles or prove game integration.
+
+The original probe binary SHA256 is `fbfee3afdc0d3537860fde16228b5d03de1329f83b6c637d9b2c5e75e299c533`. Source, actual binary, exact producer, build/parity logs, command metadata and toolchain output are retained. A separate attempted `f64::minimum/maximum` stable probe fails E0658 on the pinned toolchain; its source and RED remain preserved. This failure does not change any runtime fallback.
+
+No timing was measured. Browser capability, packet ABI, game output, allocator/owner lifecycle and native performance remain untested for SIMD. The production artifact remains scalar. Reproduce by extracting `probe.rs.gz`, using the exact command in `provenance.json.gz`, and extracting/running `verify.mjs.gz` beside the resulting `probe.wasm`.
+
+`verify-evidence.py` checks stored bytes and result counts only. It does not build, rerun cases or prove performance.

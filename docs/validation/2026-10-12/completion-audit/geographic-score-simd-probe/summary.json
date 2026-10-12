@@ -1,0 +1,13 @@
+{
+  "scope": "Standalone overlap-only arithmetic parity; not game integration, browser compatibility or performance",
+  "node": "v22.17.0",
+  "sha256": "fbfee3afdc0d3537860fde16228b5d03de1329f83b6c637d9b2c5e75e299c533",
+  "wasmBytes": 884,
+  "rows": 660,
+  "cases": 871200,
+  "nans": 248374,
+  "zeros": 505908,
+  "negativeZeros": 0,
+  "resultStreamSha256": "c55ccf321fd09221faf16ed7435299bb50c7a160e9883057dcb32eb09a68f368",
+  "allEqual": true
+}

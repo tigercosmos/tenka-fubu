@@ -1,0 +1,75 @@
+{
+  "scope": "Original standalone overlap-probe bytes; not production acceptance",
+  "artifacts": [
+    {
+      "path": "probe.rs.gz",
+      "bytes": 473,
+      "sha256": "2789867fe926da13d74807ed691482a3a8627875f278a46f2a89b9788e962647",
+      "uncompressedBytes": 1246,
+      "uncompressedSha256": "21abbe05ebad21adaebcba0ea76a316f7e853b700e2d3a57f9e4ae587ee18ab8"
+    },
+    {
+      "path": "probe.wasm.gz",
+      "bytes": 375,
+      "sha256": "da476e99046e1c82f6df0e21373c3e08a8f0f899d0a3609ca62d1302159a8fb2",
+      "uncompressedBytes": 884,
+      "uncompressedSha256": "fbfee3afdc0d3537860fde16228b5d03de1329f83b6c637d9b2c5e75e299c533"
+    },
+    {
+      "path": "verify.mjs.gz",
+      "bytes": 1031,
+      "sha256": "52541d7e217db759b3f6d92f88284e4fdb2aaf5cec4c64d482bb1e25678beaa6",
+      "uncompressedBytes": 2135,
+      "uncompressedSha256": "e83c4a75c7cc2f9ad748bbcee143c5bbe3249e89640efb99a2ab1043a19e8a97"
+    },
+    {
+      "path": "build.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "parity.log.gz",
+      "bytes": 308,
+      "sha256": "adbc656b32a243d70f27b0d8be91b73c01211f93e300985d6d7e56fbb289f8d6",
+      "uncompressedBytes": 401,
+      "uncompressedSha256": "46b4ae184c82124437f363485d9d470f90e6f2b08137c5ec3aa8851aacf4f633"
+    },
+    {
+      "path": "provenance.json.gz",
+      "bytes": 437,
+      "sha256": "754ec38fb74fbcc56a47aeec949747e3b65097b78eeba8cdb3d66f5b482f2068",
+      "uncompressedBytes": 618,
+      "uncompressedSha256": "836c11d21941f8f8b8420c631994771a5b0af91a8b0b6d2d649510227c8bf36f"
+    },
+    {
+      "path": "toolchain.log.gz",
+      "bytes": 165,
+      "sha256": "519408a5a375b8c60cf90cdf0ceac5f5cff11529417f464813f8b5f05bbb117b",
+      "uncompressedBytes": 192,
+      "uncompressedSha256": "e794146d99fad54562fdcbd4a7c8b22b0240d2b0312ff6d879d67939b3131850"
+    },
+    {
+      "path": "minimum-probe.rs.gz",
+      "bytes": 148,
+      "sha256": "84ed77e9307d9b79b8b36e4aa9ed97ee185c2e7cdd47a6a8c983e5129573155a",
+      "uncompressedBytes": 186,
+      "uncompressedSha256": "4eb6c65351d81754c3c6eddeea265f3648bd8a0564df64705c55bc5fcb603f8b"
+    },
+    {
+      "path": "minimum-probe-red.log.gz",
+      "bytes": 312,
+      "sha256": "6d723ab04c699119b7e4a0e99c8ce1c809510619ee45b6b0b39e96ca251f475c",
+      "uncompressedBytes": 848,
+      "uncompressedSha256": "f929651d0b881b5d71db386224cf8cb4802844ea6b2b015e4077c258980238bf"
+    },
+    {
+      "path": "original-geographic.rs.gz",
+      "bytes": 4081,
+      "sha256": "0ccd2ffb5f3546b335170d926418f0e17267fac531d96ca37fb4192f6c10b677",
+      "uncompressedBytes": 15399,
+      "uncompressedSha256": "69ed145c2ee7d445691b0897362fc6de196cbe48fd4b0c1721764e67def56768"
+    }
+  ]
+}
