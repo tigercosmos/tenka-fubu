@@ -6496,3 +6496,5 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - Actual反組譯只有strictf64x2 min/max/add/sub/extract，无relaxed／pmin／pmax／FMA；sharedlegacygeo／prepintersections／caps未改。sim2actualsource／unsafe-target-feature審查未見數值或ABI缺陷；目前prototype對所有wasm32啟SIMD，正式接入前必須featuregate生成真正scalarvariant。
 - `aa18b75` 本機完整Chromium149 headlesstinyprobe validate true、100352grid＋5explicitcontrols一致；第一default-headlessGREEN與後續fullbinaryGREEN分開保存。只有4gridrows＋5controls原結果，未保留全100352逐案例stream，未宣稱已保存。FF／WebKit未安裝，無Safari／GPU／FPS／fullgame結論。
 - Root三包verifier獨立通過；下一步實作初始化前明確scalar／SIMDcapability選擇與雙recipe／artifact契約，選定後fetch／instantiate／ABI錯誤保持fatal，保留owner／Workerepochready／dispose。Production仍是撤回後acceptedscalar88475SHA642，未翻轉SIMD預設、未量測game收益。
+
+- 後續唯讀source檢查：實際MapRenderer普通／hard傳rect而非外層id/kind，主要constructors與MainScreenHUD皆是四數值fields，caps／normal也是數值literal；genericHUD API仍能spreadextras。token／revision不在signature，物件重新配置本身不造成JSONmiss；cache移出admission後刪除也可能造成miss。沒有逐次input-equalitytrace，不能把41735／121歸因metadatachurn或宣稱numericmemo可受益，暫不採用此捷徑。
