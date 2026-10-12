@@ -1,0 +1,171 @@
+{
+  "sourceCommits": ["c613747", "71d1eaf"],
+  "workerTests": {
+    "passed": 22,
+    "initialRed": "12 PASS / 1 FAIL; immediate mock ACK contradicted original reset assertion; corrected only mock ACK timing"
+  },
+  "combinedFinal": {
+    "files": 4,
+    "passed": 65
+  },
+  "negativeControl": {
+    "source": "c613747 bridge with new acceptance tests",
+    "failed": 7,
+    "passed": 9,
+    "unhandledErrors": 0,
+    "earlierAttempts": "config missing patch manifest; initial negative had unhandled failed assertion; both retained"
+  },
+  "checks": ["full tsc --noEmit PASS", "scoped ESLint PASS", "scoped Prettier PASS"],
+  "actualWasm": {
+    "bytes": 63073,
+    "sha256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba",
+    "engineAbi": 1
+  },
+  "nativeStatus": "not rerun for this source; old fb9 cohort remains 5 PASS / 1 RED",
+  "runtime": {
+    "node": "v22.17.0",
+    "npm": "10.9.2"
+  },
+  "compressedArtifacts": [
+    {
+      "file": "raw-worker-initial.log.gz",
+      "uncompressedBytes": 1234,
+      "uncompressedSha256": "fdf4c2605e74f50a5d0e044beade2e707141dc8d8e813b5442ef2c68bfd31b5b"
+    },
+    {
+      "file": "raw-worker-focused-final.log.gz",
+      "uncompressedBytes": 289,
+      "uncompressedSha256": "74d6ad0c10134579e6ba63fa56b3950987498fcdf7f7187143c326efb098da29"
+    },
+    {
+      "file": "raw-worker-types-final.log.gz",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "raw-worker-lint-final.log.gz",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "raw-worker-format-final.log.gz",
+      "uncompressedBytes": 66,
+      "uncompressedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "file": "raw-bridge-focused.log.gz",
+      "uncompressedBytes": 3752,
+      "uncompressedSha256": "0e323aaa081e51d5f704a0b837a58998200d6ae36f6abb3e11039e640dd84340"
+    },
+    {
+      "file": "raw-bridge-types.log.gz",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "raw-bridge-lint.log.gz",
+      "uncompressedBytes": 414,
+      "uncompressedSha256": "b6123988119025a438323c7d02ea3f15b5859ba495270f49d867330ec2b3db45"
+    },
+    {
+      "file": "raw-bridge-negative-original.log.gz",
+      "uncompressedBytes": 1518,
+      "uncompressedSha256": "8d89c8e7db32d951eac6da70c33e68c885d0616c48fed5f3c8510a6b3942502c"
+    },
+    {
+      "file": "raw-bridge-negative-corrected.log.gz",
+      "uncompressedBytes": 8655,
+      "uncompressedSha256": "9327bac578194f5b26153507af54d6bb91339a8a5ff05002850111bdc0ad49c2"
+    },
+    {
+      "file": "raw-bridge-negative-final.log.gz",
+      "uncompressedBytes": 7514,
+      "uncompressedSha256": "17456187a4d09d0600319b8bf003ca4b44e605cee432cf6803edec929fd8e598"
+    },
+    {
+      "file": "raw-bridge-final.log.gz",
+      "uncompressedBytes": 3870,
+      "uncompressedSha256": "d82e5c9f5a0f77cfdc9f04469aa2332332a0335cca0ef6c7099389863dc55181"
+    },
+    {
+      "file": "raw-bridge-types-final.log.gz",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "raw-bridge-lint-final2.log.gz",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "raw-bridge-format-check.log.gz",
+      "uncompressedBytes": 66,
+      "uncompressedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "file": "source-src__app__worker__client.ts.gz",
+      "uncompressedBytes": 11653,
+      "uncompressedSha256": "e57d7ea28a396354a7607b4b75d0689dd7d363857396b6a72da1b4bd65d7dd56"
+    },
+    {
+      "file": "source-src__app__worker__protocol.ts.gz",
+      "uncompressedBytes": 1830,
+      "uncompressedSha256": "27041560c3b3cd6f0303293ce6eda79b1e034911b3313ac494e7fa055bf169bd"
+    },
+    {
+      "file": "source-src__app__worker__simulation.worker.ts.gz",
+      "uncompressedBytes": 7786,
+      "uncompressedSha256": "03bdb72a28501aa52ecda790fd0c076a879bb63a32e4f22760351f4f2f885712"
+    },
+    {
+      "file": "source-src__app__worker__worker.spec.ts.gz",
+      "uncompressedBytes": 25529,
+      "uncompressedSha256": "862336ebbd565090a67548d983dfa671384f47bad8222b368c6d057704663ade"
+    },
+    {
+      "file": "source-src__app__bridge.ts.gz",
+      "uncompressedBytes": 37265,
+      "uncompressedSha256": "92e74e3dfec9b1ac256f272375e7ca9fca4a7d4b1742d6cb1de63e402cf4d997"
+    },
+    {
+      "file": "source-src__app__dayExecutor.ts.gz",
+      "uncompressedBytes": 1103,
+      "uncompressedSha256": "47c46b5af1c28533d22dc4421cfc6d62322f565509432fa5ab567fdbc01c0eaf"
+    },
+    {
+      "file": "source-tests__app__worker__bridgeAsync.spec.ts.gz",
+      "uncompressedBytes": 11818,
+      "uncompressedSha256": "11ee08569d0c1c0803e6280640d7c6f90cc286f47ba8f9c4a68b867f9b3e655f"
+    },
+    {
+      "file": "worker-initial-red-source.spec.ts.gz",
+      "uncompressedBytes": 16028,
+      "uncompressedSha256": "7e94ceea6b0e24556553293cf46b2067049fe296e4e98fd54521fd5a781e2dc1"
+    },
+    {
+      "file": "negative-src__app__bridge.ts.gz",
+      "uncompressedBytes": 35080,
+      "uncompressedSha256": "d36bb43f4e1bde1f30a6fa2808025070adb581d343382a2ea96c031c3b59d2f1"
+    },
+    {
+      "file": "negative-tests__app__worker__bridgeAsync.spec.ts.gz",
+      "uncompressedBytes": 11818,
+      "uncompressedSha256": "11ee08569d0c1c0803e6280640d7c6f90cc286f47ba8f9c4a68b867f9b3e655f"
+    },
+    {
+      "file": "negative-control-source-manifest.json.gz",
+      "uncompressedBytes": 152610,
+      "uncompressedSha256": "1e23a6dd9606f827a0fe066515902dbed4bc19cd63c877d2d92dad99b8f7597a"
+    },
+    {
+      "file": "actual-tested-tenka_engine.wasm.gz",
+      "uncompressedBytes": 63073,
+      "uncompressedSha256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba"
+    },
+    {
+      "file": "actual-tested-wasm-manifest.json.gz",
+      "uncompressedBytes": 1226,
+      "uncompressedSha256": "8f41ae78dce8749c6c255b68ba4bceda709bc96af3f14271330261278fe8bd68"
+    }
+  ]
+}
