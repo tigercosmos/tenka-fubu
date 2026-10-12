@@ -1,0 +1,68 @@
+[
+  {
+    "review": "ending-before-1.5.png",
+    "archiveMember": "runs/ending-crest-red-15/browser-results/overlay-baseline-earned-en-7affc-wport-geometry-at-scale-1-5-chromium/ending-initial-1.5.png",
+    "sha256": "eef230fae3e84dea3ed64b3b87d4d6ed49bfe77e62ed84e3680de08920a55207",
+    "bytes": 159518
+  },
+  {
+    "review": "ending-after-1.5.png",
+    "archiveMember": "runs/ending-safe-center-15/browser-results/overlay-baseline-earned-en-7affc-wport-geometry-at-scale-1-5-chromium/ending-initial-1.5.png",
+    "sha256": "9c06a6193068eba4ccd5d6c2c7a30a72041bfcefd1d0c53bb00501f5a53d4940",
+    "bytes": 156016
+  },
+  {
+    "review": "proposal-0.8.png",
+    "archiveMember": "runs/proposal-month-keyboard-all15/browser-results/mandatory-overlays-respons-759a3--remain-usable-at-scale-0-8-chromium/proposal-0.8.png",
+    "sha256": "f1909a440dbe9925f779925ba3a3f676ec4c38b90a0f9b346f72eb7af7d98db7",
+    "bytes": 344904
+  },
+  {
+    "review": "proposal-1.png",
+    "archiveMember": "runs/proposal-month-keyboard-all15/browser-results/mandatory-overlays-respons-65b41-ry-remain-usable-at-scale-1-chromium/proposal-1.png",
+    "sha256": "be47baf73c1de95bf47088c722ca4a8693a84026f507f6ab0c6ffd2f61f68409",
+    "bytes": 311915
+  },
+  {
+    "review": "proposal-1.5.png",
+    "archiveMember": "runs/final-exact-focused/browser-results/mandatory-overlays-respons-0618b--remain-usable-at-scale-1-5-chromium/proposal-1.5.png",
+    "sha256": "4385ef2a3157c1e390d1b802e09c6306cf89959c1c0c38dc30ab7de8eebdcc04",
+    "bytes": 232604
+  },
+  {
+    "review": "summary-0.8.png",
+    "archiveMember": "runs/proposal-month-keyboard-all15/browser-results/mandatory-overlays-respons-759a3--remain-usable-at-scale-0-8-chromium/summary-0.8.png",
+    "sha256": "4bf0eb7a0406055d70cccf7eb603cd2929687cc60303ff4aa396a724eaba0574",
+    "bytes": 306031
+  },
+  {
+    "review": "summary-1.png",
+    "archiveMember": "runs/proposal-month-keyboard-all15/browser-results/mandatory-overlays-respons-65b41-ry-remain-usable-at-scale-1-chromium/summary-1.png",
+    "sha256": "f650b3b65a2b6370f06ec194c269c2cfd16c289e1427fb9105931259b6cb3bcf",
+    "bytes": 262230
+  },
+  {
+    "review": "summary-1.5.png",
+    "archiveMember": "runs/final-exact-focused/browser-results/mandatory-overlays-respons-0618b--remain-usable-at-scale-1-5-chromium/summary-1.5.png",
+    "sha256": "6ea4c7fc236a53bd6165deec8febf9c5bcc6be4ce202fa5aa0fbb7441145b855",
+    "bytes": 157716
+  },
+  {
+    "review": "event-0.8.png",
+    "archiveMember": "runs/event-all15/browser-results/production-events-earned-O-e62d0-hable-at-1280×720-scale-0-8-chromium/event-0.8.png",
+    "sha256": "adb0c392a1d7a6bdb763c567f53e744d2c78a001f291eb9b87a146df45fba746",
+    "bytes": 437004
+  },
+  {
+    "review": "event-1.png",
+    "archiveMember": "runs/event-all15/browser-results/production-events-earned-O-3bb63-achable-at-1280×720-scale-1-chromium/event-1.png",
+    "sha256": "c1f58b94567932b15a3f2a9b1d4087fcd42854f2fc79adc5054c0ba6a8d13c21",
+    "bytes": 444501
+  },
+  {
+    "review": "event-1.5.png",
+    "archiveMember": "runs/final-exact-focused/browser-results/production-events-earned-O-2952b-hable-at-1280×720-scale-1-5-chromium/event-1.5.png",
+    "sha256": "c331ee6fa1e9fa1d3cd6804c66e49ff39a0545039ed71c32257739bb0c2d694c",
+    "bytes": 461523
+  }
+]
