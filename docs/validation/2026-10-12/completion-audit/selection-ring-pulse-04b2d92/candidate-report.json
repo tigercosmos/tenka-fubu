@@ -1,0 +1,143 @@
+{
+  "config": {
+    "argv": [
+      "/tmp/tenka-fubu-parallel-20261011.FC6Shj/runtime/bin/node",
+      "/tmp/tenka-selection-pulse-candidate-5feb-c1/node_modules/.bin/playwright",
+      "test",
+      "tests/browser/selectionPulse.pw.ts",
+      "--config",
+      "tests/browser/playwright.gallery.config.ts",
+      "--project=gallery-chromium",
+      "--output=/tmp/tenka-selection-pulse-candidate-native-c1/browser-results",
+      "--reporter=line,json",
+      "--workers=1"
+    ],
+    "configFile": "/tmp/tenka-selection-pulse-candidate-5feb-c1/tests/browser/playwright.gallery.config.ts",
+    "rootDir": "/tmp/tenka-selection-pulse-candidate-5feb-c1/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 300000,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/tenka-selection-pulse-candidate-native-c1/browser-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "gallery-chromium",
+        "name": "gallery-chromium",
+        "testDir": "/tmp/tenka-selection-pulse-candidate-5feb-c1/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "*.pw.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.61.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run dev -- --host 127.0.0.1 --port 4181 --strictPort",
+      "cwd": "/tmp/tenka-selection-pulse-candidate-5feb-c1/",
+      "url": "http://127.0.0.1:4181",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "selectionPulse.pw.ts",
+      "file": "selectionPulse.pw.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real selected castle ground ring pulses while ordinary motion is allowed and is static under OS reduction",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gallery-chromium",
+              "projectName": "gallery-chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4123,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T12:16:14.350Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "selected-ordinary",
+                      "contentType": "image/png",
+                      "path": "/tmp/tenka-selection-pulse-candidate-native-c1/browser-results/selectionPulse.pw.ts-real--66c17-s-static-under-OS-reduction-gallery-chromium/attachments/selected-ordinary-2093b2187f457661bde680d1c3b6c4051dd3b6ca.png"
+                    },
+                    {
+                      "name": "selected-reduced",
+                      "contentType": "image/png",
+                      "path": "/tmp/tenka-selection-pulse-candidate-native-c1/browser-results/selectionPulse.pw.ts-real--66c17-s-static-under-OS-reduction-gallery-chromium/attachments/selected-reduced-5bb2613d793599e78bc5195057fe7969a4ab51c7.png"
+                    },
+                    {
+                      "name": "ring-witness",
+                      "contentType": "application/json",
+                      "body": "eyJpbml0aWFsIjp7InZpc2libGUiOnRydWUsIndvcmxkWCI6MTkzNi45OTIsIndvcmxkWSI6Mjc2OC40LCJzY2FsZSI6MS4wMDAwNTA1MzA3Mzc2MTM3LCJncm91bmRZIjo0LCJhbHBoYSI6MC44OTk4MTA1MDk3MzM5NDg1fSwiZXhwYW5kZWQiOnsidmlzaWJsZSI6dHJ1ZSwid29ybGRYIjoxOTM2Ljk5Miwid29ybGRZIjoyNzY4LjQsInNjYWxlIjoxLjA1MjA4OTkxOTc0MzYwMzgsImdyb3VuZFkiOjQsImFscGhhIjowLjcwNDY2MjgwMDk2MTQ4NjF9LCJyZWR1Y2VkU2FtcGxlcyI6W3sidmlzaWJsZSI6dHJ1ZSwid29ybGRYIjoxOTM2Ljk5Miwid29ybGRZIjoyNzY4LjQsInNjYWxlIjoxLCJncm91bmRZIjo0LCJhbHBoYSI6MX0seyJ2aXNpYmxlIjp0cnVlLCJ3b3JsZFgiOjE5MzYuOTkyLCJ3b3JsZFkiOjI3NjguNCwic2NhbGUiOjEsImdyb3VuZFkiOjQsImFscGhhIjoxfSx7InZpc2libGUiOnRydWUsIndvcmxkWCI6MTkzNi45OTIsIndvcmxkWSI6Mjc2OC40LCJzY2FsZSI6MSwiZ3JvdW5kWSI6NCwiYWxwaGEiOjF9XX0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "92e1bb098ed26aea20db-9d4937f2ef138efde3a1",
+          "file": "selectionPulse.pw.ts",
+          "line": 69,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-12T12:16:13.123Z",
+    "duration": 5542.778,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

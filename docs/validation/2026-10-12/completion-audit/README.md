@@ -4,11 +4,19 @@ Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目�
 最新固定來源 `ab06242` 全量測試為 6,451 通過、3 失敗、1 跳過；其中兩個新缺字失敗已另以 focused 檢查修復，既有無嗣領地失敗保留。120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
+## StrictMode 菜單所有權與選取環脈動
+
+[SystemMenu 證據](system-menu-strict-1990036/README.md) 區分原 production 設定旅程 PASS 與 DEV StrictMode 的真實 click→enqueue→close RED。6cb 的 generation-guarded microtask release 保留即時 callback 撤銷、真實卸載與 replacement／pause 所有權；199 的真實 captured onConfirm 回呼負控制補足 detached DOM 測試不能證明的部分。最後六項 focused regression、候選 DEV fixture 1/1（4.9 秒）與重建 production 原旅程 1/1（約 5.5 秒）通過；DEV fixture 現可用真實遊戲內 Settings 即時關閉效果，警示跨週期恆亮。原失敗、setup 錯誤及第一版 unit source 未封存的限制保持。
+
+[選取環證據](selection-ring-pulse-04b2d92/README.md) 依原 1200ms／cubic-bezier(.65,0,.35,1) pulse，只變 presentation，保留 groundY=4、世界 anchor、命中與減動態 static RGBA。原 native 實際 transform 靜態 RED，候選 1/1 PASS（5.5 秒），減動態樣本跨 1300ms；非實際 pointer selection，是明示 renderer fixture。畫面檢視僅支持上下文完整，動畫由 transform／alpha／anchor 與 state／command 觀測支持。完整 source 比對為 post-run，pre-run archive／overlay hashes 分開；初次 AppleDouble／overlay verifier RED 不改標。
+
+[合併 04b 檢查](menu-pulse-integrated-04b2d92/README.md) 保存 247/247、型別、data／assets／build／bundle、440 production／8 gallery discovery／格式與 1,648 source／29 Pixi targets 前後一致。首次完整 ESLint 因同期封存 raw TS 被專案 discovery 誤納而 RED；封存 bytes 轉 archive 後另跑完整 ESLint PASS，未改 source 或 lint 規則。不是全量 core／完整原生重跑。全 M6–M9、效能／記憶體／長跑／五分鐘與待決規則、六張保護圖人工核准保持開放，沒有 push／deploy。
+
 ## 真實開局勢力預覽與一揆減動態警示
 
 [勢力預覽](new-game-territory-map/README.md) 固定 canonical coast／共用 Voronoi raster 與劇本所有權，地圖點選及 41 勢力鍵盤名單同步，選取名稱與描邊提供非純色提示。十五倍率 15/15（18.9 秒）與既有精靈 16/16（84.4 秒）成功；八檔 native overlay 與 f312 Git bytes 相同，精靈固定 f312。織田新手提示有 16 §3.9 依據，六推薦／星級 authored 資料仍開放，不以 D67 縮減原要求。
 
-[一揆動態](uprising-motion-28f1e90/README.md) 在 28f 加入一秒週期與按需 warning Graphics，OS 減動態／停用效果恆亮，移除與生命週期清理有 unit 覆蓋。舊來源實際不閃爍 RED；候選 DEV fixture 2/2 通過 11.2 秒，renderer／part 143 項通過。這是明示的 render-view fixture，state／commands 未變，不是自然 core 一揆；OS 即時切換有 native 見證，真實標題設定停用效果後新掛載驗證，live effects disable 僅 unit。fixture 選單未開啟原因仍未解；lit／hidden 鏡頭位移，圖片不能證明整張 pixel 差異只來自閃爍。
+[一揆動態](uprising-motion-28f1e90/README.md) 在 28f 加入一秒週期與按需 warning Graphics，OS 減動態／停用效果恆亮，移除與生命週期清理有 unit 覆蓋。舊來源實際不閃爍 RED；候選 DEV fixture 2/2 通過 11.2 秒，renderer／part 143 項通過。這是明示的 render-view fixture，state／commands 未變，不是自然 core 一揆；OS 即時切換有 native 見證，真實標題設定停用效果後新掛載驗證，live effects disable 僅 unit。該批 fixture 選單原因當時未解，後續修復見上方；lit／hidden 鏡頭位移，圖片不能證明整張 pixel 差異只來自閃爍。
 
 [合併來源驗證](map-warning-integrated-28f1e90/README.md) 固定 28f 的 1,646 Git inputs／29 Pixi targets 前後一致：focused 207 PASS／2 FAIL，型別、完整 ESLint、資料／素材、build／bundle、440 production／7 gallery discovery 及格式通過。兩項舊 metadata fixture 缺少連通道路／座標；e775 僅修該測試資料與 scoped canvas spy，原斷言不變，另外兩項與型別／touched lint／格式通過。保留 28f RED，不冒稱後續全量重跑或放寬 graph validator。
 

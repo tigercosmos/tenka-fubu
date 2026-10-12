@@ -1,0 +1,10 @@
+{
+  "kind": "Root-reported tool-transcript readback, not retained raw subprocess logs",
+  "exitCodes": [0, 0, 0],
+  "outputs": [
+    "PASS: 9 compact artifacts, 5 source files, old RED, candidate GREEN, source proof",
+    "PASS: package hashes, source/deps proofs, original RED and two candidate native PASS cases",
+    "PASS: hashes,1648 source/29 dependencies,247 tests,all checks,original ESLint RED and separate full lint PASS"
+  ],
+  "limitation": "Root executed directly without preopened capture directories; none are invented here."
+}

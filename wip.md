@@ -6648,3 +6648,11 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 全部 440 項原生五分鐘、strict60、whole-heap、long-run、其餘 M6–M9 與六推薦／星級仍開放；無嗣／戰術終局、人口校準、934163c 六圖人工核准無新回答。沒有更改基準、規則、deadline、milestone 或 push／deploy。
 
 - 證據套件：`new-game-territory-map`、`uprising-motion-28f1e90`、`map-warning-integrated-28f1e90`。bulk native traces 以遠端 inventory 保留，原 404／selector／menu／fixture RED 與修正結果分開；沒有宣稱所有 setup 都成功。root 的圖像檢視只支持本次預覽可讀與警示上下文，不能代替 protected 六圖人工核准。
+
+## 2026-10-12 — StrictMode 菜單所有權與選取環動態
+
+- `6cb9643` 修復 DEV React StrictMode 的 SystemMenu 開啟即關閉：原實際 gear click 入列／升為 modal 後約 3.3ms 被 effect replay cleanup 關閉，game／screen／tick 不變。正常 production 四步驟開局設定流程原本成功，不能把此 bug 說成所有遊戲皆失敗。cleanup 仍立即撤銷 callback／request，僅 exact-owner release 延至 microtask 並用 generation 擋 replay；真正 unmount 關閉、不恢復時間、不動 replacement owner。`1990036` 直接呼叫 captured 真實 onConfirm 驗證舊 callback 不可重啟；六項 regression 通過，較早 detached button click 只能證明 DOM 無作用，不是 callback 證明。
+- 菜單候選兩個原生控制分開通過：DEV fixture 1/1（4.9 秒）及重建 production 的原既有設定旅程 1/1（約 5.5 秒），保留原 60／300 秒。先前一揆 fixture 的選單問題已確定並修復；此候選另經真實遊戲內 Settings 即時停用效果，警示跨週期恆亮，state／commands 不變。來源為固定 5feb 加精確 overlay，不能改標為完整較晚 HEAD；原 selector 零選取／launcher 126 與初次二案例測試原 source 未封存的限制明載。
+- `04b2d92` 依 12 §3.3.4／D29 補選取城池／郡的 1200ms pulse，使用指定 cubic-bezier(.65,0,.35,1)、scale 1→1.08→1、alpha envelope .9→.6→.9。只變內部 Graphics transform／容器 alpha，groundY=4 與世界 anchor 不變；減動態／停用效果恢復原 static RGBA，選取切換／換圖／destroy 清理。原既有 Graphics native 控制因維持靜態而 RED，候選 1/1 PASS（5.5 秒），減動態取樣跨 1300ms；明示 renderer selection fixture，不冒稱實際 pointer selection或完整藝術核准。來源完整比對是較晚 post-run readback，pre-run archive／overlay hashes 分開保存，AppleDouble／overlay verifier RED 未隱藏。
+- 最後固定 `04b2d92` 合併 247/247（15 檔）、型別、data／assets／build／bundle、440 production／8 gallery discovery／格式及 1,648 Git inputs／29 Pixi targets 前後一致。第一次完整 ESLint 因同期封存的五個 raw TS 證據副本位於 tsconfig 外而 RED；bytes 入 archive 後移除 plain copies，原碼與 lint 規則未改，另跑完整 ESLint PASS（0 errors／2 warnings）。沒有把首次 RED 改標，也沒有重跑全量 core／原生。
+- 全套五分鐘、strict60、whole-heap、long-run、六推薦／星級及其餘 M6–M9 仍開放；威風 world-radius payload 缺口與 max0 ProgressBar 語意均未擅自改寫。無嗣／戰術終局、人口校準、934163c 六圖仍無新回答；未改規則、保護基準、deadline、milestone，未 push／deploy。

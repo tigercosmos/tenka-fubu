@@ -1,0 +1,162 @@
+{
+  "config": {
+    "argv": [
+      "/tmp/tenka-fubu-parallel-20261011.FC6Shj/runtime/bin/node",
+      "/tmp/tenka-selection-pulse-old-5feb-c1/node_modules/.bin/playwright",
+      "test",
+      "tests/browser/selectionPulse.pw.ts",
+      "--config",
+      "tests/browser/playwright.gallery.config.ts",
+      "--project=gallery-chromium",
+      "--output=/tmp/tenka-selection-pulse-old-native-c1/browser-results",
+      "--reporter=line,json",
+      "--workers=1"
+    ],
+    "configFile": "/tmp/tenka-selection-pulse-old-5feb-c1/tests/browser/playwright.gallery.config.ts",
+    "rootDir": "/tmp/tenka-selection-pulse-old-5feb-c1/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 300000,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/tenka-selection-pulse-old-native-c1/browser-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "gallery-chromium",
+        "name": "gallery-chromium",
+        "testDir": "/tmp/tenka-selection-pulse-old-5feb-c1/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "*.pw.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.61.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run dev -- --host 127.0.0.1 --port 4181 --strictPort",
+      "cwd": "/tmp/tenka-selection-pulse-old-5feb-c1/",
+      "url": "http://127.0.0.1:4181",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "selectionPulse.pw.ts",
+      "file": "selectionPulse.pw.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real selected castle ground ring pulses while ordinary motion is allowed and is static under OS reduction",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "gallery-chromium",
+              "projectName": "gallery-chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 8921,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 3000ms exceeded while waiting on the predicate",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 3000ms exceeded while waiting on the predicate\n    at /tmp/tenka-selection-pulse-old-5feb-c1/tests/browser/selectionPulse.pw.ts:99:6",
+                    "location": {
+                      "file": "/tmp/tenka-selection-pulse-old-5feb-c1/tests/browser/selectionPulse.pw.ts",
+                      "column": 6,
+                      "line": 99
+                    },
+                    "snippet": "\u001b[0m \u001b[90m  97 |\u001b[39m       { timeout\u001b[33m:\u001b[39m \u001b[35m3000\u001b[39m\u001b[33m,\u001b[39m intervals\u001b[33m:\u001b[39m [\u001b[35m50\u001b[39m] }\u001b[33m,\u001b[39m\n \u001b[90m  98 |\u001b[39m     )\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  99 |\u001b[39m     \u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 100 |\u001b[39m   \u001b[36mconst\u001b[39m expanded \u001b[33m=\u001b[39m expandedSamples\u001b[33m.\u001b[39mat(\u001b[33m-\u001b[39m\u001b[35m1\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 101 |\u001b[39m   \u001b[36mif\u001b[39m (\u001b[33m!\u001b[39mexpanded) \u001b[36mthrow\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mError\u001b[39m(\u001b[32m'Selected ring never reached the expansion frame'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 102 |\u001b[39m   expect(expanded\u001b[33m.\u001b[39mgroundY)\u001b[33m.\u001b[39mtoBeCloseTo(\u001b[35m4\u001b[39m\u001b[33m,\u001b[39m \u001b[35m5\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/tmp/tenka-selection-pulse-old-5feb-c1/tests/browser/selectionPulse.pw.ts",
+                        "column": 6,
+                        "line": 99
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 3000ms exceeded while waiting on the predicate\n\n   97 |       { timeout: 3000, intervals: [50] },\n   98 |     )\n>  99 |     .toBe(true);\n      |      ^\n  100 |   const expanded = expandedSamples.at(-1);\n  101 |   if (!expanded) throw new Error('Selected ring never reached the expansion frame');\n  102 |   expect(expanded.groundY).toBeCloseTo(4, 5);\n    at /tmp/tenka-selection-pulse-old-5feb-c1/tests/browser/selectionPulse.pw.ts:99:6"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T12:15:46.943Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/tenka-selection-pulse-old-native-c1/browser-results/selectionPulse.pw.ts-real--66c17-s-static-under-OS-reduction-gallery-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/tenka-selection-pulse-old-native-c1/browser-results/selectionPulse.pw.ts-real--66c17-s-static-under-OS-reduction-gallery-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/tmp/tenka-selection-pulse-old-5feb-c1/tests/browser/selectionPulse.pw.ts",
+                    "column": 6,
+                    "line": 99
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "92e1bb098ed26aea20db-9d4937f2ef138efde3a1",
+          "file": "selectionPulse.pw.ts",
+          "line": 69,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-12T12:15:45.747Z",
+    "duration": 14596.866,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

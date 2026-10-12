@@ -48,8 +48,14 @@
 
 - 當前里程碑：見 `milestone.json`；歷史進度：見 README 進度表。
 
+- `6cb9643` 修復 DEV React StrictMode 的 SystemMenu 開啟即關閉：原實際 gear click 入列／升為 modal 後約 3.3ms 被 effect replay cleanup 關閉，game／screen／tick 不變。正常 production 四步驟開局設定流程原本成功，不能把此 bug 說成所有遊戲皆失敗。cleanup 仍立即撤銷 callback／request，僅 exact-owner release 延至 microtask 並用 generation 擋 replay；真正 unmount 關閉、不恢復時間、不動 replacement owner。`1990036` 直接呼叫 captured 真實 onConfirm 驗證舊 callback 不可重啟；六項 regression 通過，較早 detached button click 只能證明 DOM 無作用，不是 callback 證明。
+- 菜單候選兩個原生控制分開通過：DEV fixture 1/1（4.9 秒）及重建 production 的原既有設定旅程 1/1（約 5.5 秒），保留原 60／300 秒。先前一揆 fixture 的選單問題已確定並修復；此候選另經真實遊戲內 Settings 即時停用效果，警示跨週期恆亮，state／commands 不變。來源為固定 5feb 加精確 overlay，不能改標為完整較晚 HEAD；原 selector 零選取／launcher 126 與初次二案例測試原 source 未封存的限制明載。
+- `04b2d92` 依 12 §3.3.4／D29 補選取城池／郡的 1200ms pulse，使用指定 cubic-bezier(.65,0,.35,1)、scale 1→1.08→1、alpha envelope .9→.6→.9。只變內部 Graphics transform／容器 alpha，groundY=4 與世界 anchor 不變；減動態／停用效果恢復原 static RGBA，選取切換／換圖／destroy 清理。原既有 Graphics native 控制因維持靜態而 RED，候選 1/1 PASS（5.5 秒），減動態取樣跨 1300ms；明示 renderer selection fixture，不冒稱實際 pointer selection或完整藝術核准。來源完整比對是較晚 post-run readback，pre-run archive／overlay hashes 分開保存，AppleDouble／overlay verifier RED 未隱藏。
+- 最後固定 `04b2d92` 合併 247/247（15 檔）、型別、data／assets／build／bundle、440 production／8 gallery discovery／格式及 1,648 Git inputs／29 Pixi targets 前後一致。第一次完整 ESLint 因同期封存的五個 raw TS 證據副本位於 tsconfig 外而 RED；bytes 入 archive 後移除 plain copies，原碼與 lint 規則未改，另跑完整 ESLint PASS（0 errors／2 warnings）。沒有把首次 RED 改標，也沒有重跑全量 core／原生。
+- 全套五分鐘、strict60、whole-heap、long-run、六推薦／星級及其餘 M6–M9 仍開放；威風 world-radius payload 缺口與 max0 ProgressBar 語意均未擅自改寫。無嗣／戰術終局、人口校準、934163c 六圖仍無新回答；未改規則、保護基準、deadline、milestone，未 push／deploy。
+
 - `f31284d` 新增真正靜態全國勢力預覽：共用 canonical coast／Voronoi raster 與劇本郡所有權，地圖點選與 41 勢力鍵盤名單同步，選取描邊及名稱不只依賴顏色。織田「推薦新手」直接依 16 §3.9；六個推薦位置／星級缺 authored 資料仍未完成，11 D67 保留此缺口。十五倍率地圖原生 15/15（18.9 秒）及原有精靈 16/16（84.4 秒）通過；地圖執行 overlay 八檔與最終 Git bytes 相同，精靈執行固定 f312。不是整體 M8-17／M8-23 完成。
-- `28f1e90` 補一揆警示一秒閃爍，只在半週期切換 active warning 的可見性；Graphics 按需建立，移除／換圖／destroy 清理，OS 減動態或停用效果保持恆亮。舊來源實際不閃爍 RED，候選原生 DEV fixture 2/2 通過 11.2 秒，renderer／part 143 項通過。原生 OS 切換即時驗證；使用者停用效果經真正標題設定後重新掛載驗證，即時停用由 unit 覆蓋。synthetic view 不代表 core 自然發生一揆；fixture 系統選單未打開原因仍未解。lit／hidden 圖有鏡頭位移，不能聲稱 whole-image pixel 因果或幾何不變。
+- `28f1e90` 補一揆警示一秒閃爍，只在半週期切換 active warning 的可見性；Graphics 按需建立，移除／換圖／destroy 清理，OS 減動態或停用效果保持恆亮。舊來源實際不閃爍 RED，候選原生 DEV fixture 2/2 通過 11.2 秒，renderer／part 143 項通過。原生 OS 切換即時驗證；使用者停用效果經真正標題設定後重新掛載驗證，即時停用由 unit 覆蓋。synthetic view 不代表 core 自然發生一揆；該批 fixture 系統選單未打開原因當時未解，後續 6cb 修復見上方。lit／hidden 圖有鏡頭位移，不能聲稱 whole-image pixel 因果或幾何不變。
 - 固定 `28f1e90` 整合 focused 207 PASS／2 FAIL（209 項），兩項是舊大名 metadata fixture 未提供新真實地圖所需的連通道路／座標；production validator 未放寬。`e775a2f` 只補該測試 fixture，原斷言保留，另跑兩項、型別／touched lint／格式通過。28f 的完整 ESLint、型別、data／assets／build／bundle、440 production／7 gallery discovery 與 1,646 Git inputs／29 Pixi targets 前後證明通過；沒有改標為 e775 全套重跑。
 - 全部 440 項原生五分鐘、strict60、whole-heap、long-run、其餘 M6–M9 與六推薦／星級仍開放；無嗣／戰術終局、人口校準、934163c 六圖人工核准無新回答。沒有更改基準、規則、deadline、milestone 或 push／deploy。
 

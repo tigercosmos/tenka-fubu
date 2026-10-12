@@ -1,0 +1,11 @@
+{
+  "old-report.json": "b9158bcf6da1a20a9e3d055ae574ace5a1b3758e3e5e7a2e695325949d6edaeb",
+  "candidate-report.json": "1c41bfd7af08a5342dd2dbf2f6add441adec7d192fe4c56e2c92e4713980501e",
+  "ring-witness.json": "ac34f0983888f96ae36cb129ca5285f60c425616c8998f41bbb15a00038f3de9",
+  "native-captures.tar.gz": "613fda5b78c405c9e82a5920813cc61493d41bbc0d9c0492797c5eb1828896c6",
+  "local-captures.tar.gz": "8d9d9d3d8bd037141d7a9a2700866e830d0213ad3137f32147edf39363e65b4d",
+  "source-manifest.json": "c2e557c57c94055cd02e4d1ff509ee198155e34c1306bac02e6130e606e7775a",
+  "source-verify.py": "7d9acfc4133e7d876287468e18c70ef4e8ee2b2dade8eff9032ad7a422c523fa",
+  "selected-ordinary.png": "73e7bdecfe5fa5bc83ffae337a1f440f7564823eea4d3e5f6c17d03ee300b3bc",
+  "selected-reduced.png": "1e3e0e830b7f0e6bc1357b4b19e49031f8832e97ec2a8fe46947122af948394a"
+}
