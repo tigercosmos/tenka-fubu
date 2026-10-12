@@ -134,8 +134,31 @@ async function drain(page: Page, decisions: string[], holdSummary = false) {
     expect(await dialog.count(), 'Exactly one known native owner').toBe(1);
     if (await page.getByTestId('month-summary').isVisible()) {
       if (holdSummary) return;
+      const pause = page.getByTestId('speed-pause');
+      const bounds = await pause.boundingBox();
+      expect(
+        bounds,
+        'Real Pause control remains measurable while the summary owns input',
+      ).not.toBeNull();
+      expect(bounds!.width).toBeGreaterThanOrEqual(32);
+      expect(bounds!.height).toBeGreaterThanOrEqual(32);
+      const point = { x: bounds!.x + bounds!.width / 2, y: bounds!.y + bounds!.height / 2 };
       decisions.push('summary:continue');
       await page.getByTestId('month-summary-continue').click();
+      // The summary may restore x2 immediately. Check FIFO ownership once, then
+      // send real pointer input without a second locator actionability wait.
+      if ((await dialog.count()) === 0) {
+        await page.mouse.click(point.x, point.y);
+        await expect(pause).toHaveAttribute('aria-pressed', 'true');
+        const after = await pause.boundingBox();
+        expect(after).not.toBeNull();
+        expect(point.x).toBeGreaterThanOrEqual(after!.x);
+        expect(point.x).toBeLessThanOrEqual(after!.x + after!.width);
+        expect(point.y).toBeGreaterThanOrEqual(after!.y);
+        expect(point.y).toBeLessThanOrEqual(after!.y + after!.height);
+        expect(await page.evaluate(() => window.__tenka.debug.getState().time.day)).toBe(day);
+        return;
+      }
     } else if (await page.getByTestId('proposal-inbox').isVisible()) {
       decisions.push('proposal:全部駁回');
       await dialog.getByRole('button', { name: '全部駁回', exact: true }).click();
