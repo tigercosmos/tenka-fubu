@@ -387,3 +387,93 @@ fn strict_near_boundaries_and_unbounded_obstacle_counts() {
     let mut p = prepared(&f);
     assert_eq!(score_prepared(&f, &mut p, &road(0.0, &[])), 0);
 }
+
+#[test]
+fn guarded_x_matches_original_grid_touch_and_thresholds() {
+    let bound = f64::MAX / 16.0;
+    let values = [
+        -0.0,
+        0.0,
+        f64::MIN_POSITIVE,
+        -1.0,
+        1.0,
+        8.0,
+        8.0f64.next_down(),
+        8.0f64.next_up(),
+        bound,
+        -bound,
+    ];
+    for ax in values {
+        for bx in values {
+            for ay in values {
+                for by in values {
+                    for padding in [0.0, 2.0] {
+                        let a = Rect {
+                            x: ax,
+                            y: ay,
+                            width: 8.0,
+                            height: 8.0,
+                        };
+                        let b = Rect {
+                            x: bx,
+                            y: by,
+                            width: 0.0,
+                            height: 8.0,
+                        };
+                        assert_eq!(
+                            guarded_overlap(a, b, padding, true).to_bits(),
+                            overlap(a, b, padding).to_bits()
+                        );
+                    }
+                }
+            }
+        }
+    }
+    for v in [bound.next_down(), bound, -bound] {
+        assert!(bounded_component(v));
+    }
+    for v in [
+        bound.next_up(),
+        -bound.next_up(),
+        f64::INFINITY,
+        f64::NEG_INFINITY,
+        f64::NAN,
+    ] {
+        assert!(!bounded_component(v));
+    }
+    let mut f = frame(&[[bound, 0.0, 0.0, 0.0]], &[], &[]);
+    assert!(Frame::parse(&f).unwrap().bounded_overlap);
+    f[16] = bound.next_up();
+    assert!(!Frame::parse(&f).unwrap().bounded_overlap);
+}
+
+#[test]
+fn unbounded_zero_x_preserves_nan_product_and_offset_fallback() {
+    let a = Rect {
+        x: 0.0,
+        y: f64::MAX,
+        width: 0.0,
+        height: f64::MAX,
+    };
+    for y in [f64::MAX, f64::INFINITY, f64::NAN] {
+        let b = Rect {
+            x: 100.0,
+            y,
+            width: 0.0,
+            height: f64::MAX,
+        };
+        let expected = overlap(a, b, 0.0);
+        let actual = guarded_overlap(a, b, 0.0, false);
+        assert!(expected.is_nan());
+        assert!(actual.is_nan());
+    }
+    for value in [f64::MAX, f64::INFINITY, f64::NAN] {
+        let f = frame(&[], &[], &[]);
+        let mut p = prepared(&f);
+        p[16] = value;
+        assert_eq!(
+            score_prepared(&f, &mut p, &road(0.0, &[])),
+            if value.is_nan() { 0 } else { 1 }
+        );
+    }
+}

@@ -23,12 +23,16 @@ fn valid_rect(r: &[f64]) -> bool {
         && (r[0] + r[2] + 4.0).is_finite()
         && (r[1] + r[3] + 4.0).is_finite()
 }
+fn bounded_component(v: f64) -> bool {
+    v.is_finite() && v.abs() <= f64::MAX / 16.0
+}
 struct Frame<'a> {
     data: &'a [f64],
     p: usize,
     h: usize,
     k: usize,
     rect: Rect,
+    bounded_overlap: bool,
 }
 impl<'a> Frame<'a> {
     fn parse(data: &'a [f64]) -> Option<Self> {
@@ -52,11 +56,12 @@ impl<'a> Frame<'a> {
             return None;
         }
         let active = p.checked_add(h)?.checked_add(k)?;
-        if !data[HEADER..HEADER + active * 4]
-            .chunks_exact(4)
-            .all(valid_rect)
-        {
-            return None;
+        let mut bounded_overlap = data[6..10].iter().copied().all(bounded_component);
+        for row in data[HEADER..HEADER + active * 4].chunks_exact(4) {
+            if !valid_rect(row) {
+                return None;
+            }
+            bounded_overlap &= row.iter().copied().all(bounded_component);
         }
         Some(Self {
             data,
@@ -64,6 +69,7 @@ impl<'a> Frame<'a> {
             h,
             k,
             rect: Rect::read(&data[6..10]),
+            bounded_overlap,
         })
     }
     fn count(&self) -> usize {
@@ -286,6 +292,29 @@ fn prepared_overlap(a: Rect, b: Rect, padding: f64) -> f64 {
     }
 }
 
+// With components <= MAX/16, moved coordinates, padded ends and clipped
+// differences are finite. Thus a zero X clip times finite nonnegative Y is +0.
+// Outside that conservative domain retain the original scalar/SIMD arithmetic.
+fn guarded_overlap(a: Rect, b: Rect, padding: f64, bounded: bool) -> f64 {
+    if !bounded {
+        return prepared_overlap(a, b, padding);
+    }
+    let x = js_max(
+        0.0,
+        js_min(a.x + a.width + padding, b.x + b.width + padding)
+            - js_max(a.x - padding, b.x - padding),
+    );
+    if x == 0.0 {
+        return 0.0;
+    }
+    let y = js_max(
+        0.0,
+        js_min(a.y + a.height + padding, b.y + b.height + padding)
+            - js_max(a.y - padding, b.y - padding),
+    );
+    x * y
+}
+
 /// Reuse prepared near indices and axes without repacking the full scorer packet.
 /// Output winner fields are never inputs. Malformed input leaves output unchanged.
 pub(crate) fn score_prepared(frame: &[f64], prep: &mut [f64], road: &[f64]) -> i32 {
@@ -342,6 +371,11 @@ pub(crate) fn score_prepared(frame: &[f64], prep: &mut [f64], road: &[f64]) -> i
     {
         return -2;
     }
+    let bounded = f.bounded_overlap
+        && prep[offset_start..offset_start + 14]
+            .iter()
+            .copied()
+            .all(bounded_component);
     // Derived offset values can legitimately be nonfinite; preserve scorer semantics.
     let mut offsets: Vec<[f64; 2]> = prep[offset_start..offset_start + 14]
         .chunks_exact(2)
@@ -362,11 +396,11 @@ pub(crate) fn score_prepared(frame: &[f64], prep: &mut [f64], road: &[f64]) -> i
         }
     }
     let baseline = primary.iter().fold(0.0, |sum, i| {
-        sum + prepared_overlap(f.rect, f.row(*i as usize), 0.0)
+        sum + guarded_overlap(f.rect, f.row(*i as usize), 0.0, bounded)
     });
     let hard_baseline: Vec<f64> = hard
         .iter()
-        .map(|i| prepared_overlap(f.rect, f.row(f.p + *i as usize), 0.0))
+        .map(|i| guarded_overlap(f.rect, f.row(f.p + *i as usize), 0.0, bounded))
         .collect();
     let mut winner = -1;
     let mut winner_offset = [0.0, 0.0];
@@ -396,18 +430,18 @@ pub(crate) fn score_prepared(frame: &[f64], prep: &mut [f64], road: &[f64]) -> i
             if hard
                 .iter()
                 .zip(&hard_baseline)
-                .any(|(i, b)| prepared_overlap(moved, f.row(f.p + *i as usize), 0.0) > *b)
+                .any(|(i, b)| guarded_overlap(moved, f.row(f.p + *i as usize), 0.0, bounded) > *b)
             {
                 continue;
             }
             let area = primary.iter().fold(0.0, |sum, i| {
-                sum + prepared_overlap(moved, f.row(*i as usize), 0.0)
+                sum + guarded_overlap(moved, f.row(*i as usize), 0.0, bounded)
             });
             if area > baseline {
                 continue;
             }
             let secondary = reserved.iter().fold(0.0, |sum, i| {
-                sum + prepared_overlap(moved, f.row(*i as usize), 2.0)
+                sum + guarded_overlap(moved, f.row(*i as usize), 2.0, bounded)
             });
             if area < best_primary
                 || (area == best_primary
