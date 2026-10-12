@@ -28600,6 +28600,1326 @@
       "path": "wizard-handoff-0a8e747/tenka-wizard-finalize-0a8e747.py",
       "bytes": 5923,
       "sha256": "3057cbfca338246f6a6aedfb2ea5efd58bcb6f869f15a09602a6a06ea1b8ae7f"
+    },
+    {
+      "path": "new-game-territory-map/README.md",
+      "bytes": 4634,
+      "sha256": "df967b473db416475ce211800151eccdcf141fc9b5dbe616b1cbe20b2269300b"
+    },
+    {
+      "path": "new-game-territory-map/SHA256SUMS.json",
+      "bytes": 4767,
+      "sha256": "c8d4f2adfee663e00e7c7ebe339bee4635f8fbc263637ebc6784fc1869d1f5b3"
+    },
+    {
+      "path": "new-game-territory-map/c1-selector-red/command.json",
+      "bytes": 403,
+      "sha256": "c6132904d9b3c3fb808e1d7ebdcdc2c6d5489ac987c6457eb45153d34d50447e"
+    },
+    {
+      "path": "new-game-territory-map/c1-selector-red/process.json",
+      "bytes": 21,
+      "sha256": "67f02bbbf254afe946ff44a23675d6172d7027ea2db583a442b3263ef4dd8143"
+    },
+    {
+      "path": "new-game-territory-map/c1-selector-red/report.json",
+      "bytes": 8229,
+      "sha256": "a268681983b6e0c6376b9a2e0796cb232a9001e3e629a73baa102e9cfbd4a3a2"
+    },
+    {
+      "path": "new-game-territory-map/c1-selector-red/result.json",
+      "bytes": 73,
+      "sha256": "9b5bca79fe46f6dc54e142f40aacd91ae46cc1e58c299c572ca215e0b480e3cd"
+    },
+    {
+      "path": "new-game-territory-map/c1-selector-red/stdout-stderr.log",
+      "bytes": 4508,
+      "sha256": "1be2baeefe587612412247e84dd033fc06e88dc2d0e7bc2c07bd9bdce55c6681"
+    },
+    {
+      "path": "new-game-territory-map/c2-endpoints/command.json",
+      "bytes": 403,
+      "sha256": "ce789081c6b3c95b774f9ab3002caf4e8aa852d8a376bf83088012830b49e71b"
+    },
+    {
+      "path": "new-game-territory-map/c2-endpoints/process.json",
+      "bytes": 21,
+      "sha256": "430c54853dd3b14c87981229e229e319eb902315ccc990a074c3348fd6d8a7f9"
+    },
+    {
+      "path": "new-game-territory-map/c2-endpoints/report.json",
+      "bytes": 4237,
+      "sha256": "e0dab46ad6080a57922aebcd78f0d3c8b5935bbe03071783f077f6f37d01637b"
+    },
+    {
+      "path": "new-game-territory-map/c2-endpoints/result.json",
+      "bytes": 73,
+      "sha256": "0d3dfe88d308f629d16ea879be180de8f22c3d2a9a6a72f8824e93aa29cb7ebe"
+    },
+    {
+      "path": "new-game-territory-map/c2-endpoints/stdout-stderr.log",
+      "bytes": 565,
+      "sha256": "a1a3a37f07a103742a97eb672199261e55765c66df5ef48c5f844a3a7252e809"
+    },
+    {
+      "path": "new-game-territory-map/c3-all-scales/command.json",
+      "bytes": 403,
+      "sha256": "dedc0e2867818a47e6c1f28242fed10d57b6196beff024ee3246e5db400e884e"
+    },
+    {
+      "path": "new-game-territory-map/c3-all-scales/process.json",
+      "bytes": 21,
+      "sha256": "6a8ba693f4d648d9150f397d7a3a85b9a2b17ca4935706ddfb214d3ec762f4a8"
+    },
+    {
+      "path": "new-game-territory-map/c3-all-scales/report.json",
+      "bytes": 18427,
+      "sha256": "aac479615560ad0376af3e60f98e3ddc2d1a7f6e45b697aa1bf436bb531e0ea1"
+    },
+    {
+      "path": "new-game-territory-map/c3-all-scales/result.json",
+      "bytes": 73,
+      "sha256": "c6e11be51681cda8f18d9ad93b41e2d565487e9dd9a2e43b8c9398bb03d52bf5"
+    },
+    {
+      "path": "new-game-territory-map/c3-all-scales/stdout-stderr.log",
+      "bytes": 2440,
+      "sha256": "3ebf7545dae5a3722bff92bd98c8f2189bb1b581331db792f61a13c5a0e0a52f"
+    },
+    {
+      "path": "new-game-territory-map/images/territory-0.8-imagawa.png",
+      "bytes": 130554,
+      "sha256": "0c15bbd48b56cc4c355d62a096ec6fa73962ecc09ae2cd8562c616163e4373fc"
+    },
+    {
+      "path": "new-game-territory-map/images/territory-0.8-initial.png",
+      "bytes": 129351,
+      "sha256": "dd96b2ac6ad833d0541e62b39966f8e9f754567abb9bb882f7c034f64f670764"
+    },
+    {
+      "path": "new-game-territory-map/images/territory-0.8-oda-return.png",
+      "bytes": 131965,
+      "sha256": "bf112e510f2394e08d2d5873d59c8436672e20656e6a6ff9cad5975010dd0dd6"
+    },
+    {
+      "path": "new-game-territory-map/images/territory-1.5-imagawa.png",
+      "bytes": 171643,
+      "sha256": "b5b04ec05785fd1dd6bf4a7788c41003c3aa7edb4c7bee0ac7cb262c636505ff"
+    },
+    {
+      "path": "new-game-territory-map/images/territory-1.5-initial.png",
+      "bytes": 163839,
+      "sha256": "8c0a21d8ad1b8e7adc809f9180769fdb7b660eb4b64e79acbc517e9266174a33"
+    },
+    {
+      "path": "new-game-territory-map/images/territory-1.5-oda-return.png",
+      "bytes": 175041,
+      "sha256": "bf86715740332c005ae509c596ca20c59ce809c3db47490c8c179a382c29d077"
+    },
+    {
+      "path": "new-game-territory-map/proofs/local-captures-first-incomplete.tar.gz",
+      "bytes": 206792,
+      "sha256": "1edf945ab84021bd0d341fbcc3ea383f0fa8bfeacbe56ebae9755d78901b713a",
+      "uncompressedBytes": 1382400,
+      "uncompressedSha256": "49b3f6f0426908e72835a15988f070e721f1b55e32fc54c3e8b7ebd0fd28304b"
+    },
+    {
+      "path": "new-game-territory-map/proofs/local-captures.tar.gz",
+      "bytes": 207031,
+      "sha256": "6fdba657c56119f942d5d0c6b46df7364270b432159131f873a998214a238adb",
+      "uncompressedBytes": 1392640,
+      "uncompressedSha256": "e808a90c3e7a12d91c9d533217b19e46c043b43c12d9652e3d4bbe16904401e7"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-artifacts-c1.txt.gz",
+      "bytes": 402,
+      "sha256": "d19451fbd973d50785aaec41edc9b49ad61633a66cfc82ecbde6dad3e87f5bd1",
+      "uncompressedBytes": 919,
+      "uncompressedSha256": "0f3981ba829c10ec51167b4a752979fdb86d88a19578cec888da6b6fe8db1e40"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-artifacts-c2.txt.gz",
+      "bytes": 500,
+      "sha256": "1b1a7df4470711d78afa4dd893fe0e73d377c118738dac9b5933797b32ea7721",
+      "uncompressedBytes": 1395,
+      "uncompressedSha256": "2c6b826ec435c6e5788caefa7beaea64f4ef04ed00233a30575dbb67b43c1b5f"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-artifacts-c3.txt.gz",
+      "bytes": 2329,
+      "sha256": "0bd84c6d081866ddba9cab0fb363a6a549b6bde7dae3b72fd9688f6c4ca038c2",
+      "uncompressedBytes": 9639,
+      "uncompressedSha256": "7d241fe2efcf29e88f0df3d8de980b9315e8485479a2ad504f60ce9746d41640"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-artifacts-wizard.txt.gz",
+      "bytes": 5920,
+      "sha256": "719a38a7f7356febcf40214897bf68d9728c5030cf084de41c44140dbe3346e6",
+      "uncompressedBytes": 35359,
+      "uncompressedSha256": "10d0fb408f30be210e751dbc277105aae3d64811e31cb2923238fe08d7dc8520"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-build/command.json",
+      "bytes": 243,
+      "sha256": "3a899de2194e93c6c13292777460e3fdfb61a9a7054f18fbb838dc0ddb1153e6"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-build/process.json",
+      "bytes": 21,
+      "sha256": "1a36eee23bdf3d41c44c872455602df4b4f1535f35afb1434248b48c635098a9"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-build/result.json",
+      "bytes": 73,
+      "sha256": "75d8422f68eaa14beac3d0cd4161a67220a7ded67f3853e1d39b9c0d9c60949f"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-build/stdout-stderr.log",
+      "bytes": 1908,
+      "sha256": "4400de92104eeb39cb85ff376aeacb6b6668f39388fd8e42f027977362ff79a5"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-bundle/command.json",
+      "bytes": 253,
+      "sha256": "039257c99cc439000910646291437d97ed9bea0aeac002541d393d854afd2489"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-bundle/process.json",
+      "bytes": 21,
+      "sha256": "4a13b39a7680787ab2bede8abe27ead713b740ef8986138e13cfbf401e6d01e7"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-bundle/result.json",
+      "bytes": 73,
+      "sha256": "93bcbc09b610f6d3a42d3be405a9cb307a82e3b1597f236a7cb554fcd5fc687b"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-bundle/stdout-stderr.log",
+      "bytes": 1287,
+      "sha256": "346016bfc02cb8e80c7173eb505583af13f9b49e6c1825d3dd0f8d8083125c4b"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-source/command.json",
+      "bytes": 439,
+      "sha256": "35d803e4ff76cd9c8a2be7fcebf0b049697b4d5f2f70432218e168244d9c2ce1"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-source/process.json",
+      "bytes": 21,
+      "sha256": "fdd0c83298500ec3c5bae248f18588e6d4152f853bb9d936a5cc4f2f32f268ab"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-source/result.json",
+      "bytes": 73,
+      "sha256": "020129fe5938130641713f708a5735d7f3f4b817a29e160a31a3b560f45c2c49"
+    },
+    {
+      "path": "new-game-territory-map/proofs/remote-source/stdout-stderr.log",
+      "bytes": 140,
+      "sha256": "b3300141715653efc478a03219a5fa57066ad7f5f35c8d65971aea32bcf7d271"
+    },
+    {
+      "path": "new-game-territory-map/proofs/verify-evidence.py.gz",
+      "bytes": 1421,
+      "sha256": "69b2a55ce78274af888b83de5837b2519b8cd87066713132fa2ee9cff33a69d3",
+      "uncompressedBytes": 3352,
+      "uncompressedSha256": "1959535124c3d1348313e4cdb46b073bf4cb95fb9257870d661926582110c8ac"
+    },
+    {
+      "path": "new-game-territory-map/wizard16/command.json",
+      "bytes": 394,
+      "sha256": "e177b344f0d4bfd9f5b5bdebc0f7f7aeb7f75a11bfba38ad7eba9a92410fdade"
+    },
+    {
+      "path": "new-game-territory-map/wizard16/process.json",
+      "bytes": 21,
+      "sha256": "8dd96e8c3df659282506ab9a0426681ac94cf9bfe2d58e7bf71d15b5c6d98b8e"
+    },
+    {
+      "path": "new-game-territory-map/wizard16/report.json",
+      "bytes": 19225,
+      "sha256": "d0869cc35e405a23b9bfe750455c3779f11bb323b29bc2d7a9b4df9a0d93b1c9"
+    },
+    {
+      "path": "new-game-territory-map/wizard16/result.json",
+      "bytes": 73,
+      "sha256": "1a677f6525e8b4faf56247d3246cb48ef01b028eda17026a044052738a839772"
+    },
+    {
+      "path": "new-game-territory-map/wizard16/stdout-stderr.log",
+      "bytes": 2316,
+      "sha256": "562a43ab08d03e78a970e59990f85a5905811b621d4a8b4bd1c109428ace6ec2"
+    },
+    {
+      "path": "uprising-motion-28f1e90/README.md",
+      "bytes": 4696,
+      "sha256": "cf9b63578ecbd8cb56012a18c6688c4e017620f235b2057c3ce7fa5d8380cb7d"
+    },
+    {
+      "path": "uprising-motion-28f1e90/SHA256SUMS",
+      "bytes": 2948,
+      "sha256": "63f166fd516917fe1174386b66b9026a998bf30b22a3c8a9d612e6ea79f2c815"
+    },
+    {
+      "path": "uprising-motion-28f1e90/candidate-source-proof-after.log",
+      "bytes": 656,
+      "sha256": "1a7f5510cb86e7b55c66e716360235b8b72d918d2a71966b3468f03f93770fb6"
+    },
+    {
+      "path": "uprising-motion-28f1e90/candidate-source-proof-before.log",
+      "bytes": 656,
+      "sha256": "1a7f5510cb86e7b55c66e716360235b8b72d918d2a71966b3468f03f93770fb6"
+    },
+    {
+      "path": "uprising-motion-28f1e90/dependency-baseline.json.gz",
+      "bytes": 66456,
+      "sha256": "514c4994180ee0db1b883cbed1254ef560cbb492032096f5ea51ecd2ccde26d1",
+      "uncompressedBytes": 317041,
+      "uncompressedSha256": "6b44364b37e8dead8e70a7351d1a525e3e23252cb773a6de373793b87da6be56"
+    },
+    {
+      "path": "uprising-motion-28f1e90/district-unit-result.json.gz",
+      "bytes": 89,
+      "sha256": "0801099618bf5c1b753e8d15a1b4c594c5df6fc026c7221f52d1fc56e8326f86",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "301bd9261f5f825e695b5c212505fb170b2c83bd3dad2f11c109d8d251d8766d"
+    },
+    {
+      "path": "uprising-motion-28f1e90/district-unit.log",
+      "bytes": 295,
+      "sha256": "a851db5d65354574a53cab7878ef7e2e20466e4dcfb8eb7e984341f1b52efd53"
+    },
+    {
+      "path": "uprising-motion-28f1e90/final-candidate-report.json.gz",
+      "bytes": 2609,
+      "sha256": "6f978939bcc0c382acc06cf1152e6f0c155d165aa97de7fa8efce9ca091a12b3",
+      "uncompressedBytes": 9227,
+      "uncompressedSha256": "edac8f8b027c2562d249e46e5aeb107f1c96fa4de6375bd964dd546e57f498b3"
+    },
+    {
+      "path": "uprising-motion-28f1e90/final-candidate.log",
+      "bytes": 379,
+      "sha256": "1b719cfb3b4e976d782fa43ab068bebe5b148770f26be565f392b2eded9e0463"
+    },
+    {
+      "path": "uprising-motion-28f1e90/first-candidate-report.json.gz",
+      "bytes": 1951,
+      "sha256": "9a9c723a6b07e7baf94e0ad0558ddd9efb25575a1b761eafc35af6fe126a7849",
+      "uncompressedBytes": 8039,
+      "uncompressedSha256": "4db54c4baaea20385a8d3f92b08ac66ac37b15824a402c2b141ccefcdf331a7c"
+    },
+    {
+      "path": "uprising-motion-28f1e90/first-candidate.log",
+      "bytes": 4651,
+      "sha256": "6d5e3de10cb37808acb95e97965b0830a2bf4f0108a149494d2c0ce26dcfb503"
+    },
+    {
+      "path": "uprising-motion-28f1e90/invalid-preview-report.json.gz",
+      "bytes": 2013,
+      "sha256": "c019802a66188ad2378e298b0e9c7fa372cd4ced6d84dbf70abbc24afe734210",
+      "uncompressedBytes": 7531,
+      "uncompressedSha256": "36566ea717f5d7393760baf8d9cd35f3114d36c31b70ad9b640d440829b0faf0"
+    },
+    {
+      "path": "uprising-motion-28f1e90/invalid-preview.log",
+      "bytes": 2942,
+      "sha256": "616e01426c0c1ffc14ff81b04fc7d31fe02b5864e163670881bd75f0d5b2a9d4"
+    },
+    {
+      "path": "uprising-motion-28f1e90/menu-diagnostic-report.json.gz",
+      "bytes": 1941,
+      "sha256": "bdd93869fa59a0a923bf1faadbad6f08251096328deea84801799c529a3f332e",
+      "uncompressedBytes": 8996,
+      "uncompressedSha256": "e3f096c23d235d853dc6400fe7bc5b09bc35a499c0527e778f284902d03dee36"
+    },
+    {
+      "path": "uprising-motion-28f1e90/menu-diagnostic.log",
+      "bytes": 4502,
+      "sha256": "f4b835a0aab12cf20643afc2f0dcb1330b9b4434798a8ecd1eb1675e1c03ce38"
+    },
+    {
+      "path": "uprising-motion-28f1e90/old-semantic-report.json.gz",
+      "bytes": 1782,
+      "sha256": "8d131bce711fa04b430a4c81ee961ad5e27b249ab660c1ff53089aaf53592909",
+      "uncompressedBytes": 7447,
+      "uncompressedSha256": "9348e16ead7ad55e3dda4f3615a10731a283acce339a7492d34db5eb6339f35a"
+    },
+    {
+      "path": "uprising-motion-28f1e90/old-semantic.log",
+      "bytes": 2898,
+      "sha256": "f29bd86c5e23e846cd3b2888f6fc0a7bf698c1995370401fffdf14e5c7f92f7b"
+    },
+    {
+      "path": "uprising-motion-28f1e90/old-source-initial.png",
+      "bytes": 1128282,
+      "sha256": "2577868af11c58f2e8e955d16e25983e9e56b7520a0f1775d7f1ac4d6224eb96"
+    },
+    {
+      "path": "uprising-motion-28f1e90/old-source-proof.log",
+      "bytes": 442,
+      "sha256": "ef63cab9d9e66b2a352880cbe4c01c103d1f6fc87f35aa5f4044a7468da1974f"
+    },
+    {
+      "path": "uprising-motion-28f1e90/raw-runs-sha256.txt",
+      "bytes": 28674,
+      "sha256": "41f1d399a22edc7c6c565d6118c319a9f60366995746b37908f89ebd907ebb22"
+    },
+    {
+      "path": "uprising-motion-28f1e90/renderer-unit-result.json.gz",
+      "bytes": 89,
+      "sha256": "895fc0f5ce4787694fb06d66cfaa111ac581d4b5a5bac12483e282fbcd185413",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "4ee7fda74af5304536e0abf8f2ea08571d471feb7c5bbb299ea35dbca48180c8"
+    },
+    {
+      "path": "uprising-motion-28f1e90/renderer-unit.log",
+      "bytes": 1704,
+      "sha256": "ba48b3bf31cc4cebc91ebd7eba39dd146bb4d5d82fc5ebdb0663e2860e4c5c4f"
+    },
+    {
+      "path": "uprising-motion-28f1e90/scoped-eslint-result.json.gz",
+      "bytes": 88,
+      "sha256": "21d42db4c17d5ebeae8d45fae2f647888b3b1c1ccf1d08202429167b130fae62",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "739cc7115b932a86c04b42f959f6a64d2e15e12ae74a6689103e52536b60287c"
+    },
+    {
+      "path": "uprising-motion-28f1e90/scoped-eslint.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "uprising-motion-28f1e90/scoped-prettier-result.json.gz",
+      "bytes": 89,
+      "sha256": "80ef0dd6adfeb36446f3022358704d256666055ffa16f9cce0eb0c38a9846433",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "e7559150aa86daf9e982ae77a98b49e786c00f7db17d755f1fcdebcdb3f8ebd4"
+    },
+    {
+      "path": "uprising-motion-28f1e90/scoped-prettier.log",
+      "bytes": 66,
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "uprising-motion-28f1e90/source-manifest.json.gz",
+      "bytes": 69627,
+      "sha256": "d73f5642145e196790f1915f5bf3674f17c041107d8a0fa1753cb35acca24ced",
+      "uncompressedBytes": 299431,
+      "uncompressedSha256": "d79d9e080d93bb2ab7ace5270f033be189a9920ba76b55b1e014707f6b602590"
+    },
+    {
+      "path": "uprising-motion-28f1e90/typecheck-result.json.gz",
+      "bytes": 89,
+      "sha256": "bece6bad62fc6ea145ec65c9616ced003e3266ffaea7a81afcdfc8f7d25df005",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "49914fc60c83c07b262b2a4beaadb7ad9679f1815f3d4cc28d9139ce18844359"
+    },
+    {
+      "path": "uprising-motion-28f1e90/typecheck.log",
+      "bytes": 84,
+      "sha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+    },
+    {
+      "path": "uprising-motion-28f1e90/uprising-effects-off.png",
+      "bytes": 1107395,
+      "sha256": "2c7186c04351ed2ba629e963f4b0e4cd89d7f6ab5f32cd7acd70ab1ea8909044"
+    },
+    {
+      "path": "uprising-motion-28f1e90/uprising-hidden.png",
+      "bytes": 1118723,
+      "sha256": "088515c796729fc224e098cffc35b2c614982f9a0dcc70b194164b9835bb750f"
+    },
+    {
+      "path": "uprising-motion-28f1e90/uprising-initial.png",
+      "bytes": 1127409,
+      "sha256": "9cad5a1fe3f69f6a88f6dc852ae5f0c5942e236bc3adae3c466dbfe641bc2c21"
+    },
+    {
+      "path": "uprising-motion-28f1e90/uprising-reduced.png",
+      "bytes": 1107634,
+      "sha256": "8b6dc6a1e6a8afc4081b09ff7b100a271503ad200e6c0614cd2cc8d18c790404"
+    },
+    {
+      "path": "uprising-motion-28f1e90/verify.py",
+      "bytes": 3297,
+      "sha256": "c02548ab41e51b7eeefbe6bccb850ae0f69f9eddbc9edb337e8ecad5721fac75"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/README.md",
+      "bytes": 3061,
+      "sha256": "41907d2e86fd0d724ad069c7ea7771c010d981b4765c2d91fe644202c7a60432"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/SHA256SUMS",
+      "bytes": 12288,
+      "sha256": "c4e0226c6023e2687891bbc59604404a6f5e8034dc326603c41f3d9a5946ca2b"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-format-check-c2/command.json.gz",
+      "bytes": 185,
+      "sha256": "a0393870be7b90fa3f21721a2e2c5b7c1b33155e12f5b3226b3f17305c952288",
+      "uncompressedBytes": 219,
+      "uncompressedSha256": "15a492f70cf40592572daf34065cee16851a7d9833fb929e6279d0a7120ed017"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-format-check-c2/process.json.gz",
+      "bytes": 39,
+      "sha256": "4104f0ea881171bec7d275688b0c8564d59253bec9c875e1c971a2765ecc8b88",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "e47074db5457a7bcce2b06ab6af01973f05aa201ebeb74e7af979b51fb2ba3f7"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-format-check-c2/result.json.gz",
+      "bytes": 89,
+      "sha256": "d5b16cd7452cac3e703ef9b0b308c659e48923a1a47f544bfea61003998eaec8",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "e994a338cb589df4f7809f7a491dc3c09436671bc0adb288a69731a15464327f"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-format-check-c2/stdout-stderr.log.gz",
+      "bytes": 82,
+      "sha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5",
+      "uncompressedBytes": 66,
+      "uncompressedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-lint-c1/command.json.gz",
+      "bytes": 177,
+      "sha256": "8e427fe6e7bea0cf32798bc6c6ccb3ae6c2ef74d733942dced559a0ca8459620",
+      "uncompressedBytes": 202,
+      "uncompressedSha256": "a0f7bab8ed8e1de8bc21a217ddde21715bbac9a2ecf0722451380d013a4e89f0"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-lint-c1/process.json.gz",
+      "bytes": 39,
+      "sha256": "be2981ebecc1ea16e2669caed9ba2ac51335c8fbf204749937afc938d7342c77",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "56490fc6f6b797d7270d2adcff23fd9931c274c6e9689883a54b9aa00e8962a4"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-lint-c1/result.json.gz",
+      "bytes": 89,
+      "sha256": "4a351922b5efdf051613d4df324a4655399def01daa56281bfb369f8a22865b0",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "77d495e8f436faf51ced81ad1e7a488848a554aea829e39bfef94a7f512bc962"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-lint-c1/stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-type-c1/command.json.gz",
+      "bytes": 156,
+      "sha256": "9421852f817e117180495e7bf8211d2b8cc9ce82a0e3570e731366791ab7ca51",
+      "uncompressedBytes": 172,
+      "uncompressedSha256": "cc66b1a251deede5c543b1173f782fb2605f13190a6a50ea089c6b3cdc2df870"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-type-c1/process.json.gz",
+      "bytes": 39,
+      "sha256": "fb3f7b4c93755cdef85326bdbf5d53eb8a3841828f3502f38937131c73f57fbd",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "5578adfddef2363403b3827c602fe1fcb74a7d29c4e973d15477fb60f8c7c630"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-type-c1/result.json.gz",
+      "bytes": 89,
+      "sha256": "fa1a03672d27ddeb496634807e23b9e3172c79d959d85237eb88ce82ed8d4e32",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "3c0745c2044fa0dbb86f6a135cf01107b6a99bc4f1e9eda7724a41c6ad4aa072"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-type-c1/stdout-stderr.log.gz",
+      "bytes": 87,
+      "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+      "uncompressedBytes": 84,
+      "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-unit-c1/command.json.gz",
+      "bytes": 192,
+      "sha256": "86b2258670d26af712576e5f217c0d937543c10482c952874d4f3b7aaba85f62",
+      "uncompressedBytes": 240,
+      "uncompressedSha256": "2869df6fa6acb605461329a56a009fbe70e7a0b90d30b6d79e6383bea1612109"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-unit-c1/process.json.gz",
+      "bytes": 39,
+      "sha256": "5e0fd5e3a8ab7bac5ea88d2793bfd28f8e778110d2f16f8963b2b6f4aab9fdc6",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "54bae7c13da6b1bf9e21ce5edd8e10269aefa24950e257c3c8ce4336c7935b92"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-unit-c1/result.json.gz",
+      "bytes": 89,
+      "sha256": "f366fc4686c4757ba7606e145a5386e9765f8f276b0d2a3f60e46e0cb05b4e4a",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "0e0a7027ee3c493ac851cd2525eccf7e1179d50366fb9f0bd124b03e8bbdae89"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-daimyo-fixture-unit-c1/stdout-stderr.log.gz",
+      "bytes": 237,
+      "sha256": "68edca093d77ad9429f3f0a730346594f2cf9db342006638bce22de5eeb6040b",
+      "uncompressedBytes": 294,
+      "uncompressedSha256": "e5f04d8e9d5bc98f76a9a6f8fb238b38c4120134c3773fdd3636024129ce8b57"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/blob.command.json.gz",
+      "bytes": 86,
+      "sha256": "b29c66e6581f359e9f4b15d3b35b9b7133c745fba7e679731850441b2a01c768",
+      "uncompressedBytes": 69,
+      "uncompressedSha256": "73da0eb34d0ebb5f814b24c3058c396d58953833b5f65aa56cb89334742b4867"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/blob.result.json.gz",
+      "bytes": 36,
+      "sha256": "4ce9246abc74fe112bb59d95c7c29c389dc700925b2dbeb8cf1f339a21979b3b",
+      "uncompressedBytes": 16,
+      "uncompressedSha256": "982b9e9bfb10ffe83cad665807abcfd3fa97b37822db5ab7831157a499548a9e"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/blob.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/blob.stdout.gz",
+      "bytes": 59,
+      "sha256": "e5ce56c1573359d94bd50615686dbe392ff791f05bd256debb5484648a319e00",
+      "uncompressedBytes": 41,
+      "uncompressedSha256": "368e1f34ff57e93418532fbf2805f55c238056f4e99196a070fb6ecff90481d8"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/changed.command.json.gz",
+      "bytes": 66,
+      "sha256": "bbadc8208056982f2fd065fcbc1e9b7396d5d68d0df94eb1e8523082f849a8ab",
+      "uncompressedBytes": 53,
+      "uncompressedSha256": "29963f648c1c5379636da13348ddbc84f6f0f020dc689c9b3e49513ce3d9868f"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/changed.result.json.gz",
+      "bytes": 36,
+      "sha256": "4ce9246abc74fe112bb59d95c7c29c389dc700925b2dbeb8cf1f339a21979b3b",
+      "uncompressedBytes": 16,
+      "uncompressedSha256": "982b9e9bfb10ffe83cad665807abcfd3fa97b37822db5ab7831157a499548a9e"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/changed.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/changed.stdout.gz",
+      "bytes": 57,
+      "sha256": "20cd133e085ecb02a9db729b0f63f47d08f52f8225031a9d6b97d7db6c8397cf",
+      "uncompressedBytes": 37,
+      "uncompressedSha256": "c81753b17d66b35ec33ce6cbba01d971d0ad3d92cc3193427b126a7acf17a4f4"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/diff.command.json.gz",
+      "bytes": 94,
+      "sha256": "d99b2d97cec81d94d14c9f1bd8e8a81c35768254eaa2d8a69a3d823fd5e13644",
+      "uncompressedBytes": 84,
+      "uncompressedSha256": "871816506b8b8c62920cfaffb2619856e6df42ef6d9b4d173aa052c151ef1418"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/diff.result.json.gz",
+      "bytes": 36,
+      "sha256": "4ce9246abc74fe112bb59d95c7c29c389dc700925b2dbeb8cf1f339a21979b3b",
+      "uncompressedBytes": 16,
+      "uncompressedSha256": "982b9e9bfb10ffe83cad665807abcfd3fa97b37822db5ab7831157a499548a9e"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/diff.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/diff.stdout.gz",
+      "bytes": 1429,
+      "sha256": "75fa1f6b7f5c09d6c58a2a3d5a79c2f98a73b79d2cb848eafb4c18091a474932",
+      "uncompressedBytes": 4023,
+      "uncompressedSha256": "aebf60f13cae7f8267867c13619aef24c7fef1d094bb5ba92643d9b56268b5c7"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/fixture-source.tsx.gz",
+      "bytes": 1770,
+      "sha256": "20a02049479316ecab4b2b1391ae1c2bb3195dc92005a04388b0563e3c90aeb3",
+      "uncompressedBytes": 4985,
+      "uncompressedSha256": "e958ae7497c7ed7d2f012d0b664ea80ba3604ccb63f530141139dc515cf544f0"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/head.command.json.gz",
+      "bytes": 46,
+      "sha256": "6942822b0df97a84237ddfb63730538abac50db1ec09577d51f52a92b8db14ef",
+      "uncompressedBytes": 29,
+      "uncompressedSha256": "4b39e2feefa868c2615389582225f1e68a00cde4e315c919ecceebcc73248fc7"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/head.result.json.gz",
+      "bytes": 36,
+      "sha256": "4ce9246abc74fe112bb59d95c7c29c389dc700925b2dbeb8cf1f339a21979b3b",
+      "uncompressedBytes": 16,
+      "uncompressedSha256": "982b9e9bfb10ffe83cad665807abcfd3fa97b37822db5ab7831157a499548a9e"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/head.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/head.stdout.gz",
+      "bytes": 60,
+      "sha256": "bcf9761db560e4d3aa258d029fd24fd54cf0a25f7322fcaee30fab5d10d59867",
+      "uncompressedBytes": 41,
+      "uncompressedSha256": "67a6f026c46f2a9198595b036d81f094dc8cf981f476e06df82948c079e4d6ae"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/source-result.json.gz",
+      "bytes": 149,
+      "sha256": "c63b6eb2fe3a24b6e702d73a0073e9d6ff10158234e85601533ff9930b4f00fe",
+      "uncompressedBytes": 159,
+      "uncompressedSha256": "6f9dd6baeb8659b07e40eaaefc06111ae5da92266d680d31c525f87544fd3d27"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/status.command.json.gz",
+      "bytes": 70,
+      "sha256": "ba9191fa65f3ba9531d2acfc30f3dece6735ab6a933780345057979c99c52130",
+      "uncompressedBytes": 57,
+      "uncompressedSha256": "e6db34aa27d31e1890bfdc9fcbbf489b2af2f80e348de6e3d7425f3eb9c66b11"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/status.result.json.gz",
+      "bytes": 36,
+      "sha256": "4ce9246abc74fe112bb59d95c7c29c389dc700925b2dbeb8cf1f339a21979b3b",
+      "uncompressedBytes": 16,
+      "uncompressedSha256": "982b9e9bfb10ffe83cad665807abcfd3fa97b37822db5ab7831157a499548a9e"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/status.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-correction-proof-c1/status.stdout.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/assets.command.json.gz",
+      "bytes": 106,
+      "sha256": "21cd7fbb1b7007159a9eaa094d4af548090a0a90a9a433da9a012a5d34690bc7",
+      "uncompressedBytes": 105,
+      "uncompressedSha256": "48cf699cb3b7268f67f916168c1086e96e52626147c84df79e65b391ac4a22d4"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/assets.log.gz",
+      "bytes": 235,
+      "sha256": "e4c3d7f0bcb23a5ccedff58519020642096e9e0a62753ab4c7a14f1f8117b7e0",
+      "uncompressedBytes": 259,
+      "uncompressedSha256": "005e30238f36844004afb10ae259b8a23a7244bd5defdd41dca5d37c23c104f2"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/assets.result.json.gz",
+      "bytes": 85,
+      "sha256": "8bb2b48327285a6b0f619378fde52085102722d16095d5a304a16e58617641cb",
+      "uncompressedBytes": 74,
+      "uncompressedSha256": "d8f16cd4a2787f7b1c2060a9e3d3ec40e75633c1fbc4a8e3c9fd164da76f00c4"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/build.command.json.gz",
+      "bytes": 96,
+      "sha256": "88b0836ca8889749c6f86b959ad93d1c97daa547f1974d09418c89e38930a24f",
+      "uncompressedBytes": 95,
+      "uncompressedSha256": "8d5e360f9276df1b8a7423f2c4486cc0e9b8c63ac1e6615e04ccb0e747c1147c"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/build.log.gz",
+      "bytes": 851,
+      "sha256": "20d8cf67b9e364d172f8244d13f27d2c3f9f48f16efb361823f894d8d509d682",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "eab3b309771c6c5e38d5bbef5c39546f5bc112b5facee857e8ae4732d9dc2e3b"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/build.result.json.gz",
+      "bytes": 83,
+      "sha256": "7c1b479f557fe56e3235f6b4a70f457ad67aa408dd72ab5c79ea70bbe1556e98",
+      "uncompressedBytes": 71,
+      "uncompressedSha256": "6479fe8b7e1d6882a66ecee4ac280bafdf5f594dab615fdf6fff4036ac57fca8"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/bundle.command.json.gz",
+      "bytes": 106,
+      "sha256": "6115da2cb3683f5cafe9c0ac20469fab783c5b4eac3fe41da216e71cf0e238d1",
+      "uncompressedBytes": 105,
+      "uncompressedSha256": "6a247ee89125ebc99903cabef09f96b448c8f836599940dd5e953bd486dfdad1"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/bundle.log.gz",
+      "bytes": 401,
+      "sha256": "931d403de4f55336f2bebf33d0789f194eadc09af44f264f3153ef84a1904392",
+      "uncompressedBytes": 1057,
+      "uncompressedSha256": "f776034f9697c18156b38d1e8df2719a922a359a35351168a8070bfe8d83be54"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/bundle.result.json.gz",
+      "bytes": 83,
+      "sha256": "4c7484972d1df53066dbf0d8b6aafba106aa47afb724687ede7fd7105deca099",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "6db5451937eab91de9fd5a2a6b49eedd259cff6a5658462980c9078a80f3f52b"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/data.command.json.gz",
+      "bytes": 103,
+      "sha256": "ac7f6e024938407fa8f9608e115ef96cb067172ff39678b0b8a88aca150036c7",
+      "uncompressedBytes": 103,
+      "uncompressedSha256": "0c00345d89551aaffed6921a2f428c79e17352181bee3cdc72b3e41e13582c0c"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/data.log.gz",
+      "bytes": 274,
+      "sha256": "b6df7b6eee2fe7045551a425df0f88f93d0304d7fd9b9afc9f049664f3a3f193",
+      "uncompressedBytes": 304,
+      "uncompressedSha256": "e18ad7ee996e8e42602e984240ff2f8bd48336b6fbf171fba9e34982846e57bf"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/data.result.json.gz",
+      "bytes": 83,
+      "sha256": "cabb6ed11c0212b5ac9098c793e5544d449ca6b48599d1ae18571e691fc423c5",
+      "uncompressedBytes": 71,
+      "uncompressedSha256": "87bfeca708ff576f43cf628afc5ba76038a1c2070b62885edec0eac1a05e7101"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/discovery.command.json.gz",
+      "bytes": 135,
+      "sha256": "6d34da074481f5cb3f8dad33643bb42b9c0a44e716530803605ff6c49b0bdc85",
+      "uncompressedBytes": 148,
+      "uncompressedSha256": "e42e3fffcaf467d38b868fef2ee464937fbd5534cedbe67239c3abde42fb86c9"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/discovery.log.gz",
+      "bytes": 9697,
+      "sha256": "e5eca7dc085a171365717c7b86ecd9aaf194f1419cb89438149c4a4ef2fbc874",
+      "uncompressedBytes": 58911,
+      "uncompressedSha256": "25353ac01342aa76b1a0032121cc27b26a002ded7ec3daced0940be8c9c50148"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/discovery.result.json.gz",
+      "bytes": 87,
+      "sha256": "75b1eb2e2dc2e8f098424bab0ec1187d9a95cc994f63a1a793a0cfed2127b362",
+      "uncompressedBytes": 75,
+      "uncompressedSha256": "2fd1878d3f630600969e3d69ea26860bf553a361292f5c217623585081e4f56f"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/eslint.command.json.gz",
+      "bytes": 108,
+      "sha256": "11bb7de24d771d79a88d384ef572d361e1f65efe7ddf81aebab313e7b226246e",
+      "uncompressedBytes": 101,
+      "uncompressedSha256": "3372170be54e62524c67a3e87f2f5e0f56a795e773f22eb8ed47235a2ce0c92a"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/eslint.log.gz",
+      "bytes": 220,
+      "sha256": "3b09a48ccf36df268798dca3aed50b7a7c411a99dd5069e443f8fbc2e3150613",
+      "uncompressedBytes": 291,
+      "uncompressedSha256": "c2c105c02dbe53050ddc0a0521e6ebe375e23d81d4d27971f6ac8fa8279943fa"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/eslint.result.json.gz",
+      "bytes": 85,
+      "sha256": "5a0a110f864671d09116d07b42413d77eccfaaeba6721595e90cb307f6ffefeb",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "93d4772bebc8ef9961e65a0f3fe53306ccc29b6ce5adbd1dc00c7222d6c648f7"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/focused.command.json.gz",
+      "bytes": 305,
+      "sha256": "018bd8d886e37abbea4b95da49c1f726bc80dd582b97777494131e365d86c442",
+      "uncompressedBytes": 686,
+      "uncompressedSha256": "55cd828ba88c74489607d2331e209ab05bda7d14464ad50b75d641236bd8cae3"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/focused.log.gz",
+      "bytes": 5423,
+      "sha256": "144fe3bc9373641df5f26e49411e9cb390a4829c6a453858bc51b89bee6aa5a1",
+      "uncompressedBytes": 106183,
+      "uncompressedSha256": "b4da82d84bfaaa0b3822a69d7661c011f065e8a5a3250281e78b42c4a1e71ce9"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/focused.result.json.gz",
+      "bytes": 85,
+      "sha256": "12b5871d2796cdcf30cb12c281a6a55e1b4ed7778303186201bfd6143c1772d7",
+      "uncompressedBytes": 74,
+      "uncompressedSha256": "32c437f50e0156b139bc555aa3dc35234bbf045b10d9116dc05d07aae9737bc2"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/format.command.json.gz",
+      "bytes": 314,
+      "sha256": "0b2355d32e2ee255643e341f901a1b855ad295cb21db1de9ee3221fd357b0994",
+      "uncompressedBytes": 701,
+      "uncompressedSha256": "66e95ee40c6aa1d563cd5a4d24d5b2fe5296b5dd6780ffac9ed4eb4f1ccf0e42"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/format.log.gz",
+      "bytes": 82,
+      "sha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5",
+      "uncompressedBytes": 66,
+      "uncompressedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/format.result.json.gz",
+      "bytes": 83,
+      "sha256": "a3aa53a767039cb8f5605447bc3603f2dc7cfa24215c09c8568b5727eca76f92",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "0b7b1fcee6dc4ce2c9ce9e37ec3c8042bd49faef2e3290afaaf3acc90793d2b4"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/gallery-discovery.command.json.gz",
+      "bytes": 148,
+      "sha256": "c027713ef31c6772e8455b04115faa008ec0ed670ed3613fcb2fa10f829256ea",
+      "uncompressedBytes": 188,
+      "uncompressedSha256": "73c4587c7a8e5157f044806d2a303211db3a03a259014c74cc55324b42eb489d"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/gallery-discovery.log.gz",
+      "bytes": 505,
+      "sha256": "3245e4d2e65a93ed0942322b9e8d7d082ad9e6b62df8b55f39d402d26c83805c",
+      "uncompressedBytes": 1039,
+      "uncompressedSha256": "5a060666e8e2ac5522a432a3218584a530fb808ca9aae06f355b090b07cb7519"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/gallery-discovery.result.json.gz",
+      "bytes": 93,
+      "sha256": "7bed7715c1ac1d99fdc03f748c1e43ee481acf11ce9b93831b36f0991e2f1838",
+      "uncompressedBytes": 83,
+      "uncompressedSha256": "842240c72d737ead20ccf505e9c12b0567b7544acc9561bbcf764b57965b174b"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/source-after-pixi.json.gz",
+      "bytes": 1724,
+      "sha256": "30d8e804e64e28a5b8a173093e1e3bab66062ae276d293512605e1164f3380c5",
+      "uncompressedBytes": 7052,
+      "uncompressedSha256": "2b7d605e204b57ae61da415ae0324cc79af813ffab4fdb5f6f42649cd83b85f7"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/source-after.json.gz",
+      "bytes": 134953,
+      "sha256": "9222399c27b3aab98d9b08e28199a245b2b6d7f5c1f7f4807d353ca87d379ad1",
+      "uncompressedBytes": 506386,
+      "uncompressedSha256": "5e4c378ff58d75298f7af2b0244720d661bda1ffeb8c9c4d979d16e0ffc2e6ef"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/source-before-pixi.json.gz",
+      "bytes": 1724,
+      "sha256": "30d8e804e64e28a5b8a173093e1e3bab66062ae276d293512605e1164f3380c5",
+      "uncompressedBytes": 7052,
+      "uncompressedSha256": "2b7d605e204b57ae61da415ae0324cc79af813ffab4fdb5f6f42649cd83b85f7"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/source-before.json.gz",
+      "bytes": 134953,
+      "sha256": "9222399c27b3aab98d9b08e28199a245b2b6d7f5c1f7f4807d353ca87d379ad1",
+      "uncompressedBytes": 506386,
+      "uncompressedSha256": "5e4c378ff58d75298f7af2b0244720d661bda1ffeb8c9c4d979d16e0ffc2e6ef"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/status.json.gz",
+      "bytes": 285,
+      "sha256": "5455a2eecf8e37a843d611ad08938f68c8b49f53ee92cd3d224de1b88b819376",
+      "uncompressedBytes": 865,
+      "uncompressedSha256": "c135d3b4a095bee0ea52739e7e8e033a740cb261854026ad37723ae1f1898ded"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/typecheck.command.json.gz",
+      "bytes": 100,
+      "sha256": "6c5283d5acc0f30428eeb4969fafcbc280e7e9d3cbcef356dd33d6fc7d232c56",
+      "uncompressedBytes": 99,
+      "uncompressedSha256": "a665638587c20c0ba6aad2d315b31e371c5f060af860eef4f82ff3f3614d220a"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/typecheck.log.gz",
+      "bytes": 87,
+      "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+      "uncompressedBytes": 84,
+      "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-28f-c1/typecheck.result.json.gz",
+      "bytes": 88,
+      "sha256": "eadeb62916cc45a96742f3f170d27371e2fea6ab4cc43811a1cb1152e2e59544",
+      "uncompressedBytes": 76,
+      "uncompressedSha256": "ed774931e5ad73a8916dd2337ba0324ae00ba48acc228b164144352603f05dfb"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-relay-28f-c1/command.json.gz",
+      "bytes": 216,
+      "sha256": "e1359d6c4c2b8048e1664b3a5c7418f8112d299fcac22c2a7240990c5d952f94",
+      "uncompressedBytes": 362,
+      "uncompressedSha256": "041f6630e55d1f4f70ba010aa22aeb016d818b5ad8ab2ce4a7821348c15bb61e"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-relay-28f-c1/process.json.gz",
+      "bytes": 39,
+      "sha256": "ea08c4f03824bd7cdde229219090d94e7c162ed148a4f513c050d3ba5c1c9144",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "6ca5c261413b9667da546aad37b85f4f6286d06f1a9b329610efc4ec2791a0f2"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-relay-28f-c1/result.json.gz",
+      "bytes": 89,
+      "sha256": "907e1f5d553a4f324130934855d9906f05e1b6d613c448ef6f355ca578372edc",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "cb91503f8cc9c43cc76a198db254d1e65ee7554ec6af56178312ecfbe19554ac"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-integrated-relay-28f-c1/stdout-stderr.log.gz",
+      "bytes": 269,
+      "sha256": "d14ba952d63264a913f39e642e835e65b89b98a789a8cca08f3250e03774313d",
+      "uncompressedBytes": 673,
+      "uncompressedSha256": "88ad38846a8abaeabd9130d7682c9bf74c264ab1499992ef888d56fb6eb259c0"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-inventory-28f-c1/manifest.json.gz",
+      "bytes": 69746,
+      "sha256": "4102b87accee992e867bfd9a11db9ecc70bdd11c712cbca4065f75aaa7b1e03f",
+      "uncompressedBytes": 300277,
+      "uncompressedSha256": "38157ddb44f099cc10b7755015745a99b4f36c8f2e4d31a354b3e1de1ff7c678"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-inventory-28f-c1/revision-commit.command.json.gz",
+      "bytes": 123,
+      "sha256": "b05ab4387455ec76363fd7735146460a6dea95570bc2157b4b10415ecc2dba3c",
+      "uncompressedBytes": 128,
+      "uncompressedSha256": "6b4ddfeee8b1c7bc7a3262749aacf9e3ed8020e41bb8aa4efd2786422b972dcf"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-inventory-28f-c1/revision-commit.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-inventory-28f-c1/revision-commit.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-inventory-28f-c1/revision-commit.stdout.gz",
+      "bytes": 60,
+      "sha256": "d15420ba3a9f9c7749bd1c89884d7f06340d190ce3283a808639033d5ccbe1e5",
+      "uncompressedBytes": 41,
+      "uncompressedSha256": "ed0f84fa1318eb9be79180581394fb9cdcb4af05dee482f567adb5bebd36b58c"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-inventory-28f-c1/revision-tree.command.json.gz",
+      "bytes": 139,
+      "sha256": "79e7c9babe588c5942524d7c272075943cc6d1f50f541f9ba13676735467a414",
+      "uncompressedBytes": 145,
+      "uncompressedSha256": "8f0db11ffed377c6f80cbf6c7afb94b5803c5cf7f188ce665f9d9a90384db809"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-inventory-28f-c1/revision-tree.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-inventory-28f-c1/revision-tree.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-inventory-28f-c1/revision-tree.stdout.gz",
+      "bytes": 222087,
+      "sha256": "7601638a2886ce5198d2c62ad8656e563a436f5918e639dbd0369fa9b06acf36",
+      "uncompressedBytes": 1067040,
+      "uncompressedSha256": "87523f30595736f9dc2a26e6c6f761b02bf616503a00452d8fd7afe3305a44ee"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-inventory-relay-28f-c1/command.json.gz",
+      "bytes": 268,
+      "sha256": "d979e27357507692d6d2e3ed247cd1c7a67be372eb8b53c3650bb84bb8382383",
+      "uncompressedBytes": 432,
+      "uncompressedSha256": "43cf0c168700ba719cfb28738b0b22cbbeabcad93ab884899f9c2ccff1c060b5"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-inventory-relay-28f-c1/process.json.gz",
+      "bytes": 39,
+      "sha256": "ded955e29bb7845dbb893938985be53fdfcdcc52708bc9ddf49306c1e39b66cd",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "7a13c22b922f7c55e915264e6f613226b9d24f6d64ad38ef782e285bb5bd0c5c"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-inventory-relay-28f-c1/result.json.gz",
+      "bytes": 89,
+      "sha256": "c4c46bfcd8a6ba9c948f515883f6231bc0090ed0bcc07828439dd7e825ce0b79",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "9d97e3900629a57e724a577eec1fbc78cf97378f7d333930356e4fb1cb5c9452"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-inventory-relay-28f-c1/stdout-stderr.log.gz",
+      "bytes": 153,
+      "sha256": "402660d5b9287e83fa51d636178502eb24b8de5e3bddf804f597a9c854189eaa",
+      "uncompressedBytes": 166,
+      "uncompressedSha256": "090426d101208a087836845fb6dda31f988d4ab13dcc5c710c1119ab720967dd"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-scope-28f-c1/command.json.gz",
+      "bytes": 68,
+      "sha256": "d4241f97a2494b28d7ba2ec43c90a1d9823ed45d1aa8c3f6780488ccea40bcfd",
+      "uncompressedBytes": 59,
+      "uncompressedSha256": "eb6d270cf1bf84129062d94abfc5e934427ffb1693792e91649fa7018c394fc3"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-scope-28f-c1/result.json.gz",
+      "bytes": 36,
+      "sha256": "4ce9246abc74fe112bb59d95c7c29c389dc700925b2dbeb8cf1f339a21979b3b",
+      "uncompressedBytes": 16,
+      "uncompressedSha256": "982b9e9bfb10ffe83cad665807abcfd3fa97b37822db5ab7831157a499548a9e"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-scope-28f-c1/scope.json.gz",
+      "bytes": 251,
+      "sha256": "1ac24672f77ea928fd0488479c75c9768e45a49a387184d36cbcb9366eb3d862",
+      "uncompressedBytes": 567,
+      "uncompressedSha256": "31941dce4dd1dd602af0d210d26a7428d2891378f8d042a1f48a1395afcf2163"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-scope-28f-c1/stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/raw/tenka-map-warning-scope-28f-c1/stdout.log.gz",
+      "bytes": 231,
+      "sha256": "88f3262afc60e1199453ce205cfbbe4117dec079ef2b653f59698dd06f99f8ed",
+      "uncompressedBytes": 494,
+      "uncompressedSha256": "51d0971ce8949173e40f9ec070ec587aa9019b958cd5ff16e43dad8fa6867289"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/tenka-map-warning-integrated-run-c1.py",
+      "bytes": 3826,
+      "sha256": "4253e6988ecab3413a05ae3fb9709dea290170ecf156da8dd48ea6117cf95b59"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/tenka-validation-capture-961f0ae.py",
+      "bytes": 1722,
+      "sha256": "888e8cf09de8e6cc4191194d69168974601d5397ffa4991ac3c981c8531f1710"
+    },
+    {
+      "path": "map-warning-integrated-28f1e90/verify.py",
+      "bytes": 2517,
+      "sha256": "0c9a93c6ce6537ed7430f3a63f845bc4d928a94f400a2ba8b345ebbd0cc05148"
+    },
+    {
+      "path": "map-warning-final-handoff/README.md",
+      "bytes": 1080,
+      "sha256": "e89a0f90581257325442b2c395342c1e42dd2ed98c13872a6c1a05fd498b544f"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-docs-diffcheck-c1/command.json.gz",
+      "bytes": 154,
+      "sha256": "865290994b9585c69ca0d5199dd49920503e3f4ec4947092e43854ac6fd9a989",
+      "uncompressedBytes": 171,
+      "uncompressedSha256": "e3f49be7b023a06bbe498b8439a3ff53b6aa77aa5d72200e0cb9f2cceb70d5aa"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-docs-diffcheck-c1/process.json.gz",
+      "bytes": 39,
+      "sha256": "b18bca5d29883d9d358fcedfb1ff883b2f51ecfb1b29b66ba9609f912db175b4",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "b58a4b259f0bb221be441ad405b5142b2ba5cfee0b49768de82b2b9c2a4da9ab"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-docs-diffcheck-c1/result.json.gz",
+      "bytes": 89,
+      "sha256": "f1ba3bd5e50f9f11101d6311b76dee9c8a072f552d2e17c6f6c23c41618de5c6",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "7af3fe4028f216d39344e396f497ce1820db5185cffc35db0b5f7c9f934ebc67"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-docs-diffcheck-c1/stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-handoff-format-c1/command.json.gz",
+      "bytes": 209,
+      "sha256": "6052ded45bf85a3f78c3fe571f1f12a42985260a9140214f972cc3bad17131b6",
+      "uncompressedBytes": 284,
+      "uncompressedSha256": "cc9d3193387840c9b72fa0626b8187b5262fdb7ec6eb6363f7fcdc79fedda3d4"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-handoff-format-c1/process.json.gz",
+      "bytes": 39,
+      "sha256": "685679cf243aaf7dd34933ea9699569b641257a4e514a412c2f97b9f5c36b689",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "d167361d34f6d0bdab0325c69c5f7c8ea545be6ef33a36f1f6bebac9898ed23d"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-handoff-format-c1/result.json.gz",
+      "bytes": 89,
+      "sha256": "0e85808a219a8b452daeb206330f1c48686e84e5916508dfa6d30e690cda830a",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "e8bca517b7dab686806b2ff76414cf1dc6aecff463804373346d0752141e765a"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-handoff-format-c1/stdout-stderr.log.gz",
+      "bytes": 116,
+      "sha256": "9dda7819b50c7d8dbbb3c4eeefb9bf0bdb7e26adc43a6a0eae3ffeb0341c285a",
+      "uncompressedBytes": 150,
+      "uncompressedSha256": "474d058006948a662555a118ce4aa2766ce0c4d17219b4d6d47a1b4aaaab89f4"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-package-format-c1/command.json.gz",
+      "bytes": 219,
+      "sha256": "18d6a7b825f6211ee23770d0c8e8c0ce43f42e07011593fb366570713153bb1f",
+      "uncompressedBytes": 267,
+      "uncompressedSha256": "26d4ca54b47b2916c9f90790c1bdfb5d912a84ed84547563a2c29ab0c291f359"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-package-format-c1/process.json.gz",
+      "bytes": 39,
+      "sha256": "389cf9324b3b2eaea34f4745c771b9700743ed716e586c56fd540b54f9a23350",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "f030c1373d7ca59c29271b96be896210a48d902e8f55ab1554da6456f0378175"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-package-format-c1/result.json.gz",
+      "bytes": 89,
+      "sha256": "9155c08fc729990be8b8417e56f9ddcce228b8d2117d547dd65132eae3eb91f4",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "2cb2118a6ad56fdc6f194ad0253a720f22f8694da649d9fce3b8c55d96a52885"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-package-format-c1/stdout-stderr.log.gz",
+      "bytes": 106,
+      "sha256": "f7509e175d7378489ce431d5e1bcd173e54941f119d863d4123de10509a14386",
+      "uncompressedBytes": 90,
+      "uncompressedSha256": "e6974c836e65a249fca0887b0037e2aa6620251bf78504cf07074799e5f4b091"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-package-verify-c1/command.json.gz",
+      "bytes": 202,
+      "sha256": "e782108adcb055241da77bc27949982612fe3b17e45589ab89dafbbae90e5345",
+      "uncompressedBytes": 240,
+      "uncompressedSha256": "cb7b3441b7b3d07cb4661987eb2a0308237281a07d439212a75b4289bf827824"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-package-verify-c1/process.json.gz",
+      "bytes": 39,
+      "sha256": "a3e978770e2137473dd008f6c2309c38315edcc73507abca0917c338c93d164d",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "3b96e9377256fdfb0e214a917931a0a3976a6686a3dd978148c3fa3d12a49354"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-package-verify-c1/result.json.gz",
+      "bytes": 89,
+      "sha256": "d79c39ef5f001302c179d4feea3efc1da641007095e9c8d1a2390372073638c6",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "cb4aa551fb758412d1d722893382a5245e6bc7b00461ffab2624c2bdfe7f609e"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-map-warning-package-verify-c1/stdout-stderr.log.gz",
+      "bytes": 127,
+      "sha256": "7dc2d062e5a2860725d79fe737429f4f5dde08754a916d0aaa68f66c1d75a1a6",
+      "uncompressedBytes": 118,
+      "uncompressedSha256": "2ad2287c4e125560b1b9f8f424e7e2417b04fa17fce6a04417b13fd16b5d7da0"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-root-map-warning-verify-2s32_lqk/result.json.gz",
+      "bytes": 36,
+      "sha256": "ffc718228cd14206ff86162b573a938acc306bad450b9b3776bcfdeb45422770",
+      "uncompressedBytes": 16,
+      "uncompressedSha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-root-map-warning-verify-2s32_lqk/stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-root-map-warning-verify-2s32_lqk/stdout.gz",
+      "bytes": 127,
+      "sha256": "7dc2d062e5a2860725d79fe737429f4f5dde08754a916d0aaa68f66c1d75a1a6",
+      "uncompressedBytes": 118,
+      "uncompressedSha256": "2ad2287c4e125560b1b9f8f424e7e2417b04fa17fce6a04417b13fd16b5d7da0"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-root-territory-verify-xse4o77b/result.json.gz",
+      "bytes": 36,
+      "sha256": "ffc718228cd14206ff86162b573a938acc306bad450b9b3776bcfdeb45422770",
+      "uncompressedBytes": 16,
+      "uncompressedSha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-root-territory-verify-xse4o77b/stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-root-territory-verify-xse4o77b/stdout.gz",
+      "bytes": 232,
+      "sha256": "08490887de461bf153f656da3d4d03a1289867f0315628d74c88122905e54ec6",
+      "uncompressedBytes": 394,
+      "uncompressedSha256": "08c3bfcdaa571b326e1657e2b915548e9e399249a8e76b5c60f843e938b73d87"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-root-territory-verify-xse4o77b/verify.py.gz",
+      "bytes": 1402,
+      "sha256": "6acb8053d2eae6827a275a46fa43bb2c2d682e9187c96128921bed6710ec0238",
+      "uncompressedBytes": 3352,
+      "uncompressedSha256": "1959535124c3d1348313e4cdb46b073bf4cb95fb9257870d661926582110c8ac"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-root-uprising-verify-xtp603zb/result.json.gz",
+      "bytes": 36,
+      "sha256": "ffc718228cd14206ff86162b573a938acc306bad450b9b3776bcfdeb45422770",
+      "uncompressedBytes": 16,
+      "uncompressedSha256": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-root-uprising-verify-xtp603zb/stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "map-warning-final-handoff/raw/tenka-root-uprising-verify-xtp603zb/stdout.gz",
+      "bytes": 122,
+      "sha256": "48d2e0ed55bab9833b728f0ac8696a606a257a082f9f49c02aaa0315496bc4dd",
+      "uncompressedBytes": 111,
+      "uncompressedSha256": "76846ce5137ed929089ad2253dc9ec26bd1c531d05489f7a0bd5881aa1bd2456"
     }
   ]
 }

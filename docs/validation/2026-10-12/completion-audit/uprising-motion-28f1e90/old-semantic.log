@@ -1,0 +1,40 @@
+
+Running 1 test using 1 worker
+
+[1/1] [gallery-chromium] › tests/browser/uprisingMotion.pw.ts:73:1 › an explicitly synthetic uprising view blinks under ordinary motion and stays lit when OS motion is reduced
+  1) [gallery-chromium] › tests/browser/uprisingMotion.pw.ts:73:1 › an explicitly synthetic uprising view blinks under ordinary motion and stays lit when OS motion is reduced 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+    Call Log:
+    - Timeout 1200ms exceeded while waiting on the predicate
+
+      119 |   await expect
+      120 |     .poll(async () => (await witness(page, target)).warningVisible, { timeout: 1_200 })
+    > 121 |     .toBe(false);
+          |      ^
+      122 |   const hidden = await witness(page, target);
+      123 |   const hiddenPath = info.outputPath('uprising-hidden.png');
+      124 |   await page.screenshot({ path: hiddenPath });
+        at /tmp/tenka-district-warning-cb717d2-v1/tests/browser/uprisingMotion.pw.ts:121:6
+
+    attachment #1: uprising-initial (image/png) ────────────────────────────────────────────────────
+    runs/gallery-final-old-c1/browser-results/uprisingMotion.pw.ts-an-ex-e8d1d-t-when-OS-motion-is-reduced-gallery-chromium/attachments/uprising-initial-767af5c54baace5a59e2078bf320c8115003ee0a.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: runs/gallery-final-old-c1/browser-results/uprisingMotion.pw.ts-an-ex-e8d1d-t-when-OS-motion-is-reduced-gallery-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    runs/gallery-final-old-c1/browser-results/uprisingMotion.pw.ts-an-ex-e8d1d-t-when-OS-motion-is-reduced-gallery-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace runs/gallery-final-old-c1/browser-results/uprisingMotion.pw.ts-an-ex-e8d1d-t-when-OS-motion-is-reduced-gallery-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [gallery-chromium] › tests/browser/uprisingMotion.pw.ts:73:1 › an explicitly synthetic uprising view blinks under ordinary motion and stays lit when OS motion is reduced 

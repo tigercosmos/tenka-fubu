@@ -1,0 +1,20 @@
+{"node": "v22.17.0", "nodePath": "/tmp/tenka-fubu-parallel-20261011.FC6Shj/runtime/bin/node", "chromium": "/home/anchi/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome", "browserCache": "/home/anchi/.cache/ms-playwright"}
+
+Running 15 tests using 1 worker
+
+[1/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 0.8
+[2/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 0.85
+[3/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 0.9
+[4/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 0.95
+[5/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 1
+[6/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 1.05
+[7/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 1.1
+[8/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 1.15
+[9/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 1.2
+[10/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 1.25
+[11/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 1.3
+[12/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 1.35
+[13/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 1.4
+[14/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 1.45
+[15/15] [chromium] › e2e/daimyo-territory-preview.spec.ts:27:3 › real territory preview selects by pointer and roster keyboard at scale 1.5
+  15 passed (18.9s)

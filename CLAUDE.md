@@ -48,10 +48,15 @@
 
 - 當前里程碑：見 `milestone.json`；歷史進度：見 README 進度表。
 
+- `f31284d` 新增真正靜態全國勢力預覽：共用 canonical coast／Voronoi raster 與劇本郡所有權，地圖點選與 41 勢力鍵盤名單同步，選取描邊及名稱不只依賴顏色。織田「推薦新手」直接依 16 §3.9；六個推薦位置／星級缺 authored 資料仍未完成，11 D67 保留此缺口。十五倍率地圖原生 15/15（18.9 秒）及原有精靈 16/16（84.4 秒）通過；地圖執行 overlay 八檔與最終 Git bytes 相同，精靈執行固定 f312。不是整體 M8-17／M8-23 完成。
+- `28f1e90` 補一揆警示一秒閃爍，只在半週期切換 active warning 的可見性；Graphics 按需建立，移除／換圖／destroy 清理，OS 減動態或停用效果保持恆亮。舊來源實際不閃爍 RED，候選原生 DEV fixture 2/2 通過 11.2 秒，renderer／part 143 項通過。原生 OS 切換即時驗證；使用者停用效果經真正標題設定後重新掛載驗證，即時停用由 unit 覆蓋。synthetic view 不代表 core 自然發生一揆；fixture 系統選單未打開原因仍未解。lit／hidden 圖有鏡頭位移，不能聲稱 whole-image pixel 因果或幾何不變。
+- 固定 `28f1e90` 整合 focused 207 PASS／2 FAIL（209 項），兩項是舊大名 metadata fixture 未提供新真實地圖所需的連通道路／座標；production validator 未放寬。`e775a2f` 只補該測試 fixture，原斷言保留，另跑兩項、型別／touched lint／格式通過。28f 的完整 ESLint、型別、data／assets／build／bundle、440 production／7 gallery discovery 與 1,646 Git inputs／29 Pixi targets 前後證明通過；沒有改標為 e775 全套重跑。
+- 全部 440 項原生五分鐘、strict60、whole-heap、long-run、其餘 M6–M9 與六推薦／星級仍開放；無嗣／戰術終局、人口校準、934163c 六圖人工核准無新回答。沒有更改基準、規則、deadline、milestone 或 push／deploy。
+
 - `ab06242` 補齊新遊戲四步驟：劇本、大名、難易度、種子；每步可返回且保留選擇／非法文字，種子預填與 uint32 驗證依 16 §3.9，正常開局暫停。11 D66 明確回寫規格優先序。61 個既有 E2E start site／57 檔經 deterministic checker、逆向 bytes 與原版負控制遷移，最後零遺漏；不是全部原生案例已執行的宣稱。
 - 固定 `ab06242` 全量 6,451 PASS／3 FAIL／1 SKIP：既有 s1560 day450 無嗣領地失敗與兩個新字型缺字測試。型別、完整 ESLint、assets／build／bundle、412 項 discovery 與 touched-format 成功；data 只缺「薦」。1,640 tracked inputs 與另列 responsive overlay 前後相同。`01c7dbc` 透過既有管線補成 1,661 字元／355,728 bytes 字型，另修復大名卡片 auto grid track 壓縮截字；32 focused、型別、資料／素材、build／bundle 及 425 discovery 成功。後者不是重跑 full suite。
 - `c3eab38` 的外交三頁／軍團／大命十五倍率共 45 項，固定 ab product 原生全通過 184.924 秒；先前 da 九個端點及 observer RED 另保存。`01c7dbc` 的既有 save/load 四項、smoke P1／P2 兩項亦通過；未包含 P3–P5。新精靈最初原生 15 項在錯誤 hardcoded 55 卡數失敗，實際 authored catalog 與 runtime 都是 41；`0a8e747` 只改為型錄完整有序 ID 比對，不是遊戲勢力數改變。舊 CSS 單項負控制以實際 Range 文字超出卡片 7px 明確失敗；`0a8e747` 原生為 13 PASS／3 FAIL，失敗揭露低倍率進度與卡片標籤小於 12px；`5163242` 依原規格為同畫面四種標籤加最低 12px，14 UI、型別、資料／素材、build／bundle 與 touched checks 通過，`5163242` 原生 14 PASS／2 FAIL 的剩餘兩項是錯量劇本按鈕容器字級，四個實際文字子節點均有獨立字級；後續一次 actual DOM audit 另確認 body 繼承字級確為 11.2px，不是先前誤稱 12.8px。`b6aca26` 對三個精靈 screen 加最低 12px、保留正常 14px，並量測實際子文字、返回與其他操作；14 UI 及相關 checks 成功，最終固定 `b6aca26` 的十五倍率加同輸入存檔 state 相等共十六項原生全通過；不是 425 項完整原生成功。
-- 大名靜態全國勢力色地圖與推薦呈現尚未完成，不能勾選全部 M8-17／M8-23。425 項完整原生五分鐘、strict60、whole-heap、long-run、其他 M6–M9 gate，以及無嗣／戰術終局、人口校準、934163c 六圖人工核准均保持開放。沒有改規則、references、deadline 或 milestone，未 push／deploy。
+- 上述四步驟批次當時尚缺靜態勢力地圖；後續實作見上方 f312，六推薦／星級仍未完成，不能勾選全部 M8-17／M8-23。該批 425 項完整原生五分鐘、strict60、whole-heap、long-run、其他 M6–M9 gate，以及無嗣／戰術終局、人口校準、934163c 六圖人工核准均保持開放。沒有改規則、references、deadline 或 milestone，未 push／deploy。
 
 - 固定 `f03f318` 的色覺觀測仍 RED：原樣式三張 overview／achromatopsia 圖還原差 508 像素，集中左上 HUD／rail 邊緣。六次觀測均無 live animation，樣式／幾何／焦點／state／commands 不變；兩個相符尺寸的 layer paintCount 在切換及還原各增加。只支持此 run 的 compositor 假說，不證明 Chromium 原因，CDP 觀測本身也可能擾動排程。原精確零差異不變，不再重複 priming／重畫／等待探測；人工色覺／灰階辨識與 protected 六圖核准仍是不同門檻。
 - 前一批 event 倍率成本實驗沒有採用修改：精確原版與加觀測的原版均在 1560/3/30 月結關閉後的 x5 按鈕 500ms actionability 等待失敗。AX 無 dialog、按鈕可見啟用；各八張相鄰 screencast bytes 相同，不能歸因畫面移動，也不能從 compositor cadence 推論 DOM RAF 或 GPU 原因。兩次使用 Linux 預設 headless shell，不能冒稱既有 Vulkan 原生路徑。virtual-RAF v2 僅未執行提案，其 poll 內日期斷言可被重試吞掉，未驗證／未採用；原 45 秒 poll、60 秒 case、300 秒全套及 364 項範圍均不改，沒有再跑全套。

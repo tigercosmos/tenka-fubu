@@ -1,0 +1,54 @@
+
+Running 1 test using 1 worker
+
+[1/1] [chromium] › e2e/uprising-motion.spec.ts:53:1 › an explicitly synthetic uprising view blinks under ordinary motion and stays lit when OS motion is reduced
+  1) [chromium] › e2e/uprising-motion.spec.ts:53:1 › an explicitly synthetic uprising view blinks under ordinary motion and stays lit when OS motion is reduced 
+
+    Error: page.evaluate: TypeError: Failed to fetch dynamically imported module: http://localhost:4173/src/ui/map/debugMapBridge.ts
+
+      63 |   });
+      64 |   const gameBefore = JSON.stringify(await page.evaluate(() => window.__tenka.debug.getState()));
+    > 65 |   const target = await page.evaluate(async () => {
+         |                             ^
+      66 |     const path = '/src/ui/map/debugMapBridge.ts';
+      67 |     const bridge = (await import(/* @vite-ignore */ path)) as {
+      68 |       getDebugMapRenderer(): {
+        at /tmp/tenka-district-warning-cb717d2-v1/e2e/uprising-motion.spec.ts:65:29
+
+    Error: 偵測到 console error／pageerror：
+    [console.error] Failed to load resource: the server responded with a status of 404 (Not Found)
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "[console.error] Failed to load resource: the server responded with a status of 404 (Not Found)",
+    + ]
+
+       at fixtures.ts:22
+
+      20 |       await use();
+      21 |
+    > 22 |       expect(problems, `偵測到 console error／pageerror：\n${problems.join('\n')}`).toEqual([]);
+         |                                                                                ^
+      23 |     },
+      24 |     { auto: true },
+      25 |   ],
+        at Object.base.extend.consoleErrorGuard.auto (/tmp/tenka-district-warning-cb717d2-v1/e2e/fixtures.ts:22:80)
+
+    Error Context: runs/native-old-c1/browser-results/uprising-motion-an-explici-df4f3-t-when-OS-motion-is-reduced-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    runs/native-old-c1/browser-results/uprising-motion-an-explici-df4f3-t-when-OS-motion-is-reduced-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace runs/native-old-c1/browser-results/uprising-motion-an-explici-df4f3-t-when-OS-motion-is-reduced-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [chromium] › e2e/uprising-motion.spec.ts:53:1 › an explicitly synthetic uprising view blinks under ordinary motion and stays lit when OS motion is reduced 

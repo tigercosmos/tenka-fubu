@@ -1,0 +1,49 @@
+
+Running 2 tests using 1 worker
+
+[1/2] [gallery-chromium] › tests/browser/uprisingMotion.pw.ts:12:1 › uprising DEV fixture preflight resolves the native map and source module
+[2/2] [gallery-chromium] › tests/browser/uprisingMotion.pw.ts:73:1 › an explicitly synthetic uprising view blinks under ordinary motion and stays lit when OS motion is reduced
+  1) [gallery-chromium] › tests/browser/uprisingMotion.pw.ts:73:1 › an explicitly synthetic uprising view blinks under ordinary motion and stays lit when OS motion is reduced 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.click: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '設定', exact: true })
+
+
+      142 |     .toBe(false);
+      143 |   await page.getByRole('button', { name: '系統選單', exact: true }).click();
+    > 144 |   await page.getByRole('button', { name: '設定', exact: true }).click();
+          |                                                               ^
+      145 |   const settings = page.getByRole('dialog');
+      146 |   await settings.getByRole('switch', { name: '地圖特效', exact: true }).setChecked(false);
+      147 |   await expect.poll(async () => (await witness(page, target)).warningVisible).toBe(true);
+        at /tmp/tenka-district-warning-cb717d2-v1/tests/browser/uprisingMotion.pw.ts:144:63
+
+    attachment #1: uprising-initial (image/png) ────────────────────────────────────────────────────
+    runs/gallery-candidate-c1/browser-results/uprisingMotion.pw.ts-an-ex-e8d1d-t-when-OS-motion-is-reduced-gallery-chromium/attachments/uprising-initial-a83e093d83ab0615a859a2f53189a615f64f07a4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: uprising-hidden (image/png) ─────────────────────────────────────────────────────
+    runs/gallery-candidate-c1/browser-results/uprisingMotion.pw.ts-an-ex-e8d1d-t-when-OS-motion-is-reduced-gallery-chromium/attachments/uprising-hidden-340a07eebbc3da6db37389a90d702adeac8f3af5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: uprising-reduced (image/png) ────────────────────────────────────────────────────
+    runs/gallery-candidate-c1/browser-results/uprisingMotion.pw.ts-an-ex-e8d1d-t-when-OS-motion-is-reduced-gallery-chromium/attachments/uprising-reduced-cf66adb8fa20432ee72851a0f830c932f4bede92.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: runs/gallery-candidate-c1/browser-results/uprisingMotion.pw.ts-an-ex-e8d1d-t-when-OS-motion-is-reduced-gallery-chromium/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    runs/gallery-candidate-c1/browser-results/uprisingMotion.pw.ts-an-ex-e8d1d-t-when-OS-motion-is-reduced-gallery-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace runs/gallery-candidate-c1/browser-results/uprisingMotion.pw.ts-an-ex-e8d1d-t-when-OS-motion-is-reduced-gallery-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [gallery-chromium] › tests/browser/uprisingMotion.pw.ts:73:1 › an explicitly synthetic uprising view blinks under ordinary motion and stays lit when OS motion is reduced 
+  1 passed (1.1m)

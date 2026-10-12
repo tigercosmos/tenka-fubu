@@ -1,0 +1,6 @@
+
+Running 2 tests using 1 worker
+
+[1/2] [gallery-chromium] › tests/browser/uprisingMotion.pw.ts:12:1 › uprising DEV fixture preflight resolves the native map and source module
+[2/2] [gallery-chromium] › tests/browser/uprisingMotion.pw.ts:102:1 › an explicitly synthetic uprising view blinks under ordinary motion and stays lit when OS motion is reduced
+  2 passed (11.2s)

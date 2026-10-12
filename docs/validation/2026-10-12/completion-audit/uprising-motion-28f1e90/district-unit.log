@@ -1,0 +1,10 @@
+
+ RUN  v2.1.9 /Users/tigercosmos/tenka-fubu
+
+ ✓ |core| tests/ui/sceneParts/districtNode.spec.ts (18 tests) 9ms
+
+ Test Files  1 passed (1)
+      Tests  18 passed (18)
+   Start at  20:35:02
+   Duration  287ms (transform 26ms, setup 0ms, collect 132ms, tests 9ms, environment 0ms, prepare 28ms)
+

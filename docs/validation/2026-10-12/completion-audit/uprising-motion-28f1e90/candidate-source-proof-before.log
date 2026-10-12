@@ -1,0 +1,13 @@
+{
+  "revision": "cb717d2466a21daa29aa15843c0de22abb8b91ce",
+  "sourceCount": 1641,
+  "overlay": {
+    "tests/browser/uprisingMotion.pw.ts": "54705f5e142b96f72bdb6c6afa86adb4174087f4aec908d8f4a64d1a62dd3f81",
+    "tests/browser/playwright.gallery.config.ts": "357eb6b8f7f37c0146d9f69662a1a0a43d4a13a366399b1e1d29e47f9b2cfa3b",
+    "src/ui/map/MapRenderer.ts": "0497ae95a55d5afd4ef4967e2fc32fcce02c5756e266c798f8e700178dfd04e2",
+    "src/ui/map/sceneParts/districtNode.ts": "0f6e8afae643df833c1bde04da8c19f52ffd866416237216bc96b100cbb484b4"
+  },
+  "dependencyCount": 29,
+  "nodeModulesTarget": "/tmp/tenka-combined-linux-5f250eb/node_modules",
+  "bad": []
+}

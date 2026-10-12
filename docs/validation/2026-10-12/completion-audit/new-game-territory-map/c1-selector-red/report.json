@@ -1,0 +1,211 @@
+{
+  "config": {
+    "argv": [
+      "/tmp/tenka-fubu-parallel-20261011.FC6Shj/runtime/bin/node",
+      "/tmp/tenka-daimyo-map-cb-c1/node_modules/.bin/playwright",
+      "test",
+      "e2e/daimyo-territory-preview.spec.ts",
+      "--output=/tmp/tenka-daimyo-map-native-c1/browser-results",
+      "--reporter=line,json",
+      "--workers=1"
+    ],
+    "configFile": "/tmp/tenka-daimyo-map-cb-c1/playwright.config.ts",
+    "rootDir": "/tmp/tenka-daimyo-map-cb-c1/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 300000,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/tenka-daimyo-map-native-c1/browser-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/tmp/tenka-daimyo-map-cb-c1/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.61.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run preview",
+      "port": 4173,
+      "reuseExistingServer": true
+    }
+  },
+  "suites": [
+    {
+      "title": "daimyo-territory-preview.spec.ts",
+      "file": "daimyo-territory-preview.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real territory preview selects by pointer and roster keyboard at scale 0.8",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 60066,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/tmp/tenka-daimyo-map-cb-c1/e2e/daimyo-territory-preview.spec.ts",
+                        "column": 70,
+                        "line": 21
+                      },
+                      "message": "Error: locator.click: Test timeout of 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('dialog').getByRole('button', { name: '關閉' })\u001b[22m\n\n\n  19 |     await slider.press('ArrowRight');\n  20 |   await expect(slider).toHaveValue(String(scale));\n> 21 |   await page.getByRole('dialog').getByRole('button', { name: '關閉' }).click();\n     |                                                                      ^\n  22 | }\n  23 |\n  24 | for (const scale of [0.8, 1.5]) {\n    at setScale (/tmp/tenka-daimyo-map-cb-c1/e2e/daimyo-territory-preview.spec.ts:21:70)\n    at /tmp/tenka-daimyo-map-cb-c1/e2e/daimyo-territory-preview.spec.ts:30:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T11:40:42.924Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/tenka-daimyo-map-native-c1/browser-results/daimyo-territory-preview-r-acb8a-oster-keyboard-at-scale-0-8-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/tenka-daimyo-map-native-c1/browser-results/daimyo-territory-preview-r-acb8a-oster-keyboard-at-scale-0-8-chromium/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "d786944a9bb94d10b679-0b9e5d991ebbf6dd3d77",
+          "file": "daimyo-territory-preview.spec.ts",
+          "line": 25,
+          "column": 3
+        },
+        {
+          "title": "real territory preview selects by pointer and roster keyboard at scale 1.5",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 60068,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/tmp/tenka-daimyo-map-cb-c1/e2e/daimyo-territory-preview.spec.ts",
+                        "column": 70,
+                        "line": 21
+                      },
+                      "message": "Error: locator.click: Test timeout of 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('dialog').getByRole('button', { name: '關閉' })\u001b[22m\n\n\n  19 |     await slider.press('ArrowRight');\n  20 |   await expect(slider).toHaveValue(String(scale));\n> 21 |   await page.getByRole('dialog').getByRole('button', { name: '關閉' }).click();\n     |                                                                      ^\n  22 | }\n  23 |\n  24 | for (const scale of [0.8, 1.5]) {\n    at setScale (/tmp/tenka-daimyo-map-cb-c1/e2e/daimyo-territory-preview.spec.ts:21:70)\n    at /tmp/tenka-daimyo-map-cb-c1/e2e/daimyo-territory-preview.spec.ts:30:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-12T11:41:43.463Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/tenka-daimyo-map-native-c1/browser-results/daimyo-territory-preview-r-2f634-oster-keyboard-at-scale-1-5-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/tmp/tenka-daimyo-map-native-c1/browser-results/daimyo-territory-preview-r-2f634-oster-keyboard-at-scale-1-5-chromium/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "d786944a9bb94d10b679-a67d3b764ccaad083da3",
+          "file": "daimyo-territory-preview.spec.ts",
+          "line": 25,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-12T11:40:42.243Z",
+    "duration": 121482.474,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

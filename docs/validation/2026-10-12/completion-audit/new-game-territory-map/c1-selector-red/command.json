@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "python3",
+    "/tmp/tenka-alliance-host-launcher-1649-c1.py",
+    "--",
+    "npx",
+    "playwright",
+    "test",
+    "e2e/daimyo-territory-preview.spec.ts",
+    "--output=/tmp/tenka-daimyo-map-native-c1/browser-results",
+    "--reporter=line,json",
+    "--workers=1"
+  ],
+  "cwd": "/tmp/tenka-daimyo-map-cb-c1",
+  "startedUtc": "2026-10-12T11:40:41.610439+00:00",
+  "browser": true
+}

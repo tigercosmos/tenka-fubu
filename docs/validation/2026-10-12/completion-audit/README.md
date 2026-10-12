@@ -4,6 +4,16 @@ Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目�
 最新固定來源 `ab06242` 全量測試為 6,451 通過、3 失敗、1 跳過；其中兩個新缺字失敗已另以 focused 檢查修復，既有無嗣領地失敗保留。120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
+## 真實開局勢力預覽與一揆減動態警示
+
+[勢力預覽](new-game-territory-map/README.md) 固定 canonical coast／共用 Voronoi raster 與劇本所有權，地圖點選及 41 勢力鍵盤名單同步，選取名稱與描邊提供非純色提示。十五倍率 15/15（18.9 秒）與既有精靈 16/16（84.4 秒）成功；八檔 native overlay 與 f312 Git bytes 相同，精靈固定 f312。織田新手提示有 16 §3.9 依據，六推薦／星級 authored 資料仍開放，不以 D67 縮減原要求。
+
+[一揆動態](uprising-motion-28f1e90/README.md) 在 28f 加入一秒週期與按需 warning Graphics，OS 減動態／停用效果恆亮，移除與生命週期清理有 unit 覆蓋。舊來源實際不閃爍 RED；候選 DEV fixture 2/2 通過 11.2 秒，renderer／part 143 項通過。這是明示的 render-view fixture，state／commands 未變，不是自然 core 一揆；OS 即時切換有 native 見證，真實標題設定停用效果後新掛載驗證，live effects disable 僅 unit。fixture 選單未開啟原因仍未解；lit／hidden 鏡頭位移，圖片不能證明整張 pixel 差異只來自閃爍。
+
+[合併來源驗證](map-warning-integrated-28f1e90/README.md) 固定 28f 的 1,646 Git inputs／29 Pixi targets 前後一致：focused 207 PASS／2 FAIL，型別、完整 ESLint、資料／素材、build／bundle、440 production／7 gallery discovery 及格式通過。兩項舊 metadata fixture 缺少連通道路／座標；e775 僅修該測試資料與 scoped canvas spy，原斷言不變，另外兩項與型別／touched lint／格式通過。保留 28f RED，不冒稱後續全量重跑或放寬 graph validator。
+
+完整 440 原生五分鐘、strict60、whole-heap、long-run、其餘 M6–M9、待決規則及六張保護圖人工核准保持；本批沒有改基準、規則、期限、milestone 或 push／deploy。
+
 ## 四步驟開局、標籤可讀性與面板全倍率驗收
 
 `ab06242` 實作 16 §3.9／T16-7 的劇本、大名、難易度、種子四個步驟，依 11 D66 解決舊縮減流程與種子空白行為的衝突。選擇／非法編輯文字在返回後保留，有效 uint32 種子、明確難易度與大名才建立暫停的新局。61 個既有 start site／57 檔以 shared native-click helper 遷移；[固定來源與遷移證據](wizard-integrated-ab06242/README.md) 保留 deterministic checker controls、逆向 bytes 證明、原版 61 違例負控制與最後零違例。這不是全部 425 原生案例已執行的宣稱。
@@ -12,7 +22,7 @@ Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目�
 
 [外交／軍團／大命原生全倍率](responsive-panels-ab06242/README.md) 固定 ab product，十五倍率共 45 項全通過，184.924 秒、原 300 秒全套／60 秒 case 不變。`--grep=diplomacy` 同時命中文件名而選到完整 45 項，保留實際執行，不重標為三個分組。舊來源的[九個端點控制](responsive-panels-da142d1/README.md) 與 observer RED 分開保存；中間失敗 overlay 的完整 bytes 已被覆寫，只有報告片段，因此不宣稱全部歷史 overlay 可重建。最終 45 項 exact overlay／1,640 inputs／29 patched dependencies 前後一致。
 
-[既有代表流程](representative-flows-01c7dbc/README.md) 在 01c7dbc 真實跑過 save/load 四項與明確 `--list` 選取的 smoke P1／P2，共六項成功；沒有選 P3–P5，也不將其改標為較晚字級修正的原生結果。大名靜態全國勢力色地圖與推薦呈現仍未完成；M8-17／M8-23 不能整體結案。425 項完整原生五分鐘、strict60、whole-heap、long-run、其餘 M6–M9 與既有待決規則／六圖人工核准皆保持；未改基準、期限、milestone，未 push／deploy。
+[既有代表流程](representative-flows-01c7dbc/README.md) 在 01c7dbc 真實跑過 save/load 四項與明確 `--list` 選取的 smoke P1／P2，共六項成功；沒有選 P3–P5，也不將其改標為較晚字級修正的原生結果。該四步驟批次當時尚缺靜態勢力地圖；後續 f312 見上方，六推薦／星級仍未完成，M8-17／M8-23 不能整體結案。該批 425 項完整原生五分鐘、strict60、whole-heap、long-run、其餘 M6–M9 與既有待決規則／六圖人工核准皆保持；未改基準、期限、milestone，未 push／deploy。
 
 ## 原生成本負控制、靜態繪製觀測與原始檔搬移
 

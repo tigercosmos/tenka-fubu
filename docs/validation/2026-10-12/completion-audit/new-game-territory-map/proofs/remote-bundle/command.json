@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "python3",
+    "/tmp/tenka-alliance-host-launcher-1649-c1.py",
+    "--",
+    "npm",
+    "run",
+    "validate:bundle"
+  ],
+  "cwd": "/tmp/tenka-daimyo-map-cb-c1",
+  "startedUtc": "2026-10-12T11:46:30.465623+00:00",
+  "browser": false
+}

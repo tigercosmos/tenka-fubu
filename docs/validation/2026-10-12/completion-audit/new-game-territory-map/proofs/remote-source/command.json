@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "python3",
+    "/tmp/tenka-battle-79682cd/runs/daimyo-map-verifier-c1/tenka-daimyo-map-verify-runtime.py",
+    "/tmp/tenka-daimyo-map-cb-c1",
+    "/tmp/tenka-battle-79682cd/runs/daimyo-map-verifier-c1/manifest.json",
+    "/tmp/tenka-battle-79682cd/runs/daimyo-map-verifier-c1/overlay-hashes-final.json"
+  ],
+  "cwd": "/tmp/tenka-daimyo-map-cb-c1",
+  "startedUtc": "2026-10-12T11:46:30.468330+00:00",
+  "browser": false
+}

@@ -6639,3 +6639,12 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - `0a8e747` 原生13 PASS／3 FAIL 發現小倍率標籤未達12px；`5163242` 補進度／卡片／當主／metric四種標籤下限，14 UI與相關checks成功。其原生14 PASS／2 FAIL 剩餘兩項誤量無直接文字的劇本卡片容器；改驗四個可見子 span 的字級與 Range，保留整卡 viewport／32px。一次完整四步驟0.8 actual DOM audit又確認 global body 繼承字級為11.2px，先前12.8px推論錯誤；`b6aca26` 為三個精靈screen設最低12px、正常14px保持。所有原始 RED／audit／來源與後續結果各自保存。
 - 固定01的既有save/load四項及精確選取smoke P1／P2六項成功；沒有跑P3–P5，未改標較晚字級修正來源。最終固定 `b6aca26` 的十五倍率與同輸入 SaveFile.state 精確相等共16項全通過，原60／300秒不變；每一輪RED與actual DOM audit保持原來源，不改標為首次成功。
 - 大名靜態全國勢力色地圖與推薦呈現仍缺，沒有把四步驟完成當M8-17或M8-23全部完成。完整425原生五分鐘、strict60、whole-heap、long-run與其餘M6–M9門檻保持；待決無嗣／戰術終局、人口校準及934163c六圖未收到回答。未改規則、references、deadline或milestone，未push／deploy。
+
+## 2026-10-12 — 真實勢力預覽與一揆動態／減動態
+
+- `f31284d` 新增真正靜態全國勢力預覽：共用 canonical coast／Voronoi raster 與劇本郡所有權，地圖點選與 41 勢力鍵盤名單同步，選取描邊及名稱不只依賴顏色。織田「推薦新手」直接依 16 §3.9；六個推薦位置／星級缺 authored 資料仍未完成，11 D67 保留此缺口。十五倍率地圖原生 15/15（18.9 秒）及原有精靈 16/16（84.4 秒）通過；地圖執行 overlay 八檔與最終 Git bytes 相同，精靈執行固定 f312。不是整體 M8-17／M8-23 完成。
+- `28f1e90` 補一揆警示一秒閃爍，只在半週期切換 active warning 的可見性；Graphics 按需建立，移除／換圖／destroy 清理，OS 減動態或停用效果保持恆亮。舊來源實際不閃爍 RED，候選原生 DEV fixture 2/2 通過 11.2 秒，renderer／part 143 項通過。原生 OS 切換即時驗證；使用者停用效果經真正標題設定後重新掛載驗證，即時停用由 unit 覆蓋。synthetic view 不代表 core 自然發生一揆；fixture 系統選單未打開原因仍未解。lit／hidden 圖有鏡頭位移，不能聲稱 whole-image pixel 因果或幾何不變。
+- 固定 `28f1e90` 整合 focused 207 PASS／2 FAIL（209 項），兩項是舊大名 metadata fixture 未提供新真實地圖所需的連通道路／座標；production validator 未放寬。`e775a2f` 只補該測試 fixture，原斷言保留，另跑兩項、型別／touched lint／格式通過。28f 的完整 ESLint、型別、data／assets／build／bundle、440 production／7 gallery discovery 與 1,646 Git inputs／29 Pixi targets 前後證明通過；沒有改標為 e775 全套重跑。
+- 全部 440 項原生五分鐘、strict60、whole-heap、long-run、其餘 M6–M9 與六推薦／星級仍開放；無嗣／戰術終局、人口校準、934163c 六圖人工核准無新回答。沒有更改基準、規則、deadline、milestone 或 push／deploy。
+
+- 證據套件：`new-game-territory-map`、`uprising-motion-28f1e90`、`map-warning-integrated-28f1e90`。bulk native traces 以遠端 inventory 保留，原 404／selector／menu／fixture RED 與修正結果分開；沒有宣稱所有 setup 都成功。root 的圖像檢視只支持本次預覽可讀與警示上下文，不能代替 protected 六圖人工核准。

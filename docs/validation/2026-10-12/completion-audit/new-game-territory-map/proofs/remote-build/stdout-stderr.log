@@ -1,0 +1,36 @@
+{"node": "v22.17.0", "nodePath": "/tmp/tenka-fubu-parallel-20261011.FC6Shj/runtime/bin/node", "chromium": "/home/anchi/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome", "browserCache": "/home/anchi/.cache/ms-playwright"}
+
+> tenka-fubu@0.0.0 prebuild
+> node tools/dependencies/pixi-8.19-patch.mjs && npm run wasm:check
+
+{"version":"8.19.0","validated":29,"written":0}
+
+> tenka-fubu@0.0.0 wasm:check
+> tsx tools/wasm/build.ts --check
+
+WASM artifact is current: e22f559b4b9d6f6348709e028cecdbc2c6f567db2483fa845b48df0554d7bc7d
+
+> tenka-fubu@0.0.0 build
+> vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 1228 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                0.65 kB │ gzip:   0.37 kB
+dist/.vite/manifest.json                       1.94 kB │ gzip:   0.43 kB
+dist/assets/simulation.worker-sb4hWYfs.js    256.64 kB
+dist/assets/index-B9tPyPQy.css               129.95 kB │ gzip:  20.12 kB
+dist/assets/webworkerAll-_PNtUoxN.js           0.13 kB │ gzip:   0.14 kB │ map:     0.68 kB
+dist/assets/browserAll-DDukDNT0.js             0.23 kB │ gzip:   0.19 kB │ map:     1.71 kB
+dist/assets/vendor-react-BdZgHC1P.js         141.66 kB │ gzip:  45.48 kB │ map:   345.06 kB
+dist/assets/vendor-pixi-BP0uNPQ-.js          568.67 kB │ gzip: 164.89 kB │ map: 2,529.71 kB
+dist/assets/index-IYVcloBZ.js                588.18 kB │ gzip: 100.85 kB │ map:    32.15 kB
+dist/assets/index-g36EVgC2.js              1,437.43 kB │ gzip: 424.59 kB │ map: 5,224.38 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 3.77s

@@ -1,0 +1,23 @@
+
+ RUN  v2.1.9 /Users/tigercosmos/tenka-fubu
+
+stderr | src/ui/map/mapRendererDirty.spec.ts
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/nodes/HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (/Users/tigercosmos/tenka-fubu/node_modules/jsdom/lib/jsdom/living/generated/HTMLCanvasElement.js:131:58)
+    at createColoredCanvas (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:10:28)
+    at canUseNewCanvasBlendModes (file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canUseNewCanvasBlendModes.ts:32:25)
+    at file:///Users/tigercosmos/tenka-fubu/node_modules/pixi.js/src/rendering/renderers/canvas/utils/canvasUtils.ts:26:21
+    at ModuleJob.run (node:internal/modules/esm/module_job:329:25)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at VitestExecutor.interopedImport (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:421:28)
+    at VitestExecutor.directRequest (file:///Users/tigercosmos/tenka-fubu/node_modules/vite-node/dist/client.mjs:280:24) undefined
+
+ ✓ |ui| src/ui/map/mapRendererDirty.spec.ts (125 tests) 4562ms
+
+ Test Files  1 passed (1)
+      Tests  125 passed (125)
+   Start at  20:36:59
+   Duration  5.53s (transform 412ms, setup 43ms, collect 612ms, tests 4.56s, environment 153ms, prepare 31ms)
+

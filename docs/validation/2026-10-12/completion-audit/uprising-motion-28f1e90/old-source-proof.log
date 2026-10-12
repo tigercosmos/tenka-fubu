@@ -1,0 +1,11 @@
+{
+  "revision": "cb717d2466a21daa29aa15843c0de22abb8b91ce",
+  "sourceCount": 1641,
+  "overlay": {
+    "tests/browser/uprisingMotion.pw.ts": "844c4b1ec3ea31900a97e05f1cd7549ad356b92ba3bad62fa4ac7f1243d1fb7a",
+    "tests/browser/playwright.gallery.config.ts": "357eb6b8f7f37c0146d9f69662a1a0a43d4a13a366399b1e1d29e47f9b2cfa3b"
+  },
+  "dependencyCount": 29,
+  "nodeModulesTarget": "/tmp/tenka-combined-linux-5f250eb/node_modules",
+  "bad": []
+}
