@@ -252,3 +252,5 @@ Rust 十一項、337 組完整 f64 原版 oracle、13 項實際 WASM／協定測
 [sim3 硬體診斷](worker-batch-hardware-sim3/README.md) 的前後實際 WebGL2 都確認 RTX 5070 Ti Vulkan。原 trace 記錄 120 日 step 已完成（3,061.800 ms）、idle 0.100 ms、120 replies 的核心 compute 合計 680.900001 ms；但外部完整交通擷取在原 60 秒 timeout 結束，最後 synchronous-reference assertions 未執行，整個診斷保留失敗。Observer 每次 structuredClone 完整 reply，另有 profiler 開銷；它和 sim1 同時存在主機、GPU、observer 差異，不能當作單一因素效能比較或一般吞吐結果。完整大型 trace／交通資料留在遠端，路徑、大小及 SHA 保存於各包，未宣稱全部已進 Git。
 
 兩包新增證據已加入 artifact SHA 索引。原六項 Worker 功能通過、三組 FPS 未達標與最新固定全量結果保持不變；本次診斷沒有修改 production source、門檻或依賴。下一步需以輕量 metadata observer 定位硬體主頁成本，再處理 geographic preparation 熱點；全專案 goal 仍 active。
+
+[sim3 輕量診斷](worker-batch-lightweight-sim3/README.md) 改為只讀 reply scalar metadata，不複製整個回覆；一次通過原 60 秒 timeout，warm1／final121 完整 state、RNG、日誌與同步 reference 比對先完成，再輸出觀測。前後 actual RTX Vulkan 與固定來源／依賴驗證通過。帶 profiler 的 120 日 step 為 2,525.4 ms、核心 compute 合計 649.700002 ms；主頁 reconcileValue self 350.997 ms。Post、receive 與 compute 區間重疊，不相加，也不把 callback 的 native deserialize 費用全算成新增 observer 成本。此值仍為診斷，未重跑一般 FPS 或原六項 suite，前次完整 clone 的失敗維持不變。

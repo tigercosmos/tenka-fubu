@@ -6443,3 +6443,10 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - `b7194ff` sim3 前後實際 RTX5070TiVulkan；120日 step已返回3061.800ms／idle0.100ms、compute680.900001ms。但完整交通擷取撞原60s timeout，最後reference assertions未執行，case保留RED、未retry。Observer完整reply clone與profiler有成本，不作sim1因果對照或一般效能宣稱。
 - 兩包原bytes／雙SHA／來源與依賴固定證明已封存並加入索引；大型原trace及完整交通raw僅遠端保存，完整path／bytes／SHA明示。
 - 本階段 production source不變，原六項功能PASS／三組strict60RED／6357通過1已知失敗1skip保持。下一步輕量metadata observer定位硬體main成本，及geo preparation熱點；goal保持active，未push／部署。
+
+## 輕量硬體 Worker 診斷與架構文件（2026-10-12）
+
+- `acd728d` 回寫 README／01 D22：主頁 geo／castle WASM 雙 arena、獨立 worker memory、current-epoch ready 與 deadline；00 與遊戲規則不變。
+- `45a5544` sim3 ONE lightweight native warm1+120：完整 warm/final state／RNG／log reference exact assertions 在 export 前通過，原60s／0retry；前後 actual RTX5070TiVulkan、1404source／14765deps／23patch不變。
+- 帶profile step2525.4ms、compute合計649.700002ms、main reconcile self350.997ms。Transport intervals重疊，native event.data反序列化不全算observer；不與不同host/GPU/profile/collector的先前值作單因果比較。原完整clone RED未改。
+- Root另執行package stdlib verifier通過，54 rawgzip双SHA及完整state/log證明加入索引。Geo fusedXY scan候選正做逐值／快取行為測試，尚未以候選宣稱實測收益；goal仍active。
