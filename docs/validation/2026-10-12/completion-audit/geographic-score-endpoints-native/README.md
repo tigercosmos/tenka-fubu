@@ -6,11 +6,11 @@ The parent decided to withdraw this candidate: close FPS fell0.911%, geographic 
 
 Nine settled full published payloads match reference `af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29` byte for byte, with only the original four named nonvisual counter exclusions.
 
-| Camera | Average FPS | feab baseline | Change | p95 ms | Strict60 |
-|---|---:|---:|---:|---:|---|
-| overview | 59.9385 | 59.9598 | -0.036% | 17.200 | RED |
-| operational | 50.0493 | 49.8850 | +0.329% | 21.900 | RED |
-| close | 31.7474 | 32.0392 | -0.911% | 37.700 | RED |
+| Camera      | Average FPS | feab baseline |  Change | p95 ms | Strict60 |
+| ----------- | ----------: | ------------: | ------: | -----: | -------- |
+| overview    |     59.9385 |       59.9598 | -0.036% | 17.200 | RED      |
+| operational |     50.0493 |       49.8850 | +0.329% | 21.900 | RED      |
+| close       |     31.7474 |       32.0392 | -0.911% | 37.700 | RED      |
 
 Original120 canonical armies at1920×1080 controls ran once30seconds per camera, sequentially without retry or changed thresholds. No baseline was rerun. Actual controls and profile pre/post guards show RTX5070Ti Vulkan. Canonical state and renderer resources match before/after. These are single-window observations; strict60 remains RED.
 
