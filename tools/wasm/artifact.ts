@@ -41,6 +41,9 @@ export function artifactManifest(root: string, wasm: Uint8Array) {
     'path_solve',
     'geographic_abi_version',
     'geo_score',
+    'geographic_preparation_abi_version',
+    'geo_prepare',
+    'geo_score_prepared',
     'castle_ribbon_abi_version',
     'castle_ribbon_solve',
   ])
@@ -52,6 +55,10 @@ export function artifactManifest(root: string, wasm: Uint8Array) {
   const geographicAbi = instance.exports.geographic_abi_version as (() => number) | undefined;
   if (typeof geographicAbi !== 'function' || geographicAbi() !== 1)
     throw new Error('WASM artifact has unsupported geographic ABI');
+  const preparationAbi = instance.exports.geographic_preparation_abi_version as
+    (() => number) | undefined;
+  if (typeof preparationAbi !== 'function' || preparationAbi() !== 1)
+    throw new Error('WASM artifact has unsupported geographic preparation ABI');
   const castleAbi = instance.exports.castle_ribbon_abi_version as (() => number) | undefined;
   if (typeof castleAbi !== 'function' || castleAbi() !== 1)
     throw new Error('WASM artifact has unsupported castle ribbon ABI');

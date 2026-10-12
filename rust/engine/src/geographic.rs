@@ -9,7 +9,7 @@ const LIMIT_SQUARED: f64 = 48.0 * 48.0;
 const EPSILON: f64 = 1e-8;
 
 // Unlike Rust's floating min/max, JavaScript propagates NaN and specifies zero signs.
-fn js_min(a: f64, b: f64) -> f64 {
+pub(crate) fn js_min(a: f64, b: f64) -> f64 {
     if a.is_nan() || b.is_nan() {
         f64::NAN
     } else if a == 0.0 && b == 0.0 {
@@ -25,7 +25,7 @@ fn js_min(a: f64, b: f64) -> f64 {
     }
 }
 
-fn js_max(a: f64, b: f64) -> f64 {
+pub(crate) fn js_max(a: f64, b: f64) -> f64 {
     if a.is_nan() || b.is_nan() {
         f64::NAN
     } else if a == 0.0 && b == 0.0 {
@@ -42,14 +42,14 @@ fn js_max(a: f64, b: f64) -> f64 {
 }
 
 #[derive(Clone, Copy)]
-struct Rect {
-    x: f64,
-    y: f64,
-    width: f64,
-    height: f64,
+pub(crate) struct Rect {
+    pub(crate) x: f64,
+    pub(crate) y: f64,
+    pub(crate) width: f64,
+    pub(crate) height: f64,
 }
 impl Rect {
-    fn read(row: &[f64]) -> Self {
+    pub(crate) fn read(row: &[f64]) -> Self {
         Self {
             x: row[0],
             y: row[1],
@@ -57,14 +57,14 @@ impl Rect {
             height: row[3],
         }
     }
-    fn finite(self) -> bool {
+    pub(crate) fn finite(self) -> bool {
         [self.x, self.y, self.width, self.height]
             .iter()
             .all(|v| v.is_finite())
     }
 }
 
-fn overlap(a: Rect, b: Rect, padding: f64) -> f64 {
+pub(crate) fn overlap(a: Rect, b: Rect, padding: f64) -> f64 {
     js_max(
         0.0,
         js_min(a.x + a.width + padding, b.x + b.width + padding)
@@ -141,7 +141,7 @@ fn segment_rect_distance(a: [f64; 2], b: [f64; 2], r: Rect) -> f64 {
         .fold(distances[0], |min, value| js_min(min, *value))
 }
 
-fn clears_capsules(rect: Rect, capsules: &[f64]) -> bool {
+pub(crate) fn clears_capsules(rect: Rect, capsules: &[f64]) -> bool {
     if capsules.len() / 5 > 255 || !rect.finite() {
         return false;
     }

@@ -3,6 +3,7 @@ use std::collections::BinaryHeap;
 
 mod castle_ribbon;
 mod geographic;
+mod geographic_preparation;
 pub use geographic::{geo_score, geographic_abi_version};
 
 #[cfg(target_arch = "wasm32")]
@@ -154,6 +155,87 @@ pub extern "C" fn castle_ribbon_abi_version() -> u32 {
 #[no_mangle]
 pub unsafe extern "C" fn castle_ribbon_solve(pointer: *mut f64, words: usize) -> i32 {
     castle_ribbon::solve(pointer as usize, words)
+}
+
+fn numeric_region(pointer: usize, words: usize, minimum: usize) -> Option<(usize, usize)> {
+    if pointer == 0 || !pointer.is_multiple_of(8) || words < minimum {
+        return None;
+    }
+    let bytes = words.checked_mul(8)?;
+    if bytes > isize::MAX as usize {
+        return None;
+    }
+    let end = pointer.checked_add(bytes)?;
+    #[cfg(target_arch = "wasm32")]
+    if end as u64 > (core::arch::wasm32::memory_size(0) as u64) * 65_536 {
+        return None;
+    }
+    Some((pointer, end))
+}
+
+fn regions_disjoint(a: (usize, usize), b: (usize, usize)) -> bool {
+    a.1 <= b.0 || b.1 <= a.0
+}
+
+#[no_mangle]
+pub extern "C" fn geographic_preparation_abi_version() -> u32 {
+    1
+}
+
+/// Prepare numeric geometry into a separate, caller-owned output arena.
+/// # Safety
+/// Both regions identify live, nonoverlapping engine_alloc allocations.
+#[no_mangle]
+pub unsafe extern "C" fn geo_prepare(
+    frame: *const f64,
+    frame_words: usize,
+    output: *mut f64,
+    output_capacity: usize,
+) -> i32 {
+    let Some(a) = numeric_region(frame as usize, frame_words, 16) else {
+        return -2;
+    };
+    let Some(b) = numeric_region(output as usize, output_capacity, 16) else {
+        return -2;
+    };
+    if !regions_disjoint(a, b) {
+        return -2;
+    }
+    geographic_preparation::prepare(
+        std::slice::from_raw_parts(frame, frame_words),
+        std::slice::from_raw_parts_mut(output, output_capacity),
+    )
+}
+
+/// Score a still-owned preparation without repacking nearby geometry.
+/// # Safety
+/// All regions identify live, pairwise nonoverlapping engine_alloc allocations.
+#[no_mangle]
+pub unsafe extern "C" fn geo_score_prepared(
+    frame: *const f64,
+    frame_words: usize,
+    preparation: *mut f64,
+    preparation_words: usize,
+    road: *const f64,
+    road_words: usize,
+) -> i32 {
+    let Some(a) = numeric_region(frame as usize, frame_words, 16) else {
+        return -2;
+    };
+    let Some(b) = numeric_region(preparation as usize, preparation_words, 16) else {
+        return -2;
+    };
+    let Some(c) = numeric_region(road as usize, road_words, 8) else {
+        return -2;
+    };
+    if !regions_disjoint(a, b) || !regions_disjoint(a, c) || !regions_disjoint(b, c) {
+        return -2;
+    }
+    geographic_preparation::score_prepared(
+        std::slice::from_raw_parts(frame, frame_words),
+        std::slice::from_raw_parts_mut(preparation, preparation_words),
+        std::slice::from_raw_parts(road, road_words),
+    )
 }
 
 #[cfg(test)]

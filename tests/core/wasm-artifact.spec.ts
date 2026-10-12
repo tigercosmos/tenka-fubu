@@ -55,6 +55,19 @@ it('rejects a real module whose castle ribbon planner export is missing', () => 
     'lacks ABI export: castle_ribbon_solve',
   );
 });
+it.each(['geo_prepare', 'geo_score_prepared', 'geographic_preparation_abi_version'])(
+  'rejects the real module when preparation export %s is absent',
+  (exportName) => {
+    const bytes = Buffer.from(readFileSync('public/wasm/tenka_engine.wasm'));
+    const name = Buffer.from(exportName);
+    const position = bytes.indexOf(Buffer.concat([Buffer.from([name.length]), name]));
+    expect(position).toBeGreaterThan(0);
+    bytes[position + name.length] = 'x'.charCodeAt(0);
+    const changed = new WebAssembly.Module(new Uint8Array(bytes));
+    expect(WebAssembly.Module.exports(changed).map(({ name }) => name)).not.toContain(exportName);
+    expect(() => artifactManifest(process.cwd(), bytes)).toThrow(`lacks ABI export: ${exportName}`);
+  },
+);
 it('rejects changed Rust source and newly added build inputs', () => {
   const edited = fixture();
   const source = join(edited, 'rust/engine/src/lib.rs');
