@@ -87,6 +87,14 @@ async function normalDay(page: Page) {
     await expect(page.getByTestId('speed-5')).toHaveAttribute('aria-pressed', 'true');
     await page.clock.runFor(120);
   }
+  await expect
+    .poll(() =>
+      page.evaluate(() => ({
+        day: window.__tenka.debug.getState().time.day,
+        pendingTicks: window.__tenka.debug.getSimulationDiagnostics().pendingTicks,
+      })),
+    )
+    .toEqual({ day: before + 1, pendingTicks: 0 });
   const after = await state(page);
   expect(after.time.day).toBe(before + 1);
   expect(validateState(after), `All invariants after normal day ${after.time.day}`).toEqual([]);
