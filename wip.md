@@ -6436,3 +6436,10 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
   原歷史GL identity未採集；同setup新頁確認SwiftShader。硬體RTX身分受控首次對照另行診斷，不把profiler數字混入普通timing。
 - 完整索引 `docs/validation/2026-10-12/completion-audit/README.md`；source／evidence每步提交，未push／部署、未改00／BAL／門檻／protected基準。
   Goal仍active；下一步先完成Worker batch阻塞歸因，再處理主要geo preparation／實際主頁熱點，原60FPS／heap／長跑／領地gate保持。
+
+## Worker batch 診斷封存（2026-10-12）
+
+- `0c4ec74` sim1 唯一 default profile：完整 day121 parity 通過，compute649.2ms／step13.296s；最大 program 區段未歸因。硬體預檢 llvmpipe／WebGL null 失敗，hardware captures0；Linux／Mac binary 與固定 manifest byte-identical。
+- `b7194ff` sim3 前後實際 RTX5070TiVulkan；120日 step已返回3061.800ms／idle0.100ms、compute680.900001ms。但完整交通擷取撞原60s timeout，最後reference assertions未執行，case保留RED、未retry。Observer完整reply clone與profiler有成本，不作sim1因果對照或一般效能宣稱。
+- 兩包原bytes／雙SHA／來源與依賴固定證明已封存並加入索引；大型原trace及完整交通raw僅遠端保存，完整path／bytes／SHA明示。
+- 本階段 production source不變，原六項功能PASS／三組strict60RED／6357通過1已知失敗1skip保持。下一步輕量metadata observer定位硬體main成本，及geo preparation熱點；goal保持active，未push／部署。
