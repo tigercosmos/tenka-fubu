@@ -1,0 +1,7 @@
+{
+  "frozenSource": "feab20cc9c207f37afae7a2f372c437b93232a07",
+  "checkedFiles": 733,
+  "beforeAfterEqual": true,
+  "allMatchFrozenGitBlobs": true,
+  "scope": "Archived src/rust/tools excluding target plus six root configs; not full repository/public/dependency inventory"
+}

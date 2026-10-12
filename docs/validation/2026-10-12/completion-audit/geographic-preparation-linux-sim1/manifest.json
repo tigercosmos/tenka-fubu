@@ -1,0 +1,89 @@
+{
+  "status": "final",
+  "frozenSource": "feab20cc9c207f37afae7a2f372c437b93232a07",
+  "remoteDirectory": "/tmp/tenka-feab20c-preparation-linux-sim1-20261012",
+  "archive": {
+    "path": "raw-evidence.tar.gz",
+    "bytes": 115583,
+    "sha256": "19e077445c0d43eb453711f10be641f5b80dce48dedfb3f1a1c0a150d30bea3a",
+    "rawBytes": 348160,
+    "rawSHA256": "75ff8cec97286e7e7ac5050af1cc085ba106d0ff6f5e6633765b10da6edbb0e8"
+  },
+  "members": [
+    {
+      "path": "evidence/abi.cjs",
+      "bytes": 640,
+      "sha256": "6f76e05540783b9213db7d323ac0533b5846db0902c3c109d68c7159f2fa4b4b"
+    },
+    {
+      "path": "evidence/abi.json",
+      "bytes": 1180,
+      "sha256": "b7086b0a0d290c22ee30c2aeea2203ccad59ed02e60d9c7dd7e58c6f96c34e93"
+    },
+    {
+      "path": "evidence/after-source.json",
+      "bytes": 117735,
+      "sha256": "05f4eb75440a5707493dd5b5af42c925a21616280d004f52d64d96f71f85f1ef"
+    },
+    {
+      "path": "evidence/before-source.json",
+      "bytes": 117735,
+      "sha256": "05f4eb75440a5707493dd5b5af42c925a21616280d004f52d64d96f71f85f1ef"
+    },
+    {
+      "path": "evidence/build-exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/build.log",
+      "bytes": 381,
+      "sha256": "829190e6b10b098e59ac2d2520617d8848c1d4c0618de91695ee9819bcdc890b"
+    },
+    {
+      "path": "evidence/comparison.txt",
+      "bytes": 28,
+      "sha256": "9e319bd5416eb2be3da10608d55003ce5dd3cfdb1f5b6a564e5701644fbd3640"
+    },
+    {
+      "path": "evidence/frozen-mac-manifest.json",
+      "bytes": 1466,
+      "sha256": "09483b9c0d9ddcd7ec57673a6a17380dc7ca2385a095872f710b020451413ca3"
+    },
+    {
+      "path": "evidence/frozen-mac.wasm",
+      "bytes": 88475,
+      "sha256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b"
+    },
+    {
+      "path": "evidence/run.log",
+      "bytes": 1949,
+      "sha256": "7685d6e8b2ee4319cf866a31ab694dc1da9fd0a94753ec67b8d5054b64e918f8"
+    },
+    {
+      "path": "evidence/snapshot.py",
+      "bytes": 657,
+      "sha256": "e18d477cf4524ff2e4bf915b7e847e3c4a8e2c8bb52e819f33c084e69b877e5a"
+    },
+    {
+      "path": "run.sh",
+      "bytes": 1251,
+      "sha256": "4431622a80999cdd0789369590a4d068332456d447a7ae9c89b7467ed2a85b39"
+    }
+  ],
+  "buildExit": 0,
+  "artifact": {
+    "bytes": 88475,
+    "sha256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b",
+    "manifestSHA256": "09483b9c0d9ddcd7ec57673a6a17380dc7ca2385a095872f710b020451413ca3"
+  },
+  "sourceProof": {
+    "frozenSource": "feab20cc9c207f37afae7a2f372c437b93232a07",
+    "checkedFiles": 733,
+    "beforeAfterEqual": true,
+    "allMatchFrozenGitBlobs": true,
+    "scope": "Archived src/rust/tools excluding target plus six root configs; not full repository/public/dependency inventory"
+  },
+  "dependencies": "Reused /tmp/tenka-04c7b60-worker-ready-sim1/node_modules; no npm ci or fresh dependency claim",
+  "performance": "Build reproduction only; no GPU/browser/benchmark"
+}
