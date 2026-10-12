@@ -3305,6 +3305,771 @@
       "sha256": "fcc6df3856da54654393c10a01e9ee40c224f72e46a7bccac383a45e04d338ae",
       "uncompressedBytes": 146,
       "uncompressedSha256": "b009050a68e673afcbfe166cd9b1213131927b41861028530d2cbd21b00def7d"
+    },
+    {
+      "path": "worker-ready-castle-sim1/README.md",
+      "bytes": 6066,
+      "sha256": "9a6013372665f6650586d16fdf67537c20629a2370d28de9f3a264631a6dcbe0"
+    },
+    {
+      "path": "worker-ready-castle-sim1/actual-tenka_engine.wasm.gz",
+      "bytes": 23266,
+      "sha256": "4d33c0bfcdc8d0802c3a4fc009018b2f465a86c19a9dd959c22410ce42e6654f",
+      "uncompressedBytes": 63073,
+      "uncompressedSha256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba"
+    },
+    {
+      "path": "worker-ready-castle-sim1/actual-wasm-manifest.json.gz",
+      "bytes": 685,
+      "sha256": "30a3b768d4a3e9296dba87d91078e6a30964783f6dd7044c4fe027574f02a026",
+      "uncompressedBytes": 1226,
+      "uncompressedSha256": "8f41ae78dce8749c6c255b68ba4bceda709bc96af3f14271330261278fe8bd68"
+    },
+    {
+      "path": "worker-ready-castle-sim1/appledouble-removed.log.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "worker-ready-castle-sim1/archive-commit.txt.gz",
+      "bytes": 59,
+      "sha256": "e03777e57a3f8a826cf98a275a8e39463bc9ef2deb480a6f09efdb1af8c0d8cc",
+      "uncompressedBytes": 41,
+      "uncompressedSha256": "7ad9a037a1f88828bb10ebd75fe8b12e6080b74d4aa5b931b3b80a8b75d8be45"
+    },
+    {
+      "path": "worker-ready-castle-sim1/artifact-inventory.json",
+      "bytes": 9255,
+      "sha256": "fd8a583d56450517e9a67dc295bc1a6d391b50a37885959b4936ba01743b23e8"
+    },
+    {
+      "path": "worker-ready-castle-sim1/artifact-inventory.raw.json.gz",
+      "bytes": 2918,
+      "sha256": "15b1c8e51c998789249e0d5b78809f98ada1002e8c87a93557be7309ec70c302",
+      "uncompressedBytes": 9255,
+      "uncompressedSha256": "fd8a583d56450517e9a67dc295bc1a6d391b50a37885959b4936ba01743b23e8"
+    },
+    {
+      "path": "worker-ready-castle-sim1/extraction.log.gz",
+      "bytes": 790,
+      "sha256": "47b5e1646a309c094f56b004591a30a94b6eb664472235e2ec6fa5d80b6019dd",
+      "uncompressedBytes": 1923,
+      "uncompressedSha256": "482049d2911807a8a0a5bbc8988b0f44e4f2a7ffe70597ae3a6f3258732ba444"
+    },
+    {
+      "path": "worker-ready-castle-sim1/failure-traces.json.gz",
+      "bytes": 23,
+      "sha256": "2ca4529576310b626c1bd48352d283b521d029d54f195d8416536872d826e4c6",
+      "uncompressedBytes": 3,
+      "uncompressedSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "worker-ready-castle-sim1/independent-parity-verification.log.gz",
+      "bytes": 93,
+      "sha256": "41e89692bbe9bd3f2994f6047dacc84d10ec5fe150814eef8c76126fcd3b6a7c",
+      "uncompressedBytes": 78,
+      "uncompressedSha256": "63190f704c99787695f703f49cf67c93545ea2ea224b6c605b0008edaad331d1"
+    },
+    {
+      "path": "worker-ready-castle-sim1/native-exit-code.txt.gz",
+      "bytes": 22,
+      "sha256": "cabc3a30b39528db601f65ca3ced008dd775595c901102d08ac8ae8976b29bcf",
+      "uncompressedBytes": 2,
+      "uncompressedSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "worker-ready-castle-sim1/native-results.json.gz",
+      "bytes": 800,
+      "sha256": "64561578d3704c28b4fb6d47a7458b545d09b685ca52673f1a025d6d040b3851",
+      "uncompressedBytes": 2290,
+      "uncompressedSha256": "2d80dc55ee04a37405cf2492e55df1b3b8c12f9eb81ea0ee6899491015df5a04"
+    },
+    {
+      "path": "worker-ready-castle-sim1/native-worker-cancel-generation-parity.json.gz",
+      "bytes": 213963,
+      "sha256": "bbb4b7ccbf525e0b1a3b4107604d834170d8a4def7786e7cbf1ddb2c4a0145f3",
+      "uncompressedBytes": 2300257,
+      "uncompressedSha256": "487c54b9dd65f86316c78c37cc4fd5e987214075481d30fc34768336f5ba0a9c"
+    },
+    {
+      "path": "worker-ready-castle-sim1/native-worker-tests.log.gz",
+      "bytes": 2368,
+      "sha256": "d9133ed13dfa7ced6c9caff51a51825e2b7ab83a8efe4f8155be87e8a45dace8",
+      "uncompressedBytes": 14201,
+      "uncompressedSha256": "bbb98418c2ab03d9003877a86ed56370b1fa57d808ff0591de915b58e575187b"
+    },
+    {
+      "path": "worker-ready-castle-sim1/normal-x5-worker-paced-sync-responsiveness.json.gz",
+      "bytes": 1125155,
+      "sha256": "9222069c0b0c719cd493595e51c5b8733812fe2a18d7fcbff65ab9e43c2e16ba",
+      "uncompressedBytes": 7676991,
+      "uncompressedSha256": "dd8144b4fa962f480ea9db8404d1c58924ffbcd735a3e9828463296c2b47ebe5"
+    },
+    {
+      "path": "worker-ready-castle-sim1/npm-ci.log.gz",
+      "bytes": 538,
+      "sha256": "010c6060fb92b30fa79ac42f44bbab8ab4cd57962e909b4e6a88fcba7b84291f",
+      "uncompressedBytes": 882,
+      "uncompressedSha256": "0b420c16ec6f6c6c69f99dc83851f969c49704ecef50c4229af1a6ba35ae4b33"
+    },
+    {
+      "path": "worker-ready-castle-sim1/production-build.log.gz",
+      "bytes": 848,
+      "sha256": "c31ddc3a4f0153870bb2e4af86b90a41d9b9709120ef9033f85f0af8311aad6c",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "938061aeefe33f56681288fde797699cffd26c06dbd833018167221d7c7acd7a"
+    },
+    {
+      "path": "worker-ready-castle-sim1/report-2f146aecbcd2c5b32fbb.json.gz",
+      "bytes": 684455,
+      "sha256": "5a412e44843517acb759a61ed70909c2c13a2fe92bf6a68cc57051f49330737b",
+      "uncompressedBytes": 8128421,
+      "uncompressedSha256": "61e399d95995ae515cb5b3be06ddec888fd08a0a2e6a5d3abe70595f2f6e2b17"
+    },
+    {
+      "path": "worker-ready-castle-sim1/report-metadata.zip.gz",
+      "bytes": 718351,
+      "sha256": "3c4b9865d8a175c7816986b4456606b831a9f09d0b3e704171c044fea9dc6f2d",
+      "uncompressedBytes": 718138,
+      "uncompressedSha256": "547bafb6af010f8bbfa46157ee2a0a0a8f6d4339bdaa155e0237a4a2f01dcedc"
+    },
+    {
+      "path": "worker-ready-castle-sim1/report-report.json.gz",
+      "bytes": 1020,
+      "sha256": "ad4e3aeee73929b38182c82da16028d77dddff3727d4cf18adf1c6602abf6111",
+      "uncompressedBytes": 3868,
+      "uncompressedSha256": "6e529571c64861d3fc139a7a14559bb8f86d3e948e1800238440393f0c0093df"
+    },
+    {
+      "path": "worker-ready-castle-sim1/runtime-dependency-proof.json.gz",
+      "bytes": 2092,
+      "sha256": "67ce97a4390e86c3760b626bb1e98bb2f460389f3fc269a502b5c8fa9012351b",
+      "uncompressedBytes": 7800,
+      "uncompressedSha256": "f03ae71d5d334d6ce9e3aa2f643f34e9699518215e05997a3be9081678b75be4"
+    },
+    {
+      "path": "worker-ready-castle-sim1/runtime-dependency-proof.log.gz",
+      "bytes": 322,
+      "sha256": "bbd8212991a31357999f66f902084856c7e172db272bd7b99f1c3f680448b0e5",
+      "uncompressedBytes": 714,
+      "uncompressedSha256": "19d9e91b890ebb7a728100368e3d53aad6cbbff45a63b473d65b417823d38777"
+    },
+    {
+      "path": "worker-ready-castle-sim1/same-host-120-day-worker-responsiveness.json.gz",
+      "bytes": 1146140,
+      "sha256": "c38de86550b17583ca7eebab878f332b79418adc289b11ac1eb9dbba1f35de44",
+      "uncompressedBytes": 8130252,
+      "uncompressedSha256": "60ec38da21250318511c772a8a0158a81a8aabd22be13ada1e2098e9ab063737"
+    },
+    {
+      "path": "worker-ready-castle-sim1/same-host-60-day-worker-responsiveness.json.gz",
+      "bytes": 1136745,
+      "sha256": "ad631a193994fd05bc37f761c974a9c7460fd82f95a5096f58cbf2c035807b5c",
+      "uncompressedBytes": 7995333,
+      "uncompressedSha256": "2b80938c8e325b42d46b258c694e58c67144d8976bbcf05b58957b4feb46aaac"
+    },
+    {
+      "path": "worker-ready-castle-sim1/served-preview-cwd.log.gz",
+      "bytes": 69,
+      "sha256": "ecfa470a52578ed06d8fb2ae068c4f8f242c51f094f57cb60bb459086175ad72",
+      "uncompressedBytes": 49,
+      "uncompressedSha256": "76cfa88298808e2a6c9f3b454266712cf18ab981253be7ee274ebb9927521be7"
+    },
+    {
+      "path": "worker-ready-castle-sim1/served-preview-process.log.gz",
+      "bytes": 310,
+      "sha256": "4c3e27dc34753da5011bedc2b1b9a0dd6b0a1ac9985f2afcaa3f63a1c2160160",
+      "uncompressedBytes": 740,
+      "uncompressedSha256": "2258050080ecca344eb3e8af0b29f5f91aa1694295d03124057eb4e3db687747"
+    },
+    {
+      "path": "worker-ready-castle-sim1/served-tenka_engine.wasm.gz",
+      "bytes": 23266,
+      "sha256": "4d33c0bfcdc8d0802c3a4fc009018b2f465a86c19a9dd959c22410ce42e6654f",
+      "uncompressedBytes": 63073,
+      "uncompressedSha256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba"
+    },
+    {
+      "path": "worker-ready-castle-sim1/served-wasm-sha.log.gz",
+      "bytes": 129,
+      "sha256": "1d8dc09471759bd3826cc842b5fdc939584a4b6e413e31de30c87acc76098100",
+      "uncompressedBytes": 132,
+      "uncompressedSha256": "db3caf2641427083d2dcfc3cf2fb182f40938c6db7adc29e5890969465f8afd8"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-e2e__fixtures.ts.gz",
+      "bytes": 645,
+      "sha256": "2455ba2edc37594284f250c9814011f9274331ececadcf72a82992bccb50fcbe",
+      "uncompressedBytes": 1012,
+      "uncompressedSha256": "7a3a8311c171fcfdb99bd37aff1128fa09cd15e7829650c1611bdcce014b8432"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-e2e__worker-simulation.spec.ts.gz",
+      "bytes": 6089,
+      "sha256": "05ddd63229e4dae44f363f65335ecf2cd83e22bc2272421b6231f4e22c639f94",
+      "uncompressedBytes": 25716,
+      "uncompressedSha256": "ecae67cb0c449bdf695d78679c6db3ca7a986311715d44018a2d81b956772783"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-manifest.json.gz",
+      "bytes": 156887,
+      "sha256": "4e3016718c225679a6a2510add76e1826596bed71aca58784d421e93f240066c",
+      "uncompressedBytes": 505816,
+      "uncompressedSha256": "e3010170a192c5253e40319d15070dc319d73abe7e2d025d49c9093bd65060b0"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-package-lock.json.gz",
+      "bytes": 51484,
+      "sha256": "9d73ea8d3d93ff012769d81e28f9f006d50cbb31c854d43c955115e25c4018d3",
+      "uncompressedBytes": 240141,
+      "uncompressedSha256": "63f021d39b353a70831accbfc50b714a09767b900ce23157fbf4ecce1dda7be1"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-package.json.gz",
+      "bytes": 1136,
+      "sha256": "cccc93a00c05831df6281a8566b409197d130fa648aa40e743ea8f13d25b84ee",
+      "uncompressedBytes": 3508,
+      "uncompressedSha256": "82a6bf97a6611fe52eedcaf8e732e19f07a696121f928c7c2cd9fc9dffb0876f"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-playwright.config.ts.gz",
+      "bytes": 1072,
+      "sha256": "3a2610600999f04c9ca9af25eefb885f72bb86cde6f2547bd9d11b558b438177",
+      "uncompressedBytes": 1918,
+      "uncompressedSha256": "0f2062a03f1ed2174fbd4b496dff2c851a579d78952452666d5de2c6ee30b21c"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-src__app__bridge.ts.gz",
+      "bytes": 10533,
+      "sha256": "d39af7f5a08378f6c160d6b9655cda1c5965db4ddc408a2860cfc3a5863e85d7",
+      "uncompressedBytes": 37265,
+      "uncompressedSha256": "92e74e3dfec9b1ac256f272375e7ca9fca4a7d4b1742d6cb1de63e402cf4d997"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-src__app__dayExecutor.ts.gz",
+      "bytes": 501,
+      "sha256": "9ad097dde0830dd48b05a5b2e1d89e60590a72df15642c637f6e64175c743da7",
+      "uncompressedBytes": 1103,
+      "uncompressedSha256": "47c46b5af1c28533d22dc4421cfc6d62322f565509432fa5ab567fdbc01c0eaf"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-src__app__worker__client.ts.gz",
+      "bytes": 2739,
+      "sha256": "2a8245d82189a5381c6332a81d0bfd0918e6fb88dae2bac0a4937f0a8832917a",
+      "uncompressedBytes": 11653,
+      "uncompressedSha256": "e57d7ea28a396354a7607b4b75d0689dd7d363857396b6a72da1b4bd65d7dd56"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-src__app__worker__protocol.ts.gz",
+      "bytes": 596,
+      "sha256": "eb14a0f4b745581b6b0d78e95042b6af5af38bdf89908f7b9e39a6285daed4dc",
+      "uncompressedBytes": 1830,
+      "uncompressedSha256": "27041560c3b3cd6f0303293ce6eda79b1e034911b3313ac494e7fa055bf169bd"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-src__app__worker__simulation.worker.ts.gz",
+      "bytes": 2304,
+      "sha256": "9bc8786fecb15e6c8002741c6f9442dd7939aaa2160bb00444fa9602802ff1ea",
+      "uncompressedBytes": 7786,
+      "uncompressedSha256": "03bdb72a28501aa52ecda790fd0c076a879bb63a32e4f22760351f4f2f885712"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-src__ui__map__MapRenderer.ts.gz",
+      "bytes": 56132,
+      "sha256": "5c77b863e0b1b2c0f4748c79be1ea6f646fad6317c300bbdd90ee4657726290c",
+      "uncompressedBytes": 207449,
+      "uncompressedSha256": "c481a36ec9e670c0f652c633205e9c079f0f82ea87475a409ff8ab46678dacbe"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-src__ui__map__wasmCastleRibbonPlanner.ts.gz",
+      "bytes": 2170,
+      "sha256": "86b3e0db327af844cf8533a90d741b93029c5895b921bfa72008b454b0c60df9",
+      "uncompressedBytes": 7385,
+      "uncompressedSha256": "2c3e3bf2e04969bb2b29d0be5acfc0fb2a5cab05a037e644c7bad1929bfaf1aa"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-src__ui__map__wasmGeographicScorer.ts.gz",
+      "bytes": 2295,
+      "sha256": "69582de4e7d1385df00f0a69bd10b46a92121e6ebb2a342d540ef3df88092a64",
+      "uncompressedBytes": 8276,
+      "uncompressedSha256": "b67cdb3c2e0b71167e1396427ecbff663df05e77a44c4e88316fc84d4c76dea8"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-verification-after-native.json.gz",
+      "bytes": 130,
+      "sha256": "c8de8563acd5cab067c0601898b5d4a5f19f78575371810f172e3318e8349b53",
+      "uncompressedBytes": 130,
+      "uncompressedSha256": "b96295c7b2e2a7c273cb2c9a0a9a5288dddeaa31cb1d141a639ab770ec3ab211"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-verification-after-native.log.gz",
+      "bytes": 127,
+      "sha256": "4f7e70a983bf783f5b240634dd3d639aab734d3c4f89a9658b6f8affc662c237",
+      "uncompressedBytes": 120,
+      "uncompressedSha256": "6950cf3610fc326354d2ce9b5a1a4dbedcca66de24ccddb91f375da7587d075f"
+    },
+    {
+      "path": "worker-ready-castle-sim1/source-verification-before-build.json.gz",
+      "bytes": 129,
+      "sha256": "a6d8488686b886e91e0663e488e531d8a4b8c138fbb15bf3c4d5ac1ec494a6af",
+      "uncompressedBytes": 130,
+      "uncompressedSha256": "616046916bd6eadc376a8b5d5e1d1fb26b851a19c9cda002b04d301637b9377c"
+    },
+    {
+      "path": "worker-ready-castle-sim1/summary.json",
+      "bytes": 7663,
+      "sha256": "f3bccebb1871804f3c9a040c985cbdcbcf497d8a44508eb5b836690d2697f2b1"
+    },
+    {
+      "path": "worker-ready-castle-sim1/summary.json.gz",
+      "bytes": 1680,
+      "sha256": "7ef6b17cb8d427d4653c6fbc121164bc4894f0b3a21e960defe1de15cf1a833e",
+      "uncompressedBytes": 7663,
+      "uncompressedSha256": "f3bccebb1871804f3c9a040c985cbdcbcf497d8a44508eb5b836690d2697f2b1"
+    },
+    {
+      "path": "worker-ready-castle-sim1/tenka-04c7b60-extract.py.gz",
+      "bytes": 881,
+      "sha256": "a9fbd4583396159bd2feaf860609aba2b46d9927d2d06e089646570107d4b6d6",
+      "uncompressedBytes": 1875,
+      "uncompressedSha256": "5bfc28c0db915fa989e7256f23be8d4a281b99dce2424cb4dac9b83074b1badf"
+    },
+    {
+      "path": "worker-ready-castle-sim1/tenka-04c7b60-runtime-proof.mjs.gz",
+      "bytes": 962,
+      "sha256": "10f705f0046122cf23e52cdd55d31c49772b08828c9cb72c6e01c3e08e46f522",
+      "uncompressedBytes": 2276,
+      "uncompressedSha256": "70df9cb0288db02ba0fda4fe6ff62187db67fb61d4badebc7f6d91294b89c787"
+    },
+    {
+      "path": "worker-ready-castle-sim1/tenka-04c7b60-source-proof.py.gz",
+      "bytes": 438,
+      "sha256": "536e0bfb0c6499f3804c599d29d46fb9c4ba95160c8257fb951ae3adec802b80",
+      "uncompressedBytes": 772,
+      "uncompressedSha256": "2d120ac7f79b6194e1bfe0a8c9a7be1bb796c2b9b49a67ccd29de923f44ed8f2"
+    },
+    {
+      "path": "worker-ready-castle-sim1/tenka-04c7b60-verify-native.py.gz",
+      "bytes": 1488,
+      "sha256": "8970167d340a371453c94912847e0b96256e42c748ccddf7415d48f5342e7bb3",
+      "uncompressedBytes": 3721,
+      "uncompressedSha256": "115664634d7120257a2a0b7b9b15be829ddac7794cbdb14ec856c93b4cdb0501"
+    },
+    {
+      "path": "worker-ready-castle-sim1/verify-evidence.py",
+      "bytes": 4675,
+      "sha256": "98815b7fa2e8fc354ba117884f83d8b9ce85cf18e5ceddaec4eb1a5a02eaf196"
+    },
+    {
+      "path": "worker-ready-castle-sim1/worker-full-world-reference.json.gz",
+      "bytes": 219072,
+      "sha256": "5774c4728f6611dce4481213d8f0cf6219f5382777ccbb2cbceeee0b25c71935",
+      "uncompressedBytes": 2337717,
+      "uncompressedSha256": "dadb676b1d6ebbf587d0d2ffa244ac4755b9b010228f4fbb165a44428698e79c"
+    },
+    {
+      "path": "worker-ready-castle-sim1/worker-pending-save-reload-reference.json.gz",
+      "bytes": 218230,
+      "sha256": "ff25d7b2ffad01c0eb6ae8798fdc4a0e4d8e0af63a438e713cd6fd3d3f243340",
+      "uncompressedBytes": 2333714,
+      "uncompressedSha256": "2114a465d55c6e070e0c9f2fccd94f6d91edfaf29b4f63a1077043b923e3f7de"
+    },
+    {
+      "path": "castle-wasm-current23-native/README.md",
+      "bytes": 3793,
+      "sha256": "99e18c6bbf3a25bee84f261689c99d1bbc176431dec8876d878573f8bf97f13c"
+    },
+    {
+      "path": "castle-wasm-current23-native/build-artifact-proof.json.gz",
+      "bytes": 3681,
+      "sha256": "7cc831f42effd26cd6878238f9d8bb32e7fdfaeb50870890df26c2dc0448d4dc",
+      "uncompressedBytes": 12589,
+      "uncompressedSha256": "4be0910ef785afac34a4ba6e335124b80435232a594b3362033169021d930a6d"
+    },
+    {
+      "path": "castle-wasm-current23-native/build-final.log.gz",
+      "bytes": 847,
+      "sha256": "281ea7c31bdbaa88a9de9441a8dc34979d7c9c867546144ba993c153488b3f0d",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "c19cf608ca76e07fc028ec6e996114c54e81e953c97030425835ca98f56ffb90"
+    },
+    {
+      "path": "castle-wasm-current23-native/canonical-state.raw.json.gz",
+      "bytes": 71991,
+      "sha256": "2131493e97a0d61568ce79807f50bece03ac03fed840a27862b345a4bd2e1bf2",
+      "uncompressedBytes": 816643,
+      "uncompressedSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6"
+    },
+    {
+      "path": "castle-wasm-current23-native/close-profile-source-summary.json.gz",
+      "bytes": 7342,
+      "sha256": "05dc24252d1f03cc77fa9cf8506844e9af120807e3d77e281ca1f8c9809eae80",
+      "uncompressedBytes": 79749,
+      "uncompressedSha256": "08a51405fcf6a912270066070f4447fa020df0f83fd1d7e6c6b705142a4b8052"
+    },
+    {
+      "path": "castle-wasm-current23-native/close-profile-summary.json.gz",
+      "bytes": 7373,
+      "sha256": "e40ca758977294e27a5856fcd618edd219b314e98b44e4912bbe8f60539bb65c",
+      "uncompressedBytes": 115342,
+      "uncompressedSha256": "eb6fb89a5a58c4b2a060dccc9b930033d576eed0301568b770c2d13893e40d74"
+    },
+    {
+      "path": "castle-wasm-current23-native/close.cpuprofile.gz",
+      "bytes": 37400,
+      "sha256": "c002d845dff374804cb1adf6e75cf152a80d9a64ab101c50b3965cf567cf9dad",
+      "uncompressedBytes": 350771,
+      "uncompressedSha256": "7968cc1aa4eb26f10a0e294e071adcd8ed99f879cdd5e688e5845b633c2f3e44"
+    },
+    {
+      "path": "castle-wasm-current23-native/close.log.gz",
+      "bytes": 694,
+      "sha256": "f81c41095accd5f12d1662018c68eab72d69257358a8e3a3b18024677ecf5772",
+      "uncompressedBytes": 3005,
+      "uncompressedSha256": "52d381448bc953e8063ba478a686aaab62ac1e081583a05dbcad2b34d1118404"
+    },
+    {
+      "path": "castle-wasm-current23-native/close.raw.json.gz",
+      "bytes": 8380,
+      "sha256": "d4c4335fdcee01174d1cc9828fc4adb0b3442bee1587847fd245b9923b7126ff",
+      "uncompressedBytes": 128238,
+      "uncompressedSha256": "5d573987352ab0a4a219ad24e43e7b0477e9d7b8679afa9cecea4685370347c4"
+    },
+    {
+      "path": "castle-wasm-current23-native/collect.py.gz",
+      "bytes": 782,
+      "sha256": "d4a1f91899cf137054686b56225345a8cf1093395503faf20657969ff2c3df48",
+      "uncompressedBytes": 1894,
+      "uncompressedSha256": "4e2ac493e63c9010b300910c33459908a70e506177c45537e1f097e98faff1db"
+    },
+    {
+      "path": "castle-wasm-current23-native/commands.sh.gz",
+      "bytes": 596,
+      "sha256": "501894e00cb09e102def50bc4fdf28ff7669776d09333fed678e2936bd325177",
+      "uncompressedBytes": 1265,
+      "uncompressedSha256": "0b022bbfc5604698f154939b8f0db4747e958bb0eaddc5945b046784c35e1843"
+    },
+    {
+      "path": "castle-wasm-current23-native/dependency-after-proof.json.gz",
+      "bytes": 803276,
+      "sha256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9",
+      "uncompressedBytes": 4455607,
+      "uncompressedSha256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a"
+    },
+    {
+      "path": "castle-wasm-current23-native/dependency-before-proof.json.gz",
+      "bytes": 803276,
+      "sha256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9",
+      "uncompressedBytes": 4455607,
+      "uncompressedSha256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a"
+    },
+    {
+      "path": "castle-wasm-current23-native/dependency-final-proof.json.gz",
+      "bytes": 803276,
+      "sha256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9",
+      "uncompressedBytes": 4455607,
+      "uncompressedSha256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a"
+    },
+    {
+      "path": "castle-wasm-current23-native/environment.json.gz",
+      "bytes": 719,
+      "sha256": "bd4b02b0b3494d5e6f82b499b94041c10c4f1a11e790077da23109a7b6dfdeec",
+      "uncompressedBytes": 1446,
+      "uncompressedSha256": "f57b2c15babbc8e86807c5bd7440a9ae32776900f5606d9ab2b5d5c48f27af18"
+    },
+    {
+      "path": "castle-wasm-current23-native/fixtures.ts.gz",
+      "bytes": 645,
+      "sha256": "2455ba2edc37594284f250c9814011f9274331ececadcf72a82992bccb50fcbe",
+      "uncompressedBytes": 1012,
+      "uncompressedSha256": "7a3a8311c171fcfdb99bd37aff1128fa09cd15e7829650c1611bdcce014b8432"
+    },
+    {
+      "path": "castle-wasm-current23-native/fps-control.spec.ts.gz",
+      "bytes": 1654,
+      "sha256": "d9831afdd58ba882a7310b7c943d8d6762de07ad2a0b22232e3cad5c12df3d8e",
+      "uncompressedBytes": 4470,
+      "uncompressedSha256": "2d39ba643aa3c0aa7a242d0e93d081806fe54bd64b650f1ab78cbf67d4f567e4"
+    },
+    {
+      "path": "castle-wasm-current23-native/gpu-driver-hashes.json.gz",
+      "bytes": 438,
+      "sha256": "abb4cb553fe94d8dd29336bcc7dcfaec78ee3ecb3e3b060e9fccffe81b38d08c",
+      "uncompressedBytes": 1409,
+      "uncompressedSha256": "615f13f8f20404aba9dc45042f5b706e351218eff35ee9fe83542cf21e124e88"
+    },
+    {
+      "path": "castle-wasm-current23-native/observer.mjs.gz",
+      "bytes": 1403,
+      "sha256": "33a50ada4e9e05104c01bb49ff00b40f880135dac7dad814f04075de27c64727",
+      "uncompressedBytes": 3324,
+      "uncompressedSha256": "3ea424938698621395dbb62c420dc53c9a41d1fb318cf2d58daf2f24ad97d695"
+    },
+    {
+      "path": "castle-wasm-current23-native/operational.log.gz",
+      "bytes": 693,
+      "sha256": "6b88c33c48e16628cc3247fe6ab1730ffa122ae164e73d9a0a1575bb3da64a75",
+      "uncompressedBytes": 3046,
+      "uncompressedSha256": "16b6be303e1e2054f67decdf5dd0b69387aa44f280bc3ff57b40662482086bef"
+    },
+    {
+      "path": "castle-wasm-current23-native/operational.raw.json.gz",
+      "bytes": 9251,
+      "sha256": "0ae437708b5223de756918931a4e7babe443f4ad7ab94da10f5b27427ad49041",
+      "uncompressedBytes": 142526,
+      "uncompressedSha256": "49de1837a2926fd5a959b59a0caf27358043a271badc34524fc34cca19d39049"
+    },
+    {
+      "path": "castle-wasm-current23-native/overview.log.gz",
+      "bytes": 697,
+      "sha256": "831213f26691deb4bd96f7d9d896887b277c08587945b0b84a6d101266e69820",
+      "uncompressedBytes": 3025,
+      "uncompressedSha256": "4a085cfe5874b113a29775541115b9b181992d583674a1fe4c580b80880ea3b0"
+    },
+    {
+      "path": "castle-wasm-current23-native/overview.raw.json.gz",
+      "bytes": 9301,
+      "sha256": "add6fc4afd17fc735b1d0cdc65c3d03a00694c91957a8ba0ceed52b21b824d1f",
+      "uncompressedBytes": 149434,
+      "uncompressedSha256": "0cbda57a677326beec203a8960e289a47dccc4975c2461928d46a026668341e0"
+    },
+    {
+      "path": "castle-wasm-current23-native/parity-proof.json.gz",
+      "bytes": 257,
+      "sha256": "8927acafdca107345ed314ae8e0b4b1dad0316d410546fd1d88a6f71e8878f05",
+      "uncompressedBytes": 502,
+      "uncompressedSha256": "93130188f9732ee34556fe6935020d0de93b429b5e0a9d4a2b334fd80fd3bb37"
+    },
+    {
+      "path": "castle-wasm-current23-native/patch-applier.mjs.gz",
+      "bytes": 1194,
+      "sha256": "37b3844d179c76da46cdd537a57c1bd5ea44bb6a1615039e1e22b479335c1d7e",
+      "uncompressedBytes": 3071,
+      "uncompressedSha256": "ec4ec746e1b5caac07f36e80f886ddcd913e454e8edf6cf4bf901abb3e7334b5"
+    },
+    {
+      "path": "castle-wasm-current23-native/patch-manifest.json.gz",
+      "bytes": 5076,
+      "sha256": "34e20843a51cef6c2f4350b8e7dcb17ba26b61fc2486488dfe07170dd8117ae7",
+      "uncompressedBytes": 24802,
+      "uncompressedSha256": "61616fb34a6ed6d3212bd0bc6ff78929f2f1cfa4214cf12dea7cb946cca81972"
+    },
+    {
+      "path": "castle-wasm-current23-native/playwright.config.ts.gz",
+      "bytes": 1072,
+      "sha256": "3a2610600999f04c9ca9af25eefb885f72bb86cde6f2547bd9d11b558b438177",
+      "uncompressedBytes": 1918,
+      "uncompressedSha256": "0f2062a03f1ed2174fbd4b496dff2c851a579d78952452666d5de2c6ee30b21c"
+    },
+    {
+      "path": "castle-wasm-current23-native/profile-analysis.log.gz",
+      "bytes": 793,
+      "sha256": "70da644ea060ffab7838b491c252e1d1e5681c0543bd0983975fe85fca0c2b69",
+      "uncompressedBytes": 4044,
+      "uncompressedSha256": "6e6d4688eeddaa544cc79ad3aef99514563803b145e72f717fea7d0b9beb7c5f"
+    },
+    {
+      "path": "castle-wasm-current23-native/profile-analysis.mjs.gz",
+      "bytes": 1506,
+      "sha256": "f48e227a54269e7e0bf85922de29f1cbca1746336ea6f623fd3832bbf798fa26",
+      "uncompressedBytes": 3432,
+      "uncompressedSha256": "d79bbc31b723b7bd222c8d9b2c955daeaa26f8e918c9282413bc1a0a48c409fa"
+    },
+    {
+      "path": "castle-wasm-current23-native/profile.log.gz",
+      "bytes": 93,
+      "sha256": "3935879d093307165619681a22251e82f797e9073b44514626e7df93b9ad4022",
+      "uncompressedBytes": 78,
+      "uncompressedSha256": "0947e6b42c0b41611579590891ef1a23fae83153c12ef37949a9b0c06ed83260"
+    },
+    {
+      "path": "castle-wasm-current23-native/profile.mjs.gz",
+      "bytes": 1285,
+      "sha256": "13187aa4fdd5b04eab52819fa2fce36234d215efaa94fd89cbbfa6710f5c31bd",
+      "uncompressedBytes": 3040,
+      "uncompressedSha256": "e305e826168f7f554950d1f6ab41660df83e09806a27e306a58fd9cb72520a35"
+    },
+    {
+      "path": "castle-wasm-current23-native/proof.py.gz",
+      "bytes": 1092,
+      "sha256": "4964dd4adccfce093aa45f01b01d898edf566c7b6e91b14bca4c76af27645909",
+      "uncompressedBytes": 2689,
+      "uncompressedSha256": "1e2aecf45dac37ccf501cb7dc034aa87d585e5b7798e1e408e0204d620f9f178"
+    },
+    {
+      "path": "castle-wasm-current23-native/published.log.gz",
+      "bytes": 94,
+      "sha256": "059af5c904387687998ec18726643520672369fc6e55f6611e1806343366d205",
+      "uncompressedBytes": 86,
+      "uncompressedSha256": "0ae2e5d7bdaa35dd290f7ddcfef87f3a57550ff6bb5ee1d8062bfd226f63b130"
+    },
+    {
+      "path": "castle-wasm-current23-native/published.raw.json.gz",
+      "bytes": 2263646,
+      "sha256": "5f3d23a445cc229f2ce18a6b51842170c9ba6a9927a9b07d1632c82d16b100ef",
+      "uncompressedBytes": 15199813,
+      "uncompressedSha256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29"
+    },
+    {
+      "path": "castle-wasm-current23-native/rust__engine__src__castle_ribbon.rs.gz",
+      "bytes": 4120,
+      "sha256": "b75fa7dc536fd39ea7db889ebbe6550c120ac5ac249c655a387ac75f33ee7dcd",
+      "uncompressedBytes": 14044,
+      "uncompressedSha256": "a5cb03aa871c51d5e364d6882e4ab10cb95bd0136d26461fc4741402514a1b95"
+    },
+    {
+      "path": "castle-wasm-current23-native/rust__engine__src__geographic.rs.gz",
+      "bytes": 4062,
+      "sha256": "703897f5faf3dc827ea754c020b4c3b217d56890349d43282fa765dda4e41bcd",
+      "uncompressedBytes": 15278,
+      "uncompressedSha256": "8710ae0bfaf04473c5e2efb81995d79dc162de4805dc209193f31a56ddb50489"
+    },
+    {
+      "path": "castle-wasm-current23-native/rust__engine__src__lib.rs.gz",
+      "bytes": 1844,
+      "sha256": "34347986328d420198f34c184dc67e3374249116752a4601db55df48074ecfec",
+      "uncompressedBytes": 5088,
+      "uncompressedSha256": "a8c18c3a4545e41fe387eda5005213fb066506e5b067da051caf78f40ddca3b8"
+    },
+    {
+      "path": "castle-wasm-current23-native/source-after-proof.json.gz",
+      "bytes": 127800,
+      "sha256": "470f2e684093646845982fac5b856ea1beca804df22edfa99e90a60e552c6196",
+      "uncompressedBytes": 520027,
+      "uncompressedSha256": "f2b1825560c2cb91c4a3c3f6c7aac5c7e0065e3ee17eeb98ad2173ddafea9993"
+    },
+    {
+      "path": "castle-wasm-current23-native/source-before-proof.json.gz",
+      "bytes": 127800,
+      "sha256": "470f2e684093646845982fac5b856ea1beca804df22edfa99e90a60e552c6196",
+      "uncompressedBytes": 520027,
+      "uncompressedSha256": "f2b1825560c2cb91c4a3c3f6c7aac5c7e0065e3ee17eeb98ad2173ddafea9993"
+    },
+    {
+      "path": "castle-wasm-current23-native/source-final-proof.json.gz",
+      "bytes": 127800,
+      "sha256": "470f2e684093646845982fac5b856ea1beca804df22edfa99e90a60e552c6196",
+      "uncompressedBytes": 520027,
+      "uncompressedSha256": "f2b1825560c2cb91c4a3c3f6c7aac5c7e0065e3ee17eeb98ad2173ddafea9993"
+    },
+    {
+      "path": "castle-wasm-current23-native/source-markers.json.gz",
+      "bytes": 959,
+      "sha256": "51d21c0a0fd551b47df3ae84fa7106cd86a791d053429fac4eb2893a78fbb1c8",
+      "uncompressedBytes": 2718,
+      "uncompressedSha256": "cea69438523e1a5b7009e046feab1fd5d584b7c110d6a461272f9405100f8ae4"
+    },
+    {
+      "path": "castle-wasm-current23-native/src__app__worker__client.ts.gz",
+      "bytes": 2739,
+      "sha256": "2a8245d82189a5381c6332a81d0bfd0918e6fb88dae2bac0a4937f0a8832917a",
+      "uncompressedBytes": 11653,
+      "uncompressedSha256": "e57d7ea28a396354a7607b4b75d0689dd7d363857396b6a72da1b4bd65d7dd56"
+    },
+    {
+      "path": "castle-wasm-current23-native/src__app__worker__protocol.ts.gz",
+      "bytes": 596,
+      "sha256": "eb14a0f4b745581b6b0d78e95042b6af5af38bdf89908f7b9e39a6285daed4dc",
+      "uncompressedBytes": 1830,
+      "uncompressedSha256": "27041560c3b3cd6f0303293ce6eda79b1e034911b3313ac494e7fa055bf169bd"
+    },
+    {
+      "path": "castle-wasm-current23-native/src__app__worker__simulation.worker.ts.gz",
+      "bytes": 2304,
+      "sha256": "9bc8786fecb15e6c8002741c6f9442dd7939aaa2160bb00444fa9602802ff1ea",
+      "uncompressedBytes": 7786,
+      "uncompressedSha256": "03bdb72a28501aa52ecda790fd0c076a879bb63a32e4f22760351f4f2f885712"
+    },
+    {
+      "path": "castle-wasm-current23-native/src__ui__map__MapCanvasHost.tsx.gz",
+      "bytes": 3626,
+      "sha256": "7830b5118f21cd1836aed3beff4cf29c532e6f09f258e970c0467e16c5b9540a",
+      "uncompressedBytes": 10242,
+      "uncompressedSha256": "2a9c4e4f8f13c15f4b288417bca5e133a3bffc38a8147317067a25bf4bddd774"
+    },
+    {
+      "path": "castle-wasm-current23-native/src__ui__map__MapRenderer.ts.gz",
+      "bytes": 56132,
+      "sha256": "5c77b863e0b1b2c0f4748c79be1ea6f646fad6317c300bbdd90ee4657726290c",
+      "uncompressedBytes": 207449,
+      "uncompressedSha256": "c481a36ec9e670c0f652c633205e9c079f0f82ea87475a409ff8ab46678dacbe"
+    },
+    {
+      "path": "castle-wasm-current23-native/src__ui__map__geographicLabelLayout.ts.gz",
+      "bytes": 3264,
+      "sha256": "b736fd3539e2a278d302b9de1909f7bb5045248f83b06244a3771fca6ae23a28",
+      "uncompressedBytes": 10191,
+      "uncompressedSha256": "fbf127f31dbb5d8318acdf1ff1dd8bc56b77e808ba23247b779ad74ed28c3bdd"
+    },
+    {
+      "path": "castle-wasm-current23-native/src__ui__map__sceneParts__castleRibbonLayout.ts.gz",
+      "bytes": 4411,
+      "sha256": "6e15393fd511adb9840ff86015a72cdd15fd8d0e9c5abaf0a83b6e4cbcaea456",
+      "uncompressedBytes": 15688,
+      "uncompressedSha256": "2c5e8d577598f1204cdcd67dfc0473e29be15ca4f4a3a613c24aa8287c6559ad"
+    },
+    {
+      "path": "castle-wasm-current23-native/src__ui__map__wasmCastleRibbonPlanner.ts.gz",
+      "bytes": 2170,
+      "sha256": "86b3e0db327af844cf8533a90d741b93029c5895b921bfa72008b454b0c60df9",
+      "uncompressedBytes": 7385,
+      "uncompressedSha256": "2c3e3bf2e04969bb2b29d0be5acfc0fb2a5cab05a037e644c7bad1929bfaf1aa"
+    },
+    {
+      "path": "castle-wasm-current23-native/src__ui__map__wasmGeographicScorer.ts.gz",
+      "bytes": 2295,
+      "sha256": "69582de4e7d1385df00f0a69bd10b46a92121e6ebb2a342d540ef3df88092a64",
+      "uncompressedBytes": 8276,
+      "uncompressedSha256": "b67cdb3c2e0b71167e1396427ecbff663df05e77a44c4e88316fc84d4c76dea8"
+    },
+    {
+      "path": "castle-wasm-current23-native/state-proof.py.gz",
+      "bytes": 963,
+      "sha256": "2451d32cccc3fe728ca44641db89c9052b65298ec7a002251717c01d9fa5b070",
+      "uncompressedBytes": 2112,
+      "uncompressedSha256": "90ef1b1372cd6e8de87142e10528851b0bb9f6015313e805cc811ca774f9f091"
+    },
+    {
+      "path": "castle-wasm-current23-native/state-resource-proof.json.gz",
+      "bytes": 629,
+      "sha256": "2184d7920e97eb47e1e2341d3f00bab31d5a8a4a15897d219790175393595f47",
+      "uncompressedBytes": 2805,
+      "uncompressedSha256": "36978d86d0ffb33a639d032485789036686edf069d0bd55bff11d46d9fcaf9b0"
+    },
+    {
+      "path": "castle-wasm-current23-native/summary.json",
+      "bytes": 25331,
+      "sha256": "aacbfac4768c2b352168578b3ca66b282b9a8009ca67e0b00cd72b8223e4cf93"
+    },
+    {
+      "path": "castle-wasm-current23-native/tenka_engine.wasm.gz",
+      "bytes": 23266,
+      "sha256": "274428b88d8cc6abdd3057e637f0032700ed71f6a2d0a9d980cd398c30292d5a",
+      "uncompressedBytes": 63073,
+      "uncompressedSha256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba"
+    },
+    {
+      "path": "castle-wasm-current23-native/tools__wasm__artifact.ts.gz",
+      "bytes": 1341,
+      "sha256": "212d8ae78a00604dba83142a4bf3b9377839ae82f3f158c73b153e465e0cbeab",
+      "uncompressedBytes": 3547,
+      "uncompressedSha256": "2005ccd14cc08afb549f963140e5c62ab06b2fc435c0992c07439cf5aedc691e"
+    },
+    {
+      "path": "castle-wasm-current23-native/transfer-and-baseline-proof.json.gz",
+      "bytes": 200,
+      "sha256": "d1b281ec0c3a102213d724ff714ab1e58e07bfcb8e60a466bee3fc47a1aadeaf",
+      "uncompressedBytes": 258,
+      "uncompressedSha256": "042407f9d0005d3af505ff12800fc7fcd44f609d2ce7e961f9b0f264c67309bb"
+    },
+    {
+      "path": "castle-wasm-current23-native/wasm-manifest.json.gz",
+      "bytes": 685,
+      "sha256": "8eb1ae5c28cc3f741034f0fe389359073cf256eec48dea4cc3b837f16fb95fc2",
+      "uncompressedBytes": 1226,
+      "uncompressedSha256": "8f41ae78dce8749c6c255b68ba4bceda709bc96af3f14271330261278fe8bd68"
     }
   ]
 }
