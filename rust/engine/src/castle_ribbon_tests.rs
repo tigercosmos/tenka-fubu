@@ -12,7 +12,7 @@ fn golden(anchor_x: f64, anchor_y: f64) -> Vec<f64> {
 
 #[test]
 fn frozen_js_goldens_preserve_all_placement_bits_and_work() {
-    // Independently generated frozen-JS oracle cases 321/322; no solver-derived expectations.
+    // Independently checked frozen-JS mixed-sign controls; geometry comes from cases 321/322.
     for (x, y) in [(-0.0, 0.0), (0.0, -0.0)] {
         let mut input = golden(x, y);
         let before: Vec<u64> = input[16..36].iter().map(|v| v.to_bits()).collect();
