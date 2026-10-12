@@ -1,0 +1,23 @@
+[
+  {
+    "camera": "overview",
+    "previousSha256": "7abb3580dd03875160d44c266fe5a522dca43e330b4f4ec63425089e94c257f7",
+    "finalSha256": "1ac64d4d905801a886331475f9b425ae3053973f39af2998bdfd2b136a02239c",
+    "changedExactRgbPixels": 17425,
+    "changedBounds": [1010, 16, 1280, 220]
+  },
+  {
+    "camera": "operational",
+    "previousSha256": "1c629faa753577a99514cb4c6e3749a936829ad9a33bc2c792d9e17803f07600",
+    "finalSha256": "42173661c7e854809ac63cb4699798601a771a7ee033ef6f8a442133f6934a5e",
+    "changedExactRgbPixels": 19189,
+    "changedBounds": [1010, 16, 1280, 223]
+  },
+  {
+    "camera": "close",
+    "previousSha256": "46d476b6909d28a8444ffdd4b49e4f991ea7f550bafcf6dc702e0d800a970148",
+    "finalSha256": "699593d6507ed30f2ef912cd3caa28543ed50099e00b15edadaa73e62433550f",
+    "changedExactRgbPixels": 21333,
+    "changedBounds": [1002, 16, 1280, 228]
+  }
+]

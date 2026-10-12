@@ -6551,3 +6551,14 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 後續驗證先以 exclusive-create 的唯一 log 檔接住完整 stdout／stderr，再啟動 subprocess；Playwright 同時使用唯一 output／report 路徑。不得只依賴工具回覆或完成後才搬走預設目錄。
 
 - 最後 `f03ba63` 完整 ESLint／Prettier 通過；證據包與索引於通過後封存，未另跑全套 core。
+
+## 報告與非政策面板十五倍率（2026-10-12）
+
+- `5f250eb` 修正 0.9 倍率提示卡 57.65625px 超過原 56px 門檻；統一上下 padding 改為 0.125rem，完整文字／字級／32px 控制不變。原版十五項 14 PASS／1 真密度 FAIL，候選十五項全通過，報告中心另量測 195 個控制。29 項 ReportStack 測試、型別、scoped lint 與建置成功。
+- `cf9fb7e` 新增武將／設定／存讀檔各十五倍率，共 45 項原生成功；1,631 tracked source 與 29 個 Pixi target 前後相同。實際操作包含詳情 Enter、捲動與最後手動欄存檔；載入／匯入僅驗可達，不把 endpoint 圖當成所有文字量測。
+- 初期 report camera observer、非政策 selector／整列幾何 observer 的 RED 分開保存。Report 四個大型 trace 留外部並記錄 hashes，其中中斷 trace 可能截斷；初期 archive ENOSPC 是工具回覆抄錄，並非 raw stdout。所有後續 validation 先 exclusive-create log，沒有覆寫既有 raw。
+- 這些只完成 M8-23 的部分子門檻。強制 overlay、Battle、其他面板、文字可讀性、全套原生五分鐘、60 FPS、whole-heap、protected art、long-run、無嗣規則及其餘 M6–M9 仍開放；沒有更改平衡／人口／繼承裁決、基準或 milestone。
+
+- `934163c` 最小視窗快捷鍵最終六項通過，十一個鏡頭輸入各自穩定前後畫面不同；不當成數值方向或幅度證明。v4 原 60 秒 timeout、v7 quick-save observer race、修正後 v8 scoped／v9 full 成功皆保存。舊 router 負控制另有較晚 retained-file readback，未冒稱當時 post-overlay 證明。
+- 固定 `934163c` 整合 227 unit＋7 source contract＋6 既有原生跨畫面成功；型別／完整 ESLint／資料／素材／build／bundle 通過，1,589 runtime/test/config/plan 輸入前後同 Git。Linux fresh29-target／1,633 來源前後相同，report15／nonpolicy45 成功。Linux／Darwin 原視覺各 4 PASS／1 protected 三視角 FAIL；新六圖待人工核准，舊 references 未改。較早 `7d37c28` 全量保持原來源，不重標為新 HEAD。
+- 最終完整 Prettier 通過；相關 raw log 與程序狀態一併封存。人工六圖問題已明確取代舊待審查提案，尚未收到回答；不變更基準，完整專案 goal 保持 active，未 push／deploy。

@@ -1,0 +1,26 @@
+[
+  {
+    "path": "/tmp/tenka-reports-native-01/browser-results/report-compact-presentatio-5a77f-chive-controls-at-scale-0-8-chromium/trace.zip",
+    "bytes": 80973218,
+    "sha256": "e28c710dd9b03890d2ac8a4c7def6365dc950b89cbd32955c88e826fddf30f7f",
+    "note": "Original trace retained externally; interrupted native-01 may be truncated."
+  },
+  {
+    "path": "/tmp/tenka-reports-native-01/browser-results/report-compact-presentatio-b9db8-hive-controls-at-scale-0-85-chromium/trace.zip",
+    "bytes": 80663466,
+    "sha256": "5bc2f12ea66555fb9766b3d4c7a484b315c68517159a281f25053b2108fd043c",
+    "note": "Original trace retained externally; interrupted native-01 may be truncated."
+  },
+  {
+    "path": "/tmp/tenka-reports-native-01/browser-results/report-compact-presentatio-d2bec-chive-controls-at-scale-0-9-chromium/trace.zip",
+    "bytes": 54867097,
+    "sha256": "21df03d96f7e5c11ef4516871f00ae9e8181d18a5d57ce6ddddd95a236d9b150",
+    "note": "Original trace retained externally; interrupted native-01 may be truncated."
+  },
+  {
+    "path": "/tmp/tenka-reports-native-02/browser-results/report-compact-presentatio-d2bec-chive-controls-at-scale-0-9-chromium/trace.zip",
+    "bytes": 54764121,
+    "sha256": "c0c64511fe0ba8d8f03bf74b372b041b0f2c6d51c890afaa6f453576b97d5568",
+    "note": "Original trace retained externally; interrupted native-01 may be truncated."
+  }
+]

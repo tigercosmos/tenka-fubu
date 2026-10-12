@@ -1,0 +1,3107 @@
+[
+  {
+    "native-report-density": {
+      "scale": 0.8,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 12.8,
+        "cards": [
+          {
+            "height": 52.1875,
+            "bodyless": true,
+            "width": 192,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 12,
+                "rects": [
+                  {
+                    "width": 99.84375,
+                    "height": 17,
+                    "contained": true
+                  },
+                  {
+                    "width": 24.96875,
+                    "height": 17,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 12,
+                "rects": [
+                  {
+                    "width": 81.359375,
+                    "height": 15,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 32,
+                "height": 32
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 0.8,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 32,
+          "height": 32,
+          "left": 167.109375,
+          "right": 199.109375,
+          "top": 68.890625,
+          "bottom": 100.890625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 93.390625,
+          "right": 125.390625,
+          "top": 160.765625,
+          "bottom": 192.765625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 188.390625,
+          "right": 220.390625,
+          "top": 160.765625,
+          "bottom": 192.765625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 93.390625,
+          "right": 125.390625,
+          "top": 205.15625,
+          "bottom": 237.15625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 188.390625,
+          "right": 220.390625,
+          "top": 205.15625,
+          "bottom": 237.15625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 93.390625,
+          "right": 125.390625,
+          "top": 249.546875,
+          "bottom": 281.546875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 188.390625,
+          "right": 220.390625,
+          "top": 249.546875,
+          "bottom": 281.546875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 93.390625,
+          "right": 125.390625,
+          "top": 297.140625,
+          "bottom": 329.140625,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 183.609375,
+          "height": 32,
+          "left": 89.390625,
+          "right": 273,
+          "top": 367.3125,
+          "bottom": 399.3125,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 183.609375,
+          "height": 32,
+          "left": 89.390625,
+          "right": 273,
+          "top": 434.484375,
+          "bottom": 466.484375,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 48.375,
+          "height": 33.96875,
+          "left": 1143.234375,
+          "right": 1191.609375,
+          "top": 139.984375,
+          "bottom": 173.953125,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 60.375,
+          "height": 33.96875,
+          "left": 296.390625,
+          "right": 356.765625,
+          "top": 476.03125,
+          "bottom": 510,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 60.375,
+          "height": 33.96875,
+          "left": 1140.828125,
+          "right": 1201.203125,
+          "top": 476.03125,
+          "bottom": 510,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 0.8,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 12,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  },
+  {
+    "native-report-density": {
+      "scale": 0.85,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 13.6,
+        "cards": [
+          {
+            "height": 52.375,
+            "bodyless": true,
+            "width": 204,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 12,
+                "rects": [
+                  {
+                    "width": 99.84375,
+                    "height": 17,
+                    "contained": true
+                  },
+                  {
+                    "width": 24.96875,
+                    "height": 17,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 12,
+                "rects": [
+                  {
+                    "width": 81.359375,
+                    "height": 15,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 32,
+                "height": 32
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 0.85,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 32,
+          "height": 32,
+          "left": 137.4375,
+          "right": 169.4375,
+          "top": 70.296875,
+          "bottom": 102.296875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 58.78125,
+          "right": 90.78125,
+          "top": 165.359375,
+          "bottom": 197.359375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 159.78125,
+          "right": 191.78125,
+          "top": 165.359375,
+          "bottom": 197.359375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 58.78125,
+          "right": 90.78125,
+          "top": 210.15625,
+          "bottom": 242.15625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 159.78125,
+          "right": 191.78125,
+          "top": 210.15625,
+          "bottom": 242.15625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 58.78125,
+          "right": 90.78125,
+          "top": 254.953125,
+          "bottom": 286.953125,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 159.78125,
+          "right": 191.78125,
+          "top": 254.953125,
+          "bottom": 286.953125,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 58.78125,
+          "right": 90.78125,
+          "top": 303.140625,
+          "bottom": 335.140625,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 195.21875,
+          "height": 32.59375,
+          "left": 54.78125,
+          "right": 250,
+          "top": 374.3125,
+          "bottom": 406.90625,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 195.21875,
+          "height": 32.59375,
+          "left": 54.78125,
+          "right": 250,
+          "top": 443.078125,
+          "bottom": 475.671875,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 49.78125,
+          "height": 34.78125,
+          "left": 1176.4375,
+          "right": 1226.21875,
+          "top": 143.96875,
+          "bottom": 178.75,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 61.78125,
+          "height": 34.78125,
+          "left": 274.78125,
+          "right": 336.5625,
+          "top": 463.21875,
+          "bottom": 498,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 61.78125,
+          "height": 34.78125,
+          "left": 1174.625,
+          "right": 1236.40625,
+          "top": 463.21875,
+          "bottom": 498,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 0.85,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 12,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  },
+  {
+    "native-report-density": {
+      "scale": 0.9,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 14.4,
+        "cards": [
+          {
+            "height": 54.0625,
+            "bodyless": true,
+            "width": 216,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 12.6,
+                "rects": [
+                  {
+                    "width": 104.84375,
+                    "height": 19,
+                    "contained": true
+                  },
+                  {
+                    "width": 26.21875,
+                    "height": 19,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 12,
+                "rects": [
+                  {
+                    "width": 81.359375,
+                    "height": 15,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 32,
+                "height": 32
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 0.9,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 32,
+          "height": 32,
+          "left": 144.53125,
+          "right": 176.53125,
+          "top": 71.6875,
+          "bottom": 103.6875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 60.984375,
+          "right": 92.984375,
+          "top": 170.90625,
+          "bottom": 202.90625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 167.96875,
+          "right": 199.96875,
+          "top": 170.90625,
+          "bottom": 202.90625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 60.984375,
+          "right": 92.984375,
+          "top": 216.09375,
+          "bottom": 248.09375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 167.96875,
+          "right": 199.96875,
+          "top": 216.09375,
+          "bottom": 248.09375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 60.984375,
+          "right": 92.984375,
+          "top": 261.28125,
+          "bottom": 293.28125,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 167.96875,
+          "right": 199.96875,
+          "top": 261.28125,
+          "bottom": 293.28125,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 60.984375,
+          "right": 92.984375,
+          "top": 310.078125,
+          "bottom": 342.078125,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 206.796875,
+          "height": 33.375,
+          "left": 56.984375,
+          "right": 263.78125,
+          "top": 383.203125,
+          "bottom": 416.578125,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 206.796875,
+          "height": 33.375,
+          "left": 56.984375,
+          "right": 263.78125,
+          "top": 454.703125,
+          "bottom": 488.078125,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 52.390625,
+          "height": 36.515625,
+          "left": 1171.625,
+          "right": 1224.015625,
+          "top": 147.984375,
+          "bottom": 184.5,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 65,
+          "height": 36.515625,
+          "left": 289.96875,
+          "right": 354.96875,
+          "top": 459.09375,
+          "bottom": 495.609375,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 65,
+          "height": 36.515625,
+          "left": 1169.8125,
+          "right": 1234.8125,
+          "top": 459.09375,
+          "bottom": 495.609375,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 0.9,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 12.6,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  },
+  {
+    "native-report-density": {
+      "scale": 0.95,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 15.2,
+        "cards": [
+          {
+            "height": 39.390625,
+            "bodyless": true,
+            "width": 228,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 13.3,
+                "rects": [
+                  {
+                    "width": 138.328125,
+                    "height": 19,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 12,
+                "rects": [
+                  {
+                    "width": 81.359375,
+                    "height": 15,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 32,
+                "height": 32
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 0.95,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 32,
+          "height": 32,
+          "left": 152.453125,
+          "right": 184.453125,
+          "top": 73.09375,
+          "bottom": 105.09375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 63.96875,
+          "right": 95.96875,
+          "top": 176.625,
+          "bottom": 208.625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 176.96875,
+          "right": 208.96875,
+          "top": 176.625,
+          "bottom": 208.625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 63.96875,
+          "right": 95.96875,
+          "top": 222.21875,
+          "bottom": 254.21875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 176.96875,
+          "right": 208.96875,
+          "top": 222.21875,
+          "bottom": 254.21875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 63.96875,
+          "right": 95.96875,
+          "top": 267.8125,
+          "bottom": 299.8125,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 176.96875,
+          "right": 208.96875,
+          "top": 267.8125,
+          "bottom": 299.8125,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 63.96875,
+          "right": 95.96875,
+          "top": 317.203125,
+          "bottom": 349.203125,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 218.40625,
+          "height": 35.1875,
+          "left": 59.96875,
+          "right": 278.375,
+          "top": 392.453125,
+          "bottom": 427.640625,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 218.40625,
+          "height": 35.1875,
+          "left": 59.96875,
+          "right": 278.375,
+          "top": 467.890625,
+          "bottom": 503.078125,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 55.203125,
+          "height": 38.453125,
+          "left": 1165.828125,
+          "right": 1221.03125,
+          "top": 151.96875,
+          "bottom": 190.421875,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 68.5,
+          "height": 38.453125,
+          "left": 305.953125,
+          "right": 374.453125,
+          "top": 456.359375,
+          "bottom": 494.8125,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 68.5,
+          "height": 38.453125,
+          "left": 1163.921875,
+          "right": 1232.421875,
+          "top": 456.359375,
+          "bottom": 494.8125,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 0.95,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 13.3,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  },
+  {
+    "native-report-density": {
+      "scale": 1,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 16,
+        "cards": [
+          {
+            "height": 40.5,
+            "bodyless": true,
+            "width": 240,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 14,
+                "rects": [
+                  {
+                    "width": 145.609375,
+                    "height": 20,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 12,
+                "rects": [
+                  {
+                    "width": 81.359375,
+                    "height": 15,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 32,
+                "height": 32
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 1,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 32,
+          "height": 32,
+          "left": 160.40625,
+          "right": 192.40625,
+          "top": 74.5,
+          "bottom": 106.5,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 67,
+          "right": 99,
+          "top": 182.390625,
+          "bottom": 214.390625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 186,
+          "right": 218,
+          "top": 182.390625,
+          "bottom": 214.390625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 67,
+          "right": 99,
+          "top": 228.390625,
+          "bottom": 260.390625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 186,
+          "right": 218,
+          "top": 228.390625,
+          "bottom": 260.390625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 67,
+          "right": 99,
+          "top": 274.390625,
+          "bottom": 306.390625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 186,
+          "right": 218,
+          "top": 274.390625,
+          "bottom": 306.390625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 67,
+          "right": 99,
+          "top": 324.390625,
+          "bottom": 356.390625,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 230,
+          "height": 37,
+          "left": 63,
+          "right": 293,
+          "top": 401.78125,
+          "bottom": 438.78125,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 230,
+          "height": 37,
+          "left": 63,
+          "right": 293,
+          "top": 481.171875,
+          "bottom": 518.171875,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 58,
+          "height": 40.390625,
+          "left": 1160,
+          "right": 1218,
+          "top": 156,
+          "bottom": 196.390625,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 72,
+          "height": 40.390625,
+          "left": 322,
+          "right": 394,
+          "top": 453.609375,
+          "bottom": 494,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 72,
+          "height": 40.390625,
+          "left": 1158,
+          "right": 1230,
+          "top": 453.609375,
+          "bottom": 494,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 1,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 14,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  },
+  {
+    "native-report-density": {
+      "scale": 1.05,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 16.8,
+        "cards": [
+          {
+            "height": 42.296875,
+            "bodyless": true,
+            "width": 251.984375,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 14.7,
+                "rects": [
+                  {
+                    "width": 152.78125,
+                    "height": 21,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 12.6,
+                "rects": [
+                  {
+                    "width": 85.15625,
+                    "height": 15,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 33.59375,
+                "height": 33.59375
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 1.05,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 33.59375,
+          "height": 33.59375,
+          "left": 168.3125,
+          "right": 201.90625,
+          "top": 78.078125,
+          "bottom": 111.671875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 69.984375,
+          "right": 101.984375,
+          "top": 191.078125,
+          "bottom": 223.078125,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 194.984375,
+          "right": 226.984375,
+          "top": 191.078125,
+          "bottom": 223.078125,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 69.984375,
+          "right": 101.984375,
+          "top": 237.46875,
+          "bottom": 269.46875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 194.984375,
+          "right": 226.984375,
+          "top": 237.46875,
+          "bottom": 269.46875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 69.984375,
+          "right": 101.984375,
+          "top": 283.859375,
+          "bottom": 315.859375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 194.984375,
+          "right": 226.984375,
+          "top": 283.859375,
+          "bottom": 315.859375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 69.984375,
+          "right": 101.984375,
+          "top": 334.453125,
+          "bottom": 366.453125,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 241.609375,
+          "height": 37.78125,
+          "left": 65.984375,
+          "right": 307.59375,
+          "top": 413.953125,
+          "bottom": 451.734375,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 241.609375,
+          "height": 37.78125,
+          "left": 65.984375,
+          "right": 307.59375,
+          "top": 496.234375,
+          "bottom": 534.015625,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 60.765625,
+          "height": 42.296875,
+          "left": 1154.25,
+          "right": 1215.015625,
+          "top": 162.96875,
+          "bottom": 205.265625,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 75.453125,
+          "height": 42.296875,
+          "left": 337.984375,
+          "right": 413.4375,
+          "top": 450.109375,
+          "bottom": 492.40625,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 75.453125,
+          "height": 42.296875,
+          "left": 1152.15625,
+          "right": 1227.609375,
+          "top": 450.109375,
+          "bottom": 492.40625,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 1.05,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 14.7,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  },
+  {
+    "native-report-density": {
+      "scale": 1.1,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 17.6,
+        "cards": [
+          {
+            "height": 44.125,
+            "bodyless": true,
+            "width": 264,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 15.4,
+                "rects": [
+                  {
+                    "width": 160.171875,
+                    "height": 22,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 13.2,
+                "rects": [
+                  {
+                    "width": 88.953125,
+                    "height": 16,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 35.1875,
+                "height": 35.1875
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 1.1,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 35.1875,
+          "height": 35.1875,
+          "left": 176.21875,
+          "right": 211.40625,
+          "top": 81.703125,
+          "bottom": 116.890625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 72.96875,
+          "right": 104.96875,
+          "top": 199.8125,
+          "bottom": 231.8125,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 203.96875,
+          "right": 235.96875,
+          "top": 199.8125,
+          "bottom": 231.8125,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 72.96875,
+          "right": 104.96875,
+          "top": 246.609375,
+          "bottom": 278.609375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 203.96875,
+          "right": 235.96875,
+          "top": 246.609375,
+          "bottom": 278.609375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 72.96875,
+          "right": 104.96875,
+          "top": 293.40625,
+          "bottom": 325.40625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 203.96875,
+          "right": 235.96875,
+          "top": 293.40625,
+          "bottom": 325.40625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 72.96875,
+          "right": 104.96875,
+          "top": 344.59375,
+          "bottom": 376.59375,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 253.21875,
+          "height": 39.59375,
+          "left": 68.96875,
+          "right": 322.1875,
+          "top": 426.21875,
+          "bottom": 465.8125,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 253.21875,
+          "height": 39.59375,
+          "left": 68.96875,
+          "right": 322.1875,
+          "top": 512.4375,
+          "bottom": 552.03125,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 63.59375,
+          "height": 44.234375,
+          "left": 1148.4375,
+          "right": 1212.03125,
+          "top": 170.296875,
+          "bottom": 214.53125,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 78.984375,
+          "height": 44.234375,
+          "left": 353.96875,
+          "right": 432.953125,
+          "top": 446.578125,
+          "bottom": 490.8125,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 78.984375,
+          "height": 44.234375,
+          "left": 1146.234375,
+          "right": 1225.21875,
+          "top": 446.578125,
+          "bottom": 490.8125,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 1.1,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 15.4,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  },
+  {
+    "native-report-density": {
+      "scale": 1.15,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 18.4,
+        "cards": [
+          {
+            "height": 45.9375,
+            "bodyless": true,
+            "width": 276,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 16.1,
+                "rects": [
+                  {
+                    "width": 167.453125,
+                    "height": 24,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 13.8,
+                "rects": [
+                  {
+                    "width": 92.6875,
+                    "height": 16,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 36.796875,
+                "height": 36.796875
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 1.15,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 36.796875,
+          "height": 36.796875,
+          "left": 184.140625,
+          "right": 220.9375,
+          "top": 85.296875,
+          "bottom": 122.09375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 75.984375,
+          "right": 107.984375,
+          "top": 208.515625,
+          "bottom": 240.515625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 212.96875,
+          "right": 244.96875,
+          "top": 208.515625,
+          "bottom": 240.515625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 75.984375,
+          "right": 107.984375,
+          "top": 255.703125,
+          "bottom": 287.703125,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 212.96875,
+          "right": 244.96875,
+          "top": 255.703125,
+          "bottom": 287.703125,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 75.984375,
+          "right": 107.984375,
+          "top": 302.890625,
+          "bottom": 334.890625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 212.96875,
+          "right": 244.96875,
+          "top": 302.890625,
+          "bottom": 334.890625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 75.984375,
+          "right": 107.984375,
+          "top": 354.6875,
+          "bottom": 386.6875,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 264.796875,
+          "height": 41.375,
+          "left": 71.984375,
+          "right": 336.78125,
+          "top": 438.421875,
+          "bottom": 479.796875,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 264.796875,
+          "height": 41.375,
+          "left": 71.984375,
+          "right": 336.78125,
+          "top": 528.53125,
+          "bottom": 569.90625,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 66.390625,
+          "height": 46.125,
+          "left": 1142.625,
+          "right": 1209.015625,
+          "top": 177.859375,
+          "bottom": 223.984375,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 82.5,
+          "height": 46.125,
+          "left": 369.96875,
+          "right": 452.46875,
+          "top": 443.09375,
+          "bottom": 489.21875,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 82.5,
+          "height": 46.125,
+          "left": 1140.3125,
+          "right": 1222.8125,
+          "top": 443.09375,
+          "bottom": 489.21875,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 1.15,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 16.1,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  },
+  {
+    "native-report-density": {
+      "scale": 1.2,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 19.2,
+        "cards": [
+          {
+            "height": 47.765625,
+            "bodyless": true,
+            "width": 288,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 16.8,
+                "rects": [
+                  {
+                    "width": 174.734375,
+                    "height": 24,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 14.4,
+                "rects": [
+                  {
+                    "width": 96.53125,
+                    "height": 17,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 38.390625,
+                "height": 38.390625
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 1.2,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 38.390625,
+          "height": 38.390625,
+          "left": 192.046875,
+          "right": 230.4375,
+          "top": 88.890625,
+          "bottom": 127.28125,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 78.96875,
+          "right": 110.96875,
+          "top": 217.421875,
+          "bottom": 249.421875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 221.96875,
+          "right": 253.96875,
+          "top": 217.421875,
+          "bottom": 249.421875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 78.96875,
+          "right": 110.96875,
+          "top": 265.40625,
+          "bottom": 297.40625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 221.96875,
+          "right": 253.96875,
+          "top": 265.40625,
+          "bottom": 297.40625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 78.96875,
+          "right": 110.96875,
+          "top": 313.390625,
+          "bottom": 345.390625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 221.96875,
+          "right": 253.96875,
+          "top": 313.390625,
+          "bottom": 345.390625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 78.96875,
+          "right": 110.96875,
+          "top": 366.171875,
+          "bottom": 398.171875,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 276.40625,
+          "height": 43.1875,
+          "left": 74.96875,
+          "right": 351.375,
+          "top": 452.234375,
+          "bottom": 495.421875,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 276.40625,
+          "height": 43.1875,
+          "left": 74.96875,
+          "right": 351.375,
+          "top": 546.28125,
+          "bottom": 589.46875,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 69.203125,
+          "height": 48.0625,
+          "left": 1136.828125,
+          "right": 1206.03125,
+          "top": 185.40625,
+          "bottom": 233.46875,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 86,
+          "height": 48.0625,
+          "left": 385.953125,
+          "right": 471.953125,
+          "top": 439.5625,
+          "bottom": 487.625,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 86,
+          "height": 48.0625,
+          "left": 1134.421875,
+          "right": 1220.421875,
+          "top": 439.5625,
+          "bottom": 487.625,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 1.2,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 16.8,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  },
+  {
+    "native-report-density": {
+      "scale": 1.25,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 20,
+        "cards": [
+          {
+            "height": 49.625,
+            "bodyless": true,
+            "width": 300,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 17.5,
+                "rects": [
+                  {
+                    "width": 182,
+                    "height": 25,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 15,
+                "rects": [
+                  {
+                    "width": 100.296875,
+                    "height": 18,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 40,
+                "height": 40
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 1.25,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 40,
+          "height": 40,
+          "left": 200,
+          "right": 240,
+          "top": 92.5,
+          "bottom": 132.5,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 82,
+          "right": 114,
+          "top": 227,
+          "bottom": 259,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 231,
+          "right": 263,
+          "top": 227,
+          "bottom": 259,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 82,
+          "right": 114,
+          "top": 277,
+          "bottom": 309,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 231,
+          "right": 263,
+          "top": 277,
+          "bottom": 309,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 82,
+          "right": 114,
+          "top": 327,
+          "bottom": 359,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 231,
+          "right": 263,
+          "top": 327,
+          "bottom": 359,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 82,
+          "right": 114,
+          "top": 382,
+          "bottom": 414,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 288,
+          "height": 45,
+          "left": 78,
+          "right": 366,
+          "top": 471,
+          "bottom": 516,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 288,
+          "height": 45,
+          "left": 78,
+          "right": 366,
+          "top": 569,
+          "bottom": 614,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 72,
+          "height": 50,
+          "left": 1131,
+          "right": 1203,
+          "top": 193,
+          "bottom": 243,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 89.5,
+          "height": 50,
+          "left": 402,
+          "right": 491.5,
+          "top": 436,
+          "bottom": 486,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 89.5,
+          "height": 50,
+          "left": 1128.5,
+          "right": 1218,
+          "top": 436,
+          "bottom": 486,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 1.25,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 17.5,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  },
+  {
+    "native-report-density": {
+      "scale": 1.3,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 20.8,
+        "cards": [
+          {
+            "height": 51.421875,
+            "bodyless": true,
+            "width": 312,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 18.2,
+                "rects": [
+                  {
+                    "width": 189.1875,
+                    "height": 26,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 15.6,
+                "rects": [
+                  {
+                    "width": 104.078125,
+                    "height": 18,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 41.59375,
+                "height": 41.59375
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 1.3,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 41.59375,
+          "height": 41.59375,
+          "left": 207.90625,
+          "right": 249.5,
+          "top": 96.09375,
+          "bottom": 137.6875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 84.984375,
+          "right": 116.984375,
+          "top": 236.5,
+          "bottom": 268.5,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 239.984375,
+          "right": 271.984375,
+          "top": 236.5,
+          "bottom": 268.5,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 84.984375,
+          "right": 116.984375,
+          "top": 288.484375,
+          "bottom": 320.484375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 239.984375,
+          "right": 271.984375,
+          "top": 288.484375,
+          "bottom": 320.484375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 84.984375,
+          "right": 116.984375,
+          "top": 340.46875,
+          "bottom": 372.46875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 239.984375,
+          "right": 271.984375,
+          "top": 340.46875,
+          "bottom": 372.46875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 84.984375,
+          "right": 116.984375,
+          "top": 397.65625,
+          "bottom": 429.65625,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 299.609375,
+          "height": 46.78125,
+          "left": 80.984375,
+          "right": 380.59375,
+          "top": 489.5625,
+          "bottom": 536.34375,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 299.609375,
+          "height": 46.78125,
+          "left": 80.984375,
+          "right": 380.59375,
+          "top": 591.453125,
+          "bottom": 638.234375,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 74.765625,
+          "height": 51.90625,
+          "left": 1125.25,
+          "right": 1200.015625,
+          "top": 200.546875,
+          "bottom": 252.453125,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 92.953125,
+          "height": 51.90625,
+          "left": 417.984375,
+          "right": 510.9375,
+          "top": 432.5,
+          "bottom": 484.40625,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 92.953125,
+          "height": 51.90625,
+          "left": 1122.65625,
+          "right": 1215.609375,
+          "top": 432.5,
+          "bottom": 484.40625,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 1.3,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 18.2,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  },
+  {
+    "native-report-density": {
+      "scale": 1.35,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 21.6,
+        "cards": [
+          {
+            "height": 53.25,
+            "bodyless": true,
+            "width": 324,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 18.9,
+                "rects": [
+                  {
+                    "width": 196.5625,
+                    "height": 27,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 16.2,
+                "rects": [
+                  {
+                    "width": 107.8125,
+                    "height": 19,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 43.1875,
+                "height": 43.1875
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 1.35,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 43.1875,
+          "height": 43.1875,
+          "left": 215.8125,
+          "right": 259,
+          "top": 99.703125,
+          "bottom": 142.890625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 87.96875,
+          "right": 119.96875,
+          "top": 246.015625,
+          "bottom": 278.015625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 248.96875,
+          "right": 280.96875,
+          "top": 246.015625,
+          "bottom": 278.015625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 87.96875,
+          "right": 119.96875,
+          "top": 300,
+          "bottom": 332,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 248.96875,
+          "right": 280.96875,
+          "top": 300,
+          "bottom": 332,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 87.96875,
+          "right": 119.96875,
+          "top": 353.984375,
+          "bottom": 385.984375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 248.96875,
+          "right": 280.96875,
+          "top": 353.984375,
+          "bottom": 385.984375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 87.96875,
+          "right": 119.96875,
+          "top": 413.359375,
+          "bottom": 445.359375,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 311.21875,
+          "height": 47.59375,
+          "left": 83.96875,
+          "right": 395.1875,
+          "top": 508.1875,
+          "bottom": 555.78125,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 311.21875,
+          "height": 47.59375,
+          "left": 83.96875,
+          "right": 395.1875,
+          "top": 613.015625,
+          "bottom": 660.609375,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 77.59375,
+          "height": 53.84375,
+          "left": 1119.4375,
+          "right": 1197.03125,
+          "top": 208.09375,
+          "bottom": 261.9375,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 96.484375,
+          "height": 53.84375,
+          "left": 433.96875,
+          "right": 530.453125,
+          "top": 428.96875,
+          "bottom": 482.8125,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 96.484375,
+          "height": 53.84375,
+          "left": 1116.734375,
+          "right": 1213.21875,
+          "top": 428.96875,
+          "bottom": 482.8125,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 1.35,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 18.9,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  },
+  {
+    "native-report-density": {
+      "scale": 1.4,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 22.4,
+        "cards": [
+          {
+            "height": 55.0625,
+            "bodyless": true,
+            "width": 336,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 19.6,
+                "rects": [
+                  {
+                    "width": 203.84375,
+                    "height": 29,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 16.8,
+                "rects": [
+                  {
+                    "width": 111.453125,
+                    "height": 20,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 44.796875,
+                "height": 44.796875
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 1.4,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 44.796875,
+          "height": 44.796875,
+          "left": 223.734375,
+          "right": 268.53125,
+          "top": 103.296875,
+          "bottom": 148.09375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 90.984375,
+          "right": 122.984375,
+          "top": 255.5,
+          "bottom": 287.5,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 257.96875,
+          "right": 289.96875,
+          "top": 255.5,
+          "bottom": 287.5,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 90.984375,
+          "right": 122.984375,
+          "top": 311.484375,
+          "bottom": 343.484375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 257.96875,
+          "right": 289.96875,
+          "top": 311.484375,
+          "bottom": 343.484375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 90.984375,
+          "right": 122.984375,
+          "top": 367.46875,
+          "bottom": 399.46875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 257.96875,
+          "right": 289.96875,
+          "top": 367.46875,
+          "bottom": 399.46875,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 90.984375,
+          "right": 122.984375,
+          "top": 429.0625,
+          "bottom": 461.0625,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 322.796875,
+          "height": 49.375,
+          "left": 86.984375,
+          "right": 409.78125,
+          "top": 526.796875,
+          "bottom": 576.171875,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 322.796875,
+          "height": 49.375,
+          "left": 86.984375,
+          "right": 409.78125,
+          "top": 622.5,
+          "bottom": 671.875,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 80.390625,
+          "height": 55.71875,
+          "left": 1113.625,
+          "right": 1194.015625,
+          "top": 215.65625,
+          "bottom": 271.375,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 100,
+          "height": 55.71875,
+          "left": 449.96875,
+          "right": 549.96875,
+          "top": 425.5,
+          "bottom": 481.21875,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 100,
+          "height": 55.71875,
+          "left": 1110.8125,
+          "right": 1210.8125,
+          "top": 425.5,
+          "bottom": 481.21875,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 1.4,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 19.6,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  },
+  {
+    "native-report-density": {
+      "scale": 1.45,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 23.2,
+        "cards": [
+          {
+            "height": 56.890625,
+            "bodyless": true,
+            "width": 348,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 20.3,
+                "rects": [
+                  {
+                    "width": 211.125,
+                    "height": 29,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 17.4,
+                "rects": [
+                  {
+                    "width": 115.3125,
+                    "height": 21,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 46.390625,
+                "height": 46.390625
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 1.45,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 46.390625,
+          "height": 46.390625,
+          "left": 231.640625,
+          "right": 278.03125,
+          "top": 106.890625,
+          "bottom": 153.28125,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 93.96875,
+          "right": 125.96875,
+          "top": 265.015625,
+          "bottom": 297.015625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 266.96875,
+          "right": 298.96875,
+          "top": 265.015625,
+          "bottom": 297.015625,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 93.96875,
+          "right": 125.96875,
+          "top": 323,
+          "bottom": 355,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 266.96875,
+          "right": 298.96875,
+          "top": 323,
+          "bottom": 355,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 93.96875,
+          "right": 125.96875,
+          "top": 380.984375,
+          "bottom": 412.984375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 266.96875,
+          "right": 298.96875,
+          "top": 380.984375,
+          "bottom": 412.984375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 93.96875,
+          "right": 125.96875,
+          "top": 444.765625,
+          "bottom": 476.765625,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 334.40625,
+          "height": 51.1875,
+          "left": 89.96875,
+          "right": 424.375,
+          "top": 545.421875,
+          "bottom": 596.609375,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 334.40625,
+          "height": 51.1875,
+          "left": 89.96875,
+          "right": 424.375,
+          "top": 619.0625,
+          "bottom": 670.25,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 83.203125,
+          "height": 57.65625,
+          "left": 1107.828125,
+          "right": 1191.03125,
+          "top": 223.203125,
+          "bottom": 280.859375,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 103.5,
+          "height": 57.65625,
+          "left": 465.953125,
+          "right": 569.453125,
+          "top": 421.96875,
+          "bottom": 479.625,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 103.5,
+          "height": 57.65625,
+          "left": 1104.921875,
+          "right": 1208.421875,
+          "top": 421.96875,
+          "bottom": 479.625,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 1.45,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 20.3,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  },
+  {
+    "native-report-density": {
+      "scale": 1.5,
+      "titles": ["駿府城遭織田家包圍！"],
+      "observations": {
+        "rem": 24,
+        "cards": [
+          {
+            "height": 58.75,
+            "bodyless": true,
+            "width": 360,
+            "overflow": false,
+            "texts": [
+              {
+                "text": "駿府城遭織田家包圍！",
+                "font": 21,
+                "rects": [
+                  {
+                    "width": 218.40625,
+                    "height": 30,
+                    "contained": true
+                  }
+                ]
+              },
+              {
+                "text": "1561年3月1日",
+                "font": 18,
+                "rects": [
+                  {
+                    "width": 119.296875,
+                    "height": 21,
+                    "contained": true
+                  }
+                ]
+              }
+            ],
+            "close": [
+              {
+                "width": 48,
+                "height": 48
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "report-center-controls": {
+      "scale": 1.5,
+      "measurements": [
+        {
+          "name": "報告中心",
+          "tag": "BUTTON",
+          "width": 48,
+          "height": 48,
+          "left": 239.609375,
+          "right": 287.609375,
+          "top": 110.5,
+          "bottom": 158.5,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 97,
+          "right": 129,
+          "top": 274.59375,
+          "bottom": 306.59375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 276,
+          "right": 308,
+          "top": 274.59375,
+          "bottom": 306.59375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 97,
+          "right": 129,
+          "top": 334.59375,
+          "bottom": 366.59375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 276,
+          "right": 308,
+          "top": 334.59375,
+          "bottom": 366.59375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 97,
+          "right": 129,
+          "top": 394.59375,
+          "bottom": 426.59375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 276,
+          "right": 308,
+          "top": 394.59375,
+          "bottom": 426.59375,
+          "hit": true
+        },
+        {
+          "name": "",
+          "tag": "INPUT",
+          "width": 32,
+          "height": 32,
+          "left": 97,
+          "right": 129,
+          "top": 460.59375,
+          "bottom": 492.59375,
+          "hit": true
+        },
+        {
+          "name": "開始年月",
+          "tag": "SELECT",
+          "width": 346,
+          "height": 52,
+          "left": 93,
+          "right": 439,
+          "top": 564.1875,
+          "bottom": 616.1875,
+          "hit": true
+        },
+        {
+          "name": "結束年月",
+          "tag": "SELECT",
+          "width": 346,
+          "height": 52,
+          "left": 93,
+          "right": 439,
+          "top": 598.78125,
+          "bottom": 650.78125,
+          "hit": true
+        },
+        {
+          "name": "前往",
+          "tag": "BUTTON",
+          "width": 86,
+          "height": 59.59375,
+          "left": 1102,
+          "right": 1188,
+          "top": 230.796875,
+          "bottom": 290.390625,
+          "hit": true
+        },
+        {
+          "name": "上一頁",
+          "tag": "BUTTON",
+          "width": 107,
+          "height": 59.59375,
+          "left": 482,
+          "right": 589,
+          "top": 418.40625,
+          "bottom": 478,
+          "hit": true
+        },
+        {
+          "name": "下一頁",
+          "tag": "BUTTON",
+          "width": 107,
+          "height": 59.59375,
+          "left": 1099,
+          "right": 1206,
+          "top": 418.40625,
+          "bottom": 478,
+          "hit": true
+        }
+      ]
+    },
+    "report-center-text": {
+      "scale": 1.5,
+      "textMeasurements": [
+        {
+          "text": "駿府城遭織田家包圍！",
+          "font": 21,
+          "overflow": false,
+          "contained": true
+        }
+      ]
+    }
+  }
+]

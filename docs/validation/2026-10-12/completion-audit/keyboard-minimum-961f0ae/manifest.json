@@ -1,0 +1,77 @@
+{
+  "archives": {
+    "sim4-current-metadata.tar.gz": "780d1fa71a71262da47faceca5d16915f0754a2f28d71c6d4e9838d9c1ee1162",
+    "sim4-old-control-metadata.tar.gz": "643498d6c4d4ceebbaf741d3432a2c078dc1859d8df190488098cd36698771e0",
+    "local-capture-metadata.tar.gz": "242145cb162862a2daa6d7143eb2ca31d3e16ac8de7689a556eb8eb8d23c062a"
+  },
+  "committedTestSha256": "bc21786deba22e7a93695f5fa73b3afd1e2827ac44e85e6a8e099e4f247df3c1",
+  "remoteSourceSha256": {
+    "e2e/keyboard-minimum.spec.ts": "bc21786deba22e7a93695f5fa73b3afd1e2827ac44e85e6a8e099e4f247df3c1",
+    "src/app/hotkeys.ts": "6966d4a72e52bc2413946555eb45b6e13d3ac17b1fde4ef342989fac87b74ea9",
+    "src/app/App.tsx": "04a63c9892a25d9792c1a8293f8283c01a4cf6274482228bc1b021110efaae93",
+    "package-lock.json": "63f021d39b353a70831accbfc50b714a09767b900ce23157fbf4ecce1dda7be1"
+  },
+  "oldRouterGitProofSha256": [
+    "2eb9539c03b97cce86f9bf61c998a49ae6ff2ae25368b8071b75609648f2fa0b",
+    "6966d4a72e52bc2413946555eb45b6e13d3ac17b1fde4ef342989fac87b74ea9",
+    "bc21786deba22e7a93695f5fa73b3afd1e2827ac44e85e6a8e099e4f247df3c1"
+  ],
+  "oldControlLaterReadbackSha256": {
+    "src/app/hotkeys.ts": "2eb9539c03b97cce86f9bf61c998a49ae6ff2ae25368b8071b75609648f2fa0b",
+    "e2e/keyboard-minimum.spec.ts": "82aab40627b75a6b9d6d5b8ff126fa1c33889e44c308ba863c08df3f973d08af",
+    "package-lock.json": "63f021d39b353a70831accbfc50b714a09767b900ce23157fbf4ecce1dda7be1"
+  },
+  "currentOutcomes": {
+    "npm-ci-with-node": 0,
+    "build-baseline": 0,
+    "keyboard-camera-v4": 1,
+    "keyboard-camera-v5": 0,
+    "keyboard-final-v7": 1,
+    "keyboard-save-v8": 0,
+    "keyboard-full-v9": 0,
+    "test-source-proof-v9": 0
+  },
+  "oldOutcomes": {
+    "npm-ci-with-node": 0,
+    "build-old-router": 0,
+    "keyboard-old-router-red-v3": 1,
+    "post-overlay-source-proof": 0
+  },
+  "localOutcomes": {
+    "old-router-git-proof": 0,
+    "typecheck-v9": 127,
+    "typecheck-v9b": 0,
+    "eslint-v9": 0,
+    "prettier-v9": 0
+  },
+  "cameraKeys": [
+    "w",
+    "a",
+    "s",
+    "d",
+    "ArrowUp",
+    "ArrowLeft",
+    "ArrowDown",
+    "ArrowRight",
+    "+",
+    "-",
+    "wheel"
+  ],
+  "externalTraces": [
+    {
+      "path": "/tmp/tenka-keyboard-961f0ae/runs/keyboard-final-v7/browser-results/keyboard-minimum-minimum-v-ba1cc-r-Enter-keep-focus-priority-chromium/trace.zip",
+      "bytes": 60545167,
+      "sha256": "4e3f7fb9c55c0fee984f34fba9d44767a26d35f635a981b0d61a47167e0c9a9e"
+    },
+    {
+      "path": "/tmp/tenka-keyboard-961f0ae/runs/keyboard-camera-v4/browser-results/keyboard-minimum-minimum-v-9134b-trols-change-settled-frames-chromium/trace.zip",
+      "bytes": 77828565,
+      "sha256": "4a35d17b7f6bae517d7464b64d84eb5e2afd27beccd45f970a3b4b22f344b468"
+    },
+    {
+      "path": "/tmp/tenka-keyboard-control-7d37c28/runs/keyboard-old-router-red-v3/browser-results/keyboard-minimum-minimum-v-fd976-e-and-M-keys-work-from-Main-chromium/trace.zip",
+      "bytes": 84755349,
+      "sha256": "f988d6f7318ba901d9d87bee44e0d7c33b4cee0465e7897f3f45a785233bc82c"
+    }
+  ]
+}

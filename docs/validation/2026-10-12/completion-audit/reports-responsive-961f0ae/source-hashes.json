@@ -1,0 +1,12 @@
+{
+  "961f0ae": {
+    "e2e/report-compact-presentation.spec.ts": "e667e2e9103bbb31fc01a0fc3749c46bd34512ace5debbe9e01cd21eed61aae5",
+    "src/ui/components/ReportStack/ReportStack.module.css": "c75fea4c49feeab0094061c3925c92f41170ad7c9b12536af9d79ed4c8d1a798",
+    "src/ui/components/ReportStack/ReportStack.spec.tsx": "880432a1fe5959dba798f8189c1f6571790afdd96576838ffec85aac7767d7fc"
+  },
+  "5f250eb": {
+    "e2e/report-compact-presentation.spec.ts": "520dad4f8a1b69fef008518838c8a3cd4b2c75c068cdddc802fddad487a960c3",
+    "src/ui/components/ReportStack/ReportStack.module.css": "0c580065cb9321236a4efe5553fc81fc7cbf6e70660af78c693a3b72c47a14d8",
+    "src/ui/components/ReportStack/ReportStack.spec.tsx": "3d698fbf9e83009ddd348c73a0485bf4ddaf3303c3ca752b0099c62bb886e5a0"
+  }
+}

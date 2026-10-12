@@ -48,6 +48,10 @@
 
 - 當前里程碑：見 `milestone.json`；歷史進度：見 README 進度表。
 
+- `5f250eb` 修正 0.9 倍率的報告提示密度超標：上下 padding 統一減少，字級、完整換行與 32px 按鈕維持；原版十五項為 14 PASS／1 FAIL，候選十五項全通過，報告中心另驗 195 個控制。`cf9fb7e` 增加武將／設定／存讀檔三類面板十五倍率驗收，45 項通過。這些只是 M8-23 子門檻；所有強制 overlay、Battle 控制、其他面板、完整文字可讀性與原生全套五分鐘仍待驗證。新提示間距的六張候選圖已保存，尚未收到人工核准，不得更新 references。
+
+- `934163c` 最小視窗鍵盤六項成功；逐項穩定前後畫面驗十一個鏡頭輸入，quick-save 以完成後的實際 snapshot 日為準。固定此來源整合 227 unit＋7 source contract＋6 原生跨畫面、型別／ESLint／資料／素材／build／bundle 通過；Linux final 報告十五及非政策四十五再次成功。Linux／Darwin 原視覺各 4 PASS／1 protected 三視角 FAIL，新的六張 final actual 仍待人工核准，舊審查提案已被新六圖取代。詳見 `ui-integrated-934163c` 與兩個 `protected-art-final-*-934163c` 證據套件。
+
 - 最新已驗證修正：`f03ba63` 修復面板焦點下的 Home／M；`f5d8969` 清除貼圖批次的稀疏索引快取；`7d37c28` 增加政策面板十五倍率驗收。固定 `7d37c28` 全量測試 6,445 通過、1 既有無嗣失敗、1 跳過；原生 60 FPS、whole-heap、protected art、long-run 與其餘 M6–M9 門檻仍未完成。六張 Linux／Darwin 基準與無嗣規則等待明確決策。完整證據見 `docs/validation/2026-10-12/completion-audit/`。
 
 ## 貼圖批次快取與政策倍率驗收（2026-10-12）

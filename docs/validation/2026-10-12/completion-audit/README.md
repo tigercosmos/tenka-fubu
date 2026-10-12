@@ -4,6 +4,18 @@ Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目�
 最新固定來源 `7d37c28` 全量測試為 6,445 通過、1 既有失敗、1 跳過；120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
+## 報告、非政策面板與主頁鍵盤驗收
+
+`5f250eb` 修正報告提示在 0.9 倍率的原密度門檻失敗：統一減少上下 padding，保留完整文字、字級與 32px 控制。原版 14 PASS／1 FAIL，候選十五倍率全通過，另驗證報告中心 195 個互動目標及類別／月份／前往操作。[報告證據](reports-responsive-961f0ae/README.md) 分開保存真正的密度 RED、較早的 observer 錯誤與候選結果。
+
+`cf9fb7e` 的[非政策面板驗收](nonpolicy-responsive-961f0ae/README.md) 在武將、設定、存讀檔三類面板各十五倍率，共 45 項通過。涵蓋捲動到最後一列／最右欄、32px 目標、鍵盤詳情、最後手動欄位實際存檔；載入／匯入僅驗證可達及啟用，沒有執行匯入，也沒有量測每段文字。
+
+`934163c` 的[最小視窗鍵盤驗收](keyboard-minimum-961f0ae/README.md) 六項通過；十一個原生鏡頭輸入逐項比較各自穩定前後畫面，沒有宣稱數值方向／幅度。保存 async tick 邊界下的 quick-save 完成後才記錄預期日，再驗髒狀態與 F9；舊 observer race 與 timeout 均保留。舊 router 負控制的 hash 為較晚 readback，沒有冒稱當時的 post-overlay 證明。
+
+[固定 934163c 整合](ui-integrated-934163c/README.md) 通過 227 個相關 unit、7 個 CSS source contract、6 個既有原生跨畫面測試及型別／ESLint／資料／素材／build／bundle，1,589 個來源前後符合 Git。[Linux 最終套件](protected-art-final-linux-934163c/README.md) 的報告十五與非政策四十五項再次通過，1,633 個來源及 fresh 29-target 依賴前後相同。Linux／[Darwin](protected-art-final-darwin-934163c/README.md) 的原視覺五項各 4 PASS／1 protected snapshot FAIL（三視角）。新的六張 actual 等待人工核准，舊 references 未改；最新全量仍釘選 `7d37c28`。
+
+以上不能代表 M8-23 全部完成。強制事件／提案／月結／結局 overlay、Battle 控制、其他面板與完整文字可讀性仍需逐項驗收；完整原生 suite 的原五分鐘 deadline 也未由這些分組成功證明。原 60 FPS、whole-heap、protected art、long-run 與其餘 M6–M9 門檻保持開放。早期 archive 的 ENOSPC 只保留工具回覆抄錄；之後 validation 均先建立唯一完整 log，Playwright 另用唯一 output／report，不能宣稱所有 setup raw 都已保存。
+
 ## 最新貼圖快取與政策縮放驗證
 
 `f5d8969` 將 TextureSource ID 保持為唯一非零數字，但使用負值避免批次快取的稀疏索引；clear 時刪除已釋放 key。

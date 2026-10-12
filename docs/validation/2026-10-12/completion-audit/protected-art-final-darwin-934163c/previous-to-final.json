@@ -1,0 +1,29 @@
+[
+  {
+    "camera": "overview",
+    "previous": "protected-art-integrated-darwin/strategy-overview-actual.png",
+    "previousSha256": "dd11b7e364db2e4d3c0a85bf14d43fc32486c5089996ea79c0c8e9a008226055",
+    "current": "strategy-overview-actual.png",
+    "currentSha256": "691c5112eaa64be2807372fb9263f7fbb94b6fdc842bd99c701ee8b90147a809",
+    "exactRgbChangedPixels": 17065,
+    "boundsExclusive": [1010, 102, 1280, 220]
+  },
+  {
+    "camera": "operational",
+    "previous": "protected-art-integrated-darwin/strategy-operational-actual.png",
+    "previousSha256": "bbeb84d29672b3e9c6099b86019c9aea86df6c691e23dc118e12b44d96044b35",
+    "current": "strategy-operational-actual.png",
+    "currentSha256": "e250d3569a5bae0bb86960cb6839f269bf41315ed697b921cf67c787b5bc59a9",
+    "exactRgbChangedPixels": 19258,
+    "boundsExclusive": [1010, 102, 1280, 223]
+  },
+  {
+    "camera": "close",
+    "previous": "protected-art-integrated-darwin/strategy-close-actual.png",
+    "previousSha256": "cfdb2bcdeba7c8087660be4d375f27fb17ca585366fc1effc327c12dff50f78f",
+    "current": "strategy-close-actual.png",
+    "currentSha256": "1d1901f8e2f1c91f317ac6a1f0de821b309f0bc1c58dc49bf0fa44dd57e6850f",
+    "exactRgbChangedPixels": 21509,
+    "boundsExclusive": [1002, 102, 1280, 228]
+  }
+]
