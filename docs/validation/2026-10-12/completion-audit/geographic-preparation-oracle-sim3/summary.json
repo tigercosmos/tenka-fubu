@@ -1,0 +1,145 @@
+{
+  "scope": "independent originalJS geographic preparation oracle; no Rust-derived golden or GPU timing",
+  "helperCommit": "5d80187",
+  "frozenProductionCommit": "fc464a42f7d8b4fda97ea87f3e42cd5a7685730c",
+  "frozenProductionSHA256": "fbf127f31dbb5d8318acdf1ff1dd8bc56b77e808ba23247b779ad74ed28c3bdd",
+  "frozenReferenceSHA256": "bda5b757e2bd8a2e82c5a42fde825ebe9c846337b8a578f8413938624899d9b2",
+  "productionPrepMatchesReferenceByteExact": true,
+  "originalProductionAndReferenceEveryCapturedFrameBitExact": true,
+  "seedScenes": 320,
+  "randomValuesPerSeed": 87,
+  "frames": 1964,
+  "candidateSteps": 5482,
+  "scoreMisses": 3025,
+  "cacheHits": 2457,
+  "invalidRectErrorFrames": 1,
+  "sequenceCount": 340,
+  "numberEncoding": "originalJSfloat64littleendianbits and NaN/\u00b1Infinity/-0 classes, undefined distinct, signature exact original JSON string",
+  "newRustLoaded": false,
+  "originalProducerTerminalExit": 1,
+  "originalProducerStatus": "RED in source-copy/manifest packaging after full raw stream and bounded output completed",
+  "postprocessStatus": "Existing original rows only; counts/source/producer/gzip hashes verified; no new golden computation",
+  "helperContractTests": {
+    "tests": 2,
+    "status": "PASS",
+    "scopedLintExit": 0,
+    "typecheckExit": 0
+  },
+  "rawLocalPath": "/tmp/geographic-preparation-original-js-20261012/full-original-js-preparation.raw.jsonl",
+  "originalRawBytes": 255263393,
+  "originalRawSHA256": "0789f148e808ea49e29f09ee240c3de86fb5ca261f6a58f4182d95e1247949ae",
+  "artifacts": [
+    {
+      "path": "bounded-first12-original-js.json.gz",
+      "rawBytes": 2294972,
+      "rawSHA256": "382ac9539e23ce62117542da582755cfd21cef0d5e62ca70a1c1fb3ce2515290",
+      "gzipBytes": 143862,
+      "gzipSHA256": "5bd145144e4ef2ff8ec6dbabe89c68b2329c23fd4644dcda13fab7d284950c9e"
+    },
+    {
+      "path": "contract-original.log.gz",
+      "rawBytes": 298,
+      "rawSHA256": "ed66545d1e8eef6e28d34fb0b17c6ec48f12cc8d2a456a6d0d6f769bed4d31e3",
+      "gzipBytes": 236,
+      "gzipSHA256": "4cfc07e3340612076f1187d49a3181ffc54eef50651284c5dfd2bf6b30a0e3ca"
+    },
+    {
+      "path": "frozen-production-geographicLabelLayout.ts.gz",
+      "rawBytes": 10191,
+      "rawSHA256": "fbf127f31dbb5d8318acdf1ff1dd8bc56b77e808ba23247b779ad74ed28c3bdd",
+      "gzipBytes": 3264,
+      "gzipSHA256": "b736fd3539e2a278d302b9de1909f7bb5045248f83b06244a3771fca6ae23a28"
+    },
+    {
+      "path": "frozen-reference-geographicWasmReference.ts.gz",
+      "rawBytes": 9800,
+      "rawSHA256": "bda5b757e2bd8a2e82c5a42fde825ebe9c846337b8a578f8413938624899d9b2",
+      "gzipBytes": 3285,
+      "gzipSHA256": "6a6d799bf32a3a8bcfdcb28b1920c505eece88047ce80ce5ce575f281ee05125"
+    },
+    {
+      "path": "frozen-roadLabelCapsules.ts.gz",
+      "rawBytes": 3953,
+      "rawSHA256": "aa529d9d17eb558a511a152cbd0985d39d127981042d3becfec2335336ea4d76",
+      "gzipBytes": 1316,
+      "gzipSHA256": "78456b1b5c8ff35e4d0c7c6cce101a2d0b93e270420b2cb2cc2022a472f3374b"
+    },
+    {
+      "path": "gzip-proof.json.gz",
+      "rawBytes": 219,
+      "rawSHA256": "3bdaf8aea3e6021f9db9742653c2769cf351b1856073988246b41c840db1f9ac",
+      "gzipBytes": 175,
+      "gzipSHA256": "df792c800a24ac39e4446759ed7636012564a0cdbf144b6891b1eb27406ee1ac"
+    },
+    {
+      "path": "manifest-postprocessor.py.gz",
+      "rawBytes": 1733,
+      "rawSHA256": "71a286604e565d5988d101668aa22288599c6a07b5f3f7b4a7e2e328084ccb60",
+      "gzipBytes": 1060,
+      "gzipSHA256": "77f6d536c5485be7e6624d0dd10d12eb3da8950d48b3c4e110ef1f49ad47dc12"
+    },
+    {
+      "path": "manifest.json.gz",
+      "rawBytes": 2602,
+      "rawSHA256": "2b669fdb3c8afa2f9f215804157dafad39bbd3f13fadb90646a9a15fbf52ac76",
+      "gzipBytes": 1095,
+      "gzipSHA256": "6457e496ba043a834276551e26e8a28a440407d67af8b61d54285e143bdad1ed"
+    },
+    {
+      "path": "oracle-contract.spec.ts.gz",
+      "rawBytes": 2674,
+      "rawSHA256": "694485b0277a4a183c00e9e45a3eaaea739bfcc9280980d02e53901d693ed1fa",
+      "gzipBytes": 990,
+      "gzipSHA256": "4ae68341aa1f72e64321d24baa2c8e92b3214d4bcd6da245c255d56d150a8e4c"
+    },
+    {
+      "path": "oracle-helper.ts.gz",
+      "rawBytes": 6129,
+      "rawSHA256": "eb3d2377f729c2f3d24dccb42fa937c3f593d187078c4f6428df27526f1bc2ed",
+      "gzipBytes": 2103,
+      "gzipSHA256": "fb6ae8f6bec96784b260a6dd39dfaa1c96c691d4d55c9f11819439dca9ffef8e"
+    },
+    {
+      "path": "producer-original.log.gz",
+      "rawBytes": 535,
+      "rawSHA256": "c59a40eb2b0467f198cea5a0420e394873d4c9fa3a57a741f2ae6ede5d428eca",
+      "gzipBytes": 308,
+      "gzipSHA256": "382fc1d280dd39f4ef271672184960ca4c1f5e241a57eaa83d54e0c35614d614"
+    },
+    {
+      "path": "producer-original.mts.gz",
+      "rawBytes": 7868,
+      "rawSHA256": "714d82f07532e3586f281ac2b59578bf03ff398c62cb2d1fe141faa0b54c16bf",
+      "gzipBytes": 2966,
+      "gzipSHA256": "6d9a3daef4bbd3e1f561b31ba0bffcfbdfad9f1044880099b5ee88a1b6b5e44c"
+    },
+    {
+      "path": "scoped-lint-original.log.gz",
+      "rawBytes": 0,
+      "rawSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSHA256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "typecheck-original.log.gz",
+      "rawBytes": 0,
+      "rawSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSHA256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "verify-evidence.py.gz",
+      "rawBytes": 1149,
+      "rawSHA256": "dcaf62e87c2a0b0a6a42c2ac8ca0163c091bf93726252e75843075a8a910bd03",
+      "gzipBytes": 677,
+      "gzipSHA256": "cd71c9c8946d0d443f2a13982a198efdb93a1a6c1eaa884c5a09702c1946256d"
+    },
+    {
+      "path": "full-original-js-preparation.raw.jsonl.gz",
+      "rawBytes": 255263393,
+      "gzipBytes": 14937709,
+      "rawSHA256": "0789f148e808ea49e29f09ee240c3de86fb5ca261f6a58f4182d95e1247949ae",
+      "gzipSHA256": "c049b7717532439cb3bf7e3fbcce426bde8846107963d686eb08f20e48df2bfa"
+    }
+  ]
+}
