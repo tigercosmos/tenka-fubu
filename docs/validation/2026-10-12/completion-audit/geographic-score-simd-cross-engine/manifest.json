@@ -1,0 +1,359 @@
+{
+  "schemaVersion": 1,
+  "scope": "Actual full-module cross-engine numeric compatibility only; no Safari product/fullgame/GPU/performance/runtime selection claim",
+  "sourcePackageCommit": "fbeb80a63fdf9f63e2100c501526359547d4103f",
+  "tinyProbeCommit": "aa18b752993f2e567b8c3a227fe5b3c5bd6a5cb1",
+  "baselineSHA256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b",
+  "prototypeSHA256": "4ba2591c5205e363f92ee896c6f40c441fb2a7d613e587a2fe6aa2aee0408d0a",
+  "classification": "NaN class; every other f64 exact little-endian bits",
+  "browserInstallTerminalExit": 0,
+  "browserCampaignTerminalExit": 0,
+  "browserCampaigns": [
+    {
+      "engine": "firefox",
+      "verdict": "PASS",
+      "browserVersion": "151.0",
+      "launch": {
+        "headless": true,
+        "executablePath": "/Users/tigercosmos/Library/Caches/ms-playwright/firefox-1532/firefox/Nightly.app/Contents/MacOS/firefox"
+      },
+      "host": {
+        "platform": "darwin",
+        "arch": "arm64",
+        "node": "v22.17.0",
+        "hostname": "Anchis-MacBook-Pro.local"
+      },
+      "playwright": "1.61.1",
+      "inputs": {
+        "baseline": {
+          "bytes": 88475,
+          "sha256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b"
+        },
+        "prototype": {
+          "bytes": 88469,
+          "sha256": "4ba2591c5205e363f92ee896c6f40c441fb2a7d613e587a2fe6aa2aee0408d0a"
+        },
+        "tiny": {
+          "bytes": 884,
+          "sha256": "fbfee3afdc0d3537860fde16228b5d03de1329f83b6c637d9b2c5e75e299c533"
+        },
+        "casesSHA256": "c03ce119012756560b992ed5f43b2a04ee676339bdc00b215f48d627cd4063b9",
+        "malformedSHA256": "60dcec76656b5883555c79f0d2908d1d30b10783a65b6af38df98eb3b1d3c8e9"
+      },
+      "startedUTC": "2026-10-12T02:38:17.095Z",
+      "finishedUTC": "2026-10-12T02:38:26.606Z",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:151.0) Gecko/20100101 Firefox/151.0",
+      "platform": "MacIntel",
+      "capabilities": {
+        "tinyStrictProbeValidate": true,
+        "scalarFullModuleValidate": true,
+        "prototypeFullModuleValidate": true
+      },
+      "scalarABI": {
+        "engine_abi_version": 1,
+        "geographic_abi_version": 1,
+        "castle_ribbon_abi_version": 1,
+        "geographic_preparation_abi_version": 1
+      },
+      "prototypeABI": {
+        "engine_abi_version": 1,
+        "geographic_abi_version": 1,
+        "castle_ribbon_abi_version": 1,
+        "geographic_preparation_abi_version": 1
+      },
+      "counts": {
+        "legal": 2121,
+        "originalJSDerived": 1920,
+        "validExtreme": 196,
+        "derivedMutations": 5,
+        "malformed": 24
+      },
+      "summary": {
+        "allScalarOriginal": true,
+        "allPrototypeOriginal": true,
+        "allFullEqual": true,
+        "scalarAtomic": true,
+        "prototypeAtomic": true,
+        "prototypeUnsupported": false,
+        "strictSIMDProbeUnsupported": false
+      }
+    },
+    {
+      "engine": "webkit",
+      "verdict": "PASS",
+      "browserVersion": "26.5",
+      "launch": {
+        "headless": true,
+        "executablePath": "/Users/tigercosmos/Library/Caches/ms-playwright/webkit-2311/pw_run.sh"
+      },
+      "host": {
+        "platform": "darwin",
+        "arch": "arm64",
+        "node": "v22.17.0",
+        "hostname": "Anchis-MacBook-Pro.local"
+      },
+      "playwright": "1.61.1",
+      "inputs": {
+        "baseline": {
+          "bytes": 88475,
+          "sha256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b"
+        },
+        "prototype": {
+          "bytes": 88469,
+          "sha256": "4ba2591c5205e363f92ee896c6f40c441fb2a7d613e587a2fe6aa2aee0408d0a"
+        },
+        "tiny": {
+          "bytes": 884,
+          "sha256": "fbfee3afdc0d3537860fde16228b5d03de1329f83b6c637d9b2c5e75e299c533"
+        },
+        "casesSHA256": "c03ce119012756560b992ed5f43b2a04ee676339bdc00b215f48d627cd4063b9",
+        "malformedSHA256": "60dcec76656b5883555c79f0d2908d1d30b10783a65b6af38df98eb3b1d3c8e9"
+      },
+      "startedUTC": "2026-10-12T02:38:26.626Z",
+      "finishedUTC": "2026-10-12T02:38:43.719Z",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Safari/605.1.15",
+      "platform": "MacIntel",
+      "capabilities": {
+        "tinyStrictProbeValidate": true,
+        "scalarFullModuleValidate": true,
+        "prototypeFullModuleValidate": true
+      },
+      "scalarABI": {
+        "engine_abi_version": 1,
+        "geographic_abi_version": 1,
+        "castle_ribbon_abi_version": 1,
+        "geographic_preparation_abi_version": 1
+      },
+      "prototypeABI": {
+        "engine_abi_version": 1,
+        "geographic_abi_version": 1,
+        "castle_ribbon_abi_version": 1,
+        "geographic_preparation_abi_version": 1
+      },
+      "counts": {
+        "legal": 2121,
+        "originalJSDerived": 1920,
+        "validExtreme": 196,
+        "derivedMutations": 5,
+        "malformed": 24
+      },
+      "summary": {
+        "allScalarOriginal": true,
+        "allPrototypeOriginal": true,
+        "allFullEqual": true,
+        "scalarAtomic": true,
+        "prototypeAtomic": true,
+        "prototypeUnsupported": false,
+        "strictSIMDProbeUnsupported": false
+      }
+    }
+  ],
+  "unsupportedSelectionLimits": [
+    "Actual observed installed engines support strictSIMD; unsupported branch was not exercised.",
+    "The fullprototype unconditionally contains SIMD; engines rejecting it cannot instantiate it; scalar validated independently.",
+    "No capability-selection/fallback or source/default adoption was implemented or tested."
+  ],
+  "packagingRED": "metadata collector looked up obsolete Playwright internal path; preserved, corrected without browser rerun",
+  "files": [
+    {
+      "path": "raw/run.cjs.gz",
+      "rawBytes": 8667,
+      "rawSHA256": "840ebe29fba2f218b336b87da69a0d41fd1ad8ca3d2143b82b2606063bb7f29f",
+      "gzipBytes": 2959,
+      "gzipSHA256": "5d6f9bcfab9e9b1ef3bacbe7a706fde55c32dce942d0e8baeff98efdbcbe0351",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/run.cjs"
+    },
+    {
+      "path": "raw/run.log.gz",
+      "rawBytes": 716,
+      "rawSHA256": "826d1c3777beb53f23cdf3b2aa84c31c08f4ec81edde8b7a5a613d6e0743a333",
+      "gzipBytes": 262,
+      "gzipSHA256": "0ae0af85e308325f04b835c01cd3a8304330037480c456ced2ea6ffe7ab85802",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/run.log"
+    },
+    {
+      "path": "raw/status.json.gz",
+      "rawBytes": 1003,
+      "rawSHA256": "d1bf796a343939c02941936be767c0f419393aee6efa117b8f97e2865925d56e",
+      "gzipBytes": 291,
+      "gzipSHA256": "37d703af36321ce985b29ab4b559484bcbd1515a670a2e546b94aeaa59b07870",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/status.json"
+    },
+    {
+      "path": "raw/firefox.raw.json.gz",
+      "rawBytes": 13209461,
+      "rawSHA256": "62e6beaeb470cbc19e0bd56de72f8386d6e74fe2bcfb95ecf3f436c42c299e34",
+      "gzipBytes": 868293,
+      "gzipSHA256": "77c80f55842ccabaad5eb3605373140537eb6acf4c48485338fa84c194762780",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/firefox.raw.json"
+    },
+    {
+      "path": "raw/webkit.raw.json.gz",
+      "rawBytes": 13210850,
+      "rawSHA256": "1b78b087f25d431c2615ce0e7aa4a65d02c0e5317689e963c88cd2fffd248ccf",
+      "gzipBytes": 868421,
+      "gzipSHA256": "d5788c572d04e1d54935def889aa923479889f13d4afc08ad18f6b2b82b1b400",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/webkit.raw.json"
+    },
+    {
+      "path": "raw/baseline.wasm.gz",
+      "rawBytes": 88475,
+      "rawSHA256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b",
+      "gzipBytes": 32309,
+      "gzipSHA256": "4a4333644726134a9e4400de858ab141a581acc02379ae18919332249384d6a8",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/baseline.wasm"
+    },
+    {
+      "path": "raw/prototype.wasm.gz",
+      "rawBytes": 88469,
+      "rawSHA256": "4ba2591c5205e363f92ee896c6f40c441fb2a7d613e587a2fe6aa2aee0408d0a",
+      "gzipBytes": 32376,
+      "gzipSHA256": "12f37429cd6b2bb6d03b6277d408ab229be115e7c41dab29d5709a308ce63b58",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/prototype.wasm"
+    },
+    {
+      "path": "raw/simd-parity.raw.json.gz",
+      "rawBytes": 11412888,
+      "rawSHA256": "c03ce119012756560b992ed5f43b2a04ee676339bdc00b215f48d627cd4063b9",
+      "gzipBytes": 1180948,
+      "gzipSHA256": "c045c0eef977842360fa4741652de42fc7b8af96b53220804426aebfb324f6bc",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/simd-parity.raw.json"
+    },
+    {
+      "path": "raw/malformed-and-abi.raw.json.gz",
+      "rawBytes": 47945,
+      "rawSHA256": "60dcec76656b5883555c79f0d2908d1d30b10783a65b6af38df98eb3b1d3c8e9",
+      "gzipBytes": 906,
+      "gzipSHA256": "6cc9eb7c940f825a4dea5ccd51b3fb9f6bfaab7a6e885ba89944f19e67cc8a15",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/malformed-and-abi.raw.json"
+    },
+    {
+      "path": "raw/simd-parity.ts.gz",
+      "rawBytes": 4918,
+      "rawSHA256": "a4037d048260a983e3a2d4d18f895dfae6ff59ebc48188b6964a7f6eb8e6ffef",
+      "gzipBytes": 1935,
+      "gzipSHA256": "cb2afaf53741961717161b58397296f692fcdd09d836ae44b4f735f234831444",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/simd-parity.ts"
+    },
+    {
+      "path": "raw/malformed-and-abi.cjs.gz",
+      "rawBytes": 3323,
+      "rawSHA256": "ce3dbef0d88a14d403ae3e7bdfa3dcf3af6842935a8653c8c72437653dddc5c5",
+      "gzipBytes": 1241,
+      "gzipSHA256": "3a8ab64527de681a4c83719055b2f50ef91fdc7c36e38a2010a07611a9e28e2a",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/malformed-and-abi.cjs"
+    },
+    {
+      "path": "raw/tiny-probe.wasm.gz",
+      "rawBytes": 884,
+      "rawSHA256": "fbfee3afdc0d3537860fde16228b5d03de1329f83b6c637d9b2c5e75e299c533",
+      "gzipBytes": 375,
+      "gzipSHA256": "da476e99046e1c82f6df0e21373c3e08a8f0f899d0a3609ca62d1302159a8fb2",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/tiny-probe.wasm"
+    },
+    {
+      "path": "raw/tiny-probe.rs.gz",
+      "rawBytes": 1246,
+      "rawSHA256": "21abbe05ebad21adaebcba0ea76a316f7e853b700e2d3a57f9e4ae587ee18ab8",
+      "gzipBytes": 473,
+      "gzipSHA256": "2789867fe926da13d74807ed691482a3a8627875f278a46f2a89b9788e962647",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/tiny-probe.rs"
+    },
+    {
+      "path": "raw/tiny-check.cjs.gz",
+      "rawBytes": 4273,
+      "rawSHA256": "2272c443bc48b353c2bc906986eb64e304e84b6b753a1f404ccd7417ca79f95a",
+      "gzipBytes": 1735,
+      "gzipSHA256": "f501d233153a73a211b4621c7693f24535ac9374c14480ae90ccc98a854d9c62",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/tiny-check.cjs"
+    },
+    {
+      "path": "raw/input-source-proof.json.gz",
+      "rawBytes": 3897,
+      "rawSHA256": "b3522be41e43ada88ab9beed101d363097a9895a7703f295e1a7155603e498f0",
+      "gzipBytes": 1224,
+      "gzipSHA256": "225464e8f9aaaebabb794ff514f0dd3a623527c27dc0dc55824a544cfe8b018f",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/input-source-proof.json"
+    },
+    {
+      "path": "raw/environment.cjs.gz",
+      "rawBytes": 1972,
+      "rawSHA256": "02a93221318eeba4239ffb9430b801fbdadd5f701d63d6708068edb2eb09e9af",
+      "gzipBytes": 996,
+      "gzipSHA256": "12c841fe2cfa553489707f1981335f55df4f60e76136c39100eabc0ca96b8a07",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/environment.cjs"
+    },
+    {
+      "path": "raw/environment.json.gz",
+      "rawBytes": 2391,
+      "rawSHA256": "5e64da900944fde4c0568f07b9799a833e7403e6c68d3559a29d752af9ad1b7a",
+      "gzipBytes": 1141,
+      "gzipSHA256": "bb394968dcd2d39c20f8e602e08916a6e60c05bc49de3f3f81e837c88817d8f2",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/environment.json"
+    },
+    {
+      "path": "raw/project-browsers.json.gz",
+      "rawBytes": 1939,
+      "rawSHA256": "ee39bc924bc3d1bd895626c2910f1292d109bbfeeb5abd113acb45e1951cc942",
+      "gzipBytes": 465,
+      "gzipSHA256": "8b2607538863b1dc7a45129df54e1dd9caa4d2a1ef5828c6f77403b190305ba6",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/project-browsers.json"
+    },
+    {
+      "path": "raw/webkit-launch-wrapper.sh.gz",
+      "rawBytes": 3049,
+      "rawSHA256": "a85baad3d8c07173ac387a59b41500c382b21ed692afe0964d29aac247ccc63b",
+      "gzipBytes": 986,
+      "gzipSHA256": "14922913240a1ec443129154243a3aa0c336d080df11b001b43e01c53b30120a",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/webkit-launch-wrapper.sh"
+    },
+    {
+      "path": "raw/browser-install.log.gz",
+      "rawBytes": 4514,
+      "rawSHA256": "97c6b70dbfa0615a9ca5b7299cbdc974c8ca474db38371a44afac748a357df39",
+      "gzipBytes": 412,
+      "gzipSHA256": "3e6f3f72b3a67d99aebcd320921e42e5680f384ad6efa2b049357a414a5b005e",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/browser-install.log"
+    },
+    {
+      "path": "raw/browser-install.exit.gz",
+      "rawBytes": 2,
+      "rawSHA256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "gzipBytes": 22,
+      "gzipSHA256": "89ed3b723e0e40d8957a2df55fcb04d57b6d95fa665c5fe67b098df7f29694ae",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/browser-install.exit"
+    },
+    {
+      "path": "raw/metadata-lookup-original-red.log.gz",
+      "rawBytes": 147,
+      "rawSHA256": "618e8e07d2639630ee4f1b580af74b06ce54ac8389b9fcc440ade8455eead643",
+      "gzipBytes": 141,
+      "gzipSHA256": "0b13af8553fe19c7691bd4997f470ee878c5f47c93941281c6e928d846bb8f28",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/metadata-lookup-original-red.log"
+    },
+    {
+      "path": "raw/metadata-lookup-original-red-status.json.gz",
+      "rawBytes": 333,
+      "rawSHA256": "f70d21f1a81b0f17dcd441fae4a61e5e30dcfc6260048f8935649ffa78abdbf3",
+      "gzipBytes": 242,
+      "gzipSHA256": "0cbc66209c43df2d791a796c5fdde3821e8a3c31223d126fc77b1548f8d13b41",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/metadata-lookup-original-red-status.json"
+    },
+    {
+      "path": "raw/verify.py.gz",
+      "rawBytes": 2608,
+      "rawSHA256": "e5de16ee8785fa93d56bfe4e69f09132e040d4a2f5ff32d6aa81125c4f48f9e6",
+      "gzipBytes": 1219,
+      "gzipSHA256": "735b128c91acf009ffa09d1c50772d6007237177a33dd7cf56cf8ee7c499df69",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/verify.py"
+    },
+    {
+      "path": "raw/package-producer.py.gz",
+      "rawBytes": 8076,
+      "rawSHA256": "52b95d851a92ac8f3e8af4089d8953383cf693b073314f2604d3d2f069ae2eda",
+      "gzipBytes": 3351,
+      "gzipSHA256": "1dc575dc48089ec897add4d050d679bd2e924b091cba23cf8bbbdb495320ef33",
+      "originalPath": "/tmp/tenka-simd-cross-engine-20261012/package-producer.py"
+    }
+  ]
+}

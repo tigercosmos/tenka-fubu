@@ -1,0 +1,13 @@
+# Full SIMD module cross-engine numeric compatibility
+
+Actual Playwright 1.61.1 headless Firefox 151.0 and WebKit 26.5 independently validated and instantiated the full frozen scalar 64241ba… (88,475 bytes) and unconditional SIMD 4ba2591… (88,469 bytes) modules. Each engine matched all 2,121 original input/result cases: 1,920 original-JS-derived label steps, 196 valid extremes and 5 derived offset controls. All full prepared before/after arrays and winner results match both modules and the frozen original rows, using NaN classification and exact little-endian bits for every other f64.
+
+Each engine also passed 24 malformed atomicity controls (return −2 with unchanged output) and all four ABI version functions returned 1. The pinned strict SIMD tiny probe validated and instantiated, with four explicit arithmetic controls matching its scalar export. Tiny capability validation alone is not used as full-module proof: actual full module instantiation and all numeric cases are retained separately.
+
+Only matching Firefox 1532 and WebKit 2311 were downloaded; Chromium was not installed again. Disk was 2.0 GiB before and 1.4 GiB after download. Existing project node_modules were reused through an isolated/tmp symlink; no npmci claim is made. Raw default UA, browser versions, executable paths/hashes, launch arguments, project browser manifest and library versions are preserved. WebKit is the Playwright bundled engine, not the Safari product, even though its default UA contains Safari. No game, GPU, FPS, browser performance or other-version/OS claim is made.
+
+Both observed engines support the strict SIMD prototype. This does not establish support in older engines. The unconditional full SIMD module cannot instantiate where validation rejects its SIMD; scalar validation remains separate. The unsupported branch is preserved in the observer but was not exercised, and this task implements no runtime selection/fallback or source/default adoption.
+
+Browser installation and the two numeric runs succeeded without a rerun. A later packaging metadata lookup assumed an obsolete Playwright internal file and failed; that RED is retained. Metadata collection was corrected using current package/browser entrypoints without launching another browser.
+
+Inputs, modules and original producers come from frozen commit fbeb80a; the tiny probe/source come from aa18b75. All raw artifacts retain their bytes under gzip, with compressed/raw SHA256 and byte counts in manifest. The full browser-produced rows are retained for both engines. Decompress raw/verify.py.gz and run it with this package path from the repository to verify every output against original rows, source Git blobs, module hashes, capabilities, ABI and RED preservation.
