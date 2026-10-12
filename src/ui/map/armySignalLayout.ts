@@ -43,6 +43,11 @@ function overlap(a: SignalRect, b: SignalRect) {
     Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y))
   );
 }
+function overlapSafeY(a: SignalRect, b: SignalRect) {
+  const x = Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x));
+  if (x === 0) return 0;
+  return x * Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y));
+}
 
 /** CSS-only bounded coordinate relaxation. No visibility, model or world-coordinate changes.
  * Every move preserves each fixed-object baseline overlap and cannot increase total banner
@@ -59,8 +64,13 @@ export function layoutArmySignals(
   )
     throw new RangeError('Signal layout input limit exceeded');
   const ids = new Set<string>();
+  let safeY = true;
+  // Every accepted proposal moves at most 24px. This bound keeps the skipped
+  // Y span finite even after that move; extreme valid inputs use the original math.
+  const safeComponent = Number.MAX_VALUE / 16;
   for (const candidate of candidates) {
     validate(candidate.rect);
+    safeY &&= Math.abs(candidate.rect.y) <= safeComponent && candidate.rect.height <= safeComponent;
     if (
       typeof candidate.id !== 'string' ||
       candidate.id.length === 0 ||
@@ -70,7 +80,11 @@ export function layoutArmySignals(
       throw new RangeError('Invalid signal candidate');
     ids.add(candidate.id);
   }
-  obstacles.forEach(validate);
+  obstacles.forEach((obstacle) => {
+    validate(obstacle);
+    safeY &&= Math.abs(obstacle.y) <= safeComponent && obstacle.height <= safeComponent;
+  });
+  const overlapArea = safeY ? overlapSafeY : overlap;
   const fixed = obstacles
     .map((r) => ({ ...r }))
     .sort((a, b) => a.x - b.x || a.y - b.y || a.width - b.width || a.height - b.height);
@@ -82,7 +96,7 @@ export function layoutArmySignals(
   let work = 0;
   const area = (a: SignalRect, b: SignalRect) => {
     if (++work > ARMY_SIGNAL_LAYOUT.overlapWork) throw EXHAUSTED;
-    return overlap(a, b);
+    return overlapArea(a, b);
   };
   try {
     const baseline = sorted.map((c) => fixed.map((r) => area(c.rect, r)));
