@@ -1,3 +1,4 @@
+import { createWasmCastleRibbonPlanner } from './wasmCastleRibbonPlanner';
 import type { PlateRect } from './armyPlateLayout';
 import type { RoadLabelCapsule } from './roadLabelCapsules';
 
@@ -36,6 +37,7 @@ export function geographicScorerImports() {
 /** One owner retains the arena; returned offsets always belong to the caller. */
 export function createWasmGeographicScorer(initialExports?: Record<string, unknown>) {
   let backend: ScorerExports | null = null;
+  let castlePlanner: ReturnType<typeof createWasmCastleRibbonPlanner> | null = null;
   let pointer = 0;
   let capacity = 0;
   let view: Float64Array | null = null;
@@ -61,9 +63,24 @@ export function createWasmGeographicScorer(initialExports?: Record<string, unkno
       throw new Error('Unsupported geographic scorer ABI');
     backend = candidate;
   };
+  const ownedCastlePlanner = () => {
+    assertLive();
+    if (!backend) throw new Error('Geographic scorer is not ready');
+    return (castlePlanner ??= createWasmCastleRibbonPlanner(
+      backend as unknown as Record<string, unknown>,
+    ));
+  };
   if (initialExports) install(initialExports);
   return {
     install,
+    prepareCastlePlanner: () => {
+      ownedCastlePlanner();
+    },
+    layoutCastleRibbons(
+      ...args: Parameters<ReturnType<typeof createWasmCastleRibbonPlanner>['layout']>
+    ) {
+      return ownedCastlePlanner().layout(...args);
+    },
     isReady: () => !disposed && backend !== null,
     async initialize(url = `${import.meta.env.BASE_URL}wasm/tenka_engine.wasm`): Promise<void> {
       assertLive();
@@ -180,6 +197,8 @@ export function createWasmGeographicScorer(initialExports?: Record<string, unkno
       disposed = true;
       initializationController?.abort();
       initializationController = null;
+      castlePlanner?.dispose();
+      castlePlanner = null;
       if (backend && capacity) backend.engine_free(pointer, capacity);
       capacity = 0;
       view = null;

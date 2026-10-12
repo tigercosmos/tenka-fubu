@@ -128,7 +128,6 @@ import {
 import { geographicDeclutterEnvelope } from './geographicDeclutterEnvelope';
 import {
   admitContainedCastleRibbons,
-  layoutCastleRibbons,
   type CastleRibbonPlacement,
 } from './sceneParts/castleRibbonLayout';
 import { filterCastleRibbonLeaderObstacles } from './sceneParts/castleRibbonLeader';
@@ -259,7 +258,12 @@ export class MapRenderer {
   constructor(
     private readonly geographicScorer: Pick<
       WasmGeographicScorer,
-      'score' | 'initialize' | 'isReady' | 'dispose'
+      | 'score'
+      | 'initialize'
+      | 'isReady'
+      | 'dispose'
+      | 'prepareCastlePlanner'
+      | 'layoutCastleRibbons'
     > = createWasmGeographicScorer(),
   ) {
     this.geographicLayouter = createGeographicLabelLayouter(geographicScorer);
@@ -774,6 +778,7 @@ export class MapRenderer {
   private async initialize(host: HTMLElement, onEvent: MapEventHandler): Promise<void> {
     if (!this.geographicScorer.isReady()) await this.geographicScorer.initialize();
     if (this.disposed) return;
+    this.geographicScorer.prepareCastlePlanner();
     this.onEvent = onEvent;
 
     const app = new Application();
@@ -2553,7 +2558,7 @@ export class MapRenderer {
     let originalWork = 0;
     const originalPlacements = this.castleRibbonLayoutLimited
       ? new Map<string, CastleRibbonPlacement>()
-      : layoutCastleRibbons(candidates, ordinary, hard, {
+      : this.geographicScorer.layoutCastleRibbons(candidates, ordinary, hard, {
           onWork: (work) => {
             originalWork = work;
           },

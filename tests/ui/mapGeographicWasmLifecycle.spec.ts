@@ -3,6 +3,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createElement } from 'react';
 import { act, cleanup, render, waitFor } from '@testing-library/react';
 import type { createWasmGeographicScorer } from '../../src/ui/map/wasmGeographicScorer';
+import { createWasmCastleRibbonPlanner } from '../../src/ui/map/wasmCastleRibbonPlanner';
+import { realRenderWasmExports } from '../helpers/realRenderWasm';
 import type { FatalErrorInfo } from '../../src/app/errors';
 import type { MapViewState } from '../../src/ui/map/mapViewTypes';
 
@@ -35,6 +37,7 @@ import {
 } from '../../src/ui/map/debugMapBridge';
 
 function deferredOwner() {
+  const planner = createWasmCastleRibbonPlanner(realRenderWasmExports());
   let resolve!: () => void, reject!: (error: Error) => void;
   const gate = new Promise<void>((yes, no) => {
     resolve = yes;
@@ -48,6 +51,13 @@ function deferredOwner() {
   });
   const scorer: ReturnType<typeof createWasmGeographicScorer> = {
     initialize,
+    prepareCastlePlanner: () => {
+      if (!ready || disposed) throw new Error('Explicit reference owner is not ready');
+    },
+    layoutCastleRibbons: (...args) => {
+      if (!ready || disposed) throw new Error('Explicit reference owner is not ready');
+      return planner.layout(...args);
+    },
     install: () => {
       throw new Error('Explicit reference owner cannot install a backend');
     },
@@ -57,6 +67,7 @@ function deferredOwner() {
       return input.offsets[0];
     },
     dispose: vi.fn(() => {
+      planner.dispose();
       disposed = true;
       ready = false;
     }),
@@ -108,6 +119,23 @@ describe('renderer geographic scorer owner readiness and cancellation', () => {
     renderer.destroy();
     expect(owner.scorer.isReady()).toBe(false);
     expect(tracked.apps.every((app) => app.destroyed)).toBe(true);
+  });
+
+  it('rejects a missing castle ABI before constructing any Application', async () => {
+    const actual = await vi.importActual<typeof import('../../src/ui/map/wasmGeographicScorer')>(
+      '../../src/ui/map/wasmGeographicScorer',
+    );
+    const exports = { ...realRenderWasmExports() };
+    delete exports.castle_ribbon_solve;
+    const owner = actual.createWasmGeographicScorer(exports);
+    const renderer = new MapRenderer(owner);
+    await expect(renderer.init(document.createElement('div'), vi.fn())).rejects.toThrow(
+      'Unsupported castle ribbon planner ABI',
+    );
+    expect(tracked.apps).toHaveLength(0);
+    expect(renderer.isReady()).toBe(false);
+    renderer.destroy();
+    expect(owner.isReady()).toBe(false);
   });
 
   it('does not resurrect a renderer destroyed while its scorer prepares', async () => {
