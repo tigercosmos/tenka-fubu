@@ -78,7 +78,7 @@
 .toast {
   position: relative;
   overflow: hidden;
-  padding: 0.25rem 0.5rem;
+  padding: 0.125rem 0.5rem;
   border: 1px solid var(--stroke-subtle);
   border-left: 4px solid;
   border-radius: 2px;

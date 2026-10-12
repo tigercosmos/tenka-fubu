@@ -91,7 +91,7 @@ describe('ReportStack', () => {
       expect(start).toBeGreaterThanOrEqual(0);
       return reportCss.slice(start, reportCss.indexOf('}', start) + 1);
     };
-    expect(rule('.toast')).toContain('padding: 0.25rem 0.5rem;');
+    expect(rule('.toast')).toContain('padding: 0.125rem 0.5rem;');
     expect(rule('.metadata')).toContain('min-width: 0;');
     expect(rule('.metadata')).toContain('gap: 2px;');
     expect(rule('.heading strong')).toContain('overflow-wrap: anywhere;');

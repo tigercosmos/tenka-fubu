@@ -1,6 +1,8 @@
 import { test, expect } from './fixtures';
 
-for (const scale of [0.8, 1, 1.5]) {
+const SCALES = Array.from({ length: 15 }, (_, index) => Number((0.8 + index * 0.05).toFixed(2)));
+
+for (const scale of SCALES) {
   test(`compact native reports preserve readable content and archive controls at scale ${scale}`, async ({
     page,
   }, info) => {
@@ -12,11 +14,9 @@ for (const scale of [0.8, 1, 1.5]) {
     await page.getByRole('button', { name: '設定', exact: true }).click();
     const dialog = page.getByRole('dialog');
     const slider = dialog.getByRole('slider', { name: '介面縮放', exact: true });
-    if (scale === 1.5) await slider.press('End');
-    else {
-      await slider.press('Home');
-      if (scale === 1) for (let index = 0; index < 4; index++) await slider.press('ArrowRight');
-    }
+    await slider.press('Home');
+    for (let index = 0; index < Math.round((scale - 0.8) / 0.05); index++)
+      await slider.press('ArrowRight');
     await expect(slider).toHaveValue(String(scale));
     await dialog.getByRole('button', { name: '返回', exact: true }).click();
     await page.getByRole('button', { name: '回到遊戲', exact: true }).click();
@@ -113,6 +113,95 @@ for (const scale of [0.8, 1, 1.5]) {
     await page.keyboard.press('Escape');
     await expect(list).toBeVisible();
     expect(await list.locator('strong').allTextContents()).toEqual(titles);
+    await archive.focus();
+    await page.keyboard.press('Enter');
+    const panel = page.getByTestId('reports-panel');
+    const rows = panel.locator('li');
+    const count = await rows.count();
+    expect(count).toBeGreaterThan(0);
+    const measurements = [];
+    for (const control of await panel.locator('button, input, select').all()) {
+      await control.scrollIntoViewIfNeeded();
+      const observed = await control.evaluate((node) => {
+        const box = node.getBoundingClientRect();
+        const hit = document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2);
+        return {
+          name: node.getAttribute('aria-label') ?? node.textContent,
+          tag: node.tagName,
+          width: box.width,
+          height: box.height,
+          left: box.left,
+          right: box.right,
+          top: box.top,
+          bottom: box.bottom,
+          hit: hit === node || node.contains(hit),
+        };
+      });
+      measurements.push(observed);
+    }
+    await info.attach('report-center-controls', {
+      body: JSON.stringify({ scale, measurements }),
+      contentType: 'application/json',
+    });
+    for (const observed of measurements) {
+      expect(observed.width, observed.name ?? '').toBeGreaterThanOrEqual(32);
+      expect(observed.height, observed.name ?? '').toBeGreaterThanOrEqual(32);
+      expect(observed.left).toBeGreaterThanOrEqual(0);
+      expect(observed.right).toBeLessThanOrEqual(1280);
+      expect(observed.top).toBeGreaterThanOrEqual(0);
+      expect(observed.bottom).toBeLessThanOrEqual(720);
+      expect(observed.hit, observed.name ?? '').toBe(true);
+    }
+    const military = panel.getByRole('checkbox', { name: '軍事', exact: true });
+    await military.focus();
+    await page.keyboard.press('Space');
+    await expect(rows).toHaveCount(0);
+    await page.keyboard.press('Space');
+    await expect(rows).toHaveCount(count);
+    for (const label of ['開始年月', '結束年月']) {
+      const select = panel.getByLabel(label, { exact: true });
+      await select.selectOption({ index: 1 });
+      await expect(rows).toHaveCount(count);
+    }
+    const textMeasurements = [];
+    for (const row of await rows.all()) {
+      await row.scrollIntoViewIfNeeded();
+      const observed = await row.locator('p').evaluate((node) => {
+        const box = node.getBoundingClientRect();
+        const range = document.createRange();
+        range.selectNodeContents(node);
+        return {
+          text: node.textContent,
+          font: parseFloat(getComputedStyle(node).fontSize),
+          overflow: node.scrollWidth > node.clientWidth,
+          contained: [...range.getClientRects()].every(
+            (rect) => rect.left >= box.left - 1 && rect.right <= box.right + 1,
+          ),
+        };
+      });
+      textMeasurements.push(observed);
+    }
+    await info.attach('report-center-text', {
+      body: JSON.stringify({ scale, textMeasurements }),
+      contentType: 'application/json',
+    });
+    for (const observed of textMeasurements) {
+      expect(observed.font).toBeGreaterThanOrEqual(12);
+      expect(observed.overflow).toBe(false);
+      expect(observed.contained, observed.text ?? '').toBe(true);
+    }
+    if ([0.8, 1, 1.5].includes(scale))
+      await panel.screenshot({ path: info.outputPath(`report-center-${scale}.png`) });
+    const frame = page.getByTestId('minimap-frame');
+    const cameraFrame = await frame.evaluate((node: HTMLCanvasElement) => node.toDataURL());
+    const goto = panel.getByRole('button', { name: '前往', exact: true }).first();
+    await expect(goto).toBeEnabled();
+    await goto.focus();
+    await page.keyboard.press('Enter');
+    await expect(panel).toHaveCount(0);
+    await expect
+      .poll(() => frame.evaluate((node: HTMLCanvasElement) => node.toDataURL()))
+      .not.toBe(cameraFrame);
     expect(
       await page.evaluate(() => ({
         core: JSON.stringify(window.__tenka.debug.getState()),
