@@ -1,0 +1,42 @@
+import collections
+import hashlib
+import json
+from pathlib import Path
+
+source=Path('/tmp/tenka-color-layer-f03-readback-c1/layer-observation.json')
+p=json.loads(source.read_text())
+observations=p['observations']
+fields=['hud','hudBefore','hudAfter','rail','railBefore','railAfter','canvas','railRealm','hudResources','focus','reducedMotion']
+first=observations[0]
+style_changes={field:[o['name'] for o in observations if o[field]!=first[field]] for field in fields}
+paint_entries={o['name']:o['paintEntries'] for o in observations}
+tree_events=[e for e in p['layers'] if e['kind']=='tree']
+paint_events=[e for e in p['layers'] if e['kind']=='paint']
+layer_counts=collections.Counter(e['phase'] for e in tree_events)
+def layer_at(event,id):
+    return next((l for l in event.get('layers',[]) if l['layerId']==id),None)
+layer_id_history={id:[{ 'phase':e['phase'],'wallMs':e['wallMs'],'layer':layer_at(e,id)}
+                      for e in tree_events if layer_at(e,id) is not None] for id in ['30','31']}
+layer_changes={}
+for id,history in layer_id_history.items():
+    raw=[item['layer'] for item in history]
+    uniq=[]
+    for item in raw:
+        if item not in uniq: uniq.append(item)
+    layer_changes[id]={'events':len(history),'uniqueDescriptions':len(uniq),'descriptions':uniq}
+result={
+    'sourceSha256':hashlib.sha256(source.read_bytes()).hexdigest(),
+    'modeChange':p['modeChange'],'restoration':p['restoration'],
+    'observationNames':[o['name'] for o in observations],
+    'animationCounts':{o['name']:len(o['animations']) for o in observations},
+    'stateHashes':{o['name']:o['stateHash'] for o in observations},
+    'commandHashes':{o['name']:o['commandsHash'] for o in observations},
+    'styleChangesFromBaselineBefore':style_changes,
+    'paintEntries':paint_entries,
+    'layerTreeEventCounts':dict(layer_counts),'layerPaintedEventCount':len(paint_events),
+    'hudLayerAndRailLayer':layer_changes,
+    'markers':p['markers'],
+}
+out=Path('/tmp/tenka-color-layer-f03-readback-c1/summary.json')
+out.write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps({key:result[key] for key in ['sourceSha256','animationCounts','styleChangesFromBaselineBefore','layerTreeEventCounts','layerPaintedEventCount']},indent=2))

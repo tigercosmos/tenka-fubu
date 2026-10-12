@@ -1,0 +1,116 @@
+import { createHash } from 'node:crypto';
+import { writeFileSync } from 'node:fs';
+import { PNG } from 'pngjs';
+import { test, expect } from '/tmp/tenka-battle-79682cd/e2e/fixtures';
+
+function hash(value: unknown) {
+  return createHash('sha256').update(JSON.stringify(value)).digest('hex');
+}
+
+function difference(a: Buffer, b: Buffer) {
+  const left = PNG.sync.read(a), right = PNG.sync.read(b);
+  expect([right.width,right.height]).toEqual([left.width,left.height]);
+  let count=0, minX=left.width, minY=left.height, maxX=-1, maxY=-1;
+  const first: Array<{x:number;y:number;before:number[];after:number[]}> = [];
+  for(let y=0;y<left.height;y++) for(let x=0;x<left.width;x++) {
+    const at=4*(y*left.width+x);
+    if(left.data[at]===right.data[at] && left.data[at+1]===right.data[at+1] &&
+       left.data[at+2]===right.data[at+2] && left.data[at+3]===right.data[at+3]) continue;
+    count++;minX=Math.min(minX,x);minY=Math.min(minY,y);maxX=Math.max(maxX,x);maxY=Math.max(maxY,y);
+    if(first.length<30) first.push({x,y,before:Array.from(left.data.subarray(at,at+4)),after:Array.from(right.data.subarray(at,at+4))});
+  }
+  return {count,bounds:count?[minX,minY,maxX,maxY]:null,first};
+}
+
+test('diagnostic only: original-style color capture with animation and LayerTree observation', async ({page},info) => {
+  await page.setViewportSize({width:1280,height:720});
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.goto('/?debug=visual-map');
+  await expect(page.getByTestId('screen-strategy')).toBeVisible();
+  await expect(page.getByTestId('speed-pause')).toHaveAttribute('aria-pressed','true');
+  await page.evaluate(() => document.fonts.ready);
+  await page.mouse.move(1270,710);
+  const initial = await page.evaluate(() => ({state:window.__tenka.debug.getState(),commands:window.__tenka.debug.exportCommandLog()}));
+  const session = await page.context().newCDPSession(page);
+  const layers: unknown[] = [], markers: unknown[] = [];
+  let phase='setup';
+  session.on('LayerTree.layerPainted', payload => layers.push({kind:'paint',phase,wallMs:Date.now(),...payload}));
+  session.on('LayerTree.layerTreeDidChange', payload => layers.push({kind:'tree',phase,wallMs:Date.now(),...payload}));
+  const mark=(action:string)=>markers.push({phase,action,wallMs:Date.now()});
+  const observe=async (name:string) => {
+    const raw=await page.evaluate(() => {
+      const main=document.querySelector('[data-testid="screen-strategy"]')!;
+      const hud=main.querySelector(':scope > header')!;
+      const rail=main.querySelector(':scope > nav')!;
+      const canvas=main.querySelector('[data-testid="map-canvas-host"] canvas')!;
+      const props=['animationName','animationDuration','animationIterationCount','transitionProperty',
+        'transitionDuration','boxShadow','transform','filter','backdropFilter','opacity','contain',
+        'willChange','backgroundColor','borderColor','borderRadius','visibility','display'];
+      const describe=(node:Element,pseudo?:string)=>{
+        const s=getComputedStyle(node,pseudo);
+        return {rect:node.getBoundingClientRect().toJSON(),inline:node.getAttribute('style'),
+          computed:Object.fromEntries(props.map(key=>[key,s.getPropertyValue(key.replace(/[A-Z]/g,m=>'-'+m.toLowerCase()))]))};
+      };
+      return {
+        state:window.__tenka.debug.getState(), commands:window.__tenka.debug.exportCommandLog(),
+        diagnostics:window.__tenka.debug.getMapDiagnostics(),
+        reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,
+        animations:document.getAnimations({subtree:true}).map(animation=>({
+          kind:animation.constructor.name,playState:animation.playState,currentTime:animation.currentTime,
+          timing:animation.effect?.getComputedTiming(),
+          target:(animation.effect as KeyframeEffect | null)?.target?.outerHTML.slice(0,180) ?? null,
+        })),
+        paintEntries:performance.getEntriesByType('paint').map(entry=>({name:entry.name,startTime:entry.startTime,duration:entry.duration})),
+        hud:describe(hud),hudBefore:describe(hud,'::before'),hudAfter:describe(hud,'::after'),
+        rail:describe(rail),railBefore:describe(rail,'::before'),railAfter:describe(rail,'::after'),
+        canvas:describe(canvas),
+        railRealm:describe(main.querySelector('[data-testid="rail-realm"]')!),
+        hudResources:describe(main.querySelector('[data-testid="hud-resources"]')!),
+        focus:document.activeElement?.getAttribute('data-testid') ?? document.activeElement?.tagName,
+      };
+    });
+    expect(raw.state).toEqual(initial.state);
+    expect(raw.commands).toEqual(initial.commands);
+    return {name,wallMs:Date.now(),stateHash:hash(raw.state),commandsHash:hash(raw.commands),
+      diagnosticsHash:hash(raw.diagnostics),reducedMotion:raw.reducedMotion,
+      animations:raw.animations,paintEntries:raw.paintEntries,hud:raw.hud,hudBefore:raw.hudBefore,
+      hudAfter:raw.hudAfter,rail:raw.rail,railBefore:raw.railBefore,railAfter:raw.railAfter,
+      canvas:raw.canvas,railRealm:raw.railRealm,hudResources:raw.hudResources,focus:raw.focus};
+  };
+  const observations: unknown[]=[];
+  const capture=async (name:string) => {
+    phase=name;mark('before-observe');observations.push(await observe(`${name}-before`));
+    mark('before-screenshot');const png=await page.screenshot({path:info.outputPath(`${name}.png`)});
+    mark('after-screenshot');observations.push(await observe(`${name}-after`));
+    return png;
+  };
+  let none:Buffer|undefined,mode:Buffer|undefined,restored:Buffer|undefined;
+  try {
+    await session.send('LayerTree.enable');mark('layer-tree-enabled');
+    await session.send('Emulation.setEmulatedVisionDeficiency',{type:'none'});
+    await page.evaluate(() => window.__tenka.debug.setMapCameraPreset('overview'));
+    await page.evaluate(() => window.__tenka.debug.waitMapIdle(5));
+    none=await capture('baseline');
+    phase='mode-transition';mark('before-mode');
+    await session.send('Emulation.setEmulatedVisionDeficiency',{type:'achromatopsia'});
+    await page.evaluate(() => window.__tenka.debug.waitMapIdle(5));
+    mode=await capture('mode');
+    phase='restore-transition';mark('before-restore');
+    await session.send('Emulation.setEmulatedVisionDeficiency',{type:'none'});
+    await page.evaluate(() => window.__tenka.debug.waitMapIdle(5));
+    restored=await capture('restored');
+  } finally {
+    try { await session.send('Emulation.setEmulatedVisionDeficiency',{type:'none'}); }
+    finally { await session.detach(); }
+  }
+  const report={scope:'single original-style overview/achromatopsia sequence; LayerTree.enable can perturb paint',
+    source:'f03f3188f5cd86590864a10e65a99123a365a689',markers,layers,observations,
+    modeChange:difference(none!,mode!),restoration:difference(none!,restored!)};
+  writeFileSync(info.outputPath('layer-observation.json'),JSON.stringify(report,null,2));
+  console.log('LAYER_OBSERVATION',JSON.stringify({modeChange:report.modeChange.count,
+    restoration:report.restoration.count,bounds:report.restoration.bounds,
+    animations:(observations as Array<{name:string;animations:unknown[]}>).map(o=>({name:o.name,count:o.animations.length})),
+    layerEvents:layers.length}));
+  expect(report.modeChange.count).toBeGreaterThan(0);
+  expect(report.restoration.count,'original exact RGBA restoration oracle').toBe(0);
+});

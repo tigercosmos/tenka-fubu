@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "python3",
+    "/tmp/tenka-color-host-launcher-1e40539.py",
+    "--",
+    "/tmp/tenka-fubu-parallel-20261011.FC6Shj/runtime/bin/node",
+    "node_modules/@playwright/test/cli.js",
+    "test",
+    "e2e/color-layer-observation.spec.ts",
+    "--output=/tmp/tenka-battle-79682cd/runs/color-layer-f03-native-c1/browser-results",
+    "--reporter=line,json"
+  ],
+  "cwd": "/tmp/tenka-battle-79682cd",
+  "startedUtc": "2026-10-12T10:27:37.561589+00:00",
+  "browser": false
+}

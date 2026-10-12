@@ -6619,3 +6619,12 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 色覺 priming RED 293 像素；強制 HUD／rail 重畫在無 CDP 對照 RED 385；固定五張前／後序列的 25 個交叉比較全非零（最少 246），baseline 五張未穩定。只保存診斷，不採用 helper／threshold／基準變更；原測試及完整隔離 e4 來源已恢復。下一步先唯讀釐清 live animation／compositor 狀態，不再重複相同 settle 探測。
 - 兩個舊遠端 scratch transfer 檔被覆寫，原 bytes 未找回；原 size／mtime 與新 hash、受影響路徑及限制明載，indexed 歷史證據未改。新 transfer producer 強制建立 exclusive 目錄，碰撞時不複製且既有 hash 相同。初次 package verifier 因收錄尚未結束的自我 capture 而 RED，原不完整 archive 分開保存，完成後另收錄最終證據。
 - 全套五分鐘、strict60、whole-heap、long-run、其他 UI 與全 M6–M9 仍未完成。無嗣／戰術終局、人口校準、934163c 六圖人工核准均無新回答；沒有改規則、references 或 milestone，未 push／deploy。
+
+## 2026-10-12 — 原生成本負控制、layer 觀測與 trace 保留搬移
+
+- 固定 `f03f318` 的本批沒有 production／E2E source 修改。完整原生 report 的成本分析保留同來源 4／8-worker 比較，與不同來源的 16-worker 歷史分開；沒有採用 worker cap，也沒有重跑完整原生。
+- event 倍率成本實驗的精確原版與加觀測原版都在 1560/3/30 月結關閉後，因 x5 按鈕原 500ms actionability guard 而 RED。AX 無 dialog、按鈕可見啟用；每次八張相鄰 screencast bytes 全相同，沒有可見移動證據。compositor frame cadence 不代表 DOM RAF，因此未歸因 GPU 或改 timeout。兩次 Linux 預設 headless shell／VISUAL_GPU 未設，不能當成 full Chromium Vulkan 證據；完整 trace 留遠端，hash／小報告／代表圖本地保存。
+- virtual-RAF v2 未執行／未採用；lossless full snapshot 比較也未完成。其 expect.poll callback 內的精確 +1／日期斷言可被重試吞掉，未來必須永久記錄首個錯誤並在 poll 外失敗，不能等待後續目標日期而掩蓋超日。原 45 秒 poll、60 秒 case、300 秒全套及所有 364 項範圍維持；不以沒有成功對照的提案宣稱加速。
+- 原樣式色覺觀測三張圖仍 RED 508 像素，位於左上 HUD／rail 邊緣。六次無 live animation，樣式／幾何／焦點／state／commands 相同；兩個相符尺寸 layer 在模式／還原各增加 paintCount。沒有 node ID 證明 owner，CDP 觀測可能擾動，未確認 Chromium 原因。精確零差異不變；不再重複 native priming／重畫／穩定序列。人工色覺／灰階、道路／友敵 cues 與 40 勢力辨識仍需原規格人工驗收，不能用這次診斷代替。
+- 舊 national traces 17,006 entries／1,644,571,085 bytes 已完整校驗後搬至 sim2 exclusive retained 目錄。本機再次全量比對及無 open handles 後才移除原副本，完整 proof／manifest 保存於 `national-traces-relocation-f03f318`；indexed 歷史 bytes 不變。首次套件 verifier 的自我 hash 表錯誤 RED 亦保存，修正後及 root 獨立驗證通過。這是有證明的保留搬移，與前批未找回的 scratch bytes 分開。
+- 色覺／搬移 compact packages 已由 root 獨立驗證。本批沒有重跑無關 core、沒有全專案完成宣稱。strict60、whole-heap、long-run、完整原生五分鐘、其餘 M6–M9 及待決無嗣／戰術終局、人口校準、934163c 六圖仍開放；未改規則、references、milestone，未 push／deploy。

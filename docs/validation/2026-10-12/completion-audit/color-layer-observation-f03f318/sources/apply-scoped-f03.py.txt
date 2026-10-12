@@ -1,0 +1,27 @@
+import hashlib
+import json
+import os
+import pathlib
+import tarfile
+
+root = pathlib.Path('/tmp/tenka-battle-79682cd')
+payload = root / 'runs/color-layer-f03-delta-c14'
+manifest = json.loads((payload / 'manifest.json').read_text())
+assert manifest['revision'] == 'f03f3188f5cd86590864a10e65a99123a365a689'
+assert manifest['base'] == 'e4e5521217aa14d0765b5aeb71ab2c7fd687640f'
+assert manifest['archivePaths'] == ['CLAUDE.md', 'e2e/earned-hojo-aid.spec.ts']
+assert manifest['deletedPaths'] == []
+archive = payload / 'source.tar'
+assert hashlib.sha256(archive.read_bytes()).hexdigest() == manifest['archiveSha256']
+with tarfile.open(archive) as tar:
+    members = [item for item in tar if item.isfile()]
+    assert sorted(item.name for item in members) == manifest['archivePaths']
+    for item in members:
+        raw = tar.extractfile(item).read()
+        target = root / item.name
+        tmp = target.with_name(target.name + '.f03-temporary')
+        with tmp.open('xb') as stream:
+            stream.write(raw)
+        os.chmod(tmp, item.mode)
+        os.replace(tmp, target)
+print(json.dumps({'revision':manifest['revision'],'replaced':manifest['archivePaths']}))

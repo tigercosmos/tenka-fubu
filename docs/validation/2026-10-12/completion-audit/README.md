@@ -4,13 +4,23 @@ Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目�
 最新固定來源 `7d37c28` 全量測試為 6,445 通過、1 既有失敗、1 跳過；120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
+## 原生成本負控制、靜態繪製觀測與原始檔搬移
+
+固定 `f03f318` 的[原生成本排查](native-critical-path-f03f318/README.md) 沒有產生可採用修正。較早固定 `ecba08b` 的 4／8-worker 完整 report 診斷顯示工作時間與尚未派發案例問題，並未採用 worker cap。針對重複事件倍率流程的精確原版及觀測原版，兩次都在 1560/3/30 月結關閉後的 x5 按鈕 500ms actionability 等待失敗。AX 顯示無 dialog、按鈕可見且啟用；每次前後八張 screencast bytes 相同。這排除不了 DOM RAF 排程，也不足以指認 GPU 原因。兩次使用 Linux 預設 headless shell、`VISUAL_GPU` 未設；不能冒稱既有 full Chromium／Vulkan 執行。virtual-RAF v2 沒有執行，且 poll 內精確日期斷言可能被 retry 吞掉，仍是未驗證提案，不可直接採用。沒有放寬 500ms guard、45 秒 poll、60 秒 case 或 300 秒全套，也沒有再跑完整原生。
+
+[色覺 layer 觀測](color-layer-observation-f03f318/README.md) 保留原樣式及精確零差異：還原仍差 508 像素，集中左上 HUD／rail 邊緣。六個取樣均無 live animation；computed style、幾何、焦點、state／commands 相同。HUD／rail 尺寸相符的 layer paintCount 在 emulation 與還原各增加，只有幾何關聯，沒有 backend node ID 證明 owner。這是一次會受 CDP 觀測影響的 compositor 診斷，不是已確認原因。暫停重複 native 探測；plan17 的色覺／灰階人工辨識、40 勢力／道路／友敵 cue 可讀性與額外 exact restore oracle 分開追蹤，尚未接受既有美術。
+
+[舊 national traces 搬移證明](national-traces-relocation-f03f318/README.md) 保存 17,006 entries／1,644,571,085 bytes 的逐檔 hash、mode、命令及結果。原本機 `/tmp/tenka-national-current-headless-artifacts` 已搬至 sim2 的 exclusive retained 目錄；完整遠端比對、再次本機比對及無 open handles 後才刪除本機副本，歷史 indexed 套件不變。未重複保存大型 trace；未來使用前仍須重新核對遠端。這次有證明的搬移不修復前批兩個遺失 scratch 檔。
+
+本批只增加觀測、保留證據與交接，production／E2E source 未改，沒有 core／full-suite 重跑或新的成功宣稱。完整原生五分鐘、strict60、whole-heap、long-run、其他 UI／M6–M9 及待決無嗣／戰術終局、人口校準、934163c 六圖人工核准全部維持。下一步先解決已定位但未歸因的普通 UI resume actionability，或針對另一個有明確成本證據的測試設計等價控制；不可將未執行 virtual-RAF 提案當成已驗證加速。
+
 ## Hojo 合法出兵路徑與色覺控制結果
 
 `1791c9a` 的[Hojo 合法兵力輸送路徑](hojo-aid-transport-1791c9a/README.md) 通過原正向援軍案例。玩家在 day90 已暫停的月結邊界，透過城池 UI 將躑躅崎館 1,500 兵輸往自有深志城，降低北條邊界上的友軍壓力。指令正常執行、威脅 cache 自然刷新；實際 day120 威脅 1.87425968684、score 0.50658314092，與較早 clone 的反事實預測 0.512038 分開。四個付費月份、day121 同意／五個 AI 出陣指令、day122 援軍建立及 day123 普通移動全由原斷言通過，54.705 秒未超過原 60 秒。這是 focused 成功，不保證全套負載下的期限。
 
 原 day119 停止觀測超至 day120、舊 exact label 查詢逾時兩個 RED 均保存；後者改用已觀測的 combobox AX 名稱。原生採最後格式前的精確 bytes，最終提交只改格式且語意 AST 相同。[固定 1791c9a 整合](hojo-route-integrated-1791c9a/README.md) 通過型別、完整 ESLint、364 項 discovery、格式及 1,633 Git 輸入前後校驗。沒有改遊戲規則、門檻、cache 或 deadlines，也沒有重跑完整 core／原生。
 
-[色覺正規化控制](color-normalization-e4e5521/README.md) 沒有產生可採用的修正。CDP priming 還原差異 293 像素；強制 HUD／rail 重畫在無 CDP 對照即差 385；原樣式五張 baseline／五張 restored 的 25 個交叉比較全非零，最少 246。baseline 五張未達穩定，不能宣稱共同穩態不可能。原測試及完整隔離 e4 來源恢復；下一步先唯讀檢查 live animation／compositor 狀態，不重複相同 settle 控制或放寬像素。
+[色覺正規化控制](color-normalization-e4e5521/README.md) 沒有產生可採用的修正。CDP priming 還原差異 293 像素；強制 HUD／rail 重畫在無 CDP 對照即差 385；原樣式五張 baseline／五張 restored 的 25 個交叉比較全非零，最少 246。baseline 五張未達穩定，不能宣稱共同穩態不可能。原測試及完整隔離 e4 來源恢復；後續 live animation／compositor 觀測見上節，不重複相同 settle 控制或放寬像素。
 
 本批 transfer 曾覆寫兩個舊遠端 scratch `manifest.json`／`source.tar`，只找到原 size／mtime，原 bytes 未找回；此限制明載於色覺套件，既有 indexed 證據未改。新 producer 要求 exclusive 新目錄，碰撞時不啟動複製且原內容 hash 不變；實際先轉移後做控制的順序亦如實保留。初次打包自我 capture 尚未結束造成的 verifier RED／不完整 archive 另存，沒有改寫成第一次即成功。
 

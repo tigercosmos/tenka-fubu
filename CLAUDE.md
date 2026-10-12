@@ -48,8 +48,12 @@
 
 - 當前里程碑：見 `milestone.json`；歷史進度：見 README 進度表。
 
+- 固定 `f03f318` 的色覺觀測仍 RED：原樣式三張 overview／achromatopsia 圖還原差 508 像素，集中左上 HUD／rail 邊緣。六次觀測均無 live animation，樣式／幾何／焦點／state／commands 不變；兩個相符尺寸的 layer paintCount 在切換及還原各增加。只支持此 run 的 compositor 假說，不證明 Chromium 原因，CDP 觀測本身也可能擾動排程。原精確零差異不變，不再重複 priming／重畫／等待探測；人工色覺／灰階辨識與 protected 六圖核准仍是不同門檻。
+- 本批 event 倍率成本實驗沒有採用修改：精確原版與加觀測的原版均在 1560/3/30 月結關閉後的 x5 按鈕 500ms actionability 等待失敗。AX 無 dialog、按鈕可見啟用；各八張相鄰 screencast bytes 相同，不能歸因畫面移動，也不能從 compositor cadence 推論 DOM RAF 或 GPU 原因。兩次使用 Linux 預設 headless shell，不能冒稱既有 Vulkan 原生路徑。virtual-RAF v2 僅未執行提案，其 poll 內日期斷言可被重試吞掉，未驗證／未採用；原 45 秒 poll、60 秒 case、300 秒全套及 364 項範圍均不改，沒有再跑全套。
+- 舊 national traces 已核對 17,006 entries／1,644,571,085 bytes 後搬至 sim2 的 exclusive retained 目錄；remote 全量 hash／mode、local 再核對及無開啟 handle 後才刪除本機副本，屬有證明的保留副本搬移，與前批兩個未找回 scratch 檔不同。詳見 `national-traces-relocation-f03f318`。本批只新增診斷與交接，production／E2E source 未改，未重跑 core；原生全套、strict60、whole-heap、long-run、M6–M9 及待決規則／六圖仍開放。
+
 - `1791c9a` 完成 Hojo 正向援軍的合法原生路徑：day90 原月結暫停時，透過城池面板將躑躅崎館 1,500 兵輸往自有深志城；正常指令結算及 day120 cache 刷新後，實際威脅 1.87425968684、援軍分數 0.50658314092。四個付費月份、day121 同意與五個 AI 出陣指令、day122 新援軍及 day123 普通移動皆由原斷言通過，原 60 秒內 54.705 秒成功。day119 暫停超日及舊 label locator 兩個 RED 保留。最後格式與原生 bytes 的語意 AST 相同；固定提交的型別、完整 ESLint、364 項 discovery／格式及 1,633 Git 輸入前後證明通過。未重跑完整原生，未改規則、cache、期限或門檻。
-- 色覺三個新控制沒有支持修正：CDP priming 還原差異 293 像素；強制 HUD／rail 重畫使無 CDP 對照也差 385；固定五張前／後序列的 25 個交叉比較全非零。原樣式 baseline 五張尚未穩定，不能斷言永遠無共同穩態；原測試與隔離 e4 來源已完整恢復。下一步先唯讀釐清 live animation／compositor 狀態，不重複 settle 試跑、不放寬像素。此批誤覆寫兩個舊遠端 scratch transfer 檔，原 bytes 未找回，已明載；indexed 歷史證據未改。新 transfer producer 強制 exclusive 目錄並驗證碰撞拒絕。
+- 色覺三個新控制沒有支持修正：CDP priming 還原差異 293 像素；強制 HUD／rail 重畫使無 CDP 對照也差 385；固定五張前／後序列的 25 個交叉比較全非零。原樣式 baseline 五張尚未穩定，不能斷言永遠無共同穩態；原測試與隔離 e4 來源已完整恢復。該批後續的 live animation／compositor 觀測見上方；不重複 settle 試跑、不放寬像素。此批誤覆寫兩個舊遠端 scratch transfer 檔，原 bytes 未找回，已明載；indexed 歷史證據未改。新 transfer producer 強制 exclusive 目錄並驗證碰撞拒絕。
 
 - `a98046e` 修正朝廷 E2E 在正常 x5 Worker 日結算前讀取快照的競態：保留原 clock／UI，等精確下一日及零 pending ticks 後再讀完整狀態。原案例與觀測衍生版本均 RED，精確候選 PASS。`1e40539` 修正 earned-alliance 的另一種正常影格邊界：原 day299 尚未派發下一 tick，不是 generator 失敗；保留原 32／152／120ms 與 UI 控制，最多補三個受 x5／無 dialog 保護的 16ms RAF，每次等 pending tick 完成，仍要求精確一日及原完整斷言。原版／診斷 RED，最終原生 PASS 21.4 秒。最後固定 `1e40539` 的型別、完整 ESLint、格式、364 項 discovery 與 1,633 Git 輸入前後校驗通過；完整原生未重跑。
 - 前批 Hojo 未完成的原始路徑：day120 信用已足夠，但實際分數 0.487169 未達 0.5；診斷延至 day150 時 null cache 的表面 0.9 不是合法安全證據，實際刷新分數為零。day121–125 的強制重算 0.5716 也只是反事實，正式十日 cache 仍沿用 day120 分數。六個省略 eventEngine 的 clone-core 診斷均拒絕，沒有宣稱覆蓋 day151–180。另有 exact label locator 與實際 combobox AX 不符；該批未把 locator 修正當成正向出兵通過。後續合法路徑的真正出兵驗證見上方 `1791c9a`，沒有改門檻或操弄 cache。

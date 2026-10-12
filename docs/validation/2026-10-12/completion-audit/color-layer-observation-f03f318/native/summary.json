@@ -1,0 +1,1531 @@
+{
+  "sourceSha256": "0d55d23ccbc94b44e52352985be6a91906fd84808db1a028ab425dc5d7f5524b",
+  "modeChange": {
+    "count": 921600,
+    "bounds": [
+      0,
+      0,
+      1279,
+      719
+    ],
+    "first": [
+      {
+        "x": 0,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 5,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 6,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 7,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 8,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 9,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 12,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 13,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 14,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 15,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 16,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 17,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 18,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 19,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 20,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 21,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 22,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 23,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 24,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 25,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 26,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 27,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 28,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      },
+      {
+        "x": 29,
+        "y": 0,
+        "before": [
+          24,
+          41,
+          54,
+          255
+        ],
+        "after": [
+          39,
+          39,
+          39,
+          255
+        ]
+      }
+    ]
+  },
+  "restoration": {
+    "count": 508,
+    "bounds": [
+      10,
+      14,
+      69,
+      63
+    ],
+    "first": [
+      {
+        "x": 10,
+        "y": 14,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 14,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 15,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 15,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 16,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 16,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 17,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 17,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 18,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 18,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 19,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 19,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 20,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 20,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 21,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 21,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 22,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 22,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 23,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 23,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 24,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 24,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 25,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 25,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 26,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 26,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 27,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 27,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      },
+      {
+        "x": 10,
+        "y": 28,
+        "before": [
+          50,
+          49,
+          47,
+          255
+        ],
+        "after": [
+          14,
+          14,
+          14,
+          255
+        ]
+      },
+      {
+        "x": 11,
+        "y": 28,
+        "before": [
+          13,
+          13,
+          12,
+          255
+        ],
+        "after": [
+          11,
+          11,
+          11,
+          255
+        ]
+      }
+    ]
+  },
+  "observationNames": [
+    "baseline-before",
+    "baseline-after",
+    "mode-before",
+    "mode-after",
+    "restored-before",
+    "restored-after"
+  ],
+  "animationCounts": {
+    "baseline-before": 0,
+    "baseline-after": 0,
+    "mode-before": 0,
+    "mode-after": 0,
+    "restored-before": 0,
+    "restored-after": 0
+  },
+  "stateHashes": {
+    "baseline-before": "a42f4f33a1c2201c62bfba9c5e982b7cf323b0e471435333afd04feba2cb4f07",
+    "baseline-after": "a42f4f33a1c2201c62bfba9c5e982b7cf323b0e471435333afd04feba2cb4f07",
+    "mode-before": "a42f4f33a1c2201c62bfba9c5e982b7cf323b0e471435333afd04feba2cb4f07",
+    "mode-after": "a42f4f33a1c2201c62bfba9c5e982b7cf323b0e471435333afd04feba2cb4f07",
+    "restored-before": "a42f4f33a1c2201c62bfba9c5e982b7cf323b0e471435333afd04feba2cb4f07",
+    "restored-after": "a42f4f33a1c2201c62bfba9c5e982b7cf323b0e471435333afd04feba2cb4f07"
+  },
+  "commandHashes": {
+    "baseline-before": "37ba2f2eb9850d107a3047a794f3b28592df90d5cf3e74f2c1509dc19d1f2cac",
+    "baseline-after": "37ba2f2eb9850d107a3047a794f3b28592df90d5cf3e74f2c1509dc19d1f2cac",
+    "mode-before": "37ba2f2eb9850d107a3047a794f3b28592df90d5cf3e74f2c1509dc19d1f2cac",
+    "mode-after": "37ba2f2eb9850d107a3047a794f3b28592df90d5cf3e74f2c1509dc19d1f2cac",
+    "restored-before": "37ba2f2eb9850d107a3047a794f3b28592df90d5cf3e74f2c1509dc19d1f2cac",
+    "restored-after": "37ba2f2eb9850d107a3047a794f3b28592df90d5cf3e74f2c1509dc19d1f2cac"
+  },
+  "styleChangesFromBaselineBefore": {
+    "hud": [],
+    "hudBefore": [],
+    "hudAfter": [],
+    "rail": [],
+    "railBefore": [],
+    "railAfter": [],
+    "canvas": [],
+    "railRealm": [],
+    "hudResources": [],
+    "focus": [],
+    "reducedMotion": []
+  },
+  "paintEntries": {
+    "baseline-before": [
+      {
+        "name": "first-paint",
+        "startTime": 168,
+        "duration": 0
+      },
+      {
+        "name": "first-contentful-paint",
+        "startTime": 300,
+        "duration": 0
+      }
+    ],
+    "baseline-after": [
+      {
+        "name": "first-paint",
+        "startTime": 168,
+        "duration": 0
+      },
+      {
+        "name": "first-contentful-paint",
+        "startTime": 300,
+        "duration": 0
+      }
+    ],
+    "mode-before": [
+      {
+        "name": "first-paint",
+        "startTime": 168,
+        "duration": 0
+      },
+      {
+        "name": "first-contentful-paint",
+        "startTime": 300,
+        "duration": 0
+      }
+    ],
+    "mode-after": [
+      {
+        "name": "first-paint",
+        "startTime": 168,
+        "duration": 0
+      },
+      {
+        "name": "first-contentful-paint",
+        "startTime": 300,
+        "duration": 0
+      }
+    ],
+    "restored-before": [
+      {
+        "name": "first-paint",
+        "startTime": 168,
+        "duration": 0
+      },
+      {
+        "name": "first-contentful-paint",
+        "startTime": 300,
+        "duration": 0
+      }
+    ],
+    "restored-after": [
+      {
+        "name": "first-paint",
+        "startTime": 168,
+        "duration": 0
+      },
+      {
+        "name": "first-contentful-paint",
+        "startTime": 300,
+        "duration": 0
+      }
+    ]
+  },
+  "layerTreeEventCounts": {
+    "setup": 12,
+    "baseline": 17,
+    "mode-transition": 8,
+    "mode": 18,
+    "restore-transition": 9,
+    "restored": 20
+  },
+  "layerPaintedEventCount": 0,
+  "hudLayerAndRailLayer": {
+    "30": {
+      "events": 84,
+      "uniqueDescriptions": 4,
+      "descriptions": [
+        {
+          "layerId": "30",
+          "parentLayerId": "2",
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 1266,
+          "height": 58,
+          "transform": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            7,
+            4,
+            0,
+            1
+          ],
+          "anchorX": 0,
+          "anchorY": 0,
+          "anchorZ": 0,
+          "paintCount": 0,
+          "drawsContent": true,
+          "scrollRects": [
+            {
+              "rect": {
+                "x": 5,
+                "y": 4,
+                "width": 1256,
+                "height": 48
+              },
+              "type": "TouchEventHandler"
+            }
+          ]
+        },
+        {
+          "layerId": "30",
+          "parentLayerId": "2",
+          "backendNodeId": 19,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 1266,
+          "height": 58,
+          "transform": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            7,
+            4,
+            0,
+            1
+          ],
+          "anchorX": 0,
+          "anchorY": 0,
+          "anchorZ": 0,
+          "paintCount": 1,
+          "drawsContent": true,
+          "scrollRects": [
+            {
+              "rect": {
+                "x": 5,
+                "y": 4,
+                "width": 1256,
+                "height": 48
+              },
+              "type": "TouchEventHandler"
+            }
+          ]
+        },
+        {
+          "layerId": "30",
+          "parentLayerId": "2",
+          "backendNodeId": 19,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 1266,
+          "height": 58,
+          "transform": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            7,
+            4,
+            0,
+            1
+          ],
+          "anchorX": 0,
+          "anchorY": 0,
+          "anchorZ": 0,
+          "paintCount": 2,
+          "drawsContent": true,
+          "scrollRects": [
+            {
+              "rect": {
+                "x": 5,
+                "y": 4,
+                "width": 1256,
+                "height": 48
+              },
+              "type": "TouchEventHandler"
+            }
+          ]
+        },
+        {
+          "layerId": "30",
+          "parentLayerId": "2",
+          "backendNodeId": 19,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 1266,
+          "height": 58,
+          "transform": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            7,
+            4,
+            0,
+            1
+          ],
+          "anchorX": 0,
+          "anchorY": 0,
+          "anchorZ": 0,
+          "paintCount": 3,
+          "drawsContent": true,
+          "scrollRects": [
+            {
+              "rect": {
+                "x": 5,
+                "y": 4,
+                "width": 1256,
+                "height": 48
+              },
+              "type": "TouchEventHandler"
+            }
+          ]
+        }
+      ]
+    },
+    "31": {
+      "events": 84,
+      "uniqueDescriptions": 4,
+      "descriptions": [
+        {
+          "layerId": "31",
+          "parentLayerId": "2",
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 74,
+          "height": 654,
+          "transform": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            3,
+            60,
+            0,
+            1
+          ],
+          "anchorX": 0,
+          "anchorY": 0,
+          "anchorZ": 0,
+          "paintCount": 0,
+          "drawsContent": true,
+          "scrollRects": [
+            {
+              "rect": {
+                "x": 5,
+                "y": 4,
+                "width": 64,
+                "height": 644
+              },
+              "type": "TouchEventHandler"
+            }
+          ]
+        },
+        {
+          "layerId": "31",
+          "parentLayerId": "2",
+          "backendNodeId": 96,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 74,
+          "height": 654,
+          "transform": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            3,
+            60,
+            0,
+            1
+          ],
+          "anchorX": 0,
+          "anchorY": 0,
+          "anchorZ": 0,
+          "paintCount": 1,
+          "drawsContent": true,
+          "scrollRects": [
+            {
+              "rect": {
+                "x": 5,
+                "y": 4,
+                "width": 64,
+                "height": 644
+              },
+              "type": "TouchEventHandler"
+            }
+          ]
+        },
+        {
+          "layerId": "31",
+          "parentLayerId": "2",
+          "backendNodeId": 96,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 74,
+          "height": 654,
+          "transform": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            3,
+            60,
+            0,
+            1
+          ],
+          "anchorX": 0,
+          "anchorY": 0,
+          "anchorZ": 0,
+          "paintCount": 2,
+          "drawsContent": true,
+          "scrollRects": [
+            {
+              "rect": {
+                "x": 5,
+                "y": 4,
+                "width": 64,
+                "height": 644
+              },
+              "type": "TouchEventHandler"
+            }
+          ]
+        },
+        {
+          "layerId": "31",
+          "parentLayerId": "2",
+          "backendNodeId": 96,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 74,
+          "height": 654,
+          "transform": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            3,
+            60,
+            0,
+            1
+          ],
+          "anchorX": 0,
+          "anchorY": 0,
+          "anchorZ": 0,
+          "paintCount": 3,
+          "drawsContent": true,
+          "scrollRects": [
+            {
+              "rect": {
+                "x": 5,
+                "y": 4,
+                "width": 64,
+                "height": 644
+              },
+              "type": "TouchEventHandler"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "markers": [
+    {
+      "phase": "setup",
+      "action": "layer-tree-enabled",
+      "wallMs": 1791800860908
+    },
+    {
+      "phase": "baseline",
+      "action": "before-observe",
+      "wallMs": 1791800861815
+    },
+    {
+      "phase": "baseline",
+      "action": "before-screenshot",
+      "wallMs": 1791800862246
+    },
+    {
+      "phase": "baseline",
+      "action": "after-screenshot",
+      "wallMs": 1791800862809
+    },
+    {
+      "phase": "mode-transition",
+      "action": "before-mode",
+      "wallMs": 1791800863223
+    },
+    {
+      "phase": "mode",
+      "action": "before-observe",
+      "wallMs": 1791800863758
+    },
+    {
+      "phase": "mode",
+      "action": "before-screenshot",
+      "wallMs": 1791800864180
+    },
+    {
+      "phase": "mode",
+      "action": "after-screenshot",
+      "wallMs": 1791800864827
+    },
+    {
+      "phase": "restore-transition",
+      "action": "before-restore",
+      "wallMs": 1791800865243
+    },
+    {
+      "phase": "restored",
+      "action": "before-observe",
+      "wallMs": 1791800865803
+    },
+    {
+      "phase": "restored",
+      "action": "before-screenshot",
+      "wallMs": 1791800866210
+    },
+    {
+      "phase": "restored",
+      "action": "after-screenshot",
+      "wallMs": 1791800866789
+    }
+  ]
+}
