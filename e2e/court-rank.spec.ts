@@ -7,7 +7,6 @@ import { validateStartDiploWork } from '../src/core/commands/diplomacyCommands';
 import { monthlyDiplomacyWorkCost } from '../src/core/systems/court';
 import { effectiveStat } from '../src/core/systems/officers';
 import { BAL } from '../src/core/balance';
-import { buildSaveFile } from '../src/core/save/serialize';
 import { test, expect } from './fixtures';
 import { encodeFullSnapshot } from './full-snapshot-transport';
 
@@ -283,7 +282,10 @@ test('Earned court rank: normal donations, queued grant, and native save/reload'
     ).toEqual([{ type: 'requestCourtRank', clanId }]);
     await page.keyboard.press('Escape');
     const beforeSave = await state(page);
-    const expectedReload = buildSaveFile(beforeSave, 0).state;
+    // 02 §3.4 / 09 §3.11 omit the transient AI intent log; 16 §3.2 saves a JSON snapshot.
+    const expectedReload = JSON.parse(
+      JSON.stringify({ ...beforeSave, ai: { ...beforeSave.ai, intentLog: [] } }),
+    ) as GameState;
     await page.getByRole('button', { name: '系統選單', exact: true }).click();
     await page.getByRole('button', { name: '存檔', exact: true }).click();
     const panel = page.getByTestId('save-load-panel');
