@@ -39,6 +39,7 @@ export function SystemMenu({
   const activeRequest = useRef<typeof request>(null);
   const mounted = useRef(false);
   const revoked = useRef(false);
+  const effectGeneration = useRef(0);
   const [invalid, setInvalid] = useState(false);
   const owner = useRef({
     game: store.getState().game,
@@ -67,7 +68,13 @@ export function SystemMenu({
     }
   }, [subview]);
   useLayoutEffect(() => {
+    const generation = ++effectGeneration.current;
     mounted.current = true;
+    const app = store.getState();
+    revoked.current =
+      app.game !== owner.game ||
+      app.session.screen !== owner.screen ||
+      uiStore.getState().modal !== owner.modal;
     const unsubscribe = uiStore.subscribe((current, previous) => {
       if (
         owner.modal !== null &&
@@ -88,11 +95,16 @@ export function SystemMenu({
       revoked.current = true;
       if (activeRequest.current !== null) activeRequest.current.consumed = true;
       activeRequest.current = null;
-      if (owner.modal !== null)
+      // React StrictMode replays layout effects on the live owner. Release only
+      // if no matching setup reclaimed this instance before the microtask.
+      queueMicrotask(() => {
+        if (effectGeneration.current !== generation || mounted.current || owner.modal === null)
+          return;
         uiStore.getState().actions.closeOwnedModal(owner.modal, {
           resume: false,
           expectedGame: owner.game,
         });
+      });
     };
   }, [owner]);
   useLayoutEffect(() => {
