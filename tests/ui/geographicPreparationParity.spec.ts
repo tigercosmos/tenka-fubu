@@ -108,7 +108,7 @@ const label = (id = 'a'): GeographicLabelCandidate => ({
   rect: { x: 0, y: 0, width: 20, height: 10 },
 });
 
-describe('fused geographic axes preserve original full preparation', () => {
+describe('geographic preparation preserves frozen full arguments', () => {
   it.each([0, 1, 2, 3])(
     'matches seed batch %i with every cache/road/blocker/eviction transition and actual Rust',
     async (batch) => {
