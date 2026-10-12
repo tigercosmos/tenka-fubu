@@ -4,6 +4,14 @@ Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目�
 最新固定來源 `ab06242` 全量測試為 6,451 通過、3 失敗、1 跳過；其中兩個新缺字失敗已另以 focused 檢查修復，既有無嗣領地失敗保留。120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
+## Earned 路徑對照與負載啟動邊界
+
+固定 `27d9028` 的[區域 Ending 路徑對照](earned-generator-pathfinding-27d9028/README.md) 比較兩份等量觀測 derivative，compile／install 仍在原五秒 test callback。JS／WASM testcase 為 1,620／1,604ms、process 5.29／5.40 秒；WASM 實際 4,202 queries／16 topology builds，finally 清除 provider。完整最終 state、RNG、373 日 emitted history、84 筆玩家指令與 fresh save hash 相同，但不代表每個中間完整 state 或所有 AI 指令相等。這個單次小差距沒有採用價值；兩個 launch RED 與 verifier 修正保留，不能和舊 full955 負載下 6.98 秒相比宣稱改善。
+
+[Army boot 十八項負載觀測](army-boot-cohort-27d9028/README.md) 使用同來源加 guarded observer、原十六 workers／60 秒 case／300 秒 global。實際 16 PASS／2 FAIL、31.65 秒；兩個失敗仍是原五秒 poll，沒有重跑。三個目標頁以外不取 renderer snapshot／包 resolve；來源 1,650 tracked inputs、明列新 helper 與 29 dependency targets 前後校驗。失敗頁 callback 已在 browser 進入並排入 waiter、ticker 繼續，但 terrain／castle pending 擋住 idle；Sunpu 控制在素材完成後通過。Dense browser callback 約 4.700 秒、Playwright poll 約 5.008 秒屬不同時計；跨時計 epoch 僅作相關觀測，不能直接推算 IPC 成本。全部 PNG HTTP200 與 network completion 也不能證明 decode／texture／attachment 完成。此子集有實際十六案例重疊，仍不是原 full955 排程重播或其歷史原因證明。
+
+本批沒有 production／E2E 採用，也沒有完整原生重跑。下一步先拆分 asset acquire 生命週期；另一方向是原 earned Takeda callback 的 core／invariants／hash／clone／serialization／write 階段量測。300 次 full-state hash／validation 與大型輸出只是 source-backed 假說，還沒有實測占比；未採用 FNV 改寫或把工作移出期限。全 M6–M9、完整五分鐘、strict60、whole-heap、long-run、六推薦／星級及待決規則／六張人工核准保持。
+
 ## 月結原生暫停交接與軍勢札啟動觀測
 
 [Hojo 1a6a681](hojo-native-pause-1a6a681/README.md) 保留原 day30→32 RED trace：月結正確恢復 x2 後，測試的 Pause locator 花 823ms。候選預先量測真實按鈕，Continue 後先確認 FIFO 已無 dialog，再送 native pointer；沒有改 clock、state、規則或日期斷言。單案 54.747 秒／總 56.0 秒通過，123 個連續日狀態、四次月結與實際援軍普通移動保持；輸送於 day90 入列、day91 執行，day120 是確認快照。PASS 未保留 action trace，不能推定新輸入延遲或 16-worker deadline 已通過。

@@ -1,0 +1,10 @@
+{
+  "revision": "27d9028f01e38e67cfb0adf65b933ffd44485930",
+  "wasm": {
+    "sha256": "e22f559b4b9d6f6348709e028cecdbc2c6f567db2483fa845b48df0554d7bc7d",
+    "bytes": 90122,
+    "abi": 1
+  },
+  "historicalFull955": "../fullnative-current-9550/report.json.gz",
+  "remoteBundle": "sim4:/tmp/tenka-earned-wasm-remote-bundle-27d-c5.tar.gz"
+}

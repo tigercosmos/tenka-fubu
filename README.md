@@ -65,7 +65,9 @@
 
 ## 📐 專案現況：規格與驗證
 
-`1a6a681` 修正 Hojo 原生測試月結續行後的 Pause 輸入交接，原精確日期與完整援軍旅程通過；`8ca952c` 讓軍勢札 boot 保留非預期錯誤，原五秒重試期限不變，六項 focused 案例通過。歷史三個 pending Evaluate 超時仍未定位。合併來源的型別、完整 ESLint、441 項 discovery 及格式通過，並非 441 項完整原生成功。
+固定 `27d9028` 的診斷沒有採用新修正：區域 Ending earned route 使用 WASM 的單次對照僅差 16ms；十八項、十六 worker 的負載子集為 16 PASS／2 FAIL，兩個軍勢札 boot 仍逾時。觀測已確認 browser callback／ticker 運作而地形及城池素材 pending，尚未確認具體載入成本 owner。原期限、完整原生與其他驗收門檻維持，詳見[最新證據](docs/validation/2026-10-12/completion-audit/README.md)。
+
+`1a6a681` 修正 Hojo 原生測試月結續行後的 Pause 輸入交接，原精確日期與完整援軍旅程通過；`8ca952c` 讓軍勢札 boot 保留非預期錯誤，原五秒重試期限不變，六項 focused 案例通過。歷史三個 pending Evaluate 的個別原因仍未證明；較新的負載子集觀測見上方。合併來源的型別、完整 ESLint、441 項 discovery 及格式通過，並非 441 項完整原生成功。
 
 `ef75be6` 減少軍勢旗標重疊計算，保留精確布局與工作上限。九個完整地圖觀測含所有旗標均與原版逐 byte 相同；同機單次近景窗口由 33.24 到 34.13 FPS，p95 由 36 到 35ms，仍未達 strict60。固定來源 207 項相關測試、型別、完整 ESLint、build／bundle 通過；密集合成案例較慢及早期計時不穩定亦保留，沒有宣稱普遍或穩定加速。
 

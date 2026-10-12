@@ -48,10 +48,14 @@
 
 - 當前里程碑：見 `milestone.json`；歷史進度：見 README 進度表。
 
+- 固定 `27d9028` 的本批只增加隔離診斷與證據，沒有採用 production／E2E 修改。Ending 區域 earned route 的等量觀測 JS／WASM 單次對照為 1,620／1,604ms，完整 process 為 5.29／5.40 秒；compile／install 留在原五秒 callback 內。WASM 確實執行 4,202 queries／16 topology builds，最終完整 state、RNG、373 日 emitted history、84 筆玩家指令與 fresh save 相同；不是每日完整 state 或所有 AI 指令證明。16ms 單次差距不足以採用，原 setup RED 保留。
+- 同來源加 guarded observer 的十八項／十檔原生 cohort，實際使用十六 workers，16 PASS／2 FAIL，總 31.65 秒。兩個軍勢札案例仍撞原五秒 boot poll；browser callback 已進入並排入 frame waiter，ticker 持續而 terrain／castle pending。Dense callback 自身約 4.700 秒，與 Playwright poll 約 5.008 秒分屬不同時計，不能直接相減當作 IPC 延遲。此高負載子集不是原 full955 排程重播；pending flags 只定位近端 gate，尚未分解 fetch／decode／texture／attachment 成本。
+- 下一步先量測 earned Takeda 原 callback 的 core／invariants／hash／clone／serialization／write 成本，並由 asset acquire 生命週期區分軍勢札 boot 的晚完成 owner。現有 source 顯示 300 次 full-state hash／validation 及大型輸出，但尚未量到各階段占比；不得直接採用 FNV 改寫、重啟舊 image Worker、延長 idle 或移出期限。最新完整原生仍為 955 的 440 項 RED；441 只是後續 discovery。strict60、whole-heap、long-run、全 M6–M9 與待決規則／保護圖保持，未 push／deploy。
+
 - `1a6a681` 只修 Hojo 原生測試的月結續行輸入交接：原 trace 顯示 x2 正常恢復後，Pause locator actionability 花 823ms，導致 day30→32；不是已證明的遊戲暫停 bug。候選先量測真實 Pause，Continue 後保留無 dialog 檢查才送 native pointer，精確日期與全部原旅程斷言不變。單案 54.747 秒／總 56.0 秒 PASS，保留 123 個連續日狀態、四次月結、day91 合法輸送及 day123 實際援軍移動；PASS 無 trace，不能宣稱量到新輸入延遲或已通過 16-worker 負載。
 - `8ca952c` 只讓軍勢札 boot 重試完整相符的尚未掛載例外，其他錯誤立即傳出，原五秒不變。舊 catch-all 對 one-shot unknown 控制 RED，候選整檔六項 PASS。較早 955 三個 trace 各只有一個 pending Evaluate 跨越五秒，沒有完成的 false retry；尚不能區分 IPC／瀏覽器進入／renderer frame 等待，這次不是其修復。孤立原版與 observer PASS 亦不能證明歷史原因。
 - 固定合併 `8ca952c` 的型別、完整 ESLint（0 errors／2 warnings）、441 項／106 檔 discovery、兩檔格式及 1,650 Git inputs／29 dependencies 前後校驗通過。原生分別是 4dd 加各單檔 overlay，不改標為完整 8ca；未重跑 core、build 或全套。最新完整原生仍為下列 955 的 440 項 RED。
-- 下一步需在有修正依據的原完整負載中量測 army boot 的 browser-entry／frame 邊界，並定位 earned generator 原期限成本；不新增 ready wait 變相延長五秒、不盲改 worker cap。全 M6–M9、strict60、whole-heap、long-run、六推薦／星級、既有規則／六張人工核准仍開放；未 push／deploy。
+- 該批後續目標是在有修正依據的負載中量測 army boot 的 browser-entry／frame 邊界，並定位 earned generator 原期限成本；不新增 ready wait 變相延長五秒、不盲改 worker cap。全 M6–M9、strict60、whole-heap、long-run、六推薦／星級、既有規則／六張人工核准仍開放；未 push／deploy。
 
 - `ef75be6` 只為軍勢旗標重疊加安全零 X-span 快徑；每次呼叫先確認 Y 值範圍，極端合法輸入走原算式，原驗證／順序／`++work`／1,000,000 上限不變。原始函式 oracle 與新函式實際都在 1,000,001 次觸及上限且輸出相同；signed zero／subnormal／MAX 邊界、隨機及 sparse array 均有精確比較。九個完整 published payload 加所有 signals 與原版 byte-identical，SHA `aa64ea9e…`。
 - 同機單次原 30 秒近景：33.2367→34.1319 FPS、p95 36→35ms、slow 27.7778→28.5714；兩版原 strict60 都 RED，mean 之後的斷言未執行，raw readback 不能代稱已執行。另以相同 producer 各跑一次 10 秒 profile，精確 state／commands／resources 不變；328／342 renders 的 signal solver sampled cost 4.144→3.541ms/render。這是增量採用依據，不是重複性或穩定 60 證明。早期合成 crowded medians 互相矛盾；觀測後另訂固定 60 warmup／40 timed pairs 得 sparse −10.9%、crowded −9.3%、dense +7.6%，所有原 rows 與較早 dense +5.9% 保留，未證明 JIT 原因。

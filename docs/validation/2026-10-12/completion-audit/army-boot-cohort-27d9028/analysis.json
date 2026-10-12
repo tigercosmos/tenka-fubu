@@ -1,0 +1,2053 @@
+{
+  "scope": "derived read-only timeline; raw report, console log and traces retained",
+  "reportStats": {
+    "startTime": "2026-10-12T13:38:27.855Z",
+    "duration": 31648.380999999998,
+    "expected": 16,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  },
+  "allCases": [
+    {
+      "file": "actor-depth-layout.spec.ts",
+      "title": "actual shared body order follows world feet across three scales and selection does not lift troop bodies",
+      "status": "passed",
+      "startEpochMs": 1791812308552.0,
+      "endEpochMs": 1791812329137.0,
+      "durationMs": 20585,
+      "error": null
+    },
+    {
+      "file": "army-plate-layout.spec.ts",
+      "title": "actual Sunpu/Narumi plate bounds reduce overlap at three real UI scales without core mutation",
+      "status": "passed",
+      "startEpochMs": 1791812308592.0,
+      "endEpochMs": 1791812327302.0,
+      "durationMs": 18710,
+      "error": null
+    },
+    {
+      "file": "ai-corps.spec.ts",
+      "title": "corps creation waits for normal resume and its directive and wallet are visible",
+      "status": "passed",
+      "startEpochMs": 1791812308598.0,
+      "endEpochMs": 1791812328076.0,
+      "durationMs": 19478,
+      "error": null
+    },
+    {
+      "file": "army-orders.spec.ts",
+      "title": "native army orders: pure physical-position preview, one retarget and one recall on normal days",
+      "status": "passed",
+      "startEpochMs": 1791812308604.0,
+      "endEpochMs": 1791812339204.0,
+      "durationMs": 30600,
+      "error": null
+    },
+    {
+      "file": "army-plate-layout.spec.ts",
+      "title": "the reserved-HUD visibility oracle clips and subtracts overlapping rectangles once",
+      "status": "passed",
+      "startEpochMs": 1791812308671.0,
+      "endEpochMs": 1791812308850.0,
+      "durationMs": 179,
+      "error": null
+    },
+    {
+      "file": "army-annotation.spec.ts",
+      "title": "actual army annotation exposes three relations and independent state and supply at the original cameras",
+      "status": "passed",
+      "startEpochMs": 1791812308683.0,
+      "endEpochMs": 1791812327980.0,
+      "durationMs": 19297,
+      "error": null
+    },
+    {
+      "file": "army-cloth-material.spec.ts",
+      "title": "painted army cloth has a non-vacuous mid battle view without changing campaign state",
+      "status": "passed",
+      "startEpochMs": 1791812308687.0,
+      "endEpochMs": 1791812318507.0,
+      "durationMs": 9820,
+      "error": null
+    },
+    {
+      "file": "army-auto-return.spec.ts",
+      "title": "army auto-return: native deployed army stays authoritative until its single queued toggle executes",
+      "status": "passed",
+      "startEpochMs": 1791812308695.0,
+      "endEpochMs": 1791812331787.0,
+      "durationMs": 23092,
+      "error": null
+    },
+    {
+      "file": "army-plate-layout.spec.ts",
+      "title": "the independent tether oracle detects interiors but excludes edge and corner touches",
+      "status": "passed",
+      "startEpochMs": 1791812308698.0,
+      "endEpochMs": 1791812308872.0,
+      "durationMs": 174,
+      "error": null
+    },
+    {
+      "file": "army-operational-readability.spec.ts",
+      "title": "operational original formations gain readable area while close frames and gameplay remain anchored",
+      "status": "passed",
+      "startEpochMs": 1791812308704.0,
+      "endEpochMs": 1791812331127.0,
+      "durationMs": 22423,
+      "error": null
+    },
+    {
+      "file": "actor-depth-layout.spec.ts",
+      "title": "actual plate envelopes avoid visible castle body frames rather than only castle ribbons",
+      "status": "passed",
+      "startEpochMs": 1791812308706.0,
+      "endEpochMs": 1791812329207.0,
+      "durationMs": 20501,
+      "error": null
+    },
+    {
+      "file": "accessibility.spec.ts",
+      "title": "empty load registry remains reachable and scrollable with native keyboard input",
+      "status": "passed",
+      "startEpochMs": 1791812308712.0,
+      "endEpochMs": 1791812325621.0,
+      "durationMs": 16909,
+      "error": null
+    },
+    {
+      "file": "army-dom-selection.spec.ts",
+      "title": "native castle army list selects a normally deployed army without gameplay changes",
+      "status": "passed",
+      "startEpochMs": 1791812308721.0,
+      "endEpochMs": 1791812330045.0,
+      "durationMs": 21324,
+      "error": null
+    },
+    {
+      "file": "actor-depth-layout.spec.ts",
+      "title": "real normal-day movement updates world feet and actual body ordering, then remains stable while idle",
+      "status": "passed",
+      "startEpochMs": 1791812308724.0,
+      "endEpochMs": 1791812325470.0,
+      "durationMs": 16746,
+      "error": null
+    },
+    {
+      "file": "accessibility.spec.ts",
+      "title": "production screens have no critical axe findings and dialogs preserve one page banner",
+      "status": "passed",
+      "startEpochMs": 1791812308757.0,
+      "endEpochMs": 1791812327582.0,
+      "durationMs": 18825,
+      "error": null
+    },
+    {
+      "file": "ai-corps.spec.ts",
+      "title": "assign, remove and confirmed dissolution execute on tick and preserve a manual pause",
+      "status": "passed",
+      "startEpochMs": 1791812308787.0,
+      "endEpochMs": 1791812327291.0,
+      "durationMs": 18504,
+      "error": null
+    },
+    {
+      "file": "army-plate-layout.spec.ts",
+      "title": "a real body-anchor pointer selects a player army and its plate survives far LOD",
+      "status": "failed",
+      "startEpochMs": 1791812309102.0,
+      "endEpochMs": 1791812321375.0,
+      "durationMs": 12273,
+      "error": "Error: Timeout 5000ms exceeded while waiting on the predicate\n\n  138 |   await expect(page.getByTestId('screen-strategy')).toBeVisible();\n  139 |   await page.evaluate(() => document.fonts.ready);\n> 140 |   await expect.poll(() => mapIdleOrRetry(page)).toBe(true);\n      |                                                 ^\n  141 |   await expect(page.getByTestId('speed-pause')).toHaveAttribute('aria-pressed', 'true');\n  142 | }\n  143 |\n    at boot (/tmp/tenka-armyboot-cohort-27d-c1/e2e/army-plate-layout.spec.ts:140:49)\n    at /tmp/tenka-armyboot-cohort-27d-c1/e2e/army-plate-layout.spec.ts:321:5"
+    },
+    {
+      "file": "army-plate-layout.spec.ts",
+      "title": "the three observed dense-cluster plate pairs no longer overlap independently of castle ribbons",
+      "status": "failed",
+      "startEpochMs": 1791812309110.0,
+      "endEpochMs": 1791812322742.0,
+      "durationMs": 13632,
+      "error": "Error: Timeout 5000ms exceeded while waiting on the predicate\n\n  138 |   await expect(page.getByTestId('screen-strategy')).toBeVisible();\n  139 |   await page.evaluate(() => document.fonts.ready);\n> 140 |   await expect.poll(() => mapIdleOrRetry(page)).toBe(true);\n      |                                                 ^\n  141 |   await expect(page.getByTestId('speed-pause')).toHaveAttribute('aria-pressed', 'true');\n  142 | }\n  143 |\n    at boot (/tmp/tenka-armyboot-cohort-27d-c1/e2e/army-plate-layout.spec.ts:140:49)\n    at /tmp/tenka-armyboot-cohort-27d-c1/e2e/army-plate-layout.spec.ts:373:5"
+    }
+  ],
+  "failures": {
+    "dense": {
+      "traceCalls": [
+        {
+          "title": "Evaluate",
+          "startEpochMs": 1791812315299.4019,
+          "endEpochMs": 1791812315964.239,
+          "error": null
+        },
+        {
+          "title": "Expect \"poll toBe\"",
+          "startEpochMs": 1791812315966.6418,
+          "endEpochMs": 1791812320974.03,
+          "error": {
+            "name": "",
+            "message": "Error: Timeout 5000ms exceeded while waiting on the predicate",
+            "stack": "Error: Timeout 5000ms exceeded while waiting on the predicate\n    at boot (/tmp/tenka-armyboot-cohort-27d-c1/e2e/army-plate-layout.spec.ts:140:49)\n    at /tmp/tenka-armyboot-cohort-27d-c1/e2e/army-plate-layout.spec.ts:373:5"
+          }
+        },
+        {
+          "title": "Evaluate",
+          "startEpochMs": 1791812315969.884,
+          "endEpochMs": 1791812322727.4739,
+          "error": null
+        }
+      ],
+      "pngNetwork": [
+        {
+          "url": "http://localhost:4173/assets/textures/washi-base@1x.png",
+          "status": 200,
+          "startEpochMs": 1791812315259.0,
+          "endEpochMs": 1791812315274.68
+        },
+        {
+          "url": "http://localhost:4173/assets/map/atlas-map-0.png",
+          "status": 200,
+          "startEpochMs": 1791812315947.0,
+          "endEpochMs": 1791812315983.437
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/army-infantry-east-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812316232.0,
+          "endEpochMs": 1791812316578.79
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/army-infantry-west-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812316233.0,
+          "endEpochMs": 1791812316576.849
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/army-infantry-north-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812316233.0,
+          "endEpochMs": 1791812316524.618
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/army-infantry-south-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812316233.0,
+          "endEpochMs": 1791812316604.323
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-relief@1x.png",
+          "status": 200,
+          "startEpochMs": 1791812317314.0,
+          "endEpochMs": 1791812317565.818
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-forest@1x.png",
+          "status": 200,
+          "startEpochMs": 1791812317314.0,
+          "endEpochMs": 1791812317354.602
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-akaishi-massif-v3.png",
+          "status": 200,
+          "startEpochMs": 1791812317315.0,
+          "endEpochMs": 1791812318215.478
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-vertical-v4.png",
+          "status": 200,
+          "startEpochMs": 1791812317315.0,
+          "endEpochMs": 1791812317724.796
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-chugoku-massif-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317315.0,
+          "endEpochMs": 1791812317758.111
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-horizontal-v3.png",
+          "status": 200,
+          "startEpochMs": 1791812317316.0,
+          "endEpochMs": 1791812317725.992
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-echigo-massif-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317316.0,
+          "endEpochMs": 1791812318075.407
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-hida-massif-v2.png",
+          "status": 200,
+          "startEpochMs": 1791812317316.0,
+          "endEpochMs": 1791812318069.712
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-foothills-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317317.0,
+          "endEpochMs": 1791812318448.035
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-kii-massif-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317317.0,
+          "endEpochMs": 1791812318208.8
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-kiso-massif-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317320.0,
+          "endEpochMs": 1791812318050.795
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-aso-massif-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317321.0,
+          "endEpochMs": 1791812318413.197
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-shikoku-massif-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317321.0,
+          "endEpochMs": 1791812318177.348
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-vertical-v5.png",
+          "status": 200,
+          "startEpochMs": 1791812317321.0,
+          "endEpochMs": 1791812317997.868
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-woodland-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317322.0,
+          "endEpochMs": 1791812318796.048
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-forest-canopy-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317322.0,
+          "endEpochMs": 1791812318638.442
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-ground-grass-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317322.0,
+          "endEpochMs": 1791812317405.946
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-woodland-material-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317322.0,
+          "endEpochMs": 1791812317448.617
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-lowland-field-material-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317323.0,
+          "endEpochMs": 1791812317473.435
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/castle-main-plain-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317326.0,
+          "endEpochMs": 1791812318599.113
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/castle-main-mountain-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317329.0,
+          "endEpochMs": 1791812317424.721
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/castle-branch-plain-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317330.0,
+          "endEpochMs": 1791812317429.92
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/castle-branch-mountain-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317330.0,
+          "endEpochMs": 1791812317494.678
+        }
+      ],
+      "browserEvents": [
+        {
+          "stage": "renderer-created",
+          "browserEpochMs": 1791812315027.0999,
+          "browserMonotonicMs": 5852.900000095367,
+          "nodeConsoleReceiptEpochMs": 1791812315032
+        },
+        {
+          "stage": "renderer-created",
+          "browserEpochMs": 1791812315182,
+          "browserMonotonicMs": 6007.800000190735,
+          "nodeConsoleReceiptEpochMs": 1791812315184
+        },
+        {
+          "stage": "font-ready",
+          "browserEpochMs": 1791812315275.9,
+          "browserMonotonicMs": 6101.700000286102,
+          "nodeConsoleReceiptEpochMs": 1791812315278
+        },
+        {
+          "stage": "font-ready",
+          "browserEpochMs": 1791812315278.2,
+          "browserMonotonicMs": 6104,
+          "nodeConsoleReceiptEpochMs": 1791812315279
+        },
+        {
+          "stage": "army-pending-start",
+          "browserEpochMs": 1791812316231.5999,
+          "browserMonotonicMs": 7057.400000095367,
+          "rendererInstanceId": 2,
+          "tickCount": 0,
+          "idleWaiters": 0,
+          "terrainGeneration": 0,
+          "castleGeneration": 0,
+          "armyGeneration": 1,
+          "terrainPending": false,
+          "castlePending": false,
+          "armyPending": true,
+          "nodeConsoleReceiptEpochMs": 1791812316236
+        },
+        {
+          "stage": "terrain-pending-start",
+          "browserEpochMs": 1791812317311.0999,
+          "browserMonotonicMs": 8136.900000095367,
+          "rendererInstanceId": 2,
+          "tickCount": 0,
+          "idleWaiters": 0,
+          "terrainGeneration": 1,
+          "castleGeneration": 0,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": false,
+          "armyPending": true,
+          "nodeConsoleReceiptEpochMs": 1791812317316
+        },
+        {
+          "stage": "castle-pending-start",
+          "browserEpochMs": 1791812317324.0999,
+          "browserMonotonicMs": 8149.900000095367,
+          "rendererInstanceId": 2,
+          "tickCount": 0,
+          "idleWaiters": 0,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": true,
+          "nodeConsoleReceiptEpochMs": 1791812317332
+        },
+        {
+          "stage": "renderer-init-returned",
+          "browserEpochMs": 1791812317362.7,
+          "browserMonotonicMs": 8188.5,
+          "nodeConsoleReceiptEpochMs": 1791812317367
+        },
+        {
+          "stage": "renderer-registered",
+          "browserEpochMs": 1791812317429.5999,
+          "browserMonotonicMs": 8255.400000095367,
+          "nodeConsoleReceiptEpochMs": 1791812317432
+        },
+        {
+          "stage": "ticker-heartbeat",
+          "browserEpochMs": 1791812317458.8,
+          "browserMonotonicMs": 8284.599999904633,
+          "rendererInstanceId": 2,
+          "tickCount": 1,
+          "idleWaiters": 0,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": true,
+          "nodeConsoleReceiptEpochMs": 1791812317477
+        },
+        {
+          "stage": "evaluate-enter",
+          "browserEpochMs": 1791812317915,
+          "browserMonotonicMs": 8740.800000190735,
+          "nodeConsoleReceiptEpochMs": 1791812317930
+        },
+        {
+          "stage": "wait-queued",
+          "browserEpochMs": 1791812317915.7,
+          "browserMonotonicMs": 8741.5,
+          "rendererInstanceId": 2,
+          "tickCount": 1,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": true,
+          "nodeConsoleReceiptEpochMs": 1791812317931
+        },
+        {
+          "stage": "army-pending-finally",
+          "browserEpochMs": 1791812318152.2,
+          "browserMonotonicMs": 8978,
+          "rendererInstanceId": 2,
+          "tickCount": 4,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": false,
+          "settledGeneration": 1,
+          "nodeConsoleReceiptEpochMs": 1791812318156
+        },
+        {
+          "stage": "ticker-heartbeat",
+          "browserEpochMs": 1791812318467.4,
+          "browserMonotonicMs": 9293.200000286102,
+          "rendererInstanceId": 2,
+          "tickCount": 19,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": false,
+          "nodeConsoleReceiptEpochMs": 1791812318475
+        },
+        {
+          "stage": "ticker-heartbeat",
+          "browserEpochMs": 1791812319467.5999,
+          "browserMonotonicMs": 10293.400000095367,
+          "rendererInstanceId": 2,
+          "tickCount": 79,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": false,
+          "nodeConsoleReceiptEpochMs": 1791812319474
+        },
+        {
+          "stage": "ticker-heartbeat",
+          "browserEpochMs": 1791812320489.5,
+          "browserMonotonicMs": 11315.300000190735,
+          "rendererInstanceId": 2,
+          "tickCount": 132,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": false,
+          "nodeConsoleReceiptEpochMs": 1791812320492
+        },
+        {
+          "stage": "ticker-heartbeat",
+          "browserEpochMs": 1791812321527.5,
+          "browserMonotonicMs": 12353.300000190735,
+          "rendererInstanceId": 2,
+          "tickCount": 180,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": false,
+          "nodeConsoleReceiptEpochMs": 1791812321597
+        },
+        {
+          "stage": "terrain-pending-finally",
+          "browserEpochMs": 1791812322052.5999,
+          "browserMonotonicMs": 12878.400000095367,
+          "rendererInstanceId": 2,
+          "tickCount": 181,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": false,
+          "castlePending": true,
+          "armyPending": false,
+          "settledGeneration": 1,
+          "nodeConsoleReceiptEpochMs": 1791812322402
+        },
+        {
+          "stage": "castle-pending-finally",
+          "browserEpochMs": 1791812322392.4,
+          "browserMonotonicMs": 13218.200000286102,
+          "rendererInstanceId": 2,
+          "tickCount": 184,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": false,
+          "castlePending": false,
+          "armyPending": false,
+          "settledGeneration": 1,
+          "nodeConsoleReceiptEpochMs": 1791812322426
+        },
+        {
+          "stage": "ticker-heartbeat",
+          "browserEpochMs": 1791812322548,
+          "browserMonotonicMs": 13373.800000190735,
+          "rendererInstanceId": 2,
+          "tickCount": 186,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": false,
+          "castlePending": false,
+          "armyPending": false,
+          "nodeConsoleReceiptEpochMs": 1791812322600
+        },
+        {
+          "stage": "wait-resolved",
+          "browserEpochMs": 1791812322549.5,
+          "browserMonotonicMs": 13375.300000190735,
+          "rendererInstanceId": 2,
+          "tickCount": 186,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": false,
+          "castlePending": false,
+          "armyPending": false,
+          "nodeConsoleReceiptEpochMs": 1791812322601
+        },
+        {
+          "stage": "evaluate-idle-resolved",
+          "browserEpochMs": 1791812322615.0999,
+          "browserMonotonicMs": 13440.900000095367,
+          "nodeConsoleReceiptEpochMs": 1791812322727
+        }
+      ],
+      "activeCasesAtBrowserEntry": [
+        {
+          "file": "actor-depth-layout.spec.ts",
+          "title": "actual shared body order follows world feet across three scales and selection does not lift troop bodies"
+        },
+        {
+          "file": "army-plate-layout.spec.ts",
+          "title": "actual Sunpu/Narumi plate bounds reduce overlap at three real UI scales without core mutation"
+        },
+        {
+          "file": "ai-corps.spec.ts",
+          "title": "corps creation waits for normal resume and its directive and wallet are visible"
+        },
+        {
+          "file": "army-orders.spec.ts",
+          "title": "native army orders: pure physical-position preview, one retarget and one recall on normal days"
+        },
+        {
+          "file": "army-annotation.spec.ts",
+          "title": "actual army annotation exposes three relations and independent state and supply at the original cameras"
+        },
+        {
+          "file": "army-cloth-material.spec.ts",
+          "title": "painted army cloth has a non-vacuous mid battle view without changing campaign state"
+        },
+        {
+          "file": "army-auto-return.spec.ts",
+          "title": "army auto-return: native deployed army stays authoritative until its single queued toggle executes"
+        },
+        {
+          "file": "army-operational-readability.spec.ts",
+          "title": "operational original formations gain readable area while close frames and gameplay remain anchored"
+        },
+        {
+          "file": "actor-depth-layout.spec.ts",
+          "title": "actual plate envelopes avoid visible castle body frames rather than only castle ribbons"
+        },
+        {
+          "file": "accessibility.spec.ts",
+          "title": "empty load registry remains reachable and scrollable with native keyboard input"
+        },
+        {
+          "file": "army-dom-selection.spec.ts",
+          "title": "native castle army list selects a normally deployed army without gameplay changes"
+        },
+        {
+          "file": "actor-depth-layout.spec.ts",
+          "title": "real normal-day movement updates world feet and actual body ordering, then remains stable while idle"
+        },
+        {
+          "file": "accessibility.spec.ts",
+          "title": "production screens have no critical axe findings and dialogs preserve one page banner"
+        },
+        {
+          "file": "ai-corps.spec.ts",
+          "title": "assign, remove and confirmed dissolution execute on tick and preserve a manual pause"
+        },
+        {
+          "file": "army-plate-layout.spec.ts",
+          "title": "a real body-anchor pointer selects a player army and its plate survives far LOD"
+        },
+        {
+          "file": "army-plate-layout.spec.ts",
+          "title": "the three observed dense-cluster plate pairs no longer overlap independently of castle ribbons"
+        }
+      ]
+    },
+    "body": {
+      "traceCalls": [
+        {
+          "title": "Evaluate",
+          "startEpochMs": 1791812315245.2058,
+          "endEpochMs": 1791812315926.167,
+          "error": null
+        },
+        {
+          "title": "Expect \"poll toBe\"",
+          "startEpochMs": 1791812315927.366,
+          "endEpochMs": 1791812320942.323,
+          "error": {
+            "name": "",
+            "message": "Error: Timeout 5000ms exceeded while waiting on the predicate",
+            "stack": "Error: Timeout 5000ms exceeded while waiting on the predicate\n    at boot (/tmp/tenka-armyboot-cohort-27d-c1/e2e/army-plate-layout.spec.ts:140:49)\n    at /tmp/tenka-armyboot-cohort-27d-c1/e2e/army-plate-layout.spec.ts:321:5"
+          }
+        },
+        {
+          "title": "Evaluate",
+          "startEpochMs": 1791812315929.9868,
+          "endEpochMs": 1791812321391.9,
+          "error": {
+            "name": "",
+            "message": "Error: page.evaluate: Test ended.",
+            "stack": "Error: page.evaluate: Test ended.\n    at mapIdleOrRetry (/tmp/tenka-armyboot-cohort-27d-c1/e2e/army-plate-layout.spec.ts:85:15)\n    at /tmp/tenka-armyboot-cohort-27d-c1/e2e/army-plate-layout.spec.ts:140:27\n    at boot (/tmp/tenka-armyboot-cohort-27d-c1/e2e/army-plate-layout.spec.ts:140:3)\n    at /tmp/tenka-armyboot-cohort-27d-c1/e2e/army-plate-layout.spec.ts:321:5"
+          }
+        }
+      ],
+      "pngNetwork": [
+        {
+          "url": "http://localhost:4173/assets/textures/washi-base@1x.png",
+          "status": 200,
+          "startEpochMs": 1791812315187.0,
+          "endEpochMs": 1791812315194.447
+        },
+        {
+          "url": "http://localhost:4173/assets/map/atlas-map-0.png",
+          "status": 200,
+          "startEpochMs": 1791812315933.0,
+          "endEpochMs": 1791812315961.995
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/army-infantry-east-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812316177.0,
+          "endEpochMs": 1791812316556.876
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/army-infantry-west-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812316186.0,
+          "endEpochMs": 1791812316549.028
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/army-infantry-north-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812316187.0,
+          "endEpochMs": 1791812316495.74
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/army-infantry-south-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812316187.0,
+          "endEpochMs": 1791812316568.309
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-relief@1x.png",
+          "status": 200,
+          "startEpochMs": 1791812317319.0,
+          "endEpochMs": 1791812317567.36
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-forest@1x.png",
+          "status": 200,
+          "startEpochMs": 1791812317320.0,
+          "endEpochMs": 1791812317359.451
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-akaishi-massif-v3.png",
+          "status": 200,
+          "startEpochMs": 1791812317320.0,
+          "endEpochMs": 1791812318218.252
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-vertical-v4.png",
+          "status": 200,
+          "startEpochMs": 1791812317320.0,
+          "endEpochMs": 1791812317725.016
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-chugoku-massif-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317320.0,
+          "endEpochMs": 1791812317836.032
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-horizontal-v3.png",
+          "status": 200,
+          "startEpochMs": 1791812317321.0,
+          "endEpochMs": 1791812317762.447
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-echigo-massif-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317321.0,
+          "endEpochMs": 1791812318117.804
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-hida-massif-v2.png",
+          "status": 200,
+          "startEpochMs": 1791812317322.0,
+          "endEpochMs": 1791812318106.887
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-foothills-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317322.0,
+          "endEpochMs": 1791812318454.368
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-kii-massif-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317322.0,
+          "endEpochMs": 1791812318277.832
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-kiso-massif-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317323.0,
+          "endEpochMs": 1791812318095.852
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-aso-massif-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317323.0,
+          "endEpochMs": 1791812318414.381
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-shikoku-massif-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317323.0,
+          "endEpochMs": 1791812318178.207
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-vertical-v5.png",
+          "status": 200,
+          "startEpochMs": 1791812317324.0,
+          "endEpochMs": 1791812317983.094
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-mountain-woodland-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317324.0,
+          "endEpochMs": 1791812318785.401
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-forest-canopy-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317325.0,
+          "endEpochMs": 1791812318669.603
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-ground-grass-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317325.0,
+          "endEpochMs": 1791812317418.038
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-woodland-material-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317325.0,
+          "endEpochMs": 1791812317482.75
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/terrain-lowland-field-material-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317325.0,
+          "endEpochMs": 1791812317482.787
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/castle-main-plain-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317327.0,
+          "endEpochMs": 1791812318635.029
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/castle-main-mountain-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317327.0,
+          "endEpochMs": 1791812317460.356
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/castle-branch-plain-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317327.0,
+          "endEpochMs": 1791812317457.666
+        },
+        {
+          "url": "http://localhost:4173/assets/textures/castle-branch-mountain-v1.png",
+          "status": 200,
+          "startEpochMs": 1791812317327.0,
+          "endEpochMs": 1791812317470.503
+        }
+      ],
+      "browserEvents": [
+        {
+          "stage": "renderer-created",
+          "browserEpochMs": 1791812314971.2,
+          "browserMonotonicMs": 5786.900000095367,
+          "nodeConsoleReceiptEpochMs": 1791812314974
+        },
+        {
+          "stage": "renderer-created",
+          "browserEpochMs": 1791812315115.2,
+          "browserMonotonicMs": 5930.900000095367,
+          "nodeConsoleReceiptEpochMs": 1791812315117
+        },
+        {
+          "stage": "font-ready",
+          "browserEpochMs": 1791812315210.3,
+          "browserMonotonicMs": 6026,
+          "nodeConsoleReceiptEpochMs": 1791812315213
+        },
+        {
+          "stage": "font-ready",
+          "browserEpochMs": 1791812315212.4001,
+          "browserMonotonicMs": 6028.10000038147,
+          "nodeConsoleReceiptEpochMs": 1791812315218
+        },
+        {
+          "stage": "army-pending-start",
+          "browserEpochMs": 1791812316174.1,
+          "browserMonotonicMs": 6989.800000190735,
+          "rendererInstanceId": 2,
+          "tickCount": 0,
+          "idleWaiters": 0,
+          "terrainGeneration": 0,
+          "castleGeneration": 0,
+          "armyGeneration": 1,
+          "terrainPending": false,
+          "castlePending": false,
+          "armyPending": true,
+          "nodeConsoleReceiptEpochMs": 1791812316181
+        },
+        {
+          "stage": "terrain-pending-start",
+          "browserEpochMs": 1791812317317.2,
+          "browserMonotonicMs": 8132.900000095367,
+          "rendererInstanceId": 2,
+          "tickCount": 0,
+          "idleWaiters": 0,
+          "terrainGeneration": 1,
+          "castleGeneration": 0,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": false,
+          "armyPending": true,
+          "nodeConsoleReceiptEpochMs": 1791812317321
+        },
+        {
+          "stage": "castle-pending-start",
+          "browserEpochMs": 1791812317326.1,
+          "browserMonotonicMs": 8141.800000190735,
+          "rendererInstanceId": 2,
+          "tickCount": 0,
+          "idleWaiters": 0,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": true,
+          "nodeConsoleReceiptEpochMs": 1791812317330
+        },
+        {
+          "stage": "renderer-init-returned",
+          "browserEpochMs": 1791812317349.4001,
+          "browserMonotonicMs": 8165.10000038147,
+          "nodeConsoleReceiptEpochMs": 1791812317357
+        },
+        {
+          "stage": "renderer-registered",
+          "browserEpochMs": 1791812317402.5,
+          "browserMonotonicMs": 8218.200000286102,
+          "nodeConsoleReceiptEpochMs": 1791812317405
+        },
+        {
+          "stage": "ticker-heartbeat",
+          "browserEpochMs": 1791812317434.4001,
+          "browserMonotonicMs": 8250.10000038147,
+          "rendererInstanceId": 2,
+          "tickCount": 1,
+          "idleWaiters": 0,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": true,
+          "nodeConsoleReceiptEpochMs": 1791812317438
+        },
+        {
+          "stage": "evaluate-enter",
+          "browserEpochMs": 1791812317902.2,
+          "browserMonotonicMs": 8717.900000095367,
+          "nodeConsoleReceiptEpochMs": 1791812317906
+        },
+        {
+          "stage": "wait-queued",
+          "browserEpochMs": 1791812317903.1,
+          "browserMonotonicMs": 8718.800000190735,
+          "rendererInstanceId": 2,
+          "tickCount": 1,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": true,
+          "nodeConsoleReceiptEpochMs": 1791812317906
+        },
+        {
+          "stage": "army-pending-finally",
+          "browserEpochMs": 1791812318229.4001,
+          "browserMonotonicMs": 9045.10000038147,
+          "rendererInstanceId": 2,
+          "tickCount": 3,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": false,
+          "settledGeneration": 1,
+          "nodeConsoleReceiptEpochMs": 1791812318234
+        },
+        {
+          "stage": "ticker-heartbeat",
+          "browserEpochMs": 1791812318447.1,
+          "browserMonotonicMs": 9262.800000190735,
+          "rendererInstanceId": 2,
+          "tickCount": 9,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": false,
+          "nodeConsoleReceiptEpochMs": 1791812318454
+        },
+        {
+          "stage": "ticker-heartbeat",
+          "browserEpochMs": 1791812319459,
+          "browserMonotonicMs": 10274.700000286102,
+          "rendererInstanceId": 2,
+          "tickCount": 70,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": false,
+          "nodeConsoleReceiptEpochMs": 1791812319463
+        },
+        {
+          "stage": "ticker-heartbeat",
+          "browserEpochMs": 1791812320467.5,
+          "browserMonotonicMs": 11283.200000286102,
+          "rendererInstanceId": 2,
+          "tickCount": 126,
+          "idleWaiters": 1,
+          "terrainGeneration": 1,
+          "castleGeneration": 1,
+          "armyGeneration": 1,
+          "terrainPending": true,
+          "castlePending": true,
+          "armyPending": false,
+          "nodeConsoleReceiptEpochMs": 1791812320480
+        }
+      ],
+      "activeCasesAtBrowserEntry": [
+        {
+          "file": "actor-depth-layout.spec.ts",
+          "title": "actual shared body order follows world feet across three scales and selection does not lift troop bodies"
+        },
+        {
+          "file": "army-plate-layout.spec.ts",
+          "title": "actual Sunpu/Narumi plate bounds reduce overlap at three real UI scales without core mutation"
+        },
+        {
+          "file": "ai-corps.spec.ts",
+          "title": "corps creation waits for normal resume and its directive and wallet are visible"
+        },
+        {
+          "file": "army-orders.spec.ts",
+          "title": "native army orders: pure physical-position preview, one retarget and one recall on normal days"
+        },
+        {
+          "file": "army-annotation.spec.ts",
+          "title": "actual army annotation exposes three relations and independent state and supply at the original cameras"
+        },
+        {
+          "file": "army-cloth-material.spec.ts",
+          "title": "painted army cloth has a non-vacuous mid battle view without changing campaign state"
+        },
+        {
+          "file": "army-auto-return.spec.ts",
+          "title": "army auto-return: native deployed army stays authoritative until its single queued toggle executes"
+        },
+        {
+          "file": "army-operational-readability.spec.ts",
+          "title": "operational original formations gain readable area while close frames and gameplay remain anchored"
+        },
+        {
+          "file": "actor-depth-layout.spec.ts",
+          "title": "actual plate envelopes avoid visible castle body frames rather than only castle ribbons"
+        },
+        {
+          "file": "accessibility.spec.ts",
+          "title": "empty load registry remains reachable and scrollable with native keyboard input"
+        },
+        {
+          "file": "army-dom-selection.spec.ts",
+          "title": "native castle army list selects a normally deployed army without gameplay changes"
+        },
+        {
+          "file": "actor-depth-layout.spec.ts",
+          "title": "real normal-day movement updates world feet and actual body ordering, then remains stable while idle"
+        },
+        {
+          "file": "accessibility.spec.ts",
+          "title": "production screens have no critical axe findings and dialogs preserve one page banner"
+        },
+        {
+          "file": "ai-corps.spec.ts",
+          "title": "assign, remove and confirmed dissolution execute on tick and preserve a manual pause"
+        },
+        {
+          "file": "army-plate-layout.spec.ts",
+          "title": "a real body-anchor pointer selects a player army and its plate survives far LOD"
+        },
+        {
+          "file": "army-plate-layout.spec.ts",
+          "title": "the three observed dense-cluster plate pairs no longer overlap independently of castle ribbons"
+        }
+      ]
+    }
+  },
+  "sunpuBrowserEvents": [
+    {
+      "stage": "renderer-created",
+      "browserEpochMs": 1791812314309.8,
+      "browserMonotonicMs": 5360.199999809265,
+      "nodeConsoleReceiptEpochMs": 1791812314315
+    },
+    {
+      "stage": "renderer-created",
+      "browserEpochMs": 1791812314498.4001,
+      "browserMonotonicMs": 5548.800000190735,
+      "nodeConsoleReceiptEpochMs": 1791812314540
+    },
+    {
+      "stage": "font-ready",
+      "browserEpochMs": 1791812314610.7002,
+      "browserMonotonicMs": 5661.099999904633,
+      "nodeConsoleReceiptEpochMs": 1791812314614
+    },
+    {
+      "stage": "font-ready",
+      "browserEpochMs": 1791812314614.7002,
+      "browserMonotonicMs": 5665.099999904633,
+      "nodeConsoleReceiptEpochMs": 1791812314620
+    },
+    {
+      "stage": "army-pending-start",
+      "browserEpochMs": 1791812314866.1,
+      "browserMonotonicMs": 5916.5,
+      "rendererInstanceId": 2,
+      "tickCount": 0,
+      "idleWaiters": 0,
+      "terrainGeneration": 0,
+      "castleGeneration": 0,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": true,
+      "nodeConsoleReceiptEpochMs": 1791812314867
+    },
+    {
+      "stage": "terrain-pending-start",
+      "browserEpochMs": 1791812315662.9001,
+      "browserMonotonicMs": 6713.300000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 0,
+      "idleWaiters": 0,
+      "terrainGeneration": 1,
+      "castleGeneration": 0,
+      "armyGeneration": 1,
+      "terrainPending": true,
+      "castlePending": false,
+      "armyPending": true,
+      "nodeConsoleReceiptEpochMs": 1791812315667
+    },
+    {
+      "stage": "castle-pending-start",
+      "browserEpochMs": 1791812315670.3,
+      "browserMonotonicMs": 6720.699999809265,
+      "rendererInstanceId": 2,
+      "tickCount": 0,
+      "idleWaiters": 0,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": true,
+      "castlePending": true,
+      "armyPending": true,
+      "nodeConsoleReceiptEpochMs": 1791812315676
+    },
+    {
+      "stage": "renderer-init-returned",
+      "browserEpochMs": 1791812315692.4001,
+      "browserMonotonicMs": 6742.800000190735,
+      "nodeConsoleReceiptEpochMs": 1791812315695
+    },
+    {
+      "stage": "renderer-registered",
+      "browserEpochMs": 1791812315736.8,
+      "browserMonotonicMs": 6787.199999809265,
+      "nodeConsoleReceiptEpochMs": 1791812315739
+    },
+    {
+      "stage": "ticker-heartbeat",
+      "browserEpochMs": 1791812315756.4001,
+      "browserMonotonicMs": 6806.800000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 1,
+      "idleWaiters": 0,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": true,
+      "castlePending": true,
+      "armyPending": true,
+      "nodeConsoleReceiptEpochMs": 1791812315769
+    },
+    {
+      "stage": "evaluate-enter",
+      "browserEpochMs": 1791812316138,
+      "browserMonotonicMs": 7188.400000095367,
+      "nodeConsoleReceiptEpochMs": 1791812316153
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812316138.4001,
+      "browserMonotonicMs": 7188.800000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 3,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": true,
+      "castlePending": true,
+      "armyPending": true,
+      "nodeConsoleReceiptEpochMs": 1791812316154
+    },
+    {
+      "stage": "army-pending-finally",
+      "browserEpochMs": 1791812316272,
+      "browserMonotonicMs": 7322.400000095367,
+      "rendererInstanceId": 2,
+      "tickCount": 7,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": true,
+      "castlePending": true,
+      "armyPending": false,
+      "settledGeneration": 1,
+      "nodeConsoleReceiptEpochMs": 1791812316273
+    },
+    {
+      "stage": "ticker-heartbeat",
+      "browserEpochMs": 1791812316769,
+      "browserMonotonicMs": 7819.400000095367,
+      "rendererInstanceId": 2,
+      "tickCount": 29,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": true,
+      "castlePending": true,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812316775
+    },
+    {
+      "stage": "terrain-pending-finally",
+      "browserEpochMs": 1791812317031.2002,
+      "browserMonotonicMs": 8081.599999904633,
+      "rendererInstanceId": 2,
+      "tickCount": 35,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": true,
+      "armyPending": false,
+      "settledGeneration": 1,
+      "nodeConsoleReceiptEpochMs": 1791812317125
+    },
+    {
+      "stage": "castle-pending-finally",
+      "browserEpochMs": 1791812317128.3,
+      "browserMonotonicMs": 8178.699999809265,
+      "rendererInstanceId": 2,
+      "tickCount": 36,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "settledGeneration": 1,
+      "nodeConsoleReceiptEpochMs": 1791812317423
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812317239.2002,
+      "browserMonotonicMs": 8289.599999904633,
+      "rendererInstanceId": 2,
+      "tickCount": 38,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812317673
+    },
+    {
+      "stage": "evaluate-idle-resolved",
+      "browserEpochMs": 1791812317278,
+      "browserMonotonicMs": 8328.400000095367,
+      "nodeConsoleReceiptEpochMs": 1791812317718
+    },
+    {
+      "stage": "ticker-heartbeat",
+      "browserEpochMs": 1791812317788,
+      "browserMonotonicMs": 8838.400000095367,
+      "rendererInstanceId": 2,
+      "tickCount": 70,
+      "idleWaiters": 0,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812317954
+    },
+    {
+      "stage": "ticker-heartbeat",
+      "browserEpochMs": 1791812318795.8,
+      "browserMonotonicMs": 9846.199999809265,
+      "rendererInstanceId": 2,
+      "tickCount": 106,
+      "idleWaiters": 0,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812318810
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812319403.7002,
+      "browserMonotonicMs": 10454.099999904633,
+      "rendererInstanceId": 2,
+      "tickCount": 130,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812319406
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812319458.6,
+      "browserMonotonicMs": 10509,
+      "rendererInstanceId": 2,
+      "tickCount": 132,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812319461
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812319483.1,
+      "browserMonotonicMs": 10533.5,
+      "rendererInstanceId": 2,
+      "tickCount": 133,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812319485
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812319521.4001,
+      "browserMonotonicMs": 10571.800000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 136,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812319524
+    },
+    {
+      "stage": "ticker-heartbeat",
+      "browserEpochMs": 1791812319806.7002,
+      "browserMonotonicMs": 10857.099999904633,
+      "rendererInstanceId": 2,
+      "tickCount": 151,
+      "idleWaiters": 0,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812319815
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812319822.9001,
+      "browserMonotonicMs": 10873.300000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 151,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812319825
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812319862.4001,
+      "browserMonotonicMs": 10912.800000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 154,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812319872
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812320317.8,
+      "browserMonotonicMs": 11368.199999809265,
+      "rendererInstanceId": 2,
+      "tickCount": 175,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812320322
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812320339.4001,
+      "browserMonotonicMs": 11389.800000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 177,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812320346
+    },
+    {
+      "stage": "ticker-heartbeat",
+      "browserEpochMs": 1791812320818.9001,
+      "browserMonotonicMs": 11869.300000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 198,
+      "idleWaiters": 0,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812320823
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812321085.9001,
+      "browserMonotonicMs": 12136.300000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 205,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812321088
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812321137,
+      "browserMonotonicMs": 12187.400000095367,
+      "rendererInstanceId": 2,
+      "tickCount": 208,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812321150
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812321660.6,
+      "browserMonotonicMs": 12711,
+      "rendererInstanceId": 2,
+      "tickCount": 228,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812321662
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812321706.4001,
+      "browserMonotonicMs": 12756.800000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 231,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812321711
+    },
+    {
+      "stage": "ticker-heartbeat",
+      "browserEpochMs": 1791812321825,
+      "browserMonotonicMs": 12875.400000095367,
+      "rendererInstanceId": 2,
+      "tickCount": 235,
+      "idleWaiters": 0,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812321840
+    },
+    {
+      "stage": "ticker-heartbeat",
+      "browserEpochMs": 1791812322878.1,
+      "browserMonotonicMs": 13928.5,
+      "rendererInstanceId": 2,
+      "tickCount": 276,
+      "idleWaiters": 0,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812322885
+    },
+    {
+      "stage": "ticker-heartbeat",
+      "browserEpochMs": 1791812323890.4001,
+      "browserMonotonicMs": 14940.800000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 307,
+      "idleWaiters": 0,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812323897
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812324249.5,
+      "browserMonotonicMs": 15299.900000095367,
+      "rendererInstanceId": 2,
+      "tickCount": 323,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812324251
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812324348.6,
+      "browserMonotonicMs": 15399,
+      "rendererInstanceId": 2,
+      "tickCount": 325,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812324355
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812324400.2002,
+      "browserMonotonicMs": 15450.599999904633,
+      "rendererInstanceId": 2,
+      "tickCount": 327,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812324404
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812324477.2002,
+      "browserMonotonicMs": 15527.599999904633,
+      "rendererInstanceId": 2,
+      "tickCount": 330,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812324489
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812324674.4001,
+      "browserMonotonicMs": 15724.800000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 336,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812324676
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812324764.1,
+      "browserMonotonicMs": 15814.5,
+      "rendererInstanceId": 2,
+      "tickCount": 339,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812324768
+    },
+    {
+      "stage": "ticker-heartbeat",
+      "browserEpochMs": 1791812324938.3,
+      "browserMonotonicMs": 15988.699999809265,
+      "rendererInstanceId": 2,
+      "tickCount": 346,
+      "idleWaiters": 0,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812325019
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812325040.4001,
+      "browserMonotonicMs": 16090.800000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 349,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812325041
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812325085.8,
+      "browserMonotonicMs": 16136.199999809265,
+      "rendererInstanceId": 2,
+      "tickCount": 351,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812325087
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812325233.1,
+      "browserMonotonicMs": 16283.5,
+      "rendererInstanceId": 2,
+      "tickCount": 354,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812325233
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812325326.5,
+      "browserMonotonicMs": 16376.900000095367,
+      "rendererInstanceId": 2,
+      "tickCount": 357,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812325330
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812325416.4001,
+      "browserMonotonicMs": 16466.800000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 360,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812325416
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812325501.8,
+      "browserMonotonicMs": 16552.199999809265,
+      "rendererInstanceId": 2,
+      "tickCount": 363,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812325504
+    },
+    {
+      "stage": "ticker-heartbeat",
+      "browserEpochMs": 1791812325950.5,
+      "browserMonotonicMs": 17000.900000095367,
+      "rendererInstanceId": 2,
+      "tickCount": 379,
+      "idleWaiters": 0,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812325952
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812326247.2002,
+      "browserMonotonicMs": 17297.599999904633,
+      "rendererInstanceId": 2,
+      "tickCount": 384,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812326247
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812326360.5,
+      "browserMonotonicMs": 17410.900000095367,
+      "rendererInstanceId": 2,
+      "tickCount": 386,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812326363
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812326373.8,
+      "browserMonotonicMs": 17424.199999809265,
+      "rendererInstanceId": 2,
+      "tickCount": 386,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812326374
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812326437.3,
+      "browserMonotonicMs": 17487.699999809265,
+      "rendererInstanceId": 2,
+      "tickCount": 389,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812326438
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812326515.7002,
+      "browserMonotonicMs": 17566.099999904633,
+      "rendererInstanceId": 2,
+      "tickCount": 391,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812326516
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812326575.3,
+      "browserMonotonicMs": 17625.699999809265,
+      "rendererInstanceId": 2,
+      "tickCount": 394,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812326578
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812326812.6,
+      "browserMonotonicMs": 17863,
+      "rendererInstanceId": 2,
+      "tickCount": 403,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812326813
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812326878.1,
+      "browserMonotonicMs": 17928.5,
+      "rendererInstanceId": 2,
+      "tickCount": 405,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812326879
+    },
+    {
+      "stage": "ticker-heartbeat",
+      "browserEpochMs": 1791812326966.2002,
+      "browserMonotonicMs": 18016.599999904633,
+      "rendererInstanceId": 2,
+      "tickCount": 408,
+      "idleWaiters": 0,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812326968
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812326980.9001,
+      "browserMonotonicMs": 18031.300000190735,
+      "rendererInstanceId": 2,
+      "tickCount": 408,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812326981
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812327050.6,
+      "browserMonotonicMs": 18101,
+      "rendererInstanceId": 2,
+      "tickCount": 411,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812327053
+    },
+    {
+      "stage": "wait-queued",
+      "browserEpochMs": 1791812327137.6,
+      "browserMonotonicMs": 18188,
+      "rendererInstanceId": 2,
+      "tickCount": 414,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812327138
+    },
+    {
+      "stage": "wait-resolved",
+      "browserEpochMs": 1791812327213.1,
+      "browserMonotonicMs": 18263.5,
+      "rendererInstanceId": 2,
+      "tickCount": 417,
+      "idleWaiters": 1,
+      "terrainGeneration": 1,
+      "castleGeneration": 1,
+      "armyGeneration": 1,
+      "terrainPending": false,
+      "castlePending": false,
+      "armyPending": false,
+      "nodeConsoleReceiptEpochMs": 1791812327215
+    }
+  ]
+}

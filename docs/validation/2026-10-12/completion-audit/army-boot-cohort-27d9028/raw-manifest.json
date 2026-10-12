@@ -1,0 +1,212 @@
+{
+  "files": [
+    {
+      "name": "body-error-context.md",
+      "sourcePath": "/tmp/tenka-armyboot-cohort-local-27d-c1/army-plate-layout-native-a-5ea75--its-plate-survives-far-LOD-chromium/error-context.md",
+      "rawBytes": 14748,
+      "rawSha256": "c9fff9ff39da568e465b0c4f60d137878790b7da09d4a274742a34882a5e3363",
+      "packagePath": "raw/body-error-context.md.gz",
+      "packageSha256": "f321bd26f5a22e7585142ed8e02dc180f57e1cf242cbd0d29a748291b24353cf"
+    },
+    {
+      "name": "body-trace.zip",
+      "sourcePath": "/tmp/tenka-armyboot-cohort-local-27d-c1/army-plate-layout-native-a-5ea75--its-plate-survives-far-LOD-chromium/trace.zip",
+      "rawBytes": 1335616,
+      "rawSha256": "5b570bd084d8a0d35cdd8b15b22d0e1ffdc571941c26ac171efe7574ef624b79",
+      "packagePath": "raw/body-trace.zip",
+      "packageSha256": "5b570bd084d8a0d35cdd8b15b22d0e1ffdc571941c26ac171efe7574ef624b79"
+    },
+    {
+      "name": "browser-inventory.json",
+      "sourcePath": "/tmp/tenka-armyboot-cohort-local-27d-c1/browser-inventory.json",
+      "rawBytes": 14615,
+      "rawSha256": "426904f79475a4286da19d33bd988a586033ff5585fb5360ebd1665e0e77f70c",
+      "packagePath": "raw/browser-inventory.json.gz",
+      "packageSha256": "3410ee053f22a50e75a695f871b41c573ea3d7526d4e439ada0841b87dcde31f"
+    },
+    {
+      "name": "build.log",
+      "sourcePath": "/tmp/tenka-armyboot-build-27d-c1/stdout-stderr.log",
+      "rawBytes": 1678,
+      "rawSha256": "8f259802d2c24a8bef36f82e3b5d5da2f3c19833c9c9b68d9c5212882579ea9e",
+      "packagePath": "raw/build.log.gz",
+      "packageSha256": "d2e8da438d784ece705d66c0dee7cd46fb427993a2593e012017b0988ccde358"
+    },
+    {
+      "name": "cohort18-test-list-v3.txt",
+      "sourcePath": "/tmp/tenka-armyboot-overlay-27d/cohort18-test-list-v3.txt",
+      "rawBytes": 2642,
+      "rawSha256": "e764c237df6db1f6c20e429fc8bfa4987a34f4c7ad53f8099d642730312d1913",
+      "packagePath": "raw/cohort18-test-list-v3.txt.gz",
+      "packageSha256": "8d2d49e217f0f1098f84f39a2310bdc1061a1aab9326595feab251af60d88ba2"
+    },
+    {
+      "name": "dense-error-context.md",
+      "sourcePath": "/tmp/tenka-armyboot-cohort-local-27d-c1/army-plate-layout-native-a-0bca0-pendently-of-castle-ribbons-chromium/error-context.md",
+      "rawBytes": 14763,
+      "rawSha256": "140ca9cbccd6eb1b10b07ab8004a9f3275f8bc98c0c328fe1940bc5d022f640b",
+      "packagePath": "raw/dense-error-context.md.gz",
+      "packageSha256": "1728e3177a4a4495efe7793c51d777f90d4afc842eac2ddb80c839833f272d44"
+    },
+    {
+      "name": "dense-trace.zip",
+      "sourcePath": "/tmp/tenka-armyboot-cohort-local-27d-c1/army-plate-layout-native-a-0bca0-pendently-of-castle-ribbons-chromium/trace.zip",
+      "rawBytes": 1394579,
+      "rawSha256": "739ea082121080e1888ddc1db5e9f3b24261341c38b388eab37dfcf80dc93571",
+      "packagePath": "raw/dense-trace.zip",
+      "packageSha256": "739ea082121080e1888ddc1db5e9f3b24261341c38b388eab37dfcf80dc93571"
+    },
+    {
+      "name": "discovery-local-18.log",
+      "sourcePath": "/tmp/tenka-armyboot-discovery-27d-c3/stdout-stderr.log",
+      "rawBytes": 2904,
+      "rawSha256": "6af1c7d83511b0482d4a99ce2482b31079f4f4cd85f056a1828ad840fe2a62bb",
+      "packagePath": "raw/discovery-local-18.log.gz",
+      "packageSha256": "e97eed08a39df65189047ce1249d7667c5ed08c7044106b2b30d4e0fbdcd8849"
+    },
+    {
+      "name": "discovery-local-empty.log",
+      "sourcePath": "/tmp/tenka-armyboot-discovery-27d-c2/stdout-stderr.log",
+      "rawBytes": 41,
+      "rawSha256": "4f5b1bb7df1808d911ebe868d2fd384e0f1fedd73e2ec2b10f7babd43948c5f0",
+      "packagePath": "raw/discovery-local-empty.log.gz",
+      "packageSha256": "13f881c2653700f3a4e2d67fe71c5fad14dab066e3f4d07ddb0947a6d552109c"
+    },
+    {
+      "name": "discovery-local-malformed.log",
+      "sourcePath": "/tmp/tenka-armyboot-discovery-27d-c1/stdout-stderr.log",
+      "rawBytes": 295,
+      "rawSha256": "7f713edfeecc7da92440b6e10894afe3e46a6be9f09840a73622f6888c983b77",
+      "packagePath": "raw/discovery-local-malformed.log.gz",
+      "packageSha256": "728687d94abc83a863658d0a8b90c5ba65e56693676cfb2c51bf6fe8d63591cd"
+    },
+    {
+      "name": "discovery-sim2-18.log",
+      "sourcePath": "/tmp/tenka-armyboot-discovery-sim2-27d-c1/stdout-stderr.log",
+      "rawBytes": 2904,
+      "rawSha256": "e96a3adf4b67c93e29256b1e8cf209c21f8508c1e8e9070599714869a4cde1c9",
+      "packagePath": "raw/discovery-sim2-18.log.gz",
+      "packageSha256": "74e073a24d90911e5a75bfe8bb7f9527f16202218cddaff5ff0a78f26f7eaf12"
+    },
+    {
+      "name": "host-after.log",
+      "sourcePath": "/tmp/tenka-armyboot-host-after-27d-c1/stdout-stderr.log",
+      "rawBytes": 267,
+      "rawSha256": "c8c728ff98f6edd06d6613f507e545bc0fb9da69e74ad432bc86a35f5611b7fe",
+      "packagePath": "raw/host-after.log.gz",
+      "packageSha256": "1ea4623ef01f36b614ff57cd17fe2aa389e8e8afffed027e6c2838fe37e94ed1"
+    },
+    {
+      "name": "host-before.log",
+      "sourcePath": "/tmp/tenka-armyboot-host-preflight-27d-c1/stdout-stderr.log",
+      "rawBytes": 1692,
+      "rawSha256": "209bd6c52152b093a57c633707a14fc2b5008cc96e742c15edb0d19198f47bdb",
+      "packagePath": "raw/host-before.log.gz",
+      "packageSha256": "f43b538feb1612b3771c5747bceacfa84f8fdcfc32067c8b49dfdb99b7964db7"
+    },
+    {
+      "name": "launcher-command.json",
+      "sourcePath": "/tmp/tenka-armyboot-cohort-launch-27d-c1/command.json",
+      "rawBytes": 854,
+      "rawSha256": "b53612d78c0137e2a245a8a7485a43c49d6fd13f6690c17833c14e3efc946f88",
+      "packagePath": "raw/launcher-command.json.gz",
+      "packageSha256": "3bdf7a0ea79e2d88e1af718450b647ee09cf5b7a4ca34cc6ad48f9b0d6f3f361"
+    },
+    {
+      "name": "launcher-result.json",
+      "sourcePath": "/tmp/tenka-armyboot-cohort-launch-27d-c1/result.json",
+      "rawBytes": 73,
+      "rawSha256": "c558f1012c6ec69ed0b929124479a907746c8b4297c1714e8cdec2ef68ab794b",
+      "packagePath": "raw/launcher-result.json.gz",
+      "packageSha256": "2568322a46b84e13d9d91f5f801396e5767e5be1fc1446862f909fc38b54035e"
+    },
+    {
+      "name": "native-command.json",
+      "sourcePath": "/tmp/tenka-armyboot-cohort-local-27d-c1/command.json",
+      "rawBytes": 513,
+      "rawSha256": "c49941da3aba8240ad8cb35032b2f61eb37deb98646e22fced0d137f16765ee2",
+      "packagePath": "raw/native-command.json.gz",
+      "packageSha256": "ddc2b095843fc315f62418a8f810a18fb90c50f8ec764ab58db93f6a1b28a65c"
+    },
+    {
+      "name": "native-result.json",
+      "sourcePath": "/tmp/tenka-armyboot-cohort-local-27d-c1/result.json",
+      "rawBytes": 73,
+      "rawSha256": "14107c9b3fd490a1741717ab4877ed21d162a311fa567e6262afe9c8fe85ef38",
+      "packagePath": "raw/native-result.json.gz",
+      "packageSha256": "e43c1ac48e315dc628f2ac9f897e404a4c331eda8c8863644aaf2e04acbfb934"
+    },
+    {
+      "name": "proof-after.json",
+      "sourcePath": "/tmp/tenka-armyboot-proof-after-27d-c1/stdout-stderr.log",
+      "rawBytes": 5497,
+      "rawSha256": "6c494ddf5d8b63b6bb60f1947114225dc452ed58c3f388677b3f9d6e12726804",
+      "packagePath": "raw/proof-after.json.gz",
+      "packageSha256": "6cb4cb985b1a249b3f03ad44b44c1fb50081a0ef55019f63f1733373d287d5a3"
+    },
+    {
+      "name": "proof-before.json",
+      "sourcePath": "/tmp/tenka-armyboot-proof-before-27d-c1/stdout-stderr.log",
+      "rawBytes": 5497,
+      "rawSha256": "6c494ddf5d8b63b6bb60f1947114225dc452ed58c3f388677b3f9d6e12726804",
+      "packagePath": "raw/proof-before.json.gz",
+      "packageSha256": "6cb4cb985b1a249b3f03ad44b44c1fb50081a0ef55019f63f1733373d287d5a3"
+    },
+    {
+      "name": "proof-postbuild.json",
+      "sourcePath": "/tmp/tenka-armyboot-proof-postbuild-27d-c1/stdout-stderr.log",
+      "rawBytes": 5497,
+      "rawSha256": "6c494ddf5d8b63b6bb60f1947114225dc452ed58c3f388677b3f9d6e12726804",
+      "packagePath": "raw/proof-postbuild.json.gz",
+      "packageSha256": "6cb4cb985b1a249b3f03ad44b44c1fb50081a0ef55019f63f1733373d287d5a3"
+    },
+    {
+      "name": "report.json",
+      "sourcePath": "/tmp/tenka-armyboot-cohort-local-27d-c1/report.json",
+      "rawBytes": 7575051,
+      "rawSha256": "24372559397bdddb2c1b91db70f7709aaa07a2ce5ce343608fa1b36f84f86706",
+      "packagePath": "raw/report.json.gz",
+      "packageSha256": "fc5bd4935e20e31beb7f4b0878735fc31ae018c68ad38888bebb41fc7dcaeab9"
+    },
+    {
+      "name": "review-manifest-v3.json",
+      "sourcePath": "/tmp/tenka-armyboot-overlay-27d/review-manifest-v3.json",
+      "rawBytes": 953,
+      "rawSha256": "79afeb11acff93c67cb99457ba8a151f48119d6989a45bf2f83df001bb00feb7",
+      "packagePath": "raw/review-manifest-v3.json.gz",
+      "packageSha256": "f3ca26ff6d5bf1c3fccbfc7cc73410f825c79ad2036ca922733d9b8140049f19"
+    },
+    {
+      "name": "review-v3.patch",
+      "sourcePath": "/tmp/tenka-armyboot-overlay-27d/review-v3.patch",
+      "rawBytes": 9206,
+      "rawSha256": "873009a8f2d1d7abacbf1e560d38be3d92026d596fa200a41f2d9cde9e5f529c",
+      "packagePath": "raw/review-v3.patch.gz",
+      "packageSha256": "74eb4e06cc28970c757761579b3cc61a2bfd7b2f5631e4068d567c8320abbdaa"
+    },
+    {
+      "name": "source-delta-manifest.json",
+      "sourcePath": "/tmp/tenka-armyboot-scoped-delta-27d-c1/manifest.json",
+      "rawBytes": 227666,
+      "rawSha256": "afcc086ab23f0f73288e2f14a0e393f4720f442546c941cef4a96ab0a19864b2",
+      "packagePath": "raw/source-delta-manifest.json.gz",
+      "packageSha256": "cf091580aa53ef850fd39da43f6e76ddc21c88bb11b90421e52bbe3bc2c98f26"
+    },
+    {
+      "name": "stdout-stderr.log",
+      "sourcePath": "/tmp/tenka-armyboot-cohort-local-27d-c1/stdout-stderr.log",
+      "rawBytes": 58250,
+      "rawSha256": "26cddb920824def28237e902fea4e9766048577a8941c7400bdc181d72bfb4f6",
+      "packagePath": "raw/stdout-stderr.log.gz",
+      "packageSha256": "7d567fbbf93e83760d64835c87655a0ae250f96cf74405731488d8b97e0482fb"
+    },
+    {
+      "name": "typecheck.log",
+      "sourcePath": "/tmp/tenka-armyboot-type-27d-c1/stdout-stderr.log",
+      "rawBytes": 84,
+      "rawSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a",
+      "packagePath": "raw/typecheck.log.gz",
+      "packageSha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984"
+    }
+  ]
+}

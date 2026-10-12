@@ -1,0 +1,20 @@
+# Earned regional generator pathfinding audit
+
+The full native run at `9550e39` recorded three child Vitest deadline failures: Azai alliance at its 15 s test limit, Miyoshi/Takeda at 60 s, and regional Ending at 5 s. The Ending child reported 6,980 ms of test time in that 16-worker browser run. All three helpers call the synchronous `runOneDay()` route; they do not configure the production Worker. The synchronous pathfinder uses its JavaScript reference unless a Rust backend has been installed.
+
+This package tests one specific explanation: whether installing the compiled Rust pathfinder helps the **regional Ending** generator. On an isolated `sim4` runtime pinned to `27d9028`, a JS observer control and a WASM observer candidate ran serially under the same original 5 s Vitest test limit. Both kept every original earned-route and App assertion. The candidate compiled and installed the pinned WASM inside the timed test callback, recorded 4,202 Rust queries and 16 topology builds, and cleared the backend in `finally`. Both arms required the prior provider to be absent; both observed it absent afterward. No product source or deadline changed.
+
+| Arm           | Test phase | Full Vitest process | Result |
+| ------------- | ---------: | ------------------: | ------ |
+| JS observer   |   1,620 ms |              5.29 s | Pass   |
+| WASM observer |   1,604 ms |              5.40 s | Pass   |
+
+The 16 ms test-phase difference is a single-pair observation, not a useful deadline margin. The earlier full-suite 6,980 ms failure occurred under a different 16-worker load. This pair does not reproduce that load and does not establish a fix for the Azai or Miyoshi/Takeda generators. The regional route has only nine castles and two clans. A separate retained 465-node/495-edge pathfinding microbenchmark (`wasm-worker/pathfinding-sim1.json`) reports median 27.324 ms JS versus 14.799 ms WASM per 4,096 isolated queries, but it does not measure either full-world earned route. **No WASM fixture change is adopted.**
+
+The control and candidate have identical lossless witnesses: complete final GameState including transient fields, canonical persistent-state hash, RNG, all 373 days of emitted event history, 84 **submitted player commands**, and encoded save. The generated save files are byte-identical (155,056 bytes, SHA-256 `6fb93a190a467c5184580c45c2df1aadcf67b3d1b4bd447dc91a30ed001d9d39`). The witness does not claim equality of every intermediate daily state or the complete AI command recorder; existing route assertions remained in place. `encodeFullSnapshot` rejects lossy JSON values before hashing.
+
+Two candidate attempts failed before any route work: c2 at 6 ms because a Vitest-transformed `import.meta.url` was not a `file:` URL, and c3 at 5 ms because `resolve` was not imported. Both errors and their exact overlay bytes remain in `raw/`. The c4 candidate uses the existing Node fixture pattern `readFileSync('public/wasm/tenka_engine.wasm')`; its exact overlay passed TypeScript checking before the timed run. An initial c4 source-verifier call used a mistyped expected SHA and exited 1; a second call derived the correct value and passed. No c2/c3 timings were treated as route performance.
+
+`raw/remote-captures.tar.gz` contains the exact JS and WASM child logs, saves, source/dependency proofs before and after each passing arm, the setup failures, and the c4 candidate typecheck. The runtime had 1,650 scoped source files from `27d9028` except the named test overlay, plus 29 matching pinned Pixi targets. The normal WASM was 90,122 bytes, SHA-256 `e22f559b4b9d6f6348709e028cecdbc2c6f567db2483fa845b48df0554d7bc7d`, ABI 1. `raw/local-captures.tar.gz` preserves setup, transfers, host observations, the failed and corrected verifier calls, and the outer commands/results. The original full-suite report remains in `../fullnative-current-9550/`.
+
+Run `python3 verify.py` to check packaged hashes, exact source/dependency proofs, both passing original-limit tests, both setup failures, and the lossless witness/save equality.

@@ -6676,3 +6676,9 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - `8ca952c` 只加 boot 錯誤區別：原完整尚未掛載 message 才回 false，其他錯誤傳出；不加另一個 ready wait，原五秒 budget 不變。舊 catch-all 對 one-shot unknown 控制因重試後成功而 RED；候選整檔六項（兩個 pure oracle、三個原 geometry、新控制）PASS10.3秒。原版、observer、old-control 與候選各自來源／raw／29 deps 保留；兩個 PATH setup RED、stub type／lint／format RED 另列，未重標。
 - 固定合併 `8ca952c` 型別、完整 ESLint（0 errors／2 warnings）、441 項／106 檔 discovery、touched format 與 1,650 Git inputs／29 targets 前後通過。沒有重跑 core／build／完整原生，原生候選仍標示 4dd 加各單檔 overlay。三個新套件與 root 獨立 verifier 證據保存；歷史索引 5,298 列及 bytes 不改。
 - 下一步量測原完整負載的 browser-entry／renderer frame 邊界及 earned generator 的原 deadline 成本，須有因果設計才再跑；不把孤立 PASS 當全套修復、不盲加 timeout／worker cap。最新完整原生仍為 955 的 440 項 RED；strict60、whole-heap（後半 +208,584 bytes）、long-run、全 M6–M9、六推薦／星級與既有無嗣／戰術終局、人口校準、六圖人工核准保持開放。未改規則、保護基準或 milestone，未 push／deploy。
+
+## 2026-10-12 — Earned 路徑 WASM 負控制與負載啟動邊界
+
+- 固定 `27d9028` 的本批只增加隔離診斷與證據，沒有採用 production／E2E 修改。Ending 區域 earned route 的等量觀測 JS／WASM 單次對照為 1,620／1,604ms，完整 process 為 5.29／5.40 秒；compile／install 留在原五秒 callback 內。WASM 確實執行 4,202 queries／16 topology builds，最終完整 state、RNG、373 日 emitted history、84 筆玩家指令與 fresh save 相同；不是每日完整 state 或所有 AI 指令證明。16ms 單次差距不足以採用，原 setup RED 保留。
+- 同來源加 guarded observer 的十八項／十檔原生 cohort，實際使用十六 workers，16 PASS／2 FAIL，總 31.65 秒。兩個軍勢札案例仍撞原五秒 boot poll；browser callback 已進入並排入 frame waiter，ticker 持續而 terrain／castle pending。Dense callback 自身約 4.700 秒，與 Playwright poll 約 5.008 秒分屬不同時計，不能直接相減當作 IPC 延遲。此高負載子集不是原 full955 排程重播；pending flags 只定位近端 gate，尚未分解 fetch／decode／texture／attachment 成本。
+- 下一步先量測 earned Takeda 原 callback 的 core／invariants／hash／clone／serialization／write 成本，並由 asset acquire 生命週期區分軍勢札 boot 的晚完成 owner。現有 source 顯示 300 次 full-state hash／validation 及大型輸出，但尚未量到各階段占比；不得直接採用 FNV 改寫、重啟舊 image Worker、延長 idle 或移出期限。最新完整原生仍為 955 的 440 項 RED；441 只是後續 discovery。strict60、whole-heap、long-run、全 M6–M9 與待決規則／保護圖保持，未 push／deploy。

@@ -1,0 +1,38 @@
+{
+  "raw/candidate-27d-c2.spec.tsx.gz": {
+    "size": 4666,
+    "sha256": "2ba141098e9e1100087b5b6249420f93717a0d2d0f730c2135ab576d784c41bc"
+  },
+  "raw/candidate-27d-c3.spec.tsx.gz": {
+    "size": 4654,
+    "sha256": "db31c53431a0cfde58b6ca7a4d8c919bcca109ae25bb2774a02cd2a4312560a4"
+  },
+  "raw/candidate-27d-c4.spec.tsx.gz": {
+    "size": 4648,
+    "sha256": "07b34175e468b37bdc2bdce64ece513e058a90fd4b56c2242ed579e8cb788d07"
+  },
+  "raw/context.json": {
+    "size": 338,
+    "sha256": "6484e1885a3cd422032e066cb67ea138240083593efdaacdc7cc45ed51b9733d"
+  },
+  "raw/control-27d-c2.spec.tsx.gz": {
+    "size": 4419,
+    "sha256": "0298285adb292164733a4c8cff239596a5df99b21f4911e36f08d552a9ee60e9"
+  },
+  "raw/exactverify-27d-c1.py.gz": {
+    "size": 972,
+    "sha256": "19c86e7765397d38883f349360518cd643592e529c74548e548bcd0f5e9aad37"
+  },
+  "raw/local-captures.tar.gz": {
+    "size": 18574,
+    "sha256": "9cf42c7c8e13bd07564c04e8925ffca3e1b90a7e6f41d9ee0ea299389496cecd"
+  },
+  "raw/remote-captures.tar.gz": {
+    "size": 41748,
+    "sha256": "376edd9b9e1d47146f8f9eb63d57f00a742337c2f82a2597433a7ba212ec8956"
+  },
+  "raw/run-27d-c1.sh.gz": {
+    "size": 522,
+    "sha256": "3b052e5171fa412fb3abd5b8ae5c2b71fdd78192671efffb244af329985bc82d"
+  }
+}

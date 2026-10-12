@@ -36573,6 +36573,379 @@
       "sha256": "003e87ae9ba34fe411df8cfc2060a8d92c4e9b4c6f549290dfe8291ed6acc285",
       "uncompressedBytes": 46,
       "uncompressedSha256": "2d4e10bdebe7462b31f1e442483c6f6d38aa596d9eec811181ef74f9446bfd9d"
+    },
+    {
+      "path": "earned-generator-pathfinding-27d9028/README.md",
+      "bytes": 4055,
+      "sha256": "89cb3511fc79ada4e501d113bd7adeb60f11faae53faa959ea5d43e933b2d152"
+    },
+    {
+      "path": "earned-generator-pathfinding-27d9028/manifest.json",
+      "bytes": 1251,
+      "sha256": "d1f1aa2ffcf1df3301a5fc0cad1b75f291674012469c7247720a2658eadacd64"
+    },
+    {
+      "path": "earned-generator-pathfinding-27d9028/raw/candidate-27d-c2.spec.tsx.gz",
+      "bytes": 4666,
+      "sha256": "2ba141098e9e1100087b5b6249420f93717a0d2d0f730c2135ab576d784c41bc",
+      "uncompressedBytes": 15876,
+      "uncompressedSha256": "c09f10a5df0ae3a41fbc9ee08e76c7d42155f2e4999e70c60c15b8ae988b003a"
+    },
+    {
+      "path": "earned-generator-pathfinding-27d9028/raw/candidate-27d-c3.spec.tsx.gz",
+      "bytes": 4654,
+      "sha256": "db31c53431a0cfde58b6ca7a4d8c919bcca109ae25bb2774a02cd2a4312560a4",
+      "uncompressedBytes": 15853,
+      "uncompressedSha256": "2b7a63da6e1c66b42855b574051064b6d047d4424a96345fb40ea1ea444f9286"
+    },
+    {
+      "path": "earned-generator-pathfinding-27d9028/raw/candidate-27d-c4.spec.tsx.gz",
+      "bytes": 4648,
+      "sha256": "07b34175e468b37bdc2bdce64ece513e058a90fd4b56c2242ed579e8cb788d07",
+      "uncompressedBytes": 15844,
+      "uncompressedSha256": "384a591afe6d40c8a40f0a09818f700ab59cbc1e7e2b2505f1961a8196f1d1d0"
+    },
+    {
+      "path": "earned-generator-pathfinding-27d9028/raw/context.json",
+      "bytes": 338,
+      "sha256": "6484e1885a3cd422032e066cb67ea138240083593efdaacdc7cc45ed51b9733d"
+    },
+    {
+      "path": "earned-generator-pathfinding-27d9028/raw/control-27d-c2.spec.tsx.gz",
+      "bytes": 4419,
+      "sha256": "0298285adb292164733a4c8cff239596a5df99b21f4911e36f08d552a9ee60e9",
+      "uncompressedBytes": 15115,
+      "uncompressedSha256": "121522007e1be411a7c71a952c0f95ce7395ac4eff8905326a47e6a3a90a1a08"
+    },
+    {
+      "path": "earned-generator-pathfinding-27d9028/raw/exactverify-27d-c1.py.gz",
+      "bytes": 972,
+      "sha256": "19c86e7765397d38883f349360518cd643592e529c74548e548bcd0f5e9aad37",
+      "uncompressedBytes": 1926,
+      "uncompressedSha256": "6d68aa28de3571cea6eee11f78382617920d146d6ca0f281c720f03006f30b35"
+    },
+    {
+      "path": "earned-generator-pathfinding-27d9028/raw/local-captures.tar.gz",
+      "bytes": 18574,
+      "sha256": "9cf42c7c8e13bd07564c04e8925ffca3e1b90a7e6f41d9ee0ea299389496cecd",
+      "uncompressedBytes": 460800,
+      "uncompressedSha256": "bdfbb21f728f6bacbc45fa55d79e111ce44173a2e8a75d82d9011b2e3393c802"
+    },
+    {
+      "path": "earned-generator-pathfinding-27d9028/raw/remote-captures.tar.gz",
+      "bytes": 41748,
+      "sha256": "376edd9b9e1d47146f8f9eb63d57f00a742337c2f82a2597433a7ba212ec8956",
+      "uncompressedBytes": 460800,
+      "uncompressedSha256": "2f4f2c380a7d2ba252b01b25b5b5cf3ecbc05a3be49beeca041bb9afc788236e"
+    },
+    {
+      "path": "earned-generator-pathfinding-27d9028/raw/run-27d-c1.sh.gz",
+      "bytes": 522,
+      "sha256": "3b052e5171fa412fb3abd5b8ae5c2b71fdd78192671efffb244af329985bc82d",
+      "uncompressedBytes": 887,
+      "uncompressedSha256": "c1d7a1a7f424d5576fadb12aa92a652af0b7158182fe39c24f4c605b65666af4"
+    },
+    {
+      "path": "earned-generator-pathfinding-27d9028/verify.py",
+      "bytes": 4605,
+      "sha256": "7859659ec05d6819878d473dc0c6f16fa20e022efa3e8198994887871b81ad27"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/README.md",
+      "bytes": 7589,
+      "sha256": "e4e6100473a500dfe16b02158c2387aa5b85585a845b68d785b6c5447fad5704"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/SHA256SUMS",
+      "bytes": 2724,
+      "sha256": "5ccb82fab5e00033df77a0dd4d9e47cb654be01fb89f680dbb337705528002d8"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/analysis.json",
+      "bytes": 68800,
+      "sha256": "4cc2b8c7a79aec6f8ced8990d086d0726729ad1c661281030dfbc3224ce07d56"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/body-error-context.md.gz",
+      "bytes": 4762,
+      "sha256": "f321bd26f5a22e7585142ed8e02dc180f57e1cf242cbd0d29a748291b24353cf",
+      "uncompressedBytes": 14748,
+      "uncompressedSha256": "c9fff9ff39da568e465b0c4f60d137878790b7da09d4a274742a34882a5e3363"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/body-trace.zip",
+      "bytes": 1335616,
+      "sha256": "5b570bd084d8a0d35cdd8b15b22d0e1ffdc571941c26ac171efe7574ef624b79"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/browser-inventory.json.gz",
+      "bytes": 3419,
+      "sha256": "3410ee053f22a50e75a695f871b41c573ea3d7526d4e439ada0841b87dcde31f",
+      "uncompressedBytes": 14615,
+      "uncompressedSha256": "426904f79475a4286da19d33bd988a586033ff5585fb5360ebd1665e0e77f70c"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/build.log.gz",
+      "bytes": 855,
+      "sha256": "d2e8da438d784ece705d66c0dee7cd46fb427993a2593e012017b0988ccde358",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "8f259802d2c24a8bef36f82e3b5d5da2f3c19833c9c9b68d9c5212882579ea9e"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/cohort18-test-list-v3.txt.gz",
+      "bytes": 983,
+      "sha256": "8d2d49e217f0f1098f84f39a2310bdc1061a1aab9326595feab251af60d88ba2",
+      "uncompressedBytes": 2642,
+      "uncompressedSha256": "e764c237df6db1f6c20e429fc8bfa4987a34f4c7ad53f8099d642730312d1913"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/dense-error-context.md.gz",
+      "bytes": 4763,
+      "sha256": "1728e3177a4a4495efe7793c51d777f90d4afc842eac2ddb80c839833f272d44",
+      "uncompressedBytes": 14763,
+      "uncompressedSha256": "140ca9cbccd6eb1b10b07ab8004a9f3275f8bc98c0c328fe1940bc5d022f640b"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/dense-trace.zip",
+      "bytes": 1394579,
+      "sha256": "739ea082121080e1888ddc1db5e9f3b24261341c38b388eab37dfcf80dc93571"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/discovery-local-18.log.gz",
+      "bytes": 1092,
+      "sha256": "e97eed08a39df65189047ce1249d7667c5ed08c7044106b2b30d4e0fbdcd8849",
+      "uncompressedBytes": 2904,
+      "uncompressedSha256": "6af1c7d83511b0482d4a99ce2482b31079f4f4cd85f056a1828ad840fe2a62bb"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/discovery-local-empty.log.gz",
+      "bytes": 55,
+      "sha256": "13f881c2653700f3a4e2d67fe71c5fad14dab066e3f4d07ddb0947a6d552109c",
+      "uncompressedBytes": 41,
+      "uncompressedSha256": "4f5b1bb7df1808d911ebe868d2fd384e0f1fedd73e2ec2b10f7babd43948c5f0"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/discovery-local-malformed.log.gz",
+      "bytes": 223,
+      "sha256": "728687d94abc83a863658d0a8b90c5ba65e56693676cfb2c51bf6fe8d63591cd",
+      "uncompressedBytes": 295,
+      "uncompressedSha256": "7f713edfeecc7da92440b6e10894afe3e46a6be9f09840a73622f6888c983b77"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/discovery-sim2-18.log.gz",
+      "bytes": 1089,
+      "sha256": "74e073a24d90911e5a75bfe8bb7f9527f16202218cddaff5ff0a78f26f7eaf12",
+      "uncompressedBytes": 2904,
+      "uncompressedSha256": "e96a3adf4b67c93e29256b1e8cf209c21f8508c1e8e9070599714869a4cde1c9"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/host-after.log.gz",
+      "bytes": 234,
+      "sha256": "1ea4623ef01f36b614ff57cd17fe2aa389e8e8afffed027e6c2838fe37e94ed1",
+      "uncompressedBytes": 267,
+      "uncompressedSha256": "c8c728ff98f6edd06d6613f507e545bc0fb9da69e74ad432bc86a35f5611b7fe"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/host-before.log.gz",
+      "bytes": 515,
+      "sha256": "f43b538feb1612b3771c5747bceacfa84f8fdcfc32067c8b49dfdb99b7964db7",
+      "uncompressedBytes": 1692,
+      "uncompressedSha256": "209bd6c52152b093a57c633707a14fc2b5008cc96e742c15edb0d19198f47bdb"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/launcher-command.json.gz",
+      "bytes": 553,
+      "sha256": "3bdf7a0ea79e2d88e1af718450b647ee09cf5b7a4ca34cc6ad48f9b0d6f3f361",
+      "uncompressedBytes": 854,
+      "uncompressedSha256": "b53612d78c0137e2a245a8a7485a43c49d6fd13f6690c17833c14e3efc946f88"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/launcher-result.json.gz",
+      "bytes": 89,
+      "sha256": "2568322a46b84e13d9d91f5f801396e5767e5be1fc1446862f909fc38b54035e",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "c558f1012c6ec69ed0b929124479a907746c8b4297c1714e8cdec2ef68ab794b"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/native-command.json.gz",
+      "bytes": 280,
+      "sha256": "ddc2b095843fc315f62418a8f810a18fb90c50f8ec764ab58db93f6a1b28a65c",
+      "uncompressedBytes": 513,
+      "uncompressedSha256": "c49941da3aba8240ad8cb35032b2f61eb37deb98646e22fced0d137f16765ee2"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/native-result.json.gz",
+      "bytes": 89,
+      "sha256": "e43c1ac48e315dc628f2ac9f897e404a4c331eda8c8863644aaf2e04acbfb934",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "14107c9b3fd490a1741717ab4877ed21d162a311fa567e6262afe9c8fe85ef38"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/proof-after.json.gz",
+      "bytes": 1960,
+      "sha256": "6cb4cb985b1a249b3f03ad44b44c1fb50081a0ef55019f63f1733373d287d5a3",
+      "uncompressedBytes": 5497,
+      "uncompressedSha256": "6c494ddf5d8b63b6bb60f1947114225dc452ed58c3f388677b3f9d6e12726804"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/proof-before.json.gz",
+      "bytes": 1960,
+      "sha256": "6cb4cb985b1a249b3f03ad44b44c1fb50081a0ef55019f63f1733373d287d5a3",
+      "uncompressedBytes": 5497,
+      "uncompressedSha256": "6c494ddf5d8b63b6bb60f1947114225dc452ed58c3f388677b3f9d6e12726804"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/proof-postbuild.json.gz",
+      "bytes": 1960,
+      "sha256": "6cb4cb985b1a249b3f03ad44b44c1fb50081a0ef55019f63f1733373d287d5a3",
+      "uncompressedBytes": 5497,
+      "uncompressedSha256": "6c494ddf5d8b63b6bb60f1947114225dc452ed58c3f388677b3f9d6e12726804"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/report.json.gz",
+      "bytes": 1320712,
+      "sha256": "fc5bd4935e20e31beb7f4b0878735fc31ae018c68ad38888bebb41fc7dcaeab9",
+      "uncompressedBytes": 7575051,
+      "uncompressedSha256": "24372559397bdddb2c1b91db70f7709aaa07a2ce5ce343608fa1b36f84f86706"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/review-manifest-v3.json.gz",
+      "bytes": 480,
+      "sha256": "f3ca26ff6d5bf1c3fccbfc7cc73410f825c79ad2036ca922733d9b8140049f19",
+      "uncompressedBytes": 953,
+      "uncompressedSha256": "79afeb11acff93c67cb99457ba8a151f48119d6989a45bf2f83df001bb00feb7"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/review-v3.patch.gz",
+      "bytes": 3323,
+      "sha256": "74eb4e06cc28970c757761579b3cc61a2bfd7b2f5631e4068d567c8320abbdaa",
+      "uncompressedBytes": 9206,
+      "uncompressedSha256": "873009a8f2d1d7abacbf1e560d38be3d92026d596fa200a41f2d9cde9e5f529c"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/source-delta-manifest.json.gz",
+      "bytes": 58189,
+      "sha256": "cf091580aa53ef850fd39da43f6e76ddc21c88bb11b90421e52bbe3bc2c98f26",
+      "uncompressedBytes": 227666,
+      "uncompressedSha256": "afcc086ab23f0f73288e2f14a0e393f4720f442546c941cef4a96ab0a19864b2"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/stdout-stderr.log.gz",
+      "bytes": 4331,
+      "sha256": "7d567fbbf93e83760d64835c87655a0ae250f96cf74405731488d8b97e0482fb",
+      "uncompressedBytes": 58250,
+      "uncompressedSha256": "26cddb920824def28237e902fea4e9766048577a8941c7400bdc181d72bfb4f6"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw/typecheck.log.gz",
+      "bytes": 87,
+      "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+      "uncompressedBytes": 84,
+      "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/raw-manifest.json",
+      "bytes": 10171,
+      "sha256": "8972634a6dde6e3764c2e979b40327543cf78e896b2ba29187fa491d53196e99"
+    },
+    {
+      "path": "army-boot-cohort-27d9028/verify.py",
+      "bytes": 3901,
+      "sha256": "57ab519e0019cbfcff7ad06fda06d8135a58c7cf50524b5d65a6d4d3444310aa"
+    },
+    {
+      "path": "generator-boot-handoff-27d9028/README.md",
+      "bytes": 1397,
+      "sha256": "b2919a4e0bfa207bb8910995b46283e6c9d685ca59dff4293ac7542bcc9df70b"
+    },
+    {
+      "path": "generator-boot-handoff-27d9028/handoff-producer.py.gz",
+      "bytes": 1448,
+      "sha256": "485cca89be6fd6ed039636bc06c8c2e9398b6e7d5bcd987fad1a87dd8a156ba7",
+      "uncompressedBytes": 2657,
+      "uncompressedSha256": "d6bb62e06cfba2a6be9020a46e3f910ada1cdfce117e467b7edf787ce054a6ad"
+    },
+    {
+      "path": "generator-boot-handoff-27d9028/manifest.json",
+      "bytes": 4462,
+      "sha256": "e12ff026546e70819659e41e440ba34d46ef8aeebb3b0a401dfa8d6864a3a863"
+    },
+    {
+      "path": "generator-boot-handoff-27d9028/root-army-final.log.gz",
+      "bytes": 133,
+      "sha256": "ba4d4aee639fef6fd15d5ceda6498a646299082b4bffdab44d6c5c0a0c98f774",
+      "uncompressedBytes": 128,
+      "uncompressedSha256": "f83183653c3b70ad11399e7457374767b2157c570df248efa2c5a72001c5363f"
+    },
+    {
+      "path": "generator-boot-handoff-27d9028/root-army-initial-red.log.gz",
+      "bytes": 256,
+      "sha256": "f6c64c47707596a7bb3b6638126250fca9dea0aa35823afbc1a572df094c295a",
+      "uncompressedBytes": 363,
+      "uncompressedSha256": "680b201d47094a5d38def8b6fd1a4550ab5f8f7d6c550fdcde97c55b85a6e0aa"
+    },
+    {
+      "path": "generator-boot-handoff-27d9028/root-generator.log.gz",
+      "bytes": 133,
+      "sha256": "a4fd164f27c47218dd2c3c2a736a8747173e518a4fe6502637ab22598e07d906",
+      "uncompressedBytes": 137,
+      "uncompressedSha256": "9a1c9e9c328ec9fb14b2f6ede7baaa434e08013e194c293a8f99a7de6bb0360e"
+    },
+    {
+      "path": "generator-boot-handoff-27d9028/tenka-generator-boot-docs-diffcheck-27d-c1__command.json.gz",
+      "bytes": 155,
+      "sha256": "a93744c95f6b9c3c72ca18e3ac21e42573c119d99b4541d86de45d95e44d1ec8",
+      "uncompressedBytes": 171,
+      "uncompressedSha256": "e45f320c5c1f818bdf2c51d5b592ad7219befe52fc5e36efbb7d6be748e95770"
+    },
+    {
+      "path": "generator-boot-handoff-27d9028/tenka-generator-boot-docs-diffcheck-27d-c1__process.json.gz",
+      "bytes": 39,
+      "sha256": "acd3350776e8c4d600fe856f0823909d525c36d95b5a78659f751577f26e7be7",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "b607e3bc793c09501e7e93e3fadd0786bd87834c31ed400394d9bf8dddff01d0"
+    },
+    {
+      "path": "generator-boot-handoff-27d9028/tenka-generator-boot-docs-diffcheck-27d-c1__result.json.gz",
+      "bytes": 89,
+      "sha256": "6dd903cf62d9fc6f02870a84056e1baf4d805740ff5d343f3ae5e3d35cd7f9ac",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "3a418cf71a526247526c027b5189ae921e7aceed260bcea368c589e8ded80ae5"
+    },
+    {
+      "path": "generator-boot-handoff-27d9028/tenka-generator-boot-docs-diffcheck-27d-c1__stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "generator-boot-handoff-27d9028/tenka-generator-boot-docs-format-27d-c1__command.json.gz",
+      "bytes": 210,
+      "sha256": "1b5fa0030ea04d68385577ea6fdf4da401e6843b3bb596d5a1562f70f587189a",
+      "uncompressedBytes": 284,
+      "uncompressedSha256": "39ed4553953283bf1670edd1726f33a2fbfb758fa262f40dcd1b6a6b9ebc170d"
+    },
+    {
+      "path": "generator-boot-handoff-27d9028/tenka-generator-boot-docs-format-27d-c1__process.json.gz",
+      "bytes": 39,
+      "sha256": "a9ae9086169b70673f892babd15e3dda1ae1c0f3f04b3c36ca15a08c50305e72",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "187cbd507d4b2c61d4530d0ae64e390ee2f53d80748e52ea67f64b9bb276db57"
+    },
+    {
+      "path": "generator-boot-handoff-27d9028/tenka-generator-boot-docs-format-27d-c1__result.json.gz",
+      "bytes": 88,
+      "sha256": "228c3bfc584a6d225008f9a12302f44b9aed14f0e7118f7a038b90fef230b86d",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "957690388e3f8c031e57a882d36d3dab99203ae82f0f8243663f2e881a094516"
+    },
+    {
+      "path": "generator-boot-handoff-27d9028/tenka-generator-boot-docs-format-27d-c1__stdout-stderr.log.gz",
+      "bytes": 115,
+      "sha256": "5e33ed379873b9ac9d778709872c024ede00e9c6d26e1c6d66d952a1e155a98b",
+      "uncompressedBytes": 138,
+      "uncompressedSha256": "335f5c0e1e081b52a144687fcb15371680f2fe66940e472e1d5ffdb95da17cbb"
     }
   ]
 }

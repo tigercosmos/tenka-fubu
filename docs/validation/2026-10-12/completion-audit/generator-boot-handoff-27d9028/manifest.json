@@ -1,0 +1,100 @@
+{
+  "items": [
+    {
+      "file": "root-generator.log.gz",
+      "source": "/tmp/tenka-root-earned-wasm.0DVskz",
+      "rawBytes": 137,
+      "rawSha256": "9a1c9e9c328ec9fb14b2f6ede7baaa434e08013e194c293a8f99a7de6bb0360e",
+      "gzipBytes": 133,
+      "gzipSha256": "a4fd164f27c47218dd2c3c2a736a8747173e518a4fe6502637ab22598e07d906"
+    },
+    {
+      "file": "root-army-initial-red.log.gz",
+      "source": "/tmp/tenka-root-armycohort.umqxmp",
+      "rawBytes": 363,
+      "rawSha256": "680b201d47094a5d38def8b6fd1a4550ab5f8f7d6c550fdcde97c55b85a6e0aa",
+      "gzipBytes": 256,
+      "gzipSha256": "f6c64c47707596a7bb3b6638126250fca9dea0aa35823afbc1a572df094c295a"
+    },
+    {
+      "file": "root-army-final.log.gz",
+      "source": "/tmp/tenka-root-armycohort-frozen.VYIfn5",
+      "rawBytes": 128,
+      "rawSha256": "f83183653c3b70ad11399e7457374767b2157c570df248efa2c5a72001c5363f",
+      "gzipBytes": 133,
+      "gzipSha256": "ba4d4aee639fef6fd15d5ceda6498a646299082b4bffdab44d6c5c0a0c98f774"
+    },
+    {
+      "file": "tenka-generator-boot-docs-format-27d-c1__command.json.gz",
+      "source": "/tmp/tenka-generator-boot-docs-format-27d-c1/command.json",
+      "rawBytes": 284,
+      "rawSha256": "39ed4553953283bf1670edd1726f33a2fbfb758fa262f40dcd1b6a6b9ebc170d",
+      "gzipBytes": 210,
+      "gzipSha256": "1b5fa0030ea04d68385577ea6fdf4da401e6843b3bb596d5a1562f70f587189a"
+    },
+    {
+      "file": "tenka-generator-boot-docs-format-27d-c1__process.json.gz",
+      "source": "/tmp/tenka-generator-boot-docs-format-27d-c1/process.json",
+      "rawBytes": 19,
+      "rawSha256": "187cbd507d4b2c61d4530d0ae64e390ee2f53d80748e52ea67f64b9bb276db57",
+      "gzipBytes": 39,
+      "gzipSha256": "a9ae9086169b70673f892babd15e3dda1ae1c0f3f04b3c36ca15a08c50305e72"
+    },
+    {
+      "file": "tenka-generator-boot-docs-format-27d-c1__result.json.gz",
+      "source": "/tmp/tenka-generator-boot-docs-format-27d-c1/result.json",
+      "rawBytes": 73,
+      "rawSha256": "957690388e3f8c031e57a882d36d3dab99203ae82f0f8243663f2e881a094516",
+      "gzipBytes": 88,
+      "gzipSha256": "228c3bfc584a6d225008f9a12302f44b9aed14f0e7118f7a038b90fef230b86d"
+    },
+    {
+      "file": "tenka-generator-boot-docs-format-27d-c1__stdout-stderr.log.gz",
+      "source": "/tmp/tenka-generator-boot-docs-format-27d-c1/stdout-stderr.log",
+      "rawBytes": 138,
+      "rawSha256": "335f5c0e1e081b52a144687fcb15371680f2fe66940e472e1d5ffdb95da17cbb",
+      "gzipBytes": 115,
+      "gzipSha256": "5e33ed379873b9ac9d778709872c024ede00e9c6d26e1c6d66d952a1e155a98b"
+    },
+    {
+      "file": "tenka-generator-boot-docs-diffcheck-27d-c1__command.json.gz",
+      "source": "/tmp/tenka-generator-boot-docs-diffcheck-27d-c1/command.json",
+      "rawBytes": 171,
+      "rawSha256": "e45f320c5c1f818bdf2c51d5b592ad7219befe52fc5e36efbb7d6be748e95770",
+      "gzipBytes": 155,
+      "gzipSha256": "a93744c95f6b9c3c72ca18e3ac21e42573c119d99b4541d86de45d95e44d1ec8"
+    },
+    {
+      "file": "tenka-generator-boot-docs-diffcheck-27d-c1__process.json.gz",
+      "source": "/tmp/tenka-generator-boot-docs-diffcheck-27d-c1/process.json",
+      "rawBytes": 19,
+      "rawSha256": "b607e3bc793c09501e7e93e3fadd0786bd87834c31ed400394d9bf8dddff01d0",
+      "gzipBytes": 39,
+      "gzipSha256": "acd3350776e8c4d600fe856f0823909d525c36d95b5a78659f751577f26e7be7"
+    },
+    {
+      "file": "tenka-generator-boot-docs-diffcheck-27d-c1__result.json.gz",
+      "source": "/tmp/tenka-generator-boot-docs-diffcheck-27d-c1/result.json",
+      "rawBytes": 73,
+      "rawSha256": "3a418cf71a526247526c027b5189ae921e7aceed260bcea368c589e8ded80ae5",
+      "gzipBytes": 89,
+      "gzipSha256": "6dd903cf62d9fc6f02870a84056e1baf4d805740ff5d343f3ae5e3d35cd7f9ac"
+    },
+    {
+      "file": "tenka-generator-boot-docs-diffcheck-27d-c1__stdout-stderr.log.gz",
+      "source": "/tmp/tenka-generator-boot-docs-diffcheck-27d-c1/stdout-stderr.log",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "file": "handoff-producer.py.gz",
+      "source": "/tmp/tenka-generator-boot-handoff-27d-c1.py",
+      "rawBytes": 2657,
+      "rawSha256": "d6bb62e06cfba2a6be9020a46e3f910ada1cdfce117e467b7edf787ce054a6ad",
+      "gzipBytes": 1448,
+      "gzipSha256": "485cca89be6fd6ed039636bc06c8c2e9398b6e7d5bcd987fad1a87dd8a156ba7"
+    }
+  ]
+}
