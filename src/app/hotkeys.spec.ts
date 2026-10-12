@@ -63,8 +63,26 @@ describe('canonical context-aware hotkey router', () => {
       { hasDialog: true },
       { mapBackground: false },
     ]) {
-      for (const key of ['w', 'ArrowDown', '+', '-', 'Home', 'm', 'Tab'])
-        expect(route(key, context)).toBeNull();
+      for (const key of ['w', 'ArrowDown', '+', '-', 'Tab']) expect(route(key, context)).toBeNull();
+    }
+    for (const context of [
+      { panelFocused: true, mapBackground: false },
+      { mapBackground: false },
+    ]) {
+      expect(route('Home', context)).toEqual({ kind: 'home' });
+      expect(route('m', context)).toEqual({ kind: 'minimap' });
+    }
+    for (const context of [
+      { screen: 'title' },
+      { screen: 'battle' },
+      { typing: true },
+      { nativeControl: true },
+      { viewportBlocked: true },
+      { hasModal: true },
+      { hasDialog: true },
+    ]) {
+      expect(route('Home', context)).toBeNull();
+      expect(route('m', context)).toBeNull();
     }
   });
   it('preserves native controls, typing, modifiers, repeat and dialog priority', () => {

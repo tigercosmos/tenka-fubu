@@ -91,6 +91,8 @@ export function classifyHotkey(
       return { kind: 'rail', index: Number(input.key.slice(1)) as 1 | 2 | 3 | 4 | 5 | 6 | 7 };
     if (input.key.toLowerCase() === 'r') return { kind: 'reports' };
     if (input.key === '`') return { kind: 'debug' };
+    if (!context.nativeControl && input.key === 'Home') return { kind: 'home' };
+    if (!context.nativeControl && input.key.toLowerCase() === 'm') return { kind: 'minimap' };
   }
   if (map) {
     const directions: Record<string, readonly [number, number]> = {
@@ -109,8 +111,6 @@ export function classifyHotkey(
       return { kind: 'zoom', direction: 1 };
     if (input.key === '-' || input.key === '−' || input.key === '－')
       return { kind: 'zoom', direction: -1 };
-    if (!input.repeat && input.key === 'Home') return { kind: 'home' };
-    if (!input.repeat && input.key.toLowerCase() === 'm') return { kind: 'minimap' };
   }
   if (main || context.screen === 'battle') {
     if ((input.key === ' ' || input.key === 'Spacebar') && !context.nativeControl && !input.repeat)

@@ -113,6 +113,29 @@ describe('useHotkeys — 空白鍵／數字鍵（01 §6.3）', () => {
     expect(uiStore.getState().analysisMode).toBe('faction');
     expect(zoom).toHaveBeenCalledOnce();
   });
+  it('dispatches Home and M from a focused non-control panel region while native controls retain keys', () => {
+    const focusHome = vi.fn();
+    const toggleMiniMap = vi.fn();
+    render(<HotkeysHost loop={loop} handlers={{ focusHome, toggleMiniMap }} />);
+    uiStore.getState().actions.openPanel('officers');
+    const panel = render(<section tabIndex={0} data-testid="focused-panel" />).getByTestId(
+      'focused-panel',
+    );
+    panel.focus();
+    fireEvent.keyDown(panel, { key: 'Home' });
+    fireEvent.keyDown(panel, { key: 'm' });
+    expect(focusHome).toHaveBeenCalledOnce();
+    expect(toggleMiniMap).toHaveBeenCalledOnce();
+    const button = document.querySelector<HTMLButtonElement>('[data-testid="focus-button"]')!;
+    button.focus();
+    for (const key of ['Home', 'm']) {
+      const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true });
+      button.dispatchEvent(event);
+      expect(event.defaultPrevented).toBe(false);
+    }
+    expect(focusHome).toHaveBeenCalledOnce();
+    expect(toggleMiniMap).toHaveBeenCalledOnce();
+  });
   it('holds camera keys per frame and stops on keyup, focus, window blur, modal and unmount', () => {
     const frames = new Map<number, FrameRequestCallback>();
     let serial = 0;
