@@ -1,7 +1,7 @@
 # 後續驗收、重放歸因與記憶體觀察
 
 Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目標仍未完成。
-最新固定來源全量測試為 6,320 通過、1 失敗、1 跳過；120 部隊近景仍未達 60 FPS。
+最新固定來源全量測試為 6,357 通過、1 失敗、1 跳過；120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
 ## 已完成修正
@@ -220,3 +220,27 @@ Rust 九項、19 檔 262 項關聯測試通過。實際已編譯 WASM 與凍結 
 [geographic-wasm-worker-sim1](geographic-wasm-worker-sim1/README.md) 使用完整 2,814 檔固定來源、fresh npm ci 及當前 23 個 Pixi patch。Mac／Linux 二進位與 manifest byte-identical：27,147 bytes，WASM SHA256 `2f4bde5fab04903790ccc28e507ef2ccd1dd8df8bc9f8de2a4491ff71ca263df`。原六項 Worker 測試為五通過、一失敗；失敗案例的完整局面、日誌與實際 Rust 回覆先通過，之後當前 generation 的 readiness 為 false。原 trace 證明暫停取消第四個 posted tick 後建立新 Worker；新實例尚未初始化，不能以歷史 Rust 使用紀錄偽裝為當前 ready。此輪不宣稱六項全綠。
 
 地理 Rust 邊界目前保留，後續將評估完整城名牌純布局與實際 Worker 啟動初始化。既有 60 FPS、whole-heap、protected art、長跑及核心領地 gate 均保持開啟。
+
+## 完整城名牌 Rust 核心與當前世代 Worker 就緒
+
+`ce827fe`／`671602a`／`04c7b60` 將完整城名牌純布局接上正式 renderer。Rust 處理候選軸、完整搜尋、碰撞／引線限制、最終診斷及既定一百萬 work budget；JavaScript 保留原驗證、UTF-16 優先排序、量測、快取與精簡字牌 admission。Castle 與 geographic arena 共用同一個主頁 WASM 實例，與模擬 Worker 分離；兩個 arena 在 memory growth 後更新 view，destroy 各釋放一次。缺少 castle ABI 會在建立 Application 前失敗，沒有靜默 JavaScript fallback。
+
+Rust 十一項、337 組完整 f64 原版 oracle、13 項實際 WASM／協定測試（含 320 seeded scenes）、33 檔 386 項 renderer／主畫面接點測試及三項真實雙 arena 生命週期測試通過。ABI、欄位／工作數／signed zero 逐一比對。證據審核發現一處測試來源註記不精確：原 oracle 321／322 是同號零值，永久測試是混合符號；另用凍結 JavaScript 獨立產生兩筆控制，全部十六欄與 work 472 相同。`2bdb1f3` 只更正註記與產物來源 manifest，程式、輸入與預期不變，63,073-byte WASM 與 `04c7b60` byte-identical，SHA256 `4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba`。原始 CWD、clippy、型別化 instrumentation 失敗均保存於 [castle-wasm-local](castle-wasm-local/README.md)。
+
+固定 `04c7b60` 全量為 686 檔：684 通過、1 失敗、1 跳過；6,357 項通過、1 失敗、1 跳過，133.48 秒。1,485 個 tracked inputs 在測試及所有檢查後符合固定 Git blob 且 byte-identical；型別、完整 lint、正式 build 與 bundle 通過。唯一失敗仍是 day450 無嗣領地 INV-02／INV-22。後續註記更正使目前 main 的一個 tracked Rust test 檔案不同，public manifest 位於本項 scope 外；不將此固定全量改稱為更正來源的重跑。
+
+`c613747`／`71d1eaf` 讓每個新 Worker 立即初始化 Rust，真正 ready ACK 屬於當前實例與 epoch；tick 仍立即 posted。舊世代 ready／error、取消及卸載不能復活 backend；初始化失敗回報既有 fatal 邊界。`waitSimulationIdle` 排空 pending day 後加入當前世代的真實就緒等待，所有 reset 共用單一 deadline。65 項相關測試通過，舊 bridge 對新增控制的反向測試為七失敗／九通過，沒有未處理 rejection；原失敗與來源見 [worker-epoch-readiness-sim1](worker-epoch-readiness-sim1/README.md)。
+
+[worker-ready-castle-sim1](worker-ready-castle-sim1/README.md) 以完整 3,068 檔固定來源、fresh npm ci／23 patch 執行原六個 native Worker 案例，一次全六通過（2.1 分鐘）。完整 persistent state、RNG、日誌、保存／重載及取消精確一致；原先失敗的 current-generation ready 斷言現在通過，沒有放寬。Normal x5 真正只前進 29 日後自然月報暫停，不能宣稱完成 60 日。這輪 120 日 Worker wall 17.038 秒，sync 0.957 秒；最長主頁 long task 207／956 ms，整體 batch 仍較慢，不能把較短單次阻塞視為結算吞吐改善。
+
+新的 [current23 baseline](geographic-wasm-current23-baseline/README.md) 使用 fresh locked dependencies、全部 23 個 Pixi patch，與舊依賴群分離。[castle same-cohort controls](castle-wasm-current23-native/README.md) 共用這份完整 14,765 檔依賴，前後 SHA 不變；1,404 個新來源／公開素材／設定同樣固定。九份完整發布與原 reference byte-exact；三個三十秒、120 部隊、1080p 控制各執行一次，結果如下。
+
+| Camera      | Current23 baseline FPS | Combined runtime FPS | Baseline P95 | New P95 |
+| ----------- | ---------------------: | -------------------: | -----------: | ------: |
+| Overview    |               59.83336 |             59.93091 |      17.7 ms | 17.5 ms |
+| Operational |               42.93288 |             49.73817 |      25.5 ms | 22.0 ms |
+| Close       |               24.61326 |             29.11552 |      48.7 ms | 41.5 ms |
+
+操作景與近景的單次觀測改善 15.85%／18.29%，全部仍未達嚴格 60 FPS。來源也包含 Worker ready 與共用 WASM owner，不能當作只有 castle kernel 的因果實驗；策略日結暫停，不證明實際連續戰役。唯一獨立 close profile 有 290 次完成 render（289 intervals）、零 driver tick、實際 canonical／resource 前後 SHA 相同；castle Rust 約 3.22 ms／render，JS planner self 約 0.043 ms，後者 inclusive 包含 Rust，不能說全部是 packing。Geographic layout inclusive 仍約 14.36 ms／render；舊依賴 profile 不作公平定量對照。
+
+本階段保留完整 castle Rust 邊界與真正 Worker ready。原 functional suite 使用 default headless flags，沒有記錄歷史 GL identity；後續同設定的新頁面確認 SwiftShader，不能把 17 秒直接當作硬體 GPU 的結果。獨立 profile 記錄 120 日核心 compute 合計 649.2 ms，但主頁 `(program)` 區段仍未歸因；硬體身分受控的對照另行診斷，原六項結果、普通 FPS 與帶 profiler 數字分開。60 FPS、whole-heap、protected art、長跑及核心領地 gate 都未清除，完整專案 goal 保持 active。

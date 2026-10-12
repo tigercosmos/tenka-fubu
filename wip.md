@@ -6416,3 +6416,23 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 全部已完成 source／evidence 均分步提交，未 push／部署；全專案 goal 保持 active，未改 00、BAL、protected 基準或門檻。
   下一步：在暫存隔離範圍評估完整城名牌 Rust planner（inclusive 約 8.8 ms／render），以及 epoch-owned 真實 Worker startup ready 握手。
   此階段尚未接入城名牌新核心或改動 ready 契約；不能將後續草稿當作已通過的正式實作。
+
+## 完整城名牌 Rust／Worker ready 整合交接（2026-10-12）
+
+- `ce827fe`／`671602a`／`04c7b60` 已將完整城名牌純布局正式接上 Rust／WASM，保留原 sorted order／f64／work budget／admission。
+  Castle 與 geographic 雙 arena 共用獨立主頁實例；實際 memory growth／雙 owner／dispose 測試通過，缺 ABI 在 Pixi Application 前失敗。
+- Rust 十一項、337 組完整原版 oracle、320 seeded 真實 WASM 比對、13 protocol/parity、33 檔 386 renderer/UI 及三項 shared-memory ownership 通過。
+  審核另用原版 JS 獨立確認混合 signed-zero 控制，`2bdb1f3` 只修來源註記／manifest；63,073-byte WASM 與 04 byte-identical，SHA 4baa718c…2eba。
+- `c613747`／`71d1eaf` 真正 Worker startup ready／current epoch join 已正式提交；65 相關通過，舊 bridge 反向控制七失敗／九通過／零 unhandled。
+  sim1 fresh04 全 3,068 檔源驗證與23 patch下，原六項 native Worker 一次全通過；原 state／RNG／log／cancel／reload 斷言不變。
+- 固定 `04c7b60` 全量 6,357 通過／1 已知無嗣領地失敗／1 跳過，686 檔、133.48 秒，1,485 tracked inputs 前後與所有 checks 後一致。
+  型別、完整 lint、正式 build、bundle 通過。後續 Rust test comment 與 manifest 更正不是新一輪全量，原 source pins 分開保存。
+- sim3 當前23 patch 的同一完整14,765檔依賴群公平對照：操作景42.93288→49.73817、近景24.61326→29.11552 FPS（單次+15.85%／18.29%），
+  全景59.83336→59.93091。三組 strict60 都失敗；9完整發布 exact，canonical/resource前後相同，combined runtime也含ready變更，不作solekernel因果或穩定性聲稱。
+  唯一profile有290完成renders／289interval，Rustcastle約3.22ms/render、geo inclusive14.36ms仍重；current23沒有baseline CPUprofile，舊dep不硬比較。
+- 本輪120日Worker wall17.038s vs sync0.957s，最長main long task207 vs956ms；batch吞吐仍較慢。
+  只讀原rows主頁long tasks合計約93%wall、epoch3／連續tickIDs排除逐日重啟；原observer缺computeMs不能補造。
+  獨立 default-headless profile 的 actualcompute 合計649.2ms、idle為0ms（解析度內），主要main `(program)`尚未歸因。
+  原歷史GL identity未採集；同setup新頁確認SwiftShader。硬體RTX身分受控首次對照另行診斷，不把profiler數字混入普通timing。
+- 完整索引 `docs/validation/2026-10-12/completion-audit/README.md`；source／evidence每步提交，未push／部署、未改00／BAL／門檻／protected基準。
+  Goal仍active；下一步先完成Worker batch阻塞歸因，再處理主要geo preparation／實際主頁熱點，原60FPS／heap／長跑／領地gate保持。
