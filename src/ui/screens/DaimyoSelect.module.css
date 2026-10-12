@@ -54,6 +54,7 @@
   overflow: auto;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  grid-auto-rows: max-content;
   gap: 1rem;
   align-content: start;
   padding: 0.25rem 0.75rem 0.25rem 0.25rem;

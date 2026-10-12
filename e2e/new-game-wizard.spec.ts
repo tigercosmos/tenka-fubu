@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import type { Locator, Page, TestInfo } from '@playwright/test';
 import { test, expect } from './fixtures';
 
@@ -16,13 +16,16 @@ async function chooseScenarioAndOda(page: Page): Promise<void> {
 }
 
 async function readableInViewport(target: Locator, name: string, action = false): Promise<void> {
-  await target.scrollIntoViewIfNeeded();
   const box = await target.boundingBox();
   expect(box, `${name} is rendered`).not.toBeNull();
   expect(box!.x, `${name} left`).toBeGreaterThanOrEqual(0);
   expect(box!.y, `${name} top`).toBeGreaterThanOrEqual(0);
   expect(box!.x + box!.width, `${name} right`).toBeLessThanOrEqual(1280);
   expect(box!.y + box!.height, `${name} bottom`).toBeLessThanOrEqual(720);
+  const fontSize = await target.evaluate((element) =>
+    parseFloat(getComputedStyle(element).fontSize),
+  );
+  expect(fontSize, `${name} readable text`).toBeGreaterThanOrEqual(12);
   if (action) {
     expect(box!.width, `${name} width`).toBeGreaterThanOrEqual(32);
     expect(box!.height, `${name} height`).toBeGreaterThanOrEqual(32);
@@ -38,26 +41,78 @@ async function captureStep(
   action: Locator,
 ): Promise<void> {
   await expect(screen).toBeVisible();
-  await readableInViewport(screen.getByRole('heading', { level: 1 }), `${name} heading`);
+  const heading = screen.getByRole('heading', { level: 1 });
+  await heading.evaluate((element) => element.scrollIntoView({ block: 'start' }));
+  await readableInViewport(heading, `${name} heading`);
   await readableInViewport(screen.getByRole('list', { name: '新遊戲步驟' }), `${name} progress`);
+  await page.screenshot({ path: info.outputPath(`wizard-${scale}-${name}-top.png`) });
+  await action.evaluate((element) => element.scrollIntoView({ block: 'end' }));
   await readableInViewport(action, `${name} action`, true);
-  await page.screenshot({ path: info.outputPath(`wizard-${scale}-${name}.png`) });
+  await page.screenshot({ path: info.outputPath(`wizard-${scale}-${name}-action.png`) });
 }
 
-for (const scale of [1, 1.5]) {
+async function clanCardTextContained(page: Page, info: TestInfo, scale: number): Promise<void> {
+  const cards = await page.evaluate(() => {
+    const roster = document.querySelector('[data-testid="clan-pick-clan.oda"]')?.parentElement;
+    if (!roster) throw new Error('Daimyo roster is missing');
+    return {
+      scrollable: roster.scrollHeight > roster.clientHeight,
+      cards: [...roster.querySelectorAll<HTMLElement>('[data-testid^="clan-pick-"]')].map(
+        (card) => {
+          const box = card.getBoundingClientRect();
+          return {
+            id: card.dataset.testid,
+            box: { left: box.left, right: box.right, top: box.top, bottom: box.bottom },
+            text: [...card.children].map((child) => {
+              const range = document.createRange();
+              range.selectNodeContents(child);
+              return [...range.getClientRects()].map((text) => ({
+                left: text.left,
+                right: text.right,
+                top: text.top,
+                bottom: text.bottom,
+              }));
+            }),
+          };
+        },
+      ),
+    };
+  });
+  await writeFile(
+    info.outputPath(`wizard-${scale}-clan-text-geometry.json`),
+    JSON.stringify(cards),
+  );
+  expect(cards.scrollable).toBe(true);
+  expect(cards.cards).toHaveLength(55); // Current s1560 plus loaded regional clans.
+  for (const card of cards.cards) {
+    for (const part of card.text) {
+      expect(part.length, `${card.id} has rendered text`).toBeGreaterThan(0);
+      for (const text of part) {
+        expect(text.left, `${card.id} text left`).toBeGreaterThanOrEqual(card.box.left);
+        expect(text.right, `${card.id} text right`).toBeLessThanOrEqual(card.box.right);
+        expect(text.top, `${card.id} text top`).toBeGreaterThanOrEqual(card.box.top);
+        expect(text.bottom, `${card.id} text bottom`).toBeLessThanOrEqual(card.box.bottom);
+      }
+    }
+  }
+}
+
+const scales = Array.from({ length: 15 }, (_, index) => Number((0.8 + index * 0.05).toFixed(2)));
+
+for (const scale of scales) {
   test(`four real steps retain choices and invalid seed text at scale ${scale}`, async ({
     page,
   }, info) => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto('/?debug=1&seed=42');
-    if (scale === 1.5) {
-      await page.getByTestId('title-settings').click();
-      const settings = page.getByRole('dialog');
-      const slider = settings.getByRole('slider', { name: '介面縮放', exact: true });
-      await slider.press('End');
-      await expect(slider).toHaveValue('1.5');
-      await settings.getByRole('button', { name: '返回', exact: true }).click();
-    }
+    await page.getByTestId('title-settings').click();
+    const settings = page.getByRole('dialog');
+    const slider = settings.getByRole('slider', { name: '介面縮放', exact: true });
+    await slider.press('Home');
+    for (let step = 0; step < Math.round((scale - 0.8) / 0.05); step++)
+      await slider.press('ArrowRight');
+    await expect(slider).toHaveValue(String(scale));
+    await settings.getByRole('button', { name: '返回', exact: true }).click();
     await page.getByTestId('title-newgame').click();
     const scenario = page.getByTestId('screen-scenario-select');
     await expect(scenario.getByRole('heading', { level: 1 })).toBeFocused();
@@ -69,6 +124,10 @@ for (const scale of [1, 1.5]) {
       scenario,
       page.getByTestId('scenario-pick-s1560'),
     );
+    await readableInViewport(
+      scenario.getByTestId('scenario-pick-s1560').getByText(/勢力數/),
+      'scenario description',
+    );
     await page.keyboard.press('Tab');
     await page.keyboard.press('Tab');
     await expect(page.getByTestId('scenario-pick-s1560')).toBeFocused();
@@ -77,7 +136,19 @@ for (const scale of [1, 1.5]) {
     await expect(daimyo.getByRole('heading', { level: 1 })).toBeFocused();
     await expect(page.getByTestId('daimyo-next')).toBeDisabled();
     await page.getByTestId('clan-pick-clan.oda').click();
+    await clanCardTextContained(page, info, scale);
+    const lastClan = daimyo.locator('[data-testid^="clan-pick-"]').last();
+    await lastClan.evaluate((element) => element.scrollIntoView({ block: 'end' }));
+    await readableInViewport(lastClan, 'last clan card', true);
+    await page.screenshot({ path: info.outputPath(`wizard-${scale}-daimyo-last.png`) });
+    await page.getByTestId('clan-pick-clan.oda').click();
+    await expect(page.getByTestId('clan-pick-clan.oda')).toHaveAttribute('aria-pressed', 'true');
     await captureStep(page, info, scale, 'daimyo', daimyo, page.getByTestId('daimyo-next'));
+    const chosenClan = daimyo.locator('aside').getByRole('heading', { level: 2 });
+    await chosenClan.evaluate((element) => element.scrollIntoView({ block: 'nearest' }));
+    await readableInViewport(chosenClan, 'selected clan');
+    await readableInViewport(daimyo.locator('aside dl dd').first(), 'selected clan metric');
+    await page.screenshot({ path: info.outputPath(`wizard-${scale}-daimyo-metadata.png`) });
     await page.getByTestId('daimyo-next').click();
     const difficulty = page.getByTestId('screen-difficulty-select');
     await expect(difficulty.getByRole('heading', { level: 1 })).toBeFocused();
@@ -88,6 +159,15 @@ for (const scale of [1, 1.5]) {
       'difficulty',
       difficulty,
       page.getByTestId('difficulty-next'),
+    );
+    await readableInViewport(
+      page.getByRole('radio', { name: '上級' }).locator('..'),
+      'difficulty label',
+      true,
+    );
+    await readableInViewport(
+      difficulty.getByRole('group', { name: '選擇難易度' }).locator('legend'),
+      'difficulty legend',
     );
     await expect(page.getByTestId('screen-strategy')).toHaveCount(0);
     await expect(page.getByRole('radio', { name: '中級' })).toBeChecked();
@@ -101,10 +181,13 @@ for (const scale of [1, 1.5]) {
     await expect(seedScreen.getByRole('heading', { level: 1 })).toBeFocused();
     await captureStep(page, info, scale, 'seed', seedScreen, page.getByTestId('newgame-start'));
     const seed = page.getByTestId('newgame-seed');
+    await readableInViewport(seed, 'seed input', true);
+    await readableInViewport(seedScreen.locator('#newgame-seed-hint'), 'seed guidance');
     await expect(seed).toHaveValue('42');
     for (const invalid of ['', '-1', '1.5', 'NaN', '4294967296']) {
       await seed.fill(invalid);
       await expect(page.getByTestId('newgame-start')).toBeDisabled();
+      await readableInViewport(seedScreen.getByRole('alert'), 'seed validation error');
     }
     await page.getByTestId('seed-back').click();
     await page.getByTestId('difficulty-next').click();
