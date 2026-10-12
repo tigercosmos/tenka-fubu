@@ -1,0 +1,68 @@
+{
+  "scope": "Root original candidate checks and restored-source equality, not a new full suite",
+  "artifacts": [
+    {
+      "path": "candidate-main-build.log.gz",
+      "bytes": 282,
+      "sha256": "be987dbfcbf43949fa8a2209caba04a7a4fd5a97e4149563e1f3b38df070fb68",
+      "uncompressedBytes": 360,
+      "uncompressedSha256": "cc79acc959d1ba01319cbca092753ff9e08dd86eec44e02717cdec7b4de87888"
+    },
+    {
+      "path": "candidate-main-focused.log.gz",
+      "bytes": 1500,
+      "sha256": "51688089d62e38869a5faca0b0cd541d582986128eae45ffd0bc91fb0b91e938",
+      "uncompressedBytes": 4943,
+      "uncompressedSha256": "14216bc8ef48fa15545d61d7fc4bcd9b2222358356e4e23a2180f955d8a30743"
+    },
+    {
+      "path": "candidate-main-rust.log.gz",
+      "bytes": 1123,
+      "sha256": "94b19d1663ab1f90824a53a2abb0daea685b768a16774ac2092573564e374c3c",
+      "uncompressedBytes": 2792,
+      "uncompressedSha256": "7b33e6eac08f2618d79484a087090dad17a8bf8b0882fe7059f15b14ea5e3034"
+    },
+    {
+      "path": "candidate-main-clippy.log.gz",
+      "bytes": 144,
+      "sha256": "d7187f5de1eb2ef7f5a3ec6482e46b2fa81a5ead86011bbba571a2f27c0a9948",
+      "uncompressedBytes": 149,
+      "uncompressedSha256": "2510879dcb93b16ca4839fc6defd52d62538af8a8a181e0bd4cf09e4d83eb051"
+    },
+    {
+      "path": "candidate-main-fmt.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "restored-wasm-check.log.gz",
+      "bytes": 152,
+      "sha256": "0f5c3bdc703c3989b58133c81fddbea6b8255d3036d774b74ea5b2addd567f59",
+      "uncompressedBytes": 157,
+      "uncompressedSha256": "79d6809a1d29a0799f5afc0a6a84077c7a9e46651df6c39f190bfbdd6dc23ee7"
+    },
+    {
+      "path": "restored-source-inputs.json.gz",
+      "bytes": 80400,
+      "sha256": "836404386dd4e90f5fc0cf1309e0dd384b4d548a61f8b50d179b39a39fb9a7f3",
+      "uncompressedBytes": 254099,
+      "uncompressedSha256": "3aafbe48523e717f43f25f120a2b16b3588df819f922777e39811cf073c265e1"
+    },
+    {
+      "path": "feab-before-source-inputs.json.gz",
+      "bytes": 80401,
+      "sha256": "c45edd89066505b95881bcf4cfaf4159ec903404eb440562f543f055811af99c",
+      "uncompressedBytes": 254099,
+      "uncompressedSha256": "87dfcabea50cf19c802f5c0bd1150bf0c912eb591351a8ded00a0b8f91ab29af"
+    },
+    {
+      "path": "input-inventory-producer.py.gz",
+      "bytes": 687,
+      "sha256": "05e8953c0cdacf4195e603a887aa34f3fb1593757fd48cb7804c70b4a2eff0c9",
+      "uncompressedBytes": 1282,
+      "uncompressedSha256": "48d4077d961dc174171af21f4f77d0d3586ff445599fca417677d1c7d9a0da5d"
+    }
+  ]
+}
