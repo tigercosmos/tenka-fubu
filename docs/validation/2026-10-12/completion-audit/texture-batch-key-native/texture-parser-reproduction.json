@@ -1,0 +1,9 @@
+{
+  "host": "sim4",
+  "cwd": "/tmp/tenka-texture-cache-candidate",
+  "command": "python3 candidate-texture-ids.py > candidate-texture-ids-independent-20261012.json && cmp candidate-texture-ids.json candidate-texture-ids-independent-20261012.json",
+  "exit": 0,
+  "bytes": 202566,
+  "sha256": "0595b920b8191888a5deebc683ca19dc215e2ad9b79d94bf54b3e3f50bb50ce3",
+  "scope": "Independent orchestrator rerun of the archived texture-map attribution script on original midpoint/final snapshots; byte-identical to archived original output. Not a new browser run."
+}

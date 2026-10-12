@@ -1,8 +1,34 @@
 # 後續驗收、重放歸因與記憶體觀察
 
 Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目標仍未完成。
-最新固定來源 `89acc88` 全量測試為 6,442 通過、1 既有失敗、1 跳過；120 部隊近景仍未達 60 FPS。
+最新固定來源 `7d37c28` 全量測試為 6,445 通過、1 既有失敗、1 跳過；120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
+
+## 最新貼圖快取與政策縮放驗證
+
+`f5d8969` 將 TextureSource ID 保持為唯一非零數字，但使用負值避免批次快取的稀疏索引；clear 時刪除已釋放 key。
+[本機控制與來源](texture-batch-key-local/README.md) 包含 27 項 Pixi 測試、CJS／ESM、排序／padding／重用／替換，以及 25→29 修補安裝控制。
+[原生證據](texture-batch-key-native/README.md) 中 63 個穩定批次 ID map 在第 120／240 次都沒有 key 或 indexed backing。
+原二十次資源測試通過；延長診斷後半仍增加 208,584 bytes，whole-heap 未完成。
+同一主機 fresh baseline／candidate 三張 actual PNG 完全相同；原保護門檻仍 RED。
+候選的獨立 GPU probe 曾因 renderer 尚未掛載而失敗，原失敗保留；只有延長診斷的 actual page GPU 可直接核對。
+
+`7d37c28` 加入[政策響應式驗收](policy-responsive-d7c0337/README.md)：1280×720 下十五個支援倍率、十二張政策及詳情，含捲動與實際鍵盤路徑。
+原固定 `d7c0337`／25-target 執行十五項全部通過，沒有重現需要修改產品 UI 的缺陷。
+這是政策子門檻，不能代表 M8-23 全畫面、全快捷鍵已完成。
+[整合 29-target 政策驗證](policy-responsive-integrated29/README.md) 另通過十五倍率、180 次詳情操作與 375 個目標的 32×32 CSS px 下限。
+第一輪整合執行的 log／來源校驗保留，但幾何與圖片被後續 probe 的預設輸出目錄覆寫；恢復執行的資料分開標示。
+更早 npm PATH 失敗的原 log 亦未保留，兩項證據缺失明載，不宣稱全部原始資料均已保存。
+[整合全量驗證](integrated-7d37c28-regression/README.md) 保留 `7d37c28` 的 6,445 通過、1 既有無嗣失敗、1 跳過及 1,557 來源前後校驗；型別、完整 lint、資料／素材、建置與 bundle 全通過。
+
+## 面板焦點的主頁快捷鍵
+
+`f03ba63` 將 Home／M 的範圍修正為 MainScreen 的非原生控制焦點，符合 11 的快捷鍵表。
+[反向控制與原生驗證](hotkey-main-focus/README.md) 中，舊來源配新斷言為兩失敗／十八通過，修正後二十項全通過。
+實際武將特性焦點的 M 現在隱藏小地圖，Home 選取本據城；輸入框、按鈕及 HUD 資源列的本地 Home 保持原行為。
+七個跨畫面原生控制第一輪平行有一個斷言前 JSON 解析失敗，同七個串行全通過；第一輪 raw stdout 未保存，只有結果記錄；串行成功 log 已封存。
+最新完整 core／UI 回歸仍是修正前 `7d37c28`，不得把其全量結果改標為 `f03ba63`。
+後續每個驗證 subprocess 必須先建立不覆寫的唯一 stdout／stderr log，再啟動程序；Playwright 另指定唯一 output／report，不能只依賴工具回覆。
 
 ## 最新聚落與記憶體驗證
 

@@ -1,0 +1,46 @@
+{
+  "baselineCommit": "d7c0337",
+  "trackedFiles": [
+    {
+      "path": "tools/dependencies/pixi-8.19-patch.json",
+      "baselineSha256": "463f083f1c8e6611ee8405aea8aff4d50b6f52400552f3c69d8cbb9f737e87f7",
+      "candidateSha256": "aef14f315cea70876118b659b247b0b7556e5c9d8da233716c6307364f7c3bef",
+      "candidateBytes": 28437
+    },
+    {
+      "path": "tests/ci/pixiDependencyPatch.spec.ts",
+      "baselineSha256": "f861b91da5e3e1ce1b0eb4056dc20eb67555e8566fbb7b18af07b9130001b62e",
+      "candidateSha256": "ab2af0841da9e1964fc296dad6ced1e1b0da72addeadb3a78a97c5e672f5dae5",
+      "candidateBytes": 5208
+    },
+    {
+      "path": "tests/ci/pixiTextureBatchIds.spec.ts",
+      "baselineSha256": null,
+      "candidateSha256": "f26951f8d437349c5778197e508953e8d48bf23838e063c7aaf8f62ed4d3e6a6",
+      "candidateBytes": 3734
+    }
+  ],
+  "newTargets": [
+    {
+      "path": "lib/rendering/renderers/shared/texture/sources/TextureSource.js",
+      "originalSha256": "9c4ac459908cdefed4952091e7b818d567520532802e3d0af765bccc3ec41d6e",
+      "patchedSha256": "29f9d8458d71b14551a6aebcfe51fda7909ca89c38fe9ef8d4fee8946e18b016"
+    },
+    {
+      "path": "lib/rendering/renderers/shared/texture/sources/TextureSource.mjs",
+      "originalSha256": "1b28169f369e783460f95a7e0950ca88926d88532e8cef7b24ab613a697e4855",
+      "patchedSha256": "e051fd477eab15d3ff6464eb25b581623cc8ce5dc2b47e0f7d7ad188275ae143"
+    },
+    {
+      "path": "lib/rendering/batcher/shared/BatchTextureArray.js",
+      "originalSha256": "c11312509faaa1981e7251a957e704c72694a7e4955e75a809ce85cfba88d8e8",
+      "patchedSha256": "0c60ed59a2629a7d5a3ca9a50c464934db28d05c85723bc5a6c5eacb89b7e269"
+    },
+    {
+      "path": "lib/rendering/batcher/shared/BatchTextureArray.mjs",
+      "originalSha256": "c80a652e9e3c9e12034547a365348b1b9235aaa00c2a273adba1d4ef9d8f508b",
+      "patchedSha256": "e6c081cf642eb49ce243c61fb493c2807051c5deb6aad478212e8f91d9da7662"
+    }
+  ],
+  "targetCount": 29
+}

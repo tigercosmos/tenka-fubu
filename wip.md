@@ -6535,3 +6535,19 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 60 FPS、whole-heap、protected art、long-run 與其餘 M6–M9 原門檻保持未完成。Production 預設 scalar、雙 WASM 與 Worker 架構保留；未 push／deploy。
 - `0b4b1c1` 僅以 Prettier 格式化既有 WASM 測試；轉譯後 AST 相同。完整測試釘選 `89acc88`，沒有宣稱於後續格式提交重跑全套。
 - 最終 typecheck、資料／素材、正式建置、bundle 及修正證據包裝後的完整 ESLint／Prettier 全通過。兩輪 lint 的原 RED 與最終 GREEN 均保存；完整專案仍未完成。
+
+## 貼圖批次快取與政策倍率驗收（2026-10-12）
+
+- `f5d8969` 清除 TextureSource 負數 UID 的批次快取 key；CJS／ESM、重用、替換、排序／padding 與 25→29 安裝控制通過，六檔 27 項 Pixi 測試成功。
+- 原生原 20 次 remount 與另 240 次診斷通過資源斷言；63 個穩定批次 ID map 在兩快照均零 key／indexed backing，分析獨立重跑 byte-identical。延長診斷後半仍增加 208,584 bytes，whole-heap 未完成。三張 fresh actual 圖 before／after byte-identical，protected 基準不變；候選 standalone GL probe 原失敗與 verifier 初始錯誤均保存，actual GPU 證明限延長診斷頁。
+- `7d37c28` 新增政策面板十五倍率原生驗收，包含 180 次詳情、捲動／keyboard focus，整合 29-target 另驗 375 個 32×32 CSS px 目標。政策子門檻通過，不能當作 M8-23 全部完成。
+- 固定 `7d37c28` 全量 6,445 PASS／1 既有無嗣 FAIL／1 SKIP，694 檔、125.15 秒；1,557 來源前後符合 Git blobs。型別、完整 lint、資料／素材、build／bundle PASS。不把此全量改標為後續 hotkey 修正來源。
+- 證據限制：早期 npm PATH 失敗 log 未保留；整合政策第一輪 log 成功保留，但幾何與 PNG 被後續 probe 覆寫。獨立恢復 run 的完整觀測分開保存。今後每次 Playwright 都必須使用唯一 output／report／log 路徑。
+- Battle 手動存讀需要明確原子保存邊界與戰術 queue 契約；16 優先於 11 的 unfinished 註記，現行停用保持，未自行新增存檔格式。
+- 60 FPS、whole-heap、protected art、long-run、無嗣領地及其餘 M6–M9 門檻仍開放。無嗣規則與六張基準尚未收到使用者選擇；goal active，未 push／deploy。
+
+- `f03ba63` 修正 MainScreen 非原生面板焦點的 Home／M；typing／native control／modal／dialog 及 HUD 資源列本地 Home 保持。舊 source 對新增 router／hook 斷言有 2 FAIL，候選 20 PASS；實際 native trait focus now M 隱藏小地圖、Home 選取清洲城，核心 state 不變。七項跨畫面初輪平行為 6 PASS／1 斷言前 JSON parse FAIL，第一輪 raw stdout 未保存，缺失明載；同七項串行全通過且 log 保存。最近全量仍釘選 `7d37c28`，hotkey 為 focused 驗證。
+
+- 後續驗證先以 exclusive-create 的唯一 log 檔接住完整 stdout／stderr，再啟動 subprocess；Playwright 同時使用唯一 output／report 路徑。不得只依賴工具回覆或完成後才搬走預設目錄。
+
+- 最後 `f03ba63` 完整 ESLint／Prettier 通過；證據包與索引於通過後封存，未另跑全套 core。

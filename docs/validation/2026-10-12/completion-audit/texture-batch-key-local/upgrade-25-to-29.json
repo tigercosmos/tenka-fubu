@@ -1,0 +1,15 @@
+{
+  "baselineCommit": "d7c0337",
+  "baselineTargets": 25,
+  "candidateTargets": 29,
+  "firstInstall": {
+    "version": "8.19.0",
+    "validated": 29,
+    "written": 4
+  },
+  "repeatInstall": {
+    "version": "8.19.0",
+    "validated": 29,
+    "written": 0
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "accepted-test.spec.ts.gz": {
+    "sha256": "932aeea5bf7b4fa223ff5568a997d92cedbcacdfc5ff78f66f3dfa8ee34fc42c",
+    "bytes": 2613
+  },
+  "build.exit": {
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "bytes": 2
+  },
+  "build.log.gz": {
+    "sha256": "539aec39000cffdcc18868aeb7764c54e57bf5febbe6ed7abf7268f21f99b806",
+    "bytes": 850
+  },
+  "d7-tracked-inputs.json.gz": {
+    "sha256": "e855fe5cb8fa6c783ba4d61c9ef3f7170c4390f6e8f3f05ec3d29611713b0fb2",
+    "bytes": 124310
+  },
+  "npm-ci.exit": {
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "bytes": 2
+  },
+  "npm-ci.log.gz": {
+    "sha256": "65f213cbd1afc83d5f88cf6ec755eca6c34b6c206ebc8cfe0eb689e1ddb113c0",
+    "bytes": 538
+  },
+  "policy-evidence-files.tar.gz": {
+    "sha256": "b9a2ca65aaf06aab3fb53845afd40cbeb5305376b03c25878c06b167707c7de3",
+    "bytes": 846400
+  },
+  "policy-native-baseline.exit": {
+    "sha256": "f5bde7eb9f6c71611dc5726e8aca3eb4eba3e386da49e0a4ed5c295a90a73a0d",
+    "bytes": 4
+  },
+  "policy-native-baseline.log.gz": {
+    "sha256": "0c1194b6861a12e96d81aed1f5ce47ffc2e56db23e72f43e161fd5e6bafb2cde",
+    "bytes": 831
+  },
+  "policy-native-final.exit": {
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "bytes": 2
+  },
+  "policy-native-final.log.gz": {
+    "sha256": "96f76dcea64e01c2b5fa0ef67a8e0291b7ad123df907c730f4d7ca3e37cce46e",
+    "bytes": 315
+  },
+  "policy-native-missing-browser.exit": {
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "bytes": 2
+  },
+  "policy-native-missing-browser.log.gz": {
+    "sha256": "6b042a560f29966f5a11831b1f27d322b954f2dce8198793ecbcf9596a2f0afe",
+    "bytes": 1211
+  },
+  "policy-responsive-0.8.png": {
+    "sha256": "6347b51112326b88bd1f9d971d01fe077ebfe76394a1abe85be182576cbb984a",
+    "bytes": 332258
+  },
+  "policy-responsive-1.5.png": {
+    "sha256": "a2b37622a0bfc10dcaf8e86a3a0b040a22efe1797a85b0e9566e2fd79801edc6",
+    "bytes": 279241
+  },
+  "policy-responsive-1.png": {
+    "sha256": "427c9cc6d9ad56d4a1a59778c5947254b8b0f1b1b0aff432514ecba586f8733a",
+    "bytes": 236528
+  },
+  "runtime-pixi25-after.json.gz": {
+    "sha256": "d82eb33aca7f89b839a7246ff2fdbceba8d6b4e2c02f7b1b4bce51c2b3f0e91b",
+    "bytes": 1507
+  },
+  "runtime-pixi25-before.json.gz": {
+    "sha256": "e82f2cf288042b260d74fa584a2af7a7cb2f84964cdfad77a9d5cf25a542a029",
+    "bytes": 1521
+  },
+  "source-verification.json": {
+    "sha256": "b56330b927ec2a1cea4b359d58a8fc253a28061a751ffb4422c62718939a8f6e",
+    "bytes": 369
+  }
+}

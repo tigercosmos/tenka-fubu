@@ -1,0 +1,1539 @@
+{
+  "pinnedPixiVersion": "8.19.0",
+  "allUidLineCount": 289,
+  "relevantLexicalRows": [
+    {
+      "path": "node_modules/pixi.js/lib/prepare/PrepareBase.js",
+      "line": 94,
+      "source": "if (!hash[current.uid]) {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/prepare/PrepareBase.js",
+      "line": 95,
+      "source": "hash[current.uid] = true;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/prepare/PrepareBase.mjs",
+      "line": 92,
+      "source": "if (!hash[current.uid]) {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/prepare/PrepareBase.mjs",
+      "line": 93,
+      "source": "hash[current.uid] = true;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/gpu/getTextureBatchBindGroup.js",
+      "line": 11,
+      "source": "uid ^= textures[i].uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/gpu/getTextureBatchBindGroup.mjs",
+      "line": 9,
+      "source": "uid ^= textures[i].uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/BatchTextureArray.js",
+      "line": 16,
+      "source": "delete this.ids[t.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/BatchTextureArray.mjs",
+      "line": 14,
+      "source": "delete this.ids[t.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.js",
+      "line": 100,
+      "source": "const textureId = batchableObject._batch.textures.ids[texture._source.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.js",
+      "line": 221,
+      "source": "textureBatch.ids[source.uid] = textureBatch.count;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.mjs",
+      "line": 98,
+      "source": "const textureId = batchableObject._batch.textures.ids[texture._source.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.mjs",
+      "line": 219,
+      "source": "textureBatch.ids[source.uid] = textureBatch.count;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 141,
+      "source": "this._bindGroupHash[source.uid] = null;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 139,
+      "source": "this._bindGroupHash[source.uid] = null;"
+    }
+  ],
+  "sentinelMinusOneRows": [],
+  "zeroOrOneComparisonRows": [],
+  "relevantBitwiseRows": [
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/gpu/getTextureBatchBindGroup.js",
+      "line": 11,
+      "source": "uid ^= textures[i].uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/gpu/getTextureBatchBindGroup.mjs",
+      "line": 9,
+      "source": "uid ^= textures[i].uid;"
+    }
+  ],
+  "allUidRows": [
+    {
+      "path": "node_modules/pixi.js/lib/index.js",
+      "line": 1349,
+      "source": "exports.uid = uid.uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/prepare/PrepareBase.js",
+      "line": 94,
+      "source": "if (!hash[current.uid]) {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/prepare/PrepareBase.js",
+      "line": 95,
+      "source": "hash[current.uid] = true;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/prepare/PrepareBase.mjs",
+      "line": 92,
+      "source": "if (!hash[current.uid]) {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/prepare/PrepareBase.mjs",
+      "line": 93,
+      "source": "hash[current.uid] = true;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/gl/GlBatchAdaptor.js",
+      "line": 26,
+      "source": "const didUpload = this._didUploadHash[shader.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/gl/GlBatchAdaptor.js",
+      "line": 29,
+      "source": "this._didUploadHash[shader.uid] = true;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/gl/GlBatchAdaptor.mjs",
+      "line": 24,
+      "source": "const didUpload = this._didUploadHash[shader.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/gl/GlBatchAdaptor.mjs",
+      "line": 27,
+      "source": "this._didUploadHash[shader.uid] = true;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/gpu/getTextureBatchBindGroup.js",
+      "line": 11,
+      "source": "uid ^= textures[i].uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/gpu/getTextureBatchBindGroup.mjs",
+      "line": 9,
+      "source": "uid ^= textures[i].uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/BatchTextureArray.js",
+      "line": 16,
+      "source": "delete this.ids[t.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/BatchTextureArray.mjs",
+      "line": 14,
+      "source": "delete this.ids[t.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.js",
+      "line": 60,
+      "source": "this.uid = uid.uid(\"batcher\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.js",
+      "line": 100,
+      "source": "const textureId = batchableObject._batch.textures.ids[texture._source.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.js",
+      "line": 221,
+      "source": "textureBatch.ids[source.uid] = textureBatch.count;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.mjs",
+      "line": 58,
+      "source": "this.uid = uid(\"batcher\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.mjs",
+      "line": 98,
+      "source": "const textureId = batchableObject._batch.textures.ids[texture._source.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.mjs",
+      "line": 219,
+      "source": "textureBatch.ids[source.uid] = textureBatch.count;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/BatcherPipe.js",
+      "line": 22,
+      "source": "let batchers = this._batchersByInstructionSet[instructionSet.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/BatcherPipe.js",
+      "line": 24,
+      "source": "batchers = this._batchersByInstructionSet[instructionSet.uid] = /* @__PURE__ */ Object.create(null);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/BatcherPipe.js",
+      "line": 61,
+      "source": "const batchers = this._batchersByInstructionSet[instructionSet.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/BatcherPipe.mjs",
+      "line": 20,
+      "source": "let batchers = this._batchersByInstructionSet[instructionSet.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/BatcherPipe.mjs",
+      "line": 22,
+      "source": "batchers = this._batchersByInstructionSet[instructionSet.uid] = /* @__PURE__ */ Object.create(null);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/batcher/shared/BatcherPipe.mjs",
+      "line": 59,
+      "source": "const batchers = this._batchersByInstructionSet[instructionSet.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/mask/stencil/StencilMaskPipe.js",
+      "line": 54,
+      "source": "const renderTargetUid = renderer.renderTarget.renderTarget.uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/mask/stencil/StencilMaskPipe.js",
+      "line": 82,
+      "source": "const renderTargetUid = renderer.renderTarget.renderTarget.uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/mask/stencil/StencilMaskPipe.mjs",
+      "line": 52,
+      "source": "const renderTargetUid = renderer.renderTarget.renderTarget.uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/mask/stencil/StencilMaskPipe.mjs",
+      "line": 80,
+      "source": "const renderTargetUid = renderer.renderTarget.renderTarget.uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/GlStencilSystem.js",
+      "line": 45,
+      "source": "let stencilState = this._renderTargetStencilState[renderTarget.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/GlStencilSystem.js",
+      "line": 47,
+      "source": "stencilState = this._renderTargetStencilState[renderTarget.uid] = {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/GlStencilSystem.js",
+      "line": 60,
+      "source": "const stencilState = this._renderTargetStencilState[this._activeRenderTarget.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/GlStencilSystem.mjs",
+      "line": 43,
+      "source": "let stencilState = this._renderTargetStencilState[renderTarget.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/GlStencilSystem.mjs",
+      "line": 45,
+      "source": "stencilState = this._renderTargetStencilState[renderTarget.uid] = {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/GlStencilSystem.mjs",
+      "line": 58,
+      "source": "const stencilState = this._renderTargetStencilState[this._activeRenderTarget.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBufferSystem.js",
+      "line": 43,
+      "source": "return buffer._gpuData[this._renderer.uid] || this.createGLBuffer(buffer);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBufferSystem.js",
+      "line": 166,
+      "source": "const glBuffer = buffer._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBufferSystem.js",
+      "line": 184,
+      "source": "buffer._gpuData[this._renderer.uid] = glBuffer;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBufferSystem.mjs",
+      "line": 41,
+      "source": "return buffer._gpuData[this._renderer.uid] || this.createGLBuffer(buffer);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBufferSystem.mjs",
+      "line": 164,
+      "source": "const glBuffer = buffer._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBufferSystem.mjs",
+      "line": 182,
+      "source": "buffer._gpuData[this._renderer.uid] = glBuffer;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.js",
+      "line": 118,
+      "source": "const strings = [\"g\", geometry.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.js",
+      "line": 127,
+      "source": "return geometry._gpuData[this._renderer.uid]?.vaoCache[program._key] || this.initGeometryVao(geometry, program);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.js",
+      "line": 143,
+      "source": "let gpuData = geometry._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.js",
+      "line": 146,
+      "source": "geometry._gpuData[this._renderer.uid] = gpuData;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.js",
+      "line": 170,
+      "source": "const gpuData = geometry._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.mjs",
+      "line": 116,
+      "source": "const strings = [\"g\", geometry.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.mjs",
+      "line": 125,
+      "source": "return geometry._gpuData[this._renderer.uid]?.vaoCache[program._key] || this.initGeometryVao(geometry, program);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.mjs",
+      "line": 141,
+      "source": "let gpuData = geometry._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.mjs",
+      "line": 144,
+      "source": "geometry._gpuData[this._renderer.uid] = gpuData;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.mjs",
+      "line": 168,
+      "source": "const gpuData = geometry._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlShaderSystem.js",
+      "line": 38,
+      "source": "let syncFunction = this._shaderSyncFunctions[shader.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlShaderSystem.js",
+      "line": 40,
+      "source": "syncFunction = this._shaderSyncFunctions[shader.uid] = this._generateShaderSync(shader, this);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlShaderSystem.mjs",
+      "line": 36,
+      "source": "let syncFunction = this._shaderSyncFunctions[shader.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlShaderSystem.mjs",
+      "line": 38,
+      "source": "syncFunction = this._shaderSyncFunctions[shader.uid] = this._generateShaderSync(shader, this);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlUniformGroupSystem.js",
+      "line": 29,
+      "source": "if (!group.isStatic || group._dirtyId !== programData.uniformDirtyGroups[group.uid]) {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlUniformGroupSystem.js",
+      "line": 30,
+      "source": "programData.uniformDirtyGroups[group.uid] = group._dirtyId;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlUniformGroupSystem.mjs",
+      "line": 27,
+      "source": "if (!group.isStatic || group._dirtyId !== programData.uniformDirtyGroups[group.uid]) {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/GlUniformGroupSystem.mjs",
+      "line": 28,
+      "source": "programData.uniformDirtyGroups[group.uid] = group._dirtyId;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/ensureAttributes.js",
+      "line": 27,
+      "source": "tempStride[buffer.uid] = 0;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/ensureAttributes.js",
+      "line": 28,
+      "source": "tempStart[buffer.uid] = 0;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/ensureAttributes.js",
+      "line": 32,
+      "source": "tempStride[attribute.buffer.uid] += getAttributeInfoFromFormat.getAttributeInfoFromFormat(attribute.format).stride;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/ensureAttributes.js",
+      "line": 36,
+      "source": "attribute.stride ?? (attribute.stride = tempStride[attribute.buffer.uid]);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/ensureAttributes.js",
+      "line": 37,
+      "source": "attribute.start ?? (attribute.start = tempStart[attribute.buffer.uid]);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/ensureAttributes.js",
+      "line": 38,
+      "source": "tempStart[attribute.buffer.uid] += getAttributeInfoFromFormat.getAttributeInfoFromFormat(attribute.format).stride;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/ensureAttributes.mjs",
+      "line": 25,
+      "source": "tempStride[buffer.uid] = 0;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/ensureAttributes.mjs",
+      "line": 26,
+      "source": "tempStart[buffer.uid] = 0;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/ensureAttributes.mjs",
+      "line": 30,
+      "source": "tempStride[attribute.buffer.uid] += getAttributeInfoFromFormat(attribute.format).stride;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/ensureAttributes.mjs",
+      "line": 34,
+      "source": "attribute.stride ?? (attribute.stride = tempStride[attribute.buffer.uid]);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/ensureAttributes.mjs",
+      "line": 35,
+      "source": "attribute.start ?? (attribute.start = tempStart[attribute.buffer.uid]);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/shader/program/ensureAttributes.mjs",
+      "line": 36,
+      "source": "tempStart[attribute.buffer.uid] += getAttributeInfoFromFormat(attribute.format).stride;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTextureSystem.js",
+      "line": 154,
+      "source": "source._gpuData[this._renderer.uid] = glTexture;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTextureSystem.js",
+      "line": 187,
+      "source": "const glTexture = source._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTextureSystem.js",
+      "line": 368,
+      "source": "return source._gpuData[this._renderer.uid] || this._initSource(source);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTextureSystem.mjs",
+      "line": 152,
+      "source": "source._gpuData[this._renderer.uid] = glTexture;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTextureSystem.mjs",
+      "line": 185,
+      "source": "const glTexture = source._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTextureSystem.mjs",
+      "line": 366,
+      "source": "return source._gpuData[this._renderer.uid] || this._initSource(source);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuStencilSystem.js",
+      "line": 14,
+      "source": "let stencilState = this._renderTargetStencilState[renderTarget.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuStencilSystem.js",
+      "line": 16,
+      "source": "stencilState = this._renderTargetStencilState[renderTarget.uid] = {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuStencilSystem.js",
+      "line": 25,
+      "source": "const stencilState = this._renderTargetStencilState[this._activeRenderTarget.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuStencilSystem.mjs",
+      "line": 12,
+      "source": "let stencilState = this._renderTargetStencilState[renderTarget.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuStencilSystem.mjs",
+      "line": 14,
+      "source": "stencilState = this._renderTargetStencilState[renderTarget.uid] = {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuStencilSystem.mjs",
+      "line": 23,
+      "source": "const stencilState = this._renderTargetStencilState[this._activeRenderTarget.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuUniformBatchPipe.js",
+      "line": 41,
+      "source": "if (!duplicate && this._bindGroupHash[group.uid]) {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuUniformBatchPipe.js",
+      "line": 42,
+      "source": "return this._bindGroupHash[group.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuUniformBatchPipe.js",
+      "line": 48,
+      "source": "this._bindGroupHash[group.uid] = this._getBindGroup(offset / minUniformOffsetAlignment);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuUniformBatchPipe.js",
+      "line": 49,
+      "source": "return this._bindGroupHash[group.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuUniformBatchPipe.mjs",
+      "line": 39,
+      "source": "if (!duplicate && this._bindGroupHash[group.uid]) {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuUniformBatchPipe.mjs",
+      "line": 40,
+      "source": "return this._bindGroupHash[group.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuUniformBatchPipe.mjs",
+      "line": 46,
+      "source": "this._bindGroupHash[group.uid] = this._getBindGroup(offset / minUniformOffsetAlignment);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/GpuUniformBatchPipe.mjs",
+      "line": 47,
+      "source": "return this._bindGroupHash[group.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/buffer/GpuBufferSystem.js",
+      "line": 33,
+      "source": "return buffer._gpuData[this._renderer.uid]?.gpuBuffer || this.createGPUBuffer(buffer);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/buffer/GpuBufferSystem.js",
+      "line": 62,
+      "source": "buffer._resourceId = uid.uid(\"resource\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/buffer/GpuBufferSystem.js",
+      "line": 72,
+      "source": "buffer._gpuData[this._renderer.uid] = new GpuBufferData(gpuBuffer);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/buffer/GpuBufferSystem.mjs",
+      "line": 31,
+      "source": "return buffer._gpuData[this._renderer.uid]?.gpuBuffer || this.createGPUBuffer(buffer);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/buffer/GpuBufferSystem.mjs",
+      "line": 70,
+      "source": "buffer._gpuData[this._renderer.uid] = new GpuBufferData(gpuBuffer);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 68,
+      "source": "return source._gpuData[this._renderer.uid]?.gpuTexture || this._initSource(source);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 101,
+      "source": "source._gpuData[this._renderer.uid] = new GPUTextureGpuData(gpuTexture);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 135,
+      "source": "const gpuData = source._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 141,
+      "source": "this._bindGroupHash[source.uid] = null;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 142,
+      "source": "source._gpuData[this._renderer.uid] = null;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 155,
+      "source": "return source._gpuData[this._renderer.uid]?.gpuTexture || this.initSource(source);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 167,
+      "source": "return this._bindGroupHash[texture.uid] || this._createTextureBindGroup(texture);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 171,
+      "source": "this._bindGroupHash[texture.uid] = new BindGroup.BindGroup({"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 178,
+      "source": "return this._bindGroupHash[texture.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 183,
+      "source": "let gpuData = source._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 186,
+      "source": "gpuData = source._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 66,
+      "source": "return source._gpuData[this._renderer.uid]?.gpuTexture || this._initSource(source);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 99,
+      "source": "source._gpuData[this._renderer.uid] = new GPUTextureGpuData(gpuTexture);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 133,
+      "source": "const gpuData = source._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 139,
+      "source": "this._bindGroupHash[source.uid] = null;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 140,
+      "source": "source._gpuData[this._renderer.uid] = null;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 153,
+      "source": "return source._gpuData[this._renderer.uid]?.gpuTexture || this.initSource(source);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 165,
+      "source": "return this._bindGroupHash[texture.uid] || this._createTextureBindGroup(texture);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 169,
+      "source": "this._bindGroupHash[texture.uid] = new BindGroup({"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 176,
+      "source": "return this._bindGroupHash[texture.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 181,
+      "source": "let gpuData = source._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 184,
+      "source": "gpuData = source._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/buffer/Buffer.js",
+      "line": 38,
+      "source": "this.uid = uid.uid(\"buffer\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/buffer/Buffer.js",
+      "line": 48,
+      "source": "this._resourceId = uid.uid(\"resource\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/buffer/Buffer.js",
+      "line": 131,
+      "source": "this._resourceId = uid.uid(\"resource\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/buffer/Buffer.mjs",
+      "line": 36,
+      "source": "this.uid = uid(\"buffer\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/buffer/BufferResource.js",
+      "line": 25,
+      "source": "this.uid = uid.uid(\"buffer\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/buffer/BufferResource.js",
+      "line": 40,
+      "source": "this._resourceId = uid.uid(\"resource\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/buffer/BufferResource.js",
+      "line": 57,
+      "source": "this._resourceId = uid.uid(\"resource\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/buffer/BufferResource.mjs",
+      "line": 23,
+      "source": "this.uid = uid(\"buffer\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/geometry/Geometry.js",
+      "line": 34,
+      "source": "this.uid = uid.uid(\"geometry\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/geometry/Geometry.mjs",
+      "line": 32,
+      "source": "this.uid = uid(\"geometry\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/instructions/InstructionSet.js",
+      "line": 9,
+      "source": "this.uid = uid.uid(\"instructionSet\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/instructions/InstructionSet.mjs",
+      "line": 7,
+      "source": "this.uid = uid(\"instructionSet\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/RenderTarget.js",
+      "line": 14,
+      "source": "this.uid = uid.uid(\"renderTarget\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/RenderTarget.mjs",
+      "line": 12,
+      "source": "this.uid = uid(\"renderTarget\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/RenderTargetSystem.js",
+      "line": 350,
+      "source": "const gpuRenderTarget = this._gpuRenderTargetHash[renderTarget.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/RenderTargetSystem.js",
+      "line": 352,
+      "source": "this._gpuRenderTargetHash[renderTarget.uid] = null;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/RenderTargetSystem.js",
+      "line": 363,
+      "source": "return this._gpuRenderTargetHash[renderTarget.uid] || (this._gpuRenderTargetHash[renderTarget.uid] = this.adaptor.initGpuRenderTarget(renderTarget));"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/RenderTargetSystem.mjs",
+      "line": 348,
+      "source": "const gpuRenderTarget = this._gpuRenderTargetHash[renderTarget.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/RenderTargetSystem.mjs",
+      "line": 350,
+      "source": "this._gpuRenderTargetHash[renderTarget.uid] = null;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/renderTarget/RenderTargetSystem.mjs",
+      "line": 361,
+      "source": "return this._gpuRenderTargetHash[renderTarget.uid] || (this._gpuRenderTargetHash[renderTarget.uid] = this.adaptor.initGpuRenderTarget(renderTarget));"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/Shader.js",
+      "line": 16,
+      "source": "this.uid = uid.uid(\"shader\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/Shader.mjs",
+      "line": 14,
+      "source": "this.uid = uid(\"shader\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/UniformGroup.js",
+      "line": 22,
+      "source": "this.uid = uid.uid(\"uniform\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/UniformGroup.js",
+      "line": 32,
+      "source": "this._resourceId = uid.uid(\"resource\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/shader/UniformGroup.mjs",
+      "line": 20,
+      "source": "this.uid = uid(\"uniform\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/system/AbstractRenderer.js",
+      "line": 40,
+      "source": "this.uid = -uid.uid(\"renderer\") - 1;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/system/AbstractRenderer.mjs",
+      "line": 38,
+      "source": "this.uid = -uid(\"renderer\") - 1;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/CubeTexture.js",
+      "line": 23,
+      "source": "this.uid = uid.uid(\"cubeTexture\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/CubeTexture.mjs",
+      "line": 21,
+      "source": "this.uid = uid(\"cubeTexture\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/Texture.js",
+      "line": 31,
+      "source": "this.uid = uid.uid(\"texture\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/Texture.mjs",
+      "line": 29,
+      "source": "this.uid = uid(\"texture\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/TexturePool.js",
+      "line": 79,
+      "source": "this._poolKeyHash[texture.uid] = key;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/TexturePool.js",
+      "line": 108,
+      "source": "const key = this._poolKeyHash[renderTexture.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/TexturePool.mjs",
+      "line": 77,
+      "source": "this._poolKeyHash[texture.uid] = key;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/TexturePool.mjs",
+      "line": 106,
+      "source": "const key = this._poolKeyHash[renderTexture.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/TextureStyle.js",
+      "line": 12,
+      "source": "idHash[value] = uid.uid(\"resource\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 14,
+      "source": "placeholderGpu[_a = renderer.uid] || (placeholderGpu[_a] = renderer.gpu.device.createTexture({"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 20,
+      "source": "return placeholderGpu[renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 22,
+      "source": "if (!placeholderGl[renderer.uid]) {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 27,
+      "source": "placeholderGl[renderer.uid] = texture;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 29,
+      "source": "return placeholderGl[renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 77,
+      "source": "this._gpuData[renderer.uid] = new GpuTextureSystem.GPUTextureGpuData(resource);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 79,
+      "source": "this._gpuData[renderer.uid] = new GlTexture.GlTexture(resource);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 91,
+      "source": "const gpuData = this._gpuData[renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 101,
+      "source": "textureSystem._bindGroupHash[this.uid] = null;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 119,
+      "source": "delete this._gpuData[renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 12,
+      "source": "placeholderGpu[_a = renderer.uid] || (placeholderGpu[_a] = renderer.gpu.device.createTexture({"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 18,
+      "source": "return placeholderGpu[renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 20,
+      "source": "if (!placeholderGl[renderer.uid]) {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 25,
+      "source": "placeholderGl[renderer.uid] = texture;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 27,
+      "source": "return placeholderGl[renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 75,
+      "source": "this._gpuData[renderer.uid] = new GPUTextureGpuData(resource);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 77,
+      "source": "this._gpuData[renderer.uid] = new GlTexture(resource);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 89,
+      "source": "const gpuData = this._gpuData[renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 99,
+      "source": "textureSystem._bindGroupHash[this.uid] = null;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 117,
+      "source": "delete this._gpuData[renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/TextureSource.js",
+      "line": 22,
+      "source": "this.uid = -uid.uid(\"textureSource\") - 1;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/TextureSource.js",
+      "line": 34,
+      "source": "this._resourceId = uid.uid(\"resource\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/TextureSource.js",
+      "line": 245,
+      "source": "this._resourceId = uid.uid(\"resource\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/TextureSource.js",
+      "line": 302,
+      "source": "this._resourceId = uid.uid(\"resource\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/TextureSource.mjs",
+      "line": 20,
+      "source": "this.uid = -uid(\"textureSource\") - 1;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/container/Container.js",
+      "line": 44,
+      "source": "this.uid = uid.uid(\"renderable\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/container/Container.mjs",
+      "line": 42,
+      "source": "this.uid = uid(\"renderable\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/container/utils/checkChildrenDidChange.js",
+      "line": 8,
+      "source": "const uid = child.uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/container/utils/checkChildrenDidChange.mjs",
+      "line": 6,
+      "source": "const uid = child.uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.js",
+      "line": 89,
+      "source": "const hasContext = !!gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.js",
+      "line": 90,
+      "source": "const gpuContext = gpuData[this._renderer.uid] || this._initContext(context);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.js",
+      "line": 109,
+      "source": "return gpuData[this._renderer.uid] || this._initContext(context);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.js",
+      "line": 121,
+      "source": "context._gpuData[this._renderer.uid] = gpuContext;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.mjs",
+      "line": 87,
+      "source": "const hasContext = !!gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.mjs",
+      "line": 88,
+      "source": "const gpuContext = gpuData[this._renderer.uid] || this._initContext(context);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.mjs",
+      "line": 107,
+      "source": "return gpuData[this._renderer.uid] || this._initContext(context);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.mjs",
+      "line": 119,
+      "source": "context._gpuData[this._renderer.uid] = gpuContext;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContext.js",
+      "line": 32,
+      "source": "this.uid = uid.uid(\"graphicsContext\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContext.mjs",
+      "line": 30,
+      "source": "this.uid = uid(\"graphicsContext\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.js",
+      "line": 88,
+      "source": "return context._gpuData[this._renderer.uid].graphicsData || this._initContextRenderData(context);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.js",
+      "line": 98,
+      "source": "const hasContext = !!context._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.js",
+      "line": 99,
+      "source": "const gpuContext = context._gpuData[this._renderer.uid] || this._initContext(context);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.js",
+      "line": 125,
+      "source": "return context._gpuData[this._renderer.uid] || this._initContext(context);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.js",
+      "line": 131,
+      "source": "const gpuContext = context._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.js",
+      "line": 165,
+      "source": "context._gpuData[this._renderer.uid] = gpuContext;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "line": 86,
+      "source": "return context._gpuData[this._renderer.uid].graphicsData || this._initContextRenderData(context);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "line": 96,
+      "source": "const hasContext = !!context._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "line": 97,
+      "source": "const gpuContext = context._gpuData[this._renderer.uid] || this._initContext(context);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "line": 123,
+      "source": "return context._gpuData[this._renderer.uid] || this._initContext(context);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "line": 129,
+      "source": "const gpuContext = context._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "line": 163,
+      "source": "context._gpuData[this._renderer.uid] = gpuContext;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.js",
+      "line": 103,
+      "source": "return graphics._gpuData[this.renderer.uid] || this._initGpuDataForRenderable(graphics);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.js",
+      "line": 107,
+      "source": "graphics._gpuData[this.renderer.uid] = gpuData;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.mjs",
+      "line": 101,
+      "source": "return graphics._gpuData[this.renderer.uid] || this._initGpuDataForRenderable(graphics);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.mjs",
+      "line": 105,
+      "source": "graphics._gpuData[this.renderer.uid] = gpuData;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/fill/FillGradient.js",
+      "line": 20,
+      "source": "this.uid = uid.uid(\"fillGradient\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/fill/FillGradient.js",
+      "line": 194,
+      "source": "return `fill-gradient-${this.uid}-${this._tick}`;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/fill/FillGradient.mjs",
+      "line": 18,
+      "source": "this.uid = uid(\"fillGradient\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/fill/FillGradient.mjs",
+      "line": 192,
+      "source": "return `fill-gradient-${this.uid}-${this._tick}`;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/fill/FillPattern.js",
+      "line": 34,
+      "source": "this.uid = uid.uid(\"fillPattern\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/fill/FillPattern.js",
+      "line": 82,
+      "source": "return `fill-pattern-${this.uid}-${this._tick}`;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/fill/FillPattern.mjs",
+      "line": 32,
+      "source": "this.uid = uid(\"fillPattern\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/fill/FillPattern.mjs",
+      "line": 80,
+      "source": "return `fill-pattern-${this.uid}-${this._tick}`;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/path/GraphicsPath.js",
+      "line": 19,
+      "source": "this.uid = uid.uid(\"graphicsPath\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/path/GraphicsPath.mjs",
+      "line": 17,
+      "source": "this.uid = uid(\"graphicsPath\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 45,
+      "source": "if (batchableMesh.texture.uid !== mesh._texture.uid) {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 96,
+      "source": "(_a = mesh._gpuData)[_b = this.renderer.uid] || (_a[_b] = new MeshGpuData());"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 97,
+      "source": "return mesh._gpuData[this.renderer.uid].meshData || this._initMeshData(mesh);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 100,
+      "source": "mesh._gpuData[this.renderer.uid].meshData = {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 105,
+      "source": "return mesh._gpuData[this.renderer.uid].meshData;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 109,
+      "source": "(_a = mesh._gpuData)[_b = this.renderer.uid] || (_a[_b] = new MeshGpuData());"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 110,
+      "source": "return mesh._gpuData[this.renderer.uid].batchableMesh || this._initBatchableMesh(mesh);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 118,
+      "source": "mesh._gpuData[this.renderer.uid].batchableMesh = gpuMesh;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 43,
+      "source": "if (batchableMesh.texture.uid !== mesh._texture.uid) {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 94,
+      "source": "(_a = mesh._gpuData)[_b = this.renderer.uid] || (_a[_b] = new MeshGpuData());"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 95,
+      "source": "return mesh._gpuData[this.renderer.uid].meshData || this._initMeshData(mesh);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 98,
+      "source": "mesh._gpuData[this.renderer.uid].meshData = {"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 103,
+      "source": "return mesh._gpuData[this.renderer.uid].meshData;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 107,
+      "source": "(_a = mesh._gpuData)[_b = this.renderer.uid] || (_a[_b] = new MeshGpuData());"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 108,
+      "source": "return mesh._gpuData[this.renderer.uid].batchableMesh || this._initBatchableMesh(mesh);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 116,
+      "source": "mesh._gpuData[this.renderer.uid].batchableMesh = gpuMesh;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/particle-container/shared/ParticleContainerPipe.js",
+      "line": 43,
+      "source": "return renderable._gpuData[this.renderer.uid] || this._initBuffer(renderable);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/particle-container/shared/ParticleContainerPipe.js",
+      "line": 46,
+      "source": "renderable._gpuData[this.renderer.uid] = new ParticleBuffer.ParticleBuffer({"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/particle-container/shared/ParticleContainerPipe.js",
+      "line": 51,
+      "source": "return renderable._gpuData[this.renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/particle-container/shared/ParticleContainerPipe.mjs",
+      "line": 41,
+      "source": "return renderable._gpuData[this.renderer.uid] || this._initBuffer(renderable);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/particle-container/shared/ParticleContainerPipe.mjs",
+      "line": 44,
+      "source": "renderable._gpuData[this.renderer.uid] = new ParticleBuffer({"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/particle-container/shared/ParticleContainerPipe.mjs",
+      "line": 49,
+      "source": "return renderable._gpuData[this.renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite/SpritePipe.js",
+      "line": 33,
+      "source": "return sprite._gpuData[this._renderer.uid] || this._initGPUSprite(sprite);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite/SpritePipe.js",
+      "line": 42,
+      "source": "sprite._gpuData[this._renderer.uid] = batchableSprite;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite/SpritePipe.mjs",
+      "line": 31,
+      "source": "return sprite._gpuData[this._renderer.uid] || this._initGPUSprite(sprite);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite/SpritePipe.mjs",
+      "line": 40,
+      "source": "sprite._gpuData[this._renderer.uid] = batchableSprite;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-nine-slice/NineSliceSpritePipe.js",
+      "line": 45,
+      "source": "return sprite._gpuData[this._renderer.uid] || this._initGPUSprite(sprite);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-nine-slice/NineSliceSpritePipe.js",
+      "line": 48,
+      "source": "const gpuData = sprite._gpuData[this._renderer.uid] = new NineSliceSpriteGpuData();"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-nine-slice/NineSliceSpritePipe.mjs",
+      "line": 43,
+      "source": "return sprite._gpuData[this._renderer.uid] || this._initGPUSprite(sprite);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-nine-slice/NineSliceSpritePipe.mjs",
+      "line": 46,
+      "source": "const gpuData = sprite._gpuData[this._renderer.uid] = new NineSliceSpriteGpuData();"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-tiling/TilingSpritePipe.js",
+      "line": 115,
+      "source": "return renderable._gpuData[this._renderer.uid] || this._initTilingSpriteData(renderable);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-tiling/TilingSpritePipe.js",
+      "line": 120,
+      "source": "tilingSprite._gpuData[this._renderer.uid] = gpuData;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-tiling/TilingSpritePipe.mjs",
+      "line": 113,
+      "source": "return renderable._gpuData[this._renderer.uid] || this._initTilingSpriteData(renderable);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-tiling/TilingSpritePipe.mjs",
+      "line": 118,
+      "source": "tilingSprite._gpuData[this._renderer.uid] = gpuData;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/TextStyle.js",
+      "line": 23,
+      "source": "this.uid = uid.uid(\"textStyle\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/TextStyle.js",
+      "line": 377,
+      "source": "return `${this.uid}-${this._tick}`;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/TextStyle.mjs",
+      "line": 21,
+      "source": "this.uid = uid(\"textStyle\");"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/TextStyle.mjs",
+      "line": 375,
+      "source": "return `${this.uid}-${this._tick}`;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/canvas/CanvasTextPipe.js",
+      "line": 58,
+      "source": "return text._gpuData[this._renderer.uid] || this.initGpuText(text);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/canvas/CanvasTextPipe.js",
+      "line": 67,
+      "source": "text._gpuData[this._renderer.uid] = batchableText;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/canvas/CanvasTextPipe.js",
+      "line": 72,
+      "source": "const gpuData = text._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/canvas/CanvasTextPipe.mjs",
+      "line": 56,
+      "source": "return text._gpuData[this._renderer.uid] || this.initGpuText(text);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/canvas/CanvasTextPipe.mjs",
+      "line": 65,
+      "source": "text._gpuData[this._renderer.uid] = batchableText;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/canvas/CanvasTextPipe.mjs",
+      "line": 70,
+      "source": "const gpuData = text._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/utils/generateTextStyleKey.js",
+      "line": 41,
+      "source": "key[index++] = filter.uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/utils/generateTextStyleKey.mjs",
+      "line": 39,
+      "source": "key[index++] = filter.uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-bitmap/AbstractBitmapTextPipe.js",
+      "line": 105,
+      "source": "return bitmapText._gpuData[this._renderer.uid] || this.initGpuText(bitmapText);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-bitmap/AbstractBitmapTextPipe.js",
+      "line": 109,
+      "source": "bitmapText._gpuData[this._renderer.uid] = proxyRenderable;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-bitmap/AbstractBitmapTextPipe.mjs",
+      "line": 103,
+      "source": "return bitmapText._gpuData[this._renderer.uid] || this.initGpuText(bitmapText);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-bitmap/AbstractBitmapTextPipe.mjs",
+      "line": 107,
+      "source": "bitmapText._gpuData[this._renderer.uid] = proxyRenderable;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-html/HTMLTextPipe.js",
+      "line": 81,
+      "source": "return htmlText._gpuData[this._renderer.uid] || this.initGpuText(htmlText);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-html/HTMLTextPipe.js",
+      "line": 91,
+      "source": "htmlText._gpuData[this._renderer.uid] = batchableHTMLText;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-html/HTMLTextPipe.js",
+      "line": 96,
+      "source": "const gpuData = text._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-html/HTMLTextPipe.mjs",
+      "line": 79,
+      "source": "return htmlText._gpuData[this._renderer.uid] || this.initGpuText(htmlText);"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-html/HTMLTextPipe.mjs",
+      "line": 89,
+      "source": "htmlText._gpuData[this._renderer.uid] = batchableHTMLText;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-html/HTMLTextPipe.mjs",
+      "line": 94,
+      "source": "const gpuData = text._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.js",
+      "line": 20,
+      "source": "if (this.items[item.uid]) return false;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.js",
+      "line": 21,
+      "source": "this.items[item.uid] = item;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.js",
+      "line": 27,
+      "source": "if (!this.items[item.uid]) return;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.js",
+      "line": 29,
+      "source": "const gpuData = item._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.js",
+      "line": 34,
+      "source": "delete item._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.js",
+      "line": 35,
+      "source": "this.items[item.uid] = null;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.mjs",
+      "line": 18,
+      "source": "if (this.items[item.uid]) return false;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.mjs",
+      "line": 19,
+      "source": "this.items[item.uid] = item;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.mjs",
+      "line": 25,
+      "source": "if (!this.items[item.uid]) return;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.mjs",
+      "line": 27,
+      "source": "const gpuData = item._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.mjs",
+      "line": 32,
+      "source": "delete item._gpuData[this._renderer.uid];"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.mjs",
+      "line": 33,
+      "source": "this.items[item.uid] = null;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/uid.js",
+      "line": 20,
+      "source": "exports.uid = uid;"
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/index.js",
+      "line": 49,
+      "source": "exports.uid = uid.uid;"
+    }
+  ],
+  "textureSourceDeclaration": "readonly uid: number",
+  "batchTextureArrayDeclaration": "ids: Record<number, number>"
+}

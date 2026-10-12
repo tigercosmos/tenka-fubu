@@ -1,0 +1,10 @@
+{
+  "base": "d7c0337",
+  "checkedTracked": 1545,
+  "trackedMismatches": [],
+  "testOverlaySha256": "87055d92ecca106c7a17c587ea2dd23da18949c4c00da421aa7a6398a886aa86",
+  "installedPixiTargetCount": 25,
+  "installedPixiAllPatched": true,
+  "installedPixiBeforeAfterEqual": true,
+  "packageLockSha256": "63f021d39b353a70831accbfc50b714a09767b900ce23157fbf4ecce1dda7be1"
+}

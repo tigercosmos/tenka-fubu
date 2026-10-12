@@ -1,0 +1,19 @@
+{
+  "files": {
+    "README.md": "a46c3aa66448167bef9e2a361aa4372259fefc51016c4ea032f8416b25560284",
+    "final-full-lint.log.gz": "a68529dacf305cdbd92f2dc4d54c6184e1eccc45862acae44d4240408dae422b",
+    "source-hashes.json": "fcb640f41fbd25f1a3e738ae1fa3d7ecc0e44220ad1bc712da840c5a6bf3a201",
+    "source.patch": "98f3207fda2f8a45ca05114f8237d7ad1bfa1eb920b58f124509ccd5a33c6db4",
+    "static-build-hashes.json": "3739d89abb5d69334c5fa3b2e6feb4aeb7047dd579437bd00509127d9b70af05",
+    "tenka-home-m-native-baseline.json": "c60a813e0496e8e7f309697ff2ec9b6fb3cad85556c0d4f4148ed13f7ff03e50",
+    "tenka-home-m-native-candidate.json": "2ec329cb6bc5d9a7df96df62ff30875b7940fe4b761f65bd5e474f3a2297bf0f",
+    "tenka-home-m-native.mjs.gz": "5010c329489788e1dc297ba70e77c25f1cb6376baa37634f01a24d8da3fdd189",
+    "tenka-hotkey-crossscreen-serial.log.gz": "758a9de1a4c5bf1c427422acefd256d42daf84e4a3c0e6db1710751798fc5677",
+    "tenka-hotkey-eslint.log.gz": "b783795b5ac555da45038085d0b1505ded83d32a89d58582743e0e12ffddbab3",
+    "tenka-hotkey-green-vitest.log.gz": "0ceaf1a899c1c83f7f26da6cb291359e0c13f179c186d9bd9bd35f6741c32de2",
+    "tenka-hotkey-prettier.log.gz": "158d01ee6f029c93e5f7da9864f99a1fbdd39756b52b7780e17088707b63e45a",
+    "tenka-hotkey-red-vitest.log.gz": "5ae96949dae1b98d6c0858c5f116d2a24e8a0e432199623bf30e29905dee9850",
+    "tenka-hotkey-typecheck.log.gz": "2a3957bb2efa18d2e2a41e8c2dcc20ea5bab5c9eafe5b9390dd20be67a7ba4c0",
+    "verify.py": "6688d0543b3d908ae2964252b9bdc222ca648691a4eb869304e3e9f9ed1afc24"
+  }
+}

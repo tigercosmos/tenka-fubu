@@ -1,0 +1,155 @@
+diff --git a/e2e/hotkey-focus.spec.ts b/e2e/hotkey-focus.spec.ts
+new file mode 100644
+index 0000000..6bc654d
+--- /dev/null
++++ b/e2e/hotkey-focus.spec.ts
+@@ -0,0 +1,60 @@
++import { test, expect } from './fixtures';
++
++test('Home and M work from non-control panel focus while native keys keep their owners', async ({
++  page,
++}) => {
++  await page.setViewportSize({ width: 1920, height: 1080 });
++  await page.goto('/?debug=1');
++  await page.getByTestId('title-newgame').click();
++  await page.getByTestId('scenario-pick-s1560').click();
++  await page.getByTestId('clan-pick-clan.oda').click();
++  await page.getByTestId('newgame-start').click();
++  await page.getByTestId('speed-pause').click();
++  const game = await page.evaluate(() => window.__tenka.debug.getState());
++  const homeCastleId = game.clans[game.meta.playerClanId]!.homeCastleId;
++  await page.getByTestId('rail-officers').click();
++  const list = page.getByTestId('officer-list');
++  const minimap = page.getByTestId('minimap');
++
++  const search = list.locator('input[type="search"]');
++  await search.focus();
++  await page.keyboard.press('m');
++  await page.keyboard.press('Home');
++  await expect(minimap).toBeVisible();
++  expect(
++    await page.evaluate(() => window.__tenka.debug.getMapPublishedViewSnapshot().selection),
++  ).toBeNull();
++  await search.fill('');
++
++  const rail = page.getByTestId('rail-officers');
++  await rail.focus();
++  await page.keyboard.press('m');
++  await page.keyboard.press('Home');
++  await expect(minimap).toBeVisible();
++  expect(
++    await page.evaluate(() => window.__tenka.debug.getMapPublishedViewSnapshot().selection),
++  ).toBeNull();
++
++  const resource = page.getByTestId('hud-resources').locator('span[tabindex="0"]').first();
++  await resource.focus();
++  await page.keyboard.press('Home');
++  expect(
++    await page.evaluate(() => window.__tenka.debug.getMapPublishedViewSnapshot().selection),
++  ).toBeNull();
++
++  await list.locator('tbody tr').filter({ hasText: '織田信長' }).click();
++  const trait = page.getByTestId('officer-detail').locator('span[tabindex="0"]').first();
++  await trait.focus();
++  await expect(trait).toBeFocused();
++  await page.keyboard.press('m');
++  await expect(minimap).toHaveCount(0);
++  await page.keyboard.press('Home');
++  await page.evaluate(() => window.__tenka.debug.waitMapIdle(2));
++  expect(
++    await page.evaluate(() => window.__tenka.debug.getMapPublishedViewSnapshot().selection),
++  ).toEqual({
++    kind: 'node',
++    id: homeCastleId,
++  });
++  expect(await page.evaluate(() => window.__tenka.debug.getState())).toEqual(game);
++});
+diff --git a/src/app/hotkeys.spec.ts b/src/app/hotkeys.spec.ts
+index b0207c8..906ea32 100644
+--- a/src/app/hotkeys.spec.ts
++++ b/src/app/hotkeys.spec.ts
+@@ -63,8 +63,26 @@ describe('canonical context-aware hotkey router', () => {
+       { hasDialog: true },
+       { mapBackground: false },
+     ]) {
+-      for (const key of ['w', 'ArrowDown', '+', '-', 'Home', 'm', 'Tab'])
+-        expect(route(key, context)).toBeNull();
++      for (const key of ['w', 'ArrowDown', '+', '-', 'Tab']) expect(route(key, context)).toBeNull();
++    }
++    for (const context of [
++      { panelFocused: true, mapBackground: false },
++      { mapBackground: false },
++    ]) {
++      expect(route('Home', context)).toEqual({ kind: 'home' });
++      expect(route('m', context)).toEqual({ kind: 'minimap' });
++    }
++    for (const context of [
++      { screen: 'title' },
++      { screen: 'battle' },
++      { typing: true },
++      { nativeControl: true },
++      { viewportBlocked: true },
++      { hasModal: true },
++      { hasDialog: true },
++    ]) {
++      expect(route('Home', context)).toBeNull();
++      expect(route('m', context)).toBeNull();
+     }
+   });
+   it('preserves native controls, typing, modifiers, repeat and dialog priority', () => {
+diff --git a/src/app/hotkeys.ts b/src/app/hotkeys.ts
+index 8d46c71..2bf7d28 100644
+--- a/src/app/hotkeys.ts
++++ b/src/app/hotkeys.ts
+@@ -91,6 +91,8 @@ export function classifyHotkey(
+       return { kind: 'rail', index: Number(input.key.slice(1)) as 1 | 2 | 3 | 4 | 5 | 6 | 7 };
+     if (input.key.toLowerCase() === 'r') return { kind: 'reports' };
+     if (input.key === '`') return { kind: 'debug' };
++    if (!context.nativeControl && input.key === 'Home') return { kind: 'home' };
++    if (!context.nativeControl && input.key.toLowerCase() === 'm') return { kind: 'minimap' };
+   }
+   if (map) {
+     const directions: Record<string, readonly [number, number]> = {
+@@ -109,8 +111,6 @@ export function classifyHotkey(
+       return { kind: 'zoom', direction: 1 };
+     if (input.key === '-' || input.key === '−' || input.key === '－')
+       return { kind: 'zoom', direction: -1 };
+-    if (!input.repeat && input.key === 'Home') return { kind: 'home' };
+-    if (!input.repeat && input.key.toLowerCase() === 'm') return { kind: 'minimap' };
+   }
+   if (main || context.screen === 'battle') {
+     if ((input.key === ' ' || input.key === 'Spacebar') && !context.nativeControl && !input.repeat)
+diff --git a/src/ui/hooks/useHotkeys.spec.tsx b/src/ui/hooks/useHotkeys.spec.tsx
+index 7ca8274..97c834f 100644
+--- a/src/ui/hooks/useHotkeys.spec.tsx
++++ b/src/ui/hooks/useHotkeys.spec.tsx
+@@ -113,6 +113,29 @@ describe('useHotkeys — 空白鍵／數字鍵（01 §6.3）', () => {
+     expect(uiStore.getState().analysisMode).toBe('faction');
+     expect(zoom).toHaveBeenCalledOnce();
+   });
++  it('dispatches Home and M from a focused non-control panel region while native controls retain keys', () => {
++    const focusHome = vi.fn();
++    const toggleMiniMap = vi.fn();
++    render(<HotkeysHost loop={loop} handlers={{ focusHome, toggleMiniMap }} />);
++    uiStore.getState().actions.openPanel('officers');
++    const panel = render(<section tabIndex={0} data-testid="focused-panel" />).getByTestId(
++      'focused-panel',
++    );
++    panel.focus();
++    fireEvent.keyDown(panel, { key: 'Home' });
++    fireEvent.keyDown(panel, { key: 'm' });
++    expect(focusHome).toHaveBeenCalledOnce();
++    expect(toggleMiniMap).toHaveBeenCalledOnce();
++    const button = document.querySelector<HTMLButtonElement>('[data-testid="focus-button"]')!;
++    button.focus();
++    for (const key of ['Home', 'm']) {
++      const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true });
++      button.dispatchEvent(event);
++      expect(event.defaultPrevented).toBe(false);
++    }
++    expect(focusHome).toHaveBeenCalledOnce();
++    expect(toggleMiniMap).toHaveBeenCalledOnce();
++  });
+   it('holds camera keys per frame and stops on keyup, focus, window blur, modal and unmount', () => {
+     const frames = new Map<number, FrameRequestCallback>();
+     let serial = 0;

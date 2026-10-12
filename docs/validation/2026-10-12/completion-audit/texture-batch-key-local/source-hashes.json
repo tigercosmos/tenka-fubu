@@ -1,0 +1,106 @@
+{
+  "manifestSha256": "aef14f315cea70876118b659b247b0b7556e5c9d8da233716c6307364f7c3bef",
+  "manifestTargets": 29,
+  "files": [
+    {
+      "path": "original/lib/rendering/renderers/shared/texture/sources/TextureSource.js",
+      "sha256": "9c4ac459908cdefed4952091e7b818d567520532802e3d0af765bccc3ec41d6e",
+      "bytes": 12941
+    },
+    {
+      "path": "patched/lib/rendering/renderers/shared/texture/sources/TextureSource.js",
+      "sha256": "29f9d8458d71b14551a6aebcfe51fda7909ca89c38fe9ef8d4fee8946e18b016",
+      "bytes": 12904
+    },
+    {
+      "path": "original/lib/rendering/renderers/shared/texture/sources/TextureSource.mjs",
+      "sha256": "1b28169f369e783460f95a7e0950ca88926d88532e8cef7b24ab613a697e4855",
+      "bytes": 12869
+    },
+    {
+      "path": "patched/lib/rendering/renderers/shared/texture/sources/TextureSource.mjs",
+      "sha256": "e051fd477eab15d3ff6464eb25b581623cc8ce5dc2b47e0f7d7ad188275ae143",
+      "bytes": 12831
+    },
+    {
+      "path": "original/lib/rendering/batcher/shared/BatchTextureArray.js",
+      "sha256": "c11312509faaa1981e7251a957e704c72694a7e4955e75a809ce85cfba88d8e8",
+      "bytes": 544
+    },
+    {
+      "path": "patched/lib/rendering/batcher/shared/BatchTextureArray.js",
+      "sha256": "0c60ed59a2629a7d5a3ca9a50c464934db28d05c85723bc5a6c5eacb89b7e269",
+      "bytes": 498
+    },
+    {
+      "path": "original/lib/rendering/batcher/shared/BatchTextureArray.mjs",
+      "sha256": "c80a652e9e3c9e12034547a365348b1b9235aaa00c2a273adba1d4ef9d8f508b",
+      "bytes": 513
+    },
+    {
+      "path": "patched/lib/rendering/batcher/shared/BatchTextureArray.mjs",
+      "sha256": "e6c081cf642eb49ce243c61fb493c2807051c5deb6aad478212e8f91d9da7662",
+      "bytes": 466
+    },
+    {
+      "path": "context/lib/rendering/renderers/shared/texture/sources/TextureSource.d.ts",
+      "sha256": "f9ed0c31a9cc322ae8cc3120c3a0f46c9bd2b0f42e106e7b01dc35a1e53ae35d",
+      "bytes": 14593
+    },
+    {
+      "path": "context/lib/rendering/batcher/shared/BatchTextureArray.d.ts",
+      "sha256": "12d23116248005810b92efe0183083d3aa0c48ed718fd317c85e9e32c5f931be",
+      "bytes": 572
+    },
+    {
+      "path": "context/lib/rendering/batcher/shared/Batcher.js",
+      "sha256": "a26fa39eb80898840ba76a7e0b5e8d0cba30967bc4ee986821eeb043907d9bf9",
+      "bytes": 12582
+    },
+    {
+      "path": "context/lib/rendering/batcher/shared/Batcher.mjs",
+      "sha256": "aaf2400fc4ecfd0ff17adcb82f842a4f201307e392e56730937e0b0cbc9f96d1",
+      "bytes": 12381
+    },
+    {
+      "path": "context/lib/rendering/batcher/gpu/getTextureBatchBindGroup.js",
+      "sha256": "853df2d3a9b36a16194a07ff8cc4861d6f4732d7b32ad61f0f76764ce74f7869",
+      "bytes": 1205
+    },
+    {
+      "path": "context/lib/rendering/batcher/gpu/getTextureBatchBindGroup.mjs",
+      "sha256": "9d462ac267913e768f15f65aa45721e0430d8768c817d6eb954a05b549ac1fda",
+      "bytes": 1152
+    },
+    {
+      "path": "context/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "sha256": "1c471039e225a80edbc6dc69e6397961d4b5bd715e0c67e13a4c37dc1baa1f73",
+      "bytes": 10153
+    },
+    {
+      "path": "context/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "sha256": "e49cac372b7d0735a883f7fde8e8cefdb51203f6c47c7d3b8faec9def013d16f",
+      "bytes": 9864
+    },
+    {
+      "path": "context/lib/prepare/PrepareBase.js",
+      "sha256": "290712d411e3b48997f095de161872999ae2e58f796166d1edcd1e2f112bf6b5",
+      "bytes": 3498
+    },
+    {
+      "path": "context/lib/prepare/PrepareBase.mjs",
+      "sha256": "cbc11cb796e525cb392c5b5cae4b1a8960eb51e777a85d2883cf7b8277a44613",
+      "bytes": 3450
+    },
+    {
+      "path": "context/lib/utils/data/uid.js",
+      "sha256": "595ae21e676561e1af1e869fe0f082721054f5305d5982b07d21561f52e44511",
+      "bytes": 361
+    },
+    {
+      "path": "context/lib/utils/data/uid.mjs",
+      "sha256": "c89cb0657df79d565f1e0936ea6eb2f694ee2da1b353e669ab45d74bf913a49e",
+      "bytes": 324
+    }
+  ]
+}

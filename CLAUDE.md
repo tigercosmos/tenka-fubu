@@ -48,4 +48,20 @@
 
 - 當前里程碑：見 `milestone.json`；歷史進度：見 README 進度表。
 
-- 最新已驗證修正：`f6691c9` 修復聚落避讓預算；`89acc88` 修復 renderer GPU 快取索引增長。精確整合測試 6,442 通過、1 既有無嗣失敗、1 跳過；`0b4b1c1` 只格式化測試。原生 60 FPS、whole-heap、protected art、long-run 仍未完成，六張 Linux／Darwin 基準與無嗣規則等待明確決策。完整證據見 `docs/validation/2026-10-12/completion-audit/`。
+- 最新已驗證修正：`f03ba63` 修復面板焦點下的 Home／M；`f5d8969` 清除貼圖批次的稀疏索引快取；`7d37c28` 增加政策面板十五倍率驗收。固定 `7d37c28` 全量測試 6,445 通過、1 既有無嗣失敗、1 跳過；原生 60 FPS、whole-heap、protected art、long-run 與其餘 M6–M9 門檻仍未完成。六張 Linux／Darwin 基準與無嗣規則等待明確決策。完整證據見 `docs/validation/2026-10-12/completion-audit/`。
+
+## 貼圖批次快取與政策倍率驗收（2026-10-12）
+
+- `f5d8969` 以唯一非零負數 TextureSource UID 避免 sparse indexed backing，clear 時刪除已釋放 key。29-target 精確修補保留 CJS／ESM、排序、padding、替換與重用。27 項 Pixi 測試通過；既有 25-target 可直接升級，實測四次寫入後重跑零次。這不改變較早 23→25 必須 fresh npm ci 的限制。
+- sim4 原 20 次 remount 通過；獨立 240 次診斷的 63 個穩定批次 ID map 在 120／240 次皆零 key／indexed backing。原快照的分析獨立重跑與保存 JSON 完全相同。延長診斷後半仍增加 208,584 bytes，因此 whole-heap 未達標。
+- Fresh baseline／candidate 三張 actual PNG 完全相同，原保護基準仍 RED。候選獨立 GPU probe 因尚未掛載 renderer 而失敗；GPU 身分只在延長診斷的 actual page 直接核對，不將同 launch flags 當原視覺執行的 GPU 證明。
+- `7d37c28` 的政策驗收涵蓋 1280×720、0.8–1.5 每 0.05 共十五倍率、十二政策與詳情、捲動及真實鍵盤路徑。25-target 與整合 29-target 各十五項通過；另 375 個互動目標符合 32×32 CSS px 下限。這只完成政策子門檻，不代表 M8-23 全畫面完成。
+- 固定 `7d37c28` 全量為 6,445 通過、1 既有無嗣失敗、1 跳過，694 檔；1,557 來源前後精確符合 Git blobs。型別、完整 lint、資料／素材、建置及 bundle 通過。來源後續若改動，不得將此結果改標為新 HEAD 全量。
+- 證據缺失已明載：早期 npm PATH 失敗 log 遭覆寫；整合政策第一輪十五項成功 log 保留，但幾何與圖片被後續 probe 覆寫，恢復執行另行保存，不能冒充第一輪。後續所有 Playwright 作業必須指定唯一 output、report 與 log 路徑。
+- Battle 手動存讀仍缺少原子 tick 邊界及戰術 pending queue 的保存／還原契約；依 16 高優先規格保留停用，未自行擴充 SaveFile 或丟棄未執行命令。其餘全專案門檻保持，未 push／deploy。
+
+- `f03ba63` 依 11 主頁快捷鍵範圍讓非原生控制的面板焦點可使用 Home／M；輸入、按鈕、dialog／modal、重複鍵與資源列本地 Home 仍受原 guard 保護。舊來源配新增測試為 2 FAIL／18 PASS，修正後 20 PASS；真實鍵盤在武將特性焦點下由原無效轉為隱藏小地圖與選取本據城。七項跨畫面原生控制第一輪平行有一個斷言前 JSON 解析失敗，同七項串行全部通過，第一輪 raw stdout 未保存，僅串行成功 log 封存。最新全量仍是修正前 `7d37c28`，未冒稱 `f03ba63` 全量。
+
+- 後續驗證先以 exclusive-create 的唯一 log 檔接住完整 stdout／stderr，再啟動 subprocess；Playwright 同時使用唯一 output／report 路徑。不得只依賴工具回覆或完成後才搬走預設目錄。
+
+- `f03ba63` 與新增證據檔完成最終完整 ESLint／Prettier，exit 0；詳細 log 封存在 hotkey-main-focus。完整 Vitest 結果仍釘選 `7d37c28`。

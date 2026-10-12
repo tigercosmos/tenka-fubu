@@ -1,0 +1,24 @@
+{
+  "baseline25": {
+    "firstId": 0,
+    "lastId": 129,
+    "keysAfterClear": 130,
+    "nullValues": 130,
+    "count": 0
+  },
+  "cjs29": {
+    "firstId": -131,
+    "lastId": -260,
+    "keysAfterClear": 0,
+    "nullValues": 0,
+    "count": 0
+  },
+  "esm29": {
+    "firstId": -1,
+    "lastId": -130,
+    "keysAfterClear": 0,
+    "nullValues": 0,
+    "count": 0
+  },
+  "negativeKeyArrayLength": 0
+}

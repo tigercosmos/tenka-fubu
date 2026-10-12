@@ -1,0 +1,13 @@
+{
+  "7d37c28": {
+    "src/app/hotkeys.ts": "2eb9539c03b97cce86f9bf61c998a49ae6ff2ae25368b8071b75609648f2fa0b",
+    "src/app/hotkeys.spec.ts": "4a71981159c545395ac815c3e7c1d59e31ee1a7477e9edb4f7d7e388dd846de8",
+    "src/ui/hooks/useHotkeys.spec.tsx": "1552cd1c3408d857c2d19146fe26b26e27e017746c4e3dac527dabafabfc3f00"
+  },
+  "f03ba63": {
+    "src/app/hotkeys.ts": "6966d4a72e52bc2413946555eb45b6e13d3ac17b1fde4ef342989fac87b74ea9",
+    "src/app/hotkeys.spec.ts": "65e9f08a44c176b4f152a1a6ef0469a0a051df784b3781cde1dcaf97ea6bcead",
+    "src/ui/hooks/useHotkeys.spec.tsx": "2b127b389dfe71808e0024acd4ebccca2ab4deafeda28ec8043da6f19ca7e780",
+    "e2e/hotkey-focus.spec.ts": "4f8245929cd80e1c3e08fdb3671e416fd933bf48201269689a9a9e22f736ba92"
+  }
+}
