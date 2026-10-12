@@ -81,22 +81,28 @@ function overlap(data: Awaited<ReturnType<typeof layout>>, baseline: boolean): n
   return area;
 }
 
+async function mapIdleOrRetry(page: Page): Promise<boolean> {
+  return page.evaluate(async () => {
+    try {
+      await (window as DebugWindow).__tenka.debug.waitMapIdle();
+      return true;
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message ===
+          '__TENKA_DEBUG__: map renderer 尚未掛載（尚未進入含地圖的畫面，如 MainScreen）'
+      )
+        return false;
+      throw error;
+    }
+  });
+}
+
 async function boot(page: Page) {
   await page.goto('/?debug=visual-map');
   await expect(page.getByTestId('screen-strategy')).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
-  await expect
-    .poll(async () =>
-      page.evaluate(async () => {
-        try {
-          await (window as DebugWindow).__tenka.debug.waitMapIdle();
-          return true;
-        } catch {
-          return false;
-        }
-      }),
-    )
-    .toBe(true);
+  await expect.poll(() => mapIdleOrRetry(page)).toBe(true);
   await expect(page.getByTestId('speed-pause')).toHaveAttribute('aria-pressed', 'true');
 }
 
@@ -138,6 +144,56 @@ test.describe('native army number-plate placement', () => {
     viewport: { width: 1280, height: 720 },
     deviceScaleFactor: 1,
     contextOptions: { reducedMotion: 'reduce' },
+  });
+
+  test('boot retries only the documented unmounted renderer error', async ({ page }) => {
+    await page.goto('about:blank');
+    await page.evaluate(() => {
+      Object.assign(window, { __idleCalls: 0 });
+      Object.defineProperty(window, '__tenka', {
+        configurable: true,
+        value: {
+          debug: {
+            waitMapIdle() {
+              const state = window as unknown as { __idleCalls: number };
+              if (++state.__idleCalls === 1)
+                return Promise.reject(new Error('unexpected idle failure'));
+              return Promise.resolve();
+            },
+          },
+        },
+      });
+    });
+    await expect(expect.poll(() => mapIdleOrRetry(page)).toBe(true)).rejects.toThrow(
+      'unexpected idle failure',
+    );
+    expect(
+      await page.evaluate(() => (window as unknown as { __idleCalls: number }).__idleCalls),
+    ).toBe(1);
+    await page.evaluate(() => {
+      Object.assign(window, { __idleCalls: 0 });
+      Object.defineProperty(window, '__tenka', {
+        configurable: true,
+        value: {
+          debug: {
+            waitMapIdle() {
+              const state = window as unknown as { __idleCalls: number };
+              if (++state.__idleCalls === 1)
+                return Promise.reject(
+                  new Error(
+                    '__TENKA_DEBUG__: map renderer 尚未掛載（尚未進入含地圖的畫面，如 MainScreen）',
+                  ),
+                );
+              return Promise.resolve();
+            },
+          },
+        },
+      });
+    });
+    await expect.poll(() => mapIdleOrRetry(page)).toBe(true);
+    expect(
+      await page.evaluate(() => (window as unknown as { __idleCalls: number }).__idleCalls),
+    ).toBe(2);
   });
 
   test('the independent tether oracle detects interiors but excludes edge and corner touches', () => {
