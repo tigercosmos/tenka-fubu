@@ -1,0 +1,23 @@
+# Withdrawn geographic fused-axis native candidate
+
+Candidate `5224c06` is withdrawn in `3d6a953`: these single windows show no clear overall FPS or sampled preparation benefit. The geographic runtime returns to exact `04c7b60` source; generic full prepared-argument parity tests remain. This package preserves the frozen candidate, its original failures, and its measurements without another run.
+
+| Camera      | 04 baseline FPS | Candidate FPS | Observed change | Baseline p95 | Candidate p95 |
+| ----------- | --------------: | ------------: | --------------: | -----------: | ------------: |
+| Overview    |        59.93091 |      59.93826 |         +0.012% |      17.5 ms |       17.5 ms |
+| Operational |        49.73817 |      50.20458 |         +0.938% |      22.0 ms |       21.8 ms |
+| Close       |        29.11552 |      29.20631 |         +0.312% |      41.5 ms |       41.1 ms |
+
+All three original strict 60 FPS controls remain RED. Each runs once for 30 seconds, serially on sim3, with 120 canonical armies at 1920×1080. The original FPS spec SHA stays `2d39ba643aa3c0aa7a242d0e93d081806fe54bd64b650f1ab78cbf67d4f567e4`. Actual raw renderer identity for every camera is RTX 5070 Ti Vulkan. No retry, threshold change, baseline rerun, or additional timing follows. These paused render-only prerequisites do not establish live campaign acceptance or physical GPU presentation.
+
+All nine complete settled snapshots match the reference byte for byte: SHA256 `af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29`. Only the original four named nonvisual counter exclusions apply. The observer adds independent GPU guard files outside the compared payload. Functional and profile before/after guards record actual live RTX Vulkan contexts without context loss. Exact canonical before/after JSON is extracted from the retained timing traces. All three controls preserve canonical bytes and resources.
+
+One requested 10-second close CPU profile follows all three FPS controls. Its measured window is 10,073.5 ms, with 288 completed renders and 287 postrender intervals; the sampled profile span is 10,301,898 µs. The 04 comparison window is 10,067.1 ms, with 290 completed renders and a 10,268,812 µs profile span. Actual canonical/resource hashes stay equal and driver ticks stay zero.
+
+The JavaScript `layoutGeographicLabels` parent records 687,687 µs self and 4,139,032 µs inclusive, or 14.37164 ms inclusive per completed render. The 04 parent is 14.36233 ms per completed render. This parent includes preparation and child Rust execution; it is not the Rust `geo_score` kernel cost. Candidate `edgeAxes` records 895,050 µs self and 1,115,081 µs inclusive, or 3.10781 and 3.87181 ms per render. The old `edgeAxis` parent is 3.84558 ms inclusive per render. Candidate sort callbacks map to actual source lines 59 and 60 with 81,011 and 141,123 µs self time; they are already included in `edgeAxes` inclusive and must not be added again. These captures do not show improved parent or axis preparation cost.
+
+Current served JavaScript, exact source maps, original V8 callframes, and mapped rows are preserved. Actual binary exports identify `geo_score` as function 44 and `castle_ribbon_solve` as function 27. Their candidate sampled inclusive times are 214,885 and 930,268 µs. Internal WASM/adapter/parent inclusive costs overlap and are not additive. The binary is identical to the 04 baseline: 63,073 bytes, SHA256 `4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba`.
+
+All 1,405 frozen source/public/Rust/tool/test/root configuration files match `5224c06` before observation, after functional observation, and after all timing/profile work. All 14,765 current23 dependency files and all 23 patch target hashes remain identical at those three checkpoints. Public assets are real files; only the known current23 `node_modules` directory is shared. The fresh build succeeds and checks artifact freshness. The original local shell setup attempt ends RED 127 before any GPU job; its exact error output/status remain archived. A transferred standalone Python setup fixes quoting without a measurement retry.
+
+Gzip files preserve byte-exact raw payloads, all three original RED logs, frame samples, canonical state, source markers, profile, scripts, setup failure, environment, GPU guards, dependency/source/build proofs, served bundles, and source maps. Remote trace paths and hashes remain in `state-resource-proof.json.gz`. `summary.json` records both raw and compressed SHA256 values. Extract `verify-evidence.py.gz` and run it with this directory to verify artifact hashes, all frozen checkpoints, exact nine-payload parity, original REDs, GPU guards, and canonical/resource proofs.

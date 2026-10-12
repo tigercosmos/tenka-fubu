@@ -1,0 +1,828 @@
+{
+  "scope": "same-current23-dependency renderer-only geographicfusedaxes candidate/not live campaign acceptance",
+  "candidateStatus": "withdrawn",
+  "candidateCommit": "5224c06",
+  "withdrawalCommit": "3d6a953",
+  "withdrawalReason": "No clear overall FPS or sampled JS preparation benefit in these single windows; root restores exact04 geographic runtime and retains generic preparation parity tests",
+  "baselineCommit": "ea1d52b",
+  "baselineRuntimeSourceCommit": "04c7b60",
+  "replica": "sim3:/tmp/tenka-fused-current23-20261012",
+  "sourceFiles": 1405,
+  "dependencyFiles": 14765,
+  "pixiPatchTargets": 23,
+  "sourceBeforeAfterFinalMatch": true,
+  "dependenciesBeforeAfterFinalUnchanged": true,
+  "compiledWasm": {
+    "bytes": 63073,
+    "sha256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba",
+    "identicalTo04Baseline": true,
+    "exports": [
+      {
+        "name": "memory",
+        "kind": 2,
+        "index": 0
+      },
+      {
+        "name": "castle_ribbon_abi_version",
+        "kind": 0,
+        "index": 26
+      },
+      {
+        "name": "castle_ribbon_solve",
+        "kind": 0,
+        "index": 27
+      },
+      {
+        "name": "engine_alloc",
+        "kind": 0,
+        "index": 28
+      },
+      {
+        "name": "engine_free",
+        "kind": 0,
+        "index": 29
+      },
+      {
+        "name": "path_solve",
+        "kind": 0,
+        "index": 30
+      },
+      {
+        "name": "engine_abi_version",
+        "kind": 0,
+        "index": 26
+      },
+      {
+        "name": "geo_score",
+        "kind": 0,
+        "index": 44
+      },
+      {
+        "name": "geographic_abi_version",
+        "kind": 0,
+        "index": 45
+      }
+    ]
+  },
+  "functionalParity": {
+    "referenceSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "actualSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "fullPayloadEqual": true,
+    "snapshotsEqual": true,
+    "snapshots": 9,
+    "days": [0, 0, 0, 1, 1, 1, 2, 2, 2],
+    "excludedNonvisualCounters": [
+      "armyPlateLayout.runs",
+      "geographicLabelLayout.runs",
+      "geographicLabelLayout.placementCache",
+      "castleRibbonLayout.runs"
+    ]
+  },
+  "fps": [
+    {
+      "camera": "overview",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 59.93826358926521,
+      "slowFrameFps": 57.142857142857146,
+      "frameTimeP95": 17.5,
+      "durationMs": 30030.89999961853,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 83,
+      "lodStage": "far",
+      "terminalExit": 1,
+      "strict60Pass": false,
+      "baselineAverageFps": 59.93090789143426,
+      "baselineFrameTimeP95": 17.5,
+      "observedAverageFpsChangePercent": 0.012273629901082828,
+      "observedP95ChangePercent": 0.0
+    },
+    {
+      "camera": "operational",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 50.20458033501398,
+      "slowFrameFps": 45.87155923168323,
+      "frameTimeP95": 21.800000190734863,
+      "durationMs": 30037.10000038147,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 79,
+      "lodStage": "mid",
+      "terminalExit": 1,
+      "strict60Pass": false,
+      "baselineAverageFps": 49.73816763988148,
+      "baselineFrameTimeP95": 22,
+      "observedAverageFpsChangePercent": 0.9377359827757559,
+      "observedP95ChangePercent": -0.9090900421142578
+    },
+    {
+      "camera": "close",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 29.20630696560442,
+      "slowFrameFps": 24.330900299765826,
+      "frameTimeP95": 41.09999990463257,
+      "durationMs": 30062,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 56,
+      "lodStage": "near",
+      "terminalExit": 1,
+      "strict60Pass": false,
+      "baselineAverageFps": 29.115520402677742,
+      "baselineFrameTimeP95": 41.5,
+      "observedAverageFpsChangePercent": 0.31181501024561964,
+      "observedP95ChangePercent": -0.9638556514877883
+    }
+  ],
+  "stateResourceProof": [
+    {
+      "camera": "overview",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-fused-current23-overview-results/national120-map-perf-natio-0f189-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "7dcfa28b00029b40cd687083cbcf08b7f5085b503bd794904072f1fcd3c14ea7",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    },
+    {
+      "camera": "operational",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-fused-current23-operational-results/national120-map-perf-natio-a8207-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "8ab2e2fb4de23a0bde89095520178965014c4681dd4d1149a3a07919a7634f60",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    },
+    {
+      "camera": "close",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-fused-current23-close-results/national120-map-perf-natio-9df1b-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "50dab35b262ce9f193ccab7b361e66c9e36b50e4d166663c51f87f9c0e0cdcc8",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    }
+  ],
+  "cpuProfile": {
+    "scope": "one separate requested10sclose profile after all timing controls; not acceptanceFPS",
+    "measurementDurationMs": 10073.5,
+    "completedFrames": 288,
+    "postrenderIntervals": 287,
+    "profileSampledSpanUs": 10301898,
+    "samples": 16902,
+    "driverTicks": 0,
+    "canonicalStateByteEqual": true,
+    "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+    "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+    "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+    "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+    "baselineMeasurementDurationMs": 10067.099999904633,
+    "baselineCompletedFrames": 290,
+    "baselineProfileSampledSpanUs": 10268812,
+    "JSGeographicLayoutParent": {
+      "function": "layoutGeographicLabels",
+      "source": "../../src/ui/map/geographicLabelLayout.ts",
+      "line": 125,
+      "column": 16,
+      "selfUs": 687687,
+      "inclusiveUs": 4139032,
+      "selfSamples": 663
+    },
+    "JSGeographicLayoutParentInclusiveMsPerCompletedFrame": 14.371638888888889,
+    "baselineJSGeographicLayoutParent": {
+      "function": "layoutGeographicLabels",
+      "source": "../../src/ui/map/geographicLabelLayout.ts",
+      "line": 108,
+      "column": 16,
+      "selfUs": 747373,
+      "inclusiveUs": 4165075,
+      "selfSamples": 722
+    },
+    "baselineJSGeographicLayoutParentInclusiveMsPerCompletedFrame": 14.362327586206895,
+    "edgeAxes": {
+      "function": "edgeAxes",
+      "source": "../../src/ui/map/geographicLabelLayout.ts",
+      "line": 29,
+      "column": 9,
+      "selfUs": 895050,
+      "inclusiveUs": 1115081,
+      "selfSamples": 855
+    },
+    "edgeAxesSelfMsPerCompletedFrame": 3.1078124999999996,
+    "edgeAxesInclusiveMsPerCompletedFrame": 3.8718090277777772,
+    "baselineEdgeAxis": {
+      "function": "edgeAxis",
+      "source": "../../src/ui/map/geographicLabelLayout.ts",
+      "line": 29,
+      "column": 9,
+      "selfUs": 587176,
+      "inclusiveUs": 1115217,
+      "selfSamples": 560
+    },
+    "baselineEdgeAxisInclusiveMsPerCompletedFrame": 3.8455758620689657,
+    "actualMappedSortCallbackChildren": [
+      {
+        "function": "",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 60,
+        "column": 26,
+        "selfUs": 141123,
+        "inclusiveUs": 141123,
+        "selfSamples": 135
+      },
+      {
+        "function": "",
+        "source": "../../src/ui/map/geographicLabelLayout.ts",
+        "line": 59,
+        "column": 26,
+        "selfUs": 81011,
+        "inclusiveUs": 81011,
+        "selfSamples": 77
+      }
+    ],
+    "rustExportFrames": [
+      {
+        "function": "wasm-function[44]",
+        "source": "wasm://wasm/0003d986",
+        "line": 1,
+        "column": 42874,
+        "selfUs": 26234,
+        "inclusiveUs": 214885,
+        "selfSamples": 25,
+        "wasmFunctionIndex": 44,
+        "exports": ["geo_score"]
+      },
+      {
+        "function": "wasm-function[27]",
+        "source": "wasm://wasm/0003d986",
+        "line": 1,
+        "column": 30775,
+        "selfUs": 1052,
+        "inclusiveUs": 930268,
+        "selfSamples": 1,
+        "wasmFunctionIndex": 27,
+        "exports": ["castle_ribbon_solve"]
+      }
+    ],
+    "limits": "JS geographic parent inclusive contains JS preparation and child Rust calls; it is not geo_score kernel time. Sort callbacks are already in edgeAxes inclusive; parent inclusive costs are not additive. Current bundle source maps and original V8 locations are preserved."
+  },
+  "setupFailure": {
+    "status": "RED",
+    "terminalExit": 127,
+    "scope": "local shell setup quoting before any GPU observation or FPS job started",
+    "sourceCommit": "5224c06",
+    "measurementRetry": false,
+    "correction": "transfer independent Python setup source file; explicit literal paths only"
+  },
+  "limits": [
+    "one window per camera, no retries, original thresholds unchanged",
+    "three strict60 controls remain RED",
+    "single observed changes do not establish repeatability",
+    "requested10s profile is separate attribution and is not acceptanceFPS",
+    "paused renderer-only controls do not establish live campaign acceptance or physical GPU presentation"
+  ],
+  "artifacts": [
+    {
+      "path": "actual-js-bundle-manifest.json.gz",
+      "rawBytes": 3684,
+      "rawSHA256": "6cc5ca2c6efc92ad77d406e6d3f582539793e0f59a6a27382c8720b736411ac6",
+      "gzipBytes": 1007,
+      "gzipSHA256": "b6a0f8c34fe8a05143627ab7df56e5422349f6360a1fd3f329400ae4393a2441"
+    },
+    {
+      "path": "build-artifact-proof.json.gz",
+      "rawBytes": 12589,
+      "rawSHA256": "aa31a26045370c49fdf9058c099a19f3854f67128c89b4f0c07a7c15508b5b2e",
+      "gzipBytes": 3694,
+      "gzipSHA256": "6938157f8aabc90014c41a7233745b4aa8ca3aefd1510546aff1ea903a4df8ec"
+    },
+    {
+      "path": "build-final.log.gz",
+      "rawBytes": 1678,
+      "rawSHA256": "1040ad8fb354f62b0663bb80a3e27c1c78ccee2888b04f5d6b1538d32dc78980",
+      "gzipBytes": 846,
+      "gzipSHA256": "191f56da511b791b90a2eaac052c6a507755620d0a00b64d3778d448e9fb844d"
+    },
+    {
+      "path": "canonical-state.raw.json.gz",
+      "rawBytes": 816643,
+      "rawSHA256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "gzipBytes": 71991,
+      "gzipSHA256": "2131493e97a0d61568ce79807f50bece03ac03fed840a27862b345a4bd2e1bf2"
+    },
+    {
+      "path": "close-profile-source-summary.json.gz",
+      "rawBytes": 489322,
+      "rawSHA256": "5e9289322c2e8df060ef15d3b659f05b0ddaeb6b8183fd15840cb10fed2281ae",
+      "gzipBytes": 31466,
+      "gzipSHA256": "ab36eec1dcd4fafc7bc312ca8a2cecdf6c372c13f153ae5c496fba9be92ca2a8"
+    },
+    {
+      "path": "close-profile-summary.json.gz",
+      "rawBytes": 115414,
+      "rawSHA256": "1abd52c6e5c5bb78be57e4680b4286af683464977577c472cb7a12b0aa391abd",
+      "gzipBytes": 7360,
+      "gzipSHA256": "e56bd3429563dbcdf76138d3b91fa1545f8a0ea23e09cdc35a238d0c02ebf2cc"
+    },
+    {
+      "path": "close.cpuprofile.gz",
+      "rawBytes": 389391,
+      "rawSHA256": "dc91729d4e45818dda5faaa5d72a2c43a9cd1ca2ec7b4938bbbf39fde6dcfcde",
+      "gzipBytes": 40088,
+      "gzipSHA256": "a5c1e642d84fe037ba895822069413a91510aeb4792a55ef1ea8c13ddd8b8823"
+    },
+    {
+      "path": "close.log.gz",
+      "rawBytes": 2999,
+      "rawSHA256": "63798f2092aef963c79de87db7a9f3a070417ff636283e31eeedd3ae47ef2eb4",
+      "gzipBytes": 692,
+      "gzipSHA256": "751b894cbfa1a453840ec99c11afdfa90f3141acd4981de42a827f348ce88c01"
+    },
+    {
+      "path": "close.raw.json.gz",
+      "rawBytes": 128327,
+      "rawSHA256": "aeab138dfbbed2d9ac81dd8e0d2627f0821d7670baf409e3fdf30bb7cc0ca89c",
+      "gzipBytes": 8356,
+      "gzipSHA256": "434c644248b38dd08c46eff204228cb3e68b5c646db20642b459bbbd5c066977"
+    },
+    {
+      "path": "collect.py.gz",
+      "rawBytes": 1884,
+      "rawSHA256": "561f24579d4782c7701eae70efb2af3d90fe703bf6ec5a94018aca2404560657",
+      "gzipBytes": 787,
+      "gzipSHA256": "508ce2099b60666da224a0890f2adabd52c2101d5786a7f790360fbddbe89219"
+    },
+    {
+      "path": "dependency-after-proof.json.gz",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "gzipBytes": 803276,
+      "gzipSHA256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9"
+    },
+    {
+      "path": "dependency-before-proof.json.gz",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "gzipBytes": 803276,
+      "gzipSHA256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9"
+    },
+    {
+      "path": "dependency-final-proof.json.gz",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "gzipBytes": 803276,
+      "gzipSHA256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9"
+    },
+    {
+      "path": "dist__assets__browserAll-CxEaHd-z.js.gz",
+      "rawBytes": 225,
+      "rawSHA256": "aeb07c132afe93b6f862acdba099683864ffe9caff2758ddf783e8a172a88003",
+      "gzipBytes": 189,
+      "gzipSHA256": "3a1e91db43e80310b20c9e2a153d420d8941700abb05b6693a1bb3225408ef09"
+    },
+    {
+      "path": "dist__assets__browserAll-CxEaHd-z.js.map.gz",
+      "rawBytes": 1760,
+      "rawSHA256": "de1152c7bf5b0f53caee88933171dafc1f1ea5efb9a843bde21b7d2b372ec0bd",
+      "gzipBytes": 554,
+      "gzipSHA256": "e11690521d76915faadaa9df98a0fdaf4848aa4e65c4734bed16f6949ba11512"
+    },
+    {
+      "path": "dist__assets__index-BgqBFssA.js.gz",
+      "rawBytes": 1420523,
+      "rawSHA256": "0436550b89440f17e504ab3a3236fe24ea42ee38bfc6882c53685c814014ce45",
+      "gzipBytes": 415454,
+      "gzipSHA256": "735b60b954af4bcc513f66d3b5d481182b35cf2e4de29d13a3163c9932e5187e"
+    },
+    {
+      "path": "dist__assets__index-BgqBFssA.js.map.gz",
+      "rawBytes": 5164490,
+      "rawSHA256": "249153f6f9652156779af4007e97423f7d3f62d1cc98985e7bffb568df5ca3f0",
+      "gzipBytes": 1355250,
+      "gzipSHA256": "79ff4c9d971651a43002f386e9fd0ade945c840743c6e9af762567013733bacf"
+    },
+    {
+      "path": "dist__assets__index-DDXAgOEs.js.gz",
+      "rawBytes": 588182,
+      "rawSHA256": "7f10977466d138971837b268bf35905d48d35c1521e434310e824e5b64c8ce52",
+      "gzipBytes": 98378,
+      "gzipSHA256": "627a41e129140b8aad52b17c7c1770ff2c88a1647021b49f9bee8f2a8d84ed3d"
+    },
+    {
+      "path": "dist__assets__index-DDXAgOEs.js.map.gz",
+      "rawBytes": 32151,
+      "rawSHA256": "b957dccc01a34cba16395d610dfe953258cd42388701b2410ae135c30ba6c0f4",
+      "gzipBytes": 8739,
+      "gzipSHA256": "5f9985ebbe75d0a9e2b50d9eee84865b981ea2b50f91a27fbbd09ed28c7d60ff"
+    },
+    {
+      "path": "dist__assets__simulation.worker-BkA8uROu.js.gz",
+      "rawBytes": 254607,
+      "rawSHA256": "aefee3372d33802654ebe163f9c4484a5aa1b748195ee546ec3748dcf2c56c00",
+      "gzipBytes": 73620,
+      "gzipSHA256": "0d7fd92328937ce7db81e77da6d044e123c7dc30180a6d7e9cd4a8b20437e467"
+    },
+    {
+      "path": "dist__assets__simulation.worker-BkA8uROu.js.map.gz",
+      "rawBytes": 1082991,
+      "rawSHA256": "4cf0f68e4794acb956132a32320e35d52a95ec0f1f023b90085810a3b5670ed2",
+      "gzipBytes": 278089,
+      "gzipSHA256": "7846561923e4ee1edb7d55178df0b6b7b2d676407bc5f8c97de9bf963b43c1f2"
+    },
+    {
+      "path": "dist__assets__vendor-pixi-tMCd1M7V.js.gz",
+      "rawBytes": 568656,
+      "rawSHA256": "223801343805fc2ebbbcc16c25bd46802addb83822af9a922bb38609a14968a2",
+      "gzipBytes": 163893,
+      "gzipSHA256": "cdda37c698a108ec39887e1cda2033df9b62b7a51f9845c9417f77e19c0835c0"
+    },
+    {
+      "path": "dist__assets__vendor-pixi-tMCd1M7V.js.map.gz",
+      "rawBytes": 2536927,
+      "rawSHA256": "58743af4b810c2b10c8f32c000bd8adb43e3009f99aeb2d6266af168fddd6818",
+      "gzipBytes": 573878,
+      "gzipSHA256": "e72baedbccdc087d92c96a0deb99668ee25f071f2f026391511fe5c0e47d5d86"
+    },
+    {
+      "path": "dist__assets__vendor-react-BdZgHC1P.js.gz",
+      "rawBytes": 141664,
+      "rawSHA256": "97bed391444d1937c7f8b715d3b76f7bac3f1ff7062b963b70a9489c8a186126",
+      "gzipBytes": 45344,
+      "gzipSHA256": "d3119b075a7088a106a1fe743adc4e6ee82afb30b88c3f31534f827ce7576c19"
+    },
+    {
+      "path": "dist__assets__vendor-react-BdZgHC1P.js.map.gz",
+      "rawBytes": 345155,
+      "rawSHA256": "e4c3bd901fbf586d71e12eeb8f83764f47b0279f42a7dd640e0fe33ddaebeffd",
+      "gzipBytes": 92759,
+      "gzipSHA256": "c814b93d494af8f684ce72fb3954bc4f8a9c25d269b1325eb89f5b273b5be2c3"
+    },
+    {
+      "path": "dist__assets__webworkerAll-y0dQvs9x.js.gz",
+      "rawBytes": 133,
+      "rawSHA256": "feda43600644f336e0ab25693f2333da85dde504cd4f180d1db48ce3d6a249c8",
+      "gzipBytes": 142,
+      "gzipSHA256": "b2decd6628669d399ba564d4ed03a93be67ba7836eb8e6ed2db9bfd69e297720"
+    },
+    {
+      "path": "dist__assets__webworkerAll-y0dQvs9x.js.map.gz",
+      "rawBytes": 693,
+      "rawSHA256": "b064cbb8d993b747bb0a306f6be1f1892dc93bbd17d2407d83fe2b44431f61c6",
+      "gzipBytes": 368,
+      "gzipSHA256": "95bf7ad33b665bf0b07e5f24d8b6efddbe52508f3f505c2071107988695cda2a"
+    },
+    {
+      "path": "environment.json.gz",
+      "rawBytes": 1668,
+      "rawSHA256": "6bddec9a335eb8f3636e2e8311e6dbc00d85b5b4e1e5990c3078c6117236a163",
+      "gzipBytes": 792,
+      "gzipSHA256": "a7782c789e7c21db3cb976a94e2e7142f3af8b3956dd2c55620b508f247535bc"
+    },
+    {
+      "path": "finalize.py.gz",
+      "rawBytes": 3050,
+      "rawSHA256": "49e491150aeed6a4a0738227b403f2dce164f53d985b32c0e281ae33e1ad92cc",
+      "gzipBytes": 1142,
+      "gzipSHA256": "cb589482fa1b03531af4496e76bb3fe33c802399e0e497a9b5cb6b7f555a65e1"
+    },
+    {
+      "path": "fixtures.ts.gz",
+      "rawBytes": 1012,
+      "rawSHA256": "7a3a8311c171fcfdb99bd37aff1128fa09cd15e7829650c1611bdcce014b8432",
+      "gzipBytes": 645,
+      "gzipSHA256": "2455ba2edc37594284f250c9814011f9274331ececadcf72a82992bccb50fcbe"
+    },
+    {
+      "path": "fps-control.spec.ts.gz",
+      "rawBytes": 4470,
+      "rawSHA256": "2d39ba643aa3c0aa7a242d0e93d081806fe54bd64b650f1ab78cbf67d4f567e4",
+      "gzipBytes": 1654,
+      "gzipSHA256": "d9831afdd58ba882a7310b7c943d8d6762de07ad2a0b22232e3cad5c12df3d8e"
+    },
+    {
+      "path": "fps-driver-status.json.gz",
+      "rawBytes": 3023,
+      "rawSHA256": "bb7c99babfd84f91f4174d9d60b46a279869b55cb48833f0e7bf12fd2013a1cb",
+      "gzipBytes": 684,
+      "gzipSHA256": "0e62da83b0e5bb1ff276e74ffc8c802435f79014f9712dc687bbc777d44e115c"
+    },
+    {
+      "path": "fps-driver.py.gz",
+      "rawBytes": 1550,
+      "rawSHA256": "07432869fce3adbdbbd36bd1a248a7885ae5d2984aa207dccc9a4b477448531f",
+      "gzipBytes": 836,
+      "gzipSHA256": "f4b499cc8cb8fcc6e414f8a4567c672608abb6db19652bcbf685126002bde603"
+    },
+    {
+      "path": "gpu-after-functional.json.gz",
+      "rawBytes": 286,
+      "rawSHA256": "d1132cf181bb7383d8459cf41c742535be1a8f33176234f6912c70d87cf8d9bf",
+      "gzipBytes": 196,
+      "gzipSHA256": "358cacb89247d7ef19bf6a631757a23e3e627c0bede00855b50414d6d202613e"
+    },
+    {
+      "path": "gpu-after-profile.json.gz",
+      "rawBytes": 286,
+      "rawSHA256": "d1132cf181bb7383d8459cf41c742535be1a8f33176234f6912c70d87cf8d9bf",
+      "gzipBytes": 196,
+      "gzipSHA256": "358cacb89247d7ef19bf6a631757a23e3e627c0bede00855b50414d6d202613e"
+    },
+    {
+      "path": "gpu-before-profile.json.gz",
+      "rawBytes": 286,
+      "rawSHA256": "d1132cf181bb7383d8459cf41c742535be1a8f33176234f6912c70d87cf8d9bf",
+      "gzipBytes": 196,
+      "gzipSHA256": "358cacb89247d7ef19bf6a631757a23e3e627c0bede00855b50414d6d202613e"
+    },
+    {
+      "path": "gpu-before.json.gz",
+      "rawBytes": 286,
+      "rawSHA256": "d1132cf181bb7383d8459cf41c742535be1a8f33176234f6912c70d87cf8d9bf",
+      "gzipBytes": 196,
+      "gzipSHA256": "358cacb89247d7ef19bf6a631757a23e3e627c0bede00855b50414d6d202613e"
+    },
+    {
+      "path": "gpu-driver-hashes.json.gz",
+      "rawBytes": 1409,
+      "rawSHA256": "615f13f8f20404aba9dc45042f5b706e351218eff35ee9fe83542cf21e124e88",
+      "gzipBytes": 438,
+      "gzipSHA256": "abb4cb553fe94d8dd29336bcc7dcfaec78ee3ecb3e3b060e9fccffe81b38d08c"
+    },
+    {
+      "path": "observer.mjs.gz",
+      "rawBytes": 4277,
+      "rawSHA256": "488cd3f3eb35b51f9121327d95ff89cae2e3729a15a61ec761bbcc50749bfa07",
+      "gzipBytes": 1793,
+      "gzipSHA256": "f4a8f728798812ba13924e5b820a325f533ee76f35bb0b01976745b929a36241"
+    },
+    {
+      "path": "operational.log.gz",
+      "rawBytes": 3041,
+      "rawSHA256": "a93cddd791deaf8a8d73ab96213953139c41f7bc249c9e7b1ab3155e733d804d",
+      "gzipBytes": 692,
+      "gzipSHA256": "5b69a18504da6e511a295e4b6448c16d637ce7a4e5c0e0a31b4668b63fb726ca"
+    },
+    {
+      "path": "operational.raw.json.gz",
+      "rawBytes": 142560,
+      "rawSHA256": "3eb77f577b9ac3dfb74635eeb968b9b1f12a065a80948a2d7788400bdb3fce4f",
+      "gzipBytes": 9227,
+      "gzipSHA256": "33d94a37470a592892b8a2b967851abee64053f41ede899d424df2045e3cbdcb"
+    },
+    {
+      "path": "overview.log.gz",
+      "rawBytes": 3020,
+      "rawSHA256": "a4591b002e7db992da956fa9e6efaa9e91d461fd92bf49eb10a853c7f213caa7",
+      "gzipBytes": 694,
+      "gzipSHA256": "d6cdc0141caadeafa4a1f14ce7dfc02dcfc71a89cccea713a307a91f1100b538"
+    },
+    {
+      "path": "overview.raw.json.gz",
+      "rawBytes": 149750,
+      "rawSHA256": "62b73a3e253f61db6b7dde58aca4d2ee2783330de56e5785ca4f78db4f9e81c2",
+      "gzipBytes": 9353,
+      "gzipSHA256": "8bec89af6ea998945c08d48eda3b9d8e328d5a3df414fd133707720618970914"
+    },
+    {
+      "path": "parity-proof.json.gz",
+      "rawBytes": 502,
+      "rawSHA256": "93130188f9732ee34556fe6935020d0de93b429b5e0a9d4a2b334fd80fd3bb37",
+      "gzipBytes": 257,
+      "gzipSHA256": "8927acafdca107345ed314ae8e0b4b1dad0316d410546fd1d88a6f71e8878f05"
+    },
+    {
+      "path": "patch-applier.mjs.gz",
+      "rawBytes": 3071,
+      "rawSHA256": "ec4ec746e1b5caac07f36e80f886ddcd913e454e8edf6cf4bf901abb3e7334b5",
+      "gzipBytes": 1194,
+      "gzipSHA256": "37b3844d179c76da46cdd537a57c1bd5ea44bb6a1615039e1e22b479335c1d7e"
+    },
+    {
+      "path": "patch-manifest.json.gz",
+      "rawBytes": 24802,
+      "rawSHA256": "61616fb34a6ed6d3212bd0bc6ff78929f2f1cfa4214cf12dea7cb946cca81972",
+      "gzipBytes": 5076,
+      "gzipSHA256": "34e20843a51cef6c2f4350b8e7dcb17ba26b61fc2486488dfe07170dd8117ae7"
+    },
+    {
+      "path": "playwright.config.ts.gz",
+      "rawBytes": 1918,
+      "rawSHA256": "0f2062a03f1ed2174fbd4b496dff2c851a579d78952452666d5de2c6ee30b21c",
+      "gzipBytes": 1072,
+      "gzipSHA256": "3a2610600999f04c9ca9af25eefb885f72bb86cde6f2547bd9d11b558b438177"
+    },
+    {
+      "path": "profile-analysis.log.gz",
+      "rawBytes": 4049,
+      "rawSHA256": "d5f3be125194a36f1691ccf5c61a40d331f6f21429f401e297f908788b402fe0",
+      "gzipBytes": 811,
+      "gzipSHA256": "a911d96b2a03187c359a3afdd8e7f78c06f6d84afa8e1762e4d5c51d966e11e6"
+    },
+    {
+      "path": "profile-analysis.mjs.gz",
+      "rawBytes": 3571,
+      "rawSHA256": "fff66e9a5fdc1b80ac736a0f6be0c46087cf0517ef1c4e265ccfc099679f2110",
+      "gzipBytes": 1539,
+      "gzipSHA256": "377029c50b7e9f191e2aef5d3745d812f24a669b51bbf98978814a4f3c5a5383"
+    },
+    {
+      "path": "profile.log.gz",
+      "rawBytes": 78,
+      "rawSHA256": "81774bf509b59df5c30c9c1bee6e39071c4ce4bd6acf0dfceed185f724f868a5",
+      "gzipBytes": 93,
+      "gzipSHA256": "68a5e91b43002bc1b6e6497bcd72ef71fe36439700b387e28a7d0309a3784c84"
+    },
+    {
+      "path": "profile.mjs.gz",
+      "rawBytes": 3995,
+      "rawSHA256": "5a0eaa892385eb747e7509142f8e5b40d3cef94b17f5ee6ad7cddb189ee6cf88",
+      "gzipBytes": 1659,
+      "gzipSHA256": "342eff141b874b5e37dee89298452b8574145ec1320fffc68bc615f19e0a3011"
+    },
+    {
+      "path": "proof.py.gz",
+      "rawBytes": 2685,
+      "rawSHA256": "f35b9b1c9a0467b9195484fed8c1117b17bd48effcacd0154eae5f21144535e5",
+      "gzipBytes": 1092,
+      "gzipSHA256": "db04e2de9172256dcbb6f1d6b5219fa58216132f362c1ddd1bfe92c27951af98"
+    },
+    {
+      "path": "published.log.gz",
+      "rawBytes": 85,
+      "rawSHA256": "488b48a593460a3c605a10a4b8910d8cc4fe806c1995ca5ac78e04f52a1e9a70",
+      "gzipBytes": 93,
+      "gzipSHA256": "0ee4ebde3862231e61311226731ba5e88f7193f5753b60945c0879659394bfe4"
+    },
+    {
+      "path": "published.raw.json.gz",
+      "rawBytes": 15199813,
+      "rawSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+      "gzipBytes": 2263646,
+      "gzipSHA256": "5f3d23a445cc229f2ce18a6b51842170c9ba6a9927a9b07d1632c82d16b100ef"
+    },
+    {
+      "path": "rust__engine__src__geographic.rs.gz",
+      "rawBytes": 15278,
+      "rawSHA256": "8710ae0bfaf04473c5e2efb81995d79dc162de4805dc209193f31a56ddb50489",
+      "gzipBytes": 4062,
+      "gzipSHA256": "703897f5faf3dc827ea754c020b4c3b217d56890349d43282fa765dda4e41bcd"
+    },
+    {
+      "path": "rust__engine__src__lib.rs.gz",
+      "rawBytes": 5088,
+      "rawSHA256": "a8c18c3a4545e41fe387eda5005213fb066506e5b067da051caf78f40ddca3b8",
+      "gzipBytes": 1844,
+      "gzipSHA256": "34347986328d420198f34c184dc67e3374249116752a4601db55df48074ecfec"
+    },
+    {
+      "path": "setup-original-red-status.json.gz",
+      "rawBytes": 282,
+      "rawSHA256": "3a1035698e0e255a7699e5b964b2d1020d4765c787d165c746046244294d10ec",
+      "gzipBytes": 221,
+      "gzipSHA256": "1aff6e630bedf3e33ba93b623d095f0c226fda297f8df21e4ba3056587c0680c"
+    },
+    {
+      "path": "setup-original-red.log.gz",
+      "rawBytes": 113,
+      "rawSHA256": "43dd7f8882cd187e3df0a83665fbc21802ac54af9ea4af78a080dd0539c06922",
+      "gzipBytes": 87,
+      "gzipSHA256": "59c33427a7e620c1838d2f7276ebf4e68a5d7796f652fd5cffd6fb9ea7ed5272"
+    },
+    {
+      "path": "setup.py.gz",
+      "rawBytes": 2823,
+      "rawSHA256": "4fc2df609653e2c018f0dea5fa5332b3c25e5df8eda30b735ec25ff4af49d42d",
+      "gzipBytes": 1105,
+      "gzipSHA256": "653e531ad0c92e525201ea392b0b087037b6fa545dd1ff586aa07da6b852057e"
+    },
+    {
+      "path": "source-after-proof.json.gz",
+      "rawBytes": 520397,
+      "rawSHA256": "4922f98104a8568d9d76946983407c906b6ab5e5394162b54b2aaf7467634321",
+      "gzipBytes": 127890,
+      "gzipSHA256": "ff6682faa16fba5cc8efb872f234455fc2c0ab928479033503d32f7263d6202a"
+    },
+    {
+      "path": "source-before-proof.json.gz",
+      "rawBytes": 520397,
+      "rawSHA256": "4922f98104a8568d9d76946983407c906b6ab5e5394162b54b2aaf7467634321",
+      "gzipBytes": 127890,
+      "gzipSHA256": "ff6682faa16fba5cc8efb872f234455fc2c0ab928479033503d32f7263d6202a"
+    },
+    {
+      "path": "source-final-proof.json.gz",
+      "rawBytes": 520397,
+      "rawSHA256": "4922f98104a8568d9d76946983407c906b6ab5e5394162b54b2aaf7467634321",
+      "gzipBytes": 127890,
+      "gzipSHA256": "ff6682faa16fba5cc8efb872f234455fc2c0ab928479033503d32f7263d6202a"
+    },
+    {
+      "path": "src__ui__map__MapCanvasHost.tsx.gz",
+      "rawBytes": 10242,
+      "rawSHA256": "2a9c4e4f8f13c15f4b288417bca5e133a3bffc38a8147317067a25bf4bddd774",
+      "gzipBytes": 3626,
+      "gzipSHA256": "7830b5118f21cd1836aed3beff4cf29c532e6f09f258e970c0467e16c5b9540a"
+    },
+    {
+      "path": "src__ui__map__MapRenderer.ts.gz",
+      "rawBytes": 207449,
+      "rawSHA256": "c481a36ec9e670c0f652c633205e9c079f0f82ea87475a409ff8ab46678dacbe",
+      "gzipBytes": 56132,
+      "gzipSHA256": "5c77b863e0b1b2c0f4748c79be1ea6f646fad6317c300bbdd90ee4657726290c"
+    },
+    {
+      "path": "src__ui__map__geographicLabelLayout.ts.gz",
+      "rawBytes": 10887,
+      "rawSHA256": "f7773dc24e57cb917b5b989f17facb761bef5c38c2b78eebe62c9fcd0fd380b8",
+      "gzipBytes": 3297,
+      "gzipSHA256": "dd10a6023673465ad3ce568823db02753a32def85261a84187d173a62d052b13"
+    },
+    {
+      "path": "src__ui__map__wasmCastleRibbonPlanner.ts.gz",
+      "rawBytes": 7385,
+      "rawSHA256": "2c3e3bf2e04969bb2b29d0be5acfc0fb2a5cab05a037e644c7bad1929bfaf1aa",
+      "gzipBytes": 2170,
+      "gzipSHA256": "86b3e0db327af844cf8533a90d741b93029c5895b921bfa72008b454b0c60df9"
+    },
+    {
+      "path": "src__ui__map__wasmGeographicScorer.ts.gz",
+      "rawBytes": 8276,
+      "rawSHA256": "b67cdb3c2e0b71167e1396427ecbff663df05e77a44c4e88316fc84d4c76dea8",
+      "gzipBytes": 2295,
+      "gzipSHA256": "69582de4e7d1385df00f0a69bd10b46a92121e6ebb2a342d540ef3df88092a64"
+    },
+    {
+      "path": "state-proof.py.gz",
+      "rawBytes": 2109,
+      "rawSHA256": "185e7bb6c07c5c2dda41d6347b19bd3703a1af27f6e2768f3eaa9dddca21ae03",
+      "gzipBytes": 962,
+      "gzipSHA256": "8409e940efe37e8310b8af77a866a626fd5e93d1b2d31e7410007524ef131f5a"
+    },
+    {
+      "path": "state-resource-proof.json.gz",
+      "rawBytes": 2802,
+      "rawSHA256": "8ad548fe4afc0910e2c2ab10ae7d3f2994145d5e5ff3596683186e906138972a",
+      "gzipBytes": 632,
+      "gzipSHA256": "612b8e9e3ca132c7ef381df4903859639d417af1b0f45e94be3362f47735ec63"
+    },
+    {
+      "path": "tenka_engine.wasm.gz",
+      "rawBytes": 63073,
+      "rawSHA256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba",
+      "gzipBytes": 23266,
+      "gzipSHA256": "274428b88d8cc6abdd3057e637f0032700ed71f6a2d0a9d980cd398c30292d5a"
+    },
+    {
+      "path": "tools__wasm__artifact.ts.gz",
+      "rawBytes": 3547,
+      "rawSHA256": "2005ccd14cc08afb549f963140e5c62ab06b2fc435c0992c07439cf5aedc691e",
+      "gzipBytes": 1341,
+      "gzipSHA256": "212d8ae78a00604dba83142a4bf3b9377839ae82f3f158c73b153e465e0cbeab"
+    },
+    {
+      "path": "transfer-proof.json.gz",
+      "rawBytes": 295,
+      "rawSHA256": "04f9729d043dc3d567c6dff02efb1ea08211eeab190ea45e9d4bce804060ef7f",
+      "gzipBytes": 238,
+      "gzipSHA256": "38fab9024100632a30a751127e058817efd01b94b40373c153b0cb30fafb5cbb"
+    },
+    {
+      "path": "verify-evidence.py.gz",
+      "rawBytes": 2169,
+      "rawSHA256": "612e0cb6e6561d69d5245c7fe17c42e804e1cc3a71203e068693dbd051b0668b",
+      "gzipBytes": 937,
+      "gzipSHA256": "201fddd24daefd9232cfe39f866f96c7870f0c021d87ae2141f79f95d08dde77"
+    },
+    {
+      "path": "wasm-manifest.json.gz",
+      "rawBytes": 1226,
+      "rawSHA256": "7a8d15decf200d54940210644e44186a23bd9da94fe15c20e8628da58962c7de",
+      "gzipBytes": 686,
+      "gzipSHA256": "9794ec92186b63566524479adb8470236006ee79a44f6951f9189c39f8f53af2"
+    }
+  ]
+}
