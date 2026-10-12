@@ -3,8 +3,8 @@
   "target": "wasm32-unknown-unknown",
   "profile": "release",
   "toolchain": "1.97.1",
-  "sourceSha256": "f27cd96edb26bae0f66f3ce2757ac62be3bbd8129eb62ff56d1a62c67ec9049b",
-  "wasmSha256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b",
+  "sourceSha256": "4b4e1122d4e0df2f8f60527955f3aa9a2083c6759101e150005ddc74abd8fcf2",
+  "wasmSha256": "69af4226d451a71211b209101cc4223045b1aeca2f1178d16e9beaa91166b736",
   "sourceFiles": {
     "rust/engine/Cargo.lock": "5f071ef4ef4455f76340d6952350e944dae5cc3ea6aeb8b114eec4d8e90d65df",
     "rust/engine/Cargo.toml": "15b426b65097ac31633fccc383a2b571bb6cc2243d2f4c4df44549f165949907",
@@ -12,8 +12,8 @@
     "rust/engine/src/castle_ribbon.rs": "a5cb03aa871c51d5e364d6882e4ab10cb95bd0136d26461fc4741402514a1b95",
     "rust/engine/src/castle_ribbon_tests.rs": "9f3e65e490d7ba3b142d12bfb508f9834e32dc5c20eed0e42b9c41cd3e7d3df0",
     "rust/engine/src/geographic.rs": "69ed145c2ee7d445691b0897362fc6de196cbe48fd4b0c1721764e67def56768",
-    "rust/engine/src/geographic_preparation.rs": "9170c88bdc278090a24d7fe517bc771efeed2c60bb0477ffb218bc27f8009f5e",
-    "rust/engine/src/geographic_preparation_tests.rs": "31ad3b3aa8f7b66e32a09ef543b7c82bcb4105a2310757a32b4df334ddaceaa9",
+    "rust/engine/src/geographic_preparation.rs": "b8f84c3e5d67510c905b21ad9e618f3b7314bbef61026da8cc3c62e32ad9ffdd",
+    "rust/engine/src/geographic_preparation_tests.rs": "f8c5927aaf135c3bf383c54b797fa0d22421fc410a2148a4cb6bf30eb10e75c0",
     "rust/engine/src/lib.rs": "8aa42164165e7cd60f4fc1c57b1c4adfebdf379dbc9ab9306e614e09b720dacf",
     "tools/wasm/artifact.ts": "b4c509e3ed8ca9a953859db47ff990b125d526d7c48ed80766f3c5708b750021",
     "tools/wasm/build.ts": "3cecc0dd5ecd39a5f29d4d599d254fdad5bd2bb7fbac585c30f666aebb2a019d"
