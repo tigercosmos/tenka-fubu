@@ -10,6 +10,7 @@ import { summarizeClans, getScenarioTitle } from '@app/boot';
 import type { ScenarioBundleData } from '@data/schemas';
 import type { ClanId } from '@core/state/ids';
 import { WizardProgress } from './WizardProgress';
+import { DaimyoTerritoryPreview } from './DaimyoTerritoryPreview';
 import styles from './DaimyoSelect.module.css';
 
 export interface DaimyoSelectProps {
@@ -49,30 +50,41 @@ export function DaimyoSelect({
       <WizardProgress step={2} />
 
       <div className={styles.body}>
-        <div className={styles.roster}>
-          {summaries.map((s) => (
-            <button
-              key={s.clanId}
-              type="button"
-              data-testid={`clan-pick-${s.clanId}`}
-              aria-pressed={selectedClanId === s.clanId}
-              onClick={() => onSelectClan(s.clanId)}
-              className={styles.clan}
-            >
-              <strong className={styles.clanName}>{s.name}</strong>
-              <span>
-                {t('ui.daimyo.leader')}：{s.leaderName}
-              </span>
-              <span>
-                {t('ui.daimyo.kokudaka')}：{formatNumber(s.kokudaka)}石
-              </span>
-              <span>
-                {t('ui.daimyo.castles')}：{s.castleCount}
-                {'　'}
-                {t('ui.daimyo.officers')}：{s.officerCount}
-              </span>
-            </button>
-          ))}
+        <div className={styles.leftPanel}>
+          <DaimyoTerritoryPreview
+            bundle={bundle}
+            selectedClanId={selectedClanId}
+            selectedName={selected?.name ?? null}
+            onSelectClan={onSelectClan}
+          />
+          <div className={styles.roster}>
+            {summaries.map((s) => (
+              <button
+                key={s.clanId}
+                type="button"
+                data-testid={`clan-pick-${s.clanId}`}
+                aria-pressed={selectedClanId === s.clanId}
+                onClick={() => onSelectClan(s.clanId)}
+                className={styles.clan}
+              >
+                <strong className={styles.clanName}>{s.name}</strong>
+                {s.clanId === 'clan.oda' && (
+                  <span className={styles.recommended}>{t('ui.newGame.recommended')}</span>
+                )}
+                <span>
+                  {t('ui.daimyo.leader')}：{s.leaderName}
+                </span>
+                <span>
+                  {t('ui.daimyo.kokudaka')}：{formatNumber(s.kokudaka)}石
+                </span>
+                <span>
+                  {t('ui.daimyo.castles')}：{s.castleCount}
+                  {'　'}
+                  {t('ui.daimyo.officers')}：{s.officerCount}
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
 
         <aside className={styles.selection} aria-live="polite">

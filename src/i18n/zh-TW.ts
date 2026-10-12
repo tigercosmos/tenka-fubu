@@ -980,6 +980,8 @@ export const zhTW = {
   'ui.scenario.loading': '載入劇本資料中…',
   'ui.scenario.loadError': '劇本資料載入失敗',
   'ui.daimyo.title': '大名選擇',
+  'ui.daimyo.mapPreview': '開局勢力圖',
+  'ui.daimyo.mapHint': '點選地圖領地，或使用右側大名名單選擇。',
   'ui.daimyo.leader': '當主',
   'ui.daimyo.kokudaka': '石高',
   'ui.daimyo.castles': '城',
