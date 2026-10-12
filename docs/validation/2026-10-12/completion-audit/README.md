@@ -257,8 +257,16 @@ Rust 十一項、337 組完整 f64 原版 oracle、13 項實際 WASM／協定測
 
 ## 地理候選軸合併掃描：固定來源回歸
 
-`5224c06` 將地理標籤 X／Y 候選軸合併為一次 reservation 掃描，保留每軸四個原運算、Set 插入、f64／signed-zero、排序及 cap16。未改 Rust ABI、工作上限或快取 signature。五個新測試使用 SHA 固定的舊演算法觀測完整 preparation，與實際 WASM 的全部輸入、输出及快取統計比對；320 seeds／快取轉換／十一個有效極端值通過。原 parse-stage 失敗、最後三檔26項通過、型別／lint／格式及固定全量見 [local evidence](geographic-fused-axes-local/README.md)。
+`5224c06` 將地理標籤 X／Y 候選軸合併為一次 reservation 掃描，保留每軸四個原運算、Set 插入、f64／signed-zero、排序及 cap16。未改 Rust ABI、工作上限或快取 signature。五個新測試使用 SHA 固定的舊演算法觀測完整 preparation，與實際 WASM 的全部輸入、輸出及快取統計比對；320 seeds／快取轉換／十一個有效極端值通過。原 parse-stage 失敗、最後三檔26項通過、型別／lint／格式及固定全量見 [local evidence](geographic-fused-axes-local/README.md)。
 
 固定 `5224c06` 的完整回歸為687檔：685通過、1已知失敗、1跳過；6,362項通過、1無嗣領地失敗、1跳過，131.34秒。1,486 tracked inputs 在測試及全部檢查前後符合Git blob且 byte-identical，既有 node_modules 為共用 symlink，不是 fresh dependency 驗證。完整型別、lint、正式build與bundle budget通過。原生效能仍在獨立測量，本段只證明行為回歸，不能證明候選有整體收益。
 
 [Worker transport 唯讀審查](worker-transport-source-review-sim1/README.md) 保存 day1／day121 compact JSON 與樹遍歷計數、原 producer及來源SHA。JSON約0.77／1.04MB不是實際 structured-clone wire bytes；樹計數不是唯一alias graph計數。Reply.state與result.state共享物件，不能當兩次完整複製。版本相同不能推論內容不變；未加入事件目錄 identity cache、略過物件合併或未量測的 primitive inlining。
+
+## 合併掃描候選撤回與現行來源
+
+[固定5224原生結果](geographic-fused-axes-native/README.md) 的九份完整發布仍byte-exact，三個原三十秒窗口各執行一次。全景59.93826、操作景50.20458、近景29.20631 FPS，相較固定04同依賴的單次差異為+0.012%／+0.938%／+0.312%；strict60全失敗。各自RTX Vulkan guard通過。獨立close profile為288完成frames／287intervals，canonical／resource前後相同；JS地理布局inclusive14.37164ms/frame（原14.36233），候選軸inclusive3.87181（原3.84558）。Sort callback是parent children，不重複加總。沒有足夠整體收益證據，`3d6a953` 撤回合併掃描，原setup失敗與全部測量仍保留，沒有重試挑數字。
+
+[撤回後固定來源](geographic-preparation-restored-local/README.md) 保留五個新完整preparation比對測試，改為一般名稱；地理layout原碼與04 byte-identical。固定3d6全量687檔、6,362通過／1已知無嗣領地失敗／1跳過，128.23秒；1,486 tracked inputs 在測試與全部checks後符合Git blob且byte-identical。完整型別、lint、build（4.20秒）及bundle budget通過。獨立producer證實八份emitted JS／CSS與63,073-byte WASM和本機固定04建置逐byte相同；範圍不含source maps、其他public assets、manifest metadata或dependency trees，也不是新FPS驗收。
+
+本階段新增輕量硬體Worker診斷、完整準備參數回歸與撤回證據，沒有保留無明確收益的微優化。現行Rust castle／geographic score與Worker架構維持；下一個候選是將快取判斷前的數值準備移入Rust，JS保留排序、原物件metadata、JSON signature與所有權。它尚未實作或測量，仍需完整準備參數與兩種容量路徑的精確比對，再用原生整體效能判斷。原60FPS、whole-heap、protected art、長跑及領地gate維持未完成；全專案goal保持active。

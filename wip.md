@@ -6449,11 +6449,19 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - `acd728d` 回寫 README／01 D22：主頁 geo／castle WASM 雙 arena、獨立 worker memory、current-epoch ready 與 deadline；00 與遊戲規則不變。
 - `45a5544` sim3 ONE lightweight native warm1+120：完整 warm/final state／RNG／log reference exact assertions 在 export 前通過，原60s／0retry；前後 actual RTX5070TiVulkan、1404source／14765deps／23patch不變。
 - 帶profile step2525.4ms、compute合計649.700002ms、main reconcile self350.997ms。Transport intervals重疊，native event.data反序列化不全算observer；不與不同host/GPU/profile/collector的先前值作單因果比較。原完整clone RED未改。
-- Root另執行package stdlib verifier通過，54 rawgzip双SHA及完整state/log證明加入索引。Geo fusedXY scan候選正做逐值／快取行為測試，尚未以候選宣稱實測收益；goal仍active。
+- Root另執行package stdlib verifier通過，54 rawgzip雙SHA及完整state/log證明加入索引。Geo fusedXY scan候選正做逐值／快取行為測試，尚未以候選宣稱實測收益；goal仍active。
 
 ## 地理 fused-axis 候選固定回歸（2026-10-12）
 
 - `5224c06` 合併XY候選軸掃描，保留逐軸四運算、finite/±48guard、Set順序與cap16；未改signature／Rust ABI／排序政策。
 - `a37ce1b` 保留原parseRED、最後26focusedPASS及固定5224全量：6362PASS／1既有noheirFAIL／1skip，687檔、131.34s。1486trackedinputs前後及所有checks後Gitblobbyteequal；types／fullLint／build4.19s／bundlePASS。共用node_modules明示，非freshdeps。
 - `361bf08` 只讀statepayload/tree/source審查；JSON不當wirebytes，state/result.state共享graph不當doublecopy，未採無證據快取或省略transport。Root另核兩包verifier通過，artifactindex由819→866。
-- Native九完整發布exact；三單次FPS＋獨立profile於sim3串行進行，未以候選宣稱性能收益。Runtime候選固定5224，後續提交僅docs/evidence；goal仍active。
+- Native九完整發布exact；三單次FPS＋獨立profile於sim3串行進行，未以候選宣稱效能收益。Runtime候選固定5224，後續提交僅docs/evidence；goal仍active。
+
+## 撤回 fused-axis 與現行固定驗證（2026-10-12）
+
+- `1b2b995` 封存5224 native：9完整發布exact；三單次FPS59.93826／50.20458／29.20631，vs04僅+.012%／+.938%／+.312%，strict60全RED；actualRTX guard與1405source／14765deps／23patch不變。原setupRED保留、無retry。
+- 唯一profile288completed／287interval，geo JSparent14.37164vs14.36233ms/frame，axes3.87181vs3.84558；沒有明確整體收益。`3d6a953` 撤回source、保留5完整prep測試並改一般名稱，geo原碼SHAfbf127與04byteequal。
+- `c194b01` 現行固定3d6全量6362PASS／1既有noheirFAIL／1skip，687檔、128.23s；1486inputs三checkpoint Gitblobbyteequal。Types/fullLint/build4.20s/bundlePASS。8emittedJS/CSS與63073WASM本機逐byteequal04；maps/otherpublic/manifest/deps不在此claim，非新nativeFPS。
+- Root另核native／restored兩包verifier與所有975 artifact rows雙SHA。Candidate5224原full/evidence未改，現行3d6證據分開；source/evidence每步commit，未push/deploy、未改00/BAL/protected門檻。
+- 下一步Rust numeric preparation設計：P/H一次pack、near indices與原rect metadata、JS原signature/cache保留，preparedscore避免再pack；容量路徑須明示且不得縮合法輸入域，ABI/init/error仍failclosed。尚未prototype／量測，goal保持active。
