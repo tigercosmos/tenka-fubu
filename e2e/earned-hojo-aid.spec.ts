@@ -262,6 +262,63 @@ test('earned Hojo military aid: paid native work, agreement, actual AI march and
       }
       await drain(page, decisions);
       current = await state(page);
+      if (current.time.day === 90) {
+        const transport = {
+          type: 'transport' as const,
+          clanId: actor,
+          fromCastleId: 'castle.tsutsujigasaki' as keyof GameState['castles'],
+          toCastleId: 'castle.fukashi' as keyof GameState['castles'],
+          soldiers: 1500,
+          gold: 0,
+          food: 0,
+        };
+        expect(validateCommand(current, transport).ok, 'Lawful player border redeployment').toBe(
+          true,
+        );
+        await page.locator('body').click({ position: { x: 960, y: 500 } });
+        await page.keyboard.press('Home');
+        await expect(page.getByTestId('context-transport')).toBeEnabled();
+        await page.getByTestId('context-transport').click();
+        const castlePanel = page.getByTestId('castle-panel');
+        await expect(castlePanel).toContainText('躑躅崎館');
+        await page.getByTestId('transport-destination').selectOption(transport.toCastleId);
+        const slider = castlePanel.getByRole('slider', { name: '兵力', exact: true });
+        await slider.focus();
+        await page.keyboard.press('Home');
+        for (let step = 0; step < 15; step++) await page.keyboard.press('ArrowRight');
+        await expect(slider).toHaveValue('1500');
+        await expect(page.getByTestId('transport-execute')).toBeEnabled();
+        await page.getByTestId('transport-execute').click();
+        expect(await state(page), 'Player command queues without direct state mutation').toEqual(
+          current,
+        );
+        evidence.push({
+          stage: 'lawful-transport-queued',
+          current,
+          transport,
+          commandLog: await log(page),
+        });
+        await castlePanel.locator('header button').click();
+      }
+      if (current.time.day === 120) {
+        const applied = (await log(page)).entries.filter(
+          (entry) =>
+            entry.command.type === 'transport' &&
+            entry.command.fromCastleId === 'castle.tsutsujigasaki' &&
+            entry.command.toCastleId === 'castle.fukashi',
+        );
+        expect(applied).toHaveLength(1);
+        expect(applied[0]!.command).toEqual({
+          type: 'transport',
+          clanId: actor,
+          fromCastleId: 'castle.tsutsujigasaki',
+          toCastleId: 'castle.fukashi',
+          soldiers: 1500,
+          gold: 0,
+          food: 0,
+        });
+        evidence.push({ stage: 'lawful-transport-applied', current, command: applied[0] });
+      }
     }
     expect(payments.length, 'Trust was earned through actual paid months').toBeGreaterThan(0);
     const request = {
@@ -284,7 +341,7 @@ test('earned Hojo military aid: paid native work, agreement, actual AI march and
       'Actual refreshed Hojo threat must support aid; refusal is not positive proof',
     ).toBeGreaterThanOrEqual(0.5);
     const active = await hojoPanel(page);
-    await active.getByLabel('援軍對抗勢力', { exact: true }).selectOption(enemy);
+    await active.getByRole('combobox', { name: '援軍對抗勢力', exact: true }).selectOption(enemy);
     await active.getByRole('button', { name: '請求援軍', exact: true }).click();
     expect(await state(page)).toEqual(current);
     await page.keyboard.press('Escape');
