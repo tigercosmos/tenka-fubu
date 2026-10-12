@@ -48,6 +48,10 @@
 
 - 當前里程碑：見 `milestone.json`；歷史進度：見 README 進度表。
 
+- `a98046e` 修正朝廷 E2E 在正常 x5 Worker 日結算前讀取快照的競態：保留原 clock／UI，等精確下一日及零 pending ticks 後再讀完整狀態。原案例與觀測衍生版本均 RED，精確候選 PASS。`1e40539` 修正 earned-alliance 的另一種正常影格邊界：原 day299 尚未派發下一 tick，不是 generator 失敗；保留原 32／152／120ms 與 UI 控制，最多補三個受 x5／無 dialog 保護的 16ms RAF，每次等 pending tick 完成，仍要求精確一日及原完整斷言。原版／診斷 RED，最終原生 PASS 21.4 秒。最後固定 `1e40539` 的型別、完整 ESLint、格式、364 項 discovery 與 1,633 Git 輸入前後校驗通過；完整原生未重跑。
+- Hojo 援軍尚未完成：day120 信用已足夠，但實際分數 0.487169 未達 0.5；診斷延至 day150 時 null cache 的表面 0.9 不是合法安全證據，實際刷新分數為零。day121–125 的強制重算 0.5716 也只是反事實，正式十日 cache 仍沿用 day120 分數。六個省略 eventEngine 的 clone-core 診斷均拒絕，沒有宣稱覆蓋 day151–180。另有 exact label locator 與實際 combobox AX 不符；未把 locator 修正當成正向出兵通過。需要原期限內真正改善威脅／防禦的合法遊戲路徑，不能改門檻或操弄 cache。
+- 色覺原 achromatopsia 案例再次 RED：還原後九個差異像素位於右上 HUD 按鈕邊緣，這次沒有重現較早左側縫隙。獨立診斷的三組無 CDP 對照均零差異；還原差異由原樣式十一個、移除陰影六個、隱藏 HUD／rail 零個，僅支持 DOM／compositor 邊緣相關，未確定單一 paint owner。WebGL canvas readback 為均勻黑色，無效而排除。plan17 要求色覺／灰階人工辨識檢查，精確 full-page CDP 還原是額外 E2E oracle；本批保持原零差異斷言、期限及基準，沒有把診斷當成通過。
+
 - `c74a46c` 將 coast 的 renderer-ready 前置抽成共用 helper，只接到 coast、army material、context focus 三個原生路徑，在第一個需要 renderer 的呼叫前等待。控制延遲字型載入時舊兩項均因尚未掛載失敗，候選延遲四項與精確原案例四項均通過；既有 coast 延遲回歸保持。固定提交的型別、完整 ESLint、四檔格式與 364 項 discovery 通過，1,633 個來源輸入前後同 Git。沒有改遊戲、期限、全域 fixture 或保護基準。
 - `bf6638e` 修正軍團 E2E 在 Worker 結算完成前讀狀態的競態：保留原 `stepDays`，以原五秒 poll 等精確目標日及零 pending ticks。原兩項均失敗，觀測到 pendingTicks=1 與舊日期；候選兩項通過，原軍團／金庫／解散／手動暫停斷言保持。最後型別、完整 ESLint、五檔格式、364 項 discovery 與 1,633 來源前後校驗通過。首次來源前置因先寫入的 CLAUDE 交接段落停止，已保存唯一差異及恢復後的獨立成功執行；未改用 blocker 語意不同的 `stepDaysAsync`。
 - 固定較早 `ecba08b` 的完整 364 項並行度診斷，僅改 CLI workers，均到原 300 秒上限。4 workers：162 PASS／9 FAIL／0 timeout／20 其他 skipped／2 interrupted／171 未派發；8 workers：218 PASS／9 FAIL／1 timeout／23 其他 skipped／3 interrupted／110 未派發。兩者都 RED，未採用新的 worker 上限；原 16-worker `1464146` 是不同來源／363 項，只能作歷史參考。兩個新測試修正尚未重跑完整原生。

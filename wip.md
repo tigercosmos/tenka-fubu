@@ -6598,3 +6598,14 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 固定 `ecba08b`／原 364 項的兩次完整診斷只覆寫 CLI workers，來源／依賴前後一致，各次之間確認程序已退出，原 300 秒及個別期限不改。4 workers：162 PASS、9 FAIL、0 timeout、20 其他 skipped、2 interrupted、171 未派發；8 workers：218 PASS、9 FAIL、1 timeout、23 其他 skipped、3 interrupted、110 未派發。兩者均 RED，沒有採用新 worker cap。原 16-worker `1464146` 的來源及 363 項數不同，不作同條件比較。parser 首次誤以為 report test 有 id 欄位、第二次 terminal 裝飾字元匹配失敗的 RED 保留，修正後逐一比對 interrupted 名稱，不再把空結果當 interrupted。
 - 完整原生仍未包含 `c74a46c`／`bf6638e` 新修正；下一個有來源依據的候選是持續失敗 court／Hojo 的跳日邊界與剩餘原生原因，先單案證明，不全面替換 helper。strict60、whole-heap、long-run、其餘 UI／M6–M9 門檻及無嗣／戰術終局、人口校準、934163c 六圖人工核准仍開放。沒有改門檻、基準、規則或 milestone，未 push／deploy。
 - 兩次 Ending 三個瀏覽器案例均 PASS；generator test phase 2.09／3.64 秒（原上限五秒），Vitest 程序總時間 4.04／6.69 秒、parent process 4.281／7.068 秒分開標示。兩次合法存檔 bytes／SHA 相同。完整 364-title transition 保存，包括 earned-rice-trade 的 PASS→timeout；九個共同失敗為軍團兩項、色覺四項、court-work、earned-alliance、earned-hojo-aid。軍團後續修正只宣稱 focused 成功。
+
+## 2026-10-12 — 朝廷／同盟正常影格邊界及 Hojo 正向援軍排查
+
+- `a98046e` 的朝廷原案例與觀測衍生版均 RED；同一次邊界的兩次 readback 從 day29 變 day30，證明快照早於 Worker commit。只加原五秒 exact-day／pending0 poll，原 clock／UI／付款與停止工作斷言維持，候選原生 PASS。來源證據為 base-before＋候選 overlay hash＋candidate-after，沒有虛構完整候選 before 指紋。
+- `1e40539` 的同盟是另一個失敗原因：generator 已 PASS，day299 後 pendingTicks=0，下一日尚未派發，較早「child failure」假說已排除。保留原 32／152／120ms，補最多三個受 x5／無 dialog 保護的 16ms 原生 RAF，每次等 Worker 閒置，精確 +1、pending0 與全部原存讀檔／付款／協定斷言維持。原版／診斷 RED，候選／最後格式版 PASS，最後 21.4 秒。原生來源明列 1649＋同盟 overlay；court 不在該隔離副本，不能改標為完整 1e40539。
+- 固定最後 `1e40539` 的型別、完整 ESLint、兩檔格式、364 項 discovery 與 1,633 Git 輸入前後校驗 PASS。沒有完整 core／原生重跑，原 deadline／baseline 不改。
+- Court setup v1 Node PATH 127、v2 browser cache 缺失都保存為 setup RED，v3 才是實際原測試。兩台主機後續使用保留於證據內的明確 runtime／browser cache preflight launcher，避免再依賴 ad-hoc SSH 環境；同盟既有 runs 與較晚 launcher 使用範圍分開標示。
+- Hojo day120 信用已足夠、score0.487169；缺的是安全條件。原界限內診斷延至 day150，null cache 的表面 score0.9 是錯誤正訊號；同狀態真實刷新 totalThreat5.054707、score0。day121–125 強制重算 .5716 是反事實，正式 TTL10days 仍沿用 day120 score.487；六個保留原指令與十三步的 clone-core 觀察均拒絕，但省略 eventEngine，亦未覆蓋 day151–180。真實停止工作不會 invalidate threat cache，不能用來繞過條件。
+- Hojo timeout trace 另證明正確 combobox AX name 為「援軍對抗勢力」，exact getByLabel 的巢狀 select label 查詢不符；原 locator／day150 診斷 RED 保留。沒有採用 Hojo source 改動，不能把 locator 更正或拒絕改成原正向援軍通過。下一步需真正改變軍事安全／外交威脅的合法遊戲路徑，保留原 day<180／60 秒與實際出兵、普通移動要求。
+- 原 achromatopsia 單案仍 RED，九個精確還原差異像素位於右上 HUD 按鈕邊緣；本次沒有舊左側縫隙。獨立樣式診斷還原十一個、去陰影六個、隱藏 HUD／rail 零個，三組無 CDP 對照均零；只支持 DOM／compositor 邊緣參與，未確認單一 owner。raw canvas 是均勻黑色而無效，不能宣稱 map pixels 相等。plan17 的色覺／灰階人工辨識要求與額外 full-page CDP 零差異 oracle 分開，本批兩者均不改；原 RED 與全部診斷保存。
+- 五個新套件分別保留 court、alliance、Hojo、color 與最後固定整合來源，沒有將 focused 成功改標為完整原生通過。strict60、whole-heap、long-run、全套五分鐘及其餘 M6–M9 仍開放；無嗣／戰術終局、人口校準、934163c 六圖人工核准仍無新決策。未改規則、references 或 milestone，未 push／deploy。

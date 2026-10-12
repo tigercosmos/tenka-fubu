@@ -4,6 +4,20 @@ Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目�
 最新固定來源 `7d37c28` 全量測試為 6,445 通過、1 既有失敗、1 跳過；120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
+## 朝廷／同盟日邊界與 Hojo 正向援軍診斷
+
+`a98046e` 的[朝廷正常日邊界](court-work-normalday-a98046e/README.md) 保留原 x5 clock／UI，只在讀取快照前等精確下一日與零 pending ticks。原案例與觀測版本失敗，候選成功；原始來源前置加候選後置／overlay hash 的證據鏈如實標示，沒有宣稱完整候選 before fingerprint。
+
+`1e40539` 的[同盟正常影格邊界](alliance-day-boundary-1e40539/README.md) 是不同原因：generator 已成功，但 day299 的下一 tick 尚未派發。測試保留原 32／152／120ms 與真實速度按鈕，最多補三個受 x5／無 dialog 保護的 16ms RAF，每次先等 Worker 閒置；仍要求精確一日、零 pending ticks 與原付款／協定／存讀檔斷言。原版與診斷失敗，最終精確版本通過 21.4 秒。原生 pin 是 `1649c65` 加同盟測試 overlay，沒有冒稱包含較晚 court commit。
+
+[固定 1e40539 整合](ui-boundary-integrated-1e40539/README.md) 通過型別、完整 ESLint、兩檔格式、364 項 discovery 及 1,633 個 Git 輸入前後校驗。這些只改 E2E，完整 core／原生仍保持原 pin；沒有重跑全套或改時間上限。
+
+[Hojo 診斷](hojo-aid-cadence-a98046e/README.md) 保留正向援軍未完成的原因。day120 信用 24.32 已達合法成本，但威脅使分數僅 0.487169。原界限內延至 day150 的診斷把 null cache 誤當零威脅而得到 0.9；真正刷新後分數為零。day121–125 的強制重算分數較高只是反事實，正式十日 TTL 仍使用 day120 cache。六次省略 eventEngine 的 clone-core 診斷均拒絕，沒有 day151–180 的結論。停止已完成外交工作不會觸發威脅 cache 失效，因此沒有加入此無效繞路。AX 中正確援軍 combobox 與 exact `getByLabel` 不符是另一個已定位的測試問題；未採用 Hojo 修改，也未把拒絕或 locator 修正當成正向出兵成功。
+
+[色覺繪製診斷](color-paint-owner-1e40539/README.md) 的原 achromatopsia 案例仍失敗：還原後九個精確差異像素都在右上 HUD 按鈕邊緣，本次沒有重現舊左側縫隙。獨立診斷的三組無 CDP 對照均零差異；原樣式還原十一個、移除陰影六個、隱藏 HUD／rail 零個。這些結果支持 DOM／compositor 邊緣參與，不能確定單一 owner、推論所有色覺模式或宣稱 Chromium bug。均勻黑色的 canvas readback 無效，不作畫布像素相等證據。plan17 規定色覺／灰階人工辨識檢查；exact full-page CDP restore 是測試衍生 oracle，本批仍維持原零差異要求，沒有改門檻或 references。
+
+下一步可建立真正改善 Hojo 安全條件的合法援軍路徑；色覺先驗證明確的 compositor／emulation 初始化能否讓原 exact restore 穩定，不直接放寬像素差異。完整原生、strict60、whole-heap、long-run、其餘 UI／M6–M9 與待決規則／人工六圖均未完成；沒有更改里程碑或 push／deploy。
+
 ## 地圖掛載前置與完整原生並行度診斷
 
 `c74a46c` 把既有 coast renderer-ready 前置抽成共用 helper，只套用到 coast、army material、context focus 三個測試路徑的第一個 renderer 呼叫前。[原生證據](mapboot-readiness-c74a46c/README.md) 保存原兩項延遲控制 RED、候選延遲四項 PASS、精確採用版本四項 PASS；coast 的刻意延遲回歸沒有變成全域等待。[固定整合](mapboot-integrated-c74a46c/README.md) 的型別、完整 ESLint、四檔格式、364 項 discovery 與 1,633 個 Git 輸入前後校驗通過。這只修正驗收前置，沒有改遊戲或期限。
