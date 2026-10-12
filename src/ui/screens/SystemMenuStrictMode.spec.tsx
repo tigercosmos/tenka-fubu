@@ -7,9 +7,22 @@ import { makeLoopTestState } from '../../../tests/helpers/loopState';
 import { uiStore } from '../hooks/uiStore';
 import { SystemMenuHost } from './SystemMenuHost';
 
+const confirmation = vi.hoisted(() => ({ onConfirm: null as (() => void) | null }));
+vi.mock('../components', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../components')>();
+  return {
+    ...actual,
+    ConfirmDialog: (props: import('../components').ConfirmDialogProps) => {
+      if (props.open) confirmation.onConfirm = props.onConfirm;
+      return <actual.ConfirmDialog {...props} />;
+    },
+  };
+});
+
 beforeEach(() => {
   resetGameStoreForTests(makeLoopTestState());
   uiStore.getState().actions.reset();
+  confirmation.onConfirm = null;
 });
 
 describe('SystemMenu owner across React effect replay', () => {
@@ -104,5 +117,36 @@ describe('SystemMenu owner across React effect replay', () => {
     fireEvent.click(screen.getByRole('button', { name: t('ui.system.toTitle') }));
     fireEvent.click(screen.getByRole('button', { name: t('ui.common.confirm') }));
     expect(returnToTitle).toHaveBeenCalledOnce();
+  });
+
+  it('does not submit a retained confirmation after its modal owner is replaced', async () => {
+    const returnToTitle = vi.fn();
+    render(
+      <StrictMode>
+        <SystemMenuHost dirty onReturnToTitle={returnToTitle} />
+      </StrictMode>,
+    );
+    act(() =>
+      uiStore.getState().actions.enqueueModal({
+        id: 'systemMenu',
+        params: {},
+        pausesTime: false,
+      }),
+    );
+    fireEvent.click(screen.getByRole('button', { name: t('ui.system.toTitle') }));
+    const oldConfirm = confirmation.onConfirm;
+    expect(oldConfirm).not.toBeNull();
+    const oldOwner = uiStore.getState().modal!;
+    const replacement = { id: 'systemMenu' as const, params: {}, pausesTime: false };
+    act(() => {
+      uiStore.getState().actions.closeOwnedModal(oldOwner, { resume: false });
+      uiStore.getState().actions.enqueueModal(replacement);
+    });
+    await act(async () => Promise.resolve());
+    expect(uiStore.getState().modal).toBe(replacement);
+    expect(screen.getByRole('dialog', { name: t('ui.system.menu') })).toBeTruthy();
+    act(() => oldConfirm?.());
+    expect(returnToTitle).not.toHaveBeenCalled();
+    expect(uiStore.getState().modal).toBe(replacement);
   });
 });
