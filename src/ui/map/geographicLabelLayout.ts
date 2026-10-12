@@ -25,23 +25,40 @@ const DISK_OFFSETS: readonly { x: number; y: number }[] = (() => {
   return offsets;
 })();
 
-/** Preserve exact edge arithmetic and ordering without allocating four values per blocker. */
-function edgeAxis(rect: PlateRect, reserved: readonly PlateRect[], vertical: boolean) {
-  const values = new Set<number>([0]);
-  const add = (value: number) => {
-    if (Number.isFinite(value) && Math.abs(value) <= LIMIT) values.add(value);
-  };
-  const origin = vertical ? rect.y : rect.x;
-  const size = vertical ? rect.height : rect.width;
+/** Walk reservations once while preserving each original axis insertion and arithmetic order. */
+function edgeAxes(rect: PlateRect, reserved: readonly PlateRect[]) {
+  const xValues = new Set<number>([0]);
+  const yValues = new Set<number>([0]);
+  const x = rect.x,
+    y = rect.y,
+    width = rect.width,
+    height = rect.height;
   for (const r of reserved) {
-    const start = vertical ? r.y : r.x;
-    const extent = vertical ? r.height : r.width;
-    add(start - origin - size);
-    add(start - origin - size - GAP);
-    add(start + extent - origin);
-    add(start + extent - origin + GAP);
+    const left = r.x,
+      top = r.y,
+      w = r.width,
+      h = r.height;
+    let value = left - x - width;
+    if (Number.isFinite(value) && Math.abs(value) <= LIMIT) xValues.add(value);
+    value = left - x - width - GAP;
+    if (Number.isFinite(value) && Math.abs(value) <= LIMIT) xValues.add(value);
+    value = left + w - x;
+    if (Number.isFinite(value) && Math.abs(value) <= LIMIT) xValues.add(value);
+    value = left + w - x + GAP;
+    if (Number.isFinite(value) && Math.abs(value) <= LIMIT) xValues.add(value);
+    value = top - y - height;
+    if (Number.isFinite(value) && Math.abs(value) <= LIMIT) yValues.add(value);
+    value = top - y - height - GAP;
+    if (Number.isFinite(value) && Math.abs(value) <= LIMIT) yValues.add(value);
+    value = top + h - y;
+    if (Number.isFinite(value) && Math.abs(value) <= LIMIT) yValues.add(value);
+    value = top + h - y + GAP;
+    if (Number.isFinite(value) && Math.abs(value) <= LIMIT) yValues.add(value);
   }
-  return [...values].sort((a, b) => Math.abs(a) - Math.abs(b) || a - b).slice(0, EDGE_AXIS_CAP);
+  return {
+    xs: [...xValues].sort((a, b) => Math.abs(a) - Math.abs(b) || a - b).slice(0, EDGE_AXIS_CAP),
+    ys: [...yValues].sort((a, b) => Math.abs(a) - Math.abs(b) || a - b).slice(0, EDGE_AXIS_CAP),
+  };
 }
 
 function validate(r: PlateRect) {
@@ -166,8 +183,7 @@ export function layoutGeographicLabels(
         .sort((a, b) => sign * (a - b));
       offsets.push({ x: 0, y: edges[0] ?? sign * LIMIT });
     }
-    const xs = edgeAxis(rect, reserved, false);
-    const ys = edgeAxis(rect, reserved, true);
+    const { xs, ys } = edgeAxes(rect, reserved);
     // The seven dynamic directions plus both exact axes fully determine offset order;
     // disk samples are fixed constants. Keep distant edge inputs in these axes.
     const signature = cache
