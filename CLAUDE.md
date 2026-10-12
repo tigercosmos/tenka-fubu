@@ -48,8 +48,11 @@
 
 - 當前里程碑：見 `milestone.json`；歷史進度：見 README 進度表。
 
+- `1791c9a` 完成 Hojo 正向援軍的合法原生路徑：day90 原月結暫停時，透過城池面板將躑躅崎館 1,500 兵輸往自有深志城；正常指令結算及 day120 cache 刷新後，實際威脅 1.87425968684、援軍分數 0.50658314092。四個付費月份、day121 同意與五個 AI 出陣指令、day122 新援軍及 day123 普通移動皆由原斷言通過，原 60 秒內 54.705 秒成功。day119 暫停超日及舊 label locator 兩個 RED 保留。最後格式與原生 bytes 的語意 AST 相同；固定提交的型別、完整 ESLint、364 項 discovery／格式及 1,633 Git 輸入前後證明通過。未重跑完整原生，未改規則、cache、期限或門檻。
+- 色覺三個新控制沒有支持修正：CDP priming 還原差異 293 像素；強制 HUD／rail 重畫使無 CDP 對照也差 385；固定五張前／後序列的 25 個交叉比較全非零。原樣式 baseline 五張尚未穩定，不能斷言永遠無共同穩態；原測試與隔離 e4 來源已完整恢復。下一步先唯讀釐清 live animation／compositor 狀態，不重複 settle 試跑、不放寬像素。此批誤覆寫兩個舊遠端 scratch transfer 檔，原 bytes 未找回，已明載；indexed 歷史證據未改。新 transfer producer 強制 exclusive 目錄並驗證碰撞拒絕。
+
 - `a98046e` 修正朝廷 E2E 在正常 x5 Worker 日結算前讀取快照的競態：保留原 clock／UI，等精確下一日及零 pending ticks 後再讀完整狀態。原案例與觀測衍生版本均 RED，精確候選 PASS。`1e40539` 修正 earned-alliance 的另一種正常影格邊界：原 day299 尚未派發下一 tick，不是 generator 失敗；保留原 32／152／120ms 與 UI 控制，最多補三個受 x5／無 dialog 保護的 16ms RAF，每次等 pending tick 完成，仍要求精確一日及原完整斷言。原版／診斷 RED，最終原生 PASS 21.4 秒。最後固定 `1e40539` 的型別、完整 ESLint、格式、364 項 discovery 與 1,633 Git 輸入前後校驗通過；完整原生未重跑。
-- Hojo 援軍尚未完成：day120 信用已足夠，但實際分數 0.487169 未達 0.5；診斷延至 day150 時 null cache 的表面 0.9 不是合法安全證據，實際刷新分數為零。day121–125 的強制重算 0.5716 也只是反事實，正式十日 cache 仍沿用 day120 分數。六個省略 eventEngine 的 clone-core 診斷均拒絕，沒有宣稱覆蓋 day151–180。另有 exact label locator 與實際 combobox AX 不符；未把 locator 修正當成正向出兵通過。需要原期限內真正改善威脅／防禦的合法遊戲路徑，不能改門檻或操弄 cache。
+- 前批 Hojo 未完成的原始路徑：day120 信用已足夠，但實際分數 0.487169 未達 0.5；診斷延至 day150 時 null cache 的表面 0.9 不是合法安全證據，實際刷新分數為零。day121–125 的強制重算 0.5716 也只是反事實，正式十日 cache 仍沿用 day120 分數。六個省略 eventEngine 的 clone-core 診斷均拒絕，沒有宣稱覆蓋 day151–180。另有 exact label locator 與實際 combobox AX 不符；該批未把 locator 修正當成正向出兵通過。後續合法路徑的真正出兵驗證見上方 `1791c9a`，沒有改門檻或操弄 cache。
 - 色覺原 achromatopsia 案例再次 RED：還原後九個差異像素位於右上 HUD 按鈕邊緣，這次沒有重現較早左側縫隙。獨立診斷的三組無 CDP 對照均零差異；還原差異由原樣式十一個、移除陰影六個、隱藏 HUD／rail 零個，僅支持 DOM／compositor 邊緣相關，未確定單一 paint owner。WebGL canvas readback 為均勻黑色，無效而排除。plan17 要求色覺／灰階人工辨識檢查，精確 full-page CDP 還原是額外 E2E oracle；本批保持原零差異斷言、期限及基準，沒有把診斷當成通過。
 
 - `c74a46c` 將 coast 的 renderer-ready 前置抽成共用 helper，只接到 coast、army material、context focus 三個原生路徑，在第一個需要 renderer 的呼叫前等待。控制延遲字型載入時舊兩項均因尚未掛載失敗，候選延遲四項與精確原案例四項均通過；既有 coast 延遲回歸保持。固定提交的型別、完整 ESLint、四檔格式與 364 項 discovery 通過，1,633 個來源輸入前後同 Git。沒有改遊戲、期限、全域 fixture 或保護基準。

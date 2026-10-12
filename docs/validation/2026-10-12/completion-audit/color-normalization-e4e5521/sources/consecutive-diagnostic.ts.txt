@@ -1,0 +1,96 @@
+import { writeFileSync } from 'node:fs';
+import { PNG } from 'pngjs';
+import { test, expect } from '/tmp/tenka-battle-79682cd/e2e/fixtures';
+
+function diff(a: Buffer, b: Buffer) {
+  const left = PNG.sync.read(a);
+  const right = PNG.sync.read(b);
+  expect([right.width, right.height]).toEqual([left.width, left.height]);
+  let count = 0;
+  let minX = left.width, minY = left.height, maxX = -1, maxY = -1;
+  const first: Array<{ x: number; y: number; before: number[]; after: number[] }> = [];
+  for (let y = 0; y < left.height; y++) for (let x = 0; x < left.width; x++) {
+    const at = 4 * (y * left.width + x);
+    if (left.data[at] === right.data[at] && left.data[at+1] === right.data[at+1] &&
+        left.data[at+2] === right.data[at+2] && left.data[at+3] === right.data[at+3]) continue;
+    count++;
+    minX=Math.min(minX,x);minY=Math.min(minY,y);maxX=Math.max(maxX,x);maxY=Math.max(maxY,y);
+    if (first.length < 20) first.push({x,y,before:Array.from(left.data.subarray(at,at+4)),after:Array.from(right.data.subarray(at,at+4))});
+  }
+  return { count, bounds: count ? [minX,minY,maxX,maxY] : null, first };
+}
+
+test('diagnostic only: fixed consecutive full-page CDP restoration captures', async ({ page }, info) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/?debug=visual-map');
+  await expect(page.getByTestId('screen-strategy')).toBeVisible();
+  await expect(page.getByTestId('speed-pause')).toHaveAttribute('aria-pressed','true');
+  await page.evaluate(() => document.fonts.ready);
+  await page.mouse.move(1270,710);
+  const initial = await page.evaluate(() => ({
+    state: window.__tenka.debug.getState(),
+    commands: window.__tenka.debug.exportCommandLog(),
+  }));
+  const session = await page.context().newCDPSession(page);
+  const images: Record<string, Buffer> = {};
+  const observations: Record<string, unknown> = {};
+  const shot = async (name: string) => {
+    await page.evaluate(() => window.__tenka.debug.waitMapIdle(5));
+    observations[name] = await page.evaluate(() => {
+      const canvas = document.querySelector('[data-testid="map-canvas-host"] canvas')!;
+      const hud = document.querySelector('[data-testid="screen-strategy"] > header')!;
+      const rail = document.querySelector('[data-testid="screen-strategy"] > nav')!;
+      const describe = (node: Element) => ({ rect: node.getBoundingClientRect().toJSON(),
+        visibility: getComputedStyle(node).visibility, display: getComputedStyle(node).display,
+        style: node.getAttribute('style') });
+      return {
+        state: window.__tenka.debug.getState(),
+        commands: window.__tenka.debug.exportCommandLog(),
+        diagnostics: window.__tenka.debug.getMapDiagnostics(),
+        canvas: describe(canvas), hud: describe(hud), rail: describe(rail),
+        focus: document.activeElement?.getAttribute('data-testid') ?? document.activeElement?.tagName,
+      };
+    });
+    const item = observations[name] as {state: unknown;commands: unknown;hud:{visibility:string};rail:{visibility:string}};
+    expect(item.state).toEqual(initial.state);
+    expect(item.commands).toEqual(initial.commands);
+    expect(item.hud.visibility).toBe('visible');
+    expect(item.rail.visibility).toBe('visible');
+    images[name] = await page.screenshot({ path: info.outputPath(`${name}.png`) });
+  };
+  try {
+    await session.send('Emulation.setEmulatedVisionDeficiency',{type:'none'});
+    await page.evaluate(() => window.__tenka.debug.setMapCameraPreset('overview'));
+    for (let i=0;i<5;i++) await shot(`baseline-${i}`);
+    await session.send('Emulation.setEmulatedVisionDeficiency',{type:'achromatopsia'});
+    await shot('mode');
+    await session.send('Emulation.setEmulatedVisionDeficiency',{type:'none'});
+    for (let i=0;i<5;i++) await shot(`restored-${i}`);
+  } finally {
+    try { await session.send('Emulation.setEmulatedVisionDeficiency',{type:'none'}); }
+    finally { await session.detach(); }
+  }
+  const pairs = (prefix: string) => {
+    const out = [];
+    for(let i=0;i<5;i++) for(let j=i+1;j<5;j++) out.push({i,j,...diff(images[`${prefix}-${i}`]!,images[`${prefix}-${j}`]!)});
+    return out;
+  };
+  const cross=[];
+  for(let i=0;i<5;i++) for(let j=0;j<5;j++) cross.push({baseline:i,restored:j,...diff(images[`baseline-${i}`]!,images[`restored-${j}`]!)});
+  const report = {
+    scope:'fixed five before/five after; no HUD mutation; no adaptive selection; diagnostic only',
+    baselinePairs:pairs('baseline'), restoredPairs:pairs('restored'),
+    baselineToFirst:Array.from({length:5},(_,i)=>({i,...diff(images['baseline-0']!,images[`baseline-${i}`]!)})),
+    restoredToFirst:Array.from({length:5},(_,i)=>({i,...diff(images['restored-0']!,images[`restored-${i}`]!)})),
+    cross, modeChange:diff(images['baseline-0']!,images['mode']!), observations,
+  };
+  writeFileSync(info.outputPath('consecutive-report.json'),JSON.stringify(report,null,2));
+  console.log('CONSECUTIVE_DIAGNOSTIC',JSON.stringify({
+    baselinePairs:report.baselinePairs.map(({i,j,count,bounds})=>({i,j,count,bounds})),
+    restoredPairs:report.restoredPairs.map(({i,j,count,bounds})=>({i,j,count,bounds})),
+    cross:report.cross.map(({baseline,restored,count,bounds})=>({baseline,restored,count,bounds})),
+    modeChange:report.modeChange.count,
+  }));
+  expect(report.modeChange.count).toBeGreaterThan(0);
+});

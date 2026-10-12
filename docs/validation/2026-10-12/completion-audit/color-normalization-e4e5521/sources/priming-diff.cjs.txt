@@ -1,0 +1,16 @@
+const fs = require('fs');
+const { PNG } = require('/tmp/tenka-battle-79682cd/node_modules/pngjs');
+const root = '/tmp/tenka-battle-79682cd/runs/color-priming-achromatopsia-e4-c1/browser-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/';
+const a = PNG.sync.read(fs.readFileSync(root + 'overview-none.png'));
+const b = PNG.sync.read(fs.readFileSync(root + 'overview-restored.png'));
+const points = [];
+for (let y=0;y<a.height;y++) for (let x=0;x<a.width;x++) {
+  const i=(y*a.width+x)*4;
+  if (a.data[i]!==b.data[i] || a.data[i+1]!==b.data[i+1] || a.data[i+2]!==b.data[i+2] || a.data[i+3]!==b.data[i+3]) {
+    points.push({x,y,before:[...a.data.subarray(i,i+4)],after:[...b.data.subarray(i,i+4)]});
+  }
+}
+const xs=points.map(p=>p.x), ys=points.map(p=>p.y);
+const byRegion={hud:0,rail:0,canvas:0};
+for(const p of points){ if(p.y<64) byRegion.hud++; else if(p.x<80) byRegion.rail++; else byRegion.canvas++; }
+console.log(JSON.stringify({count:points.length,bounds:{minX:Math.min(...xs),maxX:Math.max(...xs),minY:Math.min(...ys),maxY:Math.max(...ys)},byRegion,first:points.slice(0,30),xHistogram:Object.entries(points.reduce((m,p)=>(m[p.x]=(m[p.x]||0)+1,m),{})).sort((a,b)=>b[1]-a[1]).slice(0,25)},null,2));

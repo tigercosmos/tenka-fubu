@@ -1,0 +1,113 @@
+{
+  "remoteRoot": "/tmp/tenka-battle-79682cd/runs/color-consecutive-achromatopsia-e4-c1",
+  "files": [
+    {
+      "path": "browser-results/.last-run.json",
+      "bytes": 45,
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-consecutive-diagnost-2d210-ge-CDP-restoration-captures-chromium/baseline-0.png",
+      "bytes": 375069,
+      "sha256": "06e868faa7fd7446df1c5f3dba3920c2038bd5f982a802c545cc337bc8be2527",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-consecutive-diagnost-2d210-ge-CDP-restoration-captures-chromium/baseline-1.png",
+      "bytes": 375067,
+      "sha256": "008ccceec03661708e0c4f2e6da5461e9eacf0fd865dbce7462095feebc8649e",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-consecutive-diagnost-2d210-ge-CDP-restoration-captures-chromium/baseline-2.png",
+      "bytes": 375064,
+      "sha256": "a98dba250ef723e9d82414e60431dd573a70e9d05c3e50456a68832fe2a3144e",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-consecutive-diagnost-2d210-ge-CDP-restoration-captures-chromium/baseline-3.png",
+      "bytes": 375049,
+      "sha256": "f4a4d7ae5a2e6bbe7529c873773726f8b4cd0c84ea33b098d959e84eababd9fb",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-consecutive-diagnost-2d210-ge-CDP-restoration-captures-chromium/baseline-4.png",
+      "bytes": 375043,
+      "sha256": "585b4ec80b12f5d6c1463da68df162bc54ea510a62ae3537b80890efef2d9e8f",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-consecutive-diagnost-2d210-ge-CDP-restoration-captures-chromium/consecutive-report.json",
+      "bytes": 21521536,
+      "sha256": "add88c95395684c9446cd6434943305c9c351f230b1a1a50497d51d6ebcf352f",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-consecutive-diagnost-2d210-ge-CDP-restoration-captures-chromium/mode.png",
+      "bytes": 226836,
+      "sha256": "afdf22b305e54f691715218f25b7f3f27f9a796ebbe6d166d077af651c1c3ee1",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-consecutive-diagnost-2d210-ge-CDP-restoration-captures-chromium/restored-0.png",
+      "bytes": 375060,
+      "sha256": "2c0b766a1a09031016ed49347797d93ba39d499cac3b8e0c29e500b98c9fede0",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-consecutive-diagnost-2d210-ge-CDP-restoration-captures-chromium/restored-1.png",
+      "bytes": 375031,
+      "sha256": "9fb4b6a781a67c5925fc1defa1622341a5c61fde3e132469ef1d7220d253c344",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-consecutive-diagnost-2d210-ge-CDP-restoration-captures-chromium/restored-2.png",
+      "bytes": 375052,
+      "sha256": "1c61671a74d956667f71b951dcdcfecdeb98f767a0691c8f33f92202d274c1f6",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-consecutive-diagnost-2d210-ge-CDP-restoration-captures-chromium/restored-3.png",
+      "bytes": 375052,
+      "sha256": "1c61671a74d956667f71b951dcdcfecdeb98f767a0691c8f33f92202d274c1f6",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-consecutive-diagnost-2d210-ge-CDP-restoration-captures-chromium/restored-4.png",
+      "bytes": 375052,
+      "sha256": "1c61671a74d956667f71b951dcdcfecdeb98f767a0691c8f33f92202d274c1f6",
+      "inCompactArchive": true
+    },
+    {
+      "path": "command.json",
+      "bytes": 501,
+      "sha256": "c4922b0b479a23902801a7a84a84ef834ba70d7855bb7eba07c5363e6866aa53",
+      "inCompactArchive": true
+    },
+    {
+      "path": "process.json",
+      "bytes": 21,
+      "sha256": "4f2ba3ba3aa8ccfed1d16dbb7775032c9ae5d7ce924c1f03e662484bba3f50bb",
+      "inCompactArchive": true
+    },
+    {
+      "path": "report.json",
+      "bytes": 6288,
+      "sha256": "d72dc3efbfd1f48eecc8a2299f5ff497ccc31e5257c234e4e93aa8968805ad7c",
+      "inCompactArchive": true
+    },
+    {
+      "path": "result.json",
+      "bytes": 73,
+      "sha256": "5711af75042a388c409e973ba730275fae28d2b8c993cb8713ce66da8e0813d2",
+      "inCompactArchive": true
+    },
+    {
+      "path": "stdout-stderr.log",
+      "bytes": 3168,
+      "sha256": "f55d199fe96280865fca0b30d3fe143e97f52f27bdc71ffd5fa0a301df84b2a2",
+      "inCompactArchive": true
+    }
+  ]
+}

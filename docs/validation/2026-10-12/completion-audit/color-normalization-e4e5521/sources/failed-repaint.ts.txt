@@ -1,0 +1,297 @@
+import { writeFileSync } from 'node:fs';
+import { PNG } from 'pngjs';
+import type { Page } from '@playwright/test';
+import { validateState } from '../src/core/state/invariants';
+import { test, expect } from './fixtures';
+
+// Local Playwright CDP protocol supports these exact values. This is Chromium
+// framebuffer emulation, not a product setting, CSS filter or perception verdict.
+const modes = ['achromatopsia', 'deuteranopia', 'protanopia', 'tritanopia'] as const;
+const cameras = ['overview', 'operational', 'close'] as const;
+type Diagnostics = ReturnType<Window['__tenka']['debug']['getMapDiagnostics']>;
+
+function invariantPresentation(d: Diagnostics) {
+  const {
+    ticker: _ticker,
+    armyPlateLayout,
+    castleRibbonLayout,
+    geographicLabelLayout,
+    armyRendering,
+    ...rest
+  } = d;
+  const { runs: _armyRuns, ...plates } = armyPlateLayout;
+  const { runs: _castleRuns, ...ribbons } = castleRibbonLayout;
+  const { runs: _geographyRuns, ...geography } = geographicLabelLayout;
+  const { signalLayoutRuns: _signalRuns, ...armies } = armyRendering;
+  void [_ticker, _armyRuns, _castleRuns, _geographyRuns, _signalRuns];
+  // Only measured ticker timing and explicit layout invocation counters are
+  // excluded. Geometry, visibility, ownership, layers/rebuilds/resources remain.
+  return {
+    ...rest,
+    armyPlateLayout: plates,
+    castleRibbonLayout: ribbons,
+    geographicLabelLayout: geography,
+    armyRendering: armies,
+  };
+}
+
+async function observe(page: Page) {
+  return page.evaluate(() => {
+    const box = document
+      .querySelector('[data-testid="map-canvas-host"] canvas')!
+      .getBoundingClientRect();
+    return {
+      state: window.__tenka.debug.getState(),
+      commands: window.__tenka.debug.exportCommandLog(),
+      diagnostics: window.__tenka.debug.getMapDiagnostics(),
+      canvas: { x: box.x, y: box.y, width: box.width, height: box.height },
+    };
+  });
+}
+
+function difference(a: Buffer, b: Buffer) {
+  const left = PNG.sync.read(a),
+    right = PNG.sync.read(b);
+  expect({ width: right.width, height: right.height }).toEqual({
+    width: left.width,
+    height: left.height,
+  });
+  let pixels = 0;
+  for (let i = 0; i < left.data.length; i += 4) {
+    if (
+      left.data[i] !== right.data[i] ||
+      left.data[i + 1] !== right.data[i + 1] ||
+      left.data[i + 2] !== right.data[i + 2] ||
+      left.data[i + 3] !== right.data[i + 3]
+    )
+      pixels++;
+  }
+  return pixels;
+}
+
+async function repaintChrome(page: Page) {
+  await page.evaluate(async () => {
+    const header = document.querySelector('[data-testid="hud-resources"]')?.parentElement;
+    const rail = document.querySelector('[data-testid="rail-realm"]')?.closest('nav');
+    if (!(header instanceof HTMLElement) || !(rail instanceof HTMLElement))
+      throw new Error('HUD/rail paint owners missing');
+    const owners = [header, rail];
+    const saved = owners.map((node) => ({
+      node,
+      styleAttribute: node.getAttribute('style'),
+      value: node.style.getPropertyValue('visibility'),
+      priority: node.style.getPropertyPriority('visibility'),
+    }));
+    const frame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    try {
+      for (const node of owners) node.style.setProperty('visibility', 'hidden');
+      await frame();
+      await frame();
+    } finally {
+      for (const { node, styleAttribute, value, priority } of saved) {
+        if (value) node.style.setProperty('visibility', value, priority);
+        else node.style.removeProperty('visibility');
+        if (styleAttribute === null) node.removeAttribute('style');
+        else node.setAttribute('style', styleAttribute);
+      }
+    }
+    await frame();
+    await frame();
+  });
+  await page.evaluate(() => window.__tenka.debug.waitMapIdle(5));
+}
+
+async function chromePaintState(page: Page) {
+  return page.evaluate(() => {
+    const header = document.querySelector('[data-testid="hud-resources"]')?.parentElement;
+    const rail = document.querySelector('[data-testid="rail-realm"]')?.closest('nav');
+    if (!(header instanceof HTMLElement) || !(rail instanceof HTMLElement))
+      throw new Error('HUD/rail paint owners missing');
+    const describe = (node: HTMLElement) => ({
+      styleAttribute: node.getAttribute('style'),
+      inlineValue: node.style.getPropertyValue('visibility'),
+      inlinePriority: node.style.getPropertyPriority('visibility'),
+      computedVisibility: getComputedStyle(node).visibility,
+      computedDisplay: getComputedStyle(node).display,
+      opacity: getComputedStyle(node).opacity,
+      rect: node.getBoundingClientRect().toJSON(),
+      text: node.innerText,
+    });
+    return {
+      header: describe(header),
+      rail: describe(rail),
+      focus: document.activeElement?.getAttribute('data-testid') ?? document.activeElement?.tagName,
+    };
+  });
+}
+
+for (const mode of modes) {
+  test(`actual three-owner map ${mode} artifacts preserve original cameras and state`, async ({
+    page,
+  }, info) => {
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/?debug=visual-map');
+    await expect(page.getByTestId('screen-strategy')).toBeVisible();
+    await expect(page.getByTestId('speed-pause')).toHaveAttribute('aria-pressed', 'true');
+    await page.evaluate(() => document.fonts.ready);
+    await page.mouse.move(1270, 710);
+    const initial = await observe(page);
+    writeFileSync(info.outputPath('initial-preflight.json'), JSON.stringify(initial, null, 2));
+    expect(validateState(initial.state)).toEqual([]);
+    expect(
+      [...new Set(Object.values(initial.state.armies).map((army) => army.clanId))].sort(),
+    ).toEqual(['clan.imagawa', 'clan.oda', 'clan.saito']);
+    const session = await page.context().newCDPSession(page);
+    try {
+      for (const camera of cameras) {
+        await session.send('Emulation.setEmulatedVisionDeficiency', { type: 'none' });
+        await page.evaluate((preset) => window.__tenka.debug.setMapCameraPreset(preset), camera);
+        let prior = '',
+          stable = 0;
+        await expect
+          .poll(async () => {
+            const value = invariantPresentation((await observe(page)).diagnostics);
+            const current = JSON.stringify(value);
+            stable = current === prior ? stable + 1 : 0;
+            prior = current;
+            return stable;
+          })
+          .toBeGreaterThanOrEqual(3);
+        await page.evaluate(() => window.__tenka.debug.waitMapIdle(5));
+        await repaintChrome(page);
+        const visible = await chromePaintState(page);
+        expect(visible.header.computedVisibility).toBe('visible');
+        expect(visible.rail.computedVisibility).toBe('visible');
+        const baseline = await observe(page);
+        writeFileSync(
+          info.outputPath(`${camera}-none-observation.json`),
+          JSON.stringify(baseline, null, 2),
+        );
+        expect(baseline.diagnostics.lodStage).toBe(
+          { overview: 'far', operational: 'mid', close: 'near' }[camera],
+        );
+        const none = await page.screenshot({ path: info.outputPath(`${camera}-none.png`) });
+        await repaintChrome(page);
+        expect(await chromePaintState(page)).toEqual(visible);
+        const noCdpAgain = await page.screenshot({ path: info.outputPath(`${camera}-none-again.png`) });
+        expect(difference(none, noCdpAgain), 'no-CDP repaint control remains exact').toBe(0);
+        await session.send('Emulation.setEmulatedVisionDeficiency', { type: mode });
+        await page.evaluate(() => window.__tenka.debug.waitMapIdle(5));
+        await repaintChrome(page);
+        expect(await chromePaintState(page)).toEqual(visible);
+        const emulated = await observe(page);
+        writeFileSync(
+          info.outputPath(`${camera}-${mode}-raw-observation.json`),
+          JSON.stringify(emulated, null, 2),
+        );
+        const changed = await page.screenshot({ path: info.outputPath(`${camera}-${mode}.png`) });
+        const changedPixels = difference(none, changed);
+        expect(
+          changedPixels,
+          'the CDP mode must actually change the captured framebuffer',
+        ).toBeGreaterThan(0);
+        await session.send('Emulation.setEmulatedVisionDeficiency', { type: 'none' });
+        await page.evaluate(() => window.__tenka.debug.waitMapIdle(5));
+        await repaintChrome(page);
+        expect(await chromePaintState(page)).toEqual(visible);
+        const restored = await observe(page);
+        writeFileSync(
+          info.outputPath(`${camera}-restored-observation.json`),
+          JSON.stringify(restored, null, 2),
+        );
+        const restoredPixels = await page.screenshot({
+          path: info.outputPath(`${camera}-restored.png`),
+        });
+        expect(
+          difference(none, restoredPixels),
+          'restoring none must recover exact RGBA pixels',
+        ).toBe(0);
+        for (const actual of [baseline, emulated, restored]) {
+          expect(actual.state).toEqual(initial.state);
+          expect(actual.commands).toEqual(initial.commands);
+          expect(validateState(actual.state)).toEqual([]);
+          expect(actual.canvas).toEqual(baseline.canvas);
+          expect(invariantPresentation(actual.diagnostics)).toEqual(
+            invariantPresentation(baseline.diagnostics),
+          );
+        }
+        const visibleSignals = baseline.diagnostics.armyRendering.signals
+          .filter((signal) => {
+            const rect = signal.rect;
+            return (
+              signal.visible &&
+              rect !== null &&
+              [rect.x, rect.y, rect.width, rect.height].every(Number.isFinite) &&
+              rect.width > 0 &&
+              rect.height > 0 &&
+              rect.x < baseline.canvas.width &&
+              rect.y < baseline.canvas.height &&
+              rect.x + rect.width > 0 &&
+              rect.y + rect.height > 0
+            );
+          })
+          .map((signal) => {
+            const army = baseline.state.armies[signal.id as keyof typeof baseline.state.armies]!;
+            return {
+              signal,
+              clanId: army.clanId,
+              leaderId: army.leaderId,
+              status: army.status,
+              morale: army.morale,
+              relation:
+                army.clanId === 'clan.oda'
+                  ? 'friendly'
+                  : army.clanId === 'clan.imagawa'
+                    ? 'enemy'
+                    : 'neutral',
+            };
+          });
+        expect(visibleSignals.length).toBeGreaterThan(0);
+        if (camera !== 'overview') {
+          expect(visibleSignals.some((army) => army.signal.painted)).toBe(true);
+          expect(visibleSignals.some((army) => army.status === 'routed')).toBe(true);
+        }
+        writeFileSync(
+          info.outputPath(`${camera}-${mode}-observation.json`),
+          JSON.stringify(
+            {
+              scope: 'unchanged visual-map, three actual owners; NOT forty-clan perceived coverage',
+              nearNeutral:
+                'deferred: retained Sunpu cameras do not guarantee near Saito visibility',
+              noncolorCuesToReview: [
+                'friendly double rings',
+                'enemy pointed tail',
+                'neutral hollow diamond',
+                'routed droop and chevron',
+                'siege hook',
+                'castle warning glyph',
+                'supply bag and triangle',
+              ],
+              // These records prove emitted bounds/state, not glyph visibility through
+              // HUD occlusion or successful human recognition under a deficiency.
+              visibleSignals,
+              warningFramesScope:
+                'all emitted fixture warning frames, including offscreen; not positive visibility proof',
+              warningFrames: baseline.diagnostics.castleRendering.nodes.filter(
+                (node) => node.warning !== null,
+              ),
+              changedPixels,
+              baseline,
+              emulated,
+              restored,
+            },
+            null,
+            2,
+          ),
+        );
+      }
+    } finally {
+      try {
+        await session.send('Emulation.setEmulatedVisionDeficiency', { type: 'none' });
+      } finally {
+        await session.detach();
+      }
+    }
+  });
+}

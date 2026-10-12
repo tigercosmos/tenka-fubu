@@ -1,0 +1,16 @@
+/tmp/tenka-battle-79682cd/runs/concurrency-ecba-manifest.json
+/tmp/tenka-battle-79682cd/runs/manifest.json
+/tmp/tenka-battle-79682cd/runs/alliance-final-manifest-1649-c2.json
+/tmp/tenka-battle-79682cd/runs/alliance-1649-manifest.json
+/tmp/tenka-battle-79682cd/runs/full-native-146-manifest.json
+/tmp/tenka-battle-79682cd/runs/alliance-candidate-manifest-1649-c1.json
+drwxrwxr-x 3 anchi anchi   4096 Oct 12 17:34 full-suite-8ea-01
+drwxrwxr-x 2 anchi anchi   4096 Oct 12 17:24 full-suite-readiness-01
+drwxrwxr-x 2 anchi anchi   4096 Oct 12 17:33 isolated-earned-generator-8ea-01
+-rw-r--r-- 1 anchi anchi 225504 Oct 12 17:50 manifest.json
+drwxrwxr-x 2 anchi anchi   4096 Oct 12 17:05 npm-ci
+drwxrwxr-x 2 anchi anchi   4096 Oct 12 17:04 source-proof
+drwxrwxr-x 2 anchi anchi   4096 Oct 12 17:04 source-proof-v2
+drwxrwxr-x 2 anchi anchi   4096 Oct 12 17:05 source-proof-v3
+-rw-r--r-- 1 anchi anchi 184320 Oct 12 17:50 source.tar
+drwxrwxr-x 2 anchi anchi   4096 Oct 12 17:09 trace-inventory

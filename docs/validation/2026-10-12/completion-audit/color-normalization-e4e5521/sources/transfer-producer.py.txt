@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+"""Transfer immutable scoped payloads into an exclusively created sim4 directory."""
+
+import argparse
+import json
+import pathlib
+import shlex
+import subprocess
+import sys
+
+
+CAPTURE = pathlib.Path('/tmp/tenka-validation-capture-961f0ae.py')
+REMOTE_PARENT = pathlib.PurePosixPath('/tmp/tenka-battle-79682cd/runs')
+
+
+def captured(label: pathlib.Path, command: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(CAPTURE), '--run-dir', str(label), '--cwd', '/', '--', *command],
+        check=False,
+    )
+    if result.returncode:
+        raise SystemExit(f'{command[0]} failed with exit {result.returncode}; see {label}')
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--name', required=True)
+    parser.add_argument('--capture-prefix', type=pathlib.Path, required=True)
+    parser.add_argument('payload', nargs='+', type=pathlib.Path)
+    args = parser.parse_args()
+    if not args.name or args.name in {'.', '..'} or '/' in args.name or '\\' in args.name:
+        parser.error('name must be a single new directory component')
+    if any(not path.is_file() for path in args.payload):
+        parser.error('every payload must be an existing regular file')
+    if len({path.name for path in args.payload}) != len(args.payload):
+        parser.error('payload basenames must be unique')
+    destination = REMOTE_PARENT / args.name
+    manifest = {
+        'destination': str(destination),
+        'payloads': [str(path.resolve()) for path in args.payload],
+        'capturePrefix': str(args.capture_prefix.resolve()),
+    }
+    print(json.dumps(manifest, sort_keys=True), flush=True)
+    # mkdir has no -p. An existing destination aborts before the first copy.
+    captured(args.capture_prefix.with_name(args.capture_prefix.name + '-mkdir'),
+             ['ssh', 'sim4', 'mkdir -- ' + shlex.quote(str(destination))])
+    for index, path in enumerate(args.payload):
+        target = destination / path.name
+        assert target.parent == destination
+        captured(args.capture_prefix.with_name(args.capture_prefix.name + f'-scp-{index}'),
+                 ['scp', str(path.resolve()), f'sim4:{str(target)}'])
+    captured(args.capture_prefix.with_name(args.capture_prefix.name + '-inventory'),
+             ['ssh', 'sim4', 'find ' + shlex.quote(str(destination)) + ' -maxdepth 1 -type f -exec sha256sum {} +'])
+
+
+if __name__ == '__main__':
+    main()

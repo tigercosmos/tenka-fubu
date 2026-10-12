@@ -6609,3 +6609,13 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - Hojo timeout trace 另證明正確 combobox AX name 為「援軍對抗勢力」，exact getByLabel 的巢狀 select label 查詢不符；原 locator／day150 診斷 RED 保留。沒有採用 Hojo source 改動，不能把 locator 更正或拒絕改成原正向援軍通過。下一步需真正改變軍事安全／外交威脅的合法遊戲路徑，保留原 day<180／60 秒與實際出兵、普通移動要求。
 - 原 achromatopsia 單案仍 RED，九個精確還原差異像素位於右上 HUD 按鈕邊緣；本次沒有舊左側縫隙。獨立樣式診斷還原十一個、去陰影六個、隱藏 HUD／rail 零個，三組無 CDP 對照均零；只支持 DOM／compositor 邊緣參與，未確認單一 owner。raw canvas 是均勻黑色而無效，不能宣稱 map pixels 相等。plan17 的色覺／灰階人工辨識要求與額外 full-page CDP 零差異 oracle 分開，本批兩者均不改；原 RED 與全部診斷保存。
 - 五個新套件分別保留 court、alliance、Hojo、color 與最後固定整合來源，沒有將 focused 成功改標為完整原生通過。strict60、whole-heap、long-run、全套五分鐘及其餘 M6–M9 仍開放；無嗣／戰術終局、人口校準、934163c 六圖人工核准仍無新決策。未改規則、references 或 milestone，未 push／deploy。
+
+## 2026-10-12 — 合法 Hojo 援軍正向驗證與色覺正規化負控制
+
+- `1791c9a` 僅改 Hojo E2E：day90 原月結暫停時，真實城池 UI 將躑躅崎館 1,500 兵輸往自有深志城。指令當下 state 不變，次日正常套用；付款、精確日期、合法指令、單筆輸送及援軍原正向斷言保持。自然 day120 cache 的威脅 1.87425968684／score 0.50658314092，不能與較早 clone 的預測 0.512038 混用。
+- 原生 v3 PASS 54.705 秒：四個付費月份後，day121 實際同意及五個北條 AI 出陣指令；day122 新軍 army.000011 從松山出發，day123 到長尾箕輪／圍城並通過原普通移動斷言。沒有改原 60 秒／day<180／0.5 門檻，也沒有注入 state／cache。此 focused 成功尚不代表全套負載下的 deadline。
+- v1 原 day119 觀測後真實暫停落在 day120，精確日期斷言正確 RED；改用既有 day90 暫停邊界。v2 合法輸送／score 已通過，但舊 exact label locator 逾時；v3 只換成觀測到的 exact combobox AX 查詢。兩個 RED、v3 全原始證據均保存。最後格式前後 TypeScript 語意 AST 相同，未冒稱格式後原生重跑。
+- 最終固定 `1791c9a` 型別、完整 ESLint、364 項／103 檔 discovery、格式與 1,633 Git 輸入前後證明全通過；沒有重跑完整 core／原生。
+- 色覺 priming RED 293 像素；強制 HUD／rail 重畫在無 CDP 對照 RED 385；固定五張前／後序列的 25 個交叉比較全非零（最少 246），baseline 五張未穩定。只保存診斷，不採用 helper／threshold／基準變更；原測試及完整隔離 e4 來源已恢復。下一步先唯讀釐清 live animation／compositor 狀態，不再重複相同 settle 探測。
+- 兩個舊遠端 scratch transfer 檔被覆寫，原 bytes 未找回；原 size／mtime 與新 hash、受影響路徑及限制明載，indexed 歷史證據未改。新 transfer producer 強制建立 exclusive 目錄，碰撞時不複製且既有 hash 相同。初次 package verifier 因收錄尚未結束的自我 capture 而 RED，原不完整 archive 分開保存，完成後另收錄最終證據。
+- 全套五分鐘、strict60、whole-heap、long-run、其他 UI 與全 M6–M9 仍未完成。無嗣／戰術終局、人口校準、934163c 六圖人工核准均無新回答；沒有改規則、references 或 milestone，未 push／deploy。

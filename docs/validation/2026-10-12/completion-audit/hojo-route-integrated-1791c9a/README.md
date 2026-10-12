@@ -1,0 +1,7 @@
+# Hojo lawful aid route: frozen integration checks
+
+Commit `1791c9a0bf3e976f536fa65e1fb9d6dbe7429876` changes only the Hojo E2E route and its observed combobox locator. At the existing paused day-90 boundary, the player uses the Castle panel to transport 1,500 soldiers from 躑躅崎館 to owned 深志城. This reduces Hojo's friendly border pressure through ordinary gameplay. The test retains paid diplomacy, exact daily state checks, the original aid threshold, positive agreement, actual AI deployment and subsequent movement. No gameplay rule, cache, timeout or baseline changed.
+
+The frozen local run passed TypeScript/core-boundary checking, full `eslint .`, Chromium discovery (364 tests in 103 files), and formatting for the changed E2E file. All 1,633 scoped Git inputs matched the pinned revision before and after these checks. The package includes complete command logs, exit statuses, the Git inventory and the producer. `python3 verify.py` independently checks the inventory against Git and verifies these results.
+
+The native success used the pre-format test bytes on an isolated e4 runtime with the route overlay; the final committed formatting has an identical TypeScript semantic AST. That native provenance is separate from this full committed-source local proof. No full native suite or core suite was rerun. Earlier full-suite results retain their original source pins, and the project-wide deadlines, visual, performance, heap and long-run gates remain open.

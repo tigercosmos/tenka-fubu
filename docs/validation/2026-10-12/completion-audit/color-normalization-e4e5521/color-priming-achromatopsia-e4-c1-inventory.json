@@ -1,0 +1,95 @@
+{
+  "remoteRoot": "/tmp/tenka-battle-79682cd/runs/color-priming-achromatopsia-e4-c1",
+  "files": [
+    {
+      "path": "browser-results/.last-run.json",
+      "bytes": 96,
+      "sha256": "80fea6a26f28f0e7a636126e5857d7e58b6ca25c74d1aa365de2a423a9c834df",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/error-context.md",
+      "bytes": 14260,
+      "sha256": "2091c2ac59ad5eb83010f132c9a0fa1f2a68908d8a54bb7b530175fa2c301675",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/initial-preflight.json",
+      "bytes": 1717092,
+      "sha256": "2e059bf76d763bf67f32ec3992c4e5ab6c6e19a292bfcf58f4d572159bc710f3",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-achromatopsia-raw-observation.json",
+      "bytes": 1686976,
+      "sha256": "a343de61a20a57dc6cf4e5851602201534b0242dedfb95f58191f137b1780efc",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-achromatopsia.png",
+      "bytes": 226836,
+      "sha256": "afdf22b305e54f691715218f25b7f3f27f9a796ebbe6d166d077af651c1c3ee1",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-none-observation.json",
+      "bytes": 1686976,
+      "sha256": "0367f3690fb683bf8fe2703967511d269ba48be6d69010c2ba3ead24ed744b38",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-none.png",
+      "bytes": 375061,
+      "sha256": "7647e4ffefe0d3b1a83982dea7f7e8ffb05a307333efdd68fff63788ff43ae39",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-restored-observation.json",
+      "bytes": 1686976,
+      "sha256": "a343de61a20a57dc6cf4e5851602201534b0242dedfb95f58191f137b1780efc",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-restored.png",
+      "bytes": 375063,
+      "sha256": "226089f55a4f3b8b4fa26bd487e6704e37b1792d5c1e53dae1c12eb4c86874fc",
+      "inCompactArchive": true
+    },
+    {
+      "path": "browser-results/color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/trace.zip",
+      "bytes": 61737657,
+      "sha256": "f19bb25e14d4eb04d987bff529fda310e79d92331f20fc972321ef78604c17a6",
+      "inCompactArchive": false
+    },
+    {
+      "path": "command.json",
+      "bytes": 520,
+      "sha256": "6943fb640545bd06a43d6dafd986186441209415c4a3fabade9af7b420d99218",
+      "inCompactArchive": true
+    },
+    {
+      "path": "process.json",
+      "bytes": 21,
+      "sha256": "58016974ccbe4881e35e11911caac90776676676f2ae852452f61c004f11bd1c",
+      "inCompactArchive": true
+    },
+    {
+      "path": "report.json",
+      "bytes": 6587,
+      "sha256": "76e58ca142d534ca4ddb128dc8b3fa1e9076dfd0fbbce80b3a699486daec2e83",
+      "inCompactArchive": true
+    },
+    {
+      "path": "result.json",
+      "bytes": 73,
+      "sha256": "7647b456fd172be9a085da6f91721efec9a1ab265d04fb887f9b07a04d70dc5f",
+      "inCompactArchive": true
+    },
+    {
+      "path": "stdout-stderr.log",
+      "bytes": 2315,
+      "sha256": "3380d711a2c9904f015e60cde1fc9586caa704d6736f138acdb0ac3a44625ec8",
+      "inCompactArchive": true
+    }
+  ]
+}

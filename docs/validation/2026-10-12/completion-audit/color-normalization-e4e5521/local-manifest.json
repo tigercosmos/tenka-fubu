@@ -1,0 +1,108 @@
+{
+  "captureDirs": [
+    "tenka-color-consecutive-control-ssh-e4-c1",
+    "tenka-color-normal-apply-e4-c1",
+    "tenka-color-normal-collect-remote-e4-c1",
+    "tenka-color-normal-collision-unchanged-e4-c1",
+    "tenka-color-normal-delta-transfer-e4-c1",
+    "tenka-color-normal-final-process-e4-c1",
+    "tenka-color-normal-final-source-e4-c1",
+    "tenka-color-normal-hostcheck-e4-c1",
+    "tenka-color-normal-local-collect-c1",
+    "tenka-color-normal-make-priming-e4-c1",
+    "tenka-color-normal-make-repaint-e4-c1",
+    "tenka-color-normal-old-role-audit-e4-c1",
+    "tenka-color-normal-overlay-priming-e4-c1",
+    "tenka-color-normal-overlay-repaint-e4-c1",
+    "tenka-color-normal-package-mkdir-e4-c1",
+    "tenka-color-normal-package-scp-e4-c1",
+    "tenka-color-normal-preserve-new-e4-c1",
+    "tenka-color-normal-recovery-search-e4-c1",
+    "tenka-color-normal-remove-consecutive-e4-c1",
+    "tenka-color-normal-restore-original-e4-c1",
+    "tenka-color-normal-snapshot-e4-c1",
+    "tenka-color-normal-source-after-e4-c1",
+    "tenka-color-normal-source-before-e4-c1",
+    "tenka-color-normal-source-restored-e4-c1",
+    "tenka-color-normal-stage-consecutive-e4-c1",
+    "tenka-color-normal-transfer-analysis-c6-inventory",
+    "tenka-color-normal-transfer-analysis-c6-mkdir",
+    "tenka-color-normal-transfer-analysis-c6-scp-0",
+    "tenka-color-normal-transfer-consecutive-c12-inventory",
+    "tenka-color-normal-transfer-consecutive-c12-mkdir",
+    "tenka-color-normal-transfer-consecutive-c12-scp-0",
+    "tenka-color-normal-transfer-e4-c2-inventory",
+    "tenka-color-normal-transfer-e4-c2-mkdir",
+    "tenka-color-normal-transfer-e4-c2-scp-0",
+    "tenka-color-normal-transfer-e4-c2-scp-1",
+    "tenka-color-normal-transfer-e4-dummy-collision-mkdir",
+    "tenka-color-normal-transfer-e4-existing-control-mkdir",
+    "tenka-color-normal-transfer-helper-e4-c3-inventory",
+    "tenka-color-normal-transfer-helper-e4-c3-mkdir",
+    "tenka-color-normal-transfer-helper-e4-c3-scp-0",
+    "tenka-color-normal-transfer-helper-e4-c3-scp-1",
+    "tenka-color-normal-transfer-original-c9-inventory",
+    "tenka-color-normal-transfer-original-c9-mkdir",
+    "tenka-color-normal-transfer-original-c9-scp-0",
+    "tenka-color-normal-transfer-overlay-helper-c5-inventory",
+    "tenka-color-normal-transfer-overlay-helper-c5-mkdir",
+    "tenka-color-normal-transfer-overlay-helper-c5-scp-0",
+    "tenka-color-normal-transfer-package-c13-inventory",
+    "tenka-color-normal-transfer-package-c13-mkdir",
+    "tenka-color-normal-transfer-package-c13-scp-0",
+    "tenka-color-normal-transfer-priming-c4-inventory",
+    "tenka-color-normal-transfer-priming-c4-mkdir",
+    "tenka-color-normal-transfer-priming-c4-scp-0",
+    "tenka-color-normal-transfer-repaint-analysis-c11-inventory",
+    "tenka-color-normal-transfer-repaint-analysis-c11-mkdir",
+    "tenka-color-normal-transfer-repaint-analysis-c11-scp-0",
+    "tenka-color-normal-transfer-repaint-c7-inventory",
+    "tenka-color-normal-transfer-repaint-c7-mkdir",
+    "tenka-color-normal-transfer-repaint-c7-scp-0",
+    "tenka-color-normal-transfer-repaint-helper-c8-inventory",
+    "tenka-color-normal-transfer-repaint-helper-c8-mkdir",
+    "tenka-color-normal-transfer-repaint-helper-c8-scp-0",
+    "tenka-color-normal-transfer-restore-helper-c10-inventory",
+    "tenka-color-normal-transfer-restore-helper-c10-mkdir",
+    "tenka-color-normal-transfer-restore-helper-c10-scp-0",
+    "tenka-color-priming-control-ssh-e4-c1",
+    "tenka-color-priming-inventory-e4-c1",
+    "tenka-color-priming-pixel-analysis-e4-c1",
+    "tenka-color-repaint-control-ssh-e4-c1",
+    "tenka-color-repaint-pixel-analysis-e4-c1"
+  ],
+  "sources": {
+    "original-color-vision-map.ts.txt": {
+      "bytes": 9195,
+      "sha256": "bf23cc2dc5f2af55039944ce99b1ca1f119c77ddc6a7c33d1e0fabace5d15435"
+    },
+    "failed-priming.ts.txt": {
+      "bytes": 9673,
+      "sha256": "3882fd274dc9775de8192bf4e827cd82cc37fa239603788073703e8c98de0b41"
+    },
+    "failed-repaint.ts.txt": {
+      "bytes": 12314,
+      "sha256": "fe9fff3c210f63c350bff1cdc7ea370b7bbb6fdd870f684c3138b58302423f97"
+    },
+    "consecutive-diagnostic.ts.txt": {
+      "bytes": 5388,
+      "sha256": "f652b05048ed1355f44b5ca1c71935206331f319482ea2b688c288e1f0bba6f7"
+    },
+    "transfer-producer.py.txt": {
+      "bytes": 2437,
+      "sha256": "d41902f7592a3ca5ffab4d8fa8ea1d54bcc44913ef59f3cbe5b0ce10094f6c47"
+    },
+    "snapshot-helper.py.txt": {
+      "bytes": 3348,
+      "sha256": "d7f1fd477c0583eff8237e13c34e7c77a594a8552ca6211a958536da2287ab1d"
+    },
+    "priming-diff.cjs.txt": {
+      "bytes": 1233,
+      "sha256": "23472b30204fbd2f2a253815580c2c2a760d577e0f82550cceac28740570686c"
+    },
+    "repaint-diff.cjs.txt": {
+      "bytes": 1076,
+      "sha256": "cb010cf1070865579c99c564bbeddc74f02269ef797b7ffeef20b79f827baa89"
+    }
+  }
+}
