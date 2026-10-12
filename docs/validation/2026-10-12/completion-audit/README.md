@@ -4,6 +4,16 @@ Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目�
 最新固定來源 `ab06242` 全量測試為 6,451 通過、3 失敗、1 跳過；其中兩個新缺字失敗已另以 focused 檢查修復，既有無嗣領地失敗保留。120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
+## 等價 FNV64 加速與素材 body-read 邊界
+
+[Earned Takeda hash 證據](earned-takeda-hash-a48eb2c/README.md) 先在原 60 秒 callback 量到 stateHash 的 14.625／19.216 秒（76.1%），再僅替換 FNV64 乘法；未移出 invariant／hash／serialization／write 工作。候選相同觀測 fresh route 為 11.660 秒（單次約 −39.3%），完整 save／serialized evidence 與原版相同，含全部 300 daily hashes、events、monthly states 及 command log；這不等於能找回 JSON 原本省略值的完整 transient-state 證明。十二組交替的實際 full stateHash 中位數 40.618→19.120ms；不是 loaded 60 秒或全套期限保證。
+
+`a48eb2c` 保留 byte encoder 與 canonical serializer，使用 prime=2^40+435 的等價雙字 carry 運算。獨立 legacy BigInt fixture 的原始函式與 source hash 可核對，全部 UTF-16 單字、邊界 pairs、固定亂數及全國 state 對照通過；不改 golden snapshots。[固定整合](fnv-integrated-a48eb2c/README.md) 的十三檔 135 項及型別／完整 ESLint／build／bundle／格式通過，1,652 inputs／29 dependencies 前後相同。不是全量 core 或完整原生重跑。
+
+[素材階段 observer](army-asset-stages-b1a8fc8/README.md) 固定 b1 加五個明列 overlay，在十八項／十六 workers 得 14 PASS／4 FAIL、32.416 秒；三個原五秒 army boot 與一個 accessibility 未掛載失敗均保留，沒有 retry。三頁零 dropped 的同 browser 時序顯示，post-poll 時 castle-branch-mountain 的 Response.blob 已開始但未完成，bitmap 與 castle attachment 尚未開始。body-read／response delivery 是觀測到的近端邊界；不能把它解釋成已量到 pure decode、network 或 IPC 根因。原 Promise、錯誤、期限保持；side-chain observer 有額外 microtask／guard 成本，不是零擾動 full-suite 重播。
+
+本批只採用 hash 算術與 regression／規格裁決，素材 observer 不進 production。下一步可在已改善 generator 成本的固定來源重新評估完整驗收，並用具體來源假說區分 body transfer／排程；不得盲加 ready wait、回復已有 remount 故障的 image Worker 或放寬門檻。strict60、whole-heap、long-run、完整五分鐘、全 M6–M9 與既有規則／美術人工決策仍開放。
+
 ## Earned 路徑對照與負載啟動邊界
 
 固定 `27d9028` 的[區域 Ending 路徑對照](earned-generator-pathfinding-27d9028/README.md) 比較兩份等量觀測 derivative，compile／install 仍在原五秒 test callback。JS／WASM testcase 為 1,620／1,604ms、process 5.29／5.40 秒；WASM 實際 4,202 queries／16 topology builds，finally 清除 provider。完整最終 state、RNG、373 日 emitted history、84 筆玩家指令與 fresh save hash 相同，但不代表每個中間完整 state 或所有 AI 指令相等。這個單次小差距沒有採用價值；兩個 launch RED 與 verifier 修正保留，不能和舊 full955 負載下 6.98 秒相比宣稱改善。

@@ -36946,6 +36946,1800 @@
       "sha256": "5e33ed379873b9ac9d778709872c024ede00e9c6d26e1c6d66d952a1e155a98b",
       "uncompressedBytes": 138,
       "uncompressedSha256": "335f5c0e1e081b52a144687fcb15371680f2fe66940e472e1d5ffdb95da17cbb"
+    },
+    {
+      "path": "earned-takeda-hash-a48eb2c/README.md",
+      "bytes": 4611,
+      "sha256": "5848c014890e50d8e5a9707f734311bbc7fa3f0f7064919eda877f2872112ec3"
+    },
+    {
+      "path": "earned-takeda-hash-a48eb2c/manifest.json",
+      "bytes": 20502,
+      "sha256": "045914542016b9a7f258e31a68795043865c3ce59e6831130baf13e69a921880"
+    },
+    {
+      "path": "earned-takeda-hash-a48eb2c/raw.tar.gz",
+      "bytes": 171037,
+      "sha256": "d79edf23330b1b6249ece4addf38c4d9363e19a5961e9ecc89230d072acc1150",
+      "uncompressedBytes": 901120,
+      "uncompressedSha256": "b3ef9c6d5f9567d176ae99e1432e234bf7ba0f75503873b42e08206f56154ff9"
+    },
+    {
+      "path": "earned-takeda-hash-a48eb2c/verify.py",
+      "bytes": 4235,
+      "sha256": "5902c534772ca663cffd906609b8c6b634e87ba2c1bcd1a0de188cbb62836a9a"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/README.md",
+      "bytes": 7287,
+      "sha256": "bb6bd50b3b235198da327b066d4c39ef3562ee547d037e53ab8358bfe688c167"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/SHA256SUMS",
+      "bytes": 20824,
+      "sha256": "ec1ad6933cb87cf41a44792fc945139600c504d7573f1469a88a5723b0603e56"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/analysis.json.gz",
+      "bytes": 6680,
+      "sha256": "d16994f48ef2d055de79e6c9766427dcdfed5dcb6b0f11ed90b58db424fd7535",
+      "uncompressedBytes": 53597,
+      "uncompressedSha256": "eec2e3b0da5cbd64c46c81f5700dbfc4cd90428c69c38566011180a9326195f3"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/body-asset-stages.json.gz",
+      "bytes": 3894,
+      "sha256": "faaf2b3936609dee794a258b80dea400f7076323f36bb3d315c0099849a47e27",
+      "uncompressedBytes": 45779,
+      "uncompressedSha256": "09489b6a8712ef608f372e2ff10b2b8b7b94897fe74c7f92bb0bf1e87afb4860"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/body-trace.zip",
+      "bytes": 2228581,
+      "sha256": "b5f2e25782805a9fba8e50f378f37daf5dc107605e1579890befd9bc297f8dba"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/browser-inventory.json.gz",
+      "bytes": 3104,
+      "sha256": "2e20b46ecdc60e21b9d9120f28a4d6517d08bd9e622aef289a16d4d7cac17f6c",
+      "uncompressedBytes": 15842,
+      "uncompressedSha256": "73d4424ad90933e18fcf0d8644a2abf3ac74b7209d65c71b62d74e5176566a31"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/build-command.json.gz",
+      "bytes": 168,
+      "sha256": "a193d1cc0fc6e7f9130759133c22d3753f0aa6effe3f139831cfcc2a444952c7",
+      "uncompressedBytes": 208,
+      "uncompressedSha256": "eded0c74c7592b5b80ba75c2efde5cf3a20005d525f2865a8ca84715078b43e5"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/build-result.json.gz",
+      "bytes": 89,
+      "sha256": "7f42e7aa088bbbf546f66af16d0d248a2995bb3226d31ddbfa382329afad2346",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "6e2109f490847f0aa5a9042ec99ce4ddd0aab4ee97ea735a37bdd36b01fe8bba"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/build-stdout-stderr.log.gz",
+      "bytes": 647,
+      "sha256": "7b014e18541c8beaba84bb2027a4d3757b951a87009e520b63753ecd7df3c850",
+      "uncompressedBytes": 1335,
+      "uncompressedSha256": "be2e400350359fbe6250f648492d6bc7eeef21a9696f3dd7abbe9bd001836f1c"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/cohort18-list.txt.gz",
+      "bytes": 983,
+      "sha256": "8d2d49e217f0f1098f84f39a2310bdc1061a1aab9326595feab251af60d88ba2",
+      "uncompressedBytes": 2642,
+      "uncompressedSha256": "e764c237df6db1f6c20e429fc8bfa4987a34f4c7ad53f8099d642730312d1913"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/dense-asset-stages.json.gz",
+      "bytes": 4161,
+      "sha256": "b7393570e0473f2f4ef06290134694f8d9f554a4455e2f24b9f65e4069b669ef",
+      "uncompressedBytes": 49448,
+      "uncompressedSha256": "b56708889152e85cb58ffdc9ce50c63795b8572bc208648b4b841003b4937ec9"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/dependency-manifest.json.gz",
+      "bytes": 1960,
+      "sha256": "6cb4cb985b1a249b3f03ad44b44c1fb50081a0ef55019f63f1733373d287d5a3",
+      "uncompressedBytes": 5497,
+      "uncompressedSha256": "6c494ddf5d8b63b6bb60f1947114225dc452ed58c3f388677b3f9d6e12726804"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/failure-accessibility-production-s-09f93-gs-preserve-one-page-banner-chromium.md.gz",
+      "bytes": 1358,
+      "sha256": "1400eb46973873c7f1dffdda73d9d680ac18e4bcc1ef33935cc6a5fdb87c4d7d",
+      "uncompressedBytes": 3888,
+      "uncompressedSha256": "bb8a88a9d1052d872574f753c0bf3d06e858b6c365d54c62c95e25fff5505b56"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/failure-army-plate-layout-native-a-0bca0-pendently-of-castle-ribbons-chromium.md.gz",
+      "bytes": 4678,
+      "sha256": "02d25284e0e0b9cb7286700d83c790b86fb64ea995a92656565079b949cebb39",
+      "uncompressedBytes": 14439,
+      "uncompressedSha256": "3db0f651e171d3556c2c69aada96761339a0db61cb63eec38e13f7cf3613fdc1"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/failure-army-plate-layout-native-a-5ea75--its-plate-survives-far-LOD-chromium.md.gz",
+      "bytes": 4667,
+      "sha256": "39671d3fb64ad7d8c0d232517852d5535547235d13b69ee2642eda24152accea",
+      "uncompressedBytes": 14424,
+      "uncompressedSha256": "bd7547bca8afffe6420d932a761cce99221bbce936f01340dba571927a7ea8d5"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/failure-army-plate-layout-native-a-6be45-cales-without-core-mutation-chromium.md.gz",
+      "bytes": 4674,
+      "sha256": "f98b82ae77db7cf2a91bd6b965907b6ccc3ae11d3c1d6018e256307fa3f521ae",
+      "uncompressedBytes": 14438,
+      "uncompressedSha256": "ca7460368c047bb56b8035d69714c79727cee282cd878f170a00eca4a09ac424"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/list-command.json.gz",
+      "bytes": 235,
+      "sha256": "e611f154433031cad73def6225288abd493d687b6005dce5dc8262ec102944dd",
+      "uncompressedBytes": 393,
+      "uncompressedSha256": "b9921cd662b6195380cf575fb104256fcb048db1b15b1c142d9f1440cf404544"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/list-result.json.gz",
+      "bytes": 89,
+      "sha256": "4abae69f0aa035a92398410f2b04f138ce7bd6a3126c1b951603be413743531a",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "e3d269b2ef9c42e325b8eb515884031971a142adcee39bfbb8586716dcce9cf9"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/list-stdout-stderr.log.gz",
+      "bytes": 1089,
+      "sha256": "a3b780ca6fa66b40bde088198f26d8cae695bf2e81daf266bb5314be5b858c63",
+      "uncompressedBytes": 2904,
+      "uncompressedSha256": "6c3f8c850d20823a89ec97cbb473a53d553dec976d2aec8373e2092791de836d"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-analysis-b1a-c1-command.json.gz",
+      "bytes": 176,
+      "sha256": "fdff18a71d5dab7f3871ad5021c66c7e4af83779e02ea79a1f4492bcfc41340b",
+      "uncompressedBytes": 199,
+      "uncompressedSha256": "ee63d3b22183879fee28695b2349fa7d3ed749fce35069f0e8752713676a0a72"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-analysis-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "5e87ec130688491bdf7306af815d7196e9b7b98d222770fddc590a750d33107f",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "fa6710787438fd8d34c9d0fddec0c9ade8f42feaa746ea5a7cbd43f313c45f13"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-analysis-b1a-c1-result.json.gz",
+      "bytes": 86,
+      "sha256": "6c65b638d9e7a96cd5fca008c9e5cd514cce30622231bde4a14f55cb2f4f6973",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "cfffbd31097cbabe2698aaea63f876fd609d4bfe809e562f0e7e00469de99171"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-analysis-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 217,
+      "sha256": "860c2d1332df6603cd54721da8eaeec6b41c0135d2e50576161a4ff3b4a68791",
+      "uncompressedBytes": 330,
+      "uncompressedSha256": "95a86d7c6f40ee9a7e19b4429703ca8e2db3baf4b3f54bc136b010d4266f4ebd"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-analysis-b1a-c2-command.json.gz",
+      "bytes": 176,
+      "sha256": "2c958f3f1f20703a1ea425c6720836fd030e01a44bff1d1ec5832a95dcb410a6",
+      "uncompressedBytes": 199,
+      "uncompressedSha256": "f1a61db25030861a7a98d7facb8dbb97f052be715032e269b32086f8e9b1a3d1"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-analysis-b1a-c2-process.json.gz",
+      "bytes": 39,
+      "sha256": "d1a9f56a06a97be2ec48d4fd481f26567b48a3775190747cdb33230b38bcbead",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "04b7a6fa7871f2b3d3a2500b296f49604dcaeb167bf83a188478e725f60efa5a"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-analysis-b1a-c2-result.json.gz",
+      "bytes": 89,
+      "sha256": "3b49f55769fa323107e24c88a74383efecdc4ac26a1515fad7f1a7053f84d12a",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "3898e796b94726e32b81cbb1df7950ac8526992c2d23c8a27add5210ec67a084"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-analysis-b1a-c2-stdout-stderr.log.gz",
+      "bytes": 298,
+      "sha256": "faaf1048c56ae4bfc9484c7b75d226d68bd149fe0b97d3edb2ece2dbb0e62b1d",
+      "uncompressedBytes": 1271,
+      "uncompressedSha256": "b89302ca6e15f2f85a2a603d3a9c514ee301a23d5e4b6a5be7834b793997cce0"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-build-v4-launch-b1a-c1-command.json.gz",
+      "bytes": 363,
+      "sha256": "1c3606a96d5858b4591c81444fd82d4cf9d22333da6fb3336e6d5ec6bdbfa1b1",
+      "uncompressedBytes": 515,
+      "uncompressedSha256": "f6833cdf49642ca03d062202088e8476d4a605b1e71d73e20c3447a9aed6f393"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-build-v4-launch-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "22d36f720ac591b1156a7726644677203d836b375e7f95610e4f480f268b2160",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "7a73b3fd71fe8030c9f101eb81398f160d321270327e51a9b1fdbca7b910643a"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-build-v4-launch-b1a-c1-result.json.gz",
+      "bytes": 88,
+      "sha256": "ce0eef64f10904319d423b63f8440f0e2df8d6d4d3845df0aad4895af23cb724",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "47de79f254fce49e61c10e31c0cdf14bbefec6291f88ecd3cfe6e25a61896b70"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-build-v4-launch-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 98,
+      "sha256": "bca5f4177a667a6d7eab730f26faedf5cf8a8627d729b7bc485fd394b1d31c51",
+      "uncompressedBytes": 125,
+      "uncompressedSha256": "f60381d3819a2bc28e9d57443dd307fcf4018138cc2f8bf5e6b2487d2b7b961b"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-copy-launch-b1a-c1-command.json.gz",
+      "bytes": 193,
+      "sha256": "73cba0d543e223df397a2f83a45f66cc36d4c6b1895b1aa0ad5707851080bd69",
+      "uncompressedBytes": 265,
+      "uncompressedSha256": "6f1301147a7c15e58181b74c43d824e7e71118a1c399de817ed10b05cae22079"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-copy-launch-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "e1e70770d6cd8542c50858be20c84c969403714f6304abada9c6925edbe26fec",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "576081d7f758d21ab65947b014dc0dd04bb120cb2e6dc76bb0bb5b7cbf624864"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-copy-launch-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "6aedb2e346f0cf15e344c6fd17655f8cabcc05e2d35254379523f89ea244e37b",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "5aaa1a15b231134af88b1995da92d914ce1fcdbb215895e701e3f228210fd471"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-copy-launch-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-extract-b1a-c1-command.json.gz",
+      "bytes": 197,
+      "sha256": "534f1b244ed24baaa962ae34da396a4c6baea7e0ab9032a4c24d40bdd699ecc1",
+      "uncompressedBytes": 284,
+      "uncompressedSha256": "eef83e882aeafc2145f6a4b628b3d8e0b726a814dee859ff41b571fd7baa45a6"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-extract-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "70bbfc79e2a93ba197703d4f772bb428363b1172229d077b57449fd0a235fb19",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "33956307646d15120348d6893f6a98d831df8a1ab7646ded1cccb3e1040431c2"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-extract-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "cf9c10689cac8ae6a7740de0cb5d12430e2657abe5b6f852dd9a6901a72c1b65",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "14959bcea5af4b39bc46078a7cb62028dc086e2371584a35754d5a483c835613"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-extract-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-run-launch-b1a-c1-command.json.gz",
+      "bytes": 234,
+      "sha256": "8e1151e6c01062aef6e2d5626a46f7ee6a6c01cff5ed93279ec55e3458744feb",
+      "uncompressedBytes": 331,
+      "uncompressedSha256": "ce4eb755c57b5feefbebd8a143af5f73ddd33a11968e1233fb02c1b6fbf2e3d3"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-run-launch-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "d315eecb6daaaa9d5b30ebe1a3cc79782aeb0ff69de9e2d3a68a6006a46668d7",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "74c7aaef45c1b4bc284a5b0730fb13aa689589094b26448914470ff552b311a8"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-run-launch-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "0f4df34ed1b218276764506a63f002671b943858361e9f50bbdec678ce9c282e",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "7967df0de51361ed1f7b00b025b986729b4af9f6d20b496d053921041848c361"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-run-launch-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 102,
+      "sha256": "9ca6853d58e3c5fe040b9144bcf7c67ae92bd3d5cffff2231c97f6d8284977d6",
+      "uncompressedBytes": 135,
+      "uncompressedSha256": "a6f3cdab13976c1ac29e104f12100709eba414e803f98b26759157a7024245de"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-script-scp-b1a-c1-command.json.gz",
+      "bytes": 196,
+      "sha256": "7a2f3adafdedd64ca7dc4e1cb830459ff0aa8babb8f7a4cde43ae1f007d6b2d0",
+      "uncompressedBytes": 257,
+      "uncompressedSha256": "38253fd0566f99d03cb4e90fe795014cf7f0991ca83785b9e2f32217c63283ab"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-script-scp-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "f46db5378d514ad4cb9f1efa89c52501e5b7a84916619b85efab9247cc69f08a",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "31db229e5e94e58d006d49ffda1f1157e6d5b0c166aaa2f95827d69023fdf37e"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-script-scp-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "3da6ca34ae08377304915d3cc93c461d3bd0dac5d550d928c049ba516b1527d9",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "9b215ead440408bbb44d450bc5470b5295ebb909e71cbf9d388c049e9fee3749"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-bundle-script-scp-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-delta-wrapper-b1a-c1-command.json.gz",
+      "bytes": 274,
+      "sha256": "134bdde29769c63153a729a537f30620dcbd5b6f2fb022f30302869cee91ab1a",
+      "uncompressedBytes": 423,
+      "uncompressedSha256": "73e9f1b8ae0af777ad84d34fccb305e8cb1565a5583677cb89661d3c55212977"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-delta-wrapper-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "5a63bd509c9890d190bb4db4919e759f846c787b6f9453e08fff4103da345bee",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "fc7dbf14b66d67dff7cd8e049661329621db112a29dfa760ba7ebc32f82ada92"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-delta-wrapper-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "a442a43a01e29ee016e93d7973b2da65f61b57693a75ab4ecc45e3efa0170e7b",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "da3743e4ef59121912e1c9c0178e90c5d62b54fb5c0037370fd0e66d2fedfc55"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-delta-wrapper-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 143,
+      "sha256": "6464edd8c733a51f3df94da610ab73ee7546b3e37f3d14eefb6ec3dde5610821",
+      "uncompressedBytes": 153,
+      "uncompressedSha256": "1d30746518fcdc0530d9479ac3b680b916cae5ca2ed6de66bc87218ba3cb5c4c"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-host-after-b1a-c1-command.json.gz",
+      "bytes": 214,
+      "sha256": "c3f59670fa157790aba674270f32c74da8f9c2c224d8cdd6bdffb4cdff68f1c7",
+      "uncompressedBytes": 252,
+      "uncompressedSha256": "131acf6c82991f7f96e9ead57b86827a1eb211d3927b4a748db79e6dbfba58f2"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-host-after-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "936e6a41e8f9a952bf36b883d1876bc29e319c138cd49baa1ab9d47ab8362804",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "24997c8282b986f0a724b05625b707fc877fce003c9d99048d489df7775fa937"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-host-after-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "9ecbe7f1524599f814ae3b49c60fc5c8d366a8d87d0a20248479047b4bb182d2",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "5f1ad46dad8e50f129ac46911e5910f5ae60892afab961b14cb71edd8d99e64f"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-host-after-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 101,
+      "sha256": "ef9b965d1df7b456ad60d03fd73382c8ef59e047d498f2be932ddea5d66d54b0",
+      "uncompressedBytes": 89,
+      "uncompressedSha256": "e71510c30fb7fb0435158c6cfdea9cb4316abb9a16aadca5b4a001534c8702a5"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-host-preflight-b1a-c1-command.json.gz",
+      "bytes": 333,
+      "sha256": "cd304b0368844a87eaa1c2a58367627354f2d1617b300e0d4128925a0577a85d",
+      "uncompressedBytes": 473,
+      "uncompressedSha256": "05b48f6fe32f34b5c2b6c7684319fd7f8123936d173501b9b43987aedc02562b"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-host-preflight-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "166625a5e9c7d5ffa36b527308f39318264df4f9ce9e545b1f9fd9f8879cc09b",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "857d37ecb608dc2a0f6da4079a8839cfb75540ef28621ac0d10b0683f364ae59"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-host-preflight-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "578b292b24089a4cd48c603f6d72920dd835f679e6501b22ff119aacd3ef8273",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "1d76ddd978e327b234490c54b80bb944fdcfecde3ec21d34c8420b7022aee4cb"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-host-preflight-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 186,
+      "sha256": "4ee3499156dba76f85d6619a2d17faaaf12d31c1ce3a3b005d9afc1bdfeb892f",
+      "uncompressedBytes": 205,
+      "uncompressedSha256": "c2d51db7879cf93848154793bbb0ee2a592ee61b766186679409897381dc154c"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-inventory-wrapper-b1a-c1-command.json.gz",
+      "bytes": 250,
+      "sha256": "ae1fdfd80baca05d9fede01d783b42cf2b65ab31e3976dadf6f7d24faaf9d88a",
+      "uncompressedBytes": 389,
+      "uncompressedSha256": "c252a81ebcf46ed04c2312388899e88cd303e39f0d043d191f9a2529666f1e4f"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-inventory-wrapper-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "0a4a0ee01979d1c9918ccda6b896cdb3025fa579b0f4d6936aaefe397b889833",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "e82a03f60d3d2e1fd4e5f4ab6319fbc9aee7efbce8d7ea5a3c0a3944b7fff559"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-inventory-wrapper-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "a0e619abd47956b3ec5db43cab9536e9a99075d7d8c2f29b2e7fa2182121a1c9",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "8e906eb5d85f746394cad35cfbedddd484cbecd8011eeafa87450c1039bdfea8"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-inventory-wrapper-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 147,
+      "sha256": "e27749b9be2b727bb8d9550590d97dd8ef10cd89e2a4dbf3645a2ab0a1d5c3a1",
+      "uncompressedBytes": 160,
+      "uncompressedSha256": "0dec296d11a18b320201dafae685e7f159288f7eefe5153ca674482f0478b7aa"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-list-launch-b1a-c1-command.json.gz",
+      "bytes": 445,
+      "sha256": "cf6f5a71bae64605f41b00162104b29039fe4db0d541cb27aa2198cdf4ccbc28",
+      "uncompressedBytes": 651,
+      "uncompressedSha256": "73292a4239200b5b687a23fbe96dbe898520dd367fdb982c0b5aa60084952dba"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-list-launch-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "7cde24a4a06b04d40c1ee0c00160d6bc62964775431e476dfd045cd29e5c47eb",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "25298e611f26747c2618236fe8e07251418266f3078f150a8f0c4177159df994"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-list-launch-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "e624bcd8dec077a6d4f068aed161c11f8014a401603dd8d9a76bd3fee12bb832",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "5e1a3e68d2c5dda32011fbc728b42b1c213c0e6dc9418bf571329b6d89086db3"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-list-launch-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 97,
+      "sha256": "82ad1bf3581e4d6d26d80641d91a97d8185c92fa39b2e596e8993bc378ec7db1",
+      "uncompressedBytes": 123,
+      "uncompressedSha256": "73363cda2c03c964e068598c10691670f4410d19fe340ecb64ce6a03c2806353"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-list-read-b1a-c1-command.json.gz",
+      "bytes": 184,
+      "sha256": "7c7ae7613466d56726b0791612bf73cec69f7ae7fc43f5d7bfec4cd6c187a507",
+      "uncompressedBytes": 221,
+      "uncompressedSha256": "0da8de2f97867a79c22a81df910d32cf666982b9d2224e93ac1e899f03ed3c2c"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-list-read-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "60f5f2b4fc5cb16adc29d4d2c14fa2d68c7b57fc230b26c77535e07ed7b3f917",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "ce01a9dd2b90f63b62f5aa257e3a8636e903d16b55941515d246c1b592b34d28"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-list-read-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "61100afb4acc448cd721136c85b8e36ddc8dd3bb5ae794c12b57eb2b3ada9a96",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "e0dc59f97b4ab106e2fc3f93ceca51d9deaf82c356b3fd79d286f3e8fae5c383"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-list-read-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 297,
+      "sha256": "6922bd3fbb7922a9d184f44c811a3dbc6eac3b9f4f863c0966afe4e734bdd54f",
+      "uncompressedBytes": 573,
+      "uncompressedSha256": "952b9b695c933f5b3514008fe5f68003a4f8cf38a8f7c6b4bd038ea7dedf66ef"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-native-copy-launch-b1a-c1-command.json.gz",
+      "bytes": 210,
+      "sha256": "4ee2b36d305f86622d5c853ca17241d2f56f85900063eb8f8dd9c0a48cee0dce",
+      "uncompressedBytes": 328,
+      "uncompressedSha256": "23c6b8a5b3e1352b91af17f87f929bdce62de30b8e446711997820c46e2468fb"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-native-copy-launch-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "882fbef98ec6a315223e60d026c03c04f0eecc1883650fa93e9062eba24fca52",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "49e1d6132fad51de3e02f806b6f6e22e0a971510053051d06eeda79c4f88309a"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-native-copy-launch-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "ca9fe046c09802b380123ce6b71703249cc4ca5c8a14db0cf35facb6b25e9915",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "98788fb5e3fa5223998290ce9838f8955d6ee9a9dd47cc5d643fd7180fe2c6b1"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-native-copy-launch-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-native-launch-b1a-v4-c1-command.json.gz",
+      "bytes": 552,
+      "sha256": "58a6f72486c1f1e3b3d3ed60f3bdf16ef394ba57cc2ba61d62a4b89238fb6377",
+      "uncompressedBytes": 848,
+      "uncompressedSha256": "43a6d313097e096a3a09c4037586f3b3b92078016fbfe2829c46564ef9973343"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-native-launch-b1a-v4-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "9907f05c77d7170d9adcef0ee5c154ac6987a3bf764c921882808c746a759d0b",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "efbcfb849eff5399a22886326b20891b4883863824b0bdfd4b53f5d32efd0ec9"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-native-launch-b1a-v4-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "6b7888105a23052b34d82023ecd3ed1b3123b8828cf50d8698566a74dbe75c77",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "b621b38b9d808d00d41405c7a7f6bca8142e797668652770029a5410a32dc45d"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-native-launch-b1a-v4-c1-stdout-stderr.log.gz",
+      "bytes": 105,
+      "sha256": "0d64df517df8ce8eda4470f978e5b1e33a8742fa8a0e25b0177ead83fcd22702",
+      "uncompressedBytes": 141,
+      "uncompressedSha256": "ad02d6e0773d95c107d56107e15408ffe29ea3f6ac8b0dee50ea3433377b3190"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-overlay-v4-apply-b1a-c1-command.json.gz",
+      "bytes": 279,
+      "sha256": "a1305b0f66c03841dfac45572e572e4188300802bab44cce4b86c4ca21cdb2e5",
+      "uncompressedBytes": 424,
+      "uncompressedSha256": "5472677a34469b2d4fd2d5dcfce811e47c2485429d88b4d5da936d85c6c5504f"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-overlay-v4-apply-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "7e3ba60afd88386ca041449ff92f1335fcf6b3bc33700a769481066999903775",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "af40d1e74837a1a027ca0402e790adc4b24114d94fca5e3e38f6e38eabad8ba2"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-overlay-v4-apply-b1a-c1-result.json.gz",
+      "bytes": 88,
+      "sha256": "3cb35dabdcccac7ab3e0762827f00174d7b7497aced22ce5931eca5721ccdb42",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "001ad9a20b6ad06516b035f4b9e27559a0bae6e8ecb23ca1d1474a754f8da0e3"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-overlay-v4-apply-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 204,
+      "sha256": "92abc5cf45ab46afe7ae715d430d752d6f7112ad0a59a289d04f0c71ee754652",
+      "uncompressedBytes": 330,
+      "uncompressedSha256": "23da4c5f76197a48823c428ae9a28293f6071e1341aa1ddab51a3d72f576d5c5"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-after-launch-b1a-c1-command.json.gz",
+      "bytes": 392,
+      "sha256": "2d54ca771d3eb258734579647ad07c4c11acda0ec7e97ae5d83e9ae211cac197",
+      "uncompressedBytes": 630,
+      "uncompressedSha256": "c61f6dd23ac3cdcfec9ece8523960373f2c2526d51fd78fc92b32e60a7b3a544"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-after-launch-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "67ca4c4027ca93be5ca166cb8aebd09cdf691d52b05c466a0b3fe705ed4086a4",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "00a679b5184252a012c80b184835e0a32adf5c71ac7bab667cd9744442ed446e"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-after-launch-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "aadbff87533f26c6c6ec15a1db2e66717c8f1ee2a5c2614763885c9c0a5c7fce",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "ddf86905d2d5c638c999b3141812c3b6474b39c3c55c89593819408add335e4e"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-after-launch-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 103,
+      "sha256": "249a0bc5ba2587041feb752e9b26ec0aa58a53b7371cff31b27e0751feb7dfad",
+      "uncompressedBytes": 137,
+      "uncompressedSha256": "5922a916be031f08f878ab1fe4b12804452a93640b87b02f5162a54e530ed4ca"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-launch-b1a-c1-command.json.gz",
+      "bytes": 390,
+      "sha256": "9595a741e8af770c794d4fc98fed97a10efb3d1cc600ef8f7a435a899da46f02",
+      "uncompressedBytes": 626,
+      "uncompressedSha256": "285d1895a018c13aae9dc2d56197513307b5ce28a09516f7c02893d5b9aab743"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-launch-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "02081ed25d0e5fc742bb162f2df64e29a0e5ac6cd1abd2c2b17f67a907ce3d78",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "80a8cae71c6a051519f7fa6eda7c7a548c81b396cfa31a23bced823a776072bd"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-launch-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "f49d796c1ac21e7c8f7160a2645cdfd0e3c7f0992fbb4200eec78ae067b0639e",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "a4438d7fd526db858fa43dd123ffce0f4d634ed27bed0ac5851f7bdffafa023c"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-launch-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 102,
+      "sha256": "4f3d272c29fe96ff6e4388768d789e365d43daab5962f5f2595898a62ad6214c",
+      "uncompressedBytes": 133,
+      "uncompressedSha256": "2a62857857fa0b14507cb5db2625b30f96a77ca4d8577fdec3b884b15ee9572c"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-postbuild-launch-b1a-c1-command.json.gz",
+      "bytes": 399,
+      "sha256": "b3de7be6d715951b0bfe8b400dc2d97de4ddfd4a5f54de8042c7c804de8ddf7b",
+      "uncompressedBytes": 638,
+      "uncompressedSha256": "4ea985311a41756a17b4d5cd6133138e2b32dd17896b80da4306d33a249fe941"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-postbuild-launch-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "48f1ac37af75d1fa9ac2ad8fedd2b33cbe10fefc30eff0482e64640c045de115",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "03e06bddec62c8e87b17879e41d77c243a0848c9e78261c72987bad9f8a1c189"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-postbuild-launch-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "374c9f2d9d96cdcd79f4a1d146b8f88ad16bd8cd142cfa356199f1e785ea0c02",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "ce916ce3c1e9fbfe18c83bc571e35109be7383bff703999523978fc459a153d1"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-postbuild-launch-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 108,
+      "sha256": "331b1398af8bfa39165b0f60ec6ff858c07230995d9169ffcccf51f4f88cef01",
+      "uncompressedBytes": 145,
+      "uncompressedSha256": "e99f81e705358b6808756a5272d8d91e42efb3acfd7adb6e13230e9756f6b7f2"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-v4-launch-b1a-c1-command.json.gz",
+      "bytes": 399,
+      "sha256": "9a8c859704f4b535325aade426c72bd16ce9251de5bdbbcd93c69a312b0dcc5c",
+      "uncompressedBytes": 632,
+      "uncompressedSha256": "efda5b70933276ddd88886774b21ac4829212de5036aade98674e388ea9717d4"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-v4-launch-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "16b2efe1719beb8991af6c5c072082a1686f8b9242301457c61b889b84595782",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "5f67f7187eeff194de68bb178b910386da49a991482ef0040363752f9db2214d"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-v4-launch-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "6e82a5b4b40b0a150efb03228eca6916826139d8766a73f5881d7daa6fb040c8",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "29e382f36d8ff969ffbeb03ef4cd12922668a516ece797f4b96fb8cd8a8177d3"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proof-v4-launch-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 105,
+      "sha256": "ba0a487c25023dcb29fcfb171a1770362be9eef090719976bb323460447b822d",
+      "uncompressedBytes": 139,
+      "uncompressedSha256": "a029b481faedc9fecc026f8951922e391d6317b4fa8996ac846c1492e090562c"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proofscript-inventory-b1a-c1-command.json.gz",
+      "bytes": 241,
+      "sha256": "b1c6b5d909ca0b61779cf3d114c2018b46cf280751d164a1a78376e946eb0b9b",
+      "uncompressedBytes": 321,
+      "uncompressedSha256": "5cbcb482db70fde4c5cb16afe621bb5daf28d15ee0a34e396b14367bf2c608d3"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proofscript-inventory-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "43fbabb41aa7265ac2a610fd74d37eadea0d96feb9aae9b5eff16bab8ae33356",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "369235be03359633b1429d777b4442738ec747cab00a9ae9ce0331e3364dbfef"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proofscript-inventory-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "596dd88abc499c32eafe99210f87d7fe6a4799dc7e04bd88897c2bb5ca22f5b2",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "350197ac8e15534b37a1245cd75c3fc356a2ba62efae90d9e1dc288322097fff"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-proofscript-inventory-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 100,
+      "sha256": "f073a83a785d193862c40690c2f69636cc6645612e7e4c9f587c20555a32b1e6",
+      "uncompressedBytes": 87,
+      "uncompressedSha256": "ebebfb49ff5f7aa170e35266dfea3b5419d6f56a1af3d04d49e6f4db75562d87"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-runtime-inventory-b1a-c1-command.json.gz",
+      "bytes": 244,
+      "sha256": "df58a7e6a954dcb1f1b7265199cc01cc3879437b72a0bc18cc146337e2836a7b",
+      "uncompressedBytes": 396,
+      "uncompressedSha256": "8d71422f363729bef89982599f5dea1024980c2479c08e77ce6d61de4bcdad5e"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-runtime-inventory-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "89ff5dadb31fd6022a26b9af7a481d150acf265e864e78458b054b8d90ea0fbb",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "19a4362bdf1968b4f20c33005e768b82d12f351122742a5b363271f8992a554e"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-runtime-inventory-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "4f56831e4a420dbb8a42564685b092910675158618591b1afddba1a89f1a0dd7",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "0c8fa17f2f6c9c8b47fa0bbb846fb9b9d63c093de23eb6a2eba20c1bc04dd4e7"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-runtime-inventory-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 333,
+      "sha256": "923b156265f03cc639c7fefab1d74cdfe16fde35b0fa2d4bf94863ae1ecc66c5",
+      "uncompressedBytes": 661,
+      "uncompressedSha256": "7583bddb4bfe42663d64f755e1f9dcbcd52d6a037c2ea92bf4686ebaa3e0ebb6"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-runtime-setup-b1a-c1-command.json.gz",
+      "bytes": 336,
+      "sha256": "ac0ccb486449dc56173b0e03cdbd10811f449b6cc6ce03d842b2a53167459a09",
+      "uncompressedBytes": 563,
+      "uncompressedSha256": "9a0043ae1cfe099b8de918cc08569034b762693754505bf71211cd0ba60abc56"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-runtime-setup-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "dfa685f01b6ba900211b8dc60b243428e4afe35912c51f8b8d6c30658d84acdf",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "340a0b8abb79ec9b68f3e40af3b01b87b3b919a385022f4da716ba8981c46e0e"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-runtime-setup-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "be437a9572baa89eed8b435886cd059ccb0c873c58fb45792b110831cd3a519f",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "817737420ff2c1b5125c91aa8240c9d78330c8d91db03f72ddf99018d9be470d"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-runtime-setup-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 179,
+      "sha256": "00062fc4c8b4975148b27cfbad817e2baef032c325c761afa0285a4d7d1f62b4",
+      "uncompressedBytes": 241,
+      "uncompressedSha256": "79d64fd66b64a0dea53cd4ff656c121f5c9e769952ce081000774b72f2d17cdb"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-trace-list-b1a-c1-command.json.gz",
+      "bytes": 248,
+      "sha256": "49050af31cb8bbc33b97b7e9fe0fd7382f66a863d30c596ba31de4237869707e",
+      "uncompressedBytes": 320,
+      "uncompressedSha256": "0448adf5ea8ecf7ee9410d6d881e61a57a9aa1eb246d0176e2abb1f3c3d7574f"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-trace-list-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "adc7af71aeabbfefb08064b9fae1d54f93ad5f8c780a9485c065c2565c6fd5e2",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "30c5618f85ead0b1c7e89c54a21da1089c8bbf282d49957c40c16094e2a824cd"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-trace-list-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "4a7e16ce7c344ab8f78cb00335e1efa2d2dffbcd7bf3a39af5071242cb1ebc09",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "650fc545250ae527399967abb2a0515238a1e0dfb457711c64b72628895f0568"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-trace-list-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 418,
+      "sha256": "961f64ca2e589470d107360fef2268675d64aba85656d6ce995a13bb119e8699",
+      "uncompressedBytes": 1691,
+      "uncompressedSha256": "6547fb48854d2db21b5917f051b71517722c0b527a8328a2bad35c3c98a3f3c7"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-tracesize-b1a-c1-command.json.gz",
+      "bytes": 210,
+      "sha256": "99a89350e19b475047fa7db1aead5acea2893ba499367f7bd13056f002493196",
+      "uncompressedBytes": 258,
+      "uncompressedSha256": "f1f72fb5579a846b01b6a7d4cb44078a23a2223c9a515f63e94fc6b4f5e682f7"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-tracesize-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "8fa91ce336ad9fa96cc5d2554ca04bbefe987ab5f1118f9e0085db235350f8a7",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "fe3a9a24608fd66e0c65201015c2be6d8205dc7838a0d130f4142f311b154862"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-tracesize-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "f0344be06dffc4ad37eb6f0dd67c905fdd1357574dddaedc87e0037b70f263c1",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "4c1f5808976757f23fbbbcb7438b970a6c36479e3b2138945d97123f22b23da7"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-tracesize-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 235,
+      "sha256": "e5657d8585176ff1ef9c4cd56b38ecd33419d803cf7a0a7399f134aa00106692",
+      "uncompressedBytes": 566,
+      "uncompressedSha256": "7a73f6454c7b70b9bc98185d6fa8812b0a7b1d6a7c2474ee73a799f3fe4de1af"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-build-b1a-c1-command.json.gz",
+      "bytes": 180,
+      "sha256": "14e4d4111906a76117d4bd44266a00e051b856614bf89445fb9c55f363b2cafc",
+      "uncompressedBytes": 207,
+      "uncompressedSha256": "ae6e57618f50f19e7ece05eda8f541fde677d02447ea6a8e2b9dffb0a0c05332"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-build-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "f00844c4f151c8360fe45647e24e423ba8070b10aef50be0c6a451a5c65568b0",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "c758098557d4d790fdd407016f82eab45c4ce77774032a5730bf8cf6ebb0c166"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-build-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "fdf9bd17f42c166deae593ffe717b3b31ec844462020706e84d2d36fa6007e5f",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "5d175f54a549631a1f6f0bb6c69848cc27bfe7985f7bbf84a0944a073579a777"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-build-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 35,
+      "sha256": "ebd9bbef97ca54d3807a8e5fe1df658f69cd9f0dfbcc62f3c6b877a075c18930",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "70d49393c6809306beeae8b9fc05f271790567e04ede7388e46e3d0c7f9303c1"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-scp-b1a-c1-command.json.gz",
+      "bytes": 185,
+      "sha256": "1b42ed9dbdfe652144344a438f123ae92dcb9a52c21700057b5859a563da716a",
+      "uncompressedBytes": 255,
+      "uncompressedSha256": "a1d0697210b9488b7ca1784a27f4bc50bb4d0d7e972b29756ca35c75e9d5e322"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-scp-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "c222efa4ec6f4c1b8e11fccfafc6f9126e0c40c47911c44fdaa69e84b4efcb12",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "e8ec6885af4f6c171b5768f455a56406ef53b6f6af0c1be042fda4309a0d484a"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-scp-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "8a5a9d0299f2b9f91013d1cacab93ebeebaf1adc63bdd9530df780e8b26024c1",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "77856d9c6922805fa490410bf0e46fd84ffd68d0191570065d02caa9bd0383c8"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-scp-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-v4-build-b1a-c1-command.json.gz",
+      "bytes": 417,
+      "sha256": "e9a03c966bc376682f39d5f6605b677bdc76afffa0c2dbcae5356202f815c8a2",
+      "uncompressedBytes": 643,
+      "uncompressedSha256": "97aa840d532ea986144677372b10bd7d1e5015395890b90cfb1d28de05c3ab04"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-v4-build-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "871388e8fe12ccb6cd5b8fa97ead8a82d8ab73a059d28e583956bd9b4d198b52",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "64e9345ab88378af215ae101f86d940b2d37c1a9113aabf2a89eb7ae89f7e7fb"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-v4-build-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "fe1c854c45adc89def29c7e5d4b55728bf0a536c226d94d3b013f091e94e8847",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "c6ff2f9fd9d9d61dcd6fd149be0c485611263d8c904cafac632bce691e39b6a8"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-v4-build-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-v4-scp-b1a-c1-command.json.gz",
+      "bytes": 191,
+      "sha256": "1ea78a3cfd4150e5b4bb659af394c7c83ac05b6ff76f34ef510e15292843d751",
+      "uncompressedBytes": 261,
+      "uncompressedSha256": "3b08cf6ef0728f791ef813360d0f5fd31f5ea004360b4cebe89a958d3e687e7f"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-v4-scp-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "18dece7c1f2ba9240d1d20c25f813cb4bfb7f56db7b58f20f16d8a16f6ab000c",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "fd82b99d59c3f0c92923bc9866928545e31cacc067805c22ec3e007aab746f31"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-v4-scp-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "345b33a24db2de69ee2f62740eea0d3739933ee43f33bbaabf06d46c1e8624c9",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "f522b7030d1be1b4c32977e616c6243855e45e646f25eb0c7212956a95f8aef9"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-transfer-v4-scp-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-type-launch-b1a-c1-command.json.gz",
+      "bytes": 363,
+      "sha256": "f5a083f5be967795c98e0a33dfaef7804ee5726e1951c88e7eccd16a21905c9b",
+      "uncompressedBytes": 513,
+      "uncompressedSha256": "c5963ad3403ff88ffbdfc122271eb155fe3faeeaf8664293eb3b5a2815501e86"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-type-launch-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "4e20ec132153d71b8151d8c0cdebf6f5149dbcf0e88524e00794a20a0cfe1a7c",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "96cd4cd00b951d1037b980a3bde00e30f94c7dfcb79af7e9526566d7eeb0ca3f"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-type-launch-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "cf59cc660c84cdaa07efd7a5e2af521d7c1f20ff9ebd50e6521bcd9a88505f67",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "0c770f8b4c30f68344005c56c3d19073144b4b3e050178fd68aa4bb65b120cd1"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-type-launch-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 94,
+      "sha256": "d7d4a011a6e4e8036ef8c886127de8727b6ab3c25aa383a9e2b2394e2a7d5e4c",
+      "uncompressedBytes": 117,
+      "uncompressedSha256": "a9c3b9704d940a677f2504d26b1cb73c7a40161eb0fa5d42acb9621a842e16fa"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-type-read-b1a-c1-command.json.gz",
+      "bytes": 180,
+      "sha256": "b7b816bac6d22345c83b23ba1033d03133d67bb12fe0ecb06f4690a9c5c16900",
+      "uncompressedBytes": 214,
+      "uncompressedSha256": "1634377f6bc2e1691c938712201363d8982ff63232c88df6bcd45ff0c2451e25"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-type-read-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "f137021124d6ffa979db0c11c89629c6f5bc1b465e461230144c31583e48c9aa",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "c4da50ec70947383a0974dc5958754bc897410a8eca5aa20c46ca6a6899b4ede"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-type-read-b1a-c1-result.json.gz",
+      "bytes": 89,
+      "sha256": "97ca24db3a5936175cbdbc28f6613c16bfb5b044221fdbedd6eae18bd0e57cc3",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "a66c117c94da613b13517b706b8dd1aa35839b1db29cebd47f0bcc8618ed55bb"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-type-read-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 125,
+      "sha256": "d3def0bcb3a2e31561891d13334e7592ffa6100ef5e5e6475534343d4a29c989",
+      "uncompressedBytes": 119,
+      "uncompressedSha256": "52aa2c0da7e903bbfd4d8302b7319bfb8431b9b1b8ad8902193129fcd70bd728"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-type-v4-launch-b1a-c1-command.json.gz",
+      "bytes": 365,
+      "sha256": "57e192a143fd8c077ade7c503e00b6cf7aea1b0dc5bd16b411e053b7e4be75a2",
+      "uncompressedBytes": 516,
+      "uncompressedSha256": "ac1cbddf190a295317ca50c4fc4be1c91393e676e07d791218d2e53ef71a7abc"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-type-v4-launch-b1a-c1-process.json.gz",
+      "bytes": 39,
+      "sha256": "0cae13d88af7753a11662c6c8b6337663d2080d49b040e0dd7434cfa9caa7653",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "d89790f8000aee1b3ddb0ab5dab253349eb712c2d7f0315d319b5a00a0fb0260"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-type-v4-launch-b1a-c1-result.json.gz",
+      "bytes": 87,
+      "sha256": "acd87c7623e346e81a2660e72f9c6c39c6bdf8d24bc28aaa3e38eaafb5eddb9e",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "bed263d55ddc9462c9fe38b94de17506c380a602279cead298a74eeb880e0aba"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/local-tenka-asset-type-v4-launch-b1a-c1-stdout-stderr.log.gz",
+      "bytes": 97,
+      "sha256": "9d07a70918febccbe34a6b290d02997ca2d9396a48b76a02a94613c9acc879ea",
+      "uncompressedBytes": 123,
+      "uncompressedSha256": "e18452397a505d3940dc3f2d87e6793898e6b3090d7f98814a8c567d611c9626"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/native-command.json.gz",
+      "bytes": 280,
+      "sha256": "37944ede44e14cae2752ee45ea9ba762f40651124651b0d13575bb3ef6db12e4",
+      "uncompressedBytes": 500,
+      "uncompressedSha256": "6b1adaedb70d47cbb73c953736b6d90730ca27f6f8f1492d147044dcdfaa4892"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/native-result.json.gz",
+      "bytes": 89,
+      "sha256": "9ad0b5ba9234945839c2ab762321fde3891bf565e581b9db56101c53aedee83b",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "2e5bbb2e7487e24f44d4a37e7b6ced4ed7393547618a7c6f43023460966ca800"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/native-stdout-stderr.log.gz",
+      "bytes": 2067,
+      "sha256": "6f98209eec6cbfd0554f5525925e55bbcead7ff4672ada3ecc170bc0cddc42d9",
+      "uncompressedBytes": 11236,
+      "uncompressedSha256": "640ddc6ade513e71f7fca68796a16e34db0947d58e53e6f6a36d2c042839263b"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/observer-manifest-v3.json.gz",
+      "bytes": 654,
+      "sha256": "17c58c3c15a599a077aa9f0fb9d9efc434878766d1c0bfc6fbefec336baa519a",
+      "uncompressedBytes": 1348,
+      "uncompressedSha256": "0df71e2e3d07e7fd7f488b17350088883948ba92ca5842ac4cf026abab6990b6"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/observer-manifest-v4.json.gz",
+      "bytes": 657,
+      "sha256": "f364a59d9e965240716682bf67ab96b8e279bfa6512765a10cf30749a59aa98f",
+      "uncompressedBytes": 1348,
+      "uncompressedSha256": "77efa314e3f2c88b3474875e97e8f509da91a55414b67b5fa3347a6ab8b0106c"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/observer-patch-v3.patch.gz",
+      "bytes": 6501,
+      "sha256": "d2a3a661ff6646ce919ebdde24296e60acb07747edcf5873db086fde439ae9ac",
+      "uncompressedBytes": 21066,
+      "uncompressedSha256": "150368906a0f085d7de3c208d1e0b55a94026ea7088f1bbe6694b83c7dfdd1a3"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/observer-patch-v4.patch.gz",
+      "bytes": 6515,
+      "sha256": "8485ae1155e6ba2e6a79a2a80167d5d0c6b9a0e4f34b37b74897471697b02088",
+      "uncompressedBytes": 21099,
+      "uncompressedSha256": "3f72b4d6744bb47f04ead3f81bcf3689da10e9a24f706fd67b0d508c38970150"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/proof-after-command.json.gz",
+      "bytes": 209,
+      "sha256": "2a1236a551cb49ae4c467ee9ac04b97e0c48c113f8ad28606b597d9bbf20e382",
+      "uncompressedBytes": 407,
+      "uncompressedSha256": "d2a83da68bba03e73c2490bf2973abc6d898c2d1aef962e9ddd4faedc2b7c261"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/proof-after-proof.json.gz",
+      "bytes": 194,
+      "sha256": "4c38da0f1e8f95b318b3c150a9ace564de308b5c6639738a3342e2008845827b",
+      "uncompressedBytes": 242,
+      "uncompressedSha256": "07ba82078c46f7f695e47ade27bad5178144f46fc9e754459f62ade4aa5db6ae"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/proof-after-result.json.gz",
+      "bytes": 89,
+      "sha256": "9b56f55b28e120fab6067f533189f23651d9d92786a6b73e3a52dbba98780c0c",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "d959c2dc273032e0877736c42277f1cfd1df80bed6cedc0a5ccaea0f6ce4ba30"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/proof-after-stdout-stderr.log.gz",
+      "bytes": 141,
+      "sha256": "89f2856f7d68579c4755fb0a7635bb8b90481c000bbae3b394b7893e19ebae3b",
+      "uncompressedBytes": 153,
+      "uncompressedSha256": "9d2b26e5e54099313a7afcbad127ae7534589d7d17f5f216b1a69aea983ee0ae"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/proof-before-command.json.gz",
+      "bytes": 213,
+      "sha256": "d37a3a14f76e3878100e1e08e4c383188807bc5321fd2b2ad53440e313ea15c4",
+      "uncompressedBytes": 408,
+      "uncompressedSha256": "97ff5f545b172089d23c46de021cf3cf58b05d6add8dc47d7af514f2150adf34"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/proof-before-proof.json.gz",
+      "bytes": 194,
+      "sha256": "4c38da0f1e8f95b318b3c150a9ace564de308b5c6639738a3342e2008845827b",
+      "uncompressedBytes": 242,
+      "uncompressedSha256": "07ba82078c46f7f695e47ade27bad5178144f46fc9e754459f62ade4aa5db6ae"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/proof-before-result.json.gz",
+      "bytes": 89,
+      "sha256": "f4b47a684a0decaf50a7770cf096a564d712c50decf80daaf599314ca2c6b9cf",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "a2030775d5cdd0842a1b0c5113335bd151e1bd737f0b93ab4e8d51454578de26"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/proof-before-stdout-stderr.log.gz",
+      "bytes": 141,
+      "sha256": "89f2856f7d68579c4755fb0a7635bb8b90481c000bbae3b394b7893e19ebae3b",
+      "uncompressedBytes": 153,
+      "uncompressedSha256": "9d2b26e5e54099313a7afcbad127ae7534589d7d17f5f216b1a69aea983ee0ae"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/proof-postbuild-command.json.gz",
+      "bytes": 213,
+      "sha256": "5ed2245cd5628a642d15a581e017a0e856b890a6c6c68c53b7a90f515cc863a6",
+      "uncompressedBytes": 411,
+      "uncompressedSha256": "bcf4d91b807a41225c95490982bb105e83faa11c829803f0342b38c85865514f"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/proof-postbuild-proof.json.gz",
+      "bytes": 194,
+      "sha256": "4c38da0f1e8f95b318b3c150a9ace564de308b5c6639738a3342e2008845827b",
+      "uncompressedBytes": 242,
+      "uncompressedSha256": "07ba82078c46f7f695e47ade27bad5178144f46fc9e754459f62ade4aa5db6ae"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/proof-postbuild-result.json.gz",
+      "bytes": 89,
+      "sha256": "e8cf8df0021f24380ee12e1c231d006321e3c2980d5d27b7a38dd9bc5ef8193c",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "2814b14876953ed6a71fb3e2242a9579b91ff7a2715cfbada2a43c18eb5e7834"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/proof-postbuild-stdout-stderr.log.gz",
+      "bytes": 141,
+      "sha256": "89f2856f7d68579c4755fb0a7635bb8b90481c000bbae3b394b7893e19ebae3b",
+      "uncompressedBytes": 153,
+      "uncompressedSha256": "9d2b26e5e54099313a7afcbad127ae7534589d7d17f5f216b1a69aea983ee0ae"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/report.json.gz",
+      "bytes": 1195051,
+      "sha256": "e6921355aabc58d426d4f1b3eedf5773bcaccb744ccc73625647e4f3c8c69c2e",
+      "uncompressedBytes": 5829441,
+      "uncompressedSha256": "0934a1fe383f2050275cc3fdb04504ab023a53502f2f2a247efcf2b37a1b8d7b"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/source-manifest.json.gz",
+      "bytes": 69937,
+      "sha256": "576dd82159aaf77706161a82871068c605d4c88206131a02fc8097f549ddf57a",
+      "uncompressedBytes": 301043,
+      "uncompressedSha256": "d1f4228165f413750dc1d7598cd44b67d3898edbe68a6bb137840fcd542a400b"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/sunpu-asset-stages.json.gz",
+      "bytes": 4283,
+      "sha256": "1bb8e028b720c165f7f4313b0bbd3b03bc196597f037b61aa45e719ab447c364",
+      "uncompressedBytes": 51388,
+      "uncompressedSha256": "3e67cbbfc94fd4d84dd9174498203ce287f09ac39fe83919a9f842dbc024c581"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/type-green-command.json.gz",
+      "bytes": 170,
+      "sha256": "37299b5582442e3b6da53eb2e1c2dd7df80fb612dcd81fd94ede0f68cad241d1",
+      "uncompressedBytes": 210,
+      "uncompressedSha256": "8b1302d5f8f721107f5fed607badf0cdae6ce521bc8c4a9640baa97838bbf3ec"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/type-green-result.json.gz",
+      "bytes": 88,
+      "sha256": "bffb4adb81e2a80a6b0ef928a6f802843bbbc2dace2a812b5b5adc8353f37945",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "abc4340ebc9c32f9ba50eee8d31979a63a372bcced010cd3b22492a207b7371b"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/type-green-stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/type-red-command.json.gz",
+      "bytes": 170,
+      "sha256": "068cc8b5e7e18317b9ca570543dc0988849ef82055b34199af41e72667c70c78",
+      "uncompressedBytes": 210,
+      "uncompressedSha256": "69156ce14e33cc441a6e4dca7bf369ddfebc783ff398439c181c2306a9a37c5d"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/type-red-result.json.gz",
+      "bytes": 89,
+      "sha256": "d2a3d29e8a2ce13ada0138554707acedaa0e84d0f636f721928a3950b0229ae6",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "f6dcfb0274cfca61a010caede21c01c74400dec6dfea29535dea6e156b57f2ef"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw/type-red-stdout-stderr.log.gz",
+      "bytes": 125,
+      "sha256": "d3def0bcb3a2e31561891d13334e7592ffa6100ef5e5e6475534343d4a29c989",
+      "uncompressedBytes": 119,
+      "uncompressedSha256": "52aa2c0da7e903bbfd4d8302b7319bfb8431b9b1b8ad8902193129fcd70bd728"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/raw-manifest.json",
+      "bytes": 31935,
+      "sha256": "31cccba7c78516743f8d06a9f62dda4318a0c37e7f14077f116a20adc6be1c09"
+    },
+    {
+      "path": "army-asset-stages-b1a8fc8/verify.py",
+      "bytes": 5211,
+      "sha256": "26dcbf673837400276badeac88947d0c9c1638b5acb49b26db903df39a170c66"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/README.md",
+      "bytes": 1756,
+      "sha256": "7501392512705de1bee5368eadb31e7741ebd73f114b922b17ac5df3b0e2442f"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/manifest.json",
+      "bytes": 16098,
+      "sha256": "cdef1463ce864a5c7e4f2166873487d22aec11e935c3bcaaf10ce063d60801e7"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__after-pixi.json.gz",
+      "bytes": 1770,
+      "sha256": "5980f197a975c3cc2fb99d825c1e94311d33ee3a4c6f92432d328451f69a4671",
+      "uncompressedBytes": 7740,
+      "uncompressedSha256": "307705fb6bcae074a47b46f36d04051c87e8445d486193d28cf1f90ff5a9d331"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__after-result.json.gz",
+      "bytes": 67,
+      "sha256": "44bcd759d610018e307e8be0be386e2cddd78dc5bfc9dd2f5037586695956183",
+      "uncompressedBytes": 75,
+      "uncompressedSha256": "67298eeea7e1f213f4d174371a5e283bd28f26973ace4cee6d7b42b224768dd0"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__after-source.json.gz",
+      "bytes": 135471,
+      "sha256": "2cfb2e5b0e0f0d7d31a198d4b8a7f4df47d26c68e5e07fbc1f48da3ec8fed019",
+      "uncompressedBytes": 508268,
+      "uncompressedSha256": "c3050555936046d64a6c221814ee3a6174a53990c6254b38e27c1e7c70e1d641"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__before-pixi.json.gz",
+      "bytes": 1770,
+      "sha256": "5980f197a975c3cc2fb99d825c1e94311d33ee3a4c6f92432d328451f69a4671",
+      "uncompressedBytes": 7740,
+      "uncompressedSha256": "307705fb6bcae074a47b46f36d04051c87e8445d486193d28cf1f90ff5a9d331"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__before-result.json.gz",
+      "bytes": 67,
+      "sha256": "44bcd759d610018e307e8be0be386e2cddd78dc5bfc9dd2f5037586695956183",
+      "uncompressedBytes": 75,
+      "uncompressedSha256": "67298eeea7e1f213f4d174371a5e283bd28f26973ace4cee6d7b42b224768dd0"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__before-source.json.gz",
+      "bytes": 135471,
+      "sha256": "2cfb2e5b0e0f0d7d31a198d4b8a7f4df47d26c68e5e07fbc1f48da3ec8fed019",
+      "uncompressedBytes": 508268,
+      "uncompressedSha256": "c3050555936046d64a6c221814ee3a6174a53990c6254b38e27c1e7c70e1d641"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__build.command.json.gz",
+      "bytes": 142,
+      "sha256": "e49431a68a0b496dd3f124979798ebd84eb16608edde081abfd953caa5f1e0f2",
+      "uncompressedBytes": 148,
+      "uncompressedSha256": "65af102dcbbd871c0eba1c17e6a59e82231b3e5e1061f3a657108b75de291e38"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__build.log.gz",
+      "bytes": 848,
+      "sha256": "c7e280c5963df51a8108885ec9adf26eb0e18eafa55d42fef8c9b4d695215d59",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "e6ff6370de94a874cecc679c813af79d9dd3adac7debd858e11514a2530572c0"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__build.result.json.gz",
+      "bytes": 130,
+      "sha256": "e2aeb0057837a2b65d2bb2cfca8dd79f79884e1aa63a39ab254b473a549f0de8",
+      "uncompressedBytes": 125,
+      "uncompressedSha256": "5ecaeca34219c5efc8ac92a6f98ef2f3ae5a934cfd514c16d50cff8ab2e30de2"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__bundle.command.json.gz",
+      "bytes": 150,
+      "sha256": "8218a6c4e4930320c7c9fa9dc7575aec5551056375aaaf63a8f1c9e191437f2b",
+      "uncompressedBytes": 158,
+      "uncompressedSha256": "05a1db4f5019abf398d7a2a4759dd799f63b9af320b589881dae00979874466c"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__bundle.log.gz",
+      "bytes": 396,
+      "sha256": "7fa455488fd3302eda886f6b921d1e28595683a8d1d27d550b06840ae9d42d27",
+      "uncompressedBytes": 1057,
+      "uncompressedSha256": "d7d3b18e6d1b89672650b0e635e62e30c69eae55045fea2ebe1b93eb7e531cc5"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__bundle.result.json.gz",
+      "bytes": 133,
+      "sha256": "5fdca124f7fbe7dc4caf0722b00b87d9dc12df7330a56eedc2b11b2b4e34d078",
+      "uncompressedBytes": 128,
+      "uncompressedSha256": "dfb4f174888ba0bde2e840c9044058dd6f64c7f7e59bf81b2776dee561513d5f"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__eslint.command.json.gz",
+      "bytes": 149,
+      "sha256": "182aed463859de1c31135ff6981e268e9654a1d3e8c065ad0a52ec562b7f02f0",
+      "uncompressedBytes": 154,
+      "uncompressedSha256": "851e2fc6e071e02c9e5c9dfb3b04eebb137f720a46a9aba6a6eaab2c74072f56"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__eslint.log.gz",
+      "bytes": 390,
+      "sha256": "473be89ba225e113228f3797a83a853b7886415ce7502a3041d572540e02d10e",
+      "uncompressedBytes": 674,
+      "uncompressedSha256": "2ee6671669b535840800a8f90bb18fc543b0dd2e02871435e6715557c7fcb3b3"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__eslint.result.json.gz",
+      "bytes": 132,
+      "sha256": "2c824e0365f8b80a59e7e9ad3aaa9715af8456c40f4a6c74c702450d245d5b61",
+      "uncompressedBytes": 127,
+      "uncompressedSha256": "cd8d550eb6ce7bca20c7662f4c5908144eda855a424011c92f69a26c222d6ba0"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__focused.command.json.gz",
+      "bytes": 281,
+      "sha256": "c5f3a6613116af4a9b0231ad65cab08699357cb0609bb836afaf5a4979a70d3b",
+      "uncompressedBytes": 641,
+      "uncompressedSha256": "9f9c9fd0e479c7af8d17d0e34561c95a63a3c9d0d6b130ced5a575f2f382df78"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__focused.log.gz",
+      "bytes": 701,
+      "sha256": "d3dd8d73a579cdfbac49d0cbf87e4d264ef6d301f4018cd97386032789335f15",
+      "uncompressedBytes": 1558,
+      "uncompressedSha256": "92ea29ef3c579467130b93f7765a2193eb9df8e532e8715928d3b645fb2d3dc4"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__focused.result.json.gz",
+      "bytes": 130,
+      "sha256": "5d93721a908208dbe07f484645af0a3aab314ba739cbe66e9ce323325bbb96dc",
+      "uncompressedBytes": 127,
+      "uncompressedSha256": "bf9a4f668d13de23e9e1255e420fc5771d268af0d5275ac1a4066518e458ded7"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__format.command.json.gz",
+      "bytes": 238,
+      "sha256": "e134dbe38d9f6a6697fa31aa7d2501927dd1248b90c3e62544767c8149742fbf",
+      "uncompressedBytes": 312,
+      "uncompressedSha256": "91467db0cc857ac283c3f4cd823a6767acb73331061a96e648f696ef6fc0f335"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__format.log.gz",
+      "bytes": 82,
+      "sha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5",
+      "uncompressedBytes": 66,
+      "uncompressedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__format.result.json.gz",
+      "bytes": 132,
+      "sha256": "9b89d0b9d2bc8d1b8e00c614b8ebe89c1cfeb00e28eae54cbcf3c0a6660f3d64",
+      "uncompressedBytes": 128,
+      "uncompressedSha256": "0f42330236b122a2f5126ca7eebfd95114a7846df066c69b1b1d2417ea082846"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__inventory.command.json.gz",
+      "bytes": 310,
+      "sha256": "3efd41107be5e0cce59e42b15d52c83a729046316dbde3fc6ff204c4547ea5ac",
+      "uncompressedBytes": 530,
+      "uncompressedSha256": "6e23509de3cd18528d21c894f9baf96309e54456d101b4563e41d9d9fe8e3fa2"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__inventory.log.gz",
+      "bytes": 158,
+      "sha256": "845e08848611b0f5ead062751e80b403597b8201539396123c895de9f463e9c6",
+      "uncompressedBytes": 176,
+      "uncompressedSha256": "60eacc032d732893616a12c960496c3e08a82fce40b1af10a331c2012fa6a5f9"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__inventory.result.json.gz",
+      "bytes": 134,
+      "sha256": "f3fc161290ef875c16ee4049793ce4e50a04e877703e67bc4c5cf22900712717",
+      "uncompressedBytes": 131,
+      "uncompressedSha256": "e594c3e6bf867d26ecab7a7d23cf3e82a4a72b5f83189041bef599cb1acd9e1a"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__source-inventory__manifest.json.gz",
+      "bytes": 70038,
+      "sha256": "f1b19e8dabd713d8fc6333bbdfc62b94051e8a2b149974a611fe1b92f8195839",
+      "uncompressedBytes": 301407,
+      "uncompressedSha256": "e40f0f7e6f1a9abf6900cf33d7bbd5ad0bc7f743c5d03626696fd18a19afe245"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__source-inventory__revision-commit.command.json.gz",
+      "bytes": 149,
+      "sha256": "9237ee662b3b0cab512d2802fc34c28c23915114117c67bbf447850727a2018f",
+      "uncompressedBytes": 161,
+      "uncompressedSha256": "2326dd192d13dd3b78c1a225a1d74de60d2af8f803617db224df09da7238bf81"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__source-inventory__revision-commit.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__source-inventory__revision-commit.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__source-inventory__revision-commit.stdout.gz",
+      "bytes": 60,
+      "sha256": "b34caf415792dfc975e2e1ff715f4c52a2cd18ffbce13283d8fd07873a5857e9",
+      "uncompressedBytes": 41,
+      "uncompressedSha256": "44c5778f9dcfa39e84b78ac04d26463fa0db418cf3d5ce65779b80b1d7d8ae07"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__source-inventory__revision-tree.command.json.gz",
+      "bytes": 138,
+      "sha256": "e76147729d0aa946b011dea0be3d2dae61d01a1452120fe1b3be00bf1322286d",
+      "uncompressedBytes": 145,
+      "uncompressedSha256": "d9a68b34f969feb301792b2492fcd789b7112931a20fbbd5a58d6222d803b521"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__source-inventory__revision-tree.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__source-inventory__revision-tree.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__source-inventory__revision-tree.stdout.gz",
+      "bytes": 258071,
+      "sha256": "c00ae93673061113fbdf01be567a4bf27e7925adea7faaa1e91aab9fdf265fd1",
+      "uncompressedBytes": 1289799,
+      "uncompressedSha256": "2397a8b8b5604e77066da136b7c75be7fd7cf78125cce2de20ed59024ca56bf2"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__status.json.gz",
+      "bytes": 389,
+      "sha256": "0542c7cd49b33a97fea608c805c19d5e9f178022a7dd453d69125106d3caf36d",
+      "uncompressedBytes": 1214,
+      "uncompressedSha256": "fa16df4bdc7465123447f0f04283068b36061a10fe6353e7b57734f2892b415c"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__typecheck.command.json.gz",
+      "bytes": 144,
+      "sha256": "90e91bac42c87c28a3a839e8426770729744e3b8cb4f56b16281a2383a3f872f",
+      "uncompressedBytes": 152,
+      "uncompressedSha256": "276b7b64a42bbcefedcd6eadcfcc02474bd15137079e1e4459ffb3fe8d0d6c28"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__typecheck.log.gz",
+      "bytes": 87,
+      "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+      "uncompressedBytes": 84,
+      "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/inner__typecheck.result.json.gz",
+      "bytes": 131,
+      "sha256": "85525d09c2c443388914d320bf15016c2c982400e235d4d39cabddb365fced55",
+      "uncompressedBytes": 129,
+      "uncompressedSha256": "cc6017bf4bb95554c5e42f55b283929f016bc2b65f3818978fb00ad155843971"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/outer__command.json.gz",
+      "bytes": 227,
+      "sha256": "118cf9ecb119398582c0c07ceecca7990e9a9199f4147d15cb82a81bf1fa814b",
+      "uncompressedBytes": 316,
+      "uncompressedSha256": "03e8505e409688aee7caffb086283ff49040b8364f5cbf728182fc32ac6c8fbc"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/outer__process.json.gz",
+      "bytes": 39,
+      "sha256": "107bf6ab470b479356316bacc0177290d6a2f398697366152e40f4824945b5fb",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "19f0fb751bc655c82dcffdead3aeca867b6ae7142400d4548f4dbd6b3b5f5ed5"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/outer__result.json.gz",
+      "bytes": 89,
+      "sha256": "4d864c4854d1d6b356a385e77b333922001fc4e8dff49239dee328e89f8e7257",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "604ee4ccd2985aefde665ed752c41c83886e0104450f24b51c52e1b55f9cadf7"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/outer__stdout-stderr.log.gz",
+      "bytes": 290,
+      "sha256": "099639ee0a492a7d7721775d40441eebad84bda90bc804142b57149b3a716177",
+      "uncompressedBytes": 825,
+      "uncompressedSha256": "47c8dc9dd332988efc2f8d3f36a4e1b6480ffde17093a0dbeb9b9ccf9ab9f07d"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/producer__outer-capture.py.gz",
+      "bytes": 904,
+      "sha256": "3a492d9e511f6dd9d21d3e57f8834ba5f7586c73ff765feec7c3c6904c4758e1",
+      "uncompressedBytes": 1722,
+      "uncompressedSha256": "888e8cf09de8e6cc4191194d69168974601d5397ffa4991ac3c981c8531f1710"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/producer__runner.py.gz",
+      "bytes": 2084,
+      "sha256": "3570f24828e36dd0a14ca699358e4b8030f0a21df450fd321b5adb363980cd7f",
+      "uncompressedBytes": 5916,
+      "uncompressedSha256": "311a21712749560d034c156a59be72f6d976284c5f0df593082ea8c127f4a35a"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/raw/producer__scoped-source-inventory.py.gz",
+      "bytes": 1434,
+      "sha256": "b415c2a965cc5260bcb78e7a263f297404a7dbbb3f4c20cb8c7bd98c02635f70",
+      "uncompressedBytes": 3348,
+      "uncompressedSha256": "d7f1fd477c0583eff8237e13c34e7c77a594a8552ca6211a958536da2287ab1d"
+    },
+    {
+      "path": "fnv-integrated-a48eb2c/verify.py",
+      "bytes": 3771,
+      "sha256": "4b776c359dbbc35aa6b36345ca941dcaf2988dc504d9cce975ca2f74c5cc3b2a"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/README.md",
+      "bytes": 2047,
+      "sha256": "6d06a16e47f06b6696093536e47ddd8f9ffb59905abcb1bc7bc8673d9a45682f"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/corrected-producer.py.gz",
+      "bytes": 1783,
+      "sha256": "96693f88572779215db26fea0637eabd8b07d7daa6554bcf390163b129202cd3",
+      "uncompressedBytes": 3776,
+      "uncompressedSha256": "55e52d33174419df9925ee8651dde0961207a6b6dc4f00062a17a3143136953a"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/initial-partial__failure-tool-transcript.txt.gz",
+      "bytes": 225,
+      "sha256": "c3650c0c26e734519a326eb775fc15454cd0f1702d3fff1242bbd1952623ec0d",
+      "uncompressedBytes": 299,
+      "uncompressedSha256": "845cd58d4e1df7f70184867888a5e89cd5eed63395ddf892132bf79ac02b8d72"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/initial-partial__root-asset.log.gz.gz",
+      "bytes": 140,
+      "sha256": "ea96943382bb57001e24c0d668f950c709feb198eb6a7f5d941d527ca911addf",
+      "uncompressedBytes": 117,
+      "uncompressedSha256": "63dbee9130b70ad448dfbdf5caefee9d18ce963d4b52591d600c80755ebbc8a5"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/initial-partial__root-integration.log.gz.gz",
+      "bytes": 145,
+      "sha256": "65b47fc71837afb3841809421e975a39fdeb0daa2c433857bd82d8f4b3aa2636",
+      "uncompressedBytes": 122,
+      "uncompressedSha256": "df4b01ffa05deb66328de47d579853adf83759d51b2f654b2a5803ce5d7af3ae"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/manifest.json",
+      "bytes": 11053,
+      "sha256": "0b24be606629508f48e0f33761ff753aead89467fbb7344431744640b6060ab4"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/root-asset.log.gz",
+      "bytes": 117,
+      "sha256": "63dbee9130b70ad448dfbdf5caefee9d18ce963d4b52591d600c80755ebbc8a5",
+      "uncompressedBytes": 109,
+      "uncompressedSha256": "ad65d9dbf425b982050b052128a90db60dd12acca1274d300c6814b3af71e527"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/root-integration.log.gz",
+      "bytes": 122,
+      "sha256": "df4b01ffa05deb66328de47d579853adf83759d51b2f654b2a5803ce5d7af3ae",
+      "uncompressedBytes": 116,
+      "uncompressedSha256": "594d98c6564838c7419e6e9e8083349009e77dfd18c35e34a14762bb00f5590e"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/root-route.log.gz",
+      "bytes": 166,
+      "sha256": "1343cbb45f6c19a5d2772eedfac960afb57b2115fb227a4416136c3ff5af3117",
+      "uncompressedBytes": 190,
+      "uncompressedSha256": "a656f1c577bd7df4ed39e5ee7f3ee76fb2d4ef96b2b0a77e6b0490b960ac5b3a"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-asset-docs-diffcheck-a48-c1__command.json.gz",
+      "bytes": 154,
+      "sha256": "9c5824bfee1d267d5193d39dce4451727efacf57fc784d24ca34f2584787afba",
+      "uncompressedBytes": 171,
+      "uncompressedSha256": "15bdf15278658318da6a4a9809fc3b6a0de59ee4c471da3281aac8e7688dde5a"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-asset-docs-diffcheck-a48-c1__process.json.gz",
+      "bytes": 39,
+      "sha256": "a17c555b677c5e130448876ef215c49478b3b2ec0f15f82ec90006df5ee02081",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "4785d42fe37172d6daaa88a03ad1c9edd71dee4ae82554f4a54cf0a244fe843c"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-asset-docs-diffcheck-a48-c1__result.json.gz",
+      "bytes": 89,
+      "sha256": "3c7ac064c76b6b38bb6de4f19decada66a889fcf500e539c432a0974b3c5eab0",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "004ae550ffc4415949ebd7d29982a35dc0695175bc762890edee06a3171e11df"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-asset-docs-diffcheck-a48-c1__stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-asset-docs-format-a48-c1__command.json.gz",
+      "bytes": 234,
+      "sha256": "589e6d56f0ef379a0cf5c55d716926e076a6c4eac43fda21335cc07da9712f2b",
+      "uncompressedBytes": 368,
+      "uncompressedSha256": "9e921bd70e2123b6d1b818900084347db58345c683723157d5a5e9feddca4a90"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-asset-docs-format-a48-c1__process.json.gz",
+      "bytes": 39,
+      "sha256": "5c2f1ddf87ba26df7df40b3a299dca380a739ee2eba816f7bb64c6bec87d4d21",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "72b84b9cea4d3cbec25396713aa0fc1e91439b4eeaacfc9d50470c3b247a6559"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-asset-docs-format-a48-c1__result.json.gz",
+      "bytes": 89,
+      "sha256": "6db656ee97ce97a94c907174a2893ca3f097fe601d7f45fd51863f6e84a9eda0",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "7a0ada81133c349c7be6d05d8bb02294572920c92781c7fddd1824c6255700eb"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-asset-docs-format-a48-c1__stdout-stderr.log.gz",
+      "bytes": 146,
+      "sha256": "bd4e3bb36bf2fd6c991a67b323e78b37a93d5f71976cb4eaae0b4d2bbb553be3",
+      "uncompressedBytes": 231,
+      "uncompressedSha256": "eb102748f66baa937ebe10c14f92adde8205a0ca8673e41601a2880831fac822"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-asset-docs-format-a48-c2__command.json.gz",
+      "bytes": 210,
+      "sha256": "58d96e18f119eb9df5f127b332b88b9cd09a878b50a63dd31bdf3a6223c800bc",
+      "uncompressedBytes": 284,
+      "uncompressedSha256": "29c4979287cb4ff5796764b1bd71276311dd838e1125bfd2a7416abe7089577d"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-asset-docs-format-a48-c2__process.json.gz",
+      "bytes": 39,
+      "sha256": "6adee80132ed2868ea829d995d4ed38d8420af840f3dbf0e717f5aba2260212b",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "ea3c0a4b6822791bb07ae6fd1560bd6e3beb860859ce68a08c6dd02317440371"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-asset-docs-format-a48-c2__result.json.gz",
+      "bytes": 89,
+      "sha256": "fc53bd714fbbcaa6251e9bc9c95f97076849a72613a98f255e547d11e3e964a4",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "7b6bb0cf7e25e5b8f7593c18292ef3753448fab75d53e3d57013610aabcfd2b9"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-asset-docs-format-a48-c2__stdout-stderr.log.gz",
+      "bytes": 114,
+      "sha256": "a11dd545d5c1d60ddd1b36bf9b26d9756d100daf729460de5e8cd2a89b66d726",
+      "uncompressedBytes": 150,
+      "uncompressedSha256": "f15e4190b790f959e4a336010fea511220f9efcd5acc9d172bf278e129fe9ecd"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-asset-handoff-a48-c1.py.gz",
+      "bytes": 1590,
+      "sha256": "cc3e6ee21f256314d0549fc91fd0347029c46bcf5f980d94ba8fd8a608a55f41",
+      "uncompressedBytes": 3239,
+      "uncompressedSha256": "9522634d89ea64f2e7b7335821ba7d207b58e6a6ae5ff0417199b29949098ef2"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-integrated-docs-a48-c1.py.gz",
+      "bytes": 1701,
+      "sha256": "2b921a55c414120ab161dc50840e2b87f7be2865f72685bd72e0de9532576b18",
+      "uncompressedBytes": 3329,
+      "uncompressedSha256": "a1cec7688c31b5bee9b722a430527d3e51873382c5791335ea4c8032f30584df"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-integrated-pack-a48-c1.py.gz",
+      "bytes": 961,
+      "sha256": "91ec9a1a0dd78c9a9d5bc8c32d7c9918449e1916ebc81b3dde1715dea41edd9a",
+      "uncompressedBytes": 2227,
+      "uncompressedSha256": "694c0ad0a10ece21988a7fba38282f75dc2b494162e2ae37544472fea4f79a59"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-integrated-pack-a48-c1__command.json.gz",
+      "bytes": 171,
+      "sha256": "c613ac4181d1bc145c91a126d010a43639e46c6d3059801665ed696fb3bb6d5b",
+      "uncompressedBytes": 196,
+      "uncompressedSha256": "4c64b8f0966a1ed2d43a47b88a2c41a7fa4bd31f8759f29d5e6ee7953d3811f7"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-integrated-pack-a48-c1__process.json.gz",
+      "bytes": 39,
+      "sha256": "dab162f161b7e7d01e797cfbacadf776bdf966018549f6a3170fa89f49900898",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "10e2656eaa9056e014ec065d65a207719c2e820381d9396cb63f8df6d37f1d91"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-integrated-pack-a48-c1__result.json.gz",
+      "bytes": 87,
+      "sha256": "9868b883bd344aec0bbbe77b67764b0c3599266aeef41e2d39b90382a1751d5b",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "453a7e4a66c0e3a4dd0f36558ad3a8c64965ce6c2b414119bf0f98b2a52179bb"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-integrated-pack-a48-c1__stdout-stderr.log.gz",
+      "bytes": 211,
+      "sha256": "eac02855a1d6dc06cf73185507a7fe4c148a85bd0e5f7e587333a9a9ff85bb7f",
+      "uncompressedBytes": 250,
+      "uncompressedSha256": "c5978ee161d6ae56f409fe7373fdf821ae2d94f40a62bfc8240cf98a933dfa46"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-integrated-verify-a48-c1__command.json.gz",
+      "bytes": 196,
+      "sha256": "45ac20d8a07a7a5516b972ad2441734d563393316642cdf91820d53c369645ee",
+      "uncompressedBytes": 232,
+      "uncompressedSha256": "5a9f6133cfac1f2b96dc74e288d98d6d2d61da5b0094313915e66cc1647358a0"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-integrated-verify-a48-c1__process.json.gz",
+      "bytes": 39,
+      "sha256": "7ac3093a875c6d20f5f1f134e459a544d898c4a8c6eae2d97b4a62277e0844de",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "9f1ae7811b08beae8cfd8d564a63ec357f47a75fb7cae82ac9031b91608bfc3c"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-integrated-verify-a48-c1__result.json.gz",
+      "bytes": 88,
+      "sha256": "d0f92e6d44c1b0cdedba3331526bfd8443ac2e1d880eda3aded85f2d477d24bd",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "7890c454d3cb97db41901bfc52581ccb370c240e335fd1d3a9c1e1ebdcde8637"
+    },
+    {
+      "path": "fnv-asset-handoff-a48eb2c/tenka-fnv-integrated-verify-a48-c1__stdout-stderr.log.gz",
+      "bytes": 122,
+      "sha256": "df4b01ffa05deb66328de47d579853adf83759d51b2f654b2a5803ce5d7af3ae",
+      "uncompressedBytes": 116,
+      "uncompressedSha256": "594d98c6564838c7419e6e9e8083349009e77dfd18c35e34a14762bb00f5590e"
     }
   ]
 }

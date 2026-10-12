@@ -1,0 +1,244 @@
+{
+  "items": [
+    {
+      "file": "root-integration.log.gz",
+      "source": "/tmp/tenka-root-fnv-integrated.neDZlb",
+      "rawBytes": 116,
+      "rawSha256": "594d98c6564838c7419e6e9e8083349009e77dfd18c35e34a14762bb00f5590e",
+      "gzipBytes": 122,
+      "gzipSha256": "df4b01ffa05deb66328de47d579853adf83759d51b2f654b2a5803ce5d7af3ae"
+    },
+    {
+      "file": "root-asset.log.gz",
+      "source": "/tmp/tenka-root-asset-stages.CKX8tY",
+      "rawBytes": 109,
+      "rawSha256": "ad65d9dbf425b982050b052128a90db60dd12acca1274d300c6814b3af71e527",
+      "gzipBytes": 117,
+      "gzipSha256": "63dbee9130b70ad448dfbdf5caefee9d18ce963d4b52591d600c80755ebbc8a5"
+    },
+    {
+      "file": "root-route.log.gz",
+      "source": "/tmp/tenka-root-takeda-hash.m3Wicn",
+      "rawBytes": 190,
+      "rawSha256": "a656f1c577bd7df4ed39e5ee7f3ee76fb2d4ef96b2b0a77e6b0490b960ac5b3a",
+      "gzipBytes": 166,
+      "gzipSha256": "1343cbb45f6c19a5d2772eedfac960afb57b2115fb227a4416136c3ff5af3117"
+    },
+    {
+      "file": "tenka-fnv-integrated-pack-a48-c1__command.json.gz",
+      "source": "/tmp/tenka-fnv-integrated-pack-a48-c1/command.json",
+      "rawBytes": 196,
+      "rawSha256": "4c64b8f0966a1ed2d43a47b88a2c41a7fa4bd31f8759f29d5e6ee7953d3811f7",
+      "gzipBytes": 171,
+      "gzipSha256": "c613ac4181d1bc145c91a126d010a43639e46c6d3059801665ed696fb3bb6d5b"
+    },
+    {
+      "file": "tenka-fnv-integrated-pack-a48-c1__process.json.gz",
+      "source": "/tmp/tenka-fnv-integrated-pack-a48-c1/process.json",
+      "rawBytes": 19,
+      "rawSha256": "10e2656eaa9056e014ec065d65a207719c2e820381d9396cb63f8df6d37f1d91",
+      "gzipBytes": 39,
+      "gzipSha256": "dab162f161b7e7d01e797cfbacadf776bdf966018549f6a3170fa89f49900898"
+    },
+    {
+      "file": "tenka-fnv-integrated-pack-a48-c1__result.json.gz",
+      "source": "/tmp/tenka-fnv-integrated-pack-a48-c1/result.json",
+      "rawBytes": 73,
+      "rawSha256": "453a7e4a66c0e3a4dd0f36558ad3a8c64965ce6c2b414119bf0f98b2a52179bb",
+      "gzipBytes": 87,
+      "gzipSha256": "9868b883bd344aec0bbbe77b67764b0c3599266aeef41e2d39b90382a1751d5b"
+    },
+    {
+      "file": "tenka-fnv-integrated-pack-a48-c1__stdout-stderr.log.gz",
+      "source": "/tmp/tenka-fnv-integrated-pack-a48-c1/stdout-stderr.log",
+      "rawBytes": 250,
+      "rawSha256": "c5978ee161d6ae56f409fe7373fdf821ae2d94f40a62bfc8240cf98a933dfa46",
+      "gzipBytes": 211,
+      "gzipSha256": "eac02855a1d6dc06cf73185507a7fe4c148a85bd0e5f7e587333a9a9ff85bb7f"
+    },
+    {
+      "file": "tenka-fnv-integrated-verify-a48-c1__command.json.gz",
+      "source": "/tmp/tenka-fnv-integrated-verify-a48-c1/command.json",
+      "rawBytes": 232,
+      "rawSha256": "5a9f6133cfac1f2b96dc74e288d98d6d2d61da5b0094313915e66cc1647358a0",
+      "gzipBytes": 196,
+      "gzipSha256": "45ac20d8a07a7a5516b972ad2441734d563393316642cdf91820d53c369645ee"
+    },
+    {
+      "file": "tenka-fnv-integrated-verify-a48-c1__process.json.gz",
+      "source": "/tmp/tenka-fnv-integrated-verify-a48-c1/process.json",
+      "rawBytes": 19,
+      "rawSha256": "9f1ae7811b08beae8cfd8d564a63ec357f47a75fb7cae82ac9031b91608bfc3c",
+      "gzipBytes": 39,
+      "gzipSha256": "7ac3093a875c6d20f5f1f134e459a544d898c4a8c6eae2d97b4a62277e0844de"
+    },
+    {
+      "file": "tenka-fnv-integrated-verify-a48-c1__result.json.gz",
+      "source": "/tmp/tenka-fnv-integrated-verify-a48-c1/result.json",
+      "rawBytes": 73,
+      "rawSha256": "7890c454d3cb97db41901bfc52581ccb370c240e335fd1d3a9c1e1ebdcde8637",
+      "gzipBytes": 88,
+      "gzipSha256": "d0f92e6d44c1b0cdedba3331526bfd8443ac2e1d880eda3aded85f2d477d24bd"
+    },
+    {
+      "file": "tenka-fnv-integrated-verify-a48-c1__stdout-stderr.log.gz",
+      "source": "/tmp/tenka-fnv-integrated-verify-a48-c1/stdout-stderr.log",
+      "rawBytes": 116,
+      "rawSha256": "594d98c6564838c7419e6e9e8083349009e77dfd18c35e34a14762bb00f5590e",
+      "gzipBytes": 122,
+      "gzipSha256": "df4b01ffa05deb66328de47d579853adf83759d51b2f654b2a5803ce5d7af3ae"
+    },
+    {
+      "file": "tenka-fnv-asset-docs-format-a48-c1__command.json.gz",
+      "source": "/tmp/tenka-fnv-asset-docs-format-a48-c1/command.json",
+      "rawBytes": 368,
+      "rawSha256": "9e921bd70e2123b6d1b818900084347db58345c683723157d5a5e9feddca4a90",
+      "gzipBytes": 234,
+      "gzipSha256": "589e6d56f0ef379a0cf5c55d716926e076a6c4eac43fda21335cc07da9712f2b"
+    },
+    {
+      "file": "tenka-fnv-asset-docs-format-a48-c1__process.json.gz",
+      "source": "/tmp/tenka-fnv-asset-docs-format-a48-c1/process.json",
+      "rawBytes": 19,
+      "rawSha256": "72b84b9cea4d3cbec25396713aa0fc1e91439b4eeaacfc9d50470c3b247a6559",
+      "gzipBytes": 39,
+      "gzipSha256": "5c2f1ddf87ba26df7df40b3a299dca380a739ee2eba816f7bb64c6bec87d4d21"
+    },
+    {
+      "file": "tenka-fnv-asset-docs-format-a48-c1__result.json.gz",
+      "source": "/tmp/tenka-fnv-asset-docs-format-a48-c1/result.json",
+      "rawBytes": 73,
+      "rawSha256": "7a0ada81133c349c7be6d05d8bb02294572920c92781c7fddd1824c6255700eb",
+      "gzipBytes": 89,
+      "gzipSha256": "6db656ee97ce97a94c907174a2893ca3f097fe601d7f45fd51863f6e84a9eda0"
+    },
+    {
+      "file": "tenka-fnv-asset-docs-format-a48-c1__stdout-stderr.log.gz",
+      "source": "/tmp/tenka-fnv-asset-docs-format-a48-c1/stdout-stderr.log",
+      "rawBytes": 231,
+      "rawSha256": "eb102748f66baa937ebe10c14f92adde8205a0ca8673e41601a2880831fac822",
+      "gzipBytes": 146,
+      "gzipSha256": "bd4e3bb36bf2fd6c991a67b323e78b37a93d5f71976cb4eaae0b4d2bbb553be3"
+    },
+    {
+      "file": "tenka-fnv-asset-docs-format-a48-c2__command.json.gz",
+      "source": "/tmp/tenka-fnv-asset-docs-format-a48-c2/command.json",
+      "rawBytes": 284,
+      "rawSha256": "29c4979287cb4ff5796764b1bd71276311dd838e1125bfd2a7416abe7089577d",
+      "gzipBytes": 210,
+      "gzipSha256": "58d96e18f119eb9df5f127b332b88b9cd09a878b50a63dd31bdf3a6223c800bc"
+    },
+    {
+      "file": "tenka-fnv-asset-docs-format-a48-c2__process.json.gz",
+      "source": "/tmp/tenka-fnv-asset-docs-format-a48-c2/process.json",
+      "rawBytes": 19,
+      "rawSha256": "ea3c0a4b6822791bb07ae6fd1560bd6e3beb860859ce68a08c6dd02317440371",
+      "gzipBytes": 39,
+      "gzipSha256": "6adee80132ed2868ea829d995d4ed38d8420af840f3dbf0e717f5aba2260212b"
+    },
+    {
+      "file": "tenka-fnv-asset-docs-format-a48-c2__result.json.gz",
+      "source": "/tmp/tenka-fnv-asset-docs-format-a48-c2/result.json",
+      "rawBytes": 73,
+      "rawSha256": "7b6bb0cf7e25e5b8f7593c18292ef3753448fab75d53e3d57013610aabcfd2b9",
+      "gzipBytes": 89,
+      "gzipSha256": "fc53bd714fbbcaa6251e9bc9c95f97076849a72613a98f255e547d11e3e964a4"
+    },
+    {
+      "file": "tenka-fnv-asset-docs-format-a48-c2__stdout-stderr.log.gz",
+      "source": "/tmp/tenka-fnv-asset-docs-format-a48-c2/stdout-stderr.log",
+      "rawBytes": 150,
+      "rawSha256": "f15e4190b790f959e4a336010fea511220f9efcd5acc9d172bf278e129fe9ecd",
+      "gzipBytes": 114,
+      "gzipSha256": "a11dd545d5c1d60ddd1b36bf9b26d9756d100daf729460de5e8cd2a89b66d726"
+    },
+    {
+      "file": "tenka-fnv-asset-docs-diffcheck-a48-c1__command.json.gz",
+      "source": "/tmp/tenka-fnv-asset-docs-diffcheck-a48-c1/command.json",
+      "rawBytes": 171,
+      "rawSha256": "15bdf15278658318da6a4a9809fc3b6a0de59ee4c471da3281aac8e7688dde5a",
+      "gzipBytes": 154,
+      "gzipSha256": "9c5824bfee1d267d5193d39dce4451727efacf57fc784d24ca34f2584787afba"
+    },
+    {
+      "file": "tenka-fnv-asset-docs-diffcheck-a48-c1__process.json.gz",
+      "source": "/tmp/tenka-fnv-asset-docs-diffcheck-a48-c1/process.json",
+      "rawBytes": 19,
+      "rawSha256": "4785d42fe37172d6daaa88a03ad1c9edd71dee4ae82554f4a54cf0a244fe843c",
+      "gzipBytes": 39,
+      "gzipSha256": "a17c555b677c5e130448876ef215c49478b3b2ec0f15f82ec90006df5ee02081"
+    },
+    {
+      "file": "tenka-fnv-asset-docs-diffcheck-a48-c1__result.json.gz",
+      "source": "/tmp/tenka-fnv-asset-docs-diffcheck-a48-c1/result.json",
+      "rawBytes": 73,
+      "rawSha256": "004ae550ffc4415949ebd7d29982a35dc0695175bc762890edee06a3171e11df",
+      "gzipBytes": 89,
+      "gzipSha256": "3c7ac064c76b6b38bb6de4f19decada66a889fcf500e539c432a0974b3c5eab0"
+    },
+    {
+      "file": "tenka-fnv-asset-docs-diffcheck-a48-c1__stdout-stderr.log.gz",
+      "source": "/tmp/tenka-fnv-asset-docs-diffcheck-a48-c1/stdout-stderr.log",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "file": "tenka-fnv-integrated-pack-a48-c1.py.gz",
+      "source": "/tmp/tenka-fnv-integrated-pack-a48-c1.py",
+      "rawBytes": 2227,
+      "rawSha256": "694c0ad0a10ece21988a7fba38282f75dc2b494162e2ae37544472fea4f79a59",
+      "gzipBytes": 961,
+      "gzipSha256": "91ec9a1a0dd78c9a9d5bc8c32d7c9918449e1916ebc81b3dde1715dea41edd9a"
+    },
+    {
+      "file": "tenka-fnv-integrated-docs-a48-c1.py.gz",
+      "source": "/tmp/tenka-fnv-integrated-docs-a48-c1.py",
+      "rawBytes": 3329,
+      "rawSha256": "a1cec7688c31b5bee9b722a430527d3e51873382c5791335ea4c8032f30584df",
+      "gzipBytes": 1701,
+      "gzipSha256": "2b921a55c414120ab161dc50840e2b87f7be2865f72685bd72e0de9532576b18"
+    },
+    {
+      "file": "tenka-fnv-asset-handoff-a48-c1.py.gz",
+      "source": "/tmp/tenka-fnv-asset-handoff-a48-c1.py",
+      "rawBytes": 3239,
+      "rawSha256": "9522634d89ea64f2e7b7335821ba7d207b58e6a6ae5ff0417199b29949098ef2",
+      "gzipBytes": 1590,
+      "gzipSha256": "cc3e6ee21f256314d0549fc91fd0347029c46bcf5f980d94ba8fd8a608a55f41"
+    },
+    {
+      "file": "initial-partial__failure-tool-transcript.txt.gz",
+      "source": "/tmp/tenka-fnv-asset-handoff-partial-a48-c1/failure-tool-transcript.txt",
+      "rawBytes": 299,
+      "rawSha256": "845cd58d4e1df7f70184867888a5e89cd5eed63395ddf892132bf79ac02b8d72",
+      "gzipBytes": 225,
+      "gzipSha256": "c3650c0c26e734519a326eb775fc15454cd0f1702d3fff1242bbd1952623ec0d"
+    },
+    {
+      "file": "initial-partial__root-asset.log.gz.gz",
+      "source": "/tmp/tenka-fnv-asset-handoff-partial-a48-c1/root-asset.log.gz",
+      "rawBytes": 117,
+      "rawSha256": "63dbee9130b70ad448dfbdf5caefee9d18ce963d4b52591d600c80755ebbc8a5",
+      "gzipBytes": 140,
+      "gzipSha256": "ea96943382bb57001e24c0d668f950c709feb198eb6a7f5d941d527ca911addf"
+    },
+    {
+      "file": "initial-partial__root-integration.log.gz.gz",
+      "source": "/tmp/tenka-fnv-asset-handoff-partial-a48-c1/root-integration.log.gz",
+      "rawBytes": 122,
+      "rawSha256": "df4b01ffa05deb66328de47d579853adf83759d51b2f654b2a5803ce5d7af3ae",
+      "gzipBytes": 145,
+      "gzipSha256": "65b47fc71837afb3841809421e975a39fdeb0daa2c433857bd82d8f4b3aa2636"
+    },
+    {
+      "file": "corrected-producer.py.gz",
+      "source": "/tmp/tenka-fnv-asset-handoff-a48-c2.py",
+      "rawBytes": 3776,
+      "rawSha256": "55e52d33174419df9925ee8651dde0961207a6b6dc4f00062a17a3143136953a",
+      "gzipBytes": 1783,
+      "gzipSha256": "96693f88572779215db26fea0637eabd8b07d7daa6554bcf390163b129202cd3"
+    }
+  ]
+}
