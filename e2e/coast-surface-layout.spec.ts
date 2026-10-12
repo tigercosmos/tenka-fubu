@@ -70,6 +70,24 @@ function distanceToEdges(p: Point, polygon: Point[]) {
 async function idle(page: Page) {
   await page.evaluate(() => (window as DebugWindow).__tenka.debug.waitMapIdle(3));
 }
+async function waitForMapReady(page: Page) {
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        try {
+          return (window as DebugWindow).__tenka.debug.getMapDiagnostics().ready;
+        } catch (error) {
+          if (
+            error instanceof Error &&
+            error.message.includes('__TENKA_DEBUG__: map renderer 尚未掛載')
+          )
+            return false;
+          throw error;
+        }
+      }),
+    )
+    .toBe(true);
+}
 async function observe(page: Page) {
   return page.evaluate(() => (window as DebugWindow).__tenka.debug.getMapDiagnostics()) as Promise<
     ReturnType<TenkaDebugApi['getMapDiagnostics']> & {
@@ -96,6 +114,51 @@ test.describe('native display-only coastal surface', () => {
     contextOptions: { reducedMotion: 'reduce' },
   });
 
+  test('waits for the mounted renderer after the strategy screen becomes visible', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      const originalLoad = document.fonts.load.bind(document.fonts);
+      let release!: () => void;
+      const gate = new Promise<void>((resolve) => {
+        release = resolve;
+      });
+      Object.defineProperty(window, '__releaseMapFontLoad', { value: release });
+      document.fonts.load = (font, text) => gate.then(() => originalLoad(font, text));
+    });
+    await page.goto('/?debug=visual-map');
+    await expect(page.getByTestId('screen-strategy')).toBeVisible();
+    await page.evaluate(() => document.fonts.ready);
+    const unmounted = await page.evaluate(async () => {
+      try {
+        await (window as DebugWindow).__tenka.debug.waitMapIdle(1);
+        return false;
+      } catch (error) {
+        return (
+          error instanceof Error && error.message.includes('__TENKA_DEBUG__: map renderer 尚未掛載')
+        );
+      }
+    });
+    expect(unmounted).toBe(true);
+    const waiting = waitForMapReady(page);
+    const beforeRelease = await Promise.race([
+      waiting.then(
+        () => 'resolved',
+        () => 'rejected',
+      ),
+      page.waitForTimeout(200).then(() => 'pending'),
+    ]);
+    expect(beforeRelease).toBe('pending');
+    await page.evaluate(() => {
+      const release = (window as Window & { __releaseMapFontLoad?: () => void })
+        .__releaseMapFontLoad;
+      if (release === undefined) throw new Error('map font gate was not installed');
+      release();
+    });
+    await waiting;
+    await idle(page);
+  });
+
   test('the named Ise inlet removes its abrupt turn while actual ground clipping, river anchors and gameplay stay aligned', async ({
     page,
   }, info) => {
@@ -104,6 +167,7 @@ test.describe('native display-only coastal surface', () => {
     await page.goto('/?debug=visual-map');
     await expect(page.getByTestId('screen-strategy')).toBeVisible();
     await page.evaluate(() => document.fonts.ready);
+    await waitForMapReady(page);
     await idle(page);
     const game = await page.evaluate(() => (window as DebugWindow).__tenka.debug.getState()),
       before = JSON.stringify(game),
