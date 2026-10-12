@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { Buffer, BufferUsage, GCManagedHash } from 'pixi.js';
+import { AbstractRenderer, Buffer, BufferUsage, GCManagedHash } from 'pixi.js';
 
 function renderer(uid: number) {
   return { uid, gc: { now: 1, addResourceHash: vi.fn() } };
@@ -40,11 +40,14 @@ describe('pinned Pixi managed GPU resource listener lifecycle', () => {
     a.destroy();
     expect(buffer.listenerCount('unload')).toBe(2);
     expect(ga.destroy).toHaveBeenCalledTimes(1);
+    expect(Object.hasOwn(buffer._gpuData, first.uid)).toBe(false);
+    expect(buffer._gpuData[second.uid]).toBe(gb);
     expect(gb.destroy).not.toHaveBeenCalled();
     expect(firstUnload).toHaveBeenCalledWith(buffer);
     buffer.unload();
     expect(secondUnload).toHaveBeenCalledWith(buffer);
     expect(gb.destroy).toHaveBeenCalledTimes(1);
+    expect(Object.hasOwn(buffer._gpuData, second.uid)).toBe(false);
     expect(unrelated).toHaveBeenCalledTimes(1);
     expect(buffer.listenerCount('unload')).toBe(1);
     b.destroy();
@@ -62,6 +65,7 @@ describe('pinned Pixi managed GPU resource listener lifecycle', () => {
       expect(buffer.listenerCount('unload')).toBe(0);
       expect(hash.items[buffer.uid]).toBeNull();
       expect(data.destroy).toHaveBeenCalledTimes(1);
+      expect(Object.hasOwn(buffer._gpuData, owner.uid)).toBe(false);
       hash.destroy();
       hash.destroy();
     }
@@ -78,6 +82,62 @@ describe('pinned Pixi managed GPU resource listener lifecycle', () => {
     expect(hash.add(buffer)).toBe(true);
     hash.destroy();
     expect(buffer.listenerCount('unload')).toBe(0);
+    buffer.destroy();
+  });
+
+  it('uses unique non-index renderer keys across simultaneous owners and recreation', () => {
+    const config = {
+      type: 1,
+      name: 'test',
+      runners: [],
+      systems: [],
+      renderPipes: [],
+      renderPipeAdaptors: [],
+    };
+    const makeRenderer = () => {
+      const instance = new AbstractRenderer(config);
+      (instance as unknown as ReturnType<typeof renderer>).gc = {
+        now: 1,
+        addResourceHash: vi.fn(),
+      };
+      return instance;
+    };
+    const first = makeRenderer();
+    const second = makeRenderer();
+    expect(first.uid).toBeLessThan(0);
+    expect(second.uid).toBeLessThan(0);
+    expect(second.uid).not.toBe(first.uid);
+
+    const buffer = resource();
+    const a = managed(first as unknown as ReturnType<typeof renderer>);
+    const b = managed(second as unknown as ReturnType<typeof renderer>);
+    const ga = gpu(buffer, first.uid);
+    const gb = gpu(buffer, second.uid);
+    a.add(buffer);
+    b.add(buffer);
+    expect(Object.keys(buffer._gpuData).sort()).toEqual(
+      [String(first.uid), String(second.uid)].sort(),
+    );
+    a.destroy();
+    expect(ga.destroy).toHaveBeenCalledTimes(1);
+    expect(gb.destroy).not.toHaveBeenCalled();
+    expect(buffer._gpuData[second.uid]).toBe(gb);
+    expect(Object.keys(buffer._gpuData)).toEqual([String(second.uid)]);
+    first.destroy();
+
+    const recreated = makeRenderer();
+    expect(new Set([first.uid, second.uid, recreated.uid]).size).toBe(3);
+    const c = managed(recreated as unknown as ReturnType<typeof renderer>);
+    const gc = gpu(buffer, recreated.uid);
+    c.add(buffer);
+    buffer.unload();
+    expect(gb.destroy).toHaveBeenCalledTimes(1);
+    expect(gc.destroy).toHaveBeenCalledTimes(1);
+    expect(Object.keys(buffer._gpuData)).toEqual([]);
+    b.destroy();
+    c.destroy();
+    second.destroy();
+    recreated.destroy();
     buffer.destroy();
   });
 });

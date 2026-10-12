@@ -380,10 +380,10 @@
     {
       "path": "lib/utils/data/GCManagedHash.mjs",
       "originalSha256": "5763eeb3aec5708ebb5c344c98046673d7b8dc986fdb000179de4a6a8d2a54ce",
-      "patchedSha256": "95c629fda3a7226f356305bc720347cc1121ae0d3e9d6fba17b95091f1f2766b",
+      "patchedSha256": "95a4473812164635559aa78ffde29fa2ce373b169145d008359f3ea652ae5d19",
       "replacements": [
         {
-          "to": "    item.off(\"unload\", this.remove, this);\n    const gpuData = item._gpuData[this._renderer.uid];\n    if (gpuData) {\n      this._onUnload?.(item, ...args);\n      gpuData.destroy();\n      item._gpuData[this._renderer.uid] = null;\n    }\n    this.items[item.uid] = null;",
+          "to": "    item.off(\"unload\", this.remove, this);\n    const gpuData = item._gpuData[this._renderer.uid];\n    if (gpuData) {\n      this._onUnload?.(item, ...args);\n      gpuData.destroy();\n    }\n    delete item._gpuData[this._renderer.uid];\n    this.items[item.uid] = null;",
           "from": "    const gpuData = item._gpuData[this._renderer.uid];\n    if (!gpuData) return;\n    this._onUnload?.(item, ...args);\n    gpuData.destroy();\n    item._gpuData[this._renderer.uid] = null;\n    this.items[item.uid] = null;"
         },
         {
@@ -395,10 +395,10 @@
     {
       "path": "lib/utils/data/GCManagedHash.js",
       "originalSha256": "1a51d2b7140af9993553264e9fbb848ab1cfc720316b51534bd7a8b000fb8114",
-      "patchedSha256": "8c555680d49d461243257cbfcd31b06450d31e1fe745e77d4cacc4513b220d1a",
+      "patchedSha256": "b650f66f9d3d7779af12e7df293f03a1bd173c18c6ee22df52411a0ba5d4a933",
       "replacements": [
         {
-          "to": "    item.off(\"unload\", this.remove, this);\n    const gpuData = item._gpuData[this._renderer.uid];\n    if (gpuData) {\n      this._onUnload?.(item, ...args);\n      gpuData.destroy();\n      item._gpuData[this._renderer.uid] = null;\n    }\n    this.items[item.uid] = null;",
+          "to": "    item.off(\"unload\", this.remove, this);\n    const gpuData = item._gpuData[this._renderer.uid];\n    if (gpuData) {\n      this._onUnload?.(item, ...args);\n      gpuData.destroy();\n    }\n    delete item._gpuData[this._renderer.uid];\n    this.items[item.uid] = null;",
           "from": "    const gpuData = item._gpuData[this._renderer.uid];\n    if (!gpuData) return;\n    this._onUnload?.(item, ...args);\n    gpuData.destroy();\n    item._gpuData[this._renderer.uid] = null;\n    this.items[item.uid] = null;"
         },
         {
@@ -436,8 +436,39 @@
           "to": ""
         }
       ]
+    },
+    {
+      "path": "lib/rendering/renderers/shared/system/AbstractRenderer.js",
+      "originalSha256": "7a787579d2094aac0899cb6a9c540bddab3c6dec50c755909af3e77aa969f9ae",
+      "patchedSha256": "8ea62415b9cada0057d776a271a0d1d75507b8f214aea816c093d6b84123eae8",
+      "replacements": [
+        {
+          "from": "this.uid = uid.uid(\"renderer\");",
+          "to": "this.uid = -uid.uid(\"renderer\") - 1;"
+        },
+        {
+          "from": "//# sourceMappingURL=AbstractRenderer.js.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/shared/system/AbstractRenderer.mjs",
+      "originalSha256": "64d24a58b4acfd957deab121b44bea9ccfa2c4fdf22e6cfd7e726fad68dd1787",
+      "patchedSha256": "070c845a2e46eae9e243c349ac967c20d1f0a514161c1be8b57eec4a6862ed87",
+      "replacements": [
+        {
+          "from": "this.uid = uid(\"renderer\");",
+          "to": "this.uid = -uid(\"renderer\") - 1;"
+        },
+        {
+          "from": "//# sourceMappingURL=AbstractRenderer.mjs.map\n",
+          "to": ""
+        }
+      ]
     }
   ],
   "managedResourceLifecyclePatch": "Local GCManagedHash removal detaches only its own unload callback, including already-absent GPU data. Shared buffers retain other renderer and user callbacks. This separate lifecycle fix does not claim complete heap stability.",
-  "batchBindGroupLifecyclePatch": "Local texture batch bind-group cache evicts its own entry on group destruction, while preserving live reuse and other groups. Destroyed resource/key shells no longer accumulate in the module cache. This does not claim whole-heap stability."
+  "batchBindGroupLifecyclePatch": "Local texture batch bind-group cache evicts its own entry on group destruction, while preserving live reuse and other groups. Destroyed resource/key shells no longer accumulate in the module cache. This does not claim whole-heap stability.",
+  "rendererCachePatch": "Renderer IDs remain unique numbers but use negative keys so per-renderer object caches do not grow sparse indexed backing arrays. Released managed GPU data keys are deleted after teardown."
 }

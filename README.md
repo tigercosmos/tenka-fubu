@@ -106,6 +106,9 @@ npm ci
 npm run dev
 ```
 
+更新 Pixi 修補 manifest 後，既有 checkout 也須重新執行 `npm ci`。
+修補器只接受原始套件或目前修補版的精確雜湊；舊修補版不視為可直接升級的來源。
+
 正式建置與預覽：
 
 ```sh
