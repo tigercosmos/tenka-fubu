@@ -4,13 +4,13 @@ This package analyzes the unique frozen feab close profile already preserved in 
 
 The actual binary has no custom/name/DWARF sections. Internal Rust names below are strong inferences from exact instruction bodies and frozen source patterns, not retained symbol proof. Full LLVM22.1.6 disassembly and exact function snippets are preserved.
 
-| Score-context sampled WASM leaf | Own µs | Own samples | Share |
-|---|---:|---:|---:|
-| function44, overlap-like | 1,249,004 | 1,188 | 53.49% |
-| function51, capsule-clearance-like | 451,088 | 429 | 19.32% |
-| function33, internal score body | 232,396 | 221 | 9.95% |
-| function27, padding2 fold-like | 169,217 | 161 | 7.25% |
-| function26, padding0 fold-like | 127,229 | 121 | 5.45% |
+| Score-context sampled WASM leaf    |    Own µs | Own samples |  Share |
+| ---------------------------------- | --------: | ----------: | -----: |
+| function44, overlap-like           | 1,249,004 |       1,188 | 53.49% |
+| function51, capsule-clearance-like |   451,088 |         429 | 19.32% |
+| function33, internal score body    |   232,396 |         221 |  9.95% |
+| function27, padding2 fold-like     |   169,217 |         161 |  7.25% |
+| function26, padding0 fold-like     |   127,229 |         121 |  5.45% |
 
 These shares use 2,335,044 µs of exclusive WASM sampled leaf time under the mapped TS scorePrepared caller (2,221 samples). They do not use flat export-frame totals. Actual export58 invokes internal33. Function44 reads two four-f64 rectangles, performs padding-aware endpoint arithmetic with NaN/signed-zero-aware min/max, clips X/Y extents and multiplies them, matching frozen `geographic::overlap`. Function51 checks the five-word capsule limit/finite inputs and contains capsule distance arithmetic matching `clears_capsules` with inlined distance helpers.
 
