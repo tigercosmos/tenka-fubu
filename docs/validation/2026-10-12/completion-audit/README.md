@@ -309,4 +309,8 @@ Root另核對撤回後1494trackedruntime/test/config輸入逐byte等同feab全�
 
 [固定 SIMD 原生驗證](geographic-score-simd-native/README.md) 在 `f898ac9` 完成 original9 的 af4 完整 payload 比對與原六項 Worker E2E；實際請求新 SIMD88392-byte／0edab 產物。原三個30秒視角各一次為59.8635／49.9103／30.8998 FPS，strict60皆RED；close比同cohort feab下降3.56%。第一 body collector 錯誤保留，僅修正外部收集器後恢復，FPS沒有重跑。Root獨立verifier通過全部71raw pairs、source1528／deps14765／23patch及狀態／資源／RTX guards。`2dfc0ab` 因未觀察到收益而關閉自動SIMD，保留雙產物、明確SIMD與數值ABI；最終126tests／types／lint／build／bundle通過。此包不宣稱撤回後的新scalar FPS；73檔加入索引。
 
+[布局輸入追蹤](geographic-cache-input-trace/README.md) 區分固定畫面與原效能 workload 的 view 移動。固定畫面20筆外部key相同；moving-view 的20筆key不同，2128個label visits中2108 misses／20 hits。1761 misses改變near rows，347只改方向／axes；不能把核心暫停誤認為渲染輸入靜止。原控制逐幀更新army edgeT與鏡頭，finally復原，所以前後canonical與camera相同不代表中途沒有移動。這是診斷資料，沒有新的FPS結論；Root完整verifier通過。
+
+[有限範圍 X 軸排除原生驗證](geographic-score-early-x-native/README.md) 固定 `3633c61` 的完整nine payload仍為af4，原六項Worker通過。三視角各一次為60.00093／49.70804／32.40628 FPS；strict60皆RED，overview平均值達60但slow-frame未達標。Close比同cohort feab高1.15%，只保留為暫時候選，沒有明確收益結論。Source1528／deps14765／23patch、實際scalar90122-byte／493545、RTX／狀態／資源驗證皆通過，Root獨立verifier通過。兩包99檔加入索引。
+
 [Root撤回一致證據](geographic-score-endpoints-restored-root/README.md) 保存正式candidate80WASM／24Rust及restore1494source rows與Gitblob核對，source/artifact等同feabFULL範圍，沒有新fullrun。下一步為feature-gated scalar／SIMD雙artifact及初始化前capability選擇；prototype目前每個wasm32都含SIMD，不能當scalarfallback。Production維持acceptedscalar，尚無SIMDgame收益量測。

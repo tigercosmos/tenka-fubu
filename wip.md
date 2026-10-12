@@ -6514,3 +6514,11 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 原六個 Worker E2E 全通過、42.7 秒，包含 60／120 日 cold／warm 完整狀態、log 與 readiness 控制。來源 1528／依賴 14765／23 patch 的前後與最終校驗通過。
 - 第一個新增 body collector 的 CDP 錯誤發生於 FPS／六 Worker 作業前；保留第一 RED，僅修正外部收集器後完成 original9。未修改固定遊戲程式或原斷言。
 - `2dfc0ab` 撤回正式自動 SIMD 預設，保留雙產物、數值 ABI 驗證、明確 SIMD 模式及 Rust／背景 Worker 架構。最終 126 tests／10 files、types、lint、format、production build／bundle 通過。撤回後沒有重新量測，因此不宣稱新的 scalar FPS。無額外 CPUprofile、未 push／deploy。
+
+## 動態布局輸入與有限範圍排除（2026-10-12）
+
+- `0b7b086` 保存兩個不同範圍的完整 trace。固定畫面20筆signature相同；原moving-view workload的20筆不同，2128 visits中2108 misses／20hits。1761 misses改near rows，347只改方向／axes。原控制每幀改軍隊edgeT與鏡頭，最後復原，故canonical／driver不變不能證中途渲染幾何不變。Root verifier通過；不把diagnostic的1秒資料當FPS驗收。
+- Generic JSON-only zero certificate有toJSON隱藏數值改變的漏洞；未實作。實际資料也顯示near-row變化佔多數，改以減少純評分運算為下一步。
+- `3633c61` 增加保守MAX/16範圍guard與X零交集早排，兩variant各2121＋24、lifecycle、Rust25及41focused通過。`d25b49a` 保存固定native：full9af4、6Worker、source／deps／RTX／state／resource通過；overview60.00093、operational49.70804、close32.40628，三strict60原RED。Close＋1.15%只是單窗口小幅結果，沒有明確收益結論。Root build／bundle與native verifier通過。
+- 離線完整生成候選／row配對20739260組中X零交集45.07%、Y65.33%；未模擬caps／hard／early-break，不等於actualcalls或收益。據此 `5bc1f58` 只改先檢查Y、非零時仍計算X乘Y，範圍外原公式不動。兩variant各2121＋24、lifecycle、Rust26、41focused與types／artifact通過；原生收益待固定版本量測。
+- 60FPS、wholeheap、protectedart與longrun等原gate仍未完成，goal保持active。沒有push／deploy。

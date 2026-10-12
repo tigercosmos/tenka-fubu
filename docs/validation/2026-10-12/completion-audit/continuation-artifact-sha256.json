@@ -10134,6 +10134,685 @@
       "sha256": "c900f0a9a77c43d36fa70e66a631426fc362045bc99d04357a8dd4ebdff739d6",
       "uncompressedBytes": 3824,
       "uncompressedSha256": "c1e95236544d40ff32d3c7e0b267e30f61b8bca01d85302857efe22bd0cd8621"
+    },
+    {
+      "path": "geographic-cache-input-trace/MapRenderer.moving-trace-instrumentation.ts.gz",
+      "bytes": 56338,
+      "sha256": "358e3dcf16b01884fbea2380d018beb765789462abea98736513f16147b3d154",
+      "uncompressedBytes": 208269,
+      "uncompressedSha256": "44862fac3f5c4aa97c2c8d744f8808d8642867c769afaa5d9e19f244035c62f6"
+    },
+    {
+      "path": "geographic-cache-input-trace/MapRenderer.static-trace-instrumentation.ts.gz",
+      "bytes": 56303,
+      "sha256": "c6024dc20681a7a48dabfd564e2a83a27bafa2124fa80858cdc12ab5d15e2819",
+      "uncompressedBytes": 208084,
+      "uncompressedSha256": "5a7ffa9927bfc9feb395d82a0571fc3405fa683a57815d298fd48ed71d45818a"
+    },
+    {
+      "path": "geographic-cache-input-trace/README.md",
+      "bytes": 3145,
+      "sha256": "c05e71fe704539654b18c3baba785a4e8417140522233e216d0805f0d779b552"
+    },
+    {
+      "path": "geographic-cache-input-trace/build-launch-original-red.log.gz",
+      "bytes": 72,
+      "sha256": "25adff99fd734f3016b58e10b8cf93ab3260c8a48f481019799d77fcb174f5a7",
+      "uncompressedBytes": 52,
+      "uncompressedSha256": "d11011e3dd2a4283bbb07237e72a49cc57985a4b2a6e3dc0364a76dd7408eff5"
+    },
+    {
+      "path": "geographic-cache-input-trace/diff-moving.py.gz",
+      "bytes": 1892,
+      "sha256": "6ea2111cd4c7fdf10e5faf3743bc6ac323bb7d00cdeec4a1a8b04c27bada1bcb",
+      "uncompressedBytes": 4366,
+      "uncompressedSha256": "8544d8da5dc48e5e561043e31e149375da70f39e4687d0787a18f8acaeebdec6"
+    },
+    {
+      "path": "geographic-cache-input-trace/diff-moving.raw.json.gz",
+      "bytes": 279520,
+      "sha256": "36d799d343ad436e9d19cf6d6bbacfccb31dc5fe29d927c37f7b3e6e14954834",
+      "uncompressedBytes": 1403280,
+      "uncompressedSha256": "d450adeaab65ac76b5a3fb419cb12f0114a271e5d349fd19b2a8412afd658daf"
+    },
+    {
+      "path": "geographic-cache-input-trace/diff-static.raw.json.gz",
+      "bytes": 606,
+      "sha256": "f39b74723401897a98413fce39ec1acd16d980997b18d4196c82c39536a43dcf",
+      "uncompressedBytes": 3312,
+      "uncompressedSha256": "7b21664a451439461bc2f1de352995790e178029ded2a12519bf6571ddd24780"
+    },
+    {
+      "path": "geographic-cache-input-trace/geographicLabelLayout.instrumented.ts.gz",
+      "bytes": 3631,
+      "sha256": "b862d9edc16ee2fdee225ec6189e15accf9a0a5e2f1901cd51f1b1405b77837c",
+      "uncompressedBytes": 12024,
+      "uncompressedSha256": "c8e1e9820204f31d9f0a67b033dc99ab6226d05c4681c33d13fe1d9aa6ebde75"
+    },
+    {
+      "path": "geographic-cache-input-trace/geographicLabelLayout.original.ts.gz",
+      "bytes": 3510,
+      "sha256": "f943ecfa48536b44e5b6c4a6a0854fb5acb21e3c72893385fa8c917300ca26e4",
+      "uncompressedBytes": 11428,
+      "uncompressedSha256": "2c0cc48de296fdb974ec397f9fe8732357b1831a835f592f3a880702705e9acd"
+    },
+    {
+      "path": "geographic-cache-input-trace/instrumentation.patch",
+      "bytes": 3249,
+      "sha256": "4a75d9e296f5aecdaaf6820087b57be8c47fa674bdc4fc8da6292fc218581245"
+    },
+    {
+      "path": "geographic-cache-input-trace/manifest.json",
+      "bytes": 11134,
+      "sha256": "df38f549e56752ee67f3a956314ecbbdd2e09f4cb01ef9d232c7568773834d67"
+    },
+    {
+      "path": "geographic-cache-input-trace/mapFrameMeasurement.original.ts.gz",
+      "bytes": 3348,
+      "sha256": "d1bda7705613640bca75971452cae39ac18f01b85f850e89a86842928e44d54f",
+      "uncompressedBytes": 10222,
+      "uncompressedSha256": "6895eb269328415f704d8e22dc35c5d5ec8840076201382a5e162e36c7604896"
+    },
+    {
+      "path": "geographic-cache-input-trace/moving-build.log.gz",
+      "bytes": 930,
+      "sha256": "b3b2a3c111b3c5e9a847c871f15fdab083ebaec6fc05e3a3d0fc959280ecc9d6",
+      "uncompressedBytes": 2336,
+      "uncompressedSha256": "59e175fb8041551cad0415b7e0e9f43c8c00e293cb99b4dad7b1fea92eb885cf"
+    },
+    {
+      "path": "geographic-cache-input-trace/moving-observer.log.gz",
+      "bytes": 234,
+      "sha256": "05302efddd799434deaabfc3282a9605c0b1228e1d920e5ef5b34a1ffded6de5",
+      "uncompressedBytes": 424,
+      "uncompressedSha256": "5cd38f8b5f0fe42ff8ed69169bc62fec0365f0d0f8d4e8a15a41e6863f5e6376"
+    },
+    {
+      "path": "geographic-cache-input-trace/moving-preview.log.gz",
+      "bytes": 83,
+      "sha256": "26f5399dcd9c782a09d4c0582be22c07d7fd22563ba84c164d2e9279f70953e3",
+      "uncompressedBytes": 77,
+      "uncompressedSha256": "ae24f783560c59deed04caeff90ef3b84a3c0d3a50ca749550cfeeed2c58dd88"
+    },
+    {
+      "path": "geographic-cache-input-trace/moving-source-proof.json.gz",
+      "bytes": 990,
+      "sha256": "5f3cc87ece0eb99229d84f67f0f3a0be59841e4bea6971901c21af0b083dc92a",
+      "uncompressedBytes": 1913,
+      "uncompressedSha256": "712b98ed5d2fc2be1bd90517b8d5e2fc63a70dd5ef02452eda2b1a86b062d4fa"
+    },
+    {
+      "path": "geographic-cache-input-trace/moving-status.json.gz",
+      "bytes": 220,
+      "sha256": "f36eea0aa15834db8555fe65a69caaa2cef57eec9c3f55b5b6cf357f070a96c1",
+      "uncompressedBytes": 467,
+      "uncompressedSha256": "1c07c817e178188e89acca4fc29fb9a4256feda1ffb9aff0f5d0b6be32ac33d8"
+    },
+    {
+      "path": "geographic-cache-input-trace/observe-moving.mjs.gz",
+      "bytes": 1607,
+      "sha256": "746a554aac554f26555413c1137e6558009f962accee0af6af869cdd8b17a083",
+      "uncompressedBytes": 3679,
+      "uncompressedSha256": "a8fdcec5edb2986d337fc98f1db53363d1a0aec68ee9bd8d2eed7b6d3fc8c704"
+    },
+    {
+      "path": "geographic-cache-input-trace/observe.mjs.gz",
+      "bytes": 1524,
+      "sha256": "09da0d863b7400ae49c5d7b60e4dd4ec829828189a6149aed056f0c07e3a88f8",
+      "uncompressedBytes": 3438,
+      "uncompressedSha256": "fc10ef396b37948ddab2a76b510a47f9f4bb5fbf36965290c49c85ffc9ee2aec"
+    },
+    {
+      "path": "geographic-cache-input-trace/run-moving.py.gz",
+      "bytes": 651,
+      "sha256": "a4a0b9f54c5a763ff3c80a696320a109225c6e85952acee3a8e4fbc102eb2bfc",
+      "uncompressedBytes": 1273,
+      "uncompressedSha256": "5e5ee55b6899dd7993647a8e2a71c7ebaf8d59b46dbd9019f12815076363b985"
+    },
+    {
+      "path": "geographic-cache-input-trace/run-static.py.gz",
+      "bytes": 575,
+      "sha256": "46cc2f53f2d469099552dbf88ec3ee8589149bee547464b9ecc88c58f98b7cb9",
+      "uncompressedBytes": 991,
+      "uncompressedSha256": "3fb3ddd7553aec6913d1cf16d12ce90b601cf0b05c00a36fcf30bc193d4f63ee"
+    },
+    {
+      "path": "geographic-cache-input-trace/setup.py.gz",
+      "bytes": 449,
+      "sha256": "c90b51b4d932fd53b71e9f84410ee171378a2bf5c99ad5cc2f85eab8cfa5355f",
+      "uncompressedBytes": 865,
+      "uncompressedSha256": "91c75e2400609b495f7a03223b80e6786fa349bda636baa5ac88005000f753de"
+    },
+    {
+      "path": "geographic-cache-input-trace/source-proof.json.gz",
+      "bytes": 826,
+      "sha256": "b1cbf64ea295f942d722ee54df96a7119651d4e168c44fc1f82e6292441bfb52",
+      "uncompressedBytes": 1593,
+      "uncompressedSha256": "67b797fefb03673991efc727ac18bef7fe30aad8879322164a16f4f10b1f2188"
+    },
+    {
+      "path": "geographic-cache-input-trace/src__app__worker__simulation.worker.ts.gz",
+      "bytes": 2466,
+      "sha256": "3e64199fc9d27d35afbcc36cd0c0924f653509e51d8f461809351a358189cd42",
+      "uncompressedBytes": 8391,
+      "uncompressedSha256": "b81eafc5915a5fac1ef018cd568c06d7c1fca94dd55bc2545c3a0bcf79f66e3d"
+    },
+    {
+      "path": "geographic-cache-input-trace/src__ui__map__MapRenderer.ts.gz",
+      "bytes": 56140,
+      "sha256": "e49b4b4deb7dfebe2b0f1edc7f6ecf5806b046ad7bc49974f07e18e09d108fca",
+      "uncompressedBytes": 207474,
+      "uncompressedSha256": "b9a3d2073fb044c874d5ad13c203837254d8653c3f60b86efad340b6e065dc16"
+    },
+    {
+      "path": "geographic-cache-input-trace/src__ui__map__wasmGeographicScorer.ts.gz",
+      "bytes": 2999,
+      "sha256": "4aeb1518bf1d48791af4c51bece8a40a21f55a737d1f623f3cf90e5d86e298e3",
+      "uncompressedBytes": 11103,
+      "uncompressedSha256": "f5ec309ed4ba4d86832a4bb1d52f10d680cf334f4c9f841af3165f4fe92d57a6"
+    },
+    {
+      "path": "geographic-cache-input-trace/src__wasm__renderNumericVariant.ts.gz",
+      "bytes": 1476,
+      "sha256": "238006251573ba0d13634e0ec8d0b0d39c9134893ceebf7a11b7e985127aecc4",
+      "uncompressedBytes": 3319,
+      "uncompressedSha256": "549337d888e39abe5815af2f032d649828795301edc1c69272fa10906e012c4c"
+    },
+    {
+      "path": "geographic-cache-input-trace/static-build.log.gz",
+      "bytes": 930,
+      "sha256": "0b24290b5505a12441cbb9ab67af19d14e1fc8b9779efb756fa40bfa67e9552b",
+      "uncompressedBytes": 2336,
+      "uncompressedSha256": "87505595b9d0fe23adb7a352496a27bbff4fe479a44cd6168bf66379850788a3"
+    },
+    {
+      "path": "geographic-cache-input-trace/static-observer.log.gz",
+      "bytes": 198,
+      "sha256": "342e384328cd89edd401f728391b940fdfe0e41303432399066561a5e3f58f7d",
+      "uncompressedBytes": 424,
+      "uncompressedSha256": "8db0bce3e921017aed7eb03ff164e055b990aef82cbfb851e1df329f33dfb0f8"
+    },
+    {
+      "path": "geographic-cache-input-trace/static-preview.log.gz",
+      "bytes": 83,
+      "sha256": "26f5399dcd9c782a09d4c0582be22c07d7fd22563ba84c164d2e9279f70953e3",
+      "uncompressedBytes": 77,
+      "uncompressedSha256": "ae24f783560c59deed04caeff90ef3b84a3c0d3a50ca749550cfeeed2c58dd88"
+    },
+    {
+      "path": "geographic-cache-input-trace/static-status.json.gz",
+      "bytes": 213,
+      "sha256": "5333b74381fad06fe8fa51a4cb2587422dd81bb33361aa02d50c099a4db9f9fc",
+      "uncompressedBytes": 460,
+      "uncompressedSha256": "77b4844e58dd06d284e53d5b77b05a58ba7cae887c55c62aa92341fc3b9a1e9e"
+    },
+    {
+      "path": "geographic-cache-input-trace/trace-moving.raw.json.gz",
+      "bytes": 2863887,
+      "sha256": "46d010e4efad271e2bf461dc44035f14172d760faf2b2dae9e3f718430431008",
+      "uncompressedBytes": 24089280,
+      "uncompressedSha256": "74b03f93eb8ac4dc73ece2f9bb9d6324b79737bf67bed38422693da818f4358b"
+    },
+    {
+      "path": "geographic-cache-input-trace/trace.raw.json.gz",
+      "bytes": 1284413,
+      "sha256": "e582268826010fae3054a19402f04f06aece579b9bb51bc6a97bae78a1b77d99",
+      "uncompressedBytes": 8567517,
+      "uncompressedSha256": "c367fd9b34e2a73dce0ebd5346374034d4aaf286eaf9bb0482d9132a96d36d98"
+    },
+    {
+      "path": "geographic-cache-input-trace/verify.py",
+      "bytes": 2449,
+      "sha256": "dafee3835011eab951987493e4a6546c41b661165d014ad1eb38e650751d7521"
+    },
+    {
+      "path": "geographic-score-early-x-native/README.md",
+      "bytes": 2382,
+      "sha256": "b2a202e2884c08ae76ac1279dace2f47fb058edb781395d10026950c9c38f878"
+    },
+    {
+      "path": "geographic-score-early-x-native/build-artifact-proof.json.gz",
+      "bytes": 3724,
+      "sha256": "5bb2fbac5ce64bbf1910fa3e36ffac852960529baf2b2214008d068552f99722",
+      "uncompressedBytes": 12795,
+      "uncompressedSha256": "9ebf2912a4ad9f01bb1f274a8a5913aafdc681656b07a4ff3615cbf9f786b1d5"
+    },
+    {
+      "path": "geographic-score-early-x-native/build-final.log.gz",
+      "bytes": 927,
+      "sha256": "c641a18f4da2ec39914c1b27b9a80c232d0d6fd1547f9368b0db768cf80003a6",
+      "uncompressedBytes": 2336,
+      "uncompressedSha256": "97e03a5bfaa508f24a4dadf287a1b9b8ce38d9e472b91d6a82438631cdace483"
+    },
+    {
+      "path": "geographic-score-early-x-native/campaign-status.json.gz",
+      "bytes": 630,
+      "sha256": "d35ddb309b0d3b8f611017308e76366772bbd4bab16b5e8182bf75a4e3d09e29",
+      "uncompressedBytes": 3755,
+      "uncompressedSha256": "0c6e40e584e186b219dbe3e545cc0adc505aca3f30c9757716b9bf16e6a4a216"
+    },
+    {
+      "path": "geographic-score-early-x-native/campaign.py.gz",
+      "bytes": 927,
+      "sha256": "6f08e3a95700243ae106a729bdd93dd4536e7670980e10576fd4762e27baf80f",
+      "uncompressedBytes": 2166,
+      "uncompressedSha256": "d1b55d1aded9bad953292d60c45c9df4c41ae770f335b19882cf1888bf3f2ff0"
+    },
+    {
+      "path": "geographic-score-early-x-native/canonical-state.raw.json.gz",
+      "bytes": 71991,
+      "sha256": "6d716f7776d149c260bf8875653a0a57640ff6a646dc05770c693f8fd1c848ab",
+      "uncompressedBytes": 816643,
+      "uncompressedSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6"
+    },
+    {
+      "path": "geographic-score-early-x-native/close.log.gz",
+      "bytes": 703,
+      "sha256": "7c4686804497e2c963951071dc0181c9ed42e4e8b8c600f444902d4c6917ed22",
+      "uncompressedBytes": 3069,
+      "uncompressedSha256": "8bada5f9d99b5063d85cdcaa1a517fd284f4702a4431b45bca6816c38b474107"
+    },
+    {
+      "path": "geographic-score-early-x-native/close.raw.json.gz",
+      "bytes": 8530,
+      "sha256": "a4331a2794602d2da52630aaf26fcb043ec8b3320042893b7c9f8b8f6ac7f9c7",
+      "uncompressedBytes": 130442,
+      "uncompressedSha256": "ba693b4c61fb42d880110a1c318678f9ac55caefb0409db94da0098216843664"
+    },
+    {
+      "path": "geographic-score-early-x-native/collect-overlap-zero-native.py.gz",
+      "bytes": 769,
+      "sha256": "7019882c49240d4bdb2d3956fea8451ebd4c68dcb6d31798b0ac67aeadf49ba6",
+      "uncompressedBytes": 1926,
+      "uncompressedSha256": "a3e3f3959639a394c24267947b3f7258311f9d0b289161a5bfb0afe034d473e7"
+    },
+    {
+      "path": "geographic-score-early-x-native/dependency-after-proof.json.gz",
+      "bytes": 803276,
+      "sha256": "1b857d3e00cca1e6a062d88eb86336720e146f0c8a186e5963d56777b2b16b85",
+      "uncompressedBytes": 4455607,
+      "uncompressedSha256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a"
+    },
+    {
+      "path": "geographic-score-early-x-native/dependency-before-proof.json.gz",
+      "bytes": 803276,
+      "sha256": "1b857d3e00cca1e6a062d88eb86336720e146f0c8a186e5963d56777b2b16b85",
+      "uncompressedBytes": 4455607,
+      "uncompressedSha256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a"
+    },
+    {
+      "path": "geographic-score-early-x-native/dependency-final-proof.json.gz",
+      "bytes": 803276,
+      "sha256": "1b857d3e00cca1e6a062d88eb86336720e146f0c8a186e5963d56777b2b16b85",
+      "uncompressedBytes": 4455607,
+      "uncompressedSha256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a"
+    },
+    {
+      "path": "geographic-score-early-x-native/driver-build.log.gz",
+      "bytes": 927,
+      "sha256": "c641a18f4da2ec39914c1b27b9a80c232d0d6fd1547f9368b0db768cf80003a6",
+      "uncompressedBytes": 2336,
+      "uncompressedSha256": "97e03a5bfaa508f24a4dadf287a1b9b8ce38d9e472b91d6a82438631cdace483"
+    },
+    {
+      "path": "geographic-score-early-x-native/driver-collect.log.gz",
+      "bytes": 70,
+      "sha256": "7ef8eb6487f42dd5fd4e1986fb4fd65ae6d5497a7dc888dfd1ff5a705e853e97",
+      "uncompressedBytes": 50,
+      "uncompressedSha256": "217a7a37b180355be4b9734ab2e3a39d5d6c281404a13df1129a5d6e69b6ab55"
+    },
+    {
+      "path": "geographic-score-early-x-native/driver-controls-driver.log.gz",
+      "bytes": 668,
+      "sha256": "aae4e252c124fb7cd22d5be7764cd40704a1f2cb3d78a340ccbe2bcbb687ab16",
+      "uncompressedBytes": 2748,
+      "uncompressedSha256": "fa382980ad32b18d3605d0c18c1b59324e905fc6ede5696f2263e3d6885bcc43"
+    },
+    {
+      "path": "geographic-score-early-x-native/driver-native-six.log.gz",
+      "bytes": 419,
+      "sha256": "2579382a027dcbc9c0cc59ea27a1da0f7001dcffed329bc539c8371394deab84",
+      "uncompressedBytes": 1030,
+      "uncompressedSha256": "2dcb34a47977ec0b555087915fbce6468bd99e4516adbafcc39573ce994fc4fa"
+    },
+    {
+      "path": "geographic-score-early-x-native/driver-proof-after.log.gz",
+      "bytes": 96,
+      "sha256": "2f41256fc139945664b6b71a2fecade954e9a11a5023eb5d7e0ead0a7f49a586",
+      "uncompressedBytes": 95,
+      "uncompressedSha256": "d0dd29c15874aa526eed9927915fbe90d61f5449cd0907a8c33621f57c42fa8e"
+    },
+    {
+      "path": "geographic-score-early-x-native/driver-proof-before.log.gz",
+      "bytes": 97,
+      "sha256": "325742189cb516ca59871f0af26767ff6302733e27905feeaac16846c17a1388",
+      "uncompressedBytes": 96,
+      "uncompressedSha256": "bba9004f41c2860b78bc54ce834af61848fdd53a6c9408c156c668a797b3b8b5"
+    },
+    {
+      "path": "geographic-score-early-x-native/driver-proof-final.log.gz",
+      "bytes": 96,
+      "sha256": "c9458c637c5e85316c90455886fefaa014a322b9ccf0375464e4468307f6a730",
+      "uncompressedBytes": 95,
+      "uncompressedSha256": "abc1ef62b73604adfafe99f093924e72cc007762ad510b682015678bc5c356c3"
+    },
+    {
+      "path": "geographic-score-early-x-native/driver-published.log.gz",
+      "bytes": 106,
+      "sha256": "7c3b735ba33942b76dc3ab9d2698fe12bd538afd4a75478c43777c5be29b2a60",
+      "uncompressedBytes": 99,
+      "uncompressedSha256": "71f1621c6f138c619973552b1bfe6a596b3353b00cc2c617a51735ec960054a5"
+    },
+    {
+      "path": "geographic-score-early-x-native/driver-setup.log.gz",
+      "bytes": 115,
+      "sha256": "67f981bf6e035028606a0504ba7e6b81913262ec7bf7cbf6976ab8a8911415a6",
+      "uncompressedBytes": 104,
+      "uncompressedSha256": "c41ef29537a9cd1751b4132af1815a2bc9ccb56a6093b38d57dedf86566b58b1"
+    },
+    {
+      "path": "geographic-score-early-x-native/driver-state-proof.log.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "geographic-score-early-x-native/expected-source.json.gz",
+      "bytes": 122634,
+      "sha256": "9e9ee0cfb99f5d5b02227642ba7240aaa12de4dfb57cf136fe337f2cbfb48e28",
+      "uncompressedBytes": 354250,
+      "uncompressedSha256": "e4908d8468db946f24cdc7bcb366fc73cc03593cdf673f9bb327cb047aedbeed"
+    },
+    {
+      "path": "geographic-score-early-x-native/fixtures.ts.gz",
+      "bytes": 645,
+      "sha256": "3606374b851018550f05c568bd45cd17b99690af1f04c7df0e456139a9e24b27",
+      "uncompressedBytes": 1012,
+      "uncompressedSha256": "7a3a8311c171fcfdb99bd37aff1128fa09cd15e7829650c1611bdcce014b8432"
+    },
+    {
+      "path": "geographic-score-early-x-native/fps-control.spec.ts.gz",
+      "bytes": 1654,
+      "sha256": "ae1f514c4ac7039c62d2fec09dbe56e9fcdfa2288c3def87df0688605dfad0db",
+      "uncompressedBytes": 4470,
+      "uncompressedSha256": "2d39ba643aa3c0aa7a242d0e93d081806fe54bd64b650f1ab78cbf67d4f567e4"
+    },
+    {
+      "path": "geographic-score-early-x-native/fps-driver-status.json.gz",
+      "bytes": 696,
+      "sha256": "2158111731b76b569c0a162f377b22a40f17f67d4c1d0a74d89cac06a5f8af41",
+      "uncompressedBytes": 3149,
+      "uncompressedSha256": "26e7290eb1b4c647732e7faf2f3fee8c07eb3ad5e156bb8646ef041d4d47e300"
+    },
+    {
+      "path": "geographic-score-early-x-native/gpu-after-functional.json.gz",
+      "bytes": 196,
+      "sha256": "4fe09807cac1a8bb350f9fa57849e05084167b52d9c62275e8e7ad569dee31dc",
+      "uncompressedBytes": 286,
+      "uncompressedSha256": "d1132cf181bb7383d8459cf41c742535be1a8f33176234f6912c70d87cf8d9bf"
+    },
+    {
+      "path": "geographic-score-early-x-native/gpu-before.json.gz",
+      "bytes": 196,
+      "sha256": "4fe09807cac1a8bb350f9fa57849e05084167b52d9c62275e8e7ad569dee31dc",
+      "uncompressedBytes": 286,
+      "uncompressedSha256": "d1132cf181bb7383d8459cf41c742535be1a8f33176234f6912c70d87cf8d9bf"
+    },
+    {
+      "path": "geographic-score-early-x-native/native-six-.last-run.json.gz",
+      "bytes": 60,
+      "sha256": "ef94fcdc04da4703dc723d02a781282e4b455e1b3176cc7862e6c14c9851bca9",
+      "uncompressedBytes": 45,
+      "uncompressedSha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "geographic-score-early-x-native/native-six-normal-x5-worker-paced-sync-responsiveness-7901e7288941e17f0d6419b72b5be5c8849902c2.json.gz",
+      "bytes": 1129242,
+      "sha256": "3671d5a00ae7c7ef461911483fc28a90eec043f69c0130ed8262b7bf6f5c1a27",
+      "uncompressedBytes": 7710237,
+      "uncompressedSha256": "b5f9aa5b92a4d83be7cc06bad0c935287dd19eae67c445a8b5b68e2fd552cb75"
+    },
+    {
+      "path": "geographic-score-early-x-native/native-six-raw-manifest.json.gz",
+      "bytes": 597,
+      "sha256": "42e66bbd8ce371f2043f59717c6ddca8572cb0e8a898b386ec23dc92d0961cab",
+      "uncompressedBytes": 2919,
+      "uncompressedSha256": "0163881b7d7b697ac1e6ee7279474c8cd356538b70ce63b684c81a8c3beb2a81"
+    },
+    {
+      "path": "geographic-score-early-x-native/native-six-same-host-120-day-worker-responsiveness-37fbccc4990a8fafd5140b4e6a97dc6e21fa05c7.json.gz",
+      "bytes": 1148079,
+      "sha256": "163c782371e05f78607f30dddc97ddec29e25ede908171b5c454e5fe53a1367b",
+      "uncompressedBytes": 8142581,
+      "uncompressedSha256": "8f51f7c461fac692ba8247d8915b900d12121681b6bfaf1347a6b80f97ce7338"
+    },
+    {
+      "path": "geographic-score-early-x-native/native-six-same-host-60-day-worker-responsiveness-f49a3d5529f4dcb78d213b2379205615a0bf4755.json.gz",
+      "bytes": 1138201,
+      "sha256": "e1484ec849e2357e12549aed08dbfb40daa0785b957fce56df984af7e46202ae",
+      "uncompressedBytes": 8012581,
+      "uncompressedSha256": "b89526c65167ade96d7f9d986e3823e26db487b45bd881175fc4ba4c4123bcf8"
+    },
+    {
+      "path": "geographic-score-early-x-native/native-six.log.gz",
+      "bytes": 419,
+      "sha256": "2579382a027dcbc9c0cc59ea27a1da0f7001dcffed329bc539c8371394deab84",
+      "uncompressedBytes": 1030,
+      "uncompressedSha256": "2dcb34a47977ec0b555087915fbce6468bd99e4516adbafcc39573ce994fc4fa"
+    },
+    {
+      "path": "geographic-score-early-x-native/native-six.spec.ts.gz",
+      "bytes": 6109,
+      "sha256": "440a483290035ba406c4dda7b7efd66a51df3ed87d716c66812fa746fb173f32",
+      "uncompressedBytes": 25818,
+      "uncompressedSha256": "4107cf8d52589b0fbad4ec319441f5a970f8d14becc917aee23b53e1020b98b7"
+    },
+    {
+      "path": "geographic-score-early-x-native/observer.mjs.gz",
+      "bytes": 2407,
+      "sha256": "d5d3089da6b233a3605327952e7532d353c537bbcdc0c6d6600380ebd765dab2",
+      "uncompressedBytes": 6065,
+      "uncompressedSha256": "424c03ed11d164683adcd706764368d4f1ebd9de4b4941a1f7495bf97121adad"
+    },
+    {
+      "path": "geographic-score-early-x-native/operational.log.gz",
+      "bytes": 704,
+      "sha256": "fc3911014d3a1be7ccf823ec29ca24464f9385e2eda0fec0591cadd39a2cbde6",
+      "uncompressedBytes": 3111,
+      "uncompressedSha256": "0183d8077a0b7f58c82201f10a81cbd9c01ca31ac64ea50b1df14ba82443b21f"
+    },
+    {
+      "path": "geographic-score-early-x-native/operational.raw.json.gz",
+      "bytes": 9300,
+      "sha256": "80b84cecd54623c17cbb446c3899177ccb6b7f45c853745861668b268746690c",
+      "uncompressedBytes": 142084,
+      "uncompressedSha256": "96729f9d5d61dbf4135ae58cb103d1379d3d8c0726691ca03443812631d6b495"
+    },
+    {
+      "path": "geographic-score-early-x-native/overview.log.gz",
+      "bytes": 702,
+      "sha256": "ebb0c182dbcd2b964160e8c934a84577bc88191b3090dd1fa80625e9be70a597",
+      "uncompressedBytes": 3071,
+      "uncompressedSha256": "4736e467d046daca18cef32267f6857ffd8e37beb709f93a861299ab6dd33013"
+    },
+    {
+      "path": "geographic-score-early-x-native/overview.raw.json.gz",
+      "bytes": 9020,
+      "sha256": "06a0ad0bb26198937bbc34b0215ea1d07293dbd405b763d156f00d71c113c3be",
+      "uncompressedBytes": 149442,
+      "uncompressedSha256": "248832c0efdd85fa30adaf1cf37346dcb1a9933bb63b11caa016957bd70cc7d5"
+    },
+    {
+      "path": "geographic-score-early-x-native/package-overlap-zero-native.py.gz",
+      "bytes": 2514,
+      "sha256": "d339bce1268c708cd51ac555aa98009bf716be38ef9b9e0dd2ebcbf8bb064291",
+      "uncompressedBytes": 4923,
+      "uncompressedSha256": "b8c7f429a76b60731a6659d71a2e42697120b39d69578ca18bb0a2f6398f9b3f"
+    },
+    {
+      "path": "geographic-score-early-x-native/parity-proof.json.gz",
+      "bytes": 257,
+      "sha256": "180a6d3e39c0a22ec887b02b33808c5ac2fdb5792b9e6ff1442a415b53a7557f",
+      "uncompressedBytes": 502,
+      "uncompressedSha256": "93130188f9732ee34556fe6935020d0de93b429b5e0a9d4a2b334fd80fd3bb37"
+    },
+    {
+      "path": "geographic-score-early-x-native/patch-applier.mjs.gz",
+      "bytes": 1194,
+      "sha256": "ee15a4abd3fc6de9b30b0a1dfc841fb6cdcde483eddefe6d7cc181318aa6a22f",
+      "uncompressedBytes": 3071,
+      "uncompressedSha256": "ec4ec746e1b5caac07f36e80f886ddcd913e454e8edf6cf4bf901abb3e7334b5"
+    },
+    {
+      "path": "geographic-score-early-x-native/patch-manifest.json.gz",
+      "bytes": 5076,
+      "sha256": "d29976c5e35b2b13e3df2e021de1ad42c3f13cad82791ae2eec8de380733bdf9",
+      "uncompressedBytes": 24802,
+      "uncompressedSha256": "61616fb34a6ed6d3212bd0bc6ff78929f2f1cfa4214cf12dea7cb946cca81972"
+    },
+    {
+      "path": "geographic-score-early-x-native/playwright.config.ts.gz",
+      "bytes": 1072,
+      "sha256": "912bc71119d379045d908d0393eaae68c72ee5f4124cda02ef18a2f099c9df15",
+      "uncompressedBytes": 1918,
+      "uncompressedSha256": "0f2062a03f1ed2174fbd4b496dff2c851a579d78952452666d5de2c6ee30b21c"
+    },
+    {
+      "path": "geographic-score-early-x-native/proof.py.gz",
+      "bytes": 1106,
+      "sha256": "ffc579b4ada94a33e5b02b629664f3f026594f71e62aa84e796db3e8886fc6c5",
+      "uncompressedBytes": 2747,
+      "uncompressedSha256": "c335aba94adc54d247c91e5f7191719c23aa913604e21e99f76b7484213fc1b3"
+    },
+    {
+      "path": "geographic-score-early-x-native/published.log.gz",
+      "bytes": 106,
+      "sha256": "7c3b735ba33942b76dc3ab9d2698fe12bd538afd4a75478c43777c5be29b2a60",
+      "uncompressedBytes": 99,
+      "uncompressedSha256": "71f1621c6f138c619973552b1bfe6a596b3353b00cc2c617a51735ec960054a5"
+    },
+    {
+      "path": "geographic-score-early-x-native/published.raw.json.gz",
+      "bytes": 2263646,
+      "sha256": "c35a585310a0cd2009ba039111271755d82a76565ce380688235dc676b102a87",
+      "uncompressedBytes": 15199813,
+      "uncompressedSha256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29"
+    },
+    {
+      "path": "geographic-score-early-x-native/selected-wasm-url-bytes.json.gz",
+      "bytes": 446,
+      "sha256": "6ee6e579ff0ec22dd1ccf30194a7f2ad7b701096ea3946bd61e3279eeac093ea",
+      "uncompressedBytes": 1483,
+      "uncompressedSha256": "ff522b1502d6c9adfb0e23a7b89a930495d751d6fcc8fa28e5cc9c7e4fd5aff3"
+    },
+    {
+      "path": "geographic-score-early-x-native/sim3-next-native-frozen-archive.py.gz",
+      "bytes": 1057,
+      "sha256": "36982d6ed5989aa37b0421c0dd01aae1fa75635204ba2d7b99535fec4e552172",
+      "uncompressedBytes": 2076,
+      "uncompressedSha256": "1e635ec8ec7fc8ea218ca7d2d0c95ba665433fce9abf338954f844600c739b3a"
+    },
+    {
+      "path": "geographic-score-early-x-native/sim3-overlap-zero-native-current23-collect.py.gz",
+      "bytes": 792,
+      "sha256": "16628502cea1f6e55dc7378544c1c11bde91f1cd9cbd634fa11915af874d9fe3",
+      "uncompressedBytes": 2037,
+      "uncompressedSha256": "590519e72ec48cb92a54de327d974d63f17a2ea7b5405c326d9c80e71103fd31"
+    },
+    {
+      "path": "geographic-score-early-x-native/sim3-overlap-zero-native-current23-proof.py.gz",
+      "bytes": 1106,
+      "sha256": "ffc579b4ada94a33e5b02b629664f3f026594f71e62aa84e796db3e8886fc6c5",
+      "uncompressedBytes": 2747,
+      "uncompressedSha256": "c335aba94adc54d247c91e5f7191719c23aa913604e21e99f76b7484213fc1b3"
+    },
+    {
+      "path": "geographic-score-early-x-native/sim3-overlap-zero-native-current23-setup.py.gz",
+      "bytes": 823,
+      "sha256": "a57b7bc89e0c05a3f5267a5e77cd7ca4733b3d3fadfe2c512c815a488a84027c",
+      "uncompressedBytes": 1704,
+      "uncompressedSha256": "6e29c2ed18be16af027adda98b6b69c28aacf438d6ce75a2915dba510477646f"
+    },
+    {
+      "path": "geographic-score-early-x-native/sim3-overlap-zero-native-current23-state-proof.py.gz",
+      "bytes": 972,
+      "sha256": "e218226599bcca0010d307823d9c9b68d095d8d554da5e0b6db91a27b9f9f0b1",
+      "uncompressedBytes": 2151,
+      "uncompressedSha256": "3f59aa80be568446652a24a565a2aad37a1f6fb95fa1596dda21aa7286038a37"
+    },
+    {
+      "path": "geographic-score-early-x-native/sim3-overlap-zero-native-run-controls.py.gz",
+      "bytes": 844,
+      "sha256": "8902afd737ec186b35a96d3b3887a200fde7b39466a58c77e5d83f8021b5d0c7",
+      "uncompressedBytes": 1606,
+      "uncompressedSha256": "ccf219e8e28f0f2f0eda7c2fd02c564d956e42815a0918d6fb1cfdc64ac457a5"
+    },
+    {
+      "path": "geographic-score-early-x-native/simd.wasm.gz",
+      "bytes": 32675,
+      "sha256": "b70cc0225f5e715fb905579aa8f578f425a4e6506144f0d632217862a1e63b05",
+      "uncompressedBytes": 89972,
+      "uncompressedSha256": "f33324b483918c6671bbe368cd9065368403ae83ebfa27c36cb49053fd9fce77"
+    },
+    {
+      "path": "geographic-score-early-x-native/source-after-proof.json.gz",
+      "bytes": 139375,
+      "sha256": "e85893d3362ffcf5ac0efaa6f415a9506280104bc3ebed42f572454a4297ff31",
+      "uncompressedBytes": 565524,
+      "uncompressedSha256": "2be83fd3101b630a0a38bcac8fec377369fb2a122073e3b399b44ebd404b8cb6"
+    },
+    {
+      "path": "geographic-score-early-x-native/source-before-proof.json.gz",
+      "bytes": 139375,
+      "sha256": "e85893d3362ffcf5ac0efaa6f415a9506280104bc3ebed42f572454a4297ff31",
+      "uncompressedBytes": 565524,
+      "uncompressedSha256": "2be83fd3101b630a0a38bcac8fec377369fb2a122073e3b399b44ebd404b8cb6"
+    },
+    {
+      "path": "geographic-score-early-x-native/source-final-proof.json.gz",
+      "bytes": 139375,
+      "sha256": "e85893d3362ffcf5ac0efaa6f415a9506280104bc3ebed42f572454a4297ff31",
+      "uncompressedBytes": 565524,
+      "uncompressedSha256": "2be83fd3101b630a0a38bcac8fec377369fb2a122073e3b399b44ebd404b8cb6"
+    },
+    {
+      "path": "geographic-score-early-x-native/state-resource-proof.json.gz",
+      "bytes": 641,
+      "sha256": "9f2642b1e8a6a74f67ff5a359e0608ea0d0a42c6ddfdfe02e85d36bce94b3c2d",
+      "uncompressedBytes": 2844,
+      "uncompressedSha256": "4da6d311404daad0817b3e295d0164f629e0892df053a8209bc13fc9b1bbc2fd"
+    },
+    {
+      "path": "geographic-score-early-x-native/summary.json",
+      "bytes": 27374,
+      "sha256": "4221375577d5e968c0cb5168e93e44511d5e6e80581e9507be01950d9682b566"
+    },
+    {
+      "path": "geographic-score-early-x-native/tenka_engine.wasm.gz",
+      "bytes": 32686,
+      "sha256": "979517e36606edfd7e1e896f845306b0288f8173e928e7c8f88a5a6b12f213e4",
+      "uncompressedBytes": 90122,
+      "uncompressedSha256": "4935459682fdb5a509d72793518ce1343b49d8c07e041300b9262e6ca8acd759"
+    },
+    {
+      "path": "geographic-score-early-x-native/transfer-proof.json.gz",
+      "bytes": 211,
+      "sha256": "7bb0c5d134f23f1b371447adbd04449bd18d2dac102cf337404d5e235aa83cef",
+      "uncompressedBytes": 300,
+      "uncompressedSha256": "301ef3817989984b0b54375a2e97f005f28cdbc75abd1d4c91aa813a078fd747"
+    },
+    {
+      "path": "geographic-score-early-x-native/verify.py",
+      "bytes": 2900,
+      "sha256": "fb56103a3c57f311b058ca9dfcb03e0e7950aa58e594927ed9683d21c1fc2a3d"
+    },
+    {
+      "path": "geographic-score-early-x-native/wasm-manifest.json.gz",
+      "bytes": 1343,
+      "sha256": "de609c922049a1f5cf2a6a84faa09f733d02519fd3bddf026640dd95f64f791e",
+      "uncompressedBytes": 3824,
+      "uncompressedSha256": "849703967ae316a223bd1d9c8e0b7ea626596a7e6a7f6ebb63c9cd96aae2fc36"
     }
   ]
 }
