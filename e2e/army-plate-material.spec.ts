@@ -1,6 +1,7 @@
 import { writeFileSync } from 'node:fs';
 import type { Page, TestInfo } from '@playwright/test';
 import { test, expect } from './fixtures';
+import { waitForMapReady } from './map-ready';
 
 async function capture(page: Page, info: TestInfo, key: string) {
   await page.evaluate(() => window.__tenka.debug.waitMapIdle(5));
@@ -31,6 +32,7 @@ test('army plate material retains actual selected army and mandatory far channel
   await page.goto('/?debug=visual-map');
   await expect(page.getByTestId('screen-strategy')).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
+  await waitForMapReady(page);
   await page.evaluate(() => window.__tenka.debug.setMapCameraPreset('close'));
   const position = await page.evaluate(
     () =>

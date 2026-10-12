@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import type { TenkaDebugApi } from '../src/app/debug';
 import { test, expect } from './fixtures';
+import { waitForMapReady } from './map-ready';
 
 type DebugWindow = Window & { __tenka: { debug: TenkaDebugApi } };
 type Point = { x: number; y: number };
@@ -69,24 +70,6 @@ function distanceToEdges(p: Point, polygon: Point[]) {
 }
 async function idle(page: Page) {
   await page.evaluate(() => (window as DebugWindow).__tenka.debug.waitMapIdle(3));
-}
-async function waitForMapReady(page: Page) {
-  await expect
-    .poll(() =>
-      page.evaluate(() => {
-        try {
-          return (window as DebugWindow).__tenka.debug.getMapDiagnostics().ready;
-        } catch (error) {
-          if (
-            error instanceof Error &&
-            error.message.includes('__TENKA_DEBUG__: map renderer 尚未掛載')
-          )
-            return false;
-          throw error;
-        }
-      }),
-    )
-    .toBe(true);
 }
 async function observe(page: Page) {
   return page.evaluate(() => (window as DebugWindow).__tenka.debug.getMapDiagnostics()) as Promise<

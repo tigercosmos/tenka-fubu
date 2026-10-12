@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures';
+import { waitForMapReady } from './map-ready';
 
 test('closed context is excluded from native sequential focus while open controls remain reachable', async ({
   page,
@@ -8,6 +9,7 @@ test('closed context is excluded from native sequential focus while open control
   await page.goto('/?debug=visual-map');
   const strategy = page.getByTestId('screen-strategy');
   await expect(strategy).toBeVisible();
+  await waitForMapReady(page);
   await page.evaluate(() => window.__tenka.debug.waitMapIdle());
   const before = await page.evaluate(() => window.__tenka.debug.getState());
   const context = strategy.locator(':scope > div[aria-hidden]');
