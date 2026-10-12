@@ -1,0 +1,19 @@
+{
+  "base": "2d872d7",
+  "checked": 1524,
+  "overlay": [
+    {
+      "path": "src/ui/map/armyPlateLayout.ts",
+      "sha256": "c1502d02743057e2e548dc8894d0385c07b84f2d13fdeb1266677065465ec0de",
+      "bytes": 35779,
+      "baseSha256": "b04c500e2fe05f3484298e7bb81121b2d67d4f7178955640dfecdbd9becad35c"
+    },
+    {
+      "path": "tests/ui/armyPlateLayout.spec.ts",
+      "sha256": "fa84dea92fc8a44dacea09c336e4e0d82e2e8baeb02270790ba9186dfb608329",
+      "bytes": 51828,
+      "baseSha256": "9e9462510cba14b4046fd0fd7a07a7278a9a7d987e5ec220197e74fa61da9386"
+    }
+  ],
+  "unexpected": []
+}

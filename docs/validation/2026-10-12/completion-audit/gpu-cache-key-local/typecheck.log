@@ -1,0 +1,6 @@
+
+> tenka-fubu@0.0.0 typecheck
+> tsc --noEmit && tsc -p tsconfig.core.json --noEmit
+
+
+exit_code=0

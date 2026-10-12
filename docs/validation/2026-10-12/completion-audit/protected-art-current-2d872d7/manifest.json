@@ -1,0 +1,106 @@
+{
+  "art-build.log.gz": {
+    "sha256": "f0176c509f0845d7424a2193eb9cf3f816b0fde428c80af26a46335405c873b7",
+    "bytes": 844,
+    "rawSha256": "8d56efc90be2b0b040c27cb4fa918ba39f8fb891ece488db7e8dfd89916e392d",
+    "rawBytes": 1678
+  },
+  "art-dependency-content-after.sha256": {
+    "sha256": "9e103c22629eaedd6985fee3393ddbc1587ff2b45d2861977810dd51ca13da60",
+    "bytes": 68
+  },
+  "art-dependency-content-before.sha256": {
+    "sha256": "9e103c22629eaedd6985fee3393ddbc1587ff2b45d2861977810dd51ca13da60",
+    "bytes": 68
+  },
+  "art-gl-check.mjs.gz": {
+    "sha256": "fe3327cbb48648bd40c5788ace04e23fff67755d98935cb7043b53043cfdcedd",
+    "bytes": 749
+  },
+  "art-gl.log.gz": {
+    "sha256": "3f8873ad209df8b88a8767d2b2ab0d36dbe714a9b8f065e6eacf45aa72896037",
+    "bytes": 234,
+    "rawSha256": "1303c4de431fdb747103d0229b01813c561d170e181965f5351192663d73bdd8",
+    "rawBytes": 474
+  },
+  "art-input-sha256.txt": {
+    "sha256": "1d20970e485196e316eeb94edc0c36e9d012f985b94082bb09750ca3882e711b",
+    "bytes": 1076
+  },
+  "art-settlement.log.gz": {
+    "sha256": "93a1be24afca80e1bc8714437e70bfd8e60f03bd31391228fa53ca28a8011434",
+    "bytes": 588,
+    "rawSha256": "40ba87f651d42f58cdc1eda6137ed3e359a54f17e24e58665a8c2526327334d9",
+    "rawBytes": 1961
+  },
+  "art-source-post-verification.json": {
+    "sha256": "9d8a3d1c0ab5793b0a98fa220e0cfc3b5ad929ce76b0acda075cb5fe15fa57d0",
+    "bytes": 62
+  },
+  "art-sunpu-near-observation.json.gz": {
+    "sha256": "d5ff0362bc0f91b813477b46ca0c8c4712966b49173ae0b5d4c1dff324fbae18",
+    "bytes": 215892
+  },
+  "art-visual.log.gz": {
+    "sha256": "465429d64f04cc651ab92215cefb2d22a5aea829492d5a84081a7aa99b10397c",
+    "bytes": 1005,
+    "rawSha256": "023b80cba960a2663aa9ff0e9b474bb6b37c0e1a08d6819115bde7d9a43f6d95",
+    "rawBytes": 7363
+  },
+  "source-git-blobs.json.gz": {
+    "sha256": "d00303df55dc83c24e28c23df898c1f728d565d6360c0820511e926d860ea991",
+    "bytes": 82446
+  },
+  "strategy-close-actual.png": {
+    "sha256": "46d476b6909d28a8444ffdd4b49e4f991ea7f550bafcf6dc702e0d800a970148",
+    "bytes": 818200
+  },
+  "strategy-close-chromium-linux.png": {
+    "sha256": "9655af8d6dac63031be27c3116f3e23bcd84d9d6ce3744d492b38884095eb810",
+    "bytes": 208011
+  },
+  "strategy-close-diff.png": {
+    "sha256": "cb85b0373b24ae97b36095183e9ff2f33059bf00d208d47206560cda97b812d4",
+    "bytes": 258183
+  },
+  "strategy-operational-actual.png": {
+    "sha256": "1c629faa753577a99514cb4c6e3749a936829ad9a33bc2c792d9e17803f07600",
+    "bytes": 595200
+  },
+  "strategy-operational-chromium-linux.png": {
+    "sha256": "7cbce270f6efad5b5cf6d95500e76010355c6fb777c45b10acbeb5a774bb2ce3",
+    "bytes": 125989
+  },
+  "strategy-operational-diff.png": {
+    "sha256": "b909274c4417df6a365a140b94550eeb50221ac7a0dceb7b8839708ee38c2124",
+    "bytes": 220361
+  },
+  "strategy-overview-actual.png": {
+    "sha256": "7abb3580dd03875160d44c266fe5a522dca43e330b4f4ec63425089e94c257f7",
+    "bytes": 376175
+  },
+  "strategy-overview-chromium-linux.png": {
+    "sha256": "250d0493c6184128857060aa90147204fe609ca1652571db8e2e1c13bcf93ddf",
+    "bytes": 106052
+  },
+  "strategy-overview-diff.png": {
+    "sha256": "bdd689fc921f5dab55adf4c79227d009fe0ef1ca9711c7dfa730f9b2bf7dc3ac",
+    "bytes": 166478
+  },
+  "town-castle.kiyosu-mid.png": {
+    "sha256": "c645c983cf5cbf8f584e3e803b9924670bad5146fbb6b4cae83d8bcdde2bc476",
+    "bytes": 897714
+  },
+  "town-castle.kiyosu-near.png": {
+    "sha256": "51641d054f360dec96af15e71dc4f6cea37e68525e56b3ab3a1f9a05608cd7e5",
+    "bytes": 1094583
+  },
+  "town-castle.sunpu-mid.png": {
+    "sha256": "eee0267200c8c6429de9dca39f278ed0c0d4ceb60c8ee9d613dd86c787f3ff52",
+    "bytes": 701379
+  },
+  "town-castle.sunpu-near.png": {
+    "sha256": "4abc309999e7905f27510c7859fa6f8392c80a47f79295618b6a2378c3aa8fee",
+    "bytes": 765381
+  }
+}

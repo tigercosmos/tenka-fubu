@@ -1,0 +1,16 @@
+
+ RUN  v2.1.9 /Users/tigercosmos/tenka-fubu
+
+ ✓ |core| tests/ci/pixiProgramLifetime.spec.ts (7 tests) 375ms
+ ✓ |core| tests/ci/pixiDependencyPatch.spec.ts (6 tests) 103ms
+ ✓ |core| tests/ci/pixiManagedResourceLifecycle.spec.ts (4 tests) 10ms
+ ✓ |core| tests/ci/pixiOptimizerCache.spec.ts (4 tests) 14ms
+ ✓ |core| tests/ci/pixiBatchBindGroupLifetime.spec.ts (3 tests) 7ms
+
+ Test Files  5 passed (5)
+      Tests  24 passed (24)
+   Start at  15:36:19
+   Duration  1.32s (transform 37ms, setup 0ms, collect 317ms, tests 508ms, environment 0ms, prepare 119ms)
+
+
+exit_code=0

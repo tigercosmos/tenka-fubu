@@ -1,0 +1,44 @@
+{
+  "pristine": {
+    "keys": 130,
+    "unloadListeners": 130,
+    "unload": 130,
+    "destroyed": 130,
+    "firstId": 0,
+    "lastId": 129
+  },
+  "baseline23": {
+    "keys": 130,
+    "unloadListeners": 0,
+    "unload": 130,
+    "destroyed": 130,
+    "firstId": 130,
+    "lastId": 259
+  },
+  "cjs": {
+    "keys": 0,
+    "unloadListeners": 0,
+    "unload": 130,
+    "destroyed": 130,
+    "firstId": -261,
+    "lastId": -390
+  },
+  "esm": {
+    "keys": 0,
+    "unloadListeners": 0,
+    "unload": 130,
+    "destroyed": 130,
+    "firstId": -1,
+    "lastId": -130
+  },
+  "sharedCjs": {
+    "firstDead": 2,
+    "secondDead": 1,
+    "keys": 0
+  },
+  "sharedEsm": {
+    "firstDead": 2,
+    "secondDead": 1,
+    "keys": 0
+  }
+}

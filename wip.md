@@ -6522,3 +6522,16 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - `3633c61` 增加保守MAX/16範圍guard與X零交集早排，兩variant各2121＋24、lifecycle、Rust25及41focused通過。`d25b49a` 保存固定native：full9af4、6Worker、source／deps／RTX／state／resource通過；overview60.00093、operational49.70804、close32.40628，三strict60原RED。Close＋1.15%只是單窗口小幅結果，沒有明確收益結論。Root build／bundle與native verifier通過。
 - 離線完整生成候選／row配對20739260組中X零交集45.07%、Y65.33%；未模擬caps／hard／early-break，不等於actualcalls或收益。據此 `5bc1f58` 只改先檢查Y、非零時仍計算X乘Y，範圍外原公式不動。兩variant各2121＋24、lifecycle、Rust26、41focused與types／artifact通過；原生收益待固定版本量測。
 - 60FPS、wholeheap、protectedart與longrun等原gate仍未完成，goal保持active。沒有push／deploy。
+
+## 聚落避讓、GPU 快取與整合驗證（2026-10-12）
+
+- `2d872d7` 已保存 `5bc1f58` 的 Y-first 原生量測：完整九個 payload 為 af4、六個 Worker 測試通過；overview 60.0131、operational 49.8026、close 32.8144 FPS。三個 strict60 原門檻仍 RED，沒有強效能收益結論。
+- `f6691c9` 在原共用兩輪搜尋中保留聚落避讓預算，輸入超過原容量時仍採原兩輪城名處理。新聚落淨空斷言在舊程式失敗，修正後 36 項單元與 7 項原生控制通過；駿府牆面遮擋已修復。半徑、字體、兵數、比較預算與保護門檻不變。
+- 固定 `2d872d7` 的原 20 次 remount 與獨立 240 次診斷皆通過資源斷言；延長診斷後半仍增加 709,796 bytes。快照定位到 renderer 數字索引和已釋放 null key 的 backing 增加 343,448 bytes，完整原始資料保留。
+- `89acc88` 使用唯一負數 renderer UID 避免 indexed backing 增長，並在 GPU 資料釋放後刪除 key。25-target exact-version 修補保留 CJS／ESM、既有多 renderer 生命週期與安裝雜湊檢查。舊 23-target 修補不支援原地升級，更新後須 `npm ci`。
+- 精確 GPU 候選為 `2d872d7` 加三個採用檔案，刻意不混入聚落修正。Fresh npm ci／build、原 20 次與獨立 240 次診斷通過；三個 checkpoint 的 1,555 來源一致。833 個 `_gpuData` 均沒有 indexed key／backing 或 null value。延長診斷後半仍增加 355,196 bytes，因此 whole-heap 未通過；另 63 個穩定 `BatchTextureArray.ids` 的 null 索引 backing 增加 55,296 bytes，留待後續獨立處理。
+- 整合 `89acc88` 全量測試為 6,442 通過、1 既有無嗣失敗、1 跳過。第 450 日無成人繼承人領地規則仍待使用者選擇，沒有自行創造遊戲規則。
+- Linux 三張保護畫面保持原 RED；最終 Darwin 整合三張仍有 185,057／268,586／290,445 像素差異，原門檻 100 不變。Darwin required-layers 通過，獨立同 fixture GL probe 為 Apple M3 Max Metal。六張基準替換依 17 §3.9.3 等待明確人工核准，沒有更新任何基準。
+- 60 FPS、whole-heap、protected art、long-run 與其餘 M6–M9 原門檻保持未完成。Production 預設 scalar、雙 WASM 與 Worker 架構保留；未 push／deploy。
+- `0b4b1c1` 僅以 Prettier 格式化既有 WASM 測試；轉譯後 AST 相同。完整測試釘選 `89acc88`，沒有宣稱於後續格式提交重跑全套。
+- 最終 typecheck、資料／素材、正式建置、bundle 及修正證據包裝後的完整 ESLint／Prettier 全通過。兩輪 lint 的原 RED 與最終 GREEN 均保存；完整專案仍未完成。

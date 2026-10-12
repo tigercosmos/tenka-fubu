@@ -1,8 +1,36 @@
 # 後續驗收、重放歸因與記憶體觀察
 
 Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目標仍未完成。
-最新固定來源 `feab20c` 全量測試為 6,392 通過、1 既有失敗、1 跳過；120 部隊近景仍未達 60 FPS。
+最新固定來源 `89acc88` 全量測試為 6,442 通過、1 既有失敗、1 跳過；120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
+
+## 最新聚落與記憶體驗證
+
+[整合全量驗證](integrated-89acc88-regression/README.md) 保留兩項修正整合後的完整結果與來源前後校驗。
+後續 `0b4b1c1` 只格式化 WASM 測試，轉譯後 AST 相同；全量測試結果仍明確釘選 `89acc88`。
+[Darwin 最終畫面](protected-art-integrated-darwin/README.md) 另保留三張原始保護比較與 Apple M3 Max Metal 證據；三張仍 RED，沒有更換基準。
+
+`f6691c9` 在原共用兩輪搜尋中，各保留一輪給城名與聚落避讓。輸入超過既有容量時，仍保留原兩輪城名處理。
+半徑、兵數、字體、每個保護矩形的上限與一百萬次比較預算不變。原來源在新增的聚落淨空斷言失敗，
+修正後三十六項單元與七項原生藝術控制通過；駿府近景原牆面失敗已清除。
+[原版比較](protected-art-current-2d872d7/README.md) 與[精確候選](protected-art-candidate-one-one/README.md)
+保留來源、圖像及失敗紀錄。三個保護畫面仍失敗，等待 17 明定的人工基準審核，沒有更換基準或放寬門檻。
+
+[固定全量驗證](current-2d872d7-regression/README.md) 是修正前 `2d872d7` 的完整結果，不能冒充 `f6691c9` 全量驗證。
+六千四百四十一項通過，一項既有無嗣領地失敗，一項跳過；一千五百五十五個來源輸入前後相同。
+型別、資料、素材、正式建置及 bundle 通過。新增證據檔案曾造成 lint 的專案解析與格式失敗，原紀錄保留。
+
+[新原生記憶體觀測](heap-current-2d872d7/README.md) 保留原二十次與獨立二百四十次 remount 的完整資料。
+延長診斷後半一百二十次仍增加 709,796 bytes，不能宣稱整體 heap 穩定。
+後續快照定位到 GPU 快取的數字索引與已清除的 null key：其 backing 增加 343,448 bytes。
+舊 renderer 與 GPU 物件的釋放，不能排除這些索引的儲存成長。
+[較早快照歸因](heap-retention-attribution/README.md) 另保存字型快取填滿及程式碼暖機的可重現分析。
+
+`89acc88` 將 renderer UID 保持為唯一數字，但使用負值作為一般物件 key；GPU 資料釋放後刪除對應 key。
+[來源與生命週期控制](gpu-cache-key-local/README.md) 驗證兩個模組格式、多個同時存在的 renderer、重建與安裝雜湊。
+原 23-target 修補保留 130 個已釋放 key，新版 25-target 為零；兩者都沒有舊 unload listener。
+[精確原生候選](gpu-cache-key-native/README.md) 的原二十次測試及獨立二百四十次診斷均通過資源斷言。
+延長診斷後半仍增加 355,196 bytes，整體 heap 門檻未完成。安裝新版修補需重新 `npm ci`，不宣稱可從舊修補直接升級。
 
 ## 已完成修正
 

@@ -1,0 +1,800 @@
+{
+  "pinnedVersion": "8.19.0",
+  "directReferences": 132,
+  "files": 36,
+  "allBracketKeys": true,
+  "rows": [
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBufferSystem.js",
+      "line": 43,
+      "source": "return buffer._gpuData[this._renderer.uid] || this.createGLBuffer(buffer);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBufferSystem.js",
+      "line": 166,
+      "source": "const glBuffer = buffer._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBufferSystem.js",
+      "line": 184,
+      "source": "buffer._gpuData[this._renderer.uid] = glBuffer;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBufferSystem.mjs",
+      "line": 41,
+      "source": "return buffer._gpuData[this._renderer.uid] || this.createGLBuffer(buffer);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBufferSystem.mjs",
+      "line": 164,
+      "source": "const glBuffer = buffer._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/buffer/GlBufferSystem.mjs",
+      "line": 182,
+      "source": "buffer._gpuData[this._renderer.uid] = glBuffer;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.js",
+      "line": 127,
+      "source": "return geometry._gpuData[this._renderer.uid]?.vaoCache[program._key] || this.initGeometryVao(geometry, program);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.js",
+      "line": 143,
+      "source": "let gpuData = geometry._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.js",
+      "line": 146,
+      "source": "geometry._gpuData[this._renderer.uid] = gpuData;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.js",
+      "line": 170,
+      "source": "const gpuData = geometry._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.mjs",
+      "line": 125,
+      "source": "return geometry._gpuData[this._renderer.uid]?.vaoCache[program._key] || this.initGeometryVao(geometry, program);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.mjs",
+      "line": 141,
+      "source": "let gpuData = geometry._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.mjs",
+      "line": 144,
+      "source": "geometry._gpuData[this._renderer.uid] = gpuData;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/geometry/GlGeometrySystem.mjs",
+      "line": 168,
+      "source": "const gpuData = geometry._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTextureSystem.js",
+      "line": 154,
+      "source": "source._gpuData[this._renderer.uid] = glTexture;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTextureSystem.js",
+      "line": 187,
+      "source": "const glTexture = source._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTextureSystem.js",
+      "line": 368,
+      "source": "return source._gpuData[this._renderer.uid] || this._initSource(source);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTextureSystem.mjs",
+      "line": 152,
+      "source": "source._gpuData[this._renderer.uid] = glTexture;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTextureSystem.mjs",
+      "line": 185,
+      "source": "const glTexture = source._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gl/texture/GlTextureSystem.mjs",
+      "line": 366,
+      "source": "return source._gpuData[this._renderer.uid] || this._initSource(source);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/buffer/GpuBufferSystem.js",
+      "line": 33,
+      "source": "return buffer._gpuData[this._renderer.uid]?.gpuBuffer || this.createGPUBuffer(buffer);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/buffer/GpuBufferSystem.js",
+      "line": 72,
+      "source": "buffer._gpuData[this._renderer.uid] = new GpuBufferData(gpuBuffer);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/buffer/GpuBufferSystem.mjs",
+      "line": 31,
+      "source": "return buffer._gpuData[this._renderer.uid]?.gpuBuffer || this.createGPUBuffer(buffer);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/buffer/GpuBufferSystem.mjs",
+      "line": 70,
+      "source": "buffer._gpuData[this._renderer.uid] = new GpuBufferData(gpuBuffer);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 68,
+      "source": "return source._gpuData[this._renderer.uid]?.gpuTexture || this._initSource(source);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 101,
+      "source": "source._gpuData[this._renderer.uid] = new GPUTextureGpuData(gpuTexture);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 135,
+      "source": "const gpuData = source._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 142,
+      "source": "source._gpuData[this._renderer.uid] = null;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 155,
+      "source": "return source._gpuData[this._renderer.uid]?.gpuTexture || this.initSource(source);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 183,
+      "source": "let gpuData = source._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.js",
+      "line": 186,
+      "source": "gpuData = source._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 66,
+      "source": "return source._gpuData[this._renderer.uid]?.gpuTexture || this._initSource(source);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 99,
+      "source": "source._gpuData[this._renderer.uid] = new GPUTextureGpuData(gpuTexture);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 133,
+      "source": "const gpuData = source._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 140,
+      "source": "source._gpuData[this._renderer.uid] = null;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 153,
+      "source": "return source._gpuData[this._renderer.uid]?.gpuTexture || this.initSource(source);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 181,
+      "source": "let gpuData = source._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/gpu/texture/GpuTextureSystem.mjs",
+      "line": 184,
+      "source": "gpuData = source._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 14,
+      "source": "placeholderGpu[_a = renderer.uid] || (placeholderGpu[_a] = renderer.gpu.device.createTexture({",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 20,
+      "source": "return placeholderGpu[renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 22,
+      "source": "if (!placeholderGl[renderer.uid]) {",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 27,
+      "source": "placeholderGl[renderer.uid] = texture;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 29,
+      "source": "return placeholderGl[renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 77,
+      "source": "this._gpuData[renderer.uid] = new GpuTextureSystem.GPUTextureGpuData(resource);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 79,
+      "source": "this._gpuData[renderer.uid] = new GlTexture.GlTexture(resource);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 91,
+      "source": "const gpuData = this._gpuData[renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.js",
+      "line": 119,
+      "source": "delete this._gpuData[renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 12,
+      "source": "placeholderGpu[_a = renderer.uid] || (placeholderGpu[_a] = renderer.gpu.device.createTexture({",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 18,
+      "source": "return placeholderGpu[renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 20,
+      "source": "if (!placeholderGl[renderer.uid]) {",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 25,
+      "source": "placeholderGl[renderer.uid] = texture;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 27,
+      "source": "return placeholderGl[renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 75,
+      "source": "this._gpuData[renderer.uid] = new GPUTextureGpuData(resource);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 77,
+      "source": "this._gpuData[renderer.uid] = new GlTexture(resource);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 89,
+      "source": "const gpuData = this._gpuData[renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/rendering/renderers/shared/texture/sources/ExternalSource.mjs",
+      "line": 117,
+      "source": "delete this._gpuData[renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.js",
+      "line": 89,
+      "source": "const hasContext = !!gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.js",
+      "line": 90,
+      "source": "const gpuContext = gpuData[this._renderer.uid] || this._initContext(context);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.js",
+      "line": 109,
+      "source": "return gpuData[this._renderer.uid] || this._initContext(context);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.js",
+      "line": 121,
+      "source": "context._gpuData[this._renderer.uid] = gpuContext;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.mjs",
+      "line": 87,
+      "source": "const hasContext = !!gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.mjs",
+      "line": 88,
+      "source": "const gpuContext = gpuData[this._renderer.uid] || this._initContext(context);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.mjs",
+      "line": 107,
+      "source": "return gpuData[this._renderer.uid] || this._initContext(context);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/canvas/CanvasGraphicsContextSystem.mjs",
+      "line": 119,
+      "source": "context._gpuData[this._renderer.uid] = gpuContext;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.js",
+      "line": 88,
+      "source": "return context._gpuData[this._renderer.uid].graphicsData || this._initContextRenderData(context);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.js",
+      "line": 98,
+      "source": "const hasContext = !!context._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.js",
+      "line": 99,
+      "source": "const gpuContext = context._gpuData[this._renderer.uid] || this._initContext(context);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.js",
+      "line": 125,
+      "source": "return context._gpuData[this._renderer.uid] || this._initContext(context);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.js",
+      "line": 131,
+      "source": "const gpuContext = context._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.js",
+      "line": 165,
+      "source": "context._gpuData[this._renderer.uid] = gpuContext;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "line": 86,
+      "source": "return context._gpuData[this._renderer.uid].graphicsData || this._initContextRenderData(context);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "line": 96,
+      "source": "const hasContext = !!context._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "line": 97,
+      "source": "const gpuContext = context._gpuData[this._renderer.uid] || this._initContext(context);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "line": 123,
+      "source": "return context._gpuData[this._renderer.uid] || this._initContext(context);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "line": 129,
+      "source": "const gpuContext = context._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs",
+      "line": 163,
+      "source": "context._gpuData[this._renderer.uid] = gpuContext;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.js",
+      "line": 103,
+      "source": "return graphics._gpuData[this.renderer.uid] || this._initGpuDataForRenderable(graphics);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.js",
+      "line": 107,
+      "source": "graphics._gpuData[this.renderer.uid] = gpuData;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.mjs",
+      "line": 101,
+      "source": "return graphics._gpuData[this.renderer.uid] || this._initGpuDataForRenderable(graphics);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsPipe.mjs",
+      "line": 105,
+      "source": "graphics._gpuData[this.renderer.uid] = gpuData;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 96,
+      "source": "(_a = mesh._gpuData)[_b = this.renderer.uid] || (_a[_b] = new MeshGpuData());",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 97,
+      "source": "return mesh._gpuData[this.renderer.uid].meshData || this._initMeshData(mesh);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 100,
+      "source": "mesh._gpuData[this.renderer.uid].meshData = {",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 105,
+      "source": "return mesh._gpuData[this.renderer.uid].meshData;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 109,
+      "source": "(_a = mesh._gpuData)[_b = this.renderer.uid] || (_a[_b] = new MeshGpuData());",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 110,
+      "source": "return mesh._gpuData[this.renderer.uid].batchableMesh || this._initBatchableMesh(mesh);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.js",
+      "line": 118,
+      "source": "mesh._gpuData[this.renderer.uid].batchableMesh = gpuMesh;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 94,
+      "source": "(_a = mesh._gpuData)[_b = this.renderer.uid] || (_a[_b] = new MeshGpuData());",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 95,
+      "source": "return mesh._gpuData[this.renderer.uid].meshData || this._initMeshData(mesh);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 98,
+      "source": "mesh._gpuData[this.renderer.uid].meshData = {",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 103,
+      "source": "return mesh._gpuData[this.renderer.uid].meshData;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 107,
+      "source": "(_a = mesh._gpuData)[_b = this.renderer.uid] || (_a[_b] = new MeshGpuData());",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 108,
+      "source": "return mesh._gpuData[this.renderer.uid].batchableMesh || this._initBatchableMesh(mesh);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/mesh/shared/MeshPipe.mjs",
+      "line": 116,
+      "source": "mesh._gpuData[this.renderer.uid].batchableMesh = gpuMesh;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/particle-container/shared/ParticleContainerPipe.js",
+      "line": 43,
+      "source": "return renderable._gpuData[this.renderer.uid] || this._initBuffer(renderable);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/particle-container/shared/ParticleContainerPipe.js",
+      "line": 46,
+      "source": "renderable._gpuData[this.renderer.uid] = new ParticleBuffer.ParticleBuffer({",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/particle-container/shared/ParticleContainerPipe.js",
+      "line": 51,
+      "source": "return renderable._gpuData[this.renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/particle-container/shared/ParticleContainerPipe.mjs",
+      "line": 41,
+      "source": "return renderable._gpuData[this.renderer.uid] || this._initBuffer(renderable);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/particle-container/shared/ParticleContainerPipe.mjs",
+      "line": 44,
+      "source": "renderable._gpuData[this.renderer.uid] = new ParticleBuffer({",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/particle-container/shared/ParticleContainerPipe.mjs",
+      "line": 49,
+      "source": "return renderable._gpuData[this.renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite/SpritePipe.js",
+      "line": 33,
+      "source": "return sprite._gpuData[this._renderer.uid] || this._initGPUSprite(sprite);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite/SpritePipe.js",
+      "line": 42,
+      "source": "sprite._gpuData[this._renderer.uid] = batchableSprite;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite/SpritePipe.mjs",
+      "line": 31,
+      "source": "return sprite._gpuData[this._renderer.uid] || this._initGPUSprite(sprite);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite/SpritePipe.mjs",
+      "line": 40,
+      "source": "sprite._gpuData[this._renderer.uid] = batchableSprite;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-nine-slice/NineSliceSpritePipe.js",
+      "line": 45,
+      "source": "return sprite._gpuData[this._renderer.uid] || this._initGPUSprite(sprite);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-nine-slice/NineSliceSpritePipe.js",
+      "line": 48,
+      "source": "const gpuData = sprite._gpuData[this._renderer.uid] = new NineSliceSpriteGpuData();",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-nine-slice/NineSliceSpritePipe.mjs",
+      "line": 43,
+      "source": "return sprite._gpuData[this._renderer.uid] || this._initGPUSprite(sprite);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-nine-slice/NineSliceSpritePipe.mjs",
+      "line": 46,
+      "source": "const gpuData = sprite._gpuData[this._renderer.uid] = new NineSliceSpriteGpuData();",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-tiling/TilingSpritePipe.js",
+      "line": 115,
+      "source": "return renderable._gpuData[this._renderer.uid] || this._initTilingSpriteData(renderable);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-tiling/TilingSpritePipe.js",
+      "line": 120,
+      "source": "tilingSprite._gpuData[this._renderer.uid] = gpuData;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-tiling/TilingSpritePipe.mjs",
+      "line": 113,
+      "source": "return renderable._gpuData[this._renderer.uid] || this._initTilingSpriteData(renderable);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/sprite-tiling/TilingSpritePipe.mjs",
+      "line": 118,
+      "source": "tilingSprite._gpuData[this._renderer.uid] = gpuData;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/canvas/CanvasTextPipe.js",
+      "line": 58,
+      "source": "return text._gpuData[this._renderer.uid] || this.initGpuText(text);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/canvas/CanvasTextPipe.js",
+      "line": 67,
+      "source": "text._gpuData[this._renderer.uid] = batchableText;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/canvas/CanvasTextPipe.js",
+      "line": 72,
+      "source": "const gpuData = text._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/canvas/CanvasTextPipe.mjs",
+      "line": 56,
+      "source": "return text._gpuData[this._renderer.uid] || this.initGpuText(text);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/canvas/CanvasTextPipe.mjs",
+      "line": 65,
+      "source": "text._gpuData[this._renderer.uid] = batchableText;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text/canvas/CanvasTextPipe.mjs",
+      "line": 70,
+      "source": "const gpuData = text._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-bitmap/AbstractBitmapTextPipe.js",
+      "line": 105,
+      "source": "return bitmapText._gpuData[this._renderer.uid] || this.initGpuText(bitmapText);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-bitmap/AbstractBitmapTextPipe.js",
+      "line": 109,
+      "source": "bitmapText._gpuData[this._renderer.uid] = proxyRenderable;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-bitmap/AbstractBitmapTextPipe.mjs",
+      "line": 103,
+      "source": "return bitmapText._gpuData[this._renderer.uid] || this.initGpuText(bitmapText);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-bitmap/AbstractBitmapTextPipe.mjs",
+      "line": 107,
+      "source": "bitmapText._gpuData[this._renderer.uid] = proxyRenderable;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-html/HTMLTextPipe.js",
+      "line": 81,
+      "source": "return htmlText._gpuData[this._renderer.uid] || this.initGpuText(htmlText);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-html/HTMLTextPipe.js",
+      "line": 91,
+      "source": "htmlText._gpuData[this._renderer.uid] = batchableHTMLText;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-html/HTMLTextPipe.js",
+      "line": 96,
+      "source": "const gpuData = text._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-html/HTMLTextPipe.mjs",
+      "line": 79,
+      "source": "return htmlText._gpuData[this._renderer.uid] || this.initGpuText(htmlText);",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-html/HTMLTextPipe.mjs",
+      "line": 89,
+      "source": "htmlText._gpuData[this._renderer.uid] = batchableHTMLText;",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/scene/text-html/HTMLTextPipe.mjs",
+      "line": 94,
+      "source": "const gpuData = text._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.js",
+      "line": 29,
+      "source": "const gpuData = item._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.js",
+      "line": 34,
+      "source": "delete item._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.mjs",
+      "line": 27,
+      "source": "const gpuData = item._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    },
+    {
+      "path": "node_modules/pixi.js/lib/utils/data/GCManagedHash.mjs",
+      "line": 32,
+      "source": "delete item._gpuData[this._renderer.uid];",
+      "bracketKey": true
+    }
+  ]
+}

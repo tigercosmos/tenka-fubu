@@ -1,0 +1,9 @@
+63f021d39b353a70831accbfc50b714a09767b900ce23157fbf4ecce1dda7be1  package-lock.json
+e22f559b4b9d6f6348709e028cecdbc2c6f567db2483fa845b48df0554d7bc7d  public/wasm/tenka_engine.wasm
+48bed258011b162196ebd4fdf8b9e9dc94081df139d1f1af4294ffcdcc5882a0  public/wasm/tenka_engine.simd.wasm
+5c1f04a05725fc8158defe510d142e2440ffc03d274ca96bb49228cf1cc419f6  e2e/visual.spec.ts-snapshots/strategy-close-chromium-darwin.png
+9655af8d6dac63031be27c3116f3e23bcd84d9d6ce3744d492b38884095eb810  e2e/visual.spec.ts-snapshots/strategy-close-chromium-linux.png
+c466bb0314a60dd31a910c0fb5392ca03ae32415ecf0aa40b4aaa4e50af33934  e2e/visual.spec.ts-snapshots/strategy-operational-chromium-darwin.png
+7cbce270f6efad5b5cf6d95500e76010355c6fb777c45b10acbeb5a774bb2ce3  e2e/visual.spec.ts-snapshots/strategy-operational-chromium-linux.png
+5cf68478e90ec79b8e5d3acceccfea27b170aecc2adb9dedcdef12ab00692c19  e2e/visual.spec.ts-snapshots/strategy-overview-chromium-darwin.png
+250d0493c6184128857060aa90147204fe609ca1652571db8e2e1c13bcf93ddf  e2e/visual.spec.ts-snapshots/strategy-overview-chromium-linux.png

@@ -1,0 +1,23 @@
+{
+  "base": "2d872d7",
+  "checked": 1524,
+  "overlay": [
+    {
+      "path": "src/ui/map/armyPlateLayout.ts",
+      "sha256": "f181f9c3673c362bbabc0b9a7a64510542c99b359f0de127948a07c9e8ee21ba",
+      "bytes": 36148,
+      "baseSha256": "b04c500e2fe05f3484298e7bb81121b2d67d4f7178955640dfecdbd9becad35c"
+    },
+    {
+      "path": "tests/ui/armyPlateLayout.spec.ts",
+      "sha256": "18deb1565f7ebf3bd7256b56f29f06ff2268f998cb8e5a2fb32c8cb011fdc939",
+      "bytes": 52593,
+      "baseSha256": "9e9462510cba14b4046fd0fd7a07a7278a9a7d987e5ec220197e74fa61da9386"
+    }
+  ],
+  "unexpected": [],
+  "beforeOverlayHashes": "f181f9c3673c362bbabc0b9a7a64510542c99b359f0de127948a07c9e8ee21ba  src/ui/map/armyPlateLayout.ts\n18deb1565f7ebf3bd7256b56f29f06ff2268f998cb8e5a2fb32c8cb011fdc939  tests/ui/armyPlateLayout.spec.ts\n",
+  "afterOverlayHashes": "f181f9c3673c362bbabc0b9a7a64510542c99b359f0de127948a07c9e8ee21ba  src/ui/map/armyPlateLayout.ts\n18deb1565f7ebf3bd7256b56f29f06ff2268f998cb8e5a2fb32c8cb011fdc939  tests/ui/armyPlateLayout.spec.ts\n",
+  "dependencyBefore": "5f301b7032ed54ced77f50cb3ee80bd52096bf60f2d960c5582e0041ee30a0e6",
+  "dependencyAfter": "d5d53f58df4bb56ff9884c1b5432ab0dde296e0948354f3a8b115a5985eb9c94"
+}

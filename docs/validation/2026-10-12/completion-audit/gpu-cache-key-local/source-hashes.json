@@ -1,0 +1,78 @@
+{
+  "manifestSha256": "463f083f1c8e6611ee8405aea8aff4d50b6f52400552f3c69d8cbb9f737e87f7",
+  "manifestTargets": 25,
+  "files": [
+    {
+      "path": "lib/utils/data/GCManagedHash.mjs",
+      "state": "original",
+      "sha256": "5763eeb3aec5708ebb5c344c98046673d7b8dc986fdb000179de4a6a8d2a54ce",
+      "bytes": 1381
+    },
+    {
+      "path": "lib/utils/data/GCManagedHash.mjs",
+      "state": "patched",
+      "sha256": "95a4473812164635559aa78ffde29fa2ce373b169145d008359f3ea652ae5d19",
+      "bytes": 1384
+    },
+    {
+      "path": "lib/utils/data/GCManagedHash.js",
+      "state": "original",
+      "sha256": "1a51d2b7140af9993553264e9fbb848ab1cfc720316b51534bd7a8b000fb8114",
+      "bytes": 1408
+    },
+    {
+      "path": "lib/utils/data/GCManagedHash.js",
+      "state": "patched",
+      "sha256": "b650f66f9d3d7779af12e7df293f03a1bd173c18c6ee22df52411a0ba5d4a933",
+      "bytes": 1412
+    },
+    {
+      "path": "lib/rendering/renderers/shared/system/AbstractRenderer.js",
+      "state": "original",
+      "sha256": "7a787579d2094aac0899cb6a9c540bddab3c6dec50c755909af3e77aa969f9ae",
+      "bytes": 12656
+    },
+    {
+      "path": "lib/rendering/renderers/shared/system/AbstractRenderer.js",
+      "state": "patched",
+      "sha256": "8ea62415b9cada0057d776a271a0d1d75507b8f214aea816c093d6b84123eae8",
+      "bytes": 12616
+    },
+    {
+      "path": "lib/rendering/renderers/shared/system/AbstractRenderer.mjs",
+      "state": "original",
+      "sha256": "64d24a58b4acfd957deab121b44bea9ccfa2c4fdf22e6cfd7e726fad68dd1787",
+      "bytes": 12510
+    },
+    {
+      "path": "lib/rendering/renderers/shared/system/AbstractRenderer.mjs",
+      "state": "patched",
+      "sha256": "070c845a2e46eae9e243c349ac967c20d1f0a514161c1be8b57eec4a6862ed87",
+      "bytes": 12469
+    },
+    {
+      "path": "lib/rendering/renderers/shared/system/AbstractRenderer.d.ts",
+      "state": "context",
+      "sha256": "e80af89fdf61d8528ecb47b3c4fdc6f22b7bfc585ce7265ac5954ae67e504b20",
+      "bytes": 15001
+    },
+    {
+      "path": "lib/utils/data/uid.js",
+      "state": "context",
+      "sha256": "595ae21e676561e1af1e869fe0f082721054f5305d5982b07d21561f52e44511",
+      "bytes": 361
+    },
+    {
+      "path": "lib/utils/data/uid.mjs",
+      "state": "context",
+      "sha256": "c89cb0657df79d565f1e0936ea6eb2f694ee2da1b353e669ab45d74bf913a49e",
+      "bytes": 324
+    },
+    {
+      "path": "lib/rendering/renderers/shared/buffer/Buffer.js",
+      "state": "context",
+      "sha256": "f12c1c37772f7fddf1fc8795b8a7b500b09c5643dcab13f23fed4dbb671df9c2",
+      "bytes": 5436
+    }
+  ]
+}

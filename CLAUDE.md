@@ -47,3 +47,5 @@
 ## 目前進度
 
 - 當前里程碑：見 `milestone.json`；歷史進度：見 README 進度表。
+
+- 最新已驗證修正：`f6691c9` 修復聚落避讓預算；`89acc88` 修復 renderer GPU 快取索引增長。精確整合測試 6,442 通過、1 既有無嗣失敗、1 跳過；`0b4b1c1` 只格式化測試。原生 60 FPS、whole-heap、protected art、long-run 仍未完成，六張 Linux／Darwin 基準與無嗣規則等待明確決策。完整證據見 `docs/validation/2026-10-12/completion-audit/`。

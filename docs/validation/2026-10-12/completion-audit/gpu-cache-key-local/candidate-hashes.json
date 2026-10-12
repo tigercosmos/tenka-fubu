@@ -1,0 +1,26 @@
+{
+  "head": "f6691c94cc994178481a9f46ada1ac8ac69567c5",
+  "files": [
+    {
+      "path": "tools/dependencies/pixi-8.19-patch.json",
+      "headSha256": "61616fb34a6ed6d3212bd0bc6ff78929f2f1cfa4214cf12dea7cb946cca81972",
+      "candidateSha256": "463f083f1c8e6611ee8405aea8aff4d50b6f52400552f3c69d8cbb9f737e87f7",
+      "headBytes": 24802,
+      "candidateBytes": 26094
+    },
+    {
+      "path": "tests/ci/pixiDependencyPatch.spec.ts",
+      "headSha256": "76a877d5211381116a6af5441810fcb37c52d4df0c03f5b78ed09a4efbdc787d",
+      "candidateSha256": "f861b91da5e3e1ce1b0eb4056dc20eb67555e8566fbb7b18af07b9130001b62e",
+      "headBytes": 5208,
+      "candidateBytes": 5208
+    },
+    {
+      "path": "tests/ci/pixiManagedResourceLifecycle.spec.ts",
+      "headSha256": "6e9410c3559180fb9caa95b92aa4f3dcde3a5f35cf8747861f01c96777115da2",
+      "candidateSha256": "7d78d63a553a3f4cd055f3e389d3d85c46b77a21a9c978fd16829f64dee7f35c",
+      "headBytes": 2944,
+      "candidateBytes": 5099
+    }
+  ]
+}
