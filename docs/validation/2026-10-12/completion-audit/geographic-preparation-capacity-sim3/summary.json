@@ -1,0 +1,174 @@
+{
+  "scope": "read-only actualnine nativecardinality and independentoriginalJS validlargescenes; no GPU/no timing",
+  "nativeFullPayloadSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+  "nativeFullPayloadRawBytes": 15199813,
+  "nativeFullPayloadOriginalPath": "/Users/tigercosmos/tenka-fubu/docs/validation/2026-10-12/completion-audit/castle-wasm-current23-native/published.raw.json.gz",
+  "normalNativeMaximum": {
+    "day": 1,
+    "camera": "close",
+    "obstacleKinds": {
+      "armyBody": 79,
+      "armyPlate": 79,
+      "canvasEdge": 4,
+      "castle": 64,
+      "castleBody": 82,
+      "castleDurability": 82,
+      "hud": 5
+    },
+    "candidateKinds": {
+      "district": 95,
+      "road": 17
+    },
+    "observableObstacleCount": 395,
+    "P": 386,
+    "H": 237,
+    "admittedCandidates": 112,
+    "frameWords": 2956,
+    "prepCapacityWords": 1420,
+    "totalWords": 4376,
+    "totalBytes": 35008,
+    "fitsProposed131072Words": true,
+    "retainedTargetWordsInOriginalNineOrder": 4376,
+    "retainedTargetBytesInOriginalNineOrder": 35008
+  },
+  "validOracleFrameCount": 1963,
+  "validOriginalOracleMaximum": {
+    "sequence": "largeFar8192",
+    "frame": 0,
+    "P": 8192,
+    "H": 0,
+    "admittedCandidates": 1,
+    "frameWords": 32788,
+    "prepCapacityWords": 16447,
+    "totalWords": 49235,
+    "totalBytes": 393880,
+    "fitsProposed131072Words": true
+  },
+  "largeRows": [
+    {
+      "sourceCount": 8192,
+      "originalJSMatched": true,
+      "P": 8192,
+      "H": 0,
+      "admittedCandidates": 1,
+      "frameWords": 32788,
+      "prepCapacityWords": 16447,
+      "totalWords": 49235,
+      "totalBytes": 393880,
+      "fitsProposed131072Words": true
+    },
+    {
+      "sourceCount": 32768,
+      "originalJSMatched": true,
+      "P": 32768,
+      "H": 0,
+      "admittedCandidates": 1,
+      "frameWords": 131092,
+      "prepCapacityWords": 65599,
+      "totalWords": 196691,
+      "totalBytes": 1573528,
+      "fitsProposed131072Words": false
+    }
+  ],
+  "proposedBudget": {
+    "words": 131072,
+    "bytes": 1048576,
+    "ratioToNativeMaximum": 29.952468007312614,
+    "ratioTo8192Case": 2.6621712196608103,
+    "mode32768": "CAPACITY: existing JS preparation + original Rust scorer; not domain rejection or malformed fallback"
+  },
+  "mode32768IsPolicyInferenceNotObserved": true,
+  "noSemanticCountCap": true,
+  "excludedFromBudget": [
+    "road arena, exactroadcapsule counts not present in archivednative geometry diagnostics",
+    "legacy scorer arena",
+    "temporary allocation overlap before old arena is freed",
+    "WASM memory pages/allocator metadata",
+    "JS originalobjects/signature/copied-index arrays"
+  ],
+  "largeOriginalJSProducerExit": 0,
+  "original320ProducerPackagingREDUnchanged": true,
+  "sourcePins": {
+    "MapRendererFC": "c481a36ec9e670c0f652c633205e9c079f0f82ea87475a409ff8ab46678dacbe",
+    "adapterUncommittedAtCounting": "8ac687b6fb9e8942cb533bd2a85fee22f5fddb388b586386918c8b37137fba42"
+  },
+  "artifacts": [
+    {
+      "path": "adapter-source-at-counting.ts.gz",
+      "rawBytes": 16274,
+      "rawSHA256": "8ac687b6fb9e8942cb533bd2a85fee22f5fddb388b586386918c8b37137fba42",
+      "gzipBytes": 4146,
+      "gzipSHA256": "78b8331fc5c942f56dce368ce1ec918b06faea4cfba6631529d162e2b72d75e8"
+    },
+    {
+      "path": "capacity-counts.json.gz",
+      "rawBytes": 9470,
+      "rawSHA256": "7ef31c98c1b29ae1b6064070952d730c8fa30ab2c8d799a1e0655d31a88ec130",
+      "gzipBytes": 2077,
+      "gzipSHA256": "cdd65a397adc89698685e850a4729377134b3b780509a4bc16cf2378642168f9"
+    },
+    {
+      "path": "counts-original.log.gz",
+      "rawBytes": 1541,
+      "rawSHA256": "c3e4d4d31e53871d92d833c87e7e422df4e66102c85701a588a7f85a470af76c",
+      "gzipBytes": 616,
+      "gzipSHA256": "0752e82e897f325e1d8b85f67b52d9b4b2f24273e8285d578cb78323fd925881"
+    },
+    {
+      "path": "counts-producer.py.gz",
+      "rawBytes": 4589,
+      "rawSHA256": "c9083e54cf7a29c98442f3f2e0c2bbe61a46217f2aba9d1031c280259aa267d4",
+      "gzipBytes": 2102,
+      "gzipSHA256": "a48e1214c1df3f631e05fb06af87bbb03e90211cfae9589c15d43db993abd9a6"
+    },
+    {
+      "path": "frozen-MapRenderer.ts.gz",
+      "rawBytes": 207449,
+      "rawSHA256": "c481a36ec9e670c0f652c633205e9c079f0f82ea87475a409ff8ab46678dacbe",
+      "gzipBytes": 56132,
+      "gzipSHA256": "5c77b863e0b1b2c0f4748c79be1ea6f646fad6317c300bbdd90ee4657726290c"
+    },
+    {
+      "path": "large-valid-original-js.raw.json.gz",
+      "rawBytes": 27988332,
+      "rawSHA256": "238d15aea7c957140fe19441c82c3a8ae05fc2cd9243afac854f65ecc54b4ea6",
+      "gzipBytes": 657318,
+      "gzipSHA256": "812aa10dae2f5e3d8485ba31ea3f807bbd98ac7832d637349e8078f59478f115"
+    },
+    {
+      "path": "largecase-producer-original.log.gz",
+      "rawBytes": 437,
+      "rawSHA256": "f3fc8d31574f222c95329a33f268878cf362a7a95998bc1b8776b43b9d571402",
+      "gzipBytes": 317,
+      "gzipSHA256": "fec2db8267c6658c6d53a19fb54f23c139fd08b1812bedfb74e588db7ca2271e"
+    },
+    {
+      "path": "manifest.json.gz",
+      "rawBytes": 436,
+      "rawSHA256": "c5cb693a9e29a602853f0a8a76d796bebcb99c1930f37f842850c29a4d050e72",
+      "gzipBytes": 316,
+      "gzipSHA256": "8e189cdf55da6bea2eaa550b10a9ba1c367009562bbe6f86413ea7ff90b82c5c"
+    },
+    {
+      "path": "native-nine-geography.decoded.json.gz",
+      "rawBytes": 598769,
+      "rawSHA256": "36a94ce902c3986fdb2e9ba175a1f4ca73919f91d29167b5e81da97c77858a33",
+      "gzipBytes": 81526,
+      "gzipSHA256": "973ff2683bfc68fffbe14b01953fa3670167ebf39610b42628c301ef4cdd02d4"
+    },
+    {
+      "path": "producer.mts.gz",
+      "rawBytes": 2378,
+      "rawSHA256": "e8e071b49137f49bc912bf0b6803f4a6c0cc5b30d8b3cf081a0eab24343ed7b0",
+      "gzipBytes": 1134,
+      "gzipSHA256": "5cd7afef297fa1b42072f4b8300ef6141ccadb74efc920a245d9b3a25a4d9364"
+    },
+    {
+      "path": "verify-evidence.py.gz",
+      "rawBytes": 1606,
+      "rawSHA256": "e0da8d9b51461d5c97e3b5a93bdd47d61d5451dcbc1254d82ae5e9f09b897daa",
+      "gzipBytes": 767,
+      "gzipSHA256": "6c4f5e74c8df6c1a58e72dea17c6f830a174cba22c55aec385d4fe5064109563"
+    }
+  ]
+}
