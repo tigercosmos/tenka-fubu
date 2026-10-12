@@ -1,0 +1,291 @@
+{
+  "scope": "offline analysis of the already captured unique feab close profile; no new GPU/testing/timing/source modification",
+  "target": "overlap-like function44 is53.4895% of scorePrepared-context exclusive WASM sampled leaf time; unknown symbolic mapping",
+  "results": {
+    "totalSelfUs": 2335044,
+    "samples": 2221,
+    "rows": [
+      {
+        "function": "wasm-function[44]",
+        "lineNumber": 0,
+        "columnNumber": 50243,
+        "selfUs": 1249004,
+        "selfSamples": 1188,
+        "percentOfScorePreparedWasmExclusive": 53.489527392203314
+      },
+      {
+        "function": "wasm-function[51]",
+        "lineNumber": 0,
+        "columnNumber": 51774,
+        "selfUs": 451088,
+        "selfSamples": 429,
+        "percentOfScorePreparedWasmExclusive": 19.318179871557025
+      },
+      {
+        "function": "wasm-function[33]",
+        "lineNumber": 0,
+        "columnNumber": 24830,
+        "selfUs": 232396,
+        "selfSamples": 221,
+        "percentOfScorePreparedWasmExclusive": 9.952531943723544
+      },
+      {
+        "function": "wasm-function[27]",
+        "lineNumber": 0,
+        "columnNumber": 21665,
+        "selfUs": 169217,
+        "selfSamples": 161,
+        "percentOfScorePreparedWasmExclusive": 7.246844170816481
+      },
+      {
+        "function": "wasm-function[26]",
+        "lineNumber": 0,
+        "columnNumber": 21430,
+        "selfUs": 127229,
+        "selfSamples": 121,
+        "percentOfScorePreparedWasmExclusive": 5.4486767701165375
+      },
+      {
+        "function": "wasm-function[29]",
+        "lineNumber": 0,
+        "columnNumber": 22152,
+        "selfUs": 75582,
+        "selfSamples": 72,
+        "percentOfScorePreparedWasmExclusive": 3.2368554939435827
+      },
+      {
+        "function": "js-to-wasm:iiiiii:i",
+        "lineNumber": 0,
+        "columnNumber": 57162,
+        "selfUs": 13687,
+        "selfSamples": 13,
+        "percentOfScorePreparedWasmExclusive": 0.5861559782171127
+      },
+      {
+        "function": "wasm-function[25]",
+        "lineNumber": 0,
+        "columnNumber": 21174,
+        "selfUs": 4209,
+        "selfSamples": 4,
+        "percentOfScorePreparedWasmExclusive": 0.18025356267376547
+      },
+      {
+        "function": "wasm-function[34]",
+        "lineNumber": 0,
+        "columnNumber": 28139,
+        "selfUs": 3162,
+        "selfSamples": 3,
+        "percentOfScorePreparedWasmExclusive": 0.1354150071690298
+      },
+      {
+        "function": "wasm-function[58]",
+        "lineNumber": 0,
+        "columnNumber": 57162,
+        "selfUs": 3159,
+        "selfSamples": 3,
+        "percentOfScorePreparedWasmExclusive": 0.13528652993262655
+      },
+      {
+        "function": "wasm-function[32]",
+        "lineNumber": 0,
+        "columnNumber": 24600,
+        "selfUs": 3153,
+        "selfSamples": 3,
+        "percentOfScorePreparedWasmExclusive": 0.13502957545982003
+      },
+      {
+        "function": "wasm-function[63]",
+        "lineNumber": 0,
+        "columnNumber": 60828,
+        "selfUs": 1053,
+        "selfSamples": 1,
+        "percentOfScorePreparedWasmExclusive": 0.04509550997754218
+      },
+      {
+        "function": "wasm-function[45]",
+        "lineNumber": 0,
+        "columnNumber": 50953,
+        "selfUs": 1053,
+        "selfSamples": 1,
+        "percentOfScorePreparedWasmExclusive": 0.04509550997754218
+      },
+      {
+        "function": "wasm-function[22]",
+        "lineNumber": 0,
+        "columnNumber": 20717,
+        "selfUs": 1052,
+        "selfSamples": 1,
+        "percentOfScorePreparedWasmExclusive": 0.045052684232074425
+      }
+    ],
+    "binarySHA256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b",
+    "customSections": [],
+    "mappingStatus": "no retained name/DWARF: Rust names inferred from exact binary body arithmetic and source/callsite patterns, not symbolic mapping",
+    "overlap44ByImmediateParentInScore": {
+      "27": {
+        "selfUs": 539195,
+        "samples": 513,
+        "inference": "reserved fold, padding2"
+      },
+      "26": {
+        "selfUs": 397334,
+        "samples": 378,
+        "inference": "primary fold, padding0"
+      },
+      "33": {
+        "selfUs": 306182,
+        "samples": 291,
+        "inference": "score_prepared main body; hard/baseline callsites unresolved"
+      },
+      "25": {
+        "selfUs": 5241,
+        "samples": 5
+      },
+      "63": {
+        "selfUs": 1052,
+        "samples": 1
+      }
+    },
+    "limits": [
+      "Function44 receives no instruction-PC distribution; same function samples cannot distinguish individual overlap callsites.",
+      "LTO merges/inlines helpers; function51 includes capsule/distance arithmetic.",
+      "Overlap family dominance is supported; hard-only or reserved-only majority is not established.",
+      "CPU samples are not an isolated arithmetic benchmark."
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "feab-function-25.txt.gz",
+      "rawBytes": 4177,
+      "rawSHA256": "19c793cfcbf277bf151dc93f5d4b581e7ae60b8a76587e2835e0cefbe7166934",
+      "gzipBytes": 907,
+      "gzipSHA256": "2ed0bc202bc8c5e9ac6a2e491d122188ba102494a63bdb3326a6824bcb075d74"
+    },
+    {
+      "path": "feab-function-26.txt.gz",
+      "rawBytes": 3812,
+      "rawSHA256": "1083b101ae949497e1c5b8882a94fe007adaf50f81e0f277da14ce7f40bf47e8",
+      "gzipBytes": 844,
+      "gzipSHA256": "093db6bd51e7ea08ae5c4f5cb0fe817cdbe4e5e2a7124ca2cf9550b725642325"
+    },
+    {
+      "path": "feab-function-27.txt.gz",
+      "rawBytes": 3812,
+      "rawSHA256": "f2229bc13da57923e991d9fe52e422dbe05d903a689c3aa207a1f94eb9d0a814",
+      "gzipBytes": 852,
+      "gzipSHA256": "b0d74f061eb768fa37577fc03f189c0997d58f1f5ecdbce2d3630349f6b3d26b"
+    },
+    {
+      "path": "feab-function-29.txt.gz",
+      "rawBytes": 10501,
+      "rawSHA256": "797d2ac25eef1f2f3ef8e813282e1a9e033ab8488a9aae71cf31ed268d2bc1cc",
+      "gzipBytes": 1722,
+      "gzipSHA256": "8d9a14aed9a36d994db919a3de650119c4e9dee491e1a329c2bca231989c5a0f"
+    },
+    {
+      "path": "feab-function-33.txt.gz",
+      "rawBytes": 55469,
+      "rawSHA256": "e26ab936a9858e95e9d625dfa8a3df725affa5dcd8f2e22628a760e1e44e818d",
+      "gzipBytes": 7866,
+      "gzipSHA256": "2fb943e4929493fd687d15aee9367e9b00c2951aa7bb81752a5e6517f289991f"
+    },
+    {
+      "path": "feab-function-44.txt.gz",
+      "rawBytes": 11611,
+      "rawSHA256": "2e33ab5a06a94caeffc99ccd9649673d2e57f01db207e00ece407e7e5e0d8594",
+      "gzipBytes": 1538,
+      "gzipSHA256": "a228dc3f8bb47c08249a1beadba0de690866ff3b17026ae050433bb6ee08e981"
+    },
+    {
+      "path": "feab-function-51.txt.gz",
+      "rawBytes": 51713,
+      "rawSHA256": "1da95f5a2242a5cda5f80221513070173422ac6d57a1c03b97bb8b0b8402769d",
+      "gzipBytes": 6122,
+      "gzipSHA256": "50e535a6d5ab6c2988cca05c72c725051ab2166a8691be103c1b304d8bc34ea5"
+    },
+    {
+      "path": "feab-function-58.txt.gz",
+      "rawBytes": 6596,
+      "rawSHA256": "5ccc1280ea030526d098ae3367600c2b11412e2e26aeabac8c997b7c42b60dd6",
+      "gzipBytes": 968,
+      "gzipSHA256": "d60029d4f0985d2200be381f2b4473d7b62ff8b5cf99e0465c803f4aff9f092a"
+    },
+    {
+      "path": "feab-wasm-disassembly.txt.gz",
+      "rawBytes": 1474040,
+      "rawSHA256": "cbba75b154718fc5a2fc5496c447e95644dccb64233db67ceb7e3c0a95f4af48",
+      "gzipBytes": 182883,
+      "gzipSHA256": "55e8073ce101086b7957221baef217698af81f6565b44b8d7fc063f4bfa72aab"
+    },
+    {
+      "path": "geographic.rs.gz",
+      "rawBytes": 15399,
+      "rawSHA256": "69ed145c2ee7d445691b0897362fc6de196cbe48fd4b0c1721764e67def56768",
+      "gzipBytes": 4081,
+      "gzipSHA256": "0ccd2ffb5f3546b335170d926418f0e17267fac531d96ca37fb4192f6c10b677"
+    },
+    {
+      "path": "geographic_preparation.rs.gz",
+      "rawBytes": 12429,
+      "rawSHA256": "9170c88bdc278090a24d7fe517bc771efeed2c60bb0477ffb218bc27f8009f5e",
+      "gzipBytes": 3570,
+      "gzipSHA256": "bc94b33e340b285e85d8b10ac4eed3135bf358a69f457ef90e985a0ef2ee97bc"
+    },
+    {
+      "path": "llvm-objdump-version.txt.gz",
+      "rawBytes": 1730,
+      "rawSHA256": "e57e811cabb040490c5e8fb74eddd96a7b5735ccf233f1903090d379dab7b5c5",
+      "gzipBytes": 637,
+      "gzipSHA256": "544b445a8071304cb619884031824ea7a6528019f9488f8b8c68e377fd1fbc38"
+    },
+    {
+      "path": "package-producer.py.gz",
+      "rawBytes": 9115,
+      "rawSHA256": "de46202423d9fa71203fb18300ac842d4fa8d336dce8f5f88402a37e9741146f",
+      "gzipBytes": 3814,
+      "gzipSHA256": "9f2a663f36f63f756f4b24b24498d0e4f38d26523dda829c614f7505b1ed23dc"
+    },
+    {
+      "path": "prep-internal-leaves.json.gz",
+      "rawBytes": 4280,
+      "rawSHA256": "1f366dadc82f14d9ead225bf14330bb0995df2af7f80755d8662de7a877df7b2",
+      "gzipBytes": 1125,
+      "gzipSHA256": "093d7aca16d71a357f4a8d0fee1c3de9742fcf4e936712678bdff82962eac7c2"
+    },
+    {
+      "path": "prep-internal-leaves.py.gz",
+      "rawBytes": 1399,
+      "rawSHA256": "7ae38875243d32b16956a110164d77088a61eee74a7fa7c328f147523c855c01",
+      "gzipBytes": 690,
+      "gzipSHA256": "282923c0be0400483e6974399ba67d168d729acfcd1cf779cd1b6948fc603176"
+    },
+    {
+      "path": "prep-wasm-names.json.gz",
+      "rawBytes": 49,
+      "rawSHA256": "f095e7442fb178f309d68ee04ea4b596b390ba80bf9fc6dd380aa909e35adaff",
+      "gzipBytes": 61,
+      "gzipSHA256": "b89f851a0cfe4a67d9b0bb01ac59e3b3fceb56470cd3c58cc3f16b174fee7f7f"
+    },
+    {
+      "path": "prep-wasm-names.py.gz",
+      "rawBytes": 761,
+      "rawSHA256": "b163d182e8424bbc282c58ae215ea4d6eaa08e11fe2647d3d400e07743945f7d",
+      "gzipBytes": 423,
+      "gzipSHA256": "a3f084fdc9411af624a2719b003d80078ee6d89ef1fef9598284aa977c4f4d1b"
+    },
+    {
+      "path": "provenance.json.gz",
+      "rawBytes": 3201,
+      "rawSHA256": "d1f825ad480de00b384d85a550b6450f9e8c3e41df6e0dc7addd2ddd99c7ef5e",
+      "gzipBytes": 1556,
+      "gzipSHA256": "c5cb61031682abccdb76923bb20e3adc54242929cdc3c222a9ca5c25cef98e95"
+    },
+    {
+      "path": "verify.py.gz",
+      "rawBytes": 2679,
+      "rawSHA256": "606dee0e51ff2d398f6e1422f590833d674667ea5c05b6472815003f240276cf",
+      "gzipBytes": 1224,
+      "gzipSHA256": "8daa75fe3a5a1da04ebc29d29c9ffa02d593616a03fb414fb559a06b04455d51"
+    }
+  ]
+}
