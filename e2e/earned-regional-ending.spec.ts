@@ -1,12 +1,9 @@
-import { execFile } from 'node:child_process';
-import { mkdir, readFile } from 'node:fs/promises';
+import { spawn } from 'node:child_process';
+import { mkdir, open, readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
-import { promisify } from 'node:util';
 import type { Page, TestInfo } from '@playwright/test';
 import type { SaveFile } from '../src/core/save/serialize';
 import { test, expect } from './fixtures';
-
-const runFile = promisify(execFile);
 
 async function state(page: Page) {
   return page.evaluate(() => window.__tenka.debug.getState());
@@ -22,31 +19,45 @@ async function loadSlot(page: Page) {
   await expect(page.getByTestId('screen-ending')).toBeVisible();
 }
 
-async function earnedEnding(page: Page, info: TestInfo) {
+async function earnedEnding(page: Page, info: TestInfo, scale?: number) {
   // Actual supported builder subset, not the full-national wizard campaign.
   // Every case freshly earns the save through legal orders and natural AI/events.
   // This child ends before browser gameplay; no stale fixture or debug state setter.
   const artifactPath = info.outputPath('earned-regional-ending.tfusave');
   await mkdir(dirname(artifactPath), { recursive: true });
-  const generation = await runFile(
-    process.execPath,
-    [
-      resolve('node_modules/vitest/vitest.mjs'),
-      'run',
-      '--project',
-      'app',
-      'tests/app/earnedRegionalEndingJourney.spec.tsx',
-      '--minWorkers=1',
-      '--maxWorkers=1',
-      '-t',
-      'loads the earned regional ending into actual App and continues without a phantom day or repeated victory',
-    ],
-    { env: { ...process.env, REGIONAL_EARNED_ENDING_SAVE_PATH: artifactPath } },
-  );
-  await info.attach('earned-regional-route-generation', {
-    body: Buffer.from(generation.stdout + generation.stderr),
-    contentType: 'text/plain',
-  });
+  const generationLog = info.outputPath('earned-regional-route-generation.log');
+  const output = await open(generationLog, 'wx');
+  try {
+    const child = spawn(
+      process.execPath,
+      [
+        resolve('node_modules/vitest/vitest.mjs'),
+        'run',
+        '--project',
+        'app',
+        'tests/app/earnedRegionalEndingJourney.spec.tsx',
+        '--minWorkers=1',
+        '--maxWorkers=1',
+        '-t',
+        'loads the earned regional ending into actual App and continues without a phantom day or repeated victory',
+      ],
+      {
+        env: { ...process.env, REGIONAL_EARNED_ENDING_SAVE_PATH: artifactPath },
+        stdio: ['ignore', output.fd, output.fd],
+      },
+    );
+    const exitCode = await new Promise<number>((resolveExit, reject) => {
+      child.once('error', reject);
+      child.once('close', (code) => resolveExit(code ?? -1));
+    });
+    if (exitCode !== 0) throw new Error(`Earned regional route generator exited ${exitCode}`);
+  } finally {
+    await output.close();
+    await info.attach('earned-regional-route-generation', {
+      path: generationLog,
+      contentType: 'text/plain',
+    });
+  }
   const raw = await readFile(artifactPath, 'utf8');
   const save = JSON.parse(raw) as SaveFile;
   expect(save.state.meta.scenarioId).toBe('s1560');
@@ -59,6 +70,16 @@ async function earnedEnding(page: Page, info: TestInfo) {
   expect(save.pendingCommands).toEqual([]);
   expect(save.state.events.flags['victory.ack.unification']).toBeUndefined();
   await page.goto('/?debug=1');
+  if (scale !== undefined) {
+    await page.getByTestId('title-settings').click();
+    const settings = page.getByRole('dialog');
+    const slider = settings.getByRole('slider', { name: '介面縮放', exact: true });
+    await slider.press('Home');
+    for (let step = 0; step < Math.round((scale - 0.8) / 0.05); step++)
+      await slider.press('ArrowRight');
+    await expect(slider).toHaveValue(String(scale));
+    await settings.getByRole('button', { name: '返回', exact: true }).click();
+  }
   await page.getByTestId('title-save-list').click();
   const panel = page.getByTestId('save-load-panel');
   await expect(panel).toHaveAttribute('aria-busy', 'false');
@@ -102,6 +123,35 @@ async function earnedEnding(page: Page, info: TestInfo) {
   expect(await state(page)).toEqual(save.state);
   return save;
 }
+
+test('earned ending at 1280×720 and 1.5 scale keeps its crest and actions reachable', async ({
+  page,
+}, info) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await earnedEnding(page, info, 1.5);
+  const ending = page.getByTestId('screen-ending');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(1280);
+  const crestTop = await ending.evaluate((node) => {
+    const kind = node.querySelector('p')!.getBoundingClientRect();
+    const gap = Number.parseFloat(getComputedStyle(node).rowGap);
+    const side = Number.parseFloat(getComputedStyle(node, '::before').height);
+    return kind.top - gap - side - (side * Math.SQRT2 - side) / 2;
+  });
+  expect(crestTop, 'rotated crest must not be clipped above the viewport').toBeGreaterThanOrEqual(
+    0,
+  );
+  for (const action of [page.getByTestId('ending-continue'), page.getByTestId('ending-title')]) {
+    await action.scrollIntoViewIfNeeded();
+    const box = await action.boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.y).toBeGreaterThanOrEqual(0);
+    expect(box!.y + box!.height).toBeLessThanOrEqual(720);
+    expect(box!.width).toBeGreaterThanOrEqual(32);
+    expect(box!.height).toBeGreaterThanOrEqual(32);
+  }
+  await page.getByTestId('ending-title').click();
+  await expect(page.getByTestId('title-newgame')).toBeVisible();
+});
 
 test('genuinely earned supported regional ending loads, continues and survives an actual native quick save', async ({
   page,

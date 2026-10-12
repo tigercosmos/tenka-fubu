@@ -241,3 +241,97 @@ test('production event catalog fires actual Oda Okehazama, queues its native cho
   );
   await info.attach('actual-production-event-evidence', { path, contentType: 'application/json' });
 });
+
+for (const scale of Array.from({ length: 15 }, (_, index) =>
+  Number((0.8 + index * 0.05).toFixed(2)),
+)) {
+  test(`earned Okehazama choice stays reachable at 1280×720 scale ${scale}`, async ({
+    page,
+  }, info) => {
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/?debug=1&seed=42');
+    await page.getByTestId('title-settings').click();
+    const settings = page.getByRole('dialog');
+    const slider = settings.getByRole('slider', { name: '介面縮放', exact: true });
+    await slider.press('Home');
+    for (let step = 0; step < Math.round((scale - 0.8) / 0.05); step++)
+      await slider.press('ArrowRight');
+    await expect(slider).toHaveValue(String(scale));
+    await settings.getByRole('button', { name: '返回', exact: true }).click();
+    await page.getByTestId('title-newgame').click();
+    await page.getByTestId('scenario-pick-s1560').click();
+    await page.getByTestId('clan-pick-clan.oda').click();
+    await page.getByTestId('newgame-start').click();
+    await expect(page.getByTestId('screen-strategy')).toBeVisible();
+    await page.getByTestId('speed-pause').click();
+    const handled: string[] = [];
+    await page.getByTestId('speed-5').click();
+    const event = page.getByRole('dialog', { name: historical.cutscene.title, exact: true });
+    await expect
+      .poll(
+        async () => {
+          const pending = await page.evaluate(
+            () => window.__tenka.debug.getState().events.pendingChoiceEventId,
+          );
+          if (pending === historical.id && (await event.isVisible())) return true;
+          await handleKnownOwner(page, handled);
+          await resumeWhenUnowned(page);
+          return false;
+        },
+        { timeout: 45_000, intervals: [100] },
+      )
+      .toBe(true);
+    const state = await page.evaluate(() => window.__tenka.debug.getState());
+    expect(state.time).toMatchObject({ year: 1560, month: 5, dayOfMonth: 1 });
+    expect(state.events.pendingChoiceEventId).toBe(historical.id);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+      1280,
+    );
+    const viewport = { width: 1280, height: 720 };
+    const boxes: Record<string, { x: number; y: number; width: number; height: number }> = {};
+    for (const [name, target, action] of [
+      ['dialog', event, false],
+      ['title', event.getByRole('heading'), false],
+      [
+        'body',
+        event
+          .getByTestId('event-modal')
+          .locator('p')
+          .filter({ has: page.getByTestId('event-text') }),
+        false,
+      ],
+      [
+        'choice',
+        event.getByRole('button', { name: historical.choices[0]!.label, exact: true }),
+        true,
+      ],
+    ] as const) {
+      await target.scrollIntoViewIfNeeded();
+      const box = await target.boundingBox();
+      expect(box, name).not.toBeNull();
+      expect(box!.x, `${name} left`).toBeGreaterThanOrEqual(0);
+      expect(box!.y, `${name} top`).toBeGreaterThanOrEqual(0);
+      expect(box!.x + box!.width, `${name} right`).toBeLessThanOrEqual(viewport.width);
+      expect(box!.y + box!.height, `${name} bottom`).toBeLessThanOrEqual(viewport.height);
+      if (action) {
+        expect(box!.width, `${name} width`).toBeGreaterThanOrEqual(32);
+        expect(box!.height, `${name} height`).toBeGreaterThanOrEqual(32);
+      }
+      boxes[name] = box!;
+    }
+    expect(await event.evaluate((node) => node.contains(document.activeElement))).toBe(true);
+    await page.keyboard.press('Escape');
+    await expect(event).toBeVisible();
+    if ([0.8, 1, 1.5].includes(scale))
+      await page.screenshot({ path: info.outputPath(`event-${scale}.png`) });
+    await writeFile(
+      info.outputPath(`event-${scale}.json`),
+      JSON.stringify({ scale, time: state.time, handled, boxes }),
+    );
+    const choice = event.getByRole('button', { name: historical.choices[0]!.label, exact: true });
+    await expect(choice).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(event).toHaveCount(0);
+  });
+}
