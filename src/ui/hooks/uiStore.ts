@@ -8,7 +8,15 @@ import type { CameraState } from '@ui/map/camera';
 import type { GameSettings } from '@app/settings';
 import type { GameState } from '@core/state/gameState';
 
-export type ScreenId = 'title' | 'scenarioSelect' | 'daimyoSelect' | 'main' | 'battle' | 'ending';
+export type ScreenId =
+  | 'title'
+  | 'scenarioSelect'
+  | 'daimyoSelect'
+  | 'difficultySelect'
+  | 'seedSelect'
+  | 'main'
+  | 'battle'
+  | 'ending';
 export type PanelId =
   | 'castle'
   | 'district'

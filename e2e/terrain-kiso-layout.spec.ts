@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import { writeFileSync } from 'node:fs';
 import { test, expect } from './fixtures';
 
@@ -20,7 +21,7 @@ test('Kiso original massif retains normal-game geography, cameras and static res
   await page.getByTestId('title-newgame').click();
   await page.getByTestId('scenario-pick-s1560').click();
   await page.getByTestId('clan-pick-clan.oda').click();
-  await page.getByTestId('newgame-start').click();
+  await completeNewGameWizard(page);
   await expect(page.getByTestId('screen-strategy')).toBeVisible();
   await page.getByTestId('speed-pause').click();
   await expect(page.getByTestId('speed-pause')).toHaveAttribute('aria-pressed', 'true');

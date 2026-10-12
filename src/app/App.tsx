@@ -29,6 +29,7 @@ import { DebugPanel } from '../ui/debug/DebugPanel';
 import { TitleScreen } from '../ui/screens/TitleScreen';
 import { ScenarioSelect } from '../ui/screens/ScenarioSelect';
 import { DaimyoSelect } from '../ui/screens/DaimyoSelect';
+import { NewGameOptionsScreen, validWizardSeed } from '../ui/screens/NewGameOptionsScreen';
 import { MainScreen } from '../ui/screens/MainScreen';
 import { BattleScreen } from '../ui/screens/BattleScreen';
 import { EndingScreen } from '../ui/screens/EndingScreen';
@@ -51,6 +52,9 @@ function warmVisualAssets(): void {
 import type { ScenarioBundleData } from '@data/schemas';
 import type { GameState } from '@core/state/gameState';
 import type { BattleId } from '@core/state/ids';
+import type { ClanId } from '@core/state/ids';
+import type { Difficulty } from '@core/state/enums';
+import { buildNewGameState } from './boot';
 import { abortDebugBattle } from '@core/debugBattle';
 import { acknowledgeGameOver } from '@core/systems/victory';
 import { acknowledgeBattleResult, clearAllBattleOrders, clearBattleOrders } from './battleBridge';
@@ -172,6 +176,9 @@ export function App(): ReactElement {
   const systemModal = useStore(uiStore, (state) => state.modal);
   const tickSeq = useStore(store, (state) => state.tickSeq);
   const [scenarioBundle, setScenarioBundle] = useState<ScenarioBundleData | null>(null);
+  const [wizardClanId, setWizardClanId] = useState<ClanId | null>(null);
+  const [wizardDifficulty, setWizardDifficulty] = useState<Difficulty>('normal');
+  const [wizardSeedText, setWizardSeedText] = useState('');
   const [battleId, setBattleId] = useState<BattleId | null>(null);
   // 敗北後「繼續觀戰」旗標（10 §3.8.4）：gameOver 維持非 null，僅抑制結局畫面重入；
   // 新局／回標題時重置。session 過渡態（不進 GameState），比照 scenarioBundle 留在外殼。
@@ -473,8 +480,21 @@ export function App(): ReactElement {
 
   // 標題「新遊戲」→ ScenarioSelectScreen（11 §3.2.2；17 §3.8 P2 首步）。
   const handleNewGameClick = useCallback((): void => {
+    setScenarioBundle(null);
+    setWizardClanId(null);
+    setWizardDifficulty('normal');
+    setWizardSeedText(
+      String(
+        flags.seed !== null &&
+          Number.isInteger(flags.seed) &&
+          flags.seed >= 0 &&
+          flags.seed <= 0xffffffff
+          ? flags.seed
+          : Date.now() % 0x100000000,
+      ),
+    );
     store.getState().actions.setScreen('scenarioSelect');
-  }, []);
+  }, [flags.seed]);
 
   const handleSelectScenario = useCallback((bundle: ScenarioBundleData): void => {
     setScenarioBundle(bundle);
@@ -485,6 +505,9 @@ export function App(): ReactElement {
     mountGeneration.current += 1;
     setMountLoading(false);
     setScenarioBundle(null);
+    setWizardClanId(null);
+    setWizardDifficulty('normal');
+    setWizardSeedText('');
     store.getState().actions.setScreen('title');
   }, []);
 
@@ -494,7 +517,7 @@ export function App(): ReactElement {
     store.getState().actions.setScreen('scenarioSelect');
   }, []);
 
-  // DaimyoSelectScreen「開始遊戲」→ GameState 已建好，僅需掛進 store 並轉場（11 §3.2.3）。
+  // 精靈最後一步建立 GameState 後，掛進 store 並轉至策略畫面（16 §3.9）。
   const handleStartGame = useCallback(
     (game: GameState): void => {
       void mountGame(game)
@@ -509,6 +532,18 @@ export function App(): ReactElement {
     },
     [flags, mountGame],
   );
+
+  const handleFinishWizard = useCallback((): void => {
+    if (scenarioBundle === null || wizardClanId === null) return;
+    const seed = validWizardSeed(wizardSeedText);
+    if (seed === null) return;
+    const game = buildNewGameState(scenarioBundle, {
+      playerClanId: wizardClanId,
+      difficulty: wizardDifficulty,
+      seed,
+    });
+    handleStartGame(game);
+  }, [scenarioBundle, wizardClanId, wizardDifficulty, wizardSeedText, handleStartGame]);
 
   // 標題「繼續」：載入 timestamp 最新的存檔槽（16 §5.8；MVP 槽位子集 auto:1/quick:1）。
   const handleContinue = (): void => {
@@ -718,9 +753,38 @@ export function App(): ReactElement {
     content = (
       <DaimyoSelect
         bundle={scenarioBundle}
-        {...(flags.seed === null ? {} : { seed: flags.seed })}
+        selectedClanId={wizardClanId}
+        onSelectClan={setWizardClanId}
         onBack={handleBackToScenarioSelect}
-        onStart={handleStartGame}
+        onNext={() => {
+          if (wizardClanId !== null) store.getState().actions.setScreen('difficultySelect');
+        }}
+      />
+    );
+  } else if (screen === 'difficultySelect' && scenarioBundle !== null) {
+    content = (
+      <NewGameOptionsScreen
+        step="difficulty"
+        difficulty={wizardDifficulty}
+        seedText={wizardSeedText}
+        onDifficulty={setWizardDifficulty}
+        onSeedText={setWizardSeedText}
+        onBack={() => store.getState().actions.setScreen('daimyoSelect')}
+        onNext={() => store.getState().actions.setScreen('seedSelect')}
+        onStart={handleFinishWizard}
+      />
+    );
+  } else if (screen === 'seedSelect' && scenarioBundle !== null) {
+    content = (
+      <NewGameOptionsScreen
+        step="seed"
+        difficulty={wizardDifficulty}
+        seedText={wizardSeedText}
+        onDifficulty={setWizardDifficulty}
+        onSeedText={setWizardSeedText}
+        onBack={() => store.getState().actions.setScreen('difficultySelect')}
+        onNext={() => store.getState().actions.setScreen('seedSelect')}
+        onStart={handleFinishWizard}
       />
     );
   } else {

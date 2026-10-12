@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import { writeFile } from 'node:fs/promises';
 import { validateAppointLord } from '../src/core/commands/domesticCommands';
 import { RANK_VALUES } from '../src/core/state/enums';
@@ -12,7 +13,7 @@ test('native castle-local lord appointment queues while paused and applies on th
   await page.getByTestId('title-newgame').click();
   await page.getByTestId('scenario-pick-s1560').click();
   await page.getByTestId('clan-pick-clan.oda').click();
-  await page.getByTestId('newgame-start').click();
+  await completeNewGameWizard(page);
   await expect(page.getByTestId('screen-strategy')).toBeVisible();
   await expect(page.getByTestId('speed-pause')).toHaveAttribute('aria-pressed', 'true');
   const before = await page.evaluate(() => ({

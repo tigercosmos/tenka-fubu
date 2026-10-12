@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import type { Page } from '@playwright/test';
 import { test, expect } from './fixtures';
 
@@ -5,7 +6,7 @@ async function newGame(page: Page): Promise<void> {
   await page.getByTestId('title-newgame').click();
   await page.getByTestId('scenario-pick-s1560').click();
   await page.getByTestId('clan-pick-clan.oda').click();
-  await page.getByTestId('newgame-start').click();
+  await completeNewGameWizard(page);
   await expect(page.getByTestId('screen-strategy')).toBeVisible();
 }
 

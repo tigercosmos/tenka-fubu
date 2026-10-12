@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import { writeFile } from 'node:fs/promises';
 import type { Page } from '@playwright/test';
 import type { GameState } from '../src/core/state/gameState';
@@ -47,7 +48,7 @@ test('earned monthly proposal adoption waits for summary ownership then executes
   await page.getByTestId('title-newgame').click();
   await page.getByTestId('scenario-pick-s1560').click();
   await page.getByTestId('clan-pick-clan.oda').click();
-  await page.getByTestId('newgame-start').click();
+  await completeNewGameWizard(page);
   await expect(page.getByTestId('screen-strategy')).toBeVisible();
   await page.getByTestId('speed-pause').click();
   const initial = await capture('initial');

@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import { writeFile } from 'node:fs/promises';
 import { test, expect } from './fixtures';
 import { clickRenderedMapAnchor } from './map-pointer-helpers';
@@ -11,7 +12,7 @@ test('native castle army list selects a normally deployed army without gameplay 
   await page.getByTestId('title-newgame').click();
   await page.getByTestId('scenario-pick-s1560').click();
   await page.getByTestId('clan-pick-clan.oda').click();
-  await page.getByTestId('newgame-start').click();
+  await completeNewGameWizard(page);
   await expect(page.getByTestId('screen-strategy')).toBeVisible();
   const initial = await page.evaluate(() => window.__tenka.debug.getState());
   const clan = initial.clans[initial.meta.playerClanId]!;

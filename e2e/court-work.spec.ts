@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import { readFileSync } from 'node:fs';
 import type { Page } from '@playwright/test';
 import type { GameState } from '../src/core/state/gameState';
@@ -139,7 +140,7 @@ test('Court work: actual queued start, paid month, stop and next month without w
   await page.getByTestId('title-newgame').click();
   await page.getByTestId('scenario-pick-s1560').click();
   await page.getByTestId('clan-pick-clan.oda').click();
-  await page.getByTestId('newgame-start').click();
+  await completeNewGameWizard(page);
   await expect(page.getByTestId('screen-strategy')).toBeVisible();
   await page.getByTestId('speed-pause').click();
   // Keep the normal scheduler controlled during native modal and panel input,

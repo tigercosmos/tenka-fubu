@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import { readFileSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import type { Page, Locator } from '@playwright/test';
@@ -107,7 +108,7 @@ test.describe('actual command-driven national 120-army ×5 postrender acceptance
       await page.getByTestId('title-newgame').click();
       await page.getByTestId('scenario-pick-s1560').click();
       await page.getByTestId('clan-pick-clan.oda').click();
-      await page.getByTestId('newgame-start').click();
+      await completeNewGameWizard(page);
       await expect(page.getByTestId('screen-strategy')).toBeVisible();
       await page.getByTestId('speed-pause').click();
       const original = await page.evaluate(() => window.__tenka.debug.getState());

@@ -54,6 +54,38 @@ afterEach(() => {
 });
 
 describe('App（新遊戲精靈全流程，M2-19）', () => {
+  it('generates an app-layer seed once per fresh entry and retains it across wizard Back', async () => {
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(() => null);
+    const now = vi.spyOn(Date, 'now').mockReturnValue(123456);
+    render(<App />);
+    fireEvent.click(screen.getByTestId('title-newgame'));
+    await waitFor(() =>
+      expect(screen.getByTestId('scenario-pick-s1560')).toHaveProperty('disabled', false),
+    );
+    fireEvent.click(screen.getByTestId('scenario-pick-s1560'));
+    fireEvent.click(screen.getByTestId('clan-pick-clan.oda'));
+    fireEvent.click(screen.getByTestId('daimyo-next'));
+    fireEvent.click(screen.getByTestId('difficulty-next'));
+    expect(screen.getByTestId('newgame-seed')).toHaveProperty('value', '123456');
+    now.mockReturnValue(987654);
+    fireEvent.click(screen.getByTestId('seed-back'));
+    fireEvent.click(screen.getByTestId('difficulty-next'));
+    expect(screen.getByTestId('newgame-seed')).toHaveProperty('value', '123456');
+    fireEvent.click(screen.getByTestId('seed-back'));
+    fireEvent.click(screen.getByTestId('difficulty-back'));
+    fireEvent.click(screen.getByTestId('daimyo-back'));
+    fireEvent.click(screen.getByTestId('scenario-back'));
+    fireEvent.click(screen.getByTestId('title-newgame'));
+    await waitFor(() =>
+      expect(screen.getByTestId('scenario-pick-s1560')).toHaveProperty('disabled', false),
+    );
+    fireEvent.click(screen.getByTestId('scenario-pick-s1560'));
+    fireEvent.click(screen.getByTestId('clan-pick-clan.oda'));
+    fireEvent.click(screen.getByTestId('daimyo-next'));
+    fireEvent.click(screen.getByTestId('difficulty-next'));
+    expect(screen.getByTestId('newgame-seed')).toHaveProperty('value', '987654');
+  });
+
   it('restores the main UI screen and F7 after a main-to-main quickload without a tick', async () => {
     const get = vi.spyOn(indexedDbSaveStorage, 'get').mockResolvedValue(undefined);
     vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(() => null);
@@ -69,6 +101,8 @@ describe('App（新遊戲精靈全流程，M2-19）', () => {
     );
     fireEvent.click(screen.getByTestId('scenario-pick-s1560'));
     fireEvent.click(screen.getByTestId('clan-pick-clan.oda'));
+    fireEvent.click(screen.getByTestId('daimyo-next'));
+    fireEvent.click(screen.getByTestId('difficulty-next'));
     fireEvent.click(screen.getByTestId('newgame-start'));
     await waitFor(() => expect(screen.getByTestId('screen-strategy')).toBeTruthy());
     const previous = store.getState().game!;
@@ -110,6 +144,8 @@ describe('App（新遊戲精靈全流程，M2-19）', () => {
     );
     fireEvent.click(screen.getByTestId('scenario-pick-s1560'));
     fireEvent.click(screen.getByTestId('clan-pick-clan.oda'));
+    fireEvent.click(screen.getByTestId('daimyo-next'));
+    fireEvent.click(screen.getByTestId('difficulty-next'));
     fireEvent.click(screen.getByTestId('newgame-start'));
     await waitFor(() => expect(screen.getByTestId('screen-strategy')).toBeTruthy());
     const before = structuredClone(store.getState().game);
@@ -156,11 +192,13 @@ describe('App（新遊戲精靈全流程，M2-19）', () => {
     fireEvent.click(screen.getByTestId('scenario-pick-s1560'));
     expect(screen.getByTestId('screen-daimyo-select')).toBeTruthy();
 
-    // 選織田 → 啟用「開始遊戲」→ 點擊建局。
-    expect(screen.getByTestId('newgame-start')).toHaveProperty('disabled', true);
+    // 選織田 → 進入難易度／種子 → 最後一步才建局。
+    expect(screen.getByTestId('daimyo-next')).toHaveProperty('disabled', true);
     fireEvent.click(screen.getByTestId('clan-pick-clan.oda'));
-    expect(screen.getByTestId('newgame-start')).toHaveProperty('disabled', false);
+    expect(screen.getByTestId('daimyo-next')).toHaveProperty('disabled', false);
 
+    fireEvent.click(screen.getByTestId('daimyo-next'));
+    fireEvent.click(screen.getByTestId('difficulty-next'));
     fireEvent.click(screen.getByTestId('newgame-start'));
 
     // 驗收核心：store 進入 running（screen='main'，MainScreen 可見）＋ GameState 已建立。

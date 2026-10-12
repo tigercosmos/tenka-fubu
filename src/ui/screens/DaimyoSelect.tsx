@@ -1,61 +1,43 @@
 // 大名選擇畫面（規格：plan/11-ui-screens.md §3.2.3 縮減版；18-roadmap.md M2-19「11-T2 縮減」）。
 //
-// M2-19 縮減：省略全國地圖預覽（04 簡化模式）、難易度下拉／種子輸入欄——難易度固定 'normal'、
-// 種子省略即隨機（比照 M1-20 `startNewDemoGame` 精神），留待後續里程碑視需要補上（11 §3.2.3 完整
-// 版）。可選勢力＝目前已載入批次（東海＋近畿，18 §8-D5；含織田，18-roadmap M2-19 驗收指定大名）。
-// data-testid 依 plan/17-testing.md §6.2 契約：`clan-pick-{clanId}`／`newgame-start`；根節點比照
+// 可選勢力＝目前已載入批次（含織田）。選擇留在 App 精靈狀態，返回後仍保留。
+// data-testid 依 plan/17-testing.md §6.2 契約：`clan-pick-{clanId}`；根節點比照
 // `screen-*` 命名慣例新增 `screen-daimyo-select`。
 
-import { useMemo, useState, type ReactElement } from 'react';
+import { useEffect, useMemo, useRef, type ReactElement } from 'react';
 import { t, formatNumber } from '@i18n/zh-TW';
-import {
-  summarizeClans,
-  buildNewGameState as buildNewGameStateReal,
-  getScenarioTitle,
-  type NewGameOptions,
-} from '@app/boot';
+import { summarizeClans, getScenarioTitle } from '@app/boot';
 import type { ScenarioBundleData } from '@data/schemas';
-import type { GameState } from '@core/state/gameState';
 import type { ClanId } from '@core/state/ids';
+import { WizardProgress } from './WizardProgress';
 import styles from './DaimyoSelect.module.css';
 
 export interface DaimyoSelectProps {
   /** ScenarioSelectScreen 已載入之劇本資料束。 */
   bundle: ScenarioBundleData;
   onBack: () => void;
-  /** 「開始遊戲」建局完成後呼叫，交由呼叫端 `setGame` 並轉場至 MainScreen。 */
-  onStart: (game: GameState) => void;
-  /** Existing debug URL seed; omitted for ordinary random-seed new games. */
-  seed?: number;
-  /** 供測試替換（預設走 `src/app/boot.ts` 的真實建局，含隨機種子）。 */
-  buildNewGameState?: (bundle: ScenarioBundleData, opts: NewGameOptions) => GameState;
+  selectedClanId: ClanId | null;
+  onSelectClan: (clanId: ClanId) => void;
+  onNext: () => void;
 }
 
 export function DaimyoSelect({
   bundle,
   onBack,
-  onStart,
-  seed,
-  buildNewGameState = buildNewGameStateReal,
+  selectedClanId,
+  onSelectClan,
+  onNext,
 }: DaimyoSelectProps): ReactElement {
   const summaries = useMemo(() => summarizeClans(bundle), [bundle]);
-  const [selectedClanId, setSelectedClanId] = useState<ClanId | null>(null);
   const selected = summaries.find((clan) => clan.clanId === selectedClanId);
+  const heading = useRef<HTMLHeadingElement>(null);
 
-  const handleStart = (): void => {
-    if (selectedClanId === null) return;
-    const game = buildNewGameState(bundle, {
-      playerClanId: selectedClanId,
-      difficulty: 'normal',
-      ...(seed === undefined ? {} : { seed }),
-    });
-    onStart(game);
-  };
+  useEffect(() => heading.current?.focus(), []);
 
   return (
     <div data-testid="screen-daimyo-select" className={styles.screen}>
       <header className={styles.header}>
-        <h1>
+        <h1 ref={heading} tabIndex={-1}>
           {t('ui.daimyo.title')}
           {'　'}
           {getScenarioTitle(bundle.id)}
@@ -64,6 +46,7 @@ export function DaimyoSelect({
           {t('ui.newGame.back')}
         </button>
       </header>
+      <WizardProgress step={2} />
 
       <div className={styles.body}>
         <div className={styles.roster}>
@@ -73,7 +56,7 @@ export function DaimyoSelect({
               type="button"
               data-testid={`clan-pick-${s.clanId}`}
               aria-pressed={selectedClanId === s.clanId}
-              onClick={() => setSelectedClanId(s.clanId)}
+              onClick={() => onSelectClan(s.clanId)}
               className={styles.clan}
             >
               <strong className={styles.clanName}>{s.name}</strong>
@@ -116,12 +99,12 @@ export function DaimyoSelect({
           )}
           <button
             type="button"
-            data-testid="newgame-start"
+            data-testid="daimyo-next"
             disabled={selectedClanId === null}
-            onClick={handleStart}
+            onClick={onNext}
             className={styles.start}
           >
-            {t('ui.newGame.start')}
+            {t('ui.newGame.next')}
           </button>
         </aside>
       </div>

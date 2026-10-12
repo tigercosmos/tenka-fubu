@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import { readFileSync } from 'node:fs';
 import type { Page } from '@playwright/test';
 import type { GameState, Army } from '../src/core/state/gameState';
@@ -208,7 +209,7 @@ test('earned Hojo military aid: paid native work, agreement, actual AI march and
     await page.getByTestId('title-newgame').click();
     await page.getByTestId('scenario-pick-s1560').click();
     await page.getByTestId('clan-pick-clan.takeda').click();
-    await page.getByTestId('newgame-start').click();
+    await completeNewGameWizard(page);
     await expect(page.getByTestId('screen-strategy')).toBeVisible();
     await page.getByTestId('speed-pause').click();
     const initial = await state(page);

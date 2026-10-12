@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import { readFileSync } from 'node:fs';
 import { appendFile, writeFile } from 'node:fs/promises';
 import { performance } from 'node:perf_hooks';
@@ -194,7 +195,7 @@ test('opt-in national 30 wall-minute ordinary ×5 lifecycle observation', async 
     await page.getByTestId('title-newgame').click();
     await page.getByTestId('scenario-pick-s1560').click();
     await page.getByTestId('clan-pick-clan.oda').click();
-    await page.getByTestId('newgame-start').click();
+    await completeNewGameWizard(page);
     await expect(page.getByTestId('screen-strategy')).toBeVisible();
     const initial = await observe();
     expect(initial.seed).toBe(SEED);

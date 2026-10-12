@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import { writeFile } from 'node:fs/promises';
 import axe, { type AxeResults } from 'axe-core';
 import type { Page, TestInfo } from '@playwright/test';
@@ -10,7 +11,7 @@ async function newPausedGame(page: Page): Promise<void> {
   await page.getByTestId('title-newgame').click();
   await page.getByTestId('scenario-pick-s1560').click();
   await page.getByTestId('clan-pick-clan.oda').click();
-  await page.getByTestId('newgame-start').click();
+  await completeNewGameWizard(page);
   await expect(page.getByTestId('screen-strategy')).toBeVisible();
   await page.getByTestId('speed-pause').click();
   await page.evaluate(async () => {
@@ -42,7 +43,7 @@ test('production screens have no critical axe findings and dialogs preserve one 
   await audit(page, info, 'new-game');
   await page.getByTestId('scenario-pick-s1560').click();
   await page.getByTestId('clan-pick-clan.oda').click();
-  await page.getByTestId('newgame-start').click();
+  await completeNewGameWizard(page);
   await expect(page.getByTestId('screen-strategy')).toBeVisible();
   await page.getByTestId('speed-pause').click();
   await page.evaluate(async () => {

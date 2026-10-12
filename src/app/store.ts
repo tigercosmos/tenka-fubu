@@ -72,7 +72,15 @@ export interface DebugSessionState {
 }
 
 /** 目前畫面 id（plan/11-ui-screens.md §4 ScreenId 全集；M1-20 僅用 'title'／'main'）。 */
-export type ScreenId = 'title' | 'scenarioSelect' | 'daimyoSelect' | 'main' | 'battle' | 'ending';
+export type ScreenId =
+  | 'title'
+  | 'scenarioSelect'
+  | 'daimyoSelect'
+  | 'difficultySelect'
+  | 'seedSelect'
+  | 'main'
+  | 'battle'
+  | 'ending';
 
 /** 純 UI 執行期狀態（不進存檔；01 §4.1 逐字）。 */
 export interface SessionState {

@@ -1,10 +1,9 @@
-// DaimyoSelect 元件測試（M2-19；17 §6.2 testid 契約：`clan-pick-{clanId}`／`newgame-start`）。
+// DaimyoSelect 元件測試（M8-17；選擇留在 App 精靈狀態）。
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { DaimyoSelect } from './DaimyoSelect';
 import type { ScenarioBundleData } from '@data/schemas';
-import type { GameState } from '@core/state/gameState';
-import type { NewGameOptions } from '@app/boot';
+import type { ClanId } from '@core/state/ids';
 
 afterEach(() => {
   cleanup();
@@ -55,91 +54,54 @@ function fakeBundle(): ScenarioBundleData {
   };
 }
 
-describe('DaimyoSelect（11 §3.2.3 縮減版）', () => {
-  it('畫面根節點 data-testid="screen-daimyo-select"；每個勢力各一張 clan-pick-{clanId} 卡片（含織田）', () => {
-    render(<DaimyoSelect bundle={fakeBundle()} onBack={vi.fn()} onStart={vi.fn()} />);
-    expect(screen.getByTestId('screen-daimyo-select')).toBeTruthy();
-    expect(screen.getByTestId('clan-pick-clan.oda')).toBeTruthy();
-    expect(screen.getByTestId('clan-pick-clan.imagawa')).toBeTruthy();
-  });
-
-  it('卡片顯示當主／石高／城數／武將數（13 §6.2 ui.daimyo.*）', () => {
-    render(<DaimyoSelect bundle={fakeBundle()} onBack={vi.fn()} onStart={vi.fn()} />);
-    const odaCard = screen.getByTestId('clan-pick-clan.oda');
-    expect(odaCard.textContent).toContain('織田家');
-    expect(odaCard.textContent).toContain('織田信長'); // 當主
-    expect(odaCard.textContent).toContain('310,000'); // 石高＝100,000+210,000
-    expect(odaCard.textContent).toContain('城：1');
-    expect(odaCard.textContent).toContain('武將：1');
-  });
-
-  it('newgame-start 選定前 disabled；點 clan-pick-clan.oda 後啟用（aria-pressed 切換）', () => {
-    render(<DaimyoSelect bundle={fakeBundle()} onBack={vi.fn()} onStart={vi.fn()} />);
-    expect(screen.getByTestId('newgame-start')).toHaveProperty('disabled', true);
-
-    fireEvent.click(screen.getByTestId('clan-pick-clan.oda'));
-    expect(screen.getByTestId('clan-pick-clan.oda').getAttribute('aria-pressed')).toBe('true');
-    expect(screen.getByTestId('newgame-start')).toHaveProperty('disabled', false);
-  });
-
-  it('選織田→點 newgame-start：以選定 clanId 呼叫 buildNewGameState，並把回傳 GameState 交給 onStart（M2-19 驗收核心）', () => {
-    const fakeGame = { meta: { playerClanId: 'clan.oda' } } as unknown as GameState;
-    const buildNewGameState = vi.fn((): GameState => fakeGame) as unknown as (
-      bundle: ScenarioBundleData,
-      opts: NewGameOptions,
-    ) => GameState;
-    const onStart = vi.fn();
-    const bundle = fakeBundle();
-    render(
+describe('DaimyoSelect wizard step', () => {
+  function mount(selectedClanId: 'clan.oda' | 'clan.imagawa' | null = null) {
+    const onSelectClan = vi.fn();
+    const onNext = vi.fn();
+    const onBack = vi.fn();
+    const view = render(
       <DaimyoSelect
-        bundle={bundle}
-        onBack={vi.fn()}
-        onStart={onStart}
-        buildNewGameState={buildNewGameState}
+        bundle={fakeBundle()}
+        selectedClanId={selectedClanId as ClanId | null}
+        onSelectClan={onSelectClan}
+        onNext={onNext}
+        onBack={onBack}
       />,
     );
+    return { ...view, onSelectClan, onNext, onBack };
+  }
 
-    fireEvent.click(screen.getByTestId('clan-pick-clan.oda'));
-    act(() => {
-      fireEvent.click(screen.getByTestId('newgame-start'));
-    });
-
-    expect(buildNewGameState).toHaveBeenCalledWith(
-      bundle,
-      expect.objectContaining({ playerClanId: 'clan.oda', difficulty: 'normal' }),
+  it('shows clan metadata and keeps Next disabled until the parent owns a selection', () => {
+    const view = mount();
+    expect(screen.getByTestId('screen-daimyo-select')).toBeTruthy();
+    expect(screen.getByTestId('daimyo-next')).toHaveProperty('disabled', true);
+    const oda = screen.getByTestId('clan-pick-clan.oda');
+    expect(oda.textContent).toContain('織田信長');
+    expect(oda.textContent).toContain('310,000');
+    expect(oda.textContent).toContain('城：1');
+    expect(oda.textContent).toContain('武將：1');
+    fireEvent.click(oda);
+    expect(view.onSelectClan).toHaveBeenCalledWith('clan.oda');
+    expect(view.onNext).not.toHaveBeenCalled();
+    view.rerender(
+      <DaimyoSelect
+        bundle={fakeBundle()}
+        selectedClanId={'clan.oda' as ClanId}
+        onSelectClan={view.onSelectClan}
+        onNext={view.onNext}
+        onBack={view.onBack}
+      />,
     );
-    expect(onStart).toHaveBeenCalledWith(fakeGame);
+    expect(oda.getAttribute('aria-pressed')).toBe('true');
+    expect(screen.getByTestId('daimyo-next')).toHaveProperty('disabled', false);
+    fireEvent.click(screen.getByTestId('daimyo-next'));
+    expect(view.onNext).toHaveBeenCalledOnce();
   });
 
-  it('點擊 daimyo-back 呼叫 onBack', () => {
-    const onBack = vi.fn();
-    render(<DaimyoSelect bundle={fakeBundle()} onBack={onBack} onStart={vi.fn()} />);
+  it('retains controlled selection on remount and forwards Back', () => {
+    const view = mount('clan.imagawa');
+    expect(screen.getByTestId('clan-pick-clan.imagawa').getAttribute('aria-pressed')).toBe('true');
     fireEvent.click(screen.getByTestId('daimyo-back'));
-    expect(onBack).toHaveBeenCalledTimes(1);
+    expect(view.onBack).toHaveBeenCalledOnce();
   });
-
-  it.each([undefined, 42, 0])(
-    'preserves an optional wizard seed %s without manufacturing one',
-    (seed) => {
-      const fakeGame = { meta: { playerClanId: 'clan.oda' } } as unknown as GameState;
-      const buildNewGameState = vi.fn(() => fakeGame);
-      const bundle = fakeBundle();
-      render(
-        <DaimyoSelect
-          bundle={bundle}
-          onBack={vi.fn()}
-          onStart={vi.fn()}
-          {...(seed === undefined ? {} : { seed })}
-          buildNewGameState={buildNewGameState}
-        />,
-      );
-      fireEvent.click(screen.getByTestId('clan-pick-clan.oda'));
-      fireEvent.click(screen.getByTestId('newgame-start'));
-      expect(buildNewGameState).toHaveBeenCalledWith(bundle, {
-        playerClanId: 'clan.oda',
-        difficulty: 'normal',
-        ...(seed === undefined ? {} : { seed }),
-      });
-    },
-  );
 });

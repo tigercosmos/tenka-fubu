@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import { test, expect } from './fixtures';
 
 test('native castle city entry shows only the actual local adult ronin roster without changing the game', async ({
@@ -7,7 +8,7 @@ test('native castle city entry shows only the actual local adult ronin roster wi
   await page.getByTestId('title-newgame').click();
   await page.getByTestId('scenario-pick-s1560').click();
   await page.getByTestId('clan-pick-clan.oda').click();
-  await page.getByTestId('newgame-start').click();
+  await completeNewGameWizard(page);
   await expect(page.getByTestId('screen-strategy')).toBeVisible();
   await expect(page.getByTestId('speed-pause')).toHaveAttribute('aria-pressed', 'true');
   const before = await page.evaluate(() => ({

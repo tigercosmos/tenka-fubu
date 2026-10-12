@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import { test, expect } from './fixtures';
 
 test('Home and M work from non-control panel focus while native keys keep their owners', async ({
@@ -8,7 +9,7 @@ test('Home and M work from non-control panel focus while native keys keep their 
   await page.getByTestId('title-newgame').click();
   await page.getByTestId('scenario-pick-s1560').click();
   await page.getByTestId('clan-pick-clan.oda').click();
-  await page.getByTestId('newgame-start').click();
+  await completeNewGameWizard(page);
   await page.getByTestId('speed-pause').click();
   const game = await page.evaluate(() => window.__tenka.debug.getState());
   const homeCastleId = game.clans[game.meta.playerClanId]!.homeCastleId;

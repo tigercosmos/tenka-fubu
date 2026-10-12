@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import { readFile } from 'node:fs/promises';
 import type { SaveFile } from '../src/core/save/serialize';
 import { BAL } from '../src/core/balance';
@@ -10,7 +11,7 @@ test('Taimei confirms once, executes on normal Step1, and restores its active HU
   await page.getByTestId('title-newgame').click();
   await page.getByTestId('scenario-pick-s1560').click();
   await page.getByTestId('clan-pick-clan.oda').click();
-  await page.getByTestId('newgame-start').click();
+  await completeNewGameWizard(page);
   await expect(page.getByTestId('screen-strategy')).toBeVisible();
   await page.getByTestId('speed-pause').click();
   await page.getByRole('button', { name: '系統選單', exact: true }).click();

@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import { readFileSync } from 'node:fs';
 import type { Page } from '@playwright/test';
 import type { GameState } from '../src/core/state/gameState';
@@ -139,7 +140,7 @@ test('earned rice dealer: actual Kiyosu construction, queued buy and sell on nor
     await page.getByTestId('title-newgame').click();
     await page.getByTestId('scenario-pick-s1560').click();
     await page.getByTestId('clan-pick-clan.oda').click();
-    await page.getByTestId('newgame-start').click();
+    await completeNewGameWizard(page);
     await expect(page.getByTestId('screen-strategy')).toBeVisible();
     await page.getByTestId('speed-pause').click();
     await pause(page);

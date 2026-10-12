@@ -1,3 +1,4 @@
+import { completeNewGameWizard } from './new-game-wizard';
 import { test, expect } from './fixtures';
 
 test('production excludes the DEV gallery and renders actual clan crests with bounded short names', async ({
@@ -13,7 +14,7 @@ test('production excludes the DEV gallery and renders actual clan crests with bo
   await page.getByTestId('title-newgame').click();
   await page.getByTestId('scenario-pick-s1560').click();
   await page.getByTestId('clan-pick-clan.ashikaga').click();
-  await page.getByTestId('newgame-start').click();
+  await completeNewGameWizard(page);
   await expect(page.getByTestId('screen-strategy')).toBeVisible();
   const crest = page.locator('nav [data-kamon-shape="ring"]');
   await expect(crest).toHaveCount(1);

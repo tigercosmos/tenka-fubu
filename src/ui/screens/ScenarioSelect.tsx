@@ -10,11 +10,12 @@
 // data-testid 依 plan/17-testing.md §6.2 契約：`scenario-pick-s1560`；根節點比照 `screen-*`
 // 命名慣例新增 `screen-scenario-select`（該表未列出但依表尾規則「新增畫面時比照命名」新增）。
 
-import { useEffect, useState, type ReactElement } from 'react';
+import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { t } from '@i18n/zh-TW';
 import { loadScenario as loadScenarioReal, getScenarioTitle } from '@app/boot';
 import type { ScenarioBundleData } from '@data/schemas';
 import styles from './ScenarioSelect.module.css';
+import { WizardProgress } from './WizardProgress';
 
 export interface ScenarioSelectProps {
   /** 選定劇本（資料已載入完成）後呼叫，交由呼叫端轉場至 DaimyoSelectScreen。 */
@@ -37,6 +38,9 @@ export function ScenarioSelect({
   loadScenario = loadScenarioReal,
 }: ScenarioSelectProps): ReactElement {
   const [state, setState] = useState<LoadState>({ status: 'loading' });
+  const heading = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => heading.current?.focus(), []);
 
   useEffect(() => {
     let cancelled = false;
@@ -72,11 +76,14 @@ export function ScenarioSelect({
   return (
     <div data-testid="screen-scenario-select" className={styles.screen}>
       <header className={styles.header}>
-        <h1>{t('ui.scenario.title')}</h1>
+        <h1 ref={heading} tabIndex={-1}>
+          {t('ui.scenario.title')}
+        </h1>
         <button type="button" data-testid="scenario-back" onClick={onBack}>
           {t('ui.newGame.back')}
         </button>
       </header>
+      <WizardProgress step={1} />
 
       <button
         type="button"

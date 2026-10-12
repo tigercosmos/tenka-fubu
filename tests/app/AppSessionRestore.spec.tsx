@@ -85,6 +85,8 @@ async function enterMain(): Promise<void> {
   );
   fireEvent.click(screen.getByTestId('scenario-pick-s1560'));
   fireEvent.click(screen.getByTestId('clan-pick-clan.oda'));
+  fireEvent.click(screen.getByTestId('daimyo-next'));
+  fireEvent.click(screen.getByTestId('difficulty-next'));
   fireEvent.click(screen.getByTestId('newgame-start'));
   await waitFor(() => expect(screen.getByTestId('screen-strategy')).toBeTruthy());
 }
