@@ -4,6 +4,20 @@ Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目�
 最新固定來源 `7d37c28` 全量測試為 6,445 通過、1 既有失敗、1 跳過；120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
+## 結局溢出、Battle 語意與完整原生原始失敗
+
+`51abd75` 以 `safe center` 修復最小視窗／1.5 倍率的結局徽記上緣裁切。原圖、原 RED、修正後十五倍率與精確最後三項 focused 驗證見[強制視窗證據](mandatory-overlays-responsive-51abd75/README.md)。具申／月結最後鍵盤版本十五項通過；Event 較早十五項成功與最後新增橫向溢出／Enter 斷言的精確 1.5 倍率成功分開標示，沒有把事件前版結果改標為最後版本。[Battle 控制](battle-controls-79682cd/README.md) 十五倍率及鍵盤共十六項成功；production 撤退／戰術滅亡仍沒有新規則。
+
+`b867014` 修正速度按鈕可及名稱與戰法 group，原 axe serious 三個節點降為零，critical 維持零。[Battle 語意證據](battle-axe-3da2334/README.md) 保存原 native 負控制、41 項受影響的一般原生成功，以及漏改 unit 查詢造成的 7 FAIL／14 PASS 和 `3da2334` 修正後 21 PASS。第一次 checker 只有 E2E 22 處；擴充到 src／tests／e2e 後才補齊十個 unit 查詢。national-soak 只有 selector 靜態更新。
+
+[原完整原生](native-full-suite-8ea965a/README.md) 先保存 `51abd75` Node 22 discovery RED，再保存 court-rank 測試專用修正後 `8ea965a` 的全套。362 項以預設 16 workers 在原 300 秒上限結束：222 PASS、18 FAIL、3 case timeout、34 explicit skip、7 interrupted、78 未派發。Playwright 的 119 skipped 包含後兩類，不能當成 119 個主動略過。原個別 timeout overrides 保留，不宣稱所有案例都使用 60 秒。完整 report 本地壓縮保存，4.9GB／22,721 個輸出檔仍在 sim4 並有逐檔 hash／size 清單；第一張 post-process 圖有兩個 PPID1 worker，第二次觀測已退出。
+
+三個 Ending 案例在 browser 前的合法 fixture generator 各因 5 秒 Vitest 上限失敗；case 6.61／6.47／5.95 秒，idle 同命令 1.61 秒成功。這不代表 Ending 畫面失敗，也不解釋其餘十八個 unexpected。下一步是[Ending 專屬 dependency setup 設計](overlay-integrated-3da2334/next-fixture-design.md)，生成仍計入原全套 deadline，不增加 timeout、不讀舊 fixture，不使用會牽連無關 subset 的 globalSetup；尚未實作。
+
+[固定 51abd75](overlay-integrated-51abd75/README.md) 與[最終 3da2334](overlay-integrated-3da2334/README.md) 的 local checks 各自釘選，最後 138 tests／16 files、型別、完整 ESLint、資料／素材、build／bundle 成功，1,632 個輸入前後同 Git。沒有在最後 Battle 語意修改後再跑完整原生，也沒有重標較早完整 core 結果。[限定來源快照工具](scoped-source-snapshot-79682cd/README.md) 另驗完整 base restore 加單檔 delta；這批早期 Battle 全 tracked archive 的 setup 例外保持明載。
+
+完整原生、其餘介面、strict60、whole-heap、long-run 與全 M6–M9 仍未完成。無嗣／戰術終局、人口校準、934163c 新六圖人工審查尚未收到決策；沒有更改相關規則、基準、milestone，沒有 push／deploy。
+
 ## 報告、非政策面板與主頁鍵盤驗收
 
 `5f250eb` 修正報告提示在 0.9 倍率的原密度門檻失敗：統一減少上下 padding，保留完整文字、字級與 32px 控制。原版 14 PASS／1 FAIL，候選十五倍率全通過，另驗證報告中心 195 個互動目標及類別／月份／前往操作。[報告證據](reports-responsive-961f0ae/README.md) 分開保存真正的密度 RED、較早的 observer 錯誤與候選結果。
@@ -14,7 +28,7 @@ Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目�
 
 [固定 934163c 整合](ui-integrated-934163c/README.md) 通過 227 個相關 unit、7 個 CSS source contract、6 個既有原生跨畫面測試及型別／ESLint／資料／素材／build／bundle，1,589 個來源前後符合 Git。[Linux 最終套件](protected-art-final-linux-934163c/README.md) 的報告十五與非政策四十五項再次通過，1,633 個來源及 fresh 29-target 依賴前後相同。Linux／[Darwin](protected-art-final-darwin-934163c/README.md) 的原視覺五項各 4 PASS／1 protected snapshot FAIL（三視角）。新的六張 actual 等待人工核准，舊 references 未改；最新全量仍釘選 `7d37c28`。
 
-以上不能代表 M8-23 全部完成。強制事件／提案／月結／結局 overlay、Battle 控制、其他面板與完整文字可讀性仍需逐項驗收；完整原生 suite 的原五分鐘 deadline 也未由這些分組成功證明。原 60 FPS、whole-heap、protected art、long-run 與其餘 M6–M9 門檻保持開放。早期 archive 的 ENOSPC 只保留工具回覆抄錄；之後 validation 均先建立唯一完整 log，Playwright 另用唯一 output／report，不能宣稱所有 setup raw 都已保存。
+以上前批結果不能代表 M8-23 全部完成。強制 overlay／Battle 的後續驗收與完整原生 RED 見上節；其他面板與完整文字可讀性仍需逐項驗收。原 60 FPS、whole-heap、protected art、long-run 與其餘 M6–M9 門檻保持開放。早期 archive 的 ENOSPC 只保留工具回覆抄錄；之後 validation 均先建立唯一完整 log，Playwright 另用唯一 output／report，不能宣稱所有 setup raw 都已保存。
 
 ## 最新貼圖快取與政策縮放驗證
 

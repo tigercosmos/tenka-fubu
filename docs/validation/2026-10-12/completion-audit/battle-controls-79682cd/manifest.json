@@ -1,0 +1,41 @@
+{
+  "baseCommit": "79682cd",
+  "testCommit": "8bcb9fde0566e262f1712c5f96711d29f304e6a5",
+  "archives": {
+    "sim4-runs.tar.gz": "4b31b71e3eaaf0d8e92c251a81d6da901520949ae4df5ae85d2122455c115f2f",
+    "local-captures.tar.gz": "829a7e454802975b0a331ae856db799485a3c0c7c447395e2a5c2561991eb2e5"
+  },
+  "sourceSha256": {
+    "e2e/battle-controls-acceptance.spec.ts": "c00285568959cd330a4fdb26947662f0397a6378acc1d7ab8996705320795c81",
+    "package-lock.json": "63f021d39b353a70831accbfc50b714a09767b900ce23157fbf4ecce1dda7be1",
+    "src/ui/screens/BattleScreen.tsx": "2de1c7a43495a93f70d62f082653c0519f971b9d75fa5801b5ebb3ae4dd3fddf",
+    "src/ui/screens/BattleScreen.module.css": "31856f3e0e8fce725308b51352f4fb435f49d5618bb74236f6027d05281880df",
+    "tools/dependencies/pixi-8.19-patch.json": "aef14f315cea70876118b659b247b0b7556e5c9d8da233716c6307364f7c3bef"
+  },
+  "remoteOutcomes": {
+    "source-proof": 1,
+    "source-proof-v2": 1,
+    "source-proof-v3": 0,
+    "npm-ci": 0,
+    "build-baseline": 0,
+    "battle-scale-baseline-v2": 0,
+    "battle-controls-v3": 1,
+    "battle-title-diagnostic-v4": 1,
+    "battle-controls-final-v5": 0,
+    "battle-controls-final-v6": 0,
+    "final-source-proof": 0,
+    "final-source-proof-v6": 0,
+    "trace-inventory": 0
+  },
+  "localOutcomes": {
+    "archive-stream": 0,
+    "typecheck-test-v5": 0,
+    "eslint-test-v5": 0,
+    "prettier-check-final": 0,
+    "copy-run-evidence": 0,
+    "typecheck-test-v6": 0,
+    "eslint-test-v6": 0,
+    "prettier-check-v6": 0,
+    "copy-run-evidence-v6": 0
+  }
+}

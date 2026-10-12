@@ -15881,6 +15881,2506 @@
       "path": "protected-art-final-darwin-934163c/verify.py",
       "bytes": 1864,
       "sha256": "8a13ac3a92d0a86384478a9d59e6bdbc635b0354ad2ec4e3d279f1cb27588ce9"
+    },
+    {
+      "path": "battle-controls-79682cd/README.md",
+      "bytes": 3483,
+      "sha256": "f0b6a88fc32cca5ec7cb4ce825a5bab2edbc04d335b6fb973eab80398f3e9180"
+    },
+    {
+      "path": "battle-controls-79682cd/local-captures.tar.gz",
+      "bytes": 10280,
+      "sha256": "829a7e454802975b0a331ae856db799485a3c0c7c447395e2a5c2561991eb2e5",
+      "uncompressedBytes": 382464,
+      "uncompressedSha256": "4bb1e0da1b854dba25bb9fff6a6824f7d8a97e69e6e2e60c606043face3d6108"
+    },
+    {
+      "path": "battle-controls-79682cd/manifest.json",
+      "bytes": 1541,
+      "sha256": "55c503b793ab1848718435efc4c9c7fd1c23eb3f0b8d7c163293d0dde699e0a7"
+    },
+    {
+      "path": "battle-controls-79682cd/sim4-runs.tar.gz",
+      "bytes": 4992980,
+      "sha256": "4b31b71e3eaaf0d8e92c251a81d6da901520949ae4df5ae85d2122455c115f2f",
+      "uncompressedBytes": 6102016,
+      "uncompressedSha256": "9393dab1579980c50ef045588bf03bb09144a65096c06e5852ab13f8414f2fe8"
+    },
+    {
+      "path": "battle-controls-79682cd/verify.py",
+      "bytes": 5427,
+      "sha256": "d647040b1f3aaa2def59471cc636c718ee9db05de605b30617c63dd414947966"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/README.md",
+      "bytes": 5013,
+      "sha256": "07ae1c6ee240a63f94e3c409cefbd0686d39758defc71b8212a606e6bbf412c8"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/SHA256SUMS",
+      "bytes": 1154,
+      "sha256": "90d3edf1b4d17176cec17430b07451d0a97b1b24d7afb3018ae823a1ad047366"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/overlay-runs.tar.gz",
+      "bytes": 146340042,
+      "sha256": "58af436b851bcf7b4cee5f90c2847ac1644ac2c40da627d11300f33c8eb18dd3",
+      "uncompressedBytes": 148408320,
+      "uncompressedSha256": "e9b0f4f7be5bcfa8e4dbb749839e516ecac1be0797bca8e4f85fed1dfedef444"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/review/ending-after-1.5.png",
+      "bytes": 156016,
+      "sha256": "9c06a6193068eba4ccd5d6c2c7a30a72041bfcefd1d0c53bb00501f5a53d4940"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/review/ending-before-1.5.png",
+      "bytes": 159518,
+      "sha256": "eef230fae3e84dea3ed64b3b87d4d6ed49bfe77e62ed84e3680de08920a55207"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/review/event-0.8.png",
+      "bytes": 437004,
+      "sha256": "adb0c392a1d7a6bdb763c567f53e744d2c78a001f291eb9b87a146df45fba746"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/review/event-1.5.png",
+      "bytes": 461523,
+      "sha256": "c331ee6fa1e9fa1d3cd6804c66e49ff39a0545039ed71c32257739bb0c2d694c"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/review/event-1.png",
+      "bytes": 444501,
+      "sha256": "c1f58b94567932b15a3f2a9b1d4087fcd42854f2fc79adc5054c0ba6a8d13c21"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/review/manifest.json",
+      "bytes": 3284,
+      "sha256": "399c7daabb857e852a1c67a62a771fe3449493835c739c2b935472b8d28cce37"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/review/proposal-0.8.png",
+      "bytes": 344904,
+      "sha256": "f1909a440dbe9925f779925ba3a3f676ec4c38b90a0f9b346f72eb7af7d98db7"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/review/proposal-1.5.png",
+      "bytes": 232604,
+      "sha256": "4385ef2a3157c1e390d1b802e09c6306cf89959c1c0c38dc30ab7de8eebdcc04"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/review/proposal-1.png",
+      "bytes": 311915,
+      "sha256": "be47baf73c1de95bf47088c722ca4a8693a84026f507f6ab0c6ffd2f61f68409"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/review/summary-0.8.png",
+      "bytes": 306031,
+      "sha256": "4bf0eb7a0406055d70cccf7eb603cd2929687cc60303ff4aa396a724eaba0574"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/review/summary-1.5.png",
+      "bytes": 157716,
+      "sha256": "6ea4c7fc236a53bd6165deec8febf9c5bcc6be4ce202fa5aa0fbb7441145b855"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/review/summary-1.png",
+      "bytes": 262230,
+      "sha256": "f650b3b65a2b6370f06ec194c269c2cfd16c289e1427fb9105931259b6cb3bcf"
+    },
+    {
+      "path": "mandatory-overlays-responsive-51abd75/verify.py",
+      "bytes": 3320,
+      "sha256": "85a11cbc50b3552fcb82ebc1815411713984c81012a40e5c1def0204a94211e8"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/README.md",
+      "bytes": 2126,
+      "sha256": "c6e59e21bf7553a0983c09277850c34be902b4924771cca2594273d445ffce36"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/artifact-sha256.json",
+      "bytes": 6608,
+      "sha256": "2fefcd4c285689c62a9c40af5ce42e4ca793dc2cad9ea9475a03d62620353143"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-archive-control-796/command.json.gz",
+      "bytes": 223,
+      "sha256": "de539fe2d1c674942e581fde0feb31d2511b8560232aa380a4c6dfb1c72cf75a",
+      "uncompressedBytes": 359,
+      "uncompressedSha256": "d19352cc11bc619be899a7776824191147630cbe506087649f1f16d9af669cf7"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-archive-control-796/process.json.gz",
+      "bytes": 39,
+      "sha256": "60db822774d8fb8f8c217d4e0bae8efd9221e126066595176b9133e034ded39d",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "a63db78b9c5baff33b4e63abb81eb2a564a401e22bd41eb9eab58defa0b838e9"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-archive-control-796/result.json.gz",
+      "bytes": 89,
+      "sha256": "2faf7263accf6617c329e3a5b06fed4fe540b44d259bf80b83ad58013345bf36",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "1171efd5e65e891cdf6673961b29fc2aae17a6aa1c26a0131d4a84d2c2b8bf72"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-archive-control-796/stdout-stderr.log.gz",
+      "bytes": 143,
+      "sha256": "1296231acd5ad2122d918b1b6662b05f2bbbf8714aac52e08732c6f35f994c2f",
+      "uncompressedBytes": 155,
+      "uncompressedSha256": "a6f8754176de54dd253d562ca6516156a57b53296ef0746a92637ddf384df6b5"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-archive-verify-8d/command.json.gz",
+      "bytes": 170,
+      "sha256": "c5dee68160f5be2439991e7d104a03f00467909dddb48048f17f15c462f0438d",
+      "uncompressedBytes": 190,
+      "uncompressedSha256": "bc589d361e5185e125451ff6fe91fc879ad28476683a15263f05f8328f134174"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-archive-verify-8d/process.json.gz",
+      "bytes": 39,
+      "sha256": "c440237681cad9abdddb437c2efbdb4c0222fb83c42b3589104fd25e079c06ba",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "0654fdfa9e01fc7ea128d74ee6cdfe30e1e8989583e787df22f59f4bffe04aeb"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-archive-verify-8d/result.json.gz",
+      "bytes": 89,
+      "sha256": "256de1815945c7d2252e5d8314d7605d2fd63e201d705d6196f8d6c4780acdde",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "580aadefcbaecd0a247b1f5505f00e920d6c3b7ad200799dca051697a691d227"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-archive-verify-8d/stdout-stderr.log.gz",
+      "bytes": 119,
+      "sha256": "dfd60139edb3f41104709acd97a72b048c30421da17833456ea0f56b2e812ace",
+      "uncompressedBytes": 109,
+      "uncompressedSha256": "6642c1ec4e825ebbdf55ca99fc1749a497aa297619d92a32711d5f202195c5dd"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/archive.command.json.gz",
+      "bytes": 174,
+      "sha256": "5d6f645ea46d191c01e8189b3f5180e911e14357ee65b8aaa371d83807c93822",
+      "uncompressedBytes": 210,
+      "uncompressedSha256": "9e439b86f775a5e591f727dff4f2e45242975c9218eea0367e932036c7346554"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/archive.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/archive.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/base-commit.command.json.gz",
+      "bytes": 123,
+      "sha256": "2acba7b252c74d6c01b2c201efcf2fd88f83b54295612d67b66d09a3b84e83e0",
+      "uncompressedBytes": 128,
+      "uncompressedSha256": "1b6a14357082ddb5336f38c0a32bea124262f8bf6aff028521ce582e71a7ad25"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/base-commit.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/base-commit.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/base-commit.stdout.gz",
+      "bytes": 59,
+      "sha256": "f146ebbe9299025daf16fd0a1ff15cc4f90c0f40295219e887748454458e81e3",
+      "uncompressedBytes": 41,
+      "uncompressedSha256": "27a6650b70251e1128e8fe7e9f8a7082326d52f97c2b3112f6f2ef72589a5a03"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/base-tree.command.json.gz",
+      "bytes": 138,
+      "sha256": "d49ed800fe99196fb514e17b8579f3562e871b35f123d1749d83f0269f7a16ce",
+      "uncompressedBytes": 145,
+      "uncompressedSha256": "6f7e197498b2ebbdeece12fae2533c1872e463bb64ba4713b3cc341802c9b25b"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/base-tree.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/base-tree.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/base-tree.stdout.gz",
+      "bytes": 162245,
+      "sha256": "1e87cf6fbd933c8b2c891f7ae724b9045e5aa550e58dc040c1c06bc067c01438",
+      "uncompressedBytes": 698904,
+      "uncompressedSha256": "6461b8c547e7d7a14cc1cd5f94af1473a029bf031246515d37ab5d294313bdae"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/manifest.json.gz",
+      "bytes": 57385,
+      "sha256": "1a61faa16ead44d0bd358172cf56e0addea39af212a349c4cdf9020bff9b6d82",
+      "uncompressedBytes": 225005,
+      "uncompressedSha256": "2290ffd225c9c279100f96c85be41b35ae0c99809dd852f8685b2ed85a58693a"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/revision-commit.command.json.gz",
+      "bytes": 123,
+      "sha256": "fc59ab04adabe9f8b226cf6265a009877d0d385c237806d87b347cbbfc40991e",
+      "uncompressedBytes": 128,
+      "uncompressedSha256": "414bc2585a0497fe66712f24201e0c7e563e3aa311d4793ae125fdbec2ab8ba1"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/revision-commit.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/revision-commit.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/revision-commit.stdout.gz",
+      "bytes": 60,
+      "sha256": "d9c7eef362a56e21c2ca529ee059c720ee87ae2b32aa8130d2d1831ecb53f392",
+      "uncompressedBytes": 41,
+      "uncompressedSha256": "ccc9b3a30a34b0bb0e1888afd5c51950b44ec555ae31fdc72fcfc19b329462b8"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/revision-tree.command.json.gz",
+      "bytes": 139,
+      "sha256": "b9ca0a3eccc29f0dd1215168178fcdb5054dabf160606b5a6e6b6cdc01dd2e49",
+      "uncompressedBytes": 145,
+      "uncompressedSha256": "25afaf5d9ea46a436a38c879975cbaf3752b7397e36c6c364d45972360a6b782"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/revision-tree.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/revision-tree.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/revision-tree.stdout.gz",
+      "bytes": 162280,
+      "sha256": "253a41c436e74458d8ff7212bf31fa9afebea986ef307374f8745667add4d9a5",
+      "uncompressedBytes": 698996,
+      "uncompressedSha256": "2d203f8bee39a0d4051882d360b322ba05b55d1e117c651e0e8d0b952d13a5d4"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-delta-8d0a040/source.tar.gz",
+      "bytes": 2771,
+      "sha256": "54bafbe8e34497003deeed949b23f45042aef6a654338a785a0ab5fbe884117e",
+      "uncompressedBytes": 20480,
+      "uncompressedSha256": "afa07fcfbbeaa060e148fd72dc019822441c4a565045032cee68fd06deb93a8a"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-796/archive.command.json.gz",
+      "bytes": 11815,
+      "sha256": "7966f4740644f8092bdc1a4fd7da6858d4995ea2c65a069b3434dd06c09b2d9c",
+      "uncompressedBytes": 72858,
+      "uncompressedSha256": "98f09a9e324551342af9f3378aca75c493550c97f32125f67e801964dddf7e20"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-796/archive.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-796/archive.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-796/manifest.json.gz",
+      "bytes": 69123,
+      "sha256": "50f43b53962186da11903d97c609410833c14a895ec6928d3b17eac1f6da4327",
+      "uncompressedBytes": 297476,
+      "uncompressedSha256": "67c1284ed6c422c87b532b0866473ea917e74d8c7b9eedf4a6a93b6315e19675"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-796/revision-commit.command.json.gz",
+      "bytes": 123,
+      "sha256": "2acba7b252c74d6c01b2c201efcf2fd88f83b54295612d67b66d09a3b84e83e0",
+      "uncompressedBytes": 128,
+      "uncompressedSha256": "1b6a14357082ddb5336f38c0a32bea124262f8bf6aff028521ce582e71a7ad25"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-796/revision-commit.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-796/revision-commit.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-796/revision-commit.stdout.gz",
+      "bytes": 59,
+      "sha256": "f146ebbe9299025daf16fd0a1ff15cc4f90c0f40295219e887748454458e81e3",
+      "uncompressedBytes": 41,
+      "uncompressedSha256": "27a6650b70251e1128e8fe7e9f8a7082326d52f97c2b3112f6f2ef72589a5a03"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-796/revision-tree.command.json.gz",
+      "bytes": 138,
+      "sha256": "d49ed800fe99196fb514e17b8579f3562e871b35f123d1749d83f0269f7a16ce",
+      "uncompressedBytes": 145,
+      "uncompressedSha256": "6f7e197498b2ebbdeece12fae2533c1872e463bb64ba4713b3cc341802c9b25b"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-796/revision-tree.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-796/revision-tree.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-796/revision-tree.stdout.gz",
+      "bytes": 162245,
+      "sha256": "1e87cf6fbd933c8b2c891f7ae724b9045e5aa550e58dc040c1c06bc067c01438",
+      "uncompressedBytes": 698904,
+      "uncompressedSha256": "6461b8c547e7d7a14cc1cd5f94af1473a029bf031246515d37ab5d294313bdae"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-control-796/command.json.gz",
+      "bytes": 210,
+      "sha256": "ed17b6351280eb569c84053c68a59d641cf92c7aae5221990659f478f706cf87",
+      "uncompressedBytes": 325,
+      "uncompressedSha256": "9653145f901e4431c25516dbcdb43342e1d1ced62aac659253128f78bd46027e"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-control-796/process.json.gz",
+      "bytes": 39,
+      "sha256": "56b59f82eb03937a2c3cc05b70e389ba5e2d3c6596c5b53cced4397f1358d8b8",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "f6b452e37823e6563277d9f61184b900603e1cb08ea6b72320344fb2aabcef7e"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-control-796/result.json.gz",
+      "bytes": 89,
+      "sha256": "2930a9341c29ace96110713b9c256d732bd561decad148a7d66201dfa263b09c",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "ed448ced67ae0f46e3ad203e2debbcd97408b6b68c276a7ec8da14071a33c149"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-full-control-796/stdout-stderr.log.gz",
+      "bytes": 144,
+      "sha256": "ea4f9f0bc01bf263ad72fac51fb195a71be86f0888ca67c64e7685a4d86b1cb8",
+      "uncompressedBytes": 153,
+      "uncompressedSha256": "0d95e13b36314b7820be0807cda4f6dbb37f04ad15f50ef39b14676b41ed9ac5"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-restore-proof-8d/command.json.gz",
+      "bytes": 170,
+      "sha256": "97820cef6000241e3a8e30f1c43705595d0ef3c7a5c8aeab2b30659f1e3bc8d9",
+      "uncompressedBytes": 192,
+      "uncompressedSha256": "2aa15868616edbb28445530e70384d6f477f9bdb12202831eb1c0acaed24c75f"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-restore-proof-8d/process.json.gz",
+      "bytes": 39,
+      "sha256": "c21c2d79bdb48dccfd81e663b55fb8eabce44cf102d53afaf18f5dd197ba5b51",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "6269d3112131312f405c919eb6499f6c8344a587138e578a4c91928b55e038ac"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-restore-proof-8d/result.json.gz",
+      "bytes": 89,
+      "sha256": "29d35c60a792e76a499a8a5288eca132c1d871b6c4e67fd979ff9b5a76563eb9",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "cace070fe27f7237805bca9df035e53904baa6c7d904b16f41a0b2da0b36efa9"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/raw/tenka-scoped-restore-proof-8d/stdout-stderr.log.gz",
+      "bytes": 130,
+      "sha256": "95d29f6de587fd2920c2e732cc610f7d7df04dfd686b0cc3a748d106bce3e792",
+      "uncompressedBytes": 134,
+      "uncompressedSha256": "7e72796a823cc7328da189fc5079bae7dcbbce5bf58919f92d5295af6ec101d1"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/tenka-check-scoped-archive.py",
+      "bytes": 943,
+      "sha256": "0746d10cd4de4aaacdecadb3f78e9341d63f816a7d93c478f821a6f0e5a5d92b"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/tenka-scoped-restore-control.py",
+      "bytes": 1570,
+      "sha256": "4f1951c498fdc073c96adcbf12dcb41cd83802d8795d8ebb96de0b92b549c39f"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/tenka-scoped-source-archive.py",
+      "bytes": 3348,
+      "sha256": "d7f1fd477c0583eff8237e13c34e7c77a594a8552ca6211a958536da2287ab1d"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/tenka-validation-capture-961f0ae.py",
+      "bytes": 1722,
+      "sha256": "888e8cf09de8e6cc4191194d69168974601d5397ffa4991ac3c981c8531f1710"
+    },
+    {
+      "path": "scoped-source-snapshot-79682cd/verify.py",
+      "bytes": 1833,
+      "sha256": "f6ac71b3193fde65b1d4af4155fcd070c2ca7a4bdada6fc29fab2a99b8e0623e"
+    },
+    {
+      "path": "overlay-integrated-51abd75/README.md",
+      "bytes": 1682,
+      "sha256": "3c99f9699a0cc619b1473e694aab0c39a6b9667d40457160d7f9bd226b8b43c1"
+    },
+    {
+      "path": "overlay-integrated-51abd75/manifest.json",
+      "bytes": 6348,
+      "sha256": "d114495c96476e6a54ae964f458d3ea766d63fa70b3d2242cdf9683981357edd"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/assets.command.json.gz",
+      "bytes": 106,
+      "sha256": "21cd7fbb1b7007159a9eaa094d4af548090a0a90a9a433da9a012a5d34690bc7",
+      "uncompressedBytes": 105,
+      "uncompressedSha256": "48cf699cb3b7268f67f916168c1086e96e52626147c84df79e65b391ac4a22d4"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/assets.log.gz",
+      "bytes": 235,
+      "sha256": "e4c3d7f0bcb23a5ccedff58519020642096e9e0a62753ab4c7a14f1f8117b7e0",
+      "uncompressedBytes": 259,
+      "uncompressedSha256": "005e30238f36844004afb10ae259b8a23a7244bd5defdd41dca5d37c23c104f2"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/assets.result.json.gz",
+      "bytes": 84,
+      "sha256": "642b453697ba49615e189c9725364144a25c7a7dd82de052262f052b40fe3d3f",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "d216dc3aba555388d93987265497363bd8da14245bfcc0829735c3146a9cb7c2"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/build.command.json.gz",
+      "bytes": 96,
+      "sha256": "88b0836ca8889749c6f86b959ad93d1c97daa547f1974d09418c89e38930a24f",
+      "uncompressedBytes": 95,
+      "uncompressedSha256": "8d5e360f9276df1b8a7423f2c4486cc0e9b8c63ac1e6615e04ccb0e747c1147c"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/build.log.gz",
+      "bytes": 849,
+      "sha256": "0b5a957a275e95514baf3c16ef0af09202c81bef26e3514ddb2b7246817597a0",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "0e29c73cd8a9138d7a67b885114be5db876ddfa79763ddb78cd2e05fe8419b5b"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/build.result.json.gz",
+      "bytes": 83,
+      "sha256": "38a81a1817392c7979a0930b471ac2d3bfd79cc34f7daf0e609d250d097b7bee",
+      "uncompressedBytes": 71,
+      "uncompressedSha256": "0a3ea99723e619c1fb5b9646edc44a272aa6c8b8a9abcf3899330843f71809bd"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/bundle.command.json.gz",
+      "bytes": 106,
+      "sha256": "6115da2cb3683f5cafe9c0ac20469fab783c5b4eac3fe41da216e71cf0e238d1",
+      "uncompressedBytes": 105,
+      "uncompressedSha256": "6a247ee89125ebc99903cabef09f96b448c8f836599940dd5e953bd486dfdad1"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/bundle.log.gz",
+      "bytes": 397,
+      "sha256": "774a27c4fadf0c91412ad1efa45c9cf9a5d398b7efa80fc17d2d7eac4a57d525",
+      "uncompressedBytes": 1057,
+      "uncompressedSha256": "239b66c41b55d01c9f3fba6d4b237a87bd5d9e63b41dd711684a69e449f308f2"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/bundle.result.json.gz",
+      "bytes": 85,
+      "sha256": "6c79262912d42a1fcfe993155e205b873f04dcd20974c82986beb00fc07b91ba",
+      "uncompressedBytes": 74,
+      "uncompressedSha256": "98d27890a47e8915ded9d950783d9bfe28e6bcf348dfd7d9ca2cac7c09bbce8e"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/data.command.json.gz",
+      "bytes": 103,
+      "sha256": "ac7f6e024938407fa8f9608e115ef96cb067172ff39678b0b8a88aca150036c7",
+      "uncompressedBytes": 103,
+      "uncompressedSha256": "0c00345d89551aaffed6921a2f428c79e17352181bee3cdc72b3e41e13582c0c"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/data.log.gz",
+      "bytes": 273,
+      "sha256": "7d0e5a1993e27a8467daf080b0b5612beeff61ef9c35f8a53574ce7e3da5a55c",
+      "uncompressedBytes": 304,
+      "uncompressedSha256": "4439426990656048a413438a6ba4bee82fd56d80c52bc3a130bc77ed1c71a3ee"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/data.result.json.gz",
+      "bytes": 83,
+      "sha256": "ff616fce8e54a1f05d82b4fbb88499f1e3ab68e4b40124c9ff4e521a42b197d3",
+      "uncompressedBytes": 71,
+      "uncompressedSha256": "e2bfa72d7ccdc6acaea8e5490aeb7de74cf02a6101e99c102f33b45af432d77f"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/eslint.command.json.gz",
+      "bytes": 108,
+      "sha256": "11bb7de24d771d79a88d384ef572d361e1f65efe7ddf81aebab313e7b226246e",
+      "uncompressedBytes": 101,
+      "uncompressedSha256": "3372170be54e62524c67a3e87f2f5e0f56a795e773f22eb8ed47235a2ce0c92a"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/eslint.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/eslint.result.json.gz",
+      "bytes": 84,
+      "sha256": "8b11044deb9c55d8958ff0fa73fd41b285b92d726410aa39e52caa5e0a5f0b93",
+      "uncompressedBytes": 72,
+      "uncompressedSha256": "eb26182db7023564f20bf53bc685b5528267294ffe5b1267bf718da44cf2e811"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/focused.command.json.gz",
+      "bytes": 307,
+      "sha256": "423281473db23fd7701720c04b2a7cd1ce4e8aa53ca5f7a8cde1113d4ab0b261",
+      "uncompressedBytes": 818,
+      "uncompressedSha256": "36d8d484d606bd2f885bde069fd7d8d7d5d818c9ff341478aa592b83b990f5c9"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/focused.log.gz",
+      "bytes": 1155,
+      "sha256": "4af4f2a7ee42b6c595ca3943476fe8314e2c24fb331c909ff998c1869849fae0",
+      "uncompressedBytes": 5857,
+      "uncompressedSha256": "15ca56b93077abafe66cf99bfefb15ef8e3e801bf9da95b081430646069281ee"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/focused.result.json.gz",
+      "bytes": 85,
+      "sha256": "783124f3f1748586ef3f238d25e4985b0de7421831913edafa8d31939b808cff",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "d7035c45df43726a234a956ce1cfa161ec394128e6c090e3403a66a9058b077f"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/source-after.json.gz",
+      "bytes": 133779,
+      "sha256": "8be4f9208c5e8584fc738afe1fc27baa56e3782cf442b62ec186856d5b18ff63",
+      "uncompressedBytes": 502099,
+      "uncompressedSha256": "1d9b3e94c9a7fac43a36de3d64ed42fb4ac495d814bcf0cffbe01342bad88e42"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/source-before.json.gz",
+      "bytes": 133779,
+      "sha256": "8be4f9208c5e8584fc738afe1fc27baa56e3782cf442b62ec186856d5b18ff63",
+      "uncompressedBytes": 502099,
+      "uncompressedSha256": "1d9b3e94c9a7fac43a36de3d64ed42fb4ac495d814bcf0cffbe01342bad88e42"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/status.json.gz",
+      "bytes": 221,
+      "sha256": "89b10d0983ce6397a682eb2dc1138e59766e7de4d115f5de02e96f8f6760a08d",
+      "uncompressedBytes": 596,
+      "uncompressedSha256": "06bd6f047a98c2cc6abc6576b402d1c6cd931556ab6213712fc01fae8f9facec"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/typecheck.command.json.gz",
+      "bytes": 100,
+      "sha256": "6c5283d5acc0f30428eeb4969fafcbc280e7e9d3cbcef356dd33d6fc7d232c56",
+      "uncompressedBytes": 99,
+      "uncompressedSha256": "a665638587c20c0ba6aad2d315b31e371c5f060af860eef4f82ff3f3614d220a"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/typecheck.log.gz",
+      "bytes": 87,
+      "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+      "uncompressedBytes": 84,
+      "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-51abd75/typecheck.result.json.gz",
+      "bytes": 87,
+      "sha256": "cd4920d101a4cbb268d5fb488b734f9dab2387222c0156698a540e745d15284d",
+      "uncompressedBytes": 76,
+      "uncompressedSha256": "fb2cbd429be824319d0fa9d42406058dbb1132a40e2011923847f6a225e144fb"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-inventory-51abd75/command.json.gz",
+      "bytes": 229,
+      "sha256": "50115f506f5e71b93392eb344f562eb65319feb19f0ac5d21f85fe272cf90257",
+      "uncompressedBytes": 358,
+      "uncompressedSha256": "0ab951ae73aae69eb0b95c138767f7896adee7c75753408efdb517b15d0a9a9c"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-inventory-51abd75/process.json.gz",
+      "bytes": 39,
+      "sha256": "b42712fb02d5b7554f0278c7592863166fbd559603b844d82280011d3e6aaae4",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "986133ec5657b5b48ab5ce1f8977c91dac6df7a32943839b05de0fee48884521"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-inventory-51abd75/result.json.gz",
+      "bytes": 89,
+      "sha256": "ad8e71756be5ebe143da2bdfeefb0f133599e1693ffdf2dbfefc3f6c2a7f5e89",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "cb8cabd2ff5f013ff882ddedd0bd406f9421d74047e3108364f437552656d26e"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-inventory-51abd75/stdout-stderr.log.gz",
+      "bytes": 149,
+      "sha256": "bee1e138eae90f6b43d9c97d74b2705eff30c4b5e3b064b753aaccb7ab351771",
+      "uncompressedBytes": 162,
+      "uncompressedSha256": "a3916cda3dfda2d89954ea684848db7f37076b9f56d82810fecfa6c4e413deb2"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-launch-51abd75/command.json.gz",
+      "bytes": 197,
+      "sha256": "b4bca95672b037f8698b8798fdce297e0733907756030ece02d0b5f335855f10",
+      "uncompressedBytes": 294,
+      "uncompressedSha256": "679c8095993fd17258b51ffbf98ffb52d032f0be83dbb88ce87662ebac059dca"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-launch-51abd75/process.json.gz",
+      "bytes": 39,
+      "sha256": "2e6352e5af0eb7e7b454ad46ee773a6d6d901b1a1fa60742a96484f25d8b9c00",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "c8f97e39080e7b671b14b9e40422437c9048252e19540cdeb31ae0c06bd985e6"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-launch-51abd75/result.json.gz",
+      "bytes": 89,
+      "sha256": "e5ff0881b9b57d27ac9791dd07a5dafad2c37c35f3604626ac3fe827496959b7",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "cea93e07696efd3f68b936eee3e2634b5b5d7715f4219e2555731eb4f869db75"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-integrated-launch-51abd75/stdout-stderr.log.gz",
+      "bytes": 209,
+      "sha256": "e4234fb6168e74be41128dff738ed8515bc7054007bb1da45e2c53d96841cc6d",
+      "uncompressedBytes": 461,
+      "uncompressedSha256": "4474915fe99dce3026d03059ce1c5701cb331b3a0756a37682dcdb67530223ee"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-keyboard-status-01/command.json.gz",
+      "bytes": 310,
+      "sha256": "0b0bd536f12084189a22e4277a3a6e5634b94ecd08400c44c784fe239ff1bcf9",
+      "uncompressedBytes": 432,
+      "uncompressedSha256": "9fce4eeacd58fadd2b11d231d9a4c770201cde90ab7aa0ebcfc911ea961cdc1b"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-keyboard-status-01/process.json.gz",
+      "bytes": 39,
+      "sha256": "2ce62aa57b4815b242726602906a2d3739f098027f3d1b4b50a1f31db7b3171d",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "12bb22c28e0118ec5b8c4d42e3c69506c262afdaac63b0e8e4e5b209988a2893"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-keyboard-status-01/result.json.gz",
+      "bytes": 89,
+      "sha256": "49fc67c22e27a4bf35e7117aad449b376d5825796200220d97981e5915e0429b",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "e8e503896de2aa76249335521e00c29a4979a0423ffcce905ea94d02c4a02b52"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-keyboard-status-01/stdout-stderr.log.gz",
+      "bytes": 241,
+      "sha256": "9c4ea0ea746233c9690d23a3477d5e1b717515fff6cd92ee102235dc0f561e16",
+      "uncompressedBytes": 322,
+      "uncompressedSha256": "588af64dbde15993a194066b084afb4c72ebf38afc8cf43b876159d4990f8f66"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-manifest-51abd75/manifest.json.gz",
+      "bytes": 69135,
+      "sha256": "5f54452150541c69b14dfec31deeb58a565f79c8e67e170441bc4f10339b2b1a",
+      "uncompressedBytes": 297765,
+      "uncompressedSha256": "bb7a5ba348609c0babcbebba19fca2210e9ebfd149a70b7b04bd9dfcd5a75623"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-manifest-51abd75/revision-commit.command.json.gz",
+      "bytes": 122,
+      "sha256": "bc11ea8e7f9097eb62da2c4b38f5c9a0db17eeb36bec2e58f68931979be4217d",
+      "uncompressedBytes": 128,
+      "uncompressedSha256": "6cb2111da44fac95419824aca5007be17b4b62d16983d349193881d501224e6f"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-manifest-51abd75/revision-commit.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-manifest-51abd75/revision-commit.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-manifest-51abd75/revision-commit.stdout.gz",
+      "bytes": 59,
+      "sha256": "7d2af7d9218a91af960c6f429d646b2ded819acc3f2eb027696caa17ae4e4c54",
+      "uncompressedBytes": 41,
+      "uncompressedSha256": "652498b7c109f08d23c1d14901f5270e23791e886b75cac91b501db9fd9c0b58"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-manifest-51abd75/revision-tree.command.json.gz",
+      "bytes": 140,
+      "sha256": "8663077c5490070b61d4d8d63cb502f41b25b1200047cbbe9f4d38882f747246",
+      "uncompressedBytes": 145,
+      "uncompressedSha256": "aa2882438172e8bf433d1a22ea07d98c3f970bbad2ab70a0501a7d2ffc7bce04"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-manifest-51abd75/revision-tree.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-manifest-51abd75/revision-tree.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "overlay-integrated-51abd75/raw/tenka-overlay-manifest-51abd75/revision-tree.stdout.gz",
+      "bytes": 162328,
+      "sha256": "5b2485d9f3b81d23a88108e90a84a5d25d009c8b4669fed093c6df3d9cfa4031",
+      "uncompressedBytes": 699091,
+      "uncompressedSha256": "900d15962ba15a738555e62fe3aa69810b46d437f41bef07078d4a8275ee07de"
+    },
+    {
+      "path": "overlay-integrated-51abd75/tenka-overlay-integrated-run.py",
+      "bytes": 3055,
+      "sha256": "947e84450a5878a71edb86c176f4f26fd6fb579b66f7f9a064aab347eff173e3"
+    },
+    {
+      "path": "overlay-integrated-51abd75/tenka-package-overlay-integration.py",
+      "bytes": 1372,
+      "sha256": "61115c09a5b220e0ed0876861766936b0cbc557442676dc3594a195ca45f4146"
+    },
+    {
+      "path": "overlay-integrated-51abd75/tenka-scoped-source-archive.py",
+      "bytes": 3348,
+      "sha256": "d7f1fd477c0583eff8237e13c34e7c77a594a8552ca6211a958536da2287ab1d"
+    },
+    {
+      "path": "overlay-integrated-51abd75/tenka-validation-capture-961f0ae.py",
+      "bytes": 1722,
+      "sha256": "888e8cf09de8e6cc4191194d69168974601d5397ffa4991ac3c981c8531f1710"
+    },
+    {
+      "path": "overlay-integrated-51abd75/verify.py",
+      "bytes": 2535,
+      "sha256": "cfc1d49879ef592bbaa93dd11197438f7ddd7ea4cafbe10c2feb60f8285cb455"
+    },
+    {
+      "path": "native-full-suite-8ea965a/README.md",
+      "bytes": 5063,
+      "sha256": "b4c24f4c0f0c94c37839835fe37fddafb4327ac8f1b6ea079fd19ccbd820eff2"
+    },
+    {
+      "path": "native-full-suite-8ea965a/artifact-inventory.json.gz",
+      "bytes": 497913,
+      "sha256": "5bc0d1b65d1ce03eddf03d439eb963e91327105fc7d2fb260530ec5f49281727",
+      "uncompressedBytes": 5409023,
+      "uncompressedSha256": "37be5737dd5d3027f58aa5cd530ce8ccc2b5f013441bbbe52f5d3fc0462444d5"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-court-rank-lint-51abd75-01/command.json",
+      "bytes": 295,
+      "sha256": "4c49a9a0bc3db196d0d49acdf06ff733f1f651ba6f511b292ba985da6259ebc4"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-court-rank-lint-51abd75-01/process.json",
+      "bytes": 19,
+      "sha256": "8353bc8cf3d0ff4ee714bb2e616a19e3d3a4aa8d168f56e93261af9b2c144076"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-court-rank-lint-51abd75-01/result.json",
+      "bytes": 73,
+      "sha256": "9033ef0a8112ee628c2df6705595006a0aac7ffb396c67432d236e4401c59664"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-court-rank-lint-51abd75-01/stdout-stderr.log.gz",
+      "bytes": 82,
+      "sha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5",
+      "uncompressedBytes": 66,
+      "uncompressedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-court-rank-save-tests-51abd75-01/command.json",
+      "bytes": 362,
+      "sha256": "9ba3839ac4ecf2d17c8b8ef4406c87f2c8c3731ed246d0fe65ad6f3153efcb66"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-court-rank-save-tests-51abd75-01/process.json",
+      "bytes": 19,
+      "sha256": "cc47218de84d0be8ec3dff2410ce5ad69e9c2dfd7b008f4a04fe5ed47a7ff74c"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-court-rank-save-tests-51abd75-01/result.json",
+      "bytes": 73,
+      "sha256": "1745d9dd5fb3b80bb28717ca3c8be080cfa4b2fd6efa8b5f60bdca7ab23c8e1f"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-court-rank-save-tests-51abd75-01/stdout-stderr.log.gz",
+      "bytes": 260,
+      "sha256": "01e33878135a0186f01852b38ecc690448a1f0c674a5edf90e79cc20800c1200",
+      "uncompressedBytes": 401,
+      "uncompressedSha256": "fcfca33f6747fef9f4ac11c7db1557c190ac3aa00d2161d877c87452ede81fd9"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-court-rank-typecheck-51abd75-01/command.json",
+      "bytes": 172,
+      "sha256": "e66b62d3389f44a686abcf87fa295830b8db9052efcde1b7108c7a32793681a7"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-court-rank-typecheck-51abd75-01/process.json",
+      "bytes": 19,
+      "sha256": "f5a8e722f80eae6eab90c56eac8b61cc075eb676679829ed5c2f44ee69e5506a"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-court-rank-typecheck-51abd75-01/result.json",
+      "bytes": 73,
+      "sha256": "e071c75dab040d1647d514db03b31880dc6479bae8f05109c5b40e0673c0e515"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-court-rank-typecheck-51abd75-01/stdout-stderr.log.gz",
+      "bytes": 87,
+      "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+      "uncompressedBytes": 84,
+      "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-scoped-delta-51-to-8ea-capture-01/command.json",
+      "bytes": 364,
+      "sha256": "373077c4ed395b36f0f51d1aa0190408c8c33b73309348d932408a3a8a797351"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-scoped-delta-51-to-8ea-capture-01/process.json",
+      "bytes": 19,
+      "sha256": "804133c93fc446bd057a23d55627d5e252462400f5c164030a3ef6e946e95e64"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-scoped-delta-51-to-8ea-capture-01/result.json",
+      "bytes": 73,
+      "sha256": "4e207045cf7dcf89d5f59e90b8226e4c4654f83c80eb643081b4ad4e205b5767"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-scoped-delta-51-to-8ea-capture-01/stdout-stderr.log.gz",
+      "bytes": 148,
+      "sha256": "d6b436c376b9f1c8decc32412281fbffe0a60df23d2ca75ce12f4c4f8af685a2",
+      "uncompressedBytes": 160,
+      "uncompressedSha256": "b191644dae94d5a7ffd340c96aab4ce4faf6ce54c008dd49c229720075a224ef"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-scoped-delta-796-to-51abd75-capture-01/command.json",
+      "bytes": 369,
+      "sha256": "5be2f17ff4f986149bcb9de5961a87f54d60c5b58ac33387497adc6971f38636"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-scoped-delta-796-to-51abd75-capture-01/process.json",
+      "bytes": 19,
+      "sha256": "21879a1ce1700c5ecef63b47ca07c9f09edfa612b0cb3a514fa66364a365d17f"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-scoped-delta-796-to-51abd75-capture-01/result.json",
+      "bytes": 73,
+      "sha256": "da28665620fba6e98bf266360dc54222791322067a4f30f7a878b3656995bd1f"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-scoped-delta-796-to-51abd75-capture-01/stdout-stderr.log.gz",
+      "bytes": 151,
+      "sha256": "52b8280de115652c5fe02af47be52f6abeab934bb4a2593f03bb561339c9b5a9",
+      "uncompressedBytes": 165,
+      "uncompressedSha256": "bb0dd0447b6cd5750d59856314d3d0dd0ded6b7a904574d7e2fde85081309772"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-scoped-source-base-79682cd-01/command.json",
+      "bytes": 372,
+      "sha256": "dc51fa87825107ecd0453f9c2aee4a8c6b8bc6e6660d2425d655d95b855589d2"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-scoped-source-base-79682cd-01/process.json",
+      "bytes": 19,
+      "sha256": "4d31f22058517a457d8616c2dee89f1a6a007d42d3ff5dc1695d2ab13cde0092"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-scoped-source-base-79682cd-01/result.json",
+      "bytes": 73,
+      "sha256": "01239121d6570815e7d1853f1c8db77f40af649c76ce60c05f2cd9ece00c779d"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-scoped-source-base-79682cd-01/stdout-stderr.log.gz",
+      "bytes": 155,
+      "sha256": "9e7f1c95f7a32ab1b2447a70ba517f9324a05f50769b0f4fe0d8c5eae5e06dc4",
+      "uncompressedBytes": 176,
+      "uncompressedSha256": "be9322c65dbc1ddbc8cb706d4d31489ac9a74ff39c9b645ba9811e3931b963b1"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-artifact-inventory-transfer-01/command.json",
+      "bytes": 229,
+      "sha256": "1077442e1dd572ba15f84d88d856ab2de5ced42e76644099884a33b7c3da563e"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-artifact-inventory-transfer-01/process.json",
+      "bytes": 19,
+      "sha256": "33b7a7c3e294fa25ab6cb794c473ab9218d726da3ebf24268a6bf8c6d1741e91"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-artifact-inventory-transfer-01/result.json",
+      "bytes": 73,
+      "sha256": "b9c371022584102ccf5d48d3b7ad96586072e125794d215fb03901fabec49aa4"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-artifact-inventory-transfer-01/stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-inventory-extras-01/command.json",
+      "bytes": 294,
+      "sha256": "7a1f69423650cb589f964fac48197e9f1a1c7346f53dace860018a385b8ad999"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-inventory-extras-01/process.json",
+      "bytes": 19,
+      "sha256": "182d88250cfd5e303038fda63e651bf40bc8250fbbf575528c4a1fed3dd2b9e5"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-inventory-extras-01/result.json",
+      "bytes": 73,
+      "sha256": "6a155a52a7c0e5940db28b450bcef9b1fd1251db0c6ce53616f5bfb37d93b841"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-inventory-extras-01/stdout-stderr.log.gz",
+      "bytes": 149,
+      "sha256": "ded46888532628a10b6d470bd4794c0c2d242f2fa8593afa9c72051a3cfbf957",
+      "uncompressedBytes": 162,
+      "uncompressedSha256": "e0b7ffb373c89178127adadd3f4e38d63e784c48250ee0c1ab6f3ec6a6d2eb37"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-inventory-verify-01/command.json",
+      "bytes": 294,
+      "sha256": "788bbf8a38e2c438e812dfd0ec41a935f3290cf3c02de08efc4c694176688c6a"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-inventory-verify-01/process.json",
+      "bytes": 19,
+      "sha256": "953cbbb8125c4de55809227a48f1fd005f423185593b0bd3374ce133f09f0acf"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-inventory-verify-01/result.json",
+      "bytes": 73,
+      "sha256": "633307fc294b05e62cd78ff6a52b2d3686ea1266a2d386e14247ad8639e37533"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-inventory-verify-01/stdout-stderr.log.gz",
+      "bytes": 110,
+      "sha256": "46485972aa89cd6225b3472c3f1e81933edaa80ef8133eea07f3dad93ac96a5f",
+      "uncompressedBytes": 98,
+      "uncompressedSha256": "1e767eff64bac7f2f9f87ad59edafa4227f61e22f5863c19e2aedbf12a462517"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-manifest-transfer-01/command.json",
+      "bytes": 265,
+      "sha256": "435f65c9cb57ea7c9a808c5c07073b25787ec835e495076398755be41f5d5bb7"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-manifest-transfer-01/process.json",
+      "bytes": 19,
+      "sha256": "2af32cd8e2f5fdf38597caaa1d6785d67bf8891989ff01da8fb5475e09bdd604"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-manifest-transfer-01/result.json",
+      "bytes": 73,
+      "sha256": "789cc8a333bf15af164b5b347e1f83f760ad8606b773a7296496879a5195c3b6"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-manifest-transfer-01/stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-readiness-02/command.json",
+      "bytes": 315,
+      "sha256": "ba496f08c99186d077bb6947930535a4e97fd1575647ab5a663d3595ff5c7ee9"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-readiness-02/process.json",
+      "bytes": 19,
+      "sha256": "89d6d2f07b5ca68fdfbd2236c5b0034969b4b603ce0ea389a79e477a1fda22f8"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-readiness-02/result.json",
+      "bytes": 73,
+      "sha256": "afeb2c7a46cc4a26ac7b8596a581cb445d9e5458eb18e0e94ed9cadcc21dd432"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-base-readiness-02/stdout-stderr.log.gz",
+      "bytes": 169,
+      "sha256": "bfb18935c9e4e90d5f9b851b8494522363dbdaebd0db311077983905af109b85",
+      "uncompressedBytes": 223,
+      "uncompressedSha256": "86db1a9a666d280786e925b7398ee109e1eb45f84016ee5fd9200b6d84a8d06d"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-build-51abd75-01/command.json",
+      "bytes": 301,
+      "sha256": "71da562c64a77f3470dc62eba6c4db0ff7c3821d717ac48d748f8f7d9c41fcd7"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-build-51abd75-01/process.json",
+      "bytes": 19,
+      "sha256": "52f0c6d449cd648a92353b41c9ab3c742b383052dbe8c7f7d10ef21291535d00"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-build-51abd75-01/result.json",
+      "bytes": 73,
+      "sha256": "54d8c5f983ac798dffff7c7a464aeeab231c9c44318aca6deee1f45f373798bb"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-build-51abd75-01/stdout-stderr.log.gz",
+      "bytes": 936,
+      "sha256": "39f599b1ebe6f10f7b49712460a137bc52071f4b970b669a9f7a6a2af6619ece",
+      "uncompressedBytes": 2336,
+      "uncompressedSha256": "dfa669bcf8383c4e6a90f49d3736ae18cb6257cd8bda1fa84a2bd5438b5430f8"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-build-8ea-01/command.json",
+      "bytes": 301,
+      "sha256": "cb725d472b564438bd07b44d5c5fc1acf17e10b8ae9c32d58f7a7a21f97e803a"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-build-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "7cc5fe9e33c1044c46318fad28a076025cf48a1cc86809525d22b53b39d3287b"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-build-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "0cfc67ec8a1377298368a5644d8722060ce6e88e139e1eeca464894644a2803b"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-build-8ea-01/stdout-stderr.log.gz",
+      "bytes": 936,
+      "sha256": "1bd18825e05542af7d68a813d2c50ed00f3598c8cc77267c46c808affd5a8af0",
+      "uncompressedBytes": 2336,
+      "uncompressedSha256": "e126b2c343609320cef6395434e8199e8a15621e82c9fdf8a8e23b1a2288401c"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-court-rank-before-overlay-51abd75-01/command.json",
+      "bytes": 357,
+      "sha256": "9fa8181ebdba09547e262e43527b03a04d1ebcf48fb7c39357192cb0e6bfcbc4"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-court-rank-before-overlay-51abd75-01/process.json",
+      "bytes": 19,
+      "sha256": "7ce932c465ce5b2dc90b05d103c0566316ea17e41b056ad9816cf71e19aad81d"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-court-rank-before-overlay-51abd75-01/result.json",
+      "bytes": 73,
+      "sha256": "c2bcfd57ceab4d1a52ddae06c7609045a545c93892f4595d96f3aa9de99b145f"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-court-rank-before-overlay-51abd75-01/stdout-stderr.log.gz",
+      "bytes": 171,
+      "sha256": "4302008f4a9a43356a36af93552544de22c8488d05154a89bcfcbfafda00a2b9",
+      "uncompressedBytes": 225,
+      "uncompressedSha256": "6abbfa49c86d5e3be2ec7f6f02bd530731c8ba3b703525f5338108ca079020d7"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-court-rank-overlay-51abd75-01/command.json",
+      "bytes": 265,
+      "sha256": "6a6995764ba51feae53a7850eaa37c7bb2ff75aea8b3ceaa6b2f50fc284c13ef"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-court-rank-overlay-51abd75-01/process.json",
+      "bytes": 19,
+      "sha256": "90ceb6c06600e6b8c00391a011779c563c0ee9f9a16f6837202e7be572b3d277"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-court-rank-overlay-51abd75-01/result.json",
+      "bytes": 73,
+      "sha256": "6356aecf313cf317795760da8bc8834f2d72e08942aa08e3086c45e15b240fe3"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-court-rank-overlay-51abd75-01/stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-delta-transfer-51abd75-01/command.json",
+      "bytes": 335,
+      "sha256": "c78f5b14e726f04794eecf1111ac15a5963eb2051410cd366d776f06cc213c01"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-delta-transfer-51abd75-01/process.json",
+      "bytes": 19,
+      "sha256": "ccbb6c45e3fad9a9263db6c101bd530f3dc8b5101570d7196922f8e0b6940bf6"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-delta-transfer-51abd75-01/result.json",
+      "bytes": 73,
+      "sha256": "f97105c266d8083ccf234f83c5194ccc26810bfea1ddaad3b7ad0f7ecdbd69eb"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-delta-transfer-51abd75-01/stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-deps-before-51abd75-01/command.json",
+      "bytes": 391,
+      "sha256": "27d9974341af554b8dd7c36f7ed53b4fd31b5b421a57a268312ce67c1f8d38c2"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-deps-before-51abd75-01/process.json",
+      "bytes": 19,
+      "sha256": "9eed8378f97da52f1d5b087e08c11ec6b8c5a093ee79b081ceaeeffa52600384"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-deps-before-51abd75-01/result.json",
+      "bytes": 73,
+      "sha256": "beb63cfd5dd12631469b1839b0d7db8678362ba5119925e42e4df19e034961ac"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-deps-before-51abd75-01/stdout-stderr.log.gz",
+      "bytes": 535,
+      "sha256": "4a9124dd0fdb46190785b1dffb33ac6956819955a3a32106426d99fa04178615",
+      "uncompressedBytes": 1165,
+      "uncompressedSha256": "61fe801815ab44403ce2c239a6c4b883735d1cbfcadd544040b164b09c00f708"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-accessibility-51abd75-01/command.json",
+      "bytes": 356,
+      "sha256": "d3db11e7ae54209b048ce1a9385aa9f12c225a54cac925c59c5bb050dc3f9c8a"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-accessibility-51abd75-01/process.json",
+      "bytes": 19,
+      "sha256": "3a07a927f707ee34a7fd5dab8d2917c143c5e4c878ad0edc303b79575c404959"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-accessibility-51abd75-01/result.json",
+      "bytes": 73,
+      "sha256": "ca98ebd92d3d87e486d09498cd9ae3d3000da5a6dd236d46d4fb4744a5cd7512"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-accessibility-51abd75-01/stdout-stderr.log.gz",
+      "bytes": 213,
+      "sha256": "ad3cde9798627f0c1640765f0636ddd200919d58b30be2e41fc5718611fe7137",
+      "uncompressedBytes": 302,
+      "uncompressedSha256": "1d0e18df1b911c4f130c7dff0b8f3c6d6dff0861785077fccc1633b110f54fe5"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-all-fixed-01/command.json",
+      "bytes": 330,
+      "sha256": "9777ca8df80090be16ee9c279c3fa550e8e060819c3304d4371be05ac932ff2f"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-all-fixed-01/process.json",
+      "bytes": 19,
+      "sha256": "cbe71d836d24c1890dacf90301befc18ac26866aaae3bb1e7feb2496bc914412"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-all-fixed-01/result.json",
+      "bytes": 73,
+      "sha256": "b9880eba47e830f63b64924d24c47d196e49c34cb255d9a32a699bc14165df83"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-all-fixed-01/stdout-stderr.log.gz",
+      "bytes": 9110,
+      "sha256": "9df0772059140267c689ad1af268070c33046f36eac17ccfd8d869532e031621",
+      "uncompressedBytes": 49304,
+      "uncompressedSha256": "ce80423f2669cf4bc49337966e7aa277cc1ab4146650932119d0ffe94f8fdde4"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-court-rank-51abd75-01/command.json",
+      "bytes": 353,
+      "sha256": "4d14d7888a743954f4eb3308bc1bb6c8616f2f6886e790b4c7dd5bcf6b79e735"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-court-rank-51abd75-01/process.json",
+      "bytes": 19,
+      "sha256": "d6e3056c688b03d30e5a639616c0866777d6a0fad2f2db642fda21e30a443657"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-court-rank-51abd75-01/result.json",
+      "bytes": 73,
+      "sha256": "43465532bcf48d1c25cbddba7d83b6d98654e1deed606e2b5691c4f6942c9895"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-court-rank-51abd75-01/stdout-stderr.log.gz",
+      "bytes": 249,
+      "sha256": "6e78dbf5a6d04cb126119f7d47747e57b0b9af6303b73618720f1ad5363a56c6",
+      "uncompressedBytes": 335,
+      "uncompressedSha256": "82dc615a258122f1d83c4029b7ac9ee16cfd81ccbc16776f7268a568c7658f2f"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-court-rank-fixed-01/command.json",
+      "bytes": 389,
+      "sha256": "ce49a8fa68b61a93058abef524499413b1aea425a4415d356ad43a8a9af58d66"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-court-rank-fixed-01/process.json",
+      "bytes": 19,
+      "sha256": "9dcaa0476d813efb205851e75f1f1af0be158d97deb26632f0a2fee7124be65a"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-court-rank-fixed-01/result.json",
+      "bytes": 73,
+      "sha256": "42c730a96b65662865794ea795447ca009153560e8ca8e6b843201f7c87ebe90"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-discovery-court-rank-fixed-01/stdout-stderr.log.gz",
+      "bytes": 207,
+      "sha256": "58b1408f4ce3e7336709845e74777b1086389d6d0a8ef6654983603e31a190d2",
+      "uncompressedBytes": 248,
+      "uncompressedSha256": "48bdfcb98ea061884e6a16d0725ddd6138d9e821b0de0913e74a720097c45f4a"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-generator-log-8ea-01/command.json",
+      "bytes": 336,
+      "sha256": "706860db37e28081bdad09ba304ce54734dc3fd68d2f14665cdc57607d5ca079"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-generator-log-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "b1350208f7ed4ea05fb09442f42100bfc399789ee57500f615a94a6043a107a6"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-generator-log-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "f42648a7ccc4d5c7695e50293676eea11c343b25673eb175b6df33f474b809c0"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-generator-log-8ea-01/stdout-stderr.log.gz",
+      "bytes": 1027,
+      "sha256": "aeb9e7f2801ba8b4c94d6e18f67c32eb5ac78d4ffdabe21a57017808e8974697",
+      "uncompressedBytes": 2920,
+      "uncompressedSha256": "52387618e7210a8960452b966b303f15d49db551b897d7512ed11256671e8bbf"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-three-archive-8ea-01/command.json",
+      "bytes": 716,
+      "sha256": "3f05355f54f383fe43820b9ceaa66fc85bf3657114b014c9fb95d3e3db38b37a"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-three-archive-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "8d80777e0cd9513669f63600740a4979cc9a32a1ceea1147c1b8f340ae7601a8"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-three-archive-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "34bf50a74a09dd3b7fc0a303d3209dc25ef7c6e67de1923e45e562da6a7ba89e"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-three-archive-8ea-01/stdout-stderr.log.gz",
+      "bytes": 110,
+      "sha256": "b284ba6770dbf9ce1d23b6ac04e5f31488126731fd6bf736554ab81874082ac7",
+      "uncompressedBytes": 129,
+      "uncompressedSha256": "2c4cc940f0662ee95fa461fd9c40ff63de61f4a66e54d1ffd1f6bb10d2fe59ea"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-three-copy-8ea-01/command.json",
+      "bytes": 281,
+      "sha256": "80cd90cb3ac45e64c55460ea3f8c6438e539647aa84db31648eb2258ce63009e"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-three-copy-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "ce0b39f1b67d9173b321b922d926b903ecbb3d0f91cebfeeeee5a2977c20bbb2"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-three-copy-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "fd8ed96b31cb6a8b277092af1962a23acb0e6363d8ab0a022273c14959283a79"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-three-copy-8ea-01/stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-three-logs-8ea-01/command.json",
+      "bytes": 458,
+      "sha256": "2568223bc1e049b3a0090b7df339c1d9888e28a39f531def7ad63a24080d5e53"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-three-logs-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "a4d37cb4a164a9a2db8949fc974bc95dd75fbaf746fd7d34702a544b43356d2e"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-three-logs-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "8fa86c9aa17e579934b279e9709060d1a27c460b4c88523f9e698612ca11f927"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-earned-three-logs-8ea-01/stdout-stderr.log.gz",
+      "bytes": 496,
+      "sha256": "a729a0b92b3d21be7067a1b98405e00663faeaa5cb5d706227054f4321b5e1d5",
+      "uncompressedBytes": 1491,
+      "uncompressedSha256": "bf03b7cbaf336bb987fbe08411f4cabdb3e8d7da6ecaa41acc495e4facf9abf9"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-final-manifest-transfer-8ea-01/command.json",
+      "bytes": 291,
+      "sha256": "a7a7494946f12c2a3e100154d00d8c95655cb26816c0be7a930022dd0d2cbf29"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-final-manifest-transfer-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "a4008f9df6b33385e4ff8ba530c55f389c2aca29f157aaec72f28eeabaeb3f41"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-final-manifest-transfer-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "47de81d32ec2e1434dcf411c1c7fa827899c18ea7565d77494aecd874e60423c"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-final-manifest-transfer-8ea-01/stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-final-postproof-8ea-01/command.json",
+      "bytes": 482,
+      "sha256": "b8a511395a0a022ef454f91ea1e43f3185ad88aac6dd5f85816beb2ae782977b"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-final-postproof-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "60ace58c2d8e0c3e20b2ac3be0047e900ae75c3620231733a35dad24d6f52e19"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-final-postproof-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "5681e2de2767f5fe3ffb830c8b606a20feaba6fe95ad736d7daddf1eeaa09dfe"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-final-postproof-8ea-01/stdout-stderr.log.gz",
+      "bytes": 660,
+      "sha256": "df0a2d25df78dc4a4eed7faa5b68334fa0a0205b42cdb754aff7e6809b39adbc",
+      "uncompressedBytes": 1352,
+      "uncompressedSha256": "ea60915e8519250d6baaef9f3c2c9448492fb707b023a4a78652b3f229f062ef"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-final-preproof-8ea-01/command.json",
+      "bytes": 482,
+      "sha256": "4c89f1d56fc979bce6177ba7a381cf9e08ab2d96a8616f4c257ad6a8cb89a39e"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-final-preproof-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "135fd0c8ae7db943c8b2debac1b891fbf8e5eb3c238ee6f640eea7995f7d0072"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-final-preproof-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "8d73f3af4b0719d45c4e63e72e1848da07d4de895d6f6c6cc8cf2ebffb79b926"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-final-preproof-8ea-01/stdout-stderr.log.gz",
+      "bytes": 660,
+      "sha256": "df0a2d25df78dc4a4eed7faa5b68334fa0a0205b42cdb754aff7e6809b39adbc",
+      "uncompressedBytes": 1352,
+      "uncompressedSha256": "ea60915e8519250d6baaef9f3c2c9448492fb707b023a4a78652b3f229f062ef"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-artifact-inventory-8ea-01/command.json",
+      "bytes": 426,
+      "sha256": "8135d1ddf7ea2b9bad41f35c0f394606208d93677ebb10c941ca1aaad055e49a"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-artifact-inventory-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "59b04e6649add5b9d7c30394769fac0a3bef65c36a927424c1176f2de6499299"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-artifact-inventory-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "b9a4b60ca6d348acd04b9fa284868fa9f0167282e6fa3cbd4d3d5f051d81b505"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-artifact-inventory-8ea-01/stdout-stderr.log.gz",
+      "bytes": 1065,
+      "sha256": "50cd0d773e2b5c8c40abc0fec7a3ef410f6e61d7f3a79f93104e8f80a8453cd6",
+      "uncompressedBytes": 3602,
+      "uncompressedSha256": "4a0eed5a2578e379447e099b8918929909f17f09cfe1ce701462315c81375def"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-json-peek-8ea-01/command.json",
+      "bytes": 363,
+      "sha256": "1d91294a86d742aec789e9f271bd2bad8a8bc5d0ee9b3e7070c6c690ac13bc1b"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-json-peek-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "d905063bf196db19d27474b2f2b6c252f48f4f5c0bb92ef6964dcdae468ea592"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-json-peek-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "d895f7891e378c2ca33047a8f4c536d7eae85781c8a9e9b4dbb83128185a0c4a"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-json-peek-8ea-01/stdout-stderr.log.gz",
+      "bytes": 154,
+      "sha256": "4fd117d57f373bf1d4ceff0647ef8639e4151d4697bac6cd14d5e41df30828bb",
+      "uncompressedBytes": 173,
+      "uncompressedSha256": "2c1cc09d9f4c09237b007a9ae97f0bbdf6836e7413090cae53c693246ad9727e"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-json-summary-8ea-01/command.json",
+      "bytes": 286,
+      "sha256": "7bd849d8b5481285b247137c4d894bcf65ac7fae77e073ef49906c10758c4f3d"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-json-summary-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "d951ee6db63c6b25537baac5bbac17d3dca3308958cce4d782b4cf93f4e1b92b"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-json-summary-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "c1cd4cbb472a8e7ba7e4a5aa19e798d705ff439c7bd8742fe0c16477dfd3a941"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-json-summary-8ea-01/stdout-stderr.log.gz",
+      "bytes": 8497,
+      "sha256": "7cf64de9e571d1744a85f3303b0417fcfecb32d6339e3337826f807053332f35",
+      "uncompressedBytes": 56825,
+      "uncompressedSha256": "d5c96c6f1b41597d35c90a91620af5c3175eb699139a6c665658d6a389d50438"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-json-summary-8ea-02/command.json",
+      "bytes": 286,
+      "sha256": "3de603d1d01cf30a08145575c0ddcf97ddb20f389caceef5da759b5935a19a50"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-json-summary-8ea-02/process.json",
+      "bytes": 19,
+      "sha256": "17172a2d6b5aa32061f87c512fab9e8e392f668ebcd021a1450a2181459768b2"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-json-summary-8ea-02/result.json",
+      "bytes": 73,
+      "sha256": "7603d28dc69d694a0937124e99c3a8b1e11b9ddb95ed069e0b84aae75ba068c8"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-json-summary-8ea-02/stdout-stderr.log.gz",
+      "bytes": 9506,
+      "sha256": "89723ec1131117fd13eec38395b958b3084ee0dcc71c593a7cea93a07cdf52a8",
+      "uncompressedBytes": 72509,
+      "uncompressedSha256": "c093570b1ee85a338f34ba6157627f5fd09963f1bc4a38fdb29c044baaf9e088"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-orphan-detail-8ea-01/command.json",
+      "bytes": 301,
+      "sha256": "3cfed44b3e1c43efac0eafc85faf81bc5ce208fbe51a14451f97d35a9272ee64"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-orphan-detail-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "5a437fdec5052456c5f10edc94b93bfc84acc94ad92bf04ac1b595613f2b63ee"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-orphan-detail-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "e53f6fad4230f0772ebbe15b7d62df5565d689c0500f7960da1e92aca80689c9"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-orphan-detail-8ea-01/stdout-stderr.log.gz",
+      "bytes": 98,
+      "sha256": "023064231666febbffe2dd0f80242f9872ff0d6d4450078f78595735133ee863",
+      "uncompressedBytes": 97,
+      "uncompressedSha256": "1a6e12a8313a46ccd7a97d25533e60e28a1d0199f0625d2c05342abb46c3fd24"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-playwright-51abd75-01/command.json",
+      "bytes": 537,
+      "sha256": "cb0ce3164088604501c1acbd3c72fbc1eaf1c01ed0bab7fa52fa087e12d5e661"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-playwright-51abd75-01/process.json",
+      "bytes": 19,
+      "sha256": "049bc77d718d5e469e3e01cac6075936c08fec8ac67e53314903c06c33618c8c"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-playwright-51abd75-01/result.json",
+      "bytes": 73,
+      "sha256": "2ae6e86590d66ff94e5063b8ac99b47f7e39044e361374f8534c5f9fc6468059"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-playwright-51abd75-01/stdout-stderr.log.gz",
+      "bytes": 130,
+      "sha256": "5d3a9caa7d9882f196ed062e68a96d7dd25261e8a30fe4f110db3b63114995ba",
+      "uncompressedBytes": 128,
+      "uncompressedSha256": "7c1787d909efec3a47cb14be90618a616f11eb1887c84167be17a7c581fce2aa"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-playwright-8ea-01/command.json",
+      "bytes": 521,
+      "sha256": "18cd5d61a716075c25577b5b247038691d8dd2f825eda66966b9fa2aa1d6f500"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-playwright-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "e0d5da32941f345063100f360533c1988de41ab1cc2ccf482f9dbd234cbe7517"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-playwright-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "f533f4cfde7c59178e6df1472f61fa697c1fd85b778645d846d0ba0be48678f7"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-playwright-8ea-01/stdout-stderr.log.gz",
+      "bytes": 13056,
+      "sha256": "bc6bc8f7b98d6d82f98de1b4a515d2bbd3156c218c2f739f49b515849627beed",
+      "uncompressedBytes": 96979,
+      "uncompressedSha256": "fee59a19bf913ed14df76537609d7651c7e7c11f30ed64773b281b5db2cec88c"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-postprocess-51abd75-01/command.json",
+      "bytes": 288,
+      "sha256": "e02bb36a2e7eb4f6e93d3a14cbb1ef262333ace5c07675735921a2c55228c712"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-postprocess-51abd75-01/process.json",
+      "bytes": 19,
+      "sha256": "2a204e2a561a74fa0861e5ba2cbf70525d1d52f1607d42275513f489482e4715"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-postprocess-51abd75-01/result.json",
+      "bytes": 73,
+      "sha256": "a1a66ddf9993fddfa19bfd72c32394ac02527460706a1dc3ea7af850d645dbc6"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-postprocess-51abd75-01/stdout-stderr.log.gz",
+      "bytes": 169,
+      "sha256": "03d17c8696a810004c3549ab8c9ed444769f3da143153809f4d6f8bee80fab0a",
+      "uncompressedBytes": 290,
+      "uncompressedSha256": "3c930b5900b1108589f028980310bcdfb25864af0c37bad6304760a9c3008c0a"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-postprocess-8ea-01/command.json",
+      "bytes": 288,
+      "sha256": "50e6adbc3150dee63aabd69a92819091ce90077400f16353736c6a2b63c1cdbe"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-postprocess-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "c53a1a34a562dc6ab9a783a7ba9eb59031ab4bef54696e36dc4394dd7ad9957e"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-postprocess-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "d04778d5aee5ae00c59a5c4ffbbb298beac48129a8a21c2dc2b05b9c019d8308"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-postprocess-8ea-01/stdout-stderr.log.gz",
+      "bytes": 279,
+      "sha256": "2784aba10a5f87f570087e492283bee13405b50556d913b498e374443de529bb",
+      "uncompressedBytes": 644,
+      "uncompressedSha256": "9c51dec36cd4c65aae7163b342c262965c559282eec828700104d11a5a0b4fdb"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-postprocess-8ea-02/command.json",
+      "bytes": 297,
+      "sha256": "0ebf2ef9eaf75495874001ad958505360b352f4b784b70f8eeab4f0f9d4ea37b"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-postprocess-8ea-02/process.json",
+      "bytes": 19,
+      "sha256": "4dc1e3b26ac8f82a0ea87edb8964ca5be97323ef85179b0d9b7f7f48ef2e7858"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-postprocess-8ea-02/result.json",
+      "bytes": 73,
+      "sha256": "eec3aa99c0a73a7e02fd374b700ae1a9b9c36d45a8b76b347d4a28dda17c1406"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-full-postprocess-8ea-02/stdout-stderr.log.gz",
+      "bytes": 178,
+      "sha256": "5f90a5f7db42b57b46c4f60b7c963d2a839346512aa980215b68e79b4a4567e0",
+      "uncompressedBytes": 325,
+      "uncompressedSha256": "3edb88e2ff058998ef7282e481a1a47c96b8b0bef53a4b738ebc405434910d9c"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-inventory-verifier-transfer-01/command.json",
+      "bytes": 239,
+      "sha256": "066435b9df407682ab61739e5bc58966729f610ce3529743591e312b15e836de"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-inventory-verifier-transfer-01/process.json",
+      "bytes": 19,
+      "sha256": "7f5c02264f9e301adcb39b7b20a8741129cf36ad2e7125f4c29bc77cdb4305b0"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-inventory-verifier-transfer-01/result.json",
+      "bytes": 73,
+      "sha256": "97026e0367c29dfd34b146f99b80168061aaeaad75ae4a64a3490e7e5d62eb12"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-inventory-verifier-transfer-01/stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-inventory-verifier-transfer-02/command.json",
+      "bytes": 239,
+      "sha256": "50a8aefa4ae042042a412f3d39786d2103cd28e232cad546a1ce125c2739f4d4"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-inventory-verifier-transfer-02/process.json",
+      "bytes": 19,
+      "sha256": "694145a8db9636078059ea31e7490d46c5911173185925556a26c395fe5bb586"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-inventory-verifier-transfer-02/result.json",
+      "bytes": 73,
+      "sha256": "4c21d11f4980e7a37dcab36b002c3dab2096759bfa18f304520d5ceb004443a0"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-inventory-verifier-transfer-02/stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-isolated-earned-artifact-8ea-01/command.json",
+      "bytes": 461,
+      "sha256": "a646e48e835b85592f92695ae4a066a0742cf70e9893730a8516cc77cdc4f926"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-isolated-earned-artifact-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "c3eecc2c03df820261dd1179780ce3e0da85a3d6363bb7a9401c56f6a91d39c3"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-isolated-earned-artifact-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "7764f7c8377c40b6fb4c6f34a9c26f229e4be706772fd81ea72669843d4714a8"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-isolated-earned-artifact-8ea-01/stdout-stderr.log.gz",
+      "bytes": 154,
+      "sha256": "8e40ae57aac2532d13e9d7b6b93740b269cc031a207a6f9841830c1cc6c36353",
+      "uncompressedBytes": 263,
+      "uncompressedSha256": "858589d3b9b80d6aa7227f6f1b13f0455a890e8d5cf3a4ad06a2f10233382f43"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-isolated-earned-copy-8ea-01/command.json",
+      "bytes": 306,
+      "sha256": "5cd0362a2f87356793c0b78312fb47ae4c29cc92bf7800a703880e201da8c80a"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-isolated-earned-copy-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "40a5c6b745e0c34b7d59dbae337b0b6d28578da70428f3d94c56c7ad1e863b36"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-isolated-earned-copy-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "e4ca08e892b7f2626dcfca34217f0a1de306d93d7fcae1d789421a22a4cf7279"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-isolated-earned-copy-8ea-01/stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-isolated-earned-generator-8ea-01/command.json",
+      "bytes": 765,
+      "sha256": "632158add1577cde3fa646ee0da3b1d921be9d15794e86ce2983678b99885dd3"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-isolated-earned-generator-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "89ba66ac773ed58d4fb9b1d9ab06e7118fa978d2234f5de42ebf085cd8e25082"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-isolated-earned-generator-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "bfffe6c94b64c18c3d58ba2487d8d2e9b06181d20782bac3b27696c2df6be617"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-isolated-earned-generator-8ea-01/stdout-stderr.log.gz",
+      "bytes": 731,
+      "sha256": "9b250402c9e305f9eedc625e09fa5ddb11cefc94a8ae97bc5fb3a98deecc21b9",
+      "uncompressedBytes": 1828,
+      "uncompressedSha256": "e35b30823a478b8da83c3f93cde4427ae7403aef52024b7c63b1d96d527ccac4"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-json-copy-8ea-01/command.json",
+      "bytes": 318,
+      "sha256": "839af463bf49424a3cf6a8ce52c61fa78c7cdcb992b09a4b6f28128cb74df195"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-json-copy-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "e9378bf6fec8940f50cd380b69d25401b97e59a96a6bbd9a18018c1f6fedfd6f"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-json-copy-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "b647c52f1efc29c0938717816c7f1feacd6f75354fe08647a27ab3a5e40ad916"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-json-copy-8ea-01/stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-json-gzip-8ea-01/command.json",
+      "bytes": 408,
+      "sha256": "9f34290098b8a91db86fe7b10e12db01eece79f1cbea2596994b983aa614094d"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-json-gzip-8ea-01/process.json",
+      "bytes": 19,
+      "sha256": "887eba29b13d8ac3b6afe759e8d903ea901efd7874f8431a034c77317f6798ff"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-json-gzip-8ea-01/result.json",
+      "bytes": 73,
+      "sha256": "80edf8990b1805cd64cb50ab5b8708c9e8e6452deed27bd0ec56149ab529d2af"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-json-gzip-8ea-01/stdout-stderr.log.gz",
+      "bytes": 242,
+      "sha256": "2ae957f1f6232f532dcaa55e10c2a0f587e7c9004ce3311edc95fe6e464996a9",
+      "uncompressedBytes": 429,
+      "uncompressedSha256": "c1752931f9f7681db70e3c95fd24f3201ff4416b60ddb12d41edf6e51edb9a4b"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-report-parser-transfer-01/command.json",
+      "bytes": 243,
+      "sha256": "38bf64443322924d45668e680c6542300fce01f8182130d20ff2d6e55e6fa71a"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-report-parser-transfer-01/process.json",
+      "bytes": 19,
+      "sha256": "7d29d0a1989e6bb02cc8c81a2e29697df6f271cb2c19640021cc6bdeabcfc94f"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-report-parser-transfer-01/result.json",
+      "bytes": 73,
+      "sha256": "2f9c07592f8bcd6b66701ab31324f55e5abfee26b07b49dad0f9370c14d1b015"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-report-parser-transfer-01/stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-report-parser-transfer-02/command.json",
+      "bytes": 243,
+      "sha256": "92cc12b7b55d4e5f01b3aa1d397996c0eb41dfbaffa46dc53e534958a25c15c8"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-report-parser-transfer-02/process.json",
+      "bytes": 19,
+      "sha256": "a17ab7800f69e372ac7be56a091d586d7e5e1e85627037267eaf521f958b1e16"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-report-parser-transfer-02/result.json",
+      "bytes": 73,
+      "sha256": "3c4d9fc21f593118e627df39b8563f1ef156da737682f02a6d792a1d79cc4940"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-report-parser-transfer-02/stdout-stderr.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-source-overlay-51abd75-01/command.json",
+      "bytes": 480,
+      "sha256": "5f219c5a3bc356bc80be132f2eb837a1589676db66a25e2355cc70a001ecca5c"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-source-overlay-51abd75-01/process.json",
+      "bytes": 19,
+      "sha256": "858c6ec01bc4a61ccf20355cef6bbb91bbfe0495f478f6badbb7fdd5fb99d946"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-source-overlay-51abd75-01/result.json",
+      "bytes": 73,
+      "sha256": "9ff20a8280b25e796201c69dcce60ec6f4ec8cc061a1ee19a82d439aaf1abd36"
+    },
+    {
+      "path": "native-full-suite-8ea965a/captures/tenka-sim4-source-overlay-51abd75-01/stdout-stderr.log.gz",
+      "bytes": 260,
+      "sha256": "216e9f73d32f23650dca781998e38c072b3a31c8e80e61560220a259c940c134",
+      "uncompressedBytes": 382,
+      "uncompressedSha256": "a93e7ad09e13da687652ad96c399ceeb1c0eb04ec6fbb9fe71d6089316344e6f"
+    },
+    {
+      "path": "native-full-suite-8ea965a/earned-generator-logs.tar.gz",
+      "bytes": 1492,
+      "sha256": "5dc33b9845778c83689f9930d10e12a3ff32c3f51dcac35cd55b479113a2cf75",
+      "uncompressedBytes": 20480,
+      "uncompressedSha256": "314563bc971a45ae8d9fb6bda818d949656b0a0806b0522728e5483a4b28a0c6"
+    },
+    {
+      "path": "native-full-suite-8ea965a/isolated-earned-regional.tfusave.gz",
+      "bytes": 15626,
+      "sha256": "ddccac62d19d0f37bf67e3a128053ead2da56dee0b51e1815c957163d6bacd74",
+      "uncompressedBytes": 155056,
+      "uncompressedSha256": "6fb93a190a467c5184580c45c2df1aadcf67b3d1b4bd447dc91a30ed001d9d39"
+    },
+    {
+      "path": "native-full-suite-8ea965a/manifest.json",
+      "bytes": 60612,
+      "sha256": "029b9d5e0709faa2775baf024cef551720fba9c767d26dd939df0a2ee5b8ee94"
+    },
+    {
+      "path": "native-full-suite-8ea965a/report.json.gz",
+      "bytes": 25637240,
+      "sha256": "59225f5e25afcc99565ff80c95300eddca7d5c8692b90f44a215b7e45c6ecd58",
+      "uncompressedBytes": 150570697,
+      "uncompressedSha256": "20d16a743204f763c65c98fce26db002a6086c25c65cb1c264d3cdbb8d5d0a2c"
+    },
+    {
+      "path": "native-full-suite-8ea965a/scripts/artifact-inventory.py.gz",
+      "bytes": 402,
+      "sha256": "e44b769fce64b92d27ff21826408052a7f9d919745b510be7a89d613b307064d",
+      "uncompressedBytes": 830,
+      "uncompressedSha256": "a81b88782e79d20de603d656efe591167a7f839593d728dfb69e6dc66e102ae4"
+    },
+    {
+      "path": "native-full-suite-8ea965a/scripts/report-summary.py.gz",
+      "bytes": 644,
+      "sha256": "d1bca96e25fe291ad9ef20f36e8c50ef631c06cce6630c74fef98bd49096a082",
+      "uncompressedBytes": 1787,
+      "uncompressedSha256": "fe2464e54b907b2f3090db19f5334abb2a4c179e22146c6761fcb5b2f495a381"
+    },
+    {
+      "path": "native-full-suite-8ea965a/scripts/source-inventory-verify.py.gz",
+      "bytes": 749,
+      "sha256": "a7298956cfd0cdbd96c98826597b3eab635776d441d9610110f028cc63528277",
+      "uncompressedBytes": 1608,
+      "uncompressedSha256": "410637d6b1ec06728d3e05ca72b9a0aab8c4bd3c8db7b1a3bcef71cfb2fa8a84"
+    },
+    {
+      "path": "native-full-suite-8ea965a/source/51-to-8ea-manifest.json.gz",
+      "bytes": 57425,
+      "sha256": "5cee4bce2374d4ed70f955fd8d5aee896e9e255b765667a0c2eff4ba99efe773",
+      "uncompressedBytes": 225131,
+      "uncompressedSha256": "d4258e53ff08cd2926ae435510f74ee7595eab13377ff35625644d070b253e49"
+    },
+    {
+      "path": "native-full-suite-8ea965a/source/51-to-8ea-source.tar.gz",
+      "bytes": 4780,
+      "sha256": "eb9fc069b81e23ed76f987e2fa7041fbb826b7131477315d75c97fe7d2ae0cd6",
+      "uncompressedBytes": 20480,
+      "uncompressedSha256": "a468011aefec5d83f67aa43dd69e9cf06aafd0102c8ca1e64223447fad094d60"
+    },
+    {
+      "path": "native-full-suite-8ea965a/source/796-to-51-manifest.json.gz",
+      "bytes": 57511,
+      "sha256": "c1504066679fcd1d6b03bbc9654e22fee2c63e6d4e3c0ea46f230487013674f2",
+      "uncompressedBytes": 225321,
+      "uncompressedSha256": "94d89e39470a9773018b65b9a33afb443ffcaeddfaa71a525ed1d15b7d7d3294"
+    },
+    {
+      "path": "native-full-suite-8ea965a/source/796-to-51-source.tar.gz",
+      "bytes": 10282,
+      "sha256": "2155ff5861b795bacdcb7caa9f3f02bdb1ea88a8ab890843ccc085bbdd29a5f5",
+      "uncompressedBytes": 51200,
+      "uncompressedSha256": "cd0f71c282fae3e3f83b1905b75a3311ccf9b0eff1a27be3f88e8679d7217eac"
+    },
+    {
+      "path": "native-full-suite-8ea965a/source/base-796-manifest.json.gz",
+      "bytes": 69046,
+      "sha256": "4fac1e15270624f5d93fb7f52a63b5822e4af7debc4e3169641043bb3f797405",
+      "uncompressedBytes": 297389,
+      "uncompressedSha256": "f85fd760021f2373b779172d656ce7134e3df4ceb76777ac7fa6910fd0ad7c35"
+    },
+    {
+      "path": "native-full-suite-8ea965a/verify.py",
+      "bytes": 3127,
+      "sha256": "3dd52841ed105d01a44e913d5bb0ed139b1b4b278c07d9f8879bc1772b9f2771"
+    },
+    {
+      "path": "battle-axe-3da2334/README.md",
+      "bytes": 2514,
+      "sha256": "82db7191c51949ec22ac7b82e18cda12f58d979b333fc8cc3bb720d668004b0b"
+    },
+    {
+      "path": "battle-axe-3da2334/SHA256SUMS",
+      "bytes": 406,
+      "sha256": "305561322ef5f191a138d94ca6eeb2ca77dd6b22a62e3093982c674ee0d79af4"
+    },
+    {
+      "path": "battle-axe-3da2334/local-raw.tar.gz",
+      "bytes": 416554,
+      "sha256": "a5bc583ce941bea3eb0cd04a55adaa63825729f5eb90e22a535e521805d894eb",
+      "uncompressedBytes": 2265600,
+      "uncompressedSha256": "447846490c1a96fe1ca7326ef23170f934f0021e79b2861ef81dc8daf7a969ac"
+    },
+    {
+      "path": "battle-axe-3da2334/native-raw.tar.gz",
+      "bytes": 59818806,
+      "sha256": "03d033ffdc9056618999fa0878c8f5057f451a8ef44bb27def00b023ddb5ce70",
+      "uncompressedBytes": 69928960,
+      "uncompressedSha256": "606f2ecd3d955bddc8631dfd8db3d1f49b0c28c6c3937ebbf4abea05606f6f2b"
+    },
+    {
+      "path": "battle-axe-3da2334/source-manifest.json",
+      "bytes": 225400,
+      "sha256": "0e37391d675e9d0fdafcefd510008b648145139dde98f75428b57793b9b0b5e3"
+    },
+    {
+      "path": "battle-axe-3da2334/verify.py",
+      "bytes": 5214,
+      "sha256": "1b5c52ac5bf07d08694a22d65465864c3a36158b3777f555c1db6945fdc8c3de"
+    },
+    {
+      "path": "overlay-integrated-3da2334/README.md",
+      "bytes": 2226,
+      "sha256": "1c88090b723cc10226d1b3abd40e069e6066314228df4f0a011a332b2cbed912"
+    },
+    {
+      "path": "overlay-integrated-3da2334/manifest.json",
+      "bytes": 8722,
+      "sha256": "d87d896dfc85604e557cf2144f6ab4d3aa4739c7f448cda278ab8625ff65f121"
+    },
+    {
+      "path": "overlay-integrated-3da2334/next-fixture-design.md",
+      "bytes": 3058,
+      "sha256": "1c2c0ceff45cf67e58db734f91fd2e2982438696207eae03a49f0d942ff11ebd"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-3da-package-capture/command.json.gz",
+      "bytes": 168,
+      "sha256": "a484c92568aec2de930f2185b2f821dbbdc6e268eafc9f23947c9c052cf73a6f",
+      "uncompressedBytes": 187,
+      "uncompressedSha256": "64c9d02e04420c7961c50313a76e5f4417806a4ff5567e7a441ef2a16010fdaa"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-3da-package-capture/process.json.gz",
+      "bytes": 39,
+      "sha256": "fb72995bc4aa53f3bd083e203d6b15630f1eeabdb3f9cc83ba7464664c645319",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "bdf95bb006ec4f29e21a7e0a7d33b1581fc0151596e25acde9f23567aaba4483"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-3da-package-capture/result.json.gz",
+      "bytes": 89,
+      "sha256": "f611a9b19e38bda853e5c280bd7877cb41acfdf7fac9af230b42cd443d2881f2",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "c57f589fd96a3f2603913ccefc7eb8059c7ce7b057a7f9b44f59b3cc2cfb7081"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-3da-package-capture/stdout-stderr.log.gz",
+      "bytes": 84,
+      "sha256": "dcb24dc9c7f95c5bb19e85e6855076869446890efca93bcf1776f81bac3cf787",
+      "uncompressedBytes": 65,
+      "uncompressedSha256": "fc1574ef1714af6e4377b600de5b55e7ee7ab43edca367ce5bb5220aea86a248"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-3da-verify-01/command.json.gz",
+      "bytes": 199,
+      "sha256": "556fa449ccac39c3cadf3294e67dca278fbdcab6cccdbfe5d7e16701ddcf1ba7",
+      "uncompressedBytes": 236,
+      "uncompressedSha256": "997faafb98258f150be56072b249cd42962d89cd9638fdb302aa434b5b59761f"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-3da-verify-01/process.json.gz",
+      "bytes": 39,
+      "sha256": "c6410fc1971d5ba170d9b0fd7efb9aecbcee2c712e4b000136281b23511dc1ab",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "9850f20b8899cf7b62855b960d24b8a9bb33c11f2949525d6dbaf3e1d075883f"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-3da-verify-01/result.json.gz",
+      "bytes": 89,
+      "sha256": "0036dec2875fcc8f9767d4bf5d1e45c762ed6b51aafd330e2149bb8b2df842fb",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "1da5d38732cbe61bb365efe964e6e4fe9cdb34c5a6aeba316d78f861f800e1cf"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-3da-verify-01/stdout-stderr.log.gz",
+      "bytes": 198,
+      "sha256": "9042c1b3aac9260dc6cac4830157ebe9ab429a422af09ece1cbb4940e4b6149d",
+      "uncompressedBytes": 216,
+      "uncompressedSha256": "56141ea4007faf3cf48e2697dd190c86c42b6ad89ba7270c9fa48290617cddb9"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-docs-prettier-check-02/command.json.gz",
+      "bytes": 292,
+      "sha256": "f1af87aef9e1378c11b935bb1b4823d95ef0cd4fc525a1505f77efa2643b2f8d",
+      "uncompressedBytes": 643,
+      "uncompressedSha256": "14d299bbf864765c847752cad8d3a112854c5f487525b19983aaa9fe031900de"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-docs-prettier-check-02/process.json.gz",
+      "bytes": 39,
+      "sha256": "e6f9b16705e08f43d8ef4644c4efe5f696f15ba822811550078b5e3f4516cd95",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "d2e928db27a727d0c4dc4c3df4e2659dcd82643d99271e5401d47069c97d6f87"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-docs-prettier-check-02/result.json.gz",
+      "bytes": 89,
+      "sha256": "d0c6b85ab81f08b164996b335760905a190bee003692ac152a7e67f765577227",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "59eeefa01ad499b47472b2e35aac4ba88696b4e577b4331cde65c3d1c356c3f9"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-docs-prettier-check-02/stdout-stderr.log.gz",
+      "bytes": 82,
+      "sha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5",
+      "uncompressedBytes": 66,
+      "uncompressedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-docs-prettier-write-01/command.json.gz",
+      "bytes": 291,
+      "sha256": "2eed792f209e4d25e9fda1f687b1e88509691030ea06da4af77b393d3e413b5e",
+      "uncompressedBytes": 643,
+      "uncompressedSha256": "333e135b9964e9078f7d955ceedaf77ffe51d75843ff2cdb6dd6da1e1a986b64"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-docs-prettier-write-01/process.json.gz",
+      "bytes": 39,
+      "sha256": "22ed2371df9c3693a5a010d6eb5bb59e6645a1b09553efc91a780edf74bed199",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "5277b435093ab48385aa7517423f754a34e8745e15add93065641a3f5cd664fe"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-docs-prettier-write-01/result.json.gz",
+      "bytes": 89,
+      "sha256": "1dfb8a26f4ba4cd444a20481fdca145adab6a3cd7c1826a37cd00617c5af9ef8",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "79456f33dad14cca214c7c612fc6ae64da669492119318acd538576c598483f3"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-final-docs-prettier-write-01/stdout-stderr.log.gz",
+      "bytes": 193,
+      "sha256": "d091b12c8f51e4c579a1b5b51ad661c20bfe24713e32a5c0f85198afdadc1721",
+      "uncompressedBytes": 528,
+      "uncompressedSha256": "99a94b38bc47b688c2e810b36e51ce4733c4c33dd2555679fa25c75e4d9262b4"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-five-screen-axe-readback-01/command.json.gz",
+      "bytes": 292,
+      "sha256": "52a66b49647d99b08fbaf09cb01bc5ccb7db4e1714712da36b31f4e99b7ff7d8",
+      "uncompressedBytes": 376,
+      "uncompressedSha256": "47732656df660059ba0c374393ab6c6eb27eb79b56a30a39969fe899d8984f19"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-five-screen-axe-readback-01/process.json.gz",
+      "bytes": 39,
+      "sha256": "a18eb2280fddf4b5f635d80b077a6b5fce0ce61691ed5e1a4ac4177087fad0ff",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "7c75ddb051c24bdbc97c1cddbf389ed2595128ce79b495d8919f12d07caa4964"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-five-screen-axe-readback-01/result.json.gz",
+      "bytes": 88,
+      "sha256": "7253ecac0b01c1140cdfb95fcd030ca8bf0756ed7883bd444649b6bf8d964c42",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "a1cb54190384c37bc784dc42e702ba06992293042ff7b15c3dde3a9394149f34"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-five-screen-axe-readback-01/stdout-stderr.log.gz",
+      "bytes": 1089,
+      "sha256": "1ac61be8596008892a86135ad039934ad4b052aa7f27c25edbf95aab7f3d5db2",
+      "uncompressedBytes": 6300,
+      "uncompressedSha256": "ad77913e6a2c318e0bf0dc854efc13324c321e5bfac6d5b55307c3afc748f2a3"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/assets.command.json.gz",
+      "bytes": 106,
+      "sha256": "21cd7fbb1b7007159a9eaa094d4af548090a0a90a9a433da9a012a5d34690bc7",
+      "uncompressedBytes": 105,
+      "uncompressedSha256": "48cf699cb3b7268f67f916168c1086e96e52626147c84df79e65b391ac4a22d4"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/assets.log.gz",
+      "bytes": 235,
+      "sha256": "e4c3d7f0bcb23a5ccedff58519020642096e9e0a62753ab4c7a14f1f8117b7e0",
+      "uncompressedBytes": 259,
+      "uncompressedSha256": "005e30238f36844004afb10ae259b8a23a7244bd5defdd41dca5d37c23c104f2"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/assets.result.json.gz",
+      "bytes": 85,
+      "sha256": "06ae21ae0ba7726b7efb74237c38f48bb2a02fafdbdb92eec1a41562603ea4a8",
+      "uncompressedBytes": 74,
+      "uncompressedSha256": "e5f1ec15cdf9013d535c558159ccf1c1958990907b24e5aebf0f1651b118efa8"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/build.command.json.gz",
+      "bytes": 96,
+      "sha256": "88b0836ca8889749c6f86b959ad93d1c97daa547f1974d09418c89e38930a24f",
+      "uncompressedBytes": 95,
+      "uncompressedSha256": "8d5e360f9276df1b8a7423f2c4486cc0e9b8c63ac1e6615e04ccb0e747c1147c"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/build.log.gz",
+      "bytes": 851,
+      "sha256": "c1546e3333f622fc5374752182b50909e0204cf4feea96bf7d5c45f41059e89e",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "55ca39597216ddfdc447d4323ea86f25ddfe00228125885c12913c6b83172f18"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/build.result.json.gz",
+      "bytes": 83,
+      "sha256": "02d94e5acc9bb6b1794a69e11efca2b913d4c150f86220848509b4fef5919066",
+      "uncompressedBytes": 71,
+      "uncompressedSha256": "ec0fbf98682229058a82e20bbed1dbb701b93541be76f50bad2d07f1d6820d37"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/bundle.command.json.gz",
+      "bytes": 106,
+      "sha256": "6115da2cb3683f5cafe9c0ac20469fab783c5b4eac3fe41da216e71cf0e238d1",
+      "uncompressedBytes": 105,
+      "uncompressedSha256": "6a247ee89125ebc99903cabef09f96b448c8f836599940dd5e953bd486dfdad1"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/bundle.log.gz",
+      "bytes": 396,
+      "sha256": "b7145609ffa2327071ca0c017f82a2e80ebebc4d7ad9b6bb016bf7030b551ec2",
+      "uncompressedBytes": 1057,
+      "uncompressedSha256": "22fb4c6861e49956876e98f7e5c20a39e0bf36dd513c6e02205064c8a905e4f7"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/bundle.result.json.gz",
+      "bytes": 83,
+      "sha256": "8b07b189ea50593970f3ec1467b0674d78481019fe86058969141e543641141b",
+      "uncompressedBytes": 72,
+      "uncompressedSha256": "077824ac8907aec3e81048da8cd2721d2e3751e24f2a9232bedc58564bf166bd"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/data.command.json.gz",
+      "bytes": 103,
+      "sha256": "ac7f6e024938407fa8f9608e115ef96cb067172ff39678b0b8a88aca150036c7",
+      "uncompressedBytes": 103,
+      "uncompressedSha256": "0c00345d89551aaffed6921a2f428c79e17352181bee3cdc72b3e41e13582c0c"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/data.log.gz",
+      "bytes": 273,
+      "sha256": "7d0e5a1993e27a8467daf080b0b5612beeff61ef9c35f8a53574ce7e3da5a55c",
+      "uncompressedBytes": 304,
+      "uncompressedSha256": "4439426990656048a413438a6ba4bee82fd56d80c52bc3a130bc77ed1c71a3ee"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/data.result.json.gz",
+      "bytes": 82,
+      "sha256": "e8365d754049fa6ad8d74a1bd361efdee7f9f2437c83cdc85328ada5a2546db0",
+      "uncompressedBytes": 71,
+      "uncompressedSha256": "c0a6c06b5c0f5d2756d5fc38564b0429413a0e25e7879ff81c9399dbea6f78cb"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/eslint.command.json.gz",
+      "bytes": 108,
+      "sha256": "11bb7de24d771d79a88d384ef572d361e1f65efe7ddf81aebab313e7b226246e",
+      "uncompressedBytes": 101,
+      "uncompressedSha256": "3372170be54e62524c67a3e87f2f5e0f56a795e773f22eb8ed47235a2ce0c92a"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/eslint.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/eslint.result.json.gz",
+      "bytes": 84,
+      "sha256": "e661928ba1b37a863fca3a225dd3605a9d1d972388c097a79ed4d68ac0cc515e",
+      "uncompressedBytes": 72,
+      "uncompressedSha256": "d8e0ad87aa38895674311b70ea8ce1f2c1161e23aa26d1b385ce8a0c7ef2cd09"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/focused.command.json.gz",
+      "bytes": 307,
+      "sha256": "423281473db23fd7701720c04b2a7cd1ce4e8aa53ca5f7a8cde1113d4ab0b261",
+      "uncompressedBytes": 818,
+      "uncompressedSha256": "36d8d484d606bd2f885bde069fd7d8d7d5d818c9ff341478aa592b83b990f5c9"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/focused.log.gz",
+      "bytes": 1160,
+      "sha256": "f48be09b67705d76dc966f6f3d8bbacfe929591b07f0bcdb29cdb3a4519a96ba",
+      "uncompressedBytes": 5857,
+      "uncompressedSha256": "66de61a4a0f61659ba272c5b1979ed9fccc3b6e86c6d1c01a220b268218b3ba6"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/focused.result.json.gz",
+      "bytes": 85,
+      "sha256": "836df7050208264e3c10d6faeb95e90946da3092cee11ac28efd70db96865e21",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "3c2ae1276041c80c19f2b980610907e43857eaf3027f5e0c01f124db9fbeb484"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/source-after.json.gz",
+      "bytes": 133795,
+      "sha256": "699fd4e6565f1c21b733ef881138a9143bfe6aeb01bdbcee8c3989d67101736f",
+      "uncompressedBytes": 502099,
+      "uncompressedSha256": "aa2d445de757585542bfd843c9e5a46b6891db7036772ab1ed52f5968bf0e8de"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/source-before.json.gz",
+      "bytes": 133795,
+      "sha256": "699fd4e6565f1c21b733ef881138a9143bfe6aeb01bdbcee8c3989d67101736f",
+      "uncompressedBytes": 502099,
+      "uncompressedSha256": "aa2d445de757585542bfd843c9e5a46b6891db7036772ab1ed52f5968bf0e8de"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/status.json.gz",
+      "bytes": 221,
+      "sha256": "6f480137a1a5caa57d26da0385b928d95a08813a53ce1bdb12b0b71b690b9600",
+      "uncompressedBytes": 595,
+      "uncompressedSha256": "77e8c4353ca33962be49b324aae913b3b802c4ce4772274528d326d80d5aef1d"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/typecheck.command.json.gz",
+      "bytes": 100,
+      "sha256": "6c5283d5acc0f30428eeb4969fafcbc280e7e9d3cbcef356dd33d6fc7d232c56",
+      "uncompressedBytes": 99,
+      "uncompressedSha256": "a665638587c20c0ba6aad2d315b31e371c5f060af860eef4f82ff3f3614d220a"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/typecheck.log.gz",
+      "bytes": 87,
+      "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+      "uncompressedBytes": 84,
+      "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-3da2334/typecheck.result.json.gz",
+      "bytes": 88,
+      "sha256": "84059547c9aeed39e6d038eb586402a752b70f0110dfd8192b73471cbb2a4ee5",
+      "uncompressedBytes": 76,
+      "uncompressedSha256": "ad2417059d31c6ceba616afd192f3cc15002fd2d01d9f40932060101262e54eb"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-inventory-3da2334/command.json.gz",
+      "bytes": 229,
+      "sha256": "1a5febb0e2a38189547e88ccc95b6d4a70bfaeaa830b4fea8cacd6d32a1a8622",
+      "uncompressedBytes": 358,
+      "uncompressedSha256": "24a121fcbbb27b9a86b957bc200dece366a108bacc22f4084e71f943bd3f763f"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-inventory-3da2334/process.json.gz",
+      "bytes": 39,
+      "sha256": "d9b0d34bd3e2686f5b1134a879ea6e37f104e3e669a2cc270276a90b45075592",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "af523170f08c9046f1a79d36f0c4f37ffa3d6621ef4eaccb2dd7324702eedd0f"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-inventory-3da2334/result.json.gz",
+      "bytes": 89,
+      "sha256": "dd16a05c9cc9188eb7ebc288d6359b12eb4a85cb5446c1367d1b7929e13f199c",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "14a1e2e7dbfd897a502fa225d638a01799383b57126bdf29abe939cad6089b13"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-inventory-3da2334/stdout-stderr.log.gz",
+      "bytes": 148,
+      "sha256": "d49549a24c08dd526d5697b2e0344d93b05af66c1e24b7466d9f1b7151d62e06",
+      "uncompressedBytes": 162,
+      "uncompressedSha256": "9d31c98249e5f5a41dc2b3465c7c31b1fc3bcbfe983e227bc37169cd4c4fb77b"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-launch-3da2334/command.json.gz",
+      "bytes": 198,
+      "sha256": "dd05f1526e948fa38a836a21bf5def28f9197deaf6623f68b6baed5d279a5a4d",
+      "uncompressedBytes": 294,
+      "uncompressedSha256": "1cca35a3d70b97031a25bea9ee9fee1fe685c892ea203020a25ca54500403f54"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-launch-3da2334/process.json.gz",
+      "bytes": 39,
+      "sha256": "2895ef49e6074894e06cd647b9146cbac84bbdfa90513a69ef82035de13486be",
+      "uncompressedBytes": 19,
+      "uncompressedSha256": "06a3fca9b1ad56f507d8920cf0d8789bd0df545e5b98bd7b417390975fd4d321"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-launch-3da2334/result.json.gz",
+      "bytes": 89,
+      "sha256": "dd9aff35db4553c08fdcbe48195f862031e7531fde2bb5ec0d5a6c78d4307b52",
+      "uncompressedBytes": 73,
+      "uncompressedSha256": "db124fde67419105d7784aa73d386e438b096d3870b1cd0a863f51084359aff1"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-integrated-launch-3da2334/stdout-stderr.log.gz",
+      "bytes": 208,
+      "sha256": "7915c1ed1d399791322bbb9d45f6739c3e5341a7969422404b3d86a8eb3ba2c1",
+      "uncompressedBytes": 460,
+      "uncompressedSha256": "dedf7a913dd717f2f5e77379c299636a424468c2988eb68451d68139002d5729"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-manifest-3da2334/manifest.json.gz",
+      "bytes": 69134,
+      "sha256": "d46d8981c2e26f28e8200af6fa2f51f8b6f2b3e06794071f824cc092765f3b87",
+      "uncompressedBytes": 297765,
+      "uncompressedSha256": "5284d33a4fbb1861be3d1dbad0c8319a5fcc6d4e8cef49da4eb8246f345e25d7"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-manifest-3da2334/revision-commit.command.json.gz",
+      "bytes": 123,
+      "sha256": "b99349c2b8b7bba54ce49b61f3afebc125da8a122214df022c5a30ae6f38cde2",
+      "uncompressedBytes": 128,
+      "uncompressedSha256": "2605bcb7390695726e2e7f93fc86247817a0f065b1968ca1799af441a0c894f0"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-manifest-3da2334/revision-commit.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-manifest-3da2334/revision-commit.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-manifest-3da2334/revision-commit.stdout.gz",
+      "bytes": 59,
+      "sha256": "47a86b4d408590f11f9895804598defde4d4e465cd8cdc537285e2a2dc7fca55",
+      "uncompressedBytes": 41,
+      "uncompressedSha256": "e2725611fca2ff7357e20b8479ddf6117e8c4a1d8a21dea5e477493b25c61ed8"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-manifest-3da2334/revision-tree.command.json.gz",
+      "bytes": 139,
+      "sha256": "861fc47c2d9608122fe5d7e39e8293973fff24c2bc0431e8c0b2099f4fd45737",
+      "uncompressedBytes": 145,
+      "uncompressedSha256": "2b8c4c11e7a2dcf61ecd4198b90e62ff20b417454aa200529b735f50089c9686"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-manifest-3da2334/revision-tree.result.json.gz",
+      "bytes": 35,
+      "sha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-manifest-3da2334/revision-tree.stderr.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "overlay-integrated-3da2334/raw/tenka-overlay-manifest-3da2334/revision-tree.stdout.gz",
+      "bytes": 162871,
+      "sha256": "857792e6762a941bef644943a207d093bfed2787f5d63f42ecdc932c207bf407",
+      "uncompressedBytes": 701578,
+      "uncompressedSha256": "216dcbb05154cf92c7983e44aab2364151a52d3b38518b27a88a0e81ed719090"
+    },
+    {
+      "path": "overlay-integrated-3da2334/tenka-overlay-final-index.py",
+      "bytes": 3661,
+      "sha256": "cfade2125df9ce03b4c5df5393346e82168486d63666359fccfa3181c6225309"
+    },
+    {
+      "path": "overlay-integrated-3da2334/tenka-overlay-integrated-run.py",
+      "bytes": 3055,
+      "sha256": "947e84450a5878a71edb86c176f4f26fd6fb579b66f7f9a064aab347eff173e3"
+    },
+    {
+      "path": "overlay-integrated-3da2334/tenka-package-final-3da.py",
+      "bytes": 1657,
+      "sha256": "489205bfd6ca7b0ec5ce4c3fb80b81a3272e9c77739c9c796e1c2c7e32d3f4e5"
+    },
+    {
+      "path": "overlay-integrated-3da2334/tenka-scoped-source-archive.py",
+      "bytes": 3348,
+      "sha256": "d7f1fd477c0583eff8237e13c34e7c77a594a8552ca6211a958536da2287ab1d"
+    },
+    {
+      "path": "overlay-integrated-3da2334/tenka-validation-capture-961f0ae.py",
+      "bytes": 1722,
+      "sha256": "888e8cf09de8e6cc4191194d69168974601d5397ffa4991ac3c981c8531f1710"
+    },
+    {
+      "path": "overlay-integrated-3da2334/verify.py",
+      "bytes": 2305,
+      "sha256": "4bea0253c1ed940a94cbcf341602af491956e49b277ca08c1808b935ee8c9063"
     }
   ]
 }

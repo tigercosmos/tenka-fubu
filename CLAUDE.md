@@ -48,11 +48,17 @@
 
 - 當前里程碑：見 `milestone.json`；歷史進度：見 README 進度表。
 
-- `5f250eb` 修正 0.9 倍率的報告提示密度超標：上下 padding 統一減少，字級、完整換行與 32px 按鈕維持；原版十五項為 14 PASS／1 FAIL，候選十五項全通過，報告中心另驗 195 個控制。`cf9fb7e` 增加武將／設定／存讀檔三類面板十五倍率驗收，45 項通過。這些只是 M8-23 子門檻；所有強制 overlay、Battle 控制、其他面板、完整文字可讀性與原生全套五分鐘仍待驗證。新提示間距的六張候選圖已保存，尚未收到人工核准，不得更新 references。
+- `51abd75` 修復 1280×720／1.5 倍率結局徽記被上緣裁切：只把垂直對齊改為 `safe center`，保留可捲動內容及原字級。Ending、事件、具申／月結各十五倍率的分組證據已保存；具申／月結最後鍵盤版本十五項通過。只有 Event 最後新增的橫向溢出與 Enter 斷言只在精確 1.5 倍率 focused run 驗過，不能把較早事件十五項成功改標為最後測試版本。Battle 控制十五倍率加原生鍵盤共十六項通過。
+- `b867014` 修正 Battle 速度按鈕的可及名稱，包含可見倍率，並為戰法容器加上 group 語意。Axe serious 三節點降為零，原 critical 零維持；41 項受影響的一般原生案例通過。`3da2334` 補齊十個 unit 精確名稱查詢，原 7 FAIL／14 PASS 轉為 21 PASS。最後固定 `3da2334` 的 138 focused tests、型別、完整 ESLint、資料／素材、build／bundle 成功，1,632 輸入前後符合 Git。national-soak 只有 selector 靜態更新，沒有長跑結論。
+- 原完整原生 `51abd75` 在 Node 22 discovery 因 court-rank 間接匯入 JSON 而失敗；`8ea965a` 只修正測試的存檔預期值，保留全 state 相等。原完整 `8ea965a` 以預設 16 workers 在 300,015ms 達全套上限：222 PASS、18 FAIL、3 case timeout、34 explicit skip、7 interrupted、78 未執行。現有個別測試的 75–270 秒 override 未改，不能宣稱每項都受 60 秒限制。最新完整 core 仍釘選 `7d37c28`，不得把 focused 或後續語意修改當全量成功。
+- 下一步先設計 Ending 專屬 Playwright dependency setup：每次 invocation 新生成一次合法 earned fixture，生成成本仍計入原 300 秒，失敗向依賴案例傳播，不用舊檔 fallback，也不讓無關 subset 承擔 globalSetup。原三個 child 超過 5 秒，idle 同命令 1.61 秒成功；尚未實作排程修正。其餘原生失敗、strict60、whole-heap、long-run、其他介面與全 M6–M9 gate 保持開放。無嗣／戰術終局、人口校準及 934163c 六圖人工核准均未收到決策。
+- 後續隔離副本使用 `docs/validation/2026-10-12/completion-audit/scoped-source-snapshot-79682cd/tenka-scoped-source-archive.py` 的 allowlist／精確 delta 與全來源校驗，禁止再串流整個驗證文件樹。這批 Battle setup 的全 tracked archive 例外已明載；所有新的驗證 subprocess 仍須先 exclusive-create 完整 log，Playwright 使用唯一 output／report。未 push／deploy，milestone 未提升。
+
+- `5f250eb` 修正 0.9 倍率的報告提示密度超標：上下 padding 統一減少，字級、完整換行與 32px 按鈕維持；原版十五項為 14 PASS／1 FAIL，候選十五項全通過，報告中心另驗 195 個控制。`cf9fb7e` 增加武將／設定／存讀檔三類面板十五倍率驗收，45 項通過。這些只是 M8-23 子門檻；強制 overlay、Battle 控制的後續結果見上方，其他面板、完整文字可讀性與原生全套五分鐘仍未完成。新提示間距的六張候選圖已保存，尚未收到人工核准，不得更新 references。
 
 - `934163c` 最小視窗鍵盤六項成功；逐項穩定前後畫面驗十一個鏡頭輸入，quick-save 以完成後的實際 snapshot 日為準。固定此來源整合 227 unit＋7 source contract＋6 原生跨畫面、型別／ESLint／資料／素材／build／bundle 通過；Linux final 報告十五及非政策四十五再次成功。Linux／Darwin 原視覺各 4 PASS／1 protected 三視角 FAIL，新的六張 final actual 仍待人工核准，舊審查提案已被新六圖取代。詳見 `ui-integrated-934163c` 與兩個 `protected-art-final-*-934163c` 證據套件。
 
-- 最新已驗證修正：`f03ba63` 修復面板焦點下的 Home／M；`f5d8969` 清除貼圖批次的稀疏索引快取；`7d37c28` 增加政策面板十五倍率驗收。固定 `7d37c28` 全量測試 6,445 通過、1 既有無嗣失敗、1 跳過；原生 60 FPS、whole-heap、protected art、long-run 與其餘 M6–M9 門檻仍未完成。六張 Linux／Darwin 基準與無嗣規則等待明確決策。完整證據見 `docs/validation/2026-10-12/completion-audit/`。
+- 前批已驗證修正：`f03ba63` 修復面板焦點下的 Home／M；`f5d8969` 清除貼圖批次的稀疏索引快取；`7d37c28` 增加政策面板十五倍率驗收。固定 `7d37c28` 全量測試 6,445 通過、1 既有無嗣失敗、1 跳過；原生 60 FPS、whole-heap、protected art、long-run 與其餘 M6–M9 門檻仍未完成。六張 Linux／Darwin 基準與無嗣規則等待明確決策。完整證據見 `docs/validation/2026-10-12/completion-audit/`。
 
 ## 貼圖批次快取與政策倍率驗收（2026-10-12）
 

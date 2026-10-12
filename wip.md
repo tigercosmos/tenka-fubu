@@ -6562,3 +6562,16 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - `934163c` 最小視窗快捷鍵最終六項通過，十一個鏡頭輸入各自穩定前後畫面不同；不當成數值方向或幅度證明。v4 原 60 秒 timeout、v7 quick-save observer race、修正後 v8 scoped／v9 full 成功皆保存。舊 router 負控制另有較晚 retained-file readback，未冒稱當時 post-overlay 證明。
 - 固定 `934163c` 整合 227 unit＋7 source contract＋6 既有原生跨畫面成功；型別／完整 ESLint／資料／素材／build／bundle 通過，1,589 runtime/test/config/plan 輸入前後同 Git。Linux fresh29-target／1,633 來源前後相同，report15／nonpolicy45 成功。Linux／Darwin 原視覺各 4 PASS／1 protected 三視角 FAIL；新六圖待人工核准，舊 references 未改。較早 `7d37c28` 全量保持原來源，不重標為新 HEAD。
 - 最終完整 Prettier 通過；相關 raw log 與程序狀態一併封存。人工六圖問題已明確取代舊待審查提案，尚未收到回答；不變更基準，完整專案 goal 保持 active，未 push／deploy。
+
+## 強制視窗、Battle 可及語意與原完整原生 RED（2026-10-12）
+
+- `51abd75` 修正 1280×720／1.5 倍率 Ending 徽記上緣 −4.19px 裁切，唯一呈現修改為 `justify-content: safe center`，字級與可捲動內容保留。Ending 十五倍率通過，回標題／繼續動作可捲動到達；初始畫面底部動作未必全部同時可見。原圖及真正 RED 皆保留。
+- `8d0a040`／`8bcb9fd` 的 Battle 十五倍率＋原生鍵盤共 16 PASS，涵蓋 32px 與水平／垂直 viewport 範圍。高倍率 title 的 scrollHeight 原斷言是錯誤 observer，改驗實際文字 range 位於 header；原失敗、CSS overflow、幾何及截圖保留。P5 仍是 debug abort，沒有把它當成 production 撤退、戰術滅亡或獎勵規則完成。
+- Okehazama 事件、真實 day30 具申／月結的十五項分組成功；具申／月結最後鍵盤版本十五項通過。只有 Event 最後新增的橫向溢出與 Enter 斷言只在精確 1.5 倍率 focused run 驗過，事件前版十五項不能改標為最後版本。合法 Ending fixture 子程序改為 spawn 前先 `wx` 開完整 log，成功／失敗皆保存；原生全套後來的 child timeout 因此有完整證據。
+- 原完整 `51abd75` 在 Node 22 discovery 因 court-rank 的 `buildSaveFile` 間接匯入 JSON 而 RED。`8ea965a` 改用規格定義的完整預期 snapshot，僅移除 transient `ai.intentLog`，保留所有 state 相等斷言；38 save tests、型別／lint／discovery 成功。沒有把 Vite preview 當成可以載入 `/src` 的 dev server，也沒有修改 production codec。
+- 原完整 `8ea965a` 362 項／103 檔、預設 16 workers，於 300,015.317ms 結束：222 PASS、18 FAIL、3 case timeout、34 explicit skip、7 interrupted、78 未派發。原全套 300 秒與現有個別 75–270 秒 override 均未改，不能宣稱每項都受 60 秒限制。完整 JSON 本地壓縮保存，4.9GB 的 22,721 個輸出留 sim4、有逐檔 hash／size；首張 post-process 有兩個 PPID1 worker，下一張均已退出。沒有整套重試取代原結果。
+- 三個 Ending child 的 Vitest case 各 6.61／6.47／5.95 秒，超過原 5 秒，在進入 Ending UI 前已失敗；同命令 idle case 1.61 秒成功。下一步只設計 Ending 專屬 Playwright dependency setup，一次 invocation 新生成一次合法 save，成本仍在 300 秒內、失敗傳播、bytes／provenance 校驗、不讀舊檔，不讓無關 subset 執行 globalSetup。尚未改排程，其他十八個 unexpected 仍需個別歸因。
+- `b867014` 為 Battle 可及名稱加入可見倍率，戰法容器加 group；原 axe serious 三節點降為零，critical 零維持，仍保留 incomplete/manual finding。五個實際畫面原 probe 均無 critical。受影響一般原生 24＋12＋5＝41 PASS；national-soak 僅靜態 selector 更新。第一個 checker 只覆蓋 E2E 22 處，漏十個 unit 查詢；`b867014` unit 原 7 FAIL／14 PASS 保留，`3da2334` 修正後 21 PASS，擴充 src／tests／e2e checker 為零。
+- 固定 `51abd75` 與最終 `3da2334` local checks 各保存自己的來源；最後 138 tests／16 files、型別、完整 ESLint、資料／素材、build／bundle 成功，1,632 個輸入前後同 Git。最後語意修改後未再跑完整原生；最新完整 core 仍 `7d37c28` 的 6,445 PASS／1 無嗣 FAIL／1 SKIP。
+- Battle setup 曾誤串流完整 tracked archive，成功紀錄與範圍例外明載，沒有重標為 scoped。新 allowlist snapshot helper 實測 restore 1,630 base files＋單檔 delta，1,631 final Git blobs／modes 全相等，排除 docs／output。往後只用限定快照／精確 delta，先開唯一 log，Playwright 唯一 output／report。一次 coordinator SSH status-read quoting error 在讀資料前失敗，原 exit2／log 亦保留。
+- strict60、whole-heap、long-run、原生全套 deadline、其他介面及 M6–M9 仍未完成。無嗣／戰術終局、人口校準及 934163c 六圖人工核准均未收到決策；未改規則、基準或 milestone，未 push／deploy。下次從已保存原始失敗及 Ending-only dependency 設計繼續，不先重跑同一完整 workload。

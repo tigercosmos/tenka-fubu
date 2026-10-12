@@ -1,0 +1,11 @@
+# Final local integration at 3da2334
+
+The final Ending and Battle accessibility changes passed **138 focused tests across 16 files**, general/core type checks, full ESLint, data and asset validation, production build and bundle budget. All **1,632** allowlisted source, test, asset, tool, plan and build-configuration inputs matched their Git blobs and executable modes before and after the checks.
+
+`b867014` adds visible speed multipliers to Battle's accessible button names and gives the labeled tactic container group semantics. `3da2334` updates ten exact-name unit queries missed by the first E2E-only inventory. The preserved unit result changed from seven failures and fourteen passes to twenty-one passes. The final checker covers `src`, `tests` and `e2e`; no old exact Battle speed-name query remains. See the separate [Battle accessibility package](../battle-axe-3da2334/README.md) for the original axe findings, native negative control and 41 affected ordinary native passes. The opt-in national soak received only a static selector update.
+
+The latest original full browser suite remains the earlier [8ea965a run](../native-full-suite-8ea965a/README.md). It reached its unchanged 300-second cap with 222 passes, 18 assertion failures, three per-test timeouts, 34 explicit skips, seven interrupted cases and 78 cases not dispatched. It used 16 default workers and retained existing per-case timeout overrides. No complete native suite was rerun after the semantic and unit-selector changes. The latest complete core suite remains `7d37c28`, with its known no-heir failure.
+
+This package records local checks, not a fresh dependency installation or a complete M8/M9 acceptance result. The earlier [51abd75 package](../overlay-integrated-51abd75/README.md) keeps its own source pin and initial integration result. The [next fixture design](next-fixture-design.md) is not implemented.
+
+Every validation command opens its unique complete stdout/stderr log before launch. Run `python3 docs/validation/2026-10-12/completion-audit/overlay-integrated-3da2334/verify.py` to verify the saved results and independently compare the recorded inventory with the pinned Git tree. This verifies evidence; it does not rerun tests.
