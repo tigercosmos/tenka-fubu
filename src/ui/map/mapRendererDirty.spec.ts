@@ -929,6 +929,116 @@ describe('live combat effects (synthetic map views, not gameplay outcome fixture
   });
 });
 
+describe('uprising warning motion (12 §3.3.3/T12)', () => {
+  function tick(r: MapRenderer, deltaMS: number): void {
+    const ticker = r.getApp()!.ticker as unknown as { deltaMS: number; tick(): void };
+    ticker.deltaMS = deltaMS;
+    ticker.tick();
+  }
+
+  function warning(r: MapRenderer): Container {
+    const district = r
+      .getLayers()!
+      .nodeMarkers.children.find((part) => part.label === 'districtNode');
+    if (!district) throw new Error('Missing district node');
+    return district.children[1]!;
+  }
+
+  function uprisingView(active: boolean): MapViewState {
+    return baseView({
+      districts: [
+        {
+          id: 'dist.x' as DistrictId,
+          hasSteward: false,
+          subjugationProgress: null,
+          ikkiActive: active,
+        },
+      ],
+    });
+  }
+
+  it('blinks in a 1s cycle without rebuilding ground and restores a steady warning on live OS reduction', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    const view = uprisingView(true);
+    const before = JSON.stringify(view);
+    r.updateView(view);
+    const nodeRebuilds = r.getRebuildCounts().nodeMarkers;
+    expect(warning(r).visible).toBe(true);
+    tick(r, 499);
+    expect(warning(r).visible).toBe(true);
+    tick(r, 1);
+    expect(warning(r).visible).toBe(false);
+    const district = r
+      .getLayers()!
+      .nodeMarkers.children.find((part) => part.label === 'districtNode')!;
+    district.visible = false; // culling hides the parent; a phase change still reaches its child.
+    r.updateView({
+      ...view,
+      districts: [{ ...view.districts![0]!, hasSteward: true }],
+    });
+    expect(warning(r).visible).toBe(false); // dirty ground redraw cannot expose the warning.
+    district.visible = true;
+    expect(warning(r).visible).toBe(false);
+    r.setPresentationSettings({
+      mapLabelDensity: 'medium',
+      effectsEnabled: true,
+      reducedMotion: true,
+    });
+    expect(warning(r).visible).toBe(true);
+    tick(r, 5_000);
+    expect(warning(r).visible).toBe(true);
+    r.setPresentationSettings({
+      mapLabelDensity: 'medium',
+      effectsEnabled: true,
+      reducedMotion: false,
+    });
+    tick(r, 500);
+    expect(warning(r).visible).toBe(false);
+    tick(r, 500);
+    expect(warning(r).visible).toBe(true);
+    expect(r.getRebuildCounts().nodeMarkers).toBe(nodeRebuilds + 1); // only the steward change
+    expect(JSON.stringify(view)).toBe(before);
+    r.destroy();
+  });
+
+  it('retains alert when effects are off and drops the old active warning on removal', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(uprisingView(true));
+    tick(r, 500);
+    expect(warning(r).visible).toBe(false);
+    r.setPresentationSettings({
+      mapLabelDensity: 'medium',
+      effectsEnabled: false,
+      reducedMotion: false,
+    });
+    expect(warning(r).visible).toBe(true);
+    tick(r, 5_000);
+    expect(warning(r).visible).toBe(true);
+    r.updateView(uprisingView(false));
+    expect(
+      r.getLayers()!.nodeMarkers.children.find((part) => part.label === 'districtNode')!.children,
+    ).toHaveLength(1);
+    r.setMapData(staticData());
+    r.updateView(uprisingView(true));
+    expect(warning(r).visible).toBe(true);
+    r.setMapData(null);
+    expect(
+      r.getLayers()!.nodeMarkers.children.filter((part) => part.label === 'districtNode'),
+    ).toHaveLength(0);
+    expect(
+      (r as unknown as { activeDistrictWarnings: Map<string, unknown> }).activeDistrictWarnings
+        .size,
+    ).toBe(0);
+    tick(r, 500);
+    r.setMapData(staticData());
+    r.updateView(uprisingView(true));
+    expect(warning(r).visible).toBe(true);
+    r.destroy();
+  });
+});
+
 beforeEach(() => {
   hoisted.apps.length = 0;
   hoisted.bufferSources.length = 0;

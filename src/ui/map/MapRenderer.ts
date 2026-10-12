@@ -371,6 +371,9 @@ export class MapRenderer {
     string,
     { part: CastleNodePart | DistrictNodePart; kind: 'castle' | 'district' }
   >();
+  private readonly activeDistrictWarnings = new Map<string, DistrictNodePart>();
+  private districtWarningElapsedMs = 0;
+  private districtWarningVisible = true;
   /**
    * M6-V7（CD1）：節點視覺簽章 diff 之前一 view 簽章查表（`null`＝全部 dirty）。與 `prevOwnerByNode`
    * 於 `setMapData`/`init` 同處重設為 `null`，保證重建後下一次 `updateView` 全節點重繪一次
@@ -622,6 +625,18 @@ export class MapRenderer {
     this.camera.update(deltaMs);
     this.sparkElapsedMs += deltaMs;
     this.updateBattleSparks();
+    if (
+      !this.reducedMotion &&
+      this.presentation.effectsEnabled &&
+      this.activeDistrictWarnings.size
+    ) {
+      this.districtWarningElapsedMs += deltaMs;
+      const visible = this.districtWarningElapsedMs % 1000 < 500;
+      if (visible !== this.districtWarningVisible) {
+        this.districtWarningVisible = visible;
+        for (const part of this.activeDistrictWarnings.values()) part.setWarningVisible(visible);
+      }
+    }
     this.cameraEventElapsedMs += deltaMs;
     if (!this.reducedMotion) {
       this.siegeElapsedMs += deltaMs;
@@ -1008,6 +1023,9 @@ export class MapRenderer {
       this.layers.nameplates.removeChildren();
       this.layers.labels.removeChildren();
       this.nodeParts.clear();
+      this.activeDistrictWarnings.clear();
+      this.districtWarningElapsedMs = 0;
+      this.districtWarningVisible = true;
       this.labelParts.clear();
       this.nameplateParts.clear();
       // M6-V7：清城下聚落＋隱節點選取環（node/label 之清理如上）。
@@ -1064,7 +1082,10 @@ export class MapRenderer {
       }
       // 首繪（比照現行 drawNodeMarker 於 build 一次；供 init 無後續 updateView 時仍能首幀繪出）；不計數
       //（計數在首次 updateView 之簽章 diff，§13-B3）。
-      entry.part.update(this.buildNodeProps(node.id, entry.kind) as never);
+      const props = this.buildNodeProps(node.id, entry.kind);
+      entry.part.update(props as never);
+      if (entry.kind === 'district')
+        this.syncDistrictWarning(node.id, entry.part as DistrictNodePart, props);
       if (entry.kind === 'castle') (entry.part as CastleNodePart).setBodyArt(this.castleBodyArt);
       entry.part.setLodStage(this.lodStage);
       const scene = this.presentPoint(node.pos);
@@ -1166,6 +1187,7 @@ export class MapRenderer {
       this.layers.nodeMarkers.removeChild(entry.part.container);
       entry.part.destroy();
       this.nodeParts.delete(id);
+      this.activeDistrictWarnings.delete(id);
       this.nodeCull.remove(id);
     }
     for (const [id, part] of this.labelParts) {
@@ -1922,7 +1944,10 @@ export class MapRenderer {
       for (const id of sigDirty) {
         const entry = this.nodeParts.get(id);
         if (entry === undefined) continue;
-        entry.part.update(this.buildNodeProps(id, entry.kind) as never);
+        const props = this.buildNodeProps(id, entry.kind);
+        entry.part.update(props as never);
+        if (entry.kind === 'district')
+          this.syncDistrictWarning(id, entry.part as DistrictNodePart, props);
         this.rebuildCounts.nodeMarkers += 1;
       }
     }
@@ -3591,6 +3616,15 @@ export class MapRenderer {
     effectsEnabled: true,
   };
 
+  private syncDistrictWarning(id: string, part: DistrictNodePart, props: DistrictNodeProps): void {
+    if (props.ikkiActive) {
+      this.activeDistrictWarnings.set(id, part);
+      part.setWarningVisible(this.districtWarningVisible);
+    } else {
+      this.activeDistrictWarnings.delete(id);
+    }
+  }
+
   /** Presentation-only preferences, reusable before asynchronous renderer initialization completes. */
   setPresentationSettings(settings: MapPresentationSettings): void {
     if (
@@ -3601,6 +3635,11 @@ export class MapRenderer {
       return;
     this.presentation = { ...settings };
     this.reducedMotion = mapMotionReduced(settings);
+    if (this.reducedMotion || !settings.effectsEnabled) {
+      this.districtWarningElapsedMs = 0;
+      this.districtWarningVisible = true;
+      for (const part of this.activeDistrictWarnings.values()) part.setWarningVisible(true);
+    }
     this.camera?.setReducedMotion(this.reducedMotion);
     this.applyCameraTransform();
     this.lastLabelScale = Number.NaN;
@@ -3906,6 +3945,9 @@ export class MapRenderer {
     this.pathPreview = null;
     this.marchPathPreview = null;
     this.nodeParts.clear();
+    this.activeDistrictWarnings.clear();
+    this.districtWarningElapsedMs = 0;
+    this.districtWarningVisible = true;
     this.labelParts.clear();
     this.nameplateParts.clear();
     this.marchTargetId = null; // M6-V9b：目標高亮重設（重掛後無殘留）

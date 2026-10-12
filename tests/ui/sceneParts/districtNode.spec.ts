@@ -249,6 +249,27 @@ describe('createDistrictNode（12 §4 ScenePart 工廠）', () => {
     expect(clearSpy).toHaveBeenCalledTimes(2);
   });
 
+  it('warning phase changes only the triangle visibility, never redraws the ground seal', () => {
+    const part = createDistrictNode();
+    const ground = part.container.children[0] as Graphics;
+    const groundClear = vi.spyOn(ground, 'clear');
+    part.update(props({ ikkiActive: true }));
+    const warning = part.container.children[1] as Graphics;
+    expect(warning.visible).toBe(true);
+    const paints = groundClear.mock.calls.length;
+    part.setWarningVisible(false);
+    expect(warning.visible).toBe(false);
+    part.setWarningVisible(true);
+    expect(warning.visible).toBe(true);
+    expect(groundClear).toHaveBeenCalledTimes(paints);
+    part.update(props({ ikkiActive: false }));
+    expect(part.container.children).toHaveLength(1);
+    expect(warning.destroyed).toBe(true);
+    part.setWarningVisible(false);
+    part.setWarningVisible(true);
+    expect(part.container.children).toHaveLength(1);
+  });
+
   it('destroy() 冪等且銷毀 container', () => {
     const part = createDistrictNode();
     part.destroy();

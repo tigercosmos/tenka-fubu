@@ -14,9 +14,7 @@
 // 本檔與 M2-13 一致選擇沿用 04/12 的防禦性介面（保留 null 分支，不因 02 目前恆有值而收窄型別），
 // 與 `mapDraw.ts`（M2-13）的 `ownerColor()` 處理方式相同，故不另籤 §8（該落差已於 M2-13 隱含接受）。
 //
-// 範圍（本批次）：一揆警示三角依 `ikkiActive` 靜態繪出（12 §3.3.3 終態），1s 週期閃爍／
-// reduce-motion 恆亮需要逐幀 ticker 驅動 `update()`（尚未整合，見 castleNode.ts 檔頭同款說明）；
-// 本檔僅負責「目前 props 描述的終態」之繪製參數正確性。
+// 一揆警示三角由獨立 Graphics 持有；ticker 只切換可見性，不重繪地面印章。
 
 import { Container, Graphics } from 'pixi.js';
 import { clanColorNum, TOKENS_NUM } from '@ui/styles/tokens';
@@ -74,6 +72,8 @@ export interface DistrictNodeProps {
 export interface DistrictNodePart extends ScenePart<DistrictNodeProps> {
   /** no-op 佔位（郡無 LOD 內部顯隱切換；供 `MapRenderer` 整合迴圈統一呼叫城/郡節點，M6-V7 §3.2）。 */
   setLodStage(stage: LodStage): void;
+  /** 一揆警示的裝飾閃爍相位；reduce-motion 時由場景保持恆亮。 */
+  setWarningVisible(visible: boolean): void;
 }
 
 function clamp01(v: number): number {
@@ -92,7 +92,11 @@ function trianglePoints(cx: number, cy: number, size: number): number[] {
  * `hasSteward`/`subjugationProgress`/`ikkiActive` 為可選欄位（M6-V7 AD1）：未提供時分別視同
  * `false`/`null`/`false`（直轄點、無制壓中、非一揆中）。
  */
-export function drawDistrictNode(g: Graphics, props: DistrictNodeProps): void {
+function drawDistrictNodeBase(
+  g: Graphics,
+  props: DistrictNodeProps,
+  includeWarning: boolean,
+): void {
   g.clear();
   const { radius, centerDotDiameter } = DISTRICT_NODE_GEOMETRY;
   const ownerColor =
@@ -145,7 +149,7 @@ export function drawDistrictNode(g: Graphics, props: DistrictNodeProps): void {
     });
   }
 
-  if (props.ikkiActive === true) {
+  if (includeWarning && props.ikkiActive === true) {
     const pts = trianglePoints(
       0,
       -DISTRICT_NODE_GEOMETRY.ikkiOffsetY,
@@ -153,6 +157,18 @@ export function drawDistrictNode(g: Graphics, props: DistrictNodeProps): void {
     );
     g.poly(pts).fill({ color: TOKENS_NUM.accentVermilionBright });
   }
+}
+
+/** 純繪製 helper 保留完整靜態終態；場景工廠則分離警示圖層以便只改可見性。 */
+export function drawDistrictNode(g: Graphics, props: DistrictNodeProps): void {
+  drawDistrictNodeBase(g, props, true);
+}
+
+function drawIkkiWarning(g: Graphics): void {
+  g.clear();
+  g.poly(
+    trianglePoints(0, -DISTRICT_NODE_GEOMETRY.ikkiOffsetY, DISTRICT_NODE_GEOMETRY.ikkiTriangleSize),
+  ).fill({ color: TOKENS_NUM.accentVermilionBright });
 }
 
 function samePropsExceptPos(a: DistrictNodeProps, b: DistrictNodeProps): boolean {
@@ -179,6 +195,8 @@ export function createDistrictNode(): DistrictNodePart {
   container.addChild(gfx);
 
   let last: DistrictNodeProps | null = null;
+  let warningPhaseVisible = true;
+  let warningGfx: Graphics | null = null;
 
   return {
     container,
@@ -190,8 +208,25 @@ export function createDistrictNode(): DistrictNodePart {
         last = props;
         return;
       }
-      drawDistrictNode(gfx, props);
+      drawDistrictNodeBase(gfx, props, false);
+      if (props.ikkiActive) {
+        if (warningGfx === null) {
+          warningGfx = new Graphics();
+          drawIkkiWarning(warningGfx);
+          container.addChild(warningGfx);
+        }
+        warningGfx.visible = warningPhaseVisible;
+      } else if (warningGfx !== null) {
+        container.removeChild(warningGfx);
+        warningGfx.destroy();
+        warningGfx = null;
+      }
       last = props;
+    },
+    setWarningVisible(visible: boolean): void {
+      if (warningPhaseVisible === visible) return;
+      warningPhaseVisible = visible;
+      if (warningGfx !== null) warningGfx.visible = visible;
     },
     setLodStage(): void {
       // no-op（M6-V7 §3.2：郡節點無內部 LOD 顯隱切換，僅供整合迴圈統一介面呼叫）。

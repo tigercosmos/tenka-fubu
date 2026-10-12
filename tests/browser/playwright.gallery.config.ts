@@ -31,5 +31,27 @@ export default defineConfig({
     url: 'http://127.0.0.1:4181',
     reuseExistingServer: false,
   },
-  projects: [{ name: 'gallery-chromium', use: { browserName: 'chromium' } }],
+  projects: [
+    {
+      name: 'gallery-chromium',
+      use: {
+        browserName: 'chromium',
+        // Match the production Chromium GPU path when an explicit native visual run requests it.
+        ...(process.env.VISUAL_GPU === '1'
+          ? {
+              channel: 'chromium',
+              headless: true,
+              launchOptions: {
+                headless: true,
+                ...(process.platform === 'darwin'
+                  ? { args: ['--use-angle=metal'] }
+                  : process.platform === 'linux'
+                    ? { args: ['--enable-gpu', '--use-angle=vulkan'] }
+                    : {}),
+              },
+            }
+          : {}),
+      },
+    },
+  ],
 });
