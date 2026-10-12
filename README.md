@@ -65,9 +65,11 @@
 
 ## 📐 專案現況：規格與驗證
 
+`1a6a681` 修正 Hojo 原生測試月結續行後的 Pause 輸入交接，原精確日期與完整援軍旅程通過；`8ca952c` 讓軍勢札 boot 保留非預期錯誤，原五秒重試期限不變，六項 focused 案例通過。歷史三個 pending Evaluate 超時仍未定位。合併來源的型別、完整 ESLint、441 項 discovery 及格式通過，並非 441 項完整原生成功。
+
 `ef75be6` 減少軍勢旗標重疊計算，保留精確布局與工作上限。九個完整地圖觀測含所有旗標均與原版逐 byte 相同；同機單次近景窗口由 33.24 到 34.13 FPS，p95 由 36 到 35ms，仍未達 strict60。固定來源 207 項相關測試、型別、完整 ESLint、build／bundle 通過；密集合成案例較慢及早期計時不穩定亦保留，沒有宣稱普遍或穩定加速。
 
-本次另更新修正前 `9550e39` 的完整 440 項原生結果：原 300 秒、預設 16 workers 下，257 PASS、11 FAIL、3 timeout、31 其他 skipped、5 interrupted、133 未派發。完整套件仍 RED；此結果不能改標為後續效能提交，詳見[完整驗收證據](docs/validation/2026-10-12/completion-audit/README.md)。
+最近一次完整原生仍為修正前 `9550e39` 的 440 項：原 300 秒、預設 16 workers 下，257 PASS、11 FAIL、3 timeout、31 其他 skipped、5 interrupted、133 未派發。完整套件仍 RED；此結果不能改標為後續提交，詳見[完整驗收證據](docs/validation/2026-10-12/completion-audit/README.md)。
 
 遊戲內系統選單已修復 DEV StrictMode 開啟即關閉的所有權問題；原 production 設定旅程維持通過。城池／郡選取環新增規格指定的輕微脈動，減動態及停用效果保持原靜態輪廓。合併 focused 247 項與建置檢查通過，完整專案驗收仍有下列門檻。
 

@@ -1,0 +1,16 @@
+{
+  "snapshotDay": 120,
+  "command": {
+    "day": 91,
+    "seq": 3,
+    "command": {
+      "type": "transport",
+      "clanId": "clan.takeda",
+      "fromCastleId": "castle.tsutsujigasaki",
+      "toCastleId": "castle.fukashi",
+      "soldiers": 1500,
+      "gold": 0,
+      "food": 0
+    }
+  }
+}

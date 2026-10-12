@@ -48,6 +48,11 @@
 
 - 當前里程碑：見 `milestone.json`；歷史進度：見 README 進度表。
 
+- `1a6a681` 只修 Hojo 原生測試的月結續行輸入交接：原 trace 顯示 x2 正常恢復後，Pause locator actionability 花 823ms，導致 day30→32；不是已證明的遊戲暫停 bug。候選先量測真實 Pause，Continue 後保留無 dialog 檢查才送 native pointer，精確日期與全部原旅程斷言不變。單案 54.747 秒／總 56.0 秒 PASS，保留 123 個連續日狀態、四次月結、day91 合法輸送及 day123 實際援軍移動；PASS 無 trace，不能宣稱量到新輸入延遲或已通過 16-worker 負載。
+- `8ca952c` 只讓軍勢札 boot 重試完整相符的尚未掛載例外，其他錯誤立即傳出，原五秒不變。舊 catch-all 對 one-shot unknown 控制 RED，候選整檔六項 PASS。較早 955 三個 trace 各只有一個 pending Evaluate 跨越五秒，沒有完成的 false retry；尚不能區分 IPC／瀏覽器進入／renderer frame 等待，這次不是其修復。孤立原版與 observer PASS 亦不能證明歷史原因。
+- 固定合併 `8ca952c` 的型別、完整 ESLint（0 errors／2 warnings）、441 項／106 檔 discovery、兩檔格式及 1,650 Git inputs／29 dependencies 前後校驗通過。原生分別是 4dd 加各單檔 overlay，不改標為完整 8ca；未重跑 core、build 或全套。最新完整原生仍為下列 955 的 440 項 RED。
+- 下一步需在有修正依據的原完整負載中量測 army boot 的 browser-entry／frame 邊界，並定位 earned generator 原期限成本；不新增 ready wait 變相延長五秒、不盲改 worker cap。全 M6–M9、strict60、whole-heap、long-run、六推薦／星級、既有規則／六張人工核准仍開放；未 push／deploy。
+
 - `ef75be6` 只為軍勢旗標重疊加安全零 X-span 快徑；每次呼叫先確認 Y 值範圍，極端合法輸入走原算式，原驗證／順序／`++work`／1,000,000 上限不變。原始函式 oracle 與新函式實際都在 1,000,001 次觸及上限且輸出相同；signed zero／subnormal／MAX 邊界、隨機及 sparse array 均有精確比較。九個完整 published payload 加所有 signals 與原版 byte-identical，SHA `aa64ea9e…`。
 - 同機單次原 30 秒近景：33.2367→34.1319 FPS、p95 36→35ms、slow 27.7778→28.5714；兩版原 strict60 都 RED，mean 之後的斷言未執行，raw readback 不能代稱已執行。另以相同 producer 各跑一次 10 秒 profile，精確 state／commands／resources 不變；328／342 renders 的 signal solver sampled cost 4.144→3.541ms/render。這是增量採用依據，不是重複性或穩定 60 證明。早期合成 crowded medians 互相矛盾；觀測後另訂固定 60 warmup／40 timed pairs 得 sparse −10.9%、crowded −9.3%、dense +7.6%，所有原 rows 與較早 dense +5.9% 保留，未證明 JIT 原因。
 - 固定 `ef75be6` 合併八檔 207/207、型別、完整 ESLint、build／bundle／touched format 及來源／29 Pixi targets 前後通過。原生候選證據釘選 `9550e39` 加精確單檔 overlay，不改標為較晚完整 source；完整 core 未重跑。

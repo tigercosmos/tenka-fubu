@@ -1,0 +1,309 @@
+{
+  "scope": "Exact 8ca952c Hojo and army boot integration captures and their producers",
+  "items": [
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/after-pixi.json",
+      "file": "raw/inner__after-pixi.json.gz",
+      "rawBytes": 7740,
+      "rawSha256": "307705fb6bcae074a47b46f36d04051c87e8445d486193d28cf1f90ff5a9d331",
+      "gzipBytes": 1770,
+      "gzipSha256": "5980f197a975c3cc2fb99d825c1e94311d33ee3a4c6f92432d328451f69a4671"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/after-result.json",
+      "file": "raw/inner__after-result.json.gz",
+      "rawBytes": 75,
+      "rawSha256": "67298eeea7e1f213f4d174371a5e283bd28f26973ace4cee6d7b42b224768dd0",
+      "gzipBytes": 67,
+      "gzipSha256": "44bcd759d610018e307e8be0be386e2cddd78dc5bfc9dd2f5037586695956183"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/after-source.json",
+      "file": "raw/inner__after-source.json.gz",
+      "rawBytes": 507653,
+      "rawSha256": "20dae77f56265d125f356d6bb36023d64085f410cb69eeaa1f67149171fe6d3c",
+      "gzipBytes": 135302,
+      "gzipSha256": "f6279be2e020e82f3a6c440fe54b1f144bd6f83b0a5214f8928683fa1d908553"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/before-pixi.json",
+      "file": "raw/inner__before-pixi.json.gz",
+      "rawBytes": 7740,
+      "rawSha256": "307705fb6bcae074a47b46f36d04051c87e8445d486193d28cf1f90ff5a9d331",
+      "gzipBytes": 1770,
+      "gzipSha256": "5980f197a975c3cc2fb99d825c1e94311d33ee3a4c6f92432d328451f69a4671"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/before-result.json",
+      "file": "raw/inner__before-result.json.gz",
+      "rawBytes": 75,
+      "rawSha256": "67298eeea7e1f213f4d174371a5e283bd28f26973ace4cee6d7b42b224768dd0",
+      "gzipBytes": 67,
+      "gzipSha256": "44bcd759d610018e307e8be0be386e2cddd78dc5bfc9dd2f5037586695956183"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/before-source.json",
+      "file": "raw/inner__before-source.json.gz",
+      "rawBytes": 507653,
+      "rawSha256": "20dae77f56265d125f356d6bb36023d64085f410cb69eeaa1f67149171fe6d3c",
+      "gzipBytes": 135302,
+      "gzipSha256": "f6279be2e020e82f3a6c440fe54b1f144bd6f83b0a5214f8928683fa1d908553"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/discovery.command.json",
+      "file": "raw/inner__discovery.command.json.gz",
+      "rawBytes": 201,
+      "rawSha256": "6eea3116c60c96d4f173f7f4f940075f4ae224e4492da808acf9e80754d9cc91",
+      "gzipBytes": 175,
+      "gzipSha256": "82df0dcbc0bf3c32c50b660e6244902e4e26608a16916eaf7a4a1b18ac27cb51"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/discovery.log",
+      "file": "raw/inner__discovery.log.gz",
+      "rawBytes": 59061,
+      "rawSha256": "c47d5031fb208ac42496e221a00889d9b7099ec7479e27ca2cebcedf879d0ebf",
+      "gzipBytes": 9731,
+      "gzipSha256": "cc4d9a995f50a02261c83abe497117256e3127bb27c79896a10e0fd39a2b20ad"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/discovery.result.json",
+      "file": "raw/inner__discovery.result.json.gz",
+      "rawBytes": 130,
+      "rawSha256": "52540f6b60a64e0d61cd4f4ba153414e624e074b9dec7bab4eab46d6d39e08c6",
+      "gzipBytes": 133,
+      "gzipSha256": "e3d892814e5941d93d25c22062ae44292c02e4ea1d41849affc18c9a4b97adad"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/eslint.command.json",
+      "file": "raw/inner__eslint.command.json.gz",
+      "rawBytes": 154,
+      "rawSha256": "d5851c2d261733bf22c61de0523c29960b63a74ae97657a8764075b57427c3a2",
+      "gzipBytes": 149,
+      "gzipSha256": "439578ea751ab144a4e39a7ed89788c9f34daa858a91964442d592cedb1ac847"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/eslint.log",
+      "file": "raw/inner__eslint.log.gz",
+      "rawBytes": 674,
+      "rawSha256": "2ee6671669b535840800a8f90bb18fc543b0dd2e02871435e6715557c7fcb3b3",
+      "gzipBytes": 390,
+      "gzipSha256": "473be89ba225e113228f3797a83a853b7886415ce7502a3041d572540e02d10e"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/eslint.result.json",
+      "file": "raw/inner__eslint.result.json.gz",
+      "rawBytes": 126,
+      "rawSha256": "a6f58b6b9be15a3d9e648877b74fa8fdc5f716f3eb3e44c1639f48063479ee08",
+      "gzipBytes": 131,
+      "gzipSha256": "4e77d557bbc68e64b7cba201492bfb82bf3b44f4136c8ee9b7aaa7f4eb5debef"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/format.command.json",
+      "file": "raw/inner__format.command.json.gz",
+      "rawBytes": 234,
+      "rawSha256": "00d93467d057d874ee68d76a28cebbe41cda8191f9ab968d9d6f2fc3c818c158",
+      "gzipBytes": 193,
+      "gzipSha256": "d88a8ff0e34f9e5d34d848bb9af407c8c56366996a4650da01ab8dc5512e0380"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/format.log",
+      "file": "raw/inner__format.log.gz",
+      "rawBytes": 66,
+      "rawSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "gzipBytes": 82,
+      "gzipSha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/format.result.json",
+      "file": "raw/inner__format.result.json.gz",
+      "rawBytes": 128,
+      "rawSha256": "20e2629752768d67a56072e1502e42b102a9979f1c800c8b0db653c05ee3e623",
+      "gzipBytes": 133,
+      "gzipSha256": "26a6bf85eaaf71586c3360f5353c0c93e032c031c69a42c8fc85464f34f53f83"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/inventory.command.json",
+      "file": "raw/inner__inventory.command.json.gz",
+      "rawBytes": 544,
+      "rawSha256": "9d8556855f203587f14d44f737347fc62f458c8461fbef33d7cb4201d5441fa2",
+      "gzipBytes": 316,
+      "gzipSha256": "abbdfcb520a6e6f29c8b2ddbe11bc605ceb9262692ebc16c6b5ce5681e375555"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/inventory.log",
+      "file": "raw/inner__inventory.log.gz",
+      "rawBytes": 190,
+      "rawSha256": "dd258780bc1c027c84d556df8454b2346599731a641a4aa56dbb959c0a47423b",
+      "gzipBytes": 165,
+      "gzipSha256": "d93c397eafbced5695644d4d68fc78b05648e2a2f6c22ece32aec4b2e82130f8"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/inventory.result.json",
+      "file": "raw/inner__inventory.result.json.gz",
+      "rawBytes": 130,
+      "rawSha256": "8c4888ccda38008b1ce5e481c3b33500e7a6a4b85b36104b8cc9ad8d861c2434",
+      "gzipBytes": 134,
+      "gzipSha256": "902678347692f96d73e8ae4e94d9f8eed52d1cc1deb5de713ba1f810bc7d4370"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/source-inventory/manifest.json",
+      "file": "raw/inner__source-inventory__manifest.json.gz",
+      "rawBytes": 301043,
+      "rawSha256": "f8c377f6e66a0710c1e2e4fa600f9972c8c946d8915f444f1d9462c906f752d8",
+      "gzipBytes": 69937,
+      "gzipSha256": "5cce08ccf34e4bed0d054a06f9c5cb8585bfeda9fcf0704a43085de2e59489f8"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/source-inventory/revision-commit.command.json",
+      "file": "raw/inner__source-inventory__revision-commit.command.json.gz",
+      "rawBytes": 161,
+      "rawSha256": "ef68a243f2fd4cec65d1ab1514d31c83c8143a1d7a40c0d304b47d70d1373444",
+      "gzipBytes": 149,
+      "gzipSha256": "35424de5afad3fdc3e3dfbafade4b6c6be1e11852c754188bca75aae514d7c5e"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/source-inventory/revision-commit.result.json",
+      "file": "raw/inner__source-inventory__revision-commit.result.json.gz",
+      "rawBytes": 15,
+      "rawSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe",
+      "gzipBytes": 35,
+      "gzipSha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/source-inventory/revision-commit.stderr",
+      "file": "raw/inner__source-inventory__revision-commit.stderr.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/source-inventory/revision-commit.stdout",
+      "file": "raw/inner__source-inventory__revision-commit.stdout.gz",
+      "rawBytes": 41,
+      "rawSha256": "e97cfa9948d73b534e35446cbf76c684632a2f584fa1cfd79a5b354e67fba596",
+      "gzipBytes": 59,
+      "gzipSha256": "88ab611477f407b7af2038f0e3daabe52643ef9e12321e3950c5eb046a1f2388"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/source-inventory/revision-tree.command.json",
+      "file": "raw/inner__source-inventory__revision-tree.command.json.gz",
+      "rawBytes": 145,
+      "rawSha256": "c52deb9b2da309242c969a5177c05809c727aeb59764cecb1ef0fa27aff7ad45",
+      "gzipBytes": 138,
+      "gzipSha256": "8e726ddf2d37d6ca591869ee855b7104c4e7d0cd8a3c2881140faa77dde0bd93"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/source-inventory/revision-tree.result.json",
+      "file": "raw/inner__source-inventory__revision-tree.result.json.gz",
+      "rawBytes": 15,
+      "rawSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe",
+      "gzipBytes": 35,
+      "gzipSha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/source-inventory/revision-tree.stderr",
+      "file": "raw/inner__source-inventory__revision-tree.stderr.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/source-inventory/revision-tree.stdout",
+      "file": "raw/inner__source-inventory__revision-tree.stdout.gz",
+      "rawBytes": 1222287,
+      "rawSha256": "2a5fdb23320fcdf8dec88d371f14a4886d709c70fe537f08cd2969e51f0117f3",
+      "gzipBytes": 246677,
+      "gzipSha256": "0385956592e6700cd9b932fac3463d02e762bbbeece15c5b6ffe23d75957a40c"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/status.json",
+      "file": "raw/inner__status.json.gz",
+      "rawBytes": 912,
+      "rawSha256": "7bd43aef42272ae40ba6e8cf1b7acd21ee837d4b95e45a66b7bf1f113c7fa32a",
+      "gzipBytes": 338,
+      "gzipSha256": "eb97578b10f680190490ab301635611af97d25441929e0ea3bd73b69c1baf080"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/typecheck.command.json",
+      "file": "raw/inner__typecheck.command.json.gz",
+      "rawBytes": 152,
+      "rawSha256": "7914109f520034f021d07d42ecba504539dc471d7cc7d8b703eb0e9a0a3207a6",
+      "gzipBytes": 146,
+      "gzipSha256": "e3513273c0810acbd1cb3a3ea050fc691acd0ed55e685db0e141092dbd6094d1"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/typecheck.log",
+      "file": "raw/inner__typecheck.log.gz",
+      "rawBytes": 84,
+      "rawSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a",
+      "gzipBytes": 87,
+      "gzipSha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-c1/typecheck.result.json",
+      "file": "raw/inner__typecheck.result.json.gz",
+      "rawBytes": 129,
+      "rawSha256": "8ef1af66f17f58b0afbe5fc097b92df032f5a318f4a9ef516ba4b6f86247d093",
+      "gzipBytes": 132,
+      "gzipSha256": "a98e7ba22a11464d03c7843b9d8389843ad900eb3b7ba3865ca6c5c3c8b404c0"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-outer-c1/command.json",
+      "file": "raw/outer__command.json.gz",
+      "rawBytes": 337,
+      "rawSha256": "587d47d4ab0428b67e1ff395a5657fc751891185484374acab75da305860090b",
+      "gzipBytes": 234,
+      "gzipSha256": "a3560c5310fd320fbca1cb689a6fa9af65561ba01294a6efebf125649a8d8e5d"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-outer-c1/process.json",
+      "file": "raw/outer__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "3750499b7b5be9afb32b01d8f47d4c65ddddbfcfd85d4e20bc82ab8b262afaa4",
+      "gzipBytes": 39,
+      "gzipSha256": "739c8fbb0b266155360edbb93debbe8b13f008f1a8737598be54659cbdc1e54f"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-outer-c1/result.json",
+      "file": "raw/outer__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "f49fcda2499aa36b984af13a1658e750511e8daa054cf07f88af0f59d03969a1",
+      "gzipBytes": 89,
+      "gzipSha256": "d1e724ecd1ea6bafb510fbb5a87942dac8d12e207bfb584aad9f7e89a08fc858"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-8ca952c-outer-c1/stdout-stderr.log",
+      "file": "raw/outer__stdout-stderr.log.gz",
+      "rawBytes": 593,
+      "rawSha256": "9d5ab8696345255e1a11bc4e806fca80f8d80681df3c287b56355a00cf0865f2",
+      "gzipBytes": 244,
+      "gzipSha256": "a60cb8c7ee36a1fadb12c521e265374b84d5c7b1d42453c683b6025d6a4d7a2b"
+    },
+    {
+      "source": "/tmp/tenka-hojo-armyboot-integrated-run-c1.py",
+      "file": "raw/producer__runner.py.gz",
+      "rawBytes": 5337,
+      "rawSha256": "3cbafcad63b10b89232c8b6bb73f412abb3f48890fd0f4ee2d4fe7158a3eeed4",
+      "gzipBytes": 1955,
+      "gzipSha256": "9cad0b0b193bb8a361b0afa532729b3a3c86ce4f4dc685d157f1ee6701ce37a7"
+    },
+    {
+      "source": "/tmp/tenka-validation-capture-961f0ae.py",
+      "file": "raw/producer__outer-capture.py.gz",
+      "rawBytes": 1722,
+      "rawSha256": "888e8cf09de8e6cc4191194d69168974601d5397ffa4991ac3c981c8531f1710",
+      "gzipBytes": 904,
+      "gzipSha256": "3a492d9e511f6dd9d21d3e57f8834ba5f7586c73ff765feec7c3c6904c4758e1"
+    },
+    {
+      "source": "/Users/tigercosmos/tenka-fubu/docs/validation/2026-10-12/completion-audit/scoped-source-snapshot-79682cd/tenka-scoped-source-archive.py",
+      "file": "raw/producer__scoped-source-inventory.py.gz",
+      "rawBytes": 3348,
+      "rawSha256": "d7f1fd477c0583eff8237e13c34e7c77a594a8552ca6211a958536da2287ab1d",
+      "gzipBytes": 1434,
+      "gzipSha256": "b415c2a965cc5260bcb78e7a263f297404a7dbbb3f4c20cb8c7bd98c02635f70"
+    }
+  ]
+}

@@ -1,0 +1,1876 @@
+{
+  "items": [
+    {
+      "source": "/tmp/tenka-armyplate-build-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-build-4dd-c1__result.json.gz",
+      "rawBytes": 75,
+      "rawSha256": "5bc7a92f36acd66e58f3b9e323f225b562fd19fd6e25d25186b9cb87e98a42b3",
+      "gzipBytes": 91,
+      "gzipSha256": "e76785fb6520b591999bc2a3d527986560a70f6666cfba75f24fc942a71298da"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-build-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-build-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 37,
+      "rawSha256": "a762e5f6676bf746db69bcc3a4a1541c937a732a1ed7fef0fb78bfdf516410bf",
+      "gzipBytes": 57,
+      "gzipSha256": "2f1d36f12d679953b6f027d0e77137fec13bc92f9a9a66892d1142349ca0255e"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-build-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-build-4dd-c1__command.json.gz",
+      "rawBytes": 338,
+      "rawSha256": "5e237bff8b8bb60ea0be189eadd8088660da613538c2f2d9a4d7adf0ff9aa2cb",
+      "gzipBytes": 252,
+      "gzipSha256": "f55c9df11fff078b02a8d3d67ebb172cce24134b3dfff1df6034eddd67297ad1"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-build-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-build-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "39674595952dbe2550cde05d8e7190884b1d687f2e2e4b78acbba72583b0b88d",
+      "gzipBytes": 39,
+      "gzipSha256": "b891c565afa66320fdaeb4f67cfd8e2e150720b7558c130d25d268f1d1a20f37"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-build-4dd-c2/result.json",
+      "file": "raw/tenka-armyplate-build-4dd-c2__result.json.gz",
+      "rawBytes": 75,
+      "rawSha256": "0efe158ccc44c1fdd7b8f133acff4dfd5f96b9ef678594fa6ddd604b6a0b0666",
+      "gzipBytes": 91,
+      "gzipSha256": "2ded7f2f4b321d1a3d4d5d9d129cb84eac06b83cf03b5f6ec18b022d09047a9d"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-build-4dd-c2/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-build-4dd-c2__stdout-stderr.log.gz",
+      "rawBytes": 37,
+      "rawSha256": "a762e5f6676bf746db69bcc3a4a1541c937a732a1ed7fef0fb78bfdf516410bf",
+      "gzipBytes": 57,
+      "gzipSha256": "2f1d36f12d679953b6f027d0e77137fec13bc92f9a9a66892d1142349ca0255e"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-build-4dd-c2/command.json",
+      "file": "raw/tenka-armyplate-build-4dd-c2__command.json.gz",
+      "rawBytes": 337,
+      "rawSha256": "7d852474523c2b1a7a99c0deac9b2bb2028959e4e3f4858437f7059b2a0227b2",
+      "gzipBytes": 252,
+      "gzipSha256": "09f39b87ff79195c237cf01f4a5e4c2bcb4c63afd10c55c585c21d35bcb1aac4"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-build-4dd-c2/process.json",
+      "file": "raw/tenka-armyplate-build-4dd-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "81c171741311a890c638de54f1866e589224ba0714e2a15348d5b0f87bfeb891",
+      "gzipBytes": 39,
+      "gzipSha256": "cfb5207438d493cb7f1f00d2e1e026d2db8e00c31b576d07afe464ad8161e067"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-candidate-freeze-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-candidate-freeze-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "96048d02241101a0021ec0dc25bd5d344d35d65f04462c5eaf0d047b8adde8b1",
+      "gzipBytes": 89,
+      "gzipSha256": "98582235a5cfaf4324b24b87657c8ab2ad40b4fdf4f9b7047563a2a060c017bc"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-candidate-freeze-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-candidate-freeze-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-candidate-freeze-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-candidate-freeze-4dd-c1__command.json.gz",
+      "rawBytes": 233,
+      "rawSha256": "6a3ed324e0a519879cc354896b5ae1627cc848fdca28cc6ce7e55f826ce2121f",
+      "gzipBytes": 187,
+      "gzipSha256": "6f44b7a8c9ab1ae833b8a286d27fcc64a5e420fc8b4983751855ffdee0645374"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-candidate-freeze-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-candidate-freeze-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "e22c7f42bc84092f2580b42b89d367a0778a97cbc9e027088b0813228ef282a3",
+      "gzipBytes": 37,
+      "gzipSha256": "f0cb29dd0399ea43bb9bf149b8fabe147b928604c25226cb22f7be2a28e8d37a"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-candidate-manifest-transfer-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-candidate-manifest-transfer-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "8f5c9c278819b18beecd3cad153379f61cad210db71250b9db4e1896e6454f82",
+      "gzipBytes": 89,
+      "gzipSha256": "944f725ada82e240d1c5869935f9a703583f0a5241d9121935cbebdc2be6cdd8"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-candidate-manifest-transfer-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-candidate-manifest-transfer-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-candidate-manifest-transfer-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-candidate-manifest-transfer-4dd-c1__command.json.gz",
+      "rawBytes": 245,
+      "rawSha256": "51e4e6a10562be482566b7e3e94f370be1c916647a44eff235f5e90a3ea38a5e",
+      "gzipBytes": 186,
+      "gzipSha256": "a87803efe1471b5aaa96fa5d5f3e0845a00f8f323aa6b57c3205dca36a5e3061"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-candidate-manifest-transfer-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-candidate-manifest-transfer-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "1f80f0a3e6722ee3672541f332854d63d5d7dcb741fcf1ee5c495bd36146a9e2",
+      "gzipBytes": 39,
+      "gzipSha256": "92f4d5e3a76ea6665bcf4b2aa65a792e9ac8e76bfc352833d2ed815e69cbc1a6"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-candidate-transfer-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-candidate-transfer-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "ca069c8955b0ddc9c48fe4fce8f47c908b52d52d428fbfab0949fc65b50d0d35",
+      "gzipBytes": 89,
+      "gzipSha256": "439cc00f621d7f88ebc33257664ed2f9b8f6707aaa883307a3ca9960ba46d255"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-candidate-transfer-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-candidate-transfer-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-candidate-transfer-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-candidate-transfer-4dd-c1__command.json.gz",
+      "rawBytes": 267,
+      "rawSha256": "031d1f687b47128aef0694656a2ab8d7e089d3d6a0691d30f21b301f853bb82a",
+      "gzipBytes": 197,
+      "gzipSha256": "b9614459bbb09fc4d109f759e6a63a2de1ff62768ba36f09465d696b32976b82"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-candidate-transfer-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-candidate-transfer-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "97f5ec197a7948d7501a3d57c754d05aee7374e09ffb6c684c34c7d6317c5131",
+      "gzipBytes": 39,
+      "gzipSha256": "31d2f794cd04e76420b622ab794611811b54d5ececc7ace354e39bbb5b40f098"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-depslink-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-depslink-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "d3018e9bef5740230e982fb6be1ca5244aba87ce42e56d6643889070bdbbc664",
+      "gzipBytes": 89,
+      "gzipSha256": "32eea5997edabbe67854a28957e7df87fb08daeaea61254e5a43df4be621ca93"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-depslink-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-depslink-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-depslink-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-depslink-4dd-c1__command.json.gz",
+      "rawBytes": 278,
+      "rawSha256": "7389d7e6814bd090e206897426756cb18bd759f5bc10c4ef57cf85f0b081c91b",
+      "gzipBytes": 204,
+      "gzipSha256": "4f6a61a219b919cce9d10a967acc7fb5669207c264f23e6ae56807e4776b3a2d"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-depslink-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-depslink-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "60b364aabac25de681e9f78d4cb14209becddf4a24604c5db8cc89baa6461854",
+      "gzipBytes": 39,
+      "gzipSha256": "07dd3cbd1c9fba2a6bb200f9bd7c7f2a70b08c0bcd15814abb3184b30a820f45"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-diffcheck-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-diffcheck-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "f6dfac3817a3e5a56c1137e8d3a4024df2e16534f4cdf261719c8127efd39527",
+      "gzipBytes": 89,
+      "gzipSha256": "7c3eca9891d051785b77335275e9dd6ecf7033f08ecc83e0fb4a2a4a23c8ed96"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-diffcheck-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-diffcheck-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-diffcheck-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-diffcheck-4dd-c1__command.json.gz",
+      "rawBytes": 218,
+      "rawSha256": "76b72cbd69475ee621a21bead1a89510d5d95e11c81f8706ee15f321cf7d2d55",
+      "gzipBytes": 179,
+      "gzipSha256": "e515c6e3edd1af0537441fa84b975f52aee37287eb39b761c08fdc54c9799ab0"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-diffcheck-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-diffcheck-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "907fcd2611a49af411265f21f6956d931396f977842502ba25ad3c8a724e6fe5",
+      "gzipBytes": 39,
+      "gzipSha256": "7d37630b3c363ddab643381f276f2a0cf2412d5c3087c607177c2bd6174b78a8"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-eslint-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-eslint-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "1efd7a1bfdce339c50002deb5ac89a01de4a62f6229cc9706e8c67520ba8a93d",
+      "gzipBytes": 89,
+      "gzipSha256": "1606a5d8249746728616cc99afddf2a888d6e5e628b3b930365ed350a3cd020a"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-eslint-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-eslint-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 309,
+      "rawSha256": "0f0bc57fd96f10ad18fbf00e54809314de222b49c86c06aff8e57dab5ae5085c",
+      "gzipBytes": 196,
+      "gzipSha256": "2f3e04ef1f3e7c9c88293b3de9b469d80b147ff9bcdc8d8c31fd639be8a8967b"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-eslint-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-eslint-4dd-c1__command.json.gz",
+      "rawBytes": 204,
+      "rawSha256": "60f4962dbf0c0107fc73d5c49d550e4f46fea17b9696e0f556a2e2265089ec93",
+      "gzipBytes": 180,
+      "gzipSha256": "8d99465b486f46bf41f220105edcd1e260e4c5a5268dba0f9200ea8d8e218b84"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-eslint-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-eslint-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "a1a08b2c1eaf1644f0c8cccec9c9cc3fc7abeda5769d4e74dfa41eef1be6ba2f",
+      "gzipBytes": 39,
+      "gzipSha256": "76f390296e1132fb629963549aa9f7df8a21c675655c86a7d62c7a9170b5b827"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-eslint-4dd-c2/result.json",
+      "file": "raw/tenka-armyplate-eslint-4dd-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "01c2368de7e5f477fc9db9d4c6e68ed703848f99b0b03962450294b5b3626265",
+      "gzipBytes": 89,
+      "gzipSha256": "3d4b0a0b2c593d104b627c6ff653348c032b4e1a764c968828a22e8799be7a24"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-eslint-4dd-c2/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-eslint-4dd-c2__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-eslint-4dd-c2/command.json",
+      "file": "raw/tenka-armyplate-eslint-4dd-c2__command.json.gz",
+      "rawBytes": 204,
+      "rawSha256": "84a0d6f2b8d822628851edce060243509370a421bcaf68ff0d454c05d0e01bb9",
+      "gzipBytes": 179,
+      "gzipSha256": "a5acd212081e0a7815f3817697790cd6fc28539f93eb278d3ce7f83498117ac4"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-eslint-4dd-c2/process.json",
+      "file": "raw/tenka-armyplate-eslint-4dd-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "67bb9186f8848b49144cfcb53ca77619bacfba4ef2e9b7e2546bd9c40a830275",
+      "gzipBytes": 39,
+      "gzipSha256": "430fe986342baa6cbd3176c5496d2d1bc9277f023e73ad12b992168a28e76df0"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-evidence-pack-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-evidence-pack-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "a9b8c0d0a1fe642da71a0fc8d09cec8a70ce760353828105ec9cf64ca168ead4",
+      "gzipBytes": 89,
+      "gzipSha256": "fe91e0564d955a692505a284d67706c8cbb8d9a92734461b3689b55428160f93"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-evidence-pack-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-evidence-pack-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 58,
+      "rawSha256": "96b6b63f8be683bcc51dad6e496f80ef9e7f68228cd89ddd1a85b25a93af71d6",
+      "gzipBytes": 70,
+      "gzipSha256": "1a6db841802bc5b00dece45b71a6b036592542ab6ec634867651c0b9c8c00e11"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-evidence-pack-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-evidence-pack-4dd-c1__command.json.gz",
+      "rawBytes": 220,
+      "rawSha256": "c6f6e1571cbfc1032dbc108df5977b3f3296cb6930d56142071428532b34cd78",
+      "gzipBytes": 183,
+      "gzipSha256": "25e5ffa2428af2672d65def012fb13adb49eee951a3355d2c6d341fc6574bed1"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-evidence-pack-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-evidence-pack-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "06c6e2a61b90fa2a49581725d876b3990a26cbee6139c39d8e66896dd27415fd",
+      "gzipBytes": 39,
+      "gzipSha256": "be65c01301a75d33aa009dbbe8117d06b7d965f468d6c0a3f75e079e208de291"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-evidence-producer-transfer-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-evidence-producer-transfer-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "2dd2629d32b7d50efe335ef9866671858f689e303e940e7f592e9d9fb01e0c99",
+      "gzipBytes": 89,
+      "gzipSha256": "83275f0efc3cd112610ac49572b0b8e844d7093b2aa5d911ce5878ae9e112e4f"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-evidence-producer-transfer-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-evidence-producer-transfer-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-evidence-producer-transfer-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-evidence-producer-transfer-4dd-c1__command.json.gz",
+      "rawBytes": 247,
+      "rawSha256": "aa6a351b6286511d3e3ba3e470d3d17c651c284c1b711c3f582003a66ee513cf",
+      "gzipBytes": 181,
+      "gzipSha256": "3a8d1c4a52210f24ed28003dedbcd89a5a66c4088dd4acb54d132a478ee877e0"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-evidence-producer-transfer-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-evidence-producer-transfer-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "3cc1e8da029acb537e0eafedb6d6c6c33fd9993995c24f9d556e17519601c7c9",
+      "gzipBytes": 39,
+      "gzipSha256": "eaf19d24331c7420702efcdb25ff4d6ac19855b1b41b8064917d48f889c3202a"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-evidence-transfer-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-evidence-transfer-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "6998b290266c5e5a73c959fa697448652f4d63725858f1f990ef77631191c303",
+      "gzipBytes": 89,
+      "gzipSha256": "ad4f7364d1cc02fd325802c1fb896a3db8b598d43b1358ff84beab383db187f2"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-evidence-transfer-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-evidence-transfer-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-evidence-transfer-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-evidence-transfer-4dd-c1__command.json.gz",
+      "rawBytes": 297,
+      "rawSha256": "339f199b18db0d86272e5a6b32d66be8681e2e6b6c997530ba26bd5c2dd3a034",
+      "gzipBytes": 206,
+      "gzipSha256": "df5c257f3b5b73ccb783b5cb5637137b11f32b5c2d1e7be4805ba867c36765fa"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-evidence-transfer-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-evidence-transfer-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "1206d0c896917a0aa790a06afab66f7fbfb9f44aab771400ab2b0c233c5552c9",
+      "gzipBytes": 39,
+      "gzipSha256": "0764662f322f6a9f36223d67a671f236207976ad4227884f1cef5c6caab8bff3"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-extract-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-extract-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "e37e7bae5e7ec6522611e24163ed22928214c894e14560a578a31001305508a6",
+      "gzipBytes": 89,
+      "gzipSha256": "81dd842f5687e16f49c98d1c076a15fa4ff6ceea90bef72ad39c4847b40118bd"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-extract-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-extract-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-extract-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-extract-4dd-c1__command.json.gz",
+      "rawBytes": 269,
+      "rawSha256": "e8f784fcb7712172f06a11414610439ad4662f3055498f5ba3dd77d67ca04239",
+      "gzipBytes": 188,
+      "gzipSha256": "bd3f19d7d4377396f8562c7f58552fddba2aaf0a6500f5b74441137a622605c1"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-extract-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-extract-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "d7ca44e60d9fb553d18f852360230686639a69a967b1eb3928fdaddcd66a8be2",
+      "gzipBytes": 39,
+      "gzipSha256": "6cc337d5819f9b4e72ec4fa465c66e5523a0c00833da2f2a9421c9f54c0187ea"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-format-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-format-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "b9744b76fff91de8b5feb708922ef5890d656ce0a0814b437fb9d6532a750fca",
+      "gzipBytes": 89,
+      "gzipSha256": "7511648d8fe91308fc9d094ac7a5fff22c21b0d5319e273d1ba3cb0a52ee4bfb"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-format-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-format-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 144,
+      "rawSha256": "583619b8d2786fcab38a2c7ee915b219002f541e83199293b79ac53553ca06d3",
+      "gzipBytes": 136,
+      "gzipSha256": "f4c5da4ab5d4a4e1244ebee71c652304eaa8b5b969be12fb166bc9a746a5ad14"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-format-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-format-4dd-c1__command.json.gz",
+      "rawBytes": 221,
+      "rawSha256": "fa8ab8bfd0415770bf928d50fd810ce0c4d8c1f40ce34e7299517614b2b5314d",
+      "gzipBytes": 189,
+      "gzipSha256": "9a0434d6b0b56f2d0ce6be8c86f7b99e0908a26838f230c90ec37c74ee7a4997"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-format-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-format-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "dd1d0b823e18e872ea47412fecdd3e362848afd922383b071011f060980555b6",
+      "gzipBytes": 39,
+      "gzipSha256": "951e863e00410b4d490ce6b27b8e33625f4071eee8853637059766f74e2685e2"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-format-4dd-c2/result.json",
+      "file": "raw/tenka-armyplate-format-4dd-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "aeb337bd62b9d8ccb0931aa030f05c4e4315c171d7c5ca2fac04427909df7a69",
+      "gzipBytes": 89,
+      "gzipSha256": "add1238a5d4a290c74749833ef6960b11fe0b27e6b390dbc1bd8201a135d288f"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-format-4dd-c2/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-format-4dd-c2__stdout-stderr.log.gz",
+      "rawBytes": 35,
+      "rawSha256": "d593f9b85e3177fd7b0989e32ef014bb6b2b32f801f7779912687051b2b5621b",
+      "gzipBytes": 55,
+      "gzipSha256": "96341a81d18225e37800fd5a99232996966693296dd98e0e4e745aa278a919a5"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-format-4dd-c2/command.json",
+      "file": "raw/tenka-armyplate-format-4dd-c2__command.json.gz",
+      "rawBytes": 221,
+      "rawSha256": "b615c023eee18552279cfbd920a0e7bc0d3deb7a02c8ff04620759340bd73721",
+      "gzipBytes": 188,
+      "gzipSha256": "1166de6fa5150008376b4d503d532a8a30cadbd987fa84b1d8dcba4dcabf5f25"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-format-4dd-c2/process.json",
+      "file": "raw/tenka-armyplate-format-4dd-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "1a78a25db349e7ec8e24bbbc588f410ecf9def487e26067574d323d21c75c05f",
+      "gzipBytes": 39,
+      "gzipSha256": "e8b5a2e0df8e10d9914502933070a7faefc3b697d12c487c234aefc7cef6512b"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-format-4dd-c3/result.json",
+      "file": "raw/tenka-armyplate-format-4dd-c3__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "409a07d49a5e8f4ea330585d77fef7dc07a986552d6d8a65e1126a8ee9ed9941",
+      "gzipBytes": 89,
+      "gzipSha256": "65c760e147a2c6dd1192060ac59116ff1c3fb1c9105f77038618f01880a688bf"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-format-4dd-c3/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-format-4dd-c3__stdout-stderr.log.gz",
+      "rawBytes": 66,
+      "rawSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "gzipBytes": 82,
+      "gzipSha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-format-4dd-c3/command.json",
+      "file": "raw/tenka-armyplate-format-4dd-c3__command.json.gz",
+      "rawBytes": 221,
+      "rawSha256": "353b3c2f9160ef9a473202fecb1cb3f08327967fc75216e094be6a33e388e737",
+      "gzipBytes": 190,
+      "gzipSha256": "e05c2f1cd12f604ca5040c32a154515bd4a1807ab879f4d0e853fa0e2e89c938"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-format-4dd-c3/process.json",
+      "file": "raw/tenka-armyplate-format-4dd-c3__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "de7870dac66d19dd865494ac2473c90a4e7ccb367b1f4babba320634c7036fa1",
+      "gzipBytes": 39,
+      "gzipSha256": "0c238ff61736124f749ae0806b06f94e05e297ceeb7dbed17c6fe3d257b40497"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-launcher-transfer-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-launcher-transfer-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "4f5845916de44f93abf385b98b62c83bbf00596c2d03eaf745c79ba97a9fe692",
+      "gzipBytes": 89,
+      "gzipSha256": "bc1e9f7fb0e975db797d06a1904c14578501e9cab30eb7783c86f51714593e8d"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-launcher-transfer-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-launcher-transfer-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-launcher-transfer-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-launcher-transfer-4dd-c1__command.json.gz",
+      "rawBytes": 233,
+      "rawSha256": "5098bb72c5c26cf2ef13e8ec1a39a577ee606b3b564cad2bc94b92f58637a8d0",
+      "gzipBytes": 176,
+      "gzipSha256": "5cf19d606e7e05c0fb187fc1274fa04b71cbc807420411d43bfb07a7000af3f0"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-launcher-transfer-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-launcher-transfer-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "14e7a5a60121307a9733531f701919a49e986f12887bc0f9862d0307e2280714",
+      "gzipBytes": 39,
+      "gzipSha256": "570740f90502c10ec6ef3e8d0e23f060384082504d28f23424262fb9b7542750"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-preserve-c1/result.json",
+      "file": "raw/tenka-armyplate-observer-preserve-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "cf7d49998950310ddf2e833f4fd4338bc2703b142a935ae026fddeaad8ea94d4",
+      "gzipBytes": 89,
+      "gzipSha256": "c11dff0eba8e1f1c6f89b5ad975dc40291b3b79dd50f3714137c8a0dd150942d"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-preserve-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-observer-preserve-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-preserve-c1/command.json",
+      "file": "raw/tenka-armyplate-observer-preserve-c1__command.json.gz",
+      "rawBytes": 279,
+      "rawSha256": "9fb33be9ce89a775497cc99f72840c67fbe293cdaf3d9077e45bbe5eff516d83",
+      "gzipBytes": 196,
+      "gzipSha256": "db56225ec6f210b62e44edc7ba1beb9579506fa4bc560c673222d0fe4ca8d631"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-preserve-c1/process.json",
+      "file": "raw/tenka-armyplate-observer-preserve-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "d3b98dd24a231f47234504cfbe091e94bdae04059782ca3b94d29f8f23beed01",
+      "gzipBytes": 39,
+      "gzipSha256": "865a8a3c534cfbacdc0340098e5ad96ef8e20cc9d6a474fa2a0bdef507d9a53c"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-produce-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-observer-produce-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "f1b80d23df254dd71d9b44527110c760d1cbe6d35f97a54867b776f1c0138422",
+      "gzipBytes": 89,
+      "gzipSha256": "182e732a8940ab8776d90fe3d609b1f1c705ba35a4c2411d23e5b835b36bae6a"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-produce-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-observer-produce-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 226,
+      "rawSha256": "be2b11c7c429630ca4abefcf92a21b0b3b62ed35a5be8eabcd6cdaaa96a858e2",
+      "gzipBytes": 187,
+      "gzipSha256": "0519ec3901c3ce9213592d8dce6ac45d8f3b87b7b03f380d306bedfa0b052758"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-produce-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-observer-produce-4dd-c1__command.json.gz",
+      "rawBytes": 200,
+      "rawSha256": "41d7e3902d9e1cea4d4a433dbd5f027514fefb9721b8c6eed78758283370d7f5",
+      "gzipBytes": 177,
+      "gzipSha256": "90b736341e444981db89d3600614c9074705bfdc2d7615bc11a2adadc483e008"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-produce-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-observer-produce-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "8874f3f16d1a974c9aba070475bffc03795b31aaf113b1afd14f32b8525214b4",
+      "gzipBytes": 39,
+      "gzipSha256": "a7ef0fa7b72a8d8b77dd7a461be5ca8ce29aa38a9d021acce3e4519093bf5b1f"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-produce-4dd-c2/result.json",
+      "file": "raw/tenka-armyplate-observer-produce-4dd-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "16151535ece601160e4d78b42b1ecd07124504f9dc1511e93747c1e49385ea9d",
+      "gzipBytes": 89,
+      "gzipSha256": "106ee6d3a13227bf1fbee69f5bd0b8b2bb559f20b736e0ae5e9aabc58fd8183c"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-produce-4dd-c2/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-observer-produce-4dd-c2__stdout-stderr.log.gz",
+      "rawBytes": 226,
+      "rawSha256": "3a2b022428c1d7f9fdcb9c22de7c1a8594cd9ef9e5f6d07642274e8648093eeb",
+      "gzipBytes": 186,
+      "gzipSha256": "b73346b1a03d0e79a018ad652e7ec51cef2e8ba548e340e56d6fb081e7c5e4b3"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-produce-4dd-c2/command.json",
+      "file": "raw/tenka-armyplate-observer-produce-4dd-c2__command.json.gz",
+      "rawBytes": 200,
+      "rawSha256": "9fa0155a9768ab1bbcd10e721865b3041b860fc2d9d8b1769d9461859cd07560",
+      "gzipBytes": 177,
+      "gzipSha256": "a5f96475f7761c79a2c2ee4f5becb19be0d6333a09581e7ef4ea4b18e0fda3df"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-produce-4dd-c2/process.json",
+      "file": "raw/tenka-armyplate-observer-produce-4dd-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "11f5bea66e2f5ecc14ddeab887f30dd618f83fa41c4d26feefcf8d22135900d9",
+      "gzipBytes": 39,
+      "gzipSha256": "224437bf88f9605b03233a5cceea400e156dcf7218adc953c3ac9101373be10d"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-produce-4dd-c3/result.json",
+      "file": "raw/tenka-armyplate-observer-produce-4dd-c3__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "b4c6507e51bbb2a6c25de40c3b452bbb2da6f7ece330cbcbc79d922d0650f3d8",
+      "gzipBytes": 89,
+      "gzipSha256": "d3a4b1373cb7de55af5bde6585c2f94e4ee0ca13412564d56dd2d8e3b8317293"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-produce-4dd-c3/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-observer-produce-4dd-c3__stdout-stderr.log.gz",
+      "rawBytes": 226,
+      "rawSha256": "cb4417e8ceaf19b9dfb5297c22ec6d08cd02c9da0f942bbb9421ec25b83f1592",
+      "gzipBytes": 188,
+      "gzipSha256": "642412ad75b4c119cf5a0e6d636fa9902907a20c927c7d9f038fc64e7420e704"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-produce-4dd-c3/command.json",
+      "file": "raw/tenka-armyplate-observer-produce-4dd-c3__command.json.gz",
+      "rawBytes": 200,
+      "rawSha256": "a9202c82a3346e3368cd0ab4a535973ce2dbbee0bb3e734069843bcd484692c4",
+      "gzipBytes": 176,
+      "gzipSha256": "c0accd3370c220da01e28203a7e3d524944c0b2cee3100ecf1fa20ed23864859"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-produce-4dd-c3/process.json",
+      "file": "raw/tenka-armyplate-observer-produce-4dd-c3__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "1f5177821bc0fb2c258b6ba05384b03985e329a1dc9c783b45c55d73bbf09d0e",
+      "gzipBytes": 39,
+      "gzipSha256": "172637b1cbd9683824c817126ae88bc442c9635b07b10eae1be9be054323a80c"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-transfer-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-observer-transfer-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "5299e2a4d0c1438081ced983b56459911a996d0c17a904322d296e50b2bc561d",
+      "gzipBytes": 89,
+      "gzipSha256": "a020c19a9d5fee53ec4db66405388999ab2a7452df55226c2c1c79e25e22bb91"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-transfer-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-observer-transfer-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-transfer-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-observer-transfer-4dd-c1__command.json.gz",
+      "rawBytes": 266,
+      "rawSha256": "82f05b25836416c41294d025a477efd4f883e3bfa9579da66a78788a135af349",
+      "gzipBytes": 197,
+      "gzipSha256": "23006346697780f367909369430c72afd35f6cbe69239d1390d74aa1af3681da"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-transfer-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-observer-transfer-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "20f87033928ce6dd9cb61851a09f540b96a8b78377152eec4ed1fb549d87f434",
+      "gzipBytes": 39,
+      "gzipSha256": "fed58a67fb7745a5555d185f303cf42cf5066ba4569b3638526b7887ddca532c"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-transfer-4dd-c2/result.json",
+      "file": "raw/tenka-armyplate-observer-transfer-4dd-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "8f355d82f6d09550870df2ab2e36b41f0cef99ed241279e1a982820826dd58d3",
+      "gzipBytes": 89,
+      "gzipSha256": "c46fbf132cfaebae9b2f1634616a50a65fba774b1e38868f6b2a5bfa88c903bb"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-transfer-4dd-c2/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-observer-transfer-4dd-c2__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-transfer-4dd-c2/command.json",
+      "file": "raw/tenka-armyplate-observer-transfer-4dd-c2__command.json.gz",
+      "rawBytes": 266,
+      "rawSha256": "b29f6b070599ff3de9fc27c4be6e4184da49172523eb3d87200285d29ff29375",
+      "gzipBytes": 197,
+      "gzipSha256": "348fb049103cdc542d7082d54cae68c78a9a77bd2db44a071d6de57f63c576ca"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-transfer-4dd-c2/process.json",
+      "file": "raw/tenka-armyplate-observer-transfer-4dd-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "90ca9b24a10eeaf95f09d451542fa9be17ce96fc6ca9351212f4a3d93febd45a",
+      "gzipBytes": 39,
+      "gzipSha256": "4ed3d53b9c15e6db0c71d95955c983ae5988b02bc6dd3244e7b459529ad65106"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-manifest-transfer-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-oldcatch-manifest-transfer-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "7cde05cda2eb422ee79d756c5883178e2e95ef6a55d6e63b41e8ed22faec0752",
+      "gzipBytes": 89,
+      "gzipSha256": "220a9759c306afb96e065b4a07acdebb901c12cff0a74ef662f2ffdb23bb429a"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-manifest-transfer-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-oldcatch-manifest-transfer-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-manifest-transfer-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-oldcatch-manifest-transfer-4dd-c1__command.json.gz",
+      "rawBytes": 245,
+      "rawSha256": "2a02e68ad7a2e50066f75359bd21cc657078a53bf4a3b8e8a5b444cb466bdfd7",
+      "gzipBytes": 186,
+      "gzipSha256": "15c2762019c60082a1e1b05e86997ba49b1ed2ed0d38bea5ab2e53a225d72fa0"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-manifest-transfer-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-oldcatch-manifest-transfer-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "a1786195e9aeb9260172bf51ae4895d31eefaf532fa1bb06f0ecfd538c12b7e0",
+      "gzipBytes": 39,
+      "gzipSha256": "7620d92f3efb308b65d70d3ed462969ceef1cc94bb132e3aa885579d3e13c65c"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-produce-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-oldcatch-produce-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "46729bffa96f97a5d5fe8a54afcceb5a40122f5e7eacb02760180e4453232c98",
+      "gzipBytes": 89,
+      "gzipSha256": "1564d724c9d723e2e975a34764555b91d388453f4a3a5c5a94c36688e34c41b2"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-produce-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-oldcatch-produce-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 174,
+      "rawSha256": "59bb01be12f8b5b53b48be741de15204b66c4354685791e1bcb6d62ea4867e18",
+      "gzipBytes": 151,
+      "gzipSha256": "218783950a6c89abbbff88e9e7ceaef2e9a55520aba756396277ce9400d7db05"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-produce-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-oldcatch-produce-4dd-c1__command.json.gz",
+      "rawBytes": 200,
+      "rawSha256": "1e7272b60e300c8a3f1b04cd1778f4e49e321b7ae4d2c27e686c13a26456cbce",
+      "gzipBytes": 176,
+      "gzipSha256": "07c530f7e89f22f6b72fe41197bb0d8acdfd0b7da10b2ff3461fda1e8efec9ee"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-produce-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-oldcatch-produce-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "2da9dd686a000ebef69d83725b2f4c533b67f2defcd636d2c0a6c01fea50939e",
+      "gzipBytes": 39,
+      "gzipSha256": "811e3022a68c2da20825e716f5c9087923175bcf86919285d09f5473e287c505"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-transfer-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-oldcatch-transfer-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "1b4775d841a8f548f23545fe119f1020ded2f5b7d34005982a6731fcfaccdf92",
+      "gzipBytes": 89,
+      "gzipSha256": "1fb0195fc391e44b0f853fb9e0403d6cc7cac6477db33e8dfb908a9eb5cccf8c"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-transfer-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-oldcatch-transfer-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-transfer-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-oldcatch-transfer-4dd-c1__command.json.gz",
+      "rawBytes": 266,
+      "rawSha256": "8b4b7846bb58f283cf56861db06d666b00c8ad2823e4fda3730cf187c6a2ad2b",
+      "gzipBytes": 198,
+      "gzipSha256": "d6999e20918701ad90ec3d4f219a9716962ea58a5cd0638486316824cd428560"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-transfer-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-oldcatch-transfer-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "50133137376a4313a481579349d63d15b378b6298e409c99a923e7caf2c1571a",
+      "gzipBytes": 39,
+      "gzipSha256": "bf12163cac27372e157c19f5fd58fc1bff72728dfe2fbbfd2b947888ca2d66a4"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-overlaymanifest-transfer-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-overlaymanifest-transfer-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "5945e9bcca4333b58732d6bbbde4fdf759c02163b0cbb7340a12796a0dafbab1",
+      "gzipBytes": 89,
+      "gzipSha256": "286bce3b54016115cb9a0edc41374adbf13fc6bf94b7e83704e37ce2795c2715"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-overlaymanifest-transfer-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-overlaymanifest-transfer-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-overlaymanifest-transfer-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-overlaymanifest-transfer-4dd-c1__command.json.gz",
+      "rawBytes": 245,
+      "rawSha256": "76dc063da544eaaa64df05b3a78ff0853be959398f93b285287cd2be112befd0",
+      "gzipBytes": 185,
+      "gzipSha256": "9dddb3940f8067bae55385f2dc9a3fe20c625cfec97995e645ba143cfaa1f181"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-overlaymanifest-transfer-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-overlaymanifest-transfer-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "1a22200b15f5daab4116472745f1b7e6a93a3bbb0b22a5f5cb367990f1593873",
+      "gzipBytes": 39,
+      "gzipSha256": "b5fac90eeaa2f52fe44b917ff655854fbdbd18bb7cc94bd8561aa71dca98948d"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-overlaymanifest-transfer-4dd-c2/result.json",
+      "file": "raw/tenka-armyplate-overlaymanifest-transfer-4dd-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "0c38b677436df5c296fc2918e1243fa2b1e3715cde4055cb74904ceab0e159e8",
+      "gzipBytes": 89,
+      "gzipSha256": "cb44db75100fdce03c2797d72fabd96352477553d33268caf44d70934ffa88c0"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-overlaymanifest-transfer-4dd-c2/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-overlaymanifest-transfer-4dd-c2__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-overlaymanifest-transfer-4dd-c2/command.json",
+      "file": "raw/tenka-armyplate-overlaymanifest-transfer-4dd-c2__command.json.gz",
+      "rawBytes": 245,
+      "rawSha256": "8342cfb7babe2e40942364bef969ac62edf39fd0fdbf93bee6cd5bf344fe677b",
+      "gzipBytes": 186,
+      "gzipSha256": "eff444c49646927fc07b03b5cfb64789d0115fb6e85a5ebce116e3613c83d09d"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-overlaymanifest-transfer-4dd-c2/process.json",
+      "file": "raw/tenka-armyplate-overlaymanifest-transfer-4dd-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "979b8aedc12f54f4f8644a1bf946e9c2a25cf2071c5b176e103eef309f439977",
+      "gzipBytes": 39,
+      "gzipSha256": "2138d91771025b3a4ebb7e65b116a0b438dfca29e4eda8377f0d603c163cc626"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-package-local-8ca-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-package-local-8ca-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-package-local-8ca-c1/command.json",
+      "file": "raw/tenka-armyplate-package-local-8ca-c1__command.json.gz",
+      "rawBytes": 197,
+      "rawSha256": "2a4871b190722dd42d3cfccb9f270e0eed518d063d29d72975ae194e7a5e3dd1",
+      "gzipBytes": 174,
+      "gzipSha256": "f07eacdabb5a1e043893445c39f98ab7c27e51b0137c67b1cb3e8f4a24a4e4ec"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-package-local-8ca-c1/process.json",
+      "file": "raw/tenka-armyplate-package-local-8ca-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "68ea7ff8ef0065d6d8126c704532444aada68c0452182f759ad7c91049b02536",
+      "gzipBytes": 39,
+      "gzipSha256": "ac7ee6893f8bca09bcfd7dd3ce3e3d122efa92f8ade113182c424e31aa52697e"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-package-mkdir-8ca-c1/result.json",
+      "file": "raw/tenka-armyplate-package-mkdir-8ca-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "4276ea55e11bbf09c683f4907844a44e614c762d90832b906692f3abf0fce92d",
+      "gzipBytes": 89,
+      "gzipSha256": "5942744c7425383513989f3368f4a29e222a7336ca0e36c1056eb7c2a87e04a3"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-package-mkdir-8ca-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-package-mkdir-8ca-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-package-mkdir-8ca-c1/command.json",
+      "file": "raw/tenka-armyplate-package-mkdir-8ca-c1__command.json.gz",
+      "rawBytes": 221,
+      "rawSha256": "69d29321c776d71948714f82e2447935f73f31ce1bd2bc05874b8a2aba9a0cd5",
+      "gzipBytes": 188,
+      "gzipSha256": "3afa6342dbba71dae7e48da7b297520d6891123d776119d4355c0449f584dade"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-package-mkdir-8ca-c1/process.json",
+      "file": "raw/tenka-armyplate-package-mkdir-8ca-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "29a884d660b63d2c99abec96a5160ae9942ddf2e1090fe82066eb2790b7c3040",
+      "gzipBytes": 39,
+      "gzipSha256": "3bcbc8f19761fe8b85c5e47ceffd6036f0410fd64db3584ede18c2a1128e6824"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-package-move-8ca-c1/result.json",
+      "file": "raw/tenka-armyplate-package-move-8ca-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "9b5fd4c3eb9761c940569728e37e7d838092889d04e8a02fc8a91da5860a6d76",
+      "gzipBytes": 89,
+      "gzipSha256": "4c2cb746af82f862223f499830fe73bc88953f624722d73b163980a5d01e1701"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-package-move-8ca-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-package-move-8ca-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-package-move-8ca-c1/command.json",
+      "file": "raw/tenka-armyplate-package-move-8ca-c1__command.json.gz",
+      "rawBytes": 399,
+      "rawSha256": "cc7ad91f3e62ce0c96bd838b069adc1ceb88aca9dbcb6dfc0f21a2a93071812c",
+      "gzipBytes": 275,
+      "gzipSha256": "7b8f88c8364466d2fcc2bb9183259c4d76a96ccb85384e5684ab2e04699e0611"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-package-move-8ca-c1/process.json",
+      "file": "raw/tenka-armyplate-package-move-8ca-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "df902b27485cdde023788bae6c988d82bbfa4898c35b3c3b3e52e9235e0672e8",
+      "gzipBytes": 39,
+      "gzipSha256": "17ca65ccc8918d6608876836179f0544c6a97fba61015890688f933c4eadff57"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-remote-mkdir-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-remote-mkdir-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "8258c56a1b9c5838c2c894b1d372d4af6156909fa686d508ddf06c164313aec8",
+      "gzipBytes": 89,
+      "gzipSha256": "572934a60fdd5f5a9eeb993dd97843e0c8aef185104f8578f26a4b365b23d145"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-remote-mkdir-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-remote-mkdir-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-remote-mkdir-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-remote-mkdir-4dd-c1__command.json.gz",
+      "rawBytes": 204,
+      "rawSha256": "9491f30513892e3087c10c581690de4b1ec09fcbab8dbb22955786ab554e70eb",
+      "gzipBytes": 170,
+      "gzipSha256": "e21f9b6d51572905c3de522875e971210becf3196174d5e6f36636ebaf4da64c"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-remote-mkdir-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-remote-mkdir-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "836e994ae9e358defbaf449ea3eaed9f0cab9e347890c496b54e3f2e01c780e4",
+      "gzipBytes": 39,
+      "gzipSha256": "9c3d189f9d44c1ab195dc90d58fd9ce6e444db7c80db77b07a4ab7cde3e2f03e"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-retained-error-read-955-c1/result.json",
+      "file": "raw/tenka-armyplate-retained-error-read-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "97a52233fe7226e8f751a6407812a33ed8e133132a06ad3b2c6aecb464c6c354",
+      "gzipBytes": 89,
+      "gzipSha256": "c31be28057dd24338f4b3de0b2266b85ddb1a69a08d77e812e722eb839db443e"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-retained-error-read-955-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-retained-error-read-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 14902,
+      "rawSha256": "34d00cf9cb79a580660b705fe985844442a9a49a7f0e4959e9264871dd2501cd",
+      "gzipBytes": 5041,
+      "gzipSha256": "c6f8879f0747b4f51afc6fdd9a6fbe33b1f462d029035f34483d66228661c141"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-retained-error-read-955-c1/command.json",
+      "file": "raw/tenka-armyplate-retained-error-read-955-c1__command.json.gz",
+      "rawBytes": 312,
+      "rawSha256": "f55be6709ebf996b4030c8be8ab97e5f4853364537bc9dabb4d5fcdc949787a1",
+      "gzipBytes": 237,
+      "gzipSha256": "432d32796ede0d6a8317a657e91f5e35531a2117d902a08d20dada95b1193ed4"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-retained-error-read-955-c1/process.json",
+      "file": "raw/tenka-armyplate-retained-error-read-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "ab5d741e76874a69a814cf2506891006c609dfa54ab583979bf3cf46512882f6",
+      "gzipBytes": 39,
+      "gzipSha256": "7c2eed618b30b7f932ec64f5dc8bfb3e842b00bd8783f40342e58b754a7bbd9c"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-source-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "6df53384a3e2e8e80f97c5d732e7b96984374219be8a760460ad411266612860",
+      "gzipBytes": 89,
+      "gzipSha256": "1651a85f67537e598df60562be2a992bb16d794597f7be5c36c762ddab8e4ba7"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-source-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 165,
+      "rawSha256": "f47cd4bfbdaba93aabaca30357f158a069bec4d01dacb0285cfaf427f2e86bf4",
+      "gzipBytes": 151,
+      "gzipSha256": "a0d507e070d18f3abb237699ec9806e22a09c96be69dc4a93f8d96e9c0ddea50"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-source-4dd-c1__command.json.gz",
+      "rawBytes": 370,
+      "rawSha256": "e941fd7a8c6aeb54af1972003d1851876c63138c37ac32ad23a203a39ff0132e",
+      "gzipBytes": 243,
+      "gzipSha256": "9d6c1ea60cf68a3989bd86c56c5b385dbdbee1ddd2c348003448bbe4f2811a76"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-source-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "dae270c9a2647301271794c28e15e0decddf301ec7370b64f20f07a7d6df5756",
+      "gzipBytes": 39,
+      "gzipSha256": "53d5db776b7496b4cf4ec1e22013e4480046b60c4295c6a6505cc75109ef9147"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-out-4dd-c1/revision-tree.stdout",
+      "file": "raw/tenka-armyplate-source-out-4dd-c1__revision-tree.stdout.gz",
+      "rawBytes": 1222287,
+      "rawSha256": "ddfb84323f60573ca9b226f4c549b2edb3c60e3c8ea41b10b0f5e1f42b78911b",
+      "gzipBytes": 246677,
+      "gzipSha256": "1fce71c379534915cc7564f6dc9209502a9f8197b2b15488cc98683aba10a64b"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-out-4dd-c1/revision-commit.stdout",
+      "file": "raw/tenka-armyplate-source-out-4dd-c1__revision-commit.stdout.gz",
+      "rawBytes": 41,
+      "rawSha256": "8f01beed84c712b8dc219a0ca8f92009cdfca2be98a07fc769e4b9635aa4c7c1",
+      "gzipBytes": 59,
+      "gzipSha256": "4e92d95a9127a03442c7c90aeb37fcaffd5091b02b3948d0fdcc875abd2ff0f0"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-out-4dd-c1/revision-tree.result.json",
+      "file": "raw/tenka-armyplate-source-out-4dd-c1__revision-tree.result.json.gz",
+      "rawBytes": 15,
+      "rawSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe",
+      "gzipBytes": 35,
+      "gzipSha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-out-4dd-c1/archive.result.json",
+      "file": "raw/tenka-armyplate-source-out-4dd-c1__archive.result.json.gz",
+      "rawBytes": 15,
+      "rawSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe",
+      "gzipBytes": 35,
+      "gzipSha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-out-4dd-c1/revision-commit.stderr",
+      "file": "raw/tenka-armyplate-source-out-4dd-c1__revision-commit.stderr.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-out-4dd-c1/revision-tree.stderr",
+      "file": "raw/tenka-armyplate-source-out-4dd-c1__revision-tree.stderr.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-out-4dd-c1/archive.stderr",
+      "file": "raw/tenka-armyplate-source-out-4dd-c1__archive.stderr.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-out-4dd-c1/manifest.json",
+      "file": "raw/tenka-armyplate-source-out-4dd-c1__manifest.json.gz",
+      "rawBytes": 301130,
+      "rawSha256": "ecb64efe1c555938e73577ef6d72d1f35d56f5b89d47d1eb8107c321d5354df8",
+      "gzipBytes": 70012,
+      "gzipSha256": "ea4b32bb6d8f191b67d592d355644cdb1fd41185e26b09f95781631341af8eca"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-out-4dd-c1/archive.command.json",
+      "file": "raw/tenka-armyplate-source-out-4dd-c1__archive.command.json.gz",
+      "rawBytes": 73755,
+      "rawSha256": "051775409115d3e69f49310833f753715965c1fbb10a555fa05ee1b3546387a2",
+      "gzipBytes": 11995,
+      "gzipSha256": "7c3c1b385187035c907ff88086de5250bd8d409e14e61e53923eae056f81f182"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-out-4dd-c1/revision-commit.result.json",
+      "file": "raw/tenka-armyplate-source-out-4dd-c1__revision-commit.result.json.gz",
+      "rawBytes": 15,
+      "rawSha256": "47b8b6b49d4695fe6e036bd916538aff4f46773e212ca0d429db80f3963e2cfe",
+      "gzipBytes": 35,
+      "gzipSha256": "eaee9b1ff730df1e469405f9be93b42748d2c2ab120b20e8d1d67bb63a18198c"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-out-4dd-c1/revision-commit.command.json",
+      "file": "raw/tenka-armyplate-source-out-4dd-c1__revision-commit.command.json.gz",
+      "rawBytes": 161,
+      "rawSha256": "2f321a31cc4fe8006c103b17e8f6cab05f81ddc624ffc144af1f33604e521c58",
+      "gzipBytes": 150,
+      "gzipSha256": "849ddec61aef001870af9bf408d08d27f69440ac1c0d9794f20fb6b8201b0546"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-source-out-4dd-c1/revision-tree.command.json",
+      "file": "raw/tenka-armyplate-source-out-4dd-c1__revision-tree.command.json.gz",
+      "rawBytes": 145,
+      "rawSha256": "b23417af0b5c0e988ab0fa61083235485760087f0640ea21c20130f47d935266",
+      "gzipBytes": 139,
+      "gzipSha256": "0bef5bdeeae3fe574ec044914f8d3e2b9286ef437b240222c1433c5d450715ae"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-after-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-sourceproof-after-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "89cecc37987695ad7a1ea4cff7514d5e5c7a8572d8f25bdc9e5a0eed4f9737fb",
+      "gzipBytes": 89,
+      "gzipSha256": "7d6932069e97fbe41dc9b114858007b6cff7427e7c54d61f4410eeadb5773313"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-after-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-sourceproof-after-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 5189,
+      "rawSha256": "913151f4aff27f5c0f0a578c653e7594f8c2bc4ad509c147f3030db94a5290ec",
+      "gzipBytes": 1787,
+      "gzipSha256": "e97d642e89c05363694ffd9810e452758f9b92387af46090d249bd9aa2ee8512"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-after-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-sourceproof-after-4dd-c1__command.json.gz",
+      "rawBytes": 384,
+      "rawSha256": "e15c3e0ee86c238e4cb40476c3fbc11d9c972c00d1cb25e2ec4c22723516ac3b",
+      "gzipBytes": 244,
+      "gzipSha256": "f850e67730c5861a1b5fb581ab1a1a4cd09fc769f60206979df60f5cdbbc4dbb"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-after-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-sourceproof-after-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "7cda315454f944fa14486ba225828b00d36f18b6f55fcbbf4652a70d09884037",
+      "gzipBytes": 39,
+      "gzipSha256": "2214fb2c4198af4dd26ab72d74cf28057dd367ce928126e7b8ec6ed8a5b99e12"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-afterall-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-sourceproof-afterall-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "fb69225a544252cf9ff0172a2821b0093894cfe358ff38d73621199f8f2b754c",
+      "gzipBytes": 89,
+      "gzipSha256": "6c7c685da59b252b423541a4482594db5703bf1499e2c40c1ef9d38bcb102296"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-afterall-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-sourceproof-afterall-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 5189,
+      "rawSha256": "35bc4b69c35dc276daf035391b1765a217571b979303802408faff99b7d83a3f",
+      "gzipBytes": 1788,
+      "gzipSha256": "eed79cd8b6c841a5f040ec2525b9c209528300078f6d627cc49653ce3db1c171"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-afterall-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-sourceproof-afterall-4dd-c1__command.json.gz",
+      "rawBytes": 384,
+      "rawSha256": "cd910d6497551ed51f5a589549d2bcb8061a9f22cc6776b0ebfc4c5201a72ef9",
+      "gzipBytes": 244,
+      "gzipSha256": "1c3fdb7becffa60761c335ab4ae2d4eb4e0b617a6936e283e71287ee065471c0"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-afterall-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-sourceproof-afterall-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "a14cdd4235463d19e0c2309b7c98e1f07095855b40e7d139b52f1b9117ef4e9e",
+      "gzipBytes": 39,
+      "gzipSha256": "380d5c5b03139cc4b50de8edbf931364ce328a10b06033fca4b6ef0fc2c4da24"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-before-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-sourceproof-before-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "f7b9c4a22c74c483d53ea2b2319427622a7f6dae0fe0e5c5f14315f4f56dbaaa",
+      "gzipBytes": 89,
+      "gzipSha256": "78cebc25d40ced7530fcbcc65faf5f9f3a8e3c6b8e310191811ff62e59f00d47"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-before-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-sourceproof-before-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 5082,
+      "rawSha256": "4a66320f88a1ecefde628ef8706a0baac6fba9bb435d84d4d6b053bc32737d00",
+      "gzipBytes": 1721,
+      "gzipSha256": "344ffc30133544fa758f6ce185609e28bf1c14c1a2356e7b54466ad490cd8952"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-before-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-sourceproof-before-4dd-c1__command.json.gz",
+      "rawBytes": 336,
+      "rawSha256": "8e593b73835a4b4b855b188a4e30449e077feb1c5b91cdd8465fd01cbb0a79e7",
+      "gzipBytes": 234,
+      "gzipSha256": "32ca88a278e2581d5591a8d6ce522273eceef57a16c7af3b9a7b313031f5b411"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-before-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-sourceproof-before-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "fc386fce517e9a332b283418c5e85c347cfe2cdf67a73fa7e0fb0d835e2b46ed",
+      "gzipBytes": 39,
+      "gzipSha256": "900d235a9b674c8311074f4b4bc318a0e093e536fb39b12d5fdfb189246c068a"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-build-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-sourceproof-build-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "58ba754c0bae95df2e3d44474f9bdd4fa0311832059d577cc3932de4fafd36d0",
+      "gzipBytes": 89,
+      "gzipSha256": "aca1e7dc456a77ae3c6cc922bbc7f462acd3fede74a8280857a9cfc2f74bca1a"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-build-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-sourceproof-build-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 5082,
+      "rawSha256": "4a66320f88a1ecefde628ef8706a0baac6fba9bb435d84d4d6b053bc32737d00",
+      "gzipBytes": 1721,
+      "gzipSha256": "344ffc30133544fa758f6ce185609e28bf1c14c1a2356e7b54466ad490cd8952"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-build-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-sourceproof-build-4dd-c1__command.json.gz",
+      "rawBytes": 336,
+      "rawSha256": "cb857a14eccf84bf2bc525943ad60fd543f2a43856a9279f1c4cc97d1a3f0316",
+      "gzipBytes": 233,
+      "gzipSha256": "92aacd6184f36859daf021a8d91c9bcb174237b0b8c136ef97a7b780b993bffd"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-build-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-sourceproof-build-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "21bc58de6a0296e76de7ad122c23f8eeca80fc7cd3337f9f95f800ddbcfad127",
+      "gzipBytes": 39,
+      "gzipSha256": "9e915fd20fc170f8bf1d7f1fb76c3473fb4bdfbb9de8147608003ae5887a59f1"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-candidate-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-sourceproof-candidate-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "f9c6709b90eacda528964d4384227fa4ef43a48306789257db665a6ef6b64578",
+      "gzipBytes": 89,
+      "gzipSha256": "7ba0a0d678c54d1bab7ac8d25bbce705929643b09943a5138bad95feadbc2691"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-candidate-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-sourceproof-candidate-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 5189,
+      "rawSha256": "35bc4b69c35dc276daf035391b1765a217571b979303802408faff99b7d83a3f",
+      "gzipBytes": 1788,
+      "gzipSha256": "eed79cd8b6c841a5f040ec2525b9c209528300078f6d627cc49653ce3db1c171"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-candidate-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-sourceproof-candidate-4dd-c1__command.json.gz",
+      "rawBytes": 384,
+      "rawSha256": "f6fcb12f39d2a850aeb05a8eecc29ec865703751901e59a1629d82ed3f066e0a",
+      "gzipBytes": 244,
+      "gzipSha256": "b823b1131e1fbfd24f6b072aee8cca0bc406a8c0a96a96475887eb5f1ccaeea7"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-candidate-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-sourceproof-candidate-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "28880e32467ccb27303880bc1a0dd446b299822acdaa19065761841e5f238883",
+      "gzipBytes": 39,
+      "gzipSha256": "2f6833ca5b77b46bdbd4b5e0d9800319033c82656ea9a269b857f9ed7dc93de3"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-observer-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-sourceproof-observer-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "68ca6aaf7701ee6f790b799815315cd968d0724eb1af1cbd2573c82d874b52fb",
+      "gzipBytes": 89,
+      "gzipSha256": "b3150b3b8dc669dcc1175443db00be51b176f2a8069f870e699e20761c5bc188"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-observer-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-sourceproof-observer-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 5189,
+      "rawSha256": "9f3cc56298e466d542097e08a7e05600ed18ade950955307f35ac60b3ad38e78",
+      "gzipBytes": 1787,
+      "gzipSha256": "518582c08d2b2b9627613bbca25db196fb42a2e2f63d930ab3ff6dde2a6c1f83"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-observer-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-sourceproof-observer-4dd-c1__command.json.gz",
+      "rawBytes": 384,
+      "rawSha256": "66a614bbaed458e1333faba9ede01f9d041dd52cd1f273197a767f150433a7f8",
+      "gzipBytes": 244,
+      "gzipSha256": "4b3e6292c3a678abf6991fbc28700074a92d0bbc06cf02ec56e663150f2dfa69"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-observer-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-sourceproof-observer-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "c1831a20965097a6ea1c9ec8568448ebbc3b96176652f1efaa9a6206e1f1ea39",
+      "gzipBytes": 39,
+      "gzipSha256": "55da2c6e70778a471a34be9ec355f01f9c26e71c5408bc4971d10a69d96d7ac8"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-observer-4dd-c2/result.json",
+      "file": "raw/tenka-armyplate-sourceproof-observer-4dd-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "ac15ba82d2862f44966b13e40bcf2a18c08eba3c1f3a5a258cb51811c5b89c9f",
+      "gzipBytes": 89,
+      "gzipSha256": "32717d5de05cb0a0ebb1880ee8291efcb547412f031a374726758a48b86c295c"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-observer-4dd-c2/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-sourceproof-observer-4dd-c2__stdout-stderr.log.gz",
+      "rawBytes": 5189,
+      "rawSha256": "913151f4aff27f5c0f0a578c653e7594f8c2bc4ad509c147f3030db94a5290ec",
+      "gzipBytes": 1787,
+      "gzipSha256": "e97d642e89c05363694ffd9810e452758f9b92387af46090d249bd9aa2ee8512"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-observer-4dd-c2/command.json",
+      "file": "raw/tenka-armyplate-sourceproof-observer-4dd-c2__command.json.gz",
+      "rawBytes": 384,
+      "rawSha256": "0c7bea24a1e1b4282f8a2a94a0e02c3690a6a9cc7b9fbcb4ad90d000f312bd98",
+      "gzipBytes": 244,
+      "gzipSha256": "c8cbd5746f6a9889397a0b26bacdb89872169c8d38b9e7c2ea15eb671d8e3316"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-observer-4dd-c2/process.json",
+      "file": "raw/tenka-armyplate-sourceproof-observer-4dd-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "1879bc101d46a3bd06cf8c5c33f683e35581343e70ceac5a13615181b45f3ebc",
+      "gzipBytes": 39,
+      "gzipSha256": "348ca43162aa5e91ce4faa742fadd19955c4c8622fa9747fd6d8b0aec914043e"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-oldcatch-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-sourceproof-oldcatch-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "0e761e6afd4ab428e3059c863c2ff70e7b7cc51afe8e6b799ba262bc5e4ec9b8",
+      "gzipBytes": 89,
+      "gzipSha256": "a8690870441f865eccd8f5285a03f44f78cb38ce53ae2e1d147e104666a3df45"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-oldcatch-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-sourceproof-oldcatch-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 5189,
+      "rawSha256": "294fd626bad6ea3a01531c6795af3d3c992f28bfa05ba7ace0677e0d1fbf4160",
+      "gzipBytes": 1788,
+      "gzipSha256": "e8142820bd144f5afab58ca2a0cef5730d05edcad4251e2d97518e1a52af3683"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-oldcatch-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-sourceproof-oldcatch-4dd-c1__command.json.gz",
+      "rawBytes": 384,
+      "rawSha256": "a9869a07235055931eda7af3352a1b5bda94e7484fe5379236faa442a8586b92",
+      "gzipBytes": 244,
+      "gzipSha256": "cb37edf7adea79248a207866084343cbec6f550b3880c8f37a7af1deb915541b"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-sourceproof-oldcatch-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-sourceproof-oldcatch-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "3d82328b2fa8b0618ff4ea2c004e191e6c3870ccec5142f2e9afb2607193c7cf",
+      "gzipBytes": 39,
+      "gzipSha256": "e73d5181b3f4128a47832d62fff1e58a295cf5dd87f475835ab39dd9f806aafd"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-events-955-c1/result.json",
+      "file": "raw/tenka-armyplate-trace-events-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "3f2edfc057865c0595a5e7073c839f2aa8b28f5f9c8321a496bfdb6b84ff5ecf",
+      "gzipBytes": 89,
+      "gzipSha256": "0d5cfacce9e9057bd8dd36460249a01dc6ec44e44fee5a2d485b072623134c5c"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-events-955-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-trace-events-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 78420,
+      "rawSha256": "d5f2b5a4d5fad103cbd58cd8171ba77c21c99188b3bbc6d754598f2f0a32b56f",
+      "gzipBytes": 9795,
+      "gzipSha256": "a740e9b202022cfea9699143b8223ee7160617e4913c4719d43bc7ea5d4ee303"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-events-955-c1/command.json",
+      "file": "raw/tenka-armyplate-trace-events-955-c1__command.json.gz",
+      "rawBytes": 338,
+      "rawSha256": "0436e8df271d40a9186d6a742bc41879dd38ef54c13235d1b65d9d4c4d4aaed2",
+      "gzipBytes": 241,
+      "gzipSha256": "85e9efcbe486c19f87e415de62a0b9f3961dfc887b79c9ea3eb2117b9e04f4dd"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-events-955-c1/process.json",
+      "file": "raw/tenka-armyplate-trace-events-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "fb7591bd6db34e803b470ecba590e1d5c3719b86e4e8d6c752c5e9e054daed5f",
+      "gzipBytes": 39,
+      "gzipSha256": "fe8aa476c0e3ba3eba5e442f23cca775029a501bf1b4090a9ad7f98757b54125"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-list-955-c1/result.json",
+      "file": "raw/tenka-armyplate-trace-list-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "7af96c139d192348a91494a0d84a1a477a63b6fce0080a854b371bcde6afd6b6",
+      "gzipBytes": 89,
+      "gzipSha256": "9102d137cd265f9aedccaf3f5932ff3488eb8e25ff34e7ebb00e18fb67453811"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-list-955-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-trace-list-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 5009,
+      "rawSha256": "f7f4952a5602a5507d94aadbad0f372f83a25e6eb09b1b32848348b903b1ab0f",
+      "gzipBytes": 1079,
+      "gzipSha256": "fe1c6361a864df44cf63b7bd304a38d21e411c235a5389dedba1e11ff617a041"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-list-955-c1/command.json",
+      "file": "raw/tenka-armyplate-trace-list-955-c1__command.json.gz",
+      "rawBytes": 317,
+      "rawSha256": "c73c1cb538df01ee303492c9876112749c7a2222761d935146c23be85ba112ae",
+      "gzipBytes": 236,
+      "gzipSha256": "b46087c794e821d1826049a95897eaf77a6b70d678550ac7a781a562c3604c8f"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-list-955-c1/process.json",
+      "file": "raw/tenka-armyplate-trace-list-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "b1d5bac3e79ce4c0a896e8bd05b6150fb82858e932515a0b3e546ca6ed4ff153",
+      "gzipBytes": 39,
+      "gzipSha256": "c4970d82daaa0932f48971b6b24046be418a6092fbd1ec061b9bb7ff22612602"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-test-955-c1/result.json",
+      "file": "raw/tenka-armyplate-trace-test-955-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "315ed6cc07dbc86538c0b0b4a2420c70a8ec3bb1ecdd764ef7acea7651c31ac3",
+      "gzipBytes": 89,
+      "gzipSha256": "f2d6dacbf7da9050569add40906447042c19314fb401249e4a0a190a7945c8c4"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-test-955-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-trace-test-955-c1__stdout-stderr.log.gz",
+      "rawBytes": 13149,
+      "rawSha256": "98acf2f8ef990b7759e625490294227e155109ab722107060e51b0a9e7ec2218",
+      "gzipBytes": 2588,
+      "gzipSha256": "6d8a2c32973bde0df50cd2b6db7e82d477248c17759346136b80032403867dec"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-test-955-c1/command.json",
+      "file": "raw/tenka-armyplate-trace-test-955-c1__command.json.gz",
+      "rawBytes": 335,
+      "rawSha256": "7cda68836a69e93bf7bb3ec4c4489b530c0491039d6d12936a786a9fdaa148eb",
+      "gzipBytes": 241,
+      "gzipSha256": "01a25b9a82b71ad3f6b9d09a4238b10f855c9ef054000ad4e0cc9d9356771196"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-test-955-c1/process.json",
+      "file": "raw/tenka-armyplate-trace-test-955-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "ec2e5a83d14d9f6565637b536c8a6ba09e3edd540e2601110337addce35ebc90",
+      "gzipBytes": 39,
+      "gzipSha256": "f252c258bd64b790cb06819195ab88bc2290803184a96ec31cba324b7ecedc81"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-test-955-c2/result.json",
+      "file": "raw/tenka-armyplate-trace-test-955-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "fc74d13cb5efd6383af1d5820eae183997b480d625f516cfad726b5ac7911859",
+      "gzipBytes": 89,
+      "gzipSha256": "0d06540d7d538c0fc3a0265177482fde6c865480b899bad632f81e2daece55fe"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-test-955-c2/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-trace-test-955-c2__stdout-stderr.log.gz",
+      "rawBytes": 12305,
+      "rawSha256": "4c5677a868cce30af8326172fd2cb3d584396b3fc88276ab4d4d5b47de701457",
+      "gzipBytes": 2397,
+      "gzipSha256": "6af11152020237100ea3bb9af1808e2d924665f5b23c0b653ca4906e10e6c2dd"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-test-955-c2/command.json",
+      "file": "raw/tenka-armyplate-trace-test-955-c2__command.json.gz",
+      "rawBytes": 335,
+      "rawSha256": "b00bd48a3be33b9e0be199940129c467d8cdea193a84d9e303f45fcbda2f46eb",
+      "gzipBytes": 243,
+      "gzipSha256": "56d5012eef29f12b2c7b336f002e8143dce752058406799304effb8cf5b3bc33"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-test-955-c2/process.json",
+      "file": "raw/tenka-armyplate-trace-test-955-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "805f5b09d2e6397dea4117ac15fbb9345c9becf4f8dc7fcb6f29a93f92e82dbe",
+      "gzipBytes": 39,
+      "gzipSha256": "7e208ef237e565fad2cf969b46eb32715376cc7f195588df6caccf29ece8c75f"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-test-955-c3/result.json",
+      "file": "raw/tenka-armyplate-trace-test-955-c3__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "416565104b9cd60915d0141639a5624bc9969048e0d8ea4a79addcfbdc032304",
+      "gzipBytes": 89,
+      "gzipSha256": "7237676b54d9c0081d54500ade6a263ba173cbdf9b38430a97bf9f3d46538554"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-test-955-c3/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-trace-test-955-c3__stdout-stderr.log.gz",
+      "rawBytes": 12238,
+      "rawSha256": "61ffe56841937e9d19b02ae4c6b43bdf20ba2f4afdf78dd375cad10da2f2e4c2",
+      "gzipBytes": 2381,
+      "gzipSha256": "5006a72b649b7704f8f51c1602029035a30f179ddaa39aebbf4a01ef6b04f685"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-test-955-c3/command.json",
+      "file": "raw/tenka-armyplate-trace-test-955-c3__command.json.gz",
+      "rawBytes": 335,
+      "rawSha256": "c8a3c2826c77f0d848457b5803ce7e7aeac6e11f00a6f06c3673e3973cce6575",
+      "gzipBytes": 242,
+      "gzipSha256": "bddc4c6d5314363c81a26a59e074b9d87d2bf9b5423629cbad46cdf4b4c4a5f2"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-trace-test-955-c3/process.json",
+      "file": "raw/tenka-armyplate-trace-test-955-c3__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "395823621d6766d0d7a69e809d567a5cf06515ba3d0e62ae6b7b92f1af51e1e3",
+      "gzipBytes": 39,
+      "gzipSha256": "5ff6feda156ba4d7aa2cfadebf37a387a700c9636f70f917b32e05a004b0e0ff"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-transfer-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-transfer-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "ff7e77614d5025e629f57eed2fc0cb17540a72c0eb6268b35a1e5e10c526d212",
+      "gzipBytes": 89,
+      "gzipSha256": "3acb3111bc8f406691879d3e5cd611bb1b7fa584659af5e5c24fb5d28e1827fe"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-transfer-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-transfer-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-transfer-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-transfer-4dd-c1__command.json.gz",
+      "rawBytes": 302,
+      "rawSha256": "cc0d8dadcd76a44d4ade6b89805ec06fa17016838e5d1ca72e3091c425d9beba",
+      "gzipBytes": 197,
+      "gzipSha256": "3be411818b2a3fbf5377318572b0358583434fffcecf90df6b52478f1a6c4a90"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-transfer-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-transfer-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "e969a6f492deff4732d6a2be756b18f4fa0cc33d41732920eab5a08078ec1d9a",
+      "gzipBytes": 39,
+      "gzipSha256": "c3b02f167f143a98e50044f5733c46b26d62a607a03ea0cbf2fb7a078b88a707"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-type-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-type-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "159e7d80e24101c01869db328c8d6f8722adeb753f78cb7f02fc05e28e5914f0",
+      "gzipBytes": 89,
+      "gzipSha256": "212683589ab927e9ea6273e7bf508d7a631c06197fbc5916b6b876b75b16070e"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-type-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-type-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 1644,
+      "rawSha256": "b3b3d4294669f9cc163e1b7f84e2bdeec9decc5be2d640e3ee38d828bd3d0613",
+      "gzipBytes": 297,
+      "gzipSha256": "91410e66255b1ce1ef0435aa6af62b3d9b1447f12c3dedd2c8b619319845ecd6"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-type-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-type-4dd-c1__command.json.gz",
+      "rawBytes": 211,
+      "rawSha256": "5ba30e7548c5b7a16f96b08d83a2fe60255808b6e722d2de3bbdfd77204cc12e",
+      "gzipBytes": 179,
+      "gzipSha256": "cc974613fc478baa78c380f936f47ad31b6283e0c0e22e06c62eed9176940c99"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-type-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-type-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "1961fb711aaf974ec5f229e174bcf97f1711ac6d774456272511bb1406bb01c9",
+      "gzipBytes": 39,
+      "gzipSha256": "0ab88c735a91b4c378d78b0a047b2ddc5673f6aad31cf6bfc4642384dfbb521b"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-type-4dd-c2/result.json",
+      "file": "raw/tenka-armyplate-type-4dd-c2__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "b62f1987316922579aba957ab8c82f6985b2ca6c0798ef57de256c5754464f6a",
+      "gzipBytes": 89,
+      "gzipSha256": "40e38fdc9a67f93ebcd938fead0d3b96ede467f84c99560873fc6921ed4b0eb6"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-type-4dd-c2/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-type-4dd-c2__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-type-4dd-c2/command.json",
+      "file": "raw/tenka-armyplate-type-4dd-c2__command.json.gz",
+      "rawBytes": 211,
+      "rawSha256": "3715d0ff71382a73dc8f2fe081e082e7f534b40873038dc42da32d26dec276cc",
+      "gzipBytes": 178,
+      "gzipSha256": "4572c0878f977504060a9f2606f8b733436f4ac875fec4f0d913c5a95cff7719"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-type-4dd-c2/process.json",
+      "file": "raw/tenka-armyplate-type-4dd-c2__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "66db1dff45e36be10c73ee422ea7cecbfa32ab917a412bca4d651632f478e93f",
+      "gzipBytes": 39,
+      "gzipSha256": "8cd57817302f73f27901e861b59037580ef36e3ec5b811cd39d4740e2c3e73e7"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-type-4dd-c3/result.json",
+      "file": "raw/tenka-armyplate-type-4dd-c3__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "d3f4855fc69510e0a6f2c3467e9ff4a4c5030bdf0b89dc27032e8a771f81666c",
+      "gzipBytes": 89,
+      "gzipSha256": "9a46b8aa9403c9d3e601c55cfa13e9030ecf6bfd912519d00b3285d4a51dfa66"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-type-4dd-c3/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-type-4dd-c3__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-type-4dd-c3/command.json",
+      "file": "raw/tenka-armyplate-type-4dd-c3__command.json.gz",
+      "rawBytes": 211,
+      "rawSha256": "cd723e1e53d6991fd7e60c187e0a0e1e17b2e0d09ff57421165ed46f664103d7",
+      "gzipBytes": 180,
+      "gzipSha256": "06808559af8efe99ca46d3d8c288d9fe363c847425688f1c9c5aeb5eeeee8843"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-type-4dd-c3/process.json",
+      "file": "raw/tenka-armyplate-type-4dd-c3__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "f39435c3f8c1fd6ea8934cd70623cb4e229997055b50c8e3af38b63500a64aad",
+      "gzipBytes": 39,
+      "gzipSha256": "96e108bc104e81df300d7afb6c4a1ce7e412e3312659d2334775ff80ef19c478"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-validation-launch-transfer-4dd-c1/result.json",
+      "file": "raw/tenka-armyplate-validation-launch-transfer-4dd-c1__result.json.gz",
+      "rawBytes": 73,
+      "rawSha256": "79023ec9ebdbf20f6aca22579a111425bd055ef2d36d497a7425af5fd7653735",
+      "gzipBytes": 89,
+      "gzipSha256": "52e20b19d243ed26dfaef795b809849528503d18c613452f28979b7ed34b6898"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-validation-launch-transfer-4dd-c1/stdout-stderr.log",
+      "file": "raw/tenka-armyplate-validation-launch-transfer-4dd-c1__stdout-stderr.log.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-validation-launch-transfer-4dd-c1/command.json",
+      "file": "raw/tenka-armyplate-validation-launch-transfer-4dd-c1__command.json.gz",
+      "rawBytes": 241,
+      "rawSha256": "02bde2b7c84c673c3f3603d7d8e01062153400585911d068000c08e8e8f5d2eb",
+      "gzipBytes": 179,
+      "gzipSha256": "51857132dbb496e9a5827ba3f688c5afbc43baa72e8f9651b701550739d229b6"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-validation-launch-transfer-4dd-c1/process.json",
+      "file": "raw/tenka-armyplate-validation-launch-transfer-4dd-c1__process.json.gz",
+      "rawBytes": 19,
+      "rawSha256": "7a544f5674e4c88a4f9c754aaaf39322be44d712f24fd14770aac32d909cd7ba",
+      "gzipBytes": 39,
+      "gzipSha256": "b1f6e85a87da0414028fd969c097fea424ae425ce37bacce387ab6f462caf470"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-candidate-4dd-c1.spec.ts",
+      "file": "raw/tenka-armyplate-candidate-4dd-c1.spec.ts.gz",
+      "rawBytes": 21274,
+      "rawSha256": "35b9a0fc50e9f041763ec8588019cad33b528d82462eeefb3827f454bd999d71",
+      "gzipBytes": 6001,
+      "gzipSha256": "5ddfea49301dc361df94c5f24599a44ee85d35b52aa9192293b0ed2abd4d70a8"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-evidence-pack-4dd.py",
+      "file": "raw/tenka-armyplate-evidence-pack-4dd.py.gz",
+      "rawBytes": 1564,
+      "rawSha256": "2764382f75034dd148a0ceb4ee0cd82e6680075bb3b579bceb96c061792aada4",
+      "gzipBytes": 650,
+      "gzipSha256": "4dcb1f9a864b174334de4ba8a64f103b683f4d9ae9f068d4267faf649e54936a"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-launch-4dd.sh",
+      "file": "raw/tenka-armyplate-launch-4dd.sh.gz",
+      "rawBytes": 1318,
+      "rawSha256": "bdbfa6c7fba7edd808577be245b5428d762aa14f40dfacce863de083048b18d9",
+      "gzipBytes": 593,
+      "gzipSha256": "b9ae214bdf75c6178a53dc446cb520c8b9bc13ec83c9cbca4f39fc6cefff0a34"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observed-4dd-c1.spec.ts",
+      "file": "raw/tenka-armyplate-observed-4dd-c1.spec.ts.gz",
+      "rawBytes": 20864,
+      "rawSha256": "711969b8a5ef241d4fd4df4d498ff770ffddec531b5a81205e9416a19c577cab",
+      "gzipBytes": 6037,
+      "gzipSha256": "f2bbea0d61eeea18c65a66d0ce25bf2243ee6be38e7153adf7037ceeb46aa8f6"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-4dd-c1.diff",
+      "file": "raw/tenka-armyplate-observer-4dd-c1.diff.gz",
+      "rawBytes": 2957,
+      "rawSha256": "b6cb8772a460688fcc1772e2f184c754f5030c5815841046ae3944fe4788c624",
+      "gzipBytes": 1234,
+      "gzipSha256": "8533dbccabb413192f1e63e528cb1fbb3725ee3f725b182513591a87feef9073"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-observer-produce-4dd.py",
+      "file": "raw/tenka-armyplate-observer-produce-4dd.py.gz",
+      "rawBytes": 3442,
+      "rawSha256": "b2738f479fd69e6a208c6c7e9a74436b47eb65db1cdb80e895f97772c8f4b16b",
+      "gzipBytes": 1278,
+      "gzipSha256": "4afffd30f422d910a2ac18e0443aab43827c417a5124ae56b6f3ecf40013ef56"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-4dd-c1.diff",
+      "file": "raw/tenka-armyplate-oldcatch-4dd-c1.diff.gz",
+      "rawBytes": 463,
+      "rawSha256": "08606c65b5fbb574c7ee7b9d6b6ce41d1d45a603971565cb9a4619e7db6f67b0",
+      "gzipBytes": 344,
+      "gzipSha256": "59181f7be4e0f9a1e242f00081e5716f289ac37fa03f9520a06b6c134cb7207d"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-4dd-c1.spec.ts",
+      "file": "raw/tenka-armyplate-oldcatch-4dd-c1.spec.ts.gz",
+      "rawBytes": 21058,
+      "rawSha256": "dda9109dd4c91fba884c90fdd2671e318e23ac3d03a6108ff9e231b3f49f5660",
+      "gzipBytes": 5952,
+      "gzipSha256": "f762cbae9be0588b74c5e66c0da0940ddc97e5a22582c251dbf7f109d6199776"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-oldcatch-produce-4dd.py",
+      "file": "raw/tenka-armyplate-oldcatch-produce-4dd.py.gz",
+      "rawBytes": 945,
+      "rawSha256": "b2058fff0c2e40ee81a2c7c33804d5c4f93284487a3876ee37a69895978484ed",
+      "gzipBytes": 520,
+      "gzipSha256": "6bd87740d0762b1a96bac9808a41171561fd5a742b10c481d8967de9bcc868bc"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-overlay-4dd-c1.json",
+      "file": "raw/tenka-armyplate-overlay-4dd-c1.json.gz",
+      "rawBytes": 101,
+      "rawSha256": "7f3ec164b271bd56e8c240808904371b9c8f3c898ba350a866fd30321e622c88",
+      "gzipBytes": 109,
+      "gzipSha256": "199a089d1678b3bd551966b43234fad1b276928c62d5efdfcde4aa5a4fc69b89"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-overlay-4dd-c2.json",
+      "file": "raw/tenka-armyplate-overlay-4dd-c2.json.gz",
+      "rawBytes": 101,
+      "rawSha256": "a336cc5bd8ad65e5dd0445d70632823e71c7c2c20ef598742daca63c94378298",
+      "gzipBytes": 109,
+      "gzipSha256": "4bfc95f6c5b0ec20415b28b7569e96d0b00dbf26c015fdea705b066042dc698b"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-overlay-4dd-c3.json",
+      "file": "raw/tenka-armyplate-overlay-4dd-c3.json.gz",
+      "rawBytes": 101,
+      "rawSha256": "4948db8dbfa0862ee38bd32cc4ef3c7862193d9b1434e97d53ae5e809a958d46",
+      "gzipBytes": 110,
+      "gzipSha256": "cb69fa5c6e0ebbfe60108f548633298169165bb38ce5b88035c69b23166b168e"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-overlay-4dd-c4.json",
+      "file": "raw/tenka-armyplate-overlay-4dd-c4.json.gz",
+      "rawBytes": 101,
+      "rawSha256": "3286db5425773880dc0f10077ddfd88d9d8beea1af9ce5bcda3d8be001ba89eb",
+      "gzipBytes": 110,
+      "gzipSha256": "64b0048889ddb627d2bc210cb6659b5b2a23b26b9e4650454107d7ba17856e87"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-package-local-8ca.py",
+      "file": "raw/tenka-armyplate-package-local-8ca.py.gz",
+      "rawBytes": 1426,
+      "rawSha256": "274d6fa0dee1582baebcd69756aaf999c3276c3b06456917e93234fc2c1c6b2c",
+      "gzipBytes": 663,
+      "gzipSha256": "839522797dc177dda83fa015c2865a49e391c0d77c9861326b912696159f6538"
+    },
+    {
+      "source": "/tmp/tenka-armyplate-validation-4dd.sh",
+      "file": "raw/tenka-armyplate-validation-4dd.sh.gz",
+      "rawBytes": 1691,
+      "rawSha256": "d541faea5ef6198f06aa3a0f779f0d7571ccda62caf4bcd364811537f2ab9d54",
+      "gzipBytes": 603,
+      "gzipSha256": "700925ffab5d968ff7a0714ce946f660e4d91efb11c43dacc703971cd7735d0b"
+    }
+  ]
+}

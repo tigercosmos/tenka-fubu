@@ -1,0 +1,81 @@
+[
+  {
+    "type": "before",
+    "callId": "pw:api@154",
+    "startTime": 137138.89,
+    "title": "Click getByTestId('month-summary-continue')",
+    "params": {
+      "selector": "internal:testid=[data-testid=\"month-summary-continue\"s]",
+      "strict": "true",
+      "timeout": "0"
+    }
+  },
+  {
+    "type": "after",
+    "callId": "pw:api@154",
+    "endTime": 137433.768
+  },
+  {
+    "type": "before",
+    "callId": "pw:api@155",
+    "startTime": 137436.344,
+    "title": "Query count getByRole('dialog')",
+    "params": {
+      "selector": "internal:role=dialog"
+    }
+  },
+  {
+    "type": "after",
+    "callId": "pw:api@155",
+    "endTime": 137515.268
+  },
+  {
+    "type": "before",
+    "callId": "pw:api@156",
+    "startTime": 137521.114,
+    "title": "Get attribute \"aria-pressed\" getByTestId('speed-pause')",
+    "params": {
+      "selector": "internal:testid=[data-testid=\"speed-pause\"s]",
+      "name": "aria-pressed",
+      "strict": "true",
+      "timeout": "0"
+    }
+  },
+  {
+    "type": "after",
+    "callId": "pw:api@156",
+    "endTime": 137562.282
+  },
+  {
+    "type": "before",
+    "callId": "pw:api@157",
+    "startTime": 137564.097,
+    "title": "Click getByTestId('speed-pause')",
+    "params": {
+      "selector": "internal:testid=[data-testid=\"speed-pause\"s]",
+      "strict": "true",
+      "timeout": "0"
+    }
+  },
+  {
+    "type": "after",
+    "callId": "pw:api@157",
+    "endTime": 138386.787
+  },
+  {
+    "type": "before",
+    "callId": "pw:api@159",
+    "startTime": 138448.568,
+    "title": "Evaluate",
+    "params": {
+      "expression": "() => window.__tenka.debug.getState().time.day",
+      "isFunction": "true",
+      "arg": "Object"
+    }
+  },
+  {
+    "type": "after",
+    "callId": "pw:api@159",
+    "endTime": 138537.11
+  }
+]

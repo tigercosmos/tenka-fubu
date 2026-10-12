@@ -1,0 +1,81 @@
+{
+  "testStatus": "passed",
+  "testDurationMs": 54747,
+  "suiteStats": {
+    "startTime": "2026-10-12T13:14:57.783Z",
+    "duration": 56000.1,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "dailyCount": 123,
+  "firstDay": 1,
+  "lastDay": 123,
+  "consecutiveDays": true,
+  "decisions": [
+    "proposal:全部駁回",
+    "summary:continue",
+    "proposal:全部駁回",
+    "summary:continue",
+    "proposal:全部駁回",
+    "summary:continue",
+    "event:繼續",
+    "proposal:全部駁回",
+    "summary:continue"
+  ],
+  "evidence": [
+    {
+      "stage": "initial",
+      "day": 0,
+      "otherKeys": []
+    },
+    {
+      "stage": "lawful-transport-queued",
+      "day": 90,
+      "otherKeys": [
+        "transport",
+        "commandLog"
+      ]
+    },
+    {
+      "stage": "lawful-transport-applied",
+      "day": 120,
+      "otherKeys": [
+        "command"
+      ]
+    },
+    {
+      "stage": "earned-eligibility",
+      "day": 120,
+      "otherKeys": [
+        "payments",
+        "score",
+        "verdict"
+      ]
+    },
+    {
+      "stage": "aid-normal-day",
+      "day": 121,
+      "otherKeys": [
+        "commandLog"
+      ]
+    },
+    {
+      "stage": "aid-normal-day",
+      "day": 122,
+      "otherKeys": [
+        "commandLog"
+      ]
+    },
+    {
+      "stage": "actual-aid-movement",
+      "day": 123,
+      "otherKeys": [
+        "beforeMove",
+        "afterMove",
+        "commandLog"
+      ]
+    }
+  ]
+}

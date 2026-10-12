@@ -1,0 +1,17 @@
+{
+  "candidateReport": {
+    "host": "sim4",
+    "path": "/tmp/tenka-hojo-case-4dd-c1/report.json",
+    "size": 170619281,
+    "sha256": "c1f2e42973e7cde9f3fc3808a8425c08f50ca39e733803c67180d428e1f53174"
+  },
+  "originalTrace": {
+    "host": "sim4",
+    "path": "/tmp/tenka-fullnative-9550-full-c1/browser-results/earned-hojo-aid-earned-Hoj-a4dd6-march-and-ordinary-movement-chromium/trace.zip",
+    "size": 73572668,
+    "sha256": "f2058ab0eaa88cc3f74177e9de351594dcf8577042b20e0329ad6c55f42d35aa"
+  },
+  "oldFullReport": {
+    "path": "docs/validation/2026-10-12/completion-audit/fullnative-current-9550/report.json.gz"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "raw/candidate-summary.json": {
+    "size": 1461,
+    "sha256": "d6e5502ce51f9d1a77323212623314419e4c9cfbe0c39fe6d31d9d735b39e6a8"
+  },
+  "raw/local-captures.tar.gz": {
+    "size": 21123,
+    "sha256": "05cdc497ba88a9a60cbe1024dc3e1ca1f38b5799ace07e2411a71a0e24770758"
+  },
+  "raw/original-trace-events.json": {
+    "size": 1768,
+    "sha256": "5f01141eaeabed7660743731f8bfdba063a71c61f557fb7415dcccb8c9b4bb68"
+  },
+  "raw/producer.py.gz": {
+    "size": 1417,
+    "sha256": "4cf0ed32540fc596438fa7b7a13d905ce23351bbdeacf91af179340c4c137b52"
+  },
+  "raw/remote-captures.tar.gz": {
+    "size": 4184,
+    "sha256": "9fa0c078477e35041de2c281170bda4b619245ed1c41dac267c977282075e3b4"
+  },
+  "raw/remote-retention.json": {
+    "size": 628,
+    "sha256": "ab22d8a7e078e6c49dd1443f84c29d00c1e41bdabe32173df22115d4971be257"
+  },
+  "raw/source.patch.gz": {
+    "size": 862,
+    "sha256": "2a889f76b2bc563c374604e7600898f91d7019e1acd78c86b355f9d0169ffbe1"
+  },
+  "raw/transport-command.json": {
+    "size": 297,
+    "sha256": "f188a52e671c3bcb5186be15f31c12fd33d44b8322239bddc4dd87e30e50fa46"
+  }
+}

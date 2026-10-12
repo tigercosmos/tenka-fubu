@@ -6667,3 +6667,12 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 合成 early crowded medians 矛盾與 dense +5.9%／約+8% 都保留；觀測時間分段後才增加固定 60 warmup／40 timed pairs，sparse−10.9%、crowded−9.3%、dense+7.6%。沒有冒稱此設計事先決定、證明 JIT 或普遍改善。第一版九圖 observer 誤要求零 ticks 而 RED；原 day0–2 observer 正確為兩次，兩版修正後使用相同 observer，沒有排除新增差異。
 - 固定 ef75be6 八檔 207/207、型別、完整 ESLint、build／bundle／touched format 及 1,650 Git inputs／29 Pixi targets 前後通過。候選原生來源是9550加單檔 overlay，完整440仍釘選9550；不重標後續 source，不重跑完整 core。
 - 下一步以已見失敗優先：保留真正例外再定位 army plate boot、Hojo 原生暫停交接、earned generator 原期限；不盲加 timeout、改 worker cap 或重跑未改全套。41st texture 傳輸故障早由2cf修正，whole-heap後半+208,584 bytes仍開放。全 M6–M9、strict60、whole-heap、long-run、六推薦／星級與既有規則／六圖人工決策保持；未 push／deploy。
+
+## 2026-10-12 — 月結暫停交接與軍勢札啟動例外
+
+- `1a6a681` 只修 Hojo E2E：原 full955 trace 的最終月結 Continue 正確恢復 x2，後續 Pause locator 花 823ms，讀到 day32 而原斷言要求 day30。先前測試／相關 product 路徑在 955→4dd 相同；候選在 owner 仍持有暫停時量測真實 Pause，Continue 後保留無 dialog guard，再送 native pointer。精確日期、全部 daily invariants／付款／合法輸送／援軍同意／實際移動斷言不變。
+- 候選單案 54.747 秒／總 56.0 秒 PASS，原 60／300 秒未改。保留 days1–123 的 123 個連續狀態、四次月結與七個 evidence stages；輸送 day90 入列、day91 執行，day120 僅是確認快照；實際援軍於 day123 移動。來源為 4dd 加精確 Hojo overlay，1,650 inputs／29 targets 前後通過。PASS 無 action trace，因此沒有新 Continue→Pause latency 量測，也未證明 16-worker deadline。
+- Army plate 三個 full955 trace 各只有一個 pending Evaluate 跨越原五秒 poll，沒有完成的 false retry；不能從 API before／after 推定 callback 已進入、renderer 已掛載或 frame waiter 原因。孤立精確原版與 observer 均 PASS；observer 一次 ready／idle 為 118.5ms，GPU 在成功後才讀取，避免初始化觀測干擾。歷史完整負載超時仍開放。
+- `8ca952c` 只加 boot 錯誤區別：原完整尚未掛載 message 才回 false，其他錯誤傳出；不加另一個 ready wait，原五秒 budget 不變。舊 catch-all 對 one-shot unknown 控制因重試後成功而 RED；候選整檔六項（兩個 pure oracle、三個原 geometry、新控制）PASS10.3秒。原版、observer、old-control 與候選各自來源／raw／29 deps 保留；兩個 PATH setup RED、stub type／lint／format RED 另列，未重標。
+- 固定合併 `8ca952c` 型別、完整 ESLint（0 errors／2 warnings）、441 項／106 檔 discovery、touched format 與 1,650 Git inputs／29 targets 前後通過。沒有重跑 core／build／完整原生，原生候選仍標示 4dd 加各單檔 overlay。三個新套件與 root 獨立 verifier 證據保存；歷史索引 5,298 列及 bytes 不改。
+- 下一步量測原完整負載的 browser-entry／renderer frame 邊界及 earned generator 的原 deadline 成本，須有因果設計才再跑；不把孤立 PASS 當全套修復、不盲加 timeout／worker cap。最新完整原生仍為 955 的 440 項 RED；strict60、whole-heap（後半 +208,584 bytes）、long-run、全 M6–M9、六推薦／星級與既有無嗣／戰術終局、人口校準、六圖人工核准保持開放。未改規則、保護基準或 milestone，未 push／deploy。

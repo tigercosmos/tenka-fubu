@@ -4,6 +4,14 @@ Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目�
 最新固定來源 `ab06242` 全量測試為 6,451 通過、3 失敗、1 跳過；其中兩個新缺字失敗已另以 focused 檢查修復，既有無嗣領地失敗保留。120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
+## 月結原生暫停交接與軍勢札啟動觀測
+
+[Hojo 1a6a681](hojo-native-pause-1a6a681/README.md) 保留原 day30→32 RED trace：月結正確恢復 x2 後，測試的 Pause locator 花 823ms。候選預先量測真實按鈕，Continue 後先確認 FIFO 已無 dialog，再送 native pointer；沒有改 clock、state、規則或日期斷言。單案 54.747 秒／總 56.0 秒通過，123 個連續日狀態、四次月結與實際援軍普通移動保持；輸送於 day90 入列、day91 執行，day120 是確認快照。PASS 未保留 action trace，不能推定新輸入延遲或 16-worker deadline 已通過。
+
+[Army boot 8ca952c](army-plate-boot-8ca952c/README.md) 重新讀取三個歷史 trace，確認各有一個 pending Evaluate 跨越原五秒 poll，沒有完成的 false retry。這仍不能定位 browser-entry／IPC／renderer frame 等待。孤立精確原版與 read-only observer 均 PASS；observer 單次 idle 為 118.5ms，實際 RTX／Vulkan 與來源證明保留。候選僅重試完整相符的尚未掛載例外、傳出其他錯誤；舊 catch-all one-shot 控制 RED，候選整檔六項 PASS。這是錯誤觀測強化，不是歷史超時修復。
+
+[合併 8ca952c](hojo-armyboot-integrated-8ca952c/README.md) 的型別、完整 ESLint、441 項／106 檔 discovery、touched format 與 1,650 Git inputs／29 Pixi targets 前後一致。兩個 native 包分別固定 4dd 加精確單檔測試 overlay，不改標為完整 8ca。未重跑 core／build／完整原生；最新完整 440 項仍是下列 955 RED。後續須先定位原負載下的 boot 邊界與 earned generator 成本，不延長原 deadline 或盲改並行度。所有 M6–M9、效能／記憶體／長跑與既有待決規則、六圖人工核准保持。
+
 ## 現版完整原生與軍勢旗標增量效能
 
 [固定 9550 完整原生](fullnative-current-9550/README.md) 首次涵蓋現有 440 項，維持原 300 秒、預設 16 workers 及所有個別期限／skip。結果為 257 PASS、11 assertion FAIL、3 timeout、31 其他 skipped、5 interrupted、133 未派發，完整 gate 仍 RED。Army plate 三案失敗於吞掉例外的 boot poll，尚不能判定底層原因；Hojo 保留 day30→32 違例；三個 earned generator 原 test timeout、四項精確色覺差異與其他逾時均保存。這是修正前 `9550e39`，不能改標為後續提交。

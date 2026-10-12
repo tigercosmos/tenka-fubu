@@ -1,0 +1,121 @@
+{
+  "items": [
+    {
+      "path": "tenka-armyplate-original-4dd-c1/command.json",
+      "bytes": 503,
+      "sha256": "6ac5df8a4b1d54a273b84ca4b7dcf44ace0b0b7339ea9e5532a421d12bef3bd1"
+    },
+    {
+      "path": "tenka-armyplate-original-4dd-c1/process.json",
+      "bytes": 21,
+      "sha256": "f5d3967d6a0613a95a140f8786d9ca2832b50a818ab0fc86f6c1a4b07a0af234"
+    },
+    {
+      "path": "tenka-armyplate-original-4dd-c1/result.json",
+      "bytes": 73,
+      "sha256": "34fee715396792ce8414d151dc85f6e808f45976a38d1d5bed6b4f6708633e17"
+    },
+    {
+      "path": "tenka-armyplate-original-4dd-c1/stdout-stderr.log",
+      "bytes": 244,
+      "sha256": "7fd81778ee137b27685b92f1393e7e3ebf9962a3506316f184c51bdde980dab7"
+    },
+    {
+      "path": "tenka-armyplate-original-4dd-c1/report.json",
+      "bytes": 4089,
+      "sha256": "3dd43ceba28a3ead65e27da3900f9c3b52ef87b62054eb241b7416854d0e7a9d"
+    },
+    {
+      "path": "tenka-armyplate-observed-4dd-c1/command.json",
+      "bytes": 503,
+      "sha256": "1994c7ad8da4ea42138c5a03be264aed4dd1614148ee136f14af5c8796e55581"
+    },
+    {
+      "path": "tenka-armyplate-observed-4dd-c1/process.json",
+      "bytes": 21,
+      "sha256": "409cee7b8c290c001aea6823f026332e853a5aaab3fc38fb9a74ff664b87b8c3"
+    },
+    {
+      "path": "tenka-armyplate-observed-4dd-c1/result.json",
+      "bytes": 73,
+      "sha256": "d0e7af22d75cd67936e4aa38359ee4812fa868d887951de94e5bbd9aabae9e19"
+    },
+    {
+      "path": "tenka-armyplate-observed-4dd-c1/stdout-stderr.log",
+      "bytes": 244,
+      "sha256": "4b794d999c1291ad2d937d87ee24f308e5857e8b9b150afa0a3d966c884e36b8"
+    },
+    {
+      "path": "tenka-armyplate-observed-4dd-c1/report.json",
+      "bytes": 4099,
+      "sha256": "8f3d003279e3dd2803731f093bcab8b3c41d52ed910b2cf88f413d510493bb61"
+    },
+    {
+      "path": "tenka-armyplate-observed-4dd-c1/browser-results/army-plate-layout-native-a-6be45-cales-without-core-mutation-chromium/boot-attempts.json",
+      "bytes": 242,
+      "sha256": "ae4e8fdafb2ef6173f2bded83880702b5089a0dd9c3f99345821c7e9ed1fc975"
+    },
+    {
+      "path": "tenka-armyplate-oldcatch-red-4dd-c1/command.json",
+      "bytes": 517,
+      "sha256": "71f7bb543c01c67ad77b34dcbb87b85dc8b8c695c03ebb701c5484fb9c16c38b"
+    },
+    {
+      "path": "tenka-armyplate-oldcatch-red-4dd-c1/process.json",
+      "bytes": 21,
+      "sha256": "c38951377857dfc3f689954b262bbf9a76e33903d138439e378a9e8a73ca3ec2"
+    },
+    {
+      "path": "tenka-armyplate-oldcatch-red-4dd-c1/result.json",
+      "bytes": 73,
+      "sha256": "fa1286fc0b7d12341fe9c993a0fd0d399b17512836e736506a0510c25dadcaa5"
+    },
+    {
+      "path": "tenka-armyplate-oldcatch-red-4dd-c1/stdout-stderr.log",
+      "bytes": 2037,
+      "sha256": "2b971941a79ec713cfd4bd10aef049a0c2a02a5bbe6eca12260e15955dbc02ec"
+    },
+    {
+      "path": "tenka-armyplate-oldcatch-red-4dd-c1/report.json",
+      "bytes": 7259,
+      "sha256": "ab29383245292524ed3d94e166adb4ba1528e704ab61213a6f1f132ff71eab65"
+    },
+    {
+      "path": "tenka-armyplate-oldcatch-red-4dd-c1/browser-results/army-plate-layout-native-a-673c4-ed-unmounted-renderer-error-chromium/error-context.md",
+      "bytes": 10582,
+      "sha256": "55ac63347bc4393f189e7470b1f15f599e0d938f9bed93654f41058e4bbd2688"
+    },
+    {
+      "path": "tenka-armyplate-candidate-all6-4dd-c1/command.json",
+      "bytes": 440,
+      "sha256": "581d33b54d7fe43b501c16203f4cdf6bfeaea415f8b8145438a56fc769b91845"
+    },
+    {
+      "path": "tenka-armyplate-candidate-all6-4dd-c1/process.json",
+      "bytes": 21,
+      "sha256": "3db04f6d67e862ac55d185d461b68a9ebc47358af93579241cc2e1f4530f4d0c"
+    },
+    {
+      "path": "tenka-armyplate-candidate-all6-4dd-c1/result.json",
+      "bytes": 73,
+      "sha256": "53b060ad99ce78602212a0d84d1991ab802df12d49627a3949112ffbcb57c838"
+    },
+    {
+      "path": "tenka-armyplate-candidate-all6-4dd-c1/stdout-stderr.log",
+      "bytes": 1147,
+      "sha256": "c3bbe97c3a288b333adc67a8a09bdcde65fc50a00fc789f55c85b7f6d658a063"
+    },
+    {
+      "path": "tenka-armyplate-candidate-all6-4dd-c1/report.json",
+      "bytes": 26889,
+      "sha256": "af218ec6f86768a8323f8195e276080aa7a9e87c30f1d9fa69d55061f1b29fc8"
+    }
+  ],
+  "remoteTraces": [
+    {
+      "path": "/tmp/tenka-armyplate-oldcatch-red-4dd-c1/browser-results/army-plate-layout-native-a-673c4-ed-unmounted-renderer-error-chromium/trace.zip",
+      "bytes": 16061,
+      "sha256": "422cb0068d610c212e9efd5c74ffbe42c56ecd28243087445b7424f3e8481e81"
+    }
+  ]
+}
