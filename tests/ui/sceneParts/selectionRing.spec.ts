@@ -3,7 +3,7 @@
 
 import { describe, expect, it, vi } from 'vitest';
 import { Graphics } from 'pixi.js';
-import { TOKENS_NUM } from '@ui/styles/tokens';
+import { TOKENS, TOKENS_NUM } from '@ui/styles/tokens';
 import { MAPVIEW } from '@ui/map/mapViewConfig';
 import {
   createSelectionRing,
@@ -83,6 +83,33 @@ describe('drawSelectionRing（M6-V7 CD5 金色雙環）', () => {
 });
 
 describe('createSelectionRing（12 §4 ScenePart 工廠）', () => {
+  it('pulses only presentation scale and opacity, then restores the static reduce-motion frame', () => {
+    expect(TOKENS.duration.easeInOut).toBe('cubic-bezier(0.65, 0, 0.35, 1)');
+    const part = createSelectionRing();
+    part.update(props({ pos: { x: 33, y: 44 } }));
+    const gfx = part.container.children[0] as Graphics;
+    part.setPulse(150, false);
+    expect(gfx.scale.x).toBeCloseTo(1.0056637, 6);
+    expect(part.container.alpha).toBeCloseTo(0.8787611, 6);
+    part.setPulse(300, false);
+    expect(part.container.position.x).toBe(33);
+    expect(part.container.position.y).toBe(44);
+    expect(part.container.scale.x).toBe(1);
+    expect(gfx.scale.x).toBeCloseTo(1.04);
+    expect(gfx.scale.y).toBeCloseTo(1.04);
+    expect(gfx.position.y + 4 * gfx.scale.y).toBeCloseTo(4);
+    expect(part.container.alpha).toBeCloseTo(0.75);
+    part.setPulse(600, false);
+    expect(gfx.scale.x).toBeCloseTo(1.08);
+    expect(part.container.alpha).toBeCloseTo(0.6);
+    part.setPulse(600, true);
+    expect(gfx.scale.x).toBe(1);
+    expect(gfx.scale.y).toBe(1);
+    expect(gfx.position.y).toBe(0);
+    expect(part.container.alpha).toBe(1);
+    part.destroy();
+  });
+
   it('container 內建一個 Graphics 子物件；update() 設定 position', () => {
     const part = createSelectionRing();
     expect(part.container.children).toHaveLength(1);

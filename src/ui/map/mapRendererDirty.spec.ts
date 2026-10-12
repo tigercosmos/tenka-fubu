@@ -1617,6 +1617,85 @@ describe('城池/郡 元件（M6-V7 §8.2）：不再呼叫占位 marker、簽�
     r.destroy();
   });
 
+  it('pulses only a selected node presentation and restores the original static frame on motion block, deselection, and map swap', async () => {
+    const r = await makeRenderer();
+    r.setMapData(staticData());
+    r.updateView(baseView({ selection: { kind: 'node', id: 'castle.a' } }));
+    const ring = r.getLayers()!.nodeMarkers.children[0]!.children[0]!;
+    const gfx = ring.children[0]!;
+    const baseline = r.getRebuildCounts();
+    const ticker = r.getApp()!.ticker as unknown as {
+      deltaMS: number;
+      tick(): void;
+      callbacks: unknown[];
+    };
+    const tick = (deltaMS: number) => {
+      ticker.deltaMS = deltaMS;
+      ticker.tick();
+    };
+
+    tick(600);
+    expect(gfx.scale.x).toBeCloseTo(1.08);
+    expect(gfx.position.y + 4 * gfx.scale.y).toBeCloseTo(4);
+    expect(ring.alpha).toBeCloseTo(0.6);
+    expect(ring.position.x).toBe(100);
+    expect(ring.position.y).toBe(100);
+    expect(r.getRebuildCounts()).toEqual(baseline);
+    tick(600);
+    expect(gfx.scale.x).toBe(1); // full 1200ms wrap
+    expect(ring.alpha).toBe(0.9);
+
+    r.setPresentationSettings({
+      mapLabelDensity: 'medium',
+      effectsEnabled: true,
+      reducedMotion: true,
+    });
+    expect(gfx.scale.x).toBe(1);
+    expect(gfx.position.y).toBe(0);
+    expect(ring.alpha).toBe(1);
+    tick(600);
+    expect(gfx.scale.x).toBe(1);
+    expect(ring.alpha).toBe(1);
+
+    r.setPresentationSettings({
+      mapLabelDensity: 'medium',
+      effectsEnabled: true,
+      reducedMotion: false,
+    });
+    tick(300);
+    expect(gfx.scale.x).toBeCloseTo(1.04);
+    r.setPresentationSettings({
+      mapLabelDensity: 'medium',
+      effectsEnabled: false,
+      reducedMotion: false,
+    });
+    expect(gfx.scale.x).toBe(1);
+    expect(ring.alpha).toBe(1);
+
+    r.updateView(baseView({ selection: { kind: 'army', id: 'army.z' } }));
+    expect(ring.visible).toBe(false);
+    expect(gfx.scale.x).toBe(1);
+    r.setPresentationSettings({
+      mapLabelDensity: 'medium',
+      effectsEnabled: true,
+      reducedMotion: false,
+    });
+    r.updateView(baseView({ selection: { kind: 'node', id: 'castle.a' } }));
+    expect(ring.visible).toBe(true);
+    expect(gfx.scale.x).toBe(1); // new selection begins at t=0
+    tick(600);
+    expect(gfx.scale.x).toBeCloseTo(1.08);
+    r.updateView(baseView({ selection: null }));
+    expect(ring.visible).toBe(false);
+    expect(gfx.scale.x).toBe(1);
+    expect(ring.alpha).toBe(1);
+    r.setMapData(staticData());
+    expect(ring.visible).toBe(false);
+    expect(gfx.scale.x).toBe(1);
+    r.destroy();
+    expect(ticker.callbacks).toHaveLength(0);
+  });
+
   it('StrictMode/destroy：init→setMapData→destroy→重掛，nodeParts/選取環/聚落對稱建立/銷毀，無殘留', async () => {
     const r1 = await makeRenderer();
     r1.setMapData(staticData());

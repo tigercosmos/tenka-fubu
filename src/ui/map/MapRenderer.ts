@@ -382,6 +382,7 @@ export class MapRenderer {
   private prevNodeSig: Map<string, string> | null = null;
   /** M6-V7（CD5）：節點選取環（金色雙環，錨點置中）；掛於 `selectionAndPath` 之 roadHighlight 與 pathPreview 之間。 */
   private selectionRing: ReturnType<typeof createSelectionRing> | null = null;
+  private selectionPulseElapsedMs = 0;
   private castleGroundStatus: Container | null = null;
   /** M6-V7（CD4）：城下聚落（本城城下屋頂群＋田畦，`settlements` 層；靜態一次建、close LOD 顯隱、不動計數）。 */
   private settlements: ReturnType<typeof buildSettlements> | null = null;
@@ -625,6 +626,10 @@ export class MapRenderer {
     this.camera.update(deltaMs);
     this.sparkElapsedMs += deltaMs;
     this.updateBattleSparks();
+    if (this.selectionRing?.container.visible) {
+      if (!this.reducedMotion) this.selectionPulseElapsedMs += deltaMs;
+      this.selectionRing.setPulse(this.selectionPulseElapsedMs, this.reducedMotion);
+    }
     if (
       !this.reducedMotion &&
       this.presentation.effectsEnabled &&
@@ -1036,7 +1041,11 @@ export class MapRenderer {
       }
       this.settlementObstacles = [];
       this.settlementModelBounds = Object.freeze([]);
-      if (this.selectionRing) this.selectionRing.container.visible = false;
+      if (this.selectionRing) {
+        this.selectionRing.container.visible = false;
+        this.selectionRing.setPulse(0, true);
+      }
+      this.selectionPulseElapsedMs = 0;
       this.settlementCrests = [];
       this.roadHighlight?.update(null); // 清空選取高亮
       this.prevSelectionKey = null;
@@ -1055,7 +1064,11 @@ export class MapRenderer {
     // graph swap 後：立即清舊高亮（鏡像 data===null 分支；否則新選取為 null 時 updateView 的
     // selKey diff 為 null===null 不觸發 update，舊圖 gold strokes 殘留）＋強制下次 updateView 重算。
     this.roadHighlight?.update(null);
-    if (this.selectionRing) this.selectionRing.container.visible = false; // M6-V7：同步隱選取環（否則 swap→deselect 殘留舊環）
+    if (this.selectionRing) {
+      this.selectionRing.container.visible = false; // M6-V7：同步隱選取環（否則 swap→deselect 殘留舊環）
+      this.selectionRing.setPulse(0, true);
+    }
+    this.selectionPulseElapsedMs = 0;
     this.prevSelectionKey = null;
     this.rebuildCounts.roads += 1; // 維持一次（dirty 契約：+1/次 setMapData）
     const names = data.names ?? {};
@@ -3640,6 +3653,8 @@ export class MapRenderer {
       this.districtWarningVisible = true;
       for (const part of this.activeDistrictWarnings.values()) part.setWarningVisible(true);
     }
+    if (this.reducedMotion) this.selectionPulseElapsedMs = 0;
+    this.selectionRing?.setPulse(this.selectionPulseElapsedMs, this.reducedMotion);
     this.camera?.setReducedMotion(this.reducedMotion);
     this.applyCameraTransform();
     this.lastLabelScale = Number.NaN;
@@ -4089,15 +4104,19 @@ export class MapRenderer {
   private updateSelectionRing(selKey: string | null): void {
     const ring = this.selectionRing;
     if (ring === null) return;
+    this.selectionPulseElapsedMs = 0;
     if (selKey === null || this.staticData === null) {
+      ring.setPulse(0, true);
       ring.container.visible = false;
       return;
     }
     const node = this.staticData.graph.nodes.get(selKey as never);
     if (node === undefined) {
+      ring.setPulse(0, true);
       ring.container.visible = false;
       return;
     }
+    ring.setPulse(0, this.reducedMotion);
     const hr =
       node.kind === 'castle'
         ? this.staticData.castleTier?.[selKey] === 'main'
