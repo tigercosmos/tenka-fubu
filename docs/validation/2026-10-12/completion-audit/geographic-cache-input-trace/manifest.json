@@ -1,0 +1,245 @@
+{
+  "scope": "Two separately authorized diagnostic traces; no acceptance FPS/profile",
+  "files": [
+    {
+      "path": "trace.raw.json.gz",
+      "bytes": 1284413,
+      "sha256": "e582268826010fae3054a19402f04f06aece579b9bb51bc6a97bae78a1b77d99",
+      "rawBytes": 8567517,
+      "rawSHA256": "c367fd9b34e2a73dce0ebd5346374034d4aaf286eaf9bb0482d9132a96d36d98",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/trace.raw.json"
+    },
+    {
+      "path": "trace-moving.raw.json.gz",
+      "bytes": 2863887,
+      "sha256": "46d010e4efad271e2bf461dc44035f14172d760faf2b2dae9e3f718430431008",
+      "rawBytes": 24089280,
+      "rawSHA256": "74b03f93eb8ac4dc73ece2f9bb9d6324b79737bf67bed38422693da818f4358b",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/trace-moving.raw.json"
+    },
+    {
+      "path": "diff-static.raw.json.gz",
+      "bytes": 606,
+      "sha256": "f39b74723401897a98413fce39ec1acd16d980997b18d4196c82c39536a43dcf",
+      "rawBytes": 3312,
+      "rawSHA256": "7b21664a451439461bc2f1de352995790e178029ded2a12519bf6571ddd24780",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/diff-static.raw.json"
+    },
+    {
+      "path": "diff-moving.raw.json.gz",
+      "bytes": 279520,
+      "sha256": "36d799d343ad436e9d19cf6d6bbacfccb31dc5fe29d927c37f7b3e6e14954834",
+      "rawBytes": 1403280,
+      "rawSHA256": "d450adeaab65ac76b5a3fb419cb12f0114a271e5d349fd19b2a8412afd658daf",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/diff-moving.raw.json"
+    },
+    {
+      "path": "diff-moving.py.gz",
+      "bytes": 1892,
+      "sha256": "6ea2111cd4c7fdf10e5faf3743bc6ac323bb7d00cdeec4a1a8b04c27bada1bcb",
+      "rawBytes": 4366,
+      "rawSHA256": "8544d8da5dc48e5e561043e31e149375da70f39e4687d0787a18f8acaeebdec6",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/diff-moving.py"
+    },
+    {
+      "path": "source-proof.json.gz",
+      "bytes": 826,
+      "sha256": "b1cbf64ea295f942d722ee54df96a7119651d4e168c44fc1f82e6292441bfb52",
+      "rawBytes": 1593,
+      "rawSHA256": "67b797fefb03673991efc727ac18bef7fe30aad8879322164a16f4f10b1f2188",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/source-proof.json"
+    },
+    {
+      "path": "moving-source-proof.json.gz",
+      "bytes": 990,
+      "sha256": "5f3cc87ece0eb99229d84f67f0f3a0be59841e4bea6971901c21af0b083dc92a",
+      "rawBytes": 1913,
+      "rawSHA256": "712b98ed5d2fc2be1bd90517b8d5e2fc63a70dd5ef02452eda2b1a86b062d4fa",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/moving-source-proof.json"
+    },
+    {
+      "path": "observe.mjs.gz",
+      "bytes": 1524,
+      "sha256": "09da0d863b7400ae49c5d7b60e4dd4ec829828189a6149aed056f0c07e3a88f8",
+      "rawBytes": 3438,
+      "rawSHA256": "fc10ef396b37948ddab2a76b510a47f9f4bb5fbf36965290c49c85ffc9ee2aec",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/observe.mjs"
+    },
+    {
+      "path": "observe-moving.mjs.gz",
+      "bytes": 1607,
+      "sha256": "746a554aac554f26555413c1137e6558009f962accee0af6af869cdd8b17a083",
+      "rawBytes": 3679,
+      "rawSHA256": "a8fdcec5edb2986d337fc98f1db53363d1a0aec68ee9bd8d2eed7b6d3fc8c704",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/observe-moving.mjs"
+    },
+    {
+      "path": "run-static.py.gz",
+      "bytes": 575,
+      "sha256": "46cc2f53f2d469099552dbf88ec3ee8589149bee547464b9ecc88c58f98b7cb9",
+      "rawBytes": 991,
+      "rawSHA256": "3fb3ddd7553aec6913d1cf16d12ce90b601cf0b05c00a36fcf30bc193d4f63ee",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/run-static.py"
+    },
+    {
+      "path": "run-moving.py.gz",
+      "bytes": 651,
+      "sha256": "a4a0b9f54c5a763ff3c80a696320a109225c6e85952acee3a8e4fbc102eb2bfc",
+      "rawBytes": 1273,
+      "rawSHA256": "5e5ee55b6899dd7993647a8e2a71c7ebaf8d59b46dbd9019f12815076363b985",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/run-moving.py"
+    },
+    {
+      "path": "setup.py.gz",
+      "bytes": 449,
+      "sha256": "c90b51b4d932fd53b71e9f84410ee171378a2bf5c99ad5cc2f85eab8cfa5355f",
+      "rawBytes": 865,
+      "rawSHA256": "91c75e2400609b495f7a03223b80e6786fa349bda636baa5ac88005000f753de",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/setup.py"
+    },
+    {
+      "path": "src__ui__map__MapRenderer.ts.gz",
+      "bytes": 56140,
+      "sha256": "e49b4b4deb7dfebe2b0f1edc7f6ecf5806b046ad7bc49974f07e18e09d108fca",
+      "rawBytes": 207474,
+      "rawSHA256": "b9a3d2073fb044c874d5ad13c203837254d8653c3f60b86efad340b6e065dc16",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/src__ui__map__MapRenderer.ts"
+    },
+    {
+      "path": "MapRenderer.static-trace-instrumentation.ts.gz",
+      "bytes": 56303,
+      "sha256": "c6024dc20681a7a48dabfd564e2a83a27bafa2124fa80858cdc12ab5d15e2819",
+      "rawBytes": 208084,
+      "rawSHA256": "5a7ffa9927bfc9feb395d82a0571fc3405fa683a57815d298fd48ed71d45818a",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/MapRenderer.static-trace-instrumentation.ts"
+    },
+    {
+      "path": "MapRenderer.moving-trace-instrumentation.ts.gz",
+      "bytes": 56338,
+      "sha256": "358e3dcf16b01884fbea2380d018beb765789462abea98736513f16147b3d154",
+      "rawBytes": 208269,
+      "rawSHA256": "44862fac3f5c4aa97c2c8d744f8808d8642867c769afaa5d9e19f244035c62f6",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/MapRenderer.moving-trace-instrumentation.ts"
+    },
+    {
+      "path": "geographicLabelLayout.original.ts.gz",
+      "bytes": 3510,
+      "sha256": "f943ecfa48536b44e5b6c4a6a0854fb5acb21e3c72893385fa8c917300ca26e4",
+      "rawBytes": 11428,
+      "rawSHA256": "2c0cc48de296fdb974ec397f9fe8732357b1831a835f592f3a880702705e9acd",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/geographicLabelLayout.original.ts"
+    },
+    {
+      "path": "geographicLabelLayout.instrumented.ts.gz",
+      "bytes": 3631,
+      "sha256": "b862d9edc16ee2fdee225ec6189e15accf9a0a5e2f1901cd51f1b1405b77837c",
+      "rawBytes": 12024,
+      "rawSHA256": "c8e1e9820204f31d9f0a67b033dc99ab6226d05c4681c33d13fe1d9aa6ebde75",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/geographicLabelLayout.instrumented.ts"
+    },
+    {
+      "path": "mapFrameMeasurement.original.ts.gz",
+      "bytes": 3348,
+      "sha256": "d1bda7705613640bca75971452cae39ac18f01b85f850e89a86842928e44d54f",
+      "rawBytes": 10222,
+      "rawSHA256": "6895eb269328415f704d8e22dc35c5d5ec8840076201382a5e162e36c7604896",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/mapFrameMeasurement.original.ts"
+    },
+    {
+      "path": "src__ui__map__wasmGeographicScorer.ts.gz",
+      "bytes": 2999,
+      "sha256": "4aeb1518bf1d48791af4c51bece8a40a21f55a737d1f623f3cf90e5d86e298e3",
+      "rawBytes": 11103,
+      "rawSHA256": "f5ec309ed4ba4d86832a4bb1d52f10d680cf334f4c9f841af3165f4fe92d57a6",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/src__ui__map__wasmGeographicScorer.ts"
+    },
+    {
+      "path": "src__app__worker__simulation.worker.ts.gz",
+      "bytes": 2466,
+      "sha256": "3e64199fc9d27d35afbcc36cd0c0924f653509e51d8f461809351a358189cd42",
+      "rawBytes": 8391,
+      "rawSHA256": "b81eafc5915a5fac1ef018cd568c06d7c1fca94dd55bc2545c3a0bcf79f66e3d",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/src__app__worker__simulation.worker.ts"
+    },
+    {
+      "path": "src__wasm__renderNumericVariant.ts.gz",
+      "bytes": 1476,
+      "sha256": "238006251573ba0d13634e0ec8d0b0d39c9134893ceebf7a11b7e985127aecc4",
+      "rawBytes": 3319,
+      "rawSHA256": "549337d888e39abe5815af2f032d649828795301edc1c69272fa10906e012c4c",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/src__wasm__renderNumericVariant.ts"
+    },
+    {
+      "path": "static-build.log.gz",
+      "bytes": 930,
+      "sha256": "0b24290b5505a12441cbb9ab67af19d14e1fc8b9779efb756fa40bfa67e9552b",
+      "rawBytes": 2336,
+      "rawSHA256": "87505595b9d0fe23adb7a352496a27bbff4fe479a44cd6168bf66379850788a3",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/static-logs/build.log"
+    },
+    {
+      "path": "static-observer.log.gz",
+      "bytes": 198,
+      "sha256": "342e384328cd89edd401f728391b940fdfe0e41303432399066561a5e3f58f7d",
+      "rawBytes": 424,
+      "rawSHA256": "8db0bce3e921017aed7eb03ff164e055b990aef82cbfb851e1df329f33dfb0f8",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/static-logs/observer.log"
+    },
+    {
+      "path": "static-preview.log.gz",
+      "bytes": 83,
+      "sha256": "26f5399dcd9c782a09d4c0582be22c07d7fd22563ba84c164d2e9279f70953e3",
+      "rawBytes": 77,
+      "rawSHA256": "ae24f783560c59deed04caeff90ef3b84a3c0d3a50ca749550cfeeed2c58dd88",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/static-logs/preview.log"
+    },
+    {
+      "path": "static-status.json.gz",
+      "bytes": 213,
+      "sha256": "5333b74381fad06fe8fa51a4cb2587422dd81bb33361aa02d50c099a4db9f9fc",
+      "rawBytes": 460,
+      "rawSHA256": "77b4844e58dd06d284e53d5b77b05a58ba7cae887c55c62aa92341fc3b9a1e9e",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/static-logs/status.json"
+    },
+    {
+      "path": "moving-build.log.gz",
+      "bytes": 930,
+      "sha256": "b3b2a3c111b3c5e9a847c871f15fdab083ebaec6fc05e3a3d0fc959280ecc9d6",
+      "rawBytes": 2336,
+      "rawSHA256": "59e175fb8041551cad0415b7e0e9f43c8c00e293cb99b4dad7b1fea92eb885cf",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/moving-logs/build.log"
+    },
+    {
+      "path": "moving-observer.log.gz",
+      "bytes": 234,
+      "sha256": "05302efddd799434deaabfc3282a9605c0b1228e1d920e5ef5b34a1ffded6de5",
+      "rawBytes": 424,
+      "rawSHA256": "5cd38f8b5f0fe42ff8ed69169bc62fec0365f0d0f8d4e8a15a41e6863f5e6376",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/moving-logs/observer.log"
+    },
+    {
+      "path": "moving-preview.log.gz",
+      "bytes": 83,
+      "sha256": "26f5399dcd9c782a09d4c0582be22c07d7fd22563ba84c164d2e9279f70953e3",
+      "rawBytes": 77,
+      "rawSHA256": "ae24f783560c59deed04caeff90ef3b84a3c0d3a50ca749550cfeeed2c58dd88",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/moving-logs/preview.log"
+    },
+    {
+      "path": "moving-status.json.gz",
+      "bytes": 220,
+      "sha256": "f36eea0aa15834db8555fe65a69caaa2cef57eec9c3f55b5b6cf357f070a96c1",
+      "rawBytes": 467,
+      "rawSHA256": "1c07c817e178188e89acca4fc29fb9a4256feda1ffb9aff0f5d0b6be32ac33d8",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/moving-logs/status.json"
+    },
+    {
+      "path": "build-launch-original-red.log.gz",
+      "bytes": 72,
+      "sha256": "25adff99fd734f3016b58e10b8cf93ab3260c8a48f481019799d77fcb174f5a7",
+      "rawBytes": 52,
+      "rawSHA256": "d11011e3dd2a4283bbb07237e72a49cc57985a4b2a6e3dc0364a76dd7408eff5",
+      "originalLocalPath": "/tmp/tenka-geographic-input-trace-local/static-logs/build-launch-original-red.log"
+    }
+  ]
+}

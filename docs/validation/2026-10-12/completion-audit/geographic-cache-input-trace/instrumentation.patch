@@ -1,0 +1,55 @@
+--- src__ui__map__MapRenderer.ts
++++ MapRenderer.static-trace-instrumentation.ts
+@@ -3097,6 +3097,16 @@
+     const inputs = this.geographicLabelInputs();
+     if (inputs === null) return;
+     const signature = JSON.stringify(inputs);
++    const diagnosticGlobal = globalThis as unknown as {
++      __tenkaGeographicInputTrace?: { signature: string; layoutRuns: number; labels: unknown[] }[];
++      __tenkaGeographicTraceCurrent?: { labels: unknown[] };
++    };
++    const diagnosticTrace = diagnosticGlobal.__tenkaGeographicInputTrace;
++    if (diagnosticTrace && diagnosticTrace.length < 20) {
++      const frame = { signature, layoutRuns: this.geographicLabelLayoutRuns, labels: [] };
++      diagnosticTrace.push(frame);
++      diagnosticGlobal.__tenkaGeographicTraceCurrent = frame;
++    } else delete diagnosticGlobal.__tenkaGeographicTraceCurrent;
+     if (signature !== this.geographicLabelLayoutSignature) {
+       this.geographicLabelLayoutSignature = signature;
+       this.geographicLabelOffsets = this.geographicLayouter.layout(
+--- MapRenderer.static-trace-instrumentation.ts
++++ MapRenderer.moving-trace-instrumentation.ts
+@@ -3100,10 +3100,12 @@
+     const diagnosticGlobal = globalThis as unknown as {
+       __tenkaGeographicInputTrace?: { signature: string; layoutRuns: number; labels: unknown[] }[];
+       __tenkaGeographicTraceCurrent?: { labels: unknown[] };
++      __tenkaGeographicTraceLastCamera?: unknown;
+     };
+     const diagnosticTrace = diagnosticGlobal.__tenkaGeographicInputTrace;
++    if (diagnosticTrace) diagnosticGlobal.__tenkaGeographicTraceLastCamera = this.camera?.getState();
+     if (diagnosticTrace && diagnosticTrace.length < 20) {
+-      const frame = { signature, layoutRuns: this.geographicLabelLayoutRuns, labels: [] };
++      const frame = { signature, layoutRuns: this.geographicLabelLayoutRuns, labels: [], camera: this.camera?.getState() };
+       diagnosticTrace.push(frame);
+       diagnosticGlobal.__tenkaGeographicTraceCurrent = frame;
+     } else delete diagnosticGlobal.__tenkaGeographicTraceCurrent;
+--- geographicLabelLayout.original.ts
++++ geographicLabelLayout.instrumented.ts
+@@ -150,6 +150,8 @@
+         ? geographicPreparationSignature(rect, roadLine, roadCapsules, prepared)
+         : null;
+       const cached = cache?.placements.get(id);
++    const labelTrace = (globalThis as unknown as { __tenkaGeographicTraceCurrent?: { labels: unknown[] } }).__tenkaGeographicTraceCurrent;
++    if (labelTrace) labelTrace.labels.push({ id, signature, cachedSignature: cached?.signature ?? null, cachedOffset: cached ? { ...cached.offset } : null });
+       let best: { x: number; y: number };
+       if (cached && cached.signature === signature) {
+         cache?.reused();
+@@ -213,6 +215,8 @@
+         ])
+       : null;
+     const cached = cache?.placements.get(id);
++    const labelTrace = (globalThis as unknown as { __tenkaGeographicTraceCurrent?: { labels: unknown[] } }).__tenkaGeographicTraceCurrent;
++    if (labelTrace) labelTrace.labels.push({ id, signature, cachedSignature: cached?.signature ?? null, cachedOffset: cached ? { ...cached.offset } : null });
+     if (cached && cached.signature === signature) {
+       cache?.reused();
+       result.set(id, { ...cached.offset });
