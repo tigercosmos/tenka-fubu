@@ -244,6 +244,48 @@ fn valid_axis(values: &[f64]) -> bool {
         })
 }
 
+/// Prepared-only strict SIMD overlap; scalar native builds are reference-only.
+#[cfg(all(target_arch = "wasm32", feature = "render-simd"))]
+#[target_feature(enable = "simd128")]
+// Scalar ABI arguments reduce cross-feature Rect argument copies.
+#[allow(clippy::too_many_arguments)]
+unsafe fn overlap_prepared(
+    ax: f64,
+    ay: f64,
+    aw: f64,
+    ah: f64,
+    bx: f64,
+    by: f64,
+    bw: f64,
+    bh: f64,
+    padding: f64,
+) -> f64 {
+    use core::arch::wasm32::*;
+    let apos = f64x2(ax, ay);
+    let bpos = f64x2(bx, by);
+    let pad = f64x2_splat(padding);
+    let ar = f64x2_add(f64x2_add(apos, f64x2(aw, ah)), pad);
+    let br = f64x2_add(f64x2_add(bpos, f64x2(bw, bh)), pad);
+    let left = f64x2_max(f64x2_sub(apos, pad), f64x2_sub(bpos, pad));
+    let size = f64x2_max(f64x2_splat(0.0), f64x2_sub(f64x2_min(ar, br), left));
+    f64x2_extract_lane::<0>(size) * f64x2_extract_lane::<1>(size)
+}
+
+fn prepared_overlap(a: Rect, b: Rect, padding: f64) -> f64 {
+    #[cfg(all(target_arch = "wasm32", feature = "render-simd"))]
+    {
+        unsafe {
+            overlap_prepared(
+                a.x, a.y, a.width, a.height, b.x, b.y, b.width, b.height, padding,
+            )
+        }
+    }
+    #[cfg(not(all(target_arch = "wasm32", feature = "render-simd")))]
+    {
+        overlap(a, b, padding)
+    }
+}
+
 /// Reuse prepared near indices and axes without repacking the full scorer packet.
 /// Output winner fields are never inputs. Malformed input leaves output unchanged.
 pub(crate) fn score_prepared(frame: &[f64], prep: &mut [f64], road: &[f64]) -> i32 {
@@ -319,12 +361,12 @@ pub(crate) fn score_prepared(frame: &[f64], prep: &mut [f64], road: &[f64]) -> i
             }
         }
     }
-    let baseline = primary
-        .iter()
-        .fold(0.0, |sum, i| sum + overlap(f.rect, f.row(*i as usize), 0.0));
+    let baseline = primary.iter().fold(0.0, |sum, i| {
+        sum + prepared_overlap(f.rect, f.row(*i as usize), 0.0)
+    });
     let hard_baseline: Vec<f64> = hard
         .iter()
-        .map(|i| overlap(f.rect, f.row(f.p + *i as usize), 0.0))
+        .map(|i| prepared_overlap(f.rect, f.row(f.p + *i as usize), 0.0))
         .collect();
     let mut winner = -1;
     let mut winner_offset = [0.0, 0.0];
@@ -354,19 +396,19 @@ pub(crate) fn score_prepared(frame: &[f64], prep: &mut [f64], road: &[f64]) -> i
             if hard
                 .iter()
                 .zip(&hard_baseline)
-                .any(|(i, b)| overlap(moved, f.row(f.p + *i as usize), 0.0) > *b)
+                .any(|(i, b)| prepared_overlap(moved, f.row(f.p + *i as usize), 0.0) > *b)
             {
                 continue;
             }
-            let area = primary
-                .iter()
-                .fold(0.0, |sum, i| sum + overlap(moved, f.row(*i as usize), 0.0));
+            let area = primary.iter().fold(0.0, |sum, i| {
+                sum + prepared_overlap(moved, f.row(*i as usize), 0.0)
+            });
             if area > baseline {
                 continue;
             }
-            let secondary = reserved
-                .iter()
-                .fold(0.0, |sum, i| sum + overlap(moved, f.row(*i as usize), 2.0));
+            let secondary = reserved.iter().fold(0.0, |sum, i| {
+                sum + prepared_overlap(moved, f.row(*i as usize), 2.0)
+            });
             if area < best_primary
                 || (area == best_primary
                     && (secondary < best_secondary

@@ -3,6 +3,10 @@ name = "tenka-engine"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+default = []
+render-simd = []
+
 [lib]
 crate-type = ["cdylib", "rlib"]
 

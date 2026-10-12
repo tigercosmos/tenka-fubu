@@ -46,6 +46,17 @@ pub extern "C" fn engine_abi_version() -> u32 {
     1
 }
 
+#[no_mangle]
+pub extern "C" fn render_numeric_abi_version() -> u32 {
+    1
+}
+
+/// Native feature builds remain scalar references; only the wasm variant enables SIMD.
+#[no_mangle]
+pub extern "C" fn render_numeric_variant() -> u32 {
+    u32::from(cfg!(all(target_arch = "wasm32", feature = "render-simd")))
+}
+
 /// Allocate aligned f64 storage shared with the synchronous JavaScript adapter.
 #[no_mangle]
 pub extern "C" fn engine_alloc(length: usize) -> *mut f64 {

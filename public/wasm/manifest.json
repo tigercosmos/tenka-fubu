@@ -3,19 +3,78 @@
   "target": "wasm32-unknown-unknown",
   "profile": "release",
   "toolchain": "1.97.1",
-  "sourceSha256": "f27cd96edb26bae0f66f3ce2757ac62be3bbd8129eb62ff56d1a62c67ec9049b",
-  "wasmSha256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b",
+  "sourceSha256": "f10c6c6c515c884207f79147744c53b217db0d8e9b8b2ea67b729ae05d4c801c",
+  "wasmSha256": "57b04ba8b63eb8af3a7a25742e676e0c2bd53eaeece7df40c85c5bd0862b189e",
   "sourceFiles": {
     "rust/engine/Cargo.lock": "5f071ef4ef4455f76340d6952350e944dae5cc3ea6aeb8b114eec4d8e90d65df",
-    "rust/engine/Cargo.toml": "15b426b65097ac31633fccc383a2b571bb6cc2243d2f4c4df44549f165949907",
+    "rust/engine/Cargo.toml": "81f2227d15d62bd18e936c1020dfb9b8cdbd40e00b091e7fdc78ccb133dd6478",
     "rust/engine/rust-toolchain.toml": "9cbeb062ec3a97a5b5b76aacde94f5dcb034ed98f32af151480764de2e03d6f9",
     "rust/engine/src/castle_ribbon.rs": "a5cb03aa871c51d5e364d6882e4ab10cb95bd0136d26461fc4741402514a1b95",
     "rust/engine/src/castle_ribbon_tests.rs": "9f3e65e490d7ba3b142d12bfb508f9834e32dc5c20eed0e42b9c41cd3e7d3df0",
     "rust/engine/src/geographic.rs": "69ed145c2ee7d445691b0897362fc6de196cbe48fd4b0c1721764e67def56768",
-    "rust/engine/src/geographic_preparation.rs": "9170c88bdc278090a24d7fe517bc771efeed2c60bb0477ffb218bc27f8009f5e",
+    "rust/engine/src/geographic_preparation.rs": "44d42946a7b96b8819bc2e8c5bde9cde36cd9761acc1bf937f627c1ece2b0056",
     "rust/engine/src/geographic_preparation_tests.rs": "31ad3b3aa8f7b66e32a09ef543b7c82bcb4105a2310757a32b4df334ddaceaa9",
-    "rust/engine/src/lib.rs": "8aa42164165e7cd60f4fc1c57b1c4adfebdf379dbc9ab9306e614e09b720dacf",
-    "tools/wasm/artifact.ts": "b4c509e3ed8ca9a953859db47ff990b125d526d7c48ed80766f3c5708b750021",
-    "tools/wasm/build.ts": "3cecc0dd5ecd39a5f29d4d599d254fdad5bd2bb7fbac585c30f666aebb2a019d"
+    "rust/engine/src/lib.rs": "a4fe6346d3ed93310f912539efe67c35af815375686df39ddf17c2ea85bc9935",
+    "tools/wasm/artifact.ts": "425c210717e52f86fdd33eed34718ed498456461f93a42b1bdc748555b7f748b",
+    "tools/wasm/build.ts": "e1864d5a21a7a353fe359ec339b56d4f0e740e887daf50f8d74e248d9822274b"
+  },
+  "dualVariantSchemaVersion": 1,
+  "variants": {
+    "scalar": {
+      "file": "tenka_engine.wasm",
+      "bytes": 88536,
+      "wasmSha256": "57b04ba8b63eb8af3a7a25742e676e0c2bd53eaeece7df40c85c5bd0862b189e",
+      "sourceSha256": "f10c6c6c515c884207f79147744c53b217db0d8e9b8b2ea67b729ae05d4c801c",
+      "recipe": {
+        "target": "wasm32-unknown-unknown",
+        "profile": "release",
+        "toolchain": "1.97.1",
+        "locked": true,
+        "cargoFeatures": [],
+        "targetFeatures": ["-simd128"],
+        "rustflags": ["--remap-path-prefix=<crate>=tenka-engine", "-Ctarget-feature=-simd128"],
+        "incremental": false,
+        "targetDirectory": "rust/engine/target/scalar"
+      },
+      "recipeSha256": "c1b164a226a32a0545591df20beb1e737d3ecf72eabc9e182406104ba9037c16",
+      "sourceAndFlagsSha256": "478b596897974f9ff16aec9379b8ed84d469157726e6e7db1f31599519989562",
+      "abiVersions": {
+        "engine_abi_version": 1,
+        "geographic_abi_version": 1,
+        "geographic_preparation_abi_version": 1,
+        "castle_ribbon_abi_version": 1,
+        "render_numeric_abi_version": 1,
+        "render_numeric_variant": 0
+      },
+      "hasSimd": false
+    },
+    "simd128": {
+      "file": "tenka_engine.simd.wasm",
+      "bytes": 88392,
+      "wasmSha256": "0edab970302a9439995d634f2dd0c2b018651473a227b3ff9efc309b1974b38a",
+      "sourceSha256": "f10c6c6c515c884207f79147744c53b217db0d8e9b8b2ea67b729ae05d4c801c",
+      "recipe": {
+        "target": "wasm32-unknown-unknown",
+        "profile": "release",
+        "toolchain": "1.97.1",
+        "locked": true,
+        "cargoFeatures": ["render-simd"],
+        "targetFeatures": ["-simd128"],
+        "rustflags": ["--remap-path-prefix=<crate>=tenka-engine", "-Ctarget-feature=-simd128"],
+        "incremental": false,
+        "targetDirectory": "rust/engine/target/simd128"
+      },
+      "recipeSha256": "14c878e2b30da9fccefadeb316d20fc4df8de76d9bdea8dffd4198bd1d9f82d8",
+      "sourceAndFlagsSha256": "97480fb486b9a39e35a0294ce7bd138b98dd87ca3f528b53744e062911058d3c",
+      "abiVersions": {
+        "engine_abi_version": 1,
+        "geographic_abi_version": 1,
+        "geographic_preparation_abi_version": 1,
+        "castle_ribbon_abi_version": 1,
+        "render_numeric_abi_version": 1,
+        "render_numeric_variant": 1
+      },
+      "hasSimd": true
+    }
   }
 }
