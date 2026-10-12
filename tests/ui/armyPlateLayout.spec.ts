@@ -446,15 +446,43 @@ describe('actual MID town-soft seed readability', () => {
     expect(resolved.get('blocked')).toEqual(seed.get('blocked'));
     const offset = resolved.get('clearable')!;
     const town = { ...content[0]!, x: content[0]!.x + offset.x, y: content[0]!.y + offset.y };
-    // Castle pass1 moves the clearable label, but leaves the blocked label;
-    // pass2 verifies no further improvement. No search budget remains for town.
+    // The same two-pass budget gives the castle objective the first pass and
+    // the town objective the second. The blocked name remains protected.
+    const withTown = plateModule.refineArmyPlateSeedReadability(
+      candidates,
+      seed,
+      fixed,
+      content,
+      options,
+      [town],
+    );
+    expect(withTown.get('blocked')).toEqual(resolved.get('blocked'));
+    const townOffset = withTown.get('clearable')!;
+    expect(townOffset).not.toEqual(resolved.get('clearable'));
+    expect(Math.hypot(townOffset.x, townOffset.y)).toBeLessThanOrEqual(80);
+    expect(Math.hypot(townOffset.x - offset.x, townOffset.y - offset.y)).toBeLessThanOrEqual(24);
+    expect(candidates[0]!.rect.y + townOffset.y + candidates[0]!.rect.height).toBeLessThanOrEqual(
+      town.y,
+    );
+    // Rejected town input must leave both castle passes available.
     expect(
-      plateModule.refineArmyPlateSeedReadability(candidates, seed, fixed, content, options, [town]),
+      plateModule.refineArmyPlateSeedReadability(
+        candidates,
+        seed,
+        fixed,
+        content,
+        options,
+        Array.from({ length: 127 }, () => town),
+      ),
     ).toEqual(resolved);
-    // Independently starting at that resolved seed leaves the town move feasible.
+    const crowdedFixed = Array.from({ length: 255 }, (_, i) => fixed[i % fixed.length]!);
     expect(
-      plateModule.refineArmyPlateSeedReadability(candidates, resolved, fixed, [], options, [town]),
-    ).not.toEqual(resolved);
+      plateModule.refineArmyPlateSeedReadability(candidates, seed, crowdedFixed, content, options, [
+        town,
+      ]),
+    ).toEqual(
+      plateModule.refineArmyPlateSeedReadability(candidates, seed, crowdedFixed, content, options),
+    );
   });
   it('resolves the original measured castle name first, including when town capacity overflows', () => {
     const c = {

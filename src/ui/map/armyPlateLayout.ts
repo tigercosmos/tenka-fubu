@@ -56,6 +56,13 @@ export function refineArmyPlateSeedReadability(
   // Towns cannot replace the already accepted castle-readability objective.
   // Both stages share the original invocation's search and comparison caps.
   (townContent ?? []).forEach(validate);
+  const townAdmitted =
+    !!townContent?.length &&
+    candidates.length <= ARMY_SEED_READABILITY_LIMITS.candidates &&
+    baseFixed.length + castleContent.length <= ARMY_SEED_READABILITY_LIMITS.fixed &&
+    castleContent.length + townContent.length <= ARMY_SEED_READABILITY_LIMITS.content &&
+    (options.screenOcclusions?.length ?? 0) <= ARMY_SEED_READABILITY_LIMITS.hud;
+  // Reserve the second shared pass for visible town models when present.
   const resolved = refineArmyPlateSeedReadabilityPass(
     candidates,
     seed,
@@ -64,8 +71,9 @@ export function refineArmyPlateSeedReadability(
     options,
     undefined,
     budget,
+    townAdmitted ? 1 : ARMY_SEED_READABILITY_LIMITS.passes,
   );
-  if (!townContent?.length) return resolved;
+  if (!townAdmitted) return resolved;
   return refineArmyPlateSeedReadabilityPass(
     candidates,
     resolved,
@@ -85,6 +93,7 @@ function refineArmyPlateSeedReadabilityPass(
   options: ArmyPlateLayoutOptions,
   townContent: readonly PlateRect[] | undefined,
   budget: { work: number; passes: number },
+  stagePasses: number = ARMY_SEED_READABILITY_LIMITS.passes,
 ): Map<string, { x: number; y: number }> {
   const fallback = () => new Map([...seed].map(([id, offset]) => [id, { ...offset }]));
   if (!Number.isFinite(options.maxOffset) || options.maxOffset < 48 || options.maxOffset > 96)
@@ -216,7 +225,7 @@ function refineArmyPlateSeedReadabilityPass(
   const pairCeil = original.map((r) => original.map((other) => bodyOverlap(r, other)));
   const crossCeil = original.map((r, i) => original.map((other) => crosses(sorted[i]!, r, other)));
   const visibility = original.map(visible);
-  for (let pass = 0; pass < limits.passes && budget.passes < limits.passes; pass++) {
+  for (let pass = 0; pass < stagePasses && budget.passes < limits.passes; pass++) {
     if (sorted.every((c, i) => c.priority === 0 || contentCost(current[i]!) === 0)) break;
     budget.passes++;
     let changed = false;
