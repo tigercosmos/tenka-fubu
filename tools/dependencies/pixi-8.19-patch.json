@@ -466,9 +466,70 @@
           "to": ""
         }
       ]
+    },
+    {
+      "path": "lib/rendering/renderers/shared/texture/sources/TextureSource.js",
+      "originalSha256": "9c4ac459908cdefed4952091e7b818d567520532802e3d0af765bccc3ec41d6e",
+      "patchedSha256": "29f9d8458d71b14551a6aebcfe51fda7909ca89c38fe9ef8d4fee8946e18b016",
+      "replacements": [
+        {
+          "from": "this.uid = uid.uid(\"textureSource\");",
+          "to": "this.uid = -uid.uid(\"textureSource\") - 1;"
+        },
+        {
+          "from": "//# sourceMappingURL=TextureSource.js.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/renderers/shared/texture/sources/TextureSource.mjs",
+      "originalSha256": "1b28169f369e783460f95a7e0950ca88926d88532e8cef7b24ab613a697e4855",
+      "patchedSha256": "e051fd477eab15d3ff6464eb25b581623cc8ce5dc2b47e0f7d7ad188275ae143",
+      "replacements": [
+        {
+          "from": "this.uid = uid(\"textureSource\");",
+          "to": "this.uid = -uid(\"textureSource\") - 1;"
+        },
+        {
+          "from": "//# sourceMappingURL=TextureSource.mjs.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/batcher/shared/BatchTextureArray.js",
+      "originalSha256": "c11312509faaa1981e7251a957e704c72694a7e4955e75a809ce85cfba88d8e8",
+      "patchedSha256": "0c60ed59a2629a7d5a3ca9a50c464934db28d05c85723bc5a6c5eacb89b7e269",
+      "replacements": [
+        {
+          "from": "this.ids[t.uid] = null;",
+          "to": "delete this.ids[t.uid];"
+        },
+        {
+          "from": "//# sourceMappingURL=BatchTextureArray.js.map\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "path": "lib/rendering/batcher/shared/BatchTextureArray.mjs",
+      "originalSha256": "c80a652e9e3c9e12034547a365348b1b9235aaa00c2a273adba1d4ef9d8f508b",
+      "patchedSha256": "e6c081cf642eb49ce243c61fb493c2807051c5deb6aad478212e8f91d9da7662",
+      "replacements": [
+        {
+          "from": "this.ids[t.uid] = null;",
+          "to": "delete this.ids[t.uid];"
+        },
+        {
+          "from": "//# sourceMappingURL=BatchTextureArray.mjs.map\n",
+          "to": ""
+        }
+      ]
     }
   ],
   "managedResourceLifecyclePatch": "Local GCManagedHash removal detaches only its own unload callback, including already-absent GPU data. Shared buffers retain other renderer and user callbacks. This separate lifecycle fix does not claim complete heap stability.",
   "batchBindGroupLifecyclePatch": "Local texture batch bind-group cache evicts its own entry on group destruction, while preserving live reuse and other groups. Destroyed resource/key shells no longer accumulate in the module cache. This does not claim whole-heap stability.",
-  "rendererCachePatch": "Renderer IDs remain unique numbers but use negative keys so per-renderer object caches do not grow sparse indexed backing arrays. Released managed GPU data keys are deleted after teardown."
+  "rendererCachePatch": "Renderer IDs remain unique numbers but use negative keys so per-renderer object caches do not grow sparse indexed backing arrays. Released managed GPU data keys are deleted after teardown.",
+  "textureBatchIdPatch": "TextureSource IDs remain unique numbers but use negative keys, so per-batch numeric lookups do not allocate sparse indexed storage. BatchTextureArray.clear deletes released ID entries."
 }

@@ -50,12 +50,12 @@ describe('offline exact-version Pixi dependency patch installation', () => {
   it('patches all runtime/declaration files and is idempotent across fresh offline reinstalls', () => {
     for (let install = 0; install < 2; install++) {
       const root = fixture();
-      expect(applyPixiPatch(root)).toEqual({ version: '8.19.0', validated: 25, written: 25 });
+      expect(applyPixiPatch(root)).toEqual({ version: '8.19.0', validated: 29, written: 29 });
       expect(hashes(root)).toEqual(manifest.targets.map((target) => target.patchedSha256));
       expect(applyPixiPatch(root).written).toBe(0);
     }
-    expect(manifest.targets.filter(({ path }) => path.endsWith('.js'))).toHaveLength(12);
-    expect(manifest.targets.filter(({ path }) => path.endsWith('.mjs'))).toHaveLength(12);
+    expect(manifest.targets.filter(({ path }) => path.endsWith('.js'))).toHaveLength(14);
+    expect(manifest.targets.filter(({ path }) => path.endsWith('.mjs'))).toHaveLength(14);
     expect(manifest.targets.some(({ path }) => path.endsWith('.d.ts'))).toBe(true);
   });
   it('rejects an unknown version before any writes', () => {
@@ -102,7 +102,7 @@ describe('offline exact-version Pixi dependency patch installation', () => {
       return sha256(source);
     });
     applyPixiPatch(root);
-    expect(runtime).toHaveLength(24);
+    expect(runtime).toHaveLength(28);
     for (const { path } of runtime) {
       expect(readFileSync(join(root, path), 'utf8')).not.toContain('//# sourceMappingURL=');
     }
