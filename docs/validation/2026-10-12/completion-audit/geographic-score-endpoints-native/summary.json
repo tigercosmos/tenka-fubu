@@ -1,0 +1,1216 @@
+{
+  "scope": "single same-current23 dependency endpoint Rust candidate native renderer campaign; not live strategy acceptance",
+  "candidateCommit": "c2302c4ad1fa7ad524f79a13084b8ceedc3b4a7e",
+  "candidateStatus": "withdrawal decided; source revert pending parent commit",
+  "retentionDecision": "withdraw",
+  "retentionReason": "No clear overall benefit: close averageFPS\u22120.911%, JS layout parent+1.308%, score WASM+1.618%, normalized overlap-like self no improvement; binary grows1286bytes",
+  "baselineEvidenceCommit": "44c3b30",
+  "baselineRuntimeSourceCommit": "feab20cc9c207f37afae7a2f372c437b93232a07",
+  "replica": "sim3:/tmp/tenka-endpoints-current23-20261012",
+  "sourceFiles": 1524,
+  "sourceScope": "full frozen src/public/rust/tools/tests/e2e and thirteen root code/config files; e2e was newly included in source proofs",
+  "dependencyFiles": 14765,
+  "pixiPatchTargets": 23,
+  "sourceBeforeAfterFinalMatch": true,
+  "dependenciesBeforeAfterFinalUnchanged": true,
+  "compiledWasm": {
+    "bytes": 89761,
+    "sha256": "69af4226d451a71211b209101cc4223045b1aeca2f1178d16e9beaa91166b736",
+    "exports": [
+      {
+        "name": "memory",
+        "kind": 2,
+        "index": 0
+      },
+      {
+        "name": "castle_ribbon_abi_version",
+        "kind": 0,
+        "index": 53
+      },
+      {
+        "name": "castle_ribbon_solve",
+        "kind": 0,
+        "index": 54
+      },
+      {
+        "name": "engine_alloc",
+        "kind": 0,
+        "index": 55
+      },
+      {
+        "name": "engine_free",
+        "kind": 0,
+        "index": 56
+      },
+      {
+        "name": "geo_prepare",
+        "kind": 0,
+        "index": 57
+      },
+      {
+        "name": "geo_score",
+        "kind": 0,
+        "index": 58
+      },
+      {
+        "name": "geo_score_prepared",
+        "kind": 0,
+        "index": 59
+      },
+      {
+        "name": "path_solve",
+        "kind": 0,
+        "index": 60
+      },
+      {
+        "name": "engine_abi_version",
+        "kind": 0,
+        "index": 53
+      },
+      {
+        "name": "geographic_abi_version",
+        "kind": 0,
+        "index": 53
+      },
+      {
+        "name": "geographic_preparation_abi_version",
+        "kind": 0,
+        "index": 53
+      }
+    ]
+  },
+  "functionalParity": {
+    "referenceSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "actualSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "fullPayloadEqual": true,
+    "snapshotsEqual": true,
+    "snapshots": 9,
+    "days": [
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2
+    ],
+    "excludedNonvisualCounters": [
+      "armyPlateLayout.runs",
+      "geographicLabelLayout.runs",
+      "geographicLabelLayout.placementCache",
+      "castleRibbonLayout.runs"
+    ]
+  },
+  "fps": [
+    {
+      "camera": "overview",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 59.93849557393745,
+      "slowFrameFps": 58.13953552844397,
+      "frameTimeP95": 17.199999809265137,
+      "durationMs": 30014.099999904633,
+      "completedFrames": 1799,
+      "frames": 1798,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 83,
+      "lodStage": "far",
+      "terminalExit": 1,
+      "strict60Pass": false,
+      "baselineAverageFps": 59.959826916156786,
+      "baselineFrameTimeP95": 17.199999809265137,
+      "observedAverageFpsChangePercent": -0.03557605703091715,
+      "observedP95ChangePercent": 0.0
+    },
+    {
+      "camera": "operational",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 50.04925059217937,
+      "slowFrameFps": 45.6621002577773,
+      "frameTimeP95": 21.90000009536743,
+      "durationMs": 30050.400000095367,
+      "completedFrames": 1504,
+      "frames": 1503,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 79,
+      "lodStage": "mid",
+      "terminalExit": 1,
+      "strict60Pass": false,
+      "baselineAverageFps": 49.885021514945784,
+      "baselineFrameTimeP95": 21.90000009536743,
+      "observedAverageFpsChangePercent": 0.32921520778412816,
+      "observedP95ChangePercent": 0.0
+    },
+    {
+      "camera": "close",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 31.74740513236589,
+      "slowFrameFps": 26.525199073190457,
+      "frameTimeP95": 37.69999980926514,
+      "durationMs": 30049.699999809265,
+      "completedFrames": 954,
+      "frames": 953,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 56,
+      "lodStage": "near",
+      "terminalExit": 1,
+      "strict60Pass": false,
+      "baselineAverageFps": 32.0392322560525,
+      "baselineFrameTimeP95": 37.19999980926514,
+      "observedAverageFpsChangePercent": -0.9108430606400653,
+      "observedP95ChangePercent": 1.3440860283968847
+    }
+  ],
+  "stateResourceProof": [
+    {
+      "camera": "overview",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-endpoints-current23-overview-results/national120-map-perf-natio-0f189-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "60e72550ea367d99ad1af73237cf3690f6cf61bb67c9289b7a407273799c570b",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    },
+    {
+      "camera": "operational",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-endpoints-current23-operational-results/national120-map-perf-natio-a8207-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "a4a311dfb0e222dd3895f7da3bff0cf90254e012502d51545e321778f8002837",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    },
+    {
+      "camera": "close",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-endpoints-current23-close-results/national120-map-perf-natio-9df1b-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "97aab360971add50bd3462a057d96907fff496d0addc9823cd34f262c77c38c8",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    }
+  ],
+  "setup": {
+    "successfulCurrentSetup": true,
+    "originalPrematureTransferRED": {
+      "scope": "setup only, no build or GPU measurement started",
+      "observedOuterShellExit": 0,
+      "individualScpExit": "not separately captured",
+      "error": "premature transfer referenced expected manifest before live archive producer finished",
+      "producerWasContinuedToTerminal": true,
+      "subsequentFinalizedTransferSHA256VerifiedBeforeSetup": true
+    }
+  },
+  "cpuProfile": {
+    "scope": "one separate10s close CPUprofile after all timing controls; not ordinary FPS",
+    "measurementDurationMs": 10075.799999713898,
+    "completedFrames": 320,
+    "postrenderIntervals": 319,
+    "profileSampledSpanUs": 10277291,
+    "samples": 10207,
+    "driverTicks": 0,
+    "canonicalStateByteEqual": true,
+    "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+    "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+    "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+    "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+    "JSGeographicLayoutParent": {
+      "function": "layoutGeographicLabels",
+      "source": "../../src/ui/map/geographicLabelLayout.ts",
+      "line": 112,
+      "column": 16,
+      "selfUs": 40572,
+      "inclusiveUs": 3764696,
+      "selfSamples": 41
+    },
+    "JSGeographicLayoutParentInclusiveMsPerCompletedRender": 11.764675,
+    "baselineJSGeographicLayoutParent": {
+      "function": "layoutGeographicLabels",
+      "source": "../../src/ui/map/geographicLabelLayout.ts",
+      "line": 112,
+      "column": 16,
+      "selfUs": 34434,
+      "inclusiveUs": 3750926,
+      "selfSamples": 34
+    },
+    "baselineCompletedRenders": 323,
+    "baselineJSGeographicLayoutParentInclusiveMsPerCompletedRender": 11.61277399380805,
+    "observedParentChangePercent": 1.3080509986067357,
+    "JSPreparationRows": [
+      {
+        "function": "geographicPreparationSignature",
+        "source": "../../src/ui/map/wasmGeographicPreparation.ts",
+        "line": 65,
+        "column": 16,
+        "selfUs": 221937,
+        "inclusiveUs": 221937,
+        "selfSamples": 211
+      },
+      {
+        "function": "prepare",
+        "source": "../../src/ui/map/wasmGeographicPreparation.ts",
+        "line": 279,
+        "column": 4,
+        "selfUs": 11579,
+        "inclusiveUs": 1124693,
+        "selfSamples": 11
+      },
+      {
+        "function": "scorePrepared",
+        "source": "../../src/ui/map/wasmGeographicPreparation.ts",
+        "line": 377,
+        "column": 4,
+        "selfUs": 8804,
+        "inclusiveUs": 2366963,
+        "selfSamples": 9
+      },
+      {
+        "function": "length",
+        "source": "../../src/ui/map/wasmGeographicPreparation.ts",
+        "line": 333,
+        "column": 20,
+        "selfUs": 6327,
+        "inclusiveUs": 6327,
+        "selfSamples": 6
+      },
+      {
+        "function": "count",
+        "source": "../../src/ui/map/wasmGeographicPreparation.ts",
+        "line": 58,
+        "column": 9,
+        "selfUs": 4220,
+        "inclusiveUs": 4220,
+        "selfSamples": 4
+      },
+      {
+        "function": "label",
+        "source": "../../src/ui/map/wasmGeographicPreparation.ts",
+        "line": 186,
+        "column": 24,
+        "selfUs": 4205,
+        "inclusiveUs": 7361,
+        "selfSamples": 4
+      },
+      {
+        "function": "i",
+        "source": "../../src/ui/map/wasmGeographicPreparation.ts",
+        "line": 359,
+        "column": 47,
+        "selfUs": 3157,
+        "inclusiveUs": 3157,
+        "selfSamples": 3
+      },
+      {
+        "function": "G",
+        "source": "../../src/ui/map/wasmGeographicPreparation.ts",
+        "line": 317,
+        "column": 22,
+        "selfUs": 2104,
+        "inclusiveUs": 6324,
+        "selfSamples": 2
+      },
+      {
+        "function": "getView",
+        "source": "../../src/ui/map/wasmGeographicPreparation.ts",
+        "line": 139,
+        "column": 6,
+        "selfUs": 1053,
+        "inclusiveUs": 3156,
+        "selfSamples": 1
+      },
+      {
+        "function": "i",
+        "source": "../../src/ui/map/wasmGeographicPreparation.ts",
+        "line": 358,
+        "column": 39,
+        "selfUs": 1052,
+        "inclusiveUs": 1052,
+        "selfSamples": 1
+      },
+      {
+        "function": "i",
+        "source": "../../src/ui/map/wasmGeographicPreparation.ts",
+        "line": 357,
+        "column": 45,
+        "selfUs": 1052,
+        "inclusiveUs": 1052,
+        "selfSamples": 1
+      }
+    ],
+    "JSPreparationExclusiveSelfUs": 265490,
+    "WasmExclusiveSelfUsByMappedCaller": {
+      "other/no preparation JS ancestor": 1059227,
+      "scorePrepared": 2350798,
+      "prepare": 1095202
+    },
+    "exportFrames": [
+      {
+        "function": "wasm-function[59]",
+        "source": "wasm://wasm/00057a86",
+        "line": 1,
+        "column": 58414,
+        "selfUs": 15775,
+        "inclusiveUs": 2350798,
+        "selfSamples": 15,
+        "wasmFunctionIndex": 59,
+        "exports": [
+          "geo_score_prepared"
+        ]
+      },
+      {
+        "function": "wasm-function[57]",
+        "source": "wasm://wasm/00057a86",
+        "line": 1,
+        "column": 56316,
+        "selfUs": 7364,
+        "inclusiveUs": 1094150,
+        "selfSamples": 7,
+        "wasmFunctionIndex": 57,
+        "exports": [
+          "geo_prepare"
+        ]
+      },
+      {
+        "function": "wasm-function[54]",
+        "source": "wasm://wasm/00057a86",
+        "line": 1,
+        "column": 56182,
+        "selfUs": 1052,
+        "inclusiveUs": 1050812,
+        "selfSamples": 1,
+        "wasmFunctionIndex": 54,
+        "exports": [
+          "castle_ribbon_solve"
+        ]
+      }
+    ],
+    "cacheBefore": {
+      "computed": 371,
+      "reused": 10,
+      "entries": 112
+    },
+    "cacheAfter": {
+      "computed": 41777,
+      "reused": 124,
+      "entries": 112
+    },
+    "cacheDelta": {
+      "computed": 41406,
+      "reused": 114,
+      "entries": 0
+    },
+    "caveats": [
+      "Inclusive layout/prepare/scorePrepared already contain child WASM; do not add.",
+      "Direct exported WASM frames omit internal/inline observations; mapped-JS-caller exclusive WASM leaf grouping includes those.",
+      "Cache capture brackets a broader span than the measured CPU/frame window.",
+      "Single unreplicated windows; preserve original strict60 REDs.",
+      "New internal Rust helper names are inference from stripped actual binary arithmetic/callgraph, not retained symbolic proof."
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "actual-js-bundle-manifest.json.gz",
+      "rawBytes": 3740,
+      "rawSHA256": "0209956fefc1d25db4235eb70dabf0737457995bff6877cb70aa063bc0a9c92e",
+      "gzipBytes": 1014,
+      "gzipSHA256": "25efa31b2389fbc4b416c988ff1435174bd7e2200d988a16172573e01e779264",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/actual-js-bundle-manifest.json"
+    },
+    {
+      "path": "build-artifact-proof.json.gz",
+      "rawBytes": 12589,
+      "rawSHA256": "077a8d4e2ef184322bfa10a8385c35a645f929d91124947ca82dad2485970c33",
+      "gzipBytes": 3683,
+      "gzipSHA256": "e7826247807e1cd6f1076c3a859d816a14103b6ad82b4c15e774b117e5356c43",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/build-artifact-proof.json"
+    },
+    {
+      "path": "build-final.log.gz",
+      "rawBytes": 2336,
+      "rawSHA256": "b68188359a11207273a1c9185b69e557f809354be30ba1d31dd4335d5978cb54",
+      "gzipBytes": 928,
+      "gzipSHA256": "8c5e7af35c6079d206e4bb4ac2c3d7ccf71cda9b890dfe928905afcdc0af7d28",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/build-final.log"
+    },
+    {
+      "path": "c230-function-26.txt.gz",
+      "rawBytes": 11319,
+      "rawSHA256": "08dc40172e4320839da0273ba9492646b0670ca072d1f6c3fd97b755b65bc08b",
+      "gzipBytes": 1487,
+      "gzipSHA256": "34f1176a91237cad73e94fa9d32ffc3b665b9a2e6a31f2c478901a07e85744c1",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/c230-function-26.txt"
+    },
+    {
+      "path": "c230-function-28.txt.gz",
+      "rawBytes": 5241,
+      "rawSHA256": "26e2907d098ed999e157a0902e4b8f60aaee560854d1c103173e75b0285d9a60",
+      "gzipBytes": 1114,
+      "gzipSHA256": "e69195ceddd0ce9106eb2c151fd68d5bd9b14c449aa01759a612112f94a751f2",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/c230-function-28.txt"
+    },
+    {
+      "path": "c230-function-31.txt.gz",
+      "rawBytes": 6409,
+      "rawSHA256": "57e2598531a9f05793f0a255cfb8613f8f7c6a144ea4bc1aa3c44b43d60ac7be",
+      "gzipBytes": 1306,
+      "gzipSHA256": "604a3d4d35b9a903e28753253e6d7b06b8a2bcc2d797cc5c94b6c10b12300566",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/c230-function-31.txt"
+    },
+    {
+      "path": "c230-function-34.txt.gz",
+      "rawBytes": 58749,
+      "rawSHA256": "c6f47f786256051b014d2cd1418b961f8d59e5e31741a06cbe75adbfde9fbb13",
+      "gzipBytes": 8291,
+      "gzipSHA256": "bf08137a5904a7e14c35c6228d1fe9fc7fbb1d126c2f19d5b5448014c332faa2",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/c230-function-34.txt"
+    },
+    {
+      "path": "c230-function-52.txt.gz",
+      "rawBytes": 51713,
+      "rawSHA256": "2c8fb4539326bfaab65978a8e1f97ecd1edb5950e9857c21a89c293257107b0a",
+      "gzipBytes": 6115,
+      "gzipSHA256": "a3506e28237e487964e603fd077051a87b2fb81b4aaf66aa755da0f4f441ab76",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/c230-function-52.txt"
+    },
+    {
+      "path": "c230-function-59.txt.gz",
+      "rawBytes": 6596,
+      "rawSHA256": "1d3b906d5ca40ece048a74056e87fa07d55b8e06b4e4c8074ecaf666d68e1b2a",
+      "gzipBytes": 962,
+      "gzipSHA256": "e2dad3b9c8642650bfd8102c77f9e724cc37eb4781b8317cbdd69b4bb6f644e8",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/c230-function-59.txt"
+    },
+    {
+      "path": "c230-wasm-disassembly.txt.gz",
+      "rawBytes": 1494424,
+      "rawSHA256": "b63342219930b0d5d824faad8cebedbd123d797d8abeac464708483a295c5c04",
+      "gzipBytes": 185287,
+      "gzipSHA256": "7a03740d1b87aa3a51f6a9e63a21937760a84d7f5d5b5797df213d5bbbf9fcba",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/c230-wasm-disassembly.txt"
+    },
+    {
+      "path": "campaign-status.json.gz",
+      "rawBytes": 3955,
+      "rawSHA256": "89d31987311a190ebccc015a39d88185496ae77ff64b879269a630f13f78f7d0",
+      "gzipBytes": 607,
+      "gzipSHA256": "502b5f677993eeb1a5c807e95d533062bec0bb6c9ebe54587c14ebf04131156f",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/campaign-status.json"
+    },
+    {
+      "path": "campaign.py.gz",
+      "rawBytes": 2029,
+      "rawSHA256": "e917c7e24d40bc4c7390f213c24d250754ba9091cc2b3468357a0aaa677dde6c",
+      "gzipBytes": 867,
+      "gzipSHA256": "2d92e2132f4d8d71afe296130e243ed2e350d318f214855bc09f59ca208019b4",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/campaign.py"
+    },
+    {
+      "path": "canonical-state.raw.json.gz",
+      "rawBytes": 816643,
+      "rawSHA256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "gzipBytes": 71991,
+      "gzipSHA256": "2131493e97a0d61568ce79807f50bece03ac03fed840a27862b345a4bd2e1bf2",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/canonical-state.raw.json"
+    },
+    {
+      "path": "close-profile-source-summary.json.gz",
+      "rawBytes": 518483,
+      "rawSHA256": "3ee1bf797ba7129a1f2a783af6aa4cab051735232bc27549d701200f01a59a26",
+      "gzipBytes": 32890,
+      "gzipSHA256": "e0b5aa820a179dc574cf37de1923ec881d49ba0e91cb963767dbfee285cfc972",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/close-profile-source-summary.json"
+    },
+    {
+      "path": "close-profile-summary.json.gz",
+      "rawBytes": 116377,
+      "rawSHA256": "0f0cf06d1fc893ac985a92817e1a9f7df492746daf41bc692e6ee8d347c84c4a",
+      "gzipBytes": 7451,
+      "gzipSHA256": "f5267bb4b1edfc1902b32342023995a74523d621b888b828cecce14e68e0f924",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/close-profile-summary.json"
+    },
+    {
+      "path": "close.cpuprofile.gz",
+      "rawBytes": 362140,
+      "rawSHA256": "36b3ac8eb3e5b1c9fbc074eff9112739135ec0b10b45c14c8b8dece97180d289",
+      "gzipBytes": 38482,
+      "gzipSHA256": "e76132c45ea4f99aede6068929014aa2f00331abf39cd775a783583894531e8b",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/close.cpuprofile"
+    },
+    {
+      "path": "close.log.gz",
+      "rawBytes": 3019,
+      "rawSHA256": "73bd51a70057ba668c14a0efcdbc4bd4371184cf159f85a74638e05d4dcf4718",
+      "gzipBytes": 696,
+      "gzipSHA256": "7e79a4c613a8f1db6f0c96c153b97559b2eddcfcd855abbbc92ff71c0c3ce7f3",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/close.log"
+    },
+    {
+      "path": "close.raw.json.gz",
+      "rawBytes": 130056,
+      "rawSHA256": "ecd86f19f2b7502a6437fdaa195d29a9f7fe2ae39cbfdcf43e96f1661d06c759",
+      "gzipBytes": 8491,
+      "gzipSHA256": "5e147bca79c323afe9a86b5d366b207a11eeeb4a3c137559d107fa28cf785b0d",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/close.raw.json"
+    },
+    {
+      "path": "collect.py.gz",
+      "rawBytes": 1927,
+      "rawSHA256": "380ef3c1dbfa4dfde0bb00785b63d2592375eb5eb64a7c4a07f3212444c0e531",
+      "gzipBytes": 787,
+      "gzipSHA256": "d1936db2e0117951635bcc8da653881505fbcf057ecf85a37a84970db50d3238",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/collect.py"
+    },
+    {
+      "path": "dependency-after-proof.json.gz",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "gzipBytes": 803276,
+      "gzipSHA256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dependency-after-proof.json"
+    },
+    {
+      "path": "dependency-before-proof.json.gz",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "gzipBytes": 803276,
+      "gzipSHA256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dependency-before-proof.json"
+    },
+    {
+      "path": "dependency-final-proof.json.gz",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "gzipBytes": 803276,
+      "gzipSHA256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dependency-final-proof.json"
+    },
+    {
+      "path": "dist__assets__browserAll-CxEaHd-z.js.gz",
+      "rawBytes": 225,
+      "rawSHA256": "aeb07c132afe93b6f862acdba099683864ffe9caff2758ddf783e8a172a88003",
+      "gzipBytes": 189,
+      "gzipSHA256": "3a1e91db43e80310b20c9e2a153d420d8941700abb05b6693a1bb3225408ef09",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dist__assets__browserAll-CxEaHd-z.js"
+    },
+    {
+      "path": "dist__assets__browserAll-CxEaHd-z.js.map.gz",
+      "rawBytes": 1760,
+      "rawSHA256": "de1152c7bf5b0f53caee88933171dafc1f1ea5efb9a843bde21b7d2b372ec0bd",
+      "gzipBytes": 554,
+      "gzipSHA256": "e11690521d76915faadaa9df98a0fdaf4848aa4e65c4734bed16f6949ba11512",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dist__assets__browserAll-CxEaHd-z.js.map"
+    },
+    {
+      "path": "dist__assets__index-CkHDd3E0.js.gz",
+      "rawBytes": 588182,
+      "rawSHA256": "f926ae670a42498aa5ba5cab13284e6b8556ee21481d22d9d5668a8fb8503056",
+      "gzipBytes": 98378,
+      "gzipSHA256": "7b1142d830c5be238a43073e41c4707136b7d04d4b6de3c7b947b98fd33bb222",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dist__assets__index-CkHDd3E0.js"
+    },
+    {
+      "path": "dist__assets__index-CkHDd3E0.js.map.gz",
+      "rawBytes": 32151,
+      "rawSHA256": "11fbfc2961a529697e621ad1c8250bd659740153ad7091bfecba8f9190670f34",
+      "gzipBytes": 8739,
+      "gzipSHA256": "c045464fd470a9b09d37f82009dd7b2659c0a89861e3f5adfb2c60d45411bcf0",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dist__assets__index-CkHDd3E0.js.map"
+    },
+    {
+      "path": "dist__assets__index-DETKF3h6.js.gz",
+      "rawBytes": 1427522,
+      "rawSHA256": "b34d26b82be0bc923a3fdef07d2330e729aa5f5bfda1fbf831ae135b57d4b9c0",
+      "gzipBytes": 417670,
+      "gzipSHA256": "8cea77957b52beabeb1a7e0d46d954c4a301a5c531ac90049eeebaa7cd1ea29d",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dist__assets__index-DETKF3h6.js"
+    },
+    {
+      "path": "dist__assets__index-DETKF3h6.js.map.gz",
+      "rawBytes": 5193210,
+      "rawSHA256": "25530c7686c2b62ab63a2d87e137336389ee407898fbacce7a6db49cd887f968",
+      "gzipBytes": 1363312,
+      "gzipSHA256": "48023c9eaac34f54909093a6909667e12117172cd36de984dc557a2db3d67090",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dist__assets__index-DETKF3h6.js.map"
+    },
+    {
+      "path": "dist__assets__simulation.worker-BkA8uROu.js.gz",
+      "rawBytes": 254607,
+      "rawSHA256": "aefee3372d33802654ebe163f9c4484a5aa1b748195ee546ec3748dcf2c56c00",
+      "gzipBytes": 73620,
+      "gzipSHA256": "0d7fd92328937ce7db81e77da6d044e123c7dc30180a6d7e9cd4a8b20437e467",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dist__assets__simulation.worker-BkA8uROu.js"
+    },
+    {
+      "path": "dist__assets__simulation.worker-BkA8uROu.js.map.gz",
+      "rawBytes": 1082991,
+      "rawSHA256": "4cf0f68e4794acb956132a32320e35d52a95ec0f1f023b90085810a3b5670ed2",
+      "gzipBytes": 278089,
+      "gzipSHA256": "7846561923e4ee1edb7d55178df0b6b7b2d676407bc5f8c97de9bf963b43c1f2",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dist__assets__simulation.worker-BkA8uROu.js.map"
+    },
+    {
+      "path": "dist__assets__vendor-pixi-tMCd1M7V.js.gz",
+      "rawBytes": 568656,
+      "rawSHA256": "223801343805fc2ebbbcc16c25bd46802addb83822af9a922bb38609a14968a2",
+      "gzipBytes": 163893,
+      "gzipSHA256": "cdda37c698a108ec39887e1cda2033df9b62b7a51f9845c9417f77e19c0835c0",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dist__assets__vendor-pixi-tMCd1M7V.js"
+    },
+    {
+      "path": "dist__assets__vendor-pixi-tMCd1M7V.js.map.gz",
+      "rawBytes": 2536927,
+      "rawSHA256": "58743af4b810c2b10c8f32c000bd8adb43e3009f99aeb2d6266af168fddd6818",
+      "gzipBytes": 573878,
+      "gzipSHA256": "e72baedbccdc087d92c96a0deb99668ee25f071f2f026391511fe5c0e47d5d86",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dist__assets__vendor-pixi-tMCd1M7V.js.map"
+    },
+    {
+      "path": "dist__assets__vendor-react-BdZgHC1P.js.gz",
+      "rawBytes": 141664,
+      "rawSHA256": "97bed391444d1937c7f8b715d3b76f7bac3f1ff7062b963b70a9489c8a186126",
+      "gzipBytes": 45344,
+      "gzipSHA256": "d3119b075a7088a106a1fe743adc4e6ee82afb30b88c3f31534f827ce7576c19",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dist__assets__vendor-react-BdZgHC1P.js"
+    },
+    {
+      "path": "dist__assets__vendor-react-BdZgHC1P.js.map.gz",
+      "rawBytes": 345155,
+      "rawSHA256": "e4c3bd901fbf586d71e12eeb8f83764f47b0279f42a7dd640e0fe33ddaebeffd",
+      "gzipBytes": 92759,
+      "gzipSHA256": "c814b93d494af8f684ce72fb3954bc4f8a9c25d269b1325eb89f5b273b5be2c3",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dist__assets__vendor-react-BdZgHC1P.js.map"
+    },
+    {
+      "path": "dist__assets__webworkerAll-y0dQvs9x.js.gz",
+      "rawBytes": 133,
+      "rawSHA256": "feda43600644f336e0ab25693f2333da85dde504cd4f180d1db48ce3d6a249c8",
+      "gzipBytes": 142,
+      "gzipSHA256": "b2decd6628669d399ba564d4ed03a93be67ba7836eb8e6ed2db9bfd69e297720",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dist__assets__webworkerAll-y0dQvs9x.js"
+    },
+    {
+      "path": "dist__assets__webworkerAll-y0dQvs9x.js.map.gz",
+      "rawBytes": 693,
+      "rawSHA256": "b064cbb8d993b747bb0a306f6be1f1892dc93bbd17d2407d83fe2b44431f61c6",
+      "gzipBytes": 368,
+      "gzipSHA256": "95bf7ad33b665bf0b07e5f24d8b6efddbe52508f3f505c2071107988695cda2a",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/dist__assets__webworkerAll-y0dQvs9x.js.map"
+    },
+    {
+      "path": "endpoints-internal-leaves.json.gz",
+      "rawBytes": 3516,
+      "rawSHA256": "0615b02371bfa6b06611ffcc2187934343acb4a48ed6f1cf62f911025ed1bab0",
+      "gzipBytes": 561,
+      "gzipSHA256": "2a99e8e87383e8cf7b473d7574da278b4995c2409ced02a8b0135826d778198e",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/endpoints-internal-leaves.json"
+    },
+    {
+      "path": "endpoints-internal-leaves.py.gz",
+      "rawBytes": 1414,
+      "rawSHA256": "632164ae70d5fec3f8cf4e7e4a0cfdcb7c03c3d94a6243daf9ea3ec820a36452",
+      "gzipBytes": 695,
+      "gzipSHA256": "1cdb532a2af3e581258815dc64c7b847ed6d3d60c666b9ffce9c1442a1d73e2f",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/endpoints-internal-leaves.py"
+    },
+    {
+      "path": "endpoints-wasm-names.json.gz",
+      "rawBytes": 49,
+      "rawSHA256": "f095e7442fb178f309d68ee04ea4b596b390ba80bf9fc6dd380aa909e35adaff",
+      "gzipBytes": 61,
+      "gzipSHA256": "b89f851a0cfe4a67d9b0bb01ac59e3b3fceb56470cd3c58cc3f16b174fee7f7f",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/endpoints-wasm-names.json"
+    },
+    {
+      "path": "endpoints-wasm-names.py.gz",
+      "rawBytes": 776,
+      "rawSHA256": "c36259f659053b77d6a31cecdb7fdd3c80eb06793fa788150ab39a67b005a42f",
+      "gzipBytes": 429,
+      "gzipSHA256": "7b6309cfeb296c27740cc6a172cd10a5bc4e9f938a902d326237028c585d490c",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/endpoints-wasm-names.py"
+    },
+    {
+      "path": "environment.json.gz",
+      "rawBytes": 1729,
+      "rawSHA256": "a31bc81df401b29a7ed34e6e453a7ef6f41905bc93261184d92109d22c14fe71",
+      "gzipBytes": 814,
+      "gzipSHA256": "cecd6c68d1dbe29f0fdaba76b3d013992315ace1b46ce596d8f06f31d11aa384",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/environment.json"
+    },
+    {
+      "path": "finalize.py.gz",
+      "rawBytes": 3169,
+      "rawSHA256": "7c1a6db6c13c43c5d63964bcf1fb656bf4610bcb30836170b643051bf9ef12a8",
+      "gzipBytes": 1178,
+      "gzipSHA256": "6a47861b69fdbe06ede6447309887436e170ea2e6260bd6c71e9a9b69bf940a5",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/finalize.py"
+    },
+    {
+      "path": "fixtures.ts.gz",
+      "rawBytes": 1012,
+      "rawSHA256": "7a3a8311c171fcfdb99bd37aff1128fa09cd15e7829650c1611bdcce014b8432",
+      "gzipBytes": 645,
+      "gzipSHA256": "2455ba2edc37594284f250c9814011f9274331ececadcf72a82992bccb50fcbe",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/fixtures.ts"
+    },
+    {
+      "path": "fps-control.spec.ts.gz",
+      "rawBytes": 4470,
+      "rawSHA256": "2d39ba643aa3c0aa7a242d0e93d081806fe54bd64b650f1ab78cbf67d4f567e4",
+      "gzipBytes": 1654,
+      "gzipSHA256": "d9831afdd58ba882a7310b7c943d8d6762de07ad2a0b22232e3cad5c12df3d8e",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/fps-control.spec.ts"
+    },
+    {
+      "path": "fps-driver-status.json.gz",
+      "rawBytes": 3059,
+      "rawSHA256": "abb77e93e0955b84997e4288e5889231abfd4f533c2777f5b7a3ba39c8a2ec2b",
+      "gzipBytes": 689,
+      "gzipSHA256": "d470f063eb211d2758ddd11ed7045f9597d2771bebfe99899228cf7ec0c36aa2",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/fps-driver-status.json"
+    },
+    {
+      "path": "fps-driver.py.gz",
+      "rawBytes": 1566,
+      "rawSHA256": "9ac60eeb293b397e8b5e4e1bae0ed6eb6fa7225fc18b6828433da6de08b6077e",
+      "gzipBytes": 840,
+      "gzipSHA256": "dc1c7be3457240b54e5b14d30e825c884689388fc7a8780a6bad1de45debaaff",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/fps-driver.py"
+    },
+    {
+      "path": "gpu-after-functional.json.gz",
+      "rawBytes": 286,
+      "rawSHA256": "d1132cf181bb7383d8459cf41c742535be1a8f33176234f6912c70d87cf8d9bf",
+      "gzipBytes": 196,
+      "gzipSHA256": "358cacb89247d7ef19bf6a631757a23e3e627c0bede00855b50414d6d202613e",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/gpu-after-functional.json"
+    },
+    {
+      "path": "gpu-after-profile.json.gz",
+      "rawBytes": 286,
+      "rawSHA256": "d1132cf181bb7383d8459cf41c742535be1a8f33176234f6912c70d87cf8d9bf",
+      "gzipBytes": 196,
+      "gzipSHA256": "358cacb89247d7ef19bf6a631757a23e3e627c0bede00855b50414d6d202613e",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/gpu-after-profile.json"
+    },
+    {
+      "path": "gpu-before-profile.json.gz",
+      "rawBytes": 286,
+      "rawSHA256": "d1132cf181bb7383d8459cf41c742535be1a8f33176234f6912c70d87cf8d9bf",
+      "gzipBytes": 196,
+      "gzipSHA256": "358cacb89247d7ef19bf6a631757a23e3e627c0bede00855b50414d6d202613e",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/gpu-before-profile.json"
+    },
+    {
+      "path": "gpu-before.json.gz",
+      "rawBytes": 286,
+      "rawSHA256": "d1132cf181bb7383d8459cf41c742535be1a8f33176234f6912c70d87cf8d9bf",
+      "gzipBytes": 196,
+      "gzipSHA256": "358cacb89247d7ef19bf6a631757a23e3e627c0bede00855b50414d6d202613e",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/gpu-before.json"
+    },
+    {
+      "path": "gpu-driver-hashes.json.gz",
+      "rawBytes": 1409,
+      "rawSHA256": "615f13f8f20404aba9dc45042f5b706e351218eff35ee9fe83542cf21e124e88",
+      "gzipBytes": 438,
+      "gzipSHA256": "abb4cb553fe94d8dd29336bcc7dcfaec78ee3ecb3e3b060e9fccffe81b38d08c",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/gpu-driver-hashes.json"
+    },
+    {
+      "path": "internal-function-inference.json.gz",
+      "rawBytes": 1348,
+      "rawSHA256": "ea9059e2502ba5bf372d4cd1576466862c7b4ea55983c61c256c2f4700f4bcb4",
+      "gzipBytes": 833,
+      "gzipSHA256": "bf0acd244a398ba963523904b446425b838cf367a285b9f60c17813e20961e34",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/internal-function-inference.json"
+    },
+    {
+      "path": "llvm-objdump-version.txt.gz",
+      "rawBytes": 1730,
+      "rawSHA256": "e57e811cabb040490c5e8fb74eddd96a7b5735ccf233f1903090d379dab7b5c5",
+      "gzipBytes": 637,
+      "gzipSHA256": "544b445a8071304cb619884031824ea7a6528019f9488f8b8c68e377fd1fbc38",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/llvm-objdump-version.txt"
+    },
+    {
+      "path": "make-endpoints-archive.py.gz",
+      "rawBytes": 1000,
+      "rawSHA256": "6bd6a566a77708e75b39376ed02b88b0592c705bb6583e2d54ef3cd3b437fecf",
+      "gzipBytes": 567,
+      "gzipSHA256": "3c4d5269a6a714531a7747882c4584f70a67e0f51f57e6daea30bea4cb654e20",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/make-endpoints-archive.py"
+    },
+    {
+      "path": "observer.mjs.gz",
+      "rawBytes": 4281,
+      "rawSHA256": "ddb0af16f51986a7ddcbd1cce5580df2e31a3ec892372d83565fa1b6c410f24a",
+      "gzipBytes": 1795,
+      "gzipSHA256": "417d362a1f0e466ed8f5077917c81ce9e33fbd8fcefda232b7d1f9bfffeb2bae",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/observer.mjs"
+    },
+    {
+      "path": "operational.log.gz",
+      "rawBytes": 3061,
+      "rawSHA256": "a48ad9add529ab74f807f38580f9a65ce3debbe18000f0ce5fdb8c2f73b71569",
+      "gzipBytes": 696,
+      "gzipSHA256": "3247d1c3924e423e8a644afb520513d5cdb47c1a433c69cb513c7dd7943365ae",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/operational.log"
+    },
+    {
+      "path": "operational.raw.json.gz",
+      "rawBytes": 142356,
+      "rawSHA256": "e3bf451b7b3945a94feb01327a6e1ff47ae33c26abfe4335de19f9a8c776686b",
+      "gzipBytes": 9251,
+      "gzipSHA256": "3adba0f7c3af05e98f707fbb03fee61bc8cf9413a6f7485854460a4d61520f87",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/operational.raw.json"
+    },
+    {
+      "path": "overview.log.gz",
+      "rawBytes": 3040,
+      "rawSHA256": "9ebc287c71fff9020404d034862f05ed9a948169cecec9c3df4c2d2c50475062",
+      "gzipBytes": 699,
+      "gzipSHA256": "5b0df87a1cd655a0cda87eec0209a9ee28fe77f955951086ee2f8343fcea068d",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/overview.log"
+    },
+    {
+      "path": "overview.raw.json.gz",
+      "rawBytes": 149918,
+      "rawSHA256": "1162c08ef895cc6d9f088c6857ecec072a4c1bf3d964d9f6caf0355c63f46227",
+      "gzipBytes": 8883,
+      "gzipSHA256": "7544938cde4dc9cc4e099fe1a755f98eb175ee29371c0b1e768cb09e288a883c",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/overview.raw.json"
+    },
+    {
+      "path": "package-producer.py.gz",
+      "rawBytes": 11243,
+      "rawSHA256": "bb34947b7e8a37fcfc8cb8abcc7741aeebbff4a1cc015aefdf7dd89c6b78d65f",
+      "gzipBytes": 4721,
+      "gzipSHA256": "00538910d4d4de09f6ff4603c71802bf9f1788755742823fb30b9ade5d12d01d",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/package-producer.py"
+    },
+    {
+      "path": "parity-proof.json.gz",
+      "rawBytes": 502,
+      "rawSHA256": "93130188f9732ee34556fe6935020d0de93b429b5e0a9d4a2b334fd80fd3bb37",
+      "gzipBytes": 257,
+      "gzipSHA256": "8927acafdca107345ed314ae8e0b4b1dad0316d410546fd1d88a6f71e8878f05",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/parity-proof.json"
+    },
+    {
+      "path": "patch-applier.mjs.gz",
+      "rawBytes": 3071,
+      "rawSHA256": "ec4ec746e1b5caac07f36e80f886ddcd913e454e8edf6cf4bf901abb3e7334b5",
+      "gzipBytes": 1194,
+      "gzipSHA256": "37b3844d179c76da46cdd537a57c1bd5ea44bb6a1615039e1e22b479335c1d7e",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/patch-applier.mjs"
+    },
+    {
+      "path": "patch-manifest.json.gz",
+      "rawBytes": 24802,
+      "rawSHA256": "61616fb34a6ed6d3212bd0bc6ff78929f2f1cfa4214cf12dea7cb946cca81972",
+      "gzipBytes": 5076,
+      "gzipSHA256": "34e20843a51cef6c2f4350b8e7dcb17ba26b61fc2486488dfe07170dd8117ae7",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/patch-manifest.json"
+    },
+    {
+      "path": "playwright.config.ts.gz",
+      "rawBytes": 1918,
+      "rawSHA256": "0f2062a03f1ed2174fbd4b496dff2c851a579d78952452666d5de2c6ee30b21c",
+      "gzipBytes": 1072,
+      "gzipSHA256": "3a2610600999f04c9ca9af25eefb885f72bb86cde6f2547bd9d11b558b438177",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/playwright.config.ts"
+    },
+    {
+      "path": "profile-analysis.log.gz",
+      "rawBytes": 4051,
+      "rawSHA256": "0e0f7cae634e7bf109e2beecfc44006f9a61bb6244de8a907653d905eca77bbf",
+      "gzipBytes": 789,
+      "gzipSHA256": "2edf8703e4de8b3d0afb10cb38ef69a4f88c3e47c29359b55bbcde37d9f8b75d",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/profile-analysis.log"
+    },
+    {
+      "path": "profile-analysis.mjs.gz",
+      "rawBytes": 3630,
+      "rawSHA256": "763bc33c7f1005176e584bd415f2226184201ef32a84fd4888cc5d60ec21608e",
+      "gzipBytes": 1553,
+      "gzipSHA256": "dc394219572fcaa4aa3554f2ad51b643507701d719d37010e9f688c72d9178ef",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/profile-analysis.mjs"
+    },
+    {
+      "path": "profile-attribution.log.gz",
+      "rawBytes": 96,
+      "rawSHA256": "7debcfb6b33d18d9273942b907b4b574432dd2f09a95aead5936996337ce0111",
+      "gzipBytes": 104,
+      "gzipSHA256": "ba05315dd8043db4d4bc8816b5388d6876632a512b15318118f3283683bedf06",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/profile-attribution.log"
+    },
+    {
+      "path": "profile-attribution.mjs.gz",
+      "rawBytes": 1715,
+      "rawSHA256": "f87ad558e34fd393b425d2240ac668e1112e1a6ffd5eff5222c70db986004a2d",
+      "gzipBytes": 926,
+      "gzipSHA256": "539fef647b7d39f469d5d9a0c2a28ae4e355ce68de1a6c602c0409e51fcebc78",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/profile-attribution.mjs"
+    },
+    {
+      "path": "profile-caller-attribution.json.gz",
+      "rawBytes": 271179,
+      "rawSHA256": "19e7f70d2d7839e49648c3a2f0b64000e9294e31c45415b8a79371e87af088c9",
+      "gzipBytes": 19803,
+      "gzipSHA256": "d19672127a7bd7ad955d8bf6d1c242f72810669d1227c10a28a584ffcca4082f",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/profile-caller-attribution.json"
+    },
+    {
+      "path": "profile.log.gz",
+      "rawBytes": 78,
+      "rawSHA256": "7488ebe18c9467138272653baff2f692e15f627f3f5d60819b373cfbccacda9d",
+      "gzipBytes": 93,
+      "gzipSHA256": "c7cbe28037c85350351bac7f20ea554147954be7ca8d14a11d0f88a5cc084c3a",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/profile.log"
+    },
+    {
+      "path": "profile.mjs.gz",
+      "rawBytes": 4279,
+      "rawSHA256": "f27fdbee7dcd249a92bc1ea7bf27e690e9f75511a3be1ed2c61e59de5f8fe7f1",
+      "gzipBytes": 1722,
+      "gzipSHA256": "cd4ed592ed60e4d596df538e789e320a72cff3cea24ea0128bead7e76dae9e9d",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/profile.mjs"
+    },
+    {
+      "path": "proof.py.gz",
+      "rawBytes": 2707,
+      "rawSHA256": "b90c60ab4e353d6f363ff7df3ec5199a4d355c91dfa3666de16764c48a3ecb0d",
+      "gzipBytes": 1099,
+      "gzipSHA256": "c5e9dde1ec2cdad5f407ec9f398ba4184e780f6025c9a8891e085be59963d19a",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/proof.py"
+    },
+    {
+      "path": "published.log.gz",
+      "rawBytes": 89,
+      "rawSHA256": "0694bfe78fd6866adb5313728ada3530f6e158a4fd6f390a40b44931081f8c08",
+      "gzipBytes": 97,
+      "gzipSHA256": "a05ae4f1f826f95a135fe46d501257bf6421032f0201390d569647f10f6a7b23",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/published.log"
+    },
+    {
+      "path": "published.raw.json.gz",
+      "rawBytes": 15199813,
+      "rawSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+      "gzipBytes": 2263646,
+      "gzipSHA256": "5f3d23a445cc229f2ce18a6b51842170c9ba6a9927a9b07d1632c82d16b100ef",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/published.raw.json"
+    },
+    {
+      "path": "rust__engine__src__geographic.rs.gz",
+      "rawBytes": 15399,
+      "rawSHA256": "69ed145c2ee7d445691b0897362fc6de196cbe48fd4b0c1721764e67def56768",
+      "gzipBytes": 4081,
+      "gzipSHA256": "0ccd2ffb5f3546b335170d926418f0e17267fac531d96ca37fb4192f6c10b677",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/rust__engine__src__geographic.rs"
+    },
+    {
+      "path": "rust__engine__src__geographic_preparation.rs.gz",
+      "rawBytes": 13542,
+      "rawSHA256": "b8f84c3e5d67510c905b21ad9e618f3b7314bbef61026da8cc3c62e32ad9ffdd",
+      "gzipBytes": 3826,
+      "gzipSHA256": "4c47b2de22a49106f09cae08faeba48ec0065446aabbc2cf299ede45fcac25d5",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/rust__engine__src__geographic_preparation.rs"
+    },
+    {
+      "path": "rust__engine__src__lib.rs.gz",
+      "rawBytes": 7585,
+      "rawSHA256": "8aa42164165e7cd60f4fc1c57b1c4adfebdf379dbc9ab9306e614e09b720dacf",
+      "gzipBytes": 2378,
+      "gzipSHA256": "cd69603fea9652997beb4c88ddb64daf6ab2b02cb3eb16788d6e3d6fc1dacd91",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/rust__engine__src__lib.rs"
+    },
+    {
+      "path": "setup-original-transfer-red-status.json.gz",
+      "rawBytes": 351,
+      "rawSHA256": "d2cde14a495ad504404b9332a75b937afe5bf056db7f17e8ff004b3178e0b7de",
+      "gzipBytes": 252,
+      "gzipSHA256": "010d9c8756ae1978d796b49b2183cc4957e74eb9f7fe7a4496006f82c5571118",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/setup-original-transfer-red-status.json"
+    },
+    {
+      "path": "setup-original-transfer-red.log.gz",
+      "rawBytes": 90,
+      "rawSHA256": "4c9abaf054fce12a00af2e9ccd42ab5009410077a371206c9a3f147196e549cd",
+      "gzipBytes": 102,
+      "gzipSHA256": "f829af70d825a46d32f35df2da02648d14d0446563585d854787363269a66c68",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/setup-original-transfer-red.log"
+    },
+    {
+      "path": "setup.log.gz",
+      "rawBytes": 115,
+      "rawSHA256": "61d73e576085a7b38506ba7158a40f63a0f3cb51251f07a47c84af00a0be889c",
+      "gzipBytes": 123,
+      "gzipSHA256": "92d1b7f01b58333ff8cfddb83e0af8a578c22fcd1960735e0b22058513d971b0",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/setup.log"
+    },
+    {
+      "path": "setup.py.gz",
+      "rawBytes": 1124,
+      "rawSHA256": "7aa11e3c59f6fe55e559eb24a8c9718e3e5f2bae385320ba023d297c839e7311",
+      "gzipBytes": 587,
+      "gzipSHA256": "18e0664858519913e6ce4b7158135b35231c2265daf2f14ce3160a2402947588",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/setup.py"
+    },
+    {
+      "path": "source-after-proof.json.gz",
+      "rawBytes": 564028,
+      "rawSHA256": "43da14f6f24043cd7dd0844188a47eb187dcb81f98d3901d9586c67eca88ab39",
+      "gzipBytes": 138948,
+      "gzipSHA256": "82d935fca7ef2ab2db7aabe3402c51f2219eee2132edd7dd845f0eb544ca115f",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/source-after-proof.json"
+    },
+    {
+      "path": "source-before-proof.json.gz",
+      "rawBytes": 564028,
+      "rawSHA256": "43da14f6f24043cd7dd0844188a47eb187dcb81f98d3901d9586c67eca88ab39",
+      "gzipBytes": 138948,
+      "gzipSHA256": "82d935fca7ef2ab2db7aabe3402c51f2219eee2132edd7dd845f0eb544ca115f",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/source-before-proof.json"
+    },
+    {
+      "path": "source-final-proof.json.gz",
+      "rawBytes": 564028,
+      "rawSHA256": "43da14f6f24043cd7dd0844188a47eb187dcb81f98d3901d9586c67eca88ab39",
+      "gzipBytes": 138948,
+      "gzipSHA256": "82d935fca7ef2ab2db7aabe3402c51f2219eee2132edd7dd845f0eb544ca115f",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/source-final-proof.json"
+    },
+    {
+      "path": "src__ui__map__MapCanvasHost.tsx.gz",
+      "rawBytes": 10242,
+      "rawSHA256": "2a9c4e4f8f13c15f4b288417bca5e133a3bffc38a8147317067a25bf4bddd774",
+      "gzipBytes": 3626,
+      "gzipSHA256": "7830b5118f21cd1836aed3beff4cf29c532e6f09f258e970c0467e16c5b9540a",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/src__ui__map__MapCanvasHost.tsx"
+    },
+    {
+      "path": "src__ui__map__MapRenderer.ts.gz",
+      "rawBytes": 207474,
+      "rawSHA256": "b9a3d2073fb044c874d5ad13c203837254d8653c3f60b86efad340b6e065dc16",
+      "gzipBytes": 56140,
+      "gzipSHA256": "e49b4b4deb7dfebe2b0f1edc7f6ecf5806b046ad7bc49974f07e18e09d108fca",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/src__ui__map__MapRenderer.ts"
+    },
+    {
+      "path": "src__ui__map__geographicLabelLayout.ts.gz",
+      "rawBytes": 11428,
+      "rawSHA256": "2c0cc48de296fdb974ec397f9fe8732357b1831a835f592f3a880702705e9acd",
+      "gzipBytes": 3510,
+      "gzipSHA256": "f943ecfa48536b44e5b6c4a6a0854fb5acb21e3c72893385fa8c917300ca26e4",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/src__ui__map__geographicLabelLayout.ts"
+    },
+    {
+      "path": "src__ui__map__wasmCastleRibbonPlanner.ts.gz",
+      "rawBytes": 7385,
+      "rawSHA256": "2c3e3bf2e04969bb2b29d0be5acfc0fb2a5cab05a037e644c7bad1929bfaf1aa",
+      "gzipBytes": 2170,
+      "gzipSHA256": "86b3e0db327af844cf8533a90d741b93029c5895b921bfa72008b454b0c60df9",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/src__ui__map__wasmCastleRibbonPlanner.ts"
+    },
+    {
+      "path": "src__ui__map__wasmGeographicPreparation.ts.gz",
+      "rawBytes": 16274,
+      "rawSHA256": "8ac687b6fb9e8942cb533bd2a85fee22f5fddb388b586386918c8b37137fba42",
+      "gzipBytes": 4146,
+      "gzipSHA256": "78b8331fc5c942f56dce368ce1ec918b06faea4cfba6631529d162e2b72d75e8",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/src__ui__map__wasmGeographicPreparation.ts"
+    },
+    {
+      "path": "src__ui__map__wasmGeographicScorer.ts.gz",
+      "rawBytes": 9195,
+      "rawSHA256": "efa531ba5b1dcb25129ade33332935867cf019fe89ef1004318b9b4a1c8f65ba",
+      "gzipBytes": 2546,
+      "gzipSHA256": "c471e99bd44af4864e51514a44a7b7f0dfb65d5689ddea52f7d8727a745aa35a",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/src__ui__map__wasmGeographicScorer.ts"
+    },
+    {
+      "path": "state-proof.py.gz",
+      "rawBytes": 2121,
+      "rawSHA256": "8037e124868de7c2e2721bf133446c2de7c969c6f4d65c69a0592a6156f5a5d8",
+      "gzipBytes": 965,
+      "gzipSHA256": "6958a0f25f71c2ec573f60ad012201a8bf16755a70fc56d1edc62d523a1dc2e8",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/state-proof.py"
+    },
+    {
+      "path": "state-resource-proof.json.gz",
+      "rawBytes": 2814,
+      "rawSHA256": "d21a738fb69c2755be71435f3a91af7db2ea5bc1cf7f9356db626f41fa48319b",
+      "gzipBytes": 634,
+      "gzipSHA256": "6647d1a5382e1aad2c4b66d504e5f1eb652ac5dae3fa8cf178fc0539dc78b44c",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/state-resource-proof.json"
+    },
+    {
+      "path": "tenka_engine.wasm.gz",
+      "rawBytes": 89761,
+      "rawSHA256": "69af4226d451a71211b209101cc4223045b1aeca2f1178d16e9beaa91166b736",
+      "gzipBytes": 32673,
+      "gzipSHA256": "a2dfc2918720a83dd49ba4e5d2742bf3318282a9c8a63c914cd8b7efdd6edbc1",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/tenka_engine.wasm"
+    },
+    {
+      "path": "tools__wasm__artifact.ts.gz",
+      "rawBytes": 3897,
+      "rawSHA256": "b4c509e3ed8ca9a953859db47ff990b125d526d7c48ed80766f3c5708b750021",
+      "gzipBytes": 1390,
+      "gzipSHA256": "baac20a1fd324fcde69c73477d97e56cef7d162dd73c0a72de8cd93f2e5e225b",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/tools__wasm__artifact.ts"
+    },
+    {
+      "path": "transfer-proof.json.gz",
+      "rawBytes": 332,
+      "rawSHA256": "adb205051a6d4e5f62a1346118be0e27fd6cae620cee0b288c5d8c8da08e3cfb",
+      "gzipBytes": 259,
+      "gzipSHA256": "be1471f46a8421b5aaa1917c2d655409d1cdfa124ca3bca74ae10ec60de71ca2",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/transfer-proof.json"
+    },
+    {
+      "path": "verify-evidence.py.gz",
+      "rawBytes": 3848,
+      "rawSHA256": "a7e84667b8c5bb0d815cf69a340a0ffec87f72e2cfaead5c3a7551d5bee92fe7",
+      "gzipBytes": 1669,
+      "gzipSHA256": "ba8518e18b39f04ed17e2cf73f40b2ba757a60a8c2fe07cb3002cc67b6c2a81a",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/verify-evidence.py"
+    },
+    {
+      "path": "wasm-manifest.json.gz",
+      "rawBytes": 1466,
+      "rawSHA256": "1a3898ae9a0329aa19510f095fdac0b4bebb4f6b77ee4657787be02dd6311904",
+      "gzipBytes": 779,
+      "gzipSHA256": "cee6a4f652ee7f08cf2833c03e3942e0fd79b8f9a6dc7e405eab66565f453952",
+      "originalRemotePath": "/tmp/tenka-endpoints-current23-evidence/wasm-manifest.json"
+    }
+  ]
+}
