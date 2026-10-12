@@ -1,0 +1,629 @@
+{
+  "scope": "sim3 same-current23-dependency combined04 runtime renderer-only paused prerequisite; not live campaign acceptance",
+  "sourceCommit": "04c7b6083df32cc9c1a20d693ef45eddb806ed14",
+  "baselineCommit": "3bbc10f",
+  "baselineSourceCommit": "c05a46c",
+  "replica": "sim3:/tmp/tenka-castle-current23-20261012",
+  "sharedDependencyReplica": "sim3:/tmp/tenka-national120-current23-20261012/node_modules",
+  "sourceFiles": 1404,
+  "sourceBeforeAfterFinalMatch": true,
+  "dependencyFiles": 14765,
+  "dependencyBeforeAfterFinalUnchanged": true,
+  "pixiPatchTargets": 23,
+  "compiledWasm": {
+    "bytes": 63073,
+    "sha256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba",
+    "exports": [
+      {
+        "name": "memory",
+        "kind": 2,
+        "index": 0
+      },
+      {
+        "name": "castle_ribbon_abi_version",
+        "kind": 0,
+        "index": 26
+      },
+      {
+        "name": "castle_ribbon_solve",
+        "kind": 0,
+        "index": 27
+      },
+      {
+        "name": "engine_alloc",
+        "kind": 0,
+        "index": 28
+      },
+      {
+        "name": "engine_free",
+        "kind": 0,
+        "index": 29
+      },
+      {
+        "name": "path_solve",
+        "kind": 0,
+        "index": 30
+      },
+      {
+        "name": "engine_abi_version",
+        "kind": 0,
+        "index": 26
+      },
+      {
+        "name": "geo_score",
+        "kind": 0,
+        "index": 44
+      },
+      {
+        "name": "geographic_abi_version",
+        "kind": 0,
+        "index": 45
+      }
+    ]
+  },
+  "functionalParity": {
+    "referenceSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "actualSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "fullPayloadEqual": true,
+    "snapshotsEqual": true,
+    "snapshots": 9,
+    "days": [0, 0, 0, 1, 1, 1, 2, 2, 2],
+    "excludedNonvisualCounters": [
+      "armyPlateLayout.runs",
+      "geographicLabelLayout.runs",
+      "geographicLabelLayout.placementCache",
+      "castleRibbonLayout.runs"
+    ]
+  },
+  "fps": [
+    {
+      "camera": "overview",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 59.93090789143426,
+      "slowFrameFps": 57.142857142857146,
+      "frameTimeP95": 17.5,
+      "durationMs": 30017.900000095367,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 83,
+      "lodStage": "far",
+      "resourcesEqual": true,
+      "terminalExit": 1,
+      "strict60Pass": false,
+      "baselineAverageFps": 59.83335943029754,
+      "baselineFrameTimeP95": 17.699999809265137,
+      "observedAverageFpsChangePercent": 0.16303356867393148,
+      "observedP95ChangePercent": -1.1299424374029976
+    },
+    {
+      "camera": "operational",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 49.73816763988148,
+      "slowFrameFps": 45.45454545454545,
+      "frameTimeP95": 22,
+      "durationMs": 30057.39999961853,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 79,
+      "lodStage": "mid",
+      "resourcesEqual": true,
+      "terminalExit": 1,
+      "strict60Pass": false,
+      "baselineAverageFps": 42.93288159497005,
+      "baselineFrameTimeP95": 25.5,
+      "observedAverageFpsChangePercent": 15.85098831499987,
+      "observedP95ChangePercent": -13.725490196078427
+    },
+    {
+      "camera": "close",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 29.115520402677742,
+      "slowFrameFps": 24.096385542168676,
+      "frameTimeP95": 41.5,
+      "durationMs": 30052.699999809265,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 56,
+      "lodStage": "near",
+      "resourcesEqual": true,
+      "terminalExit": 1,
+      "strict60Pass": false,
+      "baselineAverageFps": 24.613255901438787,
+      "baselineFrameTimeP95": 48.700000286102295,
+      "observedAverageFpsChangePercent": 18.29203141294189,
+      "observedP95ChangePercent": -14.784394751137174
+    }
+  ],
+  "stateResourceProof": [
+    {
+      "camera": "overview",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-castle-current23-overview-results/national120-map-perf-natio-0f189-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "c4939b9cb1a7f463b09322bc056264def0e8912238f3ca463b0d6c14f8fbfa8b",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    },
+    {
+      "camera": "operational",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-castle-current23-operational-results/national120-map-perf-natio-a8207-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "b1fe32d993a193354a057c77c0bf14e08510da7ab03aaffd62df16ca51a3df8d",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    },
+    {
+      "camera": "close",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-castle-current23-close-results/national120-map-perf-natio-9df1b-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "448221cfaa454884d9b03a99bcf12f1a5f54958703cd7daa917c1a8489accaf3",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    }
+  ],
+  "cpuProfile": {
+    "scope": "unique separate10secondcloseCPUProfile/notAcceptanceFPS",
+    "completedFrames": 290,
+    "driverTicks": 0,
+    "canonicalStateByteEqual": true,
+    "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+    "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+    "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+    "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+    "samples": 12611,
+    "profileTotalUs": 10268812,
+    "castleSolve": {
+      "function": "wasm-function[27]",
+      "source": "wasm://wasm/0003d986",
+      "line": 1,
+      "column": 30775,
+      "selfUs": 1055,
+      "inclusiveUs": 933326,
+      "selfSamples": 1,
+      "wasmFunctionIndex": 27,
+      "exports": ["castle_ribbon_solve"]
+    },
+    "castleSolveInclusiveMsPerCompletedFrame": 3.2183655172413794,
+    "castlePlannerJS": {
+      "function": "layout",
+      "source": "../../src/ui/map/wasmCastleRibbonPlanner.ts",
+      "line": 71,
+      "column": 4,
+      "selfUs": 12604,
+      "inclusiveUs": 953283,
+      "selfSamples": 12
+    },
+    "castlePlannerJSSelfMsPerCompletedFrame": 0.04346206896551724,
+    "geographicLayout": {
+      "function": "layoutGeographicLabels",
+      "source": "../../src/ui/map/geographicLabelLayout.ts",
+      "line": 108,
+      "column": 16,
+      "selfUs": 747373,
+      "inclusiveUs": 4165075,
+      "selfSamples": 722
+    },
+    "geographicLayoutInclusiveMsPerCompletedFrame": 14.362327586206895,
+    "caution": "JS adapter inclusive contains child WASM; internal frame costs and parent inclusive must not be added. No fair baseline CPU profile was captured in current23; old dependency profiles cannot supply causal comparisons."
+  },
+  "limitations": [
+    "one window per camera without retries",
+    "combined runtime includes castle Rust kernel, shared WASM owner hook, and Worker ready changes; solekernel causality is not established",
+    "single paired measurements show observed differences, not statistical repeatability",
+    "strict60 all RED",
+    "paused render-only controls do not establish live campaign acceptance or physical GPU presentation"
+  ],
+  "artifacts": [
+    {
+      "path": "build-artifact-proof.json.gz",
+      "rawBytes": 12589,
+      "rawSHA256": "4be0910ef785afac34a4ba6e335124b80435232a594b3362033169021d930a6d",
+      "gzipBytes": 3681,
+      "gzipSHA256": "7cc831f42effd26cd6878238f9d8bb32e7fdfaeb50870890df26c2dc0448d4dc"
+    },
+    {
+      "path": "build-final.log.gz",
+      "rawBytes": 1678,
+      "rawSHA256": "c19cf608ca76e07fc028ec6e996114c54e81e953c97030425835ca98f56ffb90",
+      "gzipBytes": 847,
+      "gzipSHA256": "281ea7c31bdbaa88a9de9441a8dc34979d7c9c867546144ba993c153488b3f0d"
+    },
+    {
+      "path": "canonical-state.raw.json.gz",
+      "rawBytes": 816643,
+      "rawSHA256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "gzipBytes": 71991,
+      "gzipSHA256": "2131493e97a0d61568ce79807f50bece03ac03fed840a27862b345a4bd2e1bf2"
+    },
+    {
+      "path": "close-profile-source-summary.json.gz",
+      "rawBytes": 79749,
+      "rawSHA256": "08a51405fcf6a912270066070f4447fa020df0f83fd1d7e6c6b705142a4b8052",
+      "gzipBytes": 7342,
+      "gzipSHA256": "05dc24252d1f03cc77fa9cf8506844e9af120807e3d77e281ca1f8c9809eae80"
+    },
+    {
+      "path": "close-profile-summary.json.gz",
+      "rawBytes": 115342,
+      "rawSHA256": "eb6fb89a5a58c4b2a060dccc9b930033d576eed0301568b770c2d13893e40d74",
+      "gzipBytes": 7373,
+      "gzipSHA256": "e40ca758977294e27a5856fcd618edd219b314e98b44e4912bbe8f60539bb65c"
+    },
+    {
+      "path": "close.cpuprofile.gz",
+      "rawBytes": 350771,
+      "rawSHA256": "7968cc1aa4eb26f10a0e294e071adcd8ed99f879cdd5e688e5845b633c2f3e44",
+      "gzipBytes": 37400,
+      "gzipSHA256": "c002d845dff374804cb1adf6e75cf152a80d9a64ab101c50b3965cf567cf9dad"
+    },
+    {
+      "path": "close.log.gz",
+      "rawBytes": 3005,
+      "rawSHA256": "52d381448bc953e8063ba478a686aaab62ac1e081583a05dbcad2b34d1118404",
+      "gzipBytes": 694,
+      "gzipSHA256": "f81c41095accd5f12d1662018c68eab72d69257358a8e3a3b18024677ecf5772"
+    },
+    {
+      "path": "close.raw.json.gz",
+      "rawBytes": 128238,
+      "rawSHA256": "5d573987352ab0a4a219ad24e43e7b0477e9d7b8679afa9cecea4685370347c4",
+      "gzipBytes": 8380,
+      "gzipSHA256": "d4c4335fdcee01174d1cc9828fc4adb0b3442bee1587847fd245b9923b7126ff"
+    },
+    {
+      "path": "collect.py.gz",
+      "rawBytes": 1894,
+      "rawSHA256": "4e2ac493e63c9010b300910c33459908a70e506177c45537e1f097e98faff1db",
+      "gzipBytes": 782,
+      "gzipSHA256": "d4a1f91899cf137054686b56225345a8cf1093395503faf20657969ff2c3df48"
+    },
+    {
+      "path": "commands.sh.gz",
+      "rawBytes": 1265,
+      "rawSHA256": "0b022bbfc5604698f154939b8f0db4747e958bb0eaddc5945b046784c35e1843",
+      "gzipBytes": 596,
+      "gzipSHA256": "501894e00cb09e102def50bc4fdf28ff7669776d09333fed678e2936bd325177"
+    },
+    {
+      "path": "dependency-after-proof.json.gz",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "gzipBytes": 803276,
+      "gzipSHA256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9"
+    },
+    {
+      "path": "dependency-before-proof.json.gz",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "gzipBytes": 803276,
+      "gzipSHA256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9"
+    },
+    {
+      "path": "dependency-final-proof.json.gz",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "gzipBytes": 803276,
+      "gzipSHA256": "6e2f4dcefbaa0d64b7e0d1b37fa122a36285a2fce924247a7315990a55840ab9"
+    },
+    {
+      "path": "environment.json.gz",
+      "rawBytes": 1446,
+      "rawSHA256": "f57b2c15babbc8e86807c5bd7440a9ae32776900f5606d9ab2b5d5c48f27af18",
+      "gzipBytes": 719,
+      "gzipSHA256": "bd4b02b0b3494d5e6f82b499b94041c10c4f1a11e790077da23109a7b6dfdeec"
+    },
+    {
+      "path": "fixtures.ts.gz",
+      "rawBytes": 1012,
+      "rawSHA256": "7a3a8311c171fcfdb99bd37aff1128fa09cd15e7829650c1611bdcce014b8432",
+      "gzipBytes": 645,
+      "gzipSHA256": "2455ba2edc37594284f250c9814011f9274331ececadcf72a82992bccb50fcbe"
+    },
+    {
+      "path": "fps-control.spec.ts.gz",
+      "rawBytes": 4470,
+      "rawSHA256": "2d39ba643aa3c0aa7a242d0e93d081806fe54bd64b650f1ab78cbf67d4f567e4",
+      "gzipBytes": 1654,
+      "gzipSHA256": "d9831afdd58ba882a7310b7c943d8d6762de07ad2a0b22232e3cad5c12df3d8e"
+    },
+    {
+      "path": "gpu-driver-hashes.json.gz",
+      "rawBytes": 1409,
+      "rawSHA256": "615f13f8f20404aba9dc45042f5b706e351218eff35ee9fe83542cf21e124e88",
+      "gzipBytes": 438,
+      "gzipSHA256": "abb4cb553fe94d8dd29336bcc7dcfaec78ee3ecb3e3b060e9fccffe81b38d08c"
+    },
+    {
+      "path": "observer.mjs.gz",
+      "rawBytes": 3324,
+      "rawSHA256": "3ea424938698621395dbb62c420dc53c9a41d1fb318cf2d58daf2f24ad97d695",
+      "gzipBytes": 1403,
+      "gzipSHA256": "33a50ada4e9e05104c01bb49ff00b40f880135dac7dad814f04075de27c64727"
+    },
+    {
+      "path": "operational.log.gz",
+      "rawBytes": 3046,
+      "rawSHA256": "16b6be303e1e2054f67decdf5dd0b69387aa44f280bc3ff57b40662482086bef",
+      "gzipBytes": 693,
+      "gzipSHA256": "6b88c33c48e16628cc3247fe6ab1730ffa122ae164e73d9a0a1575bb3da64a75"
+    },
+    {
+      "path": "operational.raw.json.gz",
+      "rawBytes": 142526,
+      "rawSHA256": "49de1837a2926fd5a959b59a0caf27358043a271badc34524fc34cca19d39049",
+      "gzipBytes": 9251,
+      "gzipSHA256": "0ae437708b5223de756918931a4e7babe443f4ad7ab94da10f5b27427ad49041"
+    },
+    {
+      "path": "overview.log.gz",
+      "rawBytes": 3025,
+      "rawSHA256": "4a085cfe5874b113a29775541115b9b181992d583674a1fe4c580b80880ea3b0",
+      "gzipBytes": 697,
+      "gzipSHA256": "831213f26691deb4bd96f7d9d896887b277c08587945b0b84a6d101266e69820"
+    },
+    {
+      "path": "overview.raw.json.gz",
+      "rawBytes": 149434,
+      "rawSHA256": "0cbda57a677326beec203a8960e289a47dccc4975c2461928d46a026668341e0",
+      "gzipBytes": 9301,
+      "gzipSHA256": "add6fc4afd17fc735b1d0cdc65c3d03a00694c91957a8ba0ceed52b21b824d1f"
+    },
+    {
+      "path": "parity-proof.json.gz",
+      "rawBytes": 502,
+      "rawSHA256": "93130188f9732ee34556fe6935020d0de93b429b5e0a9d4a2b334fd80fd3bb37",
+      "gzipBytes": 257,
+      "gzipSHA256": "8927acafdca107345ed314ae8e0b4b1dad0316d410546fd1d88a6f71e8878f05"
+    },
+    {
+      "path": "patch-applier.mjs.gz",
+      "rawBytes": 3071,
+      "rawSHA256": "ec4ec746e1b5caac07f36e80f886ddcd913e454e8edf6cf4bf901abb3e7334b5",
+      "gzipBytes": 1194,
+      "gzipSHA256": "37b3844d179c76da46cdd537a57c1bd5ea44bb6a1615039e1e22b479335c1d7e"
+    },
+    {
+      "path": "patch-manifest.json.gz",
+      "rawBytes": 24802,
+      "rawSHA256": "61616fb34a6ed6d3212bd0bc6ff78929f2f1cfa4214cf12dea7cb946cca81972",
+      "gzipBytes": 5076,
+      "gzipSHA256": "34e20843a51cef6c2f4350b8e7dcb17ba26b61fc2486488dfe07170dd8117ae7"
+    },
+    {
+      "path": "playwright.config.ts.gz",
+      "rawBytes": 1918,
+      "rawSHA256": "0f2062a03f1ed2174fbd4b496dff2c851a579d78952452666d5de2c6ee30b21c",
+      "gzipBytes": 1072,
+      "gzipSHA256": "3a2610600999f04c9ca9af25eefb885f72bb86cde6f2547bd9d11b558b438177"
+    },
+    {
+      "path": "profile-analysis.log.gz",
+      "rawBytes": 4044,
+      "rawSHA256": "6e6d4688eeddaa544cc79ad3aef99514563803b145e72f717fea7d0b9beb7c5f",
+      "gzipBytes": 793,
+      "gzipSHA256": "70da644ea060ffab7838b491c252e1d1e5681c0543bd0983975fe85fca0c2b69"
+    },
+    {
+      "path": "profile-analysis.mjs.gz",
+      "rawBytes": 3432,
+      "rawSHA256": "d79bbc31b723b7bd222c8d9b2c955daeaa26f8e918c9282413bc1a0a48c409fa",
+      "gzipBytes": 1506,
+      "gzipSHA256": "f48e227a54269e7e0bf85922de29f1cbca1746336ea6f623fd3832bbf798fa26"
+    },
+    {
+      "path": "profile.log.gz",
+      "rawBytes": 78,
+      "rawSHA256": "0947e6b42c0b41611579590891ef1a23fae83153c12ef37949a9b0c06ed83260",
+      "gzipBytes": 93,
+      "gzipSHA256": "3935879d093307165619681a22251e82f797e9073b44514626e7df93b9ad4022"
+    },
+    {
+      "path": "profile.mjs.gz",
+      "rawBytes": 3040,
+      "rawSHA256": "e305e826168f7f554950d1f6ab41660df83e09806a27e306a58fd9cb72520a35",
+      "gzipBytes": 1285,
+      "gzipSHA256": "13187aa4fdd5b04eab52819fa2fce36234d215efaa94fd89cbbfa6710f5c31bd"
+    },
+    {
+      "path": "proof.py.gz",
+      "rawBytes": 2689,
+      "rawSHA256": "1e2aecf45dac37ccf501cb7dc034aa87d585e5b7798e1e408e0204d620f9f178",
+      "gzipBytes": 1092,
+      "gzipSHA256": "4964dd4adccfce093aa45f01b01d898edf566c7b6e91b14bca4c76af27645909"
+    },
+    {
+      "path": "published.log.gz",
+      "rawBytes": 86,
+      "rawSHA256": "0ae2e5d7bdaa35dd290f7ddcfef87f3a57550ff6bb5ee1d8062bfd226f63b130",
+      "gzipBytes": 94,
+      "gzipSHA256": "059af5c904387687998ec18726643520672369fc6e55f6611e1806343366d205"
+    },
+    {
+      "path": "published.raw.json.gz",
+      "rawBytes": 15199813,
+      "rawSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+      "gzipBytes": 2263646,
+      "gzipSHA256": "5f3d23a445cc229f2ce18a6b51842170c9ba6a9927a9b07d1632c82d16b100ef"
+    },
+    {
+      "path": "rust__engine__src__castle_ribbon.rs.gz",
+      "rawBytes": 14044,
+      "rawSHA256": "a5cb03aa871c51d5e364d6882e4ab10cb95bd0136d26461fc4741402514a1b95",
+      "gzipBytes": 4120,
+      "gzipSHA256": "b75fa7dc536fd39ea7db889ebbe6550c120ac5ac249c655a387ac75f33ee7dcd"
+    },
+    {
+      "path": "rust__engine__src__geographic.rs.gz",
+      "rawBytes": 15278,
+      "rawSHA256": "8710ae0bfaf04473c5e2efb81995d79dc162de4805dc209193f31a56ddb50489",
+      "gzipBytes": 4062,
+      "gzipSHA256": "703897f5faf3dc827ea754c020b4c3b217d56890349d43282fa765dda4e41bcd"
+    },
+    {
+      "path": "rust__engine__src__lib.rs.gz",
+      "rawBytes": 5088,
+      "rawSHA256": "a8c18c3a4545e41fe387eda5005213fb066506e5b067da051caf78f40ddca3b8",
+      "gzipBytes": 1844,
+      "gzipSHA256": "34347986328d420198f34c184dc67e3374249116752a4601db55df48074ecfec"
+    },
+    {
+      "path": "source-after-proof.json.gz",
+      "rawBytes": 520027,
+      "rawSHA256": "f2b1825560c2cb91c4a3c3f6c7aac5c7e0065e3ee17eeb98ad2173ddafea9993",
+      "gzipBytes": 127800,
+      "gzipSHA256": "470f2e684093646845982fac5b856ea1beca804df22edfa99e90a60e552c6196"
+    },
+    {
+      "path": "source-before-proof.json.gz",
+      "rawBytes": 520027,
+      "rawSHA256": "f2b1825560c2cb91c4a3c3f6c7aac5c7e0065e3ee17eeb98ad2173ddafea9993",
+      "gzipBytes": 127800,
+      "gzipSHA256": "470f2e684093646845982fac5b856ea1beca804df22edfa99e90a60e552c6196"
+    },
+    {
+      "path": "source-final-proof.json.gz",
+      "rawBytes": 520027,
+      "rawSHA256": "f2b1825560c2cb91c4a3c3f6c7aac5c7e0065e3ee17eeb98ad2173ddafea9993",
+      "gzipBytes": 127800,
+      "gzipSHA256": "470f2e684093646845982fac5b856ea1beca804df22edfa99e90a60e552c6196"
+    },
+    {
+      "path": "source-markers.json.gz",
+      "rawBytes": 2718,
+      "rawSHA256": "cea69438523e1a5b7009e046feab1fd5d584b7c110d6a461272f9405100f8ae4",
+      "gzipBytes": 959,
+      "gzipSHA256": "51d21c0a0fd551b47df3ae84fa7106cd86a791d053429fac4eb2893a78fbb1c8"
+    },
+    {
+      "path": "src__app__worker__client.ts.gz",
+      "rawBytes": 11653,
+      "rawSHA256": "e57d7ea28a396354a7607b4b75d0689dd7d363857396b6a72da1b4bd65d7dd56",
+      "gzipBytes": 2739,
+      "gzipSHA256": "2a8245d82189a5381c6332a81d0bfd0918e6fb88dae2bac0a4937f0a8832917a"
+    },
+    {
+      "path": "src__app__worker__protocol.ts.gz",
+      "rawBytes": 1830,
+      "rawSHA256": "27041560c3b3cd6f0303293ce6eda79b1e034911b3313ac494e7fa055bf169bd",
+      "gzipBytes": 596,
+      "gzipSHA256": "eb14a0f4b745581b6b0d78e95042b6af5af38bdf89908f7b9e39a6285daed4dc"
+    },
+    {
+      "path": "src__app__worker__simulation.worker.ts.gz",
+      "rawBytes": 7786,
+      "rawSHA256": "03bdb72a28501aa52ecda790fd0c076a879bb63a32e4f22760351f4f2f885712",
+      "gzipBytes": 2304,
+      "gzipSHA256": "9bc8786fecb15e6c8002741c6f9442dd7939aaa2160bb00444fa9602802ff1ea"
+    },
+    {
+      "path": "src__ui__map__MapCanvasHost.tsx.gz",
+      "rawBytes": 10242,
+      "rawSHA256": "2a9c4e4f8f13c15f4b288417bca5e133a3bffc38a8147317067a25bf4bddd774",
+      "gzipBytes": 3626,
+      "gzipSHA256": "7830b5118f21cd1836aed3beff4cf29c532e6f09f258e970c0467e16c5b9540a"
+    },
+    {
+      "path": "src__ui__map__MapRenderer.ts.gz",
+      "rawBytes": 207449,
+      "rawSHA256": "c481a36ec9e670c0f652c633205e9c079f0f82ea87475a409ff8ab46678dacbe",
+      "gzipBytes": 56132,
+      "gzipSHA256": "5c77b863e0b1b2c0f4748c79be1ea6f646fad6317c300bbdd90ee4657726290c"
+    },
+    {
+      "path": "src__ui__map__geographicLabelLayout.ts.gz",
+      "rawBytes": 10191,
+      "rawSHA256": "fbf127f31dbb5d8318acdf1ff1dd8bc56b77e808ba23247b779ad74ed28c3bdd",
+      "gzipBytes": 3264,
+      "gzipSHA256": "b736fd3539e2a278d302b9de1909f7bb5045248f83b06244a3771fca6ae23a28"
+    },
+    {
+      "path": "src__ui__map__sceneParts__castleRibbonLayout.ts.gz",
+      "rawBytes": 15688,
+      "rawSHA256": "2c5e8d577598f1204cdcd67dfc0473e29be15ca4f4a3a613c24aa8287c6559ad",
+      "gzipBytes": 4411,
+      "gzipSHA256": "6e15393fd511adb9840ff86015a72cdd15fd8d0e9c5abaf0a83b6e4cbcaea456"
+    },
+    {
+      "path": "src__ui__map__wasmCastleRibbonPlanner.ts.gz",
+      "rawBytes": 7385,
+      "rawSHA256": "2c3e3bf2e04969bb2b29d0be5acfc0fb2a5cab05a037e644c7bad1929bfaf1aa",
+      "gzipBytes": 2170,
+      "gzipSHA256": "86b3e0db327af844cf8533a90d741b93029c5895b921bfa72008b454b0c60df9"
+    },
+    {
+      "path": "src__ui__map__wasmGeographicScorer.ts.gz",
+      "rawBytes": 8276,
+      "rawSHA256": "b67cdb3c2e0b71167e1396427ecbff663df05e77a44c4e88316fc84d4c76dea8",
+      "gzipBytes": 2295,
+      "gzipSHA256": "69582de4e7d1385df00f0a69bd10b46a92121e6ebb2a342d540ef3df88092a64"
+    },
+    {
+      "path": "state-proof.py.gz",
+      "rawBytes": 2112,
+      "rawSHA256": "90ef1b1372cd6e8de87142e10528851b0bb9f6015313e805cc811ca774f9f091",
+      "gzipBytes": 963,
+      "gzipSHA256": "2451d32cccc3fe728ca44641db89c9052b65298ec7a002251717c01d9fa5b070"
+    },
+    {
+      "path": "state-resource-proof.json.gz",
+      "rawBytes": 2805,
+      "rawSHA256": "36978d86d0ffb33a639d032485789036686edf069d0bd55bff11d46d9fcaf9b0",
+      "gzipBytes": 629,
+      "gzipSHA256": "2184d7920e97eb47e1e2341d3f00bab31d5a8a4a15897d219790175393595f47"
+    },
+    {
+      "path": "tenka_engine.wasm.gz",
+      "rawBytes": 63073,
+      "rawSHA256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba",
+      "gzipBytes": 23266,
+      "gzipSHA256": "274428b88d8cc6abdd3057e637f0032700ed71f6a2d0a9d980cd398c30292d5a"
+    },
+    {
+      "path": "tools__wasm__artifact.ts.gz",
+      "rawBytes": 3547,
+      "rawSHA256": "2005ccd14cc08afb549f963140e5c62ab06b2fc435c0992c07439cf5aedc691e",
+      "gzipBytes": 1341,
+      "gzipSHA256": "212d8ae78a00604dba83142a4bf3b9377839ae82f3f158c73b153e465e0cbeab"
+    },
+    {
+      "path": "transfer-and-baseline-proof.json.gz",
+      "rawBytes": 258,
+      "rawSHA256": "042407f9d0005d3af505ff12800fc7fcd44f609d2ce7e961f9b0f264c67309bb",
+      "gzipBytes": 200,
+      "gzipSHA256": "d1b281ec0c3a102213d724ff714ab1e58e07bfcb8e60a466bee3fc47a1aadeaf"
+    },
+    {
+      "path": "wasm-manifest.json.gz",
+      "rawBytes": 1226,
+      "rawSHA256": "8f41ae78dce8749c6c255b68ba4bceda709bc96af3f14271330261278fe8bd68",
+      "gzipBytes": 685,
+      "gzipSHA256": "8eb1ae5c28cc3f741034f0fe389359073cf256eec48dea4cc3b837f16fb95fc2"
+    }
+  ]
+}
