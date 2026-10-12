@@ -83,7 +83,12 @@ async function clanCardTextContained(page: Page, info: TestInfo, scale: number):
     JSON.stringify(cards),
   );
   expect(cards.scrollable).toBe(true);
-  expect(cards.cards).toHaveLength(55); // Current s1560 plus loaded regional clans.
+  const catalog = JSON.parse(await readFile('src/data/scenarios/s1560/clans.json', 'utf8')) as {
+    clans: { id: string }[];
+  };
+  expect(cards.cards.map((card) => card.id)).toEqual(
+    catalog.clans.map((clan) => `clan-pick-${clan.id}`),
+  );
   for (const card of cards.cards) {
     for (const part of card.text) {
       expect(part.length, `${card.id} has rendered text`).toBeGreaterThan(0);
