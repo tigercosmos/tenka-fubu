@@ -41,6 +41,20 @@ it('rejects a real module whose geographic scorer export is missing', () => {
   expect(WebAssembly.Module.exports(changed).map(({ name }) => name)).toContain('geo_scorx');
   expect(() => artifactManifest(process.cwd(), bytes)).toThrow('lacks ABI export: geo_score');
 });
+it('rejects a real module whose castle ribbon planner export is missing', () => {
+  const bytes = Buffer.from(readFileSync('public/wasm/tenka_engine.wasm'));
+  const name = Buffer.from('castle_ribbon_solve');
+  const position = bytes.indexOf(name);
+  expect(position).toBeGreaterThan(0);
+  bytes[position + name.length - 1] = 'x'.charCodeAt(0);
+  const changed = new WebAssembly.Module(new Uint8Array(bytes));
+  expect(WebAssembly.Module.exports(changed).map(({ name }) => name)).toContain(
+    'castle_ribbon_solvx',
+  );
+  expect(() => artifactManifest(process.cwd(), bytes)).toThrow(
+    'lacks ABI export: castle_ribbon_solve',
+  );
+});
 it('rejects changed Rust source and newly added build inputs', () => {
   const edited = fixture();
   const source = join(edited, 'rust/engine/src/lib.rs');

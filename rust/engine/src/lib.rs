@@ -1,6 +1,7 @@
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 
+mod castle_ribbon;
 mod geographic;
 pub use geographic::{geo_score, geographic_abi_version};
 
@@ -140,6 +141,19 @@ pub unsafe extern "C" fn path_solve(
     path.reverse();
     std::slice::from_raw_parts_mut(output, path.len()).copy_from_slice(&path);
     path.len() as i32
+}
+
+#[no_mangle]
+pub extern "C" fn castle_ribbon_abi_version() -> u32 {
+    1
+}
+
+/// Execute a complete castle ribbon solve over an owned numeric arena.
+/// # Safety
+/// Pointer and words identify a live allocation from engine_alloc.
+#[no_mangle]
+pub unsafe extern "C" fn castle_ribbon_solve(pointer: *mut f64, words: usize) -> i32 {
+    castle_ribbon::solve(pointer as usize, words)
 }
 
 #[cfg(test)]

@@ -41,6 +41,8 @@ export function artifactManifest(root: string, wasm: Uint8Array) {
     'path_solve',
     'geographic_abi_version',
     'geo_score',
+    'castle_ribbon_abi_version',
+    'castle_ribbon_solve',
   ])
     if (!exports.includes(name)) throw new Error(`WASM artifact lacks ABI export: ${name}`);
   const instance = new WebAssembly.Instance(module, { env: { path_node_cost: () => 0 } });
@@ -50,6 +52,9 @@ export function artifactManifest(root: string, wasm: Uint8Array) {
   const geographicAbi = instance.exports.geographic_abi_version as (() => number) | undefined;
   if (typeof geographicAbi !== 'function' || geographicAbi() !== 1)
     throw new Error('WASM artifact has unsupported geographic ABI');
+  const castleAbi = instance.exports.castle_ribbon_abi_version as (() => number) | undefined;
+  if (typeof castleAbi !== 'function' || castleAbi() !== 1)
+    throw new Error('WASM artifact has unsupported castle ribbon ABI');
   return {
     schemaVersion: 1,
     target: WASM_TARGET,
