@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { isRustPathfindingReady } from '../../src/core/acceleration/pathfindingKernel';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   createWasmGeographicScorer,
@@ -5,7 +7,7 @@ import {
   type GeographicScorerInput,
 } from '../../src/ui/map/wasmGeographicScorer';
 
-function mockBackend() {
+function mockBackend(variant: 0 | 1 = 0) {
   const memory = new WebAssembly.Memory({ initial: 1 });
   let next = 8;
   const alloc = vi.fn((words: number) => {
@@ -25,6 +27,8 @@ function mockBackend() {
   });
   const exports = {
     memory,
+    render_numeric_abi_version: () => 1,
+    render_numeric_variant: () => variant,
     geographic_abi_version: () => 1,
     engine_alloc: alloc,
     engine_free: free,
@@ -110,7 +114,10 @@ describe('WASM geographic scorer adapter', () => {
     scorer.score(original);
     expect(wasm.alloc).toHaveBeenCalledTimes(1);
     expect(returned).toBe(original.offsets[0]);
-    const larger = { ...original, offsets: Array.from({ length: 10000 }, () => ({ x: 0, y: 0 })) };
+    const larger = {
+      ...original,
+      offsets: Array.from({ length: 10000 }, () => ({ x: 0, y: 0 })),
+    };
     scorer.score(larger);
     expect(wasm.alloc).toHaveBeenCalledTimes(2);
     expect(wasm.free.mock.calls[0]).toEqual([8, 38]);
@@ -142,7 +149,11 @@ describe('WASM geographic scorer adapter', () => {
   it('does not reject nonfinite scoring values that the existing arithmetic can produce', () => {
     const wasm = mockBackend();
     const scorer = createWasmGeographicScorer(wasm.exports);
-    scorer.score({ ...input(), baselinePrimary: Infinity, hardBaseline: [NaN] });
+    scorer.score({
+      ...input(),
+      baselinePrimary: Infinity,
+      hardBaseline: [NaN],
+    });
     const [pointer, words] = wasm.score.mock.calls[0]!;
     const packed = new Float64Array(wasm.memory.buffer, pointer, words);
     expect(packed[5]).toBe(Infinity);
@@ -188,8 +199,13 @@ describe('WASM geographic scorer adapter', () => {
     const wasm = mockBackend();
     const instantiate = vi.spyOn(WebAssembly, 'instantiate');
     const scorer = createWasmGeographicScorer();
-    const pending = scorer.initialize('/render.wasm');
-    const rejected = expect(pending).rejects.toMatchObject({ name: 'AbortError' });
+    const pending = scorer.initialize({
+      url: '/render.wasm',
+      variant: 'scalar',
+    });
+    const rejected = expect(pending).rejects.toMatchObject({
+      name: 'AbortError',
+    });
     expect(signal?.aborted).toBe(false);
     scorer.dispose();
     expect(signal?.aborted).toBe(true);
@@ -212,8 +228,13 @@ describe('WASM geographic scorer adapter', () => {
       module: {} as WebAssembly.Module,
     } as unknown as WebAssembly.Instance);
     const scorer = createWasmGeographicScorer();
-    const pending = scorer.initialize('/render.wasm');
-    await expect(scorer.initialize('/render.wasm')).rejects.toThrow('already started');
+    const pending = scorer.initialize({
+      url: '/render.wasm',
+      variant: 'scalar',
+    });
+    await expect(scorer.initialize({ url: '/render.wasm', variant: 'scalar' })).rejects.toThrow(
+      'already started',
+    );
     scorer.dispose();
     resolveBytes(new ArrayBuffer(8));
     await expect(pending).rejects.toThrow('disposed');
@@ -239,7 +260,10 @@ describe('WASM geographic scorer adapter', () => {
       return pendingInstance as unknown as Promise<WebAssembly.Instance>;
     });
     const scorer = createWasmGeographicScorer();
-    const pending = scorer.initialize('/render.wasm');
+    const pending = scorer.initialize({
+      url: '/render.wasm',
+      variant: 'scalar',
+    });
     await vi.waitFor(() => expect(started).toHaveBeenCalledOnce());
     scorer.dispose();
     resolveInstance({
@@ -274,7 +298,9 @@ describe('WASM geographic scorer adapter', () => {
     const fetchMock = vi.spyOn(globalThis, 'fetch');
     fetchMock.mockResolvedValueOnce({ ok: false, status: 404 } as Response);
     const scorer = createWasmGeographicScorer();
-    await expect(scorer.initialize('/render.wasm')).rejects.toThrow('404');
+    await expect(scorer.initialize({ url: '/render.wasm', variant: 'scalar' })).rejects.toThrow(
+      '404',
+    );
     fetchMock.mockResolvedValue({
       ok: true,
       arrayBuffer: () => Promise.resolve(new ArrayBuffer(8)),
@@ -289,12 +315,226 @@ describe('WASM geographic scorer adapter', () => {
         instance: { exports: wasm.exports } as unknown as WebAssembly.Instance,
         module: {} as WebAssembly.Module,
       } as unknown as WebAssembly.Instance);
-    await expect(scorer.initialize('/render.wasm')).rejects.toThrow('ABI');
-    await scorer.initialize('/render.wasm');
+    await expect(scorer.initialize({ url: '/render.wasm', variant: 'scalar' })).rejects.toThrow(
+      'ABI',
+    );
+    await scorer.initialize({ url: '/render.wasm', variant: 'scalar' });
     expect(scorer.isReady()).toBe(true);
     const data = input();
     expect(scorer.score(data)).toBe(data.offsets[0]);
     expect(instantiate).toHaveBeenCalledTimes(2);
     scorer.dispose();
+  });
+  it.each([
+    {
+      supported: true,
+      variant: 'simd128',
+      flag: 1,
+      file: 'tenka_engine.simd.wasm',
+    },
+    { supported: false, variant: 'scalar', flag: 0, file: 'tenka_engine.wasm' },
+  ] as const)(
+    'initializes the selected $variant once, with explicit matching exports',
+    async ({ supported, variant, flag, file }) => {
+      const validate = vi.spyOn(WebAssembly, 'validate').mockReturnValue(supported);
+      const fetch = vi.spyOn(globalThis, 'fetch').mockResolvedValue({
+        ok: true,
+        arrayBuffer: () => Promise.resolve(new ArrayBuffer(8)),
+      } as Response);
+      const wasm = mockBackend(flag);
+      const instantiate = vi.spyOn(WebAssembly, 'instantiate').mockResolvedValue({
+        instance: { exports: wasm.exports },
+        module: {},
+      } as unknown as WebAssembly.Instance);
+      const scorer = createWasmGeographicScorer();
+      await scorer.initialize();
+      expect(validate).toHaveBeenCalledOnce();
+      expect(fetch).toHaveBeenCalledOnce();
+      expect(instantiate).toHaveBeenCalledOnce();
+      expect(fetch.mock.calls[0]![0]).toBe(`/wasm/${file}`);
+      expect(scorer.getNumericVariant()).toBe(variant);
+      expect(scorer.isReady()).toBe(true);
+      expect(() => geographicScorerImports().env.path_node_cost(0)).toThrow('render instance');
+      const data = input();
+      scorer.score(data);
+      const allocations = wasm.alloc.mock.calls.length;
+      wasm.memory.grow(1);
+      expect(scorer.score(data)).toBe(data.offsets[0]);
+      expect(wasm.alloc.mock.calls.length).toBe(allocations);
+      scorer.dispose();
+      scorer.dispose();
+      expect(wasm.free).toHaveBeenCalledTimes(allocations);
+      expect(scorer.getNumericVariant()).toBeNull();
+    },
+  );
+  it('retains the first selection across an explicit retry and rejects a different custom artifact', async () => {
+    const validate = vi.spyOn(WebAssembly, 'validate').mockReturnValue(true);
+    const fetch = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce({ ok: false, status: 503 } as Response);
+    const wasm = mockBackend(1);
+    vi.spyOn(WebAssembly, 'instantiate').mockResolvedValue({
+      instance: { exports: wasm.exports },
+      module: {},
+    } as unknown as WebAssembly.Instance);
+    const scorer = createWasmGeographicScorer();
+    await expect(scorer.initialize()).rejects.toThrow('503');
+    expect(() => scorer.install(mockBackend().exports)).toThrow('variant mismatch');
+    validate.mockReturnValue(false);
+    await expect(
+      scorer.initialize({ url: '/wasm/tenka_engine.wasm', variant: 'scalar' }),
+    ).rejects.toThrow('already selected');
+    fetch.mockResolvedValue({
+      ok: true,
+      arrayBuffer: () => Promise.resolve(new ArrayBuffer(8)),
+    } as Response);
+    await scorer.initialize();
+    expect(validate).toHaveBeenCalledOnce();
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch.mock.calls.every(([url]) => url === '/wasm/tenka_engine.simd.wasm')).toBe(true);
+    expect(scorer.getNumericVariant()).toBe('simd128');
+    scorer.dispose();
+  });
+  it.each([
+    'fetch',
+    'instantiate',
+    'missingABI',
+    'missingVariant',
+    'wrongABI',
+    'wrongVariant',
+  ] as const)('surfaces selected-module %s failure without a scalar fallback', async (failure) => {
+    vi.spyOn(WebAssembly, 'validate').mockReturnValue(true);
+    const wasm = mockBackend(1),
+      exports: Record<string, unknown> = { ...wasm.exports };
+    if (failure === 'missingABI') delete exports.render_numeric_abi_version;
+    if (failure === 'missingVariant') delete exports.render_numeric_variant;
+    if (failure === 'wrongABI') exports.render_numeric_abi_version = () => 2;
+    if (failure === 'wrongVariant') exports.render_numeric_variant = () => 0;
+    const fetch = vi.spyOn(globalThis, 'fetch');
+    if (failure === 'fetch') fetch.mockRejectedValue(new Error('network unavailable'));
+    else
+      fetch.mockResolvedValue({
+        ok: true,
+        arrayBuffer: () => Promise.resolve(new ArrayBuffer(8)),
+      } as Response);
+    const instantiate = vi.spyOn(WebAssembly, 'instantiate');
+    if (failure === 'instantiate') instantiate.mockRejectedValue(new Error('compile failure'));
+    else
+      instantiate.mockResolvedValue({
+        instance: { exports },
+        module: {},
+      } as unknown as WebAssembly.Instance);
+    const scorer = createWasmGeographicScorer();
+    await expect(scorer.initialize()).rejects.toThrow();
+    expect(fetch).toHaveBeenCalledOnce();
+    expect(fetch.mock.calls[0]![0]).toBe('/wasm/tenka_engine.simd.wasm');
+    expect(instantiate).toHaveBeenCalledTimes(failure === 'fetch' ? 0 : 1);
+    expect(scorer.isReady()).toBe(false);
+    expect(wasm.alloc).not.toHaveBeenCalled();
+    scorer.dispose();
+  });
+  it('requires explicit expected SIMD for injected exports and leaves readiness false on mismatch', () => {
+    const wasm = mockBackend(1);
+    expect(() => createWasmGeographicScorer(wasm.exports)).toThrow('variant mismatch');
+    const scorer = createWasmGeographicScorer(wasm.exports, undefined, 'simd128');
+    expect(scorer.getNumericVariant()).toBe('simd128');
+    scorer.dispose();
+    const pending = createWasmGeographicScorer();
+    expect(() => pending.install(wasm.exports)).toThrow('variant mismatch');
+    expect(pending.isReady()).toBe(false);
+    pending.install(wasm.exports, 'simd128');
+    expect(pending.isReady()).toBe(true);
+    pending.dispose();
+  });
+
+  it('keeps a failed capability decision fatal for all later initialization attempts', async () => {
+    const error = new Error('capability runtime failure');
+    const validate = vi.spyOn(WebAssembly, 'validate').mockImplementation(() => {
+      throw error;
+    });
+    const fetch = vi.spyOn(globalThis, 'fetch'),
+      instantiate = vi.spyOn(WebAssembly, 'instantiate');
+    const scorer = createWasmGeographicScorer();
+    await expect(scorer.initialize()).rejects.toBe(error);
+    validate.mockReturnValue(false);
+    expect(() => scorer.install(mockBackend().exports)).toThrow(error);
+    await expect(scorer.initialize()).rejects.toBe(error);
+    await expect(scorer.initialize({ url: '/scalar.wasm', variant: 'scalar' })).rejects.toBe(error);
+    expect(validate).toHaveBeenCalledOnce();
+    expect(fetch).not.toHaveBeenCalled();
+    expect(instantiate).not.toHaveBeenCalled();
+    scorer.dispose();
+  });
+  it('keeps actual scalar/SIMD render memories, three planners and disposal independent of the core backend', () => {
+    const coreReady = isRustPathfindingReady();
+    const make = (variant: 'scalar' | 'simd128') => {
+      const bytes = Uint8Array.from(
+        readFileSync(`public/wasm/tenka_engine${variant === 'simd128' ? '.simd' : ''}.wasm`),
+      );
+      const exports = new WebAssembly.Instance(
+        new WebAssembly.Module(bytes),
+        geographicScorerImports(),
+      ).exports;
+      const allocate = vi.fn(exports.engine_alloc as (words: number) => number);
+      const free = vi.fn(exports.engine_free as (pointer: number, words: number) => void);
+      const owner = createWasmGeographicScorer(
+        { ...exports, engine_alloc: allocate, engine_free: free },
+        undefined,
+        variant,
+      );
+      return { exports, allocate, free, owner };
+    };
+    const a = make('simd128'),
+      b = make('scalar');
+    expect(a.exports.memory).not.toBe(b.exports.memory);
+    expect(isRustPathfindingReady()).toBe(coreReady);
+    const rect = { x: 0, y: 0, width: 20, height: 10 },
+      geo = {
+        rect,
+        baselinePrimary: 0,
+        offsets: [{ x: 0, y: 0 }],
+        primary: [],
+        hard: [],
+        hardBaseline: [],
+        reserved: [],
+      };
+    const castles = [{ id: 'castle', baseline: rect, anchor: { x: 10, y: -10 } }];
+    for (const value of [a, b]) {
+      value.owner.prepareCastlePlanner();
+      value.owner.getPreparation().beginFrame([], [], 1);
+      const descriptor = value.owner.getPreparation().prepare(rect);
+      expect(value.owner.getPreparation().scorePrepared(descriptor, undefined, undefined)).toEqual({
+        x: 0,
+        y: 0,
+      });
+      expect(value.owner.score(geo)).toBe(geo.offsets[0]);
+    }
+    const castle = a.owner.layoutCastleRibbons(castles, []);
+    expect(b.owner.layoutCastleRibbons(castles, [])).toEqual(castle);
+    const count = a.allocate.mock.calls.length;
+    (a.exports.memory as WebAssembly.Memory).grow(1);
+    expect(
+      a.owner
+        .getPreparation()
+        .scorePrepared(a.owner.getPreparation().prepare(rect), undefined, undefined),
+    ).toEqual({ x: 0, y: 0 });
+    expect(a.owner.layoutCastleRibbons(castles, [])).toEqual(castle);
+    expect(a.owner.score(geo)).toBe(geo.offsets[0]);
+    expect(a.allocate.mock.calls.length).toBe(count);
+    a.owner.dispose();
+    a.owner.dispose();
+    expect(a.free.mock.calls.length).toBe(count);
+    const allocations = a.allocate.mock.results.map((result, i) => [
+      result.value >>> 0,
+      a.allocate.mock.calls[i]![0],
+    ]);
+    expect(
+      a.free.mock.calls.map(([ptr, words]) => [ptr >>> 0, words]).sort((x, y) => x[0]! - y[0]!),
+    ).toEqual(allocations.sort((x, y) => x[0]! - y[0]!));
+    expect(b.owner.layoutCastleRibbons(castles, [])).toEqual(castle);
+    expect(b.owner.score(geo)).toBe(geo.offsets[0]);
+    b.owner.dispose();
+    expect(b.free.mock.calls.length).toBe(b.allocate.mock.calls.length);
+    expect(isRustPathfindingReady()).toBe(coreReady);
   });
 });

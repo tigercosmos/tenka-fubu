@@ -1,3 +1,10 @@
+import {
+  assertRenderNumericArtifact,
+  assertRenderNumericVariant,
+  selectRenderNumericArtifact,
+  type RenderNumericArtifact,
+  type RenderNumericVariant,
+} from '../../wasm/renderNumericVariant';
 import { createWasmCastleRibbonPlanner } from './wasmCastleRibbonPlanner';
 import {
   createWasmGeographicPreparation,
@@ -47,7 +54,11 @@ export function createWasmGeographicScorer(
   preparationOptions: GeographicPreparationOptions = {
     capacityBudgetWords: PREPARATION_BUDGET_WORDS,
   },
+  initialVariant: RenderNumericVariant = 'scalar',
 ) {
+  let selection: RenderNumericArtifact | null = null;
+  let selectionFailure: { error: unknown } | null = null;
+  let numericVariant: RenderNumericVariant | null = null;
   let backend: ScorerExports | null = null;
   let castlePlanner: ReturnType<typeof createWasmCastleRibbonPlanner> | null = null;
   let preparation: ReturnType<typeof createWasmGeographicPreparation> | null = null;
@@ -60,9 +71,16 @@ export function createWasmGeographicScorer(
   const assertLive = () => {
     if (disposed) throw new Error('Geographic scorer is disposed');
   };
-  const install = (exports: Record<string, unknown>) => {
+  const install = (
+    exports: Record<string, unknown>,
+    expectedVariant: RenderNumericVariant = 'scalar',
+  ) => {
     assertLive();
     if (backend) throw new Error('Geographic scorer is already installed');
+    if (selectionFailure) throw selectionFailure.error;
+    if (selection && selection.variant !== expectedVariant)
+      throw new Error(`Render numeric variant mismatch: owner selected ${selection.variant}`);
+    assertRenderNumericVariant(exports, expectedVariant);
     const candidate = exports as unknown as ScorerExports;
     if (
       !(candidate.memory instanceof WebAssembly.Memory) ||
@@ -75,6 +93,7 @@ export function createWasmGeographicScorer(
     )
       throw new Error('Unsupported geographic scorer ABI');
     backend = candidate;
+    numericVariant = expectedVariant;
   };
   const ownedCastlePlanner = () => {
     assertLive();
@@ -91,7 +110,8 @@ export function createWasmGeographicScorer(
       preparationOptions,
     ));
   };
-  if (initialExports) install(initialExports);
+  // Synchronous injected exports explicitly expect scalar unless the caller declares SIMD.
+  if (initialExports) install(initialExports, initialVariant);
   return {
     install,
     prepareCastlePlanner: () => {
@@ -105,20 +125,43 @@ export function createWasmGeographicScorer(
       return ownedCastlePlanner().layout(...args);
     },
     isReady: () => !disposed && backend !== null,
-    async initialize(url = `${import.meta.env.BASE_URL}wasm/tenka_engine.wasm`): Promise<void> {
+    getNumericVariant: () => numericVariant,
+    async initialize(artifact?: RenderNumericArtifact): Promise<void> {
       assertLive();
       if (backend || initializing)
         throw new Error('Geographic scorer initialization already started');
+      if (selectionFailure) throw selectionFailure.error;
+      let requested: RenderNumericArtifact;
+      if (artifact !== undefined) requested = artifact;
+      else if (selection) requested = selection;
+      else {
+        try {
+          requested = selectRenderNumericArtifact(import.meta.env.BASE_URL);
+        } catch (error) {
+          selectionFailure = { error };
+          throw error;
+        }
+      }
+      assertRenderNumericArtifact(requested);
+      if (selection && (selection.url !== requested.url || selection.variant !== requested.variant))
+        throw new Error('Geographic scorer artifact already selected');
+      selection ??= Object.freeze({
+        url: requested.url,
+        variant: requested.variant,
+      });
+      const selected = selection;
       initializing = true;
       const controller = new AbortController();
       initializationController = controller;
       try {
-        const response = await fetch(url, { signal: controller.signal });
+        const response = await fetch(selected.url, {
+          signal: controller.signal,
+        });
         if (!response.ok) throw new Error(`Geographic scorer fetch failed: ${response.status}`);
         const bytes = await response.arrayBuffer();
         assertLive();
         const instantiated = await WebAssembly.instantiate(bytes, geographicScorerImports());
-        install(instantiated.instance.exports);
+        install(instantiated.instance.exports, selected.variant);
       } finally {
         initializing = false;
         if (initializationController === controller) initializationController = null;
@@ -228,6 +271,7 @@ export function createWasmGeographicScorer(
       capacity = 0;
       view = null;
       backend = null;
+      numericVariant = null;
     },
   };
 }

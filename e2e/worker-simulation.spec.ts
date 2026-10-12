@@ -127,7 +127,11 @@ test('native seeded full-world worker ticks preserve queued commands, complete s
   const wasmResponses: { url: string; status: number }[] = [];
   page.on('worker', (worker) => workers.push(worker.url()));
   page.on('response', (response) => {
-    if (new URL(response.url()).pathname.endsWith('/wasm/tenka_engine.wasm'))
+    const pathname = new URL(response.url()).pathname;
+    if (
+      pathname.endsWith('/wasm/tenka_engine.wasm') ||
+      pathname.endsWith('/wasm/tenka_engine.simd.wasm')
+    )
       wasmResponses.push({ url: response.url(), status: response.status() });
   });
   await observeWorkerTraffic(page);

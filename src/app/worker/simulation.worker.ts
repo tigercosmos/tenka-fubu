@@ -1,3 +1,9 @@
+import {
+  assertRenderNumericArtifact,
+  assertRenderNumericVariant,
+  selectRenderNumericArtifact,
+  type RenderNumericArtifact,
+} from '../../wasm/renderNumericVariant';
 import { advanceDay } from '../../core/systems';
 import { envelopeAuthority } from '../../core/commands/authority';
 import { canonicalStringify } from '../../core/state/serialize';
@@ -18,15 +24,17 @@ import type {
   WorkerFiredEvent,
 } from './protocol';
 
-async function initializeRustBackend(): Promise<number> {
-  const response = await fetch(
-    new URL(`${import.meta.env.BASE_URL}wasm/tenka_engine.wasm`, globalThis.location.origin),
-  );
+export async function initializeRustBackend(artifact?: RenderNumericArtifact): Promise<number> {
+  const selected =
+    artifact === undefined ? selectRenderNumericArtifact(import.meta.env.BASE_URL) : artifact;
+  assertRenderNumericArtifact(selected);
+  const response = await fetch(new URL(selected.url, globalThis.location.origin));
   if (!response.ok) throw new Error(`Rust simulation module load failed: HTTP ${response.status}`);
   const wasm = await WebAssembly.instantiate(
     await response.arrayBuffer(),
     rustPathfindingImports(),
   );
+  assertRenderNumericVariant(wasm.instance.exports, selected.variant);
   installRustPathfinding(wasm.instance.exports);
   if (!isRustPathfindingReady())
     throw new Error('Rust simulation module did not install its pathfinding kernel');
@@ -102,7 +110,13 @@ export function createWorkerExecutor(
         }
         const eventEngine = cachedEngine;
         const unsubscribe = eventEngine?.subscribeFired(({ def, binding, clanIds }) => {
-          fired.push(structuredClone({ eventId: def.id, binding, clanIds: [...clanIds] }));
+          fired.push(
+            structuredClone({
+              eventId: def.id,
+              binding,
+              clanIds: [...clanIds],
+            }),
+          );
         });
         const started = performance.now();
         try {

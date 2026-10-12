@@ -69,6 +69,7 @@ function deferredOwner() {
       throw new Error('Explicit reference owner cannot install a backend');
     },
     isReady: () => ready && !disposed,
+    getNumericVariant: () => 'scalar',
     score: (input) => {
       if (!ready || disposed) throw new Error('Explicit reference owner is not ready');
       return input.offsets[0];
