@@ -118,6 +118,8 @@ for (let index = 0; index < 15; index += 1) {
       expect(button.height, button.name ?? '').toBeGreaterThanOrEqual(32);
       expect(button.x, button.name ?? '').toBeGreaterThanOrEqual(-1);
       expect(button.x + button.width, button.name ?? '').toBeLessThanOrEqual(minimum.width + 1);
+      expect(button.y, button.name ?? '').toBeGreaterThanOrEqual(-1);
+      expect(button.y + button.height, button.name ?? '').toBeLessThanOrEqual(minimum.height + 1);
     }
     const battle = Object.values(initial.battles)[0]!;
     const playerSide =
@@ -137,6 +139,8 @@ for (let index = 0; index < 15; index += 1) {
       expect(box!.height).toBeGreaterThanOrEqual(32);
       expect(box!.x).toBeGreaterThanOrEqual(-1);
       expect(box!.x + box!.width).toBeLessThanOrEqual(minimum.width + 1);
+      expect(box!.y).toBeGreaterThanOrEqual(-1);
+      expect(box!.y + box!.height).toBeLessThanOrEqual(minimum.height + 1);
     }
     expect(await page.evaluate(() => window.__tenka.debug.getState())).toEqual(initial);
   });
