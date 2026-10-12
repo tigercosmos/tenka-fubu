@@ -6463,5 +6463,7 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - `1b2b995` 封存5224 native：9完整發布exact；三單次FPS59.93826／50.20458／29.20631，vs04僅+.012%／+.938%／+.312%，strict60全RED；actualRTX guard與1405source／14765deps／23patch不變。原setupRED保留、無retry。
 - 唯一profile288completed／287interval，geo JSparent14.37164vs14.36233ms/frame，axes3.87181vs3.84558；沒有明確整體收益。`3d6a953` 撤回source、保留5完整prep測試並改一般名稱，geo原碼SHAfbf127與04byteequal。
 - `c194b01` 現行固定3d6全量6362PASS／1既有noheirFAIL／1skip，687檔、128.23s；1486inputs三checkpoint Gitblobbyteequal。Types/fullLint/build4.20s/bundlePASS。8emittedJS/CSS與63073WASM本機逐byteequal04；maps/otherpublic/manifest/deps不在此claim，非新nativeFPS。
-- Root另核native／restored兩包verifier與所有975 artifact rows雙SHA。Candidate5224原full/evidence未改，現行3d6證據分開；source/evidence每步commit，未push/deploy、未改00/BAL/protected門檻。
+- Root另核native／restored兩包verifier與所有975 artifact rows；gzip均核對壓縮／原始雙SHA。Candidate5224原full/evidence未改，現行3d6證據分開；source/evidence每步commit，未push/deploy、未改00/BAL/protected門檻。
 - 下一步Rust numeric preparation設計：P/H一次pack、near indices與原rect metadata、JS原signature/cache保留，preparedscore避免再pack；容量路徑須明示且不得縮合法輸入域，ABI/init/error仍failclosed。尚未prototype／量測，goal保持active。
+
+- `b62fe9c` 保存 [Rust preparation DRAFT](docs/design/geographic-preparation-wasm.md)：尚未實作／量測，傳輸預算與token規則未定；一般bulk與明示CAPACITY都要求實際feature ABI，維持合法輸入域、原JSON簽章與metadata。此文件記錄設計狀態，不新增使用者批准流程；既有Rust/WASM改動授權繼續有效。
