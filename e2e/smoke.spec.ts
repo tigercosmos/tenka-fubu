@@ -85,7 +85,7 @@ async function advanceThreeMonths(page: Page, info: TestInfo) {
         // 正常遊戲沒有 debug 撤退；以真實委任和合戰 tick 完成戰鬥。
         const delegate = battle.getByRole('button', { name: '全軍委任：關', exact: true });
         if (await delegate.isVisible()) await delegate.click();
-        const speed = battle.getByRole('button', { name: '五倍速', exact: true });
+        const speed = battle.getByRole('button', { name: '五倍速 ×5', exact: true });
         if ((await speed.getAttribute('aria-pressed')) !== 'true') await speed.click();
       }
       return true;

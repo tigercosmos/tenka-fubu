@@ -331,7 +331,9 @@ export function BattleScreen({
             disabled={controlsBlocked}
             aria-pressed={speed === option}
             aria-label={
-              option === 'paused' ? t('ui.speed.aria.pause') : t(`ui.speed.aria.${option}`)
+              option === 'paused'
+                ? t('ui.speed.aria.pause')
+                : `${t(`ui.speed.aria.${option}`)} ×${option.slice(1)}`
             }
             onClick={() => {
               if (
@@ -499,7 +501,7 @@ export function BattleScreen({
           color="gold"
           label={t('ui.battle.saihaiValue', { value: playerSaihai, max: BAL.saihaiMax })}
         />
-        <div className={styles.tacticButtons} aria-label={t('cmd.battle.tactic')}>
+        <div className={styles.tacticButtons} role="group" aria-label={t('cmd.battle.tactic')}>
           {availableTactics.map((definition) => {
             const cooldown = selectedUnit?.tacticCooldowns[definition.id] ?? 0;
             return (

@@ -435,9 +435,9 @@ test('real camera and rail hotkeys are presentation-only; battle speed stays loc
     node.focus();
   });
   for (const [key, name] of [
-    ['1', '一倍速'],
-    ['2', '二倍速'],
-    ['3', '五倍速'],
+    ['1', '一倍速 ×1'],
+    ['2', '二倍速 ×2'],
+    ['3', '五倍速 ×5'],
   ] as const) {
     await page.keyboard.press(key);
     await expect(battle.getByRole('button', { name, exact: true })).toHaveAttribute(

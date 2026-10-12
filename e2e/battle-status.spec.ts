@@ -28,7 +28,7 @@ test('real queued moves and tactical lifecycle produce factual unit status badge
   expect(await page.evaluate(() => window.__tenka.debug.getState())).toEqual(initial);
   // Current real terrain resolver yields plain/coast, hence cost1 edges. No intermediate-moving proof is claimed.
   expect(battle.edges.every((edge) => edge.moveCost === 1)).toBe(true);
-  await screen.getByRole('button', { name: '一倍速', exact: true }).click();
+  await screen.getByRole('button', { name: '一倍速 ×1', exact: true }).click();
   await expect
     .poll(() =>
       page.evaluate(
@@ -54,7 +54,7 @@ test('real queued moves and tactical lifecycle produce factual unit status badge
   });
 
   await screen.getByRole('button', { name: /^全軍委任：/ }).click();
-  await screen.getByRole('button', { name: '五倍速', exact: true }).click();
+  await screen.getByRole('button', { name: '五倍速 ×5', exact: true }).click();
   const observed: {
     tick: number;
     unitId: string;

@@ -215,7 +215,7 @@ test('native tactical node and enemy controls apply real movement and attack ord
     const enemy = enemies.find((candidate) => adjacent(ours.jinId, candidate.jinId));
     if (enemy && moved) {
       await page.getByTestId(`battle-unit-${enemy.id}`).click();
-      await page.getByRole('button', { name: '一倍速', exact: true }).click();
+      await page.getByRole('button', { name: '一倍速 ×1', exact: true }).click();
       await expect
         .poll(
           async () =>
@@ -252,7 +252,7 @@ test('native tactical node and enemy controls apply real movement and attack ord
     const before = await page.evaluate(() => window.__tenka.debug.getState());
     await page.getByTestId(`battle-jin-${target}`).click();
     expect(await page.evaluate(() => window.__tenka.debug.getState())).toEqual(before);
-    await page.getByRole('button', { name: '一倍速', exact: true }).click();
+    await page.getByRole('button', { name: '一倍速 ×1', exact: true }).click();
     await expect
       .poll(
         async () =>

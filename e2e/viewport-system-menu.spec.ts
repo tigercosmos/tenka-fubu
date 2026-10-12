@@ -165,7 +165,7 @@ test('battle viewport freeze and Escape SystemMenu preserve battle authority and
   const battleId = Object.keys(initial.battles)[0]!;
   const tickBefore = Object.values(initial.battles)[0]!.tick;
   await page.keyboard.press('2');
-  await expect(battle.getByRole('button', { name: '二倍速', exact: true })).toHaveAttribute(
+  await expect(battle.getByRole('button', { name: '二倍速 ×2', exact: true })).toHaveAttribute(
     'aria-pressed',
     'true',
   );
@@ -192,7 +192,7 @@ test('battle viewport freeze and Escape SystemMenu preserve battle authority and
   expect(await state(page)).toEqual(frozen);
   await backgroundFocus(page);
   await page.keyboard.press('Space');
-  await expect(battle.getByRole('button', { name: '二倍速', exact: true })).toHaveAttribute(
+  await expect(battle.getByRole('button', { name: '二倍速 ×2', exact: true })).toHaveAttribute(
     'aria-pressed',
     'true',
   );

@@ -144,7 +144,7 @@ test('opt-in national 30 wall-minute ordinary ×5 lifecycle observation', async 
           await delegate.click();
           await record({ kind: 'decision', action: 'battle.delegateAll' });
         }
-        const speed = battle.getByRole('button', { name: '五倍速', exact: true });
+        const speed = battle.getByRole('button', { name: '五倍速 ×5', exact: true });
         if ((await speed.getAttribute('aria-pressed')) !== 'true') {
           await speed.click();
           await record({ kind: 'decision', action: 'battle.speed5' });

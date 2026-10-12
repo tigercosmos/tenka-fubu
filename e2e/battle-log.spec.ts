@@ -40,7 +40,7 @@ test('real tactical effects log accepted facts and preserve older native scroll 
   await charge.click();
   await expect(rows).toHaveCount(0);
   expect(await page.evaluate(() => window.__tenka.debug.getState())).toEqual(before);
-  await screen.getByRole('button', { name: '一倍速', exact: true }).click();
+  await screen.getByRole('button', { name: '一倍速 ×1', exact: true }).click();
   await expect(page.locator('[data-log-kind="tactic.accepted"]')).toHaveCount(1);
   const kinds = new Set(
     await rows.evaluateAll((elements) =>
@@ -56,7 +56,7 @@ test('real tactical effects log accepted facts and preserve older native scroll 
   ).toBe(target);
 
   await screen.getByRole('button', { name: /^全軍委任：/ }).click();
-  await screen.getByRole('button', { name: '一倍速', exact: true }).click();
+  await screen.getByRole('button', { name: '一倍速 ×1', exact: true }).click();
   await expect
     .poll(
       async () => {
@@ -110,7 +110,7 @@ test('real tactical effects log accepted facts and preserve older native scroll 
   expect(anchor).not.toBeNull();
   expect(await page.evaluate(() => window.__tenka.debug.getState())).toEqual(paused);
   const tick = (await currentBattle(page)).tick;
-  await screen.getByRole('button', { name: '一倍速', exact: true }).click();
+  await screen.getByRole('button', { name: '一倍速 ×1', exact: true }).click();
   await expect.poll(async () => (await currentBattle(page)).tick).toBeGreaterThanOrEqual(tick + 2);
   await expect(page.getByTestId('battle-log-latest')).toBeVisible();
   await screen.getByRole('button', { name: '暫停', exact: true }).click();
@@ -166,7 +166,7 @@ test('real tactical effects log accepted facts and preserve older native scroll 
     elements.map((element) => element.getAttribute('data-log-kind')),
   ))
     kinds.add(kind);
-  await screen.getByRole('button', { name: '五倍速', exact: true }).click();
+  await screen.getByRole('button', { name: '五倍速 ×5', exact: true }).click();
   await expect
     .poll(
       async () => {

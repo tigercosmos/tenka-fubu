@@ -16,7 +16,7 @@ test('core-generated tactical result owns focus and cannot be dismissed without 
   expect(initial.result).toBeNull();
   // Real UI orders and live tactical clock: no injected winner, altered state or synthetic codec.
   await screen.getByRole('button', { name: /^全軍委任：/ }).click();
-  await screen.getByRole('button', { name: '五倍速', exact: true }).click();
+  await screen.getByRole('button', { name: '五倍速 ×5', exact: true }).click();
   await expect
     .poll(
       () =>
@@ -33,7 +33,7 @@ test('core-generated tactical result owns focus and cannot be dismissed without 
   await expect(acknowledge).toBeFocused();
   await expect(screen).toHaveAttribute('inert', '');
   await expect(
-    screen.getByRole('button', { name: '一倍速', exact: true, includeHidden: true }),
+    screen.getByRole('button', { name: '一倍速 ×1', exact: true, includeHidden: true }),
   ).toBeDisabled();
   const resolved = await page.evaluate(() => window.__tenka.debug.getState());
   expect(resolved.battles[initial.id]!.tick).toBeGreaterThan(initial.tick);
@@ -94,7 +94,7 @@ test('an existing SystemMenu owner hands a real completed battle to its mandator
     () => Object.values(window.__tenka.debug.getState().battles)[0]!.id,
   );
   await screen.getByRole('button', { name: /^全軍委任：/ }).click();
-  await screen.getByRole('button', { name: '五倍速', exact: true }).click();
+  await screen.getByRole('button', { name: '五倍速 ×5', exact: true }).click();
   // Release native button focus, then open the ordinary owner through its real Escape route.
   await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
   await page.keyboard.press('Escape');

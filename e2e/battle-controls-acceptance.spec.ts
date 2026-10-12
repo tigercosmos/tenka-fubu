@@ -42,6 +42,23 @@ async function physicalBox(page: Page, testId: string, scroll = false): Promise<
   expect(box!.y + box!.height, testId).toBeLessThanOrEqual(minimum.height + 1);
 }
 
+test('battle speed names include their visible multiplier and tactics form a named group', async ({
+  page,
+}) => {
+  await bootBattle(page);
+  const battle = page.getByTestId('screen-battle');
+  for (const [name, multiplier] of [
+    ['一倍速 ×1', '×1'],
+    ['二倍速 ×2', '×2'],
+    ['五倍速 ×5', '×5'],
+  ] as const) {
+    const button = battle.getByRole('button', { name, exact: true });
+    await expect(button).toBeVisible();
+    await expect(button).toHaveText(multiplier);
+  }
+  await expect(battle.getByRole('group', { name: '戰法', exact: true })).toBeVisible();
+});
+
 for (let index = 0; index < 15; index += 1) {
   const expectedScale = Number((0.8 + index * 0.05).toFixed(2));
   test(`real battle controls fit 1280x720 at UI scale ${expectedScale}`, async ({ page }, info) => {
@@ -165,7 +182,7 @@ test('battle native controls keep Space while local speed keys and Escape use ba
   await expect(pause).toHaveAttribute('aria-pressed', 'true');
   expect(await page.evaluate(() => window.__tenka.debug.getState())).toEqual(initial);
 
-  const x2 = screen.getByRole('button', { name: '二倍速', exact: true });
+  const x2 = screen.getByRole('button', { name: '二倍速 ×2', exact: true });
   await x2.focus();
   await page.keyboard.press('Space');
   await expect(x2).toHaveAttribute('aria-pressed', 'true');
@@ -183,9 +200,9 @@ test('battle native controls keep Space while local speed keys and Escape use ba
   await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
   const day = await page.evaluate(() => window.__tenka.debug.getState().time.day);
   for (const [key, name] of [
-    ['1', '一倍速'],
-    ['2', '二倍速'],
-    ['3', '五倍速'],
+    ['1', '一倍速 ×1'],
+    ['2', '二倍速 ×2'],
+    ['3', '五倍速 ×5'],
   ] as const) {
     await page.keyboard.press(key);
     await expect(screen.getByRole('button', { name, exact: true })).toHaveAttribute(
