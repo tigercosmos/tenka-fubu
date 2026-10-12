@@ -1,0 +1,117 @@
+import { writeFileSync } from 'node:fs';
+import { PNG } from 'pngjs';
+import { test, expect } from '/tmp/tenka-battle-79682cd/e2e/fixtures';
+
+type OwnerView = {
+  hud: { rect: number[]; shadow: string; visibility: string };
+  rail: { rect: number[]; shadow: string; visibility: string };
+  canvas: { rect: number[]; width: number; height: number };
+  stateVersion: number;
+  diagnostics: ReturnType<Window['__tenka']['debug']['getMapDiagnostics']>;
+};
+
+function diff(a: Buffer, b: Buffer) {
+  const left = PNG.sync.read(a);
+  const right = PNG.sync.read(b);
+  if (left.width !== right.width || left.height !== right.height) throw Error('image size differs');
+  let total = 0;
+  let seam = 0;
+  let elsewhere = 0;
+  let xMin = left.width, yMin = left.height, xMax = -1, yMax = -1;
+  for (let y = 0; y < left.height; y++) for (let x = 0; x < left.width; x++) {
+    const i = 4 * (y * left.width + x);
+    if (left.data[i] === right.data[i] && left.data[i+1] === right.data[i+1] &&
+        left.data[i+2] === right.data[i+2] && left.data[i+3] === right.data[i+3]) continue;
+    total++;
+    if (x >= 10 && x <= 69 && y >= 14 && y <= 63) seam++; else elsewhere++;
+    xMin = Math.min(xMin, x); yMin = Math.min(yMin, y);
+    xMax = Math.max(xMax, x); yMax = Math.max(yMax, y);
+  }
+  return { total, seam, elsewhere, bounds: total ? [xMin,yMin,xMax,yMax] : null };
+}
+
+test('diagnostic only: isolate full-page seam paint owner', async ({ page }, info) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/?debug=visual-map');
+  await expect(page.getByTestId('screen-strategy')).toBeVisible();
+  await expect(page.getByTestId('speed-pause')).toHaveAttribute('aria-pressed', 'true');
+  await page.evaluate(() => document.fonts.ready);
+  await page.mouse.move(1270, 710);
+  await page.evaluate(() => window.__tenka.debug.setMapCameraPreset('overview'));
+  await page.evaluate(() => window.__tenka.debug.waitMapIdle(5));
+  const session = await page.context().newCDPSession(page);
+  const views: Record<string, OwnerView> = {};
+  const images: Record<string, Buffer> = {};
+  const raw: Record<string, { valid: boolean; reason?: string; width?: number; height?: number; colors?: number; opaque?: number; sample?: number[] }> = {};
+  const shot = async (name: string) => {
+    views[name] = await page.evaluate(() => {
+      const main = document.querySelector('[data-testid="screen-strategy"]')!;
+      const hud = main.querySelector(':scope > header')!;
+      const rail = main.querySelector(':scope > nav')!;
+      const canvas = main.querySelector('[data-testid="map-canvas-host"] canvas') as HTMLCanvasElement;
+      const desc = (element: Element) => {
+        const r = element.getBoundingClientRect(); const s = getComputedStyle(element);
+        return { rect: [r.x,r.y,r.width,r.height], shadow: s.boxShadow, visibility: s.visibility };
+      };
+      const r = canvas.getBoundingClientRect();
+      return {
+        hud: desc(hud), rail: desc(rail),
+        canvas: { rect: [r.x,r.y,r.width,r.height], width: canvas.width, height: canvas.height },
+        stateVersion: window.__tenka.debug.getState().meta.stateVersion,
+        diagnostics: window.__tenka.debug.getMapDiagnostics(),
+      };
+    });
+    images[name] = await page.screenshot({ path: info.outputPath(`${name}.png`) });
+    const url = await page.evaluate(() => {
+      const canvas = document.querySelector('[data-testid="map-canvas-host"] canvas') as HTMLCanvasElement;
+      return canvas.toDataURL('image/png');
+    });
+    const buf = Buffer.from(url.split(',')[1]!, 'base64');
+    writeFileSync(info.outputPath(`${name}-canvas.png`), buf);
+    try {
+      const png = PNG.sync.read(buf); const colors = new Set<string>(); let opaque=0;
+      for (let y=0; y<png.height; y+=17) for (let x=0; x<png.width; x+=17) {
+        const i=4*(y*png.width+x);const v=Array.from(png.data.subarray(i,i+4));
+        colors.add(v.join(',')); if(v[3]===255) opaque++;
+      }
+      const i=4*(60*png.width+30);
+      raw[name]={valid: png.width===views[name]!.canvas.width && png.height===views[name]!.canvas.height && colors.size>10 && opaque>100,
+        width:png.width,height:png.height,colors:colors.size,opaque,sample:Array.from(png.data.subarray(i,i+4))};
+    } catch (error) { raw[name]={valid:false,reason:String(error)}; }
+  };
+  const idle=()=>page.evaluate(()=>window.__tenka.debug.waitMapIdle(5));
+  try {
+    await session.send('Emulation.setEmulatedVisionDeficiency',{type:'none'});
+    await shot('shadow-base'); await idle(); await shot('shadow-no-cdp');
+    await session.send('Emulation.setEmulatedVisionDeficiency',{type:'achromatopsia'});
+    await idle(); await shot('shadow-mode');
+    await session.send('Emulation.setEmulatedVisionDeficiency',{type:'none'});
+    await idle(); await shot('shadow-restored');
+    const style = await page.addStyleTag({content:'[data-testid="screen-strategy"] > header, [data-testid="screen-strategy"] > nav { box-shadow: none !important; }'});
+    await idle(); await shot('no-shadow-base'); await idle(); await shot('no-shadow-no-cdp');
+    await session.send('Emulation.setEmulatedVisionDeficiency',{type:'achromatopsia'});
+    await idle(); await shot('no-shadow-mode');
+    await session.send('Emulation.setEmulatedVisionDeficiency',{type:'none'});
+    await idle(); await shot('no-shadow-restored');
+    await style.evaluate((element)=>element.remove());
+    const hide = await page.addStyleTag({content:'[data-testid="screen-strategy"] > header, [data-testid="screen-strategy"] > nav { visibility: hidden !important; }'});
+    await idle(); await shot('hidden-base'); await idle(); await shot('hidden-no-cdp');
+    await session.send('Emulation.setEmulatedVisionDeficiency',{type:'achromatopsia'});
+    await idle(); await shot('hidden-mode');
+    await session.send('Emulation.setEmulatedVisionDeficiency',{type:'none'});
+    await idle(); await shot('hidden-restored');
+    await hide.evaluate((element)=>element.remove());
+  } finally {
+    await session.send('Emulation.setEmulatedVisionDeficiency',{type:'none'});
+    await session.detach();
+  }
+  const compare = (prefix:string)=>({
+    noCdp:diff(images[`${prefix}-base`]!,images[`${prefix}-no-cdp`]!),
+    altered:diff(images[`${prefix}-base`]!,images[`${prefix}-mode`]!),
+    restored:diff(images[`${prefix}-base`]!,images[`${prefix}-restored` ]!),
+  });
+  const report={comparison:{shadow:compare('shadow'),noShadow:compare('no-shadow'),hidden:compare('hidden')},views,raw};
+  writeFileSync(info.outputPath('owner-report.json'),JSON.stringify(report,null,2));
+  console.log('OWNER_DIAGNOSTIC',JSON.stringify({comparison:report.comparison,raw}));
+});

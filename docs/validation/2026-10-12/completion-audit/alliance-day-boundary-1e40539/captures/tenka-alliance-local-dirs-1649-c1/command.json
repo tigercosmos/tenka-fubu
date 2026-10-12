@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "python3",
+    "-c",
+    "from pathlib import Path; p=Path(\"docs/validation/2026-10-12/completion-audit/alliance-day-boundary-1e40539\"); [(p/name).mkdir(exist_ok=False) for name in (\"original\",\"diagnostic\",\"candidate\",\"final\")]"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:50:41.000960+00:00",
+  "browser": false
+}

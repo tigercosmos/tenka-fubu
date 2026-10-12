@@ -1,0 +1,32 @@
+{
+  "root": "/tmp/tenka-battle-79682cd/runs/alliance-diagnostic-1649-c1/browser-results",
+  "totalFiles": 5,
+  "totalBytes": 83575146,
+  "files": [
+    {
+      "path": ".last-run.json",
+      "sizeBytes": 96,
+      "sha256": "1548b34dd5d599e47d86a1e7d28ae6c0c2c19a708edfbb1ec3c740084090d446"
+    },
+    {
+      "path": "earned-alliance-CPU-earned-20026--reload-and-next-paid-month-chromium/earned-azai-alliance.tfusave",
+      "sizeBytes": 864231,
+      "sha256": "19c4416e15e3b2f0ce31a01a22eeb6236892062f5c8893342d1813165c5459f7"
+    },
+    {
+      "path": "earned-alliance-CPU-earned-20026--reload-and-next-paid-month-chromium/earned-azai-alliance.tfusave.evidence.json",
+      "sizeBytes": 563741,
+      "sha256": "8278b21c004a0505fe442d448483278834ac0c10ee03b7e61abfadd76c40cb92"
+    },
+    {
+      "path": "earned-alliance-CPU-earned-20026--reload-and-next-paid-month-chromium/error-context.md",
+      "sizeBytes": 19081,
+      "sha256": "0047dc165289bcfc791993a478ac2332862d090ce85f6087647fe1bdda3ba92d"
+    },
+    {
+      "path": "earned-alliance-CPU-earned-20026--reload-and-next-paid-month-chromium/trace.zip",
+      "sizeBytes": 82127997,
+      "sha256": "9484205baff81d2c6d0345fe66a7ac9c090bee13c24c1aac640012e9c50b277c"
+    }
+  ]
+}

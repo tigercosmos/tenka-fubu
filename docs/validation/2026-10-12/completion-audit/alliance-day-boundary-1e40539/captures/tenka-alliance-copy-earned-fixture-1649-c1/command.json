@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "scp",
+    "sim4:/tmp/tenka-battle-79682cd/runs/alliance-final-1649-c2/browser-results/earned-alliance-CPU-earned-20026--reload-and-next-paid-month-chromium/earned-azai-alliance.tfusave",
+    "sim4:/tmp/tenka-battle-79682cd/runs/alliance-final-1649-c2/browser-results/earned-alliance-CPU-earned-20026--reload-and-next-paid-month-chromium/earned-azai-alliance.tfusave.evidence.json",
+    "docs/validation/2026-10-12/completion-audit/alliance-day-boundary-1e40539/"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:51:14.999652+00:00",
+  "browser": false
+}

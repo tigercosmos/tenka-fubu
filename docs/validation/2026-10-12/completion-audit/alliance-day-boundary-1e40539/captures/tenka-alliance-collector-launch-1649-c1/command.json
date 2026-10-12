@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "python3",
+    "/tmp/tenka-alliance-collect-remote-1649-c1.py"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:50:32.479082+00:00",
+  "browser": false
+}

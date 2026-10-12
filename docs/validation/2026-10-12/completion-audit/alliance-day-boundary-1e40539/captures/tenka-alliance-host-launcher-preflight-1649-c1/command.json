@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "cd /tmp/tenka-battle-79682cd && python3 /tmp/tenka-validation-capture-961f0ae.py --run-dir /tmp/tenka-battle-79682cd/runs/alliance-host-preflight-1649-c1 --cwd /tmp/tenka-battle-79682cd -- python3 /tmp/tenka-alliance-host-launcher-1649-c1.py --check"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:49:37.342004+00:00",
+  "browser": false
+}

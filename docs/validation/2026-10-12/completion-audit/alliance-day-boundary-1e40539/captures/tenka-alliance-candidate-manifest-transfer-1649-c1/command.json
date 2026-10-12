@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "scp",
+    "/tmp/tenka-alliance-candidate-manifest-1649-c1.json",
+    "sim4:/tmp/tenka-battle-79682cd/runs/alliance-candidate-manifest-1649-c1.json"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:45:43.010847+00:00",
+  "browser": false
+}

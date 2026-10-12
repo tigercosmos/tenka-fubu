@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "python3",
+    "/tmp/tenka-source-inventory-verify.py",
+    "/tmp/tenka-battle-79682cd",
+    "/tmp/tenka-battle-79682cd/runs/alliance-candidate-manifest-1649-c1.json"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:45:49.621117+00:00",
+  "browser": false
+}

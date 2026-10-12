@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "cd /tmp/tenka-battle-79682cd && PATH=/tmp/tenka-fubu-parallel-20261011.FC6Shj/runtime/bin:$PATH PLAYWRIGHT_BROWSERS_PATH=/home/anchi/.cache/ms-playwright node -e \"const fs=require(\\\"fs\\\"); const p=require(\\\"playwright\\\").chromium.executablePath(); console.log(JSON.stringify({path:p,exists:fs.existsSync(p)}))\""
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:45:07.977006+00:00",
+  "browser": false
+}

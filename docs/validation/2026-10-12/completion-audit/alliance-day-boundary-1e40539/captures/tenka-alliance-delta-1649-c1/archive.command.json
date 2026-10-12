@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "git",
+    "archive",
+    "--format=tar",
+    "1649c6516e7cb2cbaf0f9bdf08859b510e8b922b",
+    "--",
+    "CLAUDE.md",
+    "e2e/ai-corps.spec.ts",
+    "e2e/army-plate-material.spec.ts",
+    "e2e/coast-surface-layout.spec.ts",
+    "e2e/context-panel-focus.spec.ts",
+    "e2e/map-ready.ts"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu"
+}

@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "sha256sum",
+    "/tmp/tenka-battle-79682cd/package-lock.json",
+    "/tmp/tenka-battle-79682cd/node_modules/playwright/package.json",
+    "/tmp/tenka-battle-79682cd/node_modules/vitest/package.json",
+    "/tmp/tenka-battle-79682cd/node_modules/pixi.js/package.json"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:42:04.533519+00:00",
+  "browser": false
+}

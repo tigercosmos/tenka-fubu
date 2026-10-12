@@ -1,0 +1,19 @@
+{
+  "run": "alliance-candidate-1649-c1",
+  "files": {
+    "report.json": {
+      "rawBytes": 5833300,
+      "rawSha256": "d83322a910c36324b56d072f286ff2f396acdd7f134695a5d9ea8addddea8fb3",
+      "gzipBytes": 660458,
+      "gzipSha256": "4e91b54341653c71276ba098fd97d660de9ce2254ec331d8506be8a9f26919cb"
+    },
+    "stdout-stderr.log": {
+      "rawBytes": 218,
+      "rawSha256": "35d95c60a0f9b33ee35a74a817ea220edbbc0497b9f7083d851e06d4d4004d59",
+      "gzipBytes": 208,
+      "gzipSha256": "2702c9ae54a85f864f8316db7d1df2e9bc9e6ecfc5ac82d8186dc0be9b731c83"
+    }
+  },
+  "metadataSha256": "2e7aebeebd3645ae2a876f9cdab147c362485f0a7b211bd4464c72723cceb22c",
+  "browserInventorySha256": "cdd4ad42a1bb92c782d87c68bce00a355f3eb3d3a6026c2a1b68c7010187b83e"
+}

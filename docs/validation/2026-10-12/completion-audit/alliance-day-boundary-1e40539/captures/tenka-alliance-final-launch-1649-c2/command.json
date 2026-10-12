@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ssh",
+    "sim4",
+    "cd /tmp/tenka-battle-79682cd && CI=1 VISUAL_GPU=1 PATH=/tmp/tenka-fubu-parallel-20261011.FC6Shj/runtime/bin:$PATH PLAYWRIGHT_JSON_OUTPUT_FILE=/tmp/tenka-battle-79682cd/runs/alliance-final-1649-c2/report.json python3 /tmp/tenka-validation-capture-961f0ae.py --run-dir /tmp/tenka-battle-79682cd/runs/alliance-final-1649-c2 --cwd /tmp/tenka-battle-79682cd -- /tmp/tenka-fubu-parallel-20261011.FC6Shj/runtime/bin/node node_modules/@playwright/test/cli.js test e2e/earned-alliance.spec.ts --output=/tmp/tenka-battle-79682cd/runs/alliance-final-1649-c2/browser-results --reporter=line,json"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:47:36.251657+00:00",
+  "browser": false
+}

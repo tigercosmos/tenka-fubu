@@ -1,0 +1,57 @@
+{
+  "root": "/tmp/tenka-battle-79682cd/runs/color-original-achromatopsia-1e40539-c1/browser-results",
+  "totalFiles": 10,
+  "totalBytes": 69435125,
+  "files": [
+    {
+      "path": ".last-run.json",
+      "sizeBytes": 96,
+      "sha256": "80fea6a26f28f0e7a636126e5857d7e58b6ca25c74d1aa365de2a423a9c834df"
+    },
+    {
+      "path": "color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/error-context.md",
+      "sizeBytes": 14053,
+      "sha256": "3be6eb41099f5585c46ad46d3eae67314e257e734442a2ddb214faaf727d2108"
+    },
+    {
+      "path": "color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/initial-preflight.json",
+      "sizeBytes": 1717523,
+      "sha256": "723caaf5a290da501f05be62be7c22af89fe7661aeb15befe2f28e22637b21a9"
+    },
+    {
+      "path": "color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-achromatopsia-raw-observation.json",
+      "sizeBytes": 1687060,
+      "sha256": "19e278168591550504418b0d07c0594be9ee5c7936ffb3eb96385dd1ff3eb319"
+    },
+    {
+      "path": "color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-achromatopsia.png",
+      "sizeBytes": 223642,
+      "sha256": "e92d20310d82c741d99c51fe20b7eb4e169960c666a373a34e4eb67b3950c7b3"
+    },
+    {
+      "path": "color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-none-observation.json",
+      "sizeBytes": 1687060,
+      "sha256": "19e278168591550504418b0d07c0594be9ee5c7936ffb3eb96385dd1ff3eb319"
+    },
+    {
+      "path": "color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-none.png",
+      "sizeBytes": 376014,
+      "sha256": "72b527f4271cf2eb86ffa6a12322c3d42fdc75d146534f116f8bbab58ab42c5d"
+    },
+    {
+      "path": "color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-restored-observation.json",
+      "sizeBytes": 1687061,
+      "sha256": "22ff08512fa4fc24d78acaccc86784cea2bef430b3ee96f1221836d2a9c1fa85"
+    },
+    {
+      "path": "color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/overview-restored.png",
+      "sizeBytes": 376022,
+      "sha256": "6390b9bda71bbecbac1d4c23c3c0565b4d34a6eddcd5346bbbf2ded327e21548"
+    },
+    {
+      "path": "color-vision-map-actual-th-ba886--original-cameras-and-state-chromium/trace.zip",
+      "sizeBytes": 61666594,
+      "sha256": "e9bef4f434711b17ba9e8a12d2104911ac2fd7d663c963a015776679267a4870"
+    }
+  ]
+}

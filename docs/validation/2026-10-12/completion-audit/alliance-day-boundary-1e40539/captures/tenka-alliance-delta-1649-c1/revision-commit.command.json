@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "git",
+    "rev-parse",
+    "--verify",
+    "1649c6516e7cb2cbaf0f9bdf08859b510e8b922b^{commit}"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu"
+}

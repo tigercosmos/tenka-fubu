@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "./node_modules/.bin/eslint",
+    "e2e/earned-alliance.spec.ts"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:47:10.626555+00:00",
+  "browser": false
+}

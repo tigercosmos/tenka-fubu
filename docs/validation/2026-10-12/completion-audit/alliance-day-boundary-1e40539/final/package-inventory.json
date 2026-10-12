@@ -1,0 +1,19 @@
+{
+  "run": "alliance-final-1649-c2",
+  "files": {
+    "report.json": {
+      "rawBytes": 5833292,
+      "rawSha256": "185439534fb85e34601a45c3a2a7deb4137e5e2181372f720419586891be0f91",
+      "gzipBytes": 660459,
+      "gzipSha256": "981042b41ca775e59d6c59cda2e93ac57d236fe80945b8ccf3e1e88f5e595252"
+    },
+    "stdout-stderr.log": {
+      "rawBytes": 218,
+      "rawSha256": "e496e2827525056dc00dc47e072b58d41fae19631a781f9fb0ad33ed37de006d",
+      "gzipBytes": 208,
+      "gzipSha256": "a171ad3095fa398ef025f559f7005827df70e8950d123c0886ca987ddc2ff06f"
+    }
+  },
+  "metadataSha256": "1a1a60a3a545d54f61e527e00dc9ea0e2c24c0360ab3509112980d021ccc1aa9",
+  "browserInventorySha256": "86cd29f00bbbdbbbb8c234e6e6ee3ebc59a287da40ac908e4f33f5c633e8c92f"
+}

@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "python3",
+    "docs/validation/2026-10-12/completion-audit/scoped-source-snapshot-79682cd/tenka-scoped-source-archive.py",
+    "--repo",
+    "/Users/tigercosmos/tenka-fubu",
+    "--base",
+    "ecba08b76b772a598a6e6ceb61615b648c765170",
+    "--revision",
+    "1649c6516e7cb2cbaf0f9bdf08859b510e8b922b",
+    "--output",
+    "/tmp/tenka-alliance-delta-1649-c1"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:41:45.866273+00:00",
+  "browser": false
+}

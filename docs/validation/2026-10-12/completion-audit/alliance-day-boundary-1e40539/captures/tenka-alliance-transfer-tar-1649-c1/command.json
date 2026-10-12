@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "scp",
+    "/tmp/tenka-alliance-delta-1649-c1/source.tar",
+    "sim4:/tmp/tenka-battle-79682cd/runs/alliance-1649-delta.tar"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:41:56.324553+00:00",
+  "browser": false
+}

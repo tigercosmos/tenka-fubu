@@ -1,0 +1,19 @@
+{
+  "run": "color-owner-1e40539-c1",
+  "files": {
+    "report.json": {
+      "rawBytes": 5493,
+      "rawSha256": "d02ac7b87e4d7bd592b8fb506a102f985a132e996819f5610da832f5e57cf61a",
+      "gzipBytes": 1411,
+      "gzipSha256": "ff29cd5f909269cd548b1cf9c3d09fdd4d97f7c90ff7930012d2cef6ce4d8d0d"
+    },
+    "stdout-stderr.log": {
+      "rawBytes": 2477,
+      "rawSha256": "0bd5ff4117b8d155f8da8fc08d33495b51185b0287ad1143b587c27a6aa5b346",
+      "gzipBytes": 600,
+      "gzipSha256": "dec2104befa7961353f68b19d4e73f7b0d05939f2430b72e3fe66260ece4dad7"
+    }
+  },
+  "metadataSha256": "8ecec2a9fb96040b62a26f6b3e14adc81774cbe087238188ad0570ec9677d356",
+  "browserInventorySha256": "42d7373d616e1895901498745f9aaa84caeb85c48026e455a30aead23c482f68"
+}

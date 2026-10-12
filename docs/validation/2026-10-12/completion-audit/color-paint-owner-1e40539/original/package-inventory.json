@@ -1,0 +1,19 @@
+{
+  "run": "color-original-achromatopsia-1e40539-c1",
+  "files": {
+    "report.json": {
+      "rawBytes": 7248,
+      "rawSha256": "2d8f529cfa9b3873c6becae80c60c323d0eb62e65eb5b8b8d1d5184bf806e3ff",
+      "gzipBytes": 1792,
+      "gzipSha256": "f03016a5be7d7d6228ca4e1fb281be6ffcad4ca5f6ad91aef3282a6834443fb6"
+    },
+    "stdout-stderr.log": {
+      "rawBytes": 2331,
+      "rawSha256": "8d46976b72431f4772402c42010f80618e9ec8e7c4fdfeb46a7ac01a2884436e",
+      "gzipBytes": 729,
+      "gzipSha256": "bb2721e7af64d56df4769a5325df0e85b46f7050edee530a4a3d9f11e29846aa"
+    }
+  },
+  "metadataSha256": "1e73c9328ad2cb7daaf316ab17dc8a17908abcb2cb7f53fbb4663a9ac36a4b7e",
+  "browserInventorySha256": "5bff58767bda3cd33b0eadd616ca4fd3d3ecd6c029ea0d6408c1a1605a819a58"
+}

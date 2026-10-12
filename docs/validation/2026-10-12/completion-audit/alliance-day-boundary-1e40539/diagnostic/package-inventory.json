@@ -1,0 +1,19 @@
+{
+  "run": "alliance-diagnostic-1649-c1",
+  "files": {
+    "report.json": {
+      "rawBytes": 761358,
+      "rawSha256": "efcd28316fe58cdeaa6d1832ae5b47ec4b8c89b90986bb7af35de0681a9645c3",
+      "gzipBytes": 84726,
+      "gzipSha256": "b8a2d2ad2ba9f00afbebf3de1223809414ee77b9f771b9a2938da3004845988b"
+    },
+    "stdout-stderr.log": {
+      "rawBytes": 3144,
+      "rawSha256": "40a8c11fd5881e3dcdc324ad51975cac538dacde92cff12916862a4b6baa59b7",
+      "gzipBytes": 919,
+      "gzipSha256": "bc2eec03ac4f6b4bdc91a9a89a6f3f24bc5e661c16e78b9041b9e39543601c80"
+    }
+  },
+  "metadataSha256": "0750d77afc65159644bae26a6319fd796f8596879aae64309810be8fd1da60e2",
+  "browserInventorySha256": "95fb89020a8ca242dafd1346b512b2bbefd19124914a48e1d693d17e6bb4b61b"
+}

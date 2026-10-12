@@ -1,0 +1,137 @@
+{
+  "root": "/tmp/tenka-battle-79682cd/runs/color-owner-1e40539-c1/browser-results",
+  "totalFiles": 26,
+  "totalBytes": 26834439,
+  "files": [
+    {
+      "path": ".last-run.json",
+      "sizeBytes": 45,
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/hidden-base-canvas.png",
+      "sizeBytes": 20861,
+      "sha256": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/hidden-base.png",
+      "sizeBytes": 367148,
+      "sha256": "938763c8b8b785e12fbb4606a67e51bdc2c695016648c84aaea7b1cb9f5e1bad"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/hidden-mode-canvas.png",
+      "sizeBytes": 20861,
+      "sha256": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/hidden-mode.png",
+      "sizeBytes": 213599,
+      "sha256": "273af6f5902665266f0abec43fd1f92785353bf815d71ce3baba6f3037da4039"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/hidden-no-cdp-canvas.png",
+      "sizeBytes": 20861,
+      "sha256": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/hidden-no-cdp.png",
+      "sizeBytes": 367148,
+      "sha256": "938763c8b8b785e12fbb4606a67e51bdc2c695016648c84aaea7b1cb9f5e1bad"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/hidden-restored-canvas.png",
+      "sizeBytes": 20861,
+      "sha256": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/hidden-restored.png",
+      "sizeBytes": 367148,
+      "sha256": "938763c8b8b785e12fbb4606a67e51bdc2c695016648c84aaea7b1cb9f5e1bad"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/no-shadow-base-canvas.png",
+      "sizeBytes": 20861,
+      "sha256": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/no-shadow-base.png",
+      "sizeBytes": 374989,
+      "sha256": "7b0bf2dfa83c0a93a1278d9c1e62cacddef52910bec2db3364814f31c9dc4d15"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/no-shadow-mode-canvas.png",
+      "sizeBytes": 20861,
+      "sha256": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/no-shadow-mode.png",
+      "sizeBytes": 223182,
+      "sha256": "576c42b0fb48cca104b3bc80904c1990212ab736522ad31c8c4d4b3b81544ae5"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/no-shadow-no-cdp-canvas.png",
+      "sizeBytes": 20861,
+      "sha256": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/no-shadow-no-cdp.png",
+      "sizeBytes": 374989,
+      "sha256": "7b0bf2dfa83c0a93a1278d9c1e62cacddef52910bec2db3364814f31c9dc4d15"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/no-shadow-restored-canvas.png",
+      "sizeBytes": 20861,
+      "sha256": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/no-shadow-restored.png",
+      "sizeBytes": 374995,
+      "sha256": "7b8e52def2153ce0619c3c1d57b0c4dd2b1a3b7ddf6d6ec84f950e3097cb6e0b"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/owner-report.json",
+      "sizeBytes": 22569161,
+      "sha256": "909a16280eaee7eb816b3108fd1c43514b207cdeebc2a270c95e86942def5e14"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/shadow-base-canvas.png",
+      "sizeBytes": 20861,
+      "sha256": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/shadow-base.png",
+      "sizeBytes": 376014,
+      "sha256": "72b527f4271cf2eb86ffa6a12322c3d42fdc75d146534f116f8bbab58ab42c5d"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/shadow-mode-canvas.png",
+      "sizeBytes": 20861,
+      "sha256": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/shadow-mode.png",
+      "sizeBytes": 223649,
+      "sha256": "f9259855e069ea0dbafc158af81ffadc639fef5fb76f4f5dea9ce3c9cebd9c2f"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/shadow-no-cdp-canvas.png",
+      "sizeBytes": 20861,
+      "sha256": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/shadow-no-cdp.png",
+      "sizeBytes": 376014,
+      "sha256": "72b527f4271cf2eb86ffa6a12322c3d42fdc75d146534f116f8bbab58ab42c5d"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/shadow-restored-canvas.png",
+      "sizeBytes": 20861,
+      "sha256": "2d4e99510ae460197d112bb1a33a11a21233e195389bd6e92fb876ba335d46f7"
+    },
+    {
+      "path": "color-paint-owner-diagnost-ac0b6--full-page-seam-paint-owner-chromium/shadow-restored.png",
+      "sizeBytes": 376026,
+      "sha256": "bd49a9397d9e5e9438e8ba962e980a7e3d4af712890b74064cc9dc4426335d79"
+    }
+  ]
+}

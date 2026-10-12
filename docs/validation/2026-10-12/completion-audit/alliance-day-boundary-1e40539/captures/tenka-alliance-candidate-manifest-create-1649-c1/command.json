@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "python3",
+    "-c",
+    "import hashlib,json; from pathlib import Path; source=Path(\"e2e/earned-alliance.spec.ts\").read_bytes(); m=json.loads(Path(\"/tmp/tenka-alliance-delta-1649-c1/manifest.json\").read_text()); m[\"baseRevision\"]=m[\"revision\"]; m[\"revision\"]=\"1649c6516e7cb2cbaf0f9bdf08859b510e8b922b+earned-alliance-candidate\"; m[\"overlaySha256\"]=hashlib.sha256(source).hexdigest(); m[\"entries\"][\"e2e/earned-alliance.spec.ts\"][\"gitBlob\"]=hashlib.sha1(b\"blob \"+str(len(source)).encode()+b\"\\0\"+source).hexdigest(); Path(\"/tmp/tenka-alliance-candidate-manifest-1649-c1.json\").open(\"x\").write(json.dumps(m,indent=2)+\"\\n\"); print(m[\"overlaySha256\"])"
+  ],
+  "cwd": "/Users/tigercosmos/tenka-fubu",
+  "startedUtc": "2026-10-12T09:45:39.147551+00:00",
+  "browser": false
+}

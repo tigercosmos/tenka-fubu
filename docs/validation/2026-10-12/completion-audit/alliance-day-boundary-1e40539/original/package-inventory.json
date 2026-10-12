@@ -1,0 +1,19 @@
+{
+  "run": "alliance-original-1649-c1",
+  "files": {
+    "report.json": {
+      "rawBytes": 759827,
+      "rawSha256": "36877017bc62c66e273229c9a77fb21d42adcd2739362f1e693cb940e2d4c299",
+      "gzipBytes": 84453,
+      "gzipSha256": "06d79231da8c2db43569a53c27aa58587fff5246963846b58d4619d4d9d873c2"
+    },
+    "stdout-stderr.log": {
+      "rawBytes": 2697,
+      "rawSha256": "35e5eeb5e01b692c0a11ecbd3c0ac86bc5385aac17d2891b41922140ac460405",
+      "gzipBytes": 733,
+      "gzipSha256": "2b0913039a86e9365e7f5a0c76974216209d648a8b329491de2abdea5e25dc67"
+    }
+  },
+  "metadataSha256": "6d5b8843c6a0b14ead67786461fa84468f165b78963ac95c34c14e35aa6516a7",
+  "browserInventorySha256": "d3d90daee5aa42a74132df149f73fdea4c7cd6d589f83605299a78d7eb892545"
+}
