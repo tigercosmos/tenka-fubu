@@ -1,0 +1,21 @@
+{
+  "scope": "sole defaultheadless profiled120 batch, not unprofiled accepted timing",
+  "stepMs": 13296,
+  "idleMs": 0,
+  "warmTicks": 120,
+  "computeMsSum": 649.199999332428,
+  "computeMsMin": 1,
+  "computeMsMax": 36.30000019073486,
+  "postSyncMsSum": 190.59999990463257,
+  "postToReceiveMsSum": 12389.700000047684,
+  "outsideMessageIntervalsMs": 906.2999999523163,
+  "longTaskCount": 93,
+  "longTaskClippedSumMs": 11855.0,
+  "longTaskOverlapWithInFlightMs": 11800.0,
+  "frames": 97,
+  "createdWorkers": 3,
+  "initializeEpochs": [1, 2, 3],
+  "warmTickEpochs": [3],
+  "httpWasmRequests": 4,
+  "note": "message interval includes serialization, core, response clone, queued delivery, main-thread scheduling; compute timer covers advanceDay only; no subtraction uniquely attributes renderer/GPU"
+}

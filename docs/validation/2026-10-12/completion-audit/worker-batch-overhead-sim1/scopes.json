@@ -1,0 +1,52 @@
+{
+  "frozenSource": "04c7b6083df32cc9c1a20d693ef45eddb806ed14",
+  "defaultProfile": {
+    "actual120Captures": 1,
+    "result": "PASS complete121state/RNG/log parity",
+    "stepMs": 13296,
+    "idleMs": 0,
+    "idleMeaning": "equal performance.now values at available resolution; not zero-cost claim",
+    "includesProfilerOverhead": true,
+    "independentFromUnprofiledAccepted6": true,
+    "profileContextGlIdentityRecorded": false
+  },
+  "readOnlyGlIdentity": {
+    "newPage": true,
+    "timing": false,
+    "unmaskedRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "historicalProfileIdentityProof": false
+  },
+  "producer": {
+    "afterAllDefaultTiming": true,
+    "pinnedRust": "1.97.1",
+    "command": "npm run wasm:build",
+    "binaryAndManifestByteIdentical": true,
+    "wasmBytes": 63073,
+    "wasmSha256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba",
+    "manifestSha256": "8f41ae78dce8749c6c255b68ba4bceda709bc96af3f14271330261278fe8bd68"
+  },
+  "hardwareSetup0": {
+    "result": "RED missing canonical Chromium1228 executable",
+    "nativeGameStarted": false,
+    "actual120Captures": 0
+  },
+  "canonicalBrowserInstall": {
+    "result": "PASS locked Playwright1.61.1 Chrome149.0.7827.55/1228 install",
+    "browserFlagsChanged": false,
+    "sourceDependenciesChanged": false
+  },
+  "hardwareAttempt1": {
+    "result": "RED no WebGL context; CDP Vulkan llvmpipe; hardware guard failed before Profiler.start",
+    "actual120Captures": 0,
+    "arguments": "VISUAL_GPU=1 existing canonical config",
+    "RTXVerified": false,
+    "stopWithoutAlternativeArgsOrRetry": true
+  },
+  "limitations": [
+    "program12.530s has no JS URL/location; cannot name GPU wait or cause",
+    "no completed RTX-controlled120 batch",
+    "no mapFPS/wholeheap/overall speed acceptance",
+    "canonical GPU condition also switches headless shell to full Chromium",
+    "full49.547MB failedtrace remote only; exact metadata and required screenshot committed, static trace resources excluded"
+  ]
+}
