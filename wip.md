@@ -6450,3 +6450,10 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - `45a5544` sim3 ONE lightweight native warm1+120：完整 warm/final state／RNG／log reference exact assertions 在 export 前通過，原60s／0retry；前後 actual RTX5070TiVulkan、1404source／14765deps／23patch不變。
 - 帶profile step2525.4ms、compute合計649.700002ms、main reconcile self350.997ms。Transport intervals重疊，native event.data反序列化不全算observer；不與不同host/GPU/profile/collector的先前值作單因果比較。原完整clone RED未改。
 - Root另執行package stdlib verifier通過，54 rawgzip双SHA及完整state/log證明加入索引。Geo fusedXY scan候選正做逐值／快取行為測試，尚未以候選宣稱實測收益；goal仍active。
+
+## 地理 fused-axis 候選固定回歸（2026-10-12）
+
+- `5224c06` 合併XY候選軸掃描，保留逐軸四運算、finite/±48guard、Set順序與cap16；未改signature／Rust ABI／排序政策。
+- `a37ce1b` 保留原parseRED、最後26focusedPASS及固定5224全量：6362PASS／1既有noheirFAIL／1skip，687檔、131.34s。1486trackedinputs前後及所有checks後Gitblobbyteequal；types／fullLint／build4.19s／bundlePASS。共用node_modules明示，非freshdeps。
+- `361bf08` 只讀statepayload/tree/source審查；JSON不當wirebytes，state/result.state共享graph不當doublecopy，未採無證據快取或省略transport。Root另核兩包verifier通過，artifactindex由819→866。
+- Native九完整發布exact；三單次FPS＋獨立profile於sim3串行進行，未以候選宣稱性能收益。Runtime候選固定5224，後續提交僅docs/evidence；goal仍active。

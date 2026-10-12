@@ -254,3 +254,11 @@ Rust 十一項、337 組完整 f64 原版 oracle、13 項實際 WASM／協定測
 兩包新增證據已加入 artifact SHA 索引。原六項 Worker 功能通過、三組 FPS 未達標與最新固定全量結果保持不變；本次診斷沒有修改 production source、門檻或依賴。下一步需以輕量 metadata observer 定位硬體主頁成本，再處理 geographic preparation 熱點；全專案 goal 仍 active。
 
 [sim3 輕量診斷](worker-batch-lightweight-sim3/README.md) 改為只讀 reply scalar metadata，不複製整個回覆；一次通過原 60 秒 timeout，warm1／final121 完整 state、RNG、日誌與同步 reference 比對先完成，再輸出觀測。前後 actual RTX Vulkan 與固定來源／依賴驗證通過。帶 profiler 的 120 日 step 為 2,525.4 ms、核心 compute 合計 649.700002 ms；主頁 reconcileValue self 350.997 ms。Post、receive 與 compute 區間重疊，不相加，也不把 callback 的 native deserialize 費用全算成新增 observer 成本。此值仍為診斷，未重跑一般 FPS 或原六項 suite，前次完整 clone 的失敗維持不變。
+
+## 地理候選軸合併掃描：固定來源回歸
+
+`5224c06` 將地理標籤 X／Y 候選軸合併為一次 reservation 掃描，保留每軸四個原運算、Set 插入、f64／signed-zero、排序及 cap16。未改 Rust ABI、工作上限或快取 signature。五個新測試使用 SHA 固定的舊演算法觀測完整 preparation，與實際 WASM 的全部輸入、输出及快取統計比對；320 seeds／快取轉換／十一個有效極端值通過。原 parse-stage 失敗、最後三檔26項通過、型別／lint／格式及固定全量見 [local evidence](geographic-fused-axes-local/README.md)。
+
+固定 `5224c06` 的完整回歸為687檔：685通過、1已知失敗、1跳過；6,362項通過、1無嗣領地失敗、1跳過，131.34秒。1,486 tracked inputs 在測試及全部檢查前後符合Git blob且 byte-identical，既有 node_modules 為共用 symlink，不是 fresh dependency 驗證。完整型別、lint、正式build與bundle budget通過。原生效能仍在獨立測量，本段只證明行為回歸，不能證明候選有整體收益。
+
+[Worker transport 唯讀審查](worker-transport-source-review-sim1/README.md) 保存 day1／day121 compact JSON 與樹遍歷計數、原 producer及來源SHA。JSON約0.77／1.04MB不是實際 structured-clone wire bytes；樹計數不是唯一alias graph計數。Reply.state與result.state共享物件，不能當兩次完整複製。版本相同不能推論內容不變；未加入事件目錄 identity cache、略過物件合併或未量測的 primitive inlining。

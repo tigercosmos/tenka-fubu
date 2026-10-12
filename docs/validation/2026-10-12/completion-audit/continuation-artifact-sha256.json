@@ -5513,6 +5513,317 @@
       "sha256": "2bc5139f9721365b04123a18dd5e96e835808947fe3fa52d08672e1b4b1e6cb0",
       "uncompressedBytes": 12241,
       "uncompressedSha256": "e021bba81b4c8e00b5763bb3569172fbac653516899450f29b55161357cf7dc2"
+    },
+    {
+      "path": "worker-transport-source-review-sim1/README.md",
+      "bytes": 5085,
+      "sha256": "0bef59ea70e04df43bb9328991ed4d09acfdad3cc8a0ace8d655d7d18ffc5894"
+    },
+    {
+      "path": "worker-transport-source-review-sim1/payload-analysis.json",
+      "bytes": 4967,
+      "sha256": "52bb04b360c5e1103e09278d6efb51ed069d1a6d205ab8867dad6d857ff586de"
+    },
+    {
+      "path": "worker-transport-source-review-sim1/payload-analysis.raw.json.gz",
+      "bytes": 1001,
+      "sha256": "001c7ad3f214c39dd1a6b64561540f98f2a3d8da035c0e2c3c8a1d005fb48964",
+      "uncompressedBytes": 4967,
+      "uncompressedSha256": "52bb04b360c5e1103e09278d6efb51ed069d1a6d205ab8867dad6d857ff586de"
+    },
+    {
+      "path": "worker-transport-source-review-sim1/producer.raw.mjs.gz",
+      "bytes": 1035,
+      "sha256": "1b7ecbf9f8681cca05793d5b61d8e13a022dc1e2271c6680c3d13dc75f558003",
+      "uncompressedBytes": 1999,
+      "uncompressedSha256": "f8fb2985ad73804ed8a30a64b24f41241ff80eca4b22000741942346b1e543db"
+    },
+    {
+      "path": "worker-transport-source-review-sim1/provenance.json",
+      "bytes": 3711,
+      "sha256": "427682e9180278f50fca3ebec24d4b66d8be17ef901bc87d1ca2992152319ef6"
+    },
+    {
+      "path": "worker-transport-source-review-sim1/provenance.raw.json.gz",
+      "bytes": 1533,
+      "sha256": "af280ea243998f284d46ffd9cf02a7cb7e9bcf3a478108b27de68611d6ef9368",
+      "uncompressedBytes": 3711,
+      "uncompressedSha256": "427682e9180278f50fca3ebec24d4b66d8be17ef901bc87d1ca2992152319ef6"
+    },
+    {
+      "path": "worker-transport-source-review-sim1/sources.tar.gz",
+      "bytes": 53785,
+      "sha256": "be25cb0500faca16e850d08ade3aed9f1c27e8472f2f11edb9a0a31e2b078b63",
+      "uncompressedBytes": 225280,
+      "uncompressedSha256": "290f8bd58d852089836f6771247547f0c1c4bde8d307d87a061eead541404724"
+    },
+    {
+      "path": "worker-transport-source-review-sim1/verify-evidence.py",
+      "bytes": 3026,
+      "sha256": "34f556d3ad02af7472d4f2fb45c8c63af30df10d35dd5da767fb55162c421163"
+    },
+    {
+      "path": "geographic-fused-axes-local/README.md",
+      "bytes": 5186,
+      "sha256": "58a2654ab286283b7073b8da8016482e17b6f9f847d7a1adb3616d4e92ba5b9a"
+    },
+    {
+      "path": "geographic-fused-axes-local/SHA256SUMS",
+      "bytes": 3739,
+      "sha256": "9978ae6fe266295a7a7bd191d273cb68b1bba6a0dba868a69cd2353c5ce0fe80"
+    },
+    {
+      "path": "geographic-fused-axes-local/check-output.log",
+      "bytes": 68,
+      "sha256": "10feb462c2d5c333d753a19c890785f319cc2fc92aa4ebc13b618fadb142d15e"
+    },
+    {
+      "path": "geographic-fused-axes-local/check.py",
+      "bytes": 2326,
+      "sha256": "c533f8614a91569dbdc14155e6696fddc1accdf24b5ecf8d2604ab4006633beb"
+    },
+    {
+      "path": "geographic-fused-axes-local/manifest.json",
+      "bytes": 16204,
+      "sha256": "b6c4d8052e6ffe4bdbb0a7dde23f5e796a8a5d8e31c72c3a4150f76987131df1"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/focused-before-count-batches.log.gz",
+      "bytes": 448,
+      "sha256": "28697ad5df121863e97415764d1691a0d7e823632636b25ee1450ddc276854a9",
+      "uncompressedBytes": 749,
+      "uncompressedSha256": "9108db23d5ca4e2c50aa19786c4d6b71fb8b7a594938eead5d4cceb092868533"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/focused-final.log.gz",
+      "bytes": 478,
+      "sha256": "18d2ec400beca2af33868f90c7310c41e7cd766bbfbedd2b677d0b8f14ba5089",
+      "uncompressedBytes": 1225,
+      "uncompressedSha256": "1c38a037de01e9bb992430890310ce7fc937698827430ebc1307565d2c95e7d9"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/focused-first.log.gz",
+      "bytes": 826,
+      "sha256": "c281b36e5ec5614bf8f2781d1c8f325bc4fc4b3080300b723729a30dac2c51a0",
+      "uncompressedBytes": 1852,
+      "uncompressedSha256": "ee0befc64fadc788aacc9a8e21f56c18d5e0aff180aded2ff7f7b67458871aab"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/focused.log.gz",
+      "bytes": 448,
+      "sha256": "28697ad5df121863e97415764d1691a0d7e823632636b25ee1450ddc276854a9",
+      "uncompressedBytes": 749,
+      "uncompressedSha256": "9108db23d5ca4e2c50aa19786c4d6b71fb8b7a594938eead5d4cceb092868533"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/format.log.gz",
+      "bytes": 82,
+      "sha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5",
+      "uncompressedBytes": 66,
+      "uncompressedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/geographicLabelLayout-before.ts.gz",
+      "bytes": 3264,
+      "sha256": "b736fd3539e2a278d302b9de1909f7bb5045248f83b06244a3771fca6ae23a28",
+      "uncompressedBytes": 10191,
+      "uncompressedSha256": "fbf127f31dbb5d8318acdf1ff1dd8bc56b77e808ba23247b779ad74ed28c3bdd"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/lint.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/tenka-fixed-5224-after-checks.json.gz",
+      "bytes": 79978,
+      "sha256": "bcbd04ace88fc1f120762ffeb2f2f8892d19efb7fdbc19e8fb2b5cb3d2179914",
+      "uncompressedBytes": 252650,
+      "uncompressedSha256": "65e4a0377aa4d6de65ae20b605edd03e713346f334fb899aaf73681cc1fddf6b"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/tenka-fixed-5224-after.json.gz",
+      "bytes": 79978,
+      "sha256": "bcbd04ace88fc1f120762ffeb2f2f8892d19efb7fdbc19e8fb2b5cb3d2179914",
+      "uncompressedBytes": 252650,
+      "uncompressedSha256": "65e4a0377aa4d6de65ae20b605edd03e713346f334fb899aaf73681cc1fddf6b"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/tenka-fixed-5224-before.json.gz",
+      "bytes": 79978,
+      "sha256": "bcbd04ace88fc1f120762ffeb2f2f8892d19efb7fdbc19e8fb2b5cb3d2179914",
+      "uncompressedBytes": 252650,
+      "uncompressedSha256": "65e4a0377aa4d6de65ae20b605edd03e713346f334fb899aaf73681cc1fddf6b"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/tenka-fixed-5224-build.log.gz",
+      "bytes": 848,
+      "sha256": "cd25c657ac29dc35e50321185b7601e3c32e6f59d1e8d5d8c9483a120641db7f",
+      "uncompressedBytes": 1678,
+      "uncompressedSha256": "7be7a8f4db1fd6f32da6aaa2d1a864b40beb6c7a374cb4964bb3cc03f0d7502e"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/tenka-fixed-5224-bundle.log.gz",
+      "bytes": 398,
+      "sha256": "7082d07ea54035fb42cf5e8eeba5b2f97a8adac0daa687948a5ce2cd4b692cd2",
+      "uncompressedBytes": 1057,
+      "uncompressedSha256": "a7a7467708fd2cae0ecba39d29bde89fcf6236ac8609b02813323ce1b06e7726"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/tenka-fixed-5224-lint.log.gz",
+      "bytes": 123,
+      "sha256": "a68529dacf305cdbd92f2dc4d54c6184e1eccc45862acae44d4240408dae422b",
+      "uncompressedBytes": 125,
+      "uncompressedSha256": "d0e71f55d6f4fd8f983185091b7cdae86733c29af94431f99d20836fc2109fe1"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/tenka-fixed-5224-test.log.gz",
+      "bytes": 30609,
+      "sha256": "f144879dc292ec50c86d75e45833611ab9974740c4186413323f8b37554344ec",
+      "uncompressedBytes": 221043,
+      "uncompressedSha256": "c4eef9800b64d4b3bbc58b0400a754acbb7805ce96adb5787966cd9097c4230a"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/tenka-fixed-5224-types.log.gz",
+      "bytes": 87,
+      "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+      "uncompressedBytes": 84,
+      "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/tenka-fixed-inputs.py.gz",
+      "bytes": 687,
+      "sha256": "05e8953c0cdacf4195e603a887aa34f3fb1593757fd48cb7804c70b4a2eff0c9",
+      "uncompressedBytes": 1282,
+      "uncompressedSha256": "48d4077d961dc174171af21f4f77d0d3586ff445599fca417677d1c7d9a0da5d"
+    },
+    {
+      "path": "geographic-fused-axes-local/raw/types.log.gz",
+      "bytes": 87,
+      "sha256": "05734679b4861d231e9e75f870088abe67435badbf2f089dcc72429e892b2984",
+      "uncompressedBytes": 84,
+      "uncompressedSha256": "132691c67a9bcaf6a213c750db11b01b1547b578428330126d8e74d81bbdca6a"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/5224c06.patch.gz",
+      "bytes": 4144,
+      "sha256": "296110af964d21e677684cc64c281598afc0e131d0d7f730954044df8025c4ea",
+      "uncompressedBytes": 12914,
+      "uncompressedSha256": "8090827fd216aa8adfb500f7af7932b9bb0e9a9720aea2d214449e21345ea698"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/public/wasm/manifest.json.gz",
+      "bytes": 686,
+      "sha256": "9794ec92186b63566524479adb8470236006ee79a44f6951f9189c39f8f53af2",
+      "uncompressedBytes": 1226,
+      "uncompressedSha256": "7a8d15decf200d54940210644e44186a23bd9da94fe15c20e8628da58962c7de"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/public/wasm/tenka_engine.wasm.gz",
+      "bytes": 23266,
+      "sha256": "274428b88d8cc6abdd3057e637f0032700ed71f6a2d0a9d980cd398c30292d5a",
+      "uncompressedBytes": 63073,
+      "uncompressedSha256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/rust/engine/Cargo.lock.gz",
+      "bytes": 145,
+      "sha256": "35c416e76b8b815c5fbd7abff4d0e84c73f0f155ac79af72c0165976b793d186",
+      "uncompressedBytes": 156,
+      "uncompressedSha256": "5f071ef4ef4455f76340d6952350e944dae5cc3ea6aeb8b114eec4d8e90d65df"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/rust/engine/Cargo.toml.gz",
+      "bytes": 151,
+      "sha256": "16eb8f21ef1b34e990b13bb2aff408b9df4fcaf93671ecb783a77e11c634a3bc",
+      "uncompressedBytes": 179,
+      "uncompressedSha256": "15b426b65097ac31633fccc383a2b571bb6cc2243d2f4c4df44549f165949907"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/rust/engine/rust-toolchain.toml.gz",
+      "bytes": 97,
+      "sha256": "95ba403fb2f91b8df6ea471ceb8d05b29a0fd12d0a85290835721678dca63a23",
+      "uncompressedBytes": 88,
+      "uncompressedSha256": "9cbeb062ec3a97a5b5b76aacde94f5dcb034ed98f32af151480764de2e03d6f9"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/rust/engine/src/castle_ribbon.rs.gz",
+      "bytes": 4120,
+      "sha256": "b75fa7dc536fd39ea7db889ebbe6550c120ac5ac249c655a387ac75f33ee7dcd",
+      "uncompressedBytes": 14044,
+      "uncompressedSha256": "a5cb03aa871c51d5e364d6882e4ab10cb95bd0136d26461fc4741402514a1b95"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/rust/engine/src/castle_ribbon_tests.rs.gz",
+      "bytes": 841,
+      "sha256": "6038d3061ab3358e7ad593ec6e4692748948c7ad633479adbf6c130a8c890edd",
+      "uncompressedBytes": 2550,
+      "uncompressedSha256": "9f3e65e490d7ba3b142d12bfb508f9834e32dc5c20eed0e42b9c41cd3e7d3df0"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/rust/engine/src/geographic.rs.gz",
+      "bytes": 4062,
+      "sha256": "703897f5faf3dc827ea754c020b4c3b217d56890349d43282fa765dda4e41bcd",
+      "uncompressedBytes": 15278,
+      "uncompressedSha256": "8710ae0bfaf04473c5e2efb81995d79dc162de4805dc209193f31a56ddb50489"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/rust/engine/src/lib.rs.gz",
+      "bytes": 1844,
+      "sha256": "34347986328d420198f34c184dc67e3374249116752a4601db55df48074ecfec",
+      "uncompressedBytes": 5088,
+      "uncompressedSha256": "a8c18c3a4545e41fe387eda5005213fb066506e5b067da051caf78f40ddca3b8"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/src/ui/map/geographicLabelLayout.ts.gz",
+      "bytes": 3297,
+      "sha256": "dd10a6023673465ad3ce568823db02753a32def85261a84187d173a62d052b13",
+      "uncompressedBytes": 10887,
+      "uncompressedSha256": "f7773dc24e57cb917b5b989f17facb761bef5c38c2b78eebe62c9fcd0fd380b8"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/src/ui/map/wasmGeographicScorer.ts.gz",
+      "bytes": 2295,
+      "sha256": "69582de4e7d1385df00f0a69bd10b46a92121e6ebb2a342d540ef3df88092a64",
+      "uncompressedBytes": 8276,
+      "uncompressedSha256": "b67cdb3c2e0b71167e1396427ecbff663df05e77a44c4e88316fc84d4c76dea8"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/tests/helpers/geographicWasmReference.ts.gz",
+      "bytes": 3285,
+      "sha256": "6a6d799bf32a3a8bcfdcb28b1920c505eece88047ce80ce5ce575f281ee05125",
+      "uncompressedBytes": 9800,
+      "uncompressedSha256": "bda5b757e2bd8a2e82c5a42fde825ebe9c846337b8a578f8413938624899d9b2"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/tests/helpers/realGeographicWasm.ts.gz",
+      "bytes": 489,
+      "sha256": "3f90b976f47b381d4d435d8399eb8a6c21155035c810484b69d1ae2c6563427a",
+      "uncompressedBytes": 983,
+      "uncompressedSha256": "b2001d4e922748c29cbcf27306665b023e5bc49b3bcc5a06d48822df05fb3b84"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/tests/ui/geographicFusedAxes.spec.ts.gz",
+      "bytes": 3019,
+      "sha256": "287d6299b0e21d2185bd2651f5295b30ff314fc0b4cfe245f6cafa28090fb605",
+      "uncompressedBytes": 8946,
+      "uncompressedSha256": "5568bee2d0db638e20a80b924c56dbe579b7d69d757253b6a2061d2fd410c7a8"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/tools/wasm/artifact.ts.gz",
+      "bytes": 1341,
+      "sha256": "212d8ae78a00604dba83142a4bf3b9377839ae82f3f158c73b153e465e0cbeab",
+      "uncompressedBytes": 3547,
+      "uncompressedSha256": "2005ccd14cc08afb549f963140e5c62ab06b2fc435c0992c07439cf5aedc691e"
+    },
+    {
+      "path": "geographic-fused-axes-local/source/tools/wasm/build.ts.gz",
+      "bytes": 1008,
+      "sha256": "ddf7bc05a478411ebd6e38641f3927169931db2e8b2a888c6e93b2e2528c6e49",
+      "uncompressedBytes": 2417,
+      "uncompressedSha256": "3cecc0dd5ecd39a5f29d4d599d254fdad5bd2bb7fbac585c30f666aebb2a019d"
     }
   ]
 }
