@@ -1,0 +1,601 @@
+{
+  "scope": "Frozen3633 finite-domain scalar overlap early-X-zero candidate; single original native campaign",
+  "frozenCommit": "3633c61ba6608d32fc6c110e972b7fb0d9b12f7c",
+  "retentionDecision": "retain3633 as temporary candidate; no strong benefit claim",
+  "baselineCommit": "feab20cc9c207f37afae7a2f372c437b93232a07",
+  "baselineEvidence": "44c3b30",
+  "sourceFiles": 1528,
+  "dependencyFiles": 14765,
+  "installedPatchTargets": 23,
+  "selectedVariant": "scalar",
+  "scalar": {
+    "bytes": 90122,
+    "sha256": "4935459682fdb5a509d72793518ce1343b49d8c07e041300b9262e6ca8acd759"
+  },
+  "simd": {
+    "bytes": 89972,
+    "sha256": "f33324b483918c6671bbe368cd9065368403ae83ebfa27c36cb49053fd9fce77"
+  },
+  "functionalParity": {
+    "referenceSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "actualSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "fullPayloadEqual": true,
+    "snapshotsEqual": true,
+    "snapshots": 9,
+    "days": [
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2
+    ],
+    "excludedNonvisualCounters": [
+      "armyPlateLayout.runs",
+      "geographicLabelLayout.runs",
+      "geographicLabelLayout.placementCache",
+      "castleRibbonLayout.runs"
+    ]
+  },
+  "fps": [
+    {
+      "camera": "overview",
+      "averageFps": 60.00093282998662,
+      "slowFrameFps": 58.479530859171305,
+      "frameTimeP95": 17.100000381469727,
+      "durationMs": 30016.199999809265,
+      "frames": 1800,
+      "completedFrames": 1801,
+      "baselineAverageFps": 59.959826916156786,
+      "baselineFrameTimeP95": 17.199999809265137,
+      "observedAveragePercent": 0.06855575798661029,
+      "originalStrict60Pass": false,
+      "actualRTXVulkanGuard": true
+    },
+    {
+      "camera": "operational",
+      "averageFps": 49.70804012576733,
+      "slowFrameFps": 44.84304990267711,
+      "frameTimeP95": 22.299999713897705,
+      "durationMs": 30055.5,
+      "frames": 1493,
+      "completedFrames": 1494,
+      "baselineAverageFps": 49.885021514945784,
+      "baselineFrameTimeP95": 21.90000009536743,
+      "observedAveragePercent": -0.35477861651402876,
+      "originalStrict60Pass": false,
+      "actualRTXVulkanGuard": true
+    },
+    {
+      "camera": "close",
+      "averageFps": 32.40628295983025,
+      "slowFrameFps": 27.027027027027028,
+      "frameTimeP95": 37,
+      "durationMs": 30055.89999961853,
+      "frames": 973,
+      "completedFrames": 974,
+      "baselineAverageFps": 32.0392322560525,
+      "baselineFrameTimeP95": 37.19999980926514,
+      "observedAveragePercent": 1.145628899108253,
+      "originalStrict60Pass": false,
+      "actualRTXVulkanGuard": true
+    }
+  ],
+  "nativeSix": {
+    "passed": 6,
+    "reportedDurationSeconds": 42.6,
+    "scope": "Original full-state/log native worker including60/120daycoldwarm/save/reload/cancel/x5",
+    "rawManifest": "native-six-raw-manifest.json.gz"
+  },
+  "cpuProfileExecuted": false,
+  "allJobsTerminal": true,
+  "retries": 0,
+  "baselineRerun": false,
+  "bodyCollector": "Previously authorized nonthrowing instrumentation repair retained; unavailable-body rows preserve failure text, separately served fetch is not original response body",
+  "limitations": [
+    "Single unreplicated windows; +1.146% close gain is small and does not establish repeatable overall benefit.",
+    "All original strict60 controls RED; threshold unchanged.",
+    "No CPUprofile or attribution measurement."
+  ],
+  "artifacts": [
+    {
+      "path": "build-artifact-proof.json.gz",
+      "gzipBytes": 3724,
+      "gzipSHA256": "5bb2fbac5ce64bbf1910fa3e36ffac852960529baf2b2214008d068552f99722",
+      "rawBytes": 12795,
+      "rawSHA256": "9ebf2912a4ad9f01bb1f274a8a5913aafdc681656b07a4ff3615cbf9f786b1d5",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/build-artifact-proof.json"
+    },
+    {
+      "path": "build-final.log.gz",
+      "gzipBytes": 927,
+      "gzipSHA256": "c641a18f4da2ec39914c1b27b9a80c232d0d6fd1547f9368b0db768cf80003a6",
+      "rawBytes": 2336,
+      "rawSHA256": "97e03a5bfaa508f24a4dadf287a1b9b8ce38d9e472b91d6a82438631cdace483",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/build-final.log"
+    },
+    {
+      "path": "campaign-status.json.gz",
+      "gzipBytes": 630,
+      "gzipSHA256": "d35ddb309b0d3b8f611017308e76366772bbd4bab16b5e8182bf75a4e3d09e29",
+      "rawBytes": 3755,
+      "rawSHA256": "0c6e40e584e186b219dbe3e545cc0adc505aca3f30c9757716b9bf16e6a4a216",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/campaign-status.json"
+    },
+    {
+      "path": "campaign.py.gz",
+      "gzipBytes": 927,
+      "gzipSHA256": "6f08e3a95700243ae106a729bdd93dd4536e7670980e10576fd4762e27baf80f",
+      "rawBytes": 2166,
+      "rawSHA256": "d1b55d1aded9bad953292d60c45c9df4c41ae770f335b19882cf1888bf3f2ff0",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/campaign.py"
+    },
+    {
+      "path": "canonical-state.raw.json.gz",
+      "gzipBytes": 71991,
+      "gzipSHA256": "6d716f7776d149c260bf8875653a0a57640ff6a646dc05770c693f8fd1c848ab",
+      "rawBytes": 816643,
+      "rawSHA256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/canonical-state.raw.json"
+    },
+    {
+      "path": "close.log.gz",
+      "gzipBytes": 703,
+      "gzipSHA256": "7c4686804497e2c963951071dc0181c9ed42e4e8b8c600f444902d4c6917ed22",
+      "rawBytes": 3069,
+      "rawSHA256": "8bada5f9d99b5063d85cdcaa1a517fd284f4702a4431b45bca6816c38b474107",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/close.log"
+    },
+    {
+      "path": "close.raw.json.gz",
+      "gzipBytes": 8530,
+      "gzipSHA256": "a4331a2794602d2da52630aaf26fcb043ec8b3320042893b7c9f8b8f6ac7f9c7",
+      "rawBytes": 130442,
+      "rawSHA256": "ba693b4c61fb42d880110a1c318678f9ac55caefb0409db94da0098216843664",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/close.raw.json"
+    },
+    {
+      "path": "collect-overlap-zero-native.py.gz",
+      "gzipBytes": 769,
+      "gzipSHA256": "7019882c49240d4bdb2d3956fea8451ebd4c68dcb6d31798b0ac67aeadf49ba6",
+      "rawBytes": 1926,
+      "rawSHA256": "a3e3f3959639a394c24267947b3f7258311f9d0b289161a5bfb0afe034d473e7",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/collect-overlap-zero-native.py"
+    },
+    {
+      "path": "dependency-after-proof.json.gz",
+      "gzipBytes": 803276,
+      "gzipSHA256": "1b857d3e00cca1e6a062d88eb86336720e146f0c8a186e5963d56777b2b16b85",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/dependency-after-proof.json"
+    },
+    {
+      "path": "dependency-before-proof.json.gz",
+      "gzipBytes": 803276,
+      "gzipSHA256": "1b857d3e00cca1e6a062d88eb86336720e146f0c8a186e5963d56777b2b16b85",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/dependency-before-proof.json"
+    },
+    {
+      "path": "dependency-final-proof.json.gz",
+      "gzipBytes": 803276,
+      "gzipSHA256": "1b857d3e00cca1e6a062d88eb86336720e146f0c8a186e5963d56777b2b16b85",
+      "rawBytes": 4455607,
+      "rawSHA256": "0cf12bafa75697f91c3363d65cb4b0ce8377a8a73e27bf28303c51f75df9261a",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/dependency-final-proof.json"
+    },
+    {
+      "path": "driver-build.log.gz",
+      "gzipBytes": 927,
+      "gzipSHA256": "c641a18f4da2ec39914c1b27b9a80c232d0d6fd1547f9368b0db768cf80003a6",
+      "rawBytes": 2336,
+      "rawSHA256": "97e03a5bfaa508f24a4dadf287a1b9b8ce38d9e472b91d6a82438631cdace483",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/driver-build.log"
+    },
+    {
+      "path": "driver-collect.log.gz",
+      "gzipBytes": 70,
+      "gzipSHA256": "7ef8eb6487f42dd5fd4e1986fb4fd65ae6d5497a7dc888dfd1ff5a705e853e97",
+      "rawBytes": 50,
+      "rawSHA256": "217a7a37b180355be4b9734ab2e3a39d5d6c281404a13df1129a5d6e69b6ab55",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/driver-collect.log"
+    },
+    {
+      "path": "driver-controls-driver.log.gz",
+      "gzipBytes": 668,
+      "gzipSHA256": "aae4e252c124fb7cd22d5be7764cd40704a1f2cb3d78a340ccbe2bcbb687ab16",
+      "rawBytes": 2748,
+      "rawSHA256": "fa382980ad32b18d3605d0c18c1b59324e905fc6ede5696f2263e3d6885bcc43",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/driver-controls-driver.log"
+    },
+    {
+      "path": "driver-native-six.log.gz",
+      "gzipBytes": 419,
+      "gzipSHA256": "2579382a027dcbc9c0cc59ea27a1da0f7001dcffed329bc539c8371394deab84",
+      "rawBytes": 1030,
+      "rawSHA256": "2dcb34a47977ec0b555087915fbce6468bd99e4516adbafcc39573ce994fc4fa",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/driver-native-six.log"
+    },
+    {
+      "path": "driver-proof-after.log.gz",
+      "gzipBytes": 96,
+      "gzipSHA256": "2f41256fc139945664b6b71a2fecade954e9a11a5023eb5d7e0ead0a7f49a586",
+      "rawBytes": 95,
+      "rawSHA256": "d0dd29c15874aa526eed9927915fbe90d61f5449cd0907a8c33621f57c42fa8e",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/driver-proof-after.log"
+    },
+    {
+      "path": "driver-proof-before.log.gz",
+      "gzipBytes": 97,
+      "gzipSHA256": "325742189cb516ca59871f0af26767ff6302733e27905feeaac16846c17a1388",
+      "rawBytes": 96,
+      "rawSHA256": "bba9004f41c2860b78bc54ce834af61848fdd53a6c9408c156c668a797b3b8b5",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/driver-proof-before.log"
+    },
+    {
+      "path": "driver-proof-final.log.gz",
+      "gzipBytes": 96,
+      "gzipSHA256": "c9458c637c5e85316c90455886fefaa014a322b9ccf0375464e4468307f6a730",
+      "rawBytes": 95,
+      "rawSHA256": "abc1ef62b73604adfafe99f093924e72cc007762ad510b682015678bc5c356c3",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/driver-proof-final.log"
+    },
+    {
+      "path": "driver-published.log.gz",
+      "gzipBytes": 106,
+      "gzipSHA256": "7c3b735ba33942b76dc3ab9d2698fe12bd538afd4a75478c43777c5be29b2a60",
+      "rawBytes": 99,
+      "rawSHA256": "71f1621c6f138c619973552b1bfe6a596b3353b00cc2c617a51735ec960054a5",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/driver-published.log"
+    },
+    {
+      "path": "driver-setup.log.gz",
+      "gzipBytes": 115,
+      "gzipSHA256": "67f981bf6e035028606a0504ba7e6b81913262ec7bf7cbf6976ab8a8911415a6",
+      "rawBytes": 104,
+      "rawSHA256": "c41ef29537a9cd1751b4132af1815a2bc9ccb56a6093b38d57dedf86566b58b1",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/driver-setup.log"
+    },
+    {
+      "path": "driver-state-proof.log.gz",
+      "gzipBytes": 20,
+      "gzipSHA256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec",
+      "rawBytes": 0,
+      "rawSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/driver-state-proof.log"
+    },
+    {
+      "path": "expected-source.json.gz",
+      "gzipBytes": 122634,
+      "gzipSHA256": "9e9ee0cfb99f5d5b02227642ba7240aaa12de4dfb57cf136fe337f2cbfb48e28",
+      "rawBytes": 354250,
+      "rawSHA256": "e4908d8468db946f24cdc7bcb366fc73cc03593cdf673f9bb327cb047aedbeed",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/expected-source.json"
+    },
+    {
+      "path": "fixtures.ts.gz",
+      "gzipBytes": 645,
+      "gzipSHA256": "3606374b851018550f05c568bd45cd17b99690af1f04c7df0e456139a9e24b27",
+      "rawBytes": 1012,
+      "rawSHA256": "7a3a8311c171fcfdb99bd37aff1128fa09cd15e7829650c1611bdcce014b8432",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/fixtures.ts"
+    },
+    {
+      "path": "fps-control.spec.ts.gz",
+      "gzipBytes": 1654,
+      "gzipSHA256": "ae1f514c4ac7039c62d2fec09dbe56e9fcdfa2288c3def87df0688605dfad0db",
+      "rawBytes": 4470,
+      "rawSHA256": "2d39ba643aa3c0aa7a242d0e93d081806fe54bd64b650f1ab78cbf67d4f567e4",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/fps-control.spec.ts"
+    },
+    {
+      "path": "fps-driver-status.json.gz",
+      "gzipBytes": 696,
+      "gzipSHA256": "2158111731b76b569c0a162f377b22a40f17f67d4c1d0a74d89cac06a5f8af41",
+      "rawBytes": 3149,
+      "rawSHA256": "26e7290eb1b4c647732e7faf2f3fee8c07eb3ad5e156bb8646ef041d4d47e300",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/fps-driver-status.json"
+    },
+    {
+      "path": "gpu-after-functional.json.gz",
+      "gzipBytes": 196,
+      "gzipSHA256": "4fe09807cac1a8bb350f9fa57849e05084167b52d9c62275e8e7ad569dee31dc",
+      "rawBytes": 286,
+      "rawSHA256": "d1132cf181bb7383d8459cf41c742535be1a8f33176234f6912c70d87cf8d9bf",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/gpu-after-functional.json"
+    },
+    {
+      "path": "gpu-before.json.gz",
+      "gzipBytes": 196,
+      "gzipSHA256": "4fe09807cac1a8bb350f9fa57849e05084167b52d9c62275e8e7ad569dee31dc",
+      "rawBytes": 286,
+      "rawSHA256": "d1132cf181bb7383d8459cf41c742535be1a8f33176234f6912c70d87cf8d9bf",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/gpu-before.json"
+    },
+    {
+      "path": "native-six-.last-run.json.gz",
+      "gzipBytes": 60,
+      "gzipSHA256": "ef94fcdc04da4703dc723d02a781282e4b455e1b3176cc7862e6c14c9851bca9",
+      "rawBytes": 45,
+      "rawSHA256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/native-six-.last-run.json"
+    },
+    {
+      "path": "native-six-normal-x5-worker-paced-sync-responsiveness-7901e7288941e17f0d6419b72b5be5c8849902c2.json.gz",
+      "gzipBytes": 1129242,
+      "gzipSHA256": "3671d5a00ae7c7ef461911483fc28a90eec043f69c0130ed8262b7bf6f5c1a27",
+      "rawBytes": 7710237,
+      "rawSHA256": "b5f9aa5b92a4d83be7cc06bad0c935287dd19eae67c445a8b5b68e2fd552cb75",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/native-six-normal-x5-worker-paced-sync-responsiveness-7901e7288941e17f0d6419b72b5be5c8849902c2.json"
+    },
+    {
+      "path": "native-six-raw-manifest.json.gz",
+      "gzipBytes": 597,
+      "gzipSHA256": "42e66bbd8ce371f2043f59717c6ddca8572cb0e8a898b386ec23dc92d0961cab",
+      "rawBytes": 2919,
+      "rawSHA256": "0163881b7d7b697ac1e6ee7279474c8cd356538b70ce63b684c81a8c3beb2a81",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/native-six-raw-manifest.json"
+    },
+    {
+      "path": "native-six-same-host-120-day-worker-responsiveness-37fbccc4990a8fafd5140b4e6a97dc6e21fa05c7.json.gz",
+      "gzipBytes": 1148079,
+      "gzipSHA256": "163c782371e05f78607f30dddc97ddec29e25ede908171b5c454e5fe53a1367b",
+      "rawBytes": 8142581,
+      "rawSHA256": "8f51f7c461fac692ba8247d8915b900d12121681b6bfaf1347a6b80f97ce7338",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/native-six-same-host-120-day-worker-responsiveness-37fbccc4990a8fafd5140b4e6a97dc6e21fa05c7.json"
+    },
+    {
+      "path": "native-six-same-host-60-day-worker-responsiveness-f49a3d5529f4dcb78d213b2379205615a0bf4755.json.gz",
+      "gzipBytes": 1138201,
+      "gzipSHA256": "e1484ec849e2357e12549aed08dbfb40daa0785b957fce56df984af7e46202ae",
+      "rawBytes": 8012581,
+      "rawSHA256": "b89526c65167ade96d7f9d986e3823e26db487b45bd881175fc4ba4c4123bcf8",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/native-six-same-host-60-day-worker-responsiveness-f49a3d5529f4dcb78d213b2379205615a0bf4755.json"
+    },
+    {
+      "path": "native-six.log.gz",
+      "gzipBytes": 419,
+      "gzipSHA256": "2579382a027dcbc9c0cc59ea27a1da0f7001dcffed329bc539c8371394deab84",
+      "rawBytes": 1030,
+      "rawSHA256": "2dcb34a47977ec0b555087915fbce6468bd99e4516adbafcc39573ce994fc4fa",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/native-six.log"
+    },
+    {
+      "path": "native-six.spec.ts.gz",
+      "gzipBytes": 6109,
+      "gzipSHA256": "440a483290035ba406c4dda7b7efd66a51df3ed87d716c66812fa746fb173f32",
+      "rawBytes": 25818,
+      "rawSHA256": "4107cf8d52589b0fbad4ec319441f5a970f8d14becc917aee23b53e1020b98b7",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/native-six.spec.ts"
+    },
+    {
+      "path": "observer.mjs.gz",
+      "gzipBytes": 2407,
+      "gzipSHA256": "d5d3089da6b233a3605327952e7532d353c537bbcdc0c6d6600380ebd765dab2",
+      "rawBytes": 6065,
+      "rawSHA256": "424c03ed11d164683adcd706764368d4f1ebd9de4b4941a1f7495bf97121adad",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/observer.mjs"
+    },
+    {
+      "path": "operational.log.gz",
+      "gzipBytes": 704,
+      "gzipSHA256": "fc3911014d3a1be7ccf823ec29ca24464f9385e2eda0fec0591cadd39a2cbde6",
+      "rawBytes": 3111,
+      "rawSHA256": "0183d8077a0b7f58c82201f10a81cbd9c01ca31ac64ea50b1df14ba82443b21f",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/operational.log"
+    },
+    {
+      "path": "operational.raw.json.gz",
+      "gzipBytes": 9300,
+      "gzipSHA256": "80b84cecd54623c17cbb446c3899177ccb6b7f45c853745861668b268746690c",
+      "rawBytes": 142084,
+      "rawSHA256": "96729f9d5d61dbf4135ae58cb103d1379d3d8c0726691ca03443812631d6b495",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/operational.raw.json"
+    },
+    {
+      "path": "overview.log.gz",
+      "gzipBytes": 702,
+      "gzipSHA256": "ebb0c182dbcd2b964160e8c934a84577bc88191b3090dd1fa80625e9be70a597",
+      "rawBytes": 3071,
+      "rawSHA256": "4736e467d046daca18cef32267f6857ffd8e37beb709f93a861299ab6dd33013",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/overview.log"
+    },
+    {
+      "path": "overview.raw.json.gz",
+      "gzipBytes": 9020,
+      "gzipSHA256": "06a0ad0bb26198937bbc34b0215ea1d07293dbd405b763d156f00d71c113c3be",
+      "rawBytes": 149442,
+      "rawSHA256": "248832c0efdd85fa30adaf1cf37346dcb1a9933bb63b11caa016957bd70cc7d5",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/overview.raw.json"
+    },
+    {
+      "path": "package-overlap-zero-native.py.gz",
+      "gzipBytes": 2514,
+      "gzipSHA256": "d339bce1268c708cd51ac555aa98009bf716be38ef9b9e0dd2ebcbf8bb064291",
+      "rawBytes": 4923,
+      "rawSHA256": "b8c7f429a76b60731a6659d71a2e42697120b39d69578ca18bb0a2f6398f9b3f",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/package-overlap-zero-native.py"
+    },
+    {
+      "path": "parity-proof.json.gz",
+      "gzipBytes": 257,
+      "gzipSHA256": "180a6d3e39c0a22ec887b02b33808c5ac2fdb5792b9e6ff1442a415b53a7557f",
+      "rawBytes": 502,
+      "rawSHA256": "93130188f9732ee34556fe6935020d0de93b429b5e0a9d4a2b334fd80fd3bb37",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/parity-proof.json"
+    },
+    {
+      "path": "patch-applier.mjs.gz",
+      "gzipBytes": 1194,
+      "gzipSHA256": "ee15a4abd3fc6de9b30b0a1dfc841fb6cdcde483eddefe6d7cc181318aa6a22f",
+      "rawBytes": 3071,
+      "rawSHA256": "ec4ec746e1b5caac07f36e80f886ddcd913e454e8edf6cf4bf901abb3e7334b5",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/patch-applier.mjs"
+    },
+    {
+      "path": "patch-manifest.json.gz",
+      "gzipBytes": 5076,
+      "gzipSHA256": "d29976c5e35b2b13e3df2e021de1ad42c3f13cad82791ae2eec8de380733bdf9",
+      "rawBytes": 24802,
+      "rawSHA256": "61616fb34a6ed6d3212bd0bc6ff78929f2f1cfa4214cf12dea7cb946cca81972",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/patch-manifest.json"
+    },
+    {
+      "path": "playwright.config.ts.gz",
+      "gzipBytes": 1072,
+      "gzipSHA256": "912bc71119d379045d908d0393eaae68c72ee5f4124cda02ef18a2f099c9df15",
+      "rawBytes": 1918,
+      "rawSHA256": "0f2062a03f1ed2174fbd4b496dff2c851a579d78952452666d5de2c6ee30b21c",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/playwright.config.ts"
+    },
+    {
+      "path": "proof.py.gz",
+      "gzipBytes": 1106,
+      "gzipSHA256": "ffc579b4ada94a33e5b02b629664f3f026594f71e62aa84e796db3e8886fc6c5",
+      "rawBytes": 2747,
+      "rawSHA256": "c335aba94adc54d247c91e5f7191719c23aa913604e21e99f76b7484213fc1b3",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/proof.py"
+    },
+    {
+      "path": "published.log.gz",
+      "gzipBytes": 106,
+      "gzipSHA256": "7c3b735ba33942b76dc3ab9d2698fe12bd538afd4a75478c43777c5be29b2a60",
+      "rawBytes": 99,
+      "rawSHA256": "71f1621c6f138c619973552b1bfe6a596b3353b00cc2c617a51735ec960054a5",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/published.log"
+    },
+    {
+      "path": "published.raw.json.gz",
+      "gzipBytes": 2263646,
+      "gzipSHA256": "c35a585310a0cd2009ba039111271755d82a76565ce380688235dc676b102a87",
+      "rawBytes": 15199813,
+      "rawSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/published.raw.json"
+    },
+    {
+      "path": "selected-wasm-url-bytes.json.gz",
+      "gzipBytes": 446,
+      "gzipSHA256": "6ee6e579ff0ec22dd1ccf30194a7f2ad7b701096ea3946bd61e3279eeac093ea",
+      "rawBytes": 1483,
+      "rawSHA256": "ff522b1502d6c9adfb0e23a7b89a930495d751d6fcc8fa28e5cc9c7e4fd5aff3",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/selected-wasm-url-bytes.json"
+    },
+    {
+      "path": "sim3-next-native-frozen-archive.py.gz",
+      "gzipBytes": 1057,
+      "gzipSHA256": "36982d6ed5989aa37b0421c0dd01aae1fa75635204ba2d7b99535fec4e552172",
+      "rawBytes": 2076,
+      "rawSHA256": "1e635ec8ec7fc8ea218ca7d2d0c95ba665433fce9abf338954f844600c739b3a",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/sim3-next-native-frozen-archive.py"
+    },
+    {
+      "path": "sim3-overlap-zero-native-current23-collect.py.gz",
+      "gzipBytes": 792,
+      "gzipSHA256": "16628502cea1f6e55dc7378544c1c11bde91f1cd9cbd634fa11915af874d9fe3",
+      "rawBytes": 2037,
+      "rawSHA256": "590519e72ec48cb92a54de327d974d63f17a2ea7b5405c326d9c80e71103fd31",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/sim3-overlap-zero-native-current23-collect.py"
+    },
+    {
+      "path": "sim3-overlap-zero-native-current23-proof.py.gz",
+      "gzipBytes": 1106,
+      "gzipSHA256": "ffc579b4ada94a33e5b02b629664f3f026594f71e62aa84e796db3e8886fc6c5",
+      "rawBytes": 2747,
+      "rawSHA256": "c335aba94adc54d247c91e5f7191719c23aa913604e21e99f76b7484213fc1b3",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/sim3-overlap-zero-native-current23-proof.py"
+    },
+    {
+      "path": "sim3-overlap-zero-native-current23-setup.py.gz",
+      "gzipBytes": 823,
+      "gzipSHA256": "a57b7bc89e0c05a3f5267a5e77cd7ca4733b3d3fadfe2c512c815a488a84027c",
+      "rawBytes": 1704,
+      "rawSHA256": "6e29c2ed18be16af027adda98b6b69c28aacf438d6ce75a2915dba510477646f",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/sim3-overlap-zero-native-current23-setup.py"
+    },
+    {
+      "path": "sim3-overlap-zero-native-current23-state-proof.py.gz",
+      "gzipBytes": 972,
+      "gzipSHA256": "e218226599bcca0010d307823d9c9b68d095d8d554da5e0b6db91a27b9f9f0b1",
+      "rawBytes": 2151,
+      "rawSHA256": "3f59aa80be568446652a24a565a2aad37a1f6fb95fa1596dda21aa7286038a37",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/sim3-overlap-zero-native-current23-state-proof.py"
+    },
+    {
+      "path": "sim3-overlap-zero-native-run-controls.py.gz",
+      "gzipBytes": 844,
+      "gzipSHA256": "8902afd737ec186b35a96d3b3887a200fde7b39466a58c77e5d83f8021b5d0c7",
+      "rawBytes": 1606,
+      "rawSHA256": "ccf219e8e28f0f2f0eda7c2fd02c564d956e42815a0918d6fb1cfdc64ac457a5",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/sim3-overlap-zero-native-run-controls.py"
+    },
+    {
+      "path": "simd.wasm.gz",
+      "gzipBytes": 32675,
+      "gzipSHA256": "b70cc0225f5e715fb905579aa8f578f425a4e6506144f0d632217862a1e63b05",
+      "rawBytes": 89972,
+      "rawSHA256": "f33324b483918c6671bbe368cd9065368403ae83ebfa27c36cb49053fd9fce77",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/simd.wasm"
+    },
+    {
+      "path": "source-after-proof.json.gz",
+      "gzipBytes": 139375,
+      "gzipSHA256": "e85893d3362ffcf5ac0efaa6f415a9506280104bc3ebed42f572454a4297ff31",
+      "rawBytes": 565524,
+      "rawSHA256": "2be83fd3101b630a0a38bcac8fec377369fb2a122073e3b399b44ebd404b8cb6",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/source-after-proof.json"
+    },
+    {
+      "path": "source-before-proof.json.gz",
+      "gzipBytes": 139375,
+      "gzipSHA256": "e85893d3362ffcf5ac0efaa6f415a9506280104bc3ebed42f572454a4297ff31",
+      "rawBytes": 565524,
+      "rawSHA256": "2be83fd3101b630a0a38bcac8fec377369fb2a122073e3b399b44ebd404b8cb6",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/source-before-proof.json"
+    },
+    {
+      "path": "source-final-proof.json.gz",
+      "gzipBytes": 139375,
+      "gzipSHA256": "e85893d3362ffcf5ac0efaa6f415a9506280104bc3ebed42f572454a4297ff31",
+      "rawBytes": 565524,
+      "rawSHA256": "2be83fd3101b630a0a38bcac8fec377369fb2a122073e3b399b44ebd404b8cb6",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/source-final-proof.json"
+    },
+    {
+      "path": "state-resource-proof.json.gz",
+      "gzipBytes": 641,
+      "gzipSHA256": "9f2642b1e8a6a74f67ff5a359e0608ea0d0a42c6ddfdfe02e85d36bce94b3c2d",
+      "rawBytes": 2844,
+      "rawSHA256": "4da6d311404daad0817b3e295d0164f629e0892df053a8209bc13fc9b1bbc2fd",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/state-resource-proof.json"
+    },
+    {
+      "path": "tenka_engine.wasm.gz",
+      "gzipBytes": 32686,
+      "gzipSHA256": "979517e36606edfd7e1e896f845306b0288f8173e928e7c8f88a5a6b12f213e4",
+      "rawBytes": 90122,
+      "rawSHA256": "4935459682fdb5a509d72793518ce1343b49d8c07e041300b9262e6ca8acd759",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/tenka_engine.wasm"
+    },
+    {
+      "path": "transfer-proof.json.gz",
+      "gzipBytes": 211,
+      "gzipSHA256": "7bb0c5d134f23f1b371447adbd04449bd18d2dac102cf337404d5e235aa83cef",
+      "rawBytes": 300,
+      "rawSHA256": "301ef3817989984b0b54375a2e97f005f28cdbc75abd1d4c91aa813a078fd747",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/transfer-proof.json"
+    },
+    {
+      "path": "wasm-manifest.json.gz",
+      "gzipBytes": 1343,
+      "gzipSHA256": "de609c922049a1f5cf2a6a84faa09f733d02519fd3bddf026640dd95f64f791e",
+      "rawBytes": 3824,
+      "rawSHA256": "849703967ae316a223bd1d9c8e0b7ea626596a7e6a7f6ebb63c9cd96aae2fc36",
+      "remoteOriginal": "/tmp/tenka-overlap-zero-native-current23-evidence/wasm-manifest.json"
+    }
+  ]
+}
