@@ -1,6 +1,6 @@
 # 地理標籤數值準備的 WASM 邊界
 
-狀態：正式接點已於 `feab20c` 接入；精確性控制通過，原生效能量測進行中。這不代表效能驗收完成。
+狀態：正式接點已於 `feab20c` 接入；精確性控制與單輪原生量測完成。近景有觀測收益，三視角仍未達 60 FPS，效能驗收未完成。
 
 原版地理標籤的 Rust 核心只處理快取未命中的評分。新版一般模式由 Rust 建立附近索引、方向及座標軸；JS 保留物件與 JSON 快取簽章。既有 profile 的 JS parent 約 14.36 ms 包含這些工作及其他成本，不能全數歸因於數值準備。
 
@@ -89,4 +89,4 @@ Rust 在快取未命中時才計算 baselinePrimary 與 hardBaseline，並直接
 
 Rust 23 項測試、實際 WASM protocol、320 場景 adapter 比對及兩種資源模式各 160 場景的正式整合控制已通過。一般模式確實呼叫新 `geo_prepare`／`geo_score_prepared`，CAPACITY 確實呼叫舊 `geo_score`；快取命中不呼叫評分。33 個既有 renderer／UI fixture 共 386 項通過。固定 `feab20c` 全套為 6,392 通過、1 既有 s1560 day450 失敗、1 跳過，1,494 個測試／來源輸入前後與 Git blob 相同。
 
-新 artifact 為 88,475 bytes，SHA256 `64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b`。同依賴、實際 RTX、九組完整原生快照及三視角單次 30 秒 FPS 控制正在量測。整體收益與剩餘 JS parent 成本以完整原生結果判定；目前不能宣稱達到 60 FPS，或把模擬 Worker 描述為整套 Rust 引擎。
+新 artifact 為 88,475 bytes，SHA256 `64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b`。Mac／Linux pinned recipe 產物與 manifest 逐位元相同。同 current23 依賴、實際 RTX 的九完整原生快照仍 exact；三視角各一次 30 秒 FPS 為 59.95983／49.88502／32.03923。近景相對原 29.11552 有 +10.04% 的單輪觀測收益，三項 strict60 仍失敗。唯一獨立近景 profile 有 323 完成 renders／322 intervals，地理布局 inclusive 11.6128 ms／render（原 14.3623，減少約 19.1%）；prepare inclusive 3.599、scorePrepared inclusive 7.282、signature self 0.589 ms，均屬 parent 內成本，不能重複加總。較廣觀測區間的 computed41735／reused121 不按 profile render 數正規化。不能宣稱穩定達到 60 FPS，或把模擬 Worker 描述為整套 Rust 引擎。

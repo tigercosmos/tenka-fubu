@@ -82,17 +82,7 @@
     "fullPayloadEqual": true,
     "snapshotsEqual": true,
     "snapshots": 9,
-    "days": [
-      0,
-      0,
-      0,
-      1,
-      1,
-      1,
-      2,
-      2,
-      2
-    ],
+    "days": [0, 0, 0, 1, 1, 1, 2, 2, 2],
     "excludedNonvisualCounters": [
       "armyPlateLayout.runs",
       "geographicLabelLayout.runs",
@@ -398,9 +388,7 @@
         "inclusiveUs": 581769,
         "selfSamples": 3,
         "wasmFunctionIndex": 58,
-        "exports": [
-          "geo_score_prepared"
-        ]
+        "exports": ["geo_score_prepared"]
       },
       {
         "function": "wasm-function[53]",
@@ -411,9 +399,7 @@
         "inclusiveUs": 1061829,
         "selfSamples": 2,
         "wasmFunctionIndex": 53,
-        "exports": [
-          "castle_ribbon_solve"
-        ]
+        "exports": ["castle_ribbon_solve"]
       },
       {
         "function": "wasm-function[56]",
@@ -424,9 +410,7 @@
         "inclusiveUs": 347350,
         "selfSamples": 1,
         "wasmFunctionIndex": 56,
-        "exports": [
-          "geo_prepare"
-        ]
+        "exports": ["geo_prepare"]
       }
     ],
     "cacheBefore": {

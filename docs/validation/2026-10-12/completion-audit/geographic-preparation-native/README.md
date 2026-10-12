@@ -4,11 +4,11 @@ Frozen runtime `feab20cc9c207f37afae7a2f372c437b93232a07` ran once on sim3 with 
 
 Nine settled full published payloads match reference `af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29` byte for byte. Only the four original named nonvisual counters are excluded; the full 15 MB payload is retained.
 
-| Camera | Average FPS | 04 baseline | Change | p95 ms | Strict60 |
-|---|---:|---:|---:|---:|---|
-| overview | 59.9598 | 59.9309 | +0.048% | 17.200 | RED |
-| operational | 49.8850 | 49.7382 | +0.295% | 21.900 | RED |
-| close | 32.0392 | 29.1155 | +10.042% | 37.200 | RED |
+| Camera      | Average FPS | 04 baseline |   Change | p95 ms | Strict60 |
+| ----------- | ----------: | ----------: | -------: | -----: | -------- |
+| overview    |     59.9598 |     59.9309 |  +0.048% | 17.200 | RED      |
+| operational |     49.8850 |     49.7382 |  +0.295% | 21.900 | RED      |
+| close       |     32.0392 |     29.1155 | +10.042% | 37.200 | RED      |
 
 Each original control ran once for 30 seconds with 120 canonical armies at 1920×1080, sequentially, without retry or threshold changes. Actual control renderer and profile before/after WebGL2 guards show RTX 5070 Ti with Vulkan. Before/after canonical state and renderer resources match. The parent retains the candidate for the observed close improvement; these single windows do not establish repeatability or 60 FPS acceptance.
 

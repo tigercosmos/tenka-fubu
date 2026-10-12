@@ -281,4 +281,8 @@ Rust 十一項、337 組完整 f64 原版 oracle、13 項實際 WASM／協定測
 
 [本機固定來源證據](geographic-preparation-local/README.md) 保存Rust23項、320seedadapter、兩模式各160seed、33原renderer/UI fixture386PASS及全部原RED。固定feab20c全量691files／6392PASS／1knowns1560day450FAIL／1skip，129.87s；1494trackedinputs前後與全部checks後符合Gitblob且byteequal。完整types／lint／build／bundlePASS，共用node_modules不是freshdependency验证。WASM88475bytes SHA256 `64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b`。
 
-同current23依賴與actualRTXVulkan的三個單次30秒窗口為59.95983／49.88502／32.03923FPS，相對04同cohort分別+0.048%／+0.295%／+10.04%；closeP95從41.5降至37.2ms。九完整payload仍exactaf4，strict60全部RED。唯一closeCPUprofile仍在進行，不把局部kernel速度或一輪差異當成穩定達標。正式接點擴充數值核心，模擬仍是JS Worker序列日結；全專案goal維持active。
+同current23依賴與actualRTXVulkan的三個單次30秒窗口為59.95983／49.88502／32.03923FPS，相對04同cohort分別+0.048%／+0.295%／+10.04%；closeP95從41.5降至37.2ms。九完整payload仍exactaf4，strict60全部RED。[完整原生證據](geographic-preparation-native/README.md) 的唯一 close CPU profile 為323完成renders／322intervals，geo inclusive11.6128ms/render（原14.3623，約-19.1%）。prepare inclusive3.599、scorePrepared inclusive7.282、signature self0.589均在parent內，不重複加總。ActualRTX前後與1413source／14765deps／23patch三次proof通過；root獨立package verifier通過。較廣區間cache41735computed／121reused不按profileframe數正規化。不把局部kernel速度或一輪差異當成穩定達標。正式接點擴充數值核心，模擬仍是JS Worker序列日結；全專案goal維持active。
+
+[Linux 重建證據](geographic-preparation-linux-sim1/README.md) 以原 pinned1.97.1 recipe 一次建置新WASM，binary與manifest皆與Mac逐byte相同；733source rows前後與固定Gitblobs一致、四個actualABI版本1。依賴沿用04群組，不宣稱freshnpmci。Root獨立verifier含Gitproof通過。新增本機、Linux、原生證據加入append-only索引，既有raw與全部原始RED不變。
+
+下一個 bounded 候選是評分時的矩形邊界重用：準備及評分成本主要歸在內部WASM，而完整JSONsignature仍保留。此候選只有唯讀研究，尚未實作或量測；禁止提早將不相交overlap視作零，因溢位／NaN／signedzero可能改變結果。

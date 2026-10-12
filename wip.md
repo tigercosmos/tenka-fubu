@@ -6474,6 +6474,8 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 原版 JS oracle 保存完整 255,263,393-byte raw（gzip14,937,709bytes），1,964frames／5,482steps；新 Rust 不參與產生預期值。原 producer 最後 manifest-copy ENOENT 仍是 RED；後處理只核對已完成 raw，沒有重跑或改寫。
 - 正式 frame／prep 常駐預算為131,072words／1MiB，實際九場景最大35,008bytes。實際8192遠障礙走新核心，32768走明確CAPACITY的舊JS準備＋真Rustscore；兩者合法、快取與結果一致，預算不涵蓋整個heap。
 - Rust23項、adapter320seed與一般／CAPACITY各160seed完整整合通過；33原renderer/UI fixture共386通過。固定feab20c全量6392PASS／1既有無嗣領地FAIL／1skip，691files、129.87s。1494trackedinputs在全部測試與checks後符合Gitblob且byteequal；types／fullLint／build／bundlePASS，node_modules共用symlink非fresh依賴。
-- 新WASM88475bytes／SHA25664241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b。sim2唯讀所有權／快取／memorygrow審查無新增實質缺陷。來源與原RED／PASS見geographic-preparation-local；Mac／Linux重現待獨立證据。
-- sim3同current23／14765dependencies、actualRTXVulkan的九完整原生payload仍exactaf4。單次30秒三視角59.95983／49.88502／32.03923FPS，相對04同cohort+0.048%／+0.295%／+10.04%；closeP9537.2ms（原41.5）。三項strict60仍RED，不宣稱穩定收益；唯一獨立closeprofile正在分拆新prepare、score與JSparent。
+- 新WASM88475bytes／SHA25664241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b。sim2唯讀所有權／快取／memorygrow審查無新增實質缺陷。來源與原RED／PASS見geographic-preparation-local；`321c402` 的獨立 Linux 原 recipe 重建 WASM／manifest 均與 Mac byte-identical，733 來源列符合固定 Git blobs。
+- sim3同current23／14765dependencies、actualRTXVulkan的九完整原生payload仍exactaf4。單次30秒三視角59.95983／49.88502／32.03923FPS，相對04同cohort+0.048%／+0.295%／+10.04%；closeP9537.2ms（原41.5）。三項strict60仍RED，不宣稱穩定收益；`44c3b30` 唯一 close profile 為323renders／322intervals，geo parent11.6128ms/render（原14.3623，約-19.1%），prepare inclusive3.599、scorePrepared inclusive7.282、signature self0.589，皆在parent內不重複加總。ActualRTX前後、source1413／deps14765／23patch三個checkpoints通過。
 - 模擬仍由獨立Worker序列執行JSadvanceDay，Rust加速path；主頁另有geo／castle／prepRust核心。不是整套Rust遊戲引擎。全專案goalactive，60FPS／wholeheap／protectedart／長跑／領地gate保持，未push／部署。
+
+- 本階段原native／Linux包完整封存，root獨立verifier與Gitproof通過，parent索引新增而不改舊rows。下一步候選為Rust評分的原式矩形邊界重用，尚未實作或量測，不做NaN／溢位的提前零值捷徑。
