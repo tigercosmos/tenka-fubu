@@ -25,6 +25,9 @@ import type {
   SimulationWorkerReply,
   SimulationWorkerRequest,
   SimulationWorkerResult,
+  SimulationWorkerMessage,
+  SimulationWorkerMessageReply,
+  WorkerInitializeRequest,
 } from './protocol';
 
 async function initializeRust() {
@@ -33,6 +36,7 @@ async function initializeRust() {
     rustPathfindingImports(),
   );
   installRustPathfinding(wasm.instance.exports);
+  return (wasm.instance.exports.engine_abi_version as () => number)();
 }
 function eventDefinition(): EventDef {
   return {
@@ -74,14 +78,29 @@ function complete(request: SimulationWorkerRequest): SimulationWorkerReply {
 }
 class FakeWorker extends EventTarget {
   sent: SimulationWorkerRequest[] = [];
+  initializations: WorkerInitializeRequest[] = [];
   terminated = false;
-  postMessage(request: SimulationWorkerRequest) {
-    this.sent.push(structuredClone(request));
+  constructor(readonly autoReady = true) {
+    super();
+  }
+  postMessage(request: SimulationWorkerMessage) {
+    if (request.kind === 'initialize') {
+      this.initializations.push(structuredClone(request));
+      if (this.autoReady) this.ready();
+    } else this.sent.push(structuredClone(request));
+  }
+  ready() {
+    this.reply({
+      kind: 'ready',
+      epoch: this.initializations.at(-1)!.epoch,
+      backend: 'rust-wasm',
+      engineAbi: 1,
+    });
   }
   terminate() {
     this.terminated = true;
   }
-  reply(reply: SimulationWorkerReply) {
+  reply(reply: SimulationWorkerMessageReply) {
     this.dispatchEvent(new MessageEvent('message', { data: reply }));
   }
 }
@@ -304,7 +323,7 @@ it('idle session reset accepts a new game starting at version zero with a new ep
   const workers: FakeWorker[] = [];
   const client = createSimulationWorkerClient({
     workerFactory: () => {
-      const worker = new FakeWorker();
+      const worker = new FakeWorker(workers.length === 0);
       workers.push(worker);
       return worker as unknown as Worker;
     },
@@ -317,6 +336,7 @@ it('idle session reset accepts a new game starting at version zero with a new ep
   expect(client.epoch).not.toBe(epoch);
   expect(workers[0]!.terminated).toBe(true);
   expect(client.getDiagnostics().backendReady).toBe(false);
+  workers[1]!.ready();
   const second = client.execute(buildTinyState(), [], null);
   workers[1]!.reply(complete(workers[1]!.sent[0]!));
   expect((await second).beforeStateVersion).toBe(0);
@@ -417,4 +437,248 @@ it('rejects malformed counts and mismatched AI reservations without executing a 
   });
   expect(reply.kind).toBe('error');
   if (reply.kind === 'error') expect(reply.error.message).toMatch(/reservation/);
+});
+
+describe('epoch-owned Rust readiness control plane', () => {
+  it('keeps failure ownership stable when a subscriber replaces the worker during error delivery', async () => {
+    const workers: FakeWorker[] = [];
+    const client = createSimulationWorkerClient({
+      workerFactory: () => {
+        const worker = new FakeWorker(false);
+        workers.push(worker);
+        return worker as unknown as Worker;
+      },
+    });
+    const oldEpoch = client.epoch;
+    const rejected = expect(client.waitReady()).rejects.toThrow('old failure');
+    client.subscribeInitializationFailure(() => client.resetSession('recover'));
+    const delivered: number[] = [];
+    client.subscribeInitializationFailure((_error, failedEpoch) => delivered.push(failedEpoch));
+    workers[0]!.dispatchEvent(new ErrorEvent('error', { message: 'old failure' }));
+    await rejected;
+    expect(delivered).toEqual([oldEpoch]);
+    expect(client.epoch).not.toBe(oldEpoch);
+    expect(workers[1]!.terminated).toBe(false);
+    expect(client.getDiagnostics().initializationState).toBe('initializing');
+    workers[1]!.ready();
+    await client.waitReady();
+    client.destroy();
+  });
+  it('prewarms the actual engine once without advancing state, RNG or ticks, sharing initialization with an immediately submitted tick', async () => {
+    let finish!: () => void;
+    let loads = 0;
+    const loading = new Promise<void>((resolve) => {
+      finish = resolve;
+    });
+    const execute = createWorkerExecutor(async () => {
+      loads++;
+      await loading;
+      return initializeRust();
+    });
+    const game = buildTinyState(),
+      before = structuredClone(game);
+    const readiness = execute.initialize(7);
+    const tick = execute({
+      kind: 'tick',
+      epoch: 7,
+      requestId: 1,
+      beforeStateVersion: 0,
+      state: game,
+      commands: [],
+      eventDefs: null,
+    });
+    await Promise.resolve();
+    expect(loads).toBe(1);
+    expect(game).toEqual(before);
+    finish();
+    expect(await readiness).toEqual({
+      kind: 'ready',
+      epoch: 7,
+      backend: 'rust-wasm',
+      engineAbi: 1,
+    });
+    expect((await tick).kind).toBe('complete');
+    expect(loads).toBe(1);
+  });
+  it('rejects initialization that claims an ABI without installing the actual engine and shares failures without retry', async () => {
+    const load = vi.fn(() => Promise.resolve(1));
+    const execute = createWorkerExecutor(load);
+    await expect(execute.initialize(1)).rejects.toThrow('actual engine ABI');
+    await expect(execute.initialize(1)).rejects.toThrow('actual engine ABI');
+    expect(load).toHaveBeenCalledTimes(1);
+    await expect(execute.initialize(0)).rejects.toThrow('epoch');
+  });
+  it('posts the unchanged tick immediately while readiness is delayed, and ready does not count as a tick', async () => {
+    const worker = new FakeWorker(false);
+    const client = createSimulationWorkerClient({
+      workerFactory: () => worker as unknown as Worker,
+    });
+    const game = buildTinyState(),
+      before = structuredClone(game);
+    expect(worker.initializations).toEqual([{ kind: 'initialize', epoch: client.epoch }]);
+    const ready = client.waitReady();
+    const tick = client.execute(game, [], null);
+    expect(worker.sent).toHaveLength(1);
+    expect(worker.sent[0]).toMatchObject({
+      kind: 'tick',
+      epoch: client.epoch,
+      requestId: 1,
+      beforeStateVersion: 0,
+    });
+    expect(client.getDiagnostics()).toMatchObject({
+      requests: 1,
+      completed: 0,
+      backendReady: false,
+      pending: true,
+    });
+    worker.ready();
+    await ready;
+    expect(client.getDiagnostics()).toMatchObject({
+      requests: 1,
+      completed: 0,
+      backendReady: true,
+      pending: true,
+    });
+    expect(game).toEqual(before);
+    worker.reply(complete(worker.sent[0]!));
+    await tick;
+    client.destroy();
+  });
+  it('never substitutes a complete reply for missing readiness and replays a cached initialization failure to late subscribers', async () => {
+    const worker = new FakeWorker(false);
+    const client = createSimulationWorkerClient({
+      workerFactory: () => worker as unknown as Worker,
+    });
+    const readiness = expect(client.waitReady()).rejects.toThrow('confirm Rust readiness');
+    const tick = client.execute(buildTinyState(), [], null);
+    const rejected = expect(tick).rejects.toThrow('confirm Rust readiness');
+    worker.reply(complete(worker.sent[0]!));
+    await rejected;
+    await readiness;
+    const listener = vi.fn();
+    client.subscribeInitializationFailure(listener);
+    expect(listener).toHaveBeenCalledWith(expect.any(Error), client.epoch);
+    expect(client.getDiagnostics()).toMatchObject({
+      completed: 0,
+      backendReady: false,
+      initializationState: 'failed',
+    });
+    worker.ready();
+    expect(client.getDiagnostics().backendReady).toBe(false);
+    client.destroy();
+  });
+  it('rejects malformed readiness and initialization errors without a fallback', async () => {
+    for (const malformed of [{ engineAbi: 2 }, { backend: 'js' }, { epoch: NaN }]) {
+      const worker = new FakeWorker(false),
+        client = createSimulationWorkerClient({ workerFactory: () => worker as unknown as Worker });
+      const waiting = expect(client.waitReady()).rejects.toThrow(/invalid/i);
+      worker.reply({
+        kind: 'ready',
+        epoch: client.epoch,
+        backend: 'rust-wasm',
+        engineAbi: 1,
+        ...malformed,
+      } as SimulationWorkerMessageReply);
+      await waiting;
+      expect(client.getDiagnostics().backendReady).toBe(false);
+      client.destroy();
+    }
+    const worker = new FakeWorker(false),
+      client = createSimulationWorkerClient({ workerFactory: () => worker as unknown as Worker });
+    const waiting = expect(client.waitReady()).rejects.toThrow('WASM fetch failed');
+    worker.reply({
+      kind: 'initializationError',
+      epoch: client.epoch,
+      error: { name: 'FetchError', message: 'WASM fetch failed' },
+    });
+    await waiting;
+    client.destroy();
+  });
+  it('rejects retired waiters and ignores an old worker handler even when it forges the current epoch', async () => {
+    const workers: FakeWorker[] = [];
+    const spy = vi.fn();
+    const client = createSimulationWorkerClient({
+      workerFactory: () => {
+        const worker = new FakeWorker(false);
+        spy.mockImplementation(worker.addEventListener.bind(worker));
+        vi.spyOn(worker, 'addEventListener').mockImplementation(spy);
+        workers.push(worker);
+        return worker as unknown as Worker;
+      },
+    });
+    const retired = spy.mock.calls.find(([type]) => type === 'message')![1] as EventListener;
+    const old = expect(client.waitReady()).rejects.toThrow('new-game');
+    client.resetSession('new-game');
+    await old;
+    retired(
+      new MessageEvent('message', {
+        data: { kind: 'ready', epoch: client.epoch, backend: 'rust-wasm', engineAbi: 1 },
+      }),
+    );
+    retired(
+      new MessageEvent('message', {
+        data: {
+          kind: 'initializationError',
+          epoch: client.epoch,
+          error: { name: 'Error', message: 'retired' },
+        },
+      }),
+    );
+    expect(client.getDiagnostics()).toMatchObject({
+      backendReady: false,
+      initializationState: 'initializing',
+    });
+    workers[1]!.ready();
+    await client.waitReady();
+    client.destroy();
+  });
+  it('cleans readiness and tick timers independently and handles missing readiness timeout', async () => {
+    vi.useFakeTimers();
+    const worker = new FakeWorker(false),
+      client = createSimulationWorkerClient({
+        workerFactory: () => worker as unknown as Worker,
+        readyTimeoutMs: 10,
+        timeoutMs: 100,
+      });
+    const ready = expect(client.waitReady()).rejects.toThrow('initialization timed out');
+    const tick = expect(client.execute(buildTinyState(), [], null)).rejects.toThrow(
+      'initialization timed out',
+    );
+    await vi.advanceTimersByTimeAsync(11);
+    await ready;
+    await tick;
+    expect(worker.terminated).toBe(true);
+    expect(vi.getTimerCount()).toBe(0);
+    const activeWorker = new FakeWorker(),
+      active = createSimulationWorkerClient({
+        workerFactory: () => activeWorker as unknown as Worker,
+        readyTimeoutMs: 10,
+        timeoutMs: 100,
+      });
+    await active.waitReady();
+    const work = active.execute(buildTinyState(), [], null);
+    await vi.advanceTimersByTimeAsync(20);
+    expect(active.getDiagnostics().pending).toBe(true);
+    activeWorker.reply(complete(activeWorker.sent[0]!));
+    await work;
+    active.destroy();
+    expect(vi.getTimerCount()).toBe(0);
+  });
+  it('destroy and reset cancel readiness without emitting initialization failures or resurrecting a resolved old waiter', async () => {
+    const worker = new FakeWorker(false),
+      client = createSimulationWorkerClient({ workerFactory: () => worker as unknown as Worker });
+    const failure = vi.fn();
+    client.subscribeInitializationFailure(failure);
+    const rejected = expect(client.waitReady()).rejects.toThrow('destroyed');
+    client.destroy();
+    await rejected;
+    expect(failure).not.toHaveBeenCalled();
+    const active = createSimulationWorkerClient({
+      workerFactory: () => new FakeWorker() as unknown as Worker,
+    });
+    const waiting = expect(active.waitReady()).rejects.toThrow('current epoch');
+    active.resetSession('reset before microtask');
+    await waiting;
+    active.destroy();
+  });
 });

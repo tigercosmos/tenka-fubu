@@ -9,10 +9,16 @@ import {
   isRustPathfindingReady,
   rustPathfindingImports,
 } from '../../core/acceleration/pathfindingKernel';
-import type { SimulationWorkerReply, SimulationWorkerRequest, WorkerFiredEvent } from './protocol';
+import type {
+  SimulationWorkerReply,
+  SimulationWorkerRequest,
+  SimulationWorkerMessage,
+  WorkerReadyReply,
+  WorkerInitializationError,
+  WorkerFiredEvent,
+} from './protocol';
 
-async function initializeRustBackend(): Promise<void> {
-  if (isRustPathfindingReady()) return;
+async function initializeRustBackend(): Promise<number> {
   const response = await fetch(
     new URL(`${import.meta.env.BASE_URL}wasm/tenka_engine.wasm`, globalThis.location.origin),
   );
@@ -24,18 +30,29 @@ async function initializeRustBackend(): Promise<void> {
   installRustPathfinding(wasm.instance.exports);
   if (!isRustPathfindingReady())
     throw new Error('Rust simulation module did not install its pathfinding kernel');
+  return (wasm.instance.exports.engine_abi_version as () => number)();
 }
 
 /** Each message owns a detached snapshot; all messages execute serially in one worker. */
 export function createWorkerExecutor(
-  initializeBackend: () => Promise<void> = initializeRustBackend,
+  initializeBackend: () => Promise<number> = initializeRustBackend,
 ) {
-  let initialization: Promise<void> | null = null;
+  let initialization: Promise<number> | null = null;
+  const initializeOnce = () => {
+    initialization ??= Promise.resolve()
+      .then(initializeBackend)
+      .then((engineAbi) => {
+        if (engineAbi !== 1 || !isRustPathfindingReady())
+          throw new Error('Rust simulation initialization did not validate its actual engine ABI');
+        return engineAbi;
+      });
+    return initialization;
+  };
   let serial = Promise.resolve();
   let catalogKey: string | null = null;
   let cachedEngine: ReturnType<typeof createRuntimeEventEngine> | null = null;
   const sessions = new Map<number, { requestId: number; stateVersion: number; state: GameState }>();
-  return (request: SimulationWorkerRequest): Promise<SimulationWorkerReply> => {
+  const execute = (request: SimulationWorkerRequest): Promise<SimulationWorkerReply> => {
     const execute = async (): Promise<SimulationWorkerReply> => {
       try {
         const previous = sessions.get(request.epoch);
@@ -70,8 +87,7 @@ export function createWorkerExecutor(
           )
             throw new Error('Consumed AI reservation does not match its command envelope');
         }
-        initialization ??= initializeBackend();
-        await initialization;
+        await initializeOnce();
         // Preserve worker-owned identity so pure-core WeakMap caches follow the same lifecycle as synchronous days.
         const state = previous?.state ?? request.state;
         if (previous) reconcileSnapshot(state, request.state);
@@ -135,6 +151,14 @@ export function createWorkerExecutor(
     );
     return next;
   };
+  return Object.assign(execute, {
+    async initialize(epoch: number): Promise<WorkerReadyReply> {
+      if (!Number.isSafeInteger(epoch) || epoch <= 0)
+        throw new Error('Invalid simulation initialization epoch');
+      const engineAbi = await initializeOnce();
+      return { kind: 'ready', epoch, backend: 'rust-wasm', engineAbi };
+    },
+  });
 }
 
 // The export is also exercised by Node tests; only a real worker installs its message handler.
@@ -144,7 +168,25 @@ if (
   typeof globalThis.addEventListener === 'function'
 ) {
   const execute = createWorkerExecutor();
-  globalThis.addEventListener('message', (event: MessageEvent<SimulationWorkerRequest>) => {
-    void execute(event.data).then((reply) => globalThis.postMessage(reply));
+  globalThis.addEventListener('message', (event: MessageEvent<SimulationWorkerMessage>) => {
+    const request = event.data;
+    if (request?.kind === 'initialize') {
+      void execute.initialize(request.epoch).then(
+        (reply) => globalThis.postMessage(reply),
+        (error: unknown) => {
+          const actual = error instanceof Error ? error : new Error(String(error));
+          const reply: WorkerInitializationError = {
+            kind: 'initializationError',
+            epoch: request.epoch,
+            error: {
+              name: actual.name,
+              message: actual.message,
+              ...(actual.stack ? { stack: actual.stack } : {}),
+            },
+          };
+          globalThis.postMessage(reply);
+        },
+      );
+    } else void execute(request).then((reply) => globalThis.postMessage(reply));
   });
 }

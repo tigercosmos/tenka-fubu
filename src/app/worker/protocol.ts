@@ -38,3 +38,23 @@ export type SimulationWorkerReply =
       beforeStateVersion: number;
       error: { name: string; message: string; stack?: string };
     };
+
+/** Control plane: prewarm has no game snapshot, command, request ID or state version. */
+export interface WorkerInitializeRequest {
+  kind: 'initialize';
+  epoch: number;
+}
+export interface WorkerReadyReply {
+  kind: 'ready';
+  epoch: number;
+  backend: 'rust-wasm';
+  engineAbi: number;
+}
+export interface WorkerInitializationError {
+  kind: 'initializationError';
+  epoch: number;
+  error: { name: string; message: string; stack?: string };
+}
+export type SimulationWorkerMessage = SimulationWorkerRequest | WorkerInitializeRequest;
+export type SimulationWorkerMessageReply =
+  SimulationWorkerReply | WorkerReadyReply | WorkerInitializationError;
