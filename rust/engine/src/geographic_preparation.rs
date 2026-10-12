@@ -244,17 +244,6 @@ fn valid_axis(values: &[f64]) -> bool {
         })
 }
 
-// Candidate endpoints retain the original addition order, including +padding for zero.
-fn overlap_candidate(a: Rect, right: f64, bottom: f64, b: Rect, padding: f64) -> f64 {
-    js_max(
-        0.0,
-        js_min(right + padding, b.x + b.width + padding) - js_max(a.x - padding, b.x - padding),
-    ) * js_max(
-        0.0,
-        js_min(bottom + padding, b.y + b.height + padding) - js_max(a.y - padding, b.y - padding),
-    )
-}
-
 /// Reuse prepared near indices and axes without repacking the full scorer packet.
 /// Output winner fields are never inputs. Malformed input leaves output unchanged.
 pub(crate) fn score_prepared(frame: &[f64], prep: &mut [f64], road: &[f64]) -> i32 {
@@ -330,28 +319,12 @@ pub(crate) fn score_prepared(frame: &[f64], prep: &mut [f64], road: &[f64]) -> i
             }
         }
     }
-    let baseline_right = f.rect.x + f.rect.width;
-    let baseline_bottom = f.rect.y + f.rect.height;
-    let baseline = primary.iter().fold(0.0, |sum, i| {
-        sum + overlap_candidate(
-            f.rect,
-            baseline_right,
-            baseline_bottom,
-            f.row(*i as usize),
-            0.0,
-        )
-    });
+    let baseline = primary
+        .iter()
+        .fold(0.0, |sum, i| sum + overlap(f.rect, f.row(*i as usize), 0.0));
     let hard_baseline: Vec<f64> = hard
         .iter()
-        .map(|i| {
-            overlap_candidate(
-                f.rect,
-                baseline_right,
-                baseline_bottom,
-                f.row(f.p + *i as usize),
-                0.0,
-            )
-        })
+        .map(|i| overlap(f.rect, f.row(f.p + *i as usize), 0.0))
         .collect();
     let mut winner = -1;
     let mut winner_offset = [0.0, 0.0];
@@ -378,28 +351,22 @@ pub(crate) fn score_prepared(frame: &[f64], prep: &mut [f64], road: &[f64]) -> i
             if road[5] == 2.0 && !clears_capsules(moved, &road[8..]) {
                 continue;
             }
-            let moved_right = moved.x + moved.width;
-            let moved_bottom = moved.y + moved.height;
-            if hard.iter().zip(&hard_baseline).any(|(i, b)| {
-                overlap_candidate(
-                    moved,
-                    moved_right,
-                    moved_bottom,
-                    f.row(f.p + *i as usize),
-                    0.0,
-                ) > *b
-            }) {
+            if hard
+                .iter()
+                .zip(&hard_baseline)
+                .any(|(i, b)| overlap(moved, f.row(f.p + *i as usize), 0.0) > *b)
+            {
                 continue;
             }
-            let area = primary.iter().fold(0.0, |sum, i| {
-                sum + overlap_candidate(moved, moved_right, moved_bottom, f.row(*i as usize), 0.0)
-            });
+            let area = primary
+                .iter()
+                .fold(0.0, |sum, i| sum + overlap(moved, f.row(*i as usize), 0.0));
             if area > baseline {
                 continue;
             }
-            let secondary = reserved.iter().fold(0.0, |sum, i| {
-                sum + overlap_candidate(moved, moved_right, moved_bottom, f.row(*i as usize), 2.0)
-            });
+            let secondary = reserved
+                .iter()
+                .fold(0.0, |sum, i| sum + overlap(moved, f.row(*i as usize), 2.0));
             if area < best_primary
                 || (area == best_primary
                     && (secondary < best_secondary
