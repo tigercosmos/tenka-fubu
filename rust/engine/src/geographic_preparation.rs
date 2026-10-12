@@ -293,24 +293,24 @@ fn prepared_overlap(a: Rect, b: Rect, padding: f64) -> f64 {
 }
 
 // With components <= MAX/16, moved coordinates, padded ends and clipped
-// differences are finite. Thus a zero X clip times finite nonnegative Y is +0.
+// differences are finite. Thus finite nonnegative X times a zero Y clip is +0.
 // Outside that conservative domain retain the original scalar/SIMD arithmetic.
 fn guarded_overlap(a: Rect, b: Rect, padding: f64, bounded: bool) -> f64 {
     if !bounded {
         return prepared_overlap(a, b, padding);
     }
-    let x = js_max(
-        0.0,
-        js_min(a.x + a.width + padding, b.x + b.width + padding)
-            - js_max(a.x - padding, b.x - padding),
-    );
-    if x == 0.0 {
-        return 0.0;
-    }
     let y = js_max(
         0.0,
         js_min(a.y + a.height + padding, b.y + b.height + padding)
             - js_max(a.y - padding, b.y - padding),
+    );
+    if y == 0.0 {
+        return 0.0;
+    }
+    let x = js_max(
+        0.0,
+        js_min(a.x + a.width + padding, b.x + b.width + padding)
+            - js_max(a.x - padding, b.x - padding),
     );
     x * y
 }

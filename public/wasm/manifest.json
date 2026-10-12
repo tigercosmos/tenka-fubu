@@ -3,8 +3,8 @@
   "target": "wasm32-unknown-unknown",
   "profile": "release",
   "toolchain": "1.97.1",
-  "sourceSha256": "23235bbde3d463efcab2d15e1e51978adad491e631bf42e5301901a56a3ac3e9",
-  "wasmSha256": "4935459682fdb5a509d72793518ce1343b49d8c07e041300b9262e6ca8acd759",
+  "sourceSha256": "a36d56f683d0273fa45f891b475c235044a30886cd67405c6577cb32c5f41cc3",
+  "wasmSha256": "e22f559b4b9d6f6348709e028cecdbc2c6f567db2483fa845b48df0554d7bc7d",
   "sourceFiles": {
     "rust/engine/Cargo.lock": "5f071ef4ef4455f76340d6952350e944dae5cc3ea6aeb8b114eec4d8e90d65df",
     "rust/engine/Cargo.toml": "81f2227d15d62bd18e936c1020dfb9b8cdbd40e00b091e7fdc78ccb133dd6478",
@@ -12,8 +12,8 @@
     "rust/engine/src/castle_ribbon.rs": "a5cb03aa871c51d5e364d6882e4ab10cb95bd0136d26461fc4741402514a1b95",
     "rust/engine/src/castle_ribbon_tests.rs": "9f3e65e490d7ba3b142d12bfb508f9834e32dc5c20eed0e42b9c41cd3e7d3df0",
     "rust/engine/src/geographic.rs": "69ed145c2ee7d445691b0897362fc6de196cbe48fd4b0c1721764e67def56768",
-    "rust/engine/src/geographic_preparation.rs": "d995aae1959aa528f065f755c410b606c69f81012688a0009cdcd74a3da90b6c",
-    "rust/engine/src/geographic_preparation_tests.rs": "40b4a0e15dad4747fdfde97da28975914fa841b2234594d8c0b5468545f46da8",
+    "rust/engine/src/geographic_preparation.rs": "da177d0d2e5e3b5cac871f70425e9853ea679feeb94406423cdfc3f896e2f10c",
+    "rust/engine/src/geographic_preparation_tests.rs": "f3214adad66c09ca668c92fa1704c8dbce17a6f463756a437cdfe431c9212bbc",
     "rust/engine/src/lib.rs": "a4fe6346d3ed93310f912539efe67c35af815375686df39ddf17c2ea85bc9935",
     "tools/wasm/artifact.ts": "425c210717e52f86fdd33eed34718ed498456461f93a42b1bdc748555b7f748b",
     "tools/wasm/build.ts": "e1864d5a21a7a353fe359ec339b56d4f0e740e887daf50f8d74e248d9822274b"
@@ -23,8 +23,8 @@
     "scalar": {
       "file": "tenka_engine.wasm",
       "bytes": 90122,
-      "wasmSha256": "4935459682fdb5a509d72793518ce1343b49d8c07e041300b9262e6ca8acd759",
-      "sourceSha256": "23235bbde3d463efcab2d15e1e51978adad491e631bf42e5301901a56a3ac3e9",
+      "wasmSha256": "e22f559b4b9d6f6348709e028cecdbc2c6f567db2483fa845b48df0554d7bc7d",
+      "sourceSha256": "a36d56f683d0273fa45f891b475c235044a30886cd67405c6577cb32c5f41cc3",
       "recipe": {
         "target": "wasm32-unknown-unknown",
         "profile": "release",
@@ -37,7 +37,7 @@
         "targetDirectory": "rust/engine/target/scalar"
       },
       "recipeSha256": "c1b164a226a32a0545591df20beb1e737d3ecf72eabc9e182406104ba9037c16",
-      "sourceAndFlagsSha256": "385ebbe8f33b15149e5b4d26135e24403f7279e064e2bc77aa202005fa50c819",
+      "sourceAndFlagsSha256": "43f29d4de0376a4e13faa1001b2612576342a1a61d85830382de272ccfdccd5a",
       "abiVersions": {
         "engine_abi_version": 1,
         "geographic_abi_version": 1,
@@ -51,8 +51,8 @@
     "simd128": {
       "file": "tenka_engine.simd.wasm",
       "bytes": 89972,
-      "wasmSha256": "f33324b483918c6671bbe368cd9065368403ae83ebfa27c36cb49053fd9fce77",
-      "sourceSha256": "23235bbde3d463efcab2d15e1e51978adad491e631bf42e5301901a56a3ac3e9",
+      "wasmSha256": "48bed258011b162196ebd4fdf8b9e9dc94081df139d1f1af4294ffcdcc5882a0",
+      "sourceSha256": "a36d56f683d0273fa45f891b475c235044a30886cd67405c6577cb32c5f41cc3",
       "recipe": {
         "target": "wasm32-unknown-unknown",
         "profile": "release",
@@ -65,7 +65,7 @@
         "targetDirectory": "rust/engine/target/simd128"
       },
       "recipeSha256": "14c878e2b30da9fccefadeb316d20fc4df8de76d9bdea8dffd4198bd1d9f82d8",
-      "sourceAndFlagsSha256": "48d5a77c2f25c3ef863e63aa2f74e927f7cf3f55cdde389a4e35a2955a94caf7",
+      "sourceAndFlagsSha256": "4418c74876adb643de124a6b09625ec37999c0f90be1d68633e4a801b3488211",
       "abiVersions": {
         "engine_abi_version": 1,
         "geographic_abi_version": 1,

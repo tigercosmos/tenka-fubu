@@ -389,7 +389,7 @@ fn strict_near_boundaries_and_unbounded_obstacle_counts() {
 }
 
 #[test]
-fn guarded_x_matches_original_grid_touch_and_thresholds() {
+fn guarded_y_matches_original_grid_touch_and_thresholds() {
     let bound = f64::MAX / 16.0;
     let values = [
         -0.0,
@@ -474,6 +474,45 @@ fn unbounded_zero_x_preserves_nan_product_and_offset_fallback() {
         assert_eq!(
             score_prepared(&f, &mut p, &road(0.0, &[])),
             if value.is_nan() { 0 } else { 1 }
+        );
+    }
+}
+
+#[test]
+fn unbounded_zero_y_preserves_infinite_or_nan_x_product() {
+    let a = Rect {
+        x: f64::MAX,
+        y: 0.0,
+        width: f64::MAX,
+        height: 0.0,
+    };
+    for x in [f64::MAX, f64::INFINITY, f64::NAN] {
+        let b = Rect {
+            x,
+            y: 100.0,
+            width: f64::MAX,
+            height: 0.0,
+        };
+        let expected = overlap(a, b, 0.0);
+        assert!(expected.is_nan());
+        assert!(guarded_overlap(a, b, 0.0, false).is_nan());
+    }
+    let a = Rect {
+        x: -0.0,
+        y: 0.0,
+        width: 8.0,
+        height: 8.0,
+    };
+    for y in [8.0f64.next_down(), 8.0, 8.0f64.next_up()] {
+        let b = Rect {
+            x: 0.0,
+            y,
+            width: 8.0,
+            height: 8.0,
+        };
+        assert_eq!(
+            guarded_overlap(a, b, 0.0, true).to_bits(),
+            overlap(a, b, 0.0).to_bits()
         );
     }
 }
