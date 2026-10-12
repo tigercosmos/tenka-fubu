@@ -15,20 +15,65 @@ async function chooseScenarioAndOda(page: Page): Promise<void> {
   await expect(page.getByTestId('screen-difficulty-select')).toBeVisible();
 }
 
-async function readableInViewport(target: Locator, name: string, action = false): Promise<void> {
+async function readableInViewport(
+  target: Locator,
+  name: string,
+  action = false,
+  checkOwnFont = true,
+): Promise<void> {
   const box = await target.boundingBox();
   expect(box, `${name} is rendered`).not.toBeNull();
   expect(box!.x, `${name} left`).toBeGreaterThanOrEqual(0);
   expect(box!.y, `${name} top`).toBeGreaterThanOrEqual(0);
   expect(box!.x + box!.width, `${name} right`).toBeLessThanOrEqual(1280);
   expect(box!.y + box!.height, `${name} bottom`).toBeLessThanOrEqual(720);
-  const fontSize = await target.evaluate((element) =>
-    parseFloat(getComputedStyle(element).fontSize),
-  );
-  expect(fontSize, `${name} readable text`).toBeGreaterThanOrEqual(12);
+  if (checkOwnFont) {
+    const fontSize = await target.evaluate((element) =>
+      parseFloat(getComputedStyle(element).fontSize),
+    );
+    expect(fontSize, `${name} readable text`).toBeGreaterThanOrEqual(12);
+  }
   if (action) {
     expect(box!.width, `${name} width`).toBeGreaterThanOrEqual(32);
     expect(box!.height, `${name} height`).toBeGreaterThanOrEqual(32);
+  }
+}
+
+async function scenarioCardTextReadable(action: Locator): Promise<void> {
+  const text = await action.evaluate((card) => {
+    const cardBox = card.getBoundingClientRect();
+    return [...card.querySelectorAll('span')].map((span) => {
+      const range = document.createRange();
+      range.selectNodeContents(span);
+      return {
+        fontSize: parseFloat(getComputedStyle(span).fontSize),
+        rects: [...range.getClientRects()].map((box) => ({
+          left: box.left,
+          right: box.right,
+          top: box.top,
+          bottom: box.bottom,
+          cardLeft: cardBox.left,
+          cardRight: cardBox.right,
+          cardTop: cardBox.top,
+          cardBottom: cardBox.bottom,
+        })),
+      };
+    });
+  });
+  expect(text).toHaveLength(4); // Year, name, stats and visible arrow.
+  for (const [index, part] of text.entries()) {
+    expect(part.fontSize, `scenario text ${index} font`).toBeGreaterThanOrEqual(12);
+    expect(part.rects.length, `scenario text ${index} renders`).toBeGreaterThan(0);
+    for (const box of part.rects) {
+      expect(box.left, `scenario text ${index} left`).toBeGreaterThanOrEqual(box.cardLeft);
+      expect(box.right, `scenario text ${index} right`).toBeLessThanOrEqual(box.cardRight);
+      expect(box.top, `scenario text ${index} top`).toBeGreaterThanOrEqual(box.cardTop);
+      expect(box.bottom, `scenario text ${index} bottom`).toBeLessThanOrEqual(box.cardBottom);
+      expect(box.left, `scenario text ${index} viewport left`).toBeGreaterThanOrEqual(0);
+      expect(box.top, `scenario text ${index} viewport top`).toBeGreaterThanOrEqual(0);
+      expect(box.right, `scenario text ${index} viewport right`).toBeLessThanOrEqual(1280);
+      expect(box.bottom, `scenario text ${index} viewport bottom`).toBeLessThanOrEqual(720);
+    }
   }
 }
 
@@ -45,9 +90,15 @@ async function captureStep(
   await heading.evaluate((element) => element.scrollIntoView({ block: 'start' }));
   await readableInViewport(heading, `${name} heading`);
   await readableInViewport(screen.getByRole('list', { name: '新遊戲步驟' }), `${name} progress`);
+  await readableInViewport(
+    screen.getByRole('button', { name: '返回', exact: true }),
+    `${name} back`,
+    true,
+  );
   await page.screenshot({ path: info.outputPath(`wizard-${scale}-${name}-top.png`) });
   await action.evaluate((element) => element.scrollIntoView({ block: 'end' }));
-  await readableInViewport(action, `${name} action`, true);
+  await readableInViewport(action, `${name} action`, true, name !== 'scenario');
+  if (name === 'scenario') await scenarioCardTextReadable(action);
   await page.screenshot({ path: info.outputPath(`wizard-${scale}-${name}-action.png`) });
 }
 
@@ -152,6 +203,7 @@ for (const scale of scales) {
     const chosenClan = daimyo.locator('aside').getByRole('heading', { level: 2 });
     await chosenClan.evaluate((element) => element.scrollIntoView({ block: 'nearest' }));
     await readableInViewport(chosenClan, 'selected clan');
+    await readableInViewport(daimyo.locator('aside p').first(), 'selected clan leader');
     await readableInViewport(
       daimyo.locator('aside').getByText('當主', { exact: true }),
       'selected clan label',
@@ -194,6 +246,7 @@ for (const scale of scales) {
     await captureStep(page, info, scale, 'seed', seedScreen, page.getByTestId('newgame-start'));
     const seed = page.getByTestId('newgame-seed');
     await readableInViewport(seed, 'seed input', true);
+    await readableInViewport(seedScreen.locator('label[for="newgame-seed"]'), 'seed label');
     await readableInViewport(seedScreen.locator('#newgame-seed-hint'), 'seed guidance');
     await expect(seed).toHaveValue('42');
     for (const invalid of ['', '-1', '1.5', 'NaN', '4294967296']) {

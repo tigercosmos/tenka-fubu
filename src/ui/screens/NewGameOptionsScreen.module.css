@@ -6,6 +6,7 @@
   background: linear-gradient(180deg, var(--surface-command) 0 10rem, var(--surface-base) 10rem);
   color: var(--text-primary);
   font-family: var(--font-family-ui);
+  font-size: max(12px, var(--font-size-sm));
 }
 .header {
   display: flex;
