@@ -1,0 +1,364 @@
+{
+  "scope": "sim3 frozen geographic WASM renderer-only prerequisite current23 baseline; not live campaign acceptance",
+  "sourceCommit": "c05a46c",
+  "replica": "sim3:/tmp/tenka-national120-current23-20261012",
+  "cohort": "fresh npm ci with all 23 frozen Pixi patches; node22.23.3; Chrome149 Chromium1228; RTX5070Ti Vulkan driver580.178.04",
+  "functionalParity": {
+    "referenceSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "actualSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+    "fullPayloadEqual": true,
+    "snapshotsEqual": true,
+    "snapshots": 9,
+    "days": [0, 0, 0, 1, 1, 1, 2, 2, 2],
+    "excludedNonvisualCounters": [
+      "armyPlateLayout.runs",
+      "geographicLabelLayout.runs",
+      "geographicLabelLayout.placementCache",
+      "castleRibbonLayout.runs"
+    ]
+  },
+  "fps": [
+    {
+      "camera": "overview",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 59.83335943029754,
+      "slowFrameFps": 56.497175750055426,
+      "frameTimeP95": 17.699999809265137,
+      "durationMs": 30016.699999809265,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 83,
+      "lodStage": "far",
+      "resourcesEqual": true,
+      "terminalExit": 1,
+      "strict60Pass": false
+    },
+    {
+      "camera": "operational",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 42.93288159497005,
+      "slowFrameFps": 39.21568627450981,
+      "frameTimeP95": 25.5,
+      "durationMs": 30046.900000095367,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 79,
+      "lodStage": "mid",
+      "resourcesEqual": true,
+      "terminalExit": 1,
+      "strict60Pass": false
+    },
+    {
+      "camera": "close",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.55 Safari/537.36",
+        "renderer": "ANGLE (NVIDIA, Vulkan 1.4.312 (NVIDIA NVIDIA GeForce RTX 5070 Ti (0x00002C05)), NVIDIA)",
+        "vendor": "Google Inc. (NVIDIA)"
+      },
+      "averageFps": 24.613255901438787,
+      "slowFrameFps": 20.533880782858514,
+      "frameTimeP95": 48.700000286102295,
+      "durationMs": 30065.099999904633,
+      "minMountedArmies": 120,
+      "minVisibleArmies": 56,
+      "lodStage": "near",
+      "resourcesEqual": true,
+      "terminalExit": 1,
+      "strict60Pass": false
+    }
+  ],
+  "stateResourceProof": [
+    {
+      "camera": "overview",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-current23-overview-results/national120-map-perf-natio-0f189-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "d04ff00596387bcc8fdc56ebb88cb91d60413a94418628632b6a149b7a5628d2",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    },
+    {
+      "camera": "operational",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-current23-operational-results/national120-map-perf-natio-a8207-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "d6110eca0aac17a8a53495a7352d852338e1e7a12ad256f58c05c6c89a822b8d",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    },
+    {
+      "camera": "close",
+      "canonicalBeforeSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalAfterSha256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "canonicalBytes": 816643,
+      "canonicalByteEqual": true,
+      "resourceBeforeSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceAfterSha256": "3a8bdebefd8407d83454ba3bd667e2a13846df5a2c7708da388b8e4ef225f3ef",
+      "resourceObjectsEqual": true,
+      "tracePath": "/tmp/tenka-current23-close-results/national120-map-perf-natio-9df1b-d-actual-postrender-cadence-chromium/trace.zip",
+      "traceSha256": "08f60d58a1bcf8770d0c9a9067772cfc0c531388fd6c2d9a2194b4f1b75cd7e0",
+      "stateSource": "Exact before/after page.evaluate JSON.stringify(getState()) results decoded from Playwright trace value.s",
+      "resourceHashEncoding": "UTF8 sorted-key compact JSON"
+    }
+  ],
+  "sourceAllMatch": true,
+  "sourceFiles": 1396,
+  "dependencyPatchedTargets": 23,
+  "installedDependencyFileCount": 14765,
+  "oldDependencyReplicaUnmodified": true,
+  "limitations": [
+    "single window per camera, no retry",
+    "old dependency cohort cannot identify geographic Rust effects",
+    "future castle Rust comparisons must retain this dependency cohort and runtime",
+    "all original strict60 failures preserved; no profile in this cohort"
+  ],
+  "artifacts": [
+    {
+      "path": "build-artifact-proof.json.gz",
+      "rawBytes": 12589,
+      "rawSHA256": "797c85b7995aa5bdae6dddb2930e848773d54936b2409417b33bc6a7dcd527b5",
+      "gzipBytes": 3681,
+      "gzipSHA256": "d51a839a2d9c6f91696ba1c12c81b5f5320dd2338d03ef48f281a91884073dab"
+    },
+    {
+      "path": "build-final.log.gz",
+      "rawBytes": 1678,
+      "rawSHA256": "02f88c946bee0a5a8045a43102725ed13769ced872860e2ae90d04c9d7ea1ae6",
+      "gzipBytes": 847,
+      "gzipSHA256": "623fb9d3dfd330a720750423a5b996f5b3b7629a76ec63737656a94ae4869a1d"
+    },
+    {
+      "path": "build-initial-missing-fixture.log.gz",
+      "rawBytes": 1123,
+      "rawSHA256": "09cdf4801d6bf57a20f0eebae3f3dbee35477f5900738cb93ba4bff1b034716b",
+      "gzipBytes": 532,
+      "gzipSHA256": "fa61d10d19bca24661a191c810f5fa40c5a650c3d217b41f9247b749dd4b9e0b"
+    },
+    {
+      "path": "canonical-state.raw.json.gz",
+      "rawBytes": 816643,
+      "rawSHA256": "e0f04539302e82f201e7e5a91007b01b24d9ce7c5473828798ef393f9bed39e6",
+      "gzipBytes": 71991,
+      "gzipSHA256": "2131493e97a0d61568ce79807f50bece03ac03fed840a27862b345a4bd2e1bf2"
+    },
+    {
+      "path": "close.log.gz",
+      "rawBytes": 2982,
+      "rawSHA256": "36af4c0c8b4948115897f1f2438295cf7cee8867cfa5ee1519f8a3f65412ad3f",
+      "gzipBytes": 692,
+      "gzipSHA256": "0500ed48855c1c46b65ba9d7b52e91dbdd8e0e48ad079c7d0ada12f46e624a60"
+    },
+    {
+      "path": "close.raw.json.gz",
+      "rawBytes": 124795,
+      "rawSHA256": "9eed678bb97e6ba6569476d681c459b81beadd066796c06a23dc0ac9bd2655eb",
+      "gzipBytes": 8168,
+      "gzipSHA256": "3b0969faff595c55cc415b5bbb728562d32ef86c6f6e3fe55859d8313a877dc2"
+    },
+    {
+      "path": "commands.sh.gz",
+      "rawBytes": 780,
+      "rawSHA256": "362917de0351bce1c5dd889e5a162d128e4574aa3e3bedf5dad3b8172a82ed10",
+      "gzipBytes": 487,
+      "gzipSHA256": "70013d2464b9dd318d0420bfb0e0f9c911b7eff7d63e3de6f5565430cee0320e"
+    },
+    {
+      "path": "dependency-proof.json.gz",
+      "rawBytes": 7730,
+      "rawSHA256": "6720ceb3b95fae750d7365562df5fecb7bac8117a507b54a7a3fc8547b8be43e",
+      "gzipBytes": 1740,
+      "gzipSHA256": "1c2bd9f07ca460fedfcfd7e21c9776711fb004b2da86a48388372c94ffbda7e1"
+    },
+    {
+      "path": "dependency-tree-manifest.json.gz",
+      "rawBytes": 2810365,
+      "rawSHA256": "80817b10633e9f3b2ef391659d475d50f419c59a1f78fd0b16ba9487e7480f93",
+      "gzipBytes": 730703,
+      "gzipSHA256": "a8aea518cfc91dbe183dac8fdc2cc59f4b38761e86d167d5f0a9866eb3a069a5"
+    },
+    {
+      "path": "environment.json.gz",
+      "rawBytes": 1482,
+      "rawSHA256": "5779cfaa65fbb52c4de6363c82fb40a28fb0c0c6172460d42a00c64a66e275a0",
+      "gzipBytes": 738,
+      "gzipSHA256": "01c92b358fa4e763335eed2be80a6ea6afcdfc4cd5a5a76f3731303039deecdd"
+    },
+    {
+      "path": "fixtures.ts.gz",
+      "rawBytes": 1012,
+      "rawSHA256": "7a3a8311c171fcfdb99bd37aff1128fa09cd15e7829650c1611bdcce014b8432",
+      "gzipBytes": 645,
+      "gzipSHA256": "2455ba2edc37594284f250c9814011f9274331ececadcf72a82992bccb50fcbe"
+    },
+    {
+      "path": "fps-control.spec.ts.gz",
+      "rawBytes": 4470,
+      "rawSHA256": "2d39ba643aa3c0aa7a242d0e93d081806fe54bd64b650f1ab78cbf67d4f567e4",
+      "gzipBytes": 1654,
+      "gzipSHA256": "d9831afdd58ba882a7310b7c943d8d6762de07ad2a0b22232e3cad5c12df3d8e"
+    },
+    {
+      "path": "npmci.log.gz",
+      "rawBytes": 881,
+      "rawSHA256": "fc5e3f2e56e5fc2ce6674a9b0f149ba85563d738f1f0b93106ccbdcbd2ce0085",
+      "gzipBytes": 538,
+      "gzipSHA256": "d8692252c7b2290af16b1084b895685e1bf23aca4bbbbbae0d10e228a7d3f754"
+    },
+    {
+      "path": "observer.mjs.gz",
+      "rawBytes": 3324,
+      "rawSHA256": "3ea424938698621395dbb62c420dc53c9a41d1fb318cf2d58daf2f24ad97d695",
+      "gzipBytes": 1403,
+      "gzipSHA256": "33a50ada4e9e05104c01bb49ff00b40f880135dac7dad814f04075de27c64727"
+    },
+    {
+      "path": "operational.log.gz",
+      "rawBytes": 3023,
+      "rawSHA256": "f29e382ad94c410b5eb1222eb708e7a4edc7bc36dbe2a918f4103fb1fd8db0b4",
+      "gzipBytes": 694,
+      "gzipSHA256": "f40a62a4d842b0bd932199bbdb763db5afe5025253b5915e332d62489aab7bec"
+    },
+    {
+      "path": "operational.raw.json.gz",
+      "rawBytes": 137704,
+      "rawSHA256": "905fa8ab7e6269e7dca7568ae9b0d1ca4e2cfbee10091e8a14748886ddf61b25",
+      "gzipBytes": 8950,
+      "gzipSHA256": "2fc6b1a558848608d4977a4289f34294a2737c8bb1f517221f1b8fc590f83d94"
+    },
+    {
+      "path": "overview.log.gz",
+      "rawBytes": 3002,
+      "rawSHA256": "df758a9a9bb41ff2f3dfa00736112a20d1bbd8c07d9be2c861f70038e6f760e0",
+      "gzipBytes": 695,
+      "gzipSHA256": "460955defa66f8915c4338b6f9dc612e3ae040b47dae4261983b60d3a74b55f7"
+    },
+    {
+      "path": "overview.raw.json.gz",
+      "rawBytes": 149162,
+      "rawSHA256": "b26aec82ea171fa921b01a6d4ffcccb625f28df12ace435c50efa27b609aa25b",
+      "gzipBytes": 9430,
+      "gzipSHA256": "3b56ad6de48c059f8357711d3b3521a5936a03b5dccec923e530bf75fd8fd2c5"
+    },
+    {
+      "path": "package-version-proof.json.gz",
+      "rawBytes": 1435,
+      "rawSHA256": "ae8b2f9cd733569d5e88c57cc0f66555b3d0a21f768e1adec74bbc22c9a7b84a",
+      "gzipBytes": 548,
+      "gzipSHA256": "b3b0bd22139771fa4739cfacb34491c38ed3a0c817a1b0eac855e67d9df6eada"
+    },
+    {
+      "path": "parity-proof.json.gz",
+      "rawBytes": 502,
+      "rawSHA256": "93130188f9732ee34556fe6935020d0de93b429b5e0a9d4a2b334fd80fd3bb37",
+      "gzipBytes": 257,
+      "gzipSHA256": "8927acafdca107345ed314ae8e0b4b1dad0316d410546fd1d88a6f71e8878f05"
+    },
+    {
+      "path": "patch-applier.mjs.gz",
+      "rawBytes": 3071,
+      "rawSHA256": "ec4ec746e1b5caac07f36e80f886ddcd913e454e8edf6cf4bf901abb3e7334b5",
+      "gzipBytes": 1194,
+      "gzipSHA256": "37b3844d179c76da46cdd537a57c1bd5ea44bb6a1615039e1e22b479335c1d7e"
+    },
+    {
+      "path": "patch-manifest.json.gz",
+      "rawBytes": 24802,
+      "rawSHA256": "61616fb34a6ed6d3212bd0bc6ff78929f2f1cfa4214cf12dea7cb946cca81972",
+      "gzipBytes": 5076,
+      "gzipSHA256": "34e20843a51cef6c2f4350b8e7dcb17ba26b61fc2486488dfe07170dd8117ae7"
+    },
+    {
+      "path": "playwright.config.ts.gz",
+      "rawBytes": 1918,
+      "rawSHA256": "0f2062a03f1ed2174fbd4b496dff2c851a579d78952452666d5de2c6ee30b21c",
+      "gzipBytes": 1072,
+      "gzipSHA256": "3a2610600999f04c9ca9af25eefb885f72bb86cde6f2547bd9d11b558b438177"
+    },
+    {
+      "path": "proof.py.gz",
+      "rawBytes": 3255,
+      "rawSHA256": "a0c7b41d440d016faa4015664386b8f41a6fc9456e788d8c57be967f9b5dd6d6",
+      "gzipBytes": 1380,
+      "gzipSHA256": "7eca663a80d4463da75d0cd53491590ccd12567a90319dac2c759e547db3951f"
+    },
+    {
+      "path": "published.log.gz",
+      "rawBytes": 79,
+      "rawSHA256": "64f6d758a9e9f2ad6450e4a834430edb52cc21466c79b823f6842e3cf3d77ad1",
+      "gzipBytes": 87,
+      "gzipSHA256": "fb5c3e73c52ff203a79f87d01ce983b0cea90de5b4adba2e3b4ca11c3970c941"
+    },
+    {
+      "path": "published.raw.json.gz",
+      "rawBytes": 15199813,
+      "rawSHA256": "af4ddbc9c9232041f23b3cd37fdb802681d1ffce7a4709eaa7dc5031f6cebe29",
+      "gzipBytes": 2263646,
+      "gzipSHA256": "5f3d23a445cc229f2ce18a6b51842170c9ba6a9927a9b07d1632c82d16b100ef"
+    },
+    {
+      "path": "source-proof.json.gz",
+      "rawBytes": 517104,
+      "rawSHA256": "57f71e361b69f060eda7ddf8a5f07cf64b81529eed8a367aa041f1023683aecc",
+      "gzipBytes": 127098,
+      "gzipSHA256": "bb6735b23277db8ee97a7f4972fec25c218af0f32fdde91de71bf97fe35b4cf6"
+    },
+    {
+      "path": "state-resource-proof.json.gz",
+      "rawBytes": 2784,
+      "rawSHA256": "ffef4c1634c841c224642f7dec56b24b6e7fff2c6807b3d2bcd68eb4db8fbfe6",
+      "gzipBytes": 626,
+      "gzipSHA256": "26facc3916a4b751b295b8c6dc365f864d57779b52c5cce2e3267e6f329b23c9"
+    },
+    {
+      "path": "tenka-current23-collect.py.gz",
+      "rawBytes": 1909,
+      "rawSHA256": "5d046659d446bfa0d2ddfa381b807163855f5af4aad9dd2b437b5d5ae2e55384",
+      "gzipBytes": 791,
+      "gzipSHA256": "9751720b086bc20dee1551eda323f9654e55c8d2d435e3c1349036b5bbe79526"
+    },
+    {
+      "path": "tenka-current23-state-proof.py.gz",
+      "rawBytes": 2091,
+      "rawSHA256": "c7e3625c7b92aec1b32f87893806d02cb00202d7eea979bd540d768bee157297",
+      "gzipBytes": 958,
+      "gzipSHA256": "4c9622bc7fd49f588567c12df16646906dc6bd1fbadf925b977bcaff6fa31f9e"
+    },
+    {
+      "path": "tenka_engine.wasm.gz",
+      "rawBytes": 27147,
+      "rawSHA256": "2f4bde5fab04903790ccc28e507ef2ccd1dd8df8bc9f8de2a4491ff71ca263df",
+      "gzipBytes": 11075,
+      "gzipSHA256": "db806d9b3476cfab94926894b717864ee55f7339e816672e6f34afdf03fa40cc"
+    },
+    {
+      "path": "wasm-manifest.json.gz",
+      "rawBytes": 1004,
+      "rawSHA256": "97daa43b8b0c7241da22beeaabc0abf30d62546ea979f00463b8e8a0333ee9bd",
+      "gzipBytes": 586,
+      "gzipSHA256": "b4a0940a1db740d7c78490670965021549cd990f33fd6f9b50d0765bede65e59"
+    },
+    {
+      "path": "gpu-driver-hashes.json.gz",
+      "rawBytes": 941,
+      "rawSHA256": "5e661de80fbe9c06a09a5fe9772cc302f425614f3f6dabc180450734adb16391",
+      "gzipBytes": 393,
+      "gzipSHA256": "eed66048cd518b55d838c69cb6380f6ec594cee9fc0fc91ecebbe93dfd16b098"
+    }
+  ]
+}
