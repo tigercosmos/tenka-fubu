@@ -2,12 +2,25 @@ import { test, expect } from './fixtures';
 import type { Page } from '@playwright/test';
 import { DEBUG_M6_FLOW_IDS } from '../src/core/debugM6';
 
+async function stepDaysAndWait(page: Page, days: number) {
+  const beforeDay = await page.evaluate(() => window.__tenka.debug.getState().time.day);
+  await page.evaluate((count) => window.__tenka.debug.stepDays(count), days);
+  await expect
+    .poll(() =>
+      page.evaluate(() => ({
+        day: window.__tenka.debug.getState().time.day,
+        pendingTicks: window.__tenka.debug.getSimulationDiagnostics().pendingTicks,
+      })),
+    )
+    .toEqual({ day: beforeDay + days, pendingTicks: 0 });
+}
+
 async function boot(page: Page) {
   await page.goto('/?debug=1');
   await page.evaluate(() => window.__tenka.debug.startM6Flow());
   await expect(page.getByTestId('screen-strategy')).toBeVisible();
   await page.getByTestId('proposal-inbox').getByRole('button', { name: '拒絕' }).click();
-  await page.evaluate(() => window.__tenka.debug.stepDays(1));
+  await stepDaysAndWait(page, 1);
   await page.getByTestId('speed-pause').click();
   await page.getByTestId('rail-corps').click();
   const panel = page.getByTestId('corps-panel');
@@ -24,7 +37,7 @@ async function create(page: Page) {
     await page.evaluate(() => Object.keys(window.__tenka.debug.getState().corps)),
   ).toHaveLength(0);
   await expect(page.getByTestId('speed-pause')).toHaveAttribute('aria-pressed', 'true');
-  await page.evaluate(() => window.__tenka.debug.stepDays(1));
+  await stepDaysAndWait(page, 1);
   const corpsId = await page.evaluate(
     () =>
       Object.values(window.__tenka.debug.getState().corps).find(
@@ -62,7 +75,7 @@ test('corps creation waits for normal resume and its directive and wallet are vi
   await expect(panel.getByText(/軍團金庫：\d+貫/)).toBeVisible();
   await panel.getByRole('radio', { name: '開發', exact: true }).check();
   await panel.getByRole('button', { name: '變更方針' }).click();
-  await page.evaluate(() => window.__tenka.debug.stepDays(1));
+  await stepDaysAndWait(page, 1);
   await expect
     .poll(() =>
       page.evaluate(() => Object.values(window.__tenka.debug.getState().corps)[0]!.directive),
@@ -72,7 +85,7 @@ test('corps creation waits for normal resume and its directive and wallet are vi
   const untilMonthStart = await page.evaluate(
     () => 30 - window.__tenka.debug.getState().time.dayOfMonth + 1,
   );
-  await page.evaluate((days) => window.__tenka.debug.stepDays(days), untilMonthStart);
+  await stepDaysAndWait(page, untilMonthStart);
   const wallet = await page.evaluate(
     () => Object.values(window.__tenka.debug.getState().corps)[0]!.gold,
   );
@@ -87,7 +100,7 @@ test('assign, remove and confirmed dissolution execute on tick and preserve a ma
   const castles = panel.getByRole('group', { name: '轄城' });
   const nagoya = castles.locator('div').filter({ hasText: '那古野城' });
   await nagoya.getByRole('button', { name: '編入軍團' }).click();
-  await page.evaluate(() => window.__tenka.debug.stepDays(1));
+  await stepDaysAndWait(page, 1);
   await expect
     .poll(() =>
       page.evaluate(
@@ -98,7 +111,7 @@ test('assign, remove and confirmed dissolution execute on tick and preserve a ma
     )
     .toBe(corpsId);
   await nagoya.getByRole('button', { name: '收回直轄' }).click();
-  await page.evaluate(() => window.__tenka.debug.stepDays(1));
+  await stepDaysAndWait(page, 1);
   await expect
     .poll(() =>
       page.evaluate(
@@ -120,7 +133,7 @@ test('assign, remove and confirmed dissolution execute on tick and preserve a ma
     await page.evaluate((id) => Boolean(window.__tenka.debug.getState().corps[id]), corpsId),
   ).toBe(true);
   await expect(page.getByTestId('speed-pause')).toHaveAttribute('aria-pressed', 'true');
-  await page.evaluate(() => window.__tenka.debug.stepDays(1));
+  await stepDaysAndWait(page, 1);
   await expect
     .poll(() => page.evaluate((id) => window.__tenka.debug.getState().corps[id] ?? null, corpsId))
     .toBeNull();
