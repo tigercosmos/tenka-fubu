@@ -168,8 +168,23 @@ async function normalDay(page: Page) {
     await expect(page.getByTestId('speed-5')).toHaveAttribute('aria-pressed', 'true');
     await page.clock.runFor(120);
   }
+  await page.evaluate(() => window.__tenka.debug.waitSimulationIdle());
+  // A dismissed month owner can reset the RAF accumulator. Let x5 dispatch
+  // only the next ordinary day, without resuming an owner or bypassing the UI.
+  for (let frame = 0; frame < 3 && (await day(page)) === before; frame++) {
+    if (
+      (await page.getByRole('dialog').count()) !== 0 ||
+      (await page.getByTestId('speed-5').getAttribute('aria-pressed')) !== 'true'
+    )
+      break;
+    await page.clock.runFor(16);
+    await page.evaluate(() => window.__tenka.debug.waitSimulationIdle());
+  }
   const after = await state(page);
   expect(after.time.day).toBe(before + 1);
+  expect(
+    await page.evaluate(() => window.__tenka.debug.getSimulationDiagnostics().pendingTicks),
+  ).toBe(0);
   expect(validateState(after)).toEqual([]);
   expect(
     after.reports.filter(
