@@ -1,0 +1,363 @@
+{
+  "schemaVersion": 1,
+  "sourceBase": "c5c7e551da0e39f4bdca55e5b92d415a57c67dc7",
+  "runtimeBase": "feab20cc9c207f37afae7a2f372c437b93232a07",
+  "scratchDirectory": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1",
+  "mainSourceMutation": false,
+  "performanceMeasurement": false,
+  "baseline": {
+    "bytes": 88475,
+    "sha256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b"
+  },
+  "candidate": {
+    "bytes": 89761,
+    "sha256": "69af4226d451a71211b209101cc4223045b1aeca2f1178d16e9beaa91166b736"
+  },
+  "candidateBinaryGrowthBytes": 1286,
+  "sharedGeographicBeforeSHA256": "69ed145c2ee7d445691b0897362fc6de196cbe48fd4b0c1721764e67def56768",
+  "sharedGeographicAfterSHA256": "69ed145c2ee7d445691b0897362fc6de196cbe48fd4b0c1721764e67def56768",
+  "checks": {
+    "originalRustTests": 23,
+    "permanentRustTests": 24,
+    "permanentGridCases": 1169294,
+    "touchingULPEpsilonCases": 40,
+    "compiledABICases": 1925,
+    "syntheticPreparedOffsetCases": 5,
+    "clippyWarningsAsErrors": true,
+    "rustfmt": true
+  },
+  "excluded": [
+    "Native standalone overlap-parity executable; source and complete compile/test logs included",
+    "Rust target outputs except both complete WASM modules; reproducible from frozen recipe"
+  ],
+  "files": [
+    {
+      "path": "raw/baseline-build.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/baseline-build.log",
+      "rawBytes": 377,
+      "rawSHA256": "70d7a1f3df7564824b5ddc9e65cd891f7f16813e770475065f54ea5a17f640c9",
+      "bytes": 294,
+      "sha256": "d14bcb802d612965e92f4a4985755c5a3e11dd2ece52678667f4549ae6b3dead"
+    },
+    {
+      "path": "raw/baseline-geographic-preparation-tests.rs.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/baseline-geographic-preparation-tests.rs",
+      "rawBytes": 11373,
+      "rawSHA256": "31ad3b3aa8f7b66e32a09ef543b7c82bcb4105a2310757a32b4df334ddaceaa9",
+      "bytes": 2995,
+      "sha256": "e8459e626e377a6b8861c8f540494d35a5446fd9f0bd932d51033a69f47cea46"
+    },
+    {
+      "path": "raw/baseline-geographic-preparation.rs.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/baseline-geographic-preparation.rs",
+      "rawBytes": 12429,
+      "rawSHA256": "9170c88bdc278090a24d7fe517bc771efeed2c60bb0477ffb218bc27f8009f5e",
+      "bytes": 3570,
+      "sha256": "bc94b33e340b285e85d8b10ac4eed3135bf358a69f457ef90e985a0ef2ee97bc"
+    },
+    {
+      "path": "raw/baseline-manifest.json.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/baseline-manifest.json",
+      "rawBytes": 1466,
+      "rawSHA256": "09483b9c0d9ddcd7ec57673a6a17380dc7ca2385a095872f710b020451413ca3",
+      "bytes": 780,
+      "sha256": "0ced6ab5b3848e403355034bf3cb3d5c598d2240afafa6c77fc7e2592074a41a"
+    },
+    {
+      "path": "raw/baseline.wasm.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/baseline.wasm",
+      "rawBytes": 88475,
+      "rawSHA256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b",
+      "bytes": 32309,
+      "sha256": "4a4333644726134a9e4400de858ab141a581acc02379ae18919332249384d6a8"
+    },
+    {
+      "path": "raw/binary-comparison.json.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/binary-comparison.json",
+      "rawBytes": 255,
+      "rawSHA256": "8272ea79343ff38065216a6647637ed1ab4ba08730a5ba09c5cded483f57d5cb",
+      "bytes": 189,
+      "sha256": "27de91635ab85845fa3fa8921ebceb291aeae16bc968407da8d1d6061d71b6dd"
+    },
+    {
+      "path": "raw/candidate-build.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/candidate-build.log",
+      "rawBytes": 377,
+      "rawSHA256": "5dfd4750529641dd3228d13f26b7d76ffab81fa49bf618cfa8331d2dd2aaf511",
+      "bytes": 293,
+      "sha256": "df61a23c6f940baaf656fc25c1cfe3f2c8e9c14c00b10ce383c607edc0f2d65f"
+    },
+    {
+      "path": "raw/candidate-clippy.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/candidate-clippy.log",
+      "rawBytes": 166,
+      "rawSHA256": "c39afdc0fea93857d10e0ee63953a354569d1d8b000c904c515bb96df4bf2752",
+      "bytes": 153,
+      "sha256": "15e9c181aeb52fee51d5807e05aa88ef418f99551ce23d1e255bf13ce730e23a"
+    },
+    {
+      "path": "raw/candidate-fmt.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/candidate-fmt.log",
+      "rawBytes": 0,
+      "rawSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "raw/candidate-manifest-permanent.json.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/candidate-manifest-permanent.json",
+      "rawBytes": 1466,
+      "rawSHA256": "1a3898ae9a0329aa19510f095fdac0b4bebb4f6b77ee4657787be02dd6311904",
+      "bytes": 779,
+      "sha256": "cee6a4f652ee7f08cf2833c03e3942e0fd79b8f9a6dc7e405eab66565f453952"
+    },
+    {
+      "path": "raw/candidate-manifest.json.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/candidate-manifest.json",
+      "rawBytes": 1466,
+      "rawSHA256": "9620fb0e53434811e97e8008ba6da13f670ccbe7d2d0cf0052607e3ce4d41816",
+      "bytes": 779,
+      "sha256": "be9cd529fcf57bd7d36b11475adeb3c7f0c9ad12798c70f3fff3aa0409dc512d"
+    },
+    {
+      "path": "raw/candidate.patch.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/candidate.patch",
+      "rawBytes": 3479,
+      "rawSHA256": "19651692324b12d0c8c4722474d9717fd4a08128cf7c42b4de8dec3af6f3da74",
+      "bytes": 1037,
+      "sha256": "4fc0698bbeba0bb5df1c684eec15bfb3d6ad2db80f1628b7e5e4dbfb64b32415"
+    },
+    {
+      "path": "raw/candidate.wasm.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/candidate.wasm",
+      "rawBytes": 89761,
+      "rawSHA256": "69af4226d451a71211b209101cc4223045b1aeca2f1178d16e9beaa91166b736",
+      "bytes": 32673,
+      "sha256": "a2dfc2918720a83dd49ba4e5d2742bf3318282a9c8a63c914cd8b7efdd6edbc1"
+    },
+    {
+      "path": "raw/compiled-parity.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/compiled-parity.log",
+      "rawBytes": 335,
+      "rawSHA256": "54c66c3346359d5b05b042efe2a4e19a56cc05709352322d325b10f29b780c28",
+      "bytes": 249,
+      "sha256": "fa21d29d98708ab0fa31ac993dfc71432c4ecc43bde531143b037a7b69e4eb46"
+    },
+    {
+      "path": "raw/compiled-parity.raw.json.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/compiled-parity.raw.json",
+      "rawBytes": 10986065,
+      "rawSHA256": "1a85b757ec4a700a05ed2d73a48a4ccc607bacded7a88551b40b5504036ace90",
+      "bytes": 1175242,
+      "sha256": "69afb1f839f289f458c62d2233cbc6076ab0026dea5b21bb6cf6357befce9a22"
+    },
+    {
+      "path": "raw/compiled-parity.ts.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/compiled-parity.ts",
+      "rawBytes": 3866,
+      "rawSHA256": "45713fa22d3989169cf3bd6bc289e5e3b66e9a76226959b835444289b5abb2f0",
+      "bytes": 1635,
+      "sha256": "d3892701a959cba2e0707da8a5f8ae5cb39003f063f0033e429d7c46d2794331"
+    },
+    {
+      "path": "raw/direct-parity-compile.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/direct-parity-compile.log",
+      "rawBytes": 0,
+      "rawSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "raw/direct-parity-test.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/direct-parity-test.log",
+      "rawBytes": 913,
+      "rawSHA256": "cf1e26bab7876c42094c3738962f99d93163e2ac9d08b6179de3a58b184c9f1c",
+      "bytes": 462,
+      "sha256": "6807feb69181411cdb4ece1ec8ddf3fc43b947229b86362cf878dcf224b298ef"
+    },
+    {
+      "path": "raw/frozen.wasm.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/frozen.wasm",
+      "rawBytes": 88475,
+      "rawSHA256": "64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b",
+      "bytes": 32309,
+      "sha256": "4a4333644726134a9e4400de858ab141a581acc02379ae18919332249384d6a8"
+    },
+    {
+      "path": "raw/original23-tests.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/original23-tests.log",
+      "rawBytes": 2677,
+      "rawSHA256": "8576d9ecf3162c2b8aa4202735ac4ec8de712403fa872f9bdb64a7bc3b3752eb",
+      "bytes": 1037,
+      "sha256": "c8a7e963b4600f533ea7b5a2d8ede52602274daab30727f824a39ad7012f07c8"
+    },
+    {
+      "path": "raw/overlap-parity.rs.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/overlap-parity.rs",
+      "rawBytes": 1715,
+      "rawSHA256": "bf920eac4457b9d363e6d07b5749989c68368ee4a53f3fb6fdad7c29a4ef7ad7",
+      "bytes": 714,
+      "sha256": "0af28a4a5debe62c2371822f255886baf0f699ace6034e3fab7e31ea35539a8e"
+    },
+    {
+      "path": "raw/permanent-test.patch.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/permanent-test.patch",
+      "rawBytes": 4026,
+      "rawSHA256": "73c6da3c2ec380c705aabb1616fb06a12cf8a0bca020d629421835d511739ae9",
+      "bytes": 1006,
+      "sha256": "bb61400785ae9666187ff5f54d2340e3c9e4220b5f06a45620ea5be7fe4f4435"
+    },
+    {
+      "path": "raw/permanent-tests-first-red.rs.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/permanent-tests-first-red.rs",
+      "rawBytes": 15000,
+      "rawSHA256": "85eeb18de11d9913d90430e7f433618d015cd1ee93efcce5ef71b1644f7d9af3",
+      "bytes": 3705,
+      "sha256": "a9a5e7a407c108967c3b03eeb8f50b206c0089a01997368bf6eced3d91183077"
+    },
+    {
+      "path": "raw/permanent24-build-final.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/permanent24-build-final.log",
+      "rawBytes": 283,
+      "rawSHA256": "3a79b0a7e8a23216e459c197c02718eb5e737fbcadc24351d397fa07dcb7732f",
+      "bytes": 238,
+      "sha256": "ab8475fea3c9f0a073d7cc08eb6b940b9bb41919fd43690954529367c5d46e89"
+    },
+    {
+      "path": "raw/permanent24-build.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/permanent24-build.log",
+      "rawBytes": 283,
+      "rawSHA256": "3a79b0a7e8a23216e459c197c02718eb5e737fbcadc24351d397fa07dcb7732f",
+      "bytes": 238,
+      "sha256": "ab8475fea3c9f0a073d7cc08eb6b940b9bb41919fd43690954529367c5d46e89"
+    },
+    {
+      "path": "raw/permanent24-clippy-final.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/permanent24-clippy-final.log",
+      "rawBytes": 166,
+      "rawSHA256": "58b5d4760ce8333f01d2a519f68d11a963322a0a45240c18c7c98164078ea572",
+      "bytes": 154,
+      "sha256": "c0611d3ab414ee7e6b9c87b75b6991656e77aae2dd17dde41b518c1dc2e7e68b"
+    },
+    {
+      "path": "raw/permanent24-clippy-first-red.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/permanent24-clippy-first-red.log",
+      "rawBytes": 1074,
+      "rawSHA256": "5cd2cebc4cf0b1c01311a71721c867a2211878cbfa465827384b709b120e0eed",
+      "bytes": 426,
+      "sha256": "d663dfe7f2c6dea21018d752c4d4b63caeed8b28c016af0f91e0d940d0cabf39"
+    },
+    {
+      "path": "raw/permanent24-fmt-final.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/permanent24-fmt-final.log",
+      "rawBytes": 0,
+      "rawSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "raw/permanent24-fmt.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/permanent24-fmt.log",
+      "rawBytes": 0,
+      "rawSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "raw/permanent24-tests-final.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/permanent24-tests-final.log",
+      "rawBytes": 2821,
+      "rawSHA256": "41dd943c6555e48f2c62d792e6c6e9faef22eb3258efe61a9a915be1c539232d",
+      "bytes": 1136,
+      "sha256": "d8d68bc0c630cc5a9a2a9835df871b6e435816486733061d5828b51bfa3b5448"
+    },
+    {
+      "path": "raw/permanent24-tests-first-red.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/permanent24-tests-first-red.log",
+      "rawBytes": 1074,
+      "rawSHA256": "ba09145ba53559e20aa6b519f99ceb9124e9565fc98ccc557eb90ff5ac67f08c",
+      "bytes": 425,
+      "sha256": "cf5d3a235054433b82e5e571a819cccba83b02cc7fbb715e744a628e6dc7e9f3"
+    },
+    {
+      "path": "raw/review-manifest.json.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/review-manifest.json",
+      "rawBytes": 5593,
+      "rawSHA256": "fd0484ca8df2b0d38aaa0b903b4bc2d44483f2682a05ea5371e1de81b1b1db51",
+      "bytes": 2056,
+      "sha256": "1eeabe4053d1011528b1481274ba56c7051d33ed62a4bb5ff97198bd65e903ba"
+    },
+    {
+      "path": "raw/setup-first-red.log.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/evidence/setup-first-red.log",
+      "rawBytes": 294,
+      "rawSHA256": "e78f2f0ae8a130127cd1615866b0b3e880a46b488cf9fdafad31b7c456b383fe",
+      "bytes": 219,
+      "sha256": "e0ab7e66464956f12e07347cd8834242811cf1c4d7d389203ad8c3b547862b47"
+    },
+    {
+      "path": "raw/candidate-rust__engine__src__geographic_preparation.rs.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/rust/engine/src/geographic_preparation.rs",
+      "rawBytes": 13542,
+      "rawSHA256": "b8f84c3e5d67510c905b21ad9e618f3b7314bbef61026da8cc3c62e32ad9ffdd",
+      "bytes": 3826,
+      "sha256": "4c47b2de22a49106f09cae08faeba48ec0065446aabbc2cf299ede45fcac25d5"
+    },
+    {
+      "path": "raw/candidate-rust__engine__src__geographic_preparation_tests.rs.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/rust/engine/src/geographic_preparation_tests.rs",
+      "rawBytes": 15005,
+      "rawSHA256": "f8c5927aaf135c3bf383c54b797fa0d22421fc410a2148a4cb6bf30eb10e75c0",
+      "bytes": 3707,
+      "sha256": "118e3a9f8bb525bf088d9c1f2279b8e852336c94d68449b765230743c6a2fd82"
+    },
+    {
+      "path": "raw/candidate-rust__engine__src__geographic.rs.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/rust/engine/src/geographic.rs",
+      "rawBytes": 15399,
+      "rawSHA256": "69ed145c2ee7d445691b0897362fc6de196cbe48fd4b0c1721764e67def56768",
+      "bytes": 4081,
+      "sha256": "0ccd2ffb5f3546b335170d926418f0e17267fac531d96ca37fb4192f6c10b677"
+    },
+    {
+      "path": "raw/candidate-tools__wasm__build.ts.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/tools/wasm/build.ts",
+      "rawBytes": 2417,
+      "rawSHA256": "3cecc0dd5ecd39a5f29d4d599d254fdad5bd2bb7fbac585c30f666aebb2a019d",
+      "bytes": 1008,
+      "sha256": "ddf7bc05a478411ebd6e38641f3927169931db2e8b2a888c6e93b2e2528c6e49"
+    },
+    {
+      "path": "raw/candidate-tools__wasm__artifact.ts.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/tools/wasm/artifact.ts",
+      "rawBytes": 3897,
+      "rawSHA256": "b4c509e3ed8ca9a953859db47ff990b125d526d7c48ed80766f3c5708b750021",
+      "bytes": 1390,
+      "sha256": "baac20a1fd324fcde69c73477d97e56cef7d162dd73c0a72de8cd93f2e5e225b"
+    },
+    {
+      "path": "raw/candidate-rust__engine__Cargo.toml.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/rust/engine/Cargo.toml",
+      "rawBytes": 179,
+      "rawSHA256": "15b426b65097ac31633fccc383a2b571bb6cc2243d2f4c4df44549f165949907",
+      "bytes": 151,
+      "sha256": "16eb8f21ef1b34e990b13bb2aff408b9df4fcaf93671ecb783a77e11c634a3bc"
+    },
+    {
+      "path": "raw/candidate-rust__engine__Cargo.lock.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/rust/engine/Cargo.lock",
+      "rawBytes": 156,
+      "rawSHA256": "5f071ef4ef4455f76340d6952350e944dae5cc3ea6aeb8b114eec4d8e90d65df",
+      "bytes": 145,
+      "sha256": "35c416e76b8b815c5fbd7abff4d0e84c73f0f155ac79af72c0165976b793d186"
+    },
+    {
+      "path": "raw/candidate-rust__engine__rust-toolchain.toml.gz",
+      "originalPath": "/tmp/tenka-c5c7e55-endpoint-hoist-sim1/rust/engine/rust-toolchain.toml",
+      "rawBytes": 88,
+      "rawSHA256": "9cbeb062ec3a97a5b5b76aacde94f5dcb034ed98f32af151480764de2e03d6f9",
+      "bytes": 97,
+      "sha256": "95ba403fb2f91b8df6ea471ceb8d05b29a0fd12d0a85290835721678dca63a23"
+    }
+  ]
+}
