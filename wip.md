@@ -6467,3 +6467,13 @@ analysis UI 實作、renderer 獨立審查、visual gate 稽核完整褒賞介�
 - 下一步Rust numeric preparation設計：P/H一次pack、near indices與原rect metadata、JS原signature/cache保留，preparedscore避免再pack；容量路徑須明示且不得縮合法輸入域，ABI/init/error仍failclosed。尚未prototype／量測，goal保持active。
 
 - `b62fe9c` 保存 [Rust preparation DRAFT](docs/design/geographic-preparation-wasm.md)：尚未實作／量測，傳輸預算與token規則未定；一般bulk與明示CAPACITY都要求實際feature ABI，維持合法輸入域、原JSON簽章與metadata。此文件記錄設計狀態，不新增使用者批准流程；既有Rust/WASM改動授權繼續有效。
+
+## 地理數值準備 Rust／WASM 正式整合（2026-10-12）
+
+- `0172724`／`9ed1470` 實作獨立 preparation ABI 1；`f6700ce` 包裝 frame／prep／road arena，`feab20c` 正式接入 renderer。既有 path／geo／castle ABI 與 JS 排序、metadata、原 JSON signature 不變。
+- 原版 JS oracle 保存完整 255,263,393-byte raw（gzip14,937,709bytes），1,964frames／5,482steps；新 Rust 不參與產生預期值。原 producer 最後 manifest-copy ENOENT 仍是 RED；後處理只核對已完成 raw，沒有重跑或改寫。
+- 正式 frame／prep 常駐預算為131,072words／1MiB，實際九場景最大35,008bytes。實際8192遠障礙走新核心，32768走明確CAPACITY的舊JS準備＋真Rustscore；兩者合法、快取與結果一致，預算不涵蓋整個heap。
+- Rust23項、adapter320seed與一般／CAPACITY各160seed完整整合通過；33原renderer/UI fixture共386通過。固定feab20c全量6392PASS／1既有無嗣領地FAIL／1skip，691files、129.87s。1494trackedinputs在全部測試與checks後符合Gitblob且byteequal；types／fullLint／build／bundlePASS，node_modules共用symlink非fresh依賴。
+- 新WASM88475bytes／SHA25664241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b。sim2唯讀所有權／快取／memorygrow審查無新增實質缺陷。來源與原RED／PASS見geographic-preparation-local；Mac／Linux重現待獨立證据。
+- sim3同current23／14765dependencies、actualRTXVulkan的九完整原生payload仍exactaf4。單次30秒三視角59.95983／49.88502／32.03923FPS，相對04同cohort+0.048%／+0.295%／+10.04%；closeP9537.2ms（原41.5）。三項strict60仍RED，不宣稱穩定收益；唯一獨立closeprofile正在分拆新prepare、score與JSparent。
+- 模擬仍由獨立Worker序列執行JSadvanceDay，Rust加速path；主頁另有geo／castle／prepRust核心。不是整套Rust遊戲引擎。全專案goalactive，60FPS／wholeheap／protectedart／長跑／領地gate保持，未push／部署。

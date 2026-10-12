@@ -1,7 +1,7 @@
 # 後續驗收、重放歸因與記憶體觀察
 
 Rust WASM／Worker 架構及後續效能修正已分步提交，完整專案目標仍未完成。
-最新固定來源全量測試為 6,357 通過、1 失敗、1 跳過；120 部隊近景仍未達 60 FPS。
+最新固定來源 `feab20c` 全量測試為 6,392 通過、1 既有失敗、1 跳過；120 部隊近景仍未達 60 FPS。
 目前繼續處理核心與原生視覺驗收；只有歷史來源與完整差異已查明時才遷移凍結基準，原生門檻維持。
 
 ## 已完成修正
@@ -270,3 +270,15 @@ Rust 十一項、337 組完整 f64 原版 oracle、13 項實際 WASM／協定測
 [撤回後固定來源](geographic-preparation-restored-local/README.md) 保留五個新完整preparation比對測試，改為一般名稱；地理layout原碼與04 byte-identical。固定3d6全量687檔、6,362通過／1已知無嗣領地失敗／1跳過，128.23秒；1,486 tracked inputs 在測試與全部checks後符合Git blob且byte-identical。完整型別、lint、build（4.20秒）及bundle budget通過。獨立producer證實八份emitted JS／CSS與63,073-byte WASM和本機固定04建置逐byte相同；範圍不含source maps、其他public assets、manifest metadata或dependency trees，也不是新FPS驗收。
 
 本階段新增輕量硬體Worker診斷、完整準備參數回歸與撤回證據，沒有保留無明確收益的微優化。現行Rust castle／geographic score與Worker架構維持；下一個候選是將快取判斷前的數值準備移入Rust，JS保留排序、原物件metadata、JSON signature與所有權。它尚未實作或測量，仍需完整準備參數與兩種容量路徑的精確比對，再用原生整體效能判斷。原60FPS、whole-heap、protected art、長跑及領地gate維持未完成；全專案goal保持active。
+
+## 地理數值準備 Rust 正式接點
+
+`0172724`／`9ed1470` 新增獨立 preparation ABI，`f6700ce` 實作實際 WASM adapter，`feab20c` 將一般 layout 正式接入；既有評分算術與 JS metadata／排序／簽章保持。CAPACITY 在配置前選定，只保留原 JS preparation＋實際原 Rust scorer，不能遮蔽 ABI 或執行錯誤。
+
+[独立原版 JS oracle](geographic-preparation-oracle-sim3/README.md) 保存完整 255,263,393-byte raw與1,964frames，沒有使用新 Rust 推導預期值。Producer 完成 raw 後在 manifest-copy ENOENT 結束，原作業仍RED；後處理不重跑。Root獨立驗證完整raw／source／producer pins及全部counts通過。
+
+[容量證據](geographic-preparation-capacity-sim3/README.md) 由原九完整native geography與真正8192／32768合法遠障礙得出。正式provider設定131,072words／1MiB frame＋prep常駐預算，native最大35,008bytes；8192走新核心，32768走CAPACITY，兩模式實際compiled整合均exact。預算排除road、舊scorer、換代暫存、WASMpages及JSobjects，不是wholeheap限制。
+
+[本機固定來源證據](geographic-preparation-local/README.md) 保存Rust23項、320seedadapter、兩模式各160seed、33原renderer/UI fixture386PASS及全部原RED。固定feab20c全量691files／6392PASS／1knowns1560day450FAIL／1skip，129.87s；1494trackedinputs前後與全部checks後符合Gitblob且byteequal。完整types／lint／build／bundlePASS，共用node_modules不是freshdependency验证。WASM88475bytes SHA256 `64241ba7fb1e8cc5a5a10205a600bb7b9dbecb59e0f6b2cf71ffe4ebea79870b`。
+
+同current23依賴與actualRTXVulkan的三個單次30秒窗口為59.95983／49.88502／32.03923FPS，相對04同cohort分別+0.048%／+0.295%／+10.04%；closeP95從41.5降至37.2ms。九完整payload仍exactaf4，strict60全部RED。唯一closeCPUprofile仍在進行，不把局部kernel速度或一輪差異當成穩定達標。正式接點擴充數值核心，模擬仍是JS Worker序列日結；全專案goal維持active。
