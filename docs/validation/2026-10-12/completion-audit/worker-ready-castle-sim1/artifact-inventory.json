@@ -1,0 +1,296 @@
+[
+  {
+    "path": "actual-tenka_engine.wasm.gz",
+    "rawBytes": 63073,
+    "rawSha256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba",
+    "alreadyGzip": false
+  },
+  {
+    "path": "actual-wasm-manifest.json.gz",
+    "rawBytes": 1226,
+    "rawSha256": "8f41ae78dce8749c6c255b68ba4bceda709bc96af3f14271330261278fe8bd68",
+    "alreadyGzip": false
+  },
+  {
+    "path": "appledouble-removed.log.gz",
+    "rawBytes": 0,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alreadyGzip": false
+  },
+  {
+    "path": "archive-commit.txt.gz",
+    "rawBytes": 41,
+    "rawSha256": "7ad9a037a1f88828bb10ebd75fe8b12e6080b74d4aa5b931b3b80a8b75d8be45",
+    "alreadyGzip": false
+  },
+  {
+    "path": "extraction.log.gz",
+    "rawBytes": 1923,
+    "rawSha256": "482049d2911807a8a0a5bbc8988b0f44e4f2a7ffe70597ae3a6f3258732ba444",
+    "alreadyGzip": false
+  },
+  {
+    "path": "failure-traces.json.gz",
+    "rawBytes": 3,
+    "rawSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "alreadyGzip": false
+  },
+  {
+    "path": "independent-parity-verification.log.gz",
+    "rawBytes": 78,
+    "rawSha256": "63190f704c99787695f703f49cf67c93545ea2ea224b6c605b0008edaad331d1",
+    "alreadyGzip": false
+  },
+  {
+    "path": "native-exit-code.txt.gz",
+    "rawBytes": 2,
+    "rawSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "alreadyGzip": false
+  },
+  {
+    "path": "native-results.json.gz",
+    "rawBytes": 2290,
+    "rawSha256": "2d80dc55ee04a37405cf2492e55df1b3b8c12f9eb81ea0ee6899491015df5a04",
+    "alreadyGzip": false
+  },
+  {
+    "path": "native-worker-cancel-generation-parity.json.gz",
+    "rawBytes": 2300257,
+    "rawSha256": "487c54b9dd65f86316c78c37cc4fd5e987214075481d30fc34768336f5ba0a9c",
+    "alreadyGzip": false
+  },
+  {
+    "path": "native-worker-tests.log.gz",
+    "rawBytes": 14201,
+    "rawSha256": "bbb98418c2ab03d9003877a86ed56370b1fa57d808ff0591de915b58e575187b",
+    "alreadyGzip": false
+  },
+  {
+    "path": "normal-x5-worker-paced-sync-responsiveness.json.gz",
+    "rawBytes": 7676991,
+    "rawSha256": "dd8144b4fa962f480ea9db8404d1c58924ffbcd735a3e9828463296c2b47ebe5",
+    "alreadyGzip": false
+  },
+  {
+    "path": "npm-ci.log.gz",
+    "rawBytes": 882,
+    "rawSha256": "0b420c16ec6f6c6c69f99dc83851f969c49704ecef50c4229af1a6ba35ae4b33",
+    "alreadyGzip": false
+  },
+  {
+    "path": "production-build.log.gz",
+    "rawBytes": 1678,
+    "rawSha256": "938061aeefe33f56681288fde797699cffd26c06dbd833018167221d7c7acd7a",
+    "alreadyGzip": false
+  },
+  {
+    "path": "report-2f146aecbcd2c5b32fbb.json.gz",
+    "rawBytes": 8128421,
+    "rawSha256": "61e399d95995ae515cb5b3be06ddec888fd08a0a2e6a5d3abe70595f2f6e2b17",
+    "alreadyGzip": false
+  },
+  {
+    "path": "report-metadata.zip.gz",
+    "rawBytes": 718138,
+    "rawSha256": "547bafb6af010f8bbfa46157ee2a0a0a8f6d4339bdaa155e0237a4a2f01dcedc",
+    "alreadyGzip": false
+  },
+  {
+    "path": "report-report.json.gz",
+    "rawBytes": 3868,
+    "rawSha256": "6e529571c64861d3fc139a7a14559bb8f86d3e948e1800238440393f0c0093df",
+    "alreadyGzip": false
+  },
+  {
+    "path": "runtime-dependency-proof.json.gz",
+    "rawBytes": 7800,
+    "rawSha256": "f03ae71d5d334d6ce9e3aa2f643f34e9699518215e05997a3be9081678b75be4",
+    "alreadyGzip": false
+  },
+  {
+    "path": "runtime-dependency-proof.log.gz",
+    "rawBytes": 714,
+    "rawSha256": "19d9e91b890ebb7a728100368e3d53aad6cbbff45a63b473d65b417823d38777",
+    "alreadyGzip": false
+  },
+  {
+    "path": "same-host-120-day-worker-responsiveness.json.gz",
+    "rawBytes": 8130252,
+    "rawSha256": "60ec38da21250318511c772a8a0158a81a8aabd22be13ada1e2098e9ab063737",
+    "alreadyGzip": false
+  },
+  {
+    "path": "same-host-60-day-worker-responsiveness.json.gz",
+    "rawBytes": 7995333,
+    "rawSha256": "2b80938c8e325b42d46b258c694e58c67144d8976bbcf05b58957b4feb46aaac",
+    "alreadyGzip": false
+  },
+  {
+    "path": "served-preview-cwd.log.gz",
+    "rawBytes": 49,
+    "rawSha256": "76cfa88298808e2a6c9f3b454266712cf18ab981253be7ee274ebb9927521be7",
+    "alreadyGzip": false
+  },
+  {
+    "path": "served-preview-process.log.gz",
+    "rawBytes": 740,
+    "rawSha256": "2258050080ecca344eb3e8af0b29f5f91aa1694295d03124057eb4e3db687747",
+    "alreadyGzip": false
+  },
+  {
+    "path": "served-tenka_engine.wasm.gz",
+    "rawBytes": 63073,
+    "rawSha256": "4baa718c94815b8943235e1b09856730e413d97a4beeb6f2bca06b8bf4d92eba",
+    "alreadyGzip": false
+  },
+  {
+    "path": "served-wasm-sha.log.gz",
+    "rawBytes": 132,
+    "rawSha256": "db3caf2641427083d2dcfc3cf2fb182f40938c6db7adc29e5890969465f8afd8",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-manifest.json.gz",
+    "rawBytes": 156887,
+    "rawSha256": "4e3016718c225679a6a2510add76e1826596bed71aca58784d421e93f240066c",
+    "alreadyGzip": true
+  },
+  {
+    "path": "source-verification-after-native.json.gz",
+    "rawBytes": 130,
+    "rawSha256": "b96295c7b2e2a7c273cb2c9a0a9a5288dddeaa31cb1d141a639ab770ec3ab211",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-verification-after-native.log.gz",
+    "rawBytes": 120,
+    "rawSha256": "6950cf3610fc326354d2ce9b5a1a4dbedcca66de24ccddb91f375da7587d075f",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-verification-before-build.json.gz",
+    "rawBytes": 130,
+    "rawSha256": "616046916bd6eadc376a8b5d5e1d1fb26b851a19c9cda002b04d301637b9377c",
+    "alreadyGzip": false
+  },
+  {
+    "path": "summary.json.gz",
+    "rawBytes": 7663,
+    "rawSha256": "f3bccebb1871804f3c9a040c985cbdcbcf497d8a44508eb5b836690d2697f2b1",
+    "alreadyGzip": false
+  },
+  {
+    "path": "tenka-04c7b60-extract.py.gz",
+    "rawBytes": 1875,
+    "rawSha256": "5bfc28c0db915fa989e7256f23be8d4a281b99dce2424cb4dac9b83074b1badf",
+    "alreadyGzip": false
+  },
+  {
+    "path": "tenka-04c7b60-runtime-proof.mjs.gz",
+    "rawBytes": 2276,
+    "rawSha256": "70df9cb0288db02ba0fda4fe6ff62187db67fb61d4badebc7f6d91294b89c787",
+    "alreadyGzip": false
+  },
+  {
+    "path": "tenka-04c7b60-source-proof.py.gz",
+    "rawBytes": 772,
+    "rawSha256": "2d120ac7f79b6194e1bfe0a8c9a7be1bb796c2b9b49a67ccd29de923f44ed8f2",
+    "alreadyGzip": false
+  },
+  {
+    "path": "tenka-04c7b60-verify-native.py.gz",
+    "rawBytes": 3721,
+    "rawSha256": "115664634d7120257a2a0b7b9b15be829ddac7794cbdb14ec856c93b4cdb0501",
+    "alreadyGzip": false
+  },
+  {
+    "path": "worker-full-world-reference.json.gz",
+    "rawBytes": 2337717,
+    "rawSha256": "dadb676b1d6ebbf587d0d2ffa244ac4755b9b010228f4fbb165a44428698e79c",
+    "alreadyGzip": false
+  },
+  {
+    "path": "worker-pending-save-reload-reference.json.gz",
+    "rawBytes": 2333714,
+    "rawSha256": "2114a465d55c6e070e0c9f2fccd94f6d91edfaf29b4f63a1077043b923e3f7de",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-e2e__worker-simulation.spec.ts.gz",
+    "rawBytes": 25716,
+    "rawSha256": "ecae67cb0c449bdf695d78679c6db3ca7a986311715d44018a2d81b956772783",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-e2e__fixtures.ts.gz",
+    "rawBytes": 1012,
+    "rawSha256": "7a3a8311c171fcfdb99bd37aff1128fa09cd15e7829650c1611bdcce014b8432",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-playwright.config.ts.gz",
+    "rawBytes": 1918,
+    "rawSha256": "0f2062a03f1ed2174fbd4b496dff2c851a579d78952452666d5de2c6ee30b21c",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-package.json.gz",
+    "rawBytes": 3508,
+    "rawSha256": "82a6bf97a6611fe52eedcaf8e732e19f07a696121f928c7c2cd9fc9dffb0876f",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-package-lock.json.gz",
+    "rawBytes": 240141,
+    "rawSha256": "63f021d39b353a70831accbfc50b714a09767b900ce23157fbf4ecce1dda7be1",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-src__app__worker__client.ts.gz",
+    "rawBytes": 11653,
+    "rawSha256": "e57d7ea28a396354a7607b4b75d0689dd7d363857396b6a72da1b4bd65d7dd56",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-src__app__worker__protocol.ts.gz",
+    "rawBytes": 1830,
+    "rawSha256": "27041560c3b3cd6f0303293ce6eda79b1e034911b3313ac494e7fa055bf169bd",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-src__app__worker__simulation.worker.ts.gz",
+    "rawBytes": 7786,
+    "rawSha256": "03bdb72a28501aa52ecda790fd0c076a879bb63a32e4f22760351f4f2f885712",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-src__app__bridge.ts.gz",
+    "rawBytes": 37265,
+    "rawSha256": "92e74e3dfec9b1ac256f272375e7ca9fca4a7d4b1742d6cb1de63e402cf4d997",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-src__app__dayExecutor.ts.gz",
+    "rawBytes": 1103,
+    "rawSha256": "47c46b5af1c28533d22dc4421cfc6d62322f565509432fa5ab567fdbc01c0eaf",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-src__ui__map__MapRenderer.ts.gz",
+    "rawBytes": 207449,
+    "rawSha256": "c481a36ec9e670c0f652c633205e9c079f0f82ea87475a409ff8ab46678dacbe",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-src__ui__map__wasmGeographicScorer.ts.gz",
+    "rawBytes": 8276,
+    "rawSha256": "b67cdb3c2e0b71167e1396427ecbff663df05e77a44c4e88316fc84d4c76dea8",
+    "alreadyGzip": false
+  },
+  {
+    "path": "source-src__ui__map__wasmCastleRibbonPlanner.ts.gz",
+    "rawBytes": 7385,
+    "rawSha256": "2c3e3bf2e04969bb2b29d0be5acfc0fb2a5cab05a037e644c7bad1929bfaf1aa",
+    "alreadyGzip": false
+  }
+]

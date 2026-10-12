@@ -1,0 +1,267 @@
+{
+  "source": "04c7b6083df32cc9c1a20d693ef45eddb806ed14",
+  "cases": [
+    {
+      "title": "native seeded full-world worker ticks preserve queued commands, complete state and replay log",
+      "status": "passed",
+      "durationMs": 10558,
+      "attachments": [
+        {
+          "name": "worker-full-world-reference.json",
+          "bytes": 2337717,
+          "sha256": "dadb676b1d6ebbf587d0d2ffa244ac4755b9b010228f4fbb165a44428698e79c"
+        }
+      ]
+    },
+    {
+      "title": "native save and browser reload preserve an unconsumed command for the next worker day",
+      "status": "passed",
+      "durationMs": 22419,
+      "attachments": [
+        {
+          "name": "worker-pending-save-reload-reference.json",
+          "bytes": 2333714,
+          "sha256": "2114a465d55c6e070e0c9f2fccd94f6d91edfaf29b4f63a1077043b923e3f7de"
+        }
+      ]
+    },
+    {
+      "title": "same-host full-world 60-day synchronous and Worker measurements preserve complete state",
+      "status": "passed",
+      "durationMs": 26068,
+      "attachments": [
+        {
+          "name": "same-host-60-day-worker-responsiveness.json",
+          "bytes": 7995333,
+          "sha256": "2b80938c8e325b42d46b258c694e58c67144d8976bbcf05b58957b4feb46aaac"
+        }
+      ]
+    },
+    {
+      "title": "same-host full-world 120-day synchronous and Worker measurements preserve complete state",
+      "status": "passed",
+      "durationMs": 35184,
+      "attachments": [
+        {
+          "name": "same-host-120-day-worker-responsiveness.json",
+          "bytes": 8130252,
+          "sha256": "60ec38da21250318511c772a8a0158a81a8aabd22be13ada1e2098e9ab063737"
+        }
+      ]
+    },
+    {
+      "title": "pausing an already posted native Worker day keeps state and its command for a fresh generation",
+      "status": "passed",
+      "durationMs": 5772,
+      "attachments": [
+        {
+          "name": "native-worker-cancel-generation-parity.json",
+          "bytes": 2300257,
+          "sha256": "487c54b9dd65f86316c78c37cc4fd5e987214075481d30fc34768336f5ba0a9c"
+        }
+      ]
+    },
+    {
+      "title": "native x5 Worker flow and a paced synchronous reference retain state with raw main-thread timings",
+      "status": "passed",
+      "durationMs": 24918,
+      "attachments": [
+        {
+          "name": "normal-x5-worker-paced-sync-responsiveness.json",
+          "bytes": 7676991,
+          "sha256": "dd8144b4fa962f480ea9db8404d1c58924ffbcd735a3e9828463296c2b47ebe5"
+        }
+      ]
+    }
+  ],
+  "firstDay": 3,
+  "firstDiagnostics": {
+    "backend": "worker",
+    "workerReady": true,
+    "wasmLoaded": true,
+    "wasmBackend": "rust-wasm",
+    "pathfinderBackend": "rust-wasm",
+    "generation": 3,
+    "pendingTicks": 0,
+    "completedWorkerTicks": 3,
+    "droppedStaleResponses": 0
+  },
+  "firstTrafficCounts": {
+    "created": 3,
+    "initialize": 3,
+    "readyReceived": 2,
+    "completed": 3
+  },
+  "cancel": {
+    "before": {
+      "backend": "worker",
+      "workerReady": true,
+      "wasmLoaded": true,
+      "wasmBackend": "rust-wasm",
+      "pathfinderBackend": "rust-wasm",
+      "generation": 3,
+      "pendingTicks": 0,
+      "completedWorkerTicks": 0,
+      "droppedStaleResponses": 0
+    },
+    "posted": {
+      "backend": "worker",
+      "workerReady": true,
+      "wasmLoaded": true,
+      "wasmBackend": "rust-wasm",
+      "pathfinderBackend": "rust-wasm",
+      "generation": 3,
+      "pendingTicks": 1,
+      "completedWorkerTicks": 0,
+      "droppedStaleResponses": 0
+    },
+    "after": {
+      "backend": "worker",
+      "workerReady": true,
+      "wasmLoaded": true,
+      "wasmBackend": "rust-wasm",
+      "pathfinderBackend": "rust-wasm",
+      "generation": 4,
+      "pendingTicks": 0,
+      "completedWorkerTicks": 0,
+      "droppedStaleResponses": 0
+    }
+  },
+  "measurements": [
+    {
+      "attachment": "same-host-60-day-worker-responsiveness",
+      "finalDay": 61,
+      "rows": [
+        {
+          "backend": "sync",
+          "cold": {
+            "requestedDays": 1,
+            "completedDays": 1,
+            "durationMs": 12.599999904632568,
+            "worstLongTaskMs": 0,
+            "worstRafGapMs": 144.79999995231628
+          },
+          "warm": {
+            "requestedDays": 60,
+            "completedDays": 60,
+            "durationMs": 517.8999998569489,
+            "worstLongTaskMs": 518,
+            "worstRafGapMs": 662.1999998092651
+          },
+          "trafficCounts": {
+            "created": 3,
+            "initialize": 3,
+            "ticksSent": 0,
+            "readyReceived": 2,
+            "completed": 0
+          }
+        },
+        {
+          "backend": "worker",
+          "cold": {
+            "requestedDays": 1,
+            "completedDays": 1,
+            "durationMs": 132.09999990463257,
+            "worstLongTaskMs": 118,
+            "worstRafGapMs": 133.59999990463257
+          },
+          "warm": {
+            "requestedDays": 60,
+            "completedDays": 60,
+            "durationMs": 8238.700000047684,
+            "worstLongTaskMs": 233,
+            "worstRafGapMs": 253.10000014305115
+          },
+          "trafficCounts": {
+            "created": 3,
+            "initialize": 3,
+            "ticksSent": 61,
+            "readyReceived": 2,
+            "completed": 61
+          }
+        }
+      ]
+    },
+    {
+      "attachment": "same-host-120-day-worker-responsiveness",
+      "finalDay": 121,
+      "rows": [
+        {
+          "backend": "sync",
+          "cold": {
+            "requestedDays": 1,
+            "completedDays": 1,
+            "durationMs": 14.299999952316284,
+            "worstLongTaskMs": 0,
+            "worstRafGapMs": 143.10000014305115
+          },
+          "warm": {
+            "requestedDays": 120,
+            "completedDays": 120,
+            "durationMs": 956.5,
+            "worstLongTaskMs": 956,
+            "worstRafGapMs": 1108.5
+          },
+          "trafficCounts": {
+            "created": 3,
+            "initialize": 3,
+            "ticksSent": 0,
+            "readyReceived": 2,
+            "completed": 0
+          }
+        },
+        {
+          "backend": "worker",
+          "cold": {
+            "requestedDays": 1,
+            "completedDays": 1,
+            "durationMs": 135,
+            "worstLongTaskMs": 122,
+            "worstRafGapMs": 133.29999995231628
+          },
+          "warm": {
+            "requestedDays": 120,
+            "completedDays": 120,
+            "durationMs": 17037.89999985695,
+            "worstLongTaskMs": 207,
+            "worstRafGapMs": 229.20000004768372
+          },
+          "trafficCounts": {
+            "created": 3,
+            "initialize": 3,
+            "ticksSent": 121,
+            "readyReceived": 2,
+            "completed": 121
+          }
+        }
+      ]
+    },
+    {
+      "attachment": "normal-x5-worker-paced-sync-responsiveness",
+      "finalDay": 30,
+      "rows": [
+        {
+          "backend": "worker",
+          "requestedDays": 60,
+          "completedDays": 29,
+          "durationMs": 4373.700000047684,
+          "worstLongTaskMs": 177,
+          "worstRafGapMs": 202.79999995231628
+        },
+        {
+          "backend": "sync",
+          "requestedDays": 29,
+          "completedDays": 29,
+          "durationMs": 5749.5,
+          "worstLongTaskMs": 207,
+          "worstRafGapMs": 225.70000004768372
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "single suite; six functional native tests, not map FPS or whole-heap acceptance",
+    "normal x5 requested60 but naturally paused after29 additional days atday30",
+    "cold row is first measured day after native startup, not entire WASM startup latency"
+  ]
+}
