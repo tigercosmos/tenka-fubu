@@ -31,8 +31,13 @@
         "toolchain": "1.97.1",
         "locked": true,
         "cargoFeatures": [],
-        "targetFeatures": ["-simd128"],
-        "rustflags": ["--remap-path-prefix=<crate>=tenka-engine", "-Ctarget-feature=-simd128"],
+        "targetFeatures": [
+          "-simd128"
+        ],
+        "rustflags": [
+          "--remap-path-prefix=<crate>=tenka-engine",
+          "-Ctarget-feature=-simd128"
+        ],
         "incremental": false,
         "targetDirectory": "rust/engine/target/scalar"
       },
@@ -58,9 +63,16 @@
         "profile": "release",
         "toolchain": "1.97.1",
         "locked": true,
-        "cargoFeatures": ["render-simd"],
-        "targetFeatures": ["-simd128"],
-        "rustflags": ["--remap-path-prefix=<crate>=tenka-engine", "-Ctarget-feature=-simd128"],
+        "cargoFeatures": [
+          "render-simd"
+        ],
+        "targetFeatures": [
+          "-simd128"
+        ],
+        "rustflags": [
+          "--remap-path-prefix=<crate>=tenka-engine",
+          "-Ctarget-feature=-simd128"
+        ],
         "incremental": false,
         "targetDirectory": "rust/engine/target/simd128"
       },

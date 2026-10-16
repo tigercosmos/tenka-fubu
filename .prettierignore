@@ -1,8 +1,10 @@
 node_modules
 dist
 coverage
+docs/validation/
 playwright-report
 test-results
 package-lock.json
 plan/
+public/wasm/manifest.json
 rust/engine/target/

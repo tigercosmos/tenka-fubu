@@ -163,14 +163,15 @@ jobs:
 
       # M0 佔位：Playwright smoke（P1）於 M1-27 才產出（17 §3.11.2 M0 欄 Playwright P1 為
       # 「—」非阻斷），且 playwright.config.ts 亦尚未鋪設；本步驟以存在性檢查 build-only
-      # 通過，兩者皆備妥後自動切換為真正執行 e2e，無需再改本檔。
+      # 通過，兩者皆備妥後只執行 §3.8 固定五條 smoke。其他 e2e 檔是獨立驗收、視覺、
+      # soak 與效能工作負載，不屬於這個 CI job。
       - name: Playwright smoke（若設定與測試檔皆已就緒才執行，否則僅完成 build）
         run: |
-          if [ -f playwright.config.ts ] && ls e2e/*.spec.ts >/dev/null 2>&1; then
+          if [ -f playwright.config.ts ] && [ -f e2e/smoke.spec.ts ]; then
             npx playwright install chromium --with-deps
-            npx playwright test
+            npx playwright test e2e/smoke.spec.ts
           else
-            echo "尚未建立 playwright.config.ts 與/或 e2e/*.spec.ts，本階段僅驗證 build 成功（M1-27 起接上 Playwright smoke）。"
+            echo "尚未建立 playwright.config.ts 與/或 e2e/smoke.spec.ts，本階段僅驗證 build 成功（M1-27 起接上 Playwright smoke）。"
           fi
       - uses: actions/upload-artifact@v4
         if: failure()
