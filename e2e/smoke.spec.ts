@@ -4,7 +4,7 @@ import { completeNewGameWizard } from './new-game-wizard';
 // P3–P5 依 18-roadmap.md 各自里程碑到位時於本檔陸續補上（相依任務完成前，對應斷言的
 // data-testid 尚不存在）。
 import { test, expect } from './fixtures';
-import type { Page, TestInfo } from '@playwright/test';
+import type { BrowserContext, Page, TestInfo } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 
@@ -173,66 +173,98 @@ test.describe('Playwright smoke（17 §3.8）', () => {
     await expect(page.getByTestId('hud-date')).toContainText('1560年');
   });
 
-  test('P3 推進 3 個月：x5 到月份 +3，暫停後日期不再前進', async ({ page }, info) => {
-    // A hosted two-core runner can need about 90 seconds for the full national worker simulation.
-    test.setTimeout(120_000);
-    await advanceThreeMonths(page, info);
-  });
+  test.describe.serial('P3 → P4 共用同一局', () => {
+    let journeyContext: BrowserContext;
+    let journeyPage: Page;
+    let journeyProblems: string[];
+    let p3Result: Awaited<ReturnType<typeof advanceThreeMonths>>;
 
-  test('P4 存檔再讀檔：承真正 P3，手動存檔後回標題載入同一時刻', async ({ page }, info) => {
-    test.setTimeout(120_000);
-    const { initialDate, pausedDate, state, log } = await advanceThreeMonths(page, info);
-    await page.getByRole('button', { name: '系統選單', exact: true }).click();
-    await page.getByRole('button', { name: '存檔', exact: true }).click();
-    const savePanel = page.getByTestId('save-load-panel');
-    await expect(savePanel).toHaveAttribute('aria-busy', 'false', { timeout: 20_000 });
-    const manual = page.getByTestId('save-slot-manual:1');
-    await manual.getByRole('button', { name: '存檔', exact: true }).click();
-    await expect(manual).toContainText('織田', { timeout: 20_000 });
-    await expect(savePanel).toHaveAttribute('aria-busy', 'false', { timeout: 20_000 });
-    const savedState = await page.evaluate(() => window.__tenka.debug.getState());
-    expect(savedState.time).toEqual(state.time);
-    await savePanel.getByRole('button', { name: '返回', exact: true }).click();
-    await page.getByRole('button', { name: '回到標題', exact: true }).click();
-    await expect(page.getByTestId('screen-title')).toBeVisible();
-    await page.getByTestId('title-save-list').click();
-    await expect(savePanel).toHaveAttribute('data-context', 'title');
-    await expect(savePanel).toHaveAttribute('aria-busy', 'false', { timeout: 20_000 });
-    await manual.getByRole('button', { name: '載入', exact: true }).click();
-    await expect(page.getByTestId('screen-strategy')).toBeVisible();
-    await expect(page.getByRole('dialog')).toHaveCount(0);
-    await expect(page.getByTestId('hud-date')).toHaveText(pausedDate ?? '');
-    await expect(page.getByTestId('speed-pause')).toHaveAttribute('aria-pressed', 'true');
-    const loadedState = await page.evaluate(() => window.__tenka.debug.getState());
-    expect(loadedState.time).toEqual(savedState.time);
-    expect(loadedState.meta.seed).toBe(savedState.meta.seed);
-    expect(loadedState.castles).toEqual(savedState.castles);
-    expect(loadedState.districts).toEqual(savedState.districts);
-    expect(loadedState.officers).toEqual(savedState.officers);
-    expect(loadedState.armies).toEqual(savedState.armies);
-    expect(loadedState.events.flags[`unlock.pol.nanban.${loadedState.meta.playerClanId}`]).toBe(1);
-    const p4Path = info.outputPath('actual-p3-manual-save-title-native-load.json');
-    await writeFile(
-      p4Path,
-      JSON.stringify(
-        {
-          qualification:
-            'Exact plan17 P4 after genuine P3. Ordinary UI manual slot and title load; no injected game/command. Load metadata and command-log provenance are captured, not asserted identical.',
-          initialDate,
-          pausedDate,
-          loadedDate: await page.getByTestId('hud-date').textContent(),
-          savedState,
-          loadedState,
-          savedLog: log,
-          loadedLog: await page.evaluate(() => window.__tenka.debug.exportCommandLog()),
-        },
-        null,
-        2,
-      ),
-    );
-    await info.attach('actual-p3-manual-save-title-native-load', {
-      path: p4Path,
-      contentType: 'application/json',
+    test.beforeAll(async ({ browser }) => {
+      journeyContext = await browser.newContext();
+      journeyPage = await journeyContext.newPage();
+      journeyProblems = [];
+      journeyPage.on('console', (message) => {
+        if (message.type() === 'error') journeyProblems.push(`[console.error] ${message.text()}`);
+      });
+      journeyPage.on('pageerror', (error) => {
+        journeyProblems.push(`[pageerror] ${error.message}`);
+      });
+    });
+
+    test.afterEach(() => {
+      expect(
+        journeyProblems,
+        `偵測到 console error／pageerror：\n${journeyProblems.join('\n')}`,
+      ).toEqual([]);
+    });
+
+    test.afterAll(async () => {
+      await journeyContext.close();
+    });
+
+    test('P3 推進 3 個月：x5 到月份 +3，暫停後日期不再前進', async ({}, info) => {
+      // A hosted two-core runner can need about 90 seconds for the full national worker simulation.
+      test.setTimeout(120_000);
+      p3Result = await advanceThreeMonths(journeyPage, info);
+    });
+
+    test('P4 存檔再讀檔：承真正 P3，手動存檔後回標題載入同一時刻', async ({}, info) => {
+      test.setTimeout(120_000);
+      const { initialDate, pausedDate, state, log } = p3Result;
+      await journeyPage.getByRole('button', { name: '系統選單', exact: true }).click();
+      await journeyPage.getByRole('button', { name: '存檔', exact: true }).click();
+      const savePanel = journeyPage.getByTestId('save-load-panel');
+      await expect(savePanel).toHaveAttribute('aria-busy', 'false', { timeout: 20_000 });
+      const manual = journeyPage.getByTestId('save-slot-manual:1');
+      await manual.getByRole('button', { name: '存檔', exact: true }).click();
+      await expect(manual).toContainText('織田', { timeout: 20_000 });
+      await expect(savePanel).toHaveAttribute('aria-busy', 'false', { timeout: 20_000 });
+      const savedState = await journeyPage.evaluate(() => window.__tenka.debug.getState());
+      expect(savedState.time).toEqual(state.time);
+      await savePanel.getByRole('button', { name: '返回', exact: true }).click();
+      await journeyPage.getByRole('button', { name: '回到標題', exact: true }).click();
+      await expect(journeyPage.getByTestId('screen-title')).toBeVisible();
+      await journeyPage.getByTestId('title-save-list').click();
+      await expect(savePanel).toHaveAttribute('data-context', 'title');
+      await expect(savePanel).toHaveAttribute('aria-busy', 'false', { timeout: 20_000 });
+      await manual.getByRole('button', { name: '載入', exact: true }).click();
+      await expect(journeyPage.getByTestId('screen-strategy')).toBeVisible();
+      await expect(journeyPage.getByRole('dialog')).toHaveCount(0);
+      await expect(journeyPage.getByTestId('hud-date')).toHaveText(pausedDate ?? '');
+      await expect(journeyPage.getByTestId('speed-pause')).toHaveAttribute('aria-pressed', 'true');
+      const loadedState = await journeyPage.evaluate(() => window.__tenka.debug.getState());
+      expect(loadedState.time).toEqual(savedState.time);
+      expect(loadedState.meta.seed).toBe(savedState.meta.seed);
+      expect(loadedState.castles).toEqual(savedState.castles);
+      expect(loadedState.districts).toEqual(savedState.districts);
+      expect(loadedState.officers).toEqual(savedState.officers);
+      expect(loadedState.armies).toEqual(savedState.armies);
+      expect(loadedState.events.flags[`unlock.pol.nanban.${loadedState.meta.playerClanId}`]).toBe(
+        1,
+      );
+      const p4Path = info.outputPath('actual-p3-manual-save-title-native-load.json');
+      await writeFile(
+        p4Path,
+        JSON.stringify(
+          {
+            qualification:
+              'Exact plan17 P4 after genuine P3. Ordinary UI manual slot and title load; no injected game/command. Load metadata and command-log provenance are captured, not asserted identical.',
+            initialDate,
+            pausedDate,
+            loadedDate: await journeyPage.getByTestId('hud-date').textContent(),
+            savedState,
+            loadedState,
+            savedLog: log,
+            loadedLog: await journeyPage.evaluate(() => window.__tenka.debug.exportCommandLog()),
+          },
+          null,
+          2,
+        ),
+      );
+      await info.attach('actual-p3-manual-save-title-native-load', {
+        path: p4Path,
+        contentType: 'application/json',
+      });
     });
   });
 
