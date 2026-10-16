@@ -3,5 +3,7 @@ dist/
 coverage/
 playwright-report/
 test-results/
+docs/validation/**/native-raw.tar.gz
+docs/validation/**/overlay-runs.tar.gz
 .DS_Store
 *.local
