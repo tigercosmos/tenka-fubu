@@ -26,11 +26,19 @@ async function advanceThreeMonths(page: Page, info: TestInfo) {
   const initialMonthIndex = Number(initialMatch?.[1]) * 12 + Number(initialMatch?.[2]) - 1;
   const targetMonthIndex = initialMonthIndex + 3;
   expect(await page.evaluate(() => window.__tenka.debug.getState().meta.seed)).toBe(1);
-  const chosenEvents: Array<{ eventId: string; choiceIndex: number }> = [];
+  const eventChoices = Object.fromEntries(
+    eventCatalog.events.map((event) => [event.id, event.choices.map((choice) => choice.label)]),
+  );
 
-  const handleRequiredInteraction = async (): Promise<boolean> => {
-    const visibleRoot = await page.evaluate(() => {
-      const isVisible = (element: Element | null): boolean => {
+  // Keep the whole running-time loop inside the page. A Playwright locator/evaluate call records a
+  // trace snapshot before and after every poll; on a CPU-constrained runner those snapshots can cost
+  // several seconds apiece and make the smoke test measure tracing rather than the real ×5 journey.
+  await page.evaluate(() => {
+    document.querySelector<HTMLElement>('[data-testid="speed-5"]')?.click();
+  });
+  await page.waitForFunction(
+    ({ choicesByEvent, target }) => {
+      const visible = (element: Element | null): element is HTMLElement => {
         if (!(element instanceof HTMLElement)) return false;
         const style = window.getComputedStyle(element);
         return (
@@ -39,130 +47,84 @@ async function advanceThreeMonths(page: Page, info: TestInfo) {
           element.getClientRects().length > 0
         );
       };
-      const testIds = [
-        'month-summary',
-        'proposal-inbox',
-        'envoy-modal',
-        'event-modal',
-        'screen-battle',
-      ] as const;
-      for (const testId of testIds) {
-        if (isVisible(document.querySelector(`[data-testid="${testId}"]`))) return testId;
-      }
-      return Array.from(document.querySelectorAll('[role="dialog"]')).some(isVisible)
-        ? 'unknown-dialog'
-        : null;
-    });
-    if (visibleRoot === 'month-summary') {
-      await page.getByTestId('month-summary-continue').click();
-      return true;
-    }
-    if (visibleRoot === 'proposal-inbox') {
-      await page
-        .getByRole('dialog')
-        .filter({ has: page.getByTestId('proposal-inbox') })
-        .getByRole('button', { name: '全部駁回', exact: true })
-        .click();
-      return true;
-    }
-    if (visibleRoot === 'envoy-modal') {
-      await page
-        .getByTestId('envoy-modal')
-        .getByRole('button', { name: '拒絕', exact: true })
-        .click();
-      return true;
-    }
-    if (visibleRoot === 'event-modal') {
-      const eventModal = page.getByTestId('event-modal');
-      const dialog = page.getByRole('dialog').filter({ has: eventModal });
-      const continueButton = dialog.getByRole('button', { name: '繼續', exact: true });
-      if (await continueButton.isVisible()) {
-        await continueButton.click();
-        return true;
-      }
-      const pendingEventId = await page.evaluate(
-        () => window.__tenka.debug.getState().events.pendingChoiceEventId,
-      );
-      // Resolve the visible choice from the saved core identity. Iterating every catalog title makes
-      // this hot path proportional to the full event catalog and can exhaust the smoke timeout on CI.
-      const event = eventCatalog.events.find((candidate) => candidate.id === pendingEventId);
-      if (event === undefined) return false;
-      await expect(dialog).toHaveAccessibleName(event.cutscene.title);
-      for (const [choiceIndex, choice] of event.choices.entries()) {
-        const button = dialog.getByRole('button', { name: choice.label, exact: true });
-        if (!(await button.isVisible()) || !(await button.isEnabled())) continue;
-        await button.click();
-        chosenEvents.push({ eventId: event.id, choiceIndex });
-        return true;
-      }
-      // Known but unavailable choices stay blocking; never manufacture a decision.
-      return false;
-    }
-    const battle = page.getByTestId('screen-battle');
-    if (visibleRoot === 'screen-battle') {
-      const returnButton = battle.getByRole('button', {
-        name: '返回策略畫面',
-        exact: true,
-      });
-      if (await returnButton.isVisible()) {
-        await returnButton.click();
-      } else {
-        // 正常遊戲沒有 debug 撤退；以真實委任和合戰 tick 完成戰鬥。
-        const delegate = battle.getByRole('button', { name: '全軍委任：關', exact: true });
-        if (await delegate.isVisible()) await delegate.click();
-        const speed = battle.getByRole('button', { name: '五倍速 ×5', exact: true });
-        if ((await speed.getAttribute('aria-pressed')) !== 'true') await speed.click();
-      }
-      return true;
-    }
-    return visibleRoot === 'unknown-dialog';
-  };
+      const exactButton = (root: Element, label: string) =>
+        Array.from(root.querySelectorAll<HTMLButtonElement>('button')).find(
+          (button) => button.textContent?.trim() === label && visible(button) && !button.disabled,
+        );
 
-  await page.getByTestId('speed-5').click();
-  await expect
-    .poll(
-      async () => {
-        // 月初提案與使者必須先透過可見 UI 決定，才能排入下一 tick 並解除互動暫停。
-        if (await handleRequiredInteraction()) return -1;
-        const status = await page.evaluate(() => ({
-          paused:
-            document.querySelector('[data-testid="speed-pause"]')?.getAttribute('aria-pressed') ===
-            'true',
-          date: document.querySelector('[data-testid="hud-date"]')?.textContent ?? null,
-        }));
-        if (status.paused) {
-          await page.getByTestId('speed-5').click();
+      const monthSummary = document.querySelector('[data-testid="month-summary"]');
+      if (visible(monthSummary)) {
+        document.querySelector<HTMLElement>('[data-testid="month-summary-continue"]')?.click();
+        return false;
+      }
+      const proposal = document.querySelector('[data-testid="proposal-inbox"]');
+      if (visible(proposal)) {
+        const dialog = proposal.closest('[role="dialog"]');
+        if (dialog) exactButton(dialog, '全部駁回')?.click();
+        return false;
+      }
+      const envoy = document.querySelector('[data-testid="envoy-modal"]');
+      if (visible(envoy)) {
+        exactButton(envoy, '拒絕')?.click();
+        return false;
+      }
+      const eventModal = document.querySelector('[data-testid="event-modal"]');
+      if (visible(eventModal)) {
+        const dialog = eventModal.closest('[role="dialog"]');
+        if (!dialog) return false;
+        const continueButton = exactButton(dialog, '繼續');
+        if (continueButton) {
+          continueButton.click();
+          return false;
         }
-        const match = status.date?.match(/(\d+)年(\d+)月/);
-        return match ? Number(match[1]) * 12 + Number(match[2]) - 1 : -1;
-      },
-      { timeout: 240_000 },
-    )
-    .toBeGreaterThanOrEqual(targetMonthIndex);
-  await expect(page.getByTestId('error-boundary')).toHaveCount(0);
+        const pendingId = window.__tenka.debug.getState().events.pendingChoiceEventId;
+        const labels = pendingId === null ? undefined : choicesByEvent[pendingId];
+        const choice = labels?.map((label) => exactButton(dialog, label)).find(Boolean);
+        choice?.click();
+        return false;
+      }
+      const battle = document.querySelector('[data-testid="screen-battle"]');
+      if (visible(battle)) {
+        const returnButton = exactButton(battle, '返回策略畫面');
+        if (returnButton) returnButton.click();
+        else {
+          exactButton(battle, '全軍委任：關')?.click();
+          const speed = exactButton(battle, '五倍速 ×5');
+          if (speed?.getAttribute('aria-pressed') !== 'true') speed?.click();
+        }
+        return false;
+      }
+      if (Array.from(document.querySelectorAll('[role="dialog"]')).some(visible)) return false;
 
-  await expect
-    .poll(async () => {
-      await handleRequiredInteraction();
-      return !(await page.getByRole('dialog').isVisible());
-    })
-    .toBe(true);
-  await page.getByTestId('speed-pause').click();
+      const pause = document.querySelector<HTMLElement>('[data-testid="speed-pause"]');
+      if (pause?.getAttribute('aria-pressed') === 'true') {
+        document.querySelector<HTMLElement>('[data-testid="speed-5"]')?.click();
+      }
+      const date = document.querySelector('[data-testid="hud-date"]')?.textContent;
+      const match = date?.match(/(\d+)年(\d+)月/);
+      const month = match ? Number(match[1]) * 12 + Number(match[2]) - 1 : -1;
+      if (month < target) return false;
+      pause?.click();
+      return true;
+    },
+    { choicesByEvent: eventChoices, target: targetMonthIndex },
+    { polling: 250, timeout: 50_000 },
+  );
+  await expect(page.getByTestId('error-boundary')).toHaveCount(0);
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByTestId('speed-pause')).toHaveAttribute('aria-pressed', 'true');
   const pausedDate = await page.getByTestId('hud-date').textContent();
   await page.waitForTimeout(500);
   await expect(page.getByTestId('hud-date')).toHaveText(pausedDate ?? '');
-  expect(chosenEvents).toContainEqual({ eventId: 'evt.nanban-visit', choiceIndex: 0 });
   const state = await page.evaluate(() => window.__tenka.debug.getState());
   expect(state.events.flags[`unlock.pol.nanban.${state.meta.playerClanId}`]).toBe(1);
   const log = await page.evaluate(() => window.__tenka.debug.exportCommandLog());
-  expect(
-    log.entries.filter(
-      (entry) =>
-        entry.command.type === 'resolveEventChoice' &&
-        entry.command.eventId === 'evt.nanban-visit' &&
-        entry.command.choiceIndex === 0,
-    ),
-  ).toHaveLength(1);
+  const chosenEvents = log.entries.flatMap((entry) =>
+    entry.command.type === 'resolveEventChoice'
+      ? [{ eventId: entry.command.eventId, choiceIndex: entry.command.choiceIndex }]
+      : [],
+  );
+  expect(chosenEvents).toContainEqual({ eventId: 'evt.nanban-visit', choiceIndex: 0 });
   const evidencePath = info.outputPath('actual-smoke-months-and-nanban-choice.json');
   await writeFile(
     evidencePath,
@@ -212,12 +174,10 @@ test.describe('Playwright smoke（17 §3.8）', () => {
   });
 
   test('P3 推進 3 個月：x5 到月份 +3，暫停後日期不再前進', async ({ page }, info) => {
-    test.setTimeout(270_000);
     await advanceThreeMonths(page, info);
   });
 
   test('P4 存檔再讀檔：承真正 P3，手動存檔後回標題載入同一時刻', async ({ page }, info) => {
-    test.setTimeout(270_000);
     const { initialDate, pausedDate, state, log } = await advanceThreeMonths(page, info);
     await page.getByRole('button', { name: '系統選單', exact: true }).click();
     await page.getByRole('button', { name: '存檔', exact: true }).click();

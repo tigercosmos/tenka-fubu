@@ -28,7 +28,7 @@ describe('production bundle workflow gates', () => {
     expect(body.slice(checkIndex)).not.toContain('npm run build');
     expect(body).not.toContain('npm run e2e');
     expect(body).toContain('[ -f e2e/smoke.spec.ts ]');
-    expect(body).toContain('npx playwright test e2e/smoke.spec.ts --workers=2');
+    expect(body).toContain('npx playwright test e2e/smoke.spec.ts --workers=1');
     expect(body).not.toMatch(/^\s*npx playwright test\s*$/m);
     expect(body).not.toContain('continue-on-error:');
   });
