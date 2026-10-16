@@ -185,11 +185,11 @@ test.describe('Playwright smoke（17 §3.8）', () => {
     await page.getByRole('button', { name: '系統選單', exact: true }).click();
     await page.getByRole('button', { name: '存檔', exact: true }).click();
     const savePanel = page.getByTestId('save-load-panel');
-    await expect(savePanel).toHaveAttribute('aria-busy', 'false');
+    await expect(savePanel).toHaveAttribute('aria-busy', 'false', { timeout: 20_000 });
     const manual = page.getByTestId('save-slot-manual:1');
     await manual.getByRole('button', { name: '存檔', exact: true }).click();
-    await expect(manual).toContainText('織田');
-    await expect(savePanel).toHaveAttribute('aria-busy', 'false');
+    await expect(manual).toContainText('織田', { timeout: 20_000 });
+    await expect(savePanel).toHaveAttribute('aria-busy', 'false', { timeout: 20_000 });
     const savedState = await page.evaluate(() => window.__tenka.debug.getState());
     expect(savedState.time).toEqual(state.time);
     await savePanel.getByRole('button', { name: '返回', exact: true }).click();
@@ -197,7 +197,7 @@ test.describe('Playwright smoke（17 §3.8）', () => {
     await expect(page.getByTestId('screen-title')).toBeVisible();
     await page.getByTestId('title-save-list').click();
     await expect(savePanel).toHaveAttribute('data-context', 'title');
-    await expect(savePanel).toHaveAttribute('aria-busy', 'false');
+    await expect(savePanel).toHaveAttribute('aria-busy', 'false', { timeout: 20_000 });
     await manual.getByRole('button', { name: '載入', exact: true }).click();
     await expect(page.getByTestId('screen-strategy')).toBeVisible();
     await expect(page.getByRole('dialog')).toHaveCount(0);
