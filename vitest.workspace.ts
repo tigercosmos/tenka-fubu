@@ -26,8 +26,8 @@ export default defineWorkspace([
     resolve: { alias },
     test: {
       name: 'core',
-      testTimeout,
       environment: 'node',
+      testTimeout,
       benchmark: { includeSamples: true },
       include: ['src/core/**/*.spec.ts', 'tests/**/*.spec.ts'],
       // `tests/app/**` 需要 jsdom（rAF／document），改由下方 `app` project 收納，此處排除避免
@@ -44,8 +44,8 @@ export default defineWorkspace([
     resolve: { alias },
     test: {
       name: 'ui',
-      testTimeout,
       environment: 'jsdom',
+      testTimeout,
       // `.spec.ts`（M6-V3 新增）：非 React 元件、無需 JSX 的 ui 層測試（如
       // `src/ui/assets/loader.spec.ts`）沿用既有 `.spec.tsx` 慣例的 jsdom 環境，
       // 只是不需要 tsx 副檔名（12 §3.7；M6-V3 設計文件 §9.5）。
@@ -62,8 +62,8 @@ export default defineWorkspace([
       // 本身是需要 RTL 渲染整合測試的 React 元件（新遊戲精靈全流程：Title→ScenarioSelect→
       // DaimyoSelect→MainScreen），既有兩個 project 皆非其歸屬（`ui` 只收 `src/ui/**`）。
       name: 'app',
-      testTimeout,
       environment: 'jsdom',
+      testTimeout,
       include: [
         'src/app/**/*.spec.ts',
         'src/app/**/*.spec.tsx',
