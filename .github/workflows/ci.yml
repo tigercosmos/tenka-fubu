@@ -169,7 +169,7 @@ jobs:
         run: |
           if [ -f playwright.config.ts ] && [ -f e2e/smoke.spec.ts ]; then
             npx playwright install chromium --with-deps
-            npx playwright test e2e/smoke.spec.ts
+            npx playwright test e2e/smoke.spec.ts --workers=1
           else
             echo "尚未建立 playwright.config.ts 與/或 e2e/smoke.spec.ts，本階段僅驗證 build 成功（M1-27 起接上 Playwright smoke）。"
           fi
