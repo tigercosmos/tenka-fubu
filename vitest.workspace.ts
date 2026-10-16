@@ -16,11 +16,17 @@ const alias = {
   '@i18n': fileURLToPath(new URL('./src/i18n', import.meta.url)),
 };
 
+// Coverage instrumentation plus the two-core hosted runner can make the largest jsdom integration
+// tests take 6–13 seconds even though they finish in under five seconds locally. Keep the tight local
+// feedback loop while giving CI enough wall-clock budget to test behavior instead of runner speed.
+const testTimeout = process.env.CI ? 20_000 : 5_000;
+
 export default defineWorkspace([
   {
     resolve: { alias },
     test: {
       name: 'core',
+      testTimeout,
       environment: 'node',
       benchmark: { includeSamples: true },
       include: ['src/core/**/*.spec.ts', 'tests/**/*.spec.ts'],
@@ -38,6 +44,7 @@ export default defineWorkspace([
     resolve: { alias },
     test: {
       name: 'ui',
+      testTimeout,
       environment: 'jsdom',
       // `.spec.ts`（M6-V3 新增）：非 React 元件、無需 JSX 的 ui 層測試（如
       // `src/ui/assets/loader.spec.ts`）沿用既有 `.spec.tsx` 慣例的 jsdom 環境，
@@ -55,6 +62,7 @@ export default defineWorkspace([
       // 本身是需要 RTL 渲染整合測試的 React 元件（新遊戲精靈全流程：Title→ScenarioSelect→
       // DaimyoSelect→MainScreen），既有兩個 project 皆非其歸屬（`ui` 只收 `src/ui/**`）。
       name: 'app',
+      testTimeout,
       environment: 'jsdom',
       include: [
         'src/app/**/*.spec.ts',
