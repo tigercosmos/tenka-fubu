@@ -202,14 +202,16 @@ test.describe('Playwright smoke（17 §3.8）', () => {
       await journeyContext.close();
     });
 
-    test('P3 推進 3 個月：x5 到月份 +3，暫停後日期不再前進', async (_fixtures, info) => {
+    test('P3 推進 3 個月：x5 到月份 +3，暫停後日期不再前進', async ({ browser }, info) => {
       // A hosted two-core runner can need about 90 seconds for the full national worker simulation.
       test.setTimeout(120_000);
+      expect(journeyContext.browser()).toBe(browser);
       p3Result = await advanceThreeMonths(journeyPage, info);
     });
 
-    test('P4 存檔再讀檔：承真正 P3，手動存檔後回標題載入同一時刻', async (_fixtures, info) => {
+    test('P4 存檔再讀檔：承真正 P3，手動存檔後回標題載入同一時刻', async ({ browser }, info) => {
       test.setTimeout(120_000);
+      expect(journeyContext.browser()).toBe(browser);
       const { initialDate, pausedDate, state, log } = p3Result;
       await journeyPage.getByRole('button', { name: '系統選單', exact: true }).click();
       await journeyPage.getByRole('button', { name: '存檔', exact: true }).click();
