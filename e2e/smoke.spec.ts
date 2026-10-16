@@ -8,6 +8,10 @@ import type { BrowserContext, Page, TestInfo } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 
+// A full three-month state takes longer to clone, compress, persist, and refresh on the hosted
+// two-core runner. Keep local failures prompt while allowing the real save operation to complete.
+const persistenceTimeout = process.env.CI ? 60_000 : 20_000;
+
 const eventCatalog = JSON.parse(
   readFileSync(new URL('../src/data/scenarios/s1560/events.json', import.meta.url), 'utf8'),
 ) as { events: { id: string; cutscene: { title: string }; choices: { label: string }[] }[] };
@@ -216,11 +220,15 @@ test.describe('Playwright smoke（17 §3.8）', () => {
       await journeyPage.getByRole('button', { name: '系統選單', exact: true }).click();
       await journeyPage.getByRole('button', { name: '存檔', exact: true }).click();
       const savePanel = journeyPage.getByTestId('save-load-panel');
-      await expect(savePanel).toHaveAttribute('aria-busy', 'false', { timeout: 20_000 });
+      await expect(savePanel).toHaveAttribute('aria-busy', 'false', {
+        timeout: persistenceTimeout,
+      });
       const manual = journeyPage.getByTestId('save-slot-manual:1');
       await manual.getByRole('button', { name: '存檔', exact: true }).click();
-      await expect(manual).toContainText('織田', { timeout: 20_000 });
-      await expect(savePanel).toHaveAttribute('aria-busy', 'false', { timeout: 20_000 });
+      await expect(manual).toContainText('織田', { timeout: persistenceTimeout });
+      await expect(savePanel).toHaveAttribute('aria-busy', 'false', {
+        timeout: persistenceTimeout,
+      });
       const savedState = await journeyPage.evaluate(() => window.__tenka.debug.getState());
       expect(savedState.time).toEqual(state.time);
       await savePanel.getByRole('button', { name: '返回', exact: true }).click();
@@ -228,7 +236,9 @@ test.describe('Playwright smoke（17 §3.8）', () => {
       await expect(journeyPage.getByTestId('screen-title')).toBeVisible();
       await journeyPage.getByTestId('title-save-list').click();
       await expect(savePanel).toHaveAttribute('data-context', 'title');
-      await expect(savePanel).toHaveAttribute('aria-busy', 'false', { timeout: 20_000 });
+      await expect(savePanel).toHaveAttribute('aria-busy', 'false', {
+        timeout: persistenceTimeout,
+      });
       await manual.getByRole('button', { name: '載入', exact: true }).click();
       await expect(journeyPage.getByTestId('screen-strategy')).toBeVisible();
       await expect(journeyPage.getByRole('dialog')).toHaveCount(0);
