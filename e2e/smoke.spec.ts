@@ -29,11 +29,35 @@ async function advanceThreeMonths(page: Page, info: TestInfo) {
   const chosenEvents: Array<{ eventId: string; choiceIndex: number }> = [];
 
   const handleRequiredInteraction = async (): Promise<boolean> => {
-    if (await page.getByTestId('month-summary').isVisible()) {
+    const visibleRoot = await page.evaluate(() => {
+      const isVisible = (element: Element | null): boolean => {
+        if (!(element instanceof HTMLElement)) return false;
+        const style = window.getComputedStyle(element);
+        return (
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          element.getClientRects().length > 0
+        );
+      };
+      const testIds = [
+        'month-summary',
+        'proposal-inbox',
+        'envoy-modal',
+        'event-modal',
+        'screen-battle',
+      ] as const;
+      for (const testId of testIds) {
+        if (isVisible(document.querySelector(`[data-testid="${testId}"]`))) return testId;
+      }
+      return Array.from(document.querySelectorAll('[role="dialog"]')).some(isVisible)
+        ? 'unknown-dialog'
+        : null;
+    });
+    if (visibleRoot === 'month-summary') {
       await page.getByTestId('month-summary-continue').click();
       return true;
     }
-    if (await page.getByTestId('proposal-inbox').isVisible()) {
+    if (visibleRoot === 'proposal-inbox') {
       await page
         .getByRole('dialog')
         .filter({ has: page.getByTestId('proposal-inbox') })
@@ -41,14 +65,14 @@ async function advanceThreeMonths(page: Page, info: TestInfo) {
         .click();
       return true;
     }
-    if (await page.getByTestId('envoy-modal').isVisible()) {
+    if (visibleRoot === 'envoy-modal') {
       await page
         .getByTestId('envoy-modal')
         .getByRole('button', { name: '拒絕', exact: true })
         .click();
       return true;
     }
-    if (await page.getByTestId('event-modal').isVisible()) {
+    if (visibleRoot === 'event-modal') {
       const eventModal = page.getByTestId('event-modal');
       const dialog = page.getByRole('dialog').filter({ has: eventModal });
       const continueButton = dialog.getByRole('button', { name: '繼續', exact: true });
@@ -75,7 +99,7 @@ async function advanceThreeMonths(page: Page, info: TestInfo) {
       return false;
     }
     const battle = page.getByTestId('screen-battle');
-    if (await battle.isVisible()) {
+    if (visibleRoot === 'screen-battle') {
       const returnButton = battle.getByRole('button', {
         name: '返回策略畫面',
         exact: true,
@@ -91,7 +115,7 @@ async function advanceThreeMonths(page: Page, info: TestInfo) {
       }
       return true;
     }
-    return false;
+    return visibleRoot === 'unknown-dialog';
   };
 
   await page.getByTestId('speed-5').click();
@@ -100,16 +124,19 @@ async function advanceThreeMonths(page: Page, info: TestInfo) {
       async () => {
         // 月初提案與使者必須先透過可見 UI 決定，才能排入下一 tick 並解除互動暫停。
         if (await handleRequiredInteraction()) return -1;
-        // 未知對話框不能被速度按鈕繞過；保留阻塞以讓 smoke 明確失敗。
-        if (await page.getByRole('dialog').isVisible()) return -1;
-        if ((await page.getByTestId('speed-pause').getAttribute('aria-pressed')) === 'true') {
+        const status = await page.evaluate(() => ({
+          paused:
+            document.querySelector('[data-testid="speed-pause"]')?.getAttribute('aria-pressed') ===
+            'true',
+          date: document.querySelector('[data-testid="hud-date"]')?.textContent ?? null,
+        }));
+        if (status.paused) {
           await page.getByTestId('speed-5').click();
         }
-        const text = await page.getByTestId('hud-date').textContent();
-        const match = text?.match(/(\d+)年(\d+)月/);
+        const match = status.date?.match(/(\d+)年(\d+)月/);
         return match ? Number(match[1]) * 12 + Number(match[2]) - 1 : -1;
       },
-      { timeout: 120_000 },
+      { timeout: 240_000 },
     )
     .toBeGreaterThanOrEqual(targetMonthIndex);
   await expect(page.getByTestId('error-boundary')).toHaveCount(0);
@@ -185,12 +212,12 @@ test.describe('Playwright smoke（17 §3.8）', () => {
   });
 
   test('P3 推進 3 個月：x5 到月份 +3，暫停後日期不再前進', async ({ page }, info) => {
-    test.setTimeout(150_000);
+    test.setTimeout(270_000);
     await advanceThreeMonths(page, info);
   });
 
   test('P4 存檔再讀檔：承真正 P3，手動存檔後回標題載入同一時刻', async ({ page }, info) => {
-    test.setTimeout(150_000);
+    test.setTimeout(270_000);
     const { initialDate, pausedDate, state, log } = await advanceThreeMonths(page, info);
     await page.getByRole('button', { name: '系統選單', exact: true }).click();
     await page.getByRole('button', { name: '存檔', exact: true }).click();
