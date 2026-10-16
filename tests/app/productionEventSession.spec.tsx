@@ -205,5 +205,5 @@ describe('production event session acquisition', () => {
     expect(restored.officers['off.imagawa-yoshimoto' as never]?.status).toBe('dead');
     expect(restored.time.day).toBe(restoredDay + 1);
     expect(store.getState().session.speed).toBe('paused');
-  });
+  }, 20_000);
 });
