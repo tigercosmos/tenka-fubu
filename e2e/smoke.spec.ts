@@ -49,29 +49,29 @@ async function advanceThreeMonths(page: Page, info: TestInfo) {
       return true;
     }
     if (await page.getByTestId('event-modal').isVisible()) {
+      const eventModal = page.getByTestId('event-modal');
+      const dialog = page.getByRole('dialog').filter({ has: eventModal });
+      const continueButton = dialog.getByRole('button', { name: '繼續', exact: true });
+      if (await continueButton.isVisible()) {
+        await continueButton.click();
+        return true;
+      }
       const pendingEventId = await page.evaluate(
         () => window.__tenka.debug.getState().events.pendingChoiceEventId,
       );
-      for (const event of eventCatalog.events) {
-        const dialog = page.getByRole('dialog', { name: event.cutscene.title, exact: true });
-        if (!(await dialog.isVisible())) continue;
-        const continueButton = dialog.getByRole('button', { name: '繼續', exact: true });
-        if (await continueButton.isVisible()) {
-          await continueButton.click();
-          return true;
-        }
-        // A real choice must match the saved core pending identity, not merely its title.
-        if (event.id !== pendingEventId) return false;
-        for (const [choiceIndex, choice] of event.choices.entries()) {
-          const button = dialog.getByRole('button', { name: choice.label, exact: true });
-          if (!(await button.isVisible()) || !(await button.isEnabled())) continue;
-          await button.click();
-          chosenEvents.push({ eventId: event.id, choiceIndex });
-          return true;
-        }
-        // Known but unavailable choices stay blocking; never manufacture a decision.
-        return false;
+      // Resolve the visible choice from the saved core identity. Iterating every catalog title makes
+      // this hot path proportional to the full event catalog and can exhaust the smoke timeout on CI.
+      const event = eventCatalog.events.find((candidate) => candidate.id === pendingEventId);
+      if (event === undefined) return false;
+      await expect(dialog).toHaveAccessibleName(event.cutscene.title);
+      for (const [choiceIndex, choice] of event.choices.entries()) {
+        const button = dialog.getByRole('button', { name: choice.label, exact: true });
+        if (!(await button.isVisible()) || !(await button.isEnabled())) continue;
+        await button.click();
+        chosenEvents.push({ eventId: event.id, choiceIndex });
+        return true;
       }
+      // Known but unavailable choices stay blocking; never manufacture a decision.
       return false;
     }
     const battle = page.getByTestId('screen-battle');
