@@ -27,6 +27,7 @@ describe('direct headless browser defaults (configuration contracts)', () => {
     expect(config.timeout).toBe(60_000);
     expect(config.globalTimeout).toBe(300_000);
     expect(config.expect?.toHaveScreenshot?.maxDiffPixels).toBe(100);
-    expect(config.use?.trace).toBe('retain-on-failure');
+    expect(config.retries).toBe(process.env.CI ? 1 : 0);
+    expect(config.use?.trace).toBe('on-first-retry');
   });
 });

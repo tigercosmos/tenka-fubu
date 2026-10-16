@@ -7,13 +7,17 @@ export default defineConfig({
   testDir: './e2e',
   timeout: 60_000,
   globalTimeout: 5 * 60_000, // 17 §3.8：全套 < 5 分鐘
+  retries: process.env.CI ? 1 : 0,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     headless: true,
     baseURL: 'http://localhost:4173',
-    trace: 'retain-on-failure', // 17 §3.11.1／T10：trace on failure
+    // Recording every frame makes the three-month national simulation several times slower on a
+    // two-core hosted runner. Retry failures once and trace that retry, so a persistent failure still
+    // has diagnostics without making the normal smoke path exceed the five-minute suite budget.
+    trace: 'on-first-retry', // 17 §3.11.1／T10：trace on failure
   },
   // 17 §3.9.3：M6-V2 視覺回歸 gate（`e2e/visual.spec.ts`）toHaveScreenshot 門檻——
   // 100 changed pixels catches thin-road regressions that the old 1% allowance missed.
